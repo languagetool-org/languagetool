@@ -1484,11 +1484,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <token postag="JJ.*" postag_regexp="yes"/>
         </and>
         </marker>
-        <token postag="IN"/>
+        <token postag="IN"><exception>while</exception></token>
       </pattern>
       <disambig action="filter" postag="NN.*"/>      
       <example type="untouched">It's no fun.</example>
       <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">It's no <marker>business</marker> of mine.</example>
+      <example type="untouched">A short while later, Anders also went to sleep.</example>
     </rule>
     
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
@@ -2011,7 +2012,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"></exception></token>
             <marker>
                 <and>
-                    <token postag="VBP|MD" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"></exception></token>
+                    <token postag="VBP|MD" postag_regexp="yes"><exception>will</exception><exception postag_regexp="yes" negate_pos="yes" postag="NN.*|VB.*|MD|JJ"></exception></token>
                     <token postag_regexp="yes" postag="NN.*"></token>
                 </and>
             </marker>
@@ -2944,13 +2945,14 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
             <and>
               <token postag="NN.*" postag_regexp="yes"/>
-              <token postag="VB[PZ]?" postag_regexp="yes"/>
+              <token postag="VB[PZ]?|MD" postag_regexp="yes"/>
             </and>
             </marker>
           </pattern>
           <disambig action="filter" postag="NN.*|JJ"/>
           <example type="untouched">I do what I want to.</example>
           <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
+          <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
         </rule>
         
         <rule id="PRPPOSS_VB_NN_VBZ" name="Possesive pronoun + verb/noun + verb sing =>noun">
@@ -3402,6 +3404,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig postag="NN:U"/>
           <example type="untouched">I'm training now.</example>
           <example type="ambiguous" inputform="training[train/VBG,training/NN:U]" outputform="training[training/NN:U]">We need to to pay for <marker>training</marker> to meet national skilled manpower needs.</example>
+        </rule>
+        
+        <rule id="WILL_MD" name="will as modal verb">
+          <pattern>
+            <marker>
+            <and>
+              <token postag="MD">will</token>
+              <token postag="NN:UN"/>
+            </and>
+            </marker>
+            <token postag="VB.*" postag_regexp="yes"/>
+          </pattern>
+          <disambig postag="MD"/>
+          <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/MD]">This road <marker>will</marker> designated.</example>
+          <example type="untouched">I will do it.</example>
         </rule>                 
                        
         <rule id="NNJJ_NN_JJ" name="noun/adj + noun => adj + noun">
@@ -3418,7 +3435,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig postag="JJ"/>
           <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
           <example type="untouched">This is a nice machine.</example>
-        </rule>
+        </rule>                
         
    <!--  the chunker fails for addresses, we need this for CD_NN -->
     <rule name="Number + Uppercase word/no tag + uppercase word -&gt; immunize" id="CD_UPPER_UNKNOWN_NNP_UPPERCASE_SEQ">
