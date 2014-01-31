@@ -2710,7 +2710,7 @@ USA
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token postag="CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB" postag_regexp="yes"><exception>many</exception><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception></token>
+                    <token postag="CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB" postag_regexp="yes"><exception regexp="yes">many|way|every</exception><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception></token>
                     <token><exception postag="VBN|JJ" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -2720,7 +2720,8 @@ USA
                 <example type="correct">It has not yet found its way either into the pharmacopoeia.</example>
                 <example type="correct">London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
                 <example type="correct">The Service has not said what its next step will be.</example>
-                <example reason="'every' is tagged as AT0" type="triggers_error">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
+                <example type="correct">But mostly, I feel it because I see its poison working its way out of me and on to those around me as repercussions of my actions.</example>
+                <example type="correct">London is a necropolis, <marker>its</marker> every corner the site of a murder, its soil a pudding of blood and tears.</example>
             </rule>
             <rule>
             <pattern>
@@ -2890,7 +2891,7 @@ USA
                     <marker>
                         <token>its</token>
                     </marker>
-                    <token regexp="yes">(a|the|your|her|his|our|their|mine|ours|theirs|yours)</token>
+                    <token regexp="yes">(a|the|yours?|her|his|ours?|theirs?|mine|my)</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -2933,6 +2934,18 @@ USA
                 <example type="correct">It's going to rain.</example>
                 <example type="correct">It may even lead to its going out of business.</example>
                 <example type="incorrect" correction="It's|It is"><marker>Its</marker> going to be sunny tomorrow.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>had</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it has</suggestion>) instead of 'its' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example type="correct">It's had a huge impact on me.</example>
+                <example type="incorrect" correction="it's|it has">And <marker>its</marker> had a mention at the Labour Party Conference this morning..</example>
             </rule>
             <rule>
                 <pattern>
