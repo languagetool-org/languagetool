@@ -359,6 +359,9 @@ public class Searcher {
       limitSearch = false;
     }
     final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir));
+    if (!limitSearch) {
+      searcher.setMaxHits(100000);
+    }
     for (String ruleId : ruleIds) {
       final long ruleStartTime = System.currentTimeMillis();
       for (PatternRule rule : searcher.getRuleById(ruleId, ruleFile)) {
