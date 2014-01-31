@@ -8729,24 +8729,38 @@ USA
             <example type="correct">Kyoto is the <marker>oldest</marker> city.</example>
             <example correction="oldest" type="incorrect">Kyoto is the <marker>most oldest</marker> city.</example>
         </rule>
-        <rule id="MOST_COMPARATIVE" name="No 'more' or 'most' before comparatives">
+        <rulegroup id="MOST_COMPARATIVE" name="No 'more' or 'most' before comparatives">
+        <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">mo(:?re|st)</token>
+                    <token>most</token>
+                    <token postag="JJR|RBR" postag_regexp="yes"/>
+                </marker>                
+            </pattern>
+            <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
+            <short>Grammatical problem</short>
+            <example type="incorrect">Kyoto is a <marker>most older</marker> city.</example>
+            <example type="correct">When is more better?</example>
+        </rule>
+        <rule>
+        <pattern>
+                <marker>
+                    <token>more<exception scope="previous" postag="CD"/></token>
                     <token postag="JJR|RBR" postag_regexp="yes"><exception>later</exception></token>
                 </marker>                
             </pattern>
             <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
             <short>Grammatical problem</short>
             <example type="correct">Kyoto is an <marker>older</marker> city.</example>
-            <example type="incorrect">Kyoto is a <marker>most older</marker> city.</example>
             <example type="correct">When is more better?</example>
             <example type="correct">It was for the worse.</example>
             <example type="correct">I'll write more later.</example>
             <example type="incorrect">Kyoto is a <marker>more older</marker> city.</example>
             <example correction="worse" type="incorrect">It's <marker>more worse</marker> thing.</example>
-            <example type="correct">No more customer service</example>        
+            <example type="correct">No more customer service</example>
+            <example type="correct">We can only bring one more smaller suitcase as that's all that will fit in the rental car in Toronto.</example>
         </rule>
+        </rulegroup>
         <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
             <pattern>
                 <marker>
