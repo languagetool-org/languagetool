@@ -6308,21 +6308,7 @@ USA
         <example type="correct">His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
         <example type="incorrect" correction="between her">His opposition against homosexuality causes tension <marker>between she</marker> and Davis.</example>
       </rule>      
-    </rulegroup>
-    <rule id="MORE_JJR" name="more + comparative">
-        <pattern>
-                 <marker>
-                  <token>more</token>
-                 <token postag="JJR"><exception regexp="yes">archer|later</exception></token>
-                 </marker>
-         </pattern>
-         <message>Probably incorrect comparative form.</message>
-         <suggestion><match no="3"/></suggestion>
-         <short>Grammatical problem</short>
-         <example type="correct">It was for the worse.</example>
-         <example type="correct">I'll write more later.</example>
-         <example correction="worse" type="incorrect">It's <marker>more worse</marker> thing.</example>        
-    </rule>
+    </rulegroup>    
     <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
     <pattern>
         <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
@@ -8733,16 +8719,19 @@ USA
         <rule id="MOST_COMPARATIVE" name="No 'more' or 'most' before comparatives">
             <pattern>
                 <marker>
-                    <token regexp="yes">more|most</token>
-                    <token postag="JJR|RBR" postag_regexp="yes"></token>
-                </marker>
-                <token postag="NN.*|IN" postag_regexp="yes"></token>
+                    <token regexp="yes">mo(:?re|st)</token>
+                    <token postag="JJR|RBR" postag_regexp="yes"><exception>later</exception></token>
+                </marker>                
             </pattern>
             <message>Use only <suggestion>\2</suggestion> (without '\1') when you use the comparative.</message>
             <short>Grammatical problem</short>
             <example type="correct">Kyoto is an <marker>older</marker> city.</example>
-            <example type="incorrect">Kyoto is a <marker>more older</marker> city.</example>
+            <example type="incorrect">Kyoto is a <marker>most older</marker> city.</example>
             <example type="correct">When is more better?</example>
+            <example type="correct">It was for the worse.</example>
+            <example type="correct">I'll write more later.</example>
+            <example type="incorrect">Kyoto is a <marker>more older</marker> city.</example>
+            <example correction="worse" type="incorrect">It's <marker>more worse</marker> thing.</example>        
         </rule>
         <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
             <pattern>
