@@ -1474,6 +1474,23 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
     </rule>
+    
+    <rule name="determiner + adj/noun + preposition => noun" id="DT_JJNN_IN_NN">
+      <pattern>
+        <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception></token>
+        <marker>
+        <and>
+          <token postag="NN.*" postag_regexp="yes"/>
+          <token postag="JJ.*" postag_regexp="yes"/>
+        </and>
+        </marker>
+        <token postag="IN"/>
+      </pattern>
+      <disambig action="filter" postag="NN.*"/>      
+      <example type="untouched">It's no fun.</example>
+      <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">It's no <marker>business</marker> of mine.</example>
+    </rule>
+    
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
         <pattern>
             <token postag="DT"><exception postag="PDT"></exception></token>

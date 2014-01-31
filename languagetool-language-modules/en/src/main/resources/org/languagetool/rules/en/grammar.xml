@@ -1335,15 +1335,17 @@ USA
                     <marker>
                         <token>no</token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">good|more|less|longer|different|harder</exception></token>
-                    <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">good|better|worse|more|less|longer|different|harder|fun|secret|emergency</exception></token>
+                    <token><exception postag="[JN].*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="not|now" type="incorrect">It is <marker>no</marker> possible.</example>
                 <example type="correct">It is no mystical intuition.</example>
+                <example type="incorrect">It is <marker>no</marker> hard to make a decision.</example>
                 <example type="correct">It is not possible.</example>
                 <example type="correct">It is no surprise.</example>
+                <example type="correct">It is no ordinary household shrine.</example>
                 <example type="correct">There was the slight pain, but it was no different from the throbbing in his head.</example>
                 <example type="correct">It is no more a united nation than the Equator.</example>
             </rule>
@@ -1355,7 +1357,8 @@ USA
                     <marker>
                         <token>no</token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">longer|different|good</exception></token>
+                    <token postag="JJ.*" postag_regexp="yes"><exception regexp="yes">longer|different|good|better|worse|fun|secret|more|less|emergency</exception></token>
+                    <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>not</suggestion> or <suggestion>now</suggestion>?</message>
                 <short>Possible typo</short>
@@ -1365,6 +1368,7 @@ USA
                 <example type="correct">It's no longer needed.</example>
                 <example type="correct">To hit running prey, it's no good to ponder the problem for long.</example>
                 <example type="correct">You say it's no BIG deal, but to me it is.</example>
+                <example type="correct">If you count to three, you'll see it's no emergency, you'll see I'm not the enemy.</example>
             </rule>
         </rulegroup>
         <rule id="ALLOT_OF" name="allot of (a lot of)">
@@ -3371,8 +3375,8 @@ USA
                 <example type="correct">Nobody seems to care.</example>
                 <example type="incorrect"><marker>No body</marker> seems to care.</example>
                 <example correction="nothing" type="incorrect">There's <marker>no thing</marker> wrong with this sentence.</example>
-            </rule>
-        </rulegroup>
+            </rule>            
+        </rulegroup>        
         <rulegroup id="MAY_BE" name="may be (maybe)">
             <rule>
                 <pattern>
@@ -10295,22 +10299,6 @@ USA
             <example type="correct">You will also buy some eggs.</example>
             <example correction="as well" type="incorrect">You will buy some eggs <marker>also</marker>.</example>
         </rule>
-        <rule id="NOUN_AROUND_IT" name="the noun around it (surrounding noun)">
-            <pattern>
-                <marker>
-                    <token>the</token>
-                    <!-- See WORLD_AROUND_IT rule -->
-                    <token postag="NN.*" postag_regexp="yes"><exception>world</exception></token>
-                    <token>around</token>
-                    <token postag="PRP"></token>
-                </marker>
-                <token><exception postag="NN.*|CC" postag_regexp="yes"></exception></token>
-            </pattern>
-            <message>Consider using <suggestion>the surrounding \2</suggestion>?</message>
-            <short>Redundant phrase</short>
-            <example type="correct">He didn't like the surrounding protesters.</example>
-            <example correction="the surrounding protesters" type="incorrect">He didn't like <marker>the protesters around him</marker>.</example>
-        </rule>
         <rulegroup default="off" id="PASSIVE_VOICE" name="Passive voice">
             <rule> <!-- Passive infinitive (1/2) -->
                 <pattern>
@@ -12107,6 +12095,17 @@ USA
             <example correction="Bonus" type="incorrect"><marker>Added bonus</marker>: booting from cdrom.</example>
             <example type="correct">Bonus: booting from CD-ROM.</example>
         </rule>
+        <rule default="off" id="ARE_ABLE_TO" name="are able to (can)">
+          <pattern>
+            <token>are</token>
+            <token>able</token>
+            <token>to</token>
+          </pattern>
+          <message>This expression is wordy. Just use <suggestion>can</suggestion>.</message>
+          <url>http://www.whichenglish.com/Better-English-Grammar/Online-Usage-Letter-A.html</url>
+          <example type="correct">Yes, there are some species of frogs that can throw up their entire stomach and wipe it off with their legs.</example>
+          <example type="incorrect" correction="can">Yes, there are some species of frogs that <marker>are able to</marker> throw up their entire stomach and wipe it off with their legs.</example>
+        </rule>
         <rule id="ASK_THE_QUESTION" name="ask the question (ask)">
             <pattern>
                 <marker>
@@ -13192,6 +13191,22 @@ USA
             <example correction="never" type="incorrect">I was <marker>never at any time</marker> with that woman.</example>
             <example type="correct">I was never with that woman.</example>
         </rule>
+        <rule id="NOUN_AROUND_IT" name="the noun around it (surrounding noun)">
+            <pattern>
+                <marker>
+                    <token>the</token>
+                    <!-- See WORLD_AROUND_IT rule -->
+                    <token postag="NN.*" postag_regexp="yes"><exception>world</exception></token>
+                    <token>around</token>
+                    <token postag="PRP"></token>
+                </marker>
+                <token><exception postag="NN.*|CC" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Consider using <suggestion>the surrounding \2</suggestion>?</message>
+            <short>Redundant phrase</short>
+            <example type="correct">He didn't like the surrounding protesters.</example>
+            <example correction="the surrounding protesters" type="incorrect">He didn't like <marker>the protesters around him</marker>.</example>
+        </rule>        
         <rule id="NOW_CURRENTLY" name="now currently (now)">
             <pattern>
                 <token>now</token>
