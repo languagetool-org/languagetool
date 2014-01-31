@@ -345,6 +345,17 @@ USA
             <example type="correct">This is the Carmen up to <marker>Data</marker>.</example>
             <example type="incorrect" correction="date">The software is not up to <marker>data</marker>.</example>
         </rule>
+        <rule id="FORMALLY_KNOWN_AS" name="formally known as (formerly known as)">
+          <pattern>
+            <token>formally</token>
+            <token>known</token>
+            <token>as</token>
+          </pattern>
+          <message>Did you mean <suggestion>formerly \2 \3</suggestion> (=known earlier under the name of)?</message>
+          <short>Possible typo</short>
+          <example type="correct">The artist formerly known as Prince</example>
+          <example type="incorrect" correction="formerly known as">The artist <marker>formally known as</marker> Prince</example>
+        </rule>
         <rule id="FEEL_TREE_TO" name="feel tree (free) to">
             <pattern>
                 <token>feel</token>
@@ -371,6 +382,19 @@ USA
             <example type="incorrect">What is the easiest <marker>was</marker> to learn Spanish?</example>
             <example type="correct">What is the fastest <marker>way</marker> to learn Spanish?</example>
             <example type="correct">What is the easiest <marker>way</marker> to learn Spanish?</example>
+        </rule>
+        <rule id="ET_AL" name="et al (et al.)">
+          <pattern>
+          <marker>
+            <token>et</token>
+            <token>al</token>
+          </marker>
+            <token><exception>.</exception></token>
+          </pattern>
+          <message>A dot is missing here: <suggestion>\1 \2.</suggestion></message>
+          <short>Possible typo</short>
+          <example type="correct">Thelen et al. 2001</example>
+          <example type="incorrect" correction="et al.">Thelen <marker>et al</marker> 2001</example>
         </rule>
         <rule id="ARE_STILL_THE_SOME" name="are still the some (same)">
             <pattern>
@@ -2596,7 +2620,24 @@ USA
         <rulegroup id="IT_IS" name="its vs. it's">
             <rule>
               <pattern>
-                <token regexp="yes">all|along|alongside|amid|amidst|among|amongst</token>
+                <token>all<exception scope="previous">after</exception></token>
+                <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                 </marker>
+                 <token chunk="B-NP-plural"><exception regexp="yes">all|the|an?|just</exception></token>
+              </pattern>
+              <message>Did you mean <suggestion>its</suggestion> (possessive pronoun)?</message>
+              <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+              <short>Possible typo</short>
+              <example type="correct">Above all it's important to note they're disgusting.</example>
+              <example type="incorrect" correction="its">For all <marker>it's</marker> wonderful moments of humor...</example>
+              <example type="correct">After all it's my birthday weekend.</example>
+            </rule>
+            <rule>
+              <pattern>
+                <token regexp="yes">along|alongside|amid|amidst|among|amongst</token>
                 <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2608,11 +2649,32 @@ USA
               <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
               <short>Possible typo</short>
               <example type="correct">Above all it's important to note they're disgusting.</example>
-              <example type="incorrect" correction="its">For all <marker>it's</marker> wonderful moments of humor...</example>
+              <example type="incorrect" correction="its">Amid <marker>it's</marker> wonderful moments of humor...</example>
             </rule>
             <rule>
               <pattern>
-               <token regexp="yes">all|along|alongside|amid|amidst|among|amongst</token>
+               <token>all<exception scope="previous">after</exception></token>
+                <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">['’]</token>
+                        <token>s</token>
+                 </marker>
+                 <token chunk="B-NP-singular"><exception regexp="yes">all|the|an?|just</exception></token>
+              </pattern>
+              <message>Did you mean <suggestion>its</suggestion> (possessive pronoun)?</message>
+              <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+              <short>Possible typo</short>
+              <example type="correct">Above all it's important to note they're disgusting.</example>
+              <example type="incorrect" correction="its">For all <marker>it's</marker> perfection, I could not really like it.</example>
+              <example type="correct">I mean after all it's just a bandaid.</example>
+              <example type="correct">But all in all it's all good to be home again.</example>
+              <example type="correct">Second of all it's nine at night.</example>
+              <example type="correct">But most of all it's the atmosphere.</example>
+              <example type="correct">All in all it's just another brick in the wall.</example>
+            </rule>                        
+            <rule>
+              <pattern>
+               <token regexp="yes">along|alongside|amid|amidst|among|amongst</token>
                 <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2624,7 +2686,7 @@ USA
               <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
               <short>Possible typo</short>
               <example type="correct">Above all it's important to note they're disgusting.</example>
-              <example type="incorrect" correction="its">For all <marker>it's</marker> perfection, I could not really like it.</example>
+              <example type="incorrect" correction="its">Alongside <marker>it's</marker> coast, there were boats.</example>
             </rule>            
             <rule>            
                 <pattern>
@@ -8782,9 +8844,9 @@ USA
             <rule>
                 <pattern>                    
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
-                    <token regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll</token>
+                    <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <marker>
-                        <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"></exception><exception inflected="yes">be</exception></token>
+                        <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"></exception><exception inflected="yes">be</exception><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="MD|RB|VBD"/></token>
                     </marker>
                 </pattern>
                 <message>The verb '<match no="2"></match>' requires the base form of the verb: <suggestion><match no="3" postag="VB"></match></suggestion>.</message>
@@ -8801,6 +8863,8 @@ USA
                 <example correction="walk" type="incorrect">He did <marker>walks</marker> to his house.</example>
                 <example correction="come" type="incorrect">They will <marker>came</marker> home.</example>
                 <example type="correct">Confederate commanders would need it should troops pass that way in retreat.</example>
+                <example type="incorrect" correction="have">I would definitely <marker>has</marker> that.</example>
+                <example type="correct">Warnings did go ignored.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8958,9 +9022,9 @@ USA
         <rulegroup id="NON3PRS_VERB" name="Agreement error: Third person verb with a non-third person pronoun">
             <rule>
                 <pattern>                    
-                    <token>I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
+                    <token skip="1">I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
                     <marker>
-                        <token postag="VBZ"/>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
@@ -8968,26 +9032,28 @@ USA
                 <example correction="work" type="incorrect">I <marker>works</marker> here.</example>
                 <example type="correct">We <marker>make</marker> a lot of mistakes.</example>
                 <example type="correct">Phase I corresponds to the small-deformation regime.</example>
-                <example type="correct">Am I nuts?</example>                
+                <example type="correct">Am I nuts?</example>
+                <example type="incorrect">I rarely <marker>has</marker> a bad day.</example>                
             </rule>
             <rule>
                 <pattern>                    
-                    <token regexp="yes" postag="PRP">we|they</token>
+                    <token skip="1" regexp="yes" postag="PRP">we|they</token>
                     <marker>
-                        <token postag="VBZ"/>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <example correction="work" type="incorrect">They <marker>works</marker> here.</example>
+                <example correction="work" type="incorrect">They always <marker>works</marker> here.</example>
                 <example type="correct">We <marker>make</marker> a lot of mistakes.</example>
                 <example type="correct">Phase I corresponds to the small-deformation regime.</example>                
             </rule>
             <rule>
                 <pattern>                    
-                    <token postag="PRP">you<exception scope="previous" postag="IN"/></token>
+                    <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/></token>
                     <marker>
-                        <token postag="VBZ"/>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
@@ -10730,6 +10796,18 @@ USA
                 <example correction="pencil and" type="incorrect">The pen, <marker>pencil, and</marker> book are on the desk.</example>
             </rule>
         </rulegroup>
+        <rule default="off" id="COMMA_WHICH" name="No comma before 'which'">        
+          <pattern>
+            <token><exception regexp="yes">[,(]|that</exception><exception postag="IN|TO|;|SENT_START" postag_regexp="yes"></exception></token>
+            <token>which</token>
+          </pattern>
+          <message>Probably a comma is missing here: <suggestion>\1, \2</suggestion>. Or if you want to use a restrictive clause, use <suggestion>\1 that</suggestion>.</message>
+          <url>http://andromeda.rutgers.edu/~jlynch/Writing/t.html#that</url>
+          <short>Comma missing</short>
+          <example type="incorrect" correction="house, which|house that">I am going to the <marker>house which</marker> burned down.</example>
+          <example type="correct">The science fair, which lasted all day, ended with an awards ceremony.</example>
+          <example type="correct">This is an example (which is dull).</example>
+        </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
     <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
