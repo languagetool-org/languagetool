@@ -1878,17 +1878,18 @@ $Id$
     </category>
     <category name="Verbs" type="grammar">
         <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, admetre..." type="misspelling">
-            <rule><!-- ajupir, consentir, bullir, collir, escopir, munyir, esmunyir, grunyir -->
+            <rule><!-- ajupir, consentir, bullir, collir, escopir, munyir, esmunyir, grunyir, abatre -->
                 <pattern>
-                   <token regexp="yes">(ajup|consent|bull|cull|escup|muny|esmuny|gruny)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
+                   <token regexp="yes">(ajup|consent|bull|cull|escup|muny|esmuny|gruny|abat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
                 </pattern>
                 <message>Aquest verb no és incoatiu.</message>
-                <suggestion><match no="1" regexp_match="(ajup|consent|bull|cull|escup|muny|esmuny|gruny)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
+                <suggestion><match no="1" regexp_match="(ajup|consent|bull|cull|escup|muny|esmuny|gruny|abat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
                 <example type="incorrect" correction="consentin"><marker>consenteixin</marker></example>
                 <example type="incorrect" correction="consento"><marker>consenteixo</marker></example>
                 <example type="incorrect" correction="gruny"><marker>grunyeix</marker></example>
                 <example type="incorrect" correction="consentin"><marker>consentesquin</marker></example>
                 <example type="incorrect" correction="ajupen"><marker>ajupixquen</marker></example>
+                <example type="incorrect" correction="abaten"><marker>abateixen</marker></example>
                 <example type="correct">ajupin</example>
             </rule>
             <rule> <!-- admetre, emetre, ometre i transmetre, remetre  -->
@@ -9312,24 +9313,6 @@ $Id$
 			    <example type="correct">El boca-orella sempre és efectiu.</example>
 			</rule>
         </rulegroup>
-        <rulegroup id="VERBS_INCORRECTES" name="verbs incorrectes: objectivitzar, pormenoritzar">
-            <rule>
-                <pattern>
-                    <token regexp="yes">objectivitz.*</token>
-                </pattern>
-                <message>Cal dir <suggestion><match no="1" regexp_match="objectivitz(.*)" regexp_replace="objectiv$1"/></suggestion></message>
-                <example type="incorrect" correction="objectivem">Cal que ho <marker>objectivitzem</marker>.</example>
-                <example type="correct">El boca-orella sempre és efectiu.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">pormenoritz.*</token>
-                </pattern>
-                <message>Cal dir <suggestion><match no="1" regexp_match="pormenoritz(.*)" regexp_replace="detall$1"/></suggestion></message>
-                <example type="incorrect" correction="detallem">Cal que ho <marker>pormenoritzem</marker>.</example>
-                <example type="correct">Ho detallarem.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>
@@ -13899,6 +13882,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="ESTAR_AL_TANT" name="estar al tant">
+            <pattern>
+                <token inflected="yes" skip="1">estar</token>
+                <marker>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>tant</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>al corrent</suggestion>
+            <example type="incorrect">Ell estava sempre <marker>al tant</marker> de tot</example>
+            <example type="correct">estar al corrent</example>
+        </rule>
         <rule id="MES_ALLA" name="més *allà/enllà">
             <pattern>
                 <token><exception inflected="yes">aguantar</exception><exception postag="DN.*" postag_regexp="yes"/></token>
@@ -18892,6 +18889,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="AGALLES" name="agalles">
+            <pattern>
+                <token>agalles</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ganyes</suggestion> (d'un peix) o <suggestion>ànim</suggestion>? 'Agalla' és sinònim de 'gal·la' (botànica).</message>
+            <suggestion>cor</suggestion>
+            <suggestion>delit</suggestion>
+            <suggestion>pit</suggestion>
+            <example type="incorrect" correction="ganyes|ànim|cor|delit|pit"><marker>agalles</marker></example>
+            <example type="correct">ganyes</example>
+        </rule>
         <rule id="IMMEDIACIONS" name="immediacions">
             <pattern>
                 <marker>
@@ -19281,6 +19289,40 @@ $Id$
             <example type="correct">el concepte en què recolza</example>
             <example type="correct">recolzant-se en un bastó</example>
             <example type="correct">El cap el recolzà al bagul</example>
+        </rule>
+        <rule id="APURAR" name="apurar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">apurar</token>
+                </marker>
+            </pattern>
+            <message>Correcte en el sentit de "depurar" o "posar en clar, verificar". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esgotar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">exhaurir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">escurar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">aprofitar</match> al màxim</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">atabalar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">amoïnar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/apurar</url>
+            <example type="incorrect" correction="esgotat|exhaurit|escurat|aprofitat al màxim|atabalat|amoïnat">Estava <marker>apurat</marker>.</example>
+            <example type="correct">Estava atabalat.</example>
+        </rule>
+        <rule id="ARROPAR" name="arropar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">arropar</token>
+                </marker>
+            </pattern>
+            <message>Correcte en el sentit de "tirar arrop al vi". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abrigar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abrigallar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acotxar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">emparar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">protegir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">acompanyar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/apurar</url>
+            <example type="incorrect" correction="abrigat|abrigallat|acotxat|emparat|protegit|acompanyat">L'han <marker>arropat</marker>.</example>
+            <example type="correct">Estava abrigat.</example>
         </rule>
         <rule id="COBRO" name="cobro/cobrament">
             <pattern>
@@ -22260,7 +22302,7 @@ $Id$
         </rule>
         <rule id="ALS_EFECTES_DE" name="als efectes de">
             <pattern>
-                <token postag="SENT_START|PUNCT.*" postag_regexp="yes"/>
+                <token postag="SENT_START|PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" inflected="yes">deure</exception></token> 
                 <marker>
                     <token>a</token>
                     <token>ls</token>
@@ -23995,6 +24037,24 @@ $Id$
             <example type="incorrect" correction="comiat">Fou la seva <marker>despedida</marker></example>
             <example type="correct">s'acomiadà</example>
         </rule>
+        <rule id="ANTORXA" name="antorxa">
+            <pattern>
+                <token inflected="yes">antorxa</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="an(torx.*)" regexp_replace="$1" /></suggestion>
+            <example type="incorrect" correction="torxa">Fou la seva <marker>antorxa</marker></example>
+            <example type="correct">La torxa</example>
+        </rule>
+        <rule id="ANTEPASSAT" name="antepassat">
+            <pattern>
+                <token inflected="yes">antepassat</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="ante(.+)" regexp_replace="avant$1" /></suggestion>
+            <example type="incorrect" correction="avantpassades">Les nostres <marker>antepassades</marker>.</example>
+            <example type="correct">Els avantpassats</example>
+        </rule>
         <rule id="DESPEDIR" name="despedir">
             <pattern>
                 <token inflected="yes">despedir</token>
@@ -24005,6 +24065,26 @@ $Id$
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">dir</match> adéu</suggestion>
             <example type="incorrect">es <marker>despedí</marker></example>
             <example type="correct">s'acomiadà</example>
+        </rule>
+        <rule id="AMURALLAR" name="amurallar">
+            <pattern>
+                <token inflected="yes">amurallar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">emmurallar</match></suggestion>
+            <example type="incorrect" correction="Emmurallà"><marker>Amurallà</marker> la ciutat</example>
+            <example type="correct">Emmurallà la ciutat</example>
+        </rule>
+        <rule id="ANSIAR" name="ansiar">
+            <pattern>
+                <token inflected="yes">ansiar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">anhelar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">delejar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">sospirar</match> per</suggestion>
+            <example type="incorrect" correction="Anhela|Deleja|Sospira per"><marker>Ansia</marker> arribar al final.</example>
+            <example type="correct">Amurallà la ciutat</example>
         </rule>
         <rule id="DISFRUTAR" name="disfrutar">
             <pattern>
@@ -24038,6 +24118,26 @@ $Id$
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">instal·lar</match></suggestion>
             <example type="incorrect">s'<marker>afincà</marker> a València</example>
             <example type="correct">s'establí a València</example>
+        </rule>
+        <rule id="APENAR" name="apenar">
+            <pattern>
+                <token inflected="yes">apenar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afligir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">contristar</match></suggestion>
+            <example type="incorrect" correction="afligit|contristat">Estava <marker>apenat</marker>.</example>
+            <example type="correct">Afligit</example>
+        </rule>
+        <rule id="APOLTRONARSE" name="apoltronar-se">
+            <pattern>
+                <token inflected="yes">apoltronar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">endropir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">arrepapar</match></suggestion>
+            <example type="incorrect" correction="endropí|arrepapà">s'<marker>apoltronà</marker></example>
+            <example type="correct">s'endropí</example>
         </rule>
         <rule id="ESCARBAR" name="escarbar">
             <pattern>
