@@ -85,6 +85,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="remove"><wd pos="NNS"/></disambig>
       </rule>
       
+      <rule name="dig/dig" id="DIG_DIV_FIX">
+        <pattern><token inflected="yes" regexp="yes">di[vg]e?</token></pattern>
+        <disambig action="filter" postag="^(?!JJ*).*$"/>
+        <example type="ambiguous" inputform="digest[dig/JJS,digest/NN,digest/VB,digest/VBP]" outputform="digest[digest/NN,digest/VB,digest/VBP]"><marker>digest</marker>.</example>
+        <example type="ambiguous" inputform="divest[dive/JJS,divest/VB,divest/VBP]" outputform="divest[divest/VB,divest/VBP]"><marker>divest</marker>.</example>
+      </rule>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -1602,7 +1609,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="NNP"></disambig>
         <example type="untouched">This is a car.</example>
-        <example type="ambiguous" inputform="an[a/DT]" outputform="an[an/NNP]">Qur'<marker>an</marker></example>
+        <example type="ambiguous" inputform="an[a/DT]" outputform="an[a/NNP]">Qur'<marker>an</marker>.</example>
         <example type="ambiguous" inputform="a[a/DT]" outputform="a[a/NNP]">Me'<marker>a</marker> She'arim</example>
     </rule>
         
@@ -3644,6 +3651,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token>s</token>      
       </pattern>
       <disambig action="immunize"/>
+    </rule>
+    
+    <rule name="Immunize 'the line of least resistance'" id="LEAST_RESISTANCE">
+    <pattern>
+      <token>the</token>
+      <token>line</token>
+      <token>of</token>
+      <token>least</token>
+      <token>resistance</token>
+    </pattern>
+    <disambig action="immunize"/>
     </rule>
                                
 </rules>
