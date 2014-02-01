@@ -80,6 +80,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="remove"><wd pos="JJR"/></disambig>        
       </rule>            
       
+      <rule name="sometimes" id="SOMETIMES_FIX">
+        <pattern><token>sometimes</token></pattern>
+        <disambig action="remove"><wd pos="NNS"/></disambig>
+      </rule>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -99,7 +104,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig action="remove"><wd pos="NN:U"/></disambig>
           <example type="ambiguous" inputform="or[or/CC,or/NN:U]" outputform="or[or/CC]">Let's choose A <marker>or</marker> B.</example>
         </rule>
-        
+
+    <rule id="CD" name="Tag numbers">
+      <pattern>
+        <token regexp="yes">\d+</token>
+      </pattern>
+      <disambig postag="CD"/>
+      <example type="untouched">Ten dollars</example>
+      <example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
+    </rule>
+            
         <rule id="SO_JJ" name="so + adj/rb => so/RB">
           <pattern>
             <marker><token>so</token></marker>
@@ -774,7 +788,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token>in</token>
                 </marker>
-                <token postag="DT"></token>
+                <token postag="DT|PRP\$" postag_regexp="yes"></token>
             </pattern>
             <disambig postag="IN"></disambig>
         </rule>
@@ -1054,6 +1068,52 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="NNS"></disambig>
     </rule>
     
+    <rule id="DURING_VBZ_NNS" name="during + verb 3sg.NNS =>NNS">
+        <pattern>
+            <token>during</token>            
+            <marker>
+                <and>
+                    <token postag="NNS"></token>
+                    <token postag="VBZ"><exception regexp="yes">means|works|shows|leads|takes|lies|goes|stems|gives|makes|does</exception></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="NNS"></disambig>
+        <example type="ambiguous" inputform="weekends[weekend/NNS,weekend/VBZ,weekends/RB]" outputform="weekends[weekend/NNS]">I work during <marker>weekends</marker>.</example>
+        <example type="untouched">It happened during his sleep.</example>
+    </rule>    
+    
+    <rule id="CD_TIMES" name="times as connective">
+      <pattern>
+        <token postag="CD"/>
+        <marker><token>times</token></marker>
+        <token postag="CD"/>
+      </pattern>
+      <disambig action="replace"><wd pos="CC" lemma="times"/></disambig>
+      <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/CC]">4 <marker>times</marker> eleven equals 34.</example>
+      <example type="untouched">These are hard times.</example>
+    </rule>
+    
+    <rule id="DT_TIMES_NNS" name="times/addresses as noun pl">
+      <pattern>
+        <token postag="DT"/>
+        <marker><token regexp="yes">times|addresses</token></marker>
+      </pattern>
+      <disambig postag="NNS"/>
+      <example type="untouched">Five times eleven equals 34.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">It happened so many <marker>times</marker>.</example>
+    </rule>
+    
+    <rule id="AT_TIMES_NNS" name="times as noun pl">
+      <pattern>
+        <token>at</token>
+        <marker><token>times</token></marker>
+      </pattern>
+      <disambig postag="NNS"/>
+      <example type="untouched">Five times eleven equals 34.</example>
+      <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[time/NNS]">I think at <marker>times</marker> it's very easy.</example>
+    </rule>                
+   
     <rule id="MEANS_OF" name="means/verb + of =>noun">
       <pattern>
         <marker>
@@ -1283,6 +1343,19 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="out[out/IN,out/NN,out/RB,out/RP,out/UH]" outputform="out[out/RB]">The jury is <marker>out</marker>.</example>
           <example type="untouched">Out!</example>
     </rule>       
+    
+    <rule id="LIKE_IN" name="like as preposition">
+      <pattern>
+        <token inflected="yes">be</token>
+        <marker>
+          <token>like</token>
+        </marker>
+        <token postag="JJ.*|NN.*|DT|PRP" postag_regexp="yes"></token>               
+      </pattern>
+      <disambig postag="IN"/>
+      <example type="untouched">Would you like a drink?</example>
+      <example type="ambiguous" inputform="like[like/IN,like/JJ,like/NN,like/VB,like/VBP]" outputform="like[like/IN]">It's <marker>like</marker> a dream.</example>
+    </rule>
     
     <rulegroup name="was/is + verb/NN -> NN" id="was_is_VB_NN">
     <rule>
@@ -1527,16 +1600,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="NNP"></disambig>
     </rule>
-    
-    <rule id="CD" name="Tag numbers">
-    	<pattern>
-    		<token regexp="yes">\d+</token>
-    	</pattern>
-    	<disambig postag="CD"/>
-    	<example type="untouched">Ten dollars</example>
-    	<example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
-    </rule>
-    
+        
     <rule id="WORLD_WAR_12" name="The World War 1/2 =>NNP">
       <pattern>        
         <token>world</token>
@@ -2885,6 +2949,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			<example type="untouched">I used my saw.</example>
 			<example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[see/VBD]">This is what he <marker>saw</marker>.</example>
 		</rule>
+ 
+        <rule id="PAY_TAXES" name="taxes as noun">
+          <pattern>
+            <token skip="2" inflected="yes">pay</token>
+            <marker><token>taxes</token></marker>
+          </pattern>
+           <disambig action="replace"><wd pos="NNS" lemma="tax"/></disambig>
+           <example type="untouched">Taxes are important.</example>
+           <example type="ambiguous" inputform="taxes[tax/NNS,tax/VBZ,taxis/NNS]" outputform="taxes[tax/NNS]">Pay your <marker>taxes</marker>.</example>
+        </rule>
+        
     
         <rule id="RBNN_RB" name="adv/noun + verb -> adv">
           <pattern>
@@ -2959,7 +3034,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </and>
             </marker>
           </pattern>
-          <disambig action="filter" postag="NN.*|JJ"/>
+          <disambig action="filter" postag="NN.*|JJ.*"/>
           <example type="untouched">I do what I want to.</example>
           <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
           <example type="ambiguous" inputform="will[will/MD,will/NN:UN]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
@@ -3062,7 +3137,37 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         </rule>
         
-
+        <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
+          <pattern>
+            <token regexp="yes">both|some|fewer|many|[tw]hose|these|most</token>
+            <marker>            
+            <and>
+              <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
+              <token postag="NNS"/>
+            </and>
+            </marker>
+          </pattern>
+          <disambig postag="NNS"/>
+          <example type="ambiguous" inputform="hands[hand/NNS,hand/VBZ]" outputform="hands[hand/NNS]">It depends whose <marker>hands</marker> it's in.</example>
+          <example type="untouched">He hands it over.</example>
+        </rule>
+        
+        <rule id="PREPOSITIONAL_DT_VBZNNS_NNS" name="Prepositional quantifiers + noun plur/vb sg = >noun plur">
+          <pattern>
+            <token regexp="yes">group|deal|lots?|tons|plenty|litres</token>
+            <token>of</token>
+            <marker>            
+            <and>
+              <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
+              <token postag="NNS"/>
+            </and>
+            </marker>
+          </pattern>
+          <disambig postag="NNS"/>
+          <example type="ambiguous" inputform="hands[hand/NNS,hand/VBZ]" outputform="hands[hand/NNS]">They cut a lot of <marker>hands</marker>.</example>
+          <example type="untouched">He hands it over.</example>
+        </rule>        
+        
         <rule id="MOST_VBP" name="most + verb in plural">
           <pattern>
             <marker><token>most</token></marker>

@@ -2966,13 +2966,13 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBZ"><exception regexp="yes">thinks|says|means|knows</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">thinks|says|means|knows|claims|swears|feels|assumes|seems|decides|talks|expires</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag_regexp="yes" postag="NN.*|JJ.?"/>
+                    <token postag_regexp="yes" postag="NN.*|JJ.?"><exception regexp="yes">ok(ay)?</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example type="incorrect" correction="its">This is an opportunity to see how SAP addresses <marker>it's</marker> internal developers.</example>
@@ -2980,6 +2980,14 @@ USA
                 <example type="correct">For the first fifteen or twenty minutes it's possible to be more or less interested.</example>
                 <example type="correct">Who says it's going to be published?</example>
                 <example type="correct">He thinks it's funny too.</example>
+                <example type="correct">After work it is just too hard, and during weekends it's just too far away.</example>
+                <example type="correct">I've been waved off so many times it's hard to overcome my conditioning.</example>
+                <example type="correct">It seems it's like a flu shot.</example>
+                <example type="correct">My mom claims it's radiation.</example>
+                <example type="correct">I think at times it's very easy to be overwhelmed by facts and figures.</example>
+                <example type="correct">It depends whose hands it's in.</example>
+                <example type="correct">And the funny thing is it's okay.</example>
+                <example type="correct">And when you're with a big group of friends it's even more fun.</example>                
             </rule>                        
             <!-- it's .*/JJS .*/NN::word=its \1 \2::pivots=it's,its::options=it's,its -->
             <rule id="ITS_JJS_NN" name="its (possessive) JJS NN">
