@@ -8932,7 +8932,8 @@ USA
          <example type="correct">This is the least hard.</example>
          <example type="incorrect" correction="least hard">This is the <marker>least hardest</marker>.</example>
         </rule>         
-        <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
+        <rulegroup id="THE_SUPERLATIVE" name="Zero or indefinite article ('a'/'an') before superlatives">
+        <rule>
             <pattern>
                 <marker>
                     <token regexp="yes">a|an</token>
@@ -8945,6 +8946,47 @@ USA
             <example type="correct">And Truly It Is <marker>a</marker> Most Glorious Thing</example>
             <example type="incorrect">Kyoto is <marker>an</marker> oldest city.</example>
         </rule>
+        <rule>
+        <pattern>                       
+            <marker>            
+            <token><exception postag="PRP\$|DT|JJ|C[CD]|,|NNP" postag_regexp="yes"/><exception>s</exception><exception>'</exception><exception>at</exception></token>
+            <token postag="JJS"><exception regexp="yes">most|least|best</exception></token>
+            </marker>            
+            <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
+            </pattern>
+            <message>A determiner is probably missing <suggestion>\1 the \2</suggestion>.</message>
+            <short>Spurious comma</short>
+            <example type="correct">He is my best friend.</example>
+            <example type="incorrect" correction="is the funniest">The guy <marker>is funniest</marker> friend.</example>
+        </rule>
+        <rule>
+        <pattern>                       
+            <marker>            
+            <token><exception postag="PRP\$|DT|JJ|C[DC]|,|NNP" postag_regexp="yes"/><exception>s</exception><exception>'</exception><exception>at</exception></token>
+            <token>least</token>
+            </marker>            
+            <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
+            </pattern>
+            <message>A determiner is probably missing <suggestion>\1 the \2</suggestion>.</message>
+            <short>Spurious comma</short>
+            <example type="correct">He is at least my friend.</example>
+            <example type="incorrect" correction="is the least">The guy <marker>is least</marker> funny friend.</example>
+        </rule>        
+        <rule>
+        <pattern>                       
+            <marker>            
+            <token><exception postag="PRP\$|DT|JJ|C[CD]|,|NNP" postag_regexp="yes"/><exception>s</exception><exception>'</exception><exception>at</exception></token>
+            <token postag="JJS">best</token>            
+            </marker>            
+            <token postag="NN.*|JJ" postag_regexp="yes"><exception postag="IN"/><exception>man</exception></token>
+            <token><exception>by</exception></token>            
+            </pattern>
+            <message>A determiner is probably missing <suggestion>\1 the \2</suggestion>.</message>
+            <short>Spurious comma</short>
+            <example type="correct">He is my best friend.</example>
+            <example type="incorrect" correction="is the best">The guy <marker>is best</marker> friend.</example>
+        </rule>
+        </rulegroup>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
                 <pattern>                    
