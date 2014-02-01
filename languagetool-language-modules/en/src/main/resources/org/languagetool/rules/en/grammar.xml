@@ -1748,6 +1748,21 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token><exception postag="IN|VB.*" postag_regexp="yes"></exception><exception>t</exception></token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token regexp="yes">so|really|just</token>
+                    <token postag="VBG"></token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> or <suggestion>you are</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="You're|You are"><marker>Your</marker> so annoying!</example>
+                <example type="correct">Your singing puts professional singers to shame.</example>
+                <example type="correct">Your loving friend</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>if</token>
                     <marker>
                         <token>your</token>
@@ -2773,13 +2788,13 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes"/>
+                    <token postag="VB.*" postag_regexp="yes"><exception postag="VB[GZ]" postag_regexp="yes"></exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="NN"><exception postag="JJ"></exception></token>
+                    <token postag="NN"><exception postag_regexp="yes" postag="JJ|VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2950,23 +2965,24 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBG"><exception regexp="yes">saying|hoping</exception></token>
+                    <token postag="VBG"><exception regexp="yes">saying|hoping|assuming|feeling|realizing|considering|guessing|pretending|thinking|knowing|denying|claiming|ranting|reali[sz]ing|praying|suggesting|meaning|wondering</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token><exception postag="VBN"/><exception regexp="yes">not|gonna</exception></token>
+                    <token><exception postag_regexp="yes" postag="VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"/><exception regexp="yes">not|going|gonna|ok(ay)?|just</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example type="incorrect" correction="its">It does this by providing <marker>it's</marker> own open source based products.</example>
                 <example type="correct">It does this by providing <marker>its</marker> own open source based products.</example>
                 <example type="correct">Well, you know, kinda strange though, considering it's not Christmas.</example>
                 <example type="correct">I've been hearing it's supposed to snow tonight.</example>
+                <example type="correct">I'm assuming it's a suicide.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VBZ"><exception regexp="yes">thinks|says|means|knows|claims|swears|feels|assumes|seems|decides|talks|expires</exception></token>
+                    <token postag="VBZ"><exception regexp="yes">thinks|says|means|knows|claims|swears|feels|assumes|seems|decides|talks|expires|finds</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
