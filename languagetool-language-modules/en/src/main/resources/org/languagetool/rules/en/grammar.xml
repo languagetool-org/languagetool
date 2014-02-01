@@ -6401,6 +6401,46 @@ USA
         <example type="incorrect" correction="between her">His opposition against homosexuality causes tension <marker>between she</marker> and Davis.</example>
       </rule>      
     </rulegroup>    
+    <rulegroup id="IN_WHO" name="Preposition + who (whom)">
+    <rule>
+      <pattern>
+        <token postag="IN"><exception regexp="yes">out|like|ago</exception>
+        <exception scope="previous" regexp="yes">regardless|as</exception>
+        <exception scope="previous" postag="SENT_START"/>
+        </token>
+          <marker>
+            <token>who</token>
+          </marker>
+          <token><exception postag="PRP\$?|VB[ZD]|MD|W?DT|RB|NN.*|IN|CC|WP" postag_regexp="yes" />
+          <exception regexp="yes">['“"]|are|else|(?iu)\p{Lu}\p{Ll}+</exception></token>
+         </pattern>
+         <message>Did you mean <suggestion>whom</suggestion>?</message>
+         <url>http://www.grammar-monster.com/lessons/prepositions_object_of_a_preposition.htm</url>
+         <short>Possible typo</short>
+         <example type="correct">To whom do I send my transcripts?</example>
+         <example type="incorrect" correction="whom">Who was with <marker>who</marker>?</example>
+         <example type="correct">I will give you a quick synopsis of who Sam is.</example>
+         <example type="correct">If you figure out who, let me know.</example>
+         <example type="correct">I can't think of who else.</example>            
+    </rule>
+    <rule>
+    <pattern>
+        <token postag="SENT_START"></token>
+        <token postag="IN"><exception regexp="yes">out|like|ago|for</exception></token>
+          <marker>
+            <token>who</token>
+          </marker>
+          <token postag="VB.|MD" postag_regexp="yes" />
+         </pattern>
+         <message>Did you mean <suggestion>whom</suggestion>?</message>
+         <url>http://www.grammar-monster.com/lessons/prepositions_object_of_a_preposition.htm</url>
+         <short>Possible typo</short>
+         <example type="correct">To whom do I send my transcripts?</example>
+         <example type="incorrect" correction="whom">To <marker>who</marker> do I send my transcripts?</example>
+         <example type="incorrect" correction="whom">Against <marker>who</marker> did you protest?</example>
+         <example type="correct">For who can be certain that suicide is not just one particular doorway to death - death being in and of itself irrefutably natural?</example>                         
+    </rule>
+    </rulegroup>    
     <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
     <pattern>
         <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>

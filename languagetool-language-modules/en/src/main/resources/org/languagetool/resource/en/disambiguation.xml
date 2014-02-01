@@ -70,6 +70,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="remove"><wd pos="JJR"/></disambig>
       </rule>
       
+      <rule name="otherworldly" id="OTHERWORDLY_FIX">      
+        <pattern><token>otherworldly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>            
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -2629,7 +2634,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <marker>
         <and>
           <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
-          <token postag="NN(:UN)?" postag_regexp="yes"/>
+          <token postag="NN(:UN)?" postag_regexp="yes"><exception>people</exception></token>
         </and>
         </marker>
       </pattern>
