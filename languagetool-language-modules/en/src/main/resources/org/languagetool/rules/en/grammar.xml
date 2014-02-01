@@ -10914,6 +10914,20 @@ USA
           <example type="correct">The science fair, which lasted all day, ended with an awards ceremony.</example>
           <example type="correct">This is an example (which is dull).</example>
         </rule>
+        <rule id="COMMA_MONTH_DATE" name="Comma after a month name in a date">
+        <pattern>                       
+            <marker>            
+            <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
+            <token>,</token>            
+            <token regexp="yes">[1-3][0-9]{3}</token>
+            </marker>            
+            </pattern>
+            <message>The comma is probably incorrect: <suggestion>\1 \3</suggestion>.</message>
+            <url>http://www.thepunctuationguide.com/comma.html</url>
+            <short>Spurious comma</short>
+            <example type="correct">The store closed its doors for good in October 1958.</example>
+            <example type="incorrect" correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example>
+        </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
     <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
