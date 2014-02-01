@@ -2556,9 +2556,9 @@ USA
         <rulegroup id="LETS_LET" name="let's (lets)">
             <rule>
                 <pattern>
-                    <token postag="SENT_START"></token>
+                    <token postag="SENT_START|CC|;" postag_regexp="yes"></token>
                     <marker>                    
-                        <token>Lets</token>
+                        <token>lets</token>
                     </marker>
                     <token postag="VBP?|RB?" postag_regexp="yes"></token>
                 </pattern>
@@ -2566,12 +2566,13 @@ USA
                 <short>Possible typo</short>
                 <example correction="Let's" type="incorrect"><marker>Lets</marker> go home.</example>
                 <example type="correct">It lets you sleep all night.</example>
+                <example type="incorrect">It's up to you three so <marker>lets</marker> hear your ideas</example>
             </rule>
             <rule>
                 <pattern>
-                <token postag="SENT_START"></token>
+                <token postag="SENT_START|CC|;" postag_regexp="yes"></token>
                     <marker>                        
-                        <token>Lets</token>
+                        <token>lets</token>
                     </marker>
                     <token>all</token>
                     <token postag="VBP?|RB?" postag_regexp="yes"></token>
@@ -8422,10 +8423,10 @@ USA
         <example type="correct">He was eventually allowed to go to Tehran near the end of 1838-39.</example>
         </rule>
         </rulegroup>
-        <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'strive' and 'struggle' used with gerund instead of infinitive">
+        <rulegroup id="AFFORD_VBG" name="'afford', 'choose', 'deserve', 'pretend', 'learn', 'strive' and 'struggle' used with gerund instead of infinitive">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle</token>
+                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
                     <marker>
                         <token postag="VBG"></token>
                     </marker>
@@ -8438,7 +8439,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle</token>
+                    <token inflected="yes" regexp="yes">afford|choose|deserve|pretend|strive|struggle|learn</token>
                     <token>not</token>
                     <marker>
                         <token postag="VBG"></token>
