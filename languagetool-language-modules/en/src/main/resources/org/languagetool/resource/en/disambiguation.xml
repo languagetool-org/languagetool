@@ -448,6 +448,8 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="in[in/IN,in/NN,in/RP]" outputform="in[in/NNP]">Ch'<marker>in</marker> dynasty</example>
     </rule>
     
+    
+    
     <rulegroup id="IN_NN" name="in + nouns that require no determiner">
     <rule>
       <pattern>
@@ -1592,13 +1594,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <!-- 'an' is part of a proper name here -->
     <rule name="Qur'an" id="QUARAN">
         <pattern>
-            <token>Qur</token>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">\p{L}+</token>
+            <token spacebefore="no" regexp="yes">['’]</token>
             <marker>
-                <token spacebefore="no">an</token>
+                <token spacebefore="no" inflected="yes">a</token>
             </marker>
         </pattern>
         <disambig postag="NNP"></disambig>
+        <example type="untouched">This is a car.</example>
+        <example type="ambiguous" inputform="an[a/DT]" outputform="an[an/NNP]">Qur'<marker>an</marker></example>
+        <example type="ambiguous" inputform="a[a/DT]" outputform="a[a/NNP]">Me'<marker>a</marker> She'arim</example>
     </rule>
         
     <rule id="WORLD_WAR_12" name="The World War 1/2 =>NNP">

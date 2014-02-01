@@ -8984,7 +8984,7 @@ USA
             <message>A determiner is probably missing <suggestion>\1 the \2</suggestion>.</message>
             <short>Spurious comma</short>
             <example type="correct">He is my best friend.</example>
-            <example type="incorrect" correction="is the best">The guy <marker>is best</marker> friend.</example>
+            <example type="incorrect" correction="is the best">The guy <marker>is best</marker> driver.</example>
         </rule>
         </rulegroup>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
@@ -10663,7 +10663,7 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DT" regexp="yes">a|an|the</token>
+                        <token postag="DT" inflected="yes" regexp="yes">a|the</token>
                         <token>this</token>
                     </marker>
                     <token><exception regexp="yes">'|\.</exception></token>
@@ -10677,9 +10677,9 @@ USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">a|an|the</token>
+                        <token regexp="yes">an?|the</token>
                         <token regexp="yes" spacebefore="yes">['&quot;“]</token>
-                        <token postag="DT" regexp="yes" spacebefore="no">a|an|the</token>
+                        <token postag="DT" regexp="yes" spacebefore="no">an?|the</token>
                     </marker>
                     <token><exception regexp="yes">'|\.</exception></token>
                 </pattern>
@@ -10690,9 +10690,9 @@ USA
             </rule>
         </rulegroup>        
           <rule id="DT_PRP" name="The you (you)"> 
-            <pattern case_sensitive="yes">
-              <token spacebefore="yes" regexp="yes">a|an|the</token>
-              <token postag="PRP"><exception regexp="yes">US|[Oo][Nn][Ee]</exception></token>
+            <pattern>
+              <token postag="DT" inflected="yes" regexp="yes">a|the</token>
+              <token postag="PRP\$?" postag_regexp="yes"><exception regexp="yes">(?iu)US|[Oo][Nn][Ee]</exception></token>
             </pattern>
             <message>Possible typo. Did you mean <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>            
             <short>Possible typo</short>
@@ -10700,6 +10700,8 @@ USA
             <example type="incorrect" correction="the|he">Strode past the now frightened man, entered <marker>the he</marker> house.</example>
             <example type="correct">It was an impulse when she was here in Me'a She'arim.</example>
             <example type="correct">Asphalte in its natural state from the mine at Pyrimont Seysell in France.</example>
+            <example type="incorrect" correction="The|My"><marker>The my</marker> search could return docs.</example>
+            <example type="incorrect">The dots in <marker>the my</marker> life.</example>
           </rule>      
         <rule id="AN_ANOTHER" name="an another (an/another)">
             <pattern>
