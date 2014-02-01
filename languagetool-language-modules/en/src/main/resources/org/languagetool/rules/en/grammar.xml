@@ -8880,6 +8880,33 @@ USA
             <example type="correct">We can only bring one more smaller suitcase as that's all that will fit in the rental car in Toronto.</example>
         </rule>
         </rulegroup>
+        <rule id="LESS_COMPARATIVE" name="'less' before comparative or superlative">
+        <pattern>
+        <marker>
+            <token>less</token>
+            <token postag="JJ[RS]" postag_regexp="yes"/>
+          </marker>
+         </pattern>
+         <message>Non-standard use of the comparative or superlative. Did you mean <suggestion><match no="1"/> <match no="2" postag="JJ"/></suggestion>?</message>
+         <short>Grammatical problem</short>
+         <example type="correct">This is less hard.</example>
+         <example type="incorrect" correction="less hard">This is <marker>less harder</marker>.</example>
+         </rule>
+         <rule id="LEAST_COMPARATIVE" name="'less' before comparative or superlative">
+          <pattern>
+          <marker>
+            <token>least<exception scope="previous">at</exception></token>
+            <token postag="JJ[RS]" postag_regexp="yes"><exception>most</exception></token>
+          </marker>
+         </pattern>
+         <message>Non-standard use of the comparative or superlative. Did you mean <suggestion><match no="1"/> <match no="2" postag="JJ"/></suggestion>?</message>
+         <short>Grammatical problem</short>
+         <example type="correct">This is the least hard task.</example>
+         <example type="incorrect" correction="least hard">This is the <marker>least harder</marker>.</example>
+         <example type="correct">This is at <marker>least harder</marker> than the trivial task.</example>         
+         <example type="correct">This is the least hard.</example>
+         <example type="incorrect" correction="least hard">This is the <marker>least hardest</marker>.</example>
+        </rule>         
         <rule id="THE_SUPERLATIVE" name="No indefinite article ('a'/'an') before superlatives">
             <pattern>
                 <marker>
