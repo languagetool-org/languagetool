@@ -10300,6 +10300,18 @@ USA
         </rulegroup>
     </category>
     <category name="Collocations" type="grammar">
+      <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years (be x years old)">
+        <pattern>
+          <token inflected="yes">have</token>
+          <token postag="CD"/>
+          <token>years</token>
+          <token>old</token>
+        </pattern>
+        <message>This phrase is used with 'be': <suggestion><match no="1" postag_regexp="yes" postag="VB.*">be</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>.</message>
+        <short>Wrong phrase</short>
+        <example type="correct">I am 25 years old.</example>
+        <example type="incorrect" correction="is 25 years old">He <marker>has 25 years old</marker>.</example>
+      </rule>
         <rule id="IN_NOWADAYS" name="Wrong phrase: 'in nowadays' (nowadays)">
           <pattern>
             <token>in</token>
