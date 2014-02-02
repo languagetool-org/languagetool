@@ -9271,6 +9271,24 @@ $Id$
         </rulegroup>
     </category>
     <category name="Errors ortogràfics" type="misspelling">
+        <rulegroup id="VERBS_INCORRECTES" name="verbs incorrectes: *anyadir, *arrepentir">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a(ny|ñ)ade?i[sx].*</token>
+                </pattern>
+                <message>Cal dir <suggestion><match no="1" regexp_match="a(ny|ñ)ad(e?i[sx].*)" regexp_replace="afeg$2"/></suggestion></message>
+                <example type="incorrect" correction="afegeixis">Cal que ho <marker>anyadeixis</marker>.</example>
+                <example type="correct">Afegim-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ar?repente?i[sx].*</token>
+                </pattern>
+                <message>Cal dir <suggestion><match no="1" regexp_match="ar?repent(e?i[sx].*)" regexp_replace="pened$1"/></suggestion></message>
+                <example type="incorrect" correction="penedisc">No m'<marker>arrepentisc</marker>.</example>
+                <example type="correct">Penedir-se de tot.</example>
+            </rule>
+        </rulegroup>
         <rule id="noFreeling" name="Mots que no apareixen en el diccionari Freeling" default="off">
             <pattern>
                 <token postag="UNKNOWN" regexp="yes">..+<exception regexp="yes">\p{Lu}\p{Ll}*</exception></token>
