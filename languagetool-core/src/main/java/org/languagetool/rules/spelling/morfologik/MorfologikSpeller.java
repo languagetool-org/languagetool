@@ -20,8 +20,11 @@ package org.languagetool.rules.spelling.morfologik;
 
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.CharacterCodingException;
@@ -34,6 +37,7 @@ import java.util.Locale;
  */
 public class MorfologikSpeller {
 
+  private final Dictionary dictionary;
   private final Speller speller;
   private final Locale conversionLocale;
 
@@ -47,7 +51,8 @@ public class MorfologikSpeller {
       throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
     }
     final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
-    speller = new Speller(Dictionary.read(url), maxEditDistance);
+    dictionary = Dictionary.read(url);
+    speller = new Speller(dictionary, maxEditDistance);
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
   }
 
@@ -85,6 +90,11 @@ public class MorfologikSpeller {
       suggestions.addAll(speller.replaceRunOnWords(word));
     } catch (CharacterCodingException e) {
       throw new RuntimeException(e);
+    }
+    if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
+      for (int i = 0; i < suggestions.size(); i++) {
+        suggestions.set(i, StringTools.uppercaseFirstChar(suggestions.get(i)));
+      }
     }
     return suggestions;
   }

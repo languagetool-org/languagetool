@@ -93,9 +93,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("una", matches[0].getSuggestedReplacements().get(1));
         assertEquals("quan", matches[0].getSuggestedReplacements().get(2));
         
+        //capitalized suggestion
         matches = rule.match(langTool.getAnalyzedSentence("Video"));
         assertEquals(1, matches.length);
-        assertEquals("vídeo", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Vídeo", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("bànner"));
         assertEquals(1, matches.length);
@@ -114,8 +115,8 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("Deú"));
         assertEquals(1, matches.length);
-        assertEquals("deu", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("déu", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Deu", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Déu", matches[0].getSuggestedReplacements().get(1));
 
         matches = rule.match(langTool.getAnalyzedSentence("joan"));
         assertEquals(1, matches.length);
@@ -217,8 +218,18 @@ public class MorfologikCatalanSpellerRuleTest {
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
         assertEquals(1, matches.length);
-        assertEquals("para", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("pare", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Para", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Pare", matches[0].getSuggestedReplacements().get(1));
+
+        matches = rule.match(langTool.getAnalyzedSentence("IVa"));
+        assertEquals(1, matches.length);
+        assertEquals("iva", matches[0].getSuggestedReplacements().get(0));
+//        assertEquals("IVA", matches[0].getSuggestedReplacements().get(1));
+
+        matches = rule.match(langTool.getAnalyzedSentence("Dvd"));
+        assertEquals(1, matches.length);
+        assertEquals("DVD", matches[0].getSuggestedReplacements().get(0));
+
         
         // deprecated characters of "ela geminada"
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'hi havien instaŀlat.")).length);

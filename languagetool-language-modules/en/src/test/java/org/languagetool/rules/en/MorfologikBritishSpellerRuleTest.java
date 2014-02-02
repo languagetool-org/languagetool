@@ -55,7 +55,7 @@ public class MorfologikBritishSpellerRuleTest {
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(8, matches[0].getToPos());
-    assertEquals("behaviour", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("Behaviour", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("aõh")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("a")).length);
