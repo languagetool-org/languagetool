@@ -74,7 +74,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
     initSynthesizer();
     initPossibleTags();
-    final Pattern p;
+    Pattern p;
     boolean addDt = false; 
     String prep = ""; 
     final Matcher mPrep = pPrep.matcher(posTag);
@@ -102,6 +102,18 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         }
       }
     }
+    
+    // if not found, try verbs from any regional variant
+    if ((results.size()==0) && posTag.startsWith("V") && !posTag.endsWith(".") && !posTag.endsWith("*")) {
+      p=Pattern.compile(posTag.substring(0, posTag.length()-1).concat("0"));
+      for (final String tag : possibleTags) {
+        final Matcher m = p.matcher(tag);
+        if (m.matches()) {       
+            lookup(token.getLemma(), tag, results);
+        }
+      }
+    }
+    
     return results.toArray(new String[results.size()]);
   }
 

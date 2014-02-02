@@ -24119,6 +24119,18 @@ $Id$
             <example type="incorrect">s'<marker>afincà</marker> a València</example>
             <example type="correct">s'establí a València</example>
         </rule>
+        <rule id="AFIANCAR" name="afiançar">
+            <pattern>
+                <token inflected="yes">afiançar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">consolidar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">refermar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afermar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fiançar</match></suggestion>
+            <example type="incorrect" correction="consolidà|refermà|afermà|fiançà"><marker>afiançà</marker></example>
+            <example type="correct">es consolidà</example>
+        </rule>
         <rule id="APENAR" name="apenar">
             <pattern>
                 <token inflected="yes">apenar</token>

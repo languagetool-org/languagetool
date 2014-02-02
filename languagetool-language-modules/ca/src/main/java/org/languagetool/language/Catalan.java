@@ -38,6 +38,7 @@ import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
 import org.languagetool.rules.ca.ReflexiveVerbsRule;
 import org.languagetool.rules.ca.SimpleReplaceRule;
+import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -102,6 +103,7 @@ public class Catalan extends Language {
             ComplexAdjectiveConcordanceRule.class,
             CatalanWrongWordInContextRule.class,
             ReflexiveVerbsRule.class,
+            SimpleReplaceVerbsRule.class,
             SimpleReplaceRule.class
             //CastellanismesReplaceRule.class,
             //AccentuacioReplaceRule.class
