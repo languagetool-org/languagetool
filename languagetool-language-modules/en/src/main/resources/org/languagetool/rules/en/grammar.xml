@@ -6907,6 +6907,16 @@ USA
             <example type="correct">It seems like as technologies emerge, I love to jump on the bandwagon around the end of the urlLink early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
             <example type="correct">The only reason Bobby does it is because he knows I would SMACK him if he didn't.</example>
         </rule>
+        <rule id="A_RB_NN" name="Adverb instead of an adjective">
+            <pattern>
+              <token inflected="yes">a</token>
+              <token postag="RB"><exception postag="JJ"/></token>
+              <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJ"/></token>
+            </pattern>
+            <message>You used an adverb instead an adjective.</message>
+            <example type="correct">This is a philosophical question.</example>
+            <example type="incorrect">This is <marker>a philosophically question</marker>.</example>
+       </rule>        
         <rulegroup id="WANT_THAT_I" name="want that I (want me to)">
             <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
             <rule>

@@ -97,6 +97,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="JJ"/> <!-- remove RB -->
       </rule>
       
+      <rule name="orderly" id="ORDERLY_FIX">
+        <pattern><token>orderly</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="orderly"/></disambig>
+      </rule>
+      
+      <rulegroup name="fly" id="FLY_FIX">
+      <rule>
+        <pattern><token>fly</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="fly"/></disambig>
+      </rule>
+      <rule>
+        <pattern><token>fly</token></pattern>
+        <disambig action="remove"><wd pos="RB"/></disambig>
+      </rule>
+      </rulegroup>
+      
 <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
@@ -3363,7 +3379,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <pattern>
             <marker>
             <and>
-            <token regexp="yes">still|further|long</token>
+            <token regexp="yes">still|further|long<exception scope="previous" regexp="yes">a|the</exception></token>
             <token postag="NN.*|VB.*" postag_regexp="yes"/>
             </and>
             </marker>
