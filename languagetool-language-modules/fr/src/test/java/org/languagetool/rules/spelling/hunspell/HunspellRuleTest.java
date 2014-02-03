@@ -23,8 +23,9 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
+import org.languagetool.tagging.disambiguation.Disambiguator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class HunspellRuleTest {
 
@@ -52,4 +53,23 @@ public class HunspellRuleTest {
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
   }
 
+
+    @Test
+    public void testImmunizedFrenchWord() throws Exception {
+        final French french = new French();
+        final HunspellRule rule = new HunspellRule(TestTools.getMessages("French"), french);
+        JLanguageTool langTool = new JLanguageTool(french);
+
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);
+
+        final French frenchWithDisambiguator = new French(){
+            @Override
+            public Disambiguator getDisambiguator() {
+                return new TestFrenchDisambiguator();
+            }
+        };
+        langTool = new JLanguageTool(frenchWithDisambiguator);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);
+
+    }
 }

@@ -19,6 +19,15 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.StringTools;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -30,15 +39,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.StringTools;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -84,7 +84,7 @@ public class HunspellRule extends SpellingCheckRule {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
-    final String[] tokens = tokenizeText(getSentenceTextWithoutUrls(text));
+    final String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(text));
 
     // starting with the first token to skip the zero-length START_SENT
     int len = text.getTokens()[1].getStartPos();
@@ -126,13 +126,13 @@ public class HunspellRule extends SpellingCheckRule {
     return nonWordPattern.split(sentence);
   }
 
-  private String getSentenceTextWithoutUrls(final AnalyzedSentence sentence) {
+  private String getSentenceTextWithoutUrlsAndImmunizedTokens(final AnalyzedSentence sentence) {
     final StringBuilder sb = new StringBuilder();
     final AnalyzedTokenReadings[] sentenceTokens = sentence.getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       final String token = sentenceTokens[i].getToken();
-      if (isUrl(token)) {
-        // replace URLs with whitespace to ignore them for spell checking:
+      if (isUrl(token) || sentenceTokens[i].isImmunized()) {
+        // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         for (int j = 0; j < token.length(); j++) {
           sb.append(" ");
         }
