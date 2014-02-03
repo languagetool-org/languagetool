@@ -159,14 +159,24 @@ class DatabaseHandler extends ResultHandler {
   // Whether a match has been marked as 'false alarm' or 'already fixed' by a user - in that
   // case, we don't want to re-insert it into the list of matches.
   private boolean ruleIsMarkedHidden(Language language, String url, RuleMatch match, String smallContext, PreparedStatement lookupSt) throws SQLException {
+      boolean ret=false;
     // TODO: should we consider the subid?
     lookupSt.setString(1, language.getShortName());
     lookupSt.setString(2, url);
     lookupSt.setString(3, match.getRule().getId());
     lookupSt.setString(4, smallContext);
+
     try (ResultSet resultSet = lookupSt.executeQuery()) {
-      return resultSet.first();
+      try {
+        if (resultSet.isBeforeFirst()) {
+          ret=true;
+        }
+      } catch (SQLFeatureNotSupportedException e){
+        ret=resultSet.next();
+      }
     }
+
+    return ret;
   }
 
   @Override
