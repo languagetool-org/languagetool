@@ -3451,6 +3451,18 @@ $Id$
             <example type="correct">Der Sauerstoff ist <marker>zur Neige</marker> gegangen.</example>
             <example type="incorrect" correction="zur Neige">Der Sauerstoff ist <marker>zu Neige</marker> gegangen.</example>
         </rule>
+        <rule id="PRIESE" name="Möglicher Tippfehler: 'Priese (Prise) Salz'">
+            <pattern>
+                <token postag="ART:.*" postag_regexp="yes"/>
+                <marker>
+                    <token>Priese</token>
+                </marker>
+                <token postag_regexp="yes" postag="SUB:.*"/>
+            </pattern>
+            <message>Meinten Sie eine <suggestion>Prise</suggestion>?</message>
+            <example type="incorrect">Eine <marker>Priese</marker> Salz.</example>
+            <example type="correct">Eine Prise Salz.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
