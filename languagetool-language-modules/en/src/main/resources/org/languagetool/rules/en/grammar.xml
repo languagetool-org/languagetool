@@ -2788,7 +2788,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes"><exception postag="VB[GZ]" postag_regexp="yes"></exception></token>
+                    <token postag="VB.*" postag_regexp="yes"><exception postag="VB[GZ]" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">know|say|think|ok|believe|guess|see</exception></token>
                     <marker>
                         <token>it</token>
                         <token spacebefore="no" regexp="yes">['’]</token>
@@ -2804,6 +2804,9 @@ USA
                 <example type="correct">I think it's still valid.</example>
                 <example type="correct">I think it's fast enough.</example>
                 <example type="correct"> With DMA disabled it's possible to output with a high sampling frequency.</example>
+                <example type="correct">I know it's cliche but time really does go faster and faster the older you get.</example>
+                <example type="correct">I think it's PMS time.</example>
+                <example type="correct">I cant believe it's birthday time again already!</example>
             </rule>
             <rule>
                 <pattern>
@@ -6883,13 +6886,13 @@ USA
         </rulegroup>
         <rule id="DOES_X_HAS" name="does ... 3rd person verb">
             <pattern>
-                <token>does</token>
-                <token>
+              <token>does<exception scope="previous" postag="NNP"/></token>
+              <token>
                     <exception regexp="yes">so|this|that|and|[:,]</exception>
-                    <exception postag_regexp="yes" postag="VB|VBP|VBG|NNP"></exception>
+                    <exception postag_regexp="yes" postag="VB|VBP|VBG|WP|CC"></exception>
                 </token>
                 <marker>
-                    <token postag="VBZ" />
+                    <token postag="VBZ" ><exception postag="NNS"/></token>
                 </marker>
             </pattern>
             <message>Did you mean the base form of '\3'? As 'do' is already inflected, the verb cannot also be inflected.</message>
@@ -6900,6 +6903,9 @@ USA
             <example type="incorrect">Does anybody <marker>has</marker> an idea about that?</example>
             <example type="correct">What it does: increases rate of gain and improves feed efficiency.</example>
             <example type="correct">Does Lincoln Mills suggest that if Congress granted jurisdiction over interstate divorce cases, the federal courts would be authorized to fashion a national law for the dissolution of marriages?</example>
+            <example type="correct">Everyone also who does what is just (righteous) has been born of him.</example>
+            <example type="correct">It seems like as technologies emerge, I love to jump on the bandwagon around the end of the urlLink early adopters phase -- and then it either does or doesn't integrate well with my life.</example>
+            <example type="correct">The only reason Bobby does it is because he knows I would SMACK him if he didn't.</example>
         </rule>
         <rulegroup id="WANT_THAT_I" name="want that I (want me to)">
             <!-- TODO: extend this rule to cover more than personal pronouns. This is actually a very common error for German speakers. -->
@@ -10300,7 +10306,7 @@ USA
         </rulegroup>
     </category>
     <category name="Collocations" type="grammar">
-      <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years (be x years old)">
+      <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
         <pattern>
           <token inflected="yes">have</token>
           <token postag="CD"/>

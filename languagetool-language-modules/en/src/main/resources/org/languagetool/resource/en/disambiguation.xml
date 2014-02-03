@@ -560,6 +560,18 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="end[end/NN,end/VB,end/VBP]" outputform="end[end/NN:UN]">This is a war without <marker>end</marker>.</example>
     </rule>
         
+    <rule id="LOOK_LIKE" name="look like - like => preposition">
+      <pattern>
+        <token inflected="yes">look</token>
+        <marker>
+          <token>like</token>
+        </marker>
+      </pattern>
+      <disambig postag="IN"/>
+      <example type="untouched">I like the way he looks.</example>
+      <example type="ambiguous" inputform="like[like/IN,like/JJ,like/NN,like/VB,like/VBP]" outputform="like[like/IN]">He looks <marker>like</marker> shit.</example>
+    </rule>        
+        
     <rule id='KIND_OF_JJRB' name="kind of + adj/adv => no determiner required">
       <pattern>
         <marker><token>kind</token></marker>
@@ -791,6 +803,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <disambig postag="JJ"></disambig>
         </rule>
     </rulegroup>
+    <rule name="verb + well => well = RB" id="WELL_VB_RB">
+      <pattern>
+        <token postag="VB[PGZ]?" postag_regexp="yes"/>
+        <marker><token>well</token></marker>
+      </pattern>
+      <disambig postag="RB"/>
+      <example type="ambiguous" inputform="well[well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">It does integrate <marker>well</marker>.</example>
+      <example type="untouched">I have a well.</example>
+      <example type="ambiguous" inputform="well[well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">It is <marker>well</marker> for us to remember.</example>
+    </rule>
     <rulegroup name="in as noun -&gt; in as preposition" id="IN_NN_IN">
         <rule name="in as noun/preposition + the -&gt; in as preposition" id="IN_IN">
             <pattern>
@@ -1459,17 +1481,6 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">It's emaciating.</example>
         <example type="ambiguous" inputform="going[go/VBG,going/NN:UN]" outputform="going[go/VBG]">It's <marker>going</marker> to be a killer feature!</example>                
     </rule>    
-    <rule name="be + well => RB" id='BE_WELL'>
-      <pattern>
-        <token inflected="yes">be</token>
-        <marker>
-          <token>well</token>
-        </marker>
-    </pattern>
-    <disambig postag="RB"/>
-    <example type="untouched">This is a well.</example>
-    <example type="ambiguous" inputform="well[well/NN,well/RB,well/UH,well/VB,well/VBP]" outputform="well[well/RB]">It is <marker>well</marker> for us to remember.</example>
-    </rule>
     <rule name="be + better => .R" id='BE_BETTER'>
       <pattern>
         <token inflected="yes">be</token>
