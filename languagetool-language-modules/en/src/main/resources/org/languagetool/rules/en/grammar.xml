@@ -34,6 +34,16 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typos" type="misspelling">
+        <rule id="AN_THEN" name="an then (and then)">
+          <pattern>            
+            <token>an<exception postag='NNP'/></token>
+            <token regexp="yes">th(en|is|at|[eo]se|ere)</token>
+          </pattern>
+          <message>Possible typo. Did you mean <suggestion>and \2</suggestion>?</message>
+          <short>Possible typo</short>
+          <example type="incorrect" correction="and then">Tonight I'm going to eat dinner at Alyssa's <marker>an then</marker> go to Christina's.</example>
+          <example type="correct">Tonight I'm going to eat dinner at John's and then go home.</example>
+        </rule>
         <rule id="AH_HA" name="ah ha (aha)">
            <pattern>
                  <marker>
@@ -3467,6 +3477,7 @@ USA
                 <example type="correct">Anyone needs help here?</example>
                 <example type="incorrect"><marker>Any one</marker> needs help here?</example>
                 <example type="correct">But the Communists never gave sufficient provocation at any one time for the United States to want to risk a limited or an all-out war over Laos.</example>
+                <example type="incorrect" correction="anyone">Can <marker>any one</marker> point me to the right direction?</example>
             </rule>
             <rule>
                 <pattern>
@@ -6578,18 +6589,20 @@ USA
             <example type="correct">Does your memory usage <marker>grow</marker> during processing?</example>
             <example type="correct">Does memory usage <marker>grow</marker> during processing?</example>
         </rule>
-        <rule id="IT_VBZ" name="'it' + 3rd person verb (base verb)">
+        <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|lets?|did|be|is|were|was|that|about|of|lest|whether</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make</exception></token>
                 <token>it</token>
+                <token min="0" max="1" postag="RB"/>
                 <marker>
-                    <token postag="VB"><exception postag_regexp="yes" postag="VBD|R[BP]|IN"/></token>
+                    <token postag="VBP?" postag_regexp="yes"><exception postag_regexp="yes" postag="VBD|R[BP]|IN"/></token>
                 </marker>
             </pattern>
-            <message>Did you mean <suggestion><match no="3" postag="VBZ"/></suggestion>?</message>
+            <message>Did you mean <suggestion><match no="4" postag="VBZ"/></suggestion>?</message>
             <short>Possible typo</short>
             <example correction="supports" type="incorrect">It <marker>support</marker> transparency.</example>
+            <example type="incorrect" correction="matters">It only <marker>matter</marker> to me.</example>
             <example type="correct">It <marker>supports</marker> transparency.</example>
             <example type="correct">Does it <marker>support</marker> transparency?</example>
             <example type="correct">Doesn't it <marker>support</marker> transparency?</example>
@@ -7420,7 +7433,7 @@ USA
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <pattern>
-                    <token regexp="yes">ha[ds]|have</token>
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|NN:U.*|JJ.*|RB" postag_regexp="yes"></exception></token>
                     </marker>
@@ -7433,6 +7446,7 @@ USA
                 <example type="correct">I have liked her.</example>
                 <example type="correct">It has become difficult.</example>
                 <example type="correct">We have air conditioning.</example>
+                <example type="incorrect">I've <marker>modify</marker> this.</example>
                 <example type="correct">We do not have soap.</example>
                 <example type="correct">We have soap.</example>
                 <example type="correct">We do have soap.</example>
@@ -7440,7 +7454,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ha[ds]|have</token>
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <token postag="RB"><exception>no</exception><exception postag="IN|RP|CC" postag_regexp="yes"></exception></token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|RB|JJ" postag_regexp="yes"></exception></token>
@@ -7455,7 +7469,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ha[ds]|have</token>
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN"></exception></token>
                     </marker>
@@ -7498,7 +7512,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ha[ds]|have</token>
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
                         <token>went</token>
                     </marker>
