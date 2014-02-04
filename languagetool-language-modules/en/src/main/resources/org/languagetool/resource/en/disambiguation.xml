@@ -19,10 +19,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="remove"><wd pos="NNS"/></disambig>
       </rule>
       
-      <rule name="overhead" id="OVERHEAD">
+      <rulegroup name="overhead" id="OVERHEAD">
+      <rule>
         <pattern><token>overhead</token></pattern>
         <disambig action="add"><wd lemma="overhead" pos="RB"/></disambig>
       </rule>
+      <rule>
+        <pattern><token>overhead</token></pattern>
+        <disambig action="add"><wd lemma="overhead" pos="JJ"/></disambig>
+      </rule>
+      </rulegroup>
       
       <rule name="deferment" id="DEFERMENT">
         <pattern><token>deferment</token></pattern>
@@ -56,6 +62,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <token>believes</token>
       </pattern>
       <disambig action="remove"><wd pos="NNS"/></disambig>
+      </rule>
+      
+      <rule name="george" id="george_FIX"> <!-- ?! -->
+      <pattern>
+        <token>george</token>
+      </pattern>
+      <disambig action="remove"><wd pos="RB"/></disambig>
       </rule>
       
       <rule name="gonna" id="GONNA">
@@ -102,6 +115,31 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig action="add"><wd pos="JJ" lemma="orderly"/></disambig>
       </rule>
       
+      <rule name="conservative" id="conservative_FIX">
+        <pattern><token>conservative</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="conservative"/></disambig>
+      </rule>
+      
+      <rule name="liberal" id="liberal_FIX">
+        <pattern><token>liberal</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="liberal"/></disambig>
+      </rule>
+      
+      <rule name="paranoic" id="paranoic_FIX">
+        <pattern><token>paranoic</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="paranoic"/></disambig>
+      </rule>
+            
+      <rule name="rubbish" id="rubbish_FIX">
+        <pattern><token>rubbish</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="rubbish"/></disambig>
+      </rule>
+      
+      <rule name="pinky" id="pinky_FIX">
+        <pattern><token>pinky</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="pinky"/></disambig>
+      </rule>
+      
       <rule name="weekly" id="WEEKLY_FIX">
         <pattern><token>weekly</token></pattern>
         <disambig action="add"><wd pos="JJ" lemma="weekly"/></disambig>
@@ -125,6 +163,21 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <rule name="jolly" id="jolly_FIX">
         <pattern><token>jolly</token></pattern>
         <disambig action="add"><wd pos="JJ" lemma="jolly"/></disambig>
+      </rule>
+      
+      <rule name="cowardly" id="cowardly_FIX">
+        <pattern><token>cowardly</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="cowardly"/></disambig>
+      </rule>
+      
+      <rule name="manly" id="manly_FIX">
+        <pattern><token>manly</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="manly"/></disambig>
+      </rule>
+
+      <rule name="loverly" id="loverly_FIX">
+        <pattern><token>loverly</token></pattern>
+        <disambig action="add"><wd pos="JJ" lemma="loverly"/></disambig>
       </rule>
       
       <rule name="wily" id="WILY_FIX">
@@ -181,6 +234,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern><token>goodly</token></pattern>
         <disambig postag="JJ"/>
       </rule>
+
+      <rule name="godly" id="godly_FIX">
+        <pattern><token>godly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
       
       <rule name="ungodly" id="ungodly_FIX">
         <pattern><token>ungodly</token></pattern>
@@ -197,6 +255,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="JJ"/>
       </rule>
       
+      <rule name="homely" id="homely_FIX">
+        <pattern><token>homely</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
+            
       <rule name="unholy" id="unholy_FIX">
         <pattern><token>unholy</token></pattern>
         <disambig postag="JJ"/>
@@ -216,16 +279,56 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern><token>girly</token></pattern>
         <disambig postag="JJ"/>
       </rule>
-
+      
       <rule name="portly" id="portly_FIX">
         <pattern><token>portly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
+      
+      <rule name="trickly" id="trickly_FIX">
+        <pattern><token>trickly</token></pattern>
         <disambig postag="JJ"/>
       </rule>
 
       <rule name="unruly" id="unruly_FIX">
         <pattern><token>unruly</token></pattern>
         <disambig postag="JJ"/>
-      </rule>            
+      </rule>
+      
+      <rule name="cuddly" id="cuddly_FIX">
+        <pattern><token>cuddly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
+      
+      <rule name="smelly" id="smelly_FIX">
+        <pattern><token>smelly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>                  
+
+      <rule name="measly" id="measly_FIX">
+        <pattern><token>measly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>                  
+
+      <rule name="bubbly" id="bubbly_FIX">
+        <pattern><token>bubbly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
+      
+      <rule name="burly" id="burly_FIX">
+        <pattern><token>burly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
+
+      <rule name="sparkly" id="sparkly_FIX">
+        <pattern><token>sparkly</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>
+      
+      <rule name="watchable" id="watchable_FIX">
+        <pattern><token>watchable</token></pattern>
+        <disambig postag="JJ"/>
+      </rule>                             
                       
       <rulegroup name="fly" id="FLY_FIX">
       <rule>
@@ -3148,7 +3251,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <pattern>
             <marker>
               <and>
-              <token postag="RB"><exception>way</exception></token>
+              <token postag="RB"><exception>way</exception><exception scope="previous" postag="DT"/></token>
               <token postag_regexp="yes" postag="NN:UN?"/>
               </and>
               </marker>
@@ -3471,7 +3574,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           </rule>
           <rule>
             <pattern>
-              <marker><token>even<exception scope="previous" regexp="yes">an|the</exception></token></marker>
+              <marker><token>even<exception scope="previous" regexp="yes">an?|the</exception></token></marker>
               <token postag="VB.*" postag_regexp="yes"/>            
             </pattern>
             <disambig postag="RB"/>
