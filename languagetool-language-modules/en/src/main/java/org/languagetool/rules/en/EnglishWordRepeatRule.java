@@ -43,7 +43,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("had", tokens, position)) {
       return true;   // "If I had had time, I would have gone to see him."
     }
-    if (wordRepetitionOf("that", tokens, position)) {
+    if (wordRepetitionOf("that", tokens, position) && previousWordIsIn(tokens, position, "think", "thinks", "believe", "believes")) {
       return true;   // "I don't think that that is a problem."
     }
     if (wordRepetitionOf("Pago", tokens, position)) {
@@ -59,6 +59,18 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "Homo sapiens sapiens"
     }
 
+    return false;
+  }
+
+  private boolean previousWordIsIn(AnalyzedTokenReadings[] tokens, int position, String... words) {
+    if (position >= 2) {
+      String prevWord = tokens[position - 2].getToken();
+      for (String word : words) {
+        if (prevWord.equals(word)) {
+          return true;
+        }
+      }
+    }
     return false;
   }
 
