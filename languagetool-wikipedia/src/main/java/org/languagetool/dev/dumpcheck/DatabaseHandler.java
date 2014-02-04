@@ -138,8 +138,8 @@ class DatabaseHandler extends ResultHandler {
         insertSt.setString(12, sentence.getSource());
         insertSt.addBatch();
         if (++batchCount>=batchSize){
-            insertSt.executeBatch();
-            batchCount=0;
+          executeBatch();
+          batchCount=0;
         }
 
         checkMaxErrors(++errorCount);
@@ -153,6 +153,21 @@ class DatabaseHandler extends ResultHandler {
       throw e;
     } catch (Exception e) {
       throw new RuntimeException("Error storing matches for '" + sentence.getTitle() + "'", e);
+    }
+  }
+
+  private void executeBatch() throws SQLException {
+    boolean ac = conn.getAutoCommit();
+
+    conn.setAutoCommit(false);
+    try{
+      insertSt.executeBatch();
+      if (ac) {
+        conn.commit();
+      }
+    }
+    finally{
+      conn.setAutoCommit(ac);
     }
   }
 
@@ -182,13 +197,13 @@ class DatabaseHandler extends ResultHandler {
   @Override
   public void close() throws Exception {
     if (insertSt != null) {
-        if (batchCount>0) {
-            insertSt.executeBatch();
-        }
-        insertSt.close();
+      if (batchCount>0) {
+        executeBatch();
+      }
+      insertSt.close();
     }
     if (lookupSt != null) {
-        lookupSt.close();
+      lookupSt.close();
     }
     if (conn != null) {
       conn.close();
