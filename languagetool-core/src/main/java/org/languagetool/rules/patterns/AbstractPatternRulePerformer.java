@@ -63,7 +63,9 @@ public abstract class AbstractPatternRulePerformer {
               .getAnalyzedToken(l);
       prevMatched = prevMatched || prevSkipNext > 0
               && prevElement != null
-              && prevElement.isMatchedByScopeNextException(matchToken);
+              && prevElement.isMatchedByScopeNextException(matchToken); // if NextNoTerminal, we should be able to ignore this
+                                                                        // first check if the element is matched, and then only
+                                                                       // - if not - the exception from the previous element
       if (prevMatched) {
         return false;
       }
