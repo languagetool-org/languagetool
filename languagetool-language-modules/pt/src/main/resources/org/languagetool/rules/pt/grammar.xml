@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.074 2014-01-25 13:41:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.075 2014-02-05 13:18:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -93,6 +93,23 @@ $Id: grammar.xml,v 1.074 2014-01-25 13:41:00 marcoagpinto Exp $
 
 
 
+    <!-- A QUE SERVE ISTO/ISSO a que serve isto/isso -->
+	<rule id="A_QUE_SERVE_ISTO_ISSO" name="a que serve isto/isso">
+	  <pattern>
+        <marker>	              	  
+	        <token>a</token>
+        </marker>          
+	    <token>que</token>
+	   	<token>serve</token>              
+	    <token regexp="yes">isto|isso</token>
+      </pattern>
+      <message>Substituir «a» por <suggestion>para</suggestion>.</message>
+      <example type="incorrect"><marker>A</marker> que serve isto?</example>
+	  <example type="correct"><marker>Para</marker> que serve isto?</example>
+	</rule>
+
+
+
     <!-- A TRÁS atrás -->
     <rule id="A_TRÁS" name="atrás">
       <pattern>
@@ -103,6 +120,22 @@ $Id: grammar.xml,v 1.074 2014-01-25 13:41:00 marcoagpinto Exp $
       <example type="incorrect">Vê <marker>a trás</marker> da porta.</example>
       <example type="correct">Vê <marker>atrás</marker> da porta.</example>
     </rule>
+
+
+
+    <!-- ÀS CUSTAS DA/DAS/DO/DOS à custa da/das/do/dos -->
+	<rule id="ÀS_CUSTAS_DA_DAS_DO_DOS" name="à custa da/das/do/dos">
+	  <pattern>
+        <marker>	              	  
+	        <token>às</token>
+	        <token>custas</token>	        
+        </marker>          
+	    <token regexp="yes">da|das|do|dos</token>
+      </pattern>
+      <message>Substituir «às custas» por <suggestion>à custa</suggestion>.</message>
+      <example type="incorrect">Ele fê-lo <marker>às custas</marker> do filho.</example>
+	  <example type="correct">Ele fê-lo <marker>à custa</marker> do filho.</example>
+	</rule>
 
 
 
@@ -155,6 +188,23 @@ $Id: grammar.xml,v 1.074 2014-01-25 13:41:00 marcoagpinto Exp $
       <example type="incorrect">Vamos ver <marker>a aprendiz</marker>.</example>
       <example type="correct">Vamos ver <marker>a aprendiza</marker>.</example>
     </rule>
+
+
+
+    <!-- A COMO É AS/OS a como são as/os -->
+	<rule id="A_COMO_É_AS_OS" name="a como são as/os">
+	  <pattern>
+        <token>a</token>
+	    <token>como</token>
+        <marker>	              	  
+	    	<token>é</token>              
+        </marker>          
+	    <token regexp="yes">os|as</token>
+      </pattern>
+      <message>Substituir «é» por <suggestion>são</suggestion>.</message>
+      <example type="incorrect">A como <marker>é</marker> os tomates?</example>
+	  <example type="correct">A como <marker>são</marker> os tomates?</example>
+	</rule>
 
 
 
