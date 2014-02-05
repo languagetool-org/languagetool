@@ -1759,7 +1759,7 @@ though, and has since been slightly modified)-->
         <token postag="R pers suj .*" postag_regexp="yes"/>
         <marker>
           <token postag="N.*" postag_regexp="yes">
-            <exception negate_pos="yes" postag="N.*" postag_regexp="yes"/>
+            <exception negate_pos="yes" postag="N.*|SENT_END" postag_regexp="yes"/>
             <exception regexp="yes">n|non|rendez[-‑‐]vous</exception>
           </token>
         </marker>
@@ -1767,10 +1767,12 @@ though, and has since been slightly modified)-->
       <message>Un verbe est attendu après le pronom personnel <suggestion>\1</suggestion>, pas un nom.</message>
       <example type="correct">Je <marker>travaille</marker> tard.</example>
       <example type="incorrect">On <marker>désir</marker> rester ici.</example>
-      <example type="correct"><marker>Nous n</marker>’affirmons rien.</example>
+      <example type="correct">Nous n’affirmons rien.</example>
       <example type="correct">Je compte sur vous mercredi.</example>
       <example type="correct">Nous non plus</example>
       <example type="correct">Où vous rendez-vous habituellement ?</example>
+      <example type="incorrect">La zone géographique dans laquelle je <marker>vie</marker></example>
+      <example type="correct">La zone géographique dans laquelle je vis</example>
     </rule>
     <rule default="off" id="CETTE_CEST" name="CETTE au lieu de C’EST">
       <pattern>
