@@ -25927,12 +25927,13 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_ISC" name="Exigeix terminacions verbals en -isc" default="off">
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)</token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[aeiou]e(sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*escar</exception></token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -isc.</message>
                 <suggestion><match no="1" regexp_match="(.+[aeiou])e(sc|sca|sques|squen)" regexp_replace="$1ï$2" /></suggestion>
                 <example type="incorrect" correction="agraïsca">Que ell ens ho <marker>agraesca</marker>.</example>
-                <example type="correct">Agraïsca.</example>
+                <example type="correct">bresquen</example>
+                <example type="correct">engresques</example>
             </rule>
             <rule>
                 <pattern>
@@ -25958,7 +25959,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_ESC" name="Exigeix terminacions verbals en -esc" default="off">
             <rule>
                 <pattern>
-                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[iï](sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*argüir</exception></token>
+                    <token postag="(V.IP1S0|V.SP...|VMM03.0)[VZ]" postag_regexp="yes" regexp="yes">.+[iï](sc|sca|sques|squen)<exception inflected="yes" regexp="yes">.*argüir|.+iscar</exception></token>
                 </pattern>
                 <message>Esteu usant terminacions verbals en -esc.</message>
                 <suggestion><match no="1" regexp_match="(.+)[iï](sc|sca|sques|squen)" regexp_replace="$1e$2" /></suggestion>
@@ -25966,6 +25967,7 @@ $Id$
                 <example type="incorrect" correction="servesquen">Que ell ens ho <marker>servisquen</marker>.</example>
                 <example type="correct">Visc a la Rambla i envisc pardals.</example>
                 <example type="correct">Que argüesca i arguïsca.</example>
+                <example type="correct">desenllefisquen, arrisquen</example>
             </rule>
             <rule>
                 <pattern>
