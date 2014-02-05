@@ -44,6 +44,7 @@ public class Configuration {
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
   private static final String USE_GUI_CONFIG_KEY = "useGUIConfig";
+  private static final String SHOW_LINENUMBERS_CONFIG_KEY = "showLineNumbers";
   private static final String DELIMITER = ",";
 
   private final File configFile;
@@ -57,6 +58,8 @@ public class Configuration {
   private boolean runServer;
   private boolean autoDetect;
   private boolean guiConfig;
+  private boolean showLineNumbers;
+
   private int serverPort = DEFAULT_SERVER_PORT;
 
   /**
@@ -156,6 +159,14 @@ public class Configuration {
     this.serverPort = serverPort;
   }
 
+  public boolean getShowLineNumbers() {
+    return showLineNumbers;
+  }
+
+  public void setShowLineNumbers(boolean showLineNumbers) {
+    this.showLineNumbers = showLineNumbers;
+  }
+
   private void loadConfiguration(final Language lang) throws IOException {
 
     final String qualifier = getQualifier(lang);
@@ -181,6 +192,7 @@ public class Configuration {
       autoDetect = "true".equals(props.get(AUTO_DETECT_CONFIG_KEY));
       guiConfig = "true".equals(props.get(USE_GUI_CONFIG_KEY));
       runServer = "true".equals(props.get(SERVER_RUN_CONFIG_KEY));
+      showLineNumbers = "true".equals(props.getProperty(SHOW_LINENUMBERS_CONFIG_KEY, "true"));
 
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
@@ -247,6 +259,7 @@ public class Configuration {
     props.setProperty(USE_GUI_CONFIG_KEY, Boolean.valueOf(guiConfig).toString());
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
+    props.setProperty(SHOW_LINENUMBERS_CONFIG_KEY, Boolean.valueOf(showLineNumbers).toString());
 
     for (final String key : configForOtherLangs.keySet()) {
       props.setProperty(key, configForOtherLangs.get(key));

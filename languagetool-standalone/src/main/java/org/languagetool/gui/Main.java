@@ -172,6 +172,7 @@ public final class Main {
     config.setRunServer(configDialog.getRunServer());
     config.setUseGUIConfig(configDialog.getUseGUIConfig());
     config.setServerPort(configDialog.getServerPort());
+    config.setShowLineNumbers(configDialog.getShowLinenumbers());
     try { //save config - needed for the server
       config.saveConfiguration(langTool.getLanguage());
     } catch (IOException e) {
@@ -216,7 +217,6 @@ public final class Main {
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
     JScrollPane scrollPane = new JScrollPane(textArea);
     TextLineNumber tln = new TextLineNumber(textArea, 2);
-    scrollPane.setRowHeaderView(tln);
     resultArea = new JTextPane();
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
@@ -322,6 +322,9 @@ public final class Main {
     languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
     autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
+    if (ltSupport.getConfig().getShowLineNumbers()) {
+      scrollPane.setRowHeaderView(tln);
+    }
 
     languageBox.addItemListener(new ItemListener() {
       @Override

@@ -70,7 +70,9 @@ public class ConfigurationDialog implements ActionListener {
   private final Frame owner;
   private final boolean insideOOo;
 
-private JCheckBox serverSettingsCheckbox;
+  private JCheckBox serverSettingsCheckbox;
+  private JCheckBox lineNumberscheckBox;
+  private boolean showLineNumbers;
 
   public ConfigurationDialog(Frame owner, boolean insideOOo) {
     this.owner = owner;
@@ -219,8 +221,13 @@ private JCheckBox serverSettingsCheckbox;
         }
       });
       portPanel.add(serverPortField, cons);
+      lineNumberscheckBox=new JCheckBox(Tools.getLabel(messages.getString("guiShowLinenumbers")));
+      lineNumberscheckBox.setMnemonic(Tools.getMnemonic(messages.getString("guiShowLinenumbers")));
+      lineNumberscheckBox.setSelected(showLineNumbers);
       cons.gridx = 0;
-      cons.gridy = 10;      
+      cons.gridy = 10;
+      portPanel.add(lineNumberscheckBox, cons);
+      cons.gridy = 20;
       serverSettingsCheckbox.setMnemonic(Tools.getMnemonic(messages
           .getString("useGUIConfig")));
       serverSettingsCheckbox.setSelected(useGUIConfig);
@@ -383,7 +390,10 @@ private JCheckBox serverSettingsCheckbox;
         serverPort = Integer.parseInt(serverPortField.getText());
       }
       if (serverSettingsCheckbox != null) {
-          useGUIConfig = serverSettingsCheckbox.isSelected();          
+          useGUIConfig = serverSettingsCheckbox.isSelected();
+        }
+      if (lineNumberscheckBox != null) {
+          showLineNumbers = lineNumberscheckBox.isSelected();
         }
       dialog.setVisible(false);
     } else if (e.getSource() == cancelButton) {
@@ -475,6 +485,20 @@ private JCheckBox serverSettingsCheckbox;
       return Configuration.DEFAULT_SERVER_PORT;
     }
     return Integer.parseInt(serverPortField.getText());
+  }
+
+  public void setShowLinenumbers(boolean showLineNumbers) {
+    this.showLineNumbers = showLineNumbers;
+    if (lineNumberscheckBox != null) {
+      lineNumberscheckBox.setSelected(showLineNumbers);
+    }
+  }
+
+  public boolean getShowLinenumbers() {
+    if (lineNumberscheckBox == null) {
+      return false;
+    }
+    return lineNumberscheckBox.isSelected();
   }
 
   class CategoryComparator implements Comparator<Rule> {

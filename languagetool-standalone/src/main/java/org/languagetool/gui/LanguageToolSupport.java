@@ -204,6 +204,7 @@ class LanguageToolSupport {
       configDialog.setRunServer(config.getRunServer());
       configDialog.setServerPort(config.getServerPort());
       configDialog.setUseGUIConfig(config.getUseGUIConfig());
+      configDialog.setShowLinenumbers(config.getShowLineNumbers());
       configDialogs.put(language, configDialog);
     }
     return configDialog;
