@@ -172,6 +172,7 @@ public final class Main {
     config.setRunServer(configDialog.getRunServer());
     config.setUseGUIConfig(configDialog.getUseGUIConfig());
     config.setServerPort(configDialog.getServerPort());
+    config.setShowLineNumbers(configDialog.getShowLinenumbers());
     try { //save config - needed for the server
       config.saveConfiguration(langTool.getLanguage());
     } catch (IOException e) {
@@ -214,6 +215,8 @@ public final class Main {
     textArea.setLineWrap(true);
     textArea.setWrapStyleWord(true);
     textArea.addKeyListener(new ControlReturnTextCheckingListener());
+    JScrollPane scrollPane = new JScrollPane(textArea);
+    TextLineNumber tln = new TextLineNumber(textArea, 2);
     resultArea = new JTextPane();
     undoRedo = new UndoRedoSupport(this.textArea, messages);
     frame.setJMenuBar(createMenuBar());
@@ -302,7 +305,7 @@ public final class Main {
     cons.gridy = 2;
     cons.weighty = 5.0f;
     final JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
-            new JScrollPane(textArea), new JScrollPane(resultArea));
+            scrollPane, new JScrollPane(resultArea));
     splitPane.setDividerLocation(200);
     contentPane.add(splitPane, cons);
 
@@ -319,6 +322,9 @@ public final class Main {
     languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
     autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
+    if (ltSupport.getConfig().getShowLineNumbers()) {
+      scrollPane.setRowHeaderView(tln);
+    }
 
     languageBox.addItemListener(new ItemListener() {
       @Override
