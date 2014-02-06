@@ -727,6 +727,12 @@ public final class Main {
           JPanel panel = new JPanel(new GridBagLayout());
           taggerDialog.add(panel);
           taggerArea = new JTextPane();
+          taggerArea.registerKeyboardAction(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              taggerArea.copy();
+            }
+          }, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
           taggerArea.setContentType("text/html");
           taggerArea.setEditable(false);
           GridBagConstraints c = new GridBagConstraints();
