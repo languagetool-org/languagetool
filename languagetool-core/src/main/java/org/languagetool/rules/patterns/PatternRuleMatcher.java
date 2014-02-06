@@ -90,9 +90,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         for (int m = nextPos; m <= maxTok; m++) {
           allElementsMatch = !tokens[m].isImmunized() && testAllReadings(tokens, elem, prevElement, m,
               firstMatchToken, prevSkipNext);
-          if (!allElementsMatch && testOptionalTokens(tokens, prevElement, m, prevSkipNext)) {
-            break;
-          }
 
           if (elem.getElement().getMinOccurrence() == 0) {
             // note: min occurrences != 0 or 1 are not yet supported

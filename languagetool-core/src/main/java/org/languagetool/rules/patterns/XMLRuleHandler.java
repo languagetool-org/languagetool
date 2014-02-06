@@ -90,7 +90,6 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean exceptionPosNegation;
   protected boolean exceptionPosRegExp;
   protected boolean exceptionValidNext;
-  protected boolean exceptionOptional;
   protected boolean exceptionValidPrev;
   protected boolean exceptionSet;
   protected boolean exceptionSpaceBefore;
@@ -232,7 +231,6 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionPosRegExp = false;
     exceptionStringRegExp = false;
     exceptionValidNext = false;
-    exceptionOptional = false;
     exceptionValidPrev = false;
     exceptionSpaceBefore = false;
     exceptionSpaceBeforeSet = false;
@@ -395,7 +393,6 @@ public class XMLRuleHandler extends DefaultHandler {
 
     exceptionStringNegation = YES.equals(attrs.getValue(NEGATE));
     exceptionValidNext = "next".equals(attrs.getValue(SCOPE));
-    exceptionOptional = "optional".equals(attrs.getValue(SCOPE));
     exceptionValidPrev = "previous".equals(attrs.getValue(SCOPE));
     exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
 
@@ -420,17 +417,10 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     tokenElement.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-      if (exceptionOptional) {
-        tokenElement.setOptionalException(StringTools.trimWhitespace(exceptions
-            .toString()), exceptionStringRegExp, exceptionStringInflected,
-            exceptionStringNegation, exceptionPosToken, exceptionPosRegExp,
-            exceptionPosNegation);
-      } else {
-        tokenElement.setStringPosException(StringTools.trimWhitespace(exceptions
-            .toString()), exceptionStringRegExp, exceptionStringInflected,
-            exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
-      }
+      tokenElement.setStringPosException(StringTools.trimWhitespace(exceptions
+          .toString()), exceptionStringRegExp, exceptionStringInflected,
+          exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+          exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
       exceptionPosToken = null;
     }
     if (exceptionSpaceBeforeSet) {

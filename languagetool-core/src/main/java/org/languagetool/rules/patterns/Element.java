@@ -65,15 +65,6 @@ public class Element implements Cloneable {
   /** True if scope=="next". */
   private boolean exceptionValidNext;
 
-  /** True if scope=="optional".
-   * 
-   * The difference is that this exception is not checked on the first token
-   * after the skipped sequence, which makes this exception equivalent
-   * logically to <token min="0" max="..."/>
-   * 
-   **/
-  private boolean exceptionValidOptional;
-
   /** True if any exception with a scope=="current" or scope=="next" is set for the element. */
   private boolean exceptionSet;
 
@@ -166,7 +157,7 @@ public class Element implements Cloneable {
   public final boolean isExceptionMatched(final AnalyzedToken token) {
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
-        if (!(testException.exceptionValidNext || testException.exceptionValidOptional)) {
+        if (!testException.exceptionValidNext) {
           if (testException.isMatched(token)) {
             return true;
           }
@@ -284,29 +275,6 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Checks whether a previously set exception matches
-   * (in case the exception had scope == "optional").
-   * 
-   * @param token {@link AnalyzedToken} to check matching against.
-   * @return True if any of the exceptions matches.
-   * 
-   * @since 2.5
-   * 
-   */
-  public final boolean isMatchedByOptionalException(final AnalyzedToken token) {
-    if (exceptionSet) {
-      for (final Element testException : exceptionList) {
-        if (testException.exceptionValidOptional) {
-          if (testException.isMatched(token)) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
-  }
-
-  /**
    * Checks whether an exception for a previous token matches (in case the exception had scope ==
    * "previous").
    * 
@@ -316,7 +284,7 @@ public class Element implements Cloneable {
   public final boolean isMatchedByPreviousException(final AnalyzedToken token) {
     if (exceptionValidPrevious) {
       for (final Element testException : previousExceptionList) {
-        if (!(testException.exceptionValidNext || testException.exceptionValidOptional)) {
+        if (!testException.exceptionValidNext) {
           if (testException.isMatched(token)) {
             return true;
           }
@@ -463,7 +431,6 @@ public class Element implements Cloneable {
     final Element exception = new Element(token, caseSensitive, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosElement(posToken, posRegExp, posNegation);
-    exception.exceptionValidOptional = true;
     setException(exception, false);
   }
 
@@ -592,19 +559,6 @@ public class Element implements Cloneable {
   public final boolean hasNextException() {
     return exceptionValidNext;
   }
-
-  /**
-   * Checks if the element has an exception for the Optional scope.
-   * 
-   * @return True if the element has exception for the Optional scope.
-   * 
-   * @since 2.5
-   */
-
-  public final boolean hasOptionalException() {
-    return exceptionValidOptional;
-  }
-
 
   /**
    * Negates the matching so that non-matching elements match and vice-versa.

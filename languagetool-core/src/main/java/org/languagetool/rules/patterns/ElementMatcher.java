@@ -136,37 +136,12 @@ public class ElementMatcher {
     return element.isMatchedByScopeNextException(token);
   }
 
-  /**
-   * Used to test exceptions with scope="optional".
-   * @param token {@link AnalyzedToken} to check.
-   * @return True if exception matches.
-   * 
-   * @since 2.5
-   * 
-   * 
-   */
-  public final boolean isMatchedByOptionalException(final AnalyzedToken token) {
-    return element.isMatchedByOptionalException(token);
-  }
-
   public final boolean isExceptionMatchedCompletely(final AnalyzedToken token) {
     return element.isExceptionMatchedCompletely(token);
   }
 
   public boolean hasPreviousException() {
     return element.hasPreviousException();
-  }
-
-  public boolean hasOptionalException() {
-    boolean hasSubEx = false;
-    if (element.getExceptionList() != null) {
-      for (Element e : element.getExceptionList()) {
-        if (e.hasOptionalException()) {
-          return true;
-        }
-      }
-    }
-    return hasSubEx;
   }
 
   public boolean isMatchedByPreviousException(AnalyzedTokenReadings token) {

@@ -115,36 +115,6 @@ public abstract class AbstractPatternRulePerformer {
     return thisMatched;
   }
 
-  /**
-   * Test if optional elements in the pattern match.
-   * 
-   * @param tokens Tokens to test.
-   * @param optionalElement The optional element to match.
-   * @param tokenNo Number of the token to test.
-   * @param prevSkipNext The number of tokens that may be matched optionally.
-   * 
-   * @return true if the optional token matches.
-   * 
-   * @since 2.5
-   * 
-   */
-  protected boolean testOptionalTokens(final AnalyzedTokenReadings[] tokens,
-      final ElementMatcher optionalElement, final int tokenNo, final int prevSkipNext) {
-    boolean matchedOptional = false;
-    if (prevSkipNext > 0 && optionalElement != null
-        && optionalElement.hasOptionalException()) {
-      int numberOfReadings = tokens[tokenNo].getReadingsLength();
-      for (int l = 0; l < numberOfReadings; l++) {
-        final AnalyzedToken matchToken = tokens[tokenNo]
-            .getAnalyzedToken(l);
-        if (!optionalElement.isMatchedByOptionalException(matchToken)) {
-          matchedOptional = true;
-        }
-      }
-    }
-    return matchedOptional;
-  }
-
   protected boolean testUnificationAndGroups(final boolean matched,
       final boolean lastReading, final AnalyzedToken matchToken,
       final ElementMatcher elemMatcher) {

@@ -2804,7 +2804,7 @@ USA
                         <token spacebefore="no" regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
-                    <token postag="NN"><exception postag_regexp="yes" postag="JJ|VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"></exception></token>
+                    <token postag="NN(S|(:UN?))?" postag_regexp="yes"><exception postag_regexp="yes" postag="JJ|VBN|CC|DT|IN|MD|POS|PP|RB|WDT|WP|WRB"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -2816,7 +2816,8 @@ USA
                 <example type="correct"> With DMA disabled it's possible to output with a high sampling frequency.</example>
                 <example type="correct">I know it's cliche but time really does go faster and faster the older you get.</example>
                 <example type="correct">I think it's PMS time.</example>
-                <example type="correct">I cant believe it's birthday time again already!</example>
+                <example type="correct">I can't believe it's birthday time again already!</example>
+                <example type="incorrect">What are <marker>it's</marker> benefits?</example>
             </rule>
             <rule>
                 <pattern>
@@ -4862,7 +4863,7 @@ USA
         <!-- &amp;comparisons then::word=\0 than::pivots=then,than::options=then,than -->
         <rule id="COMPARISONS_THEN" name="comparisons then (than)">
             <pattern>
-                <token regexp="yes">hotter|colder|lamer|less|lesser|more|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
+                <token regexp="yes">hotter|colder|lamer|lesser|greater|heavier|lighter|better|worse|smarter|dumber|cheaper|sexier|taller|shorter|faster|slower|older|younger|easier|harder|farther|closer|higher|lower|larger|smaller|sooner|later|weaker|stronger|louder|quieter|darker|brighter</token>
                 <token>then</token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"></match> than</suggestion>?</message>
@@ -9063,34 +9064,36 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
+                    <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|whom?|which|a|the</exception></token>
                     <token regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <token>not</token>
+                    <token min="0" max="1" postag="RB[RS]?" postag_regexp="yes"/>
                     <marker>
-                        <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
+                        <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="2"></match>' requires base form of the verb: <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>' requires base form of the verb: <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">Since he does not <marker>have</marker> any connection with us...</example>
                 <example correction="have" type="incorrect">Since he does not <marker>has</marker> any connection with us...</example>
+                <example correction="have" type="incorrect">Since he does not really <marker>has</marker> any connection with us...</example>
             </rule>
             <rule>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
                     <token regexp="yes">didn|won|couldn|can|shouldn|wouldn|doesn</token>
                     <token spacebefore="no" regexp="yes">['’]</token>
-                    <token skip="1">t<exception scope="optional" postag="RB[RS]?" postag_regexp="yes"/></token>
+                    <token>t</token>
+                    <token min="0" max="1" postag="RB[RS]?" postag_regexp="yes">clearly</token>
                     <marker>
-                        <token postag="(VBD|VBG|VBZ)" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
+                        <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="2"></match>'t' requires base form of this verb: <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">Since he doesn't <marker>have</marker> any connection with us...</example>
                 <example correction="have" type="incorrect">Since he doesn't <marker>has</marker> any connection with us...</example>
                 <example type="incorrect" correction="understand">Sorry but am a newbie and didn't clearly <marker>understood</marker> this approach.</example>
-                <!-- this will not match as '-' is not one of the optional tokens -->
                 <example type="correct">I didn't - understood?</example>
             </rule>
         </rulegroup>
@@ -9128,7 +9131,7 @@ USA
                 <token>eager</token>
                 <token>to</token>
                 <marker>
-                    <token postag="(VBG|VBZ|VBN|VBD)" postag_regexp="yes"></token>
+                    <token postag="VB[GZND]" postag_regexp="yes"></token>
                 </marker>
             </pattern>
             <message>With 'eager to', use the base form of the verb: <suggestion><match no="3" postag="VB"></match></suggestion>.</message>
