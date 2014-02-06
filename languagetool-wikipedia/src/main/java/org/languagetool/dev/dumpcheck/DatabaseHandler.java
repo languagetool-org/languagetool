@@ -68,12 +68,7 @@ class DatabaseHandler extends ResultHandler {
       final String dbUrl = getProperty(dbProperties, "dbUrl");
       final String dbUser = getProperty(dbProperties, "dbUser");
       final String dbPassword = getProperty(dbProperties, "dbPassword");
-      try {
-        batchSize = Integer.decode(dbProperties.getProperty("batchSize", "1"));
-       }
-      catch(NumberFormatException e){
-        batchSize = 1;
-      }
+      batchSize = Integer.decode(dbProperties.getProperty("batchSize", "1"));
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
       lookupSt = conn.prepareStatement(lookupSql);
       insertSt = conn.prepareStatement(insertSql);
@@ -165,8 +160,7 @@ class DatabaseHandler extends ResultHandler {
       if (ac) {
         conn.commit();
       }
-    }
-    finally{
+    } finally{
       conn.setAutoCommit(ac);
     }
   }
