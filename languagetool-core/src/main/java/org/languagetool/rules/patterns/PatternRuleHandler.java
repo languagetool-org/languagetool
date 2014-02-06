@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
 public class PatternRuleHandler extends XMLRuleHandler {
 
   static final String PLEASE_SPELL_ME = "<pleasespellme/>";
-  
+
   protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
@@ -50,7 +50,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private int startPos = -1;
   private int endPos = -1;
   private int tokenCountForMarker = 0;
-  
+
   private boolean relaxedMode = false;
 
   /**
@@ -230,7 +230,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         // but for phraserefs this depends on the position where the phraseref is used
         // not where it's defined. Thus we have to copy the elements so each use of
         // the phraseref can carry their own information:
-        
+
         /*final List<Element> tmpElements = new ArrayList<>();
         for (Element element : elementList) {
           tmpElements.add((Element) ObjectUtils.clone(element));
@@ -239,10 +239,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
                 name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString());
         prepareRule(rule);
         rules.add(rule);*/
-        
+
         final List<Element> tmpElements = new ArrayList<>();
         createRules(new ArrayList<>(elementList), tmpElements, 0);
-        
+
       } else {
         if (!elementList.isEmpty()) {
           for (final ArrayList<Element> ph : phraseElementList) {
@@ -310,10 +310,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (MATCH.equals(qName)) {
       if (inMessage) {
         suggestionMatches.get(suggestionMatches.size() - 1).
-            setLemmaString(match.toString());
+        setLemmaString(match.toString());
       } else if (inSuggestion) {
         suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
-                setLemmaString(match.toString());
+        setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
       }
@@ -354,16 +354,16 @@ public class PatternRuleHandler extends XMLRuleHandler {
       }
     }
   }
-  
-  /** 
+
+  /**
    * Create rule from an Element list.
    * In case of OR groups, several rules are created recursively.
    * @since 2.3
-   *  
-   * @param elemList The complete original Element list 
+   * 
+   * @param elemList The complete original Element list
    * @param tmpElements Temporary Element list being created
    * @param numElement Index of elemList being analyzed
-   */  
+   */
   private void createRules(List<Element> elemList,
       List<Element> tmpElements, int numElement) {
     if (numElement >= elemList.size()) {
@@ -374,6 +374,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rules.add(rule);
     } else {
       Element element = elemList.get(numElement);
+      //TODO: deal with minOccurrence > 1 here?
+      /**
+      if (element.getMinOccurrence() > 1) {
+        // here we could copy elements but without any recursion
+          as minOccurrence has to stay < 2.
+      }
+       **/
       if (element.hasOrGroup()) {
         for (Element elementOfOrGroup : element.getOrGroup()) {
           final List<Element> tmpElements2 = new ArrayList<>();
