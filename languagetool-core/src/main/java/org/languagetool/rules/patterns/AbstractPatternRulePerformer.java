@@ -51,8 +51,8 @@ public abstract class AbstractPatternRulePerformer {
   }
 
   protected boolean testAllReadings(final AnalyzedTokenReadings[] tokens,
-                                    final ElementMatcher elem, final ElementMatcher prevElement,
-                                    final int tokenNo, final int firstMatchToken, final int prevSkipNext)
+      final ElementMatcher elem, final ElementMatcher prevElement,
+      final int tokenNo, final int firstMatchToken, final int prevSkipNext)
           throws IOException {
     boolean thisMatched = false;
     final int numberOfReadings = tokens[tokenNo].getReadingsLength();
@@ -60,25 +60,32 @@ public abstract class AbstractPatternRulePerformer {
 
     for (int l = 0; l < numberOfReadings; l++) {
       final AnalyzedToken matchToken = tokens[tokenNo]
-              .getAnalyzedToken(l);
+          .getAnalyzedToken(l);
       prevMatched = prevMatched || prevSkipNext > 0
-              && prevElement != null
-              && prevElement.isMatchedByScopeNextException(matchToken); // if NextNoTerminal, we should be able to ignore this
-                                                                        // first check if the element is matched, and then only
-                                                                       // - if not - the exception from the previous element
+          && prevElement != null
+          && prevElement.isMatchedByScopeNextException(matchToken);
       if (prevMatched) {
         return false;
       }
+
       thisMatched = thisMatched || elem.isMatched(matchToken);
-      if (!thisMatched
-              && !elem.getElement().isInflected()
-              && elem.getElement().getPOStag() == null
-              && (prevElement != null && prevElement.getElement().getExceptionList() == null)) {
-        return false; // the token is the same, we will not get a match
+
+      //short-circuit when the search cannot possibly match
+      if (!thisMatched && prevElement != null &&
+          prevElement.getElement().getExceptionList() == null) {
+        if (elem.getElement().isInflected()
+            && tokens[tokenNo].hasSameLemmas()
+            && elem.getElement().getPOStag() == null) {
+          return false;
+        }
+        if (!elem.getElement().isInflected()
+            && elem.getElement().getPOStag() == null) {
+          return false; // the token is the same, we will not get a match
+        }
       }
       if (rule.isGroupsOrUnification()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
-                l + 1 == numberOfReadings, matchToken, elem);        
+            l + 1 == numberOfReadings, matchToken, elem);
       }
     }
     if (thisMatched) {
@@ -92,24 +99,55 @@ public abstract class AbstractPatternRulePerformer {
       }
     }
     if (elem.getElement().getChunkTag() != null) {
-      thisMatched &= 
+      thisMatched &=
           tokens[tokenNo].getChunkTags().contains(elem.getElement().getChunkTag())
           ^ elem.getElement().getNegation();
     }
     if (elem.getElement().hasAndGroup()) {
-        for (Element e : elem.getElement().getAndGroup()) {          
-            if (e.getChunkTag() != null) {
-                thisMatched &= tokens[tokenNo].getChunkTags().contains(e.getChunkTag())
-                    ^ e.getNegation();
-            }            
+      for (Element e : elem.getElement().getAndGroup()) {
+        if (e.getChunkTag() != null) {
+          thisMatched &= tokens[tokenNo].getChunkTags().contains(e.getChunkTag())
+              ^ e.getNegation();
         }
-    }    
+      }
+    }
+
     return thisMatched;
   }
 
+  /**
+   * Test if optional elements in the pattern match.
+   * 
+   * @param tokens Tokens to test.
+   * @param optionalElement The optional element to match.
+   * @param tokenNo Number of the token to test.
+   * @param prevSkipNext The number of tokens that may be matched optionally.
+   * 
+   * @return true if the optional token matches.
+   * 
+   * @since 2.5
+   * 
+   */
+  protected boolean testOptionalTokens(final AnalyzedTokenReadings[] tokens,
+      final ElementMatcher optionalElement, final int tokenNo, final int prevSkipNext) {
+    boolean matchedOptional = false;
+    if (prevSkipNext > 0 && optionalElement != null
+        && optionalElement.hasOptionalException()) {
+      int numberOfReadings = tokens[tokenNo].getReadingsLength();
+      for (int l = 0; l < numberOfReadings; l++) {
+        final AnalyzedToken matchToken = tokens[tokenNo]
+            .getAnalyzedToken(l);
+        if (!optionalElement.isMatchedByOptionalException(matchToken)) {
+          matchedOptional = true;
+        }
+      }
+    }
+    return matchedOptional;
+  }
+
   protected boolean testUnificationAndGroups(final boolean matched,
-                                             final boolean lastReading, final AnalyzedToken matchToken,
-                                             final ElementMatcher elemMatcher) {
+      final boolean lastReading, final AnalyzedToken matchToken,
+      final ElementMatcher elemMatcher) {
     boolean thisMatched = matched;
     final boolean elemIsMatched = elemMatcher.isMatched(matchToken);
     final Element elem = elemMatcher.getElement();
@@ -118,17 +156,17 @@ public abstract class AbstractPatternRulePerformer {
       if (matched && elem.isUnified()) {
         if (elem.isUniNegated()) {
           thisMatched = !(thisMatched && unifier.isUnified(
-                  matchToken, elem.getUniFeatures(), lastReading,
-                  elemIsMatched));
+              matchToken, elem.getUniFeatures(), lastReading,
+              elemIsMatched));
         } else {
           if (elem.isLastInUnification()) {
             thisMatched = thisMatched
-                    && unifier.isUnified(matchToken,
+                && unifier.isUnified(matchToken,
                     elem.getUniFeatures(), lastReading,
                     elemIsMatched);
           } else { // we don't care about the truth value, let it run
             unifier.isUnified(matchToken, elem.getUniFeatures(),
-                    lastReading, elemIsMatched);
+                lastReading, elemIsMatched);
           }
 
         }
@@ -143,7 +181,7 @@ public abstract class AbstractPatternRulePerformer {
     elemMatcher.addMemberAndGroup(matchToken);
     if (lastReading) {
       thisMatched &= elemMatcher.checkAndGroup(thisMatched);
-    }    
+    }
     return thisMatched;
   }
 

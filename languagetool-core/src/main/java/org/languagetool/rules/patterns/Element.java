@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -65,6 +65,15 @@ public class Element implements Cloneable {
   /** True if scope=="next". */
   private boolean exceptionValidNext;
 
+  /** True if scope=="optional".
+   * 
+   * The difference is that this exception is not checked on the first token
+   * after the skipped sequence, which makes this exception equivalent
+   * logically to <token min="0" max="..."/>
+   * 
+   **/
+  private boolean exceptionValidOptional;
+
   /** True if any exception with a scope=="current" or scope=="next" is set for the element. */
   private boolean exceptionSet;
 
@@ -105,7 +114,7 @@ public class Element implements Cloneable {
   private boolean posUnknown;
 
   /**
-   * Set to true on tokens that close the unification block. 
+   * Set to true on tokens that close the unification block.
    */
   private boolean isLastUnified;
 
@@ -128,7 +137,7 @@ public class Element implements Cloneable {
   public Object clone() throws CloneNotSupportedException {
     return super.clone();
   }
-  
+
   /**
    * Checks whether the rule element matches the token given as a parameter.
    * @param token AnalyzedToken to check matching against
@@ -140,11 +149,11 @@ public class Element implements Cloneable {
     }
     final boolean matched;
     if (testString) {
-      matched = (isStringTokenMatched(token) ^ negation)
-          && (isPosTokenMatched(token) ^ posNegation);
+      matched = isStringTokenMatched(token) ^ negation
+          && isPosTokenMatched(token) ^ posNegation;
     } else {
-      matched = (!negation)
-          && (isPosTokenMatched(token) ^ posNegation);
+      matched = !negation
+          && isPosTokenMatched(token) ^ posNegation;
     }
     return matched;
   }
@@ -157,7 +166,7 @@ public class Element implements Cloneable {
   public final boolean isExceptionMatched(final AnalyzedToken token) {
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
-        if (!testException.exceptionValidNext) {
+        if (!(testException.exceptionValidNext || testException.exceptionValidOptional)) {
           if (testException.isMatched(token)) {
             return true;
           }
@@ -254,17 +263,40 @@ public class Element implements Cloneable {
   public final List<Element> getOrGroup() {
     return orGroupList;
   }
-  
+
   /**
    * Checks whether a previously set exception matches (in case the exception had scope == "next").
    * 
-   * @param token AnalyzedToken to check matching against.
+   * @param token {@link AnalyzedToken} to check matching against.
    * @return True if any of the exceptions matches.
    */
   public final boolean isMatchedByScopeNextException(final AnalyzedToken token) {
     if (exceptionSet) {
       for (final Element testException : exceptionList) {
         if (testException.exceptionValidNext) {
+          if (testException.isMatched(token)) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks whether a previously set exception matches
+   * (in case the exception had scope == "optional").
+   * 
+   * @param token {@link AnalyzedToken} to check matching against.
+   * @return True if any of the exceptions matches.
+   * 
+   * @since 2.5
+   * 
+   */
+  public final boolean isMatchedByOptionalException(final AnalyzedToken token) {
+    if (exceptionSet) {
+      for (final Element testException : exceptionList) {
+        if (testException.exceptionValidOptional) {
           if (testException.isMatched(token)) {
             return true;
           }
@@ -284,7 +316,7 @@ public class Element implements Cloneable {
   public final boolean isMatchedByPreviousException(final AnalyzedToken token) {
     if (exceptionValidPrevious) {
       for (final Element testException : previousExceptionList) {
-        if (!testException.exceptionValidNext) {
+        if (!(testException.exceptionValidNext || testException.exceptionValidOptional)) {
           if (testException.isMatched(token)) {
             return true;
           }
@@ -313,6 +345,7 @@ public class Element implements Cloneable {
   /**
    * @deprecated use {@link #isSentenceStart()} - deprecated since 2.3
    */
+  @Deprecated
   public final boolean isSentStart() {
     return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
   }
@@ -333,9 +366,9 @@ public class Element implements Cloneable {
     if (posRegExp) {
       pPos = Pattern.compile(posToken);
       final Matcher mPos = pPos.matcher(UNKNOWN_TAG);
-      posUnknown = mPos.matches();        
+      posUnknown = mPos.matches();
     } else {
-      posUnknown = UNKNOWN_TAG.equals(posToken); 
+      posUnknown = UNKNOWN_TAG.equals(posToken);
     }
   }
 
@@ -365,7 +398,7 @@ public class Element implements Cloneable {
   }
 
   /**
-   * Sets a string and/or pos exception for matching string tokens.
+   * Sets a string and/or pos exception for matching tokens.
    * 
    * @param token The string in the exception.
    * @param regExp True if the string is specified as a regular expression.
@@ -409,6 +442,34 @@ public class Element implements Cloneable {
   }
 
   /**
+   * Sets an exception for matching Optional tokens.
+   * 
+   * @param token The string in the exception.
+   * @param regExp True if the string is specified as a regular expression.
+   * @param inflected True if the string is a base form (lemma).
+   * @param negation True if the exception is negated.
+   * @param posToken The part of the speech tag in the exception.
+   * @param posRegExp True if the POS is specified as a regular expression.
+   * @param posNegation True if the POS exception is negated.
+   * 
+   * @since 2.5
+   * 
+   */
+  public final void setOptionalException(
+      final String token, final boolean regExp, final boolean inflected,
+      final boolean negation, final String posToken,
+      final boolean posRegExp, final boolean posNegation) {
+
+    final Element exception = new Element(token, caseSensitive, regExp, inflected);
+    exception.setNegation(negation);
+    exception.setPosElement(posToken, posRegExp, posNegation);
+    exception.exceptionValidOptional = true;
+    setException(exception, false);
+  }
+
+
+
+  /**
    * Tests if part of speech matches a given string.
    * Special value UNKNOWN_TAG matches null POS tags.
    * @param token Token to test.
@@ -419,7 +480,7 @@ public class Element implements Cloneable {
       // if no POS set defaulting to true
       return true;
     }
-    if (token.getPOSTag() == null) {      
+    if (token.getPOSTag() == null) {
       if (posUnknown) {
         return token.hasNoTag();
       }
@@ -433,7 +494,7 @@ public class Element implements Cloneable {
       match = posToken.equals(token.getPOSTag());
     }
     if (!match && posUnknown) { // ignore helper tags
-      match = token.hasNoTag();      
+      match = token.hasNoTag();
     }
     return match;
   }
@@ -533,6 +594,19 @@ public class Element implements Cloneable {
   }
 
   /**
+   * Checks if the element has an exception for the Optional scope.
+   * 
+   * @return True if the element has exception for the Optional scope.
+   * 
+   * @since 2.5
+   */
+
+  public final boolean hasOptionalException() {
+    return exceptionValidOptional;
+  }
+
+
+  /**
    * Negates the matching so that non-matching elements match and vice-versa.
    */
   public final void setNegation(final boolean negation) {
@@ -575,7 +649,7 @@ public class Element implements Cloneable {
    * @param synth the language synthesizer ({@link Synthesizer})
    */
   public final Element compile(final AnalyzedTokenReadings token, final Synthesizer synth)
-          throws IOException {
+      throws IOException {
     final Element compiledElement;
     try {
       compiledElement = (Element) clone();
@@ -627,6 +701,7 @@ public class Element implements Cloneable {
    * @deprecated use {@link #isCaseSensitive()} instead (deprecated since 2.3)
    * @since 0.9.3
    */
+  @Deprecated
   public final boolean getCaseSensitive() {
     return caseSensitive;
   }
@@ -727,7 +802,7 @@ public class Element implements Cloneable {
   public final void setLastInUnification() {
     isLastUnified = true;
   }
-  
+
   public final void setWhitespaceBefore(final boolean isWhite) {
     whitespaceBefore = isWhite;
     testWhitespace = true;
@@ -770,7 +845,7 @@ public class Element implements Cloneable {
   public final List<Element> getExceptionList() {
     return exceptionList;
   }
-  
+
   /**
    * @return List of previous exceptions. Used for testing.
    */
