@@ -18,21 +18,21 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.Demo;
-import org.languagetool.rules.RuleMatch;
+import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.Demo;
+import org.languagetool.rules.RuleMatch;
 
 public class PatternRuleMatcherTest {
 
@@ -42,7 +42,7 @@ public class PatternRuleMatcherTest {
   public static void setup() throws IOException {
     langTool = new JLanguageTool(new Demo());
   }
-  
+
   @Test
   public void testMatch() throws Exception {
     final PatternRuleMatcher matcher = new PatternRuleMatcher(getPatternRule("my test"), false);
@@ -159,7 +159,7 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  @Ignore("currently fails")
+  // @Ignore("currently fails")
   public void testTwoMaxOccurrencesWithAnyToken() throws Exception {
     final Element anyElement = makeElement(null);
     anyElement.setMaxOccurrence(2);
@@ -170,7 +170,7 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  @Ignore("currently fails")
+  // @Ignore("currently fails")
   public void testThreeMaxOccurrencesWithAnyToken() throws Exception {
     final Element anyElement = makeElement(null);
     anyElement.setMaxOccurrence(3);
@@ -182,7 +182,7 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  @Ignore("currently fails")
+  // @Ignore("currently fails")
   public void testZeroMinTwoMaxOccurrencesWithAnyToken() throws Exception {
     final Element anyElement = makeElement(null);
     anyElement.setMinOccurrence(0);
@@ -209,7 +209,7 @@ public class PatternRuleMatcherTest {
     assertPartialMatch("a b c", matcher);
     assertPartialMatch("a b b c", matcher);
     assertPartialMatch("x a b b", matcher);
-    
+
     final RuleMatch[] matches1 = getMatches("a b b b", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 5);
@@ -230,7 +230,7 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("a b b", matcher);
     assertCompleteMatch("a b b b", matcher);
     assertPartialMatch("a b b b b", matcher);
-    
+
     final RuleMatch[] matches1 = getMatches("a b b b b", matcher);
     assertThat(matches1.length, is(1));
     assertPosition(matches1[0], 0, 7);
@@ -387,7 +387,7 @@ public class PatternRuleMatcherTest {
     assertCompleteMatch("b x b", matcher);
     assertCompleteMatch("a x x a", matcher);
     assertCompleteMatch("b x x b", matcher);
-    
+
     assertNoMatch("a b", matcher);
     assertNoMatch("b a", matcher);
     assertNoMatch("b x a", matcher);
@@ -428,7 +428,7 @@ public class PatternRuleMatcherTest {
     final RuleMatch[] matches = getMatches(input, matcher);
     assertThat(matches.length , is(1));
     assertTrue("Expected partial match, got '" + matches[0] + "' for '" + input + "'",
-            matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
+        matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
   }
 
   private void assertCompleteMatch(String input, PatternRuleMatcher matcher) throws IOException {

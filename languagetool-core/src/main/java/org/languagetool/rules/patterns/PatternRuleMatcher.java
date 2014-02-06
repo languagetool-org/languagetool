@@ -104,7 +104,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
             }
           }
           if (allElementsMatch) {
-            int skipForMax = skipMaxTokens(tokens, elem, firstMatchToken, prevSkipNext, prevElement, m);
+            int skipForMax = skipMaxTokens(tokens, elem, firstMatchToken, prevSkipNext,
+                prevElement, m, patternSize - k -1);
             lastMatchToken = m + skipForMax;
             /*System.out.println("LMT: " + lastMatchToken + ", elem inside marker? " + elem.getElement() + " -> " + elem.getElement().isInsideMarker());
             System.out.println("TOKEN: " + tokens[m].getToken());
@@ -158,10 +159,10 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     return minOccurCorrection;
   }
 
-  private int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m) throws IOException {
+  private int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;
     int maxOccurrences = elem.getElement().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getElement().getMaxOccurrence();
-    for (int j = 1; j < maxOccurrences && m+j < tokens.length; j++) {
+    for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
       boolean nextAllElementsMatch = !tokens[m+j].isImmunized() &&
           testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
       if (nextAllElementsMatch) {
