@@ -71,20 +71,18 @@ public abstract class AbstractPatternRulePerformer {
       thisMatched = thisMatched || elem.isMatched(matchToken);
 
       //short-circuit when the search cannot possibly match
-      if (!thisMatched && prevElement != null &&
-          prevElement.getElement().getExceptionList() == null) {
-        if (elem.getElement().isInflected()
-            && tokens[tokenNo].hasSameLemmas()
-            && elem.getElement().getPOStag() == null) {
-          return false;
+      if (!thisMatched && (prevElement == null || prevElement != null &&
+          prevElement.getElement().getExceptionList() == null)) {
+        if (elem.getElement().getPOStag() == null) {
+          if (elem.getElement().isInflected()) {
+            if (tokens[tokenNo].hasSameLemmas()) {
+              return false; // same lemmas everywhere
+            }
+          } else
+            return false; // the token is the same, we will not get a match
         }
-        if (!elem.getElement().isInflected()
-            && elem.getElement().getPOStag() == null) {
-          return false; // the token is the same, we will not get a match
-        }
-        if (elem.getElement().getPOStag() != null
-            && !tokens[tokenNo].isTagged()
-            && !elem.getElement().getPOSNegation()) {
+        else if (!elem.getElement().getPOSNegation() // postag =! null
+            && !tokens[tokenNo].isTagged()) {
           return false; // we won't find any postag here anyway
         }
       }
