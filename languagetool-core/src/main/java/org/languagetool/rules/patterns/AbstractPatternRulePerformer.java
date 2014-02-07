@@ -82,6 +82,11 @@ public abstract class AbstractPatternRulePerformer {
             && elem.getElement().getPOStag() == null) {
           return false; // the token is the same, we will not get a match
         }
+        if (elem.getElement().getPOStag() != null
+            && !tokens[tokenNo].isTagged()
+            && !elem.getElement().getPOSNegation()) {
+          return false; // we won't find any postag here anyway
+        }
       }
       if (rule.isGroupsOrUnification()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
