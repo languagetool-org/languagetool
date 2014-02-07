@@ -262,6 +262,11 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="remove"><wd lemma="gałęzić"/></disambig>
     </rule>
     
+    <rule name="juszyć" id="JUSZYC">
+      <pattern><token inflected="yes">juszyć</token></pattern>
+      <disambig action="remove"><wd lemma="juszyć"/></disambig>
+    </rule>
+    
     <rulegroup name="do - prep lub subst" id="DO_PREP_SUBST">
     <rule>
     	<pattern>
@@ -1399,5 +1404,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <disambig postag="brev:pun"/>
     <example type="untouched">To był XX w.</example>
     <example type="ambiguous" inputform="mghr[mghr]" outputform="mghr[mghr/brev:pun]">To jest <marker>mghr</marker>. Lubiwicz.</example>
-    </rule>    
+    </rule>
+    
+    <rule id="prez" name="prez. Komorowski">
+      <pattern>
+        <token regexp="yes">prez|cz|prob</token>
+        <token spacebefore="no">.</token>
+      </pattern>
+      <disambig action="immunize"></disambig>
+    </rule>
+    
+        
 </rules>

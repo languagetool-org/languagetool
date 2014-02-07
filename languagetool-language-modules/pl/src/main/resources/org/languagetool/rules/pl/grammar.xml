@@ -13546,9 +13546,8 @@ $Id$
 				</rule>
 				<rule id="IMENT" name="„iment” poza wyrażeniem „do imentu”">
 						<pattern>
-								<token negate="yes">do</token>
 								<marker>
-										<token inflected="yes">iment</token>
+										<token inflected="yes">iment<exception scope="previous">do</exception></token>
 								</marker>
 						</pattern>
 						<message>Ten wyraz jest niesamodzielny i może wystąpić wyłącznie w wyrażeniu <suggestion>do imentu</suggestion>.</message>
@@ -13556,6 +13555,15 @@ $Id$
 						<example correction="do imentu" type="incorrect">On jest zidiociały <marker>imentu</marker>.</example>
 						<example type="correct">Skretyniał do imentu.</example>
 				</rule>
+                <rule id="KRETES" name="„kretes” poza wyrażeniem „z kretesem”">
+                  <pattern>
+                    <token inflected="yes">kretes<exception scope="previous">z</exception></token>
+                  </pattern>
+                    <message>Ten wyraz jest niesamodzielny i może wystąpić wyłącznie w wyrażeniu <suggestion>z kretesem</suggestion>.</message>
+                    <short>Błąd frazeologiczny</short>
+                    <example correction="z kretesem" type="incorrect">On jest zidiociały <marker>kretesem</marker>.</example>
+                    <example type="correct">Skretyniał z kretesem.</example>
+                </rule>
 				<rule id="STANAC_DEBEM" name="„stanąć dębem” (dęba)">
 						<pattern>
 								<token inflected="yes" regexp="yes">stanąć|stawać</token>
