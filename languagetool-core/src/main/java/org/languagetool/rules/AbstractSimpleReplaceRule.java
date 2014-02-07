@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -18,16 +18,23 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.Scanner;
+
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
 
 /**
  * A rule that matches words which should not be used and suggests
@@ -41,7 +48,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   private static final String FILE_ENCODING = "utf-8";
 
   private final Map<String, List<String>> wrongWords;
-  
+
   private boolean ignoreTaggedWords = false;
 
   public abstract String getFileName();
@@ -66,7 +73,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   public Locale getLocale() {
     return Locale.getDefault();
   }
-  
+
   /**
    * Skip words that are known in the POS tagging dictionary, assuming they
    * cannot be incorrect.
@@ -117,6 +124,11 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
+
+      if (tokenReadings.isImmunized()) {
+        continue;
+      }
+
       String originalTokenStr = tokenReadings.getToken();
       if (ignoreTaggedWords && tokenReadings.isTagged()) {
         continue;
@@ -136,14 +148,14 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         }
       }
 
-      // try first with the original word, then with the all lower-case version 
-      List<String> possibleReplacements = wrongWords.get(originalTokenStr);   
+      // try first with the original word, then with the all lower-case version
+      List<String> possibleReplacements = wrongWords.get(originalTokenStr);
       if (possibleReplacements == null) {
         possibleReplacements = wrongWords.get(tokenString);
       }
 
       if (possibleReplacements != null && possibleReplacements.size() > 0) {
-        List<String> replacements = new ArrayList<>();  
+        List<String> replacements = new ArrayList<>();
         replacements.addAll(possibleReplacements);
         if (replacements.contains(originalTokenStr)) {
           replacements.remove(originalTokenStr);
@@ -169,7 +181,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     if (!isCaseSensitive() && StringTools.startsWithUppercase(tokenString)) {
       for (int i = 0; i < replacements.size(); i++) {
         replacements
-            .set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
+        .set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
       }
     }
 
@@ -191,7 +203,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
-                  + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
+              + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
                   getFileName()) + ", line: " + line);
         }
 

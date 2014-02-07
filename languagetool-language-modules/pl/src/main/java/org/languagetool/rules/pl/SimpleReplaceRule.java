@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -67,10 +67,10 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getShort() {
     return "Literówka";
   }
-  
+
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " to typowa literówka, poprawnie: "
+    return tokenStr + " to najczęściej błąd; poprawnie pisze się: "
         + StringUtils.join(replacements, ", ") + ".";
   }
 
