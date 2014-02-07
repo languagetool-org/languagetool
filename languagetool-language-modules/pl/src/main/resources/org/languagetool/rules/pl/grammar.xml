@@ -1529,7 +1529,7 @@ $Id$
 										<token postag="SENT_START"></token>
 										<token skip="-1"><exception scope="next">i</exception><exception scope="current">I</exception></token>
 										<marker>
-												<token>,</token>
+												<token>,<exception scope="previous" regexp="yes">(?iu)aha|ot?|owszem|tak</exception></token>
 												<token>i</token>
 										</marker>
 										<token><exception regexp="yes">tak|to|kwita|już|owszem|koniec|tyle</exception></token>
@@ -1541,6 +1541,7 @@ $Id$
 								<example type="correct">I tak, i siak.</example>
 								<example type="correct">Spadł śnieg, i to obfity.</example>
 								<example correction=" i" type="incorrect">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
+                                <example type="correct">Owszem, i przytomniak.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -2299,7 +2300,7 @@ $Id$
                 <token regexp="yes" spacebefore="yes">\p{L}+</token>
                </pattern>
               <message>Spacje wokół dywizu (w przeciwieństwie do myślnika) są zbędne: <suggestion>\1-\3</suggestion>; 
-              jeśli to miał być myślnik to należy napisać <suggestion>\1 — \3</suggestion>.</message>
+              jeśli to miał być myślnik, to należy napisać <suggestion>\1 — \3</suggestion>.</message>
               <short>Błąd typograficzny</short>      
               <example type="incorrect" correction="angielsko-polski|angielsko — polski">Słownik <marker>angielsko - polski</marker>.</example>
               <example type="correct">Słownik angielsko-polski</example>
@@ -3151,14 +3152,16 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token>tą</token>
+												<token>tą<exception scope="previous" postag="prep:inst.*" postag_regexp="yes"/><exception scope="previous">była</exception></token>
 										</marker>
 										<token postag="subst:sg:acc:f"></token>
 								</pattern>
 								<message>W bierniku zaimek „ta” ma formę <suggestion>tę</suggestion>.</message>
 								<short>Błąd odmiany</short>
 								<example type="correct">Kupiłem tę książkę za parę groszy.</example>
+                                <example type="correct">Spojrzała z tą znaną mu już, robioną zalotnością.</example>
 								<example correction="tę" type="incorrect">Kupiłem <marker>tą</marker> książkę za parę groszy.</example>
+                                <example type="correct">Polska Partia Robotnicza była tą jedyną siłą polityczną nastawioną na sojusz.</example>
 						</rule>
 						<rule>
 								<pattern>
