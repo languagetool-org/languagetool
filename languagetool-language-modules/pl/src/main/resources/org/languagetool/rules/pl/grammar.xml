@@ -7301,6 +7301,14 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy różne" type="uncategorized">
+            <rule name="„muzułman” (muzułmanin)" id="MUZULMAN">
+              <pattern>
+                <token inflected="yes">muzułman<exception inflected="yes">muzułmanin</exception></token>
+              </pattern>
+              <message>Ta forma jest przestarzała. Lepiej: <suggestion><match no="1" postag_regexp="yes" postag="subst.*">muzułmanin</match></suggestion></message>
+              <example type="correct">To jest muzułmanin.</example>
+              <example type="incorrect" correction="muzułmanin">To jest <marker>muzułman</marker>.</example>
+            </rule>
 				<rulegroup default="off" id="RYMY" name="Rymujące się wyrazy">
 						<rule>
 								<pattern case_sensitive="no">
@@ -11339,7 +11347,25 @@ $Id$
 						<example type="correct">Józek upadł na zad.</example>
 				</rule>
 		</category>
-		<category name="Prawdopodobne literówki" type="misspelling">      
+		<category name="Prawdopodobne literówki" type="misspelling">
+        <rule id="EUROPA" name="„europa” (Europa)">
+          <pattern case_sensitive="yes">
+            <token inflected="yes">Europa<exception regexp="yes">E.*</exception></token>
+          </pattern>
+          <message>Czy chodziło o <suggestion><match no="1" case_conversion="startupper"></match></suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">To było w Europie.</example>
+          <example type="incorrect" correction="Europą">Nie martw się <marker>europą</marker>.</example>
+        </rule>
+        <rule id="OPOLE" name="„opole” (Opole)">        
+          <pattern case_sensitive="yes">
+            <token inflected="yes">opole<exception regexp="yes">O.*</exception></token>
+          </pattern>
+          <message>Czy chodziło o <suggestion><match no="1" case_conversion="startupper"></match></suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">To było w Opolu.</example>
+          <example type="incorrect" correction="Opolem">Nie martw się <marker>opolem</marker>.</example>
+        </rule>              
         <rule id="W_OBYM_W_OBCYM" name="„w obym” (w obcym)">
         <pattern>
           <token>w</token>
