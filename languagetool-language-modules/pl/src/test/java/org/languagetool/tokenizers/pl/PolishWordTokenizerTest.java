@@ -41,10 +41,16 @@ public class PolishWordTokenizerTest extends TestCase {
     final List <String> tokens4 = wordTokenizer.tokenize("Niemiecko- i angielsko-polski");
     assertEquals(tokens4.size(), 6);
     assertEquals("[Niemiecko, -,  , i,  , angielsko-polski]", tokens4.toString());
+
+    //hyphen probably instead of mdash
+    final List <String> tokens5 = wordTokenizer.tokenize("Widzę krowę -i to dobrze!");
+    assertEquals(11, tokens5.size());
+    assertEquals("[Widzę,  , krowę,  , -, i,  , to,  , dobrze, !]", tokens5.toString());
+
     //mdash
-    final List <String> tokens5 = wordTokenizer.tokenize("A to jest zdanie—rzeczywiście—z wtrąceniem.");
-    assertEquals(tokens5.size(), 14);
-    assertEquals("[A,  , to,  , jest,  , zdanie, —, rzeczywiście, —, z,  , wtrąceniem, .]", tokens5.toString());
+    final List <String> tokens6 = wordTokenizer.tokenize("A to jest zdanie—rzeczywiście—z wtrąceniem.");
+    assertEquals(tokens6.size(), 14);
+    assertEquals("[A,  , to,  , jest,  , zdanie, —, rzeczywiście, —, z,  , wtrąceniem, .]", tokens6.toString());
   }
 
 }

@@ -55,9 +55,16 @@ public class PolishWordTokenizer extends WordTokenizer {
         plTokenizing, true);
     while (st.hasMoreElements()) {
       final String token = st.nextToken();
-      if (token.length() > 1 && token.endsWith("-")) {
-        l.add(token.substring(0, token.length() - 1));
-        l.add("-");
+      if (token.length() > 1) {
+        if (token.endsWith("-")) {
+          l.add(token.substring(0, token.length() - 1));
+          l.add("-");
+        } else if (token.startsWith("-")) {
+          l.add("-");
+          l.add(token.substring(1, token.length()));
+        } else {
+          l.add(token);
+        }
       } else {
         l.add(token);
       }
