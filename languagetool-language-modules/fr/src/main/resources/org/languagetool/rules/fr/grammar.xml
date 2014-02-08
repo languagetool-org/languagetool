@@ -5310,51 +5310,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Comment bien étudier</example>
       </rule>
     </rulegroup>
-    <rule id="VCONJ_VCONJ" name="Verbe conjugué suivi d’un verbe conjugué">
-      <pattern>
-        <token postag="V .*" postag_regexp="yes" skip="1">
-          <exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes">avoir|être|paraître|sembler|devenir|demeurer|rester</exception>
-          <exception postag="[NJ].*|V ppa.*" postag_regexp="yes"/>
-          <exception regexp="yes" scope="current">,|tu|à</exception>
-        </token>
-        <marker>
-          <token postag="V ppa .*" postag_regexp="yes">
-            <exception postag="[ZNJ] .*|V (inf|ind|sub|con|ppr).*" postag_regexp="yes"/>
-            <exception inflected="yes" regexp="yes" scope="previous">être|paraître|sembler|devenir|demeurer|rester|avoir</exception>
-            <exception regexp="yes" scope="previous">et|ou</exception>
-          <exception>tu</exception></token>
-        </marker>
-      </pattern>
-      <message>L’infinitif est attendu après un verbe conjugué « \1 ».</message>
-      <example type="incorrect">Il aime <marker>dansé</marker></example>
-      <example type="correct">Il aime danser</example>
-      <example type="correct">Le législateur a tenté de régulariser la situation.</example>
-      <example type="correct">Il peut être divisé en trois zones.</example>
-      <example type="correct">La neige est constituée de <marker>glace cristallisée</marker>.</example>
-      <example type="correct">Il tombe par gravité.</example>
-      <example type="correct">Je veux que tu me dises la vérité.</example>
-      <example type="correct">La maison appartient à Renée.</example>
-      <example type="correct">C’est de toute nécessité.</example>
-      <example type="correct">Il faut que tu le tues.</example>
-      <example type="correct">Un mineur mouillé et barbouillé</example>
-      <example type="correct">Il y a un mois, Benoît XVI a <marker>institué</marker> une commission formée de trois cardinaux.</example>
-      <example type="correct">Je l’ai à peine vue.</example>
-      <example type="correct"><marker>Compte tenu</marker> du retard.</example>
-      <example type="correct">Il est sans <marker>doute arrivé</marker>.</example>
-      <example type="correct">Le monde est sans <marker>cesse menacé</marker>.</example>
-      <example type="correct">Les livraisons ont en revanche augmenté.</example>
-      <example type="correct">Avec contrôle accru.</example>
-      <example type="correct">Il avait même été débriefé.</example>
-      <example type="correct">Les cotisations <marker>retraites payées</marker> en retard.</example>
-      <example type="correct">L’enquête ne <marker>fait</marker> que commencer.</example>
-      <example type="correct">La ville, cité interdite.</example>
-      <example type="correct">Puis soutenue par des bombardements, il attaqua.</example>
-      <example type="correct">Elles semblent décrites par le modèle en couches.</example>
-      <example type="correct">L’influence acquise.</example>
-      <example type="correct">Quelqu’un a pris ma place.</example>
-    </rule>
     <rulegroup id="NON_V" name="pronom sujet + nom/adj">
-      <!-- test failure: Did expect one error in: "Elle dix la vérité."
       <rule>
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>
@@ -5370,10 +5326,9 @@ though, and has since been slightly modified)-->
         <example type="correct">Tu <marker>sors</marker> ce soir.</example>
         <example type="correct">Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
         <example type="correct">Il ou elle se trouve là.</example>
-        <example type="incorrect">Elle <marker>dix</marker> la vérité.</example>
-        <example type="correct">Elle <marker>dit</marker> la vérité.</example>
+        <example type="incorrect">Il <marker>dix</marker> la vérité.</example>
+        <example type="correct">Il <marker>dit</marker> la vérité.</example>
       </rule>
-      -->
       <rule>
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>

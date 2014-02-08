@@ -56,9 +56,6 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     TestTools.myAssert("Il a enfin publié son livre.",
         "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s  /[null]null son/[son]D e s  /[null]null livre/[livre]N e s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disambiguator);
-    TestTools.myAssert("Il a enfin publié son livre.",
-        "/[null]SENT_START Il/[il]R pers suj 3 m s  /[null]null a/[a]N m sp|a/[avoir]V avoir ind pres 3 s  /[null]null enfin/[enfin]A  /[null]null publié/[publier]V ppa m s|publié/[publié]J m s  /[null]null son/[son]D m s|son/[son]N m s  /[null]null livre/[livre]N e s|livre/[livrer]V imp pres 2 s|livre/[livrer]V ind pres 1 s|livre/[livrer]V ind pres 3 s|livre/[livrer]V sub pres 1 s|livre/[livrer]V sub pres 3 s ./[null]null",
-        tokenizer, sentenceTokenizer, tagger, disamb2);
     TestTools.myAssert("Je danse toutes les semaines au club.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null danse/[danser]V ind pres 1 s|danse/[danser]V sub pres 1 s  /[null]null toutes/[tous]R f p|toutes/[tout]D f p  /[null]null les/[le]D e p  /[null]null semaines/[semaine]N f p  /[null]null au/[au]D m s  /[null]null club/[club]N m s ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
