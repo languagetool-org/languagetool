@@ -7951,18 +7951,34 @@ $Id$
 						<example type="correct">Dbaj o wymowę w języku polskim.</example>
 						<example type="correct">Rada Języka Polskiego.</example>
 				</rule>
-				<rule id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
+				<rulegroup id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
+                <rule>
+                  <pattern case_sensitive="yes">
+                    <token inflected="yes">województwo</token>
+                    <marker>
+                    <token regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
+                </marker>
+                  </pattern>
+                  <message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"></match></suggestion>.</message>
+                  <short>Błąd pisowni wielką i małą literą</short>
+                  <example correction="mazowieckie" type="incorrect">Piękne jest zwłaszcza województwo <marker>Mazowieckie</marker>.</example>
+                  <example type="correct">Mieszkam w województwie mazowieckim.</example>
+                </rule>
+                <rule>
 						<pattern case_sensitive="yes">
 								<token inflected="yes">województwo</token>
 								<marker>
-										<token regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
+										<token postag="adv:pos" regexp="yes">\p{Lu}\p{Ll}.*o</token>
+                                        <token spacebefore="no">-</token>
+                                        <token regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
 								</marker>
 						</pattern>
-						<message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"></match></suggestion>.</message>
+						<message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/>-<match no="4" case_conversion="alllower"/></suggestion>.</message>
 						<short>Błąd pisowni wielką i małą literą</short>
 						<example correction="warmińsko-mazurskie" type="incorrect">Piękne jest zwłaszcza województwo <marker>Warmińsko-Mazurskie</marker>.</example>
 						<example type="correct">Mieszkam w województwie mazowieckim.</example>
 				</rule>
+                </rulegroup>
 				<rule id="WOLNA_AMERYKANKA" name="„wolna Amerykanka” (wolna amerykanka)">
 						<pattern case_sensitive="yes">
 								<unify>
@@ -9182,7 +9198,9 @@ $Id$
 				</rule>
 				<rule id="K-CE" name="„Ka-ce” (Katow.)">
 						<pattern case_sensitive="yes">
-								<token>Ka-ce</token>
+								<token>Ka</token>
+                                <token spacebefore="no">-</token>
+                                <token>ce</token>
 						</pattern>
 						<message>To błędny skrót. Poprawnie: <suggestion>Katow.</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -11350,12 +11368,13 @@ $Id$
 		<category name="Prawdopodobne literówki" type="misspelling">
         <rule id="EUROPA" name="„europa” (Europa)">
           <pattern case_sensitive="yes">
-            <token inflected="yes">Europa<exception regexp="yes">E.*</exception></token>
+            <token inflected="yes" regexp="yes">Europa|Rzym<exception regexp="yes">\p{Lu}.+</exception></token>
           </pattern>
           <message>Czy chodziło o <suggestion><match no="1" case_conversion="startupper"></match></suggestion>?</message>
           <short>Prawdopodobna literówka</short>
           <example type="correct">To było w Europie.</example>
           <example type="incorrect" correction="Europą">Nie martw się <marker>europą</marker>.</example>
+          <example type="incorrect" correction="Rzymie">Byłem w <marker>rzymie</marker>.</example>
         </rule>
         <rule id="OPOLE" name="„opole” (Opole)">        
           <pattern case_sensitive="yes">
@@ -11365,7 +11384,52 @@ $Id$
           <short>Prawdopodobna literówka</short>
           <example type="correct">To było w Opolu.</example>
           <example type="incorrect" correction="Opolem">Nie martw się <marker>opolem</marker>.</example>
+        </rule>
+        <rule id="AFRYKA" name="„afryka” (Afryka)">        
+          <pattern case_sensitive="yes">
+            <token inflected="yes">afryka<exception regexp="yes">A.*</exception></token>
+          </pattern>
+          <message>Czy chodziło o <suggestion><match no="1" case_conversion="startupper"></match></suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">To było w Afryce.</example>
+          <example type="incorrect" correction="Afryką">Nie martw się <marker>afryką</marker>.</example>
+        </rule>
+        <rule id="MASARZ" name="„masarz” (masaż)">
+          <pattern>
+           <token inflected="yes">masarz</token>
+          </pattern>
+          <message>Ten wyraz oznacza osobę wyrabiającą wędliny i jest często mylony z wyrazem „masaż”. Czy chodziło o <suggestion><match no="1" regexp_match="masarz(.*)" regexp_replace="masaż$1"></match></suggestion>.</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">Marzę o masażu tajskim.</example>
+          <example type="incorrect" correction="masażu">Marzę o <marker>masarzu</marker> tajskim.</example>
+        </rule>
+        <rule id="SPOLNY" name="„spólny”, „spólnik” (wspólny, wspólnik)">
+          <pattern>
+            <token inflected="yes" regexp="yes">spóln(?:y|ik)|spółcz(?:esny|ynnik)|spółuczestnik</token>
+          </pattern>
+          <message>Wyraz „\1” jest przestarzały i może być literówką. Czy chodziło o <suggestion>w\1</suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">To nasza wspólna sprawa.</example>
+          <example type="incorrect" correction="wspólna">To nasza <marker>spólna</marker> sprawa.</example>
+        </rule>
+        <rule id="SPROBOWAC" name="„sprobować” (spróbować)">
+          <pattern>
+            <token inflected="yes">sprobować</token>
+          </pattern>
+          <message>Wyraz „\1” jest przestarzały i może być literówką. Czy chodziło o <suggestion><match no="1" regexp_match="^sprob(.*)" regexp_replace="sprób$1"></match></suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">Muszę spróbować.</example>
+          <example type="incorrect" correction="spróbować">Muszę <marker>sprobować</marker>.</example>          
         </rule>              
+        <rule id="TLOMACZ" name="„tłomacz” (tłumacz)">
+          <pattern>
+            <token regexp="yes">tłomacz.*</token>
+          </pattern>
+          <message>Wyraz „\1” jest przestarzały i może być literówką. Czy chodziło o <suggestion><match no="1" regexp_match="^tłom(.*)" regexp_replace="tłum$1"></match></suggestion>?</message>
+          <short>Prawdopodobna literówka</short>
+          <example type="correct">On jest tłumaczem.</example>
+          <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
+        </rule>
         <rule id="W_OBYM_W_OBCYM" name="„w obym” (w obcym)">
         <pattern>
           <token>w</token>
@@ -12241,7 +12305,8 @@ $Id$
 					<example type="incorrect" correction="w trymiga">Zróbmy to <marker>trymiga</marker>.</example>
 					<example type="correct">Zróbmy to w trymiga.</example>
 				</rule>
-				<rule id="DO_SZCZETU_BURK" name="„szczętu” (do szczętu)">
+				<rulegroup id="DO_SZCZETU_BURK" name="„szczętu/szczętem” (do szczętu/ze szczętem)">
+                <rule>
 					<pattern>
 						<token><exception>do</exception></token>
 						<marker><token>szczętu</token></marker>
@@ -12251,7 +12316,7 @@ $Id$
 					<example type="correct">Zgłupiałeś do szczętu!</example>
 					<example type="incorrect" correction="do szczętu">Zgłupiałeś <marker>szczętu</marker>!</example>
 				</rule>
-				<rule id="ZE_SZCZETEM_BURK" name="„szczętem” (ze szczętem)">
+				<rule>
 					<pattern>
 						<token><exception>ze</exception></token>
 						<marker><token>szczętem</token></marker>
@@ -12261,6 +12326,19 @@ $Id$
 					<example type="correct">Zgłupiałeś ze szczętem!</example>
 					<example type="incorrect" correction="ze szczętem">Zgłupiałeś <marker>szczętem</marker>!</example>
 				</rule>
+                <rule>
+                  <pattern>
+                    <token inflected="yes">szczęt<exception scope="previous" regexp="yes">do|ze</exception></token>                    
+                  </pattern>
+                  <message>Prawdopodobna literówka. Ten wyraz występuje tylko w wyrażeniach złożonych.</message>
+                  <suggestion>ze szczętem</suggestion>
+                  <suggestion>do szczętu</suggestion>
+                  <url>http://sjp.pwn.pl/szukaj/szcz%C4%99t</url>
+                  <short>Prawdopodobna literówka</short>
+                  <example type="correct">Zgłupiałeś ze szczętem!</example>
+                  <example type="incorrect" correction="ze szczętem|do szczętu">Zgłupiałeś <marker>szczęt</marker>!</example>
+                </rule>
+                </rulegroup>
 				<rule id="PRZE_TO" name="„prze to” (przez to, przeto)">
 						<pattern>
 								<token>prze</token>

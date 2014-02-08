@@ -18,10 +18,16 @@
  */
 package org.languagetool.tokenizers.pl;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
 /**
@@ -31,6 +37,36 @@ import org.languagetool.tokenizers.WordTokenizer;
 public class PolishWordTokenizer extends WordTokenizer {
 
   private final String plTokenizing;
+
+  private Tagger tagger;
+
+  /**
+   * The set of prefixes that are not allowed to be split.
+   */
+  private final static Set<String> prefixes;
+
+  //Polish prefixes that should never be used to
+  //split parts of words
+  static {
+    final Set<String> tempSet = new HashSet<String>();
+    tempSet.add("arcy");  tempSet.add("neo");
+    tempSet.add("pre");   tempSet.add("anty");
+    tempSet.add("eks");   tempSet.add("bez");
+    tempSet.add("beze");  tempSet.add("ekstra");
+    tempSet.add("hiper"); tempSet.add("infra");
+    tempSet.add("kontr"); tempSet.add("maksi");
+    tempSet.add("midi");  tempSet.add("między");
+    tempSet.add("mini");  tempSet.add("nad");
+    tempSet.add("nade");  tempSet.add("około");
+    tempSet.add("ponad"); tempSet.add("post");
+    tempSet.add("pro");   tempSet.add("przeciw");
+    tempSet.add("pseudo"); tempSet.add("super");
+    tempSet.add("śród");  tempSet.add("ultra");
+    tempSet.add("wice");  tempSet.add("wokół");
+    tempSet.add("wokoło");
+    prefixes = Collections.unmodifiableSet(tempSet);
+  }
+
 
   public PolishWordTokenizer() {
     plTokenizing = super.getTokenizingCharacters() + "–—";   // n-dash, m-dash
@@ -44,8 +80,14 @@ public class PolishWordTokenizer extends WordTokenizer {
    * <li> it does not treat the hyphen as part of the
    * word if the hyphen is at the end of the word;</li>
    * <li> it includes n-dash and m-dash as tokenizing characters,
-   * as these are not included in the spelling dictionary.
+   * as these are not included in the spelling dictionary;
+   * <li> it splits two kinds of compound words containing a hyphen,
+   * such as <em>dziecko-geniusz</em> (two nouns) or
+   * <em>polsko-indonezyjski</em> (a post-positional adjective and adjective),
+   * but not words in which the hyphen occurs before a morphological ending
+   * (such as <em>SMS-y</em>).
    * </ol>
+   * 
    * @param text String of words to tokenize.
    */
   @Override
@@ -62,7 +104,43 @@ public class PolishWordTokenizer extends WordTokenizer {
         } else if (token.startsWith("-")) {
           l.add("-");
           l.add(token.substring(1, token.length()));
-        } else {
+        } else if (token.contains("-")) {
+          String[] tokenParts = token.split("-");
+          if (tokenParts.length == 2) {
+            List<String> testedTokens = new ArrayList<>(2);
+            testedTokens.add(tokenParts[0]);
+            testedTokens.add(tokenParts[1]);
+            testedTokens.add(token);
+            if (prefixes.contains(tokenParts[0])
+                || tagger == null) {
+              l.add(token);
+            } else {
+              try {
+                List<AnalyzedTokenReadings> taggedToks = tagger.tag(testedTokens);
+                if (taggedToks.size() == 3
+                    && !taggedToks.get(2).isTagged()
+                    // "niemiecko-indonezyjski"
+                    && (taggedToks.get(0).hasPosTag("adv:pos")
+                        && taggedToks.get(1).hasPartialPosTag("adj:")
+                        // "kobieta-wojownik"
+                        || taggedToks.get(0).hasPartialPosTag("subst:")
+                        && taggedToks.get(1).hasPartialPosTag("subst:"))) {
+                  l.add(tokenParts[0]);
+                  l.add("-");
+                  l.add(tokenParts[1]);
+                } else {
+                  l.add(token);
+                }
+              } catch (IOException e) {
+                l.add(token);
+              }
+            }
+          }
+          else {
+            l.add(token);
+          }
+        }
+        else {
           l.add(token);
         }
       } else {
@@ -71,4 +149,9 @@ public class PolishWordTokenizer extends WordTokenizer {
     }
     return joinUrls(l);
   }
+
+  public void setupTagger(Tagger tagger) {
+    this.tagger = tagger;
+  }
+
 }

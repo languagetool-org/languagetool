@@ -23,34 +23,52 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.languagetool.Language;
+import org.languagetool.language.Polish;
+
 public class PolishWordTokenizerTest extends TestCase {
 
   public void testTokenize() {
     final PolishWordTokenizer wordTokenizer = new PolishWordTokenizer();
-    final List <String> tokens = wordTokenizer.tokenize("To jest\u00A0 test");
+    final List<String> tokens = wordTokenizer.tokenize("To jest\u00A0 test");
     assertEquals(tokens.size(), 6);
     assertEquals("[To,  , jest, \u00A0,  , test]", tokens.toString());
-    final List <String> tokens2 = wordTokenizer.tokenize("To\rłamie");
+    final List<String> tokens2 = wordTokenizer.tokenize("To\rłamie");
     assertEquals(3, tokens2.size());
     assertEquals("[To, \r, łamie]", tokens2.toString());
     //hyphen with no whitespace
-    final List <String> tokens3 = wordTokenizer.tokenize("A to jest-naprawdę-test!");
+    final List<String> tokens3 = wordTokenizer.tokenize("A to jest-naprawdę-test!");
     assertEquals(tokens3.size(), 6);
     assertEquals("[A,  , to,  , jest-naprawdę-test, !]", tokens3.toString());
     //hyphen at the end of the word
-    final List <String> tokens4 = wordTokenizer.tokenize("Niemiecko- i angielsko-polski");
+    final List<String> tokens4 = wordTokenizer.tokenize("Niemiecko- i angielsko-polski");
     assertEquals(tokens4.size(), 6);
     assertEquals("[Niemiecko, -,  , i,  , angielsko-polski]", tokens4.toString());
 
     //hyphen probably instead of mdash
-    final List <String> tokens5 = wordTokenizer.tokenize("Widzę krowę -i to dobrze!");
+    final List<String> tokens5 = wordTokenizer.tokenize("Widzę krowę -i to dobrze!");
     assertEquals(11, tokens5.size());
     assertEquals("[Widzę,  , krowę,  , -, i,  , to,  , dobrze, !]", tokens5.toString());
 
     //mdash
-    final List <String> tokens6 = wordTokenizer.tokenize("A to jest zdanie—rzeczywiście—z wtrąceniem.");
+    final List<String> tokens6 = wordTokenizer.tokenize("A to jest zdanie—rzeczywiście—z wtrąceniem.");
     assertEquals(tokens6.size(), 14);
     assertEquals("[A,  , to,  , jest,  , zdanie, —, rzeczywiście, —, z,  , wtrąceniem, .]", tokens6.toString());
+
+    //compound words with hyphens
+    final String compoundSentence = "To jest kobieta-wojownik w polsko-czeskim ubraniu, która wysłała dwa SMS-y.";
+    List<String> compoundTokens = wordTokenizer.tokenize(compoundSentence);
+    assertEquals(21, compoundTokens.size());
+    assertEquals("[To,  , jest,  , kobieta-wojownik,  , w,  , polsko-czeskim,  , ubraniu, ,,  , która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
+    //now setup the tagger...
+    Language pl = new Polish();
+    wordTokenizer.setupTagger(pl.getTagger());
+    compoundTokens = wordTokenizer.tokenize(compoundSentence);
+    //we should get 4 more tokens: two hyphen tokens and two for the split words
+    assertEquals(25, compoundTokens.size());
+    assertEquals("[To,  , jest,  , kobieta, -, wojownik,  , " +
+        "w,  , polsko, -, czeskim,  , ubraniu, ,,  " +
+        ", która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
   }
 
 }

@@ -48,9 +48,14 @@ public class Polish extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  private WordTokenizer wordTokenizer;
+  private PolishWordTokenizer wordTokenizer;
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
+
+  public Polish() {
+    wordTokenizer = new PolishWordTokenizer();
+    wordTokenizer.setupTagger(getTagger());
+  }
 
   @Override
   public String getName() {
@@ -118,8 +123,6 @@ public class Polish extends Language {
     return Arrays.asList(
         CommaWhitespaceRule.class,
         DoublePunctuationRule.class,
-        // the slowest hunspell dictionary...
-        // HunspellRule.class,
         UppercaseSentenceStartRule.class,
         WordRepeatRule.class,
         WhitespaceRule.class,
