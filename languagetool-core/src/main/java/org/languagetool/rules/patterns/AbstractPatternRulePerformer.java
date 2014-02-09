@@ -61,6 +61,7 @@ public abstract class AbstractPatternRulePerformer {
     for (int l = 0; l < numberOfReadings; l++) {
       final AnalyzedToken matchToken = tokens[tokenNo]
           .getAnalyzedToken(l);
+      boolean tested = false;
       prevMatched = prevMatched || prevSkipNext > 0
           && prevElement != null
           && prevElement.isMatchedByScopeNextException(matchToken);
@@ -68,7 +69,10 @@ public abstract class AbstractPatternRulePerformer {
         return false;
       }
 
-      thisMatched = thisMatched || elem.isMatched(matchToken);
+      if (!thisMatched) {
+        thisMatched = elem.isMatched(matchToken);
+        tested = true;
+      }
 
       //short-circuit when the search cannot possibly match
       if (!thisMatched && (prevElement == null || prevElement != null &&
@@ -88,7 +92,7 @@ public abstract class AbstractPatternRulePerformer {
       }
       if (rule.isGroupsOrUnification()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
-            l + 1 == numberOfReadings, matchToken, elem);
+            l + 1 == numberOfReadings, matchToken, elem, tested);
       }
     }
     if (thisMatched) {
@@ -120,9 +124,9 @@ public abstract class AbstractPatternRulePerformer {
 
   protected boolean testUnificationAndGroups(final boolean matched,
       final boolean lastReading, final AnalyzedToken matchToken,
-      final ElementMatcher elemMatcher) {
+      final ElementMatcher elemMatcher, boolean alreadyTested) {
     boolean thisMatched = matched;
-    final boolean elemIsMatched = elemMatcher.isMatched(matchToken);
+    final boolean elemIsMatched = alreadyTested || elemMatcher.isMatched(matchToken);
     final Element elem = elemMatcher.getElement();
 
     if (rule.testUnification) {
