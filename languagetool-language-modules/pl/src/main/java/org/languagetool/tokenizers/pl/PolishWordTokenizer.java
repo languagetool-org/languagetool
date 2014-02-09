@@ -107,7 +107,7 @@ public class PolishWordTokenizer extends WordTokenizer {
         } else if (token.contains("-")) {
           String[] tokenParts = token.split("-");
           if (tokenParts.length == 2) {
-            List<String> testedTokens = new ArrayList<>(2);
+            List<String> testedTokens = new ArrayList<>(3);
             testedTokens.add(tokenParts[0]);
             testedTokens.add(tokenParts[1]);
             testedTokens.add(token);
@@ -115,7 +115,11 @@ public class PolishWordTokenizer extends WordTokenizer {
                 || tagger == null) {
               l.add(token);
             } else {
-              try {
+              try { // we rely on the tagger here,
+                // but since the tagger cannot be setup
+                // in the constructor, there is a soft-fail
+                // here: we simply don't split these words
+                // for which the tagger information is needed.
                 List<AnalyzedTokenReadings> taggedToks = tagger.tag(testedTokens);
                 if (taggedToks.size() == 3
                     && !taggedToks.get(2).isTagged()
@@ -131,7 +135,7 @@ public class PolishWordTokenizer extends WordTokenizer {
                 } else {
                   l.add(token);
                 }
-              } catch (IOException e) {
+              } catch (IOException e) { // fail gracefully
                 l.add(token);
               }
             }
