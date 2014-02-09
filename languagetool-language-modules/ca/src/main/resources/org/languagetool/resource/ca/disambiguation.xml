@@ -4586,15 +4586,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nom_noverb_seguit_de" name="nom no verb seguit de de">
     	<pattern>
    			<marker>
-   				<and>
-   					<token postag="V.*" postag_regexp="yes" regexp="yes"/>
-   					<token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">signe|barreja|mescla|taxa</token>
-   				</and>
-   			</marker>
-   			<token regexp="yes">de|d'</token>
-   			<token><exception>manera</exception></token>
-    	</pattern>
-    	<disambig action="filter" postag="[^V].*"></disambig>
+                <and>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">signe|barreja|mescla|taxa</token>
+                </and>
+            </marker>
+            <token regexp="yes">de|d'</token>
+            <token><exception>manera</exception></token>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"></disambig>
     </rule>
     <rulegroup id="qui_les_porta" name="qui pronom verb 3a persona sing">
         <rule>
