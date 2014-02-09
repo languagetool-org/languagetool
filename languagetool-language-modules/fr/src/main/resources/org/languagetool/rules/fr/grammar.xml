@@ -1018,8 +1018,8 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
-        <example type="incorrect">Le <marker>golf</marker> d’Aden est la baie située entre la corne de l'Afrique et la péninsule Arabique.</example>
-        <example type="correct">Le golfe d’Aden est la baie située entre la corne de l'Afrique et la péninsule Arabique.</example>
+        <example type="incorrect">Le <marker>golf</marker> d’Aden est la baie située entre la corne de l’Afrique et la péninsule Arabique.</example>
+        <example type="correct">Le golfe d’Aden est la baie située entre la corne de l’Afrique et la péninsule Arabique.</example>
       </rule>
     </rulegroup>
     <rule id="GOLF_DU_LION" name="golfe du Lion">
@@ -5228,10 +5228,10 @@ though, and has since been slightly modified)-->
       <example type="correct">Son malaise</example>
       <example type="incorrect"><marker>Mon fille</marker></example>
     </rule>
-    <rulegroup id="FAIRE_VPPA" name="Comment + verb ppa">
+    <rulegroup id="FAIRE_VPPA" name="Comment + verbe ppa">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?partir|penser|pouvoir|(re)?préférer|regarder|savoir|sortir|(re)?souhaiter|retourner|venir|(re)?vouloir
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">adorer|aimer|aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|entendre|(ré)?espérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|sortir|(re)?souhaiter|retourner|venir|(re)?vouloir
             <exception postag="V ind pres 1 s">puis</exception>
           </token>
           <marker>
@@ -5248,7 +5248,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>ne</token>
-          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|(re)?partir|penser|pouvoir|(re)?préférer|regarder|savoir|sortir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
+          <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">aller|(re)?compter|(re)?descendre|(re)?détester|(re)?désirer|(re)?devoir|réespérer|(re)?faillir|(re)?faire|(re)?falloir|penser|pouvoir|(re)?préférer|regarder|savoir|sortir|(re)?souhaiter|retourner|venir|(re)?vouloir</token>
           <token regexp="yes">pas|plus|point|guère|jamais</token>
           <marker>
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
@@ -5273,13 +5273,54 @@ though, and has since been slightly modified)-->
         <example type="correct">Je n’aime pas <marker>changer</marker> d’école.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="COMMENT_VPPA" name="Comment + verb ppa">
+    <rulegroup id="ACCEPTER_DE_VPPA" name="accepter de + verbe ppa">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">accepter|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
+          <token>de</token>
+          <marker>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \2 » devrait être à l’infinitif.</message>
+        <example type="incorrect">Il a refusé de <marker>mangé</marker> avec nous.</example>
+        <example type="correct">Il a refusé de manger avec nous.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">accepter|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \4 » devrait être à l’infinitif.</message>
+        <example type="incorrect">Il a refusé d’<marker>arrivé</marker> plus tôt.</example>
+        <example type="correct">Il a refusé d’arriver plus tôt.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">accepter|arrêter|(dé)?conseiller|contenter|décider|efforcer|essayer|excuser|finir|mériter|oublier|permettre|persuader|presser|promettre|proposer|refuser|rêver|soucier|souvenir</token>
+          <token>de</token>
+          <token>ne</token>
+          <token regexp="yes">jamais|pas|plus</token>
+          <marker>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \5 » devrait être à l’infinitif.</message>
+        <example type="incorrect">Il a décidé de ne plus <marker>mangé</marker> avec nous.</example>
+        <example type="correct">Il a décidé de ne plus manger avec nous.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="COMMENT_VPPA" name="Comment + verbe ppa">
       <rule>
         <pattern>
           <token regexp="yes">comment|pour|pourquoi|quand|où|sans</token>
-          <token min="0" max="1" postag="A"/>
+          <token min="0" max="1" postag="A"><exception>cesse</exception></token>
           <marker>
-            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?<exception postag="N.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à l’infinitif.</message>
@@ -5288,6 +5329,7 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai de la peine pour René.</example>
         <example type="incorrect">Comment bien <marker>étudié</marker></example>
         <example type="correct">Comment bien étudier</example>
+        <example type="correct">Il m’a sans cesse répeté de me taire.</example>
       </rule>
       <rule>
         <pattern>
@@ -23970,7 +24012,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mts]oi|lui|elle|[nv]ous|eux</token>
         </marker>
       </pattern>
-      <message>Quand chez est suivi d'un pronom personnel et que l'ensemble forme un nom compos signifiant domicile, chez est suivi d'un trait d'union.</message>
+      <message>Quand chez est suivi d’un pronom personnel et que l’ensemble forme un nom compos signifiant domicile, chez est suivi d’un trait d’union.</message>
       <suggestion>chez-\3</suggestion>
       <url>http://www.bt-tb.tpsgc-pwgsc.gc.ca/btb.php?lang=fra&amp;cont=271</url>
       <example type="incorrect" correction="chez-toi">Je me sens chez moi dans ton <marker>chez toi</marker>.</example>
