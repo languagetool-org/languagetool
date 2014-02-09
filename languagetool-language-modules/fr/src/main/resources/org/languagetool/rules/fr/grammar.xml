@@ -5276,15 +5276,18 @@ though, and has since been slightly modified)-->
     <rulegroup id="COMMENT_VPPA" name="Comment + verb ppa">
       <rule>
         <pattern>
-          <token regexp="yes">comment|pour|pourquoi|quand|où</token>
+          <token regexp="yes">comment|pour|pourquoi|quand|où|sans</token>
+          <token min="0" max="1" postag="A"/>
           <marker>
-            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
+        <message>Le verbe « \3 » devrait être à l’infinitif.</message>
         <example type="incorrect">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
         <example type="correct">Pour débuter, il faut acheter une grammaire.</example>
         <example type="correct">J’ai de la peine pour René.</example>
+        <example type="incorrect">Comment bien <marker>étudié</marker></example>
+        <example type="correct">Comment bien étudier</example>
       </rule>
       <rule>
         <pattern>
@@ -5299,15 +5302,28 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">comment|pour|pourquoi|quand|où</token>
-          <token postag="A"/>
+          <token regexp="yes">afin|avant</token>
+          <token>de</token>
           <marker>
-            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « \1 \2 ».</message>
-        <example type="incorrect">Comment bien <marker>étudié</marker></example>
-        <example type="correct">Comment bien étudier</example>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
+        <example type="incorrect">J’etudie des partie d’échecs afin de <marker>gagné</marker>.</example>
+        <example type="correct">J’etudie des partie d’échecs afin de gagner.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">afin|avant</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <marker>
+            <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
+          </marker>
+        </pattern>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
+        <example type="incorrect">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
+        <example type="correct">Je luis en parle avant d’annuler le voyage.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NON_V" name="pronom sujet + nom/adj">
