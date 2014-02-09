@@ -54,7 +54,7 @@ public class Polish extends Language {
 
   public Polish() {
     wordTokenizer = new PolishWordTokenizer();
-    wordTokenizer.setupTagger(getTagger());
+    wordTokenizer.setTagger(getTagger());
   }
 
   @Override

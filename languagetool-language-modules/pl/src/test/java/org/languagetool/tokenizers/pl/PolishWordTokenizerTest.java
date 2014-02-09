@@ -62,7 +62,7 @@ public class PolishWordTokenizerTest extends TestCase {
     assertEquals("[To,  , jest,  , kobieta-wojownik,  , w,  , polsko-czeskim,  , ubraniu, ,,  , która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
     //now setup the tagger...
     Language pl = new Polish();
-    wordTokenizer.setupTagger(pl.getTagger());
+    wordTokenizer.setTagger(pl.getTagger());
     compoundTokens = wordTokenizer.tokenize(compoundSentence);
     //we should get 4 more tokens: two hyphen tokens and two for the split words
     assertEquals(25, compoundTokens.size());

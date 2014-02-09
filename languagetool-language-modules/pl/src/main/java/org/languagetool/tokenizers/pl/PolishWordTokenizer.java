@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -154,7 +155,19 @@ public class PolishWordTokenizer extends WordTokenizer {
     return joinUrls(l);
   }
 
-  public void setupTagger(Tagger tagger) {
+  /**
+   * Set the tagger to use in tokenizing. This is called
+   * in the constructor of Polish class, but if the class is used
+   * separately, it has to be called after the constructor to use
+   * the hybrid hyphen-tokenizing.
+   * 
+   * @param tagger The tagger to use (compatible only with the
+   * Polish {@link BaseTagger} that uses the delivered PoliMorfologik 2.1
+   * or later).
+   * 
+   * @since 2.5
+   */
+  public void setTagger(Tagger tagger) {
     this.tagger = tagger;
   }
 
