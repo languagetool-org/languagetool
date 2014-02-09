@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2006 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -22,8 +22,8 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.languagetool.language.Polish;
 import org.languagetool.TestTools;
+import org.languagetool.language.Polish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 public class PolishTaggerTest extends TestCase {
@@ -31,6 +31,7 @@ public class PolishTaggerTest extends TestCase {
   private PolishTagger tagger;
   private WordTokenizer tokenizer;
 
+  @Override
   public void setUp() {
     tagger = new PolishTagger();
     tokenizer = new WordTokenizer();
@@ -42,9 +43,9 @@ public class PolishTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
     TestTools.myAssert("To jest duży dom.",
-            "To/[ten]adj:sg:acc:n1.n2:pos|To/[ten]adj:sg:nom.voc:n1.n2:pos|To/[to]conj|To/[to]qub|To/[to]subst:sg:acc:n2|To/[to]subst:sg:nom:n2 -- jest/[być]verb:fin:sg:ter:imperf:nonrefl -- duży/[duży]adj:sg:acc:m3:pos|duży/[duży]adj:sg:nom.voc:m1.m2.m3:pos -- dom/[dom]subst:sg:acc:m3|dom/[dom]subst:sg:nom:m3", tokenizer, tagger);
+        "To/[ten]adj:sg:acc:n1.n2:pos|To/[ten]adj:sg:nom.voc:n1.n2:pos|To/[to]conj|To/[to]qub|To/[to]subst:sg:acc:n2|To/[to]subst:sg:nom:n2 -- jest/[być]verb:fin:sg:ter:imperf:nonrefl -- duży/[duży]adj:sg:acc:m3:pos|duży/[duży]adj:sg:nom.voc:m1.m2.m3:pos -- dom/[dom]subst:sg:acc:m3|dom/[dom]subst:sg:nom:m3", tokenizer, tagger);
     TestTools.myAssert("Krowa pasie się na pastwisku.",
-            "Krowa/[krowa]subst:sg:nom:f -- pasie/[pas]subst:sg:loc:m3|pasie/[pas]subst:sg:voc:m3|pasie/[paść]verb:fin:sg:ter:imperf:refl.nonrefl -- się/[się]siebie:acc:nakc|się/[się]siebie:gen:nakc|się/[się]subst:sg:nom:n2 -- na/[na]interj|na/[na]prep:acc|na/[na]prep:loc -- pastwisku/[pastwisko]subst:sg:dat:n2|pastwisku/[pastwisko]subst:sg:loc:n2", tokenizer, tagger);
+        "Krowa/[krowa]subst:sg:nom:f -- pasie/[pas]subst:sg:loc:m3|pasie/[pas]subst:sg:voc:m3|pasie/[paść]verb:fin:sg:ter:imperf:refl.nonrefl -- się/[się]qub|się/[się]siebie:acc:nakc|się/[się]siebie:gen:nakc -- na/[na]interj|na/[na]prep:acc|na/[na]prep:loc -- pastwisku/[pastwisko]subst:sg:dat:n2|pastwisku/[pastwisko]subst:sg:loc:n2", tokenizer, tagger);
     TestTools.myAssert("blablabla", "blablabla/[null]null", tokenizer, tagger);
   }
 

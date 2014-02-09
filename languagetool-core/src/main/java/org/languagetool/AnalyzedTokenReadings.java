@@ -59,6 +59,12 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private boolean isImmunized;
 
   /**
+   * If true, then the token is marked up as ignored in all spelling rules:
+   * other rules can freely match it.
+   */
+  private boolean isIgnoredBySpeller;
+
+  /**
    * Used to hold the string representation of the disambiguator actions on a token.
    */
   private String historicalAnnotations = "";
@@ -381,6 +387,24 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public final boolean isImmunized() {
     return isImmunized;
   }
+
+  /**
+   * Make the token ignored by all spelling rules.
+   * @since 2.5
+   */
+  public final void ignoreSpelling() {
+    isIgnoredBySpeller = true;
+  }
+
+  /**
+   * Test if the token can be ignored by spelling rules.
+   * @return true if the token should be ignored.
+   * @since 2.5
+   */
+  public final boolean isIgnoredBySpeller() {
+    return isIgnoredBySpeller;
+  }
+
 
   /**
    * Sets the flag on AnalyzedTokens to make matching

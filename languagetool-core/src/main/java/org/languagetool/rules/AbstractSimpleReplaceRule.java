@@ -125,7 +125,9 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
 
-      if (tokenReadings.isImmunized()) {
+      //this rule is used mostly for spelling, so ignore both immunized
+      // and speller-ignorable rules
+      if (tokenReadings.isImmunized() || tokenReadings.isIgnoredBySpeller()) {
         continue;
       }
 

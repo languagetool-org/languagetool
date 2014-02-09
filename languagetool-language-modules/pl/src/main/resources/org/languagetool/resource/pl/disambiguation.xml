@@ -110,9 +110,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
             <token regexp="yes">\d+</token>
         </pattern>
-        <disambig action="remove"><wd lemma="przejść"></wd></disambig>
+        <disambig postag="qub"/>
         <example type="untouched">Przeszło trzydziestu panów pije wódkę.</example>
-        <example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:n1.n2:ter:perf:nonrefl,przejść/verb:praet:sg:n1.n2:ter:perf:refl,przeszło/qub]" outputform="Przeszło[przeszło/qub]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
+        <example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:n1.n2:ter:perf:nonrefl,przejść/verb:praet:sg:n1.n2:ter:perf:refl,przeszło/qub,przeszły/adja]" outputform="Przeszło[przeszło/qub]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
     </rule>
     <rule name="prawie/subst -> kublik" id="prawie">
         <pattern>
@@ -1342,7 +1342,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<marker><token>wiadomo</token></marker>
     	</pattern>
     	<disambig postag="pred"/>
-    	<example type="ambiguous" inputform="wiadomo[wiadomo/adv:pos,wiadomo/pred]" outputform="wiadomo[wiadomo/pred]">Jak <marker>wiadomo</marker>, nie tylko Marsjanie lubili pierogi.</example>    	
+    	<example type="ambiguous" inputform="wiadomo[wiadomo/adv:pos,wiadomo/pred,wiadomy/adja]" outputform="wiadomo[wiadomo/pred]">Jak <marker>wiadomo</marker>, nie tylko Marsjanie lubili pierogi.</example>    	
     </rule>
     
     <rule name="można" id="mozna">
@@ -1411,7 +1411,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <token regexp="yes">prez|cz|prob|urzęd|pol</token>
         <token spacebefore="no">.</token>
       </pattern>
-      <disambig action="immunize"></disambig>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule id="compounds" name="Przymiotniki złożone">
+      <pattern>
+        <marker>
+        <token postag="adja"/>
+        </marker>
+        <token spacebefore="no">-</token>
+        <token postag="adj:.*" postag_regexp="yes"></token>
+      </pattern>
+      <disambig action="ignore_spelling"></disambig>
     </rule>
     
         

@@ -7106,11 +7106,13 @@ $Id$
 				</rule>
 				<rule id="MORALNO_ETYCZNY" name="„moralno-etyczny” (moralny lub etyczny)">
 						<pattern>
-								<token regexp="yes">moralno-etyczn.*</token>
+								<token>moralno</token>
+                                <token spacebefore="no">-</token>
+                                <token inflected="yes">etyczny</token>
 						</pattern>
-						<message>Ten wyraz jest pleonazmem. Wystarczy powiedzieć <suggestion><match no="1" postag_replace="" regexp_match="moraln(o-)etyczn(.*)" regexp_replace="moraln$2"></match></suggestion> lub <suggestion><match no="1" regexp_match="moraln(o-)etyczn(.*)" regexp_replace="etyczn$2" setpos="no"></match></suggestion>.</message>
+						<message>Ten wyraz jest pleonazmem. Wystarczy powiedzieć: <suggestion><match no="3"/></suggestion>.</message>
 						<short>Pleonazm</short>
-						<example correction="moralny|etyczny" type="incorrect">Papież zostawił nam ogromny obowiązek <marker>moralno-etyczny</marker>.</example>
+						<example correction="etyczny" type="incorrect">Papież zostawił nam ogromny obowiązek <marker>moralno-etyczny</marker>.</example>
 						<example type="correct">Encykliki nie mogą uzasadniać nakazów moralnych.</example>
 				</rule>
 				<rulegroup id="I_LUB" name="„i/lub” (lub)">

@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -38,9 +38,9 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
-    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, FILTERALL
+    ADD, FILTER, REMOVE, REPLACE, UNIFY, IMMUNIZE, IGNORE_SPELLING, FILTERALL
   }
-  
+
   private final String disambiguatedPOS;
   private final Match matchElement;
   private final DisambiguatorAction disAction;
@@ -68,14 +68,15 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         && disambAction != DisambiguatorAction.REMOVE
         && disambAction != DisambiguatorAction.IMMUNIZE
         && disambAction != DisambiguatorAction.REPLACE
-        && disambAction != DisambiguatorAction.FILTERALL) {
+        && disambAction != DisambiguatorAction.FILTERALL
+        && disambAction != DisambiguatorAction.IGNORE_SPELLING) {
       throw new NullPointerException("disambiguated POS cannot be null");
-    }    
+    }
     this.disambiguatedPOS = disamb;
     this.matchElement = posSelect;
     this.disAction = disambAction;
   }
-  
+
   /**
    * Used to add new interpretations.
    * 
@@ -99,7 +100,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
     final DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
     return replacer.replace(text);
   }
-  
+
   /**
    * @param examples the examples to set
    */
@@ -127,7 +128,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   public List<String> getUntouchedExamples() {
     return untouchedExamples;
   }
-  
+
   /**
    * For testing only.
    */

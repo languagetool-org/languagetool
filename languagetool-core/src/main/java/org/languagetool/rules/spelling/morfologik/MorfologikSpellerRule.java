@@ -100,7 +100,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (isUrl(token.getToken())) {
         continue;
       }
-      if (ignoreToken(tokens, idx) || token.isImmunized()) {
+      if (ignoreToken(tokens, idx) || token.isImmunized() || token.isIgnoredBySpeller()) {
         continue;
       }
       if (ignoreTaggedWords && token.isTagged()) {

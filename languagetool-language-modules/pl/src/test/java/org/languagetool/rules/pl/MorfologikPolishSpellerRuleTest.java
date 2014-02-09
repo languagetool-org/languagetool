@@ -45,6 +45,9 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
+    //compound word with ignored part "techniczno"
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bogactwo nie rośnie proporcjonalnie do jej rozwoju techniczno-terytorialnego.")).length);
+
     //incorrect sentences:
 
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Zolw"));

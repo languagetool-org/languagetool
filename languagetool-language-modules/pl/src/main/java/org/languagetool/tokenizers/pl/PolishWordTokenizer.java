@@ -124,7 +124,7 @@ public class PolishWordTokenizer extends WordTokenizer {
                 if (taggedToks.size() == 3
                     && !taggedToks.get(2).isTagged()
                     // "niemiecko-indonezyjski"
-                    && (taggedToks.get(0).hasPosTag("adv:pos")
+                    && (taggedToks.get(0).hasPosTag("adja")
                         && taggedToks.get(1).hasPartialPosTag("adj:")
                         // "kobieta-wojownik"
                         || taggedToks.get(0).hasPartialPosTag("subst:")

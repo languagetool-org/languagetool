@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
@@ -19,15 +19,6 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.StringTools;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,6 +30,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.StringTools;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -54,7 +54,7 @@ public class HunspellRule extends SpellingCheckRule {
 
   protected boolean needsInit = true;
   protected Hunspell.Dictionary dictionary = null;
-  
+
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private Pattern nonWordPattern;
@@ -99,9 +99,9 @@ public class HunspellRule extends SpellingCheckRule {
       }
       if (isAlphabetic && !word.equals("--") && dictionary.misspelled(word)) {
         final RuleMatch ruleMatch = new RuleMatch(this,
-                len, len + word.length(),
-                messages.getString("spelling"),
-                messages.getString("desc_spelling_short"));
+            len, len + word.length(),
+            messages.getString("spelling"),
+            messages.getString("desc_spelling_short"));
         final List<String> suggestions = getSuggestions(word);
         suggestions.addAll(getAdditionalSuggestions(suggestions, word));
         if (!suggestions.isEmpty()) {
@@ -131,7 +131,7 @@ public class HunspellRule extends SpellingCheckRule {
     final AnalyzedTokenReadings[] sentenceTokens = sentence.getTokens();
     for (int i = 1; i < sentenceTokens.length; i++) {
       final String token = sentenceTokens[i].getToken();
-      if (isUrl(token) || sentenceTokens[i].isImmunized()) {
+      if (isUrl(token) || sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller()) {
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         for (int j = 0; j < token.length(); j++) {
           sb.append(" ");
@@ -153,10 +153,10 @@ public class HunspellRule extends SpellingCheckRule {
       langCountry = language.getShortName();
     }
     final String shortDicPath = "/"
-            + language.getShortName()
-            + "/hunspell/"
-            + langCountry
-            + ".dic";
+        + language.getShortName()
+        + "/hunspell/"
+        + langCountry
+        + ".dic";
     String wordChars = "";
     // set dictionary only if there are dictionary files:
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
@@ -165,7 +165,7 @@ public class HunspellRule extends SpellingCheckRule {
         dictionary = null;
       } else {
         dictionary = Hunspell.getInstance().
-                getDictionary(path);
+            getDictionary(path);
 
         if (!"".equals(dictionary.getWordChars())) {
           wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
@@ -180,7 +180,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   private String getDictionaryPath(final String dicName,
-                                   final String originalPath) throws IOException {
+      final String originalPath) throws IOException {
 
     final URL dictURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(originalPath);
     String dictionaryPath;
@@ -191,12 +191,12 @@ public class HunspellRule extends SpellingCheckRule {
       File temporaryFile = new File(tempDir, dicName + ".dic");
       JLanguageTool.addTemporaryFile(temporaryFile);
       fileCopy(JLanguageTool.getDataBroker().
-              getFromResourceDirAsStream(originalPath), temporaryFile);
+          getFromResourceDirAsStream(originalPath), temporaryFile);
       temporaryFile = new File(tempDir, dicName + ".aff");
       JLanguageTool.addTemporaryFile(temporaryFile);
       fileCopy(JLanguageTool.getDataBroker().
-              getFromResourceDirAsStream(originalPath.
-                      replaceFirst(".dic$", ".aff")), temporaryFile);
+          getFromResourceDirAsStream(originalPath.
+              replaceFirst(".dic$", ".aff")), temporaryFile);
 
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {

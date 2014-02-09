@@ -159,7 +159,6 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  // @Ignore("currently fails")
   public void testTwoMaxOccurrencesWithAnyToken() throws Exception {
     final Element anyElement = makeElement(null);
     anyElement.setMaxOccurrence(2);
@@ -170,7 +169,6 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  // @Ignore("currently fails")
   public void testThreeMaxOccurrencesWithAnyToken() throws Exception {
     final Element anyElement = makeElement(null);
     anyElement.setMaxOccurrence(3);
@@ -182,7 +180,6 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  // @Ignore("currently fails")
   public void testZeroMinTwoMaxOccurrencesWithAnyToken() throws Exception {
     final Element anyElement = makeElement(null);
     anyElement.setMinOccurrence(0);
