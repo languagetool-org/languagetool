@@ -116,11 +116,7 @@ public class PolishWordTokenizer extends WordTokenizer {
                 || tagger == null) {
               l.add(token);
             } else {
-              try { // we rely on the tagger here,
-                // but since the tagger cannot be setup
-                // in the constructor, there is a soft-fail
-                // here: we simply don't split these words
-                // for which the tagger information is needed.
+              try {
                 List<AnalyzedTokenReadings> taggedToks = tagger.tag(testedTokens);
                 if (taggedToks.size() == 3
                     && !taggedToks.get(2).isTagged()
@@ -138,6 +134,7 @@ public class PolishWordTokenizer extends WordTokenizer {
                 }
               } catch (IOException e) { // fail gracefully
                 l.add(token);
+                throw new RuntimeException(e);
               }
             }
           }
