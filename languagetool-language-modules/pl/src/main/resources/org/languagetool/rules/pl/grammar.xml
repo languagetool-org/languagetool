@@ -3547,13 +3547,18 @@ $Id$
 				</rule>
 				<rule id="NA_ILE" name="„na ile” (po ile/jak dalece">
 						<pattern>
+                            <marker>
 								<token>na</token>
 								<token>ile</token>
+                            </marker>
+                                <token><exception postag="subst:pl(?:tant)?:gen.*" postag_regexp="yes"/></token>
 						</pattern>
 						<message>Słowniki poprawnej polszczyzny określają tę zbitkę jako niepoprawną. Poprawnie: 1. <suggestion>po ile</suggestion> (=w jakiej cenie), 2. <suggestion>jak dalece</suggestion>, <suggestion>w jakim stopniu</suggestion>, <suggestion>jak bardzo</suggestion>, <suggestion>o ile</suggestion>.</message>
 						<short>Błąd składniowy</short>
-						<example correction="po ile|jak dalece|w jakim stopniu|jak bardzo|o ile" type="incorrect">Wiemy o sobie tyle, <marker>na ile</marker> na sprawdzono.</example>
+						<example correction="po ile|jak dalece|w jakim stopniu|jak bardzo|o ile" type="incorrect">Wiemy o sobie tyle, <marker>na ile</marker> nas sprawdzono.</example>
 						<example type="correct">Wiemy o sobie tyle, ile nas sprawdzono.</example>
+                        <example type="correct">Dobry wieczór, na ile osób?</example>
+                        <example type="correct">Na ile dni planuje pan pobyt?</example>
 				</rule>
 				<rule id="INSTRUKCJA_NA" name="„instrukcja na robienie” (instrukcja robienia)">
 						<pattern>
@@ -7956,15 +7961,22 @@ $Id$
 				<rulegroup id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
                 <rule>
                   <pattern case_sensitive="yes">
+                  <unify>
+                    <feature id="number"></feature>
+                    <feature id="gender"></feature>
+                    <feature id="case"></feature>
                     <token inflected="yes">województwo</token>
                     <marker>
-                    <token regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
-                </marker>
+                    <token regexp="yes" postag="adj:.*" postag_regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
+                    </marker>
+                  </unify>
                   </pattern>
                   <message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"></match></suggestion>.</message>
                   <short>Błąd pisowni wielką i małą literą</short>
                   <example correction="mazowieckie" type="incorrect">Piękne jest zwłaszcza województwo <marker>Mazowieckie</marker>.</example>
                   <example type="correct">Mieszkam w województwie mazowieckim.</example>
+                  <example type="correct">Prezes komisji województwa Radoszewski także się na niej wzorował.</example>
+                  <example type="correct">Do władz województwa Mazowiecki wysłał depeszę.</example>
                 </rule>
                 <rule>
 						<pattern case_sensitive="yes">
@@ -7972,7 +7984,7 @@ $Id$
 								<marker>
 										<token postag="adv:pos" regexp="yes">\p{Lu}\p{Ll}.*o</token>
                                         <token spacebefore="no">-</token>
-                                        <token regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
+                                        <token regexp="yes" postag="adj:.*" postag_regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
 								</marker>
 						</pattern>
 						<message>Nazwy województw piszemy małą literą: <suggestion><match case_conversion="alllower" no="2"/>-<match no="4" case_conversion="alllower"/></suggestion>.</message>
@@ -12509,7 +12521,7 @@ $Id$
 						<pattern>
 								<token><exception regexp="yes">i|po</exception></token>
 								<marker>
-										<token postag="adjp"><exception postag="subst.*" postag_regexp="yes"></exception></token>
+										<token postag="adjp"><exception postag="subst.*" postag_regexp="yes"/><exception regexp="yes">(?iu)Brunszwicku</exception></token>
 								</marker>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy miało być <suggestion>po <match case_conversion="startlower" no="2"></match></suggestion>?</message>
@@ -12517,6 +12529,7 @@ $Id$
 						<example type="correct">Jadzia mówi po niemiecku i angielsku.</example>
 						<example correction="po niemiecku" type="incorrect">Jadzia mówi <marker>niemiecku</marker> i angielsku.</example>
 						<example correction="Po prostu" type="incorrect"><marker>Prostu</marker> się mylisz.</example>
+                        <example type="correct">Od pięciu lat istnieje w Brunszwicku w Niemieckiej Republice Federalnej zespół pieśni i tańca.</example>
 				</rule>
 				<rule id="W_ODROZNIENIU_DO" name="„w odróżnieniu do” (w odróżnieniu od)">
 						<pattern>
