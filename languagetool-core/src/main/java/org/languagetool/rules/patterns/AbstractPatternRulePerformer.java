@@ -75,7 +75,7 @@ public abstract class AbstractPatternRulePerformer {
       }
 
       //short-circuit when the search cannot possibly match
-      if (!thisMatched && (prevElement == null || prevElement != null &&
+      if (!thisMatched && (prevElement == null ||
           prevElement.getElement().getExceptionList() == null)) {
         if (elem.getElement().getPOStag() == null) {
           if (elem.getElement().isInflected()) {
@@ -132,13 +132,12 @@ public abstract class AbstractPatternRulePerformer {
     if (rule.testUnification) {
       if (matched && elem.isUnified()) {
         if (elem.isUniNegated()) {
-          thisMatched = !(thisMatched && unifier.isUnified(
+          thisMatched = !(unifier.isUnified(
               matchToken, elem.getUniFeatures(), lastReading,
               elemIsMatched));
         } else {
           if (elem.isLastInUnification()) {
-            thisMatched = thisMatched
-                && unifier.isUnified(matchToken,
+            thisMatched = unifier.isUnified(matchToken,
                     elem.getUniFeatures(), lastReading,
                     elemIsMatched);
           } else { // we don't care about the truth value, let it run

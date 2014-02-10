@@ -505,8 +505,8 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     String previousLemma = anTokReadings[0].getLemma();
     if (previousLemma == null) {
       for (AnalyzedToken element : anTokReadings) {
-        if (element.getLemma() == null) {
-          continue;
+        if (element.getLemma() != null) {
+          return false;
         }
       }
       return true;

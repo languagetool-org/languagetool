@@ -231,11 +231,7 @@ public class PatternRule extends AbstractPatternRule {
       // this is one of the rules too complicated for this pre-check
       return false;
     }
-    if (!sentence.getTokenSet().containsAll(simpleRuleTokens)) {
-      // this rule can never match for the given sentence
-      return true;
-    }
-    return false;
+      return !sentence.getTokenSet().containsAll(simpleRuleTokens);
   }
 
   // tokens that just refer to a word - no regex, no inflection etc.

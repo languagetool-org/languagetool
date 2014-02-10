@@ -176,10 +176,7 @@ public final class StringTools {
       return false;
     }
     final char firstChar = str.charAt(0);
-    if (Character.isUpperCase(firstChar)) {
-      return true;
-    }
-    return false;
+      return Character.isUpperCase(firstChar);
   }
 
   /**
