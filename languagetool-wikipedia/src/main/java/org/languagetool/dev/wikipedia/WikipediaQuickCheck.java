@@ -138,7 +138,7 @@ public class WikipediaQuickCheck {
    */
   public String getPlainText(String completeWikiContent) {
     final MediaWikiContent wikiContent = getRevisionContent(completeWikiContent);
-    final String cleanedWikiContent = removeInterLanguageLinks(wikiContent.getContent());
+    final String cleanedWikiContent = removeWikipediaLinks(wikiContent.getContent());
     final TextMapFilter filter = new SwebleWikipediaTextFilter();
     return filter.filter(cleanedWikiContent).getPlainText();
   }
@@ -153,8 +153,16 @@ public class WikipediaQuickCheck {
   }
 
   // catches most, not all links ("[[pt:Linux]]", but not "[[zh-min-nan:Linux]]"). Might remove some non-interlanguage links.
-  String removeInterLanguageLinks(String wikiContent) {
-    return wikiContent.replaceAll("\\[\\[[a-z]{2,6}:.*?\\]\\]", "");
+  String removeWikipediaLinks(String wikiContent) {
+    // interlanguage links
+    return wikiContent
+        .replaceAll("\\[\\[[a-z]{2,6}:.*?\\]\\]", "")
+        // category links
+        .replaceAll(
+            "\\[\\[(Category|Categoria|Categoría|Catégorie|Kategorie):.*?\\]\\]", "")
+        // file links, keeps alt and caption
+        .replaceAll(
+            "(File|Fitxer|Fichero|Ficheiro|Fichier|Datei):.*?\\.(png|jpg|svg|jpeg|tiff|PNG|JPG|SVG|JPEG|TIFF)\\|((thumb|miniatur)\\|)?((right|left)\\|)?", "");
   }
 
   private MediaWikiContent getRevisionContent(String completeWikiContent) {

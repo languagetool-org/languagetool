@@ -151,10 +151,14 @@ public class WikipediaQuickCheckTest extends TestCase {
 
   public void testRemoveInterLanguageLinks() {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
-    assertEquals("foo  bar", check.removeInterLanguageLinks("foo [[pt:Some Article]] bar"));
-    assertEquals("foo [[some link]] bar", check.removeInterLanguageLinks("foo [[some link]] bar"));
-    assertEquals("foo [[Some Link]] bar ", check.removeInterLanguageLinks("foo [[Some Link]] bar [[pt:Some Article]]"));
-    assertEquals("foo [[zh-min-nan:Linux]] bar", check.removeInterLanguageLinks("foo [[zh-min-nan:Linux]] bar"));  // known limitation
+    assertEquals("foo  bar", check.removeWikipediaLinks("foo [[pt:Some Article]] bar"));
+    assertEquals("foo [[some link]] bar", check.removeWikipediaLinks("foo [[some link]] bar"));
+    assertEquals("foo [[Some Link]] bar ", check.removeWikipediaLinks("foo [[Some Link]] bar [[pt:Some Article]]"));
+    assertEquals("foo [[zh-min-nan:Linux]] bar", check.removeWikipediaLinks("foo [[zh-min-nan:Linux]] bar"));  // known limitation
+    assertEquals("[[Scultura bronzea di Gaudí mentre osserva il suo ''[[Il Capriccio|Capriccio]]'']]", check.removeWikipediaLinks("[[File:Gaudì-capriccio.JPG|thumb|left|Scultura bronzea di Gaudí mentre osserva il suo ''[[Il Capriccio|Capriccio]]'']]"));
+    assertEquals("[[[[Palau de la Música Catalana]], entrada]]", check.removeWikipediaLinks("[[Fitxer:Palau_de_musica_2.JPG|thumb|[[Palau de la Música Catalana]], entrada]]"));
+    assertEquals("foo  bar", check.removeWikipediaLinks("foo [[Kategorie:Kurgebäude]] bar"));
+    assertEquals("foo [[''Kursaal Palace'' in San Sebastián]] bar", check.removeWikipediaLinks("foo [[Datei:FestivalSS.jpg|miniatur|''Kursaal Palace'' in San Sebastián]] bar"));
   }
 
 }
