@@ -110,9 +110,9 @@ public final class LanguageToolFilter extends TokenFilter {
       //termAtt.append("SENT_START");
       typeAtt.setType("pos");
       if (toLowerCase) {
-        termAtt.append(POS_PREFIX.toLowerCase() + tr.getAnalyzedToken(0).getPOSTag().toLowerCase());
+        termAtt.append(POS_PREFIX.toLowerCase()).append(tr.getAnalyzedToken(0).getPOSTag().toLowerCase());
       } else {
-        termAtt.append(POS_PREFIX + tr.getAnalyzedToken(0).getPOSTag());
+        termAtt.append(POS_PREFIX).append(tr.getAnalyzedToken(0).getPOSTag());
       }
       return true;
     }

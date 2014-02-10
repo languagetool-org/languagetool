@@ -52,10 +52,7 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
   @Override
   protected boolean isAdverb(final AnalyzedTokenReadings token) {
-    if (ADVERBS.contains(token.getToken())) {
-      return true;
-    }
-    return false;
+      return ADVERBS.contains(token.getToken());
   }
 
 }

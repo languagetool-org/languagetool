@@ -58,8 +58,7 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
       final Map<String, Object> parserParameters = new HashMap<>();
       parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
       final SrxParser srxParser = new Srx2SaxParser(parserParameters);
-      final SrxDocument document = srxParser.parse(srxReader);
-      return document;
+        return srxParser.parse(srxReader);
     } catch (IOException e) {
       throw new RuntimeException("Could not load rules " + RULES + " from resource dir "
               + JLanguageTool.getDataBroker().getResourceDir(), e);

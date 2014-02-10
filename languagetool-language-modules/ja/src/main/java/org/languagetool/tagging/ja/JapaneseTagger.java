@@ -68,7 +68,7 @@ public class JapaneseTagger implements Tagger {
   public static final String arrayToString(byte[] bytes) {
     StringBuffer buff = new StringBuffer();
     for (int i = 0; i < bytes.length; i++) {
-      buff.append(bytes[i] + " ");
+      buff.append(bytes[i]).append(" ");
     }
     return buff.toString();
   }

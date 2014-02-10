@@ -148,7 +148,7 @@ public abstract class AbstractCompoundRule extends Rule {
             replacement.add(origStringToCheck.replace(' ', '-'));
             msg = withHyphenMessage;
           }
-          if (!hasAllUppercaseParts(origStringToCheck) && !onlyDashSuggestion.contains(stringToCheck)) {
+          if (isNotAllUppercase(origStringToCheck) && !onlyDashSuggestion.contains(stringToCheck)) {
             replacement.add(mergeCompound(origStringToCheck));
             msg = withoutHyphenMessage;
           }
@@ -191,16 +191,16 @@ public abstract class AbstractCompoundRule extends Rule {
     return str;
   }
 
-  private boolean hasAllUppercaseParts(final String str) {
+  private boolean isNotAllUppercase(final String str) {
     final String[] parts = str.split(" ");
     for (String part : parts) {
       if (isHyphenIgnored() || !"-".equals(part)) { // do not treat '-' as an upper-case word
         if (StringTools.isAllUppercase(part)) {
-          return true;
+          return false;
         }
       }
     }
-    return false;
+    return true;
   }
 
   private String mergeCompound(final String str) {

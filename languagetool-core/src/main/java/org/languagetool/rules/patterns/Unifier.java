@@ -320,9 +320,7 @@ public class Unifier {
       }
       firstUnified = true;
     }
-    final AnalyzedTokenReadings[] atr =
-        tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
-    return atr;
+      return tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
   }
 
   /**

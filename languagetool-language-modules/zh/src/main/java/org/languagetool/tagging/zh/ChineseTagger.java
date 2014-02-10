@@ -72,7 +72,7 @@ public class ChineseTagger implements Tagger {
     StringBuffer buff = new StringBuffer();
 
     for (int i = 0; i < bytes.length; i++) {
-      buff.append(bytes[i] + " ");
+      buff.append(bytes[i]).append(" ");
     }
     return buff.toString();
   }

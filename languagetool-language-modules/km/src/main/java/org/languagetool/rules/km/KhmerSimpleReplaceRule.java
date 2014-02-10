@@ -49,6 +49,7 @@ import java.util.concurrent.ArrayBlockingQueue;
  * @version $Id: SimpleReplaceRule.java,v 1.9 2010/10/03 13:21:16 archeus Exp $
  *
  */
+@SuppressWarnings("ToArrayCallWithZeroLengthArrayArgument")
 public class KhmerSimpleReplaceRule extends Rule {
 
   public static final String KHMER_SIMPLE_REPLACE_RULE = "KM_SIMPLE_REPLACE";
@@ -219,7 +220,8 @@ public class KhmerSimpleReplaceRule extends Rule {
       addToQueue(tokens[i], prevTokens);
       final StringBuilder sb = new StringBuilder();
       final ArrayList<String> variants = new ArrayList<>();
-      final List<AnalyzedTokenReadings> prevTokensList = Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[] {}));
+      final List<AnalyzedTokenReadings> prevTokensList =
+              Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[prevTokens.size()]));
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
         if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore())
           sb.insert(0, " ");
