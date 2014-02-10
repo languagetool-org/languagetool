@@ -497,5 +497,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Blah?</example>
             <example type="incorrect"><marker>Blah blah</marker> foo.</example>
         </rule>
+        <rule id="TEST_MIN_MAX_OCCURRENCE" name="Test whether minOccurrence is handled correctly">
+            <pattern>
+                <token>a</token>
+                <token min="2" max="3"></token>
+                <token>c</token>
+            </pattern>
+            <message>Incorrect expression. Whatever</message>
+            <example type="correct">a b c</example>
+            <example type="correct">a c</example>
+            <example type="incorrect"><marker>a b b b c</marker></example>
+            <example type="incorrect"><marker>a b b c</marker></example>
+        </rule>
     </category>
 </rules>
