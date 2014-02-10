@@ -489,5 +489,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">blah or blah</example>
             </rule>
         </rulegroup>
+        <rule id="TEST_MIN_OCCURRENCE" name="Test whether minOccurrence is handled correctly">
+            <pattern>
+                <token min="2">blah</token>
+            </pattern>
+            <message>Incorrect expression. Whatever</message>
+            <example type="correct">Blah?</example>
+            <example type="incorrect"><marker>Blah blah</marker> foo.</example>
+        </rule>
     </category>
 </rules>
