@@ -6414,8 +6414,21 @@ USA
                 <token>time</token>
             </pattern>
             <message>Did you mean <suggestion>most of the \4</suggestion>?</message>
+            <short>Possible typo</short>
             <example type="incorrect">It's true <marker>must of the time</marker>.</example>
             <example type="correct">It's true most of the time.</example>
+        </rule>
+        <rule id="FOR_TIME_TO_TIME" name="for time to time (from time to time)">
+            <pattern>
+                <token>for</token>
+                <token>time</token>
+                <token>to</token>
+                <token>time</token>
+            </pattern>
+            <message>Non-standard phrase. Did you mean <suggestion>from \2 \3 \4</suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">He buys a car from time to time.</example>
+            <example type="incorrect" correction="from time to time">He buys a car <marker>for time to time</marker>.</example>
         </rule>
     </category>
     <!-- ====================================================================== -->
