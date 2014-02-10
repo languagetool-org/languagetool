@@ -347,7 +347,7 @@ public class XMLRuleHandler extends DefaultHandler {
       message.append("\u0001\\");
       message.append(attrs.getValue("no"));
       checkNumber(attrs);
-    } else if (inSuggestion && !inMessage) {
+    } else if (inSuggestion) {
       if (suggestionMatchesOutMsg == null) {
         suggestionMatchesOutMsg = new ArrayList<>();
       }
