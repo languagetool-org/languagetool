@@ -528,9 +528,10 @@ public class XMLRuleHandler extends DefaultHandler {
       tokenElement.setSkipNext(skipPos);
       skipPos = 0;
     }
-    if (minOccurrence != 1) {
-      tokenElement.setMinOccurrence(minOccurrence);
-      minOccurrence = 1;
+    if (minOccurrence > 1) {
+      tokenElement.setMinOccurrence(1);
+    } else if (minOccurrence == 0) {
+      tokenElement.setMinOccurrence(0);
     }
     if (maxOccurrence != 1) {
       tokenElement.setMaxOccurrence(maxOccurrence);
@@ -554,7 +555,13 @@ public class XMLRuleHandler extends DefaultHandler {
     } else if (inOrGroup && orGroupCounter > 0) {
       elementList.get(elementList.size() - 1).setOrGroupElement(tokenElement);
     } else {
-      elementList.add(tokenElement);
+      if (minOccurrence <= 1) {
+        elementList.add(tokenElement);
+      }
+      for (int i = 1; i < minOccurrence; i ++) {
+        elementList.add(tokenElement);
+      }
+      minOccurrence = 1;
     }
     if (inAndGroup) {
       andGroupCounter++;

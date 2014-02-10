@@ -374,13 +374,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
       rules.add(rule);
     } else {
       Element element = elemList.get(numElement);
-      //TODO: deal with minOccurrence > 1 here?
-      /**
-      if (element.getMinOccurrence() > 1) {
-        // here we could copy elements but without any recursion
-          as minOccurrence has to stay < 2.
-      }
-       **/
       if (element.hasOrGroup()) {
         for (Element elementOfOrGroup : element.getOrGroup()) {
           final List<Element> tmpElements2 = new ArrayList<>();
