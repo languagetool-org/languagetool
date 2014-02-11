@@ -5320,7 +5320,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">comment|pour|pourquoi|quand|où|sans</token>
-          <token min="0" max="1" postag="A"><exception>cesse</exception></token>
+          <token min="0" max="1" regexp="yes">bien|toujours</token>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?<exception postag="N.*" postag_regexp="yes"/></token>
           </marker>
@@ -5332,6 +5332,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Comment bien <marker>étudié</marker></example>
         <example type="correct">Comment bien étudier</example>
         <example type="correct">Il m’a sans cesse répeté de me taire.</example>
+        <example type="correct">Il est sans doute arrivé.</example>
       </rule>
       <rule>
         <pattern>
