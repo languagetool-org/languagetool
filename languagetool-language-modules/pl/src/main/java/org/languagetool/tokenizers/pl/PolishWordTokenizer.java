@@ -102,7 +102,7 @@ public class PolishWordTokenizer extends WordTokenizer {
         if (token.endsWith("-")) {
           l.add(token.substring(0, token.length() - 1));
           l.add("-");
-        } else if (token.startsWith("-")) {
+        } else if (token.charAt(0) == '-') {
           l.add("-");
           l.add(token.substring(1, token.length()));
         } else if (token.contains("-")) {

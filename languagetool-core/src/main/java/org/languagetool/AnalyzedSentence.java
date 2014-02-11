@@ -168,7 +168,7 @@ public class AnalyzedSentence {
    * Get disambiguator actions log.
    */
   public final String getAnnotations() {
-    final StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder(40);
     sb.append("Disambiguator log: \n");
     for (final AnalyzedTokenReadings element : tokens) {
       if (!element.isWhitespace() &&

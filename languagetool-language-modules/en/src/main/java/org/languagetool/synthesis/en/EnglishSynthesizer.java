@@ -99,40 +99,38 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * @since 2.5
    */
   @Override
-  public String[] synthesize(final AnalyzedToken token, final String posTag,
-      final boolean posTagRegExp) throws IOException {
+      public String[] synthesize(final AnalyzedToken token, final String posTag,
+          final boolean posTagRegExp) throws IOException {
 
-    if (posTagRegExp) {
-      String myPosTag = posTag;
-      String det = "";
-      if (posTag != null) {
-        if (posTag.endsWith(ADD_IND_DETERMINER)) {
-          myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_IND_DETERMINER) - "\\".length());
-          final AvsAnRule rule = new AvsAnRule(null);
-          det = rule.suggestAorAn(token.getLemma());
-          det = det.substring(0, det.indexOf(' ') + " ".length());
-        } else if (posTag.endsWith(ADD_DETERMINER)) {
-          myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_DETERMINER) - "\\".length());
-          det = "the ";
+        if (posTag != null && posTagRegExp) {
+          String myPosTag = posTag;
+          String det = "";
+            if (posTag.endsWith(ADD_IND_DETERMINER)) {
+              myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_IND_DETERMINER) - "\\".length());
+              final AvsAnRule rule = new AvsAnRule(null);
+              det = rule.suggestAorAn(token.getLemma());
+              det = det.substring(0, det.indexOf(' ') + " ".length());
+            } else if (posTag.endsWith(ADD_DETERMINER)) {
+              myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_DETERMINER) - "\\".length());
+              det = "the ";
+            }
+
+          initSynthesizer();
+          initPossibleTags();
+          final Pattern p = Pattern.compile(myPosTag);
+          final ArrayList<String> results = new ArrayList<>();
+
+          for (final String tag : possibleTags) {
+            final Matcher m = p.matcher(tag);
+            if (m.matches()) {
+              lookup(token.getLemma(), tag, results, det);
+            }
+          }
+          return results.toArray(new String[results.size()]);
         }
+
+        return synthesize(token, posTag);
       }
-
-      initSynthesizer();
-      initPossibleTags();
-      final Pattern p = Pattern.compile(myPosTag);
-      final ArrayList<String> results = new ArrayList<>();
-
-      for (final String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
-        if (m.matches()) {
-          lookup(token.getLemma(), tag, results, det);
-        }
-      }
-      return results.toArray(new String[results.size()]);
-    }
-
-    return synthesize(token, posTag);
-  }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
     final List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);

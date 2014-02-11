@@ -106,7 +106,7 @@ class ResultArea {
 
   private String getRuleMatchHtml(List<RuleMatch> ruleMatches, String text, String startCheckText) {
     final ContextTools contextTools = new ContextTools();
-    final StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder(200);
     sb.append(startCheckText);
     sb.append("<br>\n");
     int i = 0;
@@ -151,7 +151,7 @@ class ResultArea {
   }
 
   private String getDisabledRulesHtml() {
-    final StringBuilder sb = new StringBuilder();
+    final StringBuilder sb = new StringBuilder(40);
     sb.append(messages.getString("deactivatedRulesText"));
     int i = 0;
     int deactivatedRuleCount = 0;

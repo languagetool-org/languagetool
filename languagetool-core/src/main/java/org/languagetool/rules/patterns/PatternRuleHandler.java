@@ -33,9 +33,10 @@ import org.xml.sax.SAXException;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 
-  static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+    static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+    public static final String TYPE = "type";
 
-  protected Category category;
+    protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
   protected String ruleIssueType;
@@ -80,8 +81,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if ("off".equals(attrs.getValue(DEFAULT))) {
         category.setDefaultOff();
       }
-      if (attrs.getValue("type") != null) {
-        categoryIssueType = attrs.getValue("type");
+      if (attrs.getValue(TYPE) != null) {
+        categoryIssueType = attrs.getValue(TYPE);
       }
     } else if ("rules".equals(qName)) {
       final String languageStr = attrs.getValue("lang");
@@ -116,8 +117,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (suggestionMatchesOutMsg != null) {
         suggestionMatchesOutMsg.clear();
       }
-      if (attrs.getValue("type") != null) {
-        ruleIssueType = attrs.getValue("type");
+      if (attrs.getValue(TYPE) != null) {
+        ruleIssueType = attrs.getValue(TYPE);
       }
     } else if (PATTERN.equals(qName)) {
       startPattern(attrs);
@@ -176,8 +177,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       defaultOn = "on".equals(attrs.getValue(DEFAULT));
       inRuleGroup = true;
       subId = 0;
-      if (attrs.getValue("type") != null) {
-        ruleGroupIssueType = attrs.getValue("type");
+      if (attrs.getValue(TYPE) != null) {
+        ruleGroupIssueType = attrs.getValue(TYPE);
       }
     } else if (SUGGESTION.equals(qName) && inMessage) {
       if (YES.equals(attrs.getValue("suppress_misspelled"))) {

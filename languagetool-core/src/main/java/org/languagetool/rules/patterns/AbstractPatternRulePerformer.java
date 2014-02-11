@@ -132,19 +132,19 @@ public abstract class AbstractPatternRulePerformer {
     if (rule.testUnification) {
       if (matched && elem.isUnified()) {
         if (elem.isUniNegated()) {
-          thisMatched = !(unifier.isUnified(
-              matchToken, elem.getUniFeatures(), lastReading,
-              elemIsMatched));
+          thisMatched = !unifier.isUnified(matchToken,
+                  elem.getUniFeatures(), lastReading,
+                  elemIsMatched);
         } else {
           if (elem.isLastInUnification()) {
             thisMatched = unifier.isUnified(matchToken,
                     elem.getUniFeatures(), lastReading,
                     elemIsMatched);
           } else { // we don't care about the truth value, let it run
-            unifier.isUnified(matchToken, elem.getUniFeatures(),
-                lastReading, elemIsMatched);
+                    unifier.isUnified(matchToken,
+                    elem.getUniFeatures(), lastReading,
+                    elemIsMatched);
           }
-
         }
       }
       if (thisMatched && rule.isGetUnified()) {

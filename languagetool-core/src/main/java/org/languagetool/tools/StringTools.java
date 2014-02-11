@@ -316,7 +316,7 @@ public final class StringTools {
     //
     // IMPORTANT: people rely on this format, don't change it!
     //
-    final StringBuilder xml = new StringBuilder();
+    final StringBuilder xml = new StringBuilder(200);
 
     if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
       xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");

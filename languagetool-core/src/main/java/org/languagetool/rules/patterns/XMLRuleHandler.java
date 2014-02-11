@@ -305,15 +305,13 @@ public class XMLRuleHandler extends DefaultHandler {
   protected void processElement(final List<Element> elList) {
     int counter = 0;
     for (final Element elTest : elList) {
-      if (elTest.getPhraseName() != null && counter > 0) {
-        if (elTest.isReferenceElement()) {
-          final int tokRef = elTest.getMatch().getTokenRef();
-          elTest.getMatch().setTokenRef(tokRef + counter - 1);
-          final String offsetToken = elTest.getString().replace("\\" + tokRef,
-              "\\" + (tokRef + counter - 1));
-          elTest.setStringElement(offsetToken);
+        if (elTest.getPhraseName() != null && counter > 0 && elTest.isReferenceElement()) {
+            final int tokRef = elTest.getMatch().getTokenRef();
+            elTest.getMatch().setTokenRef(tokRef + counter - 1);
+            final String offsetToken = elTest.getString().replace("\\" + tokRef,
+                    "\\" + (tokRef + counter - 1));
+            elTest.setStringElement(offsetToken);
         }
-      }
       counter++;
     }
   }
@@ -486,8 +484,7 @@ public class XMLRuleHandler extends DefaultHandler {
     int matchCounter = 0;
     while (pos != -1) {
       pos = messageStr.indexOf('\\', ind + 1);
-      if (pos != -1 && messageStr.length() > pos)              {
-        if (Character.isDigit(messageStr.charAt(pos + 1))) {
+      if (pos != -1 && messageStr.length() > pos && Character.isDigit(messageStr.charAt(pos + 1))) {
           if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
             final Match mWorker = new Match(null, null, false, null,
                 null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
@@ -504,7 +501,6 @@ public class XMLRuleHandler extends DefaultHandler {
             matchCounter++;
           }
         }
-      }
       ind = pos;
     }
 

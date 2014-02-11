@@ -356,9 +356,10 @@ public class Unifier {
         uniMatched = false;
       }
       return uniAllMatched;
-    }
-    if (isMatched) {
-      isSatisfied(matchToken, uFeatures);
+    } else {
+        if (isMatched) {
+            isSatisfied(matchToken, uFeatures);
+        }
     }
     if (lastReading) {
       inUnification = true;
