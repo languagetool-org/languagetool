@@ -202,7 +202,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
 
   @Override
   public void endElement(final String namespaceURI, final String sName,
-      final String qName) {
+      final String qName) throws SAXException {
     if (qName.equals(RULE)) {
       if (language.equalsConsiderVariantsIfSpecified(textLanguage) && translationLanguage != null
           && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue

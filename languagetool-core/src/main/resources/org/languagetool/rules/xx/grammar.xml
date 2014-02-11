@@ -140,6 +140,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">d a</example>
                 <example type="correct">c a</example>
                 <example type="correct">c b</example>
+                <example type="correct">a b c</example>
             </rule>
             <rule>
                 <pattern>
@@ -489,6 +490,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">blah or blah</example>
             </rule>
         </rulegroup>
+        </category>
+    <category name="Test tokens with min and max attributes">
         <rule id="TEST_MIN_OCCURRENCE" name="Test whether minOccurrence is handled correctly">
             <pattern>
                 <token min="2">blah</token>
@@ -497,17 +500,129 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Blah?</example>
             <example type="incorrect"><marker>Blah blah</marker> foo.</example>
         </rule>
+        <rule id="TEST_MAX_OCCURRENCE" name="Test whether maxOccurrence is handled correctly">
+            <pattern>
+                <token max="2">blah</token>
+            </pattern>
+            <message>Incorrect expression. Whatever</message>
+            <example type="correct">lah?</example>
+            <!-- cannot test this, as we get two rule matches here:
+                <example type="incorrect"><marker>Blah blah</marker> foo.</example>
+            -->
+            <example type="incorrect"><marker>blah</marker></example>
+        </rule>
         <rule id="TEST_MIN_MAX_OCCURRENCE" name="Test whether minOccurrence is handled correctly">
             <pattern>
                 <token>a</token>
-                <token min="2" max="3"></token>
+                <token min="2" max="3">b</token>
                 <token>c</token>
             </pattern>
             <message>Incorrect expression. Whatever</message>
             <example type="correct">a b c</example>
             <example type="correct">a c</example>
+            <example type="incorrect"><marker>a B b B c</marker></example>
             <example type="incorrect"><marker>a b b b c</marker></example>
             <example type="incorrect"><marker>a b b c</marker></example>
+        </rule>
+        <rulegroup id="TEST_MIN_MAX_OCCURRENCE_WITH_AND" name="Test whether minOccurrence is handled correctly in AND clauses">
+           <rule>
+            <pattern>
+                <token>a</token>
+                <and>
+                <token min="2" max="3">b</token>
+                <token regexp="yes">(?iu)\p{Ll}</token>
+                </and>
+                <token>c</token>
+            </pattern>
+            <message>Incorrect expression. Whatever</message>
+            <example type="correct">a b c</example>
+            <example type="correct">a c</example>
+            <!-- 'B' is uppercase, so the condition 2 in AND should exclude it -->
+            <example type="correct"><marker>a B b b c</marker></example>
+            <example type="incorrect"><marker>a b b b c</marker></example>
+            <example type="incorrect"><marker>a b b b c</marker></example>
+            <example type="incorrect"><marker>a b b c</marker></example>
+            </rule>
+            <!-- this rule would cause SAXException
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <and>
+                        NOTE: now the min/max token is the second one -
+                        and this causes the exception to be thrown!
+                        <token regexp="yes">(?iu)\p{Ll}</token>
+                        <token min="2" max="3">b</token>
+                    </and>
+                    <token>c</token>
+                </pattern>
+                <message>Incorrect expression. Whatever</message>
+                <example type="correct">a b c</example>
+                <example type="correct">a c</example>
+                <example type="correct"><marker>a B b b c</marker></example>
+                <example type="incorrect"><marker>a b b b c</marker></example>
+                <example type="incorrect"><marker>a b b b c</marker></example>
+                <example type="incorrect"><marker>a b b c</marker></example>
+            </rule>
+            -->
+        </rulegroup>
+        <rulegroup id="test_min_max_unification" name="Test unification of character case with min/max">
+            <rule>
+            <pattern case_sensitive="yes">
+                <token>abc</token>
+                <marker>
+                    <unify> <feature id="case_sensitivity">
+                        <type id="startupper"/>
+                    </feature>
+                        <token max="3"/>
+                        <token>York</token>
+                    </unify>
+                </marker>
+            </pattern>
+            <message>Warning: \1 \2 \3!</message>
+            <example type="incorrect">abc <marker>New York</marker></example>
+            <example type="incorrect">abc <marker>Really New York</marker></example>
+            <example type="incorrect">abc <marker>Absolutely Really New York</marker></example>
+            <example type="correct">abc new York</example>
+        </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>abc</token>
+                    <marker>
+                        <unify> <feature id="case_sensitivity">
+                            <type id="startupper"/>
+                        </feature>
+                            <token min="2" max="3"/>
+                            <token>York</token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Warning: \1 \2 \3!</message>
+                <example type="correct">abc <marker>New York</marker></example>
+                <example type="incorrect">abc <marker>Really New York</marker></example>
+                <example type="incorrect">abc <marker>Absolutely Really New York</marker></example>
+                <example type="correct">abc new York</example>
+            </rule>
+        </rulegroup>
+        <rule id="test_OR_with_min_max" name="Test OR with token min/max">
+            <pattern>
+                <or>
+                    <token max="2">abc</token>
+                    <token max="3">dfg</token>
+                </or>
+                    <token>test</token>
+            </pattern>
+            <message>.</message>
+            <example type="correct">dfg abc</example>
+            <example type="correct">abc dfg</example>
+            <example type="incorrect"><marker>abc test</marker></example>
+            <example type="incorrect"><marker>dfg test</marker></example>
+            <!-- multiple rule matches here:
+            1) two matches:
+                <example type="incorrect"><marker>abc abc test</marker></example>
+                <example type="incorrect"><marker>dfg dfg test</marker></example>
+            2) three matches:
+            <example type="incorrect"><marker>dfg dfg dfg test</marker></example>
+            -->
         </rule>
     </category>
 </rules>

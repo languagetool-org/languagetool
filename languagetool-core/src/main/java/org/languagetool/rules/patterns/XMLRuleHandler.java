@@ -514,7 +514,7 @@ public class XMLRuleHandler extends DefaultHandler {
     return sugMatch;
   }
 
-  protected void finalizeTokens() {
+  protected void finalizeTokens() throws SAXException {
     if (!exceptionSet || tokenElement == null) {
       tokenElement = new Element(StringTools.trimWhitespace(elements
           .toString()), caseSensitive, regExpression, tokenInflected);
@@ -551,6 +551,13 @@ public class XMLRuleHandler extends DefaultHandler {
 
     if (inAndGroup && andGroupCounter > 0) {
       elementList.get(elementList.size() - 1).setAndGroupElement(tokenElement);
+        if (minOccurrence !=1 || maxOccurrence !=1) {
+            throw new SAXException("Please set min and max attributes on the " +
+                    "first token in the AND group.\n You attempted to set these " +
+                    "attributes on the token no. " + (andGroupCounter + 1) + "." + "\n Line: "
+                    + pLocator.getLineNumber() + ", column: "
+                    + pLocator.getColumnNumber() + ".");
+        }
     } else if (inOrGroup && orGroupCounter > 0) {
       elementList.get(elementList.size() - 1).setOrGroupElement(tokenElement);
     } else {
