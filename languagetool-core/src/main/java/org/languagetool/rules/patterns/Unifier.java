@@ -168,7 +168,6 @@ public class Unifier {
 
   private boolean checkNext(final AnalyzedToken aToken,
       final Map<String, List<String>> uFeatures) {
-    boolean unifiedNext = true;
     boolean anyFeatUnified = false;
     List<String> types;
     final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
@@ -207,26 +206,25 @@ public class Unifier {
               }
             }
           }
-          allFeatsUnified &= featUnified;
+            allFeatsUnified &= featUnified;
         }
         tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) & allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
-      unifiedNext = anyFeatUnified;
-      if (unifiedNext) {
+      if (anyFeatUnified) {
         if (tokSequence.size() == readingsCounter) {
           tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
         } else {
           if (readingsCounter<tokSequence.size()) {
             tokSequence.get(readingsCounter).addReading(aToken);
           } else {
-            unifiedNext = false;
+              anyFeatUnified = false;
           }
         }
         tmpFeaturesFound = tokenFeaturesFound;
       }
     }
-    return unifiedNext;
+    return anyFeatUnified;
   }
 
   /**
