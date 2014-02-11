@@ -11446,6 +11446,17 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="SPORT_I_TURYSTKA_SPORT_I_TURYSTYKA" name="„sport i turystka” (sport i turystyka)">
+                <pattern>
+                    <token inflected="yes">sport</token>
+                    <token>i</token>
+                    <token inflected="yes">turystka</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion><match no="1"/> <match no="2"/> <match no="3" regexp_match="turyst(.*)" regexp_replace="turysty$1"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect"  correction="Sport i turystyka"><marker>Sport i turystka</marker> to ważne dziedziny.</example>
+                <example type="correct">Sport i turystyka to ważne dziedziny.</example>
+           </rule>
         <rule id="W_OBYM_W_OBCYM" name="„w obym” (w obcym)">
         <pattern>
           <token>w</token>
