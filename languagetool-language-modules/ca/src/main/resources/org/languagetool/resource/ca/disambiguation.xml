@@ -3533,35 +3533,32 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="el_pais" name="el país, el domini, l'equilibri (nom)">
         <rule>
             <pattern>
-                <token regexp="yes">el|l'</token>
-                <marker>
-                    <token postag="NCMS000" regexp="yes">país|domini|equilibri|termini|cap</token>
-                </marker>
-                <token postag="V.*|AQ0[MC][SN]0" postag_regexp="yes"/>
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">país|domini|equilibri|termini|cap|dosi</token>
+                    </marker>
+                </unify>
+                <token postag="V.*|AQ.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
             </pattern>
-            <disambig action="filter" postag="NCMS000"/>
+            <disambig action="filter" postag="NC.*"/>
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">el|l'</token>
-                <marker>
-                    <token postag="NCMS000" regexp="yes">país|domini|equilibri|termini|cap</token>
-                </marker>
-                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
-                <token postag="V.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="NCMS000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">el|l'</token>
-                <marker>
-                    <token postag="NCMS000" regexp="yes">país|domini|equilibri|termini|cap</token>
-                </marker>
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">país|domini|equilibri|termini|cap|dosi</token>
+                    </marker>
+                </unify>
                 <token regexp="yes">de|d'</token>
                 <token><exception>manera</exception></token>
             </pattern>
-            <disambig action="filter" postag="NCMS000"/>
+            <disambig action="filter" postag="NC.*"/>
         </rule>
     </rulegroup>
     <rule id="SENS" name="sens + nom"> 
