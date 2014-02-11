@@ -477,7 +477,7 @@ private JCheckBox serverSettingsCheckbox;
     return Integer.parseInt(serverPortField.getText());
   }
 
-  class CategoryComparator implements Comparator<Rule> {
+  static class CategoryComparator implements Comparator<Rule> {
 
     @Override
     public int compare(final Rule r1, final Rule r2) {
