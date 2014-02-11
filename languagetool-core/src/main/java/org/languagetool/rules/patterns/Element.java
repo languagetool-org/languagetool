@@ -448,10 +448,7 @@ public class Element implements Cloneable {
       return true;
     }
     if (token.getPOSTag() == null) {
-      if (posUnknown) {
-        return token.hasNoTag();
-      }
-      return false;
+        return posUnknown && token.hasNoTag();
     }
     boolean match;
     if (posRegExp) {

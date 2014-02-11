@@ -103,7 +103,7 @@ public class AnalyzedToken {
     }
     boolean found = true;
     if (!"".equals(an.getToken())) { //token cannot be null
-      found &= an.getToken().equals(this.token);
+      found = an.getToken().equals(this.token);
     }
     if (an.getLemma() != null) {
       found &= an.getLemma().equals(this.lemma);

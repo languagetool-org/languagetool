@@ -65,7 +65,7 @@ public class MultiWordChunker implements Disambiguator {
     for (String posToken : posTokens) {
       final String[] tokenAndTag = posToken.split("\t");
       final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
-      String firstToken = "";
+      String firstToken;
       final String[] firstTokens;
       if (!containsSpace) {
         firstTokens = new String[tokenAndTag[0].length()];

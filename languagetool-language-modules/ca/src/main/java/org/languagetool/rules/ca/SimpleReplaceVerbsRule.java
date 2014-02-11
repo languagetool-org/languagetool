@@ -173,7 +173,7 @@ public class SimpleReplaceVerbsRule extends Rule {
             }
           }
         }
-        if (possibleReplacements != null && possibleReplacements.size() > 0) {
+        if (possibleReplacements.size() > 0) {
             RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings,possibleReplacements);
             ruleMatches.add(potentialRuleMatch);
         }

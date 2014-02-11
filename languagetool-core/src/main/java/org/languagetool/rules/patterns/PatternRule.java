@@ -227,11 +227,7 @@ public class PatternRule extends AbstractPatternRule {
    */
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
     Set<String> simpleRuleTokens = getSimpleTokens();
-    if (simpleRuleTokens.isEmpty()) {
-      // this is one of the rules too complicated for this pre-check
-      return false;
-    }
-      return !sentence.getTokenSet().containsAll(simpleRuleTokens);
+      return !simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens);
   }
 
   // tokens that just refer to a word - no regex, no inflection etc.

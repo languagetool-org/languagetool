@@ -162,10 +162,8 @@ public final class StringTools {
       return false;
     }
     final char firstChar = str.charAt(0);
-    if (Character.isUpperCase(firstChar)) {
-      return str.substring(1).equals(str.substring(1).toLowerCase());
-    }
-    return false;
+      return Character.isUpperCase(firstChar) &&
+              str.substring(1).equals(str.substring(1).toLowerCase());
   }
 
   /**

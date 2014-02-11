@@ -123,7 +123,7 @@ public class Unifier {
     List<String> types;
 
     if (allFeatsIn) {
-      unified &= checkNext(aToken, uFeatures);
+      unified = checkNext(aToken, uFeatures);
     } else {
       tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
@@ -150,7 +150,7 @@ public class Unifier {
             }
           }
         }
-        unified &= equivalencesMatched.get(tokCnt).containsKey(feat.getKey());
+        unified = equivalencesMatched.get(tokCnt).containsKey(feat.getKey());
         if (!unified) {
           break;
         }
@@ -212,7 +212,7 @@ public class Unifier {
         tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) & allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
-      unifiedNext &= anyFeatUnified;
+      unifiedNext = anyFeatUnified;
       if (unifiedNext) {
         if (tokSequence.size() == readingsCounter) {
           tokSequence.add(new AnalyzedTokenReadings(aToken, 0));

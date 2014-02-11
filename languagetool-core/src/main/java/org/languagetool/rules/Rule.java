@@ -205,20 +205,14 @@ public abstract class Rule {
   }
 
   public final boolean isInRemoved(final RuleMatch ruleMatch) {
-    if (removedMatches == null) {
-      return false;
-    }
-    return removedMatches.contains(ruleMatch);
+      return removedMatches != null && removedMatches.contains(ruleMatch);
   }
 
   public final boolean isInMatches(final int index) {
     if (previousMatches == null) {
       return false;
     }
-    if (previousMatches.size() > index) {
-      return previousMatches.get(index) != null;
-    }
-    return false;
+      return previousMatches.size() > index && previousMatches.get(index) != null;
   }
 
   public final void clearMatches() {
