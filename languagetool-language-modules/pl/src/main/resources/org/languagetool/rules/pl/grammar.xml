@@ -13283,7 +13283,7 @@ $Id$
 						<pattern>
 								<token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
 								<marker>
-										<token postag_regexp="yes" postag=".*:refl" skip="-1"><exception postag=".*nonrefl.*" postag_regexp="yes" scope="current"/><exception postag="subst:.*|(ppas|adj|pact).*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
+										<token postag_regexp="yes" postag=".*:refl" skip="-1"><exception postag=".*nonrefl.*" postag_regexp="yes" scope="current"/><exception postag="(subst|ppas|adj|pact|prep|adv).*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
 								</marker>
 								<token postag="SENT_END"><exception>się</exception></token>
 						</pattern>
@@ -13292,6 +13292,7 @@ $Id$
 						<example type="correct">Ludwik niczego się nie bał.</example>
 						<example type="correct">Aktom brutalnym towarzyszą akty wielkoduszności.</example>
 						<example type="correct">Rozchmurz się</example>
+                        <example type="correct">Bonaparte przerwał niespodziewanie świetną kampanię.</example>
 						<example correction="bał się|się bał" type="incorrect">Ludwik niczego nie <marker>bał</marker>.</example>
 				</rule>
 				<rule id="STAWAC_KIM" name="„stawać/stać kim” (stawać/stać się kim)">
@@ -13300,7 +13301,7 @@ $Id$
 								<marker>
 										<token inflected="yes" regexp="yes">stawać|stać</token>
 								</marker>
-								<token skip="-1" postag=".*inst.*" postag_regexp="yes"><exception scope="next">się</exception></token>
+								<token skip="-1" postag="^(?!prep:).*inst.*" postag_regexp="yes"><exception regexp="yes">tyłem|bokiem|twarzą</exception><exception scope="next">się</exception></token>
 								<token postag="SENT_END"></token>
 						</pattern>
 						<message>W tym zdaniu prawdopodobnie brakuje wyrazu „się”: <suggestion>się \2</suggestion>.</message>
@@ -13308,6 +13309,7 @@ $Id$
 						<example correction="się stał" type="correct">On <marker>stał</marker> bardzo ważnym człowiekiem.</example>
 						<example type="correct">On się stał bardzo ważnym człowiekiem.</example>
 						<example type="correct">On stał się bardzo ważnym człowiekiem.</example>
+                        <example type="correct">Staliśmy z twoją matką przy oknie.</example>
 				</rule>
 				<rulegroup id="O_TY" name="„o ty” (o tym)">
 						<rule>
