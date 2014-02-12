@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.076 2014-02-05 13:27:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.077 2014-02-12 13:19:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -80,6 +80,20 @@ $Id: grammar.xml,v 1.076 2014-02-05 13:27:00 marcoagpinto Exp $
 
 
 
+    <!-- ABANDONAR O LEITO deixar a cama -->
+    <rule id="ABANDONAR_O_LEITO" name="deixar a cama">
+      <pattern>
+        <token>abandonar</token>
+        <token>o</token>
+        <token>leito</token>
+      </pattern>
+      <message>Substituir «abandonar o leito» por <suggestion>deixar a cama</suggestion>.</message>
+      <example type="incorrect">Vou <marker>abandonar o leito</marker>.</example>
+      <example type="correct">Vou <marker>deixar a cama</marker>.</example>
+    </rule>
+
+
+
     <!-- À BOCADO há bocado -->
     <rule id="À_BOCADO" name="há bocado">
       <pattern>
@@ -89,6 +103,19 @@ $Id: grammar.xml,v 1.076 2014-02-05 13:27:00 marcoagpinto Exp $
       <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
       <example type="incorrect">Cheguei <marker>à bocado</marker> do Algarve.</example>
       <example type="correct">Cheguei <marker>há bocado</marker> do Algarve.</example>
+    </rule>
+
+
+
+    <!-- À MARAVILHA às mil maravilhas -->
+    <rule id="À_MARAVILHA" name="às mil maravilhas">
+      <pattern>
+        <token>à</token>
+        <token>maravilha</token>
+      </pattern>
+      <message>Substituir «à maravilha» por <suggestion>às mil maravilhas</suggestion>.</message>
+      <example type="incorrect">Isto correu <marker>à maravilha</marker>.</example>
+      <example type="correct">Isto correu <marker>às mil maravilhas</marker>.</example>
     </rule>
 
 
