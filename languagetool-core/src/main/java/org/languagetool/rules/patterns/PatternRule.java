@@ -244,7 +244,7 @@ public class PatternRule extends AbstractPatternRule {
         if (!element.getNegation() && !element.isRegularExpression() 
                 && !element.isReferenceElement() && !element.isInflected() && element.getMinOccurrence() > 0) {
           String str = element.getString();
-          if (!str.isEmpty()) {
+          if (!StringTools.isEmpty(str)) {
             tokenSet.add(str.toLowerCase());
           }
         }
