@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Matches a pattern rule against plain text.
@@ -92,7 +92,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
               firstMatchToken, prevSkipNext);
 
           if (elem.getElement().getMinOccurrence() == 0) {
-            // note: min occurrences != 0 or 1 are not yet supported
             final ElementMatcher nextElement = elementMatchers.get(k + 1);
             final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, elem, m,
                 firstMatchToken, prevSkipNext);

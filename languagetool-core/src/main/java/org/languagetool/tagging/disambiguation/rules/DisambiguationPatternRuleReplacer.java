@@ -19,19 +19,15 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import java.io.IOException;
-import java.util.List;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
-import org.languagetool.rules.patterns.AbstractPatternRulePerformer;
-import org.languagetool.rules.patterns.Element;
-import org.languagetool.rules.patterns.ElementMatcher;
-import org.languagetool.rules.patterns.Match;
-import org.languagetool.rules.patterns.MatchState;
+import org.languagetool.rules.patterns.*;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * @since 2.3
@@ -64,13 +60,14 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       if (rule.isTestUnification()) {
         unifier.reset();
       }
+      int minOccurSkip = 0;
       for (int k = 0; k < patternSize; k++) {
         final ElementMatcher prevElement = elem;
         elem = elementMatchers.get(k);
         elem.resolveReference(firstMatchToken, tokens,
             rule.getLanguage());
 
-        final int nextPos = i + k + skipShiftTotal;
+        final int nextPos = i + k + skipShiftTotal - minOccurSkip;
         prevMatched = false;
         if (prevSkipNext + nextPos >= tokens.length || prevSkipNext < 0) { // SENT_END?
           prevSkipNext = tokens.length - (nextPos + 1);
@@ -80,6 +77,17 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         for (int m = nextPos; m <= maxTok; m++) {
           allElementsMatch = testAllReadings(tokens, elem,
               prevElement, m, firstMatchToken, prevSkipNext);
+           if (elem.getElement().getMinOccurrence() == 0) {
+                final ElementMatcher nextElement = elementMatchers.get(k + 1);
+                final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, elem, m,
+                        firstMatchToken, prevSkipNext);
+                if (nextElementMatch) {
+                    // this element doesn't match, but it's optional so accept this and continue
+                    allElementsMatch = true;
+                    minOccurSkip++;
+                    break;
+                }
+           }
           if (allElementsMatch) {
             final int skipShift = m - nextPos;
             tokenPositions[matchingTokens] = skipShift + 1;
@@ -96,7 +104,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           break;
         }
       }
-      if (allElementsMatch && matchingTokens == patternSize) {
+      if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
         whTokens = executeAction(text, whTokens, unifiedTokens,
             firstMatchToken, matchingTokens, tokenPositions);
         changed = true;

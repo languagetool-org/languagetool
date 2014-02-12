@@ -851,24 +851,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                         <token postag="NN"></token>
                     </and>
                 </marker>
+                <token min="0" max="1" postag="JJ"></token>
                 <token postag="NNS"></token>
             </pattern>
             <disambig postag="CD"></disambig>
             <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> things are important.</example>
-            <example type="untouched">These are those two.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <and>
-                        <token postag="CD"><exception>one</exception></token>
-                        <token postag="NN"></token>
-                    </and>
-                </marker>
-                <token postag="JJ"></token>
-                <token postag="NNS"></token>
-            </pattern>
-            <disambig postag="CD"></disambig>
             <example type="ambiguous" inputform="two[two/CD,two/JJ,two/NN]" outputform="two[two/CD]">These <marker>two</marker> bad things are important.</example>
             <example type="untouched">These are those bad two.</example>
         </rule>
@@ -877,22 +864,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <marker>
                     <token postag="CD">one<exception scope="previous">no</exception></token>
                 </marker>                
-                <token postag="NN"/>
-            </pattern>
-            <disambig postag="CD"></disambig>
-            <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> dog.</example>
-            <example type="untouched">No one trusts him any more.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="CD">one<exception scope="previous">no</exception></token>
-                </marker>                
-                <token postag="JJ"></token>
+                <token min="0" max="1" postag="JJ"></token>
                 <token postag="NN"/>
             </pattern>
             <disambig postag="CD"></disambig>
             <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> black dog.</example>
+            <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/CD]">I have <marker>one</marker> dog.</example>
             <example type="untouched">No one trusts him any more.</example>
         </rule>
     </rulegroup>
