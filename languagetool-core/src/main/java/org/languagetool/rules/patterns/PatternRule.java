@@ -65,7 +65,12 @@ public class PatternRule extends AbstractPatternRule {
    **/
   private boolean isMemberOfDisjunctiveSet;
 
-  /**
+    /**
+     * Tokens used for checking whether a rule can ever match.
+     */
+  private Set<String> simpleRuleTokens;
+
+    /**
    * @param id
    *          Id of the Rule. Used in configuration. Should not contain special characters and should
    *          be stable over time, unless the rule changes completely.
@@ -115,7 +120,9 @@ public class PatternRule extends AbstractPatternRule {
         elementNo.add(1);
         loopCnt++;
       }
-    }    
+    }
+    //don't instantiate a hash for every sentence, simply store it:
+    simpleRuleTokens = getSimpleTokens();
   }  
   
   public PatternRule(final String id, final Language language,
@@ -226,7 +233,6 @@ public class PatternRule extends AbstractPatternRule {
    * @since 2.4
    */
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
-    Set<String> simpleRuleTokens = getSimpleTokens();
       return !simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens);
   }
 
