@@ -4619,7 +4619,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>quatre</token>
           <token regexp="yes">vingts?</token>
-          <token regexp="yes">une|(un|deux|trois|six|sept|huit|dix|dix-sept|dix[-‑‐]huit)(ièmes?)?|(quatr|onz|douz|treiz|quatorz|quinz|seiz)(e|ièmes?)?|cinq|cinquièmes?|(dix[-‑‐])?(neuf|neuvièmes?)</token>
+          <token regexp="yes">une|(un|deux|trois|six|sept|huit|dix|dix[-‑‐]sept|dix[-‑‐]huit)(ièmes?)?|(quatr|onz|douz|treiz|quatorz|quinz|seiz)(e|ièmes?)?|cinq|cinquièmes?|(dix[-‑‐])?(neuf|neuvièmes?)</token>
         </pattern>
         <message>Employez <suggestion>quatre-vingt-\3</suggestion>.</message>
         <example type="incorrect" correction="quatre-vingt-un">Il a <marker>quatre vingt un</marker> ans.</example>
@@ -5825,7 +5825,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera-t)[-‑‐]elle</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]elle</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [fe] sp?|[JNZ] [fe] sp?" postag_regexp="yes"/>
@@ -5871,7 +5871,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera-t)[-‑‐]il</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]il</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
               <exception postag="V ppa [me] sp?|[JNZ] [me] sp?" postag_regexp="yes"/>
@@ -5917,7 +5917,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera-t)[-‑‐]elle</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]elle</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -5965,7 +5965,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(est|était|fut|serait|sera-t)[-‑‐]il</token>
+          <token regexp="yes">(est|était|fut|serait|sera[-‑‐]t)[-‑‐]il</token>
           <token regexp="yes">assez|beaucoup|bien|déjà|encore|enfin|juste|mieux|moins|parfois|pas|peut[-‑‐]être|plus|presque|toujours|trop</token>
           <marker>
             <token postag="[VJ] .*" postag_regexp="yes">
@@ -14475,7 +14475,7 @@ though, and has since been slightly modified)-->
     <rule id="COMMENT_AS-TU_AIME" name="comment as-tu aimé">
       <pattern>
         <token>comment</token>
-        <token skip="1">as-tu</token>
+        <token regexp="yes" skip="1">as[-‑‐]tu</token>
         <token>aimé</token>
       </pattern>
       <message>« Comment as-tu aimé » est un anglicisme (how did you like). Employez <suggestion>as-tu aimé</suggestion>.</message>
@@ -14485,7 +14485,7 @@ though, and has since been slightly modified)-->
     <rule id="COMMENT_AVEZ-VOUS_AIME" name="comment avez-vous aimé">
       <pattern>
         <token>comment</token>
-        <token>avez-vous</token>
+        <token regexp="yes">avez[-‑‐]vous</token>
         <token>aimé</token>
       </pattern>
       <message>« Comment avez-vous aimé » est un anglicisme (how did you like). Employez <suggestion>avez-vous aimé</suggestion>.</message>
@@ -15323,9 +15323,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PARE-CHOC_A_PARE-CHOC" name="pare-choc à pare-choc">
       <pattern>
-        <token regexp="yes">pare-chocs?</token>
+        <token regexp="yes">pare[-‑‐]chocs?</token>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">pare-chocs?</token>
+        <token regexp="yes">pare[-‑‐]chocs?</token>
       </pattern>
       <message>« Pare-choc à pare-choc » est un anglicisme (bumper to bumper). Employez <suggestion>pare-choc contre pare-choc</suggestion>.</message>
       <example type="incorrect"><marker>pare-choc à pare-choc</marker>.</example>
@@ -15901,7 +15901,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>qu</token>
         <token regexp="yes">[’´'‛′‘]</token>
-        <token skip="4">est-ce</token>
+        <token regexp="yes" skip="4">est[-‑‐]ce</token>
         <token inflected="yes" skip="5">arriver</token>
         <token>avec</token>
       </pattern>
@@ -23916,6 +23916,15 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Un <marker>trait-d’union</marker>.</example>
         <example type="correct">Un trait d’union.</example>
       </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">va[-‑‐]t[-‑‐]en</token>
+          <token regexp="yes">guerres?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>va-t-en-guerre</suggestion> ?</message>
+        <example type="incorrect" correction="va-t-en-guerre">Un <marker>va-t-en guerre</marker>.</example>
+        <example type="correct">Un <marker>va-t-en-guerre</marker>.</example>
+      </rule>
     </rulegroup>
     <rule id="QUASI_NOM" name="Quasi + nom">
       <pattern>
@@ -25898,7 +25907,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">afrique|(ex-)?allemagne|asie|europe|pays</token>
+          <token regexp="yes">afrique|(ex[-‑‐])?allemagne|asie|europe|pays</token>
           <token>de</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>
