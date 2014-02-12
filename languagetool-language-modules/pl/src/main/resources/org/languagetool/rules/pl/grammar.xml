@@ -8846,16 +8846,41 @@ $Id$
 						<example correction="w okamgnieniu" type="incorrect">Premier wyniósł się z Sejmu <marker>w oka mgnieniu</marker>.</example>
 						<example type="correct">Koalicja uratowała się w okamgnieniu.</example>
 				</rule>
-				<rule id="DWU_PRZYMIOTNIK" name="Błędna pisownia rozłączna „jedno-”, „dwu-”, „trzy-” i „stu-”">
-						<pattern>
-								<token regexp="yes">jedno|dwu|trzy|stu</token>
-								<token inflected="yes" regexp="yes">aktowy|barwny|biegowy|cyfrowy|częściowy|daniowy|dniowy|drzwiowy|fazowy|głosowy|godzinny|języczny|kilogramowy|kilowy|klasowy|kołowy|kondygnacyjny|konny|krotny|letni|listny|literowy|litrowy|lufowy|metrowy|miesięczny|milowy|minutowy|osobowy|pasmowy|piętrowy|płatowy|pokoleniowy|procentowy|ramienny|składnikowy|tomowy|tonowy|tygodniowy|wiekowy</token>
-						</pattern>
-						<message>Prawdopodobnie błąd ortograficzny. Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
-						<short>Błąd ortograficzny</short>
-						<example type="correct">Ta droga jest dwupasmowa.</example>
-						<example correction="dwupasmowa" type="incorrect">Ta droga jest <marker>dwu pasmowa</marker>.</example>
+				<rulegroup id="DWU_PRZYMIOTNIK" name="Błędna pisownia rozłączna „jedno-”, „dwu-”, „trzy-” itp. z przymiotnikami">
+                 <rule>
+                    <pattern>
+					    <token postag="num:comp"/>
+                        <token postag="num:comp"/>
+                        <token postag="num:comp"/>
+						<token inflected="yes" regexp="yes">aktowy|barwny|biegowy|cyfrowy|częściowy|daniowy|dniowy|drzwiowy|fazowy|głosowy|godzinny|języczny|kilogramowy|kilowy|klasowy|kołowy|kondygnacyjny|konny|krotny|letni|listny|literowy|litrowy|lufowy|metrowy|miesięczny|milimetrowy|milowy|milionowy|minutowy|osobowy|pasmowy|piętrowy|płatowy|pokoleniowy|procentowy|ramienny|składnikowy|tomowy|tonowy|tygodniowy|wiekowy</token>
+					</pattern>
+					<message>Prawdopodobnie błąd ortograficzny. Ten wyraz piszemy razem: <suggestion>\1\2\3\4</suggestion>.</message>
+					<short>Błąd ortograficzny</short>
+					<example type="correct">Ta droga jest dwupasmowa.</example>
+					<example correction="stupięćdziesięciodwupasmowa" type="incorrect">Ta droga jest <marker>stu pięćdziesięcio dwu pasmowa</marker>.</example>
 				</rule>
+                <rule>
+                      <pattern>
+                          <token postag="num:comp"><exception scope="previous" postag="num:comp"/></token>
+                          <token postag="num:comp"/>
+                          <token inflected="yes" regexp="yes">aktowy|barwny|biegowy|cyfrowy|częściowy|daniowy|dniowy|drzwiowy|fazowy|głosowy|godzinny|języczny|kilogramowy|kilowy|klasowy|kołowy|kondygnacyjny|konny|krotny|letni|listny|literowy|litrowy|lufowy|metrowy|miesięczny|milimetrowy|milowy|milionowy|minutowy|osobowy|pasmowy|piętrowy|płatowy|pokoleniowy|procentowy|ramienny|składnikowy|tomowy|tonowy|tygodniowy|wiekowy</token>
+                      </pattern>
+                      <message>Prawdopodobnie błąd ortograficzny. Ten wyraz piszemy razem: <suggestion>\1\2\3</suggestion>.</message>
+                      <short>Błąd ortograficzny</short>
+                      <example type="correct">Ta droga jest dwupasmowa.</example>
+                      <example correction="pięćdziesięciodwupasmowa" type="incorrect">Ta droga jest <marker>pięćdziesięcio dwu pasmowa</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                         <token postag="num:comp"><exception scope="previous" postag="num:comp"/></token>
+                         <token inflected="yes" regexp="yes">aktowy|barwny|biegowy|cyfrowy|częściowy|daniowy|dniowy|drzwiowy|fazowy|głosowy|godzinny|języczny|kilogramowy|kilowy|klasowy|kołowy|kondygnacyjny|konny|krotny|letni|listny|literowy|litrowy|lufowy|metrowy|miesięczny|milimetrowy|milowy|milionowy|minutowy|osobowy|pasmowy|piętrowy|płatowy|pokoleniowy|procentowy|ramienny|składnikowy|tomowy|tonowy|tygodniowy|wiekowy</token>
+                    </pattern>
+                    <message>Prawdopodobnie błąd ortograficzny. Ten wyraz piszemy razem: <suggestion>\1\2</suggestion>.</message>
+                    <short>Błąd ortograficzny</short>
+                    <example type="correct">Ta droga jest dwupasmowa.</example>
+                    <example correction="dwupasmowa" type="incorrect">Ta droga jest <marker>dwu pasmowa</marker>.</example>
+                </rule>
+                </rulegroup>
 				<rule default="off" id="PRZECIAGNIJ-I-UPUSC" name="Wyrażenia pisane z wieloma łącznikami">
 						<pattern>
 								<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">staro-cerkiewno-słowiańs.*|staro-wysoko-niemiec.*|koh-i-noor.*</exception><exception regexp="yes">.*-(en|a|sur|de|du|au|of|upon|cyk|as|off|per)-.*</exception>\p{L}{2,}-\p{L}+-.*</token>

@@ -69,6 +69,9 @@ public class PolishWordTokenizerTest extends TestCase {
     assertEquals("[To,  , jest,  , kobieta, -, wojownik,  , " +
         "w,  , polsko, -, czeskim,  , ubraniu, ,,  " +
         ", która,  , wysłała,  , dwa,  , SMS-y, .]", compoundTokens.toString());
+    compoundTokens = wordTokenizer.tokenize("Miała osiemnaście-dwadzieścia lat.");
+    assertEquals(8, compoundTokens.size());
+    assertEquals("[Miała,  , osiemnaście, -, dwadzieścia,  , lat, .]", compoundTokens.toString());
   }
 
 }

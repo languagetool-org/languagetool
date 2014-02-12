@@ -83,8 +83,9 @@ public class PolishWordTokenizer extends WordTokenizer {
    * <li> it includes n-dash and m-dash as tokenizing characters,
    * as these are not included in the spelling dictionary;
    * <li> it splits two kinds of compound words containing a hyphen,
-   * such as <em>dziecko-geniusz</em> (two nouns) or
-   * <em>polsko-indonezyjski</em> (a post-positional adjective and adjective),
+   * such as <em>dziecko-geniusz</em> (two nouns),
+   * <em>polsko-indonezyjski</em> (an ad-adjectival adjective and adjective),
+   * or <em>osiemnaście-dwadzieścia</em> (two numerals)
    * but not words in which the hyphen occurs before a morphological ending
    * (such as <em>SMS-y</em>).
    * </ol>
@@ -125,7 +126,9 @@ public class PolishWordTokenizer extends WordTokenizer {
                         && taggedToks.get(1).hasPartialPosTag("adj:")
                         // "kobieta-wojownik"
                         || taggedToks.get(0).hasPartialPosTag("subst:")
-                        && taggedToks.get(1).hasPartialPosTag("subst:"))) {
+                        && taggedToks.get(1).hasPartialPosTag("subst:"))
+                        || taggedToks.get(0).hasPartialPosTag("num:")
+                        && taggedToks.get(1).hasPartialPosTag("num:")) {
                   l.add(tokenParts[0]);
                   l.add("-");
                   l.add(tokenParts[1]);

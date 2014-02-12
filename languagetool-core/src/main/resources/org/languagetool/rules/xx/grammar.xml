@@ -616,13 +616,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">abc dfg</example>
             <example type="incorrect"><marker>abc test</marker></example>
             <example type="incorrect"><marker>dfg test</marker></example>
-            <!-- multiple rule matches here:
+            <!-- FIXME: multiple rule matches here
             1) two matches:
                 <example type="incorrect"><marker>abc abc test</marker></example>
                 <example type="incorrect"><marker>dfg dfg test</marker></example>
             2) three matches:
             <example type="incorrect"><marker>dfg dfg dfg test</marker></example>
+            [the user will see just one, it's only impossible to test it, maybe we
+            should be more liberal during the test?]
             -->
         </rule>
+        <!-- FIXME: not sure how to deal with \1 referring to <token max="2"/> ... probably
+        there might be different uses here, with a space or without it... right now
+        we simply match only the first token, and match include_skipped="yes" does not
+        work for it
+        <rule id="test_max_suggestion_matches" name="Test reference to a token with max attribute">
+            <pattern>
+                <token max="2">abc</token>
+                <token>dfg</token>
+            </pattern>
+            <message>Whatever</message>
+            <suggestion>\1\2</suggestion>
+            <example type="correct">abcdfg</example>
+            <example type="incorrect" correction="abcdfg">Test <marker>abc dfg</marker>.</example>
+            <example type="incorrect" correction="abcabcdfg">Test <marker>abc abc dfg</marker>.</example>
+        </rule>
+        -->
     </category>
 </rules>
