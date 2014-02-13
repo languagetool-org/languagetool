@@ -490,7 +490,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule>
         <pattern>
             <unify> <feature id="case"/>
-                <token>przeciw</token>
+                <token regexp="yes">przeciw|poza</token>
                 <token postag="(adj|subst|ger|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
@@ -1392,6 +1392,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig postag="qub"/>
       <example type="untouched">Trwało to około godziny.</example>
       <example type="ambiguous" inputform="około[około/adv:pos,około/prep:gen,około/qub]" outputform="około[około/qub]">Ciągnęło się to przez <marker>około</marker> godzinę.</example>
+    </rule>
+
+    <rule name="Anno Domini to nie wołacz" id="Anno_xxx">
+        <pattern>
+            <marker>
+            <token>Anno</token>
+            </marker>
+            <token>Domini</token>
+        </pattern>
+        <disambig action="replace"><wd pos="xxx" lemma="annus"/></disambig>
+        <example type="untouched">Anno, umyj zęby!</example>
+        <example type="ambiguous" inputform="Anno[Anna/subst:sg:voc:f]" outputform="Anno[annus/xxx]"><marker>Anno</marker> Domini MMXX</example>
     </rule>
         
     <rule name="potencjalne brev" id="heuristic_brev_pun">

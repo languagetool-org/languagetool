@@ -1300,9 +1300,9 @@ $Id$
 				<rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
-								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*m3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście</exception><exception regexp="yes" scope="next">[,-–—!\.]</exception></token>
+								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*m3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]</exception></token>
 								<marker>
-										<token><exception regexp="yes" scope="current">[,-–—!\.]</exception><exception postag=".*voc.*" postag_regexp="yes"></exception></token>
+										<token><exception regexp="yes" scope="current">[,-–—!\.]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
 								</marker>
 						</pattern>
 						<message>Prawdopodobnie brak przecinka po rzeczowniku w wołaczu. Powinno być: <suggestion>, \3</suggestion>.</message>
@@ -1311,6 +1311,8 @@ $Id$
 						<example type="correct">Agato, czas na Colgate!</example>
 						<example type="correct">Obywatelu kapitanie, czas na Colgate!</example>
 						<example type="correct">Coście się tak, babuniu, za nos chwyciła?</example>
+                        <example type="correct">Tacie się to nie spodoba.</example>
+                        <example type="correct">Anno Domini MCMXXI, 1922</example>
 				</rule>
 				<rule id="JAK_I" name="Brak przecinka przed „jak i”">
 						<pattern>
@@ -9121,7 +9123,7 @@ $Id$
 				</rulegroup>
 				<rule id="SKROTOWCE_BEZ_DYWIZU" name="Skrótowce bez dywizu w przypadkach zależnych">
 						<pattern>
-								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr|REDakcj.*|KPCh</exception></token>
+								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[\p{L}&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|GHz|MHz|MKOl|PKOl|UWr|REDakcj.*|KPCh|VBScript|GUŁag</exception></token>
 						</pattern>
 						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -10521,7 +10523,7 @@ $Id$
 				<rulegroup id="PRZEDROSTKI" name="Przedrostki błędnie pisane z łącznikiem: „neo”, „post”, „pre”, „eks”...">
                 <rule>
 						<pattern>
-								<token regexp="yes"><exception>nad-ja</exception>(?:neo|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)-\p{Ll}+</token>
+								<token regexp="yes"><exception>nad-ja</exception>(?:neo|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)-\p{Ll}+<exception regexp="yes">pro-(life|choice)</exception></token>
 						</pattern>
 						<message>Ten wyraz piszemy bez łącznika: <suggestion><match no="1" regexp_match="(?iu)^(neo|post|pre|anty|arcy|eks|bez|beze|ekstra|hiper|infra|kontr|maksi|midi|między|mini|nad|nade|około|ponad|post|pro|przeciw|pseudo|super|śród|ultra|wice|wokół|wokoło)-(.*)" regexp_replace="$1$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -12139,7 +12141,7 @@ $Id$
 								<pattern>
 										<token regexp="yes">jest|była|będzie</token>
 										<marker>
-												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta</exception>.*a</token>
+												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|ona</exception>.*a</token>
 												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
 										</marker>
 								</pattern>
