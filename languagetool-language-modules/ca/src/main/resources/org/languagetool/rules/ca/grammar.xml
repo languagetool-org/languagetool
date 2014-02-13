@@ -17218,6 +17218,30 @@ $Id$
                 <example type="correct">en l'entorn a través de vies específiques</example>
             </rule>
         </rulegroup>
+        <rulegroup id="EN_TORN_A" name="en torn a">
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>torn</token>
+                    <token>a</token>
+                </pattern>
+                <message>Construcció incorrecta </message>
+                <suggestion>entorn de</suggestion>
+                <example type="incorrect" correction="entorn de"><marker>en torn a</marker>l pati</example>
+                <example type="correct">entorn de</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>en</token>
+                    <token>torn</token>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Construcció incorrecta </message>
+                <suggestion>entorn <match no="3"/></suggestion>
+                <example type="incorrect" correction="entorn de"><marker>en torn de</marker>l pati</example>
+                <example type="correct">entorn de</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="A_L_ENTORN_DE" name="a l'entorn de">
             <rule>
                 <pattern>
@@ -22256,7 +22280,7 @@ $Id$
     <category name="C8) Formes secundàries" default="on" type="style">
         <rule id="CARGOL_CARBASSA" name="cargol, carbassa / caragol, carabassa">
             <pattern>
-                <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">.*(car)(gol|bassa).*</token>
+                <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">.*(car)(gol|bass).*</token>
             </pattern>
             <message>Forma secundària.</message>
             <suggestion><match no="1" regexp_match="(.*car)(.*)" regexp_replace="$1a$2"/></suggestion>
@@ -22268,7 +22292,7 @@ $Id$
         </rule>
         <rule id="CARTRO" name="cartró /cartó">
             <pattern>
-                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">cartró</token>
+                <token inflected="yes">cartró</token>
             </pattern>
             <message>Forma secundària.</message>
             <suggestion><match no="1" regexp_match="(.*cart)r(.*)" regexp_replace="$1$2"/></suggestion>
