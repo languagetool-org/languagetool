@@ -1860,7 +1860,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token><exception postag="subst:.*" postag_regexp="yes"></exception></token>
+										<token><exception postag="subst:.*" postag_regexp="yes"/><exception scope="previous">co</exception></token>
 										<token>,</token>
 										<token>a</token>
 										<token><match no="0"></match></token>
@@ -2629,13 +2629,26 @@ $Id$
 										<marker>
 												<token>cztery</token>
 										</marker>
-										<token postag="subst:pl:nom:n1"></token>
+										<token postag="subst:pl:nom:n1"><exception>oczy</exception></token>
 								</pattern>
 								<message>Błędna forma liczebnika. Powinno być: <suggestion>czworo</suggestion>.</message>
 								<short>Błędna odmiana</short>
 								<example correction="czworo" type="incorrect">Mam <marker>cztery</marker> dzieci.</example>
 								<example type="correct">Przez ulicę szło czworo dzieci.</example>
+                                <example type="correct">Porozmawiajmy w cztery oczy.</example>
 						</rule>
+                        <rule>
+                        <pattern>
+                            <marker>
+                                <token>cztery<exception scope="previous">w</exception></token>
+                                <token>oczy</token>
+                            </marker>
+                        </pattern>
+                        <message>Błędna forma liczebnika. Powinno być: <suggestion>czworo oczu</suggestion>.</message>
+                        <short>Błędna odmiana</short>
+                        <example type="correct">Porozmawiajmy w cztery oczy.</example>
+                        <example type="incorrect" correction="czworo oczu">Żyjątko ma <marker>cztery oczy</marker>.</example>
+                        </rule>
 						<rule>
 								<pattern>
 										<marker>
@@ -4241,7 +4254,7 @@ $Id$
 								<pattern>
 										<token inflected="yes" regexp="yes">używać|użyć<exception postag="ger:.*|ppas:.*" postag_regexp="yes"></exception></token>
 										<marker>
-												<token postag="(adj|subst|ppas|pact):.*:(acc|nom|acc\.nom\.voc|acc\.inst|inst).*" postag_regexp="yes"><exception postag=".*gen.*|conj|comp|adv.*|prep.*" postag_regexp="yes"></exception></token>
+												<token postag="(adj|subst|ppas|pact):.*:(acc|nom|acc\.nom\.voc|acc\.inst|inst).*" postag_regexp="yes"><exception postag=".*gen.*|conj|comp|adv.*|prep.*|qub" postag_regexp="yes"></exception></token>
 										</marker>
 								</pattern>
 								<message>Czasownik „<match no="1" postag="verb:inf.*" postag_regexp="yes"></match>” łączy się z dopełniaczem: <suggestion><match no="2" postag="(adj|subst|ppas|pact):(sg|pl).*acc:(?:[pfmn123\.])+(:com|:pos|:sup|:imperf:aff|:imperf\.perf:aff|:perf:aff)?.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*$3"></match></suggestion>.</message>
@@ -4257,6 +4270,7 @@ $Id$
 								<example type="correct">Używają głównie starych żelazek.</example>
 								<example type="correct">To jest często używane żelazko.</example>
 								<example type="correct">Termin został użyty raz.</example>
+                                <example type="correct">Nie używał też niczego innego.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -5513,7 +5527,7 @@ $Id$
 										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
 										<token regexp="yes">rolę|role</token>
 								</pattern>
-								<message>Mówimy <suggestion><match no="1"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"></match></suggestion>, a nie „pełnić rolę”.</message>
+								<message>Mówimy <suggestion><match no="1"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"></match></suggestion>, a nie „<match no="1"/> rolę”.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="Pełni funkcję|Odgrywa rolę" type="incorrect"><marker>Pełni rolę</marker> w żegludze różnych typów statków.</example>
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
@@ -6210,13 +6224,14 @@ $Id$
 				</rule>
 				<rule id="W_WEGRZECH" name="„w Węgrzech, w Białorusi” (na Węgrzech, na Białorusi)">
 						<pattern>
-								<token>w</token>
+								<token>w<exception scope="previous" inflected="yes">rozkochać</exception></token>
 								<token regexp="yes">Węgrzech|Białorusi|Ukrainie|Syberii|Bukowinie|Morawach|Wołoszczyźnie|Antarktydzie</token>
 						</pattern>
 						<message>Z tą nazwą geograficzną używa się przyimka „na”: <suggestion>na \2</suggestion>.</message>
 						<short>Błąd leksykalny</short>
 						<example type="correct">Prezydent był z wizytą gospodarską na Białorusi.</example>
 						<example correction="na Białorusi" type="incorrect">Prezydent był z wizytą gospodarską <marker>w Białorusi</marker>.</example>
+                        <example type="correct">Jest rozkochany w Syberii jak nowicjusz.</example>
 				</rule>
 				<rulegroup id="DO_WEGIER" name="„do Węgier, do Białorusi” (na Węgry)">
 						<rule>
@@ -11441,7 +11456,7 @@ $Id$
           <pattern>
            <token inflected="yes">masarz</token>
           </pattern>
-          <message>Ten wyraz oznacza osobę wyrabiającą wędliny i jest często mylony z wyrazem „masaż”. Czy chodziło o <suggestion><match no="1" regexp_match="masarz(.*)" regexp_replace="masaż$1"></match></suggestion>.</message>
+          <message>Ten wyraz oznacza osobę wyrabiającą wędliny i jest często mylony z wyrazem „masaż”. Czy chodziło o <suggestion><match no="1" regexp_match="([mM])asarz(.*)" regexp_replace="$1asaż$2"></match></suggestion>?</message>
           <short>Prawdopodobna literówka</short>
           <example type="correct">Marzę o masażu tajskim.</example>
           <example type="incorrect" correction="masażu">Marzę o <marker>masarzu</marker> tajskim.</example>
@@ -12029,12 +12044,13 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token>sowich</token>
+										<token>sowich<exception scope="previous" regexp="yes">(?iu)Gór</exception></token>
 								</pattern>
 								<message>Prawdopodobna literówka (rzadka forma przymiotnika „sowi”). Czy chodziło o <suggestion>swoich</suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
 								<example correction="swoich" type="incorrect">W <marker>sowich</marker> książkach opisał grozę doświadczenia wojennego.</example>
 								<example type="correct">W swoich książkach opisywał grozę doświadczenia wojennego.</example>
+                                <example type="correct">W  południowo-zachodnim obramowaniu Gór Sowich na obszarze kamieniołomu w Słupcu...</example>
 						</rule>
 				</rulegroup>
 				<rule id="ZA_MAZ" name="„za maż” (za mąż)">
@@ -12114,7 +12130,7 @@ $Id$
 										<token>to</token>
 										<token regexp="yes">jest|była|będzie</token>
 										<marker>
-												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta</exception>.*a</token>
+												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|drukowana|ona</exception>.*a</token>
 												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
 										</marker>
 								</pattern>
@@ -12141,7 +12157,7 @@ $Id$
 								<pattern>
 										<token regexp="yes">jest|była|będzie</token>
 										<marker>
-												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|ona</exception>.*a</token>
+												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|drukowana|ona</exception>.*a</token>
 												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
 										</marker>
 								</pattern>
@@ -12273,7 +12289,7 @@ $Id$
 				</rule>
 				<rule id="WLADCE" name="„władce, twórce” (władcę, twórcę)">
 						<pattern>
-								<token postag="depr:pl:nom:m2" regexp="yes"><exception postag="subst:sg:loc:f"/><exception postag="subst:pl:nom:p1"/>
+								<token postag="depr:pl:nom:m2" regexp="yes"><exception postag="subst:sg:loc:f"/><exception postag="subst:pl:nom:[mp]1" postag_regexp="yes"/>
 								.*ce</token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="(.*)ce" regexp_replace="$1cę"></match></suggestion>?</message>
@@ -12283,6 +12299,7 @@ $Id$
 						<example type="correct">Uwielbiam tego gruzińskiego twórcę ludowego</example>
 						<example type="correct">Surowce zawierające te alkaloidy</example>
 						<example type="correct">Tylko rodzice potrafią ich odróżnić.</example>
+                        <example type="correct">Woźnice odebrali małym konikom worki z obrokiem.</example>
 				</rule>
 				<rule id="ODJECIE_UJECIE" name="„ujecie, pojecie” (ujęcie, pojęcie) itp.">
 						<pattern>
