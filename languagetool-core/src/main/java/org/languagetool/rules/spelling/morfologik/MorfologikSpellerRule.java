@@ -19,15 +19,6 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -35,6 +26,11 @@ import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected MorfologikSpeller speller;
@@ -153,7 +149,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
-  private List<RuleMatch> getRuleMatch(final String word, final int startPos) {
+  protected List<RuleMatch> getRuleMatch(final String word, final int startPos) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller, word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos

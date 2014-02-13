@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.pl;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 public class MorfologikPolishSpellerRuleTest {
 
@@ -47,6 +47,11 @@ public class MorfologikPolishSpellerRuleTest {
 
     //compound word with ignored part "techniczno"
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Bogactwo nie rośnie proporcjonalnie do jej rozwoju techniczno-terytorialnego.")).length);
+
+    //compound word with one of the compound prefixes:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Antypostmodernistyczna batalia hiperfilozofów")).length);
+   //compound words: "trzynastobitowy", "zgniłożółty"
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Trzynastobitowe przystawki w kolorze zgniłożółtym")).length);
 
     //incorrect sentences:
 

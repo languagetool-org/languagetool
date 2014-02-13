@@ -19,12 +19,14 @@
 
 package org.languagetool.rules.pl;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
-
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
 
@@ -32,7 +34,34 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
 
   private static final Pattern POLISH_TOKENIZING_CHARS = Pattern.compile("(?:[Qq]uasi|[Nn]iby)-");
 
-  public MorfologikPolishSpellerRule(ResourceBundle messages,
+    /**
+     * The set of prefixes that are not allowed to be split in the suggestions.
+     */
+    private final static Set<String> prefixes;
+
+    //Polish prefixes that should never be used to
+    //split parts of words
+    static {
+        final Set<String> tempSet = new HashSet<>();
+        tempSet.add("arcy");  tempSet.add("neo");
+        tempSet.add("pre");   tempSet.add("anty");
+        tempSet.add("eks");   tempSet.add("bez");
+        tempSet.add("beze");  tempSet.add("ekstra");
+        tempSet.add("hiper"); tempSet.add("infra");
+        tempSet.add("kontr"); tempSet.add("maksi");
+        tempSet.add("midi");  tempSet.add("między");
+        tempSet.add("mini");  tempSet.add("nad");
+        tempSet.add("nade");  tempSet.add("około");
+        tempSet.add("ponad"); tempSet.add("post");
+        tempSet.add("pro");   tempSet.add("przeciw");
+        tempSet.add("pseudo"); tempSet.add("super");
+        tempSet.add("śród");  tempSet.add("ultra");
+        tempSet.add("wice");  tempSet.add("wokół");
+        tempSet.add("wokoło");
+        prefixes = Collections.unmodifiableSet(tempSet);
+    }
+
+    public MorfologikPolishSpellerRule(ResourceBundle messages,
       Language language) throws IOException {
     super(messages, language);
   }
@@ -52,5 +81,70 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     return POLISH_TOKENIZING_CHARS;
   }
 
+    @Override
+    protected List<RuleMatch> getRuleMatch(final String word, final int startPos)
+    throws IOException {
+        final List<RuleMatch> ruleMatches = new ArrayList<>();
+        if (isMisspelled(speller, word) && isNotCompound(word)) {
+            final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
+                    + word.length(), messages.getString("spelling"),
+                    messages.getString("desc_spelling_short"));
+            //If lower case word is not a misspelled word, return it as the only suggestion
+            if (!isMisspelled(speller, word.toLowerCase(conversionLocale))) {
+                List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
+                ruleMatch.setSuggestedReplacements(suggestion);
+                ruleMatches.add(ruleMatch);
+                return ruleMatches;
+            }
+            List<String> suggestions = speller.getSuggestions(word);
+            suggestions.addAll(getAdditionalSuggestions(suggestions, word));
+            if (!suggestions.isEmpty()) {
+                ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions,word));
+            }
+            ruleMatches.add(ruleMatch);
+        }
+        return ruleMatches;
+    }
 
+    /**
+     * Check whether the word is a compound adjective or contains a non-splitting prefix.
+     * Used to suppress false positives.
+     *
+     * @param word Word to be checked.
+     * @return True if the word is not a compound.
+     * @throws IOException
+     * @since 2.5
+     */
+    private boolean isNotCompound(String word) throws IOException {
+        List<String> probablyCorrectWords = new ArrayList<>();
+        List<String> testedTokens = new ArrayList<>(2);
+        for (int i = 2; i < word.length(); i++) {
+            // chop from left to right
+            final String first = word.substring(0, i);
+            final String second = word.substring(i, word.length());
+            if (prefixes.contains(first.toLowerCase(conversionLocale))
+                    && !isMisspelled(speller, second)) {
+                // ignore this match, it's fine
+                probablyCorrectWords.add(word);
+            } else {
+                testedTokens.clear();
+                testedTokens.add(first);
+                testedTokens.add(second);
+                List<AnalyzedTokenReadings> taggedToks =
+                        language.getTagger().tag(testedTokens);
+                if (taggedToks.size() == 2
+                        // "białozielony", trzynastobitowy
+                        && (taggedToks.get(0).hasPosTag("adja")
+                        || taggedToks.get(0).hasPosTag("num:comp"))
+                        && taggedToks.get(1).hasPartialPosTag("adj:")) {
+                    probablyCorrectWords.add(word);
+                }
+            }
+        }
+        if (!probablyCorrectWords.isEmpty()) {
+            addIgnoreTokens(probablyCorrectWords);
+            return false;
+        }
+        return true;
+    }
 }
