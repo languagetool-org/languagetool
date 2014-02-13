@@ -44,7 +44,7 @@ public class PolishWordTokenizer extends WordTokenizer {
   /**
    * The set of prefixes that are not allowed to be split.
    */
-  private final static Set<String> prefixes;
+  private static final Set<String> prefixes;
 
   //Polish prefixes that should never be used to
   //split parts of words
@@ -135,8 +135,7 @@ public class PolishWordTokenizer extends WordTokenizer {
                 } else {
                   l.add(token);
                 }
-              } catch (IOException e) { // fail gracefully
-                l.add(token);
+              } catch (IOException e) {
                 throw new RuntimeException(e);
               }
             }
