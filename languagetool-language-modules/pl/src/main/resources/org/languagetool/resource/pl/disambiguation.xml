@@ -509,7 +509,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="untouched">Mówię dziś jako rzecznik samorządu przedszkolnego.</example>
     	<example type="ambiguous" inputform="jako[jaka/subst:sg:voc:f,jako/adv,jako/conj,jako/prep:nom]" outputform="jako[jaka/subst:sg:voc:f,jako/adv,jako/conj]">Można to określić <marker>jako</marker> ewolucję.</example>
     </rule>
-	</rulegroup>		
+	</rulegroup>
+
+    <rule id="W_CZASIE_GEN" name="W czasie + rzeczownik -> genetivus">
+        <pattern>
+            <token>w</token>
+            <token>czasie</token>
+            <marker>
+                <token postag_regexp="yes" postag="(adj|subst|ger|ppron.*|ppas|pact).*gen.*"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall" postag=".*gen.*"></disambig>
+        <example type="untouched">Uwielbiam podroże w czasie.</example>
+        <example type="ambiguous" inputform="zimy[zima/subst:pl:acc:f,zima/subst:pl:nom:f,zima/subst:pl:voc:f,zima/subst:sg:gen:f]" outputform="zimy[zima/subst:sg:gen:f]">W czasie <marker>zimy</marker> niedźwiedzie piją Coca-Colę.</example>
+    </rule>
 
     <!-- now not that greedy :) -->
     <rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">

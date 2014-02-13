@@ -3736,7 +3736,7 @@ $Id$
 						<example type="correct">Kliknij link z prawej strony.</example>
 						<example correction="Kliknij" type="incorrect"><marker>Kliknij na</marker> link z prawej strony.</example>
 				</rule>
-				<rule id="PRZYIMEK_RZECZOWNIK_KTORY" name="przyimek + rzeczownik + „który”(przyimek + „który” + rzeczownik)">
+				<rule id="PRZYIMEK_RZECZOWNIK_KTORY" name="Przyimek + rzeczownik + „który”(przyimek + „który” + rzeczownik)">
 						<pattern>
 								<token>,</token>
 								<marker>
@@ -13281,13 +13281,13 @@ $Id$
                 <example correction="wyżej" type="incorrect">Ceny rosną coraz <marker>wyże</marker>.</example>
                 <example type="correct">Atlantyckie wyże nam nie są straszne.</example>                
                 </rule>
-				<rule id="ZWROTNE_BEZ_SIE" name="czasowniki zwrotne bez „się”">
+				<rule id="ZWROTNE_BEZ_SIE" name="Czasowniki zwrotne bez „się”">
 						<pattern>
-								<token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
+								<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">si[eę]</exception></token>
 								<marker>
-										<token postag_regexp="yes" postag=".*:refl" skip="-1"><exception postag=".*nonrefl.*" postag_regexp="yes" scope="current"/><exception postag="(subst|ppas|adj|pact|prep|adv).*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next">się</exception></token>
+										<token postag_regexp="yes" postag=".*:refl" skip="-1"><exception postag=".*nonrefl.*" postag_regexp="yes" scope="current"/><exception postag="(subst|ppas|adj|pact|prep|adv).*" postag_regexp="yes" scope="current"></exception><exception regexp="yes">rozmaicie|śmiał.*</exception><exception scope="next" regexp="yes">si[ęe]</exception></token>
 								</marker>
-								<token postag="SENT_END"><exception>się</exception></token>
+								<token postag="SENT_END"><exception regexp="yes">si[eę]</exception></token>
 						</pattern>
 						<message>W tym zdaniu występuje czasownik zwrotny, a brakuje wyrazu „się”; powinno być: <suggestion>\2 się</suggestion> lub <suggestion>się \2</suggestion>.</message>
 						<short>Prawdopodobna literówka</short>
