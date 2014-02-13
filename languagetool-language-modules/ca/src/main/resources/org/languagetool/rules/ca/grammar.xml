@@ -18967,6 +18967,14 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="BUSSO_BUSTIA" name="bussó / bústia">
+            <pattern>
+                <token inflected="yes">bussó</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">bústia</match></suggestion>? "Bussó" és correcte en altres sentits.</message>
+            <example type="incorrect" correction="bústia">Deixa-ho al <marker>bussó</marker>.</example>
+            <example type="correct">Deixa-ho a la bústia</example>
+        </rule>
         <rule id="BILLO_BILIO" name="billó / bilió">
             <pattern>
                 <token inflected="yes">billó</token>
