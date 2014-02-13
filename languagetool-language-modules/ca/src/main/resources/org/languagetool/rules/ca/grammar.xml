@@ -22253,6 +22253,44 @@ $Id$
             <example type="correct">Ens fa molta por</example>
         </rule>
     </category>
+    <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="CARGOL_CARBASSA" name="cargol, carbassa / caragol, carabassa">
+            <pattern>
+                <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">.*(car)(gol|bassa).*</token>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion><match no="1" regexp_match="(.*car)(.*)" regexp_replace="$1a$2"/></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="descaragolaven"><marker>descargolaven</marker></example>
+            <example type="incorrect" correction="carabassal"><marker>carbassal</marker></example>
+            <example type="incorrect" correction="carabassegéssim"><marker>carbassegéssim</marker></example>
+            <example type="correct">carabassa</example>
+        </rule>
+        <rule id="CARTRO" name="cartró /cartó">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">cartró</token>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion><match no="1" regexp_match="(.*cart)r(.*)" regexp_replace="$1$2"/></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="cartons"><marker>cartrons</marker></example>
+            <example type="incorrect" correction="cartó"><marker>cartró</marker></example>
+            <example type="correct">cartó</example>
+        </rule>
+        <rule id="FRISSAR" name="frissar/frisar">
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">frissós|frissança|frissar|frissor</token>
+                </marker>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion><match no="1" regexp_match="(.)riss(.*)" regexp_replace="$1ris$2"/></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="frisoses">Estaven <marker>frissoses</marker>.</example>
+            <example type="incorrect" correction="Frisaven"><marker>Frissaven</marker> per anar-se'n.</example>
+            <example type="correct">Frisaven per arribar.</example>
+        </rule>
+    </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
         <rule id="EN_EL_QUE_PORTEM_DE_CURS" name="en el que portem de curs">
             <pattern>
@@ -22370,18 +22408,6 @@ $Id$
             <short>Expressió preferible</short>
             <example type="incorrect" correction="A l'efecte"><marker>Als efectes</marker> de permetre-ho.</example>
             <example type="correct">Es deu als efectes de la radiació</example>
-        </rule>
-        <rule id="FRISSAR" name="frissar/frisar">
-            <pattern>
-                <marker>
-                    <token regexp="yes" inflected="yes">frissós|frissança|frissar|frissor</token>
-                </marker>
-            </pattern>
-            <message>Forma secundària de <suggestion><match no="1" regexp_match="(.)riss(.*)" regexp_replace="$1ris$2"/></suggestion>.</message>
-            <short>Expressió preferible</short>
-            <example type="incorrect" correction="frisoses">Estaven <marker>frissoses</marker>.</example>
-            <example type="incorrect" correction="Frisaven"><marker>Frissaven</marker> per anar-se'n.</example>
-            <example type="correct">Frisaven per arribar.</example>
         </rule>
         <rule id="DON" name="don/senyor/en">
             <pattern>
@@ -22692,7 +22718,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">avaluació|elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
+                    <token regexp="yes" inflected="yes">comici|avaluació|elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
