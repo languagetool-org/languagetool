@@ -1878,9 +1878,9 @@ $Id$
     </category>
     <category name="Verbs" type="grammar">
         <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, admetre..." type="misspelling">
-            <rule><!-- ajupir, consentir, bullir, collir, escopir, munyir, esmunyir, grunyir, abatre -->
+            <rule><!-- ajupir, consentir, bullir, collir, escopir, munyir, esmunyir, grunyir, abatre, batre -->
                 <pattern>
-                   <token regexp="yes">(ajup|consent|bull|cull|escup|muny|esmuny|gruny|abat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
+                   <token regexp="yes">(ajup|consent|bull|cull|escup|muny|esmuny|gruny|a?bat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
                 </pattern>
                 <message>Aquest verb no és incoatiu.</message>
                 <suggestion><match no="1" regexp_match="(ajup|consent|bull|cull|escup|muny|esmuny|gruny|abat)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1$3$4"/></suggestion>
@@ -18967,6 +18967,14 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="BILLO_BILIO" name="billó / bilió">
+            <pattern>
+                <token inflected="yes">billó</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">bilió</match></suggestion>? "Billó" és correcte en altres sentits.</message>
+            <example type="incorrect" correction="bilions">3 <marker>billons</marker></example>
+            <example type="correct">bilió</example>
+        </rule>
         <rule id="AGALLES" name="agalles">
             <pattern>
                 <token>agalles</token>
@@ -19384,6 +19392,22 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/node/apurar</url>
             <example type="incorrect" correction="esgotat|exhaurit|escurat|aprofitat al màxim|atabalat|amoïnat">Estava <marker>apurat</marker>.</example>
             <example type="correct">Estava atabalat.</example>
+        </rule>
+        <rule id="BIRLAR" name="birlar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">birlar</token>
+                </marker>
+            </pattern>
+            <message>Correcte en el sentit de "bitlar". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pispar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">plomar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rapissar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rampinyar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> córrer</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/apurar</url>
+            <example type="incorrect" correction="Pispava|Plomava|Rapissava|Rampinyava|Feia córrer"><marker>Birlava</marker> tot el que podia.</example>
+            <example type="correct">Rampinyava.</example>
         </rule>
         <rule id="ARROPAR" name="arropar">
             <pattern>
@@ -22284,13 +22308,13 @@ $Id$
             </pattern>
             <message>Forma secundària.</message>
             <suggestion><match no="1" regexp_match="(.*car)(.*)" regexp_replace="$1a$2"/></suggestion>
-            <short>Forma preferible</short>
+            <short>Forma secundària</short>
             <example type="incorrect" correction="descaragolaven"><marker>descargolaven</marker></example>
             <example type="incorrect" correction="carabassal"><marker>carbassal</marker></example>
             <example type="incorrect" correction="carabassegéssim"><marker>carbassegéssim</marker></example>
             <example type="correct">carabassa</example>
         </rule>
-        <rule id="CARTRO" name="cartró /cartó">
+        <rule id="CARTRO" name="cartró / cartó">
             <pattern>
                 <token inflected="yes">cartró</token>
             </pattern>
@@ -22742,7 +22766,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">comici|avaluació|elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
+                    <token regexp="yes" inflected="yes">acte|comici|avaluació|elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
@@ -23487,15 +23511,41 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
-        <rule id="NOVIO" name="nòvio"> <!-- es pot afegit al diccionari, cal diferenciar accentuació general/valenciana nòvio/nóvio -->
+        <rule id="BOVO" name="bobo">
+            <pattern>
+                <token inflected="yes">bovo</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">beneit</match></suggestion>
+            <suggestion><match no="1" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">badoc</match></suggestion>
+            <suggestion><match no="1" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">babau</match></suggestion>
+            <suggestion><match no="1" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">bajà</match></suggestion>
+            <suggestion><match no="1" postag=".+([MF][SP]).+" postag_regexp="yes" postag_replace="AQ0$10">talòs</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bovos</marker>.</example>
+            <example type="incorrect" correction="beneita|badoca|babaua|bajana|talossa">Pareix <marker>bova</marker>.</example>
+            <example type="correct">Ets un simple.</example>
+        </rule>
+        <!-- <rule id="NOVIO" name="nòvio">
+            <pattern>
+                <token inflected="yes" regexp="yes">(ex)?n[òó]vio</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">xicot</match></suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">promès</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="xicot|promès|promés"><marker>nòvio</marker></example>
+            <example type="incorrect" correction="exxicota|expromesa"><marker>exnóvia</marker></example>
+            <example type="correct">xicot</example>
+        </rule>
+         --> 
+        <rule id="NOVIO" name="nòvio">
             <pattern>
                 <token regexp="yes">(ex)?n[òó]vio</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion>xicot</suggestion> <!-- ex-xicot ? -->
+            <suggestion>xicot</suggestion>
             <suggestion>promès</suggestion>
-            <suggestion>nuvi</suggestion>
-            <suggestion>pretendent</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvio</marker>!</example>
             <example type="correct">xicot</example>
@@ -23507,8 +23557,6 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion>xicots</suggestion>
             <suggestion>promesos</suggestion>
-            <suggestion>nuvis</suggestion>
-            <suggestion>pretendents</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvios</marker>!</example>
             <example type="correct">xicots</example>
@@ -23520,8 +23568,6 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion>xicota</suggestion>
             <suggestion>promesa</suggestion>
-            <suggestion>núvia</suggestion>
-            <suggestion>pretendent</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvia</marker>!</example>
             <example type="correct">xicota</example>
@@ -23533,8 +23579,6 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion>xicotes</suggestion>
             <suggestion>promeses</suggestion>
-            <suggestion>núvies</suggestion>
-            <suggestion>pretendents</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvies</marker>!</example>
             <example type="correct">xicotes</example>
