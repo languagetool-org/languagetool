@@ -23519,6 +23519,34 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="PATXORRA" name="patxorra">
+            <pattern>
+                <token inflected="yes">patxorra</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">cançoneria</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">gansoneria</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">calma</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">fleuma</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2116</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="cançoneria|gansoneria|calma|fleuma">Quina <marker>patxorra</marker>!</example>
+            <example type="correct">Quina calma!</example>
+        </rule>
+        <rule id="BRONCA" name="bronca">
+            <pattern>
+                <token inflected="yes">bronca</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCM$1">esbronc</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="VMP00$1F0">esbroncar</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">baralla</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCM$1">reny</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/bronca</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="esbronc|esbroncada|baralla|reny">Quina <marker>bronca</marker>!</example>
+            <example type="correct">Quina baralla!</example>
+        </rule>
         <rule id="BOVO" name="bobo">
             <pattern>
                 <token inflected="yes">bovo</token>
@@ -23545,17 +23573,17 @@ $Id$
             <example type="incorrect" correction="xicot|promès|promés"><marker>nòvio</marker></example>
             <example type="incorrect" correction="exxicota|expromesa"><marker>exnóvia</marker></example>
             <example type="correct">xicot</example>
-        </rule>
-         --> 
+        </rule> -->
+        
         <rule id="NOVIO" name="nòvio">
             <pattern>
                 <token regexp="yes">(ex)?n[òó]vio</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion>xicot</suggestion>
-            <suggestion>promès</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicot</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promès</suggestion>
             <short>Lleguatge col·loquial</short>
-            <example type="incorrect"><marker>nòvio</marker>!</example>
+            <example type="incorrect" correction="exxicot|expromès"><marker>exnòvio</marker>!</example>
             <example type="correct">xicot</example>
         </rule>
         <rule id="NOVIOS" name="nòvios">
@@ -23563,8 +23591,8 @@ $Id$
                 <token regexp="yes">(ex)?n[òó]vios</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion>xicots</suggestion>
-            <suggestion>promesos</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicots</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promesos</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvios</marker>!</example>
             <example type="correct">xicots</example>
@@ -23574,8 +23602,8 @@ $Id$
                 <token regexp="yes">(ex)?n[òó]via</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion>xicota</suggestion>
-            <suggestion>promesa</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicota</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promesa</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvia</marker>!</example>
             <example type="correct">xicota</example>
@@ -23585,8 +23613,8 @@ $Id$
                 <token regexp="yes">(ex)?n[òó]vies</token>
             </pattern>
             <message>Paraula només admesa per alguns diccionaris.</message>
-            <suggestion>xicotes</suggestion>
-            <suggestion>promeses</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicotes</suggestion>
+            <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promeses</suggestion>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvies</marker>!</example>
             <example type="correct">xicotes</example>
