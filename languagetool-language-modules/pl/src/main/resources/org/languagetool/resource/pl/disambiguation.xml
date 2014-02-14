@@ -266,7 +266,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <pattern><token inflected="yes">juszyć</token></pattern>
       <disambig action="remove"><wd lemma="juszyć"/></disambig>
     </rule>
-    
+
+    <rule id="LA_PREP_GEN" name="la to nie prep:gen (z Doroszewskiego)">
+        <pattern>
+            <token>la</token>
+        </pattern>
+        <disambig action="remove"><wd pos="prep:gen"/></disambig>
+    </rule>
+
+    <rule id="O_WYM_" name="O wym -> nie skrót">
+        <pattern>
+            <token>o</token>
+            <marker>
+            <token>wym</token>
+            </marker>
+            <token><exception negate_pos="yes" postag="SENT_END">.</exception></token>
+        </pattern>
+        <disambig action="remove"><wd pos="brev:pun"/></disambig>
+    </rule>
+
     <rulegroup name="do - prep lub subst" id="DO_PREP_SUBST">
     <rule>
     	<pattern>
@@ -283,17 +301,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig postag="prep:gen"/>    
     </rule>
     </rulegroup>
-    
+
     <rule name="względem - prep lub subst" id="wzgledem_subst">
-    	<pattern>
-    		<token>tym</token>
-    		<marker>
-    			<token>względem</token>
-    		</marker>
-    	</pattern>
-    	<disambig postag="subst:sg:inst:m3"/>
-    	<example type="ambiguous" inputform="względem[wzgląd/subst:sg:inst:m3,względem/prep:gen]" outputform="względem[wzgląd/subst:sg:inst:m3]">Pod tym <marker>względem</marker> Brazylia jest szczególna.</example>
-    	<example type="untouched">Nie bądź względem niego taki ostry!</example>
+        <pattern>
+            <token>pod</token>
+            <token postag=".*inst.*" postag_regexp="yes"/>
+            <marker>
+                <token>względem</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:inst:m3"/>
+        <example type="ambiguous" inputform="względem[wzgląd/subst:sg:inst:m3,względem/prep:gen]" outputform="względem[wzgląd/subst:sg:inst:m3]">Pod tym <marker>względem</marker> Brazylia jest szczególna.</example>
+        <example type="untouched">Nie bądź względem niego taki ostry!</example>
     </rule>
     
     <rule name="godzinę temu" id="temu">
@@ -367,8 +386,29 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <example type="untouched">Na tu, piesku</example>
       <example type="ambiguous" inputform="na[na/interj,na/prep:acc,na/prep:loc]" outputform="na[na/prep:acc,na/prep:loc]">Spotykamy się <marker>na</marker> parterze.</example> 
     </rule>
-  </rulegroup>      
-    
+  </rulegroup>
+
+    <rule name="Na wskroś" id="na_wskros_burk">
+        <pattern>
+            <token>na</token>
+            <marker><token regexp="yes">wskr[oó]ś</token></marker>
+        </pattern>
+        <disambig postag="burk"></disambig>
+        <example type="untouched">Szedł wskroś krzewów.</example>
+        <example type="ambiguous" inputform="wskroś[wskroś/burk,wskroś/prep:gen]" outputform="wskroś[wskroś/burk]">Przebijał mu na <marker>wskroś</marker> tarczę.</example>
+    </rule>
+
+    <rule id="BEZ_MALA" name="Bez mała - adjp, jak w NKJP">
+        <pattern>
+            <token>bez</token>
+            <marker>
+            <token>mała</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="adjp" lemma="mały"/></disambig>
+        <example type="untouched">Bez małej czarnej nie wstanę.</example>
+        <example type="ambiguous" inputform="mała[mała/subst:sg:nom:f,mała/subst:sg:voc:f,mały/adj:sg:nom.voc:f:pos]" outputform="mała[mały/adjp]">Bez <marker>mała</marker> wszyscy to robią.</example>
+    </rule>
     
     <rule name="głosować przeciw" id="glosowac_przeciw">
     	<pattern>
@@ -378,7 +418,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig postag="prep:dat"/>
     	<example type="untouched">Przeciw się przemocy!</example>
     	<example type="ambiguous" inputform="przeciw[przeciw/prep:dat,przeciwić/verb:impt:sg:sec:imperf:refl]" outputform="przeciw[przeciw/prep:dat]">Głosujemy <marker>przeciw</marker> tej propozycji.</example>
-    </rule>    
+    </rule>
+
+    <rule id="rozdzial_subst" name="Rozdział to rzeczownik">
+        <pattern>
+            <marker>
+                <token>rozdział</token>
+            </marker>
+            <token regexp="yes">\d+|((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?</token>
+        </pattern>
+        <disambig postag="subst:sg:nom:m3"></disambig>
+        <example type="untouched">Rozdział się pospiesznie.</example>
+        <example type="ambiguous" inputform="Rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="Rozdział[rozdział/subst:sg:nom:m3]"><marker>Rozdział</marker> XXIV</example>
+    </rule>
             
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
@@ -452,11 +504,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Polska w opiniach obcych X-XII <marker>w</marker>.</example>
 			<example type="untouched">Mam to w szufladzie.</example>
 	</rule>
+    <rule name="W wat" id="W_wat">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">\d+</token>
+            <marker><token>W</token></marker>
+        </pattern>
+        <disambig postag="brev:npun"/>
+        <example type="untouched">Dużo wody jest w szklance.</example>
+        <example type="untouched">To było w XIX w.</example>
+        <example type="ambiguous" inputform="W[w/prep:acc:nwok,w/prep:loc:nwok,wat/brev:npun,wiek/brev:pun]" outputform="W[wat/brev:npun]">Te głośniki mają moc 20 <marker>W</marker>.</example>
+    </rule>
 	<rule name="W prep" id="w_prep">
 			<pattern>
 				<token postag_regexp="yes" postag="prep:(acc|loc):nwok">w</token>
 			</pattern>
-			<disambig action="filter" postag="^(?!brev:pun).*"/>
+			<disambig action="filter" postag="^(?!brev:n?pun).*"/>
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
 			<example type="untouched">Dziwny XIX w.</example>
 	</rule>
@@ -490,7 +552,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule>
         <pattern>
             <unify> <feature id="case"/>
-                <token regexp="yes">przeciw|poza</token>
+                <token regexp="yes">przeciw|poza|około</token>
                 <token postag="(adj|subst|ger|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
@@ -619,6 +681,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filter"><match no="1">mieć</match></disambig>
         <example type="untouched">Oni mieli robaki.</example>
         <example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf:refl.nonrefl,maja/subst:sg:inst:f,mieć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mają[mieć/verb:fin:pl:ter:imperf:refl.nonrefl]">Oni <marker>mają</marker> robaki.</example>
+    </rule>
+
+    <rule name="swój to nie swoić" id="SWOJ">
+        <pattern>
+            <token>swój</token>
+        </pattern>
+        <disambig action="remove"><wd pos="verb:impt:sg:sec:imperf:refl.nonrefl"/></disambig>
+    </rule>
+
+    <rule name="śmiało jako adv" id="SMIALO_ADV">
+        <pattern>
+            <marker><token>śmiało</token></marker>
+            <token postag="verb.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="adv:pos"/>
     </rule>
 
     <rule name="sporo to nie spora" id="SPORO">
@@ -1429,6 +1506,48 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <disambig postag="brev:pun"/>
     <example type="untouched">To był XX w.</example>
     <example type="ambiguous" inputform="mghr[mghr]" outputform="mghr[mghr/brev:pun]">To jest <marker>mghr</marker>. Lubiwicz.</example>
+    </rule>
+
+    <rule name="bądź co bądź" id="BADZ_CO_BADZ">
+        <pattern>
+            <marker>
+                <token>bądź</token>
+            </marker>
+            <token>co</token>
+            <token>bądź</token>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="untouched">Bądź pozdrowiony!</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]" outputform="bądź[bądź/qub]">Nie wypadało mu mówić głupstw, <marker>bądź</marker> co bądź reprezentował parlament.</example>
+    </rule>
+
+    <rule name="bądź zdrów" id="BADZ_VERB">
+        <pattern>
+            <marker>
+                <token>bądź</token>
+            </marker>
+            <token>zdrów</token>
+        </pattern>
+        <disambig postag="verb:impt:sg:sec:imperf:nonrefl"/>
+        <example type="untouched">Bądź co bądź to prawda.</example>
+        <example type="ambiguous" inputform="Bądź[Bądź/comp:comma,być/verb:impt:sg:sec:imperf:nonrefl,bądź/conj,bądź/qub]" outputform="Bądź[być/verb:impt:sg:sec:imperf:nonrefl]"><marker>Bądź</marker> zdrów.</example>
+    </rule>
+
+    <rule id="ZWYKL_BYL" name="Zwykł był – bez komunikatu o braku przecinka">
+        <pattern>
+            <token>zwykł</token>
+            <token>był</token>
+        </pattern>
+        <disambig action="immunize"></disambig>
+    </rule>
+
+    <rule id="Z_GLUPIA_FRANT" name="z głupia frant">
+        <pattern>
+            <token>z</token>
+            <token>głupia</token>
+            <token>frant</token>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
     
     <rule id="prez" name="prez. Komorowski">

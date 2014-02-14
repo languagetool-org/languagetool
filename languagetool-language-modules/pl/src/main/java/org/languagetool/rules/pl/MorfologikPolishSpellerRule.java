@@ -135,7 +135,8 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
                 if (taggedToks.size() == 2
                         // "białozielony", trzynastobitowy
                         && (taggedToks.get(0).hasPosTag("adja")
-                        || taggedToks.get(0).hasPosTag("num:comp"))
+                        || (taggedToks.get(0).hasPosTag("num:comp")
+                           && !taggedToks.get(0).hasPosTag("adv")))
                         && taggedToks.get(1).hasPartialPosTag("adj:")) {
                     probablyCorrectWords.add(word);
                 }

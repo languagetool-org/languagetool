@@ -51,6 +51,8 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   private boolean ignoreTaggedWords = false;
 
+  private boolean checkLemmas = true;
+
   public abstract String getFileName();
 
   public String getEncoding() {
@@ -137,7 +139,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
       String tokenString = cleanup(originalTokenStr);
 
-      if (!wrongWords.containsKey(tokenString)) {
+      if (!wrongWords.containsKey(tokenString) && checkLemmas) {
         for (AnalyzedToken analyzedToken : tokenReadings.getReadings()) {
           String lemma = analyzedToken.getLemma();
           if (lemma != null) {
@@ -220,6 +222,18 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     }
     return map;
   }
+
+    public boolean isCheckLemmas() {
+        return checkLemmas;
+    }
+
+    /**
+     * Used to disable matching lemmas.
+     * @param checkLemmas
+     */
+    public void setCheckLemmas(boolean checkLemmas) {
+        this.checkLemmas = checkLemmas;
+    }
 
   @Override
   public void reset() {
