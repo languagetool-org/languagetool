@@ -453,7 +453,7 @@ public abstract class Language {
     if (language == null) {
       final StringBuilder sb = new StringBuilder();
       for (Language realLanguage : LANGUAGES) {
-        sb.append(" ").append(realLanguage.getShortNameWithCountryAndVariant());
+        sb.append(' ').append(realLanguage.getShortNameWithCountryAndVariant());
       }
       throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool. Supported language codes are:" + sb.toString());
     }

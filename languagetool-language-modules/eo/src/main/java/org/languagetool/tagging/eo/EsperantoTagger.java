@@ -219,12 +219,12 @@ public class EsperantoTagger implements Tagger {
             if (accGroup == null) {
               accusative = "xxx";
             } else {
-              accusative = accGroup.toLowerCase().equals("n") ? "akz" : "nak";
+              accusative = accGroup.equalsIgnoreCase("n") ? "akz" : "nak";
             }
             if (plGroup == null) {
               plural = " pn ";
             } else {
-              plural = plGroup.toLowerCase().equals("j") ? " pl " : " np ";
+              plural = plGroup.equalsIgnoreCase("j") ? " pl " : " np ";
             }
             type = ((type2Group == null) ? type3Group : type2Group).toLowerCase();
 

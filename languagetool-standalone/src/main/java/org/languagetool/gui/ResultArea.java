@@ -164,7 +164,7 @@ class ResultArea {
         continue;
       }
       if (i++ > 0) {
-        sb.append(",");
+        sb.append(',');
       }
       final RuleLink reactivationLink = RuleLink.buildReactivationLink(rule);
       sb.append(" <a href=\"").append(reactivationLink).append("\">").append(rule.getDescription()).append("</a>");

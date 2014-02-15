@@ -458,20 +458,20 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public String toString() {
     final StringBuilder sb = new StringBuilder();
     sb.append(token);
-    sb.append("[");
+    sb.append('[');
     for (final AnalyzedToken element : anTokReadings) {
       sb.append(element);
       if (!element.isWhitespaceBefore()) {
-        sb.append("*");
+        sb.append('*');
       }
-      sb.append(",");
+      sb.append(',');
     }
     sb.delete(sb.length() - 1, sb.length());
     if (chunkTags.size() > 0) {
-      sb.append(",");
+      sb.append(',');
       sb.append(StringUtils.join(chunkTags, "|"));
     }
-    sb.append("]");
+    sb.append(']');
     return sb.toString();
   }
 

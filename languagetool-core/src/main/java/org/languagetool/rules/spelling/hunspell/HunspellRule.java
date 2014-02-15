@@ -134,7 +134,7 @@ public class HunspellRule extends SpellingCheckRule {
       if (isUrl(token) || sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller()) {
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         for (int j = 0; j < token.length(); j++) {
-          sb.append(" ");
+          sb.append(' ');
         }
       } else {
         sb.append(token);

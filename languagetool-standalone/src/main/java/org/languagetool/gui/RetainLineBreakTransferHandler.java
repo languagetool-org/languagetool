@@ -51,7 +51,7 @@ class RetainLineBreakTransferHandler extends TransferHandler {
       @Override
       public void handleSimpleTag(HTML.Tag tag, MutableAttributeSet a, final int pos) {
         if (tag.equals(HTML.Tag.BR)) {
-          result.append("\n");
+          result.append('\n');
         }
       }
       @Override

@@ -700,7 +700,7 @@ public final class Main {
                 replace("&lt;S&gt;", "&lt;S&gt;<br>").
                 replace("[", "<font color='" + TAG_COLOR + "'>[").
                 replace("]", "]</font><br>");
-        sb.append(analyzedTextString).append("\n");
+        sb.append(analyzedTextString).append('\n');
       }
     } catch (Exception e) {
       sb.append(getStackTraceAsHtml(e));

@@ -272,7 +272,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Map<String, String> getParameterMap(String[] pairs) throws UnsupportedEncodingException {
     final Map<String, String> parameters = new HashMap<>();
     for (String pair : pairs) {
-      final int delimPos = pair.indexOf("=");
+      final int delimPos = pair.indexOf('=');
       if (delimPos != -1) {
         final String param = pair.substring(0, delimPos);
         final String key = URLDecoder.decode(param, ENCODING);

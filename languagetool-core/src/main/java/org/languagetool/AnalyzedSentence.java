@@ -152,7 +152,7 @@ public class AnalyzedSentence {
       }
       if (!element.isWhitespace()) {
         if (includeChunks) {
-          sb.append(",");
+          sb.append(',');
           sb.append(StringUtils.join(element.getChunkTags(), "|"));
         }
         sb.append(']');
@@ -174,7 +174,7 @@ public class AnalyzedSentence {
       if (!element.isWhitespace() &&
               !"".equals(element.getHistoricalAnnotations())) {
         sb.append(element.getHistoricalAnnotations());
-        sb.append("\n");
+        sb.append('\n');
       }
     }
     return sb.toString();

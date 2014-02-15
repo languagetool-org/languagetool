@@ -871,7 +871,7 @@ class LanguageToolSupport {
   }
 
   private String getExampleSentences(Rule rule) {
-    StringBuilder examples = new StringBuilder();
+    StringBuilder examples = new StringBuilder(200);
     List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     if (incorrectExamples.size() > 0) {
       String incorrectExample = incorrectExamples.iterator().next().getExample();
