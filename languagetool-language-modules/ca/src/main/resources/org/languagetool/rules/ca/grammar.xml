@@ -23890,6 +23890,51 @@ $Id$
             <example type="incorrect" correction="grolleries|barroeries|matusseries">Són <marker>xavacanades</marker>.</example>
             <example type="correct">Són coses xarones.</example>
         </rule>
+        <rulegroup id="NO_TENIR_DESPERDICI" name="no tenir desperdici">
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token inflected="yes">tenir</token>
+                    <token>desperdici</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion><match no="2" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> impagable</suggestion>
+                <suggestion>n'hi <match no="2" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VA$1">haver</match> per a sucar-hi pa</suggestion>         
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="És impagable|N'hi ha per a sucar-hi pa"><marker>No té desperdici</marker>.</example>
+                <example type="correct">Desperdicis</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <token inflected="yes">tenir</token>
+                    <token>desperdici</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion><match no="2"/> <match no="3" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VS$1">ser</match> impagable</suggestion>
+                <suggestion>n'hi <match no="2"/> <match no="3" postag="VM([^M].*)" postag_regexp="yes" postag_replace="VA$1">haver</match> per a sucar-hi pa</suggestion>         
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Ha estat impagable|Sigut impagable|N'hi ha hagut per a sucar-hi pa"><marker>No ha tingut desperdici</marker>.</example>
+                <example type="incorrect" correction="Va ser impagable|Ésser impagable|N'hi va haver per a sucar-hi pa"><marker>No va tindre desperdici</marker>.</example>
+                <example type="correct">Desperdicis</example>
+            </rule>
+        </rulegroup>
+        <rule id="DESPERDICI" name="desperdici">
+            <pattern>
+                <token><exception inflected="yes">tenir</exception></token>
+                <marker>
+                    <token inflected="yes">desperdici</token>
+                </marker>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">residu</match></suggestion>            
+            <suggestion><match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1.*">rebuig</match></suggestion>
+            <suggestion><match no="2" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">deixalla</match></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="residus|rebuigs|rebutjos|deixalles">Molts <marker>desperdicis</marker>.</example>
+            <example type="correct">No té desperdici.</example>
+        </rule>
         <rule id="BARRICA" name="barrica">
             <pattern>
                 <token inflected="yes">barrica</token>
