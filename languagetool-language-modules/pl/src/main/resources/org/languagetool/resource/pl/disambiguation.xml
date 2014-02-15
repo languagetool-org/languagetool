@@ -431,7 +431,27 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Rozdział się pospiesznie.</example>
         <example type="ambiguous" inputform="Rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="Rozdział[rozdział/subst:sg:nom:m3]"><marker>Rozdział</marker> XXIV</example>
     </rule>
-            
+
+    <rule id="INF_MUSZA" name="Muszą jako czasownik">
+        <pattern>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+            <marker><token>muszą</token></marker>
+        </pattern>
+        <disambig postag="verb:fin:pl:ter:imperf:nonrefl"/>
+        <example type="untouched">Zabawiał się muszą nóżką.</example>
+        <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,musza/subst:sg:inst:f,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni zarabiać <marker>muszą</marker>.</example>
+    </rule>
+
+    <rule id="INF_MUSZA_2" name="Muszą jako czasownik">
+        <pattern>
+            <marker><token>muszą</token></marker>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="verb:fin:pl:ter:imperf:nonrefl"/>
+        <example type="untouched">Zabawiał się muszą nóżką.</example>
+        <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,musza/subst:sg:inst:f,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> zarabiać.</example>
+    </rule>
+
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
         <rule>
@@ -912,6 +932,30 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="WINNA_LATOROSL" name="winna latorośl">
+        <pattern>
+            <marker><token postag="verb.*" postag_regexp="yes">winna</token></marker>
+            <token>latorośl</token>
+        </pattern>
+        <disambig postag="adj:sg:nom.voc:f:pos"/>
+        <example type="untouched">Ona była winna.</example>
+        <example type="ambiguous" inputform="winna[winien/verb:winien:sg:f:ter:imperf:nonrefl,winna/subst:sg:nom:f,winna/subst:sg:voc:f,winny/adj:sg:nom.voc:f:pos]"
+                 outputform="winna[winny/adj:sg:nom.voc:f:pos]">Iż <marker>winna</marker> latorośl wybrana wyda jeno ocet.</example>
+    </rule>
+
+    <rule id="WINNY_DAT_BYC" name="winny/winien -> przymiotnik w konstrukcji z datiwem">
+        <pattern>
+            <marker>
+            <token postag="verb:winien.*" postag_regexp="yes" regexp="yes">win.*</token>
+            </marker>
+            <token postag=".*dat.*" postag_regexp="yes"/>
+            <token inflected="yes" postag="verb:.*" postag_regexp="yes">być</token>
+        </pattern>
+        <disambig action="filter" postag="adj.*"/>
+        <example type="ambiguous" inputform="winni[winien/verb:winien:pl:m1.p1:ter:imperf:nonrefl,winny/adj:pl:nom.voc:m1.p1:pos,winny/subst:pl:nom:m1,winny/subst:pl:voc:m1]"
+                 outputform="winni[winny/adj:pl:nom.voc:m1.p1:pos]">Otóż <marker>winni</marker> mi jesteście paszę</example>
+        <example type="untouched">Winna pójść do lekarza.</example>
+    </rule>
 <!-- 
     <rulegroup name="zdarzył w sensie niezwrotnym" id="LOS_ZDARZYL">
         <rule>
@@ -1540,6 +1584,56 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="immunize"></disambig>
     </rule>
+
+    <rule id="NIE_WIADOMO_SKAD" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
+        <pattern>
+            <token>nie</token>
+            <token>wiadomo</token>
+            <token regexp="yes">co|kto|kiedy|dlaczego|gdzie|jak|skąd|dokąd|czemu</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="NIE_WIADOMO_SKAD_2" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
+        <pattern>
+            <token>nie</token>
+            <token>wiadomo</token>
+            <token>z</token>
+            <token regexp="yes">czego|kim</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="NIE_WIADOMO_SKAD_3" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
+        <pattern>
+            <token>nie</token>
+            <token>wiadomo</token>
+            <token regexp="yes">po|[zn]a</token>
+            <token>co</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="NIE_WIADOMO_SKAD_4" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
+        <pattern>
+            <token>nie</token>
+            <token>wiadomo</token>
+            <token regexp="yes">[zo]</token>
+            <token>czym</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="NIE_WIADOMO_SKAD_5" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
+        <pattern>
+            <token>nie</token>
+            <token>wiadomo</token>
+            <token>do</token>
+            <token>kogo</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
 
     <rule id="Z_GLUPIA_FRANT" name="z głupia frant">
         <pattern>
