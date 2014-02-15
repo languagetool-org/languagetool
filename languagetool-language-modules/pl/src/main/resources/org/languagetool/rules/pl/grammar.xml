@@ -1088,12 +1088,13 @@ $Id$
                       <token inflected="yes" regexp="yes">pytanie|zagadnienie|problem</token>
                       <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego|którędy</token>
                       </marker>
-                      <token><exception postag="SENT_END"></exception></token>
+                      <token><exception postag="SENT_END"/><exception>do</exception></token>
                     </pattern>
                     <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\1, \2</suggestion></message>
                     <short>Błąd interpunkcyjny</short>
                     <example type="correct">Pytanie jak!</example>
                     <example type="incorrect" correction="pytanie, co">Dlatego też odpowiedź filozoficzna na <marker>pytanie co</marker> jest nam dane w akcie percepcyjnym</example>
+                    <example type="correct">Wczoraj zadałem Swannowi parę pytań co do Bergotte'a.</example>
                   </rule>
                   <rule>
                   <pattern>                                          
@@ -1749,7 +1750,7 @@ $Id$
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token postag="(adj|ppas|pact):sg:nom\.voc:f.*" postag_regexp="yes"><exception postag="verb:.*(sg|pl).*" postag_regexp="yes"></exception></token>
-										<token postag="subst:sg:nom:f" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="subst:sg:nom:f" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
 												<token postag="verb:(praet:|pot:|fin:)?sg:(.*)?ter.*" postag_regexp="yes"></token>
@@ -1795,7 +1796,7 @@ $Id$
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token postag="(adj|ppas|pact):sg:nom\.voc:n.*" postag_regexp="yes"></token>
-										<token postag="subst:sg:nom:n[12]" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="subst:sg:nom:n[12]" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
 												<token>to</token>
@@ -1810,7 +1811,7 @@ $Id$
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token postag="(adj|ppas|pact):sg:nom.*:m.*" postag_regexp="yes"></token>
-										<token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
 												<token postag="verb:(praet:|pot:|fin:)?sg:(.*)?ter.*" postag_regexp="yes"></token>
@@ -1825,7 +1826,7 @@ $Id$
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token postag="(adj|ppas|pact):sg:nom.*:m.*" postag_regexp="yes"></token>
-										<token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg:ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="subst:sg:nom.*:m[\d]*" postag_regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
 												<token>to</token>
@@ -4278,13 +4279,14 @@ $Id$
 								<marker>
 										<token>półtorej</token>
 								</marker>
-								<token postag="subst:.*" postag_regexp="yes"><exception postag="subst.*gen.*:f" postag_regexp="yes"></exception></token>
+								<token postag="subst:.*gen.*" postag_regexp="yes"><exception postag="subst.*gen.*:f" postag_regexp="yes"></exception></token>
 						</pattern>
 						<message>Mówi się <suggestion>półtora</suggestion> \2, nie „półtorej \2”.</message>
 						<short>Błąd składniowy</short>
 						<example type="correct">Kupiłem półtora litra wódki.</example>
 						<example type="correct">Za półtorej godziny spotykam się z kolegą.</example>
 						<example correction="półtora" type="incorrect">Kupiłem <marker>półtorej</marker> litra wódki.</example>
+                        <example type="correct">Minie może półtorej albo i dwie doby.</example>
 				</rule>
 				<rulegroup id="UZYWAC_CO" name="„używać co” (czego)">
 						<rule>
@@ -10384,17 +10386,18 @@ $Id$
 						<rule>
 								<pattern>
 										<token regexp="yes">dr|m[gj]r|a?bp|płk</token>
-										<token postag="(subst|adj).*" postag_regexp="yes"><exception postag=".*nom.*" postag_regexp="yes"></exception></token>
+										<token postag="(subst|adj).*" postag_regexp="yes"><exception postag=".*nom.*|subst:sg.*:f" postag_regexp="yes"></exception></token>
 								</pattern>
 								<message>Ten skrót z rzeczownikiem w przypadku zależnym piszemy z kropką: <suggestion>\1. \2</suggestion>.</message>
 								<short>Brak kropki</short>
 								<example type="correct">Dr Kowalski przyjmuje w środy.</example>
 								<example correction="dr. Kowalskiemu" type="incorrect">Dzięki <marker>dr Kowalskiemu</marker> rozwiązaliśmy zagadkę morderstwa.</example>
 								<example type="correct">To samodzielna praca dr. Kowalskiego.</example>
+                                <example type="correct">Przy współpracy dr Łucji Kańskiej</example>
 						</rule>
 						<rule>
 							<pattern case_sensitive="yes">
-				            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception><exception>I</exception><exception scope="previous">nr</exception><exception scope="previous" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</exception></token>
+				            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception><exception>I</exception><exception scope="previous">nr</exception><exception scope="previous" inflected="yes">wiek</exception><exception scope="previous" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</exception></token>
 				            <marker><token>w</token></marker>
 				            <token><exception>.</exception></token>
 			                 </pattern>
@@ -10407,7 +10410,8 @@ $Id$
                            <example type="correct">ACM zatrudnia też CEO - w tej chwili to John White.</example>
                            <example type="correct">Wywołało to inwazję potężnego cara Symeona I w roku 894.</example>
                            <example type="correct">Jednostki podlegały komendzie Okręgu Korpusu nr VIII w Toruniu.</example>
-                           <example type="correct">W okresie Bolesława III w użyciu były dwustronne polskie denary.</example>   
+                           <example type="correct">W okresie Bolesława III w użyciu były dwustronne polskie denary.</example>
+                           <example type="correct">Ukrywała szorstki i dziki wiek XI w grubości swoich murów.</example>
 						</rule>
 				</rulegroup>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
@@ -12234,7 +12238,7 @@ $Id$
 				</rulegroup>
 				<rule id="ZWIAZKU_Z_TYM" name="„związku z tym” (w związku z tym)">
 						<pattern>
-								<token><exception regexp="yes" scope="previous">w|do|żadnego|ma|bez|przy|po|na</exception><exception regexp="yes">w|do|żadnego|ma|bez|przy|po|na</exception></token>
+								<token><exception regexp="yes" scope="previous">w|do|żadnego|jakiegokolwiek|ma|miały|bez|przy|po|na</exception><exception regexp="yes">w|do|żadnego|ma|bez|przy|po|na</exception><exception inflected='yes'>mieć</exception></token>
 								<marker>
 										<token>związku</token>
 								</marker>
@@ -12246,6 +12250,7 @@ $Id$
 						<example type="correct">Nie ma to żadnego związku z tym, o czym mówiliśmy.</example>
 						<example correction="w związku" type="incorrect">Nie mam pieniędzy, a <marker>związku</marker> z tym nie zapłacę ani grosza.</example>
 						<example type="correct">Oni pozostają negatywnie nastawieni do związku z ludźmi podejrzanej profesji.</example>
+                        <example type="correct">Mieszkanie to nie miało związku z żadnym innym we Włoszech.</example>
 				</rule>
 				<rule id="PASTWO" name="„pastwo/pastwie/pastwa” (państwo/państwie/państwa)">
 						<pattern>
@@ -12388,12 +12393,13 @@ $Id$
 				<rule>
 					<pattern>
 						<marker><token>wespół</token></marker>
-						<token><exception>z</exception><exception>w</exception></token>
+						<token><exception inflected="yes">z</exception><exception inflected="yes">w</exception></token>
 					</pattern>
 					<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 z</suggestion>?</message>
 					<short>Prawdopodobna literówka</short>
 					<example type="correct">Zróbmy to wespół w zespół.</example>
 					<example type="incorrect" correction="wespół z">Zróbmy to <marker>wespół</marker> kimś.</example>
+                    <example type="correct">Łzami oblewam łoże moje, w którym obyś ty wespół ze mną spoczywała.</example>
 				</rule>
 				<rule>
 					<pattern>
@@ -12957,7 +12963,7 @@ $Id$
 				</rule>
 				<rule id="MAJA_MAJA" name="„maja” (mają)">
 						<pattern case_sensitive="yes">
-								<token><exception inflected="yes" regexp="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa</exception></token>
+								<token><exception inflected="yes" regexp="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception></token>
 								<marker>
 										<token>maja</token>
 								</marker>
@@ -13268,7 +13274,7 @@ $Id$
 				<rulegroup id="NA_PRZEKOR" name="„chybcika, przekór” (na chybcika, na przekór) itd.">
 						<rule>
 								<pattern>
-										<token><exception regexp="yes">na|\&quot;|któr.*</exception></token>
+										<token><exception regexp="yes">na|[\&quot;„]|któr.*</exception></token>
 										<marker>
 												<token regexp="yes">bakier|chybcika|płask|przekór|odchodne|odchodnym|odczepne|odczepnego|odjezdne|odjezdnym|odwyrtkę|opak|oścież|piechotkę|podorędziu|roścież|rozcież|schwał|spytki|ścieżaj|udry|umór|wyjezdne|wyjezdnym|wynos|wyrost|wznak|zabój</token>
 										</marker>
@@ -13280,12 +13286,13 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token>czele<exception regexp="yes" scope="previous">na|jej|ich|jego|której|których|którego</exception></token>
+										<token>czele<exception regexp="yes" scope="previous">[nw]aszym|na|jej|ich|jego|której|których|którego</exception></token>
 								</pattern>
 								<message>Prawdopodobna literówka; powinno być: <suggestion>na \2</suggestion>.</message>
 								<short>Prawdopodobna literówka</short>
 								<example type="correct">On stanął na jego czele.</example>
 								<example correction="na czele" type="incorrect">On stanął <marker>czele</marker>.</example>
+                                <example type="correct">Ty uzbrój się i jako wódz stań na naszym czele.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="TYM_BARDZIE" name="„bardzie” (bardziej)">
@@ -13480,7 +13487,7 @@ $Id$
 				<rule id="TE_INFORMACJE" name="„tę informacje” (tę informację)">
 						<pattern>
 								<token>tę</token>
-								<token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception></token>
+								<token postag="subst:pl:acc:f" regexp="yes">.+e<exception postag="subst:sg:.*acc.*:f" postag_regexp="yes"></exception><exception>macie</exception></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"></match> <match no="2" postag="subst:sg:.*acc.*:f" postag_regexp="yes"></match></suggestion>, czy o <suggestion>te <match no="2"></match></suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
