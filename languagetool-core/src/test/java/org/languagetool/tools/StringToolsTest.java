@@ -60,8 +60,8 @@ public class StringToolsTest extends TestCase {
     StringTools.assureSet("foo", "varName");
   }
 
-  public void testReadFile() throws IOException {
-    final String content = StringTools.readFile(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
+  public void testReadStream() throws IOException {
+    final String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
     assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
   }
   
