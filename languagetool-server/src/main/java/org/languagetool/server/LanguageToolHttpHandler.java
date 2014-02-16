@@ -248,15 +248,25 @@ class LanguageToolHttpHandler implements HttpHandler {
     setCommonHeaders(httpExchange);
     final String response = StringTools.ruleMatchesToXML(matches, text,
             CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML, lang, motherTongue);
-    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
-    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    
+    String messageSent = "sent";
     String languageMessage = lang.getShortNameWithCountryAndVariant();
-    if (motherTongue != null) {
-      languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
-    }
     final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
+    try {
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+
+      if (motherTongue != null) {
+        languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
+      }
+
+    } catch (IOException exception) {
+      // the client is disconnected
+      messageSent = "notSent: " + exception.getMessage();
+    }
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
-            + "handlers:" + handleCount + ", " + matches.size() + " matches, " + (System.currentTimeMillis() - timeStart) + "ms");
+            + "handlers:" + handleCount + ", " + matches.size() + " matches, " + (System.currentTimeMillis() - timeStart) + "ms"
+            + ", " + messageSent);
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
