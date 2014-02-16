@@ -1662,8 +1662,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="NIE_WIADOMO_SKAD" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
         <pattern>
             <token>nie</token>
-            <token>wiadomo</token>
-            <token regexp="yes">co|kto|kiedy|dlaczego|gdzie|jak|skąd|dokąd|czemu</token>
+            <marker>
+                <token>wiadomo</token>
+                <token regexp="yes">co|kto|kiedy|dlaczego|gdzie|jak|skąd|dokąd|czemu</token>
+            </marker>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -1671,8 +1673,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="NIE_WIADOMO_SKAD_2" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
         <pattern>
             <token>nie</token>
-            <token>wiadomo</token>
-            <token>z</token>
+            <marker>
+                <token>wiadomo</token>
+                <token>z</token>
+            </marker>
             <token regexp="yes">czego|kim</token>
         </pattern>
         <disambig action="immunize"/>
@@ -1681,8 +1685,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="NIE_WIADOMO_SKAD_3" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
         <pattern>
             <token>nie</token>
-            <token>wiadomo</token>
-            <token regexp="yes">po|[zn]a</token>
+            <marker>
+                <token>wiadomo</token>
+                <token regexp="yes">po|[zn]a</token>
+            </marker>
             <token>co</token>
         </pattern>
         <disambig action="immunize"/>
@@ -1691,8 +1697,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="NIE_WIADOMO_SKAD_4" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
         <pattern>
             <token>nie</token>
-            <token>wiadomo</token>
-            <token regexp="yes">[zo]</token>
+            <marker>
+                <token>wiadomo</token>
+                <token regexp="yes">[zo]</token>
+            </marker>
             <token>czym</token>
         </pattern>
         <disambig action="immunize"/>
@@ -1701,8 +1709,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="NIE_WIADOMO_SKAD_5" name="nie wiadomo co - bez komunikatu o braku przecinka, bo to partykuła">
         <pattern>
             <token>nie</token>
-            <token>wiadomo</token>
-            <token>do</token>
+            <marker>
+                <token>wiadomo</token>
+                <token>do</token>
+            </marker>
             <token>kogo</token>
         </pattern>
         <disambig action="immunize"/>
@@ -1747,6 +1757,11 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="ignore_spelling"/>      
     </rule>
     
-    
+    <rule id="LICZBY_RZYMSKIE" name="Pomijaj liczby rzymskie">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))(?:-(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX])))?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
         
 </rules>
