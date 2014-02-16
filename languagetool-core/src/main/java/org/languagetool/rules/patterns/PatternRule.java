@@ -260,22 +260,22 @@ public class PatternRule extends AbstractPatternRule {
     return tokenSet;
   }
 
-    // tokens that just refer to a lemmas - no regex etc.
-    private synchronized Set<String> getInflectedTokens() {
-        if (lemmaSet == null) {
-            lemmaSet = new HashSet<>();
-            for (Element element : patternElements) {
-                if (!element.getNegation() && !element.isRegularExpression()
-                        && !element.isReferenceElement() && element.isInflected() && element.getMinOccurrence() > 0) {
-                    String str = element.getString();
-                    if (!StringTools.isEmpty(str)) {
-                        lemmaSet.add(str.toLowerCase());
-                    }
-                }
-            }
+  // tokens that just refer to a lemma - no regex etc.
+  private synchronized Set<String> getInflectedTokens() {
+    if (lemmaSet == null) {
+      lemmaSet = new HashSet<>();
+      for (Element element : patternElements) {
+        if (!element.getNegation() && !element.isRegularExpression()
+                && !element.isReferenceElement() && element.isInflected() && element.getMinOccurrence() > 0) {
+          String str = element.getString();
+          if (!StringTools.isEmpty(str)) {
+            lemmaSet.add(str.toLowerCase());
+          }
         }
-        return lemmaSet;
+      }
     }
+    return lemmaSet;
+  }
 
   List<Integer> getElementNo() {
     return elementNo;
