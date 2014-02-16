@@ -11534,6 +11534,15 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+        <rule id="DALA" name="„dala” (dała, z dala)">
+            <pattern>
+                <token>dala<exception scope="previous">z</exception></token>
+            </pattern>
+            <message>Prawdopodobna literówka. Czy chodziło o <suggestion>dała</suggestion> lub <suggestion>z dala</suggestion>?</message>
+            <short>Prawdopodobna literówka</short>
+            <example type="correct">Pociąg było widać już z dala.</example>
+            <example type="incorrect" correction="dała|z dala">Ona <marker>dala</marker> mi długopis.</example>
+        </rule>
         <rule id="O_WYM" name="„o wym” (owym)">
                 <pattern>
                     <token>o</token>
@@ -12942,7 +12951,10 @@ $Id$
 				</rule>
 				<rule id="MUSZE_MUSZE" name="„musze” (muszę)">
 						<pattern>
+                            <marker>
 								<token>musze</token>
+                            </marker>
+                                <token><exception regexp="yes">afrykańskiej|tse-tse</exception></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>muszę</suggestion>?</message>
 						<short>Prawdopodobna literówka</short>

@@ -309,6 +309,35 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     </rulegroup>
 
+    <rule name="do to nie subst" id="do_non_subst">
+        <pattern>
+            <marker><token>do</token></marker>
+            <token postag=".*gen.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig postag="prep:gen.*"/>
+    </rule>
+
+    <rulegroup name="od niedawna" id="OD_NIEDAWNA">
+    <rule>
+        <pattern>
+            <marker>
+            <token>od</token>
+            </marker>
+            <token>niedawna</token>
+        </pattern>
+        <disambig postag="prep:gen:nwok"/>
+    </rule>
+    <rule>
+            <pattern>
+                <token>od</token>
+                <marker>
+                <token>niedawna</token>
+                </marker>
+            </pattern>
+            <disambig postag="qub"/>
+    </rule>
+    </rulegroup>
+
     <rule name="względem - prep lub subst" id="wzgledem_subst">
         <pattern>
             <token>pod</token>
@@ -459,6 +488,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,musza/subst:sg:inst:f,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> zarabiać.</example>
     </rule>
 
+    <rule id="NUM_SUBST_GEN" name="gen po num">
+        <pattern>
+            <token regexp="yes">dużo|mało|mnóstwo|parę|niewiele|wiele</token>
+            <marker>
+                <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag=".*gen.*"/>
+        <example type="untouched">Mam wiele do zrobienia.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
+    </rule>
+
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
         <rule>
@@ -478,7 +519,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="untouched">Tu mamy piękny przykład sztuki barokowej.</example>
             <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f,mieć/verb:fin:pl:pri:imperf:refl.nonrefl]" outputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]">Spotykaliśmy się u <marker>mamy</marker>.</example>
         </rule>
-        
+
+        <rule id="PO_ADJP" name="po polsku">
+            <pattern>
+                <token>po</token>
+                <token postag="adjp"/>
+            </pattern>
+            <disambig postag="prep:loc"/>
+        </rule>
+
+        <rule id="OBOK_ADV" name="eliminacja obok:prep">
+            <pattern>
+                <marker>
+                <token>obok</token>
+                </marker>
+                <token regexp="yes">[,.;]</token>
+            </pattern>
+            <disambig postag="adv"/>
+        </rule>
+
         <!--  inne przyimki 
         <rule>
             <pattern>
@@ -511,14 +570,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
        	<example type="ambiguous" inputform="mną[ja/ppron12:sg:inst:m1.m2.m3.f.n1.n2:pri,miąć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mną[ja/ppron12:sg:inst:m1.m2.m3.f.n1.n2:pri]">Jedź ze <marker>mną</marker>!</example>
        </rule>
     </rulegroup>
-
-	<rule name="do to nie subst" id="do_non_subst">
-		<pattern>
-			<marker><token>do</token></marker>
-			<token postag=".*gen.*" postag_regexp="yes"></token>
-		</pattern>
-		<disambig postag="prep:gen"/>		
-	</rule>
 		
 	<rule name="W wiek" id="w_wiek">
 			<pattern case_sensitive="yes">
