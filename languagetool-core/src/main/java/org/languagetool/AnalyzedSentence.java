@@ -34,23 +34,16 @@ public class AnalyzedSentence {
   private AnalyzedTokenReadings[] nonBlankTokens;
   private Set<String> tokenSet;
   private Set<String> lemmaSet;
-
-  /**
-   * Array mapping positions of tokens as returned with
-   * getTokensWithoutWhitespace() to the internal tokens array.
-   */
   private int[] whPositions;
 
-
-    /**
-   * Sets {@link AnalyzedTokenReadings}. Whitespace is also a token.
+  /**
+   * Creates an AnalyzedSentence from the given {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
     this.tokens = tokens;
   }
 
-  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final
-      int[] whPositions) {
+  public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final int[] whPositions) {
     this.tokens = tokens;
     this.setWhPositions(whPositions);
     getTokensWithoutWhitespace();
@@ -183,14 +176,15 @@ public class AnalyzedSentence {
   }
 
   /**
-   * @param whPositions the whPositions to set
+   * @param whPositions the whPositions to set, see {@link #getWhPositions()}
    */
   public void setWhPositions(int[] whPositions) {
     this.whPositions = whPositions;
   }
 
   /**
-   * @return the whPositions
+   * Array mapping positions of tokens as returned with
+   * {@link #getTokensWithoutWhitespace()} to the internal tokens array.
    */
   public int[] getWhPositions() {
     return whPositions;
@@ -218,18 +212,24 @@ public class AnalyzedSentence {
     return tokenSet;
   }
 
-    public synchronized Set<String> getLemmaSet() {
-        if (lemmaSet == null) {
-            lemmaSet = new HashSet<>();
-            for (AnalyzedTokenReadings token : tokens) {
-                for (AnalyzedToken lemmaTok : token.getReadings())
-                    if (lemmaTok.getLemma() != null) {
-                        lemmaSet.add(lemmaTok.getLemma().toLowerCase());
-                    }
-                }
-            }
-        return lemmaSet;
+  /**
+   * Get the lowercase lemmas of this sentence in a set.
+   * Used internally for performance optimization.
+   * @since 2.5
+   */
+  public synchronized Set<String> getLemmaSet() {
+    if (lemmaSet == null) {
+      lemmaSet = new HashSet<>();
+      for (AnalyzedTokenReadings token : tokens) {
+        for (AnalyzedToken lemmaTok : token.getReadings()) {
+          if (lemmaTok.getLemma() != null) {
+            lemmaSet.add(lemmaTok.getLemma().toLowerCase());
+          }
+        }
+      }
     }
+    return lemmaSet;
+  }
 
   @Override
   public boolean equals(Object obj) {
