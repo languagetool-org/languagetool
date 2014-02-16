@@ -33,6 +33,7 @@ public class AnalyzedSentence {
 
   private AnalyzedTokenReadings[] nonBlankTokens;
   private Set<String> tokenSet;
+  private Set<String> lemmaSet;
 
   /**
    * Array mapping positions of tokens as returned with
@@ -40,7 +41,8 @@ public class AnalyzedSentence {
    */
   private int[] whPositions;
 
-  /**
+
+    /**
    * Sets {@link AnalyzedTokenReadings}. Whitespace is also a token.
    */
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens) {
@@ -215,6 +217,19 @@ public class AnalyzedSentence {
     }
     return tokenSet;
   }
+
+    public synchronized Set<String> getLemmaSet() {
+        if (lemmaSet == null) {
+            lemmaSet = new HashSet<>();
+            for (AnalyzedTokenReadings token : tokens) {
+                for (AnalyzedToken lemmaTok : token.getReadings())
+                    if (lemmaTok.getLemma() != null) {
+                        lemmaSet.add(lemmaTok.getLemma().toLowerCase());
+                    }
+                }
+            }
+        return lemmaSet;
+    }
 
   @Override
   public boolean equals(Object obj) {

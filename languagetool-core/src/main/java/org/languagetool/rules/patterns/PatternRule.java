@@ -53,6 +53,8 @@ public class PatternRule extends AbstractPatternRule {
 
   private Set<String> tokenSet;
 
+  private Set<String> lemmaSet;
+
   /**
    * This property is used for short-circuiting evaluation of the elementNo list
    * order.
@@ -69,6 +71,8 @@ public class PatternRule extends AbstractPatternRule {
      * Tokens used for checking whether a rule can ever match.
      */
   private Set<String> simpleRuleTokens;
+
+  private Set<String> inflectedRuleTokens;
 
     /**
    * @param id
@@ -123,6 +127,7 @@ public class PatternRule extends AbstractPatternRule {
     }
     //don't instantiate a hash for every sentence, simply store it:
     simpleRuleTokens = getSimpleTokens();
+    inflectedRuleTokens = getInflectedTokens();
   }  
   
   public PatternRule(final String id, final Language language,
@@ -233,7 +238,9 @@ public class PatternRule extends AbstractPatternRule {
    * @since 2.4
    */
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
-      return !simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens);
+      return (!simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens))
+              || (!inflectedRuleTokens.isEmpty() &&
+              !sentence.getLemmaSet().containsAll(inflectedRuleTokens));
   }
 
   // tokens that just refer to a word - no regex, no inflection etc.
@@ -252,6 +259,23 @@ public class PatternRule extends AbstractPatternRule {
     }
     return tokenSet;
   }
+
+    // tokens that just refer to a lemmas - no regex etc.
+    private synchronized Set<String> getInflectedTokens() {
+        if (lemmaSet == null) {
+            lemmaSet = new HashSet<>();
+            for (Element element : patternElements) {
+                if (!element.getNegation() && !element.isRegularExpression()
+                        && !element.isReferenceElement() && element.isInflected() && element.getMinOccurrence() > 0) {
+                    String str = element.getString();
+                    if (!StringTools.isEmpty(str)) {
+                        lemmaSet.add(str.toLowerCase());
+                    }
+                }
+            }
+        }
+        return lemmaSet;
+    }
 
   List<Integer> getElementNo() {
     return elementNo;
