@@ -76,12 +76,12 @@ public class JLanguageToolTest extends TestCase {
     //and let's test other feats
     AnalyzedSentence sent = tool.getAnalyzedSentence("Z powodu pogody dobre buty są wskazane.");
     assertEquals("Disambiguator log: \n\n"+
-        "prep_verb:2 Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:gen:nwok*]\n"+
+        "prep_verb:4 Z[z/prep:acc:nwok*,z/prep:gen:nwok*,z/prep:inst:nwok*] -> Z[z/prep:gen:nwok*]\n"+
         "PREP_SUBST:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
         "PREP_SUBST_2:1 Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*]\n"+
         "MULTIWORD_CHUNKER: Z[z/prep:gen:nwok*] -> Z[z/prep:gen:nwok*,Z powodu/<PREP:GEN>*]\n\n" +
 
-        "prep_verb:2 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
+        "prep_verb:4 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
         "PREP_SUBST:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
         "PREP_SUBST_2:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
 
