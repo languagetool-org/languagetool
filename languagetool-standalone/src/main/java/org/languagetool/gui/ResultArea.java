@@ -33,6 +33,7 @@ import javax.swing.event.HyperlinkListener;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.ContextTools;
@@ -124,7 +125,7 @@ class ResultArea {
         final String replacement = StringTools.listToString(match.getSuggestedReplacements(), "; ");
         sb.append("<b>").append(messages.getString("correctionMessage")).append("</b> ").append(replacement).append("<br>\n");
       }
-      if ("misspelling".equals(match.getRule().getLocQualityIssueType())) {
+      if (ITSIssueType.Misspelling.equals(match.getRule().getLocQualityIssueType())) {
         contextTools.setErrorMarkerStart(SPELL_ERROR_MARKER_START);
       } else {
         contextTools.setErrorMarkerStart(LT_ERROR_MARKER_START);

@@ -84,6 +84,7 @@ import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -794,7 +795,7 @@ class LanguageToolSupport {
       if (span.start == span.end) {
         continue;
       }
-      if ("misspelling".equals(span.rule.getLocQualityIssueType())) {
+      if (ITSIssueType.Misspelling.equals(span.rule.getLocQualityIssueType())) {
         spellErrors.add(span);
       } else {
         grammarErrors.add(span);
