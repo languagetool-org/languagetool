@@ -39,7 +39,7 @@ public class WhitespaceRule extends Rule {
   public WhitespaceRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("whitespace");
+    setLocQualityIssueType(ITSIssueType.Whitespace);
   }
 
   @Override

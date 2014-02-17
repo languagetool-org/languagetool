@@ -45,7 +45,7 @@ public abstract class WrongWordInContextRule extends Rule {
       super.setCategory(new Category(getCategoryString()));
     }
     contextWordsSet = loadContextWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(getFilename()));
-    setLocQualityIssueType("misspelling");
+    setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
   protected abstract String getFilename();

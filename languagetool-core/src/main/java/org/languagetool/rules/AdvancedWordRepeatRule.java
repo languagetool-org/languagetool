@@ -44,7 +44,7 @@ public abstract class AdvancedWordRepeatRule extends Rule {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
     setDefaultOff();
-    setLocQualityIssueType("style");
+    setLocQualityIssueType(ITSIssueType.Style);
   }
 
   protected abstract Set<String> getExcludedWordsPattern();

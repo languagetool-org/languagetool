@@ -34,6 +34,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -92,7 +93,7 @@ public class AccentuationCheckRule extends CatalanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    setLocQualityIssueType("grammar");
+    setLocQualityIssueType(ITSIssueType.Grammar);
     relevantWords = loadWords(FILE_NAME);
     relevantWords2 = loadWords(FILE_NAME2);
   }

@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
@@ -317,8 +318,8 @@ public class StringToolsTest extends TestCase {
               "My fake description", "Fake message", "Fake short message");
     }
     @Override
-    public String getLocQualityIssueType() {
-      return "misspelling";
+    public ITSIssueType getLocQualityIssueType() {
+      return ITSIssueType.Misspelling;
     }
   }
   

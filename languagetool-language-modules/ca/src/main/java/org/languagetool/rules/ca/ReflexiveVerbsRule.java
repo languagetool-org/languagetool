@@ -30,6 +30,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
@@ -165,7 +166,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
     if (messages != null) {
       super.setCategory(new Category("Verbs"));
     }
-    setLocQualityIssueType("grammar");
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   

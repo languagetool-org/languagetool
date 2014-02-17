@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
 
@@ -378,9 +379,9 @@ public final class StringTools {
       if (category != null) {
         xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append('"');
       }
-      final String type = match.getRule().getLocQualityIssueType();
+      final ITSIssueType type = match.getRule().getLocQualityIssueType();
       if (type != null) {
-        xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type)).append('"');
+        xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type.toString())).append('"');
       }
       xml.append("/>\n");
     }

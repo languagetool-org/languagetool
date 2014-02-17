@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -33,7 +34,7 @@ import org.languagetool.rules.RuleMatch;
 public class DifferentLengthRule extends BitextRule {
 
   public DifferentLengthRule() {
-    setLocQualityIssueType("length");
+    setLocQualityIssueType(ITSIssueType.Length);
   }
 
   @Override

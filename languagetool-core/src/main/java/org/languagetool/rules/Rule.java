@@ -41,7 +41,7 @@ public abstract class Rule {
 
   private List<String> correctExamples = new ArrayList<>();
   private List<IncorrectExample> incorrectExamples = new ArrayList<>();
-  private String locQualityIssueType = "uncategorized";
+  private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
   /** If true, then the rule is turned off by default. */
@@ -279,18 +279,18 @@ public abstract class Rule {
    * cases, <tt>uncategorized</tt> is returned.
    *
    * @return the Localization Quality Issue Type - <tt>uncategorized</tt> if no type has been assigned
-   * @since 2.0
+   * @since 2.5
    */
-  public String getLocQualityIssueType() {
+  public ITSIssueType getLocQualityIssueType() {
     return locQualityIssueType;
   }
 
   /**
    * Set the Localization Quality Issue Type.
    * @see #getLocQualityIssueType()
-   * @since 2.0
+   * @since 2.5
    */
-  public void setLocQualityIssueType(String locQualityIssueType) {
+  public void setLocQualityIssueType(ITSIssueType locQualityIssueType) {
     this.locQualityIssueType = locQualityIssueType;
   }
 

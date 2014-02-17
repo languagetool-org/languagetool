@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -107,7 +108,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
     if (messages != null) {
       super.setCategory(new Category("Z) Concordances en grups nominals"));
     }
-    setLocQualityIssueType("grammar");
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   @Override

@@ -26,6 +26,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.WordTokenizer;
@@ -60,7 +61,7 @@ public abstract class SpellingCheckRule extends Rule {
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
     super(messages);
     this.language = language;
-    setLocQualityIssueType("misspelling");
+    setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
   @Override

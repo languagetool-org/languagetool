@@ -47,7 +47,7 @@ public class LongSentenceRule extends Rule {
     }
     maxWords = maxSentenceLength;
     setDefaultOff();
-    setLocQualityIssueType("style");
+    setLocQualityIssueType(ITSIssueType.Style);
   }
 
   public LongSentenceRule(final ResourceBundle messages) {

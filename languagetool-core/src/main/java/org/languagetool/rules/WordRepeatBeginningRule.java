@@ -40,7 +40,7 @@ public class WordRepeatBeginningRule extends Rule {
   public WordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("style");
+    setLocQualityIssueType(ITSIssueType.Style);
   }
 
   @Override

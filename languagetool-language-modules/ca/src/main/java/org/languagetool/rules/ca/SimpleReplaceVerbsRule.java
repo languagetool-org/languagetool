@@ -36,6 +36,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
@@ -74,7 +75,7 @@ public class SimpleReplaceVerbsRule extends Rule {
   }
   
   public SimpleReplaceVerbsRule(final ResourceBundle messages) throws IOException {
-    super.setLocQualityIssueType("misspelling");
+    super.setLocQualityIssueType(ITSIssueType.Misspelling);
     if (messages != null) {
       super.setCategory(new Category("Errors ortogràfics"));
     }

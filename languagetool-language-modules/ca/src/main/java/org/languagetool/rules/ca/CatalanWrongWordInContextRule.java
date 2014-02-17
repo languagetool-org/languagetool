@@ -21,13 +21,14 @@ package org.languagetool.rules.ca;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class CatalanWrongWordInContextRule extends WrongWordInContextRule {
   
   public CatalanWrongWordInContextRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    setLocQualityIssueType("grammar");
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
   
   @Override

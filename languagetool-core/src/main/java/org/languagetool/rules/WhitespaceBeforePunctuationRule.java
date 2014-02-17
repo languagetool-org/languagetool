@@ -44,7 +44,7 @@ public class WhitespaceBeforePunctuationRule extends Rule {
   public WhitespaceBeforePunctuationRule(final ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("whitespace");
+    setLocQualityIssueType(ITSIssueType.Whitespace);
   }
 
   @Override

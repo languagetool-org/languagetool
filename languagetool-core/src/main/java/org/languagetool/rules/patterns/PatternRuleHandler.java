@@ -27,6 +27,7 @@ import java.util.List;
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -436,11 +437,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     // inheritance of values - if no type value is defined for a rule, take the rule group's value etc:
     if (ruleIssueType != null) {
-      rule.setLocQualityIssueType(ruleIssueType);
+      rule.setLocQualityIssueType(ITSIssueType.getIssueType(ruleIssueType));
     } else if (ruleGroupIssueType != null) {
-      rule.setLocQualityIssueType(ruleGroupIssueType);
+      rule.setLocQualityIssueType(ITSIssueType.getIssueType(ruleGroupIssueType));
     } else if (categoryIssueType != null) {
-      rule.setLocQualityIssueType(categoryIssueType);
+      rule.setLocQualityIssueType(ITSIssueType.getIssueType(categoryIssueType));
     }
   }
 

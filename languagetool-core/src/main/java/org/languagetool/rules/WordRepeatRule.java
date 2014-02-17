@@ -36,7 +36,7 @@ public class WordRepeatRule extends Rule {
   public WordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
-    setLocQualityIssueType("duplication");
+    setLocQualityIssueType(ITSIssueType.Duplication);
   }
 
   /**

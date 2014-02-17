@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -49,7 +50,7 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   public ContractionSpellingRule(final ResourceBundle messages) throws IOException {
     super(messages);
     super.setCategory(new Category("Possible Typo"));
-    setLocQualityIssueType("misspelling");
+    setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
   @Override

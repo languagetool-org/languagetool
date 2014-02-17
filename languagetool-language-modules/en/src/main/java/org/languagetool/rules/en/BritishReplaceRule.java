@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.ITSIssueType;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -47,7 +48,7 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
 
   public BritishReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
-    setLocQualityIssueType("locale-violation");
+    setLocQualityIssueType(ITSIssueType.LocaleViolation);
   }
 
   @Override

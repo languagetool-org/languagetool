@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.ITSIssueType;
 
 public class CatalanUnpairedQuestionMarksRule extends GenericUnpairedBracketsRule {
   
@@ -32,7 +33,7 @@ public class CatalanUnpairedQuestionMarksRule extends GenericUnpairedBracketsRul
   public CatalanUnpairedQuestionMarksRule(final ResourceBundle messages,
       final Language language) {
     super(messages, language);
-    setLocQualityIssueType("style");
+    setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
     startSymbols = CA_START_SYMBOLS;
     endSymbols = CA_END_SYMBOLS;
