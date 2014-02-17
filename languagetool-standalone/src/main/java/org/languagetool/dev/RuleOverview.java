@@ -285,10 +285,7 @@ public final class RuleOverview {
     public boolean accept(final File f) {
       final String filename = f.getName();
       final boolean isAbstractTopClass = filename.endsWith(langName + "Rule.java");
-      if (filename.endsWith(".java") && !isAbstractTopClass) {
-        return true;
-      }
-      return false;
+      return filename.endsWith(".java") && !isAbstractTopClass;
     }
 
   }

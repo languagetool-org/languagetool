@@ -63,8 +63,8 @@ public class SimpleReplaceVerbsRule extends Rule {
   protected boolean ignoreTaggedWords = true;
   
   private static final Pattern[] desinencies_1conj= new Pattern[2];
-  private CatalanTagger tagger;
-  private CatalanSynthesizer synth;
+  private final CatalanTagger tagger;
+  private final CatalanSynthesizer synth;
 
   public final String getFileName() {
     return FILE_NAME;

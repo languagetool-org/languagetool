@@ -228,8 +228,9 @@ public class SimpleReplaceRule extends Rule {
       final List<AnalyzedTokenReadings> prevTokensList =
               Arrays.asList(prevTokens.toArray(new AnalyzedTokenReadings[prevTokens.size()]));
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
-        if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore())
+        if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {
           sb.insert(0, " ");
+        }
         sb.insert(0, prevTokensList.get(j).getToken());
         variants.add(0, sb.toString());
       }
