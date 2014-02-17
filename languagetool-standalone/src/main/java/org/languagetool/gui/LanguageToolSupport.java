@@ -34,8 +34,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -860,7 +862,13 @@ class LanguageToolSupport {
     textPane.setSize(dialogWidth, Short.MAX_VALUE);
     String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
     String exampleSentences = getExampleSentences(rule);
-    textPane.setText("<html>" + messageWithBold + exampleSentences + formatURL(rule.getUrl()) + "</html>");
+    String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
+            + "?lang=" + languageTool.getLanguage().getShortNameWithCountryAndVariant() + "&amp;ref=standalone-gui";
+    textPane.setText("<html>" 
+            + messageWithBold + exampleSentences + formatURL(rule.getUrl()) 
+            + "<br><br>" 
+            + "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>" 
+            + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
         new Dimension(dialogWidth, textPane.getPreferredSize().height));
@@ -869,6 +877,14 @@ class LanguageToolSupport {
     String cleanTitle = title.replace("<suggestion>", "'").replace("</suggestion>", "'");
     JOptionPane.showMessageDialog(parent, scrollPane, cleanTitle,
         JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private String encodeUrl(Rule rule) {
+    try {
+      return URLEncoder.encode(rule.getId(), "utf-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private String getExampleSentences(Rule rule) {
