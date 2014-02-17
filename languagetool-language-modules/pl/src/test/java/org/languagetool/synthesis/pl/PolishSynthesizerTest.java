@@ -51,7 +51,7 @@ public class PolishSynthesizerTest extends TestCase {
     return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
-  private String[] getSortedArray(String[] ar) {
+  private String[] getSortedArray(String... ar) {
     String[] newAr = ar.clone();
     Arrays.sort(newAr);
     return newAr;

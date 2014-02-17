@@ -53,20 +53,21 @@ public class PolishSynthesizer implements Synthesizer {
   private static final String COMP_TAG = "com";
   private static final String SUP_TAG = "sup";
 
-  private Dictionary dictionary;
+  private volatile Dictionary dictionary;
   private List<String> possibleTags;
-  
-  protected Dictionary getDictionary() throws IOException {
-    if (this.dictionary == null) {
+
+  private Dictionary getDictionary() throws IOException {
+    Dictionary result = this.dictionary;
+    if (result == null) {
       synchronized (this) {
-        if (this.dictionary == null) {
+        result = this.dictionary;
+        if (result == null) {
           final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(RESOURCE_FILENAME);
-          this.dictionary = Dictionary.read(url);
+          this.dictionary = result = Dictionary.read(url);
         }
       }
     }
-    
-    return this.dictionary;
+    return result;
   }
   
   @Override
