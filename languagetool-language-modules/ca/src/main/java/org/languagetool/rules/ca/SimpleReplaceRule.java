@@ -42,6 +42,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   // locale used on case-conversion
   private static final Locale CA_LOCALE = new Locale("CA");
 
+  @Override
   public final String getFileName() {
     return FILE_NAME;
   }
@@ -63,6 +64,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return "Detecta paraules incorrectes i proposa suggeriments de canvi";
   }
 
+  @Override
   public String getShort() {
     return "Paraula incorrecta";
   }

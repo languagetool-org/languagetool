@@ -281,6 +281,7 @@ public final class RuleOverview {
       this.langName = langName;
     }
 
+    @Override
     public boolean accept(final File f) {
       final String filename = f.getName();
       final boolean isAbstractTopClass = filename.endsWith(langName + "Rule.java");

@@ -39,6 +39,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final String FILE_NAME = "/uk/replace.txt";
 
+  @Override
   public final String getFileName() {
     return FILE_NAME;
   }
@@ -57,6 +58,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     return "Пошук помилкових слів";
   }
 
+  @Override
   public String getShort() {
     return "Помилка?";
   }
@@ -72,6 +74,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
    * 
    * @return true if the rule is case-sensitive, false otherwise.
    */
+  @Override
   public boolean isCaseSensitive() {
     return false;
   }
@@ -80,6 +83,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
    * @return the locale used for case conversion when {@link #isCaseSensitive()}
    *         is set to <code>false</code>.
    */
+  @Override
   public Locale getLocale() {
     return Locale.getDefault();
   }

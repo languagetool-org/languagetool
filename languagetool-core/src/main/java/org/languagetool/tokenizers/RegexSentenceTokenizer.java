@@ -115,6 +115,7 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
    * @param lineBreakParagraphs if <code>true</code>, single lines breaks are assumed to end a paragraph,
    *  with <code>false</code>, only two ore more consecutive line breaks end a paragraph
    */
+  @Override
   public void setSingleLineBreaksMarksParagraph(final boolean lineBreakParagraphs) {
     if (lineBreakParagraphs) {
       paragraph = paragraphByLineBreak;
@@ -123,6 +124,7 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
     }
   }
 
+  @Override
   public boolean singleLineBreaksMarksPara() {
     return paragraph == paragraphByLineBreak;
   }
