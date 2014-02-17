@@ -1305,7 +1305,7 @@ $Id$
 				<rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
-								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*m3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]</exception></token>
+								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*m3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
 								<marker>
 										<token><exception regexp="yes" scope="current">[,-–—!\.]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
 								</marker>
@@ -1318,6 +1318,7 @@ $Id$
 						<example type="correct">Coście się tak, babuniu, za nos chwyciła?</example>
                         <example type="correct">Tacie się to nie spodoba.</example>
                         <example type="correct">Anno Domini MCMXXI, 1922</example>
+                        <example type="correct">Dajno mi ją, braciszku.</example>
 				</rule>
 				<rule id="JAK_I" name="Brak przecinka przed „jak i”">
 						<pattern>
