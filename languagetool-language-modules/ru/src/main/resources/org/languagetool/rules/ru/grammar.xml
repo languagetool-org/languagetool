@@ -3631,5 +3631,1494 @@ $Id$
         </rule>
         
     </category>
+   
+    <category name="Дополнительно">
+        <rulegroup id="Postrojenije_slovosochetanij_skazuem_Pl" name="Употребление числа сказуемого: мн. ч.">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
+                        <token>три</token>     
+                    </marker>
+                </pattern>
+                <message>При числительных <suggestion>два, три, четыре</suggestion> сказуемое обычно стоит во мн. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">На столе <marker>лежит три</marker> книги.</example>
+                <example type="correct">На столе лежат три книги.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
+                        <token>четыре</token>
+                    </marker>
+                </pattern>
+                <message>При числительных <suggestion>два, три, четыре</suggestion> сказуемое обычно стоит во мн. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Вошло четыре</marker> человека.</example>
+                <example type="correct">Вошли четыре человека.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
+                        <token>две</token>
+                    </marker>
+                </pattern>
+                <message>При числительных <suggestion>два, три, четыре</suggestion> сказуемое обычно стоит во мн. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">От нашей школы на соревнования <marker>поехало две</marker> ученицы.</example>
+                <example type="correct">От нашей школы на соревнования поехали две ученицы.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
+                        <token>двадцать</token>
+                        <token>два</token>
+                    </marker>
+                </pattern>
+                <message>При числительных <suggestion>два, три, четыре</suggestion> сказуемое обычно стоит во мн. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">В ВУЗ <marker>поступило двадцать два</marker> выпускника нашей школы.</example>
+                <example type="correct">В ВУЗ поступили двадцать два выпускника нашей школы.</example>
+            </rule>
+
+
+        </rulegroup>
+
+
+        <rulegroup id="Postrojenije_slovosochet_mnogo_malo_nemnogo_nemalo" name="Согласование подлежащего, выраженного оборотом со словами 'много, мало, немного, немало', и сказуемого">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>много</token>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено оборотом со словами Много, Мало, Немного, Немало - сказуемое ставим в ед. ч.</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Много нашлись</marker> желающих присоединиться.</example>
+                <example type="correct">Много нашлось желающих присоединиться.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>немало</token>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено оборотом со словами Много, Мало, Немного, Немало - сказуемое ставим в ед. ч.</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Немало были</marker> и отказавшихся.</example>
+                <example type="correct">Немало было и отказавшихся.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>немного</token>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено оборотом со словами Много, Мало, Немного, Немало - сказуемое ставим в ед. ч.</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Немного пришли</marker> людей его поддержать.</example>
+                <example type="correct">Немного пришло людей его поддержать.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>мало</token>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено оборотом со словами Много, Мало, Немного, Немало - сказуемое ставим в ед. ч.</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Мало остались</marker> в живых.</example>
+                <example type="correct">Мало осталось в живых.</example>
+            </rule>
+
+
+        </rulegroup>
+<!--
+        <rulegroup id="Postrojenije_slovosochetanij_skazuem_sing" name="Употребление числа сказуемого: ед. ч."> 
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="PT_Short:Real:PL|PT_Short:Real:Neut|PT_Short:Real:Masc" postag_regexp="yes"/>
+                        <token>тысяча</token>
+                    </marker>
+                </pattern>
+                <message>При словах <suggestion>тысяча, сотня, миллион, миллиард</suggestion> сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Получены тысяча</marker> книг для библиотеки.</example>
+                <example type="correct">Получена тысяча книг для библиотеки.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="PT_Short:Real:PL|PT_Short:Real:Neut|PT_Short:Real:Masc" postag_regexp="yes"/>
+                        <token>сотня</token>
+                    </marker>
+                </pattern>
+                <message>При словах <suggestion>тысяча, сотня, миллион, миллиард</suggestion> сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect"><marker>Напечатано сотня</marker> экземпляров.</example>
+                <example type="correct">Напечатана сотня экземпляров.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="PT_Short:Real:PL|PT_Short:Real:Neut|PT_Short:Real:Fem" postag_regexp="yes"/>
+                        <token>миллион</token>
+                    </marker>
+                </pattern>
+                <message>При словах <suggestion>тысяча, сотня, миллион, миллиард</suggestion> сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">На благотворительность <marker>выделено миллион</marker> рублей.</example>
+                <example type="correct">На благотворительность выделен миллион рублей.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="PT_Short:Real:PL|PT_Short:Real:Neut|PT_Short:Real:Fem" postag_regexp="yes"/>
+                        <token>миллиард</token>
+                    </marker>
+                </pattern>
+                <message>При словах <suggestion>тысяча, сотня, миллион, миллиард</suggestion> сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">На благоустройство города <marker>выделено миллиард</marker> рублей.</example>
+                <example type="correct">На благоустройство города выделен миллиард рублей.</example>
+           </rule>
+ 
+                </rulegroup>
+        -->    
+        <rulegroup id="Obrazovanije_glagoln_form_imperativ" name=" Образование повелительного наклонения">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>давайте</token>
+                        <token postag="VB:IMP:PL:P2"/>
+                    </marker>
+                </pattern>
+                <message>Ошибка в образовании повелительного наклонения</message>
+                <short>Неправильная форма повелительного наклонения</short>
+                <example type="incorrect"><marker>Давайте посмотрите</marker> сюда.</example>
+                <example type="correct">Посмотрите сюда.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>давай</token>
+                        <token postag="VB:IMP:Sin:P2"/>
+                    </marker>
+                </pattern>
+                <message>Ошибка в образовании повелительного наклонения</message>
+                <short>Неправильная форма повелительного наклонения</short>
+                <example type="incorrect"><marker>Давай принеси</marker> мне эту книгу завтра.</example>
+                <example type="correct">Принеси мне эту книгу завтра.</example>
+            </rule>
+
+
+        </rulegroup>
+        
+        
+<!--
+        <rulegroup id="Obrazovanie_form_prilagat_compar" name="Образование степеней сравнения прилагательных">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>самый</token>               
+                        <token postag="ADJ_Comp:.*" postag_regexp="yes"/>                    
+                    </marker>                 
+                </pattern>
+                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного</message>
+                <short>Сложная превосходная степень</short>
+                <example type="incorrect">Это <marker>самый талантливейший</marker> художник 19-го века.</example>
+                <example type="correct">Это самый талантливый художник 19-го века.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>самая</token>               
+                        <token postag="ADJ_Comp:.*" postag_regexp="yes"/>                    
+                    </marker>                 
+                </pattern>
+                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного</message>
+                <short>Сложная превосходная степень</short>
+                <example type="incorrect">Это <marker>самая красивейшая</marker> девочка в классе.</example>
+                <example type="correct">Это самая красивая девочка в классе.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>более</token>               
+                        <token postag="ADJ_Comp:.*" postag_regexp="yes"/>                    
+                    </marker>                 
+                </pattern>
+                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного</message>
+                <short>Сложная сравнительная степень</short>
+                <example type="incorrect">Это <marker>более вкуснейший</marker> салат.</example>
+                <example type="correct">Это более вкусный салат.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>менее</token>               
+                        <token postag="ADJ_Comp:.*"  postag_regexp="yes"/>                    
+                    </marker>                 
+                </pattern>
+                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного</message>
+                <short>Сложная сравнительная степень</short>
+                <example type="incorrect">Это <marker>менее сложнейшая</marker> задача.</example>
+                <example type="correct">Это менее сложная задача.</example>
+            </rule>
+
+
+        </rulegroup>
+
+        -->
+
+
+        <rulegroup id="Obrazovanie_form_pril_i_mestoimenij" name="Образование местоимений 3 лица ед. и мн. ч.">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>лучше</token>
+                        <token>её</token>
+                    </marker>
+                </pattern>
+                <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>лучше неё</suggestion>?</message>
+                <example type="incorrect">Я знаю математику <marker>лучше её</marker>.</example>
+                <example type="correct">Я знаю математику лучше неё.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="SENT_START" />
+                        <token>лучше</token>
+                        <token>них</token>
+                    </marker>
+                </pattern>
+                <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>лучше их</suggestion>?</message>
+                <example type="incorrect"><marker>Лучше них</marker> могут быть только горы.</example>
+                <example type="correct">Лучше их могут быть только горы.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="SENT_START" />
+                        <token>слева</token>
+                        <token>от</token>
+                        <token>её</token>
+                    </marker>
+                </pattern>
+                <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>слева от неё</suggestion>?</message>
+                <example type="incorrect"><marker>Слева от её</marker> будет магазин.</example>
+                <example type="correct">Слева от неё будет магазин.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="SENT_START" />
+                        <token>между</token>
+                        <token>неё</token>
+                        <token>и</token>
+                        <token>моим</token>
+                    </marker>
+                </pattern>
+                <message>Образование местоимений 3 лица ед. и мн. ч. Вы имели в виду <suggestion>между её и моим</suggestion>?</message>
+                <example type="incorrect"><marker>Между неё и моим</marker> произношением нет разницы.</example>
+                <example type="correct">Между её и моим произношением нет разницы.</example>
+            </rule>
+        </rulegroup>
     
+
+        <rulegroup id="Obrazovanije_slozhnyh_slov" name="Образование сложных слов">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>четверть</token>           
+                        <token>финал</token>           
+                    </marker>
+                </pattern>
+                <message> Образование сложных слов. Вы имели в виду <suggestion>четвертьфинал</suggestion>?</message>
+                <short>'Четвертьфинал' пишется слитно</short>
+                <example type="incorrect">Команда вышла в <marker>четверть финал</marker>.</example>
+                <example type="correct">Команда вышла в четвертьфинал.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>сто</token>           
+                        <token>дневное</token>           
+                    </marker>
+                </pattern>
+                <message> Образование сложных слов. Вы имели в виду <suggestion>стодневное</suggestion>?</message>
+                <short>'Стодневное' пишется слитно</short>
+                <example type="incorrect">Это было <marker>сто дневное</marker> путешествие.</example>
+                <example type="correct">Это было стодневное путешествие.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>пол</token>           
+                        <token>листа</token>           
+                    </marker>
+                </pattern>
+                <message>Если в сложном слове с корнем ПОЛ второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-листа</suggestion>?</message>
+                <short>'Пол-листа' пишем через дефис</short>
+                <example type="incorrect">Она исписала <marker>пол листа</marker>.</example>
+                <example type="correct">Она исписала пол-листа.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>пол</token>           
+                        <token>луковицы</token>           
+                    </marker>
+                </pattern>
+                <message>Если в сложном слове с корнем ПОЛ второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-луковицы</suggestion>?</message>
+                <short>'Пол-луковицы' пишем через дефис</short>
+                <example type="incorrect">Для этого блюда возьмите <marker>пол луковицы</marker>.</example>
+                <example type="correct">Для этого блюда возьмите <marker>пол-луковицы</marker>.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>пол</token>           
+                        <token>урока</token>           
+                    </marker>
+                </pattern>
+                <message>Если в сложном слове с корнем ПОЛ второе слово начинается с гласной, то пишем его через дефис. Вы имели в виду <suggestion>пол-урока</suggestion>?</message>
+                <short>'Пол-урока' пишем через дефис</short>
+                <example type="incorrect"><marker>Пол урока</marker> мы писали диктант.</example>
+                <example type="correct">Пол-урока мы писали диктант.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+        <rulegroup id="Nepraviln_pristavki" name="Неправильное использование предлогов">
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token inflected="yes">заскочить</token>
+                        <token>на</token>
+                    </marker>
+                </pattern>
+                <message>Неправильное использование предлогов. Вы имели в виду <suggestion>вскочить на</suggestion>?</message>
+                <short>Правильно 'вскочить на'</short>
+                <example type="incorrect">Он собрался <marker>заскочить на</marker> стул.</example>
+                <example type="correct">Он собрался вскочить на стул.</example>
+            </rule>   
+
+
+        </rulegroup>
+         
+         
+         
+         
+         
+         
+         
+         
+        <rulegroup id="Lishnij_sojuz" name="Лишний союз">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="CONJ"/>
+                        <token>однако</token>
+                        <token>не</token>
+                    </marker>
+                </pattern>
+                <message>Лишний союз. Вы имели в виду <suggestion>однако не</suggestion>?</message>
+                <short>Правильно 'однако не'</short>
+                <example type="incorrect">Она знала, что может опоздать, <marker>но однако не</marker> вызвала такси.</example>
+                <example type="correct">Она знала, что может опоздать, однако не вызвала такси.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="CONJ"/>
+                        <token>тем</token>
+                        <token>более</token>
+                        <token>что</token>
+                    </marker>
+                </pattern>
+                <message>Лишний союз. Вы имели в виду <suggestion>тем более что</suggestion>?</message>
+                <short>Правильно 'тем более что'</short>
+                <example type="incorrect">Мы все равно не смогли бы пойти, <marker>и тем более что</marker> билеты уже раскуплены.</example>
+                <example type="correct">Мы все равно не смогли бы пойти, тем более что билеты уже раскуплены.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>и</token>
+                        <token>долго</token>
+                        <token>и</token>
+                        <token>упорно</token>
+                    </marker>
+                </pattern>
+                <message>Лишний союз. Вы имели в виду <suggestion>долго и упорно</suggestion>?</message>
+                <short>Правильно 'долго и упорно'</short>
+                <example type="incorrect">Он шел к цели <marker>и долго и упорно</marker>.</example>
+                <example type="correct">Он шел к цели долго и упорно.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="CONJ"/>
+                        <token>тем</token>
+                        <token>не</token>
+                        <token>менее</token>
+                    </marker>
+                </pattern>
+                <message>Лишний союз. Вы имели в виду <suggestion>тем не менее</suggestion>?</message>
+                <short>Правильно 'тем не менее'</short>
+                <example type="incorrect">Утро было солнечным, <marker>однако тем не менее</marker> вечером ударил мороз.</example>
+                <example type="correct">Утро было солнечным, тем не менее, вечером ударил мороз.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+        <rulegroup id="Upotreblenije_predlogov" name="Употребление предлогов">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token inflected="yes">описывать</token>
+                        <token>про</token>          
+                    </marker>
+                </pattern>
+                <message>Описывать что-то, а не про что-то. Вы имели в виду <suggestion>описывать</suggestion>?</message>
+                <short>Лишний предлог</short>
+                <example type="incorrect">Эта книга <marker>описывает про</marker> события, которые происходили в прошлом веке.</example>
+                <example type="correct">Эта книга описывает события, которые происходили в прошлом веке.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>от</token>
+                        <token>утра</token>
+                        <token>до</token>
+                        <token>вечера</token>
+                    </marker>
+                </pattern>
+                <message>Неправильный предлог. Вы имели в виду <suggestion>с утра до вечера</suggestion>?</message>
+                <short>Правильно 'с утра'</short>
+                <example type="incorrect"><marker>От утра до вечера</marker> она трудилась в редакции.</example>
+                <example type="correct">С утра до вечера она трудилась в редакции.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token inflected="yes">оплатить</token>
+                        <token>за</token>          
+                    </marker>
+                </pattern>
+                <message>Оплатить что-то, а не за что-то. Вы имели в виду <suggestion>оплатить</suggestion>?</message>
+                <short>Лишний предлог</short>
+                <example type="incorrect">Ты забыл <marker>оплатить за</marker> проезд.</example>
+                <example type="correct">Ты забыл оплатить проезд.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+        <rulegroup id="Kontrol_za_nad" name="Контроль За или Над">
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>контроль</token>
+                        <token>за</token>
+                        <token>деятельностью</token>
+                    </marker>
+                </pattern>
+                <message>В официальной и профессионально-технической речи – Контроль чего-либо. Вы имели в виду <suggestion>контроль деятельности</suggestion>?</message>
+                <short>Лучше 'контроль деятельности'</short>
+                <example type="incorrect"><marker>Контроль за деятельностью</marker> нижестоящих органов.</example>
+                <example type="correct">Контроль деятельности нижестоящих органов.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>контроль</token>
+                        <token>за</token>
+                        <token>предприятием</token>
+                    </marker>
+                </pattern>
+                <message>При отвлеченных существительных – Контроль над чем-либо.
+                    Вы имели в виду <suggestion>контроль над предприятием</suggestion>?</message>
+                <short>Правильно 'контроль над предприятием'</short>
+                <example type="incorrect">Приобрести <marker>контроль за предприятием</marker>.</example>
+                <example type="correct">Приобрести контроль над предприятием.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>контроль</token>
+                        <token>над</token>
+                        <token>качеством</token>
+                        <token>работы</token>
+                    </marker>
+                </pattern>
+                <message>При существительных, обозначающих действие или признак – пишем Контроль за (за качеством работы, за работой станка)</message>
+                <short>Правильно 'контроль за качеством работы'</short>
+                <example type="incorrect">Осуществлять <marker>контроль над качеством работы</marker>. </example>
+                <example type="correct">Осуществлять контроль за качеством работы. </example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>контроль</token>
+                        <token>за</token>
+                        <token>специалистами</token>
+                    </marker>
+                </pattern>
+                <message>При одушевленных существительных – пишем Контроль над. Вы имели в виду <suggestion>контроль над специалистами</suggestion>?</message>
+                <short>Правильно 'контроль над специалистами'</short>
+                <example type="incorrect">Осуществлять <marker>контроль за специалистами</marker> на предприятии.</example>
+                <example type="correct">Осуществлять контроль над специалистами на предприятии.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+        <rulegroup id="Skazuem_sovmestnoje_dejstvije" name="Согласование сказуемого с подлежащим, выраженным счетным оборотом, при подчеркнутой совместности действия">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                        <token>двадцать</token>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено счетным оборотом, и 
+                    подчеркивается совместность действия, сказуемое ставим в ед. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">В аудитории <marker>сидели двадцать</marker> студентов.</example>
+                <example type="correct">В аудитории сидело двадцать студентов.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                        <token>десять</token>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено счетным оборотом, и 
+                    подчеркивается совместность действия, сказуемое ставим в ед. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">На семинар <marker>пришли десять</marker> человек.</example>
+                <example type="correct">На семинар пришло десять человек.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                        <token>двадцать</token>
+                        <token>пять</token>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено счетным оборотом, и 
+                    подчеркивается совместность действия, сказуемое ставим в ед. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">Вдоль стены <marker>стояли двадцать пять</marker> стульев.</example>
+                <example type="correct">Вдоль стены стояло двадцать пять стульев.</example>
+            </rule>
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="VB:Past:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                        <token>восемь</token>
+                    </marker>
+                </pattern>
+                <message>Если подлежащее выражено счетным оборотом, и 
+                    подчеркивается совместность действия, сказуемое ставим в ед. числе</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">На арену <marker>вышли восемь</marker> акробатов.</example>
+                <example type="correct">На арену вышло восемь акробатов.</example>
+            </rule>
+
+
+        </rulegroup>
+
+        <rulegroup id="Predlogi_iz_s" name="Предлоги 'из' и 'с'">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>с</token>          
+                        <token>школы</token>
+                    </marker>
+                </pattern>
+                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В школу – то ИЗ школы</message>
+                <short>Правильно 'из школы'</short>
+                <example type="incorrect">Вернувшись <marker>с школы</marker>, она сразу села читать. </example>
+                <example type="correct">Вернувшись из школы, она сразу села читать. </example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>с</token>          
+                        <token>командировки</token>
+                    </marker>
+                </pattern>
+                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В командировку– то ИЗ командировки</message>
+                <short>Правильно 'из командировки'</short>
+                <example type="incorrect">Они вернулись <marker>с командировки</marker> еще вчера.</example>
+                <example type="correct">Они вернулись из командировки еще вчера.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>из</token>          
+                        <token>Кавказа</token>
+                    </marker>
+                </pattern>
+                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если НА Кавказ – то С Кавказа</message>
+                <short>Правильно 'с Кавказа'</short>
+                <example type="incorrect">Мой дед родом <marker>из Кавказа</marker>.</example>
+                <example type="correct">Мой дед родом с Кавказа.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>с</token>          
+                        <token>армии</token>
+                    </marker>
+                </pattern>
+                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В армию – то ИЗ армии</message>
+                <short>Правильно 'из армии'</short>
+                <example type="incorrect">Он пришел <marker>с армии</marker> на прошлой неделе.</example>
+                <example type="correct">Он пришел из армии на прошлой неделе.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+        <rulegroup id="Trudn_sluchai_upravl" name="Трудные случаи управления">
+
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>жажда</token>
+                        <token>к</token>
+                    </marker>
+                </pattern>
+                <message>Трудный случай управления: правильно – жажда чего-то, а не к чему-то</message>
+                <short>Ошибка в управлении</short>
+                <example type="incorrect"><marker>Жажда к</marker> власти погубила его.</example>
+                <example type="correct">Жажда власти погубила его.</example>
+            </rule>   
+
+        </rulegroup>
+         
+         
+         
+
+
+<rulegroup id="Sklonenije_suschestvit_PL" name="Склонение некоторых существительных во множ. числе">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>листья</token>                  
+                        <token>бумаги</token>                  
+                    </marker>
+                </pattern>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листы бумаги</suggestion>?</message>
+                <short>Правильно 'листы бумаги'</short>
+                <example type="incorrect"><marker>Листья бумаги</marker> разлетелись по комнате.</example>
+                <example type="correct">Листы бумаги разлетелись по комнате.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>листы</token>                  
+                        <token>деревьев</token>                  
+                    </marker>
+                </pattern>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листья деревьев</suggestion>?</message>
+                <short>Правильно 'листья деревьев'</short>
+                <example type="incorrect"><marker>Листы деревьев</marker> пожелтели.</example>
+                <example type="correct">Листья деревьев пожелтели.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>коренья</token>                  
+                        <token>дерева</token>                  
+                    </marker>
+                </pattern>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>корни дерева</suggestion>?</message>
+                <short>Правильно 'корни дерева'</short>
+                <example type="incorrect"><marker>Коренья дерева</marker> высохли.</example>
+                <example type="correct">Корни дерева высохли.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>болят</token>                  
+                        <token>зубья</token>                  
+                    </marker>
+                </pattern>
+                <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>болят зубы</suggestion>?</message>
+                <short>Правильно 'болят зубы'</short>
+                <example type="incorrect">У него <marker>болят зубья</marker>.</example>
+                <example type="correct">У него болят зубы.</example>
+            </rule>   
+
+        </rulegroup>
+
+
+        <rulegroup id="Okonch_susch_masc_Predlozhn_opredeliteln" name="Окончание -у в предложн. падеже у сущ. муж. р. при выражении определительных отношений">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|NN:Neut:.*:Nom|NN:Neut:.*:R|NN:Neut:.*:D|NN:Neut:.*:V|NN:Neut:.*:T|NN:Neut:.*:P" postag_regexp="yes"/>
+                        <token>на</token>                  
+                        <token>мехе</token>                  
+                    </marker>
+                </pattern>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>на меху</suggestion>?</message>
+                <short>Правильно 'на меху'</short>
+                <example type="incorrect">Она купила <marker>сапоги на мехе</marker>.</example>
+                <example type="correct">Она купила сапоги на меху.</example>
+            </rule>   
+
+<!--
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|NN:Neut:.*:Nom|NN:Neut:.*:R|NN:Neut:.*:D|NN:Neut:.*:V|NN:Neut:.*:T|NN:Neut:.*:P" postag_regexp="yes"/>
+                        <token>в</token>                  
+                        <token>снеге</token>                  
+                    </marker>
+                </pattern>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>в снегу</suggestion>?</message>
+                <short>Правильно 'в снегу'</short>
+                <example type="incorrect">Было <marker>пальто в снеге</marker>.</example>
+                <example type="correct">Всё пальто было в снегу.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|NN:Neut:.*:Nom|NN:Neut:.*:R|NN:Neut:.*:D|NN:Neut:.*:V|NN:Neut:.*:T|NN:Neut:.*:P" postag_regexp="yes"/>
+                        <token>в</token>                  
+                        <token>меле</token>                  
+                    </marker>
+                </pattern>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>в мелу</suggestion>?</message>
+                <short>Правильно 'в мелу'</short>
+                <example type="incorrect">Его руки <marker>были в меле</marker>.</example>
+                <example type="correct">Его руки были в мелу.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|NN:Neut:.*:Nom|NN:Neut:.*:R|NN:Neut:.*:D|NN:Neut:.*:V|NN:Neut:.*:T|NN:Neut:.*:P" postag_regexp="yes"/>
+                        <token>в</token>                  
+                        <token>пухе</token>                  
+                    </marker>
+                </pattern>
+                <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>в пуху</suggestion>?</message>
+                <short>Правильно 'в пуху'</short>
+                <example type="incorrect">Было <marker>покрывало в пухе</marker>.</example>
+                <example type="correct">Покрывало было в пуху.</example>
+            </rule>   
+-->
+
+        </rulegroup>
+         
+         
+<rulegroup id="Paronimy" name="Паронимы">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>эффектное</token>
+                        <token>средство</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>эффективное средство</suggestion>?</message>
+                <short>Правильно 'эффективное средство'</short>
+                <example type="incorrect"><marker>Эффектное средство</marker> от простуды.</example>
+                <example type="correct">Эффективное средство от простуды.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">поставить</token>
+                    <token>роспись</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>поставить подпись</suggestion>?</message>
+                <short>Правильно 'поставить подпись'</short>
+                <example type="incorrect">Здесь нужно <marker>поставить роспись</marker>.</example>
+                <example type="correct">Здесь нужно поставить подпись.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">различие</token>
+                    <token>от</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>отличие от</suggestion>?</message>
+                <short>Правильно 'отличие от'</short>
+                <example type="incorrect">Его <marker>различие от</marker> предыдущего варианта незначительно.</example>
+                <example type="correct">Его отличие от предыдущего варианта незначительно.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">представить</token>
+                    <token>в</token>
+                    <token>пользование</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
+                <short>Правильно 'предоставить в пользование'</short>
+                <example type="incorrect">Мы можем <marker>представить в пользование</marker> эти словари. </example>
+                <example type="correct">Мы можем предоставить в пользование эти словари. </example>
+            </rule>   
+
+
+        </rulegroup>
+
+<rulegroup id="Pleonasm" name="Плеоназм">
+    <rule>   
+                <pattern>
+                    <marker>
+                        <token>эффектное</token>
+                        <token>средство</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>эффективное средство</suggestion>?</message>
+                <short>Правильно 'эффективное средство'</short>
+                <example type="incorrect"><marker>Эффектное средство</marker> от простуды.</example>
+                <example type="correct">Эффективное средство от простуды.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">поставить</token>
+                    <token>роспись</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>поставить подпись</suggestion>?</message>
+                <short>Правильно 'поставить подпись'</short>
+                <example type="incorrect">Здесь нужно <marker>поставить роспись</marker>.</example>
+                <example type="correct">Здесь нужно поставить подпись.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">различие</token>
+                    <token>от</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>отличие от</suggestion>?</message>
+                <short>Правильно 'отличие от'</short>
+                <example type="incorrect">Его <marker>различие от</marker> предыдущего варианта незначительно.</example>
+                <example type="correct">Его отличие от предыдущего варианта незначительно.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">представить</token>
+                    <token>в</token>
+                    <token>пользование</token>
+                    </marker>
+                </pattern>
+                <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
+                <short>Правильно 'предоставить в пользование'</short>
+                <example type="incorrect">Мы можем <marker>представить в пользование</marker> эти словари. </example>
+                <example type="correct">Мы можем предоставить в пользование эти словари. </example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+<rulegroup id="Tavtologija" name="Тавтология">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>следует</token>
+                        <token>сказать</token>
+                        <token>следующее</token>
+                        <token>,</token>
+                        <token>что</token>
+                    </marker>
+                </pattern>
+                <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>следует сказать, что</suggestion>?</message>
+                <short>Правильно 'следует сказать, что'</short>
+                <example type="incorrect"><marker>Следует сказать следующее, что</marker> данное исключение только подтверждает правило.</example>
+                <example type="correct">Следует сказать, что данное исключение только подтверждает правило.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>рост</token>
+                        <token>авторитета</token>
+                        <token>растёт</token>
+                    </marker>
+                </pattern>
+                <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>авторитет растёт</suggestion>?</message>
+                <short>Правильно 'авторитет растёт'</short>
+                <example type="incorrect">Ваш <marker>рост авторитета растёт</marker>.</example>
+                <example type="correct">Ваш авторитет растёт. </example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>вновь</token>
+                        <token>возобновить</token>
+                    </marker>
+                </pattern>
+                <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>возобновить</suggestion>?</message>
+                <short>Правильно 'возобновить'</short>
+                <example type="incorrect">Мы планируем <marker>вновь возобновить</marker> выпуск этих товаров.</example>
+                <example type="correct">Мы планируем возобновить выпуск этих товаров.</example>
+            </rule>   
+
+            <rule>   
+                <pattern>
+                    <marker>
+                    <token inflected="yes">смеяться</token>
+                    <token>громким</token>
+                    <token>смехом</token>
+                    </marker>
+                </pattern>
+                <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>громко смеяться</suggestion>?</message>
+                <short>Правильно 'громко смеяться'</short>
+                <example type="incorrect">В библиотеке нельзя <marker>смеяться громким смехом</marker>.</example>
+                <example type="correct">В библиотеке нельзя громко смеяться.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+<rulegroup id="Chastitsa_NI_v_ustojchiv_vyrazh" name="Частица НИ в устойчивых выражениях">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token>свет</token>
+                        <token>не</token>                  
+                        <token>заря</token>                  
+                    </marker>
+                </pattern>
+                <message>Частица НИ в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни свет ни заря</suggestion>?</message>
+                <short>Правильно 'ни свет ни заря'</short>
+                <example type="incorrect">Дети проснулись <marker>не свет не заря</marker>.</example>
+                <example type="correct">Дети проснулись ни свет ни заря.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token>днем</token>
+                        <token>не</token>                  
+                        <token>ночью</token>                  
+                    </marker>
+                </pattern>
+                <message>Частица НИ в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни днем ни ночью</suggestion>?</message>
+                <short>Правильно 'ни днем ни ночью'</short>
+                <example type="incorrect"><marker>Не днем не ночью</marker> нет от них покоя.</example>
+                <example type="correct">Ни днем ни ночью нет от них покоя.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token>много</token>
+                        <token>не</token>                  
+                        <token>мало</token>                  
+                    </marker>
+                </pattern>
+                <message>Частица НИ в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни много ни мало</suggestion>?</message>
+                <short>Правильно 'ни много ни мало'</short>
+                <example type="incorrect">Он заработал <marker>не много не мало</marker> миллион.</example>
+                <example type="correct">Он заработал ни много ни мало миллион.</example>
+
+
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token>пуха</token>
+                        <token>не</token>                  
+                        <token>пера</token>                  
+                    </marker>
+                </pattern>
+                <message>Частица НИ в устойчивых выражениях. Запятая не ставится. Вы имели в виду <suggestion>ни пуха ни пера</suggestion>?</message>
+                <short>Правильно 'ни пуха ни пера'</short>
+                <example type="incorrect">Пожелать <marker>не пуха не пера</marker>.</example>
+                <example type="correct">Пожелать ни пуха ни пера.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+<rulegroup id="Chastitsa_NI_usilen_negat" name="Частица НИ для усиления отрицания">
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>нет</token>
+                        <token>не</token>
+                        <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Частица НИ для усиления отрицания. Вы имели в виду <suggestion>нет ни</suggestion>?</message>
+                <short>Правильно 'нет ни…'</short>
+                <example type="incorrect">У меня с собой <marker>нет не копейки</marker>.</example>
+                <example type="correct">У меня с собой нет ни копейки.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token>было</token>
+                        <token>не</token>
+                        <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Частица НИ для усиления отрицания. Вы имели в виду <suggestion>не было ни</suggestion>?</message>
+                <short>Правильно 'не было ни…'</short>
+                <example type="incorrect">У него <marker>не было не цента</marker>.</example>
+                <example type="correct">У него не было ни цента.</example>
+            </rule>   
+
+<!--
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token inflected="yes">сделать</token> 
+                        <token>не</token>
+                        <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Частица НИ для усиления отрицания. Вы имели в виду <suggestion>не сделать ни</suggestion>?</message>
+                <short>Правильно 'не сделать ни…'</short>
+                <example type="incorrect">Она <marker>не сделала не шагу</marker>.</example>
+                <example type="correct">Она не сделала ни шагу.</example>
+            </rule>   
+
+-->
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token inflected="yes">заплатить</token> 
+                        <token>не</token>
+                        <token postag="NN:Masc:Sin:R|NN:Fem:Sin:R|NN:Neut:Sin:R" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Частица НИ для усиления отрицания. Вы имели в виду <suggestion>не заплатить ни</suggestion>?</message>
+                <short>Правильно 'не заплатить ни…'</short>
+                <example type="incorrect">Им <marker>не заплатили не рубля</marker>.</example>
+                <example type="correct">Им не заплатили ни рубля.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+
+
+<rulegroup id="Dvojnoe_negate_s_NE" name="Двойное отрицание с частицей НЕ">
+
+<!--
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token inflected="yes">мог</token>
+                        <token>ни</token>
+                        <token postag="VB:INF" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Двойное отрицание с частицей НЕ</message>
+                <short>Правильно два НЕ</short>
+                <example type="incorrect">Он <marker>не мог ни заметить</marker> этого.</example>
+                <example type="correct">Он не мог не заметить этого.</example>
+            </rule>   
+-->
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>нельзя</token>
+                        <token>ни</token>
+                        <token postag="VB:INF" />
+                    </marker>
+                </pattern>
+                <message>Двойное отрицание с частицей НЕ</message>
+                <short>Правильно два НЕ</short>
+                <example type="incorrect">С этим <marker>нельзя ни согласиться</marker>.</example>
+                <example type="correct">С этим нельзя не согласиться.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token inflected="yes">может</token>
+                        <token>ни</token>
+                        <token postag="VB:INF" />
+                    </marker>
+                </pattern>
+                <message>Двойное отрицание с частицей НЕ</message>
+                <short>Правильно два НЕ</short>
+                <example type="incorrect">Она <marker>не может ни узнать</marker> вас.</example>
+                <example type="correct">Она не может не узнать вас.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>невозможно</token>
+                        <token>ни</token>
+                        <token postag="VB:INF" />
+                    </marker>
+                </pattern>
+                <message>Двойное отрицание с частицей НЕ</message>
+                <short>Правильно два НЕ</short>
+                <example type="incorrect"><marker>Невозможно ни признать</marker> этого.</example>
+                <example type="correct">Невозможно не признать этого.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+<rulegroup id="Parnoje_upotrebl_NI" name="Парное употребление частицы НИ">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token postag_regexp = "yes" postag ="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|NN:Neut:.*:Nom|NN:Neut:.*:R|NN:Neut:.*:D|NN:Neut:.*:V|NN:Neut:.*:T|NN:Neut:.*:P|PNN:.*:Nom|PNN:.*:R|PNN:.*:D|PNN:.*:V|PNN:.*:T|PNN:.*:P"></token>
+                        <token>,</token>
+                        <token>не</token>
+                        <token postag_regexp = "yes" postag ="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|NN:Neut:.*:Nom|NN:Neut:.*:R|NN:Neut:.*:D|NN:Neut:.*:V|NN:Neut:.*:T|NN:Neut:.*:P|PNN:.*:Nom|PNN:.*:R|PNN:.*:D|PNN:.*:V|PNN:.*:T|PNN:.*:P"></token>
+                    </marker>
+                </pattern>
+                <message>Здесь необходимо парное употребление частицы НИ</message>
+                <short>Правильно два НИ</short>
+                <example type="incorrect">Он не помнил <marker>не матери, не отца</marker>.</example>
+                <example type="correct">Он не помнил ни матери, ни отца.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token postag="VB:INF" postag_regexp="yes"/>
+                        <token>,</token>
+                        <token>не</token>
+                        <token postag="VB:INF" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Здесь необходимо парное употребление частицы НИ</message>
+                <short>Правильно два НИ</short>
+                <example type="incorrect">Не хочу его <marker>не видеть, не знать</marker>.</example>
+                <example type="correct">Не хочу его ни видеть, ни знать.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token postag="Ord:Masc:Nom|Ord:Masc:R|Ord:Masc:D|Ord:Masc:V|Ord:Masc:V|Ord:Masc:T|Ord:Masc:P|Ord:Fem:Nom|Ord:Fem:R|Ord:Fem:D|Ord:Fem:T|Ord:Fem:P|Ord:Neut:Nom|Ord:Neut:R|Ord:Neut:D|Ord:Neut:V|Ord:Neut:T|Ord:Neut:P|Ord:PL:Nom|Ord:PL:R|Ord:PL:D|Ord:PL:V|Ord:PL:V|Ord:PL:T|Ord:PL:P" postag_regexp="yes"/>
+                        <token>,</token>
+                        <token>не</token>
+                        <token postag="Ord:Masc:Nom|Ord:Masc:R|Ord:Masc:D|Ord:Masc:V|Ord:Masc:V|Ord:Masc:T|Ord:Masc:P|Ord:Fem:Nom|Ord:Fem:R|Ord:Fem:D|Ord:Fem:T|Ord:Fem:P|Ord:Neut:Nom|Ord:Neut:R|Ord:Neut:D|Ord:Neut:V|Ord:Neut:T|Ord:Neut:P|Ord:PL:Nom|Ord:PL:R|Ord:PL:D|Ord:PL:V|Ord:PL:V|Ord:PL:T|Ord:PL:P" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Здесь необходимо парное употребление частицы НИ</message>
+                <short>Правильно два НИ</short>
+                <example type="incorrect">Он не знал <marker>не первого, не второго</marker>.</example>
+                <example type="correct">Он не знал ни первого, ни второго.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>не</token>
+                        <token postag="ADJ_Short:Masc|ADJ_Short:Fem|ADJ_Short:Neut|ADJ_Short:PL" postag_regexp="yes"/>
+                        <token>,</token>
+                        <token>не</token>
+                        <token postag="ADJ_Short:Masc|ADJ_Short:Fem|ADJ_Short:Neut|ADJ_Short:PL" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Здесь необходимо парное употребление частицы НИ</message>
+                <short>Правильно два НИ</short>
+                <example type="incorrect">Он не был <marker>не красив, не богат</marker>.</example>
+                <example type="correct">Он не был ни красив, ни богат.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+
+
+
+<rulegroup id="Predlogi_vsledstvije_napodobije" name="Предлоги  'наподобие'">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>на</token>
+                        <token>подобии</token>
+                        <token regexp="yes">тех|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
+                    </marker>
+                </pattern>
+                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие</suggestion>?</message>
+                <short>Правильно 'наподобие'</short>
+                <example type="incorrect">Он купил шляпу <marker>на подобии тех</marker>, что носили в прошлом веке.</example>
+                <example type="correct">Он купил шляпу наподобие тех, что носили в прошлом веке.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>в</token>
+                        <token>следствии</token>
+                        <token regexp="yes">этого|чего|этих|этой|того|той|которого|которой|которых|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
+                    </marker>
+                </pattern>
+                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие</suggestion>?</message>
+                <short>Правильно 'вследствие'</short>
+                <example type="incorrect"><marker>В следствии чего</marker> они были вынуждены обратиться в суд.</example>
+                <example type="correct">Вследствие чего они были вынуждены обратиться в суд.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>в</token>
+                        <token>следствие</token>
+                        <token regexp="yes">этого|чего|которого|которой|которых|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
+                    </marker>
+                </pattern>
+                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие</suggestion>?</message>
+                <short>Правильно 'вследствие'</short>
+                <example type="incorrect"><marker>В следствие этого</marker> произошёл сбой в системе.</example>
+                <example type="correct">Вследствие этого произошёл сбой в системе.</example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+
+
+
+
+<rulegroup id="Predlog_v_zakluchenije" name=" Предлог 'в заключение'">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>в</token>
+                        <token>заключении</token>
+                        <token regexp="yes">этого|чего|всего|всего этого|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
+                    </marker>
+                </pattern>
+                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение</suggestion>?</message>
+                <short>Правильно 'в заключение'</short>
+                <example type="incorrect"><marker>В заключении выступления</marker> он прочёл стихи.</example>
+                <example type="correct">В заключение выступления он прочёл стихи. </example>
+            </rule>   
+
+
+        </rulegroup>
+
+
+
+<!--
+
+<rulegroup id="Adv_vposledstvii" name="Наречие 'впоследствии'">
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>в</token>
+                        <token>последствии</token>
+                        <token postag_regexp = "yes" postag ="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|PNN:.*:Nom|PNN:.*:R|PNN:.*:D|PNN:.*:V|PNN:.*:T|PNN:.*:P"></token>
+                    </marker>
+                </pattern>
+                <message>Наречие Впоследствии это сочетание предлога В с существительным Последствие в предложн. падеже. Пишется слитно. Вы имели в виду <suggestion>впоследствии</suggestion>?</message> 
+                <short>Правильно 'впоследствии'</short>
+                <example type="incorrect"><marker>В последствии</marker> мы узнали правду.</example>
+                <example type="correct">Впоследствии мы узнали правду.</example>
+            </rule>   
+
+
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token>в</token>
+                        <token>последствие</token>
+                        <token postag_regexp = "yes" postag ="NN:Masc:.*:Nom|NN:Masc:.*:R|NN:Masc:.*:D|NN:Masc:.*:V|NN:Masc:.*:T|NN:Masc:.*:P|NN:Fem:.*:Nom|NN:Fem:.*:R|NN:Fem:.*:D|NN:Fem:.*:V|NN:Fem:.*:T|NN:Fem:.*:P|PNN:.*:Nom|PNN:.*:R|PNN:.*:D|PNN:.*:V|PNN:.*:T|PNN:.*:P"></token>
+                    </marker>
+                </pattern>
+                <message>Наречие Впоследствии это сочетание предлога В с существительным Последствие в предложн. падеже. Пишется слитно. Вы имели в виду <suggestion>впоследствии</suggestion>?</message> 
+                <short>Правильно 'впоследствии'</short>
+                <example type="incorrect"><marker>В последствие</marker> она часто вспоминала об этом.</example>
+                <example type="correct">Впоследствии она часто вспоминала об этом.</example>
+            </rule>   
+
+        </rulegroup>
+-->
+
+    </category> 
 </rules>
