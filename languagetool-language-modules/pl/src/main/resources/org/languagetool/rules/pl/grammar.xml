@@ -2013,6 +2013,18 @@ $Id$
                     <example type="correct">Odrabiał zadania byle jak.</example>
                     <example type="incorrect" correction="byle jak">Odrabiał zadania <marker>byle, jak</marker>.</example>
                 </rule>
+                <rule id="CHYBIL_TRAFIL" name="Zbędny przecinek w wyrażeniu „na chybił trafił”">
+                    <pattern>
+                        <token>na</token>
+                        <token>chybił</token>
+                        <token>,</token>
+                        <token>trafił</token>
+                    </pattern>
+                    <message>W tym wyrażeniu nie kładzie się przecinka: <suggestion>\1 \2 \4</suggestion>.</message>
+                    <short>Zbędny przecinek</short>
+                    <example type="correct">Szukali na chybił trafił.</example>
+                    <example type="incorrect" correction="na chybił trafił">Szukali czegoś <marker>na chybił, trafił</marker>.</example>
+                </rule>
                 <rule id="ITP_ITD" name="Zbędny przecinek przed „itp.” i „itd.”">
                   <pattern>
                     <token><exception scope="previous" regexp="yes">it[pd]</exception></token>
