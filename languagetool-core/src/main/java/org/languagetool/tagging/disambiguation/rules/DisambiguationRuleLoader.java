@@ -108,148 +108,148 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
       switch (qName) {
-          case "rule":
-              id = attrs.getValue("id");
-              if (inRuleGroup) {
-                  subId++;
-              }
-              name = attrs.getValue("name");
-              if (inRuleGroup && id == null) {
-                  id = ruleGroupId;
-              }
-              if (inRuleGroup && name == null) {
-                  name = ruleGroupName;
-              }
-              break;
-          case "rules":
-              language = Language.getLanguageForShortName(attrs.getValue("lang"));
-              break;
-          case PATTERN:
-              inPattern = true;
-              tokenCountForMarker = 0;
-              if (attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE))) {
-                  caseSensitive = true;
-              }
-              break;
-          case EXCEPTION:
-              setExceptions(attrs);
-              break;
-          case AND:
-              inAndGroup = true;
-              tokenCountForMarker++;
-              if (inUnification) {
-                  uniCounter++;
-              }
-              break;
-          case UNIFY:
-              inUnification = true;
-              uniNegation = YES.equals(attrs.getValue(NEGATE));
-              uniCounter = 0;
-              break;
-          case "feature":
-              uFeature = attrs.getValue("id");
-              break;
-          case TYPE:
-              uType = attrs.getValue("id");
-              uTypeList.add(uType);
-              break;
-          case TOKEN:
-              setToken(attrs);
-              if (!inAndGroup) {
-                  tokenCountForMarker++;
-              }
-              break;
-          case DISAMBIG:
-              inDisambiguation = true;
-              disambiguatedPOS = attrs.getValue(POSTAG);
-              if (attrs.getValue(ACTION) == null) {
-                  // default mode:
-                  disambigAction = DisambiguatorAction
-                          .valueOf("REPLACE");
-              } else {
-                  disambigAction = DisambiguatorAction
-                          .valueOf(attrs.getValue(ACTION).toUpperCase(Locale.ENGLISH));
-              }
-              disamb = new StringBuilder();
-              break;
-          case MATCH:
-              inMatch = true;
-              match = new StringBuilder();
-              Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
-              if (attrs.getValue("case_conversion") != null) {
-                  caseConversion = Match.CaseConversion.valueOf(attrs
-                          .getValue("case_conversion").toUpperCase(Locale.ENGLISH));
-              }
-              Match.IncludeRange includeRange = Match.IncludeRange.NONE;
-              if (attrs.getValue("include_skipped") != null) {
-                  includeRange = Match.IncludeRange.valueOf(attrs
-                          .getValue("include_skipped").toUpperCase(Locale.ENGLISH));
-              }
-              final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
-                      .getValue("postag_replace"), YES
-                      .equals(attrs.getValue(POSTAG_REGEXP)), attrs
-                      .getValue("regexp_match"), attrs.getValue("regexp_replace"),
-                      caseConversion, YES.equals(attrs.getValue("setpos")),
-                      YES.equals(attrs.getValue("suppress_mispelled")),
-                      includeRange);
-              if (inDisambiguation) {
-                  if (attrs.getValue(NO) != null) {
-                      final int refNumber = Integer.parseInt(attrs.getValue(NO));
-                      refNumberSanityCheck(refNumber);
-                      mWorker.setTokenRef(refNumber);
-                      posSelector = mWorker;
-                  }
-              } else if (inToken) {
-                  if (attrs.getValue(NO) != null) {
-                      final int refNumber = Integer.parseInt(attrs.getValue(NO));
-                      refNumberSanityCheck(refNumber);
-                      mWorker.setTokenRef(refNumber);
-                      tokenReference = mWorker;
-                      elements.append('\\');
-                      elements.append(refNumber);
-                  }
-              }
-              break;
-          case RULEGROUP:
-              ruleGroupId = attrs.getValue("id");
-              ruleGroupName = attrs.getValue("name");
-              inRuleGroup = true;
-              subId = 0;
-              break;
-          case UNIFICATION:
-              uFeature = attrs.getValue(FEATURE);
-              inUnificationDef = true;
-              break;
-          case "equivalence":
-              uType = attrs.getValue(TYPE);
-              break;
-          case WD:
-              wdLemma = attrs.getValue("lemma");
-              wdPos = attrs.getValue("pos");
-              inWord = true;
-              wd = new StringBuilder();
-              break;
-          case EXAMPLE:
-              inExample = true;
-              if (untouchedExamples == null) {
-                  untouchedExamples = new ArrayList<>();
-              }
-              if (disambExamples == null) {
-                  disambExamples = new ArrayList<>();
-              }
-              untouched = attrs.getValue(TYPE).equals("untouched");
-              if (attrs.getValue(TYPE).equals("ambiguous")) {
-                  input = attrs.getValue("inputform");
-                  output = attrs.getValue("outputform");
-              }
-              example = new StringBuilder();
-              break;
-          case "marker":
-              example.append("<marker>");
-              if (inPattern) {
-                  startPos = tokenCounter;
-              }
-              break;
+        case "rule":
+          id = attrs.getValue("id");
+          if (inRuleGroup) {
+            subId++;
+          }
+          name = attrs.getValue("name");
+          if (inRuleGroup && id == null) {
+            id = ruleGroupId;
+          }
+          if (inRuleGroup && name == null) {
+            name = ruleGroupName;
+          }
+          break;
+        case "rules":
+          language = Language.getLanguageForShortName(attrs.getValue("lang"));
+          break;
+        case PATTERN:
+          inPattern = true;
+          tokenCountForMarker = 0;
+          if (attrs.getValue(CASE_SENSITIVE) != null && YES.equals(attrs.getValue(CASE_SENSITIVE))) {
+            caseSensitive = true;
+          }
+          break;
+        case EXCEPTION:
+          setExceptions(attrs);
+          break;
+        case AND:
+          inAndGroup = true;
+          tokenCountForMarker++;
+          if (inUnification) {
+            uniCounter++;
+          }
+          break;
+        case UNIFY:
+          inUnification = true;
+          uniNegation = YES.equals(attrs.getValue(NEGATE));
+          uniCounter = 0;
+          break;
+        case "feature":
+          uFeature = attrs.getValue("id");
+          break;
+        case TYPE:
+          uType = attrs.getValue("id");
+          uTypeList.add(uType);
+          break;
+        case TOKEN:
+          setToken(attrs);
+          if (!inAndGroup) {
+            tokenCountForMarker++;
+          }
+          break;
+        case DISAMBIG:
+          inDisambiguation = true;
+          disambiguatedPOS = attrs.getValue(POSTAG);
+          if (attrs.getValue(ACTION) == null) {
+            // default mode:
+            disambigAction = DisambiguatorAction
+                    .valueOf("REPLACE");
+          } else {
+            disambigAction = DisambiguatorAction
+                    .valueOf(attrs.getValue(ACTION).toUpperCase(Locale.ENGLISH));
+          }
+          disamb = new StringBuilder();
+          break;
+        case MATCH:
+          inMatch = true;
+          match = new StringBuilder();
+          Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
+          if (attrs.getValue("case_conversion") != null) {
+            caseConversion = Match.CaseConversion.valueOf(attrs
+                    .getValue("case_conversion").toUpperCase(Locale.ENGLISH));
+          }
+          Match.IncludeRange includeRange = Match.IncludeRange.NONE;
+          if (attrs.getValue("include_skipped") != null) {
+            includeRange = Match.IncludeRange.valueOf(attrs
+                    .getValue("include_skipped").toUpperCase(Locale.ENGLISH));
+          }
+          final Match mWorker = new Match(attrs.getValue(POSTAG), attrs
+                  .getValue("postag_replace"), YES
+                  .equals(attrs.getValue(POSTAG_REGEXP)), attrs
+                  .getValue("regexp_match"), attrs.getValue("regexp_replace"),
+                  caseConversion, YES.equals(attrs.getValue("setpos")),
+                  YES.equals(attrs.getValue("suppress_mispelled")),
+                  includeRange);
+          if (inDisambiguation) {
+            if (attrs.getValue(NO) != null) {
+              final int refNumber = Integer.parseInt(attrs.getValue(NO));
+              refNumberSanityCheck(refNumber);
+              mWorker.setTokenRef(refNumber);
+              posSelector = mWorker;
+            }
+          } else if (inToken) {
+            if (attrs.getValue(NO) != null) {
+              final int refNumber = Integer.parseInt(attrs.getValue(NO));
+              refNumberSanityCheck(refNumber);
+              mWorker.setTokenRef(refNumber);
+              tokenReference = mWorker;
+              elements.append('\\');
+              elements.append(refNumber);
+            }
+          }
+          break;
+        case RULEGROUP:
+          ruleGroupId = attrs.getValue("id");
+          ruleGroupName = attrs.getValue("name");
+          inRuleGroup = true;
+          subId = 0;
+          break;
+        case UNIFICATION:
+          uFeature = attrs.getValue(FEATURE);
+          inUnificationDef = true;
+          break;
+        case "equivalence":
+          uType = attrs.getValue(TYPE);
+          break;
+        case WD:
+          wdLemma = attrs.getValue("lemma");
+          wdPos = attrs.getValue("pos");
+          inWord = true;
+          wd = new StringBuilder();
+          break;
+        case EXAMPLE:
+          inExample = true;
+          if (untouchedExamples == null) {
+            untouchedExamples = new ArrayList<>();
+          }
+          if (disambExamples == null) {
+            disambExamples = new ArrayList<>();
+          }
+          untouched = attrs.getValue(TYPE).equals("untouched");
+          if (attrs.getValue(TYPE).equals("ambiguous")) {
+            input = attrs.getValue("inputform");
+            output = attrs.getValue("outputform");
+          }
+          example = new StringBuilder();
+          break;
+        case "marker":
+          example.append("<marker>");
+          if (inPattern) {
+            startPos = tokenCounter;
+          }
+          break;
       }
   }
 
@@ -344,11 +344,11 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         skipPos = 0;
       }
       if (minOccurrence == 0) {
-            tokenElement.setMinOccurrence(0);
+        tokenElement.setMinOccurrence(0);
       }
       if (maxOccurrence != 1) {
-            tokenElement.setMaxOccurrence(maxOccurrence);
-            maxOccurrence = 1;
+        tokenElement.setMaxOccurrence(maxOccurrence);
+        maxOccurrence = 1;
       }
       if (posToken != null) {
         tokenElement.setPosElement(posToken, posRegExp, posNegation);
@@ -356,9 +356,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       }
       
       if (chunkTag != null) {
-          tokenElement.setChunkElement(chunkTag);
-          chunkTag = null;
-        }
+        tokenElement.setChunkElement(chunkTag);
+        chunkTag = null;
+      }
 
       if (tokenReference != null) {
         tokenElement.setMatch(tokenReference);
