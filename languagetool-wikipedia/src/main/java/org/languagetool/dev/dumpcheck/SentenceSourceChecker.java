@@ -97,7 +97,7 @@ public class SentenceSourceChecker {
     options.addOption(OptionBuilder.withLongOpt("db-properties").withArgName("file").hasArg()
             .withDescription("A file to set database access properties. If not set, the output will be written to STDOUT. " +
                     "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
-                    "It can optionally define the batchSize for insert-statements, which defaults to 1.")
+                    "It can optionally define the batchSize for insert statements, which defaults to 1.")
             .create("d"));
     options.addOption(OptionBuilder.withLongOpt("rule-properties").withArgName("file").hasArg()
             .withDescription("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")

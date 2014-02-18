@@ -48,9 +48,9 @@ class DatabaseHandler extends ResultHandler {
 
   private final PreparedStatement lookupSt;
   private final PreparedStatement insertSt;
-
-  private int batchSize;
-  private int batchCount=0;
+  private final int batchSize;
+  
+  private int batchCount = 0;
 
   DatabaseHandler(File propertiesFile, int maxSentences, int maxErrors) {
     super(maxSentences, maxErrors);
@@ -132,9 +132,9 @@ class DatabaseHandler extends ResultHandler {
         insertSt.setString(11, sentence.getUrl());
         insertSt.setString(12, sentence.getSource());
         insertSt.addBatch();
-        if (++batchCount>=batchSize){
+        if (++batchCount >= batchSize){
           executeBatch();
-          batchCount=0;
+          batchCount = 0;
         }
 
         checkMaxErrors(++errorCount);
@@ -152,46 +152,43 @@ class DatabaseHandler extends ResultHandler {
   }
 
   private void executeBatch() throws SQLException {
-    boolean ac = conn.getAutoCommit();
-
+    boolean autoCommit = conn.getAutoCommit();
     conn.setAutoCommit(false);
-    try{
+    try {
       insertSt.executeBatch();
-      if (ac) {
+      if (autoCommit) {
         conn.commit();
       }
-    } finally{
-      conn.setAutoCommit(ac);
+    } finally {
+      conn.setAutoCommit(autoCommit);
     }
   }
 
   // Whether a match has been marked as 'false alarm' or 'already fixed' by a user - in that
   // case, we don't want to re-insert it into the list of matches.
   private boolean ruleIsMarkedHidden(Language language, String url, RuleMatch match, String smallContext, PreparedStatement lookupSt) throws SQLException {
-      boolean ret=false;
+    boolean ret = false;
     // TODO: should we consider the subid?
     lookupSt.setString(1, language.getShortName());
     lookupSt.setString(2, url);
     lookupSt.setString(3, match.getRule().getId());
     lookupSt.setString(4, smallContext);
-
     try (ResultSet resultSet = lookupSt.executeQuery()) {
       try {
         if (resultSet.isBeforeFirst()) {
-          ret=true;
+          ret = true;
         }
-      } catch (SQLFeatureNotSupportedException e){
-        ret=resultSet.next();
+      } catch (SQLFeatureNotSupportedException e) {
+        ret = resultSet.next();
       }
     }
-
     return ret;
   }
 
   @Override
   public void close() throws Exception {
     if (insertSt != null) {
-      if (batchCount>0) {
+      if (batchCount > 0) {
         executeBatch();
       }
       insertSt.close();
