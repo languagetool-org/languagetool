@@ -48,13 +48,12 @@ import org.languagetool.synthesis.BaseSynthesizer;
 public class EnglishSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/en/english_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/en/english_tags.txt";
 
-  /** A special tag to add determiners. **/
+  // A special tag to add determiners.
   private static final String ADD_DETERMINER = "+DT";
 
-  /** A special tag to add only indefinite articles. **/
+  // A special tag to add only indefinite articles.
   private static final String ADD_IND_DETERMINER = "+INDT";
 
   public EnglishSynthesizer() {
@@ -65,10 +64,8 @@ public class EnglishSynthesizer extends BaseSynthesizer {
    * Get a form of a given AnalyzedToken, where the form is defined by a
    * part-of-speech tag.
    * 
-   * @param token
-   *          AnalyzedToken to be inflected.
-   * @param posTag
-   *          A desired part-of-speech tag.
+   * @param token AnalyzedToken to be inflected.
+   * @param posTag A desired part-of-speech tag.
    * @return String value - inflected word.
    */
   @Override
@@ -94,43 +91,43 @@ public class EnglishSynthesizer extends BaseSynthesizer {
 
   /**
    * Special English regexp based synthesizer that allows adding articles
-   * when the regexp-based tag ends with a special signature \\+INDT or \\+DT.
+   * when the regexp-based tag ends with a special signature {@code \\+INDT} or {@code \\+DT}.
    * 
    * @since 2.5
    */
   @Override
-      public String[] synthesize(final AnalyzedToken token, final String posTag,
-          final boolean posTagRegExp) throws IOException {
+  public String[] synthesize(final AnalyzedToken token, final String posTag,
+      final boolean posTagRegExp) throws IOException {
 
-        if (posTag != null && posTagRegExp) {
-          String myPosTag = posTag;
-          String det = "";
-            if (posTag.endsWith(ADD_IND_DETERMINER)) {
-              myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_IND_DETERMINER) - "\\".length());
-              final AvsAnRule rule = new AvsAnRule(null);
-              det = rule.suggestAorAn(token.getLemma());
-              det = det.substring(0, det.indexOf(' ') + " ".length());
-            } else if (posTag.endsWith(ADD_DETERMINER)) {
-              myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_DETERMINER) - "\\".length());
-              det = "the ";
-            }
-
-          initSynthesizer();
-          initPossibleTags();
-          final Pattern p = Pattern.compile(myPosTag);
-          final ArrayList<String> results = new ArrayList<>();
-
-          for (final String tag : possibleTags) {
-            final Matcher m = p.matcher(tag);
-            if (m.matches()) {
-              lookup(token.getLemma(), tag, results, det);
-            }
-          }
-          return results.toArray(new String[results.size()]);
-        }
-
-        return synthesize(token, posTag);
+    if (posTag != null && posTagRegExp) {
+      String myPosTag = posTag;
+      String det = "";
+      if (posTag.endsWith(ADD_IND_DETERMINER)) {
+        myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_IND_DETERMINER) - "\\".length());
+        final AvsAnRule rule = new AvsAnRule(null);
+        det = rule.suggestAorAn(token.getLemma());
+        det = det.substring(0, det.indexOf(' ') + " ".length());
+      } else if (posTag.endsWith(ADD_DETERMINER)) {
+        myPosTag = myPosTag.substring(0, myPosTag.indexOf(ADD_DETERMINER) - "\\".length());
+        det = "the ";
       }
+
+      initSynthesizer();
+      initPossibleTags();
+      final Pattern p = Pattern.compile(myPosTag);
+      final ArrayList<String> results = new ArrayList<>();
+
+      for (final String tag : possibleTags) {
+        final Matcher m = p.matcher(tag);
+        if (m.matches()) {
+          lookup(token.getLemma(), tag, results, det);
+        }
+      }
+      return results.toArray(new String[results.size()]);
+    }
+
+    return synthesize(token, posTag);
+  }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
     final List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
