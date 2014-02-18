@@ -91,16 +91,26 @@ public class VerbAgreementRule extends GermanRule {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
     
-    if (tokens.length < 4) // ignore one-word sentences (3 tokens: SENT_START, one word, SENT_END)
+    if (tokens.length < 4) { // ignore one-word sentences (3 tokens: SENT_START, one word, SENT_END)
       return toRuleMatchArray(ruleMatches);
+    }
     
-    // position of the pronouns
-    int posIch = -1, posDu = -1, posEr = -1, posWir = -1;
-    // positions of verbs which do match in person and number, and do not match any other person nor number
-    int posVer1Sin = -1, posVer2Sin = -1, posVer1Plu = -1/*, posVer2Plu = -1*/;
-    // positions of verbs which do match in person and number
-    int posPossibleVer1Sin = -1, posPossibleVer2Sin = -1, posPossibleVer3Sin = -1,
-        posPossibleVer1Plu = -1/*, posPossibleVer2Plu = -1*/;
+    // position of the pronouns:
+    int posIch = -1;
+    int posDu = -1;
+    int posEr = -1;
+    int posWir = -1;
+    // positions of verbs which do match in person and number, and do not match any other person nor number:
+    int posVer1Sin = -1;
+    int posVer2Sin = -1;
+    int posVer1Plu = -1;
+    /*int posVer2Plu = -1;*/
+    // positions of verbs which do match in person and number:
+    int posPossibleVer1Sin = -1;
+    int posPossibleVer2Sin = -1;
+    int posPossibleVer3Sin = -1;
+    int posPossibleVer1Plu = -1;
+    /*int posPossibleVer2Plu = -1;*/
     
     for (int i = 1; i < tokens.length; ++i) { // ignore SENT_START
       
@@ -132,14 +142,18 @@ public class VerbAgreementRule extends GermanRule {
 //        posVer2Plu = i;
         }
         
-        if (tokens[i].hasPartialPosTag(":1:SIN"))
+        if (tokens[i].hasPartialPosTag(":1:SIN")) {
           posPossibleVer1Sin = i;
-        if (tokens[i].hasPartialPosTag(":2:SIN"))
+        }
+        if (tokens[i].hasPartialPosTag(":2:SIN")) {
           posPossibleVer2Sin = i;
-        if (tokens[i].hasPartialPosTag(":3:SIN"))
+        }
+        if (tokens[i].hasPartialPosTag(":3:SIN")) {
           posPossibleVer3Sin = i;
-        if (tokens[i].hasPartialPosTag(":1:PLU"))
+        }
+        if (tokens[i].hasPartialPosTag(":1:PLU")) {
           posPossibleVer1Plu = i;
+        }
 //      if (tokens[i].hasPartialPosTag(":2:PLU"))
 //        posPossibleVer2Plu = i;
         
@@ -192,9 +206,8 @@ public class VerbAgreementRule extends GermanRule {
   }
   
   /**
-   * @return true if |@param a - @param b| &lt; 5, and a != -1 
+   * @return true if |a - b| &lt; 5, and a != -1 
    */
-  
   private boolean isNear(final int a, final int b) {
     return (Math.abs(a - b) < 5) && a != -1;
   }
@@ -209,15 +222,18 @@ public class VerbAgreementRule extends GermanRule {
   private boolean hasUnambiguouslyPersonAndNumber(final AnalyzedTokenReadings tokenReadings, final String person, final String number) {
     if (tokenReadings.getToken().length() == 0
         || (Character.isUpperCase(tokenReadings.getToken().charAt(0)) && !(tokenReadings.getStartPos() == 0) )
-        || !tokenReadings.hasPartialPosTag("VER"))
+        || !tokenReadings.hasPartialPosTag("VER")) {
       return false;
+    }
 
     for (AnalyzedToken analyzedToken : tokenReadings) {
       final String postag = analyzedToken.getPOSTag();
-      if (postag.contains("_END")) // ignore SENT_END and PARA_END
+      if (postag.contains("_END")) { // ignore SENT_END and PARA_END
         continue;
-      if (!postag.contains(":" + person + ":" + number))
+      }
+      if (!postag.contains(":" + person + ":" + number)) {
         return false;
+      }
     } // for each reading
     
     return true;
