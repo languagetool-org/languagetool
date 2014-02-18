@@ -440,9 +440,11 @@ public class AgreementRule extends GermanRule {
     for (AnalyzedToken tmpReading : readings) {
       final AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
       if (reading.getCasus() == null && reading.getNumerus() == null &&
-          reading.getGenus() == null)
+          reading.getGenus() == null) {
         continue;
-      if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN) {
+      }
+      if (reading.getGenus() == GermanToken.Genus.ALLGEMEIN && 
+              reading.getPOSTag() != null && !reading.getPOSTag().endsWith(":STV")) {  // STV: stellvertretend (!= begleitend)
         // genus=ALG in the original data. Not sure if this is allowed, but expand this so
         // e.g. "Ich Arbeiter" doesn't get flagged as incorrect:
         set.add(makeString(reading.getCasus(), reading.getNumerus(), GermanToken.Genus.MASKULINUM, omit));

@@ -156,6 +156,8 @@ public class AgreementRuleTest extends TestCase {
 
     assertBad("Der Haus ist groß", "Das Haus", "Dem Haus", "Der Häuser");
     assertBad("Aber der Haus ist groß", "das Haus", "dem Haus", "der Häuser");
+    
+    assertBad("Ich habe einen Feder gefunden.", "eine Feder", "einer Feder");
 
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
