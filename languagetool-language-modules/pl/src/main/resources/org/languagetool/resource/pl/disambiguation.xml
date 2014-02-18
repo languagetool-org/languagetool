@@ -470,7 +470,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="rozdzial_subst" name="Rozdział to rzeczownik">
         <pattern>
             <marker>
-                <token>rozdział</token>
+                <token regexp="yes">(?:roz)?dział</token>
             </marker>
             <token regexp="yes">\d+|((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?</token>
         </pattern>
@@ -478,6 +478,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Rozdział się pospiesznie.</example>
         <example type="ambiguous" inputform="Rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="Rozdział[rozdział/subst:sg:nom:m3]"><marker>Rozdział</marker> XXIV</example>
     </rule>
+
+    <rule id="rozdzial_dzial_subst" name="Rozdział i dział to rzeczowniki">
+        <pattern>
+            <marker>
+                <unify>
+                  <feature id="gender"/><feature id="case"/><feature id="number"/>
+                    <token regexp="yes">(?:roz)?dział</token>
+                    <token postag_regexp="yes" postag="adj.*"/>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Rozdział się pospiesznie.</example>
+        <example type="ambiguous" inputform="Rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="Rozdział[rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]"><marker>Rozdział</marker> pierwszy</example>
+    </rule>
+
 
     <rule id="INF_MUSZA" name="Muszą jako czasownik">
         <pattern>
@@ -509,6 +525,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filter" postag=".*gen.*"/>
         <example type="untouched">Mam wiele do zrobienia.</example>
         <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
+    </rule>
+
+    <rule id="NAPOJ" name="napój + przymiotnik -> rzeczownik">
+        <pattern>
+            <marker>
+            <unify>
+                <feature id="number"/><feature id="gender"/><feature id="case"/>
+                    <token>napój</token>
+                     <token postag="(adj|pact).*" postag_regexp="yes"/>
+            </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Napój swojego konia!</example>
+        <example type="ambiguous" inputform="Napój[napoić/verb:impt:sg:sec:perf:refl.nonrefl,napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]" outputform="Napój[napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]"><marker>Napój</marker> miłosny</example>
     </rule>
 
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
@@ -1676,6 +1707,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>był</token>
         </pattern>
         <disambig action="immunize"></disambig>
+    </rule>
+
+    <rule id="CHOC_JOTA" name="choć nie jako spójnik">
+        <pattern>
+            <marker>
+                <token>choć</token>
+            </marker>
+            <token inflected="yes">jota</token>
+        </pattern>
+        <disambig postag="qub"/>
     </rule>
 
     <rulegroup id="BOG_WIE_SKAD" name="Bóg wie skąd - bez komunikatu o braku przecinka, bo to partykuła">

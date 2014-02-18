@@ -1533,11 +1533,11 @@ $Id$
 								<example correction=" albo" type="incorrect">Kup gruszek<marker>, albo</marker> jabłek.</example>
 						</rule>
 						<rule>
-								<pattern case_sensitive="yes">
+								<pattern>
 										<token postag="SENT_START"></token>
-										<token skip="-1"><exception scope="next">i</exception><exception scope="current">I</exception></token>
+										<token skip="-1"><exception scope="next">i</exception><exception scope="current">i</exception></token>
 										<marker>
-												<token>,<exception scope="previous" regexp="yes">(?iu)aha|ot?|owszem|tak</exception></token>
+												<token>,<exception scope="previous" regexp="yes">(?iu)aha|ot?|owszem|tak|no</exception></token>
 												<token>i</token>
 										</marker>
 										<token><exception regexp="yes">tak|to|kwita|już|owszem|koniec|tyle</exception></token>
@@ -1550,6 +1550,7 @@ $Id$
 								<example type="correct">Spadł śnieg, i to obfity.</example>
 								<example correction=" i" type="incorrect">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
                                 <example type="correct">Owszem, i przytomniak.</example>
+                                <example type="correct">— I kwity, i zastawy… — westchnął skarbnik.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -1974,8 +1975,8 @@ $Id$
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
-										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"></exception>poza|dla|dzięki|mimo|oprócz|wobec|ani|[(:]</token>
-										<token>,</token>
+										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec<exception scope="next" regexp="yes">[(:]</exception></token>
+										<token>,<exception scope="previous">ciebie</exception></token>
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY"></phraseref>
 								</marker>
 
@@ -1995,9 +1996,23 @@ $Id$
 
 						</pattern>
 						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\2 \4</suggestion>.</message>
+                        <short>Zbędny przecinek</short>
 						<example correction="Dodatkowo miałem" type="incorrect"><marker>Dodatkowo, miałem</marker> rację.</example>
 						<example type="correct">Dodatkowo, jak już mówiłem, miałem rację.</example>
 				</rule>
+                <rule id="BYLE_GDZIE" name="Zbędny przecinek po „byle”">
+                    <pattern>
+                        <marker>
+                            <token>byle</token>
+                            <token>,</token>
+                            <token regexp="yes" inflected="yes">jak|gdzie|jaki|który|co|kto</token>
+                        </marker>
+                    </pattern>
+                    <message>Połączeń typu „byle co” nie wolno rozdzielać przecinkiem. Poprawnie: <suggestion>\1 \3</suggestion>.</message>
+                    <short>Zbędny przecinek</short>
+                    <example type="correct">Odrabiał zadania byle jak.</example>
+                    <example type="incorrect" correction="byle jak">Odrabiał zadania <marker>byle, jak</marker>.</example>
+                </rule>
                 <rule id="ITP_ITD" name="Zbędny przecinek przed „itp.” i „itd.”">
                   <pattern>
                     <token><exception scope="previous" regexp="yes">it[pd]</exception></token>
@@ -10326,15 +10341,41 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">[dm]l|dag|[cd]m|zł|kg|ml[nd]|min|npl|pkt|[tpw]g|cos|cosec|sec|sin|rkm</token>
-										<token>.<exception postag="SENT_END"></exception></token>
+                                        <token regexp="yes">\d+</token>
+                                        <marker>
+										    <token regexp="yes">[dm]l|dag|[cd]m|zł|kg|ml[nd]|min|pkt</token>
+										    <token>.<exception postag="SENT_END"></exception></token>
+                                        </marker>
 								</pattern>
-								<message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>.</message>
+								<message>Ten skrót piszemy bez kropki: <suggestion>\2</suggestion>.</message>
 								<short>Zbędna kropka</short>
 								<example type="correct">Brakuje nam 3 mln złotych.</example>
 								<example type="correct">Wczoraj wygrałem 10 mld.</example>
 								<example correction="mln" type="incorrect">Brakuje nam 3 <marker>mln.</marker> złotych.</example>
 						</rule>
+                        <rule>
+                        <pattern>
+                            <token regexp="yes">npl|[tpw]g|cos|cosec|sec|sin|rkm</token>
+                            <token>.<exception postag="SENT_END"></exception></token>
+                        </pattern>
+                        <message>Ten skrót piszemy bez kropki: <suggestion>\1</suggestion>.</message>
+                        <short>Zbędna kropka</short>
+                        <example type="correct">Świat wg Garpa</example>
+                        <example correction="wg" type="incorrect">Świat <marker>wg.</marker> Garpa</example>
+                        </rule>
+                        <rule>
+                        <pattern>
+                            <marker>
+                                <token>min</token>
+                                <token>.<exception postag="SENT_END"/></token>
+                            </marker>
+                            <token><exception regexp="yes">(?-iu)\p{Lu}\p{Ll}+</exception></token>
+                        </pattern>
+                        <message>Prawdopodobnie literówka. Czy chodziło o skrót <suggestion>m.in.</suggestion>?</message>
+                        <short>Zbędna kropka</short>
+                        <example type="correct">Spotkajmy się z min. Kudrycką.</example>
+                        <example correction="m.in." type="incorrect">Były to <marker>min.</marker> trzy karabiny, dwa czołgi i siedem krewetek.</example>
+                        </rule>
 						<rule>
 								<pattern case_sensitive="yes">
 										<token><exception>.</exception></token>
