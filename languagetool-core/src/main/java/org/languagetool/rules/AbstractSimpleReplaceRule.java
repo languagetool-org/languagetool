@@ -50,7 +50,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   private final Map<String, List<String>> wrongWords;
 
   private boolean ignoreTaggedWords = false;
-
   private boolean checkLemmas = true;
 
   public abstract String getFileName();
@@ -223,17 +222,20 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
     return map;
   }
 
-    public boolean isCheckLemmas() {
-        return checkLemmas;
-    }
+  /**
+   * @since 2.5
+   */
+  public boolean isCheckLemmas() {
+    return checkLemmas;
+  }
 
-    /**
-     * Used to disable matching lemmas.
-     * @param checkLemmas
-     */
-    public void setCheckLemmas(boolean checkLemmas) {
-        this.checkLemmas = checkLemmas;
-    }
+  /**
+   * Used to disable matching lemmas.
+   * @since 2.5
+   */
+  public void setCheckLemmas(boolean checkLemmas) {
+    this.checkLemmas = checkLemmas;
+  }
 
   @Override
   public void reset() {
