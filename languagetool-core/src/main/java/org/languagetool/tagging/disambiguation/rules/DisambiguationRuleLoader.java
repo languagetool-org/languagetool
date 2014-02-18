@@ -164,8 +164,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           disambiguatedPOS = attrs.getValue(POSTAG);
           if (attrs.getValue(ACTION) == null) {
             // default mode:
-            disambigAction = DisambiguatorAction
-                    .valueOf("REPLACE");
+            disambigAction = DisambiguatorAction.REPLACE;
           } else {
             disambigAction = DisambiguatorAction
                     .valueOf(attrs.getValue(ACTION).toUpperCase(Locale.ENGLISH));
