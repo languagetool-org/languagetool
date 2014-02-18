@@ -1774,6 +1774,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     </rulegroup>
 
+    <rule id="JAKI_BADZ_X" name="jaki bądź xxx – bez przecinka">
+        <pattern>
+            <marker>
+                <token inflected="yes">jaki</token>
+            <token>bądź</token>
+            </marker>
+            <token postag_regexp="yes" postag="subst.*"><exception>co</exception></token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule id="Z_GLUPIA_FRANT" name="z głupia frant">
         <pattern>
             <token>z</token>

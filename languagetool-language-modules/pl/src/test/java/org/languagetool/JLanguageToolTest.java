@@ -36,6 +36,8 @@ public class JLanguageToolTest extends TestCase {
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
     matches = tool.check("To jest jest problem.");
+    //with immunization
+    assertEquals(0, tool.check("A teraz każcie mi dać jaki bądź posiłek.").size());
     assertEquals(1, matches.size());
     //this rule is by default off
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
