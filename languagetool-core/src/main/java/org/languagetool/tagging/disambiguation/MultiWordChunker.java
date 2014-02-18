@@ -71,7 +71,7 @@ public class MultiWordChunker implements Disambiguator {
         firstTokens = new String[tokenAndTag[0].length()];
         firstToken = tokenAndTag[0].substring(0, 1);
         for (int i = 1; i < tokenAndTag[0].length(); i++) {
-          firstTokens[i] = tokenAndTag[0].substring((i - 1), i);
+          firstTokens[i] = tokenAndTag[0].substring(i - 1, i);
         }
         if (mStartNoSpace.containsKey(firstToken)) {
           if (mStartNoSpace.get(firstToken) < firstTokens.length) {

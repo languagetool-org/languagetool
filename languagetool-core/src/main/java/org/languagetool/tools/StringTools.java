@@ -163,8 +163,8 @@ public final class StringTools {
       return false;
     }
     final char firstChar = str.charAt(0);
-      return Character.isUpperCase(firstChar) &&
-              str.substring(1).equals(str.substring(1).toLowerCase());
+    return Character.isUpperCase(firstChar) &&
+             str.substring(1).equals(str.substring(1).toLowerCase());
   }
 
   /**

@@ -113,7 +113,7 @@ public class GenericUnpairedBracketsRule extends Rule {
       return false;
     }
     // Smiley ";-)"
-      return !(i >= 2 && tokens[i - 2].getToken().equals(";") && tokens[i - 1].getToken().equals("-") && tokens[i].getToken().equals(")"));
+    return !(i >= 2 && tokens[i - 2].getToken().equals(";") && tokens[i - 1].getToken().equals("-") && tokens[i].getToken().equals(")"));
   }
 
   @Override

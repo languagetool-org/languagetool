@@ -44,16 +44,13 @@ public class SimpleReplaceRuleTest extends TestCase {
   }
 
   public void testRule() throws IOException {
-
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Wszystko w porządku.")).length);
 
      // no checking lemmas:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Pola lodowe")).length);
 
-
-      //with immunized tokens:
-
+    //with immunized tokens:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Witamy prez. Komorowskiego!")).length);
 
     // incorrect sentences:

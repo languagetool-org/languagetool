@@ -72,14 +72,10 @@ public class WordTokenizer implements Tokenizer {
     return joinUrls(l);
   }
 
-
   /**
-   *
-   * @return The string containing the characters used by the   *
+   * @return The string containing the characters used by the
    * tokenizer to tokenize words.
-   * 
    * @since 2.5
-   * 
    */
   public String getTokenizingCharacters() {
     return TOKENIZING_CHARACTERS;
@@ -113,14 +109,14 @@ public class WordTokenizer implements Tokenizer {
 
   private boolean urlStartsAt(int i, List<String> l) {
     final String token = l.get(i);
-      if (isProtocol(token) && l.size() > i + 3) {
-          final String nToken = l.get(i + 1);
-          final String nnToken = l.get(i + 2);
-          final String nnnToken = l.get(i + 3);
-          if (nToken.equals(":") && nnToken.equals("/") && nnnToken.equals("/")) {
-              return true;
-          }
+    if (isProtocol(token) && l.size() > i + 3) {
+      final String nToken = l.get(i + 1);
+      final String nnToken = l.get(i + 2);
+      final String nnnToken = l.get(i + 3);
+      if (nToken.equals(":") && nnToken.equals("/") && nnnToken.equals("/")) {
+        return true;
       }
+    }
     return false;
   }
 
@@ -141,10 +137,10 @@ public class WordTokenizer implements Tokenizer {
       return true;
     } else if (l.size() > i + 1) {
       final String nToken = l.get(i + 1);
-        if (StringTools.isWhitespace(nToken) &&
-                (token.equals(".") || token.equals(",") || token.equals(";") || token.equals(":") || token.equals("!") || token.equals("?"))) {
-            return true;
-        }
+      if (StringTools.isWhitespace(nToken) &&
+            (token.equals(".") || token.equals(",") || token.equals(";") || token.equals(":") || token.equals("!") || token.equals("?"))) {
+        return true;
+      }
     } else {
       final Matcher matcher = URL_CHARS.matcher(token);
       if (!matcher.matches()) {

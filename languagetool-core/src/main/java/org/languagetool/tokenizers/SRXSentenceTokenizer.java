@@ -58,7 +58,7 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
       final Map<String, Object> parserParameters = new HashMap<>();
       parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);
       final SrxParser srxParser = new Srx2SaxParser(parserParameters);
-        return srxParser.parse(srxReader);
+      return srxParser.parse(srxReader);
     } catch (IOException e) {
       throw new RuntimeException("Could not load rules " + RULES + " from resource dir "
               + JLanguageTool.getDataBroker().getResourceDir(), e);
@@ -100,7 +100,7 @@ public class SRXSentenceTokenizer implements SentenceTokenizer {
   /**
    * @param lineBreakParagraphs
    *          if <code>true</code>, single lines breaks are assumed to end a
-   *          paragraph, with <code>false</code>, only two ore more consecutive
+   *          paragraph; if <code>false</code>, only two ore more consecutive
    *          line breaks end a paragraph
    */
   @Override

@@ -34,10 +34,11 @@ import org.xml.sax.SAXException;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 
-    static final String PLEASE_SPELL_ME = "<pleasespellme/>";
-    public static final String TYPE = "type";
+  public static final String TYPE = "type";
 
-    protected Category category;
+  static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+
+  protected Category category;
   protected String categoryIssueType;
   protected String ruleGroupIssueType;
   protected String ruleIssueType;

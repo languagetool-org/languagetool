@@ -189,7 +189,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   public final void addReading(final AnalyzedToken token) {
     final ArrayList<AnalyzedToken> l = new ArrayList<>();
-      l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
+    l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
     }

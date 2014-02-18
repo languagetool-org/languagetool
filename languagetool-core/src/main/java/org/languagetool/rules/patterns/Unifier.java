@@ -206,7 +206,7 @@ public class Unifier {
               }
             }
           }
-            allFeatsUnified &= featUnified;
+          allFeatsUnified &= featUnified;
         }
         tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) & allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
@@ -218,7 +218,7 @@ public class Unifier {
           if (readingsCounter<tokSequence.size()) {
             tokSequence.get(readingsCounter).addReading(aToken);
           } else {
-              anyFeatUnified = false;
+            anyFeatUnified = false;
           }
         }
         tmpFeaturesFound = tokenFeaturesFound;
@@ -318,7 +318,7 @@ public class Unifier {
       }
       firstUnified = true;
     }
-      return tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
+    return tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
   }
 
   /**
@@ -357,9 +357,9 @@ public class Unifier {
       }
       return uniAllMatched;
     } else {
-        if (isMatched) {
-            isSatisfied(matchToken, uFeatures);
-        }
+      if (isMatched) {
+        isSatisfied(matchToken, uFeatures);
+      }
     }
     if (lastReading) {
       inUnification = true;

@@ -652,8 +652,8 @@ public abstract class Language {
     if (getShortName().equals(otherLanguage.getShortName())) {
       final boolean thisHasCountry = hasCountry();
       final boolean otherHasCountry = otherLanguage.hasCountry();
-        return !(thisHasCountry && otherHasCountry) ||
-                getShortNameWithCountryAndVariant().equals(otherLanguage.getShortNameWithCountryAndVariant());
+      return !(thisHasCountry && otherHasCountry) ||
+              getShortNameWithCountryAndVariant().equals(otherLanguage.getShortNameWithCountryAndVariant());
     } else {
       return false;
     }

@@ -45,49 +45,35 @@ public class PatternRule extends AbstractPatternRule {
   private String message;
   private String suggestionsOutMsg; // extra suggestions outside message
 
-  /** Formatted suggestion elements. **/
+  // Formatted suggestion elements.
   private List<Match> suggestionMatches;
   
-  /** Formatted suggestion elements outside message. **/
+  // Formatted suggestion elements outside message.
   private List<Match> suggestionMatchesOutMsg;
 
   private Set<String> tokenSet;
 
   private Set<String> lemmaSet;
 
-  /**
-   * This property is used for short-circuiting evaluation of the elementNo list
-   * order.
-   */
+  // This property is used for short-circuiting evaluation of the elementNo list order.
   private boolean useList;
 
-  /**
-   * Marks whether the rule is a member of a disjunctive set (in case of OR
-   * operation on phraserefs).
-   **/
+  // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
   private boolean isMemberOfDisjunctiveSet;
 
-    /**
-     * Tokens used for checking whether a rule can ever match.
-     */
-  private Set<String> simpleRuleTokens;
+  // Tokens used for checking whether a rule can ever match.
+  private final Set<String> simpleRuleTokens;
 
-  private Set<String> inflectedRuleTokens;
+  private final Set<String> inflectedRuleTokens;
 
-    /**
-   * @param id
-   *          Id of the Rule. Used in configuration. Should not contain special characters and should
-   *          be stable over time, unless the rule changes completely.
-   * @param language
-   *          Language of the Rule
-   * @param elements
-   *          Element (token) list
-   * @param description
-   *          Description to be shown (name)
-   * @param message
-   *          Message to be displayed to the user
-   * @param shortMessage
-   *          Message to be displayed to the user in the context menu in OpenOffice.org/LibreOffice
+  /**
+   * @param id Id of the Rule. Used in configuration. Should not contain special characters and should
+   *        be stable over time, unless the rule changes completely.
+   * @param language Language of the Rule
+   * @param elements Element (token) list
+   * @param description Description to be shown (name)
+   * @param message Message to be displayed to the user
+   * @param shortMessage Message to be displayed to the user in the context menu in OpenOffice.org/LibreOffice
    */
   public PatternRule(final String id, final Language language,
       final List<Element> elements, final String description,
@@ -238,9 +224,8 @@ public class PatternRule extends AbstractPatternRule {
    * @since 2.4
    */
   public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
-      return (!simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens))
-              || (!inflectedRuleTokens.isEmpty() &&
-              !sentence.getLemmaSet().containsAll(inflectedRuleTokens));
+    return (!simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens))
+            || (!inflectedRuleTokens.isEmpty() && !sentence.getLemmaSet().containsAll(inflectedRuleTokens));
   }
 
   // tokens that just refer to a word - no regex, no inflection etc.

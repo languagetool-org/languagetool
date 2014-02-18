@@ -478,29 +478,27 @@ public class XMLRuleHandler extends DefaultHandler {
       return null;
     }
     final List<Match> sugMatch = new ArrayList<>();
-    //final String messageStr = message.toString();
     int pos = 0;
     int ind = 0;
     int matchCounter = 0;
     while (pos != -1) {
       pos = messageStr.indexOf('\\', ind + 1);
       if (pos != -1 && messageStr.length() > pos && Character.isDigit(messageStr.charAt(pos + 1))) {
-          if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
-            final Match mWorker = new Match(null, null, false, null,
-                null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
-            mWorker.setInMessageOnly(true);
-            sugMatch.add(mWorker);
-          } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
-            sugMatch.add(existingSugMatches.get(matchCounter));
-            if (inMessage) {
-              message.deleteCharAt(pos - 1 - matchCounter);
-            }
-            else {
-              suggestionsOutMsg.deleteCharAt(pos - 1 - matchCounter);
-            }
-            matchCounter++;
+        if (pos == 0 || messageStr.charAt(pos - 1) != '\u0001') {
+          final Match mWorker = new Match(null, null, false, null,
+              null, Match.CaseConversion.NONE, false, false, Match.IncludeRange.NONE);
+          mWorker.setInMessageOnly(true);
+          sugMatch.add(mWorker);
+        } else if (messageStr.charAt(pos - 1) == '\u0001') { // real suggestion marker
+          sugMatch.add(existingSugMatches.get(matchCounter));
+          if (inMessage) {
+            message.deleteCharAt(pos - 1 - matchCounter);
+          } else {
+            suggestionsOutMsg.deleteCharAt(pos - 1 - matchCounter);
           }
+          matchCounter++;
         }
+      }
       ind = pos;
     }
 
