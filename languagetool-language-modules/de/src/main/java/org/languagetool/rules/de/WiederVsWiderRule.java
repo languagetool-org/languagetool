@@ -36,8 +36,9 @@ import org.languagetool.rules.RuleMatch;
 public class WiederVsWiderRule extends GermanRule {
 
   public WiederVsWiderRule(ResourceBundle messages) {
-    if (messages != null)
+    if (messages != null) {
       super.setCategory(new Category(messages.getString("category_typo")));
+    }
   }
   
   @Override
@@ -57,7 +58,7 @@ public class WiederVsWiderRule extends GermanRule {
     boolean foundSpiegelt = false;
     boolean foundWieder = false;
     boolean foundWider = false;
-    for (int i=0; i<tokens.length; i++) {
+    for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       if (token.trim().equals("")) {
         // ignore
