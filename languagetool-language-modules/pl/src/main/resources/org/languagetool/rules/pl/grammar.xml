@@ -11723,18 +11723,30 @@ $Id$
 						<example correction="Stał się" type="incorrect"><marker>Stal się</marker> bardzo nieprzyjemny.</example>
 						<example type="correct">Mieszko stał się księciem.</example>
 				</rule>
-				<rule id="PRZE" name="„prze” (przez, przed)">
+				<rulegroup id="PRZE" name="„prze” (przez, przed)">
+                 <rule>
 						<pattern>
 								<marker>
 										<token>prze</token>
 								</marker>
-								<token negate="yes" regexp="yes">do|ku</token>
+								<token negate="yes" regexp="yes">do|ku|zemnie</token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>przez</suggestion> lub <suggestion>przed</suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
 						<example type="correct">Postęp prze do przodu.</example>
 						<example correction="przez|przed" type="incorrect">Ruszył <marker>prze</marker> siebie.</example>
 				</rule>
+                <rule>
+                <pattern>
+                        <token>prze</token>
+                        <token>zemnie</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>przeze mnie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">To był błąd popełniony przeze mnie.</example>
+                <example correction="przeze mnie" type="incorrect">To był błąd popełniony <marker>prze zemnie</marker>.</example>
+                </rule>
+                </rulegroup>
 				<rule id="W_ZGODNIE_Z" name="„w zgodnie z” (w zgodzie z / zgodnie z)">
 						<pattern>
 								<token>w</token>
