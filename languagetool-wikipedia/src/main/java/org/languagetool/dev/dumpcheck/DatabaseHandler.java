@@ -41,20 +41,37 @@ class DatabaseHandler extends ResultHandler {
 
   private static final int MAX_CONTEXT_LENGTH = 500;
   private static final int SMALL_CONTEXT_LENGTH = 40;  // do not modify - it would break lookup of errors marked as 'false alarm'
-  
+
   private final Connection conn;
   private final ContextTools contextTools;
   private final ContextTools smallContextTools;
 
+  private final PreparedStatement lookupSt;
+  private final PreparedStatement insertSt;
+
+  private int batchSize;
+  private int batchCount=0;
+
   DatabaseHandler(File propertiesFile, int maxSentences, int maxErrors) {
     super(maxSentences, maxErrors);
+
+    final String lookupSql = "SELECT id FROM corpus_match_hidden WHERE " +
+            "language_code = ? AND sourceuri = ? AND ruleid = ? AND small_error_context = ?";
+    final String insertSql = "INSERT INTO corpus_match " +
+            "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, small_error_context, corpus_date, " +
+            "check_date, sourceuri, source_type, is_visible) "+
+            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+
     final Properties dbProperties = new Properties();
     try (FileInputStream inStream = new FileInputStream(propertiesFile)) {
       dbProperties.load(inStream);
       final String dbUrl = getProperty(dbProperties, "dbUrl");
       final String dbUser = getProperty(dbProperties, "dbUser");
       final String dbPassword = getProperty(dbProperties, "dbPassword");
+      batchSize = Integer.decode(dbProperties.getProperty("batchSize", "1"));
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+      lookupSt = conn.prepareStatement(lookupSql);
+      insertSt = conn.prepareStatement(insertSql);
     } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
     }
@@ -80,14 +97,7 @@ class DatabaseHandler extends ResultHandler {
 
   @Override
   protected void handleResult(Sentence sentence, List<RuleMatch> ruleMatches, Language language) {
-    final String lookupSql = "SELECT id FROM corpus_match_hidden WHERE " +
-            "language_code = ? AND sourceuri = ? AND ruleid = ? AND small_error_context = ?";
-    final String insertSql = "INSERT INTO corpus_match " +
-            "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, small_error_context, corpus_date, " +
-            "check_date, sourceuri, source_type, is_visible) "+
-            "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-    try (PreparedStatement lookupSt = conn.prepareStatement(lookupSql);
-         PreparedStatement insertSt = conn.prepareStatement(insertSql)) {
+    try {
       final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
       for (RuleMatch match : ruleMatches) {
         final String smallContext = smallContextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
@@ -121,7 +131,12 @@ class DatabaseHandler extends ResultHandler {
         insertSt.setDate(10, nowDate);
         insertSt.setString(11, sentence.getUrl());
         insertSt.setString(12, sentence.getSource());
-        insertSt.executeUpdate();
+        insertSt.addBatch();
+        if (++batchCount>=batchSize){
+          executeBatch();
+          batchCount=0;
+        }
+
         checkMaxErrors(++errorCount);
         if (errorCount % 100 == 0) {
           System.out.println("Storing error #" + errorCount + " for text:");
@@ -136,21 +151,54 @@ class DatabaseHandler extends ResultHandler {
     }
   }
 
+  private void executeBatch() throws SQLException {
+    boolean ac = conn.getAutoCommit();
+
+    conn.setAutoCommit(false);
+    try{
+      insertSt.executeBatch();
+      if (ac) {
+        conn.commit();
+      }
+    } finally{
+      conn.setAutoCommit(ac);
+    }
+  }
+
   // Whether a match has been marked as 'false alarm' or 'already fixed' by a user - in that
   // case, we don't want to re-insert it into the list of matches.
   private boolean ruleIsMarkedHidden(Language language, String url, RuleMatch match, String smallContext, PreparedStatement lookupSt) throws SQLException {
+      boolean ret=false;
     // TODO: should we consider the subid?
     lookupSt.setString(1, language.getShortName());
     lookupSt.setString(2, url);
     lookupSt.setString(3, match.getRule().getId());
     lookupSt.setString(4, smallContext);
+
     try (ResultSet resultSet = lookupSt.executeQuery()) {
-      return resultSet.first();
+      try {
+        if (resultSet.isBeforeFirst()) {
+          ret=true;
+        }
+      } catch (SQLFeatureNotSupportedException e){
+        ret=resultSet.next();
+      }
     }
+
+    return ret;
   }
 
   @Override
   public void close() throws Exception {
+    if (insertSt != null) {
+      if (batchCount>0) {
+        executeBatch();
+      }
+      insertSt.close();
+    }
+    if (lookupSt != null) {
+      lookupSt.close();
+    }
     if (conn != null) {
       conn.close();
     }
