@@ -714,6 +714,23 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il trouva de la nourriture <marker>ça</marker> et là.</example>
       <example type="correct">Il trouva de la nourriture çà et là.</example>
     </rule>
+    <rule id="CA_CA" name="çà → ça">
+      <pattern>
+        <marker><token>çà</token></marker>
+        <or>
+          <token postag="[VM].*|R pers obj.*" postag_regexp="yes"/>
+          <token regexp="yes">ne?</token>
+        </or>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>ça</suggestion> ?</message>
+      <example type="incorrect"><marker>Çà</marker> me va.</example>
+      <example type="incorrect"><marker>Çà</marker> ne marche pas.</example>
+      <example type="incorrect"><marker>Çà</marker> avance.</example>
+      <example type="incorrect"><marker>Çà</marker> n’avance pas.</example>
+      <example type="incorrect">Tu n’es pas si fort que <marker>çà</marker>.</example>
+      <example type="correct">Ça me va.</example>
+      <example type="correct">Il trouva de la nourriture çà et là.</example>
+    </rule>
     <rule id="QUAND_QUANT" name="Quand au lien de quant">
       <pattern>
         <marker>
