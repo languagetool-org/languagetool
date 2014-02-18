@@ -103,7 +103,7 @@ public class PolishSynthesizer implements Synthesizer {
             getFromResourceDirAsStream(TAGS_FILE_NAME));
       }
       final IStemmer synthesizer = new DictionaryLookup(getDictionary());
-      final ArrayList<String> results = new ArrayList<>();
+      final List<String> results = new ArrayList<>();
 
       boolean isNegated = false;
       if (token.getPOSTag() != null) {

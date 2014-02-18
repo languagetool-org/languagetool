@@ -257,7 +257,7 @@ public class XMLRuleHandler extends DefaultHandler {
         if (elementList.isEmpty()) {
           phraseElementList.add(new ArrayList<>(copy));
         } else {
-          final ArrayList<Element> prevList = new ArrayList<>(elementList);
+          final List<Element> prevList = new ArrayList<>(elementList);
           prevList.addAll(copy);
           phraseElementList.add(new ArrayList<>(prevList));
           prevList.clear();
@@ -279,7 +279,7 @@ public class XMLRuleHandler extends DefaultHandler {
     if (phraseElementList.isEmpty()) {
       phraseElementList.add(new ArrayList<>(elementList));
     } else {
-      for (final ArrayList<Element> ph : phraseElementList) {
+      for (List<Element> ph : phraseElementList) {
         ph.addAll(new ArrayList<>(elementList));
       }
     }

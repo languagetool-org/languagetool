@@ -115,7 +115,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       initSynthesizer();
       initPossibleTags();
       final Pattern p = Pattern.compile(myPosTag);
-      final ArrayList<String> results = new ArrayList<>();
+      final List<String> results = new ArrayList<>();
 
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);

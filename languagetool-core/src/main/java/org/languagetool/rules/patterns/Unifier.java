@@ -170,7 +170,7 @@ public class Unifier {
       final Map<String, List<String>> uFeatures) {
     boolean anyFeatUnified = false;
     List<String> types;
-    final ArrayList<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
+    final List<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
     if (allFeatsIn) {
       for (int i = 0; i <= tokCnt; i++) {
         boolean allFeatsUnified = true;

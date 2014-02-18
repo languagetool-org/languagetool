@@ -188,7 +188,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token new reading, given as {@link AnalyzedToken}
    */
   public final void addReading(final AnalyzedToken token) {
-    final ArrayList<AnalyzedToken> l = new ArrayList<>();
+    final List<AnalyzedToken> l = new ArrayList<>();
     l.addAll(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
@@ -213,7 +213,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @param token reading to be removed
    */
   public final void removeReading(final AnalyzedToken token) {
-    final ArrayList<AnalyzedToken> l = new ArrayList<>();
+    final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (AnalyzedToken anTokReading : anTokReadings) {
@@ -235,7 +235,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @since 1.5
    */
   public final void leaveReading(final AnalyzedToken token) {
-    final ArrayList<AnalyzedToken> l = new ArrayList<>();
+    final List<AnalyzedToken> l = new ArrayList<>();
     final AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
     for (AnalyzedToken anTokReading : anTokReadings) {

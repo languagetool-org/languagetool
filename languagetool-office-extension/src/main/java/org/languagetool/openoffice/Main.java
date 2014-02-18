@@ -281,7 +281,7 @@ public class Main extends WeakBase implements XJobExecutor,
       final Set<String> disabledRuleIds = config.getDisabledRuleIds();
       if (disabledRuleIds != null) {
         // copy as the config thread may access this as well
-        final ArrayList<String> list = new ArrayList<>(disabledRuleIds);
+        final List<String> list = new ArrayList<>(disabledRuleIds);
         for (final String id : list) {
           langTool.disableRule(id);
         }
@@ -289,7 +289,7 @@ public class Main extends WeakBase implements XJobExecutor,
       final Set<String> disabledCategories = config.getDisabledCategoryNames();
       if (disabledCategories != null) {
         // copy as the config thread may access this as well
-        final ArrayList<String> list = new ArrayList<>(disabledCategories);
+        final List<String> list = new ArrayList<>(disabledCategories);
         for (final String categoryName : list) {
           langTool.disableCategory(categoryName);
         }
@@ -297,7 +297,7 @@ public class Main extends WeakBase implements XJobExecutor,
       final Set<String> enabledRuleIds = config.getEnabledRuleIds();
       if (enabledRuleIds != null) {
         // copy as the config thread may access this as well
-        final ArrayList<String> list = new ArrayList<>(enabledRuleIds);
+        final List<String> list = new ArrayList<>(enabledRuleIds);
         for (String ruleName : list) {
           langTool.enableDefaultOffRule(ruleName);
           langTool.enableRule(ruleName);

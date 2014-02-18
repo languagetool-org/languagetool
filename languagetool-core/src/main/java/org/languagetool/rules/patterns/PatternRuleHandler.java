@@ -248,11 +248,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
       } else {
         if (!elementList.isEmpty()) {
-          for (final ArrayList<Element> ph : phraseElementList) {
+          for (List<Element> ph : phraseElementList) {
             ph.addAll(new ArrayList<>(elementList));
           }
         }
-        for (final ArrayList<Element> phraseElement : phraseElementList) {
+        for (List<Element> phraseElement : phraseElementList) {
           processElement(phraseElement);
           final List<Element> tmpElements = new ArrayList<>();
           createRules(phraseElement, tmpElements, 0);

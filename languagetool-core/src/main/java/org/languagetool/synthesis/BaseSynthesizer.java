@@ -123,7 +123,7 @@ public class BaseSynthesizer implements Synthesizer {
       initSynthesizer();
       initPossibleTags();
       final Pattern p = Pattern.compile(posTag);
-      final ArrayList<String> results = new ArrayList<>();
+      final List<String> results = new ArrayList<>();
 
       for (final String tag : possibleTags) {
         final Matcher m = p.matcher(tag);

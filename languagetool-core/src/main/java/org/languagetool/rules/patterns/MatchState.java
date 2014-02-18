@@ -103,7 +103,7 @@ public class MatchState {
   }
 
   public final AnalyzedTokenReadings filterReadings() {
-    final ArrayList<AnalyzedToken> l = new ArrayList<>();
+    final List<AnalyzedToken> l = new ArrayList<>();
     if (formattedToken != null) {
       if (match.isStaticLemma()) {
         matchedToken.leaveReading(new AnalyzedToken(matchedToken

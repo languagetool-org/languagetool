@@ -211,7 +211,7 @@ public class TopoReplaceRule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       addToQueue(tokens[i], prevTokens);
       final StringBuilder sb = new StringBuilder();
-      final ArrayList<String> variants = new ArrayList<>();
+      final List<String> variants = new ArrayList<>();
       final List<AnalyzedTokenReadings> prevTokensList = new ArrayList<>(prevTokens);
       for (int j = prevTokensList.size() - 1; j >= 0; j--) {
         if (j != prevTokensList.size() - 1 && prevTokensList.get(j + 1).isWhitespaceBefore()) {

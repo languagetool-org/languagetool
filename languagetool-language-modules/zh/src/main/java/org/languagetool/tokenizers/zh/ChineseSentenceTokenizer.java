@@ -32,8 +32,8 @@ public class ChineseSentenceTokenizer extends RegexSentenceTokenizer {
   public List<String> tokenize(String text) {
 
     final SentenceSeg ss = new SentenceSeg(text);
-    final ArrayList<Sentence> sens = ss.getSens();
-    final ArrayList<String> list = new ArrayList<>();
+    final List<Sentence> sens = ss.getSens();
+    final List<String> list = new ArrayList<>();
 
     for (Sentence sen : sens) {
       String str = sen.getContent();

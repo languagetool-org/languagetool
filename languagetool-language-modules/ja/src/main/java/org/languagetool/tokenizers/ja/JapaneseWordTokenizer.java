@@ -39,7 +39,7 @@ public class JapaneseWordTokenizer implements Tokenizer {
   @Override  
   public List<String> tokenize(String text){
     init();
-    final ArrayList<String> ret = new ArrayList<>();
+    final List<String> ret = new ArrayList<>();
     List<Token> tokens = new ArrayList<>();
     String basicForm;
     try {
