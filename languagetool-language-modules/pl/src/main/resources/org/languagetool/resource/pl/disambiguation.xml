@@ -182,7 +182,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="rusz[rusza/subst:pl:gen:f,ruszyć/verb:impt:sg:sec:perf:refl.nonrefl]" outputform="rusz[rusza/qub]">Co i <marker>rusz</marker> pyta o godzinę.</example>
         </rule>
     </rulegroup>
-    
+
+    <rule id="A_NUZ" name="a nuż">
+        <pattern>
+            <marker>
+                <token postag="qub">a</token>
+                <token postag="qub">nuż</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rulegroup name="bez czarny" id="bez_czarny">
     	<rule>
     		<pattern>
@@ -676,7 +686,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag_regexp="yes" postag="(adj|subst|ger|ppron.*|ppas|pact).*gen.*"/>
             </marker>
         </pattern>
-        <disambig action="filterall" postag=".*gen.*"></disambig>
+        <disambig action="filter" postag=".*gen.*"></disambig>
         <example type="untouched">Uwielbiam podroże w czasie.</example>
         <example type="ambiguous" inputform="zimy[zima/subst:pl:acc:f,zima/subst:pl:nom:f,zima/subst:pl:voc:f,zima/subst:sg:gen:f]" outputform="zimy[zima/subst:sg:gen:f]">W czasie <marker>zimy</marker> niedźwiedzie piją Coca-Colę.</example>
     </rule>
@@ -1630,12 +1640,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule name="bądź co bądź" id="BADZ_CO_BADZ">
         <pattern>
             <marker>
-                <token>bądź</token>
+                <token postag="qub">bądź</token>
+                <token postag="qub">co</token>
+                <token postag="qub">bądź</token>
             </marker>
-            <token>co</token>
-            <token>bądź</token>
         </pattern>
-        <disambig postag="qub"/>
+        <disambig action="filterall"/>
         <example type="untouched">Bądź pozdrowiony!</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]" outputform="bądź[bądź/qub]">Nie wypadało mu mówić głupstw, <marker>bądź</marker> co bądź reprezentował parlament.</example>
     </rule>
