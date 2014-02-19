@@ -125,6 +125,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Dieser ist nun in den Ortungsbereich des einen Roboters gefahren.");
     assertGood("Wenn dies großen Erfolg hat, werden wir es weiter fördern.");
     assertGood("Die Ereignisse dieses einen Jahres waren sehr schlimm.");
+    assertGood("Er musste einen Hochwasser führenden Fluss nach dem anderen überqueren.");
 
     // incorrect sentences:
     assertBad("Es sind die Tisch.", "dem Tisch", "den Tisch", "der Tisch", "die Tische");
