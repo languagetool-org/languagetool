@@ -113,10 +113,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
   }
 
   private String cleanup(String word) {
-    if (!isCaseSensitive()) {
-      word = word.toLowerCase(getLocale());
-    }
-    return word;
+    return isCaseSensitive() ? word : word.toLowerCase(getLocale()); 
   }
 
   @Override

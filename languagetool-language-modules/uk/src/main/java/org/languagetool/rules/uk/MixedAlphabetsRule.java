@@ -92,19 +92,19 @@ public class MixedAlphabetsRule extends Rule {
       
         List<String> replacements = new ArrayList<>();
 
-        if( ! LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
+        if(!LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
           replacements.add( toCyrillic(tokenString) );
         }
-        if( ! CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches() ) {
+        if(!CYRILLIC_ONLY.matcher(tokenString).matches() || LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
           replacements.add( toLatin(tokenString) );
         }
 
-        if ( replacements.size() > 0 ) {
+        if (replacements.size() > 0) {
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements);
           ruleMatches.add(potentialRuleMatch);
         }
       }
-      else if( LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches() ) {
+      else if(LATIN_NUMBER_WITH_CYRILLICS.matcher(tokenString).matches()) {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
@@ -121,7 +121,6 @@ public class MixedAlphabetsRule extends Rule {
     int pos = tokenReadings.getStartPos();
 
     RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + tokenString.length(), msg, getShort());
-
     potentialRuleMatch.setSuggestedReplacements(replacements);
 
     return potentialRuleMatch;
@@ -131,27 +130,27 @@ public class MixedAlphabetsRule extends Rule {
   public void reset() {
   }
 
-  private static final HashMap<Character, Character> toLatMap = new HashMap<>();
-  private static final HashMap<Character, Character> toCyrMap = new HashMap<>();
+  private static final Map<Character, Character> toLatMap = new HashMap<>();
+  private static final Map<Character, Character> toCyrMap = new HashMap<>();
   private static final String cyrChars = "аеікморстухАВЕІКМНОРСТУХ";
   private static final String latChars = "aeikmopctyxABEIKMHOPCTYX";
 
   static {
-    for(int i=0; i<cyrChars.length(); i++) {
+    for (int i = 0; i < cyrChars.length(); i++) {
       toLatMap.put(cyrChars.charAt(i), latChars.charAt(i));
       toCyrMap.put(latChars.charAt(i), cyrChars.charAt(i));
     }
   }
 
   private static String toCyrillic(String word) {
-    for(Map.Entry<Character, Character> entry: toCyrMap.entrySet()) {
+    for (Map.Entry<Character, Character> entry : toCyrMap.entrySet()) {
       word = word.replace(entry.getKey(), entry.getValue());
     }
     return word;
   }
 
   private static String toLatin(String word) {
-    for(Map.Entry<Character, Character> entry: toLatMap.entrySet()) {
+    for (Map.Entry<Character, Character> entry : toLatMap.entrySet()) {
       word = word.replace(entry.getKey(), entry.getValue());
     }
     return word;
