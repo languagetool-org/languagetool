@@ -325,6 +325,8 @@ public class CaseRule extends GermanRule {
   private static final Set<String> myExceptionPhrases = new HashSet<>();
   static {
     // use proper upper/lowercase spelling here:
+    myExceptionPhrases.add("nichts Wichtigeres");
+    myExceptionPhrases.add("nichts Schöneres");
     myExceptionPhrases.add("ohne Wenn und Aber");
     myExceptionPhrases.add("Große Koalition");
     myExceptionPhrases.add("Großen Koalition");
