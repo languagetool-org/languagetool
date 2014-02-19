@@ -25904,11 +25904,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(ex)?nóvi(os?|a|es)</token>
+                    <token regexp="yes">(ex)?nóvi(os?|a|es)|superjós?</token>
                 </pattern>
                 <message>Useu accentuació general.</message> 
-                <suggestion><match no="1" regexp_match="^(.+)ó(.+)" regexp_replace="$1ò$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="^(.*)ó(.*)" regexp_replace="$1ò$2"></match></suggestion>
                 <example type="incorrect" correction="exnòvios">Els meus <marker>exnóvios</marker>.</example>
+                <example type="incorrect" correction="superjòs">Els <marker>superjós</marker>.</example>
                 <example type="correct">El meu nòvio.</example>
             </rule>
         </rulegroup>
@@ -25957,11 +25958,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(ex)?nòvi(os?|a|es)</token>
+                    <token regexp="yes">(ex)?nòvi(os?|a|es)|superjòs?</token>
                 </pattern>
                 <message>Useu accentuació valenciana.</message> 
-                <suggestion><match no="1" regexp_match="^(.+)ò(.+)" regexp_replace="$1ó$2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="^(.*)ò(.*)" regexp_replace="$1ó$2"></match></suggestion>
                 <example type="incorrect" correction="exnóvios">Els meus <marker>exnòvios</marker>.</example>
+                <example type="incorrect" correction="superjó">El <marker>superjò</marker>.</example>
                 <example type="correct">El meu nóvio.</example>
             </rule>
         </rulegroup>
