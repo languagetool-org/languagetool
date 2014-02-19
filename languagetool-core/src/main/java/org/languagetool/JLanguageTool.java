@@ -497,7 +497,8 @@ public class JLanguageTool {
   /**
    * Re-enable a given rule so the check methods like {@link #check(String)} will use it.
    * Note that you need to use {@link #enableDefaultOffRule(String)} for rules that
-   * are off by default.
+   * are off by default. This will <em>not</em> throw an exception if the given rule id 
+   * doesn't exist.
    * 
    * @param ruleId the id of the rule to enable
    */
