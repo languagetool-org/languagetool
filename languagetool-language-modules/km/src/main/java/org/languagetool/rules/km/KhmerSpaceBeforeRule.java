@@ -54,9 +54,9 @@ public class KhmerSpaceBeforeRule extends KhmerRule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
     
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();

@@ -45,10 +45,10 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     this.useList = useList;
   }
 
-  final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
+  final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<ElementMatcher> elementMatchers = createElementMatchers();
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     final int[] tokenPositions = new int[tokens.length + 1];
     final int patternSize = elementMatchers.size();
 

@@ -92,13 +92,13 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   /**
    * Performs disambiguation on the source sentence.
    * 
-   * @param text {@link AnalyzedSentence} Sentence to be disambiguated.
+   * @param sentence {@link AnalyzedSentence} Sentence to be disambiguated.
    * @return {@link AnalyzedSentence} Disambiguated sentence (might be unchanged).
    */
 
-  public final AnalyzedSentence replace(final AnalyzedSentence text) throws IOException {
+  public final AnalyzedSentence replace(final AnalyzedSentence sentence) throws IOException {
     final DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
-    return replacer.replace(text);
+    return replacer.replace(sentence);
   }
 
   /**

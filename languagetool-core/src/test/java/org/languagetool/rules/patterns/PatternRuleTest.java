@@ -378,15 +378,15 @@ public class PatternRuleTest extends TestCase {
 
   private boolean match(final Rule rule, final String sentence,
       final JLanguageTool languageTool) throws IOException {
-    final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
-    final RuleMatch[] matches = rule.match(text);
+    final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
+    final RuleMatch[] matches = rule.match(analyzedSentence);
     return matches.length > 0;
   }
 
   private List<RuleMatch> getMatches(final Rule rule, final String sentence,
       final JLanguageTool languageTool) throws IOException {
-    final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
-    final RuleMatch[] matches = rule.match(text);
+    final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
+    final RuleMatch[] matches = rule.match(analyzedSentence);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
       // "real check" with sentence splitting:
       for (Rule r : languageTool.getAllActiveRules()) {

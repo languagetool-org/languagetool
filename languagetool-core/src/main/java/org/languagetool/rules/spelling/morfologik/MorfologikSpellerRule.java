@@ -75,9 +75,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     //lazy init
     if (speller == null) {
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {

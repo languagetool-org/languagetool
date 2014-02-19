@@ -72,7 +72,7 @@ public class BitextPatternRule extends BitextRule {
    * This method always returns an empty array.
    */
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     return new RuleMatch[0];
   }
 

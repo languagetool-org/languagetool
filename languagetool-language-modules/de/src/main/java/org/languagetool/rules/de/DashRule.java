@@ -50,9 +50,9 @@ public class DashRule extends GermanRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     String prevToken = null;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();

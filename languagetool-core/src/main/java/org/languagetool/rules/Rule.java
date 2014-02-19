@@ -86,10 +86,10 @@ public abstract class Rule {
    * text may be different than the order in which you get the sentences (this may be the
    * case when LanguageTool is used as a LibreOffice/OpenOffice add-on, for example).
    *
-   * @param text a pre-analyzed sentence
+   * @param sentence a pre-analyzed sentence
    * @return an array of {@link RuleMatch} objects
    */
-  public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
+  public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
   /**
    * If a rule keeps its state over more than the check of one sentence, this

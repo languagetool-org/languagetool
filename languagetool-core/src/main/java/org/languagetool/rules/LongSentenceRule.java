@@ -65,9 +65,9 @@ public class LongSentenceRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     final String msg = "Sentence is over " + maxWords + " words long, consider revising.";
     int numWords = 0;
     int pos = 0;

@@ -111,9 +111,9 @@ public class SimpleReplaceVerbsRule extends Rule {
   }
   
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence text) throws IOException {
+  public final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     for (AnalyzedTokenReadings tokenReadings : tokens) {
       String originalTokenStr = tokenReadings.getToken();

@@ -38,13 +38,12 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     super(rule, rule.getLanguage().getDisambiguationUnifier());
   }
 
-  public final AnalyzedSentence replace(final AnalyzedSentence text)
+  public final AnalyzedSentence replace(final AnalyzedSentence sentence)
       throws IOException {
     List<ElementMatcher> elementMatchers = createElementMatchers();
 
-    final AnalyzedTokenReadings[] tokens = text
-        .getTokensWithoutWhitespace();
-    AnalyzedTokenReadings[] whTokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] whTokens = sentence.getTokens();
     final int[] tokenPositions = new int[tokens.length + 1];
     final int patternSize = elementMatchers.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
@@ -105,18 +104,18 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
       if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
-        whTokens = executeAction(text, whTokens, unifiedTokens,
+        whTokens = executeAction(sentence, whTokens, unifiedTokens,
             firstMatchToken, matchingTokens, tokenPositions);
         changed = true;
       }
     }
     if (changed) {
-      return new AnalyzedSentence(whTokens, text.getWhPositions());
+      return new AnalyzedSentence(whTokens, sentence.getWhPositions());
     }
-    return text;
+    return sentence;
   }
 
-  private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence text,
+  private AnalyzedTokenReadings[] executeAction(final AnalyzedSentence sentence,
       final AnalyzedTokenReadings[] whiteTokens,
       final AnalyzedTokenReadings[] unifiedTokens,
       final int firstMatchToken, final int matchingTokens,
@@ -133,7 +132,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
       correctedStPos--;
     }
-    final int fromPos = text.getOriginalPosition(firstMatchToken
+    final int fromPos = sentence.getOriginalPosition(firstMatchToken
         + correctedStPos);
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     boolean filtered = false;
@@ -147,12 +146,12 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     case UNIFY:
       if (unifiedTokens != null) {
         if (unifiedTokens.length == matchingTokens - startPositionCorrection + endPositionCorrection) {
-          if (whTokens[text.getOriginalPosition(firstMatchToken
+          if (whTokens[sentence.getOriginalPosition(firstMatchToken
               + correctedStPos + unifiedTokens.length - 1)].isSentenceEnd()) {
             unifiedTokens[unifiedTokens.length - 1].setSentEnd();
           }
           for (int i = 0; i < unifiedTokens.length; i++) {
-            final int position = text.getOriginalPosition(firstMatchToken+ correctedStPos + i);
+            final int position = sentence.getOriginalPosition(firstMatchToken+ correctedStPos + i);
             unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
             final String prevValue = whTokens[position].toString();
             final String prevAnot = whTokens[position].getHistoricalAnnotations();
@@ -167,7 +166,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         if (newTokenReadings.length == matchingTokens
             - startPositionCorrection + endPositionCorrection) {
           for (int i = 0; i < newTokenReadings.length; i++) {
-            final int position = text.getOriginalPosition(firstMatchToken + correctedStPos + i);
+            final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
             final String prevValue = whTokens[position].toString();
             final String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].removeReading(newTokenReadings[i]);
@@ -182,7 +181,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             - startPositionCorrection + endPositionCorrection) {
           for (int i = 0; i < newTokenReadings.length; i++) {
             final String token;
-            final int position = text.getOriginalPosition(firstMatchToken+ correctedStPos + i);
+            final int position = sentence.getOriginalPosition(firstMatchToken+ correctedStPos + i);
             if ("".equals(newTokenReadings[i].getToken())) { // empty token
               token = whTokens[position].getToken();
             } else {
@@ -206,7 +205,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       break;
     case FILTERALL:
       for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
-        final int position = text.getOriginalPosition(firstMatchToken + correctedStPos + i);
+        final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
         final Element myEl = rule.getPatternElements().get(i + startPositionCorrection);
         final Match tmpMatchToken = new Match(myEl.getPOStag(), null,
             true,
@@ -223,12 +222,12 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       break;
     case IMMUNIZE:
       for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
-        whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
+        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].immunize();
       }
       break;
     case IGNORE_SPELLING:
       for (int i = 0; i < matchingTokens - startPositionCorrection + endPositionCorrection; i++) {
-        whTokens[text.getOriginalPosition(firstMatchToken + correctedStPos + i)].ignoreSpelling();
+        whTokens[sentence.getOriginalPosition(firstMatchToken + correctedStPos + i)].ignoreSpelling();
       }
       break;
     case FILTER:
@@ -253,7 +252,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           if (newTokenReadings.length == matchingTokens - startPositionCorrection + endPositionCorrection) {
             for (int i = 0; i < newTokenReadings.length; i++) {
               final String token;
-              final int position = text.getOriginalPosition(firstMatchToken + correctedStPos + i);
+              final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
               if ("".equals(newTokenReadings[i].getToken())) { // empty token
                 token = whTokens[position].getToken();
               } else {

@@ -408,9 +408,9 @@ public class CaseRule extends GermanRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     
     boolean prevTokenIsDas = false;
     for (int i = 0; i < tokens.length; i++) {

@@ -52,9 +52,9 @@ public class SentenceWhitespaceRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    AnalyzedTokenReadings[] tokens = text.getTokens();
+    AnalyzedTokenReadings[] tokens = sentence.getTokens();
 
     if (isFirstSentence) {
       isFirstSentence = false;

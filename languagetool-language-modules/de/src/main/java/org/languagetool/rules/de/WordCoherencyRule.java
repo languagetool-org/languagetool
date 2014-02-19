@@ -71,9 +71,9 @@ public class WordCoherencyRule extends GermanRule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) {
+  public RuleMatch[] match(AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
     int pos = 0;
     for (AnalyzedTokenReadings tmpToken : tokens) {
       //TODO: definitely should be changed

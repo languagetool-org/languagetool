@@ -197,8 +197,8 @@ public class BitextPatternRuleTest extends TestCase {
   
   private RuleMatch[] getMatches(final Rule rule, final String sentence,
       final JLanguageTool languageTool) throws IOException {
-    final AnalyzedSentence text = languageTool.getAnalyzedSentence(sentence);
-    final RuleMatch[] matches = rule.match(text);
+    final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
+    final RuleMatch[] matches = rule.match(analyzedSentence);
     return matches;
   }
 

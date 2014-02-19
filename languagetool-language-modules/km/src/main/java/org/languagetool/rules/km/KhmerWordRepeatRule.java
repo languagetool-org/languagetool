@@ -41,10 +41,10 @@ public class KhmerWordRepeatRule extends Rule {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
 
-  public boolean ignore(final AnalyzedSentence text, final AnalyzedTokenReadings[] tokensWithWhiteSpace, final int position) {
+  public boolean ignore(final AnalyzedSentence sentence, final AnalyzedTokenReadings[] tokensWithWhiteSpace, final int position) {
     // Don't mark an error for cases like:
     // LEN Rewrite for Khmer: ignore real space separating 2 repeated words
-    final int origPos = text.getOriginalPosition(position); // LEN get orig pos of current token
+    final int origPos = sentence.getOriginalPosition(position); // LEN get orig pos of current token
     if (position >=1 && "\u0020".equals(tokensWithWhiteSpace[origPos-1].getToken())) {
       return true;
     }
@@ -62,10 +62,10 @@ public class KhmerWordRepeatRule extends Rule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace(); // LEN original
-    final AnalyzedTokenReadings[] tokensWithWS = text.getTokens(); // LEN with whitespace!
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace(); // LEN original
+    final AnalyzedTokenReadings[] tokensWithWS = sentence.getTokens(); // LEN with whitespace!
 
     String prevToken = "";
     // we start from token 1, token no. 0 is guaranteed to be SENT_START 
@@ -73,7 +73,7 @@ public class KhmerWordRepeatRule extends Rule {
       final String token = tokens[i].getToken();
       // avoid "..." etc. to be matched:
       boolean isWord = isWord(token);
-      final boolean isException = ignore(text, tokensWithWS, i); // LEN i represents the current token
+      final boolean isException = ignore(sentence, tokensWithWS, i); // LEN i represents the current token
       // LEN if we have a word, and the previous token is the same (ignoring case) as the current token and we
       //     do not have an exception, provide the rule in Khmer
       if (isWord && prevToken.equalsIgnoreCase(token) && !isException) {

@@ -54,9 +54,9 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
   protected abstract boolean isPunctuation(String token);
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
 
     int startTokenIdx = -1;
     String tkns = "";

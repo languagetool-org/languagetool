@@ -43,7 +43,7 @@ class FakeRule extends Rule {
   }
   
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     throw new RuntimeException("not implemented");
   }
   

@@ -71,7 +71,7 @@ public abstract class SpellingCheckRule extends Rule {
   public abstract String getDescription();
 
   @Override
-  public abstract RuleMatch[] match(AnalyzedSentence text) throws IOException;
+  public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
   @Override
   public boolean isSpellingRule() {

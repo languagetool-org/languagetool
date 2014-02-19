@@ -60,9 +60,9 @@ public class QuestionWhitespaceRule extends FrenchRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();

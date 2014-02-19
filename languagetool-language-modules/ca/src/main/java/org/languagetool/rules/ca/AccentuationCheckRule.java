@@ -109,9 +109,9 @@ public class AccentuationCheckRule extends CatalanRule {
   }
 
   @Override
-  public RuleMatch[] match(final AnalyzedSentence text) {
+  public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     for (int i = 1; i < tokens.length; i++) { 
       // ignoring token 0, i.e. SENT_START
       final String token;

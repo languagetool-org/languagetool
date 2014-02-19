@@ -66,7 +66,7 @@ public abstract class BitextRule extends Rule {
    * This method makes no sense for bitext, thus it always returns {@code null}.
    */
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     return null;
   }
 
@@ -112,9 +112,9 @@ public abstract class BitextRule extends Rule {
     return incorrectExamples;
   }
 
-  protected String getPureText(AnalyzedSentence text) {
+  protected String getPureText(AnalyzedSentence sentence) {
     final StringBuilder sb = new StringBuilder();
-    for (AnalyzedTokenReadings token : text.getTokens()) {
+    for (AnalyzedTokenReadings token : sentence.getTokens()) {
       sb.append(token.getToken());
     }
     return sb.toString();

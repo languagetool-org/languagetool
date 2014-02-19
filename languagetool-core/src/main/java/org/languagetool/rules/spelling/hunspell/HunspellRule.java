@@ -75,7 +75,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence text) throws IOException {
+  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (needsInit) {
       init();
@@ -84,10 +84,10 @@ public class HunspellRule extends SpellingCheckRule {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
-    final String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(text));
+    final String[] tokens = tokenizeText(getSentenceTextWithoutUrlsAndImmunizedTokens(sentence));
 
     // starting with the first token to skip the zero-length START_SENT
-    int len = text.getTokens()[1].getStartPos();
+    int len = sentence.getTokens()[1].getStartPos();
     for (final String word : tokens) {
       if (ignoreWord(word)) {
         len += word.length() + 1;

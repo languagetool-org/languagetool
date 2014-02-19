@@ -58,9 +58,9 @@ public class WhitespaceBeforePunctuationRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(final AnalyzedSentence text) {
+  public final RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = text.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
     boolean prevWhite = false;
     int prevLen = 0;
     for (int i = 0; i < tokens.length; i++) {
