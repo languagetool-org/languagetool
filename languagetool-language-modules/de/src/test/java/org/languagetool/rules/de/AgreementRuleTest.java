@@ -69,6 +69,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Des großen Mannes.");
     assertGood("Und nach der Nummerierung kommt die Überschrift.");
     assertGood("Sie wiesen dieselben Verzierungen auf.");
+    assertGood("Die erwähnte Konferenz ist am Samstag.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -140,6 +141,11 @@ public class AgreementRuleTest extends TestCase {
     assertBad("Das Auto einem Mannes.", "einem Mann", "einem Manne", "eines Mannes");
     assertBad("Das Auto einer Mannes.", "eines Mannes");
     assertBad("Das Auto einen Mannes.", "einen Mann", "eines Mannes");
+    
+    assertBad("Die erwähnt Konferenz ist am Samstag.");
+    assertBad("Die erwähntes Konferenz ist am Samstag.");
+    assertBad("Die erwähnten Konferenz ist am Samstag.");
+    assertBad("Die erwähnter Konferenz ist am Samstag.");
     
     assertBad("Des großer Mannes.");
 

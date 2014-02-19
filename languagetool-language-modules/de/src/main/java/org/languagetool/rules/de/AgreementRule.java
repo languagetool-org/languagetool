@@ -222,7 +222,7 @@ public class AgreementRule extends GermanRule {
           break;
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
         nextToken = maybeAddAdjectiveReadings(nextToken, tokens, tokenPos);
-        if (isNonPredicativeAdjective(nextToken)) {
+        if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length)
             break;
@@ -253,6 +253,18 @@ public class AgreementRule extends GermanRule {
       if (reading instanceof AnalyzedGermanToken) {
         final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
         if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
+    for (AnalyzedToken reading : tokensReadings.getReadings()) {
+      if (reading instanceof AnalyzedGermanToken) {
+        final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
+        if (germanReading.getType() == POSType.PARTIZIP) {
           return true;
         }
       }
