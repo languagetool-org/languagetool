@@ -26,6 +26,7 @@ import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.SentenceWhitespaceRule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.fr.QuestionWhitespaceRule;
@@ -115,6 +116,7 @@ public class French extends Language {
             HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
+            SentenceWhitespaceRule.class,
             // specific to French:
             QuestionWhitespaceRule.class
     );

@@ -26,6 +26,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.SentenceWhitespaceRule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.br.TopoReplaceRule;
@@ -112,6 +113,7 @@ public class Breton extends Language {
             MorfologikBretonSpellerRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
+            SentenceWhitespaceRule.class,
             TopoReplaceRule.class
     );
   }
