@@ -142,13 +142,13 @@ public class English extends Language {
         UppercaseSentenceStartRule.class,
         WhitespaceRule.class,
         LongSentenceRule.class,
+        SentenceWhitespaceRule.class,
         // specific to English:
         EnglishWordRepeatRule.class,
         AvsAnRule.class,
         EnglishWordRepeatBeginningRule.class,
         CompoundRule.class,
-        ContractionSpellingRule.class,
-        SentenceWhitespaceRule.class
+        ContractionSpellingRule.class
     );
   }
 

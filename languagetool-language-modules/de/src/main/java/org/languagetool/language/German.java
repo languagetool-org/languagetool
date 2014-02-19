@@ -142,6 +142,7 @@ public class German extends Language {
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
+            SentenceWhitespaceRule.class,
             // specific to German:
             GermanWordRepeatRule.class,
             GermanWordRepeatBeginningRule.class,
@@ -152,8 +153,7 @@ public class German extends Language {
             DashRule.class,
             VerbAgreementRule.class,
             WordCoherencyRule.class,
-            WiederVsWiderRule.class,
-            SentenceWhitespaceRule.class
+            WiederVsWiderRule.class
     );
   }
 
