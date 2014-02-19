@@ -24,12 +24,7 @@ import java.util.List;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.LongSentenceRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.en.AvsAnRule;
 import org.languagetool.rules.en.CompoundRule;
 import org.languagetool.rules.en.ContractionSpellingRule;
@@ -152,8 +147,9 @@ public class English extends Language {
         AvsAnRule.class,
         EnglishWordRepeatBeginningRule.class,
         CompoundRule.class,
-        ContractionSpellingRule.class
-        );
+        ContractionSpellingRule.class,
+        SentenceWhitespaceRule.class
+    );
   }
 
 }

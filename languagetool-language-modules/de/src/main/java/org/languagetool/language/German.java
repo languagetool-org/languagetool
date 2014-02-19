@@ -25,6 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.SentenceWhitespaceRule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.de.AgreementRule;
@@ -151,7 +152,8 @@ public class German extends Language {
             DashRule.class,
             VerbAgreementRule.class,
             WordCoherencyRule.class,
-            WiederVsWiderRule.class
+            WiederVsWiderRule.class,
+            SentenceWhitespaceRule.class
     );
   }
 
