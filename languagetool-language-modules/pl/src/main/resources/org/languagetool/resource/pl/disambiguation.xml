@@ -1654,6 +1654,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Anno, umyj zęby!</example>
         <example type="ambiguous" inputform="Anno[Anna/subst:sg:voc:f]" outputform="Anno[annus/xxx]"><marker>Anno</marker> Domini MMXX</example>
     </rule>
+
+    <rule id="OWCA_MECZY" name="meczy jako czasownik">
+        <pattern>
+            <token skip="4" regexp="yes">owca|koza|baran</token>
+            <marker><token>meczy</token></marker>
+        </pattern>
+        <disambig postag="meczeć/verb:fin:sg:ter:imperf:nonrefl"/>
+    </rule>
         
     <rule name="potencjalne brev" id="heuristic_brev_pun">
     <pattern>
