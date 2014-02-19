@@ -1538,7 +1538,7 @@ $Id$
 										<token skip="-1"><exception scope="next">i</exception><exception scope="current">i</exception></token>
 										<marker>
 												<token>,<exception scope="previous" regexp="yes">(?iu)aha|ot?|owszem|tak|no</exception></token>
-												<token>i</token>
+												<token>i<exception regexp="yes">(?-iu)I</exception></token>
 										</marker>
 										<token><exception regexp="yes">tak|to|kwita|już|owszem|koniec|tyle</exception></token>
 								</pattern>
@@ -1551,6 +1551,7 @@ $Id$
 								<example correction=" i" type="incorrect">Kupiłem trochę gruszek<marker>, i</marker> jabłek.</example>
                                 <example type="correct">Owszem, i przytomniak.</example>
                                 <example type="correct">— I kwity, i zastawy… — westchnął skarbnik.</example>
+                                <example type="correct">Rycerze (424 p.n.e.), I miejsce w agonie komicznym na Lenajach</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -9738,8 +9739,8 @@ $Id$
 								<example correction="10|10." type="incorrect">Odnotowano <marker>10-cio</marker> proc. wzrost.</example>
 						</rule>
 						<rule>
-								<pattern>
-										<token regexp="yes"><exception regexp="yes">X-.*</exception><exception>v-ce</exception>M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|krotnie|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+								<pattern case_sensitive="yes">
+										<token regexp="yes"><exception regexp="yes">X-.*</exception><exception>V-ce</exception>M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="(M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion></message>
 								<short>Błąd ortograficzny</short>
@@ -9747,6 +9748,18 @@ $Id$
 								<example type="correct">To poglądy rodem z XIX wieku.</example>
                                 <example type="correct">XX-lecie międzywojenne</example>
 						</rule>
+                        <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])</token>
+                            <token spacebefore="no">-</token>
+                            <token regexp="yes">(:?[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+                        </pattern>
+                        <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="(M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion></message>
+                        <short>Błąd ortograficzny</short>
+                        <example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX- go</marker> wieku.</example>
+                        <example type="correct">To poglądy rodem z XIX wieku.</example>
+                        <example type="correct">XX-lecie międzywojenne</example>
+                    </rule>
 				</rulegroup>
 				<rule id="DATA_KROPKA_PO_DNIU" name="Zbędne kropki w liczebniku w dacie">
 						<pattern>
