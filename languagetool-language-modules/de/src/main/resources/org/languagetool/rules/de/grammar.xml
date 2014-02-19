@@ -10643,6 +10643,34 @@ $Id$
                 <example type="incorrect" correction="Sie">Wenn <marker>sie</marker> wollen ...</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SIE_ANREDE_BITTE" name="Möglicherweise fälschlich kleingeschriebenes 'Sie' in 'bitte ... sie'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[Bb]itte</token>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>sie</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
+                <example type="incorrect" correction="Sie">Bitte führen <marker>sie</marker> die Bestellung so aus</example>
+                <example type="correct" correction="Sie">Bitte führen <marker>Sie</marker> die Bestellung so aus</example>
+            </rule>
+            <!--
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="VER:.*" postag_regexp="yes"/> TODO: not detected as verb
+                    <marker>
+                        <token>sie</token>
+                    </marker>
+                    <token>bitte</token>
+                </pattern>
+                <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
+                <example type="incorrect" correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>
+                <example type="correct" correction="Sie">Führen <marker>Sie</marker> bitte die Bestellung so aus</example>
+            </rule>
+            -->
+        </rulegroup>
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Zeichensetzung: Falsches Satzzeichen nach 'Mit freundlichen Grüßen' etc.">
             <rule>
                 <pattern>
