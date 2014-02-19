@@ -1029,8 +1029,8 @@ class LanguageToolSupport {
       }
       try {
         checkText(caller);
-      } catch (IOException ex) {
-        ex.printStackTrace();
+      } catch (Exception ex) {
+        Tools.showError(ex);
       }
     }
   }
