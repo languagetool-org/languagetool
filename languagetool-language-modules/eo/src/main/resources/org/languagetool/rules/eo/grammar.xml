@@ -1684,16 +1684,6 @@ $Id$
       <example type="correct">Kostas po du eŭroj por persono.</example>
       <example type="incorrect">Mi veturis 100 kilometrojn <marker>po horo</marker>.</example>
     </rule>
-    <rule id="PRO_VINF" name="pro + verbo inf">
-      <pattern>
-        <marker><token>pro</token></marker>
-        <token postag="V .. i" postag_regexp="yes"/>
-      </pattern>
-      <message>Post «\1» ne povas esti infinitiva verbo. Ĉu vi intencis skribi <suggestion>por</suggestion>?</message>
-      <url>http://www.esperanto.mv.ru/Seppik/lec15.html#114</url>
-      <example type="incorrect" correction="por">Mi studas <marker>pro</marker> sukcesi.</example>
-      <example type="correct">Mi studas <marker>por</marker> sukcesi.</example>
-    </rule>
     <rule id="AMBAUX_SING" name="ambaŭ + sing">
       <pattern>
         <marker>
@@ -2572,6 +2562,26 @@ $Id$
       <example type="incorrect">Ni alvenos <marker>antaŭ pluvos</marker>.</example>
       <example type="correct">Ni alvenos antaŭ ol pluvos.</example>
     </rule>
+    <rule id="PRI_V" name="pri + I-verbo">
+      <pattern>
+        <token>pri</token>
+        <token postag="V .. i" postag_regexp="yes"/>
+      </pattern>
+      <message>Anstataŭ «pri + I-verbo», oni normale uzas I-verbon sen rolmontrilo. Sed se la senco (la frazrolo de la I-verbo) tiam fariĝus tro malklara, oni anstataŭe uzas  pri + agan O-vorton».</message>
+        <url>http://bertilow.com/pmeg/gramatiko/i-verboj/kun_rolvortetoj.html#i-8ik</url>
+      <example type="incorrect"><marker>Pri flugi</marker> oni eĉ ne povis pensi.</example>
+      <example type="correct">Pri flugado oni eĉ ne povis pensi.</example>
+    </rule>
+    <rule id="DUM_V" name="pri + I-verbo">
+      <pattern>
+        <token regexp="yes">dum|ĝis</token>
+        <token postag="V .. i" postag_regexp="yes"/>
+      </pattern>
+      <message>Anstataŭ «dum + I-verbo», aŭ «ĝis + I-verbo», oni uzas dum aŭ ĝis antaŭ plena subfrazo (dum kaj ĝis estas ne nur rolvortetoj, sed ankaŭ frazenkondukiloj).</message>
+      <url>http://bertilow.com/pmeg/gramatiko/i-verboj/kun_rolvortetoj.html#i-8ik</url>
+      <example type="incorrect">Mi rigardis televidon <marker>dum manĝi</marker>.</example>
+      <example type="correct">Mi rigardis televidon dum mi manĝis.</example>
+    </rule>
     <rule id="POST_V" name="post + verbo">
       <pattern>
         <token>post</token>
@@ -2592,6 +2602,16 @@ $Id$
       <example type="incorrect"><marker>Malgraŭ fali</marker>, li batalis.</example>
       <example type="correct">Malgraŭ tio, ke li falis, li batalis.</example>
       <example type="correct">Kvankam li falis, li batalis.</example>
+    </rule>
+    <rule id="PRO_VINF" name="pro + verbo inf">
+      <pattern>
+        <marker><token>pro</token></marker>
+        <token postag="V .. i" postag_regexp="yes"/>
+      </pattern>
+      <message>Post «\1» ne povas esti infinitiva verbo. Ĉu vi intencis skribi <suggestion>por</suggestion>?</message>
+      <url>http://www.esperanto.mv.ru/Seppik/lec15.html#114</url>
+      <example type="incorrect" correction="por">Mi studas <marker>pro</marker> sukcesi.</example>
+      <example type="correct">Mi studas <marker>por</marker> sukcesi.</example>
     </rule>
     <rule id="LA_TITOLO" name="la + titolo">
       <pattern>
