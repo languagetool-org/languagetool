@@ -22,14 +22,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PortugueseCompoundRule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
@@ -94,6 +88,7 @@ public class Portuguese extends Language {
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,
+            SentenceWhitespaceRule.class,
             //Specific to Portuguese
             PortugueseCompoundRule.class
     );
