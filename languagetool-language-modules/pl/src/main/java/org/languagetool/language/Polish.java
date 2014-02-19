@@ -1,4 +1,4 @@
-/* LanguageTool, a natural language style checker
+/*
  * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.SentenceWhitespaceRule;
 import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.WordRepeatRule;
@@ -126,6 +127,7 @@ public class Polish extends Language {
         UppercaseSentenceStartRule.class,
         WordRepeatRule.class,
         WhitespaceRule.class,
+        SentenceWhitespaceRule.class,
         // specific to Polish:
         PolishUnpairedBracketsRule.class,
         MorfologikPolishSpellerRule.class,
