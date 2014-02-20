@@ -11643,6 +11643,81 @@ $Id$
                 <example type="incorrect"  correction="Sport i turystyka"><marker>Sport i turystka</marker> to ważne dziedziny.</example>
                 <example type="correct">Sport i turystyka to ważne dziedziny.</example>
            </rule>
+        <rulegroup id="JEDNAJ" name="„jednaj” (jednak, jednej)">
+            <rule>
+                <pattern>
+                    <token postag="prep.*(gen|loc).*" postag_regexp="yes"/>
+                    <marker>
+                        <token>jednaj</token>
+                    </marker>
+                </pattern>
+                <message>Ten wyraz jest bardzo rzadki. Czy chodziło o <suggestion>jednej</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect">Na <marker>jednaj</marker> z ławek siedział potworek.</example>
+                <example type="correct">Na <marker>jednej</marker> z ławek siedział potworek.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>jednaj<exception postag="prep:gen.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token>z</token>
+                </pattern>
+                <message>Ten wyraz jest bardzo rzadki. Czy chodziło o <suggestion>jednej</suggestion> lub <suggestion>jednak</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect">Widok <marker>jednaj</marker> z ławek wywołał u niego torsje.</example>
+                <example type="correct">Widok <marker>jednej</marker> z ławek wywołał u niego torsje.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>jednaj<exception postag="prep:gen.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="subst:sg:(gen|loc).*:f" postag_regexp="yes"/>
+                </pattern>
+                <message>Ten wyraz jest bardzo rzadki. Czy chodziło o <suggestion>jednej</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect">Widok <marker>jednaj</marker> ławki wywołał u niego torsje.</example>
+                <example type="correct">Widok <marker>jednej</marker> ławki wywołał u niego torsje.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>jednaj<exception postag="prep:gen.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Ten wyraz jest bardzo rzadki. Czy chodziło o <suggestion>jednak</suggestion> lub <suggestion>jednej</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect"><marker>Jednaj</marker> jeszcze przed całe dziesięciolecia wyspiarze zachowali swe niezależne postawy.</example>
+                <example type="correct">Jednak jeszcze przed całe dziesięciolecia wyspiarze zachowali swe niezależne postawy.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="DAL_DA" name="„dal” (dał)">
+         <rule>
+                <pattern>
+                    <token regexp="yes">nie|kto</token>
+                    <marker>
+                        <token>dal</token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>dał</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect">Znacznie osłabiony obóz pro-konfederacyjny nie <marker>dal</marker> jednak za wygraną.</example>
+                <example type="correct">Znacznie osłabiony obóz pro-konfederacyjny nie dał jednak za wygraną.</example>
+                <example type="correct">Lubię skoki w dal.</example>
+         </rule>
+         <rule>
+                <pattern>
+                    <marker>
+                        <token>dal<exception scope="previous">w</exception></token>
+                    </marker>
+                    <token regexp="yes">[cm]i|mnie|się</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>dał</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="incorrect">On <marker>dal</marker> się osłabić.</example>
+                <example type="correct">On dał się osłabić.</example>
+                <example type="correct">Lubię skoki w dal.</example>
+         </rule>
+        </rulegroup>
         <rule id="W_OBYM_W_OBCYM" name="„w obym” (w obcym)">
         <pattern>
           <token>w</token>
