@@ -47,7 +47,7 @@ public class CatalanTagger extends BaseTagger {
   private static final String DICT_FILENAME = "/ca/catalan.dict";
   private static final String USER_DICT_FILENAME = "/ca/manual-tagger.txt";
 
-  private ManualTagger manualTagger;
+  private volatile ManualTagger manualTagger;
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
@@ -68,9 +68,11 @@ public class CatalanTagger extends BaseTagger {
 
   private void initializeIfRequired() throws IOException {
     // Lazy initialize fields when needed and only once.
-    if (manualTagger == null) {
+    ManualTagger mTagger = manualTagger;
+    if (mTagger == null) {
       synchronized (this) {
-        if (manualTagger == null) {
+        mTagger = manualTagger;
+        if (mTagger == null) {
           manualTagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
         }
       }

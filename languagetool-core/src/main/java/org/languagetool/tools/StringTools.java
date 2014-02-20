@@ -141,7 +141,13 @@ public final class StringTools {
    * (ignoring characters for which no upper-/lowercase distinction exists).
    */
   public static boolean isAllUppercase(final String str) {
-    return str.equals(str.toUpperCase(Locale.ENGLISH));
+    for(int i = 0; i < str.length(); i++) {
+      char c = str.charAt(i);
+      if(Character.isLetter(c) && Character.isLowerCase(c)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -152,19 +158,38 @@ public final class StringTools {
   public static boolean isMixedCase(final String str) {
     return !isAllUppercase(str)
         && !isCapitalizedWord(str)
-        && !str.equals(str.toLowerCase());
+        && isNotAllLowercase(str);
   }
+
+  /**
+   * Returns true if <code>str</code> is made up of all-lowercase characters
+   * (ignoring characters for which no upper-/lowercase distinction exists).
+   */
+  public static boolean isNotAllLowercase(final String str) {
+    for(int i = 0; i < str.length(); i++) {
+      char c = str.charAt(i);
+      if(Character.isLetter(c) && !Character.isLowerCase(c)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
 
   /**
    * @param str input string
    */
   public static boolean isCapitalizedWord(final String str) {
-    if (isEmpty(str)) {
-      return false;
+    if (!isEmpty(str) && Character.isUpperCase(str.charAt(0))) {
+      for (int i = 1; i < str.length(); i++) {
+        char c = str.charAt(i);
+        if (Character.isLetter(c) && !Character.isLowerCase(c)) {
+          return false;
+        }
+      }
+      return true;
     }
-    final char firstChar = str.charAt(0);
-    return Character.isUpperCase(firstChar) &&
-             str.substring(1).equals(str.substring(1).toLowerCase());
+    return false;
   }
 
   /**
@@ -174,8 +199,7 @@ public final class StringTools {
     if (isEmpty(str)) {
       return false;
     }
-    final char firstChar = str.charAt(0);
-      return Character.isUpperCase(firstChar);
+    return Character.isUpperCase(str.charAt(0));
   }
 
   /**

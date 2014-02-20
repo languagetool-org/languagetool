@@ -48,9 +48,9 @@ public class GermanTagger implements Tagger {
   private static final String DICT_FILENAME = "/de/german.dict";
   private static final String USER_DICT_FILENAME = "/de/added.txt";
 
-  private Dictionary dictionary;
-  private ManualTagger manualTagger;
-  private GermanCompoundTokenizer compoundTokenizer;
+  private volatile Dictionary dictionary;
+  private volatile ManualTagger manualTagger;
+  private volatile GermanCompoundTokenizer compoundTokenizer;
 
   public GermanTagger() {
   }
@@ -64,9 +64,15 @@ public class GermanTagger implements Tagger {
 
   protected void initializeIfRequired() throws IOException {
     // Lazy initialize all fields when needed and only once.
-    if (dictionary == null || manualTagger == null || compoundTokenizer == null) {
+    Dictionary dict = dictionary;
+    ManualTagger mTagger = manualTagger;
+    GermanCompoundTokenizer gTokenizer = compoundTokenizer;
+    if (dict == null || mTagger == null || gTokenizer == null) {
       synchronized (this) {
-        if (dictionary == null || manualTagger == null || compoundTokenizer == null) {
+        dict = dictionary;
+        mTagger = manualTagger;
+        gTokenizer = compoundTokenizer;
+        if (dict == null || mTagger == null || gTokenizer == null) {
           initialize();
         }
       }

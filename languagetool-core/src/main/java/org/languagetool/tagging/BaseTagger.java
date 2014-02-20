@@ -44,7 +44,7 @@ public abstract class BaseTagger implements Tagger {
   protected Locale conversionLocale = Locale.getDefault();
 
   private boolean tagLowercaseWithUppercase = true;
-  private Dictionary dictionary;
+  private volatile Dictionary dictionary;
 
   /**
    * Get the filename, e.g., {@code /en/english.dict}.
@@ -56,15 +56,17 @@ public abstract class BaseTagger implements Tagger {
   }
 
   protected Dictionary getDictionary() throws IOException {
-    if (dictionary == null) {
+    Dictionary dict = dictionary;
+    if (dict == null) {
       synchronized (this) {
-        if (dictionary == null) {
+        dict = dictionary;
+        if (dict == null) {
           final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getFileName());
-          dictionary = Dictionary.read(url);
+          dictionary = dict = Dictionary.read(url);
         }
       }
     }
-    return dictionary;
+    return dict;
   }
 
   @Override

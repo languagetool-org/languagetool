@@ -54,7 +54,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  */
 public class German extends Language {
 
-  private Tagger tagger;
+  private volatile Tagger tagger;
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
@@ -99,14 +99,16 @@ public class German extends Language {
 
   @Override
   public Tagger getTagger() {
-    if (tagger == null) {
+    Tagger t = tagger;
+    if (t == null) {
       synchronized (this) {
-        if (tagger == null) {
-          tagger = new GermanTagger();
+        t = tagger;
+        if (t == null) {
+          tagger = t = new GermanTagger();
         }
       }
     }
-    return tagger;
+    return t;
   }
 
   @Override
