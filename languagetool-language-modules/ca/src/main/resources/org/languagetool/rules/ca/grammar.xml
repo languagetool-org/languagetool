@@ -14698,20 +14698,21 @@ $Id$
         </rule>
         <rulegroup id="VERBS_MALFORMATS_RE" name="verbs mal formats amb prefix re-">
             <!-- Verbs que no són al diccionari, però es formen amb el prefix re- -->
-            <rule id="RESALT" name="resalt"> 
+            <rule id="RESALTAR" name="resaltar/ressaltar"> 
                 <pattern>
-                    <token>resalt</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">resalt.*</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>ressalt</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Rr]es)(.+)" regexp_replace="$1s$2"/></suggestion>?</message>
                 <example type="incorrect" correction="ressalt">Un <marker>resalt</marker>.</example>
+                <example type="incorrect" correction="ressaltava">Ho <marker>resaltava</marker>.</example>
                 <example type="correct">remeiar</example>
             </rule>
             <rule id="REPUBLICA" name="republica/república"> 
                 <pattern>
                     <token regexp="yes">republi(ca|ques)</token>
                 </pattern>
-                <message>Si és nom, cal dir <match no="1" regexp_match="republi(ca|ques)" regexp_replace="repúbli$1"/></message>
-                <example type="incorrect" correction="remeia">Si no ho <marker>remedia</marker> ningú.</example>
+                <message>Si és nom, cal dir <suggestion><match no="1" regexp_match="([Rr])epubli(ca|ques)" regexp_replace="$1epúbli$2"/></suggestion></message>
+                <example type="incorrect" correction="república">La <marker>republica</marker> de les lletres.</example>
                 <example type="correct">remeiar</example>
             </rule>
             <rule id="REVENTA" name="*reventa/revenda/rebenta">
