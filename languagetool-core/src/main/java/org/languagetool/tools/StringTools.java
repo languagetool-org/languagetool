@@ -143,7 +143,7 @@ public final class StringTools {
   public static boolean isAllUppercase(final String str) {
     for(int i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
-      if(Character.isLetter(c) && Character.isLowerCase(c)) {
+      if (Character.isLetter(c) && Character.isLowerCase(c)) {
         return false;
       }
     }
@@ -164,20 +164,21 @@ public final class StringTools {
   /**
    * Returns true if <code>str</code> is made up of all-lowercase characters
    * (ignoring characters for which no upper-/lowercase distinction exists).
+   * @since 2.5
    */
   public static boolean isNotAllLowercase(final String str) {
     for(int i = 0; i < str.length(); i++) {
       char c = str.charAt(i);
-      if(Character.isLetter(c) && !Character.isLowerCase(c)) {
+      if (Character.isLetter(c) && !Character.isLowerCase(c)) {
         return true;
       }
     }
     return false;
   }
 
-
   /**
    * @param str input string
+   * @return true if word starts with an uppercase letter and all other letters are lowercase
    */
   public static boolean isCapitalizedWord(final String str) {
     if (!isEmpty(str) && Character.isUpperCase(str.charAt(0))) {
