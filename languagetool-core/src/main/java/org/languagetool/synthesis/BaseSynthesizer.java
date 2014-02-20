@@ -35,12 +35,12 @@ import org.languagetool.JLanguageTool;
 
 public class BaseSynthesizer implements Synthesizer {
 
-  protected List<String> possibleTags;
+  protected volatile List<String> possibleTags;
 
   private final String tagFileName;
   private final String resourceFileName;
 
-  private Dictionary dictionary;
+  private volatile Dictionary dictionary;
 
   private final IStemmer stemmer;
 
@@ -61,15 +61,17 @@ public class BaseSynthesizer implements Synthesizer {
    * @throws IOException In case the dictionary cannot be loaded.
    */
   protected Dictionary getDictionary() throws IOException {
-    if (this.dictionary == null) {
+    Dictionary dict = this.dictionary;
+    if (dict == null) {
       synchronized (this) {
-        if (this.dictionary == null) {
+        dict = this.dictionary;
+        if (dict == null) {
           final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(resourceFileName);
-          this.dictionary = Dictionary.read(url);
+          this.dictionary = dict = Dictionary.read(url);
         }
       }
     }
-    return this.dictionary;
+    return dict;
   }
 
   /**
@@ -94,9 +96,11 @@ public class BaseSynthesizer implements Synthesizer {
    * @param results the list to collect the inflected forms.
    */
   protected void lookup(String lemma, String posTag, List<String> results) {
-    final List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
-    for (WordData wd : wordForms) {
-      results.add(wd.getStem().toString());
+    synchronized (this) { // the stemmer is not thread-safe
+      final List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
+      for (WordData wd : wordForms) {
+        results.add(wd.getStem().toString());
+      }
     }
   }
 
@@ -151,9 +155,11 @@ public class BaseSynthesizer implements Synthesizer {
   }
 
   protected void initPossibleTags() throws IOException {
-    if (possibleTags == null) {
+    List<String> tags = possibleTags;
+    if (tags == null) {
       synchronized (this) {
-        if (this.possibleTags == null) {
+        tags = possibleTags;
+        if (tags == null) {
           possibleTags = SynthesizerTools.loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(tagFileName));
         }
       }
