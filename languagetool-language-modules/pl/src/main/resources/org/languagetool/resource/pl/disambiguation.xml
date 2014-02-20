@@ -2005,5 +2005,24 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule id="SPOLKA_AKCYJNA_SA" name="SA w nazwach spółek">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">\p{Lu}.+</token>
+            <token>SA</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="SZ_PAN" name="Sz. Pan/Pani">
+        <pattern>
+            <marker>
+                <token>Sz</token>
+            </marker>
+            <token>.</token>
+            <token inflected="yes" regexp="yes">(?iu)Pani?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
         
 </rules>
