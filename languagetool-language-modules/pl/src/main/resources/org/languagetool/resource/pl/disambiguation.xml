@@ -456,6 +456,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Bez małej czarnej nie wstanę.</example>
         <example type="ambiguous" inputform="mała[mała/subst:sg:nom:f,mała/subst:sg:voc:f,mały/adj:sg:nom.voc:f:pos]" outputform="mała[mały/adjp]">Bez <marker>mała</marker> wszyscy to robią.</example>
     </rule>
+
+    <rule id="Z_GRUBA" name="Z gruba (ciosany) - kublik">
+        <pattern>
+            <token>z</token>
+            <marker><token>gruba</token></marker>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="gruba[gruba/subst:sg:nom:f,gruba/subst:sg:voc:f,gruby/adj:sg:nom.voc:f:pos]" outputform="gruba[gruba/qub]">Zdaje się z <marker>gruba</marker> ciosany.</example>
+        <example type="untouched">Ona jest gruba.</example>
+    </rule>
     
     <rule name="głosować przeciw" id="glosowac_przeciw">
     	<pattern>
@@ -839,6 +849,39 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>sporo</token>
         </pattern>
         <disambig action="filter" postag="adv:pos:aff"/>
+    </rule>
+
+    <rule name="jaki by -> by jako kublik" id="JAKI_BY_TU">
+        <pattern>
+            <token inflected="yes">jaki</token>
+            <marker>
+                <token>by</token>
+            </marker>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="by[by/comp,by/qub]" outputform="by[by/qub]">Natychmiast kombinował, jaki <marker>by</marker> tu numer wykręcić zapraszającemu.</example>
+        <example type="untouched">Użył narzędzia, jakiego, by użyć tu mocnego określenia, nie powinien był używać.</example>
+    </rule>
+
+    <rule name="wiele by jeszcze" id="WIELE_BY_JESZCZE">
+        <pattern>
+            <token>wiele</token>
+            <marker><token>by</token></marker>
+            <token>jeszcze</token>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="by[by/comp,by/qub]" outputform="by[by/qub]">Ciekawa to była figura i wiele <marker>by</marker> jeszcze o niej gadać.</example>
+        <example type="untouched">Dałbym wiele, by jeszcze móc ją zobaczyć.</example>
+    </rule>
+
+    <rule name="predykatyw + by > kublik" id="PRED_BY">
+        <pattern>
+            <token postag_regexp="yes" postag="pred|verb:winien.*"/>
+            <marker><token>by</token></marker>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="by[by/comp,by/qub]" outputform="by[by/qub]">Oni powinni <marker>by</marker> to zrobić.</example>
+        <example type="untouched">Ale nie w poprzek, jak powinna, by zagrodzić drogę nadjeżdżającej dziewczynie.</example>
     </rule>
 
     <rule name="nie na początku zdania" id="NIE_ADAMP">
@@ -1419,7 +1462,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     <rule name="em" id="em">
     	<pattern>
-    		<token regexp="yes">[']</token>
+    		<token regexp="yes">['’]</token>
     		<marker>
     		<token spacebefore="no">em</token>
     		</marker>
@@ -1608,6 +1651,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <example type="untouched">Jest to można kobieta.</example>
     <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> spotkać go w lasach.</example>
    </rule>
+
+    <rule name="można by/było" id="mozna_by">
+        <pattern>
+            <marker><token>można</token></marker>
+            <token regexp="yes">by(?:ło)?</token>
+        </pattern>
+        <disambig postag="pred"/>
+        <example type="untouched">To jest można królowa.</example>
+        <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> by to zrobić.</example>
+        <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> było to zrobić.</example>
+    </rule>
     
     <rule name="stanowi" id="stanowi">
     <pattern>
@@ -1662,7 +1716,63 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="meczeć/verb:fin:sg:ter:imperf:nonrefl"/>
     </rule>
-        
+
+    <rulegroup id="OBCE_APOSTROFY" name="odmiana nazwisk i nazw obcych">
+        <rule>   <!-- dopełniacz potencjalny, biernik na razie pomijamy (FIXME) -->
+            <pattern>
+                <token postag="prep:gen.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">a|ego</token>
+            </pattern>
+            <disambig action="replace"><match no="2" postag_regexp="yes" postag="(subst:sg.*):nom:(.*)" postag_replace="$1:gen:$2"/></disambig>
+            <example type="ambiguous" inputform="Montaigne[Montaigne/subst:sg:nom:m1]" outputform="Montaigne[Montaigne/subst:sg:gen:m1]">U <marker>Montaigne</marker>'a czytamy następujący passus.</example>
+            <example type="untouched">Mark'a samochodu</example>
+            <example type="ambiguous" outputform="Jarry[Jarry/subst:sg:gen:m1]" inputform="Jarry[Jarry/subst:pl:nom:m1,Jarry/subst:pl:voc:m1,Jarry/subst:sg:nom:m1,Jarry/subst:sg:voc:m1]">Książka uczyniła z <marker>Jarry</marker>'ego artystę.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="prep:dat.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">owi</token>
+            </pattern>
+            <disambig action="replace"><match no="2" postag_regexp="yes" postag="(.*):nom:(.*)" postag_replace="$1:dat:$2"/></disambig>
+            <example type="ambiguous" inputform="Montaigne[Montaigne/subst:sg:nom:m1]" outputform="Montaigne[Montaigne/subst:sg:dat:m1]">To wszystko dzięki <marker>Montaigne</marker>'owi.</example>
+            <example type="untouched">Jestem rybak'iem.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="prep:inst.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">em</token>
+            </pattern>
+            <disambig action="replace"><match no="2" postag_regexp="yes" postag="(.*):nom:(.*)" postag_replace="$1:inst:$2"/></disambig>
+            <example type="ambiguous" inputform="Montaigne[Montaigne/subst:sg:nom:m1]" outputform="Montaigne[Montaigne/subst:sg:inst:m1]">Porównajmy go z <marker>Montaigne</marker>'em.</example>
+            <example type="untouched">Jestem rybak'iem.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="prep:loc.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no">u</token>
+            </pattern>
+            <disambig action="replace"><match no="2" postag_regexp="yes" postag="(.*):nom:(.*)" postag_replace="$1:loc:$2"/></disambig>
+            <example type="ambiguous" inputform="Montaigne[Montaigne/subst:sg:nom:m1]" outputform="Montaigne[Montaigne/subst:sg:loc:m1]">Rozmawiajmy o <marker>Montaigne</marker>'u.</example>
+            <example type="untouched">Bajka o rybak'u.</example>
+        </rule>
+    </rulegroup>
+
     <rule name="potencjalne brev" id="heuristic_brev_pun">
     <pattern>
     <marker>
