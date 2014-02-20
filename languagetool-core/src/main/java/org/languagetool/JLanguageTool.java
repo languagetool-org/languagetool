@@ -108,6 +108,10 @@ public class JLanguageTool {
   private static String getBuildDate() {
     try {
       final URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");
+      if (res == null) {
+        // this will happen on Android, see http://stackoverflow.com/questions/15371274/
+        return null;
+      }
       final Object connObj = res.openConnection();
       if (connObj instanceof JarURLConnection) {
         final JarURLConnection conn = (JarURLConnection) connObj;
