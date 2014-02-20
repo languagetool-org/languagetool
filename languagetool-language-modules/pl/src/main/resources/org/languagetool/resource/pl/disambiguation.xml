@@ -650,6 +650,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Polska w opiniach obcych X-XII <marker>w</marker>.</example>
 			<example type="untouched">Mam to w szufladzie.</example>
 	</rule>
+    <rule id="w_wiek_II" name="W w. XX">
+        <pattern case_sensitive="yes">
+            <marker><token>w</token></marker>
+            <token>.</token>
+            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+        <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">To było w <marker>w</marker>. XX.</example>
+    </rule>
     <rule name="W wat" id="W_wat">
         <pattern case_sensitive="yes">
             <token regexp="yes">\d+</token>
@@ -1966,6 +1975,51 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>z</token>
             <token>głupia</token>
             <token>frant</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="W_W_BREV" name="w w. XIX"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>w</token>
+            <marker><token postag="brev:pun">w</token></marker>
+            <token>.</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="TO_TO_ZE" name="to to, że"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>to</token>
+            <marker><token>to</token></marker>
+            <token>,</token>
+            <token regexp="yes">że|iż</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="TRA_TA_TA" name="tra ta ta"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>tra</token>
+            <marker><token>ta</token></marker>
+            <token>ta</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="HO_HO" name="ho ho!"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>ho</token>
+            <marker><token>ho</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="W_NIE_NIE" name="w/na/o nie nie"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token regexp="yes">[wo]|[zn]a</token>
+            <marker><token>nie</token></marker>
+            <token>nie</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>

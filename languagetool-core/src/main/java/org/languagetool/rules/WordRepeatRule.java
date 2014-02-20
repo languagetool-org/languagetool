@@ -70,6 +70,9 @@ public class WordRepeatRule extends Rule {
     // we start from token 1, token no. 0 is guaranteed to be SENT_START
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
+        if (tokens[i].isImmunized()) {
+          continue;
+        }
       if (isWord(token) && prevToken.equalsIgnoreCase(token) && !ignore(tokens, i)) {
         final String msg = messages.getString("repetition");
         final int prevPos = tokens[i - 1].getStartPos();

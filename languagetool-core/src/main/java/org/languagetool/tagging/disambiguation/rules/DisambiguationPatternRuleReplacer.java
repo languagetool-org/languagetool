@@ -78,7 +78,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               prevElement, m, firstMatchToken, prevSkipNext);
           if (elem.getElement().getMinOccurrence() == 0) {
             final ElementMatcher nextElement = elementMatchers.get(k + 1);
-            final boolean nextElementMatch = !tokens[m].isImmunized() && testAllReadings(tokens, nextElement, elem, m,
+            final boolean nextElementMatch = testAllReadings(tokens, nextElement, elem, m,
                 firstMatchToken, prevSkipNext);
             if (nextElementMatch) {
               // this element doesn't match, but it's optional so accept this and continue

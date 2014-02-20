@@ -38,6 +38,10 @@ public class WordRepeatRuleTest extends TestCase {
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("To jest zdanie."));
     assertEquals(0, matches.length);
+    // with immunized words:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("W w. XVI język jest jak kipiący kocioł.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Co jeszcze było smutniejsze, to to, że im się jeść chciało potężnie.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Tra ta ta!")).length);
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("To jest jest zdanie."));
     assertEquals(1, matches.length);
