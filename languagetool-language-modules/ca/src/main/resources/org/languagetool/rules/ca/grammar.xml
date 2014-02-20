@@ -14698,6 +14698,22 @@ $Id$
         </rule>
         <rulegroup id="VERBS_MALFORMATS_RE" name="verbs mal formats amb prefix re-">
             <!-- Verbs que no són al diccionari, però es formen amb el prefix re- -->
+            <rule id="RESALT" name="resalt"> 
+                <pattern>
+                    <token>resalt</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>ressalt</suggestion>?</message>
+                <example type="incorrect" correction="ressalt">Un <marker>resalt</marker>.</example>
+                <example type="correct">remeiar</example>
+            </rule>
+            <rule id="REPUBLICA" name="republica/república"> 
+                <pattern>
+                    <token regexp="yes">republi(ca|ques)</token>
+                </pattern>
+                <message>Si és nom, cal dir <match no="1" regexp_match="republi(ca|ques)" regexp_replace="repúbli$1"/></message>
+                <example type="incorrect" correction="remeia">Si no ho <marker>remedia</marker> ningú.</example>
+                <example type="correct">remeiar</example>
+            </rule>
             <rule id="REVENTA" name="*reventa/revenda/rebenta">
                 <pattern>
                     <token regexp="yes">revent(a|es)</token>
