@@ -1472,7 +1472,7 @@ $Id$
 				</rulegroup>
 				<rule id="TAK_PRZECINEK_CZY_OWAK" name="Zbędny przecinek w „tak czy owak/siak/inaczej”">
 						<pattern>
-								<token>tak</token>
+								<token>tak<exception scope="previous">czy</exception></token>
 								<token>,</token>
 								<token>czy</token>
 								<token regexp="yes">owak|siak|inaczej</token>
@@ -1481,6 +1481,7 @@ $Id$
 						<short>Błąd interpunkcyjny</short>
 						<example type="correct">Tak czy inaczej, nie ma to sensu.</example>
 						<example correction="Tak czy siak" type="incorrect"><marker>Tak, czy siak</marker>, nie ma to sensu.</example>
+                        <example type="correct">— Czy tak, czy owak, z opowieścią biegaj.</example>
 				</rule>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
@@ -2645,7 +2646,7 @@ $Id$
 										<marker>
 												<token>dwa</token>
 										</marker>
-										<token postag="subst:pl:nom:n1"></token>
+										<token postag="subst:pl:nom:n1"><exception>małe</exception></token>
 								</pattern>
 								<message>Błędna forma liczebnika. Powinno być: <suggestion>dwoje</suggestion>.</message>
 								<short>Błędna odmiana</short>
@@ -4118,7 +4119,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token postag="prep:nom.*" postag_regexp="yes"><exception>niby</exception><exception>jako</exception><exception>lada</exception><exception>a</exception><exception>aniżeli</exception><exception>niż</exception><exception postag="prep:(?!nom).*" postag_regexp="yes"/></token>
+										<token postag="prep:nom.*" postag_regexp="yes"><exception>niby</exception><exception>jako</exception><exception>lada</exception><exception>a</exception><exception>aniżeli</exception><exception>niż</exception><exception>jak</exception><exception>niżeli</exception><exception>niźli</exception><exception postag="prep:(?!nom).*" postag_regexp="yes"/></token>
 										<marker>
 												<token postag="subst:.*" postag_regexp="yes"><exception postag=".*nom.*|conj|comp|adv.*|num.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception><exception postag="&lt;/ADV&gt;"></exception></token>
 										</marker>
@@ -4182,16 +4183,18 @@ $Id$
                         </rule>            
 						<rule>
 							<pattern>
-								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+|\.|pół|parę|kilka|miliony|mln|kilkaset|dziesięć|tysięcy|pięć|wiele|sto|siedem</exception></token></marker>
+								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+|\.|mln</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
 						        <token postag="prep:acc">temu</token>
 							     </pattern>
-							<message>Przyimek „\2” jest używany z biernikiem.</message>
+							    <message>Przyimek „\2” jest używany z biernikiem.</message>
 								<short>Przyimek wymaga biernika</short>
 								<example type="correct">To było godzinę temu.</example>
                                 <example type="correct">To było 10 minut temu.</example>
                                 <example type="correct">Przybyły do południowej części Sachalinu oraz na Wyspy Japońskie i Kurylskie przeszło 6 tys. lat temu.</example>
                                 <example type="correct">W miejsce to ok. 80 mln lat temu uderzył meteoryt.</example>
 								<example type="incorrect">To było 1 <marker>godzina</marker> temu.</example>
+                                <example type="correct">Czterysta lat temu faraon Amenhotep IV obalił władzę kapłanów.</example>
+                                <example type="correct">Półtora roku temu baba objadła się czegoś i umarła.</example>
 						</rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">

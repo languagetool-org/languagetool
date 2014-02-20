@@ -484,9 +484,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
             <token regexp="yes">\d+|((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?</token>
         </pattern>
-        <disambig postag="subst:sg:nom:m3"></disambig>
+        <disambig action="remove"><wd pos="verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl"/></disambig>
         <example type="untouched">Rozdział się pospiesznie.</example>
-        <example type="ambiguous" inputform="Rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="Rozdział[rozdział/subst:sg:nom:m3]"><marker>Rozdział</marker> XXIV</example>
+        <example type="ambiguous" inputform="Rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="Rozdział[rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]"><marker>Rozdział</marker> XXIV</example>
     </rule>
 
     <rule id="rozdzial_dzial_subst" name="Rozdział i dział to rzeczowniki">
@@ -677,7 +677,36 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
 			<example type="untouched">Dziwny XIX w.</example>
 	</rule>
-	    
+
+    <rule id="PREP_LADA_QUB" name="lada jako kublik">
+        <pattern>
+            <token postag="prep.*" postag_regexp="yes"><exception postag="prep:nom.*" postag_regexp="yes"/></token>
+            <token>lada</token>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
+
+    <rule id="SKLADAC_DZIEKI" name="składać dzięki > nie prep">
+        <pattern>
+            <token inflected="yes">składać</token>
+            <marker><token>dzięki</token></marker>
+        </pattern>
+        <disambig action="filter" postag="subst:pl:acc:p3"/>
+    </rule>
+
+    <rule id="ZONA_KAPITANA" name="żona kapitana > to nie nom.">
+        <pattern>
+            <token inflected="yes">żona</token>
+            <marker>
+                <token>kapitana</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:m1"/>
+        <example type="untouched">W porcie stoi kapitana.</example>
+        <example type="ambiguous" inputform="kapitana[kapitan/subst:sg:acc:m1,kapitan/subst:sg:gen:m1,kapitana/subst:sg:nom:f]"
+                 outputform="kapitana[kapitan/subst:sg:gen:m1]">Czy jest żoną <marker>kapitana</marker>?</example>
+    </rule>
+
     <rulegroup name="Przyimek z rzeczownikiem" id="PREP_SUBST">
     <rule>
         <pattern>
@@ -1727,7 +1756,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
 
     <rulegroup id="OBCE_APOSTROFY" name="odmiana nazwisk i nazw obcych">
-        <rule>   <!-- dopełniacz potencjalny, biernik na razie pomijamy (FIXME) -->
+        <rule>   <!-- dopełniacz potencjalny -->
             <pattern>
                 <token postag="prep:gen.*" postag_regexp="yes"/>
                 <marker>
@@ -1740,6 +1769,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="Montaigne[Montaigne/subst:sg:nom:m1]" outputform="Montaigne[Montaigne/subst:sg:gen:m1]">U <marker>Montaigne</marker>'a czytamy następujący passus.</example>
             <example type="untouched">Mark'a samochodu</example>
             <example type="ambiguous" outputform="Jarry[Jarry/subst:sg:gen:m1]" inputform="Jarry[Jarry/subst:pl:nom:m1,Jarry/subst:pl:voc:m1,Jarry/subst:sg:nom:m1,Jarry/subst:sg:voc:m1]">Książka uczyniła z <marker>Jarry</marker>'ego artystę.</example>
+        </rule>
+        <rule>   <!-- biernik potencjalny -->
+            <pattern>
+                <token postag="prep:acc.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
+                </marker>
+                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">a|ego</token>
+            </pattern>
+            <disambig action="replace"><match no="2" postag_regexp="yes" postag="(subst:sg.*):nom:(.*)" postag_replace="$1:acc:$2"/></disambig>
+            <example type="ambiguous" inputform="Montaigne[Montaigne/subst:sg:nom:m1]" outputform="Montaigne[Montaigne/subst:sg:acc:m1]">To wszystko przez <marker>Montaigne</marker>'a.</example>
+            <example type="untouched">Mark'a samochodu</example>
+            <example type="ambiguous" outputform="Jarry[Jarry/subst:sg:acc:m1]" inputform="Jarry[Jarry/subst:pl:nom:m1,Jarry/subst:pl:voc:m1,Jarry/subst:sg:nom:m1,Jarry/subst:sg:voc:m1]">Wszystko przez <marker>Jarry</marker>'ego!</example>
         </rule>
         <rule>
             <pattern>
@@ -1825,6 +1868,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker><token>zemnie</token></marker>
         </pattern>
         <disambig postag="ign"/>
+    </rule>
+
+    <rule id="AD_FINEM" name="ad finem -> zwrot obcojęzyczny">
+        <pattern>
+            <token>ad</token>
+            <marker><token>finem</token></marker>
+        </pattern>
+        <disambig postag="xxx"/>
+    </rule>
+
+    <rule id="PRZEZ_LAT_KILKA" name="Przez lat kilka – bez komunikatu o błędzie w PREP_CASUS">
+        <pattern>
+            <token>przez</token>
+            <marker>
+                <token regexp="yes">lat|tygodni|chwil|minut|godzin</token>
+            </marker>
+            <token postag="num:pl.*acc.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
 
     <rule id="ZWYKL_BYL" name="Zwykł był – bez komunikatu o braku przecinka">
