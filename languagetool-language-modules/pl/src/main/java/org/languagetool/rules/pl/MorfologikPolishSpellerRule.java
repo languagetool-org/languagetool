@@ -61,9 +61,11 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
         prefixes = Collections.unmodifiableSet(tempSet);
     }
 
-    public MorfologikPolishSpellerRule(ResourceBundle messages,
-      Language language) throws IOException {
+  public MorfologikPolishSpellerRule(ResourceBundle messages,
+                                     Language language) throws IOException {
     super(messages, language);
+    //TODO: use speller.convertsCase() instead, but we need to wait for 1.9 release
+    setConvertsCase(true);
   }
 
   @Override

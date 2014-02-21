@@ -30,6 +30,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tools.StringTools;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -57,6 +58,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   private boolean wordsWithDotsPresent = false;
   private boolean considerIgnoreWords = true;
+
+  private boolean convertsCase = false;
 
   public SpellingCheckRule(final ResourceBundle messages, final Language language) {
     super(messages);
@@ -137,8 +140,31 @@ public abstract class SpellingCheckRule extends Rule {
       // TODO?: this is needed at least for German as Hunspell tokenization includes the dot:
       word = word.endsWith(".") ? word.substring(0, word.length() - 1) : word;
     }
-    return wordsToBeIgnored.contains(word);
+    return (wordsToBeIgnored.contains(word)
+        || (convertsCase &&
+        wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))));
   }
+
+  /**
+   * Used to check whether the dictionary will use case conversions for
+   * spell checking.
+   * @return true if the dictionary converts case
+   * @since 2.5
+   */
+  public boolean isConvertsCase() {
+    return convertsCase;
+  }
+
+  /**
+   * Used to determine whether the dictionary will use case conversions for
+   * spell checking.
+   * @param convertsCase if true, then conversions are used.
+   * @since 2.5
+   */
+  public void setConvertsCase(boolean convertsCase) {
+    this.convertsCase = convertsCase;
+  }
+
 
   protected boolean isUrl(String token) {
     for (String protocol : WordTokenizer.getProtocols()) {

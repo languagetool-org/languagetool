@@ -1627,6 +1627,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	</pattern>
     	<disambig action="replace"><match no="1" postag="conj">gdyby</match></disambig>
     </rule>
+
+    <rule name="żem żeś" id="ZESIE">
+        <pattern>
+            <token regexp="yes">że[mś]</token>
+        </pattern>
+        <disambig action="add"><wd pos="conj" lemma="że"/></disambig>
+    </rule>
     
     <rulegroup id="PIECIU" name="Pięciu jako gerundium">
     <rule>
@@ -2032,6 +2039,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
 
+    <rule id="JAKI_TAKI" name="jaki taki - nie wymaga przecinka">
+        <pattern>
+            <marker><token inflected="yes">jaki</token></marker>
+            <token><match no="0" regexp_match="^j(.*)" regexp_replace="t$1"></match></token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule id="Z_GLUPIA_FRANT" name="z głupia frant">
         <pattern>
             <token>z</token>
@@ -2082,6 +2097,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">[wo]|[zn]a</token>
             <marker><token>nie</token></marker>
             <token>nie</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="W_JAKIE_POL" name="W jakie pół godziny - nie wymaga przecinka">
+        <pattern>
+            <token postag="prep:.*" postag_regexp="yes"/>
+            <marker>
+                <token>jakie</token>
+            </marker>
+            <token postag="num:.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="immunize"/>
     </rule>
@@ -2137,6 +2163,24 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
             <token>.</token>
             <token inflected="yes" regexp="yes">(?iu)Pani?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="KATOW" name="Katow.">
+        <pattern case_sensitive="yes">
+            <marker>
+            <token>Katow</token>
+            </marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="SPOLDZ" name="spółdz">
+        <pattern>
+            <marker><token>spółdz</token></marker>
+            <token spacebefore="no">.</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

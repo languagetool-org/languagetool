@@ -649,7 +649,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
-										<token regexp="yes">że|iż</token>
+										<token regexp="yes" inflected="yes">że|iż</token>
 								</pattern>
 								<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -675,7 +675,7 @@ $Id$
 										<phraseref idref="NIE_INTERPUNKCJA"></phraseref>
 										<token>tym</token>
 										<token>bardziej</token>
-										<token>że</token>
+										<token regexp="yes" inflected="yes">że|iż</token>
 								</pattern>
 								<message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3 \4</suggestion>.</message>
 								<short>Brak przecinka</short>
@@ -1154,22 +1154,6 @@ $Id$
 								<example type="correct">Nie wiedziałem już naprawdę, o którego w ogóle mu chodziło.</example>
 								<example correction="już naprawdę, o którego|już, naprawdę o którego" type="incorrect">Nie wiedziałem <marker>już naprawdę o którego</marker> w ogóle mu chodziło.</example>
 						</rule>
-						<!--
-						<rule>
-								<pattern>
-										<marker>
-												<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|SENT_START" postag_regexp="yes"></exception></token>
-												<token postag="prep.*" postag_regexp="yes"></token>
-												<token postag="prep.*" postag_regexp="yes"></token>
-										</marker>
-										<token inflected="yes" regexp="yes">który|jaki</token>
-								</pattern>
-								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
-								<short>Błąd interpunkcyjny</short>
-								<example type="correct">Nie wiedziałem, odnośnie do którego rozporządzenia zgłosił on uwagę.</example>
-								<example correction="wiedziałem, odnośnie do" type="incorrect">Nie <marker>wiedziałem odnośnie do</marker> którego rozporządzenia zgłosił on uwagę.</example>
-						</rule>
-						-->
 						<rule>
 								<pattern>
 										<marker>
@@ -8005,7 +7989,7 @@ $Id$
 										<token regexp="yes">\p{Ll}+</token>
 										<marker>
 												<and>
-														<token postag="ppron12.*" postag_regexp="yes"><exception postag="ppron12:.*:sec(:?:akc)?" postag_regexp="yes"></exception></token>
+														<token postag="ppron12.*" postag_regexp="yes"><exception postag="ppron12:.*:sec(:?:n?akc)?" postag_regexp="yes"></exception></token>
 														<token regexp="yes">\p{Lu}.*</token>
 												</and>
 										</marker>
@@ -8015,6 +7999,8 @@ $Id$
 								<example correction="nami" type="incorrect">Zostań z <marker>Nami</marker>!</example>
 								<example type="correct">Piszę do Ciebie powoli list, bo wiem, że powoli czytasz.</example>
 								<example type="correct">Zostań z nami!</example>
+                                <example type="correct">Ten pies nie zrobi Ci krzywdy.</example>
+                                <example type="correct">Z każdym dniem kocham Cię coraz bardziej.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="no">
