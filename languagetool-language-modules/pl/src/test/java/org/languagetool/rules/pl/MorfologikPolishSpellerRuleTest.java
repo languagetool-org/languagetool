@@ -42,6 +42,10 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Żółw na starość wydziela dziwną woń.")).length);
     //test for "LanguageTool":
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("LanguageTool jest świetny!")).length);
+
+    //test for the ignored uppercase word "Gdym":
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Gdym to zobaczył, zdębiałem.")).length);
+
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(",")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
