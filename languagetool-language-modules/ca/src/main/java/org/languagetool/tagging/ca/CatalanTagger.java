@@ -53,7 +53,7 @@ public class CatalanTagger extends BaseTagger {
   private static final Pattern VERB = Pattern.compile("V.+");
   private static final Pattern NOUN = Pattern.compile("NC.+");
 
-  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   @Override
   public final String getFileName() {
