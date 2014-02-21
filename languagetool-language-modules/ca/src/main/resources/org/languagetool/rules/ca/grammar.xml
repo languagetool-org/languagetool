@@ -9299,6 +9299,15 @@ $Id$
                 <example type="incorrect" correction="penedisc">No m'<marker>arrepentisc</marker>.</example>
                 <example type="correct">Penedir-se de tot.</example>
             </rule>
+            <rule id="REEMPRENDRE" name="reemprendre"> 
+                <pattern>
+                    <token regexp="yes">reempr[eèé]n.*</token>
+                </pattern>
+                <message>Cal usar el verb "reprendre".</message>
+                <suggestion><match no="1" regexp_match="([Rr]e)em(.+)" regexp_replace="$1$2"/></suggestion>
+                <example type="incorrect" correction="reprenguessis">Si <marker>reemprenguessis</marker> la iniciativa.</example>
+                <example type="correct">reprendre</example>
+            </rule>
         </rulegroup>
         <rule id="noFreeling" name="Mots que no apareixen en el diccionari Freeling" default="off">
             <pattern>
@@ -14695,83 +14704,7 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect" correction="amb compte">Sempre anaven <marker>en compte</marker></example>
             <example type="correct">No van tenir en compte aquell cas.</example>
-        </rule>
-        <rulegroup id="VERBS_MALFORMATS_RE" name="verbs mal formats amb prefix re-">
-            <!-- Verbs que no són al diccionari, però es formen amb el prefix re- -->
-            <rule id="RESALTAR" name="resaltar/ressaltar"> 
-                <pattern>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">resalt.*</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Rr]es)(.+)" regexp_replace="$1s$2"/></suggestion>?</message>
-                <example type="incorrect" correction="ressalt">Un <marker>resalt</marker>.</example>
-                <example type="incorrect" correction="ressaltava">Ho <marker>resaltava</marker>.</example>
-                <example type="correct">remeiar</example>
-            </rule>
-            <rule id="REPUBLICA" name="republica/república"> 
-                <pattern>
-                    <token regexp="yes">republi(ca|ques)</token>
-                </pattern>
-                <message>Si és nom, cal dir <suggestion><match no="1" regexp_match="([Rr])epubli(ca|ques)" regexp_replace="$1epúbli$2"/></suggestion></message>
-                <example type="incorrect" correction="república">La <marker>republica</marker> de les lletres.</example>
-                <example type="correct">remeiar</example>
-            </rule>
-            <rule id="REVENTA" name="*reventa/revenda/rebenta">
-                <pattern>
-                    <token regexp="yes">revent(a|es)</token>
-                </pattern>
-                <message>Error ortogràfic.</message>
-                <suggestion><match no="1" regexp_match="revent(.+)" regexp_replace="rebent$1"/></suggestion>
-                <suggestion><match no="1" regexp_match="revent(.+)" regexp_replace="revend$1"/></suggestion>
-                <example type="incorrect" correction="rebenta|revenda">La <marker>reventa</marker> d'entrades</example>
-                <example type="correct">La revenda d'entrades</example>
-            </rule>
-            <rule id="REVENTAR" name="*reventar/rebentar"> 
-                <pattern>
-                    <token inflected="yes">reventar<exception regexp="yes">reventa|reventes</exception></token>
-                </pattern>
-                <message>Error ortogràfic.</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">rebentar</match></suggestion>
-                <example type="incorrect" correction="rebentessis">Si <marker>reventessis</marker> de menjar tant.</example>
-                <example type="correct">rebentar</example>
-            </rule>   
-            <rule id="REEMPRENDRE" name="reemprendre"> 
-                <pattern>
-                    <token inflected="yes">reemprendre</token>
-                </pattern>
-                <message>Cal usar el verb "reprendre".</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reprendre</match></suggestion>
-                <example type="incorrect" correction="reprenguessis">Si <marker>reemprenguessis</marker> la iniciativa.</example>
-                <example type="correct">reprendre</example>
-            </rule>
-            <rule id="REPONDRE" name="repondre"> 
-                <pattern>
-                    <token inflected="yes">repondre<exception regexp="yes">repost(s|os)?</exception></token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reposar</match></suggestion>?</message>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reestrenar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">refer</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">replicar</match></suggestion>
-                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">revenir</match></suggestion>
-                <example type="incorrect" correction="reposaran|reestrenaran|refaran|replicaran|revindran">I la <marker>repondran</marker>?</example>
-                <example type="correct">reposar</example>
-            </rule>
-            <rule id="RECOMPOSAR" name="recomposar"> 
-                <pattern>
-                    <token inflected="yes">recomposar</token>
-                </pattern>
-                <message>Cal dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">recompondre</match></suggestion>?</message>
-                <example type="incorrect" correction="Recompondran">¿<marker>Recomposaran</marker> l'acord?</example>
-                <example type="correct">recompondre</example>
-            </rule>
-            <rule id="REMEDIAR" name="remediar"> 
-                <pattern>
-                    <token inflected="yes">remediar</token>
-                </pattern>
-                <message>Cal dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remeiar</match></suggestion>?</message>
-                <example type="incorrect" correction="remeia">Si no ho <marker>remedia</marker> ningú.</example>
-                <example type="correct">remeiar</example>
-            </rule>
-        </rulegroup>    
+        </rule>  
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
                 <marker>
