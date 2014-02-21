@@ -174,7 +174,7 @@ public class CatalanTagger extends BaseTagger {
       return additionalTaggedTokens;
     }
     // Any well-formed noun with prefix ex- is tagged as a noun copying the original tags
-    if (word.startsWith("ex")) {
+    /*if (word.startsWith("ex")) {
       final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleNoun = lowerWord.replaceAll("^ex(.+)$", "$1");
       List<AnalyzedToken> taggerTokens;
@@ -190,7 +190,7 @@ public class CatalanTagger extends BaseTagger {
         }
       }
       return additionalTaggedTokens;
-    }
+    }*/
     // Interpret deprecated characters of "ela geminada"
     // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
     // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
