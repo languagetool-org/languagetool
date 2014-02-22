@@ -13921,6 +13921,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="TIRAR_MA_DE" name="tirar mà de">
+            <pattern>
+                <token inflected="yes">tirar</token>
+                <token>mà</token>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VM$1">recórrer</match> a</suggestion>
+            <suggestion>(servir-se) <match no="3"/></suggestion>
+            <example type="incorrect" correction="recorregueren a|(servir-se) de"><marker>tiraren mà de</marker> mesures disciplinàries</example>
+            <example type="correct">recórrer a mesures disciplinàries</example>
+        </rule>
         <rule id="VIURE_DEL_CUENTO" name="viure del cuento">
             <pattern>
                 <token inflected="yes">viure</token>
@@ -13943,6 +13955,7 @@ $Id$
                 <token regexp="yes">tirar|llançar|llençar</token>
             </pattern>
             <message>Expressió incorrecta.</message>
+            <suggestion>d'un sol ús</suggestion>
             <example type="incorrect"><marker>d'usar i tirar</marker></example>
             <example type="correct">d'un sol ús</example>
         </rule>
