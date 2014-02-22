@@ -199,6 +199,10 @@ public class Unifier {
           }
           allFeatsUnified &= featUnified;
         }
+        //FIXME: this is wrong! if there are multiple readings that are equivalent
+        // in different ways, we loose this information as soon as one of the
+        // equivalence is not found by another token; at the same time, we
+        // need to filter out whatever has not been found
         tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) && allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
