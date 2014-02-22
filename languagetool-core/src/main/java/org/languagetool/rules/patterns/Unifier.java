@@ -72,7 +72,6 @@ public class Unifier {
   /**
    * Maps that store equivalences to be removed or kept after every next token has been analyzed
    */
-  private final Map<String, Set<String>> equivalencesToBeRemoved;
   private final Map<String, Set<String>> equivalencesToBeKept;
 
   /**
@@ -90,12 +89,11 @@ public class Unifier {
    * Instantiates the unifier.
    */
   public Unifier(Map<EquivalenceTypeLocator, Element> equivalenceTypes, Map<String, List<String>> equivalenceFeatures) {
-    tokCnt = -1;
+    tokCnt = 0;
     readingsCounter = 1;
     equivalencesMatched = new ArrayList<>();
     this.equivalenceTypes = equivalenceTypes;
     this.equivalenceFeatures = equivalenceFeatures;
-    equivalencesToBeRemoved = new HashMap<>();
     equivalencesToBeKept = new HashMap<>();
     featuresFound = new ArrayList<>();
     tmpFeaturesFound = new ArrayList<>();
@@ -125,7 +123,6 @@ public class Unifier {
     if (allFeatsIn) {
       unified = checkNext(aToken, uFeatures);
     } else {
-      tokCnt++;
       while (equivalencesMatched.size() <= tokCnt) {
         equivalencesMatched.add(new HashMap<String, Set<String>>());
       }
@@ -161,6 +158,7 @@ public class Unifier {
         } else {
           tokSequence.get(0).addReading(aToken);
         }
+        tokCnt++;
       }
     }
     return unified;
@@ -172,7 +170,7 @@ public class Unifier {
     List<String> types;
     final List<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
     if (allFeatsIn) {
-      for (int i = 0; i <= tokCnt; i++) {
+      for (int i = 0; i < tokCnt; i++) {
         boolean allFeatsUnified = true;
         for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
           boolean featUnified = false;
@@ -185,21 +183,14 @@ public class Unifier {
                 && equivalencesMatched.get(i).containsKey(feat.getKey())
                 && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
               final Element testElem = equivalenceTypes.get(new EquivalenceTypeLocator(feat.getKey(), typeName));
-              featUnified = featUnified || testElem.isMatched(aToken);
-              //Stores equivalences to be removed and kept
-              if (!testElem.isMatched(aToken)) {
-                if (!equivalencesToBeRemoved.containsKey(feat.getKey())) {
-                  final Set<String> typeSet = new HashSet<>();
-                  typeSet.add(typeName);
-                  equivalencesToBeRemoved.put(feat.getKey(),typeSet);
-                } else {
-                  equivalencesToBeRemoved.get(feat.getKey()).add(typeName);
-                }
-              } else {
+              boolean matched = testElem.isMatched(aToken);
+              featUnified = featUnified || matched;
+              //Stores equivalences to be kept
+              if (matched) {
                 if (!equivalencesToBeKept.containsKey(feat.getKey())) {
                   final Set<String> typeSet = new HashSet<>();
                   typeSet.add(typeName);
-                  equivalencesToBeKept.put(feat.getKey(),typeSet);
+                  equivalencesToBeKept.put(feat.getKey(), typeSet);
                 } else {
                   equivalencesToBeKept.get(feat.getKey()).add(typeName);
                 }
@@ -208,14 +199,14 @@ public class Unifier {
           }
           allFeatsUnified &= featUnified;
         }
-        tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) & allFeatsUnified);
+        tokenFeaturesFound.set(i, tokenFeaturesFound.get(i) && allFeatsUnified);
         anyFeatUnified = anyFeatUnified || allFeatsUnified;
       }
       if (anyFeatUnified) {
         if (tokSequence.size() == readingsCounter) {
           tokSequence.add(new AnalyzedTokenReadings(aToken, 0));
         } else {
-          if (readingsCounter<tokSequence.size()) {
+          if (readingsCounter < tokSequence.size()) {
             tokSequence.get(readingsCounter).addReading(aToken);
           } else {
             anyFeatUnified = false;
@@ -234,25 +225,14 @@ public class Unifier {
     featuresFound = new ArrayList<>(tmpFeaturesFound);
     readingsCounter++;
     // Removes features
-    List<String> types;
-    for (int i = 0; i <= tokCnt; i++) {
-      //for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
+    for (int i = 0; i < tokCnt; i++) {
       for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
-        types = feat.getValue();
-        for (final String typeName : types) {
-          if (featuresFound.get(i)
-              && equivalencesToBeRemoved.containsKey(feat.getKey())
-              && equivalencesToBeRemoved.get(feat.getKey()).contains(typeName)
-              && !(equivalencesToBeKept.containsKey(feat.getKey())
-                  && equivalencesToBeKept.get(feat.getKey()).contains(typeName))
-                  && equivalencesMatched.get(i).containsKey(feat.getKey())
-                  && equivalencesMatched.get(i).get(feat.getKey()).contains(typeName)) {
-            equivalencesMatched.get(i).get(feat.getKey()).remove(typeName);
-          }
+        if (featuresFound.get(i) && equivalencesToBeKept.containsKey(feat.getKey())
+            && equivalencesMatched.get(i).containsKey(feat.getKey())) {
+          equivalencesMatched.get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
         }
       }
     }
-    equivalencesToBeRemoved.clear();
     equivalencesToBeKept.clear();
   }
 
@@ -261,7 +241,7 @@ public class Unifier {
    */
   public final void startUnify() {
     allFeatsIn = true;
-    for (int i = 0; i <= tokCnt; i++) {
+    for (int i = 0; i < tokCnt; i++) {
       featuresFound.add(true);
     }
     tmpFeaturesFound = new ArrayList<>(featuresFound);
@@ -273,7 +253,7 @@ public class Unifier {
   public final void reset() {
     equivalencesMatched.clear();
     allFeatsIn = false;
-    tokCnt = -1;
+    tokCnt = 0;
     featuresFound.clear();
     tmpFeaturesFound.clear();
     tokSequence.clear();
@@ -309,7 +289,7 @@ public class Unifier {
       if (numRead > 1 && first < numRead) { // no need to filter if there is just one reading
         tmpATR = new AnalyzedTokenReadings(tokSequence.get(0).getAnalyzedToken(
             first), 0);
-        for (int i = first + 1; i <= Math.min(numRead - 1, tokCnt); i++) {
+        for (int i = first + 1; i < tokCnt; i++) {
           if (tmpFeaturesFound.get(i)) {
             tmpATR.addReading(tokSequence.get(0).getAnalyzedToken(i));
           }

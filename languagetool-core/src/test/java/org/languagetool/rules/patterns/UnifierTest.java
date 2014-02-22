@@ -324,6 +324,76 @@ public class UnifierTest extends TestCase {
         "[xx[xx/abc:sg:f*,xx/cde:pl:f*], yy[yy/abc:pl:f*,yy/abc:sg:f*]]");
   }
 
+  public void testMultipleFeatsWithMultipleTypes() {
+    final UnifierConfiguration unifierConfig = new UnifierConfiguration();
+    unifierConfig.setEquivalence("number", "singular",
+        preparePOSElement(".*[\\.:]sg:.*"));
+    unifierConfig.setEquivalence("number", "plural",
+        preparePOSElement(".*[\\.:]pl:.*"));
+
+    unifierConfig.setEquivalence("gender", "feminine",
+        preparePOSElement(".*[\\.:]f([\\.:].*)?)"));
+    unifierConfig.setEquivalence("gender", "masculine",
+        preparePOSElement(".*[\\.:]m([\\.:].*)?"));
+    unifierConfig.setEquivalence("gender", "neutral1",
+        preparePOSElement(".*[\\.:]n1(?:[\\.:].*)?"));
+    unifierConfig.setEquivalence("gender", "neutral2",
+        preparePOSElement(".*[\\.:]n2(?:[\\.:].*)?"));
+
+    unifierConfig.setEquivalence("case", "nominativus",
+        preparePOSElement(".*[\\.:]nom[\\.:]?.*"));
+    unifierConfig.setEquivalence("case", "accusativus",
+        preparePOSElement(".*[\\.:]acc[\\.:]?.*"));
+    unifierConfig.setEquivalence("case", "vocativus",
+        preparePOSElement(".*[\\.:]voc[\\.:]?.*"));
+
+    final Unifier uni = unifierConfig.createUnifier();
+
+    final AnalyzedToken sing1 = new AnalyzedToken("niezgorsze", "adj:sg:acc:n1.n2:pos", "niezgorszy");
+    final AnalyzedToken sing1a = new AnalyzedToken("niezgorsze", "adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos", "niezgorszy");
+    final AnalyzedToken sing1b = new AnalyzedToken("niezgorsze", "adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos", "niezgorszy");
+    final AnalyzedToken sing1c = new AnalyzedToken("niezgorsze", "adj:sg:nom.voc:n1.n2:pos", "niezgorszy");
+    final AnalyzedToken sing2 = new AnalyzedToken("lekarstwo", "subst:sg:acc:n2", "lekarstwo");
+    final AnalyzedToken sing2b = new AnalyzedToken("lekarstwo", "subst:sg:nom:n2", "lekarstwo");
+    final AnalyzedToken sing2c = new AnalyzedToken("lekarstwo", "subst:sg:voc:n2", "lekarstwo");
+
+    final Map<String, List<String>> equiv = new HashMap<>();
+    equiv.put("number", null);
+    equiv.put("gender", null);
+    equiv.put("case", null);
+
+    //now test the simplified interface
+    uni.isUnified(sing1, equiv, false);
+    uni.isUnified(sing1a, equiv, false);
+    uni.isUnified(sing1b, equiv, false);
+    uni.isUnified(sing1c, equiv, true);
+    uni.isUnified(sing2, equiv, false);
+    uni.isUnified(sing2b, equiv, false);
+    assertEquals(true, uni.isUnified(sing2c, equiv, true));
+    assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
+        "lekarstwo[lekarstwo/subst:sg:acc:n2*,lekarstwo/subst:sg:nom:n2*,lekarstwo/subst:sg:voc:n2*]]", Arrays.toString(uni.getUnifiedTokens()));
+    uni.reset();
+
+    //test in a different order
+    uni.isUnified(sing1a, equiv, false);
+    uni.isUnified(sing1, equiv, false);
+    uni.isUnified(sing1c, equiv, false);
+    uni.isUnified(sing1b, equiv, true);
+    uni.isUnified(sing2b, equiv, false);
+    uni.isUnified(sing2c, equiv, false);
+    assertEquals(true, uni.isUnified(sing2, equiv, true));
+    assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
+        "lekarstwo[lekarstwo/subst:sg:nom:n2*,lekarstwo/subst:sg:voc:n2*,lekarstwo/subst:sg:acc:n2*]]", Arrays.toString(uni.getUnifiedTokens()));
+    uni.reset();
+
+  }
+
+  private Element preparePOSElement(final String posString) {
+    final Element el = new Element("", false, false, false);
+    el.setPosElement(".*[\\.:]sg:.*", true, false);
+    return el;
+  }
+
   public void testNegation() {
     final UnifierConfiguration unifierConfig = new UnifierConfiguration();
     final Element sgElement = new Element("", false, false, false);
