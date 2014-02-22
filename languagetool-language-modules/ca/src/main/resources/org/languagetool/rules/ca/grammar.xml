@@ -6254,20 +6254,39 @@ $Id$
             <example type="incorrect" correction="Al llarg"><marker>A llarg</marker> del temps.</example>
             <example type="correct">de llarg a llarg del territori</example>
         </rule>
-        <rule id="PODAR_PODER" name="podar/poder, volar/voler">
+        <rule id="PODAR_PODER" name="podar/poder">
             <pattern>
                 <marker>
-                    <token regexp="yes">podar|volar</token>
+                    <token inflected="yes">podar<exception inflected="yes">poder</exception></token>
                 </marker>
                 <token min="0" postag="P.*" postag_regexp="yes" regexp="yes">-.+</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)ar" regexp_replace="$1er"/></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">poder</match></suggestion>?</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="poder">No li ho va <marker>podar</marker> donar</example>
-            <example type="incorrect" correction="voler">No va <marker>volar</marker>-li donar aquest gust.</example>
+            <example type="incorrect" correction="poder">No va <marker>podar</marker>-li donar aquest gust.</example>
+            <example type="incorrect" correction="poguessin">Que li ho <marker>podessin</marker> donar.</example>
             <example type="correct">Vull podar perquè regar no puc fer-ho.</example>
+            <example type="correct">Poden dir el que vulguen.</example>
             <example type="correct">Podar, regar i llaurar.</example>
+        </rule>
+        <rule id="VOLAR_VOLER" name="volar/voler">
+            <pattern>
+                <marker>
+                    <token inflected="yes">volar<exception inflected="yes">voler</exception></token>
+                </marker>
+                <token min="0" postag="P.*" postag_regexp="yes" regexp="yes">-.+</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">voler</match></suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="voler">No li ho va <marker>volar</marker> donar.</example>
+            <example type="incorrect" correction="voler">No va <marker>volar</marker>-li donar aquest gust.</example>
+            <example type="incorrect" correction="volguessin">Que li ho <marker>volessin</marker> donar.</example>
+            <example type="correct">Volen cantar i ballar.</example>
+            <example type="correct">Vull volar i cantar.</example>
+            <example type="correct">Volar, cantar i ballar.</example>
         </rule>
     	<rule id="EXTRADIU_EXTRADEIX" name="extradiu/extradeix">
     		<pattern>
