@@ -3758,64 +3758,37 @@ $Id$
         </rulegroup>
          
         <rulegroup id="Postrojenije_slovosochetanij_skazuem_sing" name="Употребление числа сказуемого: ед. ч."> 
-
-
             <rule>   
                 <pattern>
                     <marker>
                         <token postag="PT:Past:PL|PT:Past:Neut|PT:Past:Masc" postag_regexp="yes"/>
-                        <token>тысяча</token>
+                        <token regexp="yes">тысяча|сотня</token>
                     </marker>
                 </pattern>
                 <message>При словах тысяча, сотня, миллион, миллиард сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
                 <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Получены тысяча</marker> книг для библиотеки.</example>
-                <example type="correct">Получена тысяча книг для библиотеки.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token postag="PT:Past:PL|PT:Past:Neut|PT:Past:Masc" postag_regexp="yes"/>
-                        <token>сотня</token>
-                    </marker>
-                </pattern>
-                <message>При словах тысяча, сотня, миллион, миллиард сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
-                <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Напечатано сотня</marker> экземпляров.</example>
+                <example type="correct">Получена тысяча книг для библиотеки.</example>
                 <example type="correct">Напечатана сотня экземпляров.</example>
             </rule>
-            
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token postag="PT:Past:PL|PT:Past:Neut|PT:Past:Fem" postag_regexp="yes"/>
-                        <token>миллион</token>
-                    </marker>
-                </pattern>
-                <message>При словах тысяча, сотня, миллион, миллиард сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
-                <short>Ошибка в согласовании</short>
-                <example type="incorrect">На благотворительность <marker>выделено миллион</marker> рублей.</example>
-                <example type="correct">На благотворительность выделен миллион рублей.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token postag="PT:Past:PL|PT:Past:Neut|PT:Past:Fem" postag_regexp="yes"/>
-                        <token>миллиард</token>
-                    </marker>
-                </pattern>
-                <message>При словах тысяча, сотня, миллион, миллиард сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
-                <short>Ошибка в согласовании</short>
-                <example type="incorrect">На благоустройство города <marker>выделено миллиард</marker> рублей.</example>
-                <example type="correct">На благоустройство города выделен миллиард рублей.</example>
-           </rule>
  
-                </rulegroup>
+            <rule>   
+                <pattern>
+                    <marker>
+                        <token postag="PT:Past:PL|PT:Past:Neut|PT:Past:Fem" postag_regexp="yes"/>
+                        <token regexp="yes">миллион|миллиард</token>
+                    </marker>
+                </pattern>
+                <message>При словах тысяча, сотня, миллион, миллиард сказуемое обычно стоит в ед. ч. и согласуется в роде</message>
+                <short>Ошибка в согласовании</short>
+                <example type="incorrect">На благотворительность <marker>выделено миллион</marker> рублей.</example>                
+                <example type="incorrect">На благоустройство города <marker>выделено миллиард</marker> рублей.</example>
+                <example type="correct">На благотворительность выделен миллион рублей.</example>
+                <example type="correct">На благоустройство города выделен миллиард рублей.</example>
+            </rule>
+ 
+        </rulegroup>
             
         <rulegroup id="Obrazovanije_glagoln_form_imperativ" name=" Образование повелительного наклонения">
 
@@ -4631,8 +4604,8 @@ $Id$
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
                 <short>Правильно 'предоставить в пользование'</short>
-                <example type="incorrect">Мы можем <marker>представить в пользование</marker> эти словари. </example>
-                <example type="correct">Мы можем предоставить в пользование эти словари. </example>
+                <example type="incorrect">Мы можем <marker>представить в пользование</marker> эти словари.</example>
+                <example type="correct">Мы можем предоставить в пользование эти словари.</example>
             </rule>   
 
 
@@ -4851,7 +4824,7 @@ $Id$
                         <token postag="VB:INF" />
                     </marker>
                 </pattern>
-                <message>Двойное отрицание с частицей НЕ</message>
+                <message>Двойное отрицание с частицей НЕ:<suggestion>не \2 не \4</suggestion></message>
                 <short>Правильно два НЕ</short>
                 <example type="incorrect">Он <marker>не мог ни заметить</marker> этого.</example>
                 <example type="correct">Он не мог не заметить этого.</example>
@@ -4865,7 +4838,7 @@ $Id$
                         <token postag="VB:INF" />
                     </marker>
                 </pattern>
-                <message>Двойное отрицание с частицей НЕ</message>
+                <message>Двойное отрицание с частицей НЕ:<suggestion>не \2 не \4</suggestion></message>
                 <short>Правильно два НЕ</short>
                 <example type="incorrect">С этим <marker>нельзя ни согласиться</marker>.</example>
                 <example type="correct">С этим нельзя не согласиться.</example>
@@ -4880,7 +4853,7 @@ $Id$
                         <token postag="VB:INF" />
                     </marker>
                 </pattern>
-                <message>Двойное отрицание с частицей НЕ</message>
+                <message>Двойное отрицание с частицей НЕ:<suggestion>не \2 не \4</suggestion></message>
                 <short>Правильно два НЕ</short>
                 <example type="incorrect">Она <marker>не может ни узнать</marker> вас.</example>
                 <example type="correct">Она не может не узнать вас.</example>
@@ -4894,7 +4867,7 @@ $Id$
                         <token postag="VB:INF" />
                     </marker>
                 </pattern>
-                <message>Двойное отрицание с частицей НЕ</message>
+                <message>Двойное отрицание с частицей НЕ:<suggestion>\1 не \3</suggestion></message>
                 <short>Правильно два НЕ</short>
                 <example type="incorrect"><marker>Невозможно ни признать</marker> этого.</example>
                 <example type="correct">Невозможно не признать этого.</example>
