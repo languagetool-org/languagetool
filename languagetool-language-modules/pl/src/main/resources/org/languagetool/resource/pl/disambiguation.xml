@@ -183,16 +183,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule id="INDZIEJ" name="kiedy indziej itp.">
-        <pattern>
-            <marker>
-            <token regexp="yes">nigdy|kiedy|gdzie|nigdzie|gdziekolwiek</token>
-            </marker>
-            <token>indziej</token>
-        </pattern>
-        <disambig postag="adv"/>
-    </rule>
-
     <rule id="A_NUZ" name="a nuż">
         <pattern>
             <marker>
@@ -1458,6 +1448,36 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="ale[ale/conj,ale/qub]" outputform="ale[ale/comp:comma,ale/conj,ale/qub]">Lubię go, <marker>ale</marker> kupię mu pistolet.</example>
     </rule>
 
+    <rule id="INDZIEJ" name="kiedy indziej itp.">
+        <pattern>
+            <marker>
+                <token regexp="yes">nigdy|kiedy|gdzie|nigdzie|gdziekolwiek</token>
+            </marker>
+            <token>indziej</token>
+        </pattern>
+        <disambig postag="adv"/>
+    </rule>
+
+    <rule id="MALO_KIEDY" name="mało/rzadko kiedy -> adv">
+        <pattern>
+            <token postag="adv:pos" regexp="yes">mało|rzadko</token>
+            <token postag="adv">kiedy</token>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+
+    <rule id="NIE_QUB" name="nie w funkcji negacji czasownika">
+        <pattern>
+            <marker>
+                <token postag="qub">nie<exception scope="previous" postag_regexp="yes" postag="prep:acc.*"></exception></token>
+            </marker>
+            <token postag="verb.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="nie[nie/conj,nie/qub,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:praep]" outputform="nie[nie/qub]">Proszę, <marker>nie</marker> jedź sam!</example>
+        <example type="untouched">Martwię się o nie.</example>
+    </rule>
+
     <rule name="Blokada reguły interpunkcyjnej dla daje vu" id="DAJE_VU_BLOKADA">
         <pattern>
             <marker>
@@ -1982,6 +2002,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"></disambig>
     </rule>
 
+    <rule id="BYLBYM_PRZYSIAGL" name="Byłbym zrobił -> niepotrzebny przecinek">
+        <pattern>
+            <unify>
+                <feature id="number"/><feature id="gender"/>
+                <token inflected="yes" postag="verb:pot.*" postag_regexp="yes">być</token>
+                <marker>
+                    <token postag="verb:praet.*" postag_regexp="yes"/>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule id="CHOC_JOTA" name="choć nie jako spójnik">
         <pattern>
             <marker>
@@ -1990,6 +2023,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token inflected="yes">jota</token>
         </pattern>
         <disambig postag="qub"/>
+    </rule>
+
+    <rule id="JAK_ULAL" name="jak ulał -> bez przecinka">
+        <pattern>
+            <token><exception>,</exception></token>
+            <token>jak</token>
+            <marker><token>ulał</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
 
     <rulegroup id="BOG_WIE_SKAD" name="Bóg wie skąd - bez komunikatu o braku przecinka, bo to partykuła">

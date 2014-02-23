@@ -41,6 +41,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("Mają one niemałe znaczenie.").size());
     //with immunization
     assertEquals(0, tool.check("A teraz każcie mi dać jaki bądź posiłek.").size());
+    assertEquals(0, tool.check("Kiedym wóz zobaczył, byłbym przysiągł, że wielka przygoda mnie czeka.").size());
     //this rule is by default off
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(0, matches.size());

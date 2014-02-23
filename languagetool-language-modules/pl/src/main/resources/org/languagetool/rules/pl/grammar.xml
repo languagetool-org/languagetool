@@ -106,17 +106,10 @@ $Id$
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
-						<token><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast|szczególnie|zwłaszcza</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
-				</phrase>
-				<phrase id="NIE_SPOJNIK_PRZECINKOWY">
-						<includephrases>
-								<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
-								<phraseref idref="PREP_KTORY"></phraseref>
-								<phraseref idref="PREP_PREP_KTORY"></phraseref>
-						</includephrases>
+						<token><exception postag="subst.*voc.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast|szczególnie|zwłaszcza</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
 				</phrase>
 				<phrase id="PREP_KTORY">
-						<token postag=""><exception postag="prep:.*" postag_regexp="yes" scope="previous"></exception><exception inflected="yes" regexp="yes">który|jaki</exception></token>
+						<token><exception postag="prep:.*" postag_regexp="yes" scope="previous"></exception><exception inflected="yes" regexp="yes">który|jaki</exception></token>
 				</phrase>
 				<phrase id="PREP_PREP_KTORY">
 						<token postag="prep:.*" postag_regexp="yes"></token>
@@ -983,7 +976,7 @@ $Id$
 												<token inflected="yes">ten</token>
 												<token inflected="yes" regexp="yes">kto|co<exception postag="&lt;ADV&gt;"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
 										</marker>
-										<token><exception regexp="yes">więcej|gorsza|\?|,</exception><exception postag="SENT_END"></exception></token>
+										<token><exception regexp="yes">więcej|gorsza|\?|,|inny</exception><exception postag="SENT_END"></exception></token>
 								</pattern>
 								<message>Prawdopodobny brak przecinka. Powinno być: <suggestion>\2, \3</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -994,6 +987,7 @@ $Id$
 								<example type="correct">No to co?...</example>
 								<example type="correct">To co innego.</example>
 								<example type="correct">To co mam zrobić?</example>
+                                <example type="correct">Gdyby mi to kto inny mówił, to bym tę historię policzył do bajek.</example>
 								<example type="correct">No to co?</example>
 								<example correction="Ten, kto" type="incorrect"><marker>Ten kto</marker> sieje wiatr, zbiera burzę.</example>
 								<example type="correct">Jednak ulica ta co najmniej od 2003 roku jest przejezdna.</example>
@@ -1947,7 +1941,7 @@ $Id$
 								<marker>
 										<token regexp="yes">przypadku|razie|celu</token>
 										<token>,</token>
-										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY"></phraseref>
+										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
 						</pattern>
 						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\3 \5</suggestion>.</message>
@@ -1961,7 +1955,7 @@ $Id$
 								<marker>
 										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">[\[\(]</exception>przypadku|razie|myśl|miarę|celu</token>
 										<token>,</token>
-										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY"></phraseref>
+										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
 
 						</pattern>
@@ -1977,7 +1971,7 @@ $Id$
 								<marker>
 										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec<exception scope="next" regexp="yes">[(:]</exception></token>
 										<token>,<exception scope="previous">ciebie</exception></token>
-										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY"></phraseref>
+										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
 
 						</pattern>
@@ -1991,7 +1985,7 @@ $Id$
 								<marker>
 										<token>Dodatkowo</token>
 										<token>,</token>
-										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY"></phraseref>
+										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
 
 						</pattern>
@@ -2025,6 +2019,32 @@ $Id$
                     <short>Zbędny przecinek</short>
                     <example type="correct">Szukali na chybił trafił.</example>
                     <example type="incorrect" correction="na chybił trafił">Szukali czegoś <marker>na chybił, trafił</marker>.</example>
+                </rule>
+                <rule id="BADZ_CO_BADZ" name="Zbędny przecinek w wyrażeniu „bądź co bądź”">
+                <pattern>
+                    <token>bądź</token>
+                    <token>,</token>
+                    <token>co</token>
+                    <token>bądź</token>
+                </pattern>
+                <message>W tym związku frazeologicznym nie kładzie się przecinka: <suggestion>\1 \3 \4</suggestion>.</message>
+                <url>http://so.pwn.pl/zasady.php?id=629795</url>
+                <short>Zbędny przecinek</short>
+                <example type="correct">Była to bądź co bądź prawda.</example>
+                <example type="incorrect" correction="bądź co bądź">Była to <marker>bądź, co bądź</marker> prawda.</example>
+                </rule>
+                <rule id="JAK_ULAL" name="Zbędny przecinek przed „jak ulał”">
+                <pattern>
+                    <token/>
+                    <token>,</token>
+                    <token>jak</token>
+                    <token>ulał</token>
+                </pattern>
+                <message>Przed tym związkiem frazeologicznym nie kładzie się przecinka: <suggestion>\1 \3 \4</suggestion>.</message>
+                <url>http://so.pwn.pl/zasady.php?id=629774</url>
+                <short>Zbędny przecinek</short>
+                <example type="correct">Pasowało jak ulał.</example>
+                <example type="incorrect" correction="to jak ulał">Pasowało <marker>to, jak ulał</marker>.</example>
                 </rule>
                 <rule id="ITP_ITD" name="Zbędny przecinek przed „itp.” i „itd.”">
                   <pattern>

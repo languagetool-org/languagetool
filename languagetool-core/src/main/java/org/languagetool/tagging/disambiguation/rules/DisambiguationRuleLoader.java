@@ -108,7 +108,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
       switch (qName) {
-        case "rule":
+        case RULE:
           id = attrs.getValue("id");
           if (inRuleGroup) {
             subId++;
@@ -263,7 +263,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
-    if ("rule".equals(qName)) {
+    if (RULE.equals(qName)) {
       final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
           name, language, elementList, disambiguatedPOS, posSelector,
           disambigAction);
