@@ -227,17 +227,17 @@ public class Unifier {
     for (int i = 0; i < tokCnt; i++) {
       for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
         if (featuresFound.get(i)) {
-        if (equivalencesMatched.get(i).containsKey(feat.getKey())) {
-          if (equivalencesToBeKept.containsKey(feat.getKey())) {
-          equivalencesMatched.get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
-          } else {
-            equivalencesMatched.get(i).remove(feat.getKey());
+          if (equivalencesMatched.get(i).containsKey(feat.getKey())) {
+            if (equivalencesToBeKept.containsKey(feat.getKey())) {
+              equivalencesMatched.get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
+            } else {
+              equivalencesMatched.get(i).remove(feat.getKey());
+            }
           }
-        }
-      } else {
+        } else {
           equivalencesMatched.get(i).remove(feat.getKey());
         }
-    }
+      }
     }
     equivalencesToBeKept.clear();
   }
