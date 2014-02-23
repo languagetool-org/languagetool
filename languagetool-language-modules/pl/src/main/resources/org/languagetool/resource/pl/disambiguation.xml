@@ -183,6 +183,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="INDZIEJ" name="kiedy indziej itp.">
+        <pattern>
+            <marker>
+            <token regexp="yes">nigdy|kiedy|gdzie|nigdzie|gdziekolwiek</token>
+            </marker>
+            <token>indziej</token>
+        </pattern>
+        <disambig postag="adv"/>
+    </rule>
+
     <rule id="A_NUZ" name="a nuż">
         <pattern>
             <marker>
@@ -211,7 +221,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<marker>
     			<token>bez</token>
     		</marker>
-    		<token><exception postag_regexp="yes" postag=".*gen.*"></exception></token>    			
+    		<token><exception postag_regexp="yes" postag=".*gen.*"></exception></token>
     		</pattern>
     		<disambig action="filter" postag="subst:sg:(acc|nom):m3"></disambig>
     		<example type="untouched">Proszę kremówkę bez kremu.</example>
@@ -616,12 +626,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="OBOK_ADV" name="eliminacja obok:prep">
         <pattern>
             <marker>
-                <token>obok</token>
+                <token regexp="yes">obok|wokół</token>
             </marker>
             <token regexp="yes">[,.;]</token>
         </pattern>
         <disambig postag="adv"/>
     </rule>
+
+    <rulegroup id="MAJA_ONE_1" name="czasownik pl + one - zaimek">
+        <rule>
+            <pattern>
+                <token postag="verb.*pl.*:ter.*" postag_regexp="yes"/>
+                <token postag="ppron3:pl:nom:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep.npraep">one</token>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="one[on/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,on/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,on/ppron3:pl:nom:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep.npraep]"
+                     outputform="one[on/ppron3:pl:nom:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep.npraep]">Mają <marker>one</marker> niemałe znaczenie.
+            </example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="ppron3:pl:nom:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep.npraep">one</token>
+                <token postag="verb.*pl.*:ter.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
 
     <rule id="verb_adjverb_adj" name="czasownik + czasownik/adv -> adv">
         <pattern>
@@ -707,6 +737,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="kapitana[kapitan/subst:sg:gen:m1]">Czy jest żoną <marker>kapitana</marker>?</example>
     </rule>
 
+    <rule id="PRZYRODA_SINGULARE_TANTUM" name="Przyrody to raczej singulare">
+        <pattern>
+            <token>przyrody</token>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"/>
+        <example type="ambiguous" inputform="przyrody[przyroda/subst:pl:acc:f,przyroda/subst:pl:nom:f,przyroda/subst:pl:voc:f,przyroda/subst:sg:gen:f]"
+                outputform="przyrody[przyroda/subst:sg:gen:f]">To pomnik <marker>przyrody</marker>.</example>
+    </rule>
+
     <rulegroup name="Przyimek z rzeczownikiem" id="PREP_SUBST">
     <rule>
         <pattern>
@@ -778,7 +817,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     <unify>
                         <feature id="number"/><feature id="gender"/> <feature id="case"/>
                         <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
-                        <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                        <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
                     </unify>
                 </marker>
             </pattern>
@@ -788,11 +827,11 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <pattern>
                 <marker>
                     <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                        <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                        <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
                         <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
                     </unify>
                 </marker>
-                <token><exception postag="subst.*" postag_regexp="yes"/></token>
+                <token><exception postag="(subst|ger).*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="unify"/>
         </rule>
@@ -801,7 +840,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <unify>
                     <feature id="number"/><feature id="gender"/> <feature id="case"/>
                     <token postag="pact.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="pact.*"/></token>
-                    <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                    <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
@@ -809,7 +848,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule>
             <pattern>
                 <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                    <token postag="subst.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                    <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
                     <token postag="pact.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="pact.*"/></token>
                 </unify>
             </pattern>
@@ -820,7 +859,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <unify>
                     <feature id="number"/><feature id="gender"/> <feature id="case"/>
                     <token>jedna</token>
-                    <token postag="subst.*|adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*|adj.*"/></token>
+                    <token postag="(subst|ger|adj).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*|adj.*"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
@@ -865,6 +904,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filter"><match no="1">mieć</match></disambig>
         <example type="untouched">Oni mieli robaki.</example>
         <example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf:refl.nonrefl,maja/subst:sg:inst:f,mieć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mają[mieć/verb:fin:pl:ter:imperf:refl.nonrefl]">Oni <marker>mają</marker> robaki.</example>
+    </rule>
+
+    <rule name="kobiety miały" id="MIALY">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="gender"/><feature id="number"/>
+                        <token postag="subst.*" postag_regexp="yes"/>
+                        <token>miały</token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="miały[miał/subst:pl:acc:m3,miał/subst:pl:nom:m3,miał/subst:pl:voc:m3,mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]"
+                 outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj kobiety <marker>miały</marker> dużo pracy.</example>
     </rule>
 
     <rule name="swój to nie swoić" id="SWOJ">
@@ -1719,17 +1773,40 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
     </rule>
     
-    <rule name="chociaż/choć jako kublik" id="CHOC">
+    <rulegroup name="chociaż/choć jako kublik" id="CHOC">
+     <rule>
       <pattern>
         <marker>
           <token regexp="yes">chociaż|choć</token>
         </marker>
-        <token regexp="yes" inflected="yes">raz|trochę|jeden|przez</token>
+        <token regexp="yes" inflected="yes">raz|trochę|jeden|przez|odrobinę|przypadkiem</token>
       </pattern>
       <disambig postag="qub"/>
       <example type="untouched">Dziewczyna jest bystra, choć nieładna.</example>
       <example type="ambiguous" inputform="chociaż[chociaż/comp,chociaż/comp:comma,chociaż/qub]" outputform="chociaż[chociaż/qub]">Każdy człowiek <marker>chociaż</marker> raz w życiu chciałby zjeść krowę.</example>
     </rule>
+    <rule>
+        <pattern>
+            <token postag="qub">może</token>
+            <token regexp="yes" postag="qub">chociaż|choć</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Dziewczyna jest bystra, choć nieładna.</example>
+        <example type="ambiguous" inputform="chociaż[chociaż/comp,chociaż/comp:comma,chociaż/qub]" outputform="chociaż[chociaż/qub]">Może <marker>chociaż</marker> teraz zjesz krowę!</example>
+    </rule>
+    <rule>
+        <pattern>
+            <marker><token regexp="yes" postag="qub">chociaż|choć<exception scope="previous">,</exception></token></marker>
+            <token/>
+            <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous"
+                inputform="choć[choć/comp,choć/comp:comma,choć/qub]"
+                outputform="choć[choć/qub]">niech no ujrzę, że ktoś z was tknie go <marker>choć</marker> palcem!</example>
+    </rule>
+    </rulegroup>
+
     
     <rule name="około jako kublik" id="OKOLO">
       <pattern>
@@ -2028,6 +2105,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
     </rulegroup>
+
+    <rule id="WYPISZ_WYMALUJ" name="wypisz wymaluj - bez przecinka">
+        <pattern>
+            <token>wypisz</token>
+            <marker>
+                <token>wymaluj</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
 
     <rule id="JAKI_BADZ_X" name="jaki bądź xxx – bez przecinka">
         <pattern>

@@ -1468,6 +1468,19 @@ $Id$
 						<example correction="Tak czy siak" type="incorrect"><marker>Tak, czy siak</marker>, nie ma to sensu.</example>
                         <example type="correct">— Czy tak, czy owak, z opowieścią biegaj.</example>
 				</rule>
+                <rule id="WYPISZ_WYMALUJ" name="Zbędny przecinek w „wypisz wymaluj”">
+                <pattern>
+                    <token>wypisz</token>
+                    <token>,</token>
+                    <token>wymaluj</token>
+                </pattern>
+                <message>W tym stałym związku frazeologicznym nie stawia się przecinka.</message>
+                    <suggestion>\1 \3</suggestion>
+                    <url>http://so.pwn.pl/zasady.php?id=629795</url>
+                    <short>Zbędny przecinek</short>
+                    <example type="incorrect" correction="Wypisz wymaluj"><marker>Wypisz, wymaluj</marker>, sama pani Franciszka, czarnooka, czarnowłosa.</example>
+                    <example type="correct"><marker>Wypisz wymaluj</marker>, sama pani Franciszka, czarnooka, czarnowłosa.</example>
+                </rule>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
 								<pattern case_sensitive="yes">
@@ -2008,6 +2021,7 @@ $Id$
                         <token>trafił</token>
                     </pattern>
                     <message>W tym wyrażeniu nie kładzie się przecinka: <suggestion>\1 \2 \4</suggestion>.</message>
+                    <url>http://so.pwn.pl/zasady.php?id=629795</url>
                     <short>Zbędny przecinek</short>
                     <example type="correct">Szukali na chybił trafił.</example>
                     <example type="incorrect" correction="na chybił trafił">Szukali czegoś <marker>na chybił, trafił</marker>.</example>
