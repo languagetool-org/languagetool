@@ -42,6 +42,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.TextAction;
 
 /**
  * A simple GUI to check texts with.
@@ -428,21 +430,21 @@ public final class Main {
     editMenu.add(undoRedo.redoAction);
     editMenu.addSeparator();
     
-    Action cutAction = this.textArea.getActionMap().get(DefaultEditorKit.cutAction);
+    Action cutAction = new DefaultEditorKit.CutAction();
     cutAction.putValue(Action.SMALL_ICON, getImageIcon("sc_cut.png"));
     cutAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_cut.png"));
     cutAction.putValue(Action.NAME, getLabel("guiMenuCut"));
     cutAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_T);
     editMenu.add(cutAction);
 
-    Action copyAction = textArea.getActionMap().get(DefaultEditorKit.copyAction);
+    Action copyAction = new DefaultEditorKit.CopyAction();
     copyAction.putValue(Action.SMALL_ICON, getImageIcon("sc_copy.png"));
     copyAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_copy.png"));
     copyAction.putValue(Action.NAME, getLabel("guiMenuCopy"));
     copyAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_C);
     editMenu.add(copyAction);
 
-    Action pasteAction = textArea.getActionMap().get(DefaultEditorKit.pasteAction);
+    Action pasteAction = new DefaultEditorKit.PasteAction();
     pasteAction.putValue(Action.SMALL_ICON, getImageIcon("sc_paste.png"));
     pasteAction.putValue(Action.LARGE_ICON_KEY, getImageIcon("lc_paste.png"));
     pasteAction.putValue(Action.NAME, getLabel("guiMenuPaste"));
@@ -451,10 +453,7 @@ public final class Main {
 
     editMenu.addSeparator();
 
-    Action selectAllAction = textArea.getActionMap().get(DefaultEditorKit.selectAllAction);
-    selectAllAction.putValue(Action.NAME, getLabel("guiMenuSelectAll"));
-    selectAllAction.putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
-    editMenu.add(selectAllAction);
+    editMenu.add(new SelectAllAction());
 
     menuBar.add(fileMenu);
     menuBar.add(editMenu);
@@ -727,12 +726,6 @@ public final class Main {
           JPanel panel = new JPanel(new GridBagLayout());
           taggerDialog.add(panel);
           taggerArea = new JTextPane();
-          taggerArea.registerKeyboardAction(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              taggerArea.copy();
-            }
-          }, KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.CTRL_DOWN_MASK), JComponent.WHEN_IN_FOCUSED_WINDOW);
           taggerArea.setContentType("text/html");
           taggerArea.setEditable(false);
           GridBagConstraints c = new GridBagConstraints();
@@ -1140,6 +1133,20 @@ public final class Main {
     @Override
     public void actionPerformed(ActionEvent e) {
       ltSupport.getTextComponent().setText("");
+    }
+  }
+
+  private class SelectAllAction extends TextAction {
+
+    private SelectAllAction() {
+      super(getLabel("guiMenuSelectAll"));
+      putValue(Action.MNEMONIC_KEY, KeyEvent.VK_A);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      JTextComponent component = getFocusedComponent();
+      component.selectAll();
     }
   }
 
