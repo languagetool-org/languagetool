@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.078 2014-02-17 23:48:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.079 2014-02-23 00:28:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1583,8 +1583,11 @@ $Id: grammar.xml,v 1.078 2014-02-17 23:48:00 marcoagpinto Exp $
     <!-- PARA DE pára de -->
     <rule id="PARA_DE" name="pára de">
       <pattern>
-        <token>para</token>
-        <token>de</token>
+        <marker>      
+	        <token>para</token>
+	        <token>de</token>                
+        </marker>
+        <token><exception regexp="yes">mim|eles|elas|nós</exception></token> 
       </pattern>
       <message>Substituir «para de» por <suggestion>pára de</suggestion>.</message>
       <example type="incorrect">Por favor <marker>para de</marker> me aborrecer.</example>
