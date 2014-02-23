@@ -116,7 +116,7 @@ public class Polish extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Marcin Miłkowski")};
+    return new Contributor[] { Contributors.MARCIN_MILKOWSKI };
   }
 
   @Override
