@@ -27,8 +27,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.junit.Ignore;
-import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 
 public class UnifierTest extends TestCase {
@@ -58,24 +56,28 @@ public class UnifierTest extends TestCase {
     boolean satisfied = uni.isSatisfied(lower1, equiv);
     satisfied &= uni.isSatisfied(lower2, equiv);
     uni.startUnify();
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upper2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(lower2, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upper1, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(lower1, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upper2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(upper1, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, satisfied);
     uni.reset();
     equiv.clear();
@@ -86,6 +88,7 @@ public class UnifierTest extends TestCase {
     satisfied = uni.isSatisfied(upper2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(upper1, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
     equiv.clear();
@@ -96,12 +99,14 @@ public class UnifierTest extends TestCase {
     satisfied = uni.isSatisfied(upper2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(upper1, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, satisfied);
     uni.reset();
 
     satisfied = uni.isSatisfied(upperAll2, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(upperAll1, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
   }
 
@@ -126,6 +131,7 @@ public class UnifierTest extends TestCase {
     boolean satisfied = uni.isSatisfied(sing1, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
 
@@ -135,6 +141,7 @@ public class UnifierTest extends TestCase {
     satisfied |= uni.isSatisfied(sing1a, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
 
@@ -147,6 +154,7 @@ public class UnifierTest extends TestCase {
     satisfied |= uni.isSatisfied(sing1a, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
 
@@ -158,6 +166,7 @@ public class UnifierTest extends TestCase {
     satisfied |= uni.isSatisfied(sing1a, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
 
@@ -165,6 +174,7 @@ public class UnifierTest extends TestCase {
     satisfied = uni.isSatisfied(sing1a, equiv);
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, satisfied);
     uni.reset();
   }
@@ -205,6 +215,7 @@ public class UnifierTest extends TestCase {
     uni.startUnify();
     satisfied &= uni.isSatisfied(sing2, equiv);
     uni.startNextToken();
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     assertEquals("[mały[mały/adj:sg:blahblah:m*], człowiek[człowiek/subst:sg:blahblah:m*]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
@@ -244,6 +255,7 @@ public class UnifierTest extends TestCase {
     uni.startNextToken();
     satisfied &= uni.isSatisfied(sing3, equiv);
     uni.startNextToken();
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, satisfied);
     uni.reset();
 
@@ -318,8 +330,7 @@ public class UnifierTest extends TestCase {
         Arrays.toString(uni.getFinalUnified()));
   }
 
-  /**
-  @Ignore("the logic of checkNext() is wrong")
+
   public void testMultipleFeatsWithMultipleTypes() {
     final UnifierConfiguration unifierConfig = new UnifierConfiguration();
     unifierConfig.setEquivalence("number", "singular",
@@ -389,7 +400,7 @@ public class UnifierTest extends TestCase {
     uni.reset();
 
   }
-  **/
+
 
   private Element preparePOSElement(final String posString) {
     final Element el = new Element("", false, false, false);
@@ -440,6 +451,7 @@ public class UnifierTest extends TestCase {
     uni.startNextToken();
     satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
     uni.startNextToken();
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(true, satisfied);
     uni.reset();
 
@@ -458,6 +470,7 @@ public class UnifierTest extends TestCase {
     uni.startNextToken();
     satisfied &= uni.isSatisfied(subst_sing_masc, equiv);
     uni.startNextToken();
+    satisfied &= uni.getFinalUnificationValue(equiv);
     assertEquals(false, !satisfied);
     uni.reset();
 
