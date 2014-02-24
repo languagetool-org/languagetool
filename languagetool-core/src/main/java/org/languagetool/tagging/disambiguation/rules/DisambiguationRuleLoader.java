@@ -62,7 +62,7 @@ public class DisambiguationRuleLoader extends DefaultHandler {
 
 class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
-  private static final String WD = "wd";
+    private static final String WD = "wd";
   private static final String ACTION = "action";
   private static final String DISAMBIG = "disambig";
 
@@ -109,11 +109,11 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       final String qName, final Attributes attrs) throws SAXException {
       switch (qName) {
         case RULE:
-          id = attrs.getValue("id");
+          id = attrs.getValue(ID);
           if (inRuleGroup) {
             subId++;
           }
-          name = attrs.getValue("name");
+          name = attrs.getValue(NAME);
           if (inRuleGroup && id == null) {
             id = ruleGroupId;
           }
@@ -147,10 +147,10 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           uniCounter = 0;
           break;
         case "feature":
-          uFeature = attrs.getValue("id");
+          uFeature = attrs.getValue(ID);
           break;
         case TYPE:
-          uType = attrs.getValue("id");
+          uType = attrs.getValue(ID);
           uTypeList.add(uType);
           break;
         case TOKEN:
@@ -210,8 +210,8 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           }
           break;
         case RULEGROUP:
-          ruleGroupId = attrs.getValue("id");
-          ruleGroupName = attrs.getValue("name");
+          ruleGroupId = attrs.getValue(ID);
+          ruleGroupName = attrs.getValue(NAME);
           inRuleGroup = true;
           subId = 0;
           break;
@@ -243,7 +243,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           }
           example = new StringBuilder();
           break;
-        case "marker":
+        case MARKER:
           example.append("<marker>");
           if (inPattern) {
             startPos = tokenCounter;
@@ -324,13 +324,13 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       untouchedExamples = null;
       startPos = -1;
       endPos = -1;
-    } else if (qName.equals(EXCEPTION)) {
+    } else if (EXCEPTION.equals(qName)) {
       finalizeExceptions();
-    } else if (qName.equals(AND)) {
+    } else if (AND.equals(qName)) {
       inAndGroup = false;
       andGroupCounter = 0;
       tokenCounter++;
-    } else if (qName.equals(TOKEN)) {
+    } else if (TOKEN.equals(qName)) {
       if (!exceptionSet || tokenElement == null) {
         tokenElement = new Element(elements.toString(), caseSensitive,
             regExpression, tokenInflected);
@@ -399,27 +399,27 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         tokenElement.setWhitespaceBefore(tokenSpaceBefore);
       }
       resetToken();
-    } else if (qName.equals(PATTERN)) {
+    } else if (PATTERN.equals(qName)) {
       inPattern = false;
       tokenCounter = 0;
-    } else if (qName.equals(MATCH)) {
+    } else if (MATCH.equals(qName)) {
       if (inDisambiguation) {
         posSelector.setLemmaString(match.toString());
       } else if (inToken) {
         tokenReference.setLemmaString(match.toString());
       }
       inMatch = false;
-    } else if (qName.equals(DISAMBIG)) {
+    } else if (DISAMBIG.equals(qName)) {
       inDisambiguation = false;
-    } else if (qName.equals(RULEGROUP)) {
+    } else if (RULEGROUP.equals(qName)) {
       inRuleGroup = false;
-    } else if (qName.equals(UNIFICATION) && inUnificationDef) {
+    } else if (UNIFICATION.equals(qName) && inUnificationDef) {
       inUnificationDef = false;
       tokenCounter = 0;
-    } else if ("feature".equals(qName)) {
+    } else if ("feature".equals(qName)) {   
       equivalenceFeatures.put(uFeature, uTypeList);
       uTypeList = new ArrayList<>();
-    } else if (qName.equals(UNIFY)) {
+    } else if (UNIFY.equals(qName)) {
       inUnification = false;
       equivalenceFeatures = new HashMap<>();
       //set negation on the last token only!
@@ -428,7 +428,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (uniNegation) {
         elementList.get(lastElement).setUniNegation();
       }
-    } else if (qName.equals(WD)) {
+    } else if (WD.equals(qName)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;
     } else if (EXAMPLE.equals(qName)) {
@@ -438,7 +438,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       } else {
         disambExamples.add(new DisambiguatedExample(example.toString(), input, output));
       }
-    } else if ("marker".equals(qName)) {
+    } else if (MARKER.equals(qName)) {
       example.append("</marker>");
       if (inPattern) {
         endPos = tokenCountForMarker;

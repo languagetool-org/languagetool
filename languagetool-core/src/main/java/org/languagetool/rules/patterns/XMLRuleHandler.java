@@ -43,7 +43,9 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class XMLRuleHandler extends DefaultHandler {
 
-  protected List<PatternRule> rules = new ArrayList<>();
+    public static final String ID = "id";
+    public static final String NAME = "name";
+    protected List<PatternRule> rules = new ArrayList<>();
   protected Language language;
 
   protected StringBuilder correctExample = new StringBuilder();

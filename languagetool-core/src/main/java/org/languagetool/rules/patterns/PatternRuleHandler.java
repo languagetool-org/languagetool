@@ -36,7 +36,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   public static final String TYPE = "type";
 
-  static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+    static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+  public static final String MARKER_TAG = "<marker>";
 
   protected Category category;
   protected String categoryIssueType;
@@ -73,7 +74,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
     if ("category".equals(qName)) {
-      final String catName = attrs.getValue("name");
+      final String catName = attrs.getValue(NAME);
       final String priorityStr = attrs.getValue("priority");
       if (priorityStr == null) {
         category = new Category(catName);
@@ -94,7 +95,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       message = new StringBuilder();
       suggestionsOutMsg = new StringBuilder();
       url = new StringBuilder();
-      id = attrs.getValue("id");
+      id = attrs.getValue(ID);
       if (inRuleGroup) {
         subId++;
       }
@@ -107,7 +108,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       if (inRuleGroup && id == null) {
         id = ruleGroupId;
       }
-      name = attrs.getValue("name");
+      name = attrs.getValue(NAME);
       if (inRuleGroup && name == null) {
         name = ruleGroupDescription;
       }
@@ -135,9 +136,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inUnification = true;
       uniNegation = YES.equals(attrs.getValue(NEGATE));
     } else if (FEATURE.equals(qName)) {
-      uFeature = attrs.getValue("id");
+      uFeature = attrs.getValue(ID);
     } else if (TYPE.equals(qName)) {
-      uType = attrs.getValue("id");
+      uType = attrs.getValue(ID);
       uTypeList.add(uType);
     } else if (TOKEN.equals(qName)) {
       setToken(attrs);
@@ -173,8 +174,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       inUrl = true;
       url = new StringBuilder();
     } else if (RULEGROUP.equals(qName)) {
-      ruleGroupId = attrs.getValue("id");
-      ruleGroupDescription = attrs.getValue("name");
+      ruleGroupId = attrs.getValue(ID);
+      ruleGroupDescription = attrs.getValue(NAME);
       defaultOff = "off".equals(attrs.getValue(DEFAULT));
       defaultOn = "on".equals(attrs.getValue(DEFAULT));
       inRuleGroup = true;
@@ -191,9 +192,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if (MATCH.equals(qName)) {
       setMatchElement(attrs);
     } else if (MARKER.equals(qName) && inCorrectExample) {
-      correctExample.append("<marker>");
+      correctExample.append(MARKER_TAG);
     } else if (MARKER.equals(qName) && inIncorrectExample) {
-      incorrectExample.append("<marker>");
+      incorrectExample.append(MARKER_TAG);
     } else if (MARKER.equals(qName) && inPattern) {
       startPos = tokenCounter;
       inMarker = true;
@@ -207,7 +208,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
     } else if ("includephrases".equals(qName)) {
       phraseElementInit();
     } else if ("phrase".equals(qName) && inPhrases) {
-      phraseId = attrs.getValue("id");
+      phraseId = attrs.getValue(ID);
     } else if ("phraseref".equals(qName) && attrs.getValue("idref") != null) {
       preparePhrase(attrs);
       tokenCountForMarker++;
@@ -233,15 +234,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         // but for phraserefs this depends on the position where the phraseref is used
         // not where it's defined. Thus we have to copy the elements so each use of
         // the phraseref can carry their own information:
-
-        /*final List<Element> tmpElements = new ArrayList<>();
-        for (Element element : elementList) {
-          tmpElements.add((Element) ObjectUtils.clone(element));
-        }
-        final PatternRule rule = new PatternRule(id, language, tmpElements,
-                name, message.toString(), shortMessage.toString(), suggestionsOutMsg.toString());
-        prepareRule(rule);
-        rules.add(rule);*/
 
         final List<Element> tmpElements = new ArrayList<>();
         createRules(new ArrayList<>(elementList), tmpElements, 0);
