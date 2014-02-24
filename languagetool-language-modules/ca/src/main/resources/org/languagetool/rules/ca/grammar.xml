@@ -6415,17 +6415,30 @@ $Id$
             <example type="incorrect" correction="avaria|haveria">Una greu <marker>averia</marker> en el cotxe.</example>
             <example type="correct">Una greu avaria.</example>
         </rule>
-    	<rule id="BOLID_BOLIT" name="de *bòlid/bòlit">
-            <pattern>
-                <token regexp="yes">de|a</token>
-                <marker>
-                    <token>bòlid</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>bòlit</suggestion> en comptes de bòlid (= automòbil)?</message>
-            <example type="incorrect" correction="bòlit">He anat tota la setmana de <marker>bòlid</marker>.</example>
-            <example type="correct">Jugaven a bòlit.</example>
-        </rule>
+    	<rulegroup id="BOLID_BOLIT" name="bòlid/bòlit">
+            <rule>
+                <pattern>
+                    <token regexp="yes">de|a</token>
+                    <marker>
+                        <token>bòlid</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>bòlit</suggestion> en comptes de bòlid (= automòbil)?</message>
+                <example type="incorrect" correction="bòlit">He anat tota la setmana de <marker>bòlid</marker>.</example>
+                <example type="correct">Jugaven a bòlit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">de|a</exception></token>
+                    <marker>
+                        <token regexp="yes">bòlits?</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)t(s?)" regexp_replace="$1d$2"/></suggestion> (= meteorit, automòbil) en comptes de "bòlit" (altres sentits)?</message>
+                <example type="incorrect" correction="bòlid">S'ha vist un <marker>bòlit</marker> al cel.</example>
+                <example type="correct">He anat tota la setmana de bòlit.</example>
+            </rule>
+        </rulegroup>
         <rule id="GERUNDI_PERD_T" name="gerundis que perden la t: fen/fent, coneixen/coneixent">
             <pattern>
                 <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">estar|anar|acabar|continuar|seguir|prosseguir</token>
@@ -8507,7 +8520,6 @@ $Id$
                 <example type="correct">Aquest home.</example>
             </rule>
         </rulegroup>
-        
     </category>
     <category name="Errors gramaticals" type="grammar">
         <rulegroup id="TOT_I_GERUNDI" name="tot i + *gerundi/infinitiu">
