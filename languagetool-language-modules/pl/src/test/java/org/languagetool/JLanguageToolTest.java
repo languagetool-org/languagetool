@@ -90,7 +90,11 @@ public class JLanguageToolTest extends TestCase {
         "PREP_SUBST:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
         "PREP_SUBST_2:1 powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3]\n"+
 
-        "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n",
+        "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n" +
+        "\n" +
+        "SUBST_NOM_VOC_VERB:2 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f,buta/subst:sg:gen:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
+        "\n" +
+        "SUBST_NOM_VOC_VERB:2 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n",
         sent.getAnnotations());
 
   }

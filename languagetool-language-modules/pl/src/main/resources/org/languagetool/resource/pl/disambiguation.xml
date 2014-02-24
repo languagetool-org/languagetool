@@ -527,12 +527,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="NUM_SUBST_GEN" name="gen po num">
         <pattern>
-            <token regexp="yes">dużo|mało|mnóstwo|parę|niewiele|wiele</token>
             <marker>
+                <token postag="(?:num|subst):.*" postag_regexp="yes" regexp="yes">dużo|mało|mnóstwo|parę|trochęKo|niewiele|wiele</token>
                 <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
             </marker>
         </pattern>
-        <disambig action="filter" postag=".*gen.*"/>
+        <disambig action="filterall" postag=".*gen.*"/>
         <example type="untouched">Mam wiele do zrobienia.</example>
         <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
     </rule>
@@ -799,6 +799,60 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="zimy[zima/subst:pl:acc:f,zima/subst:pl:nom:f,zima/subst:pl:voc:f,zima/subst:sg:gen:f]" outputform="zimy[zima/subst:sg:gen:f]">W czasie <marker>zimy</marker> niedźwiedzie piją Coca-Colę.</example>
     </rule>
 
+    <rule id="BYLA_INST" name="była + przymiotnik/czasownik w narzędniku">
+        <pattern>
+            <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
+            <token postag_regexp="yes" postag="(?:adj|ppas|subst):sg:inst:f.*"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="PREPARE_NOM_ACC_F" name="przygotowanie szukanie orzeczenia dla r. żeńskiego">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="case"/><feature id="number"/><feature id="gender"/>
+                    <token postag="(pact|ppas|adj).*acc.*:f.*" postag_regexp="yes"><exception postag="conj"/></token>
+                    <token postag="(subst|adj).*acc.*:f.*" postag_regexp="yes"><exception postag="verb.*" postag_regexp="yes"/></token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="straż[straż/subst:sg:acc:f,straż/subst:sg:nom:f]" outputform="straż[straż/subst:sg:acc:f]">Trzeba było zrobić tak zwaną <marker>straż</marker> broni.</example>
+    </rule>
+
+    <rulegroup id="SUBST_NOM_VOC_VERB" name="potencjalne orzeczenie">
+     <rule>
+        <pattern>
+            <marker>
+            <unify>
+                <feature id="number"/><feature id="gender"/>
+                <token postag="subst.*nom.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/></token>
+                <token postag="verb:(?:praet|pot):.*ter.*" postag_regexp="yes"/>
+            </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="miały[miał/subst:pl:acc:m3,miał/subst:pl:nom:m3,miał/subst:pl:voc:m3,mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]"
+                  outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj kobiety <marker>miały</marker> dużo pracy.</example>
+    </rule>
+    <rule>
+        <pattern case_sensitive="yes">
+            <marker>
+            <unify>
+                <feature id="number"/>
+                <token postag="subst.*nom.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception></token>
+                <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception></token>
+            </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
+        <example type="untouched">A to był kostur pastuszy.</example>
+        <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
+    </rule>
+    </rulegroup>
+
     <!-- now not that greedy :) -->
     <rulegroup name="unifikacja przymiotnika z rzeczownikiem" id="unify_adj_subst">
         <rule>
@@ -806,7 +860,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <unify>
                         <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
+                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
                         <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
                     </unify>
                 </marker>
@@ -896,7 +950,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf:refl.nonrefl,maja/subst:sg:inst:f,mieć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mają[mieć/verb:fin:pl:ter:imperf:refl.nonrefl]">Oni <marker>mają</marker> robaki.</example>
     </rule>
 
-    <rule name="kobiety miały" id="MIALY">
+    <!-- rule name="kobiety miały" id="MIALY">
         <pattern>
             <marker>
                 <unify>
@@ -909,7 +963,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="unify"/>
         <example type="ambiguous" inputform="miały[miał/subst:pl:acc:m3,miał/subst:pl:nom:m3,miał/subst:pl:voc:m3,mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]"
                  outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj kobiety <marker>miały</marker> dużo pracy.</example>
-    </rule>
+    </rule -->
 
     <rule name="swój to nie swoić" id="SWOJ">
         <pattern>
@@ -1393,7 +1447,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="unify"/>
         <example type="untouched">Za pewne tak uważam.</example>
-        <example type="ambiguous" inputform="pewne[pewien/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:sg:acc:n1.n2:pos,pewien/adj:sg:nom.voc:n1.n2:pos,pewne/qub,pewne/subst:pl:acc:n2,pewne/subst:pl:nom:n2,pewne/subst:pl:voc:n2,pewne/subst:sg:acc:n2,pewne/subst:sg:nom:n2,pewne/subst:sg:voc:n2,pewny/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:sg:acc:n1.n2:pos,pewny/adj:sg:nom.voc:n1.n2:pos]"
+        <example type="ambiguous" inputform="pewne[pewien/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewne/qub,pewny/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]"
                  outputform="pewne[pewien/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewien/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,pewny/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]">Za <marker>pewne</marker> kwoty można kupić nawet krowę.</example>
     </rule>
 
@@ -1782,17 +1836,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> by to zrobić.</example>
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> było to zrobić.</example>
     </rule>
-    
-    <rule name="stanowi" id="stanowi">
-    <pattern>
-      <token>co</token>
-      <marker><token>stanowi</token></marker>
-    </pattern>
-    <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
-    <example type="untouched">Stanowi niższemu nie działa się krzywda.</example>
-    <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
-    </rule>
-    
+
     <rulegroup name="chociaż/choć jako kublik" id="CHOC">
      <rule>
       <pattern>
