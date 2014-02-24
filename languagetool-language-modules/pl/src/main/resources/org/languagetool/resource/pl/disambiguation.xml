@@ -799,6 +799,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="zimy[zima/subst:pl:acc:f,zima/subst:pl:nom:f,zima/subst:pl:voc:f,zima/subst:sg:gen:f]" outputform="zimy[zima/subst:sg:gen:f]">W czasie <marker>zimy</marker> niedźwiedzie piją Coca-Colę.</example>
     </rule>
 
+    <rule id="SWOJA_INST" name="swoją > adj">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"/>
+                <token>swoją</token>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="swoją[swoić/verb:fin:pl:ter:imperf:refl.nonrefl,swój/adj:sg:acc:f:pos,swój/adj:sg:inst:f:pos]"
+                 outputform="swoją[swój/adj:sg:acc:f:pos]">Mam tu <marker>swoją</marker> teorię.</example>
+    </rule>
+
     <rule id="BYLA_INST" name="była + przymiotnik/czasownik w narzędniku">
         <pattern>
             <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
