@@ -83,6 +83,8 @@ class AtomFeedItem {
           String cleanContent = matcher.group(1)
                   .replaceAll("<span.*?>", "").replace("</span>", "")
                   .replaceAll("<div.*?>", "").replace("</div>", "")
+                  .replaceAll("<ins.*?>", "").replace("</ins>", "")
+                  .replaceAll("<del.*?>", "").replace("</del>", "")
                   .replaceAll("<!--.*?-->", "");
           result.add(cleanContent);
         } else {
