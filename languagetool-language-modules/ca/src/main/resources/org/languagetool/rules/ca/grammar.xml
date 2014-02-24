@@ -3640,7 +3640,7 @@ $Id$
                     <marker>
                         <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="[AR].*|V.P.*|PX.*" postag_regexp="yes"><exception regexp="yes">&precedits_per_TANT;</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
+                    <token postag="[AR].*|V.P.*|PX.*|.*LOC_ADV.*" postag_regexp="yes"><exception regexp="yes">&precedits_per_TANT;</exception><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
                 <short>Confusió</short>
@@ -3653,6 +3653,8 @@ $Id$
                 <example type="correct">Tant quan sigui així com quan no ho sigui.</example>
                 <example type="correct">De tant en tant altres qüestions apareixen.</example>
                 <example type="correct">No fa pas tant no ho haurien fet.</example>
+                <example type="incorrect" correction="tan">Això és <marker>tant</marker> a la llarga.</example>
+                <example type="correct">Tant a la llarga com a la curta.</example>
                 <!--No es pot resoldre: <example type="correct">Ja no s'encomana tant socialment.</example> -->
             </rule>
             <rule> 
@@ -3784,7 +3786,7 @@ $Id$
                 <pattern>
                     <token negate="yes">per</token>
                     <marker>
-                        <token>tant<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                        <token>tant<exception postag=".*LOC.*|allow_tant" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="&lt;LOC_ADV&gt;|&lt;LOC_ADJ&gt;" postag_regexp="yes"/>
                 </pattern>
@@ -3794,6 +3796,7 @@ $Id$
                 <example type="incorrect">Ara <marker>tant</marker> de moda.</example>
                 <example type="correct">Menja tan de pressa!</example>
                 <example type="correct">De tant en tant una mica.</example>
+                <example type="correct">Tant a la llarga com a la curta.</example>
             </rule>
             <rule> <!-- CASOS DUBTOSOS: tan de gust, tan de grat, tan de cop (depenen del significat) -->
                 <pattern>
@@ -3814,6 +3817,20 @@ $Id$
                 <example type="correct">tan d'escola de nou a tres</example>
                 <example type="correct">i tan de cara</example>
                 <example type="correct">Va aparèixer tan de cop i volta!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token postag="SPS00"><exception postag=".*LOC_ADV.*|.*LOC_ADJ.*" postag_regexp="yes" /><exception regexp="yes">de|d'</exception></token>
+                    <!-- <token><exception postag="NCFS000"/><exception regexp="yes">mal|cop</exception></token> -->
+                </pattern>
+                <message>Probablement cal escriure <suggestion>tant</suggestion>. Correcte davant de locució adverbial: tan a la valenta.</message>
+                <short>Confusió</short>
+                <example type="incorrect" correction="Tant"><marker>Tan</marker> en l'àmbit judicial com en el polític.</example>
+                <example type="correct">S'ho va prendre tan a la valenta.</example>
+                <example type="correct">Anava tan de pressa!</example>
             </rule>
             <rule>
                 <pattern>
