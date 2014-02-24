@@ -90,6 +90,7 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.FalseFriendPatternRule;
 import org.languagetool.tools.LanguageIdentifierTools;
 
 /**
@@ -864,10 +865,11 @@ class LanguageToolSupport {
     String exampleSentences = getExampleSentences(rule);
     String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
             + "?lang=" + languageTool.getLanguage().getShortNameWithCountryAndVariant() + "&amp;ref=standalone-gui";
+    String ruleDetailLink = rule instanceof FalseFriendPatternRule ? "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
     textPane.setText("<html>" 
             + messageWithBold + exampleSentences + formatURL(rule.getUrl()) 
             + "<br><br>" 
-            + "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>" 
+            + ruleDetailLink 
             + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
