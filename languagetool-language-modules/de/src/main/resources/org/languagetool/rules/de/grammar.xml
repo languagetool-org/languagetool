@@ -3471,6 +3471,17 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="KEIM_NOMEN" name="Keim (Kein) Mensch(...)">
+            <pattern>
+                <marker>
+                    <token>Keim</token>
+                </marker>
+                <token postag="SUB:.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Meinten Sie <suggestion>kein</suggestion>?</message>
+            <example type="incorrect"><marker>Keim</marker> Redakteur wird sich die Mühe machen</example>
+            <example type="correct">Kein Redakteur wird sich die Mühe machen</example>
+        </rule>
         <rulegroup id="IN_PUNCTO" name="Mögliche Wortverwechslung: punkto/puncto">
             <rule>
                 <pattern>
