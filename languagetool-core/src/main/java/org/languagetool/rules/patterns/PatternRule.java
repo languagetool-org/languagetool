@@ -36,23 +36,15 @@ public class PatternRule extends AbstractPatternRule {
 
   private final String shortMessage;
 
-  /**
-   * A list of elements as they appear in XML file (phrases count as single
-   * tokens in case of matches or skipping).
-   */
+  // A list of elements as they appear in XML file (phrases count as single tokens in case of matches or skipping).
   private final List<Integer> elementNo;
 
   private String message;
   private String suggestionsOutMsg; // extra suggestions outside message
 
-  // Formatted suggestion elements.
   private List<Match> suggestionMatches;
-  
-  // Formatted suggestion elements outside message.
   private List<Match> suggestionMatchesOutMsg;
-
   private Set<String> tokenSet;
-
   private Set<String> lemmaSet;
 
   // This property is used for short-circuiting evaluation of the elementNo list order.
@@ -120,7 +112,7 @@ public class PatternRule extends AbstractPatternRule {
       final List<Element> elements, final String description,
       final String message, final String shortMessage, final String suggestionsOutMsg) {
     this(id, language, elements, description, message, shortMessage);
-    this.suggestionsOutMsg=suggestionsOutMsg;
+    this.suggestionsOutMsg = suggestionsOutMsg;
   }
 
   public PatternRule(final String id, final Language language,
@@ -129,12 +121,22 @@ public class PatternRule extends AbstractPatternRule {
       final boolean isMember) {
     this(id, language, elements, description, message, shortMessage, suggestionsOutMsg);
     this.isMemberOfDisjunctiveSet = isMember;
-  }  
+  }
 
+  /**
+   * Get the message shown to the user if this rule matches.
+   */
   public final String getMessage() {
     return message;
   }
-  
+
+  /**
+   * Set the message shown to the user if this rule matches.
+   */
+  public final void setMessage(final String message) {
+    this.message = message;
+  }
+
   public final String getSuggestionsOutMsg() {
     return suggestionsOutMsg;
   }
@@ -181,10 +183,6 @@ public class PatternRule extends AbstractPatternRule {
     }
   }
 
-  public final void setMessage(final String message) {
-    this.message = message;
-  }
-
   @Override
   public final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     try {
@@ -197,14 +195,16 @@ public class PatternRule extends AbstractPatternRule {
     }
   }
 
+  /** Add formatted suggestion elements. */
   public final void addSuggestionMatch(final Match m) {
     if (suggestionMatches == null) {
       suggestionMatches = new ArrayList<>();
     }
     suggestionMatches.add(m);
   }
-  
-  public final void addSuggestionMatchOutMsg (final Match m) {
+
+  /** Add formatted suggestion elements outside message. */
+  public final void addSuggestionMatchOutMsg(final Match m) {
     if (suggestionMatchesOutMsg == null) {
       suggestionMatchesOutMsg = new ArrayList<>();
     }
