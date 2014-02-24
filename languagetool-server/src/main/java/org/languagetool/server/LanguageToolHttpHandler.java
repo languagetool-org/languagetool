@@ -116,8 +116,9 @@ class LanguageToolHttpHandler implements HttpHandler {
         throw new RuntimeException(errorMessage);
       }
     } catch (Exception e) {
+      print("An error has occurred. Stacktrace follows:", System.err);
       if (verbose) {
-        print("Exception was caused by this text: " + text);
+        print("Exception was caused by this text: " + text, System.err);
       }
       e.printStackTrace();
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
@@ -294,9 +295,13 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private static void print(String s) {
+    print(s, System.out);
+  }
+
+  private static void print(String s, PrintStream outputStream) {
     final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     final String now = dateFormat.format(new Date());
-    System.out.println(now + " " + s);
+    outputStream.println(now + " " + s);
   }
 
   /**
