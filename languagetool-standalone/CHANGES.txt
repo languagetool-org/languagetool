@@ -36,7 +36,7 @@ LanguageTool Change Log
     -added simple compounding support for compound words containing prefixes
      such as "anty" or "mini", and adjectives with numerals such as "trzynasto"
     -removed annoying false alarms
-    -added some new rules
+    -added a number of new rules
     -changed word tokenization so that the hyphen at the end of a
      word is no longer its part; multi-word expressions with a hyphen
      are also split into their component parts to avoid many false
@@ -57,15 +57,23 @@ LanguageTool Change Log
 -added common punctuation and mathematical characters (=#*∗×·+÷) to the 
  set of tokenizing characters in most languages
 
--spell checking: Immunized tokens are now ignored and
-   don't cause a spelling error anymore; one can also add particular
-   contextual expressions to ignored words by using a new action
-   of the disambiguator: "ignore_spelling" 
+-spell checking:
+   -Immunized tokens are now ignored and don't cause a spelling error anymore;
+    one can also add particular contextual expressions to ignored words by using
+    a new action of the disambiguator: "ignore_spelling".
+   -The words in ignore.txt are checked using case conversions allowed in the
+    speller dictionary (in MorfologikSpeller-based dictionaries).
+    This usually means that the word added in lowercase will be accepted
+    also when it is found at the beginning of the sentence; but if it is added in
+    uppercase, it won't be accepted when written in lowercase.
+   -updated Morfologik libraries to 1.9.0 to speed up suggestion generation in spell
+    checks, not only when using replacement pairs but also for ignoring diacritics.
 
 -stand-alone GUI:
     -The "More..." dialog now contains a link to community.languagetool.org
      with details about the matching rule
-    
+
+
 -API:
     -incompatible change: changed the return type of Rule.getLocQualityIssueType()
      from String to ITSIssueType
