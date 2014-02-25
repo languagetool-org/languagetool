@@ -138,12 +138,12 @@ public class English extends Language {
     return Arrays.asList(
         CommaWhitespaceRule.class,
         DoublePunctuationRule.class,
-        EnglishUnpairedBracketsRule.class,
         UppercaseSentenceStartRule.class,
         WhitespaceRule.class,
         LongSentenceRule.class,
         SentenceWhitespaceRule.class,
         // specific to English:
+        EnglishUnpairedBracketsRule.class,
         EnglishWordRepeatRule.class,
         AvsAnRule.class,
         EnglishWordRepeatBeginningRule.class,

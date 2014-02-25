@@ -29,15 +29,16 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * Pr&uuml;ft, dass in Bindestrich-Komposita kein Leerzeichen eingef&uuml;gt wird (wie z.B. in 'Di&auml;ten- Erh&ouml;hung').
+ * Prüft, dass in Bindestrich-Komposita kein Leerzeichen eingefügt wird (wie z.B. in 'Diäten- Erhöhung').
  *   
  * @author Daniel Naber
  */
 public class DashRule extends GermanRule {
 
   public DashRule(final ResourceBundle messages) {
-    if (messages != null)
+    if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
+    }
     addExamplePair(Example.wrong("Bundestag beschließt <marker>Diäten- Erhöhung</marker>"),
                    Example.fixed("Bundestag beschließt <marker>Diäten-Erhöhung</marker>"));
   }
