@@ -84,16 +84,19 @@ public class MorfologikSpeller {
     final List<String> suggestions = new ArrayList<>();
     try {
       suggestions.addAll(speller.findReplacements(word));
-      if (suggestions.isEmpty() && !word.toLowerCase(conversionLocale).equals(word)) {
-        suggestions.addAll(speller.findReplacements(word.toLowerCase(conversionLocale)));
-      }
       suggestions.addAll(speller.replaceRunOnWords(word));
     } catch (CharacterCodingException e) {
       throw new RuntimeException(e);
     }
+    // capitalize suggestions if necessary
     if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
-        suggestions.set(i, StringTools.uppercaseFirstChar(suggestions.get(i)));
+        String uppercaseFirst = StringTools.uppercaseFirstChar(suggestions.get(i));
+          int auxIndex = suggestions.indexOf(uppercaseFirst); //remove capitalized duplicates
+          if (auxIndex > i) {
+             suggestions.remove(auxIndex);
+          }
+          suggestions.set(i, uppercaseFirst);
       }
     }
     return suggestions;

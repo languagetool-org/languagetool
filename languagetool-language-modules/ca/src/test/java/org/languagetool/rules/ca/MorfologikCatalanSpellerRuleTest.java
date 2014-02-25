@@ -191,7 +191,7 @@ public class MorfologikCatalanSpellerRuleTest {
         
         matches = rule.match(langTool.getAnalyzedSentence("TAula"));
         assertEquals(1, matches.length);
-        assertEquals("taula", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Taula", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("col·Labora"));
         assertEquals(1, matches.length);
@@ -237,8 +237,8 @@ public class MorfologikCatalanSpellerRuleTest {
 
         matches = rule.match(langTool.getAnalyzedSentence("IVa"));
         assertEquals(1, matches.length);
-        assertEquals("iva", matches[0].getSuggestedReplacements().get(0));
-//      assertEquals("IVA", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Iva", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("IVA", matches[0].getSuggestedReplacements().get(1));
 
         matches = rule.match(langTool.getAnalyzedSentence("Dvd"));
         assertEquals(1, matches.length);
