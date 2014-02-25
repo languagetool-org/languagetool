@@ -1398,6 +1398,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Wróć, to wesele ci się spodoba.</example>
     </rule>
 
+    <rule id="JAK_NIE_CONJ" name="jak w funkcji innej niż spójnik">
+        <pattern>
+            <marker><token>jak<exception scope="previous">,</exception><exception scope="previous" postag="SENT_START"/></token></marker>
+        </pattern>
+        <disambig action="remove"><wd pos="conj"/></disambig>
+    </rule>
+
     <rulegroup id="BRATA_SUBST" name="„brata” itp. jako rzeczownik">
         <rule>
             <pattern>
