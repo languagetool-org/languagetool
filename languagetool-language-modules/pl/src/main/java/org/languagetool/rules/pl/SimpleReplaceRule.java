@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
 /**
@@ -53,6 +54,8 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCheckLemmas(false);
+    addExamplePair(Example.wrong("Uspokój <marker>sie</marker>."),
+        Example.fixed("Uspokój <marker>się</marker>."));
   }
 
   @Override

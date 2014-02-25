@@ -21,6 +21,7 @@ package org.languagetool.rules.pl;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
@@ -64,8 +65,8 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
   public MorfologikPolishSpellerRule(ResourceBundle messages,
                                      Language language) throws IOException {
     super(messages, language);
-    //TODO: use speller.convertsCase() instead, but we need to wait for 1.9 release
-    setConvertsCase(true);
+    addExamplePair(Example.wrong("To jest zdanie z <marker>bledem</marker>"),
+        Example.fixed("To jest zdanie z <marker>błędem</marker>."));
   }
 
   @Override
