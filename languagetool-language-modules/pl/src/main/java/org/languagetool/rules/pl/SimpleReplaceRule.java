@@ -54,7 +54,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
     setCheckLemmas(false);
-    addExamplePair(Example.wrong("Uspokój <marker>sie</marker>."),
+    addExamplePair(Example.wrong("Uspokój <marker>sei</marker>."),
         Example.fixed("Uspokój <marker>się</marker>."));
   }
 

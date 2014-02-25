@@ -86,8 +86,8 @@ public class PolishWordRepeatRule extends AdvancedWordRepeatRule {
 
   public PolishWordRepeatRule(final ResourceBundle messages) {
     super(messages);
-    addExamplePair(Example.wrong("To było słowo, <marker>które które</marker> się źle kojarzyło."),
-        Example.fixed("To było słowo, <marker>które</marker> się źle kojarzyło."));
+    addExamplePair(Example.wrong("Mówiła długo, bo lubiła robić wszystko <marker>długo</marker>."),
+        Example.fixed("Mówiła długo, bo lubiła robić wszystko <marker>powoli</marker>."));
   }
 
   @Override
