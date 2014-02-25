@@ -24,6 +24,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
@@ -41,6 +42,8 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     startSymbols = EN_START_SYMBOLS;
     endSymbols = EN_END_SYMBOLS;
     uniqueMapInit();
+    addExamplePair(Example.wrong("<marker>\"</marker>I'm over here, she said."),
+                   Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
   }
 
   @Override

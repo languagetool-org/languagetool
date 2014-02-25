@@ -31,6 +31,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -60,6 +61,8 @@ public class AvsAnRule extends EnglishRule {
     requiresA = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_A));
     requiresAn = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILENAME_AN));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    addExamplePair(Example.wrong("The train arrived <marker>a hour</marker> ago."),
+                   Example.fixed("The train arrived <marker>an hour</marker> ago."));
   }
 
   @Override

@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
 /**
@@ -51,6 +52,8 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(new Category("Possible Typo"));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),
+                   Example.fixed("We <marker>haven't</marker> earned anything."));
   }
 
   @Override

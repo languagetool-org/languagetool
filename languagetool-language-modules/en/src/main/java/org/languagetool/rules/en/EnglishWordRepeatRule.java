@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatRule;
 
 /**
@@ -31,6 +32,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
 
   public EnglishWordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
+    addExamplePair(Example.wrong("This <marker>is is</marker> just an example sentence."),
+                   Example.fixed("This <marker>is</marker> just an example sentence."));
   }
 
   @Override

@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
 /**
@@ -49,6 +50,8 @@ public class NewZealandReplaceRule extends AbstractSimpleReplaceRule {
   public NewZealandReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
+    addExamplePair(Example.wrong("A <marker>sidewalk</marker> is a path along the side of a road."),
+                   Example.fixed("A <marker>footpath</marker> is a path along the side of a road."));
   }
 
   @Override

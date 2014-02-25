@@ -23,9 +23,8 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
-public final class MorfologikBritishSpellerRule extends MorfologikSpellerRule {
+public final class MorfologikBritishSpellerRule extends AbstractEnglishSpellerRule {
 
   public static final String RULE_ID = "MORFOLOGIK_RULE_EN_GB";
 

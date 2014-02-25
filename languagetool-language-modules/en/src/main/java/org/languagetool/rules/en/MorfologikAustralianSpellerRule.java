@@ -23,9 +23,8 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
-public final class MorfologikAustralianSpellerRule extends MorfologikSpellerRule {
+public final class MorfologikAustralianSpellerRule extends AbstractEnglishSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_AU.dict";
 

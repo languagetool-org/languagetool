@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.Example;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -36,6 +37,8 @@ public class CompoundRule extends AbstractCompoundRule {
             "This word is normally spelled as one.", 
             "This expression is normally spelled as one or with hyphen.");
     super.setShort("Hyphenation problem");
+    addExamplePair(Example.wrong("I now have a <marker>part time</marker> job."),
+                   Example.fixed("I now have a <marker>part-time</marker> job."));
   }
   
   @Override
