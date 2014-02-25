@@ -2912,6 +2912,19 @@ $Id$
                 <example type="correct">Ell ho va preferir així.</example> 
              </rule>
         </rulegroup>
+        <rule id="HAVER_DE_PARTICIPI" name="haver de *participat/participar">
+            <pattern>
+                <token inflected="yes">haver</token>
+                <token regexp="yes">de|d'</token>
+                <marker>
+                    <token postag="V.P.*SM." postag_regexp="yes"><exception postag="V.[NG].*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
+            <short>Falta un infinitiu</short>
+            <example type="incorrect" correction="participar">Han de <marker>participat</marker> tots.</example>
+            <example type="correct">Han de participar tots.</example> 
+        </rule>
         <rule id="DONAR_DE_MENJAR" name="donar *de menjar/beure/mamar">
             <pattern>
                 <marker>
