@@ -62,7 +62,7 @@ public class DisambiguationRuleLoader extends DefaultHandler {
 
 class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
-    private static final String WD = "wd";
+  private static final String WD = "wd";
   private static final String ACTION = "action";
   private static final String DISAMBIG = "disambig";
 

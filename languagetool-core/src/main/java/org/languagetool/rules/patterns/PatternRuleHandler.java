@@ -35,9 +35,9 @@ import org.xml.sax.SAXException;
 public class PatternRuleHandler extends XMLRuleHandler {
 
   public static final String TYPE = "type";
-
-    static final String PLEASE_SPELL_ME = "<pleasespellme/>";
-  public static final String MARKER_TAG = "<marker>";
+  
+  static final String MARKER_TAG = "<marker>";
+  static final String PLEASE_SPELL_ME = "<pleasespellme/>";
 
   protected Category category;
   protected String categoryIssueType;
