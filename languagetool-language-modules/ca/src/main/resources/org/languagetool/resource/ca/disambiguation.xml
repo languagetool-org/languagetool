@@ -664,6 +664,57 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="LOC_ADJ"/><wd pos="LOC_ADJ"/></disambig>
             <example type="untouched">No us heu <marker>de fiar</marker> de ningú.</example>
         </rule>
+        <rule id="a_prop_de" name="a prop/sobre/damunt de">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token regexp="yes">prop|sobre|sota|damunt|davall|començaments?|finals?|inicis?|principis?|tocar</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_PREP"/><wd pos="LOC_PREP"/><wd pos="LOC_PREP"/></disambig>
+        </rule>
+        <rule id="per_sobre_de" name="per sobre de">
+            <pattern>
+                <marker>
+                    <token>per</token>
+                    <token regexp="yes">sobre|sota|damunt|davall</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_PREP"/><wd pos="LOC_PREP"/><wd pos="LOC_PREP"/></disambig>
+        </rule>
+        <rule id="a_prop" name="a prop/sobre/damunt">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token regexp="yes">prop|sobre|sota|damunt|davall|gust|pler|plaer</token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+        </rule>
+        <rule id="en_forma" name="en forma">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token regexp="yes">forma|perill</token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>la</token>
+                    <token>vora</token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig> 
+        </rule>
         <!--  Locucions adverbials-->
         <rule id="loc_adv3paraules" name="locució adverbial 3 paraules">
             <pattern>
