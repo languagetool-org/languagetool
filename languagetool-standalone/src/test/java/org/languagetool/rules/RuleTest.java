@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,6 +35,12 @@ public class RuleTest extends TestCase {
   public void testJavaRuleIds() throws IOException {
     final Set<String> ids = new HashSet<>();
     final Set<Class> ruleClasses = new HashSet<>();
+    if (Language.LANGUAGES.length <= 1) {
+      System.err.println("***************************************************************************");
+      System.err.println("WARNING: found only these languages - the tests might not be complete:");
+      System.err.println(Arrays.toString(Language.LANGUAGES));
+      System.err.println("***************************************************************************");
+    }
     for (Language language : Language.LANGUAGES) {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();
