@@ -158,9 +158,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("caçessim"));
         assertEquals(1, matches.length);
         assertEquals("cacéssim", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("casséssim", matches[0].getSuggestedReplacements().get(1));
-        assertEquals("caséssim", matches[0].getSuggestedReplacements().get(2));
-        assertEquals("cesséssim", matches[0].getSuggestedReplacements().get(3));
+        assertEquals("cassàssim", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("casséssim", matches[0].getSuggestedReplacements().get(2));
+        assertEquals("casàssim", matches[0].getSuggestedReplacements().get(3));
+        assertEquals("caséssim", matches[0].getSuggestedReplacements().get(4));
         
         matches = rule.match(langTool.getAnalyzedSentence("coche"));
         assertEquals(1, matches.length);
