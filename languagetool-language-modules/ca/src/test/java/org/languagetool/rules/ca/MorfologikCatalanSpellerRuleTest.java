@@ -102,6 +102,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("bàner", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("especialisats"));
+        assertEquals(1, matches.length);
+        assertEquals("especialitzats", matches[0].getSuggestedReplacements().get(0));
+        
         matches = rule.match(langTool.getAnalyzedSentence("colaborassió"));
         assertEquals(1, matches.length);
         assertEquals("col·laboració", matches[0].getSuggestedReplacements().get(0));
@@ -154,9 +158,15 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("caçessim"));
         assertEquals(1, matches.length);
         assertEquals("cacéssim", matches[0].getSuggestedReplacements().get(0));
-        assertEquals("caséssim", matches[0].getSuggestedReplacements().get(2));
         assertEquals("casséssim", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("caséssim", matches[0].getSuggestedReplacements().get(2));
         assertEquals("cesséssim", matches[0].getSuggestedReplacements().get(3));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("coche"));
+        assertEquals(1, matches.length);
+        assertEquals("cotxe", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("cuixa", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("coixa", matches[0].getSuggestedReplacements().get(2));
         
         
         matches = rule.match(langTool.getAnalyzedSentence("cantaríà"));
@@ -194,17 +204,20 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("després", matches[0].getSuggestedReplacements().get(0));
         
-        matches = rule.match(langTool.getAnalyzedSentence("especialisats"));
+        matches = rule.match(langTool.getAnalyzedSentence("dessinstalasio"));
         assertEquals(1, matches.length);
-        assertEquals("especialitzats", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("desinstal·làssiu", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("desinstal·lació", matches[0].getSuggestedReplacements().get(1));
+       
 
         matches = rule.match(langTool.getAnalyzedSentence("matitzàrem"));
         assertEquals(1, matches.length);
-//        assertEquals("matisàrem", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("matisarem", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("matisàrem", matches[0].getSuggestedReplacements().get(1));
         
         matches = rule.match(langTool.getAnalyzedSentence("tamitzéssim"));
         assertEquals(1, matches.length);
-        assertEquals("tamiséssim", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("tamisàssim", matches[0].getSuggestedReplacements().get(0));
         
         matches = rule.match(langTool.getAnalyzedSentence("adquireixquen"));
         assertEquals(1, matches.length);
@@ -224,12 +237,11 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("IVa"));
         assertEquals(1, matches.length);
         assertEquals("iva", matches[0].getSuggestedReplacements().get(0));
-//        assertEquals("IVA", matches[0].getSuggestedReplacements().get(1));
+//      assertEquals("IVA", matches[0].getSuggestedReplacements().get(1));
 
         matches = rule.match(langTool.getAnalyzedSentence("Dvd"));
         assertEquals(1, matches.length);
         assertEquals("DVD", matches[0].getSuggestedReplacements().get(0));
-
         
         // deprecated characters of "ela geminada"
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'hi havien instaŀlat.")).length);
