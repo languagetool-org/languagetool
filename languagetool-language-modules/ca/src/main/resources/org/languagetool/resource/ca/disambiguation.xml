@@ -666,6 +666,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="a_prop_de" name="a prop/sobre/damunt de">
             <pattern>
+                <token><exception>la</exception></token>
                 <marker>
                     <token>a</token>
                     <token regexp="yes">prop|sobre|sota|damunt|davall|començaments?|finals?|inicis?|principis?|tocar</token>
@@ -686,6 +687,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="a_prop" name="a prop/sobre/damunt">
             <pattern>
+                <token><exception>la</exception></token>
                 <marker>
                     <token>a</token>
                     <token regexp="yes">prop|sobre|sota|damunt|davall|gust|pler|plaer</token>
@@ -700,9 +702,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>en</token>
                     <token regexp="yes">forma|perill</token>
                 </marker>
-                <token><exception regexp="yes">de|d'</exception></token>
+                <token><exception regexp="yes">de|d'</exception><exception postag="AQ.[FC]S.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+            <example type="untouched">És <marker>en forma</marker> hexagonal.</example>
         </rule>
         <rule>
             <pattern>
