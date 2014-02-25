@@ -21,12 +21,15 @@ package org.languagetool.rules.de;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+import org.languagetool.rules.Example;
 import org.languagetool.rules.WrongWordInContextRule;
 
 public class GermanWrongWordInContextRule extends WrongWordInContextRule {
   
   public GermanWrongWordInContextRule(final ResourceBundle messages) throws IOException {
     super(messages);
+    addExamplePair(Example.wrong("Eine Gitarre hat sechs <marker>Seiten</marker>."),
+                   Example.fixed("Eine Gitarre hat sechs <marker>Saiten</marker>."));
   }
   
   @Override

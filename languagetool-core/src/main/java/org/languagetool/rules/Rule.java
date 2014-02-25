@@ -294,4 +294,14 @@ public abstract class Rule {
     this.locQualityIssueType = locQualityIssueType;
   }
 
+  /**
+   * Convenience method to add a pair of sentences: an incorrect sentence and the same sentence
+   * with the error corrected.
+   * @since 2.5
+   */
+  protected void addExamplePair(IncorrectExample incorrectSentence, String correctSentence) {
+    incorrectExamples.add(incorrectSentence);
+    correctExamples.add(correctSentence);
+  }
+
 }

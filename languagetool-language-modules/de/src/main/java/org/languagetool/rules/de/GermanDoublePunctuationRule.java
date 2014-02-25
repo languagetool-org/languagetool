@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.Example;
 
 /**
  * Double punctuation rule with German-specific error message.
@@ -36,6 +37,8 @@ public class GermanDoublePunctuationRule extends DoublePunctuationRule {
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
+    addExamplePair(Example.wrong("Sein Vater ist Regierungsrat <marker>a. D..</marker>"),
+                   Example.fixed("Sein Vater ist Regierungsrat <marker>a. D.</marker>"));
   }
   
   @Override

@@ -22,6 +22,7 @@ import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
 import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
@@ -72,6 +73,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public GermanSpellerRule(ResourceBundle messages, Language language) {
     super(messages, language, getCompoundSplitter(), getSpeller(language));
+    addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
+                   Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
   }
 
   @Override

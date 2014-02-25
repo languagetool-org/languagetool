@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
 import org.languagetool.tagging.de.GermanTagger;
@@ -164,6 +165,8 @@ public class AgreementRule extends GermanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
     }
+    addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
+                   Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut"));
   }
   
   @Override

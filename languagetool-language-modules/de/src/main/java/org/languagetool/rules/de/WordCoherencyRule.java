@@ -32,6 +32,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -57,7 +58,9 @@ public class WordCoherencyRule extends GermanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME)); 
+    relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME));
+    addExamplePair(Example.wrong("Die Delfine gehören zu den Zahnwalen. <marker>Delphine</marker> sind in allen Meeren verbreitet."),
+                   Example.fixed("Die Delfine gehören zu den Zahnwalen. <marker>Delfine</marker> sind in allen Meeren verbreitet."));
   }
   
   @Override

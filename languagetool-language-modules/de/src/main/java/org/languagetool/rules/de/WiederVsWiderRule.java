@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -39,6 +40,8 @@ public class WiederVsWiderRule extends GermanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_typo")));
     }
+    addExamplePair(Example.wrong("Das spiegelt die Situation in Deutschland <marker>wieder</marker>."),
+                   Example.fixed("Das spiegelt die Situation in Deutschland <marker>wider</marker>."));
   }
   
   @Override

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerRule {
@@ -32,6 +33,8 @@ public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerR
   public MorfologikGermanyGermanSpellerRule(ResourceBundle messages,
                                             Language language) throws IOException {
     super(messages, language);
+    addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
+                   Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
   }
 
   @Override

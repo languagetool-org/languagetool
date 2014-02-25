@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -73,6 +74,8 @@ public class VerbAgreementRule extends GermanRule {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
     }
+    addExamplePair(Example.wrong("Ich <marker>bist</marker> über die Entwicklung sehr froh."),
+                   Example.fixed("Ich <marker>bin</marker> über die Entwicklung sehr froh."));
   }
   
   @Override

@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 
 /**
@@ -37,6 +38,8 @@ public class DashRule extends GermanRule {
   public DashRule(final ResourceBundle messages) {
     if (messages != null)
       super.setCategory(new Category(messages.getString("category_misc")));
+    addExamplePair(Example.wrong("Bundestag beschließt <marker>Diäten- Erhöhung</marker>"),
+                   Example.fixed("Bundestag beschließt <marker>Diäten-Erhöhung</marker>"));
   }
 
   @Override
