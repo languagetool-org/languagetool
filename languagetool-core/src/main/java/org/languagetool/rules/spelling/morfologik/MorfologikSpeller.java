@@ -102,4 +102,13 @@ public class MorfologikSpeller {
     return suggestions;
   }
 
+  /**
+   * Determines whether the dictionary uses case conversions.
+   * @return True when the speller uses spell conversions.
+   * @since 2.5
+   */
+  public boolean convertsCase() {
+    return speller.convertsCase();
+  }
+
 }

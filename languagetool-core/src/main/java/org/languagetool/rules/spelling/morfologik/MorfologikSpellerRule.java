@@ -82,6 +82,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     if (speller == null) {
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
         speller = new MorfologikSpeller(getFileName(), conversionLocale);
+        setConvertsCase(speller.convertsCase());
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
