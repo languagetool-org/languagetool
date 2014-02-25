@@ -53,6 +53,7 @@ public class RuleTest extends TestCase {
           assertFalse(rule.supportsLanguage(language));
         } else {
           assertTrue(rule.supportsLanguage(language));
+          testExamples(rule, lt);
         }
       }
     }
@@ -73,6 +74,48 @@ public class RuleTest extends TestCase {
       throw new RuntimeException("Invalid character in rule id: '" + ruleId + "', language: "
               + language + ", only [A-Z_] are allowed");
     }
+  }
+
+  private void testExamples(Rule rule, JLanguageTool lt) throws IOException {
+    testCorrectExamples(rule, lt);
+    testIncorrectExamples(rule, lt);
+  }
+
+  private void testCorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
+    List<String> correctExamples = rule.getCorrectExamples();
+    for (String correctExample : correctExamples) {
+      String input = cleanMarkers(correctExample);
+      enableOnlyOneRule(lt, rule);
+      List<RuleMatch> ruleMatches = lt.check(input);
+      assertEquals("Got unexpected rule match for correct example sentence:\n"
+              + "Text: " + input + "\n"
+              + "Rule: " + rule.getId() + "\n"
+              + "Matches: " + ruleMatches, 0, ruleMatches.size());
+    }
+  }
+
+  private void testIncorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
+    List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+    for (IncorrectExample incorrectExample : incorrectExamples) {
+      String input = cleanMarkers(incorrectExample.getExample());
+      enableOnlyOneRule(lt, rule);
+      List<RuleMatch> ruleMatches = lt.check(input);
+      assertEquals("Did not get the expected rule match for the incorrect example sentence:\n"
+              + "Text: " + input + "\n"
+              + "Rule: " + rule.getId() + "\n"
+              + "Matches: " + ruleMatches, 1, ruleMatches.size());
+    }
+  }
+
+  private void enableOnlyOneRule(JLanguageTool lt, Rule ruleToActivate) {
+    for (Rule rule : lt.getAllRules()) {
+      lt.disableRule(rule.getId());
+    }
+    lt.enableRule(ruleToActivate.getId());
+  }
+
+  private String cleanMarkers(String example) {
+    return example.replace("<marker>", "").replace("</marker>", "");
   }
 
 }
