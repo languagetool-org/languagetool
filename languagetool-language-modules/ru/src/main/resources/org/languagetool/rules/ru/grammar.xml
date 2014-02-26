@@ -3640,43 +3640,18 @@ $Id$
                 <pattern>
                     <marker>
                         <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
-                        <token>три</token>     
+                        <token regexp="yes">три|четыре|две</token>     
                     </marker>
                 </pattern>
                 <message>При числительных два, три, четыре сказуемое обычно стоит во мн. числе</message>
                 <short>Ошибка в согласовании</short>
                 <example type="incorrect">На столе <marker>лежит три</marker> книги.</example>
-                <example type="correct">На столе лежат три книги.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
-                        <token>четыре</token>
-                    </marker>
-                </pattern>
-                <message>При числительных два, три, четыре сказуемое обычно стоит во мн. числе</message>
-                <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Вошло четыре</marker> человека.</example>
-                <example type="correct">Вошли четыре человека.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token postag="VB:Fut:Sin:P3|VB:Real:Sin:P3|VB:Past:Neut" postag_regexp="yes"/>
-                        <token>две</token>
-                    </marker>
-                </pattern>
-                <message>При числительных два, три, четыре сказуемое обычно стоит во мн. числе</message>
-                <short>Ошибка в согласовании</short>
                 <example type="incorrect">От нашей школы на соревнования <marker>поехало две</marker> ученицы.</example>
                 <example type="correct">От нашей школы на соревнования поехали две ученицы.</example>
+                <example type="correct">Вошли четыре человека.</example>
+                <example type="correct">На столе лежат три книги.</example>
             </rule>
-
 
             <rule>   
                 <pattern>
@@ -3696,7 +3671,7 @@ $Id$
         </rulegroup>
 
 
-        <rulegroup id="Postrojenije_slovosochet_mnogo_malo_nemnogo_nemalo" name="Согласование подлежащего, выраженного оборотом со словами 'много, мало, немного, немало', и сказуемого">
+        <rulegroup id="Postrojenije_slovosochet_mnogo_malo_nemnogo_nemalo" name="Согласование подлежащего, выраженного оборотом со словами «много, мало, немного, немало», и сказуемого">
 
 
             <rule>   
@@ -3800,7 +3775,7 @@ $Id$
                         <token postag="VB:IMP:PL:P2"/>
                     </marker>
                 </pattern>
-                <message>Ошибка в образовании повелительного наклонения</message>
+                <message>Ошибка в образовании повелительного наклонения. Правильно:<suggestion>/2</suggestion></message>
                 <short>Неправильная форма повелительного наклонения</short>
                 <example type="incorrect"><marker>Давайте посмотрите</marker> сюда.</example>
                 <example type="correct">Посмотрите сюда.</example>
@@ -3814,7 +3789,7 @@ $Id$
                         <token postag="VB:IMP:Sin:P2"/>
                     </marker>
                 </pattern>
-                <message>Ошибка в образовании повелительного наклонения</message>
+                <message>Ошибка в образовании повелительного наклонения. Правильно:<suggestion>/2</suggestion></message>
                 <short>Неправильная форма повелительного наклонения</short>
                 <example type="incorrect"><marker>Давай принеси</marker> мне эту книгу завтра.</example>
                 <example type="correct">Принеси мне эту книгу завтра.</example>
@@ -3962,7 +3937,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message> Образование сложных слов. Вы имели в виду <suggestion>четвертьфинал</suggestion>?</message>
-                <short>'Четвертьфинал' пишется слитно</short>
+                <short>«Четвертьфинал» пишется слитно</short>
                 <example type="incorrect">Команда вышла в <marker>четверть финал</marker>.</example>
                 <example type="correct">Команда вышла в четвертьфинал.</example>
             </rule>   
@@ -3976,7 +3951,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message> Образование сложных слов. Вы имели в виду <suggestion>стодневное</suggestion>?</message>
-                <short>'Стодневное' пишется слитно</short>
+                <short>«Стодневное» пишется слитно</short>
                 <example type="incorrect">Это было <marker>сто дневное</marker> путешествие.</example>
                 <example type="correct">Это было стодневное путешествие.</example>
             </rule>   
@@ -3990,7 +3965,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Если в сложном слове с корнем ПОЛ второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-листа</suggestion>?</message>
-                <short>'Пол-листа' пишем через дефис</short>
+                <short>«Пол-листа» пишем через дефис</short>
                 <example type="incorrect">Она исписала <marker>пол листа</marker>.</example>
                 <example type="correct">Она исписала пол-листа.</example>
             </rule>   
@@ -4004,7 +3979,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Если в сложном слове с корнем ПОЛ второе слово начинается с согласной л, то пишем его через дефис. Вы имели в виду <suggestion>пол-луковицы</suggestion>?</message>
-                <short>'Пол-луковицы' пишем через дефис</short>
+                <short>«Пол-луковицы» пишем через дефис</short>
                 <example type="incorrect">Для этого блюда возьмите <marker>пол луковицы</marker>.</example>
                 <example type="correct">Для этого блюда возьмите <marker>пол-луковицы</marker>.</example>
             </rule>   
@@ -4017,7 +3992,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Если в сложном слове с корнем ПОЛ второе слово начинается с гласной, то пишем его через дефис. Вы имели в виду <suggestion>пол-урока</suggestion>?</message>
-                <short>'Пол-урока' пишем через дефис</short>
+                <short>«Пол-урока» пишем через дефис</short>
                 <example type="incorrect"><marker>Пол урока</marker> мы писали диктант.</example>
                 <example type="correct">Пол-урока мы писали диктант.</example>
             </rule>   
@@ -4036,7 +4011,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Неправильное использование предлогов. Вы имели в виду <suggestion>вскочить на</suggestion>?</message>
-                <short>Правильно 'вскочить на'</short>
+                <short>Правильно «вскочить на»</short>
                 <example type="incorrect">Он собрался <marker>заскочить на</marker> стул.</example>
                 <example type="correct">Он собрался вскочить на стул.</example>
             </rule>   
@@ -4056,7 +4031,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Лишний союз. Вы имели в виду <suggestion>однако не</suggestion>?</message>
-                <short>Правильно 'однако не'</short>
+                <short>Правильно «однако не»</short>
                 <example type="incorrect">Она знала, что может опоздать, <marker>но однако не</marker> вызвала такси.</example>
                 <example type="correct">Она знала, что может опоздать, однако не вызвала такси.</example>
             </rule>   
@@ -4072,7 +4047,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Лишний союз. Вы имели в виду <suggestion>тем более что</suggestion>?</message>
-                <short>Правильно 'тем более что'</short>
+                <short>Правильно «тем более что»</short>
                 <example type="incorrect">Мы все равно не смогли бы пойти, <marker>и тем более что</marker> билеты уже раскуплены.</example>
                 <example type="correct">Мы все равно не смогли бы пойти, тем более что билеты уже раскуплены.</example>
             </rule>   
@@ -4088,7 +4063,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Лишний союз. Вы имели в виду <suggestion>долго и упорно</suggestion>?</message>
-                <short>Правильно 'долго и упорно'</short>
+                <short>Правильно «долго и упорно»</short>
                 <example type="incorrect">Он шел к цели <marker>и долго и упорно</marker>.</example>
                 <example type="correct">Он шел к цели долго и упорно.</example>
             </rule>   
@@ -4140,7 +4115,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Неправильный предлог. Вы имели в виду <suggestion>с утра до вечера</suggestion>?</message>
-                <short>Правильно 'с утра'</short>
+                <short>Правильно «с утра»</short>
                 <example type="incorrect"><marker>От утра до вечера</marker> она трудилась в редакции.</example>
                 <example type="correct">С утра до вечера она трудилась в редакции.</example>
             </rule>   
@@ -4171,7 +4146,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>В официальной и профессионально-технической речи – Контроль чего-либо. Вы имели в виду <suggestion>контроль деятельности</suggestion>?</message>
-                <short>Лучше 'контроль деятельности'</short>
+                <short>Лучше «контроль деятельности»</short>
                 <example type="incorrect"><marker>Контроль за деятельностью</marker> нижестоящих органов.</example>
                 <example type="correct">Контроль деятельности нижестоящих органов.</example>
             </rule>
@@ -4187,7 +4162,7 @@ $Id$
                 </pattern>
                 <message>При отвлеченных существительных – Контроль над чем-либо.
                     Вы имели в виду <suggestion>контроль над предприятием</suggestion>?</message>
-                <short>Правильно 'контроль над предприятием'</short>
+                <short>Правильно «контроль над предприятием»</short>
                 <example type="incorrect">Приобрести <marker>контроль за предприятием</marker>.</example>
                 <example type="correct">Приобрести контроль над предприятием.</example>
             </rule>   
@@ -4203,7 +4178,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>При существительных, обозначающих действие или признак – пишем Контроль за (за качеством работы, за работой станка)</message>
-                <short>Правильно 'контроль за качеством работы'</short>
+                <short>Правильно «контроль за качеством работы»</short>
                 <example type="incorrect">Осуществлять <marker>контроль над качеством работы</marker>. </example>
                 <example type="correct">Осуществлять контроль за качеством работы. </example>
             </rule>   
@@ -4218,7 +4193,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>При одушевленных существительных – пишем Контроль над. Вы имели в виду <suggestion>контроль над специалистами</suggestion>?</message>
-                <short>Правильно 'контроль над специалистами'</short>
+                <short>Правильно «контроль над специалистами»</short>
                 <example type="incorrect">Осуществлять <marker>контроль за специалистами</marker> на предприятии.</example>
                 <example type="correct">Осуществлять контроль над специалистами на предприятии.</example>
             </rule>   
@@ -4299,7 +4274,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В школу – то ИЗ школы:<suggestion>из \2</suggestion></message>
-                <short>Правильно 'из школы'</short>
+                <short>Правильно «из школы»</short>
                 <example type="incorrect">Вернувшись <marker>с школы</marker>, она сразу села читать. </example>
                 <example type="correct">Вернувшись из школы, она сразу села читать. </example>
             </rule>   
@@ -4313,7 +4288,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В командировку– то ИЗ командировки:<suggestion>из \2</suggestion></message>
-                <short>Правильно 'из командировки'</short>
+                <short>Правильно «из командировки»</short>
                 <example type="incorrect">Они вернулись <marker>с командировки</marker> еще вчера.</example>
                 <example type="correct">Они вернулись из командировки еще вчера.</example>
             </rule>   
@@ -4327,7 +4302,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если НА Кавказ – то С Кавказа:<suggestion>с \2</suggestion></message>
-                <short>Правильно 'с Кавказа'</short>
+                <short>Правильно «с Кавказа»</short>
                 <example type="incorrect">Мой дед родом <marker>из Кавказа</marker>.</example>
                 <example type="correct">Мой дед родом с Кавказа.</example>
             </rule>   
@@ -4341,7 +4316,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В армию – то ИЗ армии<suggestion>из \2</suggestion></message>
-                <short>Правильно 'из армии'</short>
+                <short>Правильно «из армии»</short>
                 <example type="incorrect">Он пришел <marker>с армии</marker> на прошлой неделе.</example>
                 <example type="correct">Он пришел из армии на прошлой неделе.</example>
             </rule>   
@@ -4381,7 +4356,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листы бумаги</suggestion>?</message>
-                <short>Правильно 'листы бумаги'</short>
+                <short>Правильно «листы бумаги»</short>
                 <example type="incorrect"><marker>Листья бумаги</marker> разлетелись по комнате.</example>
                 <example type="correct">Листы бумаги разлетелись по комнате.</example>
             </rule>   
@@ -4395,7 +4370,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>листья деревьев</suggestion>?</message>
-                <short>Правильно 'листья деревьев'</short>
+                <short>Правильно «листья деревьев»</short>
                 <example type="incorrect"><marker>Листы деревьев</marker> пожелтели.</example>
                 <example type="correct">Листья деревьев пожелтели.</example>
             </rule>   
@@ -4409,7 +4384,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>корни дерева</suggestion>?</message>
-                <short>Правильно 'корни дерева'</short>
+                <short>Правильно «корни дерева»</short>
                 <example type="incorrect"><marker>Коренья дерева</marker> высохли.</example>
                 <example type="correct">Корни дерева высохли.</example>
             </rule>   
@@ -4423,7 +4398,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Для различения лексич. значений некоторых существительных во мн.ч. используют разные окончания: -ы (-и) или -а (-я). Вы имели в виду <suggestion>болят зубы</suggestion>?</message>
-                <short>Правильно 'болят зубы'</short>
+                <short>Правильно «болят зубы»</short>
                 <example type="incorrect">У него <marker>болят зубья</marker>.</example>
                 <example type="correct">У него болят зубы.</example>
             </rule>   
@@ -4443,7 +4418,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 на меху</suggestion>?</message>
-                <short>Правильно 'на меху'</short>
+                <short>Правильно «на меху»</short>
                 <example type="incorrect">Она купила <marker>сапоги на мехе</marker>.</example>
                 <example type="correct">Она купила сапоги на меху.</example>
             </rule>   
@@ -4457,7 +4432,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в снегу</suggestion>?</message>
-                <short>Правильно 'в снегу'</short>
+                <short>Правильно «в снегу»</short>
                 <example type="incorrect">Была вся <marker>одежда в снеге</marker>.</example>
                 <example type="correct">Была вся одежда в снегу.</example>
             </rule>   
@@ -4485,7 +4460,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>При выражении определительных отношений у сущ. муж. рода в предложн. падеже пишем окончание -у. Вы имели в виду <suggestion>\1 в пуху</suggestion>?</message>
-                <short>Правильно 'в пуху'</short>
+                <short>Правильно «в пуху»</short>
                 <example type="incorrect">Было <marker>покрывало в пухе</marker>.</example>
                 <example type="correct">Покрывало было в пуху.</example>
             </rule>   
@@ -4504,7 +4479,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>эффективное средство</suggestion>?</message>
-                <short>Правильно 'эффективное средство'</short>
+                <short>Правильно «эффективное средство»</short>
                 <example type="incorrect"><marker>Эффектное средство</marker> от простуды.</example>
                 <example type="correct">Эффективное средство от простуды.</example>
             </rule>   
@@ -4517,7 +4492,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>поставить подпись</suggestion>?</message>
-                <short>Правильно 'поставить подпись'</short>
+                <short>Правильно «поставить подпись»</short>
                 <example type="incorrect">Здесь нужно <marker>поставить роспись</marker>.</example>
                 <example type="correct">Здесь нужно поставить подпись.</example>
             </rule>   
@@ -4530,7 +4505,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>отличие от</suggestion>?</message>
-                <short>Правильно 'отличие от'</short>
+                <short>Правильно «отличие от»</short>
                 <example type="incorrect">Его <marker>различие от</marker> предыдущего варианта незначительно.</example>
                 <example type="correct">Его отличие от предыдущего варианта незначительно.</example>
             </rule>   
@@ -4545,7 +4520,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
-                <short>Правильно 'предоставить в пользование'</short>
+                <short>Правильно «предоставить в пользование»</short>
                 <example type="incorrect">Мы можем <marker>представить в пользование</marker> эти словари. </example>
                 <example type="correct">Мы можем предоставить в пользование эти словари. </example>
             </rule>   
@@ -4562,7 +4537,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>эффективное средство</suggestion>?</message>
-                <short>Правильно 'эффективное средство'</short>
+                <short>Правильно «эффективное средство»</short>
                 <example type="incorrect"><marker>Эффектное средство</marker> от простуды.</example>
                 <example type="correct">Эффективное средство от простуды.</example>
             </rule>   
@@ -4588,7 +4563,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>отличие от</suggestion>?</message>
-                <short>Правильно 'отличие от'</short>
+                <short>Правильно «отличие от»</short>
                 <example type="incorrect">Его <marker>различие от</marker> предыдущего варианта незначительно.</example>
                 <example type="correct">Его отличие от предыдущего варианта незначительно.</example>
             </rule>   
@@ -4603,7 +4578,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Необходимо различать паронимы – близкие по звучанию, но разные по смыслу слова. Вы имели в виду <suggestion>предоставить в пользование</suggestion>?</message>
-                <short>Правильно 'предоставить в пользование'</short>
+                <short>Правильно «предоставить в пользование»</short>
                 <example type="incorrect">Мы можем <marker>представить в пользование</marker> эти словари.</example>
                 <example type="correct">Мы можем предоставить в пользование эти словари.</example>
             </rule>   
@@ -4626,7 +4601,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>следует сказать, что</suggestion>?</message>
-                <short>Правильно 'следует сказать, что'</short>
+                <short>Правильно «следует сказать, что»</short>
                 <example type="incorrect"><marker>Следует сказать следующее, что</marker> данное исключение только подтверждает правило.</example>
                 <example type="correct">Следует сказать, что данное исключение только подтверждает правило.</example>
             </rule>   
@@ -4640,7 +4615,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>авторитет растёт</suggestion>?</message>
-                <short>Правильно 'авторитет растёт'</short>
+                <short>Правильно «авторитет растёт»</short>
                 <example type="incorrect">Ваш <marker>рост авторитета растёт</marker>.</example>
                 <example type="correct">Ваш авторитет растёт. </example>
             </rule>   
@@ -4653,7 +4628,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>возобновить</suggestion>?</message>
-                <short>Правильно 'возобновить'</short>
+                <short>Правильно «возобновить»</short>
                 <example type="incorrect">Мы планируем <marker>вновь возобновить</marker> выпуск этих товаров.</example>
                 <example type="correct">Мы планируем возобновить выпуск этих товаров.</example>
             </rule>   
@@ -4667,7 +4642,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Это тавтология – неоправданное повторение однокоренных или созвучных слов. Вы имели в виду <suggestion>громко смеяться</suggestion>?</message>
-                <short>Правильно 'громко смеяться'</short>
+                <short>Правильно «громко смеяться»</short>
                 <example type="incorrect">В библиотеке нельзя <marker>смеяться громким смехом</marker>.</example>
                 <example type="correct">В библиотеке нельзя громко смеяться.</example>
             </rule>   
