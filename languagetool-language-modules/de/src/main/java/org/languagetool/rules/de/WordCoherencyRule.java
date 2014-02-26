@@ -84,9 +84,7 @@ public class WordCoherencyRule extends GermanRule {
       //defaulting to the first element because the
       //general German lemmatizer is not (yet) there
       String token = tmpToken.getToken();
-      if (tmpToken.isWhitespace()) {
-        // ignore
-      } else {
+      if (!tmpToken.isWhitespace()) {
         final String origToken = token;
         final List<AnalyzedToken> readings = tmpToken.getReadings();
         // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):

@@ -188,8 +188,9 @@ public class AgreementRule extends GermanRule {
       //TODO: check for all readings
       //and replace GermanTokenReading
       final String posToken = tokens[i].getAnalyzedToken(0).getPOSTag();
-      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME))
+      if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
+      }
       //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
       
       final AnalyzedTokenReadings tokenReadings = tokens[i];
@@ -221,14 +222,16 @@ public class AgreementRule extends GermanRule {
 
       if ((GermanHelper.hasReadingOfType(tokenReadings, POSType.DETERMINER) || relevantPronoun) && !ignore) {
         int tokenPos = i + 1; 
-        if (tokenPos >= tokens.length)
+        if (tokenPos >= tokens.length) {
           break;
+        }
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
         nextToken = maybeAddAdjectiveReadings(nextToken, tokens, tokenPos);
         if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = i + 2; 
-          if (tokenPos >= tokens.length)
+          if (tokenPos >= tokens.length) {
             break;
+          }
           if (GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
@@ -329,8 +332,9 @@ public class AgreementRule extends GermanRule {
       comma = tokens[pos-1].getToken().equals(",");
       final String term = tokens[pos].getToken().toLowerCase();
       relPronoun = REL_PRONOUN.contains(term);
-      if (comma && relPronoun)
+      if (comma && relPronoun) {
         return true;
+      }
     }
     if (pos >= 2) {
       // avoid false alarm: "Der Mann, in dem quadratische Fische schwammen."
@@ -428,14 +432,17 @@ public class AgreementRule extends GermanRule {
       categoryToRelaxSet = Collections.emptySet();
     }
     final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
-    if (set1 == null)
+    if (set1 == null) {
       return null;  // word not known, assume it's correct
+    }
     final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
-    if (set2 == null)
+    if (set2 == null) {
       return null;
+    }
     final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet);
-    if (set3 == null)
+    if (set3 == null) {
       return null;
+    }
     /*System.err.println(token1.getToken()+"#"+set1);
     System.err.println(token2.getToken()+"#"+set2);
     System.err.println(token3.getToken()+"#"+set3);

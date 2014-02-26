@@ -63,9 +63,7 @@ public class WiederVsWiderRule extends GermanRule {
     boolean foundWider = false;
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      if (token.trim().equals("")) {
-        // ignore
-      } else {
+      if (!token.trim().equals("")) {
         if (token.equalsIgnoreCase("spiegelt") || token.equalsIgnoreCase("spiegeln") || token.equalsIgnoreCase("spiegelte")
                 || token.equalsIgnoreCase("spiegelten") || token.equalsIgnoreCase("spiegelst")) {
           foundSpiegelt = true;
