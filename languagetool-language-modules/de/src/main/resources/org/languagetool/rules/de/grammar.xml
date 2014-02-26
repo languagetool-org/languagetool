@@ -23101,7 +23101,10 @@ $Id$
                 <pattern>
                     <token postag="PRP:.*" postag_regexp="yes"><exception regexp="yes">um|zu</exception></token>
                     <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                    <token postag="SUB:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="SUB:.*" postag_regexp="yes">
+                        <exception postag="SUB:.*:ADJ" postag_regexp="yes" />
+                        <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
+                    </token>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mit groß Mühe' statt 'mit großer Mühe'</message>
                 <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen.</short>
@@ -23114,6 +23117,7 @@ $Id$
                 <example type="correct"><marker>In ganz Ostafrika</marker> leben Menschen.</example>
                 <example type="correct">Du darfst nicht <marker>zu schnell Öl</marker> hinzufügen.</example>
                 <example type="correct">Das Signal kann <marker>mit maximal Lichtgeschwindigkeit</marker> den Beobachter erreichen.</example>
+                <example type="correct">Wir sind ganz auf die Bedürfnisse <marker>von bewusst Reisenden</marker> eingestellt.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
