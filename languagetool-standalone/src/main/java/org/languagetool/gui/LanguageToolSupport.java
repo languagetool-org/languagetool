@@ -894,13 +894,13 @@ class LanguageToolSupport {
     List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     if (incorrectExamples.size() > 0) {
       String incorrectExample = incorrectExamples.iterator().next().getExample();
-      String sentence = incorrectExample.replace("<marker>", "<span style='color:red'>").replace("</marker>", "</span>");
+      String sentence = incorrectExample.replace("<marker>", "<span style='background-color:#ff8080'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red;font-style:italic;font-weight:bold'>x</span>");
     }
     List<String> correctExamples = rule.getCorrectExamples();
     if (correctExamples.size() > 0) {
       String correctExample = correctExamples.iterator().next();
-      String sentence = correctExample.replace("<marker>", "<span style='color:green'>").replace("</marker>", "</span>");
+      String sentence = correctExample.replace("<marker>", "<span style='background-color:#80ff80'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
     }
     if (examples.length() > 0) {
