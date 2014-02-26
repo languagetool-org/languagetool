@@ -92,7 +92,11 @@ public class JLanguageToolTest extends TestCase {
 
         "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n" +
         "\n" +
+        "WIELKI_SWOJ_ADJ:1 dobre[dobre/subst:pl:acc:n2,dobre/subst:pl:nom:n2,dobre/subst:pl:voc:n2,dobre/subst:sg:acc:n2,dobre/subst:sg:nom:n2,dobre/subst:sg:voc:n2,dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos,dobry/depr:pl:nom:m2,dobry/depr:pl:voc:m2,dobry/subst:pl:acc:m3,dobry/subst:pl:nom:m3,dobry/subst:pl:voc:m3] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos]\n" +
+        "unify_adj_subst:1 dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos] -> dobre[dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n" +
+        "\n" +
         "SUBST_NOM_VOC_VERB:2 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f,buta/subst:sg:gen:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
+        "unify_adj_subst:1 buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
         "\n" +
         "SUBST_NOM_VOC_VERB:2 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n",
         sent.getAnnotations());

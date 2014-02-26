@@ -71,6 +71,40 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </equivalence>
     </unification>
 
+    <rule name="Dwukropek w zapisie liczb, np. godzin lub proporcji" id="DWUKROPEK_GODZINA">
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <marker>
+                <token spacebefore="no">:</token>
+            </marker>
+            <token spacebefore="no" regexp="yes">\d+</token>
+        </pattern>
+        <disambig action="add"><wd pos="interp:nospace"/></disambig>
+        <example type="untouched">Punkt 5: zrównać płacę minimalną.</example>
+        <example type="ambiguous" inputform=":[:]" outputform=":[:/interp:nospace]">Pociąg odjeżdża o 15<marker>:</marker>34.</example>
+    </rule>
+
+    <!-- conjunctions that take a comma -->
+    <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA">
+        <pattern>
+            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</token>
+        </pattern>
+        <disambig action="add"><wd pos="comp:comma"/></disambig>
+        <example type="untouched">To jest krowa.</example>
+        <example type="ambiguous" inputform="ale[ale/conj,ale/qub]" outputform="ale[ale/comp:comma,ale/conj,ale/qub]">Lubię go, <marker>ale</marker> kupię mu pistolet.</example>
+    </rule>
+
+    <!--  tagging punctuation -->
+    <rule name="Interpunkcja - bez kropki" id="PUNCT_NO_DOT">
+        <pattern>
+            <token regexp="yes">[\p{Punct}—–„«»…”&amp;&amp;[^!\.]]<exception postag="SENT_END"/><exception postag="interp:nospace"/></token>
+        </pattern>
+        <disambig action="add"><wd pos="interp:comma"/></disambig>
+        <example type="untouched">To jest głowa dr. Jekylla.</example>
+        <example type="untouched">Pociąg odjeżdża o 15:45.</example>
+        <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
+    </rule>
+
     <rule name="opisany powyżej" id="opisany_powyzej">
         <pattern>
             <token inflected="yes" regexp="yes">pisać|opisać|przedstawić|przedstawiać|podać|zamieścić|wymienić</token>
@@ -325,13 +359,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd pos="brev:pun"/></disambig>
     </rule>
 
-    <rulegroup name="do - prep lub subst" id="DO_PREP_SUBST">
+    <rulegroup name="do, re, mi - prep, ppron lub subst" id="DO_PREP_SUBST">
     <rule>
     	<pattern>
-			<marker><token>do</token></marker>
-			<token>re</token>    	
+			<marker>
+                <token postag="subst.*" postag_regexp="yes">do</token>
+			    <token postag="subst.*" postag_regexp="yes">re</token>
+                <token postag="subst.*" postag_regexp="yes">mi</token>
+            </marker>
     	</pattern>
-    	<disambig action="filter" postag="subst.*"/>
+    	<disambig action="filterall" postag="subst.*"/>
     </rule>
     <rule>
     	<pattern>
@@ -340,6 +377,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	</pattern>
     	<disambig postag="prep:gen"/>    
     </rule>
+        <rule>
+            <pattern>
+                <token><exception>re</exception></token>
+                <marker><token>mi</token></marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="mi"></wd></disambig>
+            <example type="ambiguous" inputform="mi[ja/ppron12:sg:dat:m1.m2.m3.f.n1.n2:pri:nakc,mi/subst:pl:acc:n2,mi/subst:pl:dat:n2,mi/subst:pl:gen:n2,mi/subst:pl:inst:n2,mi/subst:pl:loc:n2,mi/subst:pl:nom:n2,mi/subst:pl:voc:n2,mi/subst:sg:acc:n2,mi/subst:sg:dat:n2,mi/subst:sg:gen:n2,mi/subst:sg:inst:n2,mi/subst:sg:loc:n2,mi/subst:sg:nom:n2,mi/subst:sg:voc:n2]"
+                     outputform="mi[ja/ppron12:sg:dat:m1.m2.m3.f.n1.n2:pri:nakc]">Daj <marker>mi</marker> krowę.</example>
+            <example type="untouched">Do re mi!</example>
+        </rule>
     </rulegroup>
 
     <rule name="do to nie subst" id="do_non_subst">
@@ -584,12 +631,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="SWOJE_LATA" name="Swoje lata -> rzeczownik">
         <pattern>
-            <token postag="adj:pl.*" postag_regexp="yes" regexp="yes">pierwsze|swoje|ostatnie|młode</token>
+            <token postag="adj:pl.*" postag_regexp="yes" regexp="yes">pierwsze|swoje|ostatnie|młode|złe</token>
             <token postag="subst:pl.*" postag_regexp="yes">lata</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="DOBRE_JADŁO" name="jadło - rzeczownik">
+        <pattern>
+            <token postag="adj.*" regexp="yes" postag_regexp="yes">chłopskie|swojskie|dobre</token>
+            <token postag="subst.*" postag_regexp="yes">jadło</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    
     <rule id="PETA" name="te pęta - nie czasownik">
         <pattern>
             <unify>
@@ -1023,6 +1078,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="braterstwa[braterstwo/subst:pl:gen:p1,braterstwo/subst:sg:gen:n2]">Nie ma <marker>braterstwa</marker>.</example>
     </rule>
 
+    <rule id="BRONIA" name="bronią + przymiotnik -> rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"/>
+                <token>bronią</token>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="bronią[bronić/verb:fin:pl:ter:imperf:refl.nonrefl,broń/subst:sg:inst:f]"
+                 outputform="bronią[broń/subst:sg:inst:f]">Chwalił się <marker>bronią</marker> asyryjską.</example>
+    </rule>
+
+
     <rule id="SWOJA_INST" name="swoją > adj">
         <pattern>
             <unify>
@@ -1148,6 +1217,27 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="kalić"/></disambig>
     </rule>
 
+    <rule id="KULA" name="kula to nie kulać">
+        <pattern>
+            <token>kula</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="kulać"/></disambig>
+    </rule>
+
+    <rule id="MLODZI" name="młodzi to nie młodzić">
+        <pattern>
+            <token>młodzi</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="młodzić"/></disambig>
+    </rule>
+
+    <rule id="NIKCZEMNI" name="nikczemni to nie nikczemnić">
+        <pattern>
+            <token>nikczemni</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="nikczemnić"/></disambig>
+    </rule>
+
     <rule id="WARTA" name="warta to nie wartać">
         <pattern>
             <token>warta</token>
@@ -1169,16 +1259,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="swoić"/></disambig>
     </rule>
 
-    <rule id="WIELKI_SWOJ_ADJ" name="wielki, swój to nie rzeczownik">
+    <rule id="WIELKI_SWOJ_ADJ" name="wielki, swój, piękny, dobry to nie rzeczownik">
         <pattern>
-            <token inflected="yes" regexp="yes">wielki|swój</token>
-        </pattern>
-        <disambig action="filter" postag="adj.*"/>
-    </rule>
-
-    <rule id="PIEKNY_ADJ" name="piękny to nie rzeczownik">
-        <pattern>
-            <token inflected="yes">piękny</token>
+            <token inflected="yes" regexp="yes">wielki|swój|dobry|piękny</token>
         </pattern>
         <disambig action="filter" postag="adj.*"/>
     </rule>
@@ -1353,6 +1436,49 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Tyran jedna się z narodem.</example>
     </rule>
 
+    <rule id="JEDNA_DRUGA" name="„jedna, druga” – przymiotnik">
+        <pattern>
+            <marker><token>jedna</token></marker>
+            <token>,</token>
+            <token>druga</token>
+        </pattern>
+        <disambig postag="adj:sg:nom.voc:f:pos"/>
+        <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Powtórzyła to <marker>jedna</marker>, druga...</example>
+    </rule>
+
+    <rule id="SWOJE_NADZIEJE" name="nadzieje jako rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"/>
+                <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+                <token>nadzieje</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"></disambig>
+        <example type="untouched">Jurek nadzieje kurczaka granatami.</example>
+        <example type="ambiguous" inputform="nadzieje[nadziać/verb:fin:sg:ter:perf:refl.nonrefl,nadzieja/subst:pl:acc:f,nadzieja/subst:pl:nom:f,nadzieja/subst:pl:voc:f]"
+                 outputform="nadzieje[nadzieja/subst:pl:acc:f,nadzieja/subst:pl:nom:f,nadzieja/subst:pl:voc:f]">W tobie lud egipski złożył swoje <marker>nadzieje</marker>.</example>
+    </rule>
+
+    <rule id="PANSTWO_MLODZI" name="państwo młodzi">
+        <pattern>
+            <token postag="subst.*" postag_regexp="yes" inflected="yes">państwo</token>
+            <token postag="adj.*" postag_regexp="yes" inflected="yes">młody</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="SWIETA_RZEKA" name="święta rzeka - adj + subst">
+        <pattern>
+            <token postag="adj:sg:nom.voc:f:pos">święta</token>
+            <token postag="subst:sg:nom:f">rzeka</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="święta[święta/subst:pl:acc:p3,święta/subst:pl:nom:p3,święta/subst:pl:voc:p3,święta/subst:sg:nom:f,święta/subst:sg:voc:f,święto/subst:pl:acc:n2,święto/subst:pl:nom:n2,święto/subst:pl:voc:n2,święto/subst:sg:gen:n2,święty/adj:sg:nom.voc:f:pos]"
+                 outputform="święta[święty/adj:sg:nom.voc:f:pos]">Ganges to <marker>święta</marker> rzeka.</example>
+    </rule>
+
     <rule id="GO" name="go to nie rzeczownik">
         <pattern>
             <token>go<exception scope="previous">w</exception><exception scope="previous" postag="SENT_START"></exception></token>
@@ -1405,21 +1531,47 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd pos="conj"/></disambig>
     </rule>
 
+    <rule id="tyle_co" name="co jako comp">
+        <pattern>
+            <marker>
+                <token skip="1" postag="adv|num.*" postag_regexp="yes">tyle<exception scope="next" regexp="yes" negate="yes">[,–—]|co</exception></token>
+                <token postag="comp">co</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
+                 outputform="co[co/comp]">Dla dzikiej świni wino znaczy tyle <marker>co</marker> pomyje.</example>
+    </rule>
+
+    <rule id="rownie_adv" name="równie jako adv">
+        <pattern>
+            <marker>
+            <token regexp="yes">tak|równie</token>
+            </marker>
+            <token skip="-1"><exception regexp="yes" scope="next">&interp;|bądź|czy|ani|lub|albo|oraz|i</exception></token>
+            <token><exception postag="interp:comma" scope="previous"></exception>jak</token>
+        </pattern>
+        <disambig postag="adv:pos"></disambig>
+        <example type="ambiguous" inputform="równie[rówień/subst:pl:acc:f,rówień/subst:pl:nom:f,rówień/subst:pl:voc:f,równia/subst:pl:acc:f,równia/subst:pl:nom:f,równia/subst:pl:voc:f,równie/adv:pos]"
+                 outputform="równie[równie/adv:pos]">On jest <marker>równie</marker> biegły jak inni.</example>
+        <example type="untouched">Widziałem już różne równie pochyłe.</example>
+    </rule>
+
     <rulegroup id="BRATA_SUBST" name="„brata” itp. jako rzeczownik">
         <rule>
             <pattern>
-                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp|conj" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
                 <marker>
-                    <token regexp="yes">bąka|brata|broni|czerwieni|ciąży|lata|myśli|niewoli|soli|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|wieści|złości|(?:roz|po|prze|u)?dział|zbroją</token>
+                    <token regexp="yes">bąka|brata|broni|czci|czerwieni|ciąży|lata|myśli|niewoli|soli|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|wieści|złości|(?:roz|po|prze|u)?dział|wieści|zbroją</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="subst.*"/>
         </rule>
         <rule>
         <pattern>
-            <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp|conj" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+            <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
             <marker>
-                <token regexp="yes">bąka|brata|broni|ciąży|czerwieni|lata|myśli|niewoli|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|wieści|złości|(?:roz|po|prze|u)?dział|zbroją</token>
+                <token regexp="yes">bąka|brata|broni|ciąży|czci|czerwieni|lata|myśli|niewoli|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|wieści|złości|(?:roz|po|prze|u)?dział|wieści|zbroją</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="subst.*"/>
@@ -1427,7 +1579,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule>
             <pattern>
                 <marker>
-                    <token skip="-1" regexp="yes">bąka|brata|czerwieni|lata|broni|ciąży|myśli|niewoli|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|wieści|(?:roz|po|prze|u)?dział|zbroją<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp|conj" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                    <token skip="-1" regexp="yes">bąka|brata|czci|czerwieni|lata|broni|ciąży|myśli|niewoli|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|wieści|(?:roz|po|prze|u)?dział|wieści|zbroją<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
                 </marker>
                 <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
             </pattern>
@@ -1464,7 +1616,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
             <unify>
                 <feature id="number"/><feature id="gender"/>
-                <token postag="subst.*nom.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception regexp="yes">[tj]aki</exception></token>
+                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception regexp="yes">[tj]aki</exception></token>
                 <token postag="verb:(?:praet|pot):.*ter.*" postag_regexp="yes"/>
             </unify>
             </marker>
@@ -1478,7 +1630,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
             <unify>
                 <feature id="number"/>
-                <token postag="subst.*nom.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception></token>
+                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception></token>
                 <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception></token>
             </unify>
             </marker>
@@ -1564,13 +1716,24 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
     </rule>
 
+    <!-- conjunctions that take a comma -->
+    <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA_2">
+        <pattern>
+            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby<exception postag="comp:comma"/></token>
+        </pattern>
+        <disambig action="add"><wd pos="comp:comma"/></disambig>
+        <example type="untouched">To jest krowa.</example>
+        <example type="ambiguous" inputform="której[który/adj:sg:loc:f:pos]" outputform="której[której/comp:comma,który/adj:sg:loc:f:pos]">Krainę, w <marker>której</marker> kupiłem krowę, zapamiętam do końca życia.</example>
+    </rule>
+
+
     <rule name="mają to nie maić" id="MAJA_MAIC">
         <pattern>
             <token>mają</token>
         </pattern>
         <disambig action="filter"><match no="1">mieć</match></disambig>
         <example type="untouched">Oni mieli robaki.</example>
-        <example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf:refl.nonrefl,maja/subst:sg:inst:f,mieć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mają[mieć/verb:fin:pl:ter:imperf:refl.nonrefl]">Oni <marker>mają</marker> robaki.</example>
+        <example type="ambiguous" inputform="mają[maić/verb:fin:pl:ter:imperf:refl.nonrefl,mieć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mają[mieć/verb:fin:pl:ter:imperf:refl.nonrefl]">Oni <marker>mają</marker> robaki.</example>
     </rule>
 
     <!-- rule name="kobiety miały" id="MIALY">
@@ -2084,40 +2247,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform=".[.]" outputform=".[&lt;/S&gt;]">To jest cząstka B<marker>.</marker> Dopiero w niej jest cząstka A.</example>
     </rule>
 
-    <rule name="Dwukropek w zapisie liczb, np. godzin lub proporcji" id="DWUKROPEK_GODZINA">
-        <pattern>
-            <token regexp="yes">\d+</token>
-            <marker>
-                <token spacebefore="no">:</token>
-            </marker>
-            <token spacebefore="no" regexp="yes">\d+</token>
-        </pattern>
-        <disambig action="add"><wd pos="interp:nospace"/></disambig>
-        <example type="untouched">Punkt 5: zrównać płacę minimalną.</example>
-        <example type="ambiguous" inputform=":[:]" outputform=":[:/interp:nospace]">Pociąg odjeżdża o 15<marker>:</marker>34.</example>
-    </rule>
-
-    <!--  tagging punctuation -->
-    <rule name="Interpunkcja - bez kropki" id="PUNCT_NO_DOT">
-        <pattern>
-            <token regexp="yes">[\p{Punct}—–„«»…”&amp;&amp;[^!\.]]<exception postag="SENT_END"/><exception postag="interp:nospace"/></token>
-        </pattern>
-        <disambig action="add"><wd pos="interp:comma"/></disambig>
-        <example type="untouched">To jest głowa dr. Jekylla.</example>
-        <example type="untouched">Pociąg odjeżdża o 15:45.</example>
-        <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
-    </rule>
-
-    <!-- conjunctions that take a comma -->
-    <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA">
-        <pattern>
-            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby</token>
-        </pattern>
-        <disambig action="add"><wd pos="comp:comma"/></disambig>
-        <example type="untouched">To jest krowa.</example>
-        <example type="ambiguous" inputform="ale[ale/conj,ale/qub]" outputform="ale[ale/comp:comma,ale/conj,ale/qub]">Lubię go, <marker>ale</marker> kupię mu pistolet.</example>
-    </rule>
-
     <rule id="INDZIEJ" name="kiedy indziej itp.">
         <pattern>
             <marker>
@@ -2136,16 +2265,53 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"></disambig>
     </rule>
 
-    <rule id="NIE_QUB" name="nie w funkcji negacji czasownika">
+    <rule id="nie_zal" name="nie żal -> pred">
+        <pattern>
+            <token postag="SENT_START" skip="-1"><exception scope="next">się</exception></token>
+            <marker>
+                <token postag="pred" skip="-1">żal<exception scope="previous" negate="yes">nie</exception><exception scope="next">się</exception></token>
+            </marker>
+            <token postag="SENT_END"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Nie żal się, kretynie.</example>
+        <example type="untouched">Ty się nie żal, kretynie.</example>
+        <example type="ambiguous" inputform="żal[żal/adv,żal/pred,żal/subst:sg:acc:m3,żal/subst:sg:nom:m3,żalić/verb:impt:sg:sec:imperf:refl]"
+                 outputform="żal[żal/pred]">Góralu, czy ci nie <marker>żal</marker>?</example>
+    </rule>
+
+    <rule id="NIE_QUB_PRED" name="nie przed predykatywem">
+        <pattern>
+            <marker>
+                <token>nie</token>
+            </marker>
+            <token postag="pred"><exception negate_pos="yes" postag="pred"></exception></token>
+        </pattern>
+        <disambig postag="qub"></disambig>
+    </rule>
+
+    <rule id="NIE_QUB" name="nie w funkcji negacji czasownika, przymiotnika i przysłówka w st. wyższym">
         <pattern>
             <marker>
                 <token postag="qub">nie<exception scope="previous" postag_regexp="yes" postag="prep:acc.*"></exception></token>
-                <token postag="verb.*" postag_regexp="yes"><exception>czczą</exception><exception>dosyć</exception><exception postag_regexp="yes" postag="adj:.*:com"/></token>
+                <token postag="verb.*|pred|ad[vj].*:com" postag_regexp="yes"><exception>czczą</exception><exception>dosyć</exception><exception postag="verb:winien.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="nie[nie/conj,nie/qub,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:praep]" outputform="nie[nie/qub]">Proszę, <marker>nie</marker> jedź sam!</example>
         <example type="untouched">Martwię się o nie.</example>
+    </rule>
+
+    <rule id="GORZEJ_OD" name="gorzej jako przysłówek">
+        <pattern>
+            <marker>
+                <token>gorzej</token>
+            </marker>
+            <token regexp="yes">od|niż</token>
+        </pattern>
+        <disambig postag="adv:com"/>
+        <example type="ambiguous" inputform="gorzej[gorzeć/verb:impt:sg:sec:imperf:nonrefl,źle/adv:com]"
+                 outputform="gorzej[źle/adv:com]">Piszczę nie <marker>gorzej</marker> od piszczałki.</example>
     </rule>
 
     <rule name="Blokada reguły interpunkcyjnej dla daje vu" id="DAJE_VU_BLOKADA">
