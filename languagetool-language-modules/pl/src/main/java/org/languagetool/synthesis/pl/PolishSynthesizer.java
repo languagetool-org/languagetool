@@ -45,7 +45,6 @@ import org.languagetool.synthesis.SynthesizerTools;
 public class PolishSynthesizer implements Synthesizer {
 
   private static final String RESOURCE_FILENAME = "/pl/polish_synth.dict";
-
   private static final String TAGS_FILE_NAME = "/pl/polish_tags.txt";
 
   private static final String POTENTIAL_NEGATION_TAG = ":aff";

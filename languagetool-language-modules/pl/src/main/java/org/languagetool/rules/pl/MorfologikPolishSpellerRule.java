@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.pl;
 
 import org.languagetool.AnalyzedTokenReadings;
@@ -38,7 +37,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     /**
      * The set of prefixes that are not allowed to be split in the suggestions.
      */
-    private final static Set<String> prefixes;
+    private static final Set<String> prefixes;
 
     //Polish prefixes that should never be used to
     //split parts of words
@@ -66,7 +65,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
                                      Language language) throws IOException {
     super(messages, language);
     addExamplePair(Example.wrong("To jest zdanie z <marker>bledem</marker>"),
-        Example.fixed("To jest zdanie z <marker>błędem</marker>."));
+                   Example.fixed("To jest zdanie z <marker>błędem</marker>."));
   }
 
   @Override

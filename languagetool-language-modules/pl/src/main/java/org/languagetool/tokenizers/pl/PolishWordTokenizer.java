@@ -49,7 +49,7 @@ public class PolishWordTokenizer extends WordTokenizer {
   //Polish prefixes that should never be used to
   //split parts of words
   static {
-    final Set<String> tempSet = new HashSet<String>();
+    final Set<String> tempSet = new HashSet<>();
     tempSet.add("arcy");  tempSet.add("neo");
     tempSet.add("pre");   tempSet.add("anty");
     tempSet.add("eks");   tempSet.add("bez");

@@ -29,7 +29,6 @@ import org.languagetool.rules.Example;
  * 
  * @author Marcin Miłkowski, based on code by Daniel Naber
  */
-
 public final class CompoundRule extends AbstractCompoundRule {
 
   private static final String FILE_NAME = "/pl/compounds.txt";
@@ -41,7 +40,7 @@ public final class CompoundRule extends AbstractCompoundRule {
             "Ten wyraz pisze się z łącznikiem lub bez niego.");
     super.setShort("Brak łącznika lub zbędny łącznik");
     addExamplePair(Example.wrong("Witamy w <marker>Rabce Zdroju</marker>."),
-        Example.fixed("Witamy w <marker>Rabce-Zdroju</marker>."));
+                   Example.fixed("Witamy w <marker>Rabce-Zdroju</marker>."));
   }
   
   @Override
@@ -54,5 +53,4 @@ public final class CompoundRule extends AbstractCompoundRule {
     return "Sprawdza wyrazy z łącznikiem, np. „łapu capu” zamiast „łapu-capu”";
   }    
 
-  
 }

@@ -40,6 +40,7 @@ import org.languagetool.tools.StringTools;
 public class PolishTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/pl/polish.dict";
+  
   private final Locale plLocale = new Locale("pl");
 
   @Override
@@ -67,14 +68,14 @@ public class PolishTagger extends BaseTagger {
       //normal case
       addTokens(taggerTokens, l);
 
-      if (!isLowercase) {             
-        //lowercase        
+      if (!isLowercase) {
+        //lowercase
         addTokens(lowerTaggerTokens, l);
       }
 
       //uppercase
       if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
-        if (isLowercase) {          
+        if (isLowercase) {
           upperTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(StringTools
               .uppercaseFirstChar(word)));
           if (!upperTaggerTokens.isEmpty()) {
@@ -85,7 +86,7 @@ public class PolishTagger extends BaseTagger {
         } else {
           l.add(new AnalyzedToken(word, null, null));
         }
-      }          
+      }
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
@@ -106,5 +107,4 @@ public class PolishTagger extends BaseTagger {
     }
   }
 
-    
 }

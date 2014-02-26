@@ -87,7 +87,7 @@ public class PolishWordRepeatRule extends AdvancedWordRepeatRule {
   public PolishWordRepeatRule(final ResourceBundle messages) {
     super(messages);
     addExamplePair(Example.wrong("Mówiła długo, bo lubiła robić wszystko <marker>długo</marker>."),
-        Example.fixed("Mówiła długo, bo lubiła robić wszystko <marker>powoli</marker>."));
+                   Example.fixed("Mówiła długo, bo lubiła robić wszystko <marker>powoli</marker>."));
   }
 
   @Override
