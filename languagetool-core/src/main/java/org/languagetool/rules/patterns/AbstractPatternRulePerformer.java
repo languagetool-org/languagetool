@@ -122,9 +122,9 @@ public abstract class AbstractPatternRulePerformer {
     return thisMatched;
   }
 
-  protected boolean testUnificationAndGroups(final boolean matched,
-      final boolean lastReading, final AnalyzedToken matchToken,
-      final ElementMatcher elemMatcher, boolean alreadyTested) {
+  protected boolean testUnificationAndGroups(final boolean matched, final boolean lastReading,
+                                             final AnalyzedToken matchToken,
+                                             final ElementMatcher elemMatcher, boolean alreadyTested) {
     boolean thisMatched = matched;
     final boolean elemIsMatched = alreadyTested || elemMatcher.isMatched(matchToken);
     final Element elem = elemMatcher.getElement();
@@ -133,22 +133,22 @@ public abstract class AbstractPatternRulePerformer {
       if (matched && elem.isUnified()) {
         if (elem.isUniNegated()) {
           thisMatched = !unifier.isUnified(matchToken,
-                  elem.getUniFeatures(), lastReading,
-                  elemIsMatched);
+              elem.getUniFeatures(), lastReading,
+              elemIsMatched);
         } else {
           if (elem.isLastInUnification()) {
             thisMatched = unifier.isUnified(matchToken,
-                    elem.getUniFeatures(), lastReading,
-                    elemIsMatched);
+                elem.getUniFeatures(), lastReading,
+                elemIsMatched);
           } else { // we don't care about the truth value, let it run
-                    unifier.isUnified(matchToken,
-                    elem.getUniFeatures(), lastReading,
-                    elemIsMatched);
+            unifier.isUnified(matchToken,
+                elem.getUniFeatures(), lastReading,
+                elemIsMatched);
           }
         }
-      }
-      if (thisMatched && rule.isGetUnified()) {
-        unifiedTokens = unifier.getFinalUnified();
+        if (thisMatched && rule.isGetUnified()) {
+          unifiedTokens = unifier.getFinalUnified();
+        }
       }
       if (!elem.isUnified()) {
         unifier.reset();
