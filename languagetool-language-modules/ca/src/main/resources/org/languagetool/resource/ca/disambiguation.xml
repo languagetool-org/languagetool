@@ -692,9 +692,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>a</token>
                     <token regexp="yes">prop|sobre|sota|damunt|davall|gust|pler|plaer</token>
                 </marker>
-                <token><exception regexp="yes">de|d'</exception></token>
+                <token><exception regexp="yes">de|d'</exception><exception postag="PX.MS.*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+            <example type="untouched">És tan <marker>a prop</marker> meu.</example>
+        </rule>
+        <rule id="a_prop_seu" name="a prop/sobre/damunt... seu">
+            <pattern>
+                <token><exception>la</exception></token>
+                <marker>
+                    <token>a</token>
+                    <token regexp="yes">prop|sobre|sota|damunt|davall|gust|pler|plaer</token>
+                    <token postag="PX.MS.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
         </rule>
         <rule id="en_forma" name="en forma">
             <pattern>
