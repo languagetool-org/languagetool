@@ -19,8 +19,10 @@
 package org.languagetool.tagging.uk;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.languagetool.tagging.BaseTagger;
@@ -35,7 +37,19 @@ import org.languagetool.AnalyzedToken;
  */
 public class UkrainianTagger extends BaseTagger {
   private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?");
+	
+  public static final Map<String, String> VIDMINKY_MAP = new HashMap<String, String>();
 
+  static {
+  	VIDMINKY_MAP.put("v_naz", "називний");
+  	VIDMINKY_MAP.put("v_rod", "родовий");
+  	VIDMINKY_MAP.put("v_dav", "давальний");
+  	VIDMINKY_MAP.put("v_zna", "знахідний");
+  	VIDMINKY_MAP.put("v_oru", "орудний");
+  	VIDMINKY_MAP.put("v_mis", "місцевий");
+  	VIDMINKY_MAP.put("v_kly", "кличний");
+  }
+  
   @Override
   public final String getFileName() {
     return "/uk/ukrainian.dict";    

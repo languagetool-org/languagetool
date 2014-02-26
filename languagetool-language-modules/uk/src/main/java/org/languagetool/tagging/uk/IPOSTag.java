@@ -20,11 +20,23 @@
 package org.languagetool.tagging.uk;
 
 public enum IPOSTag {
-    noun,
-    adj,
-    verb,
-    adv,
-    numr,
-    dieprysl,
-    prysudk_sl
+    noun("noun"),
+    adj("adj"),
+    verb("verb"),
+    adv("adv"),
+    numr("numr"),
+    dieprysl("dieprysl"),
+    prysudk_sl("prysudk_sl"),
+    todo("todo");
+    
+    private final String text;
+    
+    private IPOSTag(String text) {
+    	this.text = text;
+    }
+
+		public String getText() {
+			return text;
+		}
+    
 }

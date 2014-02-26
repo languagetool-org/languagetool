@@ -51,7 +51,8 @@ public class UkrainianTaggerTest extends TestCase {
        tokenizer, tagger);
        
     String expected = 
-      "Майже/[майже]todo -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna -- тому/[той]pron|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_rod"
+      "Майже/[майже]todo -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
+    + " -- тому/[той]pron:m:v_dav|тому/[той]pron:m:v_mis|тому/[той]pron:n:v_dav|тому/[той]pron:n:v_mis|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod"
     + " -- Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]pryim:rv_rod:rv_zna:rv_oru"
     + " -- чоловіком/[чоловік]noun:m:v_oru -- Степаном/[Степан]noun:m:v_oru -- виїхали/[виїхати]verb:past:m -- туди/[туди]adv"
     + " -- на/[на]excl|на/[на]part|на/[на]pryim:rv_zna:rv_mis -- "

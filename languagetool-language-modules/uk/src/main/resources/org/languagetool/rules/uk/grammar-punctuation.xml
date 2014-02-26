@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Ukrainian grammar and typo rules for LanguageTool
+Copyright (C) 2007 Andriy Rysin
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
+$Id$
+-->
+<rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <category name="Пунктуація">
+        <rulegroup id="PLEASE_NO_COMMA" name="«будь ласка» виділяється комами">
+            <rule>
+                <pattern>
+                    <token>будь</token>
+                    <token>ласка</token>
+                    <token negate="yes" regexp="yes">[,\.!?:»]</token>
+                </pattern>
+                <message>Відсутня права кома: <suggestion>\1 \2, \3</suggestion>.</message>
+                <example type="correct">Запитайте, <marker>будь ласка, у</marker> водія.</example>
+                <example type="incorrect">Запитайте, <marker>будь ласка у</marker> водія.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«]<exception postag="SENT_START"></exception></token>
+                    <token>будь</token>
+                    <token>ласка</token>
+                </pattern>
+                <message>Відсутня ліва кома: <suggestion>\1, \2 \3</suggestion>.</message>
+                <example type="correct">Запитайте, будь ласка, у водія.</example>
+                <example type="incorrect"><marker>Запитайте будь ласка</marker>, у водія.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="INSERTED_WORDS_NO_COMMA" name="вставні слова, напр., «мабуть», «щоправда», виділяються комами">
+            <rule>
+                <pattern>
+                    <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+                    <token negate="yes" regexp="yes">[\p{Punct}–—»]</token>
+                </pattern>
+                <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
+                <example type="correct">Це, мабуть, його водій.</example>
+                <example type="incorrect">Це, <marker>мабуть його</marker> водій.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">мабуть|врешті|щоправда|о?крім того|втім</token>
+                </pattern>
+                <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+                <example type="correct">Мабуть, це водій.</example>
+                <example type="correct">Це, мабуть, водій.</example>
+                <example type="incorrect"><marker>Це мабуть</marker>, водій.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІі]|[Цц]е<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">по-перше|по-друге|по-третє</token>
+                    <token negate="yes">ж</token>
+                </pattern>
+                <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
+                <example type="correct">Це по-перше.</example>
+                <example type="incorrect">По-перше, треба його <marker>нашпигувати по-друге,</marker> запекти.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="Відсутня кома перед «але», «однак», ..." id="COMMA_BEFORE_BUT">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                    <token regexp="yes" negate="yes">[\p{Punct}…–—«\(„]|[нН]у|[АаІіЙй]|але<exception postag="SENT_START"></exception></token>
+                    <token regexp="yes">а|але|однак|проте|зате</token>
+                    </marker>
+                    <token regexp="yes" negate="yes">[\p{Punct}–—«\(]|ля</token>
+                </pattern>
+                <message>Відсутня кома перед сполучником: <suggestion>\1, \2</suggestion></message>
+                <example type="correct">Вгадав всі літери, але не зміг прочитати слово.</example>
+                <example type="correct">почалося щось а ля комедія</example>
+                <example type="incorrect">Вгадав всі <marker>літери але</marker> не зміг прочитати слово.</example>
+            </rule>
+        </rulegroup>
+
+    </category>
+
+</rules>

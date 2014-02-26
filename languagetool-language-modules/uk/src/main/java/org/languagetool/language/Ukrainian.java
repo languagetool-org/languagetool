@@ -22,13 +22,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
+import org.languagetool.rules.uk.TokenAgreementRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -41,7 +44,14 @@ import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
 
 public class Ukrainian extends Language {
-
+	private static final List<String> RULE_FILES = Arrays.asList(
+	  "grammar-spelling.xml",
+	  "grammar-grammar.xml",
+	  "grammar-barbarism.xml",
+	  "grammar-style.xml",
+	  "grammar-punctuation.xml"
+	);
+	
   private Tagger tagger;
   private SRXSentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
@@ -138,8 +148,22 @@ public class Ukrainian extends Language {
 //            UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to Ukrainian:
-            SimpleReplaceRule.class
+            SimpleReplaceRule.class//,
+//            TokenAgreementRule.class
     );
   }
+  
+  @Override
+	public List<String> getRuleFileNames() {
+	  List<String> ruleFileNames = super.getRuleFileNames();
+    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+    String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
+
+    for(String ruleFile: RULE_FILES) {
+    	ruleFileNames.add(dirBase + ruleFile);
+    } 
+    
+		return ruleFileNames;
+	}
 
 }

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
+<!--
+Ukrainian grammar and typo rules for LanguageTool
+Copyright (C) 2007 Andriy Rysin
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+
+$Id$
+-->
+<rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <category name="Орфографія">
+
+	<rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
+		
+		<rule>   
+			<pattern>
+		     <marker>
+		        <token>напів</token>
+		        <!--
+		         <token inflected="yes" regexp="yes">гіркий|солодкий|маринований|оголений|одягнений|роздягнений|аристократ|лежачи|стоячи|сидячи</token>
+		        -->
+		        <token postag_regexp="yes" postag="(noun|adj|adv).*"></token>
+		     </marker>
+		    </pattern>
+		    <message>Слова з «напів» пишемо разом <suggestion>напів<match no="2"/></suggestion></message>
+		    <short>Правильно писати разом</short>
+		    <example type="incorrect" correction="напівгіркий">У цього овоча <marker>напів гіркий</marker> присмак.</example>
+		    <example type="incorrect" correction="напіввагон">Зелений <marker>напів вагон</marker></example>
+		    <example type="correct">У цього овоча напівгіркий присмак.</example>
+		</rule>
+	
+	</rulegroup>
+
+	<rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
+	    <!-- TODO: use proper noun tag to make it generic -->
+		<rule>   
+			<pattern>
+		     <marker>
+		        <token>пів</token>
+		         <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
+		     </marker>
+		    </pattern>
+		    <message>«пів» з усіма власними назвами пишемо через дефіс</message>
+		    <short>Правильно писати через дефіс</short>
+		    <example type="incorrect">Снігопади паралізували <marker>пів Європи</marker>.</example>
+		    <example type="correct">Снігопади паралізували пів-Європи.</example>
+		</rule>
+
+		<rule>   
+			<pattern>
+		     <marker>
+		        <token>пів</token>
+		        <token regexp="yes">[яюєї].*</token>
+		     </marker>
+		    </pattern>
+		    <message>«пів» із загальними назвами на я, ю, є, ї пишемо через апостроф. Ви мали на увазі <suggestion>пів'<match no="2"/></suggestion>?</message>
+		    <short>Правильно «пів'яблука» тощо</short>
+		    <example type="incorrect" correction="пів'яблука">З'їсти <marker>пів яблука</marker>.</example>
+		    <example type="correct">З'їсти пів'яблука.</example>
+		    <example type="incorrect"><marker>Пів їдальні</marker> займали столи.</example>
+		    <example type="correct">Пів'їдальні займали столи. </example>
+		    <example type="incorrect">Вартість квитка – <marker>пів юаня</marker>.</example>
+		    <example type="correct">Вартість квитка – пів'юаня.</example>
+		</rule>
+	
+	</rulegroup>
+
+    </category>
+
+</rules>
