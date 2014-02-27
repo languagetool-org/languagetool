@@ -52,18 +52,18 @@ $Id$
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <unification feature="nombre">
         <equivalence type="S">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|_GN_.S" postag_regexp="yes"></token>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="P">
-            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|_GN_.P" postag_regexp="yes"></token>
+            <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[PN0].*|.*_GN_.P.*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
     <unification feature="genere">
         <equivalence type="M">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|_GN_M." postag_regexp="yes"></token>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[MC].*|.*_GN_M..*" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="F">
-            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|_GN_F." postag_regexp="yes"></token>
+            <token postag="(PX.|N.|[ADP].{2}|V.{5})[FC].*|.*_GN_F..*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
     <unification feature="persona">
@@ -1031,6 +1031,8 @@ $Id$
                 <example type="incorrect"><marker>uns tres</marker> o quatre xiquetes</example>
                 <example type="incorrect"><marker>un mitjans</marker> públics.</example>
                 <example type="incorrect"><marker>un alts</marker> càrrecs públics.</example>
+                <example type="correct">Uns alts càrrecs públics.</example>
+                <example type="correct">El bel canto.</example>
                 <example type="correct">Els metges pacients.</example>
                 <example type="correct">A tots els pares els passa igual.</example>
                 <example type="correct">Les quatre restants foren per als nobles.</example>
