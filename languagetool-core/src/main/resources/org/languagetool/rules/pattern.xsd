@@ -286,7 +286,8 @@
 					<xs:element ref="and" />
 					<xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
 					<xs:element ref="token" />
-			</xs:choice>
+                    <xs:element ref="unify-ignore" minOccurs="0" maxOccurs="unbounded"/>
+			    </xs:choice>
 			</xs:sequence>						
 			<xs:attribute name="negate" type="binaryYesNo" use="optional"
 				default="no" />
@@ -349,5 +350,17 @@
    			</xs:choice>
 		</xs:complexType>
 	</xs:element>
- 
+
+    <xs:annotation>
+        <xs:documentation xml:lang="en">Marks the neutral part of the unified sequence.</xs:documentation>
+    </xs:annotation>
+    <xs:element name="unify-ignore">
+        <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="and" />
+            <xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="token" />
+        </xs:choice>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

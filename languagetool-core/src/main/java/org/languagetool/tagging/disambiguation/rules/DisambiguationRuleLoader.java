@@ -146,6 +146,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           uniNegation = YES.equals(attrs.getValue(NEGATE));
           uniCounter = 0;
           break;
+        case UNIFY_IGNORE:
+          inUnificationNeutral = true;
+          break;
         case "feature":
           uFeature = attrs.getValue(ID);
           break;
@@ -390,6 +393,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         if (!inAndGroup) {
           uniCounter++;
         }
+        if (inUnificationNeutral) {
+          tokenElement.setUnificationNeutral();
+        }
       }
       if (inUnificationDef) {
         language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
@@ -428,6 +434,8 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       if (uniNegation) {
         elementList.get(lastElement).setUniNegation();
       }
+    } else if (UNIFY_IGNORE.equals(qName)) {
+      inUnificationNeutral = false;
     } else if (WD.equals(qName)) {
       addNewWord(wd.toString(), wdLemma, wdPos);
       inWord = false;

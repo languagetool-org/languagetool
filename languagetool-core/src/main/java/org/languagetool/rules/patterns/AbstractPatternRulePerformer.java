@@ -91,8 +91,10 @@ public abstract class AbstractPatternRulePerformer {
         }
       }
       if (rule.isGroupsOrUnification()) {
+        if (!elem.getElement().isUnificationNeutral()) {
         thisMatched &= testUnificationAndGroups(thisMatched,
             l + 1 == numberOfReadings, matchToken, elem, tested);
+        }
       }
     }
     if (thisMatched) {
@@ -103,6 +105,9 @@ public abstract class AbstractPatternRulePerformer {
       if (tokenNo > 0 && elem.hasPreviousException()) {
         if (elem.isMatchedByPreviousException(tokens[tokenNo - 1]))
           return false;
+      }
+      if (elem.getElement().isUnificationNeutral()) {
+        unifier.addNeutralElement(tokens[tokenNo]);
       }
     }
     if (elem.getElement().getChunkTag() != null) {

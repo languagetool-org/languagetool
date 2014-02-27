@@ -2120,7 +2120,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     <unify>
                         <feature id="number"/><feature id="gender"/> <feature id="case"/>
                         <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
-                        <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                        <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
                     </unify>
                 </marker>
             </pattern>
@@ -2130,7 +2130,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <pattern>
                 <marker>
                     <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                        <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                        <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
                         <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="adj.*"/></token>
                     </unify>
                 </marker>
@@ -2143,7 +2143,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <unify>
                     <feature id="number"/><feature id="gender"/> <feature id="case"/>
                     <token postag="pact.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="pact.*"/></token>
-                    <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                    <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
                 </unify>
             </pattern>
             <disambig action="unify"/>
@@ -2151,7 +2151,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule>
             <pattern>
                 <unify> <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                    <token postag="(subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="subst.*"/></token>
+                    <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*"/></token>
                     <token postag="pact.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="pact.*"/></token>
                 </unify>
             </pattern>
@@ -2171,6 +2171,23 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Tu mamy piękny przykład.</example>
         <example type="untouched">Łaciny używamy na co dzień.</example>        
         <!-- example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]" outputform="mamy[mama/subst:sg:gen:f]">Idę do <marker>mamy</marker>.</example>  -->
+    </rule>
+
+    <rule name="Unifikacja przymiotników z innymi" id="Unify_adj_comma">
+        <pattern>
+            <unify>
+                <feature id="number"/><feature id="gender"/> <feature id="case"/>
+                <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
+                <unify-ignore>
+                    <token>,</token>
+                </unify-ignore>
+                <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="młodego[młody/adj:sg:acc:m1.m2:pos,młody/adj:sg:gen:m1.m2.m3.n1.n2:pos]"
+                 outputform="młodego[młody/adj:sg:gen:m1.m2.m3.n1.n2:pos]">Mówię do ładnego, <marker>młodego</marker> chłopca.</example>
+        <example type="untouched">Spojrzał na nową, ale się nie odezwał.</example>
     </rule>
 
     <!-- conjunctions that take a comma -->

@@ -143,6 +143,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inUnification = true;
         uniNegation = YES.equals(attrs.getValue(NEGATE));
         break;
+      case UNIFY_IGNORE:
+        inUnificationNeutral = true;
+        break;
       case FEATURE:
         uFeature = attrs.getValue(ID);
         break;
@@ -250,135 +253,167 @@ public class PatternRuleHandler extends XMLRuleHandler {
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
-    if ("category".equals(qName)) {
-      categoryIssueType = null;
-    } else if (RULE.equals(qName)) {
-      suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg,suggestionsOutMsg.toString(),false);
-      phraseElementInit();
-      if (relaxedMode && id == null) {
-        id = "";
-      }
-      if (relaxedMode && name == null) {
-        name = "";
-      }
-      if (phraseElementList.isEmpty()) {
-        // Elements contain information whether they are inside a <marker>...</marker>,
-        // but for phraserefs this depends on the position where the phraseref is used
-        // not where it's defined. Thus we have to copy the elements so each use of
-        // the phraseref can carry their own information:
+    switch (qName) {
+      case "category":
+        categoryIssueType = null;
+        break;
+      case RULE:
+        suggestionMatchesOutMsg = addLegacyMatches(suggestionMatchesOutMsg, suggestionsOutMsg.toString(), false);
+        phraseElementInit();
+        if (relaxedMode && id == null) {
+          id = "";
+        }
+        if (relaxedMode && name == null) {
+          name = "";
+        }
+        if (phraseElementList.isEmpty()) {
+          // Elements contain information whether they are inside a <marker>...</marker>,
+          // but for phraserefs this depends on the position where the phraseref is used
+          // not where it's defined. Thus we have to copy the elements so each use of
+          // the phraseref can carry their own information:
 
-        final List<Element> tmpElements = new ArrayList<>();
-        createRules(new ArrayList<>(elementList), tmpElements, 0);
+          final List<Element> tmpElements = new ArrayList<>();
+          createRules(new ArrayList<>(elementList), tmpElements, 0);
 
-      } else {
-        if (!elementList.isEmpty()) {
-          for (List<Element> ph : phraseElementList) {
-            ph.addAll(new ArrayList<>(elementList));
+        } else {
+          if (!elementList.isEmpty()) {
+            for (List<Element> ph : phraseElementList) {
+              ph.addAll(new ArrayList<>(elementList));
+            }
+          }
+          for (List<Element> phraseElement : phraseElementList) {
+            processElement(phraseElement);
+            final List<Element> tmpElements = new ArrayList<>();
+            createRules(phraseElement, tmpElements, 0);
           }
         }
-        for (List<Element> phraseElement : phraseElementList) {
-          processElement(phraseElement);
-          final List<Element> tmpElements = new ArrayList<>();
-          createRules(phraseElement, tmpElements, 0);
-        }
-      }
-      elementList.clear();
-      if (phraseElementList != null) {
-        phraseElementList.clear();
-      }
-      ruleIssueType = null;
-
-    } else if (EXCEPTION.equals(qName)) {
-      finalizeExceptions();
-    } else if (AND.equals(qName)) {
-      inAndGroup = false;
-      andGroupCounter = 0;
-      tokenCounter++;
-    } else if (OR.equals(qName)) {
-      inOrGroup = false;
-      orGroupCounter = 0;
-      tokenCounter++;
-    } else if (TOKEN.equals(qName)) {
-      finalizeTokens();
-    } else if (PATTERN.equals(qName)) {
-      inPattern = false;
-      if (lastPhrase) {
         elementList.clear();
-      }
-      tokenCounter = 0;
-    } else if (EXAMPLE.equals(qName)) {
-      if (inCorrectExample) {
-        correctExamples.add(correctExample.toString());
-      } else if (inIncorrectExample) {
-        final IncorrectExample example;
-        final String[] corrections = exampleCorrection.toString().split("\\|");
-        if (corrections.length > 0 && corrections[0].length() > 0) {
-          example = new IncorrectExample(incorrectExample.toString(), corrections);
-        } else {
-          example = new IncorrectExample(incorrectExample.toString());
+        if (phraseElementList != null) {
+          phraseElementList.clear();
         }
-        incorrectExamples.add(example);
-      }
-      inCorrectExample = false;
-      inIncorrectExample = false;
-      correctExample = new StringBuilder();
-      incorrectExample = new StringBuilder();
-      exampleCorrection = new StringBuilder();
-    } else if (MESSAGE.equals(qName)) {
-      suggestionMatches = addLegacyMatches(suggestionMatches,message.toString(),true);
-      inMessage = false;
-    } else if (SUGGESTION.equals(qName) && !inMessage) { //suggestion outside message
-      suggestionsOutMsg.append("</suggestion>");
-      inSuggestion = false;
-    } else if ("short".equals(qName)) {
-      inShortMessage = false;
-    } else if ("url".equals(qName)) {
-      inUrl = false;
-    } else if (MATCH.equals(qName)) {
-      if (inMessage) {
-        suggestionMatches.get(suggestionMatches.size() - 1).
-        setLemmaString(match.toString());
-      } else if (inSuggestion) {
-        suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
-        setLemmaString(match.toString());
-      } else if (inToken) {
-        tokenReference.setLemmaString(match.toString());
-      }
-      inMatch = false;
-    } else if (RULEGROUP.equals(qName)) {
-      inRuleGroup = false;
-      ruleGroupIssueType = null;
-    } else if (SUGGESTION.equals(qName) && inMessage) {
-      message.append("</suggestion>");
-      inSuggestion = false;
-    } else if (MARKER.equals(qName) && inCorrectExample) {
-      correctExample.append("</marker>");
-    } else if (MARKER.equals(qName) && inIncorrectExample) {
-      incorrectExample.append("</marker>");
-    } else if (MARKER.equals(qName) && inPattern) {
-      endPos = tokenCountForMarker;
-      inMarker = false;
-    } else if ("phrase".equals(qName) && inPhrases) {
-      finalizePhrase();
-    } else if ("includephrases".equals(qName)) {
-      elementList.clear();
-    } else if (PHRASES.equals(qName) && inPhrases) {
-      inPhrases = false;
-    } else if (UNIFICATION.equals(qName)) {
-      inUnificationDef = false;
-    } else if (FEATURE.equals(qName)) {
-      equivalenceFeatures.put(uFeature, uTypeList);
-      uTypeList = new ArrayList<>();
-    } else if (UNIFY.equals(qName)) {
-      inUnification = false;
-      //clear the features...
-      equivalenceFeatures = new HashMap<>();
-      //set negation on the last token only!
-      final int lastElement = elementList.size() - 1;
-      elementList.get(lastElement).setLastInUnification();
-      if (uniNegation) {
-        elementList.get(lastElement).setUniNegation();
-      }
+        ruleIssueType = null;
+
+        break;
+      case EXCEPTION:
+        finalizeExceptions();
+        break;
+      case AND:
+        inAndGroup = false;
+        andGroupCounter = 0;
+        tokenCounter++;
+        break;
+      case OR:
+        inOrGroup = false;
+        orGroupCounter = 0;
+        tokenCounter++;
+        break;
+      case TOKEN:
+        finalizeTokens();
+        break;
+      case PATTERN:
+        inPattern = false;
+        if (lastPhrase) {
+          elementList.clear();
+        }
+        tokenCounter = 0;
+        break;
+      case EXAMPLE:
+        if (inCorrectExample) {
+          correctExamples.add(correctExample.toString());
+        } else if (inIncorrectExample) {
+          final IncorrectExample example;
+          final String[] corrections = exampleCorrection.toString().split("\\|");
+          if (corrections.length > 0 && corrections[0].length() > 0) {
+            example = new IncorrectExample(incorrectExample.toString(), corrections);
+          } else {
+            example = new IncorrectExample(incorrectExample.toString());
+          }
+          incorrectExamples.add(example);
+        }
+        inCorrectExample = false;
+        inIncorrectExample = false;
+        correctExample = new StringBuilder();
+        incorrectExample = new StringBuilder();
+        exampleCorrection = new StringBuilder();
+        break;
+      case MESSAGE:
+        suggestionMatches = addLegacyMatches(suggestionMatches, message.toString(), true);
+        inMessage = false;
+        break;
+      case SUGGESTION:
+        if (inMessage) {
+          message.append("</suggestion>");
+        } else { //suggestion outside message
+          suggestionsOutMsg.append("</suggestion>");
+        }
+        inSuggestion = false;
+        break;
+      case "short":
+        inShortMessage = false;
+        break;
+      case "url":
+        inUrl = false;
+        break;
+      case MATCH:
+        if (inMessage) {
+          suggestionMatches.get(suggestionMatches.size() - 1).
+              setLemmaString(match.toString());
+        } else if (inSuggestion) {
+          suggestionMatchesOutMsg.get(suggestionMatchesOutMsg.size() - 1).
+              setLemmaString(match.toString());
+        } else if (inToken) {
+          tokenReference.setLemmaString(match.toString());
+        }
+        inMatch = false;
+        break;
+      case RULEGROUP:
+        inRuleGroup = false;
+        ruleGroupIssueType = null;
+        break;
+      case MARKER:
+        if (inCorrectExample) {
+          correctExample.append("</marker>");
+        } else if (inIncorrectExample) {
+          incorrectExample.append("</marker>");
+        } else if (inPattern) {
+          endPos = tokenCountForMarker;
+          inMarker = false;
+        }
+        break;
+      case "phrase":
+        if (inPhrases) {
+          finalizePhrase();
+        }
+        break;
+      case "includephrases":
+        elementList.clear();
+        break;
+      case PHRASES:
+        if (inPhrases) {
+          inPhrases = false;
+        }
+        break;
+      case UNIFICATION:
+        inUnificationDef = false;
+        break;
+      case FEATURE:
+        equivalenceFeatures.put(uFeature, uTypeList);
+        uTypeList = new ArrayList<>();
+        break;
+      case UNIFY:
+        inUnification = false;
+        //clear the features...
+        equivalenceFeatures = new HashMap<>();
+        //set negation on the last token only!
+        final int lastElement = elementList.size() - 1;
+        elementList.get(lastElement).setLastInUnification();
+        if (uniNegation) {
+          elementList.get(lastElement).setUniNegation();
+        }
+        break;
+      case UNIFY_IGNORE:
+        inUnificationNeutral = false;
+        break;
     }
   }
 
