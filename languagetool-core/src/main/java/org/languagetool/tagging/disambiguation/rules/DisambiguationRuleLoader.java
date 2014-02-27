@@ -265,192 +265,210 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
   @Override
   public void endElement(final String namespaceURI, final String sName,
-      final String qName) throws SAXException {
-    if (RULE.equals(qName)) {
-      final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
-          name, language, elementList, disambiguatedPOS, posSelector,
-          disambigAction);
+                         final String qName) throws SAXException {
+    switch (qName) {
+      case RULE:
+        final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
+            name, language, elementList, disambiguatedPOS, posSelector,
+            disambigAction);
 
-      endPositionCorrection = endPos - tokenCountForMarker;
-      if (startPos != -1 && endPos != -1) {
-        rule.setStartPositionCorrection(startPos);
-        rule.setEndPositionCorrection(endPositionCorrection);
-      } else {
-        startPos = 0;
-        endPos = tokenCountForMarker;
-      }
-      rule.setSubId(inRuleGroup ? Integer.toString(subId) : "1");
-
-      final int matchedTokenCount = endPos - startPos;
-      if (newWdList != null) {
-        if (disambigAction == DisambiguatorAction.ADD || disambigAction == DisambiguatorAction.REMOVE
-                || disambigAction == DisambiguatorAction.REPLACE) {
-          if ((!newWdList.isEmpty() && disambigAction == DisambiguatorAction.REPLACE)
-                  && newWdList.size() != matchedTokenCount) {
-            throw new SAXException(
-                language.getName() + " rule error. The number of interpretations specified with wd: "
-                    + newWdList.size()
-                    + " must be equal to the number of matched tokens (" + matchedTokenCount + ")"
-                    + "\n Line: " + pLocator.getLineNumber() + ", column: "
-                    + pLocator.getColumnNumber() + ".");
-          }
-          rule.setNewInterpretations(newWdList
-              .toArray(new AnalyzedToken[newWdList.size()]));
+        endPositionCorrection = endPos - tokenCountForMarker;
+        if (startPos != -1 && endPos != -1) {
+          rule.setStartPositionCorrection(startPos);
+          rule.setEndPositionCorrection(endPositionCorrection);
+        } else {
+          startPos = 0;
+          endPos = tokenCountForMarker;
         }
-        newWdList.clear();
-      }
-      caseSensitive = false;
-      if (disambExamples != null) {
-        rule.setExamples(disambExamples);
-      }
-      if (untouchedExamples != null) {
-        rule.setUntouchedExamples(untouchedExamples);
-      }
-      rules.add(rule);
-      if (disambigAction == DisambiguatorAction.UNIFY && matchedTokenCount != uniCounter) {
-        throw new SAXException(language.getName() + " rule error. The number unified tokens: "
-            + uniCounter + " must be equal to the number of matched tokens: " + matchedTokenCount
-            + "\n Line: " + pLocator.getLineNumber() + ", column: "
-            + pLocator.getColumnNumber() + ".");
-      }
-      final boolean singleTokenCorrection = endPos - startPos > 1;
-      if ((!singleTokenCorrection && (disambigAction == DisambiguatorAction.FILTER || disambigAction == DisambiguatorAction.REPLACE))
-          && (matchedTokenCount > 1)) {
-        throw new SAXException(
-            language.getName() + " rule error. Cannot replace or filter more than one token at a time."
-                + "\n Line: " + pLocator.getLineNumber() + ", column: "
-                + pLocator.getColumnNumber() + ".");
-      }
-      elementList.clear();
-      posSelector = null;
-      disambExamples = null;
-      untouchedExamples = null;
-      startPos = -1;
-      endPos = -1;
-    } else if (EXCEPTION.equals(qName)) {
-      finalizeExceptions();
-    } else if (AND.equals(qName)) {
-      inAndGroup = false;
-      andGroupCounter = 0;
-      tokenCounter++;
-    } else if (TOKEN.equals(qName)) {
-      if (!exceptionSet || tokenElement == null) {
-        tokenElement = new Element(elements.toString(), caseSensitive,
-            regExpression, tokenInflected);
-        tokenElement.setNegation(tokenNegated);
-      } else {
-        tokenElement.setStringElement(elements.toString());
-      }
-      if (skipPos != 0) {
-        tokenElement.setSkipNext(skipPos);
-        skipPos = 0;
-      }
-      if (minOccurrence == 0) {
-        tokenElement.setMinOccurrence(0);
-      }
-      if (maxOccurrence != 1) {
-        tokenElement.setMaxOccurrence(maxOccurrence);
-        maxOccurrence = 1;
-      }
-      if (posToken != null) {
-        tokenElement.setPosElement(posToken, posRegExp, posNegation);
-        posToken = null;
-      }
-      
-      if (chunkTag != null) {
-        tokenElement.setChunkElement(chunkTag);
-        chunkTag = null;
-      }
+        rule.setSubId(inRuleGroup ? Integer.toString(subId) : "1");
 
-      if (tokenReference != null) {
-        tokenElement.setMatch(tokenReference);
-      }
-
-      if (inAndGroup && andGroupCounter > 0) {
-        elementList.get(elementList.size() - 1)
-            .setAndGroupElement(tokenElement);
-        if (minOccurrence !=1 || maxOccurrence !=1) {
-              throw new SAXException("Please set min and max attributes on the " +
-                      "first token in the AND group.\n You attempted to set these " +
-                      "attributes on the token no. " + (andGroupCounter + 1) + "." + "\n Line: "
-                      + pLocator.getLineNumber() + ", column: "
+        final int matchedTokenCount = endPos - startPos;
+        if (newWdList != null) {
+          if (disambigAction == DisambiguatorAction.ADD || disambigAction == DisambiguatorAction.REMOVE
+              || disambigAction == DisambiguatorAction.REPLACE) {
+            if ((!newWdList.isEmpty() && disambigAction == DisambiguatorAction.REPLACE)
+                && newWdList.size() != matchedTokenCount) {
+              throw new SAXException(
+                  language.getName() + " rule error. The number of interpretations specified with wd: "
+                      + newWdList.size()
+                      + " must be equal to the number of matched tokens (" + matchedTokenCount + ")"
+                      + "\n Line: " + pLocator.getLineNumber() + ", column: "
                       + pLocator.getColumnNumber() + ".");
-        }
-      } else {
-          if (minOccurrence < 1) {
-              elementList.add(tokenElement);
+            }
+            rule.setNewInterpretations(newWdList
+                .toArray(new AnalyzedToken[newWdList.size()]));
           }
-          for (int i = 1; i <= minOccurrence; i ++) {
-              elementList.add(tokenElement);
+          newWdList.clear();
+        }
+        caseSensitive = false;
+        if (disambExamples != null) {
+          rule.setExamples(disambExamples);
+        }
+        if (untouchedExamples != null) {
+          rule.setUntouchedExamples(untouchedExamples);
+        }
+        rules.add(rule);
+        if (disambigAction == DisambiguatorAction.UNIFY && matchedTokenCount != uniCounter) {
+          throw new SAXException(language.getName() + " rule error. The number unified tokens: "
+              + uniCounter + " must be equal to the number of matched tokens: " + matchedTokenCount
+              + "\n Line: " + pLocator.getLineNumber() + ", column: "
+              + pLocator.getColumnNumber() + ".");
+        }
+        final boolean singleTokenCorrection = endPos - startPos > 1;
+        if ((!singleTokenCorrection && (disambigAction == DisambiguatorAction.FILTER || disambigAction == DisambiguatorAction.REPLACE))
+            && (matchedTokenCount > 1)) {
+          throw new SAXException(
+              language.getName() + " rule error. Cannot replace or filter more than one token at a time."
+                  + "\n Line: " + pLocator.getLineNumber() + ", column: "
+                  + pLocator.getColumnNumber() + ".");
+        }
+        elementList.clear();
+        posSelector = null;
+        disambExamples = null;
+        untouchedExamples = null;
+        startPos = -1;
+        endPos = -1;
+        break;
+      case EXCEPTION:
+        finalizeExceptions();
+        break;
+      case AND:
+        inAndGroup = false;
+        andGroupCounter = 0;
+        tokenCounter++;
+        break;
+      case TOKEN:
+        if (!exceptionSet || tokenElement == null) {
+          tokenElement = new Element(elements.toString(), caseSensitive,
+              regExpression, tokenInflected);
+          tokenElement.setNegation(tokenNegated);
+        } else {
+          tokenElement.setStringElement(elements.toString());
+        }
+        if (skipPos != 0) {
+          tokenElement.setSkipNext(skipPos);
+          skipPos = 0;
+        }
+        if (minOccurrence == 0) {
+          tokenElement.setMinOccurrence(0);
+        }
+        if (maxOccurrence != 1) {
+          tokenElement.setMaxOccurrence(maxOccurrence);
+          maxOccurrence = 1;
+        }
+        if (posToken != null) {
+          tokenElement.setPosElement(posToken, posRegExp, posNegation);
+          posToken = null;
+        }
+
+        if (chunkTag != null) {
+          tokenElement.setChunkElement(chunkTag);
+          chunkTag = null;
+        }
+
+        if (tokenReference != null) {
+          tokenElement.setMatch(tokenReference);
+        }
+
+        if (inAndGroup && andGroupCounter > 0) {
+          elementList.get(elementList.size() - 1)
+              .setAndGroupElement(tokenElement);
+          if (minOccurrence != 1 || maxOccurrence != 1) {
+            throw new SAXException("Please set min and max attributes on the " +
+                "first token in the AND group.\n You attempted to set these " +
+                "attributes on the token no. " + (andGroupCounter + 1) + "." + "\n Line: "
+                + pLocator.getLineNumber() + ", column: "
+                + pLocator.getColumnNumber() + ".");
+          }
+        } else {
+          if (minOccurrence < 1) {
+            elementList.add(tokenElement);
+          }
+          for (int i = 1; i <= minOccurrence; i++) {
+            elementList.add(tokenElement);
           }
           minOccurrence = 1;
-      }
-      if (inAndGroup) {
-        andGroupCounter++;
-      }
-      if (inUnification) {
-        tokenElement.setUnification(equivalenceFeatures);
-        if (!inAndGroup) {
-          uniCounter++;
         }
-        if (inUnificationNeutral) {
-          tokenElement.setUnificationNeutral();
+        if (inAndGroup) {
+          andGroupCounter++;
         }
-      }
-      if (inUnificationDef) {
-        language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
-        elementList.clear();
-      }
-      if (tokenSpaceBeforeSet) {
-        tokenElement.setWhitespaceBefore(tokenSpaceBefore);
-      }
-      resetToken();
-    } else if (PATTERN.equals(qName)) {
-      inPattern = false;
-      tokenCounter = 0;
-    } else if (MATCH.equals(qName)) {
-      if (inDisambiguation) {
-        posSelector.setLemmaString(match.toString());
-      } else if (inToken) {
-        tokenReference.setLemmaString(match.toString());
-      }
-      inMatch = false;
-    } else if (DISAMBIG.equals(qName)) {
-      inDisambiguation = false;
-    } else if (RULEGROUP.equals(qName)) {
-      inRuleGroup = false;
-    } else if (UNIFICATION.equals(qName) && inUnificationDef) {
-      inUnificationDef = false;
-      tokenCounter = 0;
-    } else if ("feature".equals(qName)) {   
-      equivalenceFeatures.put(uFeature, uTypeList);
-      uTypeList = new ArrayList<>();
-    } else if (UNIFY.equals(qName)) {
-      inUnification = false;
-      equivalenceFeatures = new HashMap<>();
-      //set negation on the last token only!
-      final int lastElement = elementList.size() - 1;
-      elementList.get(lastElement).setLastInUnification();
-      if (uniNegation) {
-        elementList.get(lastElement).setUniNegation();
-      }
-    } else if (UNIFY_IGNORE.equals(qName)) {
-      inUnificationNeutral = false;
-    } else if (WD.equals(qName)) {
-      addNewWord(wd.toString(), wdLemma, wdPos);
-      inWord = false;
-    } else if (EXAMPLE.equals(qName)) {
-      inExample = false;
-      if (untouched) {
-        untouchedExamples.add(example.toString());
-      } else {
-        disambExamples.add(new DisambiguatedExample(example.toString(), input, output));
-      }
-    } else if (MARKER.equals(qName)) {
-      example.append("</marker>");
-      if (inPattern) {
-        endPos = tokenCountForMarker;
-      }
+        if (inUnification) {
+          tokenElement.setUnification(equivalenceFeatures);
+          if (!inAndGroup) {
+            uniCounter++;
+          }
+          if (inUnificationNeutral) {
+            tokenElement.setUnificationNeutral();
+          }
+        }
+        if (inUnificationDef) {
+          language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
+          elementList.clear();
+        }
+        if (tokenSpaceBeforeSet) {
+          tokenElement.setWhitespaceBefore(tokenSpaceBefore);
+        }
+        resetToken();
+        break;
+      case PATTERN:
+        inPattern = false;
+        tokenCounter = 0;
+        break;
+      case MATCH:
+        if (inDisambiguation) {
+          posSelector.setLemmaString(match.toString());
+        } else if (inToken) {
+          tokenReference.setLemmaString(match.toString());
+        }
+        inMatch = false;
+        break;
+      case DISAMBIG:
+        inDisambiguation = false;
+        break;
+      case RULEGROUP:
+        inRuleGroup = false;
+        break;
+      case UNIFICATION:
+        if (inUnificationDef){
+          inUnificationDef = false;
+          tokenCounter = 0;
+        }
+        break;
+      case "feature":
+        equivalenceFeatures.put(uFeature, uTypeList);
+        uTypeList = new ArrayList<>();
+        break;
+      case UNIFY:
+        inUnification = false;
+        equivalenceFeatures = new HashMap<>();
+        //set negation on the last token only!
+        final int lastElement = elementList.size() - 1;
+        elementList.get(lastElement).setLastInUnification();
+        if (uniNegation) {
+          elementList.get(lastElement).setUniNegation();
+        }
+        break;
+      case UNIFY_IGNORE:
+        inUnificationNeutral = false;
+        break;
+      case WD:
+        addNewWord(wd.toString(), wdLemma, wdPos);
+        inWord = false;
+        break;
+      case EXAMPLE:
+        inExample = false;
+        if (untouched) {
+          untouchedExamples.add(example.toString());
+        } else {
+          disambExamples.add(new DisambiguatedExample(example.toString(), input, output));
+        }
+        break;
+      case MARKER:
+        example.append("</marker>");
+        if (inPattern) {
+          endPos = tokenCountForMarker;
+        }
+        break;
     }
   }
 
