@@ -3027,7 +3027,7 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="3">donar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|tombarella|passejada|petó|bes|besada|pessic|abraçada|gir|pel·lícula|batxillerat|concert|recital|impressió</token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
@@ -3068,7 +3068,7 @@ $Id$
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer</token>
                     </marker>
-                    <token regexp="yes">bufetad(a|es)|mastegots?|clatellad(a|es)|garrotad(a|es)|puntad(a|es)|puntelló|puntellons|clatellots?|coça|coces|calbots?|bescollad(a|es)</token>
+                    <token regexp="yes" inflected="yes">bufetada|mastegot|galtada|clatellada|garrotada|puntada|puntelló|clatellots|coça|calbot|bescollada|punyalada</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>, 
                     <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pegar</match></suggestion>,
@@ -22401,6 +22401,19 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="DONAR_LESQUENA" name="donar l'esquena/girar l'esquena">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="2">donar</token>
+                </marker>
+                <token>l'</token>
+                <token>esquena</token>
+            </pattern>
+            <message>Expressió preferible</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
+            <example type="incorrect" correction="giraren">Li <marker>donaren</marker> sempre l'esquena.</example>
+            <example type="correct">girar l'esquena</example>
+        </rule>
         <rule id="EN_EL_QUE_PORTEM_DE_CURS" name="en el que portem de curs">
             <pattern>
                 <token>en</token>
