@@ -82,7 +82,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_MP = Pattern.compile("SPS00|D[^R].[MC][PN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FP = Pattern.compile("SPS00|D[^R].[FC][PN].*|V.[^NGP].*|PX.*");
-  private static final Pattern GN = Pattern.compile("_GN_.*|<?/?N[CP].*");
+  private static final Pattern GN = Pattern.compile(".*_GN_.*|<?/?N[CP].*");
   private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|por|costat", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
 
