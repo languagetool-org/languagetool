@@ -1077,7 +1077,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
-                <token postag="(adj|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
@@ -1442,6 +1442,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="proroczyć"/></disambig>
     </rule>
 
+    <rule id="PRZECIW" name="przeciw to nie przeciwić">
+        <pattern>
+            <token>przeciw</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="przeciwić"/></disambig>
+    </rule>
+
     <rule id="STARZY" name="starzy to nie starzyć">
         <pattern>
             <token>starzy</token>
@@ -1578,6 +1585,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Dobrze gada!</example>
     </rule>
 
+    <rule id="KULI_SUBST" name="kuli jako genetiwus">
+        <pattern>
+            <token regexp="yes" inflected="yes">świst|zakątek|kształt|promień|obszar|powierzchnia|rejon|efekt|obwód|środek|uderzenie|punkt|lot|wnętrze|ruch|miejsce</token>
+            <marker><token>kuli</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"></disambig>
+    </rule>
+
     <rule id="DOBRZE_GADA" name="gada jako czasownik">
         <pattern>
             <token postag="adv.*" postag_regexp="yes"></token>
@@ -1685,6 +1700,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
             <token postag_regexp="yes" postag="(?:adj|ppas|subst):sg:inst:f.*"/>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="W_SZTUCE_BIEGŁY" name="w sztuce biegły">
+        <pattern>
+            <token postag="prep:loc:nwok"/>
+            <token postag="subst:sg:loc:f">sztuce</token>
+            <token postag="adj:sg:nom.voc:m1.m2.m3:pos">biegły</token>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -2056,6 +2080,29 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="śmieci[śmiecie/subst:pl:gen:n2,śmieć/subst:pl:gen:m2,śmieć/subst:pl:gen:m3]">Cała ta banda sprawiała wrażenie <marker>śmieci</marker> podwórza.</example>
     </rule>
 
+    <rule id="PPRON_NPRAEP_UNIFY_SUBST" name="unifikacja zaimka z rzeczownikiem etc.">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/>
+                <token postag="ppron.*:npraep" postag_regexp="yes"/>
+                <token postag="(?:subst|depr|ger|pact|adj|num|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger|pact|adj|num|ppas).*"/></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"></disambig>
+        <example type="ambiguous" inputform="siły[siła/subst:pl:acc:f,siła/subst:pl:nom:f,siła/subst:pl:voc:f,siła/subst:sg:gen:f,siły/subst:pl:acc:p3,siły/subst:pl:nom:p3,siły/subst:pl:voc:p3]"
+                 outputform="siły[siła/subst:sg:gen:f]">To był okres pełni jego <marker>siły</marker>.</example>
+    </rule>
+
+    <rule id="PELNI_GEN" name="pełni + genetiwus = rzeczownik">
+        <pattern>
+            <marker>
+                <token>pełni</token>
+            </marker>
+            <token postag_regexp="yes" postag=".*gen.*"><exception postag=".*acc.*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="remove"><wd lemma="pełnić"/></disambig>
+    </rule>
+
     <rule id="PREPARE_NOM_ACC_F" name="przygotowanie szukanie orzeczenia dla r. żeńskiego">
         <pattern>
             <marker>
@@ -2177,17 +2224,54 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <unify>
                 <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
+                <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
                 <unify-ignore>
-                    <token>,</token>
+                    <token regexp="yes">[,i]|oraz|ani|lub|albo|bądź|czy</token>
                 </unify-ignore>
-                <token postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
+                <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>
         <example type="ambiguous" inputform="młodego[młody/adj:sg:acc:m1.m2:pos,młody/adj:sg:gen:m1.m2.m3.n1.n2:pos]"
                  outputform="młodego[młody/adj:sg:gen:m1.m2.m3.n1.n2:pos]">Mówię do ładnego, <marker>młodego</marker> chłopca.</example>
         <example type="untouched">Spojrzał na nową, ale się nie odezwał.</example>
+    </rule>
+
+    <rule name="Unifikacja rzeczowników z innymi (koordynacja)" id="Unify_3_noun">
+        <pattern>
+            <unify>
+                <feature id="case"/>
+                <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+                <unify-ignore>
+                    <token regexp="yes">[,i]|oraz|ani|lub|albo|bądź|czy</token>
+                </unify-ignore>
+                <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+                <unify-ignore>
+                    <token regexp="yes">[,i]|oraz|ani|lub|albo|bądź|czy</token>
+                </unify-ignore>
+                <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="konie[konie/subst:pl:acc:p3,konie/subst:pl:nom:p3,konie/subst:pl:voc:p3,koń/subst:pl:acc:m2,koń/subst:pl:nom:m2,koń/subst:pl:voc:m2]"
+                 outputform="konie[konie/subst:pl:acc:p3,koń/subst:pl:acc:m2]">Patrzył na kozy, <marker>konie</marker> i robaki.</example>
+        <example type="untouched">Spojrzał na nową, ale się nie odezwał.</example>
+    </rule>
+
+    <rule name="rzeczowniki z dywizem" id="unify_noun_hyphen">
+    <pattern case_sensitive="yes">
+        <unify>
+        <feature id="case"/><feature id="number"/>
+        <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+        <unify-ignore>
+            <token spacebefore="no">-</token>
+        </unify-ignore>
+        <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+        </unify>
+    </pattern>
+    <disambig action="unify"/>
+        <example type="ambiguous" inputform="kota[kot/subst:sg:acc:m1,kot/subst:sg:acc:m2,kot/subst:sg:gen:m1,kot/subst:sg:gen:m2,kota/subst:sg:nom:f]"
+                 outputform="kota[kot/subst:sg:acc:m1,kot/subst:sg:acc:m2]">Patrzę na kobietę-<marker>kota</marker>.</example>
     </rule>
 
     <!-- conjunctions that take a comma -->
@@ -3022,7 +3106,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig><match no="1" postag="ger.*"  postag_regexp="yes"/></disambig>
     	<example type="untouched">Widzę pięciu wyrostków.</example>
     	<example type="ambiguous" inputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl,pięć/num:pl:acc:m1:rec,pięć/num:pl:gen.dat.inst.loc:m1.m2.m3.f.n2:congr,pięć/num:pl:nom.voc:m1:rec]" 
-    	outputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl]">Opowiem wam o <marker>pięciu</marker> się wzwyż.</example>
+    	outputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl]">Nie było końca <marker>pięciu</marker> się wzwyż.</example>
     </rule>
     <rule>
     	<pattern>
@@ -3036,7 +3120,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig><match no="1" postag="ger.*"  postag_regexp="yes"/></disambig>
     	<example type="untouched">Widzę pięciu wyrostków.</example>
     	<example type="ambiguous" inputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl,pięć/num:pl:acc:m1:rec,pięć/num:pl:gen.dat.inst.loc:m1.m2.m3.f.n2:congr,pięć/num:pl:nom.voc:m1:rec]" 
-    	outputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl]">Opowiem wam o <marker>pięciu</marker> się w górę.</example>
+    	outputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl]">Nie było końca <marker>pięciu</marker> się w górę.</example>
     </rule>    
     </rulegroup>
     <rule id="PIECIU_NUM" name="Pięciu jako liczebnik">
