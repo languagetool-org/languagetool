@@ -2915,16 +2915,19 @@ $Id$
         </rulegroup>
         <rule id="HAVER_DE_PARTICIPI" name="haver de *participat/participar">
             <pattern>
+                <token><exception>hi</exception></token>
                 <token inflected="yes">haver</token>
                 <token regexp="yes">de|d'</token>
                 <marker>
                     <token postag="V.[PG].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="4" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
             <short>Falta un infinitiu</short>
             <example type="incorrect" correction="participar">Han de <marker>participat</marker> tots.</example>
             <example type="correct">Han de participar tots.</example> 
+            <example type="correct">També n'hi ha d'escampats en granges.</example>
+            <example type="correct">Hi havia de tot.</example>
         </rule>
         <rule id="DONAR_DE_MENJAR" name="donar *de menjar/beure/mamar">
             <pattern>
