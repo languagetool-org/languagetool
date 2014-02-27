@@ -72,146 +72,178 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   @Override
   public void startElement(final String namespaceURI, final String lName,
-      final String qName, final Attributes attrs) throws SAXException {
-    if ("category".equals(qName)) {
-      final String catName = attrs.getValue(NAME);
-      final String priorityStr = attrs.getValue("priority");
-      if (priorityStr == null) {
-        category = new Category(catName);
-      } else {
-        category = new Category(catName, Integer.parseInt(priorityStr));
-      }
-      if ("off".equals(attrs.getValue(DEFAULT))) {
-        category.setDefaultOff();
-      }
-      if (attrs.getValue(TYPE) != null) {
-        categoryIssueType = attrs.getValue(TYPE);
-      }
-    } else if ("rules".equals(qName)) {
-      final String languageStr = attrs.getValue("lang");
-      language = Language.getLanguageForShortName(languageStr);
-    } else if (RULE.equals(qName)) {
-      shortMessage = new StringBuilder();
-      message = new StringBuilder();
-      suggestionsOutMsg = new StringBuilder();
-      url = new StringBuilder();
-      id = attrs.getValue(ID);
-      if (inRuleGroup) {
-        subId++;
-      }
-      if (!(inRuleGroup && defaultOff)) {
-        defaultOff = "off".equals(attrs.getValue(DEFAULT));
-      }
-      if (!(inRuleGroup && defaultOn)) {
-        defaultOn = "on".equals(attrs.getValue(DEFAULT));
-      }
-      if (inRuleGroup && id == null) {
-        id = ruleGroupId;
-      }
-      name = attrs.getValue(NAME);
-      if (inRuleGroup && name == null) {
-        name = ruleGroupDescription;
-      }
-      correctExamples = new ArrayList<>();
-      incorrectExamples = new ArrayList<>();
-      if (suggestionMatches != null) {
-        suggestionMatches.clear();
-      }
-      if (suggestionMatchesOutMsg != null) {
-        suggestionMatchesOutMsg.clear();
-      }
-      if (attrs.getValue(TYPE) != null) {
-        ruleIssueType = attrs.getValue(TYPE);
-      }
-    } else if (PATTERN.equals(qName)) {
-      startPattern(attrs);
-      tokenCountForMarker = 0;
-    } else if (AND.equals(qName)) {
-      inAndGroup = true;
-      tokenCountForMarker++;
-    } else if (OR.equals(qName)) {
-      inOrGroup = true;
-      tokenCountForMarker++;
-    } else if (UNIFY.equals(qName)) {
-      inUnification = true;
-      uniNegation = YES.equals(attrs.getValue(NEGATE));
-    } else if (FEATURE.equals(qName)) {
-      uFeature = attrs.getValue(ID);
-    } else if (TYPE.equals(qName)) {
-      uType = attrs.getValue(ID);
-      uTypeList.add(uType);
-    } else if (TOKEN.equals(qName)) {
-      setToken(attrs);
-      if (!inAndGroup && !inOrGroup) {
+                           final String qName, final Attributes attrs) throws SAXException {
+    switch (qName) {
+      case "category":
+        final String catName = attrs.getValue(NAME);
+        final String priorityStr = attrs.getValue("priority");
+        if (priorityStr == null) {
+          category = new Category(catName);
+        } else {
+          category = new Category(catName, Integer.parseInt(priorityStr));
+        }
+        if ("off".equals(attrs.getValue(DEFAULT))) {
+          category.setDefaultOff();
+        }
+        if (attrs.getValue(TYPE) != null) {
+          categoryIssueType = attrs.getValue(TYPE);
+        }
+        break;
+      case "rules":
+        final String languageStr = attrs.getValue("lang");
+        language = Language.getLanguageForShortName(languageStr);
+        break;
+      case RULE:
+        shortMessage = new StringBuilder();
+        message = new StringBuilder();
+        suggestionsOutMsg = new StringBuilder();
+        url = new StringBuilder();
+        id = attrs.getValue(ID);
+        if (inRuleGroup) {
+          subId++;
+        }
+        if (!(inRuleGroup && defaultOff)) {
+          defaultOff = "off".equals(attrs.getValue(DEFAULT));
+        }
+        if (!(inRuleGroup && defaultOn)) {
+          defaultOn = "on".equals(attrs.getValue(DEFAULT));
+        }
+        if (inRuleGroup && id == null) {
+          id = ruleGroupId;
+        }
+        name = attrs.getValue(NAME);
+        if (inRuleGroup && name == null) {
+          name = ruleGroupDescription;
+        }
+        correctExamples = new ArrayList<>();
+        incorrectExamples = new ArrayList<>();
+        if (suggestionMatches != null) {
+          suggestionMatches.clear();
+        }
+        if (suggestionMatchesOutMsg != null) {
+          suggestionMatchesOutMsg.clear();
+        }
+        if (attrs.getValue(TYPE) != null) {
+          ruleIssueType = attrs.getValue(TYPE);
+        }
+        break;
+      case PATTERN:
+        startPattern(attrs);
+        tokenCountForMarker = 0;
+        break;
+      case AND:
+        inAndGroup = true;
         tokenCountForMarker++;
-      }
-    } else if (EXCEPTION.equals(qName)) {
-      setExceptions(attrs);
-    } else if (EXAMPLE.equals(qName) && attrs.getValue(TYPE).equals("correct")) {
-      inCorrectExample = true;
-      correctExample = new StringBuilder();
-    } else if (EXAMPLE.equals(qName) && attrs.getValue(TYPE).equals("incorrect")) {
-      inIncorrectExample = true;
-      incorrectExample = new StringBuilder();
-      exampleCorrection = new StringBuilder();
-      if (attrs.getValue("correction") != null) {
-        exampleCorrection.append(attrs.getValue("correction"));
-      }
-    } else if (MESSAGE.equals(qName)) {
-      inMessage = true;
-      inSuggestion = false;
-      message = new StringBuilder();
-    } else if (SUGGESTION.equals(qName) && !inMessage) {  //suggestions outside message
-      if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-        suggestionsOutMsg.append(PLEASE_SPELL_ME);
-      }
-      suggestionsOutMsg.append("<suggestion>");
-      inSuggestion = true;
-    } else if ("short".equals(qName)) {
-      inShortMessage = true;
-      shortMessage = new StringBuilder();
-    } else if ("url".equals(qName)) {
-      inUrl = true;
-      url = new StringBuilder();
-    } else if (RULEGROUP.equals(qName)) {
-      ruleGroupId = attrs.getValue(ID);
-      ruleGroupDescription = attrs.getValue(NAME);
-      defaultOff = "off".equals(attrs.getValue(DEFAULT));
-      defaultOn = "on".equals(attrs.getValue(DEFAULT));
-      inRuleGroup = true;
-      subId = 0;
-      if (attrs.getValue(TYPE) != null) {
-        ruleGroupIssueType = attrs.getValue(TYPE);
-      }
-    } else if (SUGGESTION.equals(qName) && inMessage) {
-      if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-        message.append(PLEASE_SPELL_ME);
-      }
-      message.append("<suggestion>");
-      inSuggestion = true;
-    } else if (MATCH.equals(qName)) {
-      setMatchElement(attrs);
-    } else if (MARKER.equals(qName) && inCorrectExample) {
-      correctExample.append(MARKER_TAG);
-    } else if (MARKER.equals(qName) && inIncorrectExample) {
-      incorrectExample.append(MARKER_TAG);
-    } else if (MARKER.equals(qName) && inPattern) {
-      startPos = tokenCounter;
-      inMarker = true;
-    } else if (UNIFICATION.equals(qName)) {
-      uFeature = attrs.getValue("feature");
-      inUnificationDef = true;
-    } else if ("equivalence".equals(qName)) {
-      uType = attrs.getValue(TYPE);
-    } else if (PHRASES.equals(qName)) {
-      inPhrases = true;
-    } else if ("includephrases".equals(qName)) {
-      phraseElementInit();
-    } else if ("phrase".equals(qName) && inPhrases) {
-      phraseId = attrs.getValue(ID);
-    } else if ("phraseref".equals(qName) && attrs.getValue("idref") != null) {
-      preparePhrase(attrs);
-      tokenCountForMarker++;
+        break;
+      case OR:
+        inOrGroup = true;
+        tokenCountForMarker++;
+        break;
+      case UNIFY:
+        inUnification = true;
+        uniNegation = YES.equals(attrs.getValue(NEGATE));
+        break;
+      case FEATURE:
+        uFeature = attrs.getValue(ID);
+        break;
+      case TYPE:
+        uType = attrs.getValue(ID);
+        uTypeList.add(uType);
+        break;
+      case TOKEN:
+        setToken(attrs);
+        if (!inAndGroup && !inOrGroup) {
+          tokenCountForMarker++;
+        }
+        break;
+      case EXCEPTION:
+        setExceptions(attrs);
+        break;
+      case EXAMPLE:
+        if (attrs.getValue(TYPE).equals("correct")) {
+          inCorrectExample = true;
+          correctExample = new StringBuilder();
+        } else if (attrs.getValue(TYPE).equals("incorrect")) {
+          inIncorrectExample = true;
+          incorrectExample = new StringBuilder();
+          exampleCorrection = new StringBuilder();
+          if (attrs.getValue("correction") != null) {
+            exampleCorrection.append(attrs.getValue("correction"));
+          }
+        }
+        break;
+      case MESSAGE:
+        inMessage = true;
+        inSuggestion = false;
+        message = new StringBuilder();
+        break;
+      case SUGGESTION:
+        if (YES.equals(attrs.getValue("suppress_misspelled"))) {
+          message.append(PLEASE_SPELL_ME);
+        }
+        if (inMessage) {
+          message.append("<suggestion>");
+        } else {  //suggestions outside message
+          suggestionsOutMsg.append("<suggestion>");
+        }
+        inSuggestion = true;
+        break;
+      case "short":
+        inShortMessage = true;
+        shortMessage = new StringBuilder();
+        break;
+      case "url":
+        inUrl = true;
+        url = new StringBuilder();
+        break;
+      case RULEGROUP:
+        ruleGroupId = attrs.getValue(ID);
+        ruleGroupDescription = attrs.getValue(NAME);
+        defaultOff = "off".equals(attrs.getValue(DEFAULT));
+        defaultOn = "on".equals(attrs.getValue(DEFAULT));
+        inRuleGroup = true;
+        subId = 0;
+        if (attrs.getValue(TYPE) != null) {
+          ruleGroupIssueType = attrs.getValue(TYPE);
+        }
+        break;
+      case MATCH:
+        setMatchElement(attrs);
+        break;
+      case MARKER:
+        if (inIncorrectExample) {
+          incorrectExample.append(MARKER_TAG);
+        } else if (inCorrectExample) {
+          correctExample.append(MARKER_TAG);
+        } else if (inPattern) {
+          startPos = tokenCounter;
+          inMarker = true;
+        }
+        break;
+      case UNIFICATION:
+        uFeature = attrs.getValue("feature");
+        inUnificationDef = true;
+        break;
+      case "equivalence":
+        uType = attrs.getValue(TYPE);
+        break;
+      case PHRASES:
+        inPhrases = true;
+        break;
+      case "includephrases":
+        phraseElementInit();
+        break;
+      case "phrase":
+        if (inPhrases) {
+          phraseId = attrs.getValue(ID);
+        }
+        break;
+      case "phraseref":
+        if (attrs.getValue("idref") != null) {
+          preparePhrase(attrs);
+          tokenCountForMarker++;
+        }
+        break;
     }
   }
 
