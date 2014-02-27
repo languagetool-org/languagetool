@@ -9458,7 +9458,7 @@ $Id$
                     <token>-</token>
                     <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
                 </pattern>
-                <message>S'escriu sense guionet.</message>
+                <message>Normalment s'escriu sense guionet.</message>
                 <suggestion><match no="1"/><match no="3"/></suggestion>
                 <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
                 <short>Sense guionet</short>
@@ -9468,13 +9468,29 @@ $Id$
                 <example type="correct">És pro-Israel.</example>
                 <!-- <example type="correct">És l'ex-xicot.</example> -->
             </rule>
+            <rule id="EX_SENSE_GUIONET_NOMSADJECTIUS" name="prefixos sense guionet: *ex-president">
+                <pattern>
+                    <token>ex</token>
+                    <token>-</token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*|primer(a|s|es)?|alts?|x.+</exception></token>
+                </pattern>
+                <message>Normalment s'escriu sense guionet.</message>
+                <suggestion><match no="1"/><match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="exmarit">Del meu <marker>ex-marit</marker>.</example>
+                <example type="correct">L'ex-Iugoslàvia.</example>
+                <example type="correct">Un ex-alt càrrec d'Interior.</example>
+                <example type="correct">Un ex-primer ministre.</example>
+                <example type="correct">És l'ex-xicot.</example>
+            </rule>
             <rule id="PREFIXOS_SENSE_GUIONET_VERBS" name="prefixos sense guionet: *auto-anomenava *re-dirigia">
                 <pattern>
                     <token regexp="yes">auto|re</token>
                     <token>-</token>
                     <token postag="V.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
                 </pattern>
-                <message>S'escriu sense guionet.</message>
+                <message>Normalment s'escriu sense guionet.</message>
                 <suggestion><match no="1"/><match no="3"/></suggestion>
                 <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
                 <short>Sense guionet</short>
