@@ -386,6 +386,18 @@ public class Unifier {
   }
 
   /**
+   * Used to add neutral elements ({@link org.languagetool.AnalyzedTokenReadings} to the
+   * unified sequence. Useful if the sequence contains punctuation or connectives, for example.
+   * @param analyzedTokenReadings A neutral element to be added.
+   *
+   * @since 2.5
+   */
+  public final void addNeutralElement(final AnalyzedTokenReadings analyzedTokenReadings) {
+    tokSequence.add(analyzedTokenReadings);
+    readingsCounter++;
+  }
+
+  /**
    * Used for getting a unified sequence in case when simple test method
    * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean)}} was used.
    * 

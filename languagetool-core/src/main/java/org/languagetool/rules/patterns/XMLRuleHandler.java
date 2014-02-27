@@ -145,6 +145,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean inMarker;
   protected boolean inUnificationDef;
   protected boolean uniNegation;
+  protected boolean inUnificationNeutral;
 
   protected String uFeature;
   protected String uType = "";
@@ -175,6 +176,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String TOKEN = "token";
   protected static final String FEATURE = "feature";
   protected static final String UNIFY = "unify";
+  protected static final String UNIFY_IGNORE = "unify-ignore";
   protected static final String AND = "and";
   protected static final String OR = "or";
   protected static final String EXCEPTION = "exception";
@@ -575,6 +577,10 @@ public class XMLRuleHandler extends DefaultHandler {
 
     if (inUnification) {
       tokenElement.setUnification(equivalenceFeatures);
+    }
+
+    if (inUnificationNeutral) {
+      tokenElement.setUnificationNeutral();
     }
 
     tokenElement.setInsideMarker(inMarker);

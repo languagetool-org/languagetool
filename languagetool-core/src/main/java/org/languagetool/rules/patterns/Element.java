@@ -100,6 +100,10 @@ public class Element implements Cloneable {
   private boolean testString;
   /** Tells if the element is inside the unification, so that {@link Unifier} tests it.  */
   private boolean unified;
+
+  /** Determines whether the element should be ignored when doing unification **/
+  private boolean unificationNeutral;
+
   private boolean uniNegation;
   private Map<String, List<String>> unificationFeatures;
   private boolean posUnknown;
@@ -724,6 +728,8 @@ public class Element implements Cloneable {
     return unified;
   }
 
+
+
   public final void setUnification(final Map<String, List<String>> uniFeatures) {
     unificationFeatures = uniFeatures;
     unified = true;
@@ -753,6 +759,26 @@ public class Element implements Cloneable {
   public final void setLastInUnification() {
     isLastUnified = true;
   }
+
+  /**
+   * Determines whether the element should be silently ignored during unification,
+   * and simply added.
+   * @return True when the element is not included in unifying.
+   * @since 2.5
+   **/
+  public boolean isUnificationNeutral() {
+    return unificationNeutral;
+  }
+
+  /**
+   * Sets the element as ignored during unification.
+   * @since 2.5
+   *
+   */
+  public void setUnificationNeutral() {
+    this.unificationNeutral = true;
+  }
+
 
   public final void setWhitespaceBefore(final boolean isWhite) {
     whitespaceBefore = isWhite;

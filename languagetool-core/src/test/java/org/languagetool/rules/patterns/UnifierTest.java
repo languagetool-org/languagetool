@@ -28,6 +28,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 
 public class UnifierTest extends TestCase {
 
@@ -535,4 +536,39 @@ public class UnifierTest extends TestCase {
     uni.reset();
   }
 
-}
+  public void testAddNeutralElement() {
+    final UnifierConfiguration unifierConfig = new UnifierConfiguration();
+    unifierConfig.setEquivalence("number", "singular",
+        preparePOSElement(".*[\\.:]sg:.*"));
+    unifierConfig.setEquivalence("number", "plural",
+        preparePOSElement(".*[\\.:]pl:.*"));
+    unifierConfig.setEquivalence("gender", "feminine",
+        preparePOSElement(".*[\\.:]f([\\.:].*)?"));
+    unifierConfig.setEquivalence("gender", "masculine",
+        preparePOSElement(".*[\\.:]m([\\.:].*)?"));
+    unifierConfig.setEquivalence("gender", "neutral",
+        preparePOSElement(".*[\\.:]n([\\.:].*)?"));
+
+    final Unifier uni = unifierConfig.createUnifier();
+
+    final Map<String, List<String>> equiv = new HashMap<>();
+    equiv.put("number", null);
+    equiv.put("gender", null);
+
+    AnalyzedToken sing1a = new AnalyzedToken("osobiste", "adj:pl:nom.acc.voc:f.n.m2.m3:pos:aff", "osobisty");
+    AnalyzedToken sing1b = new AnalyzedToken("osobiste", "adj:sg:nom.acc.voc:n:pos:aff", "osobisty");
+    AnalyzedToken sing2 = new AnalyzedToken("godło", "subst:sg:nom.acc.voc:n", "godło");
+
+    AnalyzedToken comma = new AnalyzedToken(",", "comma", ",");
+
+    uni.isUnified(sing1a, equiv, false);
+    uni.isUnified(sing1b, equiv, true);
+    uni.addNeutralElement(new AnalyzedTokenReadings(comma, 0));
+    assertEquals(true, uni.isUnified(sing2, equiv, true));
+    assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], ,[,/comma*], godło[godło/subst:sg:nom.acc.voc:n*]]",
+        Arrays.toString(uni.getFinalUnified()));
+    uni.reset();
+
+  }
+
+  }
