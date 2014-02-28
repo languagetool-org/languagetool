@@ -128,7 +128,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="decimal_comma"></wd></disambig>
         </rule>
     </rulegroup>
-        <rulegroup id="NUMERALS" name="numerals i ordinals">     
+        <rulegroup id="NUMERALS" name="numerals i ordinals">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token>número</token>
+                        <token postag="AO0CN0|DN0[^F]P0" postag_regexp="yes"><exception regexp="yes">.*un</exception></token>
+                    </marker>
+                </pattern>
+                <disambig action="replace"><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/></disambig>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
