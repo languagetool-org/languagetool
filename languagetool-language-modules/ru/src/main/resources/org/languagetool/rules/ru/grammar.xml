@@ -348,7 +348,7 @@ $Id$
         <rulegroup id="KAK_I" name="После союза «как» следует «и»">
             <!--TODO: Detect 2 comma.-->
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern case_sensitive="no">
                     <marker>
                         <token negate="yes" regexp="yes">[\p{Punct}]|так|же|равно|также|время|-|—<exception postag="SENT_START"></exception></token>
                         <token>как</token>
@@ -1367,7 +1367,7 @@ $Id$
                 
                 <pattern>
                     <!--        оно   (PNN:Neut)   VB:Past:Neut    -->
-                    <token  regexp="yes">оно|то</token>
+                    <token>оно</token>
                     <token postag="VB:Past:.*" postag_regexp="yes"><exception postag="VB:Past:Neut"></exception><exception regexp="yes">был|была|было</exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception></token>
                 </pattern>
                 
@@ -3468,6 +3468,7 @@ $Id$
                         <token inflected="yes">интересовать</token>
                         <token>
                             <exception postag=".*:R" postag_regexp="yes"></exception>
+<!--                        <exception postag=".*:V" postag_regexp="yes"></exception> -->
                             <exception postag="PNN:.*" postag_regexp="yes"></exception>
                         </token>
                     </marker>
