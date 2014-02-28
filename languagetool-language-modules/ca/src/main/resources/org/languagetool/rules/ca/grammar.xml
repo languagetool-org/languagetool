@@ -5763,16 +5763,6 @@ $Id$
             <example type="correct">Vull portar-ho <marker>perquè</marker> ho veigs.</example>
             <example type="correct"><marker>Per a què</marker> ho fan?</example>
         </rule>
-        <rule id="EL_PER_QUE" name="el per què">
-            <pattern>
-                <token>el</token>
-                <token>per</token>
-                <token>què</token>
-            </pattern>
-            <message>Cal escriure <suggestion>el perquè</suggestion> o bé <suggestion>per què</suggestion>.</message>
-            <example type="incorrect"><marker>el per què</marker></example>
-            <example type="correct">el perquè</example>
-        </rule>
         <rule id="DES_DE_QUE" name="des de que">
             <pattern>
                 <token>des</token>
@@ -7322,9 +7312,52 @@ $Id$
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Cal dir <suggestion>per què</suggestion>.</message>
+                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="per què">No teníeu <marker>perquè</marker> fer-ho.</example>
                 <example type="correct">No teniu per què fer-ho.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception>que</exception></token>
+                    <token inflected="yes" regexp="yes">no|voler|desitjar</token>
+                    <token inflected="yes" regexp="yes">saber|entendre|comprendre</token>
+                    <marker>
+                        <token>perquè</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>per què</suggestion>?</message>
+                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="per què">No sé <marker>perquè</marker> passa.</example>
+                <example type="incorrect" correction="per què">Vull saber <marker>perquè</marker> passa.</example>
+                <example type="incorrect" correction="per què">Rajoy no entén <marker>perquè</marker> se'n sorprenen.</example>
+                <example type="correct">Coses que no sabíem perquè eren poc freqüents.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>perquè</token>
+                    </marker>
+                    <token regexp="yes">[.;?]</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>per què</suggestion>?</message>
+                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="per què">Jo els diré <marker>perquè</marker>.</example>
+                <example type="incorrect" correction="per què">I això <marker>perquè</marker>?</example>
+                <example type="correct">Coses que no sabíem perquè eren poc freqüents.</example>
+            </rule>
+            <rule id="EL_PER_QUE" name="el per què">
+                <pattern>
+                    <token>el</token>
+                    <token>per</token>
+                    <token>què</token>
+                </pattern>
+                <message>Cal escriure <suggestion>el perquè</suggestion> o bé <suggestion>per què</suggestion>.</message>
+                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+                <example type="incorrect"><marker>el per què</marker></example>
+                <example type="correct">el perquè</example>
             </rule>
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
@@ -13821,7 +13854,7 @@ $Id$
             <pattern>
                 <token><exception>www</exception></token>
                 <marker>
-                    <token regexp="yes">[.!?]<exception postag="SENT_END"/></token>
+                    <token regexp="yes">[.!?…]<exception postag="SENT_END"/></token>
                     <!-- Eliminats d'excepcions: li, la, ai, al, vi, ve, va, vg, us, si, se, bo, be, ca -->
                     <token spacebefore="no" regexp="yes">([\p{L}·'-]{2,}|[¿¡])<exception postag="SENT_END"/><exception regexp="yes">(?-i)com|ac|ad|ae|aero|af|ag|am|an|ao|aq|ar|arpa|as|asia|at|au|aw|ax|az|ba|bb|bd|bf|bg|bh|bi|biz|bj|bm|bn|br|bs|bt|bv|bw|by|bz|cat|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|coop|cr|cu|cv|cw|cx|cy|cz|de|dj|dk|dm|do|dz|ec|edu|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gov|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|info|int|io|iq|ir|is|it|je|jm|jo|jobs|jp|ke|kg|kh|ki|km|kn|kp|kr|kw|ky|kz|lb|lc|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|me|mg|mh|mil|mk|ml|mm|mn|mo|mobi|mp|mq|mr|ms|mt|mu|museum|mv|mw|mx|my|mz|na|name|nc|ne|net|nf|ng|ni|nl|no|np|nr|nu|nz|om|org|pa|pe|pf|pg|ph|pk|pl|pm|pn|post|pr|pro|ps|pt|pw|py|qa|re|ro|rs|ru|rw|sa|sb|sc|sd|sg|sh|sj|sk|sl|sm|sn|so|sr|st|su|sv|sx|sy|sz|tc|td|tel|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|travel|tt|tv|tw|tz|ua|ug|uk|uy|uz|vc|vn|vu|wf|ws|xn|xxx|ye|yt|za|zm|zw</exception></token>
                 </marker>
@@ -13833,6 +13866,7 @@ $Id$
             <example type="incorrect" correction=". Com">Vine<marker>.Com</marker> t'agrada?</example>
             <example type="incorrect" correction=". ¿">Vine<marker>.¿</marker>Com t'agrada?</example>
             <example type="incorrect" correction="? Sempre">És així<marker>?Sempre</marker>.</example>
+            <example type="incorrect" correction="… Sempre">És així<marker>…Sempre</marker>!</example>
             <example type="correct">És així. Sempre.</example>
             <example type="correct">És així.</example>
             <example type="correct">És així...</example>
@@ -13841,6 +13875,7 @@ $Id$
             <example type="correct">És així.» </example>
             <example type="correct">Estelrich, etc., no hi</example>
             <example type="correct">ha expressat [...] la necessitat</example>
+            <example type="correct">ha expressat […] la necessitat</example>
             <example type="correct">o simplement ornamental.[1]</example>
             <example type="correct">Benvinguts a valencianisme.com</example>
             <example type="correct">Benvinguts a www.softcatala.org</example>
