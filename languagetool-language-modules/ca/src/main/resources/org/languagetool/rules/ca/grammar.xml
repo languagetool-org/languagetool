@@ -10411,14 +10411,7 @@ $Id$
                 <example type="correct">Ves per on, això m'agrada.</example>
             </rule>
             </rulegroup>
-        <rulegroup id="NET" name="net/nét">
-        <!-- numeral + net/neta
-        la seva neta contribució/memòria, netes aigües
-        
-        era neta/néta del vicepresident
-        un net, algun net, 
-              -->
-            <!-- net/nét : podria ser com "pendent, corrent"? -->       
+        <rulegroup id="NET" name="net/nét">  
             <rule>
                 <pattern>
                     <token postag="DA.*" postag_regexp="yes" />
@@ -10428,7 +10421,8 @@ $Id$
                     </marker>
                     <token><exception regexp="yes" inflected="yes">patrimonial|contribució|memòria|aigua</exception></token>
                 </pattern>
-                <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect">El meu <marker>net</marker>.</example>
                 <example type="incorrect">Les vostres <marker>netes</marker>.</example>
@@ -10444,7 +10438,8 @@ $Id$
                         <token inflected="yes">net</token>
                     </marker>
                 </pattern>
-                <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect">El primer <marker>net</marker>.</example>
                 <example type="correct">La primera néta.</example>
@@ -10460,7 +10455,8 @@ $Id$
                         </marker>
                     </unify>
                 </pattern>
-                <message>S'accentua quan és nom: <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect">Tinc quatre <marker>nets</marker>.</example>
                 <example type="incorrect">Tinc 5 <marker>netes</marker>.</example>
@@ -10478,10 +10474,44 @@ $Id$
                     <token inflected="yes">de</token>
                     <token><exception>cor</exception></token>
                 </pattern>
-                <message>S'accentua quan és nom: <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>.</message>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect">El <marker>net</marker> d'ell.</example>
                 <example type="correct">El nét d'ell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token postag="DI.*" postag_regexp="yes" inflected="yes" regexp="yes">un|algun</token>
+                        <marker>
+                            <token inflected="yes">net</token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <short>S'accentua quan és nom</short>
+                <example type="incorrect" correction="nét">Un <marker>net</marker> meu.</example>
+                <example type="incorrect" correction="nétes">Algunes <marker>netes</marker> seves.</example>
+                <example type="correct">Un de net.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token postag="D.*|NP.*|_possible_nompropi" postag_regexp="yes"/>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <short>S'accentua quan és nom</short>
+                <example type="incorrect" correction="néta">És <marker>neta</marker> del president.</example>
+                <example type="correct">És net de sabó.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MA" name="ma/mà"> <!-- exigir context: davant: article, adjectiu, preposició. O darrere: preposició... -->
