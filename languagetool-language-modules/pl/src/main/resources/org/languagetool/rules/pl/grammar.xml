@@ -3586,12 +3586,16 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
+                                        <token postag="SENT_START|interp:comma" skip="-1" postag_regexp="yes"><exception scope="next" postag="pred|adv:.*" postag_regexp="yes"/></token>
+                                        <marker>
 										<token inflected="yes" postag="verb:bedzie:.*" postag_regexp="yes"><exception postag="pred" scope="previous"></exception>być</token>
 										<token postag_regexp="yes" postag="verb:inf:perf.*"><exception postag_regexp="yes" postag="verb:inf:imperf.*"></exception><exception inflected="yes" regexp="yes">mieć|spać</exception></token>
+                                        </marker>
 								</pattern>
 								<message>Czasownik \2 ma aspekt dokonany i nie powinien występować w tym miejscu.</message>
 								<short>Błędny aspekt czasownika</short>
 								<example type="incorrect">Co on <marker>będzie zrobić</marker>?</example>
+                                <example type="correct">Trzeba będzie zrobić kolację.</example>
 								<example type="correct">Co on będzie robić?</example>
 						</rule>
 						<rule>
