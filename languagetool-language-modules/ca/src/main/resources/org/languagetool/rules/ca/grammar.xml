@@ -786,7 +786,8 @@ $Id$
                 <example type="correct">el Carme</example>
                 <example type="correct">la Carme</example>
                 <example type="correct">Si qui les calça és un diputat</example>
-                <!-- <example type="correct">La número 2, per a cors i instruments de vent</example> -->
+                <example type="correct">La número 2, per a cors i instruments de vent</example>
+                <example type="correct">És la número cinquanta-u.</example>
                 <!-- metges és verb conjugat de metjar -->
             </rule>
             <rule>
@@ -5935,6 +5936,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Numerals" type="misspelling">
+        <rule id="UN_U" name="un/u (ordinal)" type="grammar">
+            <pattern>
+                <token>número</token>
+                <marker>
+                    <token regexp="yes">.*un<exception postag=".*_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Com a ordinal, cal escriure <suggestion><match no="2" regexp_match="(.*)un" regexp_replace="$1u"/></suggestion></message>
+            <example type="incorrect" correction="cinquanta-u">És el número <marker>cinquanta-un</marker></example>
+            <example type="correct">número u</example>
+        </rule>
         <rule id="CENT_CENTS" name="*dos-cent/dos-cents">
             <pattern>
                 <token regexp="yes">(dos|tres|quatre|cinc|sis|set|vuit|huit|nou)</token>

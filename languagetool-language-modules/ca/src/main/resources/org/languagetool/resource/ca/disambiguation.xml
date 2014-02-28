@@ -132,16 +132,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <rule>
                 <pattern>
                     <marker>
-                        <token>la</token>
-                        <token>número</token>
-                        <token postag="AO0CN0|DN0[^F]P0" postag_regexp="yes"><exception regexp="yes">.*un</exception></token>
-                    </marker>
-                </pattern>
-                <disambig action="replace"><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/></disambig>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token>mil</token>
                         <token>i</token>
                         <token>un</token>
@@ -346,6 +336,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </marker>
                 </pattern>
                 <disambig action="filter" postag="N.*" />
+            </rule>
+            <rule id="la_numero_u" name="la número u">
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token>número</token>
+                        <token postag="AO0C[NS]0|DN0[^F]P0" postag_regexp="yes"><exception regexp="yes">.*un</exception></token>
+                    </marker>
+                </pattern>
+                <disambig action="replace"><wd pos="_GN_FS"/><wd pos="_GN_FS"/><wd pos="_GN_FS"/></disambig>
             </rule>
             <!-- El + any (en xifres) -->
             <rule>
