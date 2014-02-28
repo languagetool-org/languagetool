@@ -92,6 +92,8 @@ public class JLanguageToolTest extends TestCase {
 
         "MULTIWORD_CHUNKER: powodu[powód/subst:sg:gen:m3] -> powodu[powód/subst:sg:gen:m3,Z powodu/</PREP:GEN>]\n" +
         "\n" +
+        "PREP_SUBST:7 pogody[pogoda/subst:pl:acc:f,pogoda/subst:pl:nom:f,pogoda/subst:pl:voc:f,pogoda/subst:sg:gen:f] -> pogody[pogoda/subst:sg:gen:f]\n" +
+        "\n" +
         "WIELKI_SWOJ_ADJ:1 dobre[dobre/subst:pl:acc:n2,dobre/subst:pl:nom:n2,dobre/subst:pl:voc:n2,dobre/subst:sg:acc:n2,dobre/subst:sg:nom:n2,dobre/subst:sg:voc:n2,dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos,dobry/depr:pl:nom:m2,dobry/depr:pl:voc:m2,dobry/subst:pl:acc:m3,dobry/subst:pl:nom:m3,dobry/subst:pl:voc:m3] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos]\n" +
         "unify_adj_subst:1 dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos] -> dobre[dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n" +
         "\n" +
