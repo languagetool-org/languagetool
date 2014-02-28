@@ -3027,13 +3027,14 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="3">donar</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit</token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
                 <example type="incorrect" correction="Feia"><marker>Donava</marker> molts petons</example>
                 <example type="incorrect" correction="fer">Va <marker>donar</marker>-li molts petons</example>
                 <example type="correct">feia petons</example>
+                <example type="correct">Ha donat tema a goigs.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3068,7 +3069,7 @@ $Id$
                     <marker>
                         <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">bufetada|mastegot|galtada|clatellada|garrotada|puntada|puntelló|clatellots|coça|calbot|bescollada|punyalada</token>
+                    <token regexp="yes" inflected="yes">bufetada|mastegot|galtada|clatellada|garrotada|puntada|puntelló|clatellot|coça|calbot|bescollada|punyalada</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match></suggestion>, 
                     <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pegar</match></suggestion>,
@@ -9426,6 +9427,37 @@ $Id$
 			    <example type="incorrect" correction="boca-orella">Em va arribar pel <marker>boca orella</marker>.</example>
 			    <example type="correct">El boca-orella sempre és efectiu.</example>
 			</rule>
+        </rulegroup>
+        <rulegroup id="MOTS_AMB_GUIONET" name="nomts amb guionet: no-violència">
+            <rule>
+                <pattern>
+                    <token postag="D[AI].*|SPS00" postag_regexp="yes"/>
+                    <marker>
+                        <token>no</token>
+                        <token regexp="yes">violència|agressió|bel·ligerància|metall|intervenció</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal escriure-ho amb guionet.</message>
+                <suggestion><match no="2"/>-<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="no-agressió">Pacte de <marker>no agressió</marker></example>
+                <example type="incorrect" correction="no-metall">És un <marker>no metall</marker></example>
+                <example type="correct">La no-violència</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA0MS0" />
+                    <marker>
+                        <token>no</token>
+                        <token>res</token>
+                    </marker>
+                </pattern>
+                <message>Si és un concepte filosòfic, sol escriure's amb guionet.</message>
+                <suggestion><match no="2"/>-<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="no-res">El <marker>no res</marker>.</example>
+                <example type="correct">El no-res.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MOTS_SENSE_GUIONETS" name="mots sense guionets: *vist-i-plau,...">
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
@@ -22406,13 +22438,14 @@ $Id$
                 <marker>
                     <token inflected="yes" skip="2">donar</token>
                 </marker>
-                <token>l'</token>
+                <token>l'<exception scope="previous">a</exception></token>
                 <token>esquena</token>
             </pattern>
             <message>Expressió preferible</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
             <example type="incorrect" correction="giraren">Li <marker>donaren</marker> sempre l'esquena.</example>
             <example type="correct">girar l'esquena</example>
+            <example type="correct">Li donava copets a l'esquena</example>
         </rule>
         <rule id="EN_EL_QUE_PORTEM_DE_CURS" name="en el que portem de curs">
             <pattern>
@@ -25379,12 +25412,12 @@ $Id$
             <rule>
                 <pattern>
                     <or>
-                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C." postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavegada" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">perquè|com</exception></token>
+                        <token postag="V.[^NGP].*|SENT_START" postag_regexp="yes" skip="-1"><exception postag="_possible_nompropi" /><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C." postag_regexp="yes" scope="next"/><exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS|_loc_unavegada" postag_regexp="yes" scope="previous"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                         <token regexp="yes" skip="-1">(?-i);|I|O|Ni|Però<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag="_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
-                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag="_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
                 <message>Falta algun element entre verbs: coma, conjunció, pronom relatiu, etc.</message>
@@ -25444,6 +25477,7 @@ $Id$
                 <example type="correct">usà el recurs del deus ex machina.</example>
                 <example type="correct">A l'antiga era de Pedret es ballen sardanes.</example>
                 <example type="correct">Començava una nova era d'aplicació.</example>
+                <example type="correct">La sex ratio fou molt alta.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
@@ -25667,7 +25701,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_CENTRAL" name="Exigeix formes verbals del català central">
             <rule>
                 <pattern>
-                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|_possible_nompropi|N.*|AQ.*|SPS00|RG" postag_regexp="yes"/><exception regexp="yes">vinga|aviam</exception></token>
+                    <token postag="V.{6}[VBZ34567]" postag_regexp="yes"><exception postag="V.{6}[0CXY12]|_possible_nompropi|N.*|AQ.*|SPS00|RG|.*_GN_.*" postag_regexp="yes"/><exception regexp="yes">vinga|aviam</exception></token>
                 </pattern>
                 <message>Useu formes verbals generals.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[CXY012]"/></suggestion>
@@ -25776,12 +25810,13 @@ $Id$
                 <example type="correct">Ell sent que sí.</example>
                 <example type="correct">Més tard, ho va aconseguir.</example>
                 <example type="correct">Demano que el tema es resolgui de pressa.</example>
+                <example type="correct">La sex ratio era més alta.</example>
             </rule>
         </rulegroup> 
         <rulegroup id="EXIGEIX_VERBS_VALENCIANS" name="Exigeix formes verbals valencianes" default="off">
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|_possible_nompropi|N.*|AQ.*" postag_regexp="yes"/><exception regexp="yes">aixo|aixi</exception></token>
+                    <token postag="V.{6}[CBY24]" postag_regexp="yes"><exception postag="V.{6}[0VXZ13567]|_possible_nompropi|N.*|AQ.*|.*_GN_.*" postag_regexp="yes"/><exception regexp="yes">aixo|aixi</exception></token>
                 </pattern>
                 <message>Useu formes verbals valencianes.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0VXZ13567]"/></suggestion>
@@ -25828,7 +25863,7 @@ $Id$
         <rulegroup id="EXIGEIX_VERBS_BALEARS" name="Exigeix formes verbals balears" default="off">
             <rule>
                 <pattern>
-                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|_possible_nompropi|N.*|AQ.*|SPS00" postag_regexp="yes"/><exception regexp="yes">vinga|aixo</exception></token>
+                    <token postag="V.{6}[CVX356]" postag_regexp="yes"><exception postag="V.{6}[0BYZ1247]|_possible_nompropi|N.*|AQ.*|SPS00|.*_GN_.*" postag_regexp="yes"/><exception regexp="yes">vinga|aixo</exception></token>
                 </pattern>
                 <message>Useu formes verbals balears.</message>
                 <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1[0BYZ1247]"/></suggestion>
