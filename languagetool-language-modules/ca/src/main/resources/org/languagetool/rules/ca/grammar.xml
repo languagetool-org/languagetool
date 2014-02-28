@@ -6057,6 +6057,29 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="BO_BON" name="bo/bon">
+            <rule>
+                <pattern>
+                    <token>bo</token>
+                    <token postag="NCMS000"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>bon <match no="2"/></suggestion>?</message>
+                <example type="incorrect" correction="bon home">És un <marker>bo home</marker></example>
+                <example type="correct">bon home</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception inflected="yes">ser</exception></token>   
+                    <marker>
+                        <token>bo</token>
+                        <token postag="V.N.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>bon <match no="3"/></suggestion>?</message>
+                <example type="incorrect" correction="bon cantar">Un <marker>bo cantar</marker></example>
+                <example type="correct">És bo llegir molts llibres.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONTAT_I_DEBATUT" name="*contat/comptat i debatut">
             <pattern>
                 <token>contat</token>
