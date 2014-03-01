@@ -71,6 +71,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </equivalence>
     </unification>
 
+    <unification feature="person">
+        <equivalence type="pri">
+            <token postag=".*:pri.*|SENT_END"></token>
+        </equivalence>
+        <equivalence type="sec">
+            <token postag=".*:sec:.*|SENT_END"></token>
+        </equivalence>
+        <equivalence type="tri">
+            <token postag=".*:ter:.*|SENT_END"></token>
+        </equivalence>
+    </unification>
+
+
     <rule name="Dwukropek w zapisie liczb, np. godzin lub proporcji" id="DWUKROPEK_GODZINA">
         <pattern>
             <token regexp="yes">\d+</token>
@@ -783,6 +796,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="pęta[pęta/subst:pl:acc:p3,pęta/subst:pl:nom:p3,pęta/subst:pl:voc:p3,pęto/subst:pl:acc:n2,pęto/subst:pl:nom:n2,pęto/subst:pl:voc:n2,pęto/subst:sg:gen:n2]">Do czego służą te <marker>pęta</marker>?</example>
     </rule>
 
+    <rule id="powiesc" name="powieść">
+        <pattern>
+            <token skip="1" regexp="yes" inflected="yes">s?kończyć|zacząć|zaczynać</token>
+            <marker><token>powieść</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:acc:f"></disambig>
+        <example type="ambiguous" inputform="powieść[powieść/subst:sg:acc:f,powieść/subst:sg:nom:f,powieść/verb:inf:perf:refl.nonrefl]"
+                 outputform="powieść[powieść/subst:sg:acc:f]">Muszę skończyć <marker>powieść</marker>.</example>
+        <example type="untouched">Wszystko musi mi się powieść.</example>
+    </rule>
+
     <rule id="ON_ONA_MA" name="Ona/on ma...">
         <pattern>
             <token regexp="yes" postag="ppron3.*" postag_regexp="yes">ona?</token>
@@ -918,7 +942,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <!--
                 <token regexp="yes">[uwz]|[pd]o|ode?|oprócz|dla|(:?po)?między|(:po)?nade?|na|ze|przede?|pode?|podczas|(:?po)?mimo|(:?po)?przez|pośrodku</token>
                 -->
-                <token postag="prep:[^\.]+" postag_regexp="yes"><exception>co</exception></token>
+                <token postag="prep:[^\.]+" postag_regexp="yes"><exception>co</exception><exception>jak</exception></token>
                 <marker>
                     <and>
                         <token><match no="0" postag_regexp="yes" postag="prep:(.*)" postag_replace="(ad[jv]|subst|ppron):[^ ]*$1[^ ]*" setpos="yes"/></token>
@@ -2453,15 +2477,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                   outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj kobiety <marker>miały</marker> dużo pracy.</example>
     </rule>
     <rule>
-        <pattern case_sensitive="yes">
+        <pattern>
             <marker>
             <unify>
                 <feature id="number"/>
-                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?|[tj]aki</exception></token>
-                <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?|[tj]aki</exception><exception scope="previous">nie</exception></token>
+                <token postag="verb:(?:fin|bedzie):.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
             </unify>
             </marker>
-            <token><exception postag="verb.*" postag_regexp="yes"></exception></token>
+            <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
         </pattern>
         <disambig action="unify"/>
         <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
@@ -2616,7 +2640,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
         <example type="untouched">Wraca ma ukochana.</example>
         <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]"
-                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Będzie, co <marker>ma</marker> być.</example>
+                 outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">Jak <marker>ma</marker> być zrobione zadanie 3?</example>
     </rule>
 
     <!-- rule name="kobiety miały" id="MIALY">
