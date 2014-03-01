@@ -7205,6 +7205,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="nNom0a" name="no Nom">
+        <!-- no són noms si no han concordat. -->
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">surts?<exception postag="_GN.*" postag_regexp="yes" /></token>
+                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"></disambig>
+    </rule>
     <rulegroup id="AdjNom" name="adj + nom">
         <rule>
             <pattern>

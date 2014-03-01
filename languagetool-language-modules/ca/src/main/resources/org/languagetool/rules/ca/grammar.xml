@@ -6055,7 +6055,7 @@ $Id$
                 </pattern>
                 <message>¿Volíeu dir <suggestion>bon <match no="2"/></suggestion>?</message>
                 <example type="incorrect" correction="bon home">És un <marker>bo home</marker></example>
-                <example type="correct">bon home</example>
+                <example type="correct">Si el temps és bo surt sovint.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7336,17 +7336,22 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">el|un|seu</exception></token>
                     <marker>
                         <token>perquè</token>
                     </marker>
-                    <token regexp="yes">[.;?]</token>
+                    <or>
+                        <token regexp="yes">[;?]</token>
+                        <token postag="SENT_END">.</token>
+                    </or>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>per què</suggestion>?</message>
                 <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="per què">Jo els diré <marker>perquè</marker>.</example>
                 <example type="incorrect" correction="per què">I això <marker>perquè</marker>?</example>
-                <example type="correct">Coses que no sabíem perquè eren poc freqüents.</example>
+                <example type="correct">No en sabíem el perquè.</example>
+                <example type="correct">Sí, perquè... ens agrada molt.</example>
             </rule>
             <rule id="EL_PER_QUE" name="el per què">
                 <pattern>
