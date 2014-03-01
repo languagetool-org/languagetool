@@ -28,6 +28,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @since 2.3
@@ -162,7 +164,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
       break;
     case REMOVE:
-      if (newTokenReadings != null) {
+      if (newTokenReadings != null && newTokenReadings.length > 0) {
         if (newTokenReadings.length == matchingTokens
             - startPositionCorrection + endPositionCorrection) {
           for (int i = 0; i < newTokenReadings.length; i++) {
@@ -171,6 +173,20 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             final String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].removeReading(newTokenReadings[i]);
             annotateChange(whTokens[position], prevValue, prevAnot);
+          }
+        }
+      } else if (!StringTools.isEmpty(disambiguatedPOS)) { // negative filtering
+        Pattern p = Pattern.compile(disambiguatedPOS);
+        for (AnalyzedToken analyzedToken : whTokens[fromPos]) {
+          if (analyzedToken.getPOSTag() != null) {
+            final Matcher mPos = p.matcher(analyzedToken.getPOSTag());
+            if (mPos.matches()) {
+              final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
+              final String prevValue = whTokens[position].toString();
+              final String prevAnot = whTokens[position].getHistoricalAnnotations();
+              whTokens[position].removeReading(analyzedToken);
+              annotateChange(whTokens[position], prevValue, prevAnot);
+            }
           }
         }
       }
