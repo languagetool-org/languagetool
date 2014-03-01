@@ -177,7 +177,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       } else if (!StringTools.isEmpty(disambiguatedPOS)) { // negative filtering
         Pattern p = Pattern.compile(disambiguatedPOS);
-        for (AnalyzedToken analyzedToken : whTokens[fromPos]) {
+        AnalyzedTokenReadings tmp = new AnalyzedTokenReadings(whTokens[fromPos].getReadings(),
+            whTokens[fromPos].getStartPos());
+        for (AnalyzedToken analyzedToken : tmp) {
           if (analyzedToken.getPOSTag() != null) {
             final Matcher mPos = p.matcher(analyzedToken.getPOSTag());
             if (mPos.matches()) {

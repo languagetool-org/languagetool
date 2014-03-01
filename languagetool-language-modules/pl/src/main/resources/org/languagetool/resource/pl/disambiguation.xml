@@ -530,7 +530,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<pattern>
     		<marker><token postag_regexp="yes" postag="adj.*|subst.*">temu</token></marker>
     	</pattern>
-    	<disambig action="filter" postag="^(?!prep:acc).*"/>
+    	<disambig action="remove" postag="prep:acc.*"/>
     	<example type="untouched">To było już godzinę temu.</example>
     	<example type="ambiguous" inputform="temu[temu/prep:acc,ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]" outputform="temu[ten/adj:sg:dat:m1.m2.m3.n1.n2:pos,to/subst:sg:dat:n2]">Dziwię się <marker>temu</marker> zachowaniu.</example>
     </rule>     
@@ -561,7 +561,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </marker>
         <token><exception regexp="yes">.|\p{Lu}\p{Ll}.*</exception></token>
       </pattern>
-      <disambig action="filter" postag="^(?!brev:pun|interj).*"/>
+      <disambig action="remove" postag="brev:pun|interj"/>
       <example type="untouched">To jest o. Pio.</example>
       <example type="ambiguous" inputform="o[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="o[o/prep:acc,o/prep:loc]">Spotykamy się <marker>o</marker> dwunastej</example> 
     </rule>
@@ -584,7 +584,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </marker>
         <token><exception regexp="yes">[,!]|tu</exception></token>
       </pattern>
-      <disambig action="filter" postag="^(?!interj).*"/>
+      <disambig action="remove" postag="interj"/>
       <example type="untouched">Na tu, piesku</example>
       <example type="ambiguous" inputform="na[na/interj,na/prep:acc,na/prep:loc]" outputform="na[na/prep:acc,na/prep:loc]">Spotykamy się <marker>na</marker> parterze.</example> 
     </rule>
@@ -1083,7 +1083,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 			<pattern>
 				<token postag_regexp="yes" postag="prep:(acc|loc):nwok">w</token>
 			</pattern>
-			<disambig action="filter" postag="^(?!brev:n?pun).*"/>
+			<disambig action="remove" postag="brev:n?pun"/>
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
 			<example type="untouched">Dziwny XIX w.</example>
 	</rule>
@@ -3495,7 +3495,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<pattern>
     		<marker><token postag="num.*" postag_regexp="yes">pięciu</token></marker>
     	</pattern>
-    	<disambig action="filter" postag="^(?!ger:).*$"/>
+    	<disambig action="remove" postag="ger:.*"/>
     	<example type="ambiguous" inputform="pięciu[piąć/ger:sg:dat.loc:n2:imperf:aff:refl,pięć/num:pl:acc:m1:rec,pięć/num:pl:gen.dat.inst.loc:m1.m2.m3.f.n2:congr,pięć/num:pl:nom.voc:m1:rec]" 
     	outputform="pięciu[pięć/num:pl:acc:m1:rec,pięć/num:pl:gen.dat.inst.loc:m1.m2.m3.f.n2:congr,pięć/num:pl:nom.voc:m1:rec]">Widzę ich tu <marker>pięciu</marker>.</example>
     	<example type="untouched">O pięciu się w górę nie słyszałem.</example>
