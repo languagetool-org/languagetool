@@ -459,30 +459,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="ambiguous" inputform="sports[sport/NNS,sport/VBZ]" outputform="sports[sports/JJ]">Getting a <marker>sports</marker> car is easy.</example>
     </rule>
     
-    <rulegroup id="EVEN_NOW" name="even now">
-    <rule>
+    <rule id="EVEN_NOW" name="even now">
       <pattern>
-      <marker>
-        <token>even<exception scope="previous" regexp="yes" inflected="yes">break|get</exception></token>
-      </marker>
-        <token>now</token>       
+        <token postag="RB">even<exception scope="previous" regexp="yes" inflected="yes">break|get</exception></token>
+        <token postag="RB">now</token>
       </pattern>      
-      <disambig postag="RB"/>
+      <disambig action="filterall"/>
       <example type="untouched">The even is approaching.</example>
       <example type="ambiguous" inputform="even[even/JJ,even/NN,even/RB,even/VB,even/VBP]" outputform="even[even/RB]">The rainbow mural persevered, <marker>even</marker> now, thirty years later.</example>
-    </rule>
-    <rule>
-      <pattern>      
-        <token>even<exception scope="previous" regexp="yes" inflected="yes">break|get</exception></token>
-      <marker>
-        <token>now</token>
-      </marker>       
-      </pattern>      
-      <disambig postag="RB"/>
-      <example type="untouched">The even is approaching.</example>
       <example type="ambiguous" inputform="now[now/CC,now/JJ,now/NN:U,now/RB]" outputform="now[now/RB]">The rainbow mural persevered, even <marker>now</marker>, thirty years later.</example>
-    </rule>    
-    </rulegroup>
+    </rule>
 
     <rule id="FIRST_THING" name="first/last thing does not need an article">
       <pattern>
@@ -887,30 +873,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
        <example type="untouched">One minute.</example>
        <example type="ambiguous" inputform="minutes[minute/NNS,minute/VBZ]" outputform="minutes[minute/NNS]">It was twenty <marker>minutes</marker>.</example>
     </rule>
-    <rulegroup id="NO_ONE" name="No one as personal pronoun">
-    <rule>
+    <rule id="NO_ONE" name="No one as personal pronoun">
       <pattern>
-        <token>no</token>
-        <marker>
-        <token>one</token>
-        </marker>
+        <token postag="DT">no</token>
+        <token postag="PRP">one</token>
       </pattern>
-      <disambig postag="PRP"/>
+      <disambig action="filterall"/>
       <example type="untouched">One car, two dogs, seven cats</example>
       <example type="ambiguous" inputform="one[one/CD,one/JJ,one/NN,one/PRP]" outputform="one[one/PRP]">No <marker>one</marker> trusts him any more.</example>
-    </rule>
-    <rule>
-      <pattern>
-      <marker>
-        <token>no</token>
-      </marker>
-        <token>one</token>       
-      </pattern>
-      <disambig postag="DT"/>
-      <example type="untouched">One car, two dogs, seven cats</example>
       <example type="ambiguous" inputform="No[No/NNP,no/DT,no/NN]" outputform="No[no/DT]"><marker>No</marker> one trusts him any more.</example>
     </rule>
-    </rulegroup>
 
     <rule name="best as adjective" id="BEST_JJS"> <!-- very crude -->
       <pattern>
