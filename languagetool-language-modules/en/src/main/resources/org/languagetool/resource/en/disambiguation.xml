@@ -100,7 +100,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       
       <rule name="dig/dig" id="DIG_DIV_FIX">
         <pattern><token inflected="yes" regexp="yes">di[vg]e?</token></pattern>
-        <disambig action="filter" postag="^(?!JJ*).*$"/>
+        <disambig action="remove" postag="JJ.?"/>
         <example type="ambiguous" inputform="digest[dig/JJS,digest/NN,digest/VB,digest/VBP]" outputform="digest[digest/NN,digest/VB,digest/VBP]"><marker>digest</marker>.</example>
         <example type="ambiguous" inputform="divest[dive/JJS,divest/VB,divest/VBP]" outputform="divest[divest/VB,divest/VBP]"><marker>divest</marker>.</example>
       </rule>
@@ -2346,7 +2346,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             </marker>
             <token postag_regexp="yes" postag="NN.*"></token>
         </pattern>
-        <disambig action="filter" postag="^(?!VBP?).*"/>
+        <disambig action="remove" postag="VBP?"/>
         <example type="untouched">Peter the great</example>
     </rule>
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
