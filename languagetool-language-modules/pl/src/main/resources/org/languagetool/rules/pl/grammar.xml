@@ -130,7 +130,20 @@ $Id$
 		</phrases>
 		<category name="Błędy interpunkcyjne" type="typographical">
 				<rulegroup id="ZDANIA_ZLOZONE" name="Brak przecinka w zdaniu złożonym">
-						<rule>
+                    <!-- utarte zwroty frazeologiczne pisane bez przecinków -->
+                    <antipattern>
+                        <marker>
+                            <token>wypisz</token>
+                            <token>wymaluj</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token inflected="yes">rad</token>
+                            <token inflected="yes">nierad</token>
+                        </marker>
+                    </antipattern>
+                    <rule>
 								<pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
@@ -150,6 +163,7 @@ $Id$
 								<example type="incorrect"><marker>Zzuwszy buty Marek zatruł atmosferę na sali.</marker></example>
 								<example type="incorrect">Chociaż <marker>kupiłem wino chciałem też pić wodę.</marker></example>
                                 <example type="correct">Od wieków najwyższy arcykapłan zwykł był witać lud pozdrowieniem.</example>
+                                <example type="correct">Jurek wygląda wypisz wymaluj jak babcia.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -208,6 +222,7 @@ $Id$
                               <example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
                               <example type="incorrect">Teorię, która <marker>opisywałoby wszystkie jego własności można znaleźć tylko w podręcznikach.</marker></example>
                               <example type="correct">Śniło się widać biedakowi, że trzymał w ręku wielkoluda Pandafilando.</example>
+                              <example type="correct">Rad nierad poszedłem do szkoły.</example>
                         </rule>
 						<rule>
 								<pattern>
@@ -691,6 +706,7 @@ $Id$
 								<example type="correct">Może gdyby chodził, byłby szczęśliwszy.</example>
 								<example type="correct">Jednakże jeśli idzie o ceny zaopatrzeniowe, to można spodziewać się zmian.</example>
 								<example correction="dawno, gdyby" type="incorrect">Wyjechałaby <marker>dawno gdyby</marker> miała pieniądze.</example>
+                                <example type="correct">A widziało się wszystko jak gdyby po raz pierwszy.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1459,7 +1475,7 @@ $Id$
                     <token>,</token>
                     <token>wymaluj</token>
                 </pattern>
-                <message>W tym stałym związku frazeologicznym nie stawia się przecinka.</message>
+                <message>W tym stałym związku frazeologicznym zwykle nie stawia się przecinka.</message>
                     <suggestion>\1 \3</suggestion>
                     <url>http://so.pwn.pl/zasady.php?id=629795</url>
                     <short>Zbędny przecinek</short>
@@ -4213,9 +4229,17 @@ $Id$
                           <example type="correct">Z grubo pokrajanych porcji chleba odłamywała małe kąski.</example>
                         </rule>            
 						<rule>
+                            <antipattern>
+                                <token skip="4" postag="num:pl:nom.acc.*" postag_regexp="yes"></token>
+                                <marker>
+                                <token>lat</token>
+                                </marker>
+                                <token>temu</token>
+                            </antipattern>
 							<pattern>
-								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+|\.|mln</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
+								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:\-\d+)?|\.|mln|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
 						        <token postag="prep:acc">temu</token>
+                                <token><exception postag="num:pl:nom.acc.*" postag_regexp="yes"/></token>
 							     </pattern>
 							    <message>Przyimek „\2” jest używany z biernikiem.</message>
 								<short>Przyimek wymaga biernika</short>
@@ -4226,6 +4250,9 @@ $Id$
 								<example type="incorrect">To było 1 <marker>godzina</marker> temu.</example>
                                 <example type="correct">Czterysta lat temu faraon Amenhotep IV obalił władzę kapłanów.</example>
                                 <example type="correct">Półtora roku temu baba objadła się czegoś i umarła.</example>
+                                <example type="correct">Było to 500-600 lat temu.</example>
+                                <example type="correct">To było sześćdziesiąt z górą lat temu.</example>
+                                <example type="correct">Lat temu kilka przebywałem na dworze.</example>
 						</rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
@@ -12972,15 +12999,6 @@ $Id$
 						<example type="correct">Przestał się do nich odzywać.</example>
 						<example correction="nich" type="incorrect">Przestał się do <marker>niech</marker> odzywać.</example>
 				</rule>
-				<rule id="JUZ" name="„juz” (już)">
-						<pattern>
-								<token>juz</token>
-						</pattern>
-						<message>Prawdopodobnie literówka, czy chodziło o wyraz <suggestion>już</suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example type="correct">Musimy już iść.</example>
-						<example correction="już" type="incorrect">Musimy <marker>juz</marker> iść.</example>
-				</rule>
 				<rule id="POKOJ" name="„pokuj” (pokój)">
 						<pattern>
 								<token>pokuj</token>
@@ -13091,15 +13109,6 @@ $Id$
 								<example type="correct">To strój na wf.</example>
 						</rule>
 				</rulegroup>
-				<rule id="SIE" name="„sie” (się)">
-						<pattern>
-								<token>sie</token>
-						</pattern>
-						<message>Prawdopodobna literówka: czy chodziło o wyraz <suggestion>się</suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example type="correct">Eryk podrapał się po głowie.</example>
-						<example correction="się" type="incorrect">Eryk podrapał <marker>sie</marker> po głowie.</example>
-				</rule>
 				<rule id="CZASOWNIK_SI" name="czasownik + „si” (się)">
 						<pattern>
 								<token postag="verb.*" postag_regexp="yes"></token>
@@ -13223,15 +13232,6 @@ $Id$
 								<example correction="Choć" type="incorrect"><marker>Chodź</marker> był może zbyt prosty przykład...</example>
 						</rule>
 				</rulegroup>
-				<rule id="MAIL_MIAL" name="„maił” (miał)">
-						<pattern>
-								<token>maił</token>
-						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>miał</suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example type="correct">Przemysław miał kota.</example>
-						<example correction="miał" type="incorrect">Przemysław <marker>maił</marker> kota.</example>
-				</rule>
 				<rule id="MUSZE_MUSZE" name="„musze” (muszę)">
 						<pattern>
                             <marker>

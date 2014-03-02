@@ -29,6 +29,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -55,7 +56,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private int endPos = -1;
   private int tokenCountForMarker = 0;
 
+  private int antiPatternCounter = 0;
+
+  private boolean inRule;
+
+  private List<DisambiguationPatternRule> rulegroupAntiPatterns;
+  private List<DisambiguationPatternRule> ruleAntiPatterns;
+
   private boolean relaxedMode = false;
+  private boolean inAntiPattern;
 
   /**
    * If set to true, don't throw an exception if id or name is not set.
@@ -94,6 +103,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         language = Language.getLanguageForShortName(languageStr);
         break;
       case RULE:
+        inRule = true;
         shortMessage = new StringBuilder();
         message = new StringBuilder();
         suggestionsOutMsg = new StringBuilder();
@@ -129,6 +139,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case PATTERN:
         startPattern(attrs);
+        tokenCountForMarker = 0;
+        break;
+      case ANTIPATTERN:
+        inAntiPattern = true;
+        antiPatternCounter++;
+        caseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
+        tokenCounter = 0;
         tokenCountForMarker = 0;
         break;
       case AND:
@@ -218,7 +235,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           incorrectExample.append(MARKER_TAG);
         } else if (inCorrectExample) {
           correctExample.append(MARKER_TAG);
-        } else if (inPattern) {
+        } else if (inPattern || inAntiPattern) {
           startPos = tokenCounter;
           inMarker = true;
         }
@@ -292,7 +309,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           phraseElementList.clear();
         }
         ruleIssueType = null;
-
+        inRule = false;
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -316,6 +333,30 @@ public class PatternRuleHandler extends XMLRuleHandler {
           elementList.clear();
         }
         tokenCounter = 0;
+        break;
+      case ANTIPATTERN:
+        final DisambiguationPatternRule rule = new DisambiguationPatternRule(
+            id + "_antipattern:" + antiPatternCounter,
+            "antipattern", language, elementList, null, null,
+            DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
+        if (startPos != -1 && endPos != -1) {
+          rule.setStartPositionCorrection(startPos);
+          rule.setEndPositionCorrection(endPos - tokenCountForMarker);
+        }
+        elementList.clear();
+        if (inRule) {
+          if (ruleAntiPatterns == null) {
+            ruleAntiPatterns = new ArrayList<>();
+          }
+          ruleAntiPatterns.add(rule);
+        } else { // a rulegroup shares all antipatterns not included in a single rule
+          if (rulegroupAntiPatterns == null) {
+            rulegroupAntiPatterns = new ArrayList<>();
+          }
+          rulegroupAntiPatterns.add(rule);
+        }
+        tokenCounter = 0;
+        inAntiPattern = false;
         break;
       case EXAMPLE:
         if (inCorrectExample) {
@@ -369,13 +410,17 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case RULEGROUP:
         inRuleGroup = false;
         ruleGroupIssueType = null;
+        if (rulegroupAntiPatterns != null) {
+          rulegroupAntiPatterns.clear();
+        }
+        antiPatternCounter = 0;
         break;
       case MARKER:
         if (inCorrectExample) {
           correctExample.append("</marker>");
         } else if (inIncorrectExample) {
           incorrectExample.append("</marker>");
-        } else if (inPattern) {
+        } else if (inPattern || inAntiPattern) {
           endPos = tokenCountForMarker;
           inMarker = false;
         }
@@ -459,6 +504,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
     rule.setCorrectExamples(correctExamples);
     rule.setIncorrectExamples(incorrectExamples);
     rule.setCategory(category);
+    if (rulegroupAntiPatterns != null && !rulegroupAntiPatterns.isEmpty()) {
+      rule.setAntiPatterns(rulegroupAntiPatterns);
+    }
+    if (ruleAntiPatterns != null && !ruleAntiPatterns.isEmpty()) {
+      rule.setAntiPatterns(ruleAntiPatterns);
+      ruleAntiPatterns.clear();
+    }
     if (inRuleGroup) {
       rule.setSubId(Integer.toString(subId));
     } else {

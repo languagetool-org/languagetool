@@ -42,6 +42,12 @@ public class JLanguageToolTest extends TestCase {
     //with immunization
     assertEquals(0, tool.check("A teraz każcie mi dać jaki bądź posiłek.").size());
     assertEquals(0, tool.check("Kiedym wóz zobaczył, byłbym przysiągł, że wielka przygoda mnie czeka.").size());
+    //with antipatterns: "wymaluj" in "wypisz wymaluj" is immunized locally for punctuation mistakes,
+    //so it should get no match
+    assertEquals(0, tool.check("Jurek wygląda wypisz wymaluj babcia.").size());
+    //but it should get a match with word repetitions:
+    assertEquals(1, tool.check("Jurek wygląda wypisz wypisz wymaluj babcia.").size());
+    assertEquals(1, tool.check("Jurek wygląda wypisz wymaluj wymaluj babcia.").size());
     //this rule is by default off
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(0, matches.size());

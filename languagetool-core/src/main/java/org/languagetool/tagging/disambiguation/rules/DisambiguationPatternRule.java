@@ -55,12 +55,12 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param elements Element (token) list
    * @param description Description to be shown (name)
    * @param disambAction the action to be executed on found token(s), one of the
-   *          following: add, filter, remove, replace, unify.
+   *          following: add, filter, filterall, ignore_spelling, immunize, remove, replace, unify.
    */
-  DisambiguationPatternRule(final String id, final String description,
-      final Language language, final List<Element> elements,
-      final String disamb, final Match posSelect,
-      final DisambiguatorAction disambAction) {
+  public DisambiguationPatternRule(final String id, final String description,
+                                   final Language language, final List<Element> elements,
+                                   final String disamb, final Match posSelect,
+                                   final DisambiguatorAction disambAction) {
     super(id, description, language, elements, true);
     if (disamb == null && posSelect == null
         && disambAction != DisambiguatorAction.UNIFY

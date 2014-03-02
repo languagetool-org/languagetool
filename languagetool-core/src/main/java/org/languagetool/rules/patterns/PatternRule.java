@@ -24,6 +24,7 @@ import java.util.*;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -57,6 +58,11 @@ public class PatternRule extends AbstractPatternRule {
   private final Set<String> simpleRuleTokens;
 
   private final Set<String> inflectedRuleTokens;
+
+  /**
+   * a list of antipatterns used in the rule
+   */
+  private List<DisambiguationPatternRule> antiPatterns;
 
   /**
    * @param id Id of the Rule. Used in configuration. Should not contain special characters and should
@@ -106,6 +112,7 @@ public class PatternRule extends AbstractPatternRule {
     //don't instantiate a hash for every sentence, simply store it:
     simpleRuleTokens = getSimpleTokens();
     inflectedRuleTokens = getInflectedTokens();
+    antiPatterns = new ArrayList<>();
   }  
   
   public PatternRule(final String id, final Language language,
@@ -187,7 +194,7 @@ public class PatternRule extends AbstractPatternRule {
   public final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     try {
       final PatternRuleMatcher matcher = new PatternRuleMatcher(this, useList);
-      return matcher.match(sentence);
+      return matcher.match(getSentenceWithImmunization(sentence));
     } catch (IOException e) {
       throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
     } catch (Exception e) {
@@ -276,6 +283,25 @@ public class PatternRule extends AbstractPatternRule {
   
   List<Match> getSuggestionMatchesOutMsg() {
     return suggestionMatchesOutMsg;
+  }
+
+  /**
+   * Set up the list of antipatterns used to immunize tokens, i.e., make them
+   * non-matchable by the current rule. Useful for multi-word complex exceptions,
+   * such as multi-word idiomatic expresions
+   * @param antiPatterns A list of antiPatterns, implemented as {@code DisambiguationPatternRule}.
+   */
+  public void setAntiPatterns(List<DisambiguationPatternRule> antiPatterns) {
+    this.antiPatterns.addAll(antiPatterns);
+  }
+
+  private AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
+    if (antiPatterns != null && !antiPatterns.isEmpty()) {
+    for (final DisambiguationPatternRule patternRule : antiPatterns) {
+      sentence = patternRule.replace(sentence);
+    }
+    }
+    return sentence;
   }
 
 }

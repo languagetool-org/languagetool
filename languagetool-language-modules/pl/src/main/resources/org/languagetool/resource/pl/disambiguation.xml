@@ -2244,6 +2244,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="JAK_NIE_CONJ" name="jak w funkcji innej niż spójnik">
         <pattern>
             <marker><token>jak<exception scope="previous">,</exception><exception scope="previous" postag="SENT_START"/></token></marker>
+            <token><exception>gdyby</exception></token>
         </pattern>
         <disambig action="remove"><wd pos="conj"/></disambig>
     </rule>
@@ -3890,32 +3891,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     </rulegroup>
 
+    <!--
     <rule id="WYPISZ_WYMALUJ" name="wypisz wymaluj - bez przecinka">
         <pattern>
             <token>wypisz</token>
             <marker>
                 <token>wymaluj</token>
-            </marker>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
-
-    <rule id="CO_KON_WYSKOCZY" name="co koń wyskoczy - bez przecinka">
-        <pattern>
-            <marker><token>co</token>
-            <token>koń</token>
-            <token regexp="yes">(?:wy)?skoczy</token>
-            </marker>
-        </pattern>
-        <disambig action="immunize"/>
-    </rule>
-
-    <rule id="NA_CZYM_SWIAT_STOI" name="kląć/przeklinać na czym świat stoi - bez przecinka">
-        <pattern>
-            <marker><token>na</token>
-            <token>czym</token>
-            <token>świat</token>
-            <token>stoi</token>
             </marker>
         </pattern>
         <disambig action="immunize"/>
@@ -3928,6 +3909,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="immunize"/>
     </rule>
+
+
+    -->
+
+    <rule id="CO_KON_WYSKOCZY" name="co koń wyskoczy - bez przecinka">
+        <pattern>
+            <marker><token>co</token>
+            <token>koń</token>
+            <token regexp="yes">(?:wy)?skoczy</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+
+    <rule id="NA_CZYM_SWIAT_STOI" name="kląć/przeklinać na czym świat stoi - bez przecinka">
+        <pattern>
+            <marker><token>na</token>
+            <token>czym</token>
+            <token>świat</token>
+            <token>stoi</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
 
     <rule id="JAKI_BADZ_X" name="jaki bądź xxx – bez przecinka">
         <pattern>

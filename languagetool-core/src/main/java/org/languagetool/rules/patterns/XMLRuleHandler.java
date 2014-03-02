@@ -182,6 +182,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String EXCEPTION = "exception";
   protected static final String CASE_SENSITIVE = "case_sensitive";
   protected static final String PATTERN = "pattern";
+  protected static final String ANTIPATTERN = "antipattern";
   protected static final String MATCH = "match";
   protected static final String UNIFICATION = "unification";
   protected static final String RULE = "rule";
