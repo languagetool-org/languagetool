@@ -2300,12 +2300,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="Web page (noun/verb) -&gt; page (noun)" id="WEB_PAGE">
         <pattern>
-            <token>web</token>
-            <marker>
-                <token>page</token>
-            </marker>
+            <token postag="NN">web</token>
+            <token postag="NN">page</token>
         </pattern>
-        <disambig postag="NN"></disambig>
+        <disambig action="filterall"></disambig>
     </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <pattern>
