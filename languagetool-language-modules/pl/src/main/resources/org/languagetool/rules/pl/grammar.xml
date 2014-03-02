@@ -1732,6 +1732,19 @@ $Id$
 						<example correction=" tak jak" type="incorrect">Dziś jest<marker>, tak jak</marker> wczoraj.</example>
 				</rule>
 				<rulegroup id="PODMIOT_ORZECZENIE" name="Zbędny przecinek między podmiotem a orzeczeniem">
+                        <antipattern>
+                            <token>,</token>
+                            <token>zdaje</token>
+                            <token>się</token>
+                            <token regexp="yes">[,\.]</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <token>zdaje</token>
+                            <token regexp="yes">[mc]i</token>
+                            <token>się</token>
+                            <token regexp="yes">[,\.]</token>
+                        </antipattern>
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
@@ -1747,6 +1760,8 @@ $Id$
 								<example type="correct">Dyspozycyjność każdej własności jest jej cechą wewnętrzną, jest rysem jej natury.</example>
 								<example correction=" jest" type="incorrect">Gazeta<marker>, jest</marker> źródłem informacji.</example>
 								<example correction=" przybył" type="incorrect">Kennedy<marker>, przybył</marker> na lotnisko.</example>
+                                <example type="correct">Mała, zdaje się, ma talent...</example>
+                                <example type="correct">Coś ty, zdaje ci się.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1756,6 +1771,7 @@ $Id$
 												<token>,</token>
 												<token>to</token>
 										</marker>
+                                        <token><exception>znaczy</exception></token>
 								</pattern>
 								<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \4</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1763,6 +1779,7 @@ $Id$
 								<example correction=" to" type="incorrect">Gazeta<marker>, to</marker> źródło informacji.</example>
                                 <example type="correct">To nie kobieta, to anioł.</example>
                                 <example type="correct">Hałas był wielki, to nie ulega wątpliwości.</example>
+                                <example type="correct">Pokonany, to znaczy przede wszystkim — upokorzony.</example>
 						</rule>
 						<rule>
 								<pattern>

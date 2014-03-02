@@ -1476,6 +1476,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="dzienić"/></disambig>
     </rule>
 
+    <rule id="DUZA" name="duża to nie dużać">
+        <pattern>
+            <token>duża</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="dużać"/></disambig>
+    </rule>
+
     <rule id="DUZE" name="duże to nie duha">
         <pattern>
             <token>duże</token>
@@ -1530,6 +1537,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>Kali</token>
         </pattern>
         <disambig action="remove"><wd lemma="kalić"/></disambig>
+    </rule>
+
+    <rule id="KREWNI" name="krewni to nie krewnić">
+        <pattern>
+            <token>krewni</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="krewnić"/></disambig>
     </rule>
 
     <rule id="KRWAWE" name="krwawe to nie rzeczownik">
@@ -1861,7 +1875,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rulegroup id="PRZYJAZNI_SUBST" name="przyjaźni jako genetiwus">
         <rule>
         <pattern>
-            <token regexp="yes" inflected="yes">order|wyraz|pomnik|towarzystwo|więź|pakt|deklaracja|dowód|atmosfera|symbol|manifestacja|osiedle|szlak</token>
+            <token regexp="yes" inflected="yes">order|wyraz|pomnik|towarzystwo|więź|pakt|deklaracja|dowód|atmosfera|symbol|manifestacja|osiedle|szlak|granica</token>
             <marker><token>przyjaźni</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:f"></disambig>
@@ -2174,7 +2188,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
             <token skip="5">pietra</token>
             </marker>
-            <token>nie</token>
             <token inflected="yes">mieć</token>
         </pattern>
         <disambig postag="subst:sg:gen:m1"/>
@@ -2182,7 +2195,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="PIETRA_NIE_MIEC_2" name="pietra jako dopełniacz">
         <pattern>
-            <token>nie</token>
             <token inflected="yes" skip="4">mieć</token>
             <marker>
                 <token>pietra</token>
@@ -3885,7 +3897,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token>wiadomo</token>
                 <token>do</token>
             </marker>
-            <token>kogo</token>
+            <token regexp="yes">kogo|czego</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>
