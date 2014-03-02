@@ -647,7 +647,7 @@ $Id$
 				<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo|niemal<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
 										<token regexp="yes" inflected="yes">że|iż</token>
 								</pattern>
 								<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -769,7 +769,7 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|tak|chyba|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|comp|pred" postag_regexp="yes"></exception></token>
+												<token negate="yes" regexp="yes">&interp;|tak|chyba|gdzie|może|cóż|co|.*kolwiek|próżno|długo<exception postag="SENT_START|conj|comp|pred|adv.*" postag_regexp="yes"></exception></token>
 												<token inflected="yes" skip="-1" postag="comp">by<exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception><exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma" postag_regexp="yes" scope="next"></exception></token>
 										</marker>
 										<token postag="verb:inf.*" postag_regexp="yes"></token>
@@ -778,6 +778,8 @@ $Id$
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Przemysław wstąpił do domu, by spryskać się Przemysławką.</example>
 								<example correction="domu, by" type="incorrect">Przemysław wstąpił do <marker>domu by</marker> spryskać się Przemysławką.</example>
+                                <example type="correct">Gdzie by tego znów wysłać?</example>
+                                <example type="correct">Lecz poza wyjątkami trudno by wymienić większą liczbę nazwisk.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1143,6 +1145,13 @@ $Id$
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_KTORY" name="Brak przecinka przed „który” i „jaki”">
+                        <antipattern>
+                            <unify>
+                                <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                <token inflected="yes">jaki</token>
+                                <token postag="(?:adj|subst):.*" postag_regexp="yes"/>
+                            </unify>
+                        </antipattern>
 						<rule>
 								<pattern>
 										<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
@@ -1186,11 +1195,12 @@ $Id$
 								<example type="correct">Mało który spełnia warunki formalne.</example>
 								<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="kamienny, którego" type="incorrect">To węgiel <marker>kamienny którego</marker> Jurek nienawidzi.</example>
+                                <example type="correct">Czy w Łabajówce mieszkają jakie strachy?</example>
 						</rule>
 						<rule>
 								<pattern>
 										<marker>
-												<token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+												<token postag="subst.*" postag_regexp="yes"><exception scope="previous">,</exception><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
 										<token><exception regexp="yes">&interp;</exception></token>
@@ -1261,6 +1271,22 @@ $Id$
 								<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="zamieszaniu, jakie" type="incorrect">Poinformowaliśmy o <marker>zamieszaniu jakie</marker> powstało.</example>
 						</rule>
+                        <rule type="grammar">
+                            <pattern>
+                                <token>,</token>
+                                <marker>
+                                <unify>
+                                    <feature id="gender"/>
+                                    <token postag="subst.*" postag_regexp="yes"></token>
+                                    <token inflected="yes" regexp="yes" postag=".*gen.*" postag_regexp="yes">który|jaki</token>
+                                </unify>
+                                </marker>
+                            </pattern>
+                            <message>Prawdopodobnie błędny szyk zdania. Powinno być: <suggestion>\3 \2</suggestion>.</message>
+                            <short>Błędny szyk zdania</short>
+                            <example type="correct">Jest to niewielki elektromagnes, którego uzwojenie łączymy ze źródłem prądu.</example>
+                            <example type="incorrect" correction="którego uzwojenie">Jest to niewielki elektromagnes, <marker>uzwojenie którego</marker> łączymy ze źródłem prądu.</example>
+                        </rule>
 				</rulegroup>
 				<rulegroup id="INNYMI_SLOWY" name="Brak wydzielenia „innymi słowy”">
 						<rule>
@@ -4446,7 +4472,14 @@ $Id$
 								<example correction="go|ich|jego|jej" type="incorrect">Używają <marker>je</marker> w domu.</example>
 						</rule>
 						<rule>
-								<pattern>
+								<antipattern>
+                                    <token postag="subst:.*nom.*" postag_regexp="yes"/>
+                                    <token inflected="yes" regexp="yes">używać|użyć</token>
+                                    <token>do</token>
+                                    <token postag="subst:.*gen.*" postag_regexp="yes"/>
+                                    <token postag="subst:.*gen.*" postag_regexp="yes"/>
+								</antipattern>
+                                <pattern>
                                     <token postag="SENT_START" skip="-1"><exception postag=".*gen.*" inflected="yes" regexp="yes" postag_regexp="yes">jaki|który</exception> </token>
 										<marker>
 												<token min="1" max="2" postag="(adj|subst|ppas|pact):.*:(nom|acc|acc\.nom\.voc|acc\.nom|acc\.inst|inst).*" postag_regexp="yes"><exception postag=".*gen.*|conj|comp|adv.*|prep.*" postag_regexp="yes"/></token>
@@ -4460,6 +4493,7 @@ $Id$
 								<example type="incorrect">Długo <marker>tę książkę</marker> używam.</example>
 								<example type="incorrect"><marker>Stare żelazko</marker> używa do golenia.</example>
                                 <example type="correct">To były czapki z daszkiem — takie, jakich dotąd wojsko francuskie używa.</example>
+                                <example type="correct">Demonstranci użyli do obrony kijów bambusowych i kamieni.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="PRZESTRZEGAC_CO" name="„przestrzegać co” (czego)">
@@ -4551,17 +4585,24 @@ $Id$
 						<example correction="regulował ruch|kierował ruchem" type="incorrect">Policjant <marker>regulował ruchem</marker> pojazdów.</example>
 				</rule>
 				<rule id="ZAROWNO_I" name="„zarówno... i” („zarówno... jak”)">
+                        <antipattern>
+                            <token skip="-1">zarówno<exception regexp="yes" scope="next">jak|\(.*|„</exception></token>
+                            <marker><token skip="-1">i</token></marker>
+                            <token>,</token>
+                            <token>jak</token>
+                            <token>i</token>
+                        </antipattern>
 						<pattern>
 								<token skip="-1">zarówno<exception regexp="yes" scope="next">jak|\(.*|„</exception></token>
 								<marker>
-										<token skip="-1">i</token>
+										<token>i</token>
 								</marker>
 						</pattern>
 						<message>Po „zarówno” piszemy <suggestion>jak i</suggestion>.</message>
 						<short>Błąd składniowy</short>
 						<example type="correct">Wiążą się z tym zarówno zyski, jak i zalety.</example>
 						<example correction="jak i" type="incorrect">Wiążą się z tym zarówno zyski <marker>i</marker> zalety.</example>
-						<!-- example type="correct">Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example -->
+						<example type="correct">Wiążą się z tym zarówno zyski i zalety, jak i pewne wady.</example>
 				</rule>
 				<rule id="TAK_DLUGO_DOPOKI" name="„tak długo... dopóki” (dopóty, dopóki)">
 						<pattern>
@@ -5215,7 +5256,7 @@ $Id$
 								<token postag="SENT_START" skip="-1"><exception scope="next">nie</exception></token>
 								<token skip="-1"><exception scope="next">nie</exception></token>
 								<marker>
-										<token skip="-1">bynajmniej<exception scope="next">nie</exception></token>
+										<token skip="-1">bynajmniej<exception scope="next">nie</exception><exception scope="next" postag="adj.*" postag_regexp="yes" regexp="yes">nie.+</exception></token>
 								</marker>
 								<token postag="SENT_END"></token>
 						</pattern>
@@ -5224,6 +5265,7 @@ $Id$
 						<example correction="przynajmniej" type="incorrect">Wiersz po prostu śliczny, <marker>bynajmniej</marker> dla mnie.</example>
 						<example type="correct">Wiersz po prostu śliczny, <marker>przynajmniej</marker> dla mnie.</example>
 						<example type="correct">Bynajmniej.</example>
+                        <example type="correct">Myślę, że to problem bynajmniej niebłahy.</example>
 				</rule>
 				<rule id="SPELNIAC_OPIEKE" name="„spełniać opiekę” (sprawować opiekę)">
 						<pattern>
@@ -7155,13 +7197,25 @@ $Id$
 						<example type="correct">Te pierniczki mają od lat ten sam skład.</example>
 						<example correction="skład" type="incorrect">Te pierniczki mają od lat ten sam <marker>skład surowcowy</marker>.</example>
 				</rule>
-				<rule id="DZIEN_DZISIEJSZY" name="„dzień dzisiejszy” (dzisiaj)">
+				<rulegroup id="DZIEN_DZISIEJSZY" name="„dzień dzisiejszy” (dzisiaj)">
+                    <rule>
+                        <pattern>
+                                <token>w</token>
+                                <token>dniu</token>
+                                <token>dzisiejszym</token>
+                        </pattern>
+                        <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>dzisiaj</suggestion> lub <suggestion>dziś</suggestion>.</message>
+                        <short>Pleonazm</short>
+                        <example type="correct"><marker>Dzisiaj</marker> w godzinach popołudniowych przybyła do Katowic delegacja mrówek.</example>
+                        <example correction="Dzisiaj|Dziś" type="incorrect"><marker>W dniu dzisiejszym</marker> w godzinach popołudniowych przybyła do Katowic delegacja mrówek.</example>
+                    </rule>
+                    <rule>
 						<pattern>
 								<unify>
 										<feature id="number"></feature>
 										<feature id="gender"></feature>
 										<feature id="case"></feature>
-										<token inflected="yes">dzień</token>
+										<token inflected="yes">dzień<exception scope="previous">w</exception></token>
 										<token inflected="yes">dzisiejszy</token>
 								</unify>
 						</pattern>
@@ -7170,13 +7224,26 @@ $Id$
 						<example type="correct">Szkoła dzisiaj</example>
 						<example correction="Dzisiaj|Dziś" type="incorrect"><marker>Dzień dzisiejszy</marker> szkoły</example>
 				</rule>
-				<rule id="DZIEN_JUTRZEJSZY" name="„dzień jutrzejszy” (jutro)">
+                </rulegroup>
+				<rulegroup id="DZIEN_JUTRZEJSZY" name="„dzień jutrzejszy” (jutro)">
+                <rule>
+                        <pattern>
+                            <token>w</token>
+                            <token>dniu</token>
+                            <token>jutrzejszym</token>
+                        </pattern>
+                        <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>jutro</suggestion>.</message>
+                        <short>Pleonazm</short>
+                        <example type="correct"><marker>Jutro</marker> w godzinach popołudniowych przybędzie do Katowic delegacja mrówek.</example>
+                        <example correction="Jutro" type="incorrect"><marker>W dniu jutrzejszym</marker> w godzinach popołudniowych przybędzie do Katowic delegacja mrówek.</example>
+                </rule>
+                <rule>
 						<pattern>
 								<unify>
 										<feature id="number"></feature>
 										<feature id="gender"></feature>
 										<feature id="case"></feature>
-										<token inflected="yes">dzień</token>
+										<token inflected="yes">dzień<exception scope="previous">w</exception></token>
 										<token inflected="yes">jutrzejszy</token>
 								</unify>
 						</pattern>
@@ -7185,7 +7252,20 @@ $Id$
 						<example type="correct">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>jutro</marker>.</example>
 						<example correction="jutro" type="incorrect">Nie należy też zbytnio trwożyć się tym, co przyniesie <marker>dzień jutrzejszy</marker>.</example>
 				</rule>
-				<rule id="DZIEN_WCZORAJSZY" name="„dzień wczorajszy” (wczoraj)">
+                </rulegroup>
+				<rulegroup id="DZIEN_WCZORAJSZY" name="„dzień wczorajszy” (wczoraj)">
+                    <rule>
+                        <pattern>
+                            <token>w</token>
+                            <token>dniu</token>
+                            <token>wczorajszym</token>
+                        </pattern>
+                        <message>To wyrażenie to pleonazm. Wystarczy powiedzieć <suggestion>wczoraj</suggestion>.</message>
+                        <short>Pleonazm</short>
+                        <example type="correct"><marker>Wczoraj</marker> w godzinach popołudniowych przybędzie do Katowic delegacja mrówek.</example>
+                        <example correction="Wczoraj" type="incorrect"><marker>W dniu wczorajszym</marker> w godzinach popołudniowych przybyła do Katowic delegacja mrówek.</example>
+                    </rule>
+                    <rule>
 						<pattern>
 								<unify>
 										<feature id="number"></feature>
@@ -7200,6 +7280,7 @@ $Id$
 						<example type="correct">Wczoraj minęło spokojnie.</example>
 						<example correction="Wczoraj" type="incorrect"><marker>Dzień wczorajszy</marker> minął spokojnie.</example>
 				</rule>
+                </rulegroup>
 				<rulegroup id="ZOLTKO_JAJA" name="„żółtko jaja, jajeczne...” (żółtko)">
 						<rule>
 								<pattern>
@@ -7924,7 +8005,7 @@ $Id$
 								<marker>
 										<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
 								</marker>
-								<token><exception>do</exception></token>
+								<token><exception>do</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
 						</pattern>
 						<message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu: <suggestion><match no="1" postag="(.*):refl.nonrefl" postag_replace="$1:nonrefl">przodować</match></suggestion>,
 							<suggestion><match no="1" regexp_match="wiodąc" regexp_replace="główn"/></suggestion>,
@@ -7935,6 +8016,8 @@ $Id$
 						<example type="correct">To jest szlak wiodący wprost na szczyt.</example>
 						<example type="correct">Tematem przewodnim tej książki jest mądrość premiera.</example>
 						<example correction="przodującym|głównym|przewodnim|zasadniczym|najlepszym" type="incorrect">Tematem <marker>wiodącym</marker> tej książki jest mądrość premiera.</example>
+                        <example type="incorrect">To <marker>wiodący</marker> we Francji producent telewizorów.</example>
+                        <example type="correct">Dla zorientowania się w szlakach współczesnego Kościoła wiodących w przyszłość warto przeczytać ten artykuł.</example>
 				</rule>
 				<rule id="POWIEM_TAK" name="„powiem tak”">
 						<pattern case_sensitive="yes">
@@ -8404,6 +8487,17 @@ $Id$
 				</rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="NIEMALZE" name="„niemal że” (niemalże)">
+                <pattern>
+                    <token regexp="yes">(?:nie)?o?mal</token>
+                    <token>że</token>
+                </pattern>
+                <message>To słowo piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+                <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=460</url>
+                <short>Błędna pisownia rozłączna</short>
+                <example type="incorrect" correction="niemalże">Konrad poeta czuje się partnerem <marker>niemal że</marker> równorzędnym Bogu.</example>
+                <example type="correct">Konrad poeta czuje się partnerem <marker>niemalże</marker> równorzędnym Bogu.</example>
+            </rule>
             <rule id="POPULARNO_NAUKOWY" name="„Popularno-naukowy” (popularnonaukowy)">
                 <pattern>
                     <token>popularno</token>
@@ -12597,15 +12691,6 @@ $Id$
 						<example correction="Państwo" type="incorrect">Szanowni <marker>Pastwo</marker>!</example>
 						<example type="correct">W państwie duńskim źle się dzieje.</example>
 				</rule>
-				<rule id="TYKO" name="„tyko” (tylko)">
-						<pattern>
-								<token>tyko</token>
-						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>tylko</suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example correction="tylko" type="incorrect">Mam <marker>tyko</marker> pięć złotych.</example>
-						<example type="correct">Mam tylko pięć złotych.</example>
-				</rule>
 				<rule id="WYZ_DEMOGRAFICZNY" name="„wyz demograficzny” (wyż demograficzny)">
 						<pattern>
 								<marker>
@@ -12627,15 +12712,6 @@ $Id$
 						<short>Prawdopodobna literówka</short>
 						<example correction="pół godziny" type="incorrect">Czekam tu już <marker>pól godziny</marker>.</example>
 						<example type="correct">Nie ma nic piękniejszego od pól kapusty po horyzont.</example>
-				</rule>
-				<rule id="KROTKO" name="„krotko” (krótko)">
-						<pattern>
-								<token>krotko</token>
-						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o wołacz od „krotka”, czy o wyraz <suggestion>krótko</suggestion>?</message>
-						<short>Prawdopodobna literówka</short>
-						<example correction="krótko" type="incorrect">Mówiąc <marker>krotko</marker>, to masełko jest wyborne.</example>
-						<example type="correct">Mówiąc krótko, to masełko jest wyborne.</example>
 				</rule>
 				<rule id="KILA_GEN" name="„kila czego” (kilka)">
 						<pattern>

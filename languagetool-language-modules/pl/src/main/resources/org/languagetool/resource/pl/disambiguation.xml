@@ -142,7 +142,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token regexp="yes">przeszło|ponad</token>
                 </marker>
-                <token inflected="yes" regexp="yes">.+letni</token>
+                <token inflected="yes" regexp="yes">.+letni|.+krotnie</token>
             </pattern>
             <disambig postag="qub"/>
         </rule>
@@ -891,7 +891,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Mam wiele do zrobienia.</example>
         <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było dosyć <marker>ludzi</marker>.</example>
     </rule>
-
+    
+    <rule id="STAŁY_ADJ" name="stały wzrost itp.">
+        <pattern>
+            <unify>
+                <feature id="case"><type id="nom"/><type id="acc"/><type id="voc"/></feature>
+                <feature id="number"><type id="sg"/></feature>
+                <feature id="gender"><type id="m1"></type><type id="m2"/><type id="m3"/></feature>
+                <token>stały</token>
+                <token postag="subst.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl,stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:refl,stały/adj:sg:acc:m3:pos,stały/adj:sg:nom.voc:m1.m2.m3:pos]"
+                 outputform="stały[stały/adj:sg:acc:m3:pos,stały/adj:sg:nom.voc:m1.m2.m3:pos]">Trzeba jednak stwierdzić <marker>stały</marker> wzrost zainteresowania radzieckich naukowców omawianą problematyką.</example>
+        <example type="untouched">Tam stały czołgi.</example>
+    </rule>
 
     <rule id="NUM_SUBST_GEN" name="gen po num">
         <pattern>
@@ -1950,6 +1965,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
     </rule>
 
+    <rule id="PORA" name="pora jako genetiwus od por">
+        <pattern>
+            <token regexp="yes" inflected="yes">kawałek|część</token>
+            <marker><token>pora</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:m3"/>
+        <example type="untouched">Pora iść do szkoły!</example>
+        <example type="ambiguous" inputform="pora[por/subst:sg:acc:m2,por/subst:sg:gen:m2,por/subst:sg:gen:m3,pora/pred,pora/subst:sg:nom:f,porać/verb:fin:sg:ter:imperf:refl]"
+                 outputform="pora[por/subst:sg:gen:m3]"> Kawałek białej części <marker>pora</marker> oczyścić, przekroić wzdłuż i pokroić w makaroniki.</example>
+    </rule>
+
     <rulegroup id="PARA" name="para jako rzeczownik">
         <rule>
             <pattern>
@@ -2418,12 +2444,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="MISTRZ_PYTA" name="nazwy własne błędnie rozpoznane jako czasowniki">
         <pattern case_sensitive="yes">
-            <token regexp="yes" inflected="yes">[Mm]istrz|[Kk]siążę|[Pp]an|[Bb]rat</token>
+            <token regexp="yes" inflected="yes">[Mm]istrz|[Kk]siążę|[Pp]an|[Bb]rat|[Śś]więty</token>
             <marker>
                 <token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="verb.*"></disambig> <!-- FIXME: może warto by po prostu tylko usuwać czasownik? -->
+        <disambig action="remove" postag="verb.*"></disambig>
     </rule>
 
     <rule id="SPRAWIAC_WRAZENIE" name="sprawiać wrażenie + czas/rzecz -> rzecz">
@@ -2835,7 +2861,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
             <token>.</token>
         </pattern>
-        <disambig postag="qub"/>
+        <disambig postag="brev:pun"/>
     </rule>
 
     <rulegroup name="lecz" id="lecz">
