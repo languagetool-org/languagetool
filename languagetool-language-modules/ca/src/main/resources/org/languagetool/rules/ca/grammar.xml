@@ -203,8 +203,12 @@ $Id$
             <!-- Hauria de ser la regla ComplexAdjectiveConcordance. Però prèviament cal haver desambiguat bé el nombre. -->
             <!-- <example type="correct">la comissió de vint-i-quatre encarregada</example>-->
             <rule>
+                <antipattern>
+                    <token>per</token>
+                    <token>cent</token>
+                </antipattern>
                 <pattern>
-                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">[\d ,.]+</exception></token>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|NCF.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">[\d ,.]+</exception></token>
                     <marker>
                         <token postag="A...S.*|V.P..S." postag_regexp="yes"><exception postag="A...[PN].*|V.P..P.|_possible_nompropi|AO.*" postag_regexp="yes" /></token>
                     </marker>
@@ -216,6 +220,8 @@ $Id$
                 <example type="incorrect" correction="únics|úniques">Dos <marker>únic</marker>.</example>
                 <example type="correct">Trenta-dos únics.</example> 
                 <example type="correct">Equival a 136 seguit de 10 zeros.</example> 
+                <example type="correct">Tenia una set terrible.</example>
+                <example type="correct">Un tant per cent anual.</example>
                 <!--La regla de tres directa-->   
             </rule>
             <rule>
