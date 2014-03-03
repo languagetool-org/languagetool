@@ -1526,6 +1526,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="godne"/></disambig>
     </rule>
 
+    <rule id="GOTOWI" name="gotowi to nie gotowić">
+        <pattern>
+            <token>gotowi</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="gotowić"/></disambig>
+    </rule>
+
     <rule id="JESIENI" name="jesieni to nie jesienić">
         <pattern>
             <token>jesieni</token>
@@ -2520,7 +2527,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
             <unify>
                 <feature id="number"/>
-                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?|[tj]aki</exception><exception scope="previous">nie</exception></token>
+                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]aki</exception></token>
                 <token postag="verb:(?:fin|bedzie):.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
             </unify>
             </marker>
@@ -2528,6 +2535,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="unify"/>
         <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
+        <example type="ambiguous" inputform="on[on/adj:sg:acc:m3:pos,on/adj:sg:nom.voc:m1.m2.m3:pos,on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]"
+                 outputform="on[on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]">Nie lubię sposobu, w jaki <marker>on</marker> mówi.</example>
         <example type="untouched">A to był kostur pastuszy.</example>
         <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
         <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>

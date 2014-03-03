@@ -1148,9 +1148,12 @@ $Id$
                         <antipattern>
                             <unify>
                                 <feature id="case"/><feature id="gender"/><feature id="number"/>
-                                <token inflected="yes">jaki</token>
-                                <token postag="(?:adj|subst):.*" postag_regexp="yes"/>
+                                <marker>
+                                    <token inflected="yes">jaki</token>
+                                </marker>
+                                <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes"><exception inflected="yes">były</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
                             </unify>
+                            <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
                         </antipattern>
 						<rule>
 								<pattern>
@@ -1171,7 +1174,7 @@ $Id$
 												<token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/PREP:.*&gt;" postag_regexp="yes"></exception><exception>lada</exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception></token>
+										<token><exception regexp="yes">&interp;</exception><exception>”</exception></token>
 								</pattern>
 								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1182,12 +1185,21 @@ $Id$
                                 <example type="correct">Gdzie tam, w lada jakiej sprawie musi jeszcze nieborak dawać.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token>,</token>
+                                    <token>w</token>
+                                    <token>czasie</token>
+                                    <token postag_regexp="yes" postag="ger:sg:gen:n2.*"/>
+                                    <marker>
+                                        <token inflected="yes" postag="adj.*gen.*" postag_regexp="yes">który</token>
+                                    </marker>
+                                </antipattern>
 								<pattern>
 										<marker>
 												<token negate="yes">,<exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception></token>
+										<token><exception regexp="yes">&interp;</exception><exception>”</exception></token>
 								</pattern>
 								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1196,11 +1208,26 @@ $Id$
 								<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="kamienny, którego" type="incorrect">To węgiel <marker>kamienny którego</marker> Jurek nienawidzi.</example>
                                 <example type="correct">Czy w Łabajówce mieszkają jakie strachy?</example>
+                                <example type="correct">A wy może byście byli jeszcze znaleźli jaki środek uleczenia go.</example>
+                                <example type="correct">Przemówienia przerywano religijną muzyką i tańcem, w czasie wykonywania których tron zasypywano wieńcami i bukietami.</example>
+                                <example type="correct">„Oni tam także nie śpią, zda się; może zaniemógł który”.</example>
+                                <example type="correct">Wszystko razem mogło sięgać jakich trzydziestu tysięcy dusz.</example>
+                                <example type="correct">Wchodzę niekiedy do biblioteki i biorę jaką książkę; najczęściej jest to książka historyczna.</example>
 						</rule>
 						<rule>
+                               <antipattern>
+                                    <token>,</token>
+                                        <unify>
+                                            <feature id="gender"/>
+                                            <token postag="subst.*" postag_regexp="yes"></token>
+                                            <marker>
+                                            <token inflected="yes" regexp="yes" postag=".*gen.*" postag_regexp="yes">który|jaki</token>
+                                            </marker>
+                                        </unify>
+                                </antipattern>
 								<pattern>
 										<marker>
-												<token postag="subst.*" postag_regexp="yes"><exception scope="previous">,</exception><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
+												<token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
 										<token><exception regexp="yes">&interp;</exception></token>
@@ -1211,6 +1238,8 @@ $Id$
 								<example type="correct">Mało który spełnia warunki formalne.</example>
 								<example type="correct">To młotek, za pomocą którego Przemysław zamęczał kotka.</example>
 								<example correction="Marek, którego" type="incorrect">To <marker>Marek którego</marker> Jurek nienawidzi.</example>
+                                <!-- niżej jest reguła, która wykrywa błędny szyk w zdaniu poniższym: -->
+                                <example type="correct">Jest to niewielki elektromagnes, <marker>uzwojenie którego</marker> łączymy ze źródłem prądu.</example>
 						</rule>
 						<rule>
 								<pattern>
