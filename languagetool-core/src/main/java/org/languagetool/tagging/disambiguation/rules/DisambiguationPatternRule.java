@@ -56,6 +56,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param description Description to be shown (name)
    * @param disambAction the action to be executed on found token(s), one of the
    *          following: add, filter, filterall, ignore_spelling, immunize, remove, replace, unify.
+   * @since public since 2.5
    */
   public DisambiguationPatternRule(final String id, final String description,
                                    final Language language, final List<Element> elements,

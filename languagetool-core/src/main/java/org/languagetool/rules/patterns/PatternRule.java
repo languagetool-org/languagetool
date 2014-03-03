@@ -40,6 +40,14 @@ public class PatternRule extends AbstractPatternRule {
   // A list of elements as they appear in XML file (phrases count as single tokens in case of matches or skipping).
   private final List<Integer> elementNo;
 
+  // Tokens used for fast checking whether a rule can ever match.
+  private final Set<String> simpleRuleTokens;
+
+  private final Set<String> inflectedRuleTokens;
+
+  // a list of antipatterns used in the rule.
+  private final List<DisambiguationPatternRule> antiPatterns;
+
   private String message;
   private String suggestionsOutMsg; // extra suggestions outside message
 
@@ -53,16 +61,6 @@ public class PatternRule extends AbstractPatternRule {
 
   // Marks whether the rule is a member of a disjunctive set (in case of OR operation on phraserefs).
   private boolean isMemberOfDisjunctiveSet;
-
-  // Tokens used for checking whether a rule can ever match.
-  private final Set<String> simpleRuleTokens;
-
-  private final Set<String> inflectedRuleTokens;
-
-  /**
-   * a list of antipatterns used in the rule
-   */
-  private List<DisambiguationPatternRule> antiPatterns;
 
   /**
    * @param id Id of the Rule. Used in configuration. Should not contain special characters and should
@@ -82,7 +80,7 @@ public class PatternRule extends AbstractPatternRule {
     this.elementNo = new ArrayList<>();
     this.suggestionsOutMsg = "";
     String prevName = "";
-    String curName = "";
+    String curName;
     int cnt = 0;
     int loopCnt = 0;
     for (final Element e : patternElements) {
@@ -164,7 +162,7 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   /**
-   * Return the pattern as a string.
+   * Return the pattern as a string, using toString() on the pattern elements.
    * 
    * @since 0.9.2
    */
@@ -288,20 +286,22 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * Set up the list of antipatterns used to immunize tokens, i.e., make them
    * non-matchable by the current rule. Useful for multi-word complex exceptions,
-   * such as multi-word idiomatic expresions
+   * such as multi-word idiomatic expressions
    * @param antiPatterns A list of antiPatterns, implemented as {@code DisambiguationPatternRule}.
+   * @since 2.5
    */
   public void setAntiPatterns(List<DisambiguationPatternRule> antiPatterns) {
     this.antiPatterns.addAll(antiPatterns);
   }
 
   private AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
+    AnalyzedSentence immunizedSentence = sentence;
     if (antiPatterns != null && !antiPatterns.isEmpty()) {
-    for (final DisambiguationPatternRule patternRule : antiPatterns) {
-      sentence = patternRule.replace(sentence);
+      for (final DisambiguationPatternRule patternRule : antiPatterns) {
+        immunizedSentence = patternRule.replace(immunizedSentence);
+      }
     }
-    }
-    return sentence;
+    return immunizedSentence;
   }
 
 }
