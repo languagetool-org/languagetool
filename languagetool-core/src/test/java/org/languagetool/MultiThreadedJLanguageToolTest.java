@@ -42,7 +42,7 @@ public class MultiThreadedJLanguageToolTest {
   public void testCheck() throws IOException {
     JLanguageTool tool;
     
-    tool = new MultiThreadedJLanguageTool(new Demo());    
+    tool = new MultiThreadedJLanguageTool(new Demo());
     final List<String> ruleMatchIds1 = getRuleMatchIds(tool);
     assertTrue(ruleMatchIds1.size() >= 10);
     Assert.assertEquals(4, tool.getSentenceCount());
@@ -51,6 +51,17 @@ public class MultiThreadedJLanguageToolTest {
     final List<String> ruleMatchIds2 = getRuleMatchIds(tool);
     assertThat(ruleMatchIds1, is(ruleMatchIds2));
     Assert.assertEquals(4, tool.getSentenceCount());
+  }
+  
+  @Test
+  public void testTextAnalysis() throws IOException {
+    JLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
+    List<AnalyzedSentence> analyzedSentences = tool.analyzeText("This is a sentence. And another one.");
+    assertThat(analyzedSentences.size(), is(2));
+    assertThat(analyzedSentences.get(0).getTokens().length, is(10));
+    assertThat(analyzedSentences.get(0).getTokensWithoutWhitespace().length, is(6));  // sentence start has its own token
+    assertThat(analyzedSentences.get(1).getTokens().length, is(7));
+    assertThat(analyzedSentences.get(1).getTokensWithoutWhitespace().length, is(5));
   }
   
   @Test

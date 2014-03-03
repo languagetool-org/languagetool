@@ -553,7 +553,7 @@ public class JLanguageTool {
    *          repeatedly with smaller chunks like paragraphs or sentence, those rules that work across
    *          paragraphs/sentences won't work (their status gets reset whenever this method is called).
    * @param tokenizeText If true, then the text is tokenized into sentences.
-   *          Otherwise, it is assumed it's already tokenized.
+   *          Otherwise, it is assumed it's already tokenized, i.e. it is only one sentence
    * @param paraMode Uses paragraph-level rules only if true.
    * @return a List of {@link RuleMatch} objects, describing potential errors in the text
    * @since 2.3
@@ -571,7 +571,7 @@ public class JLanguageTool {
 
     sentenceCount = sentences.size();
     unknownWords = new HashSet<>();
-    final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);    
+    final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
     final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     
@@ -591,6 +591,17 @@ public class JLanguageTool {
 
     Collections.sort(ruleMatches);
     return ruleMatches;
+  }
+  
+  /**
+   * Use this method if you want to access LanguageTool's otherwise
+   * internal analysis of the text. For actual text checking, use the {@code check...} methods instead.
+   * @param text The text to be analyzed 
+   * @since 2.5
+   */
+  public List<AnalyzedSentence> analyzeText(String text) throws IOException {
+    final List<String> sentences = sentenceTokenize(text);
+    return analyzeSentences(sentences);
   }
   
   private List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
