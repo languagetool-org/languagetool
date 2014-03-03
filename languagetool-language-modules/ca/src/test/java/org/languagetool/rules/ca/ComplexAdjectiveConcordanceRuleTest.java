@@ -59,22 +59,25 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	      en grau lleuger menys distintes
 	      han estat de fet exterminades
 	   */
-	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
-	  //amb una expressió de dolor i de por barrejats.
-	  //un tram més tou, amb morfologia i color diferents.
-	  //l'obra de Boeci amb espontaneïtat i vigor notables.
-	  //assertCorrect("El 1967 una partida de liberals rebel al govern");
-    //assertCorrect("Especialment en matèria de policia i finançament autonòmics");
-    //El 1640 una junta de nobles reunida a Lisboa 
-	  assertCorrect("tenen en canvi altres parts de llur estructura certament molt anormals:");
+    // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("El 1967 una partida de liberals rebel al govern");
+    assertCorrect("El 1640 una junta de nobles reunida a Lisboa");
+    assertCorrect("amb una expressió de dolor i de por barrejats.");
+    assertCorrect("un tram més tou, amb morfologia i color diferents.");
+    assertCorrect("Especialment en matèria de policia i finançament autonòmics");
+    // Hauria de ser incorrecte: policia (f/m)
+    assertCorrect("Especialment en matèria de policia i justícia autonòmics"); 
+    assertCorrect("Especialment en matèria de policia i justícia autonòmiques");
+    assertCorrect("l'obra de Boeci amb espontaneïtat i vigor notables");
+    assertCorrect("tenen en canvi altres parts de llur estructura certament molt anormals:");
     assertCorrect("constitueix l'única comunitat autònoma amb menys aturats");
-	  assertCorrect("durant tot l'any, i del sud-est, més notoris a la primavera");
-	  assertCorrect("amb la veu i el posat cada cop més agressius");
-	  assertCorrect("l'experiència sensitiva i la raó, degudament combinades.");
-	  assertCorrect("a la infermeria, d'allò més interessat");
-	  assertCorrect("el record, i absolutament fascinats"); 
-	  assertCorrect("no s'atorguen drets de visita tret que ho consenta el progenitor");
-	  assertCorrect("La meua filla viu amb mi la major part del temps");
+    assertCorrect("durant tot l'any, i del sud-est, més notoris a la primavera");
+    assertCorrect("amb la veu i el posat cada cop més agressius");
+    assertCorrect("l'experiència sensitiva i la raó, degudament combinades.");
+    assertCorrect("a la infermeria, d'allò més interessat");
+    assertCorrect("el record, i absolutament fascinats");
+    assertCorrect("no s'atorguen drets de visita tret que ho consenta el progenitor");
+    assertCorrect("La meua filla viu amb mi la major part del temps");
 	  assertCorrect("que en l'actualitat viu a la ciutat de Santa Cruz");
 	  assertCorrect("són submarines i la nostra gent viu al fons del mar.");
 	  assertCorrect("la meitat mascles i la meitat femelles");
@@ -134,7 +137,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 		assertCorrect("és unes 20 vegades més gran que l'espermatozou.");
 		assertCorrect("eren quatre vegades més alts");
 		assertCorrect("eren uns fets cada volta més inexplicables");
-		//assertCorrect("El castell està totalment en ruïnes i completament cobert de vegetació.");
+		assertCorrect("El castell està totalment en ruïnes i completament cobert de vegetació.");
 		assertCorrect("han estat tant elogiades per la crítica teatral, com polèmiques");
 		assertCorrect("Del segle XVIII però reconstruïda recentment");
 		//assertCorrect("vivien a la casa paterna, mig confosos entre els criats.");		

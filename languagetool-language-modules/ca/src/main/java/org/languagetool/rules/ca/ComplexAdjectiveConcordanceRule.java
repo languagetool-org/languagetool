@@ -55,10 +55,12 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern _GN_CS = Pattern.compile("_GN_[MF]S");
   private static final Pattern _GN_CP = Pattern.compile("_GN_[MF]P");
 
-  private static final Pattern NOM_MS = Pattern.compile("N.[M][S].*");
-  private static final Pattern NOM_FS = Pattern.compile("N.[F][S].*");
-  private static final Pattern NOM_MP = Pattern.compile("N.[M][P].*");
-  private static final Pattern NOM_FP = Pattern.compile("N.[F][P].*");
+  private static final Pattern NOM_MS = Pattern.compile("N.MS.*");
+  private static final Pattern NOM_FS = Pattern.compile("N.FS.*");
+  private static final Pattern NOM_MP = Pattern.compile("N.MP.*");
+  private static final Pattern NOM_FP = Pattern.compile("N.FP.*");
+  private static final Pattern NOM_CS = Pattern.compile("N.CS.*");
+  private static final Pattern NOM_CP = Pattern.compile("N.CP.*");
   private static final Pattern DET_CS = Pattern.compile("D[NDA0IP]0CS0");
   private static final Pattern DET_MS = Pattern.compile("D[NDA0IP]0MS0");
   private static final Pattern DET_FS = Pattern.compile("D[NDA0IP]0FS0");
@@ -94,7 +96,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern COORDINACIO = Pattern.compile(",|i|o");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("i|o|ni");
   private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*|complement");
-  private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni|\\d+%?|%");
+  private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni"); //|\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb");
@@ -164,6 +166,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         int[] cNFS = new int[maxLevels];
         int[] cNMP = new int[maxLevels];
         int[] cNFP = new int[maxLevels];
+        int[] cNCS = new int[maxLevels];
+        int[] cNCP = new int[maxLevels];
         int[] cDMS = new int[maxLevels];
         int[] cDFS = new int[maxLevels];
         int[] cDMP = new int[maxLevels];
@@ -218,6 +222,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
                 cNMP[level]++;
               } else if (matchPostagRegexp(tokens[i - j], NOM_FP)) {
                 cNFP[level]++;
+              } else if (matchPostagRegexp(tokens[i - j], NOM_CS)) {
+                cNCS[level]++;
+              } else if (matchPostagRegexp(tokens[i - j], NOM_CP)) {
+                cNCP[level]++;
               }
             }
           }
@@ -301,7 +309,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         int cNtotal = 0;
         int cDtotal = 0;
         while (j < level) {
-          cN[j] = cNMS[j] + cNFS[j] + cNMP[j] + cNFP[j];
+          cN[j] = cNMS[j] + cNFS[j] + cNMP[j] + cNFP[j] + cNCS[j] + cNCP[j];
           cD[j] = cDMS[j] + cDFS[j] + cDMP[j] + cDFP[j];
           cNtotal += cN[j];
           cDtotal += cD[j];
@@ -309,7 +317,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           // exceptions: adjective is plural and there are several nouns before
           if (matchPostagRegexp(tokens[i], ADJECTIU_MP)
               && (cN[j] > 1 || cD[j] > 1)
-              && (cNMS[j] + cNMP[j] + cDMS[j] + cDMP[j]) > 0
+              && (cNMS[j] + cNMP[j] + cNCS[j] + cNCP[j] + cDMS[j] + cDMP[j]) > 0
               && (cNFS[j] + cNFP[j] <= cNt[j])) {
             isException = true;
             break;
