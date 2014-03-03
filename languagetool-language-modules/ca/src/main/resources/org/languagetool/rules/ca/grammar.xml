@@ -221,6 +221,7 @@ $Id$
                 <example type="correct">Trenta-dos únics.</example> 
                 <example type="correct">Equival a 136 seguit de 10 zeros.</example> 
                 <example type="correct">Tenia una set terrible.</example>
+                <example type="correct">de les aigües de la deu propera</example> 
                 <example type="correct">Un tant per cent anual.</example>
                 <!--La regla de tres directa-->   
             </rule>
@@ -23367,73 +23368,58 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="D[^RAN].F.*" postag_regexp="yes"/>
-                        <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes"/></token>
+                        <token postag="D[^R].F.*" postag_regexp="yes"/>
                     </marker>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
-                <suggestion><match no="1" postag="(D[^RAN].)F(.*)" postag_regexp="yes" postag_replace="$1M$2" /> <match no="2" /></suggestion>
+                <message>És més habitual usar "<match no="3"/>" com a nom masculí.</message>
+                <suggestion><match no="1" postag="(D[^R].)F(.*)" postag_regexp="yes" postag_replace="$1M$2" /></suggestion>
                 <short>Nom habitualment masculí</short>
-                <example type="incorrect" correction="alguns errors">Per a <marker>algunes errors</marker> que detecta.</example>
+                <example type="incorrect" correction="alguns">Per a <marker>algunes</marker> errors que detecta.</example>
+                <example type="incorrect" correction="els">Per a <marker>les</marker> errors que detecta.</example>
+                <example type="incorrect" correction="els">Per a <marker>les</marker> grans errors que detecta.</example>
+                <example type="incorrect" correction="El"><marker>La</marker> clamor del poble.</example>
+                <example type="incorrect" correction="El"><marker>La</marker> gran clamor del poble.</example>
+                <example type="incorrect" correction="trenta-dos">Ha comès <marker>trenta-dues</marker> errors.</example>
+                <example type="correct">Dos amors</example>
                 <example type="correct">Hi ha algun error</example>
                 <example type="correct">Li ho va dir a aquella Dolors</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token postag="DA.FP." postag_regexp="yes"/>
-                        <token regexp="yes">(&femeni_inusual;)s<exception postag="NP.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
-                <suggestion>els <match no="3"/></suggestion>
-                <short>Nom habitualment masculí</short>
-                <example type="incorrect" correction="els errors">Per a <marker>les errors</marker> que detecta.</example>
                 <example type="correct">Els errors</example>
                 <example type="correct">La Dolors no ha vingut</example>
-            </rule>
-            <rule> <!-- Només cal per als noms no apostrofats -->
-                <pattern>
-                    <marker>
-                        <token postag="DA.FS." postag_regexp="yes"/>
-                        <token regexp="yes">&femeni_inusual;<exception postag="NP.*" postag_regexp="yes"/></token>
-                    </marker>
-                </pattern>
-                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
-                <suggestion>el <match no="3"/></suggestion>
-                <short>Nom habitualment masculí</short>
-                <example type="incorrect" correction="El clamor"><marker>La clamor</marker> del poble.</example>
                 <example type="correct">L'amor i l'honor</example>
                 <example type="correct">El color i l'estupor</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="DN.F.*" postag_regexp="yes"/>
-                        <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes" /></token>
                     </marker>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <token postag="A..F.*" postag_regexp="yes"/>
                 </pattern>
-                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
-                <suggestion><match no="1" postag="DN.M.*" postag_regexp="yes" /> <match no="3"/></suggestion>
-                <short>Nom habitualment masculí</short>
-                <example type="incorrect" correction="trenta-dos errors">Ha comès <marker>trenta-dues errors</marker>.</example>
-                <example type="correct">Dos amors</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token><exception postag="D[RAN].F.*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">(&femeni_inusual;)s?<exception postag="_GN_M.|NP.*" postag_regexp="yes" /></token>
-                    </marker>
-                </pattern>
-                <message>És més habitual usar "<match no="2"/>" com a nom masculí.</message>
+                <message>És més habitual usar "<match no="1"/>" com a nom masculí.</message>
                 <short>Nom habitualment masculí</short>
                 <example type="incorrect">Eren <marker>colors</marker> boniques</example>
+                <example type="incorrect"><marker>Rigor</marker> formal estètica</example>
                 <example type="correct">Amb colors transparents.</example>
                 <example type="correct">Amb aquell color de cara</example>
                 <example type="correct">N'hi havia de tres colors.</example>
                 <example type="correct">de la Dolors Umbridge</example>
                 <!-- la Legió d'Honor francesa -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A..F.*" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes" /></token>
+                    </marker>
+                </pattern>
+                <message>És més habitual usar "<match no="3"/>" com a nom masculí.</message>
+                <short>Nom habitualment masculí</short>
+                <example type="incorrect">La forta <marker>rigor</marker>.</example>
+                <example type="correct">Amb transparents colors.</example>
             </rule>
         </rulegroup>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
@@ -25672,6 +25658,7 @@ $Id$
                 <example type="correct">A l'antiga era de Pedret es ballen sardanes.</example>
                 <example type="correct">Començava una nova era d'aplicació.</example>
                 <example type="correct">La sex ratio fou molt alta.</example>
+                <example type="correct">s'ha convertit en un dels mitjans de comunicació més vius,</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">

@@ -62,6 +62,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 	  // (en especial si hi ha un adverbi entremig: en algun grau més distintes
 	  //amb una expressió de dolor i de por barrejats.
 	  //un tram més tou, amb morfologia i color diferents.
+	  //l'obra de Boeci amb espontaneïtat i vigor notables. 
 	  assertCorrect("tenen en canvi altres parts de llur estructura certament molt anormals:");
     assertCorrect("constitueix l'única comunitat autònoma amb menys aturats");
 	  assertCorrect("durant tot l'any, i del sud-est, més notoris a la primavera");
