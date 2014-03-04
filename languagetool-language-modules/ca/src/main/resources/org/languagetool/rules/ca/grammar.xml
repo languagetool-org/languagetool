@@ -181,6 +181,12 @@ $Id$
         <rulegroup id="CONCORDANCES_NUMERALS" name="concordances en numerals">
             <!-- noms, adjectius en singular  -->
             <rule>
+                <antipattern>
+                    <token>1</token>
+                    <token>/</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>part</token>
+                </antipattern>
                 <pattern>
                     <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception>1</exception></token>
                     <marker>
@@ -194,11 +200,13 @@ $Id$
                 <example type="incorrect" correction="homes|hòmens">Trenta-dos <marker>home</marker>.</example>
                 <example type="incorrect" correction="anys">en trenta-un <marker>any</marker>.</example>
                 <example type="incorrect" correction="homes|hòmens">Dos <marker>home</marker>.</example>
+                <example type="incorrect" correction="parts">2/3 <marker>part</marker>.</example>
                 <example type="correct">Trenta-dos homes.</example>
                 <example type="correct">El 2 d'agost de 1644 Lleida</example>
                 <example type="correct">la 35 Divisió Internacional</example>
                 <example type="correct">En l'article 151 CE.</example>
                 <example type="correct">1 concert per a violí</example>
+                <example type="correct">1/24 part d'unitat</example>
             </rule>
             <!-- Hauria de ser la regla ComplexAdjectiveConcordance. Però prèviament cal haver desambiguat bé el nombre. -->
             <!-- <example type="correct">la comissió de vint-i-quatre encarregada</example>-->
@@ -226,6 +234,11 @@ $Id$
                 <!--La regla de tres directa-->   
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>més</token>
+                    <token>1</token>
+                </antipattern>
                 <pattern> 
                     <token>1</token>  <!-- spacebefore desapareix en action="filter"?? -->
                     <marker>
@@ -237,6 +250,7 @@ $Id$
                 <example type="incorrect" correction="milió">té 1 <marker>milions</marker></example>
                 <example type="correct">té 1,1 milions</example>
                 <example type="correct">d'1 m per quilòmetre</example>
+                <example type="correct">Hi ha 4 més 1 grans per lloc decimal.</example>
             </rule>
             <!-- els numerals després de nom són invariables ??? -->
             <rule>
