@@ -166,6 +166,9 @@ public abstract class AbstractPatternRulePerformer {
     return thisMatched;
   }
 
+  /**
+   * @since 2.5
+   */
   protected int getMinOccurrenceCorrection() {
     int minOccurCorrection = 0;
     for (Element element : rule.getPatternElements()) {
@@ -176,6 +179,9 @@ public abstract class AbstractPatternRulePerformer {
     return minOccurCorrection;
   }
 
+  /**
+   * @since 2.5
+   */
   protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m, int remainingElems) throws IOException {
     int maxSkip = 0;
     int maxOccurrences = elem.getElement().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getElement().getMaxOccurrence();
@@ -190,7 +196,5 @@ public abstract class AbstractPatternRulePerformer {
     }
     return maxSkip;
   }
-
-
 
 }
