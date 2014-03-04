@@ -63,8 +63,6 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("amb una expressió de dolor i de por barrejats.");
     assertCorrect("un tram més tou, amb morfologia i color diferents.");
     assertCorrect("Especialment en matèria de policia i finançament autonòmics");
-    // Hauria de ser incorrecte: policia (f/m)
-    assertCorrect("Especialment en matèria de policia i justícia autonòmics");
     assertCorrect("Especialment en matèria de policia i justícia autonòmiques");
     assertCorrect("l'obra de Boeci amb espontaneïtat i vigor notables");
     assertCorrect("tenen en canvi altres parts de llur estructura certament molt anormals:");
@@ -154,6 +152,9 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    // policia i justícia són més usualment femenins, encara que poden ser masculins
+    assertIncorrect("Especialment en matèria de policia i justícia autonòmics");
+    assertIncorrect("amb rigor i honor barrejades.");
     assertIncorrect("hi ha hagut una certa recuperació (3,2%), efecte en part de la descongestió madrilenya cap a les províncies limítrofs de Toledo i Guadalajara.");
     assertIncorrect("Son molt boniques");
     assertIncorrect("La casa destrossat");

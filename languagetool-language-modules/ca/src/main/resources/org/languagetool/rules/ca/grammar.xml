@@ -23409,24 +23409,26 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes" /></token>
+                        <token postag=".*_GN_F.*" postag_regexp="yes" regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes" /></token>
                     </marker>
                     <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
-                    <token postag="A..F.*" postag_regexp="yes"/>
+                    <token postag="A..F.*|V.P...F.|PX.F.*" postag_regexp="yes"/>
                 </pattern>
                 <message>És més habitual usar "<match no="1"/>" com a nom masculí.</message>
                 <short>Nom habitualment masculí</short>
                 <example type="incorrect">Eren <marker>colors</marker> boniques</example>
                 <example type="incorrect"><marker>Rigor</marker> formal estètica</example>
+                <example type="incorrect">En <marker>honor</marker> seva.</example>
                 <example type="correct">Amb colors transparents.</example>
                 <example type="correct">Amb aquell color de cara</example>
                 <example type="correct">N'hi havia de tres colors.</example>
                 <example type="correct">de la Dolors Umbridge</example>
+                <example type="correct">Cançons d'amor trobadoresques</example>
                 <!-- la Legió d'Honor francesa -->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="A..F.*" postag_regexp="yes"/>
+                    <token postag="A..F.*|V.P...F.|PX.F.*" postag_regexp="yes"/>
                     <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">(&femeni_inusual;)s?<exception postag="NP.*" postag_regexp="yes" /></token>
@@ -23435,6 +23437,7 @@ $Id$
                 <message>És més habitual usar "<match no="3"/>" com a nom masculí.</message>
                 <short>Nom habitualment masculí</short>
                 <example type="incorrect">La forta <marker>rigor</marker>.</example>
+                <example type="incorrect">Les seves <marker>rigors</marker>.</example>
                 <example type="correct">Amb transparents colors.</example>
             </rule>
         </rulegroup>
