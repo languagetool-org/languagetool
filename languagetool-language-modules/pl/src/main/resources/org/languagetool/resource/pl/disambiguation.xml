@@ -3061,6 +3061,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule>
             <pattern>
                 <token postag="SENT_START"/>
+                <token min="0" max="1">no</token>
                 <marker>
                     <token>to</token>
                 </marker>
@@ -3070,24 +3071,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig postag="conj"/>
             <example type="untouched">To co zrobiłeś jest chamstwem.</example>
             <example type="ambiguous" inputform="To[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START"/>
-                <token>no</token>
-                <marker>
-                    <token>to</token>
-                </marker>
-                <token skip="-1" regexp="yes">co|kto</token>
-                <token postag="SENT_END">?</token>
-            </pattern>
-            <disambig postag="conj"/>
-            <example type="untouched">To co zrobiłeś jest chamstwem.</example>
             <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?</example>
         </rule>
         <rule>
             <pattern>
                 <token postag="SENT_START"/>
+                <token min="0" max="1">no</token>
                 <marker>
                     <token>to</token>
                 </marker>
@@ -3100,22 +3089,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig postag="conj"/>
             <example type="untouched">To co zrobiłeś jest chamstwem.</example>
             <example type="ambiguous" inputform="To[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?...</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START"/>
-                <token>no</token>
-                <marker>
-                    <token>to</token>
-                </marker>
-                <token skip="-1" regexp="yes">co|kto</token>
-                <token>?</token>
-                <token>.</token>
-                <token>.</token>
-                <token postag="SENT_END">.</token>
-            </pattern>
-            <disambig postag="conj"/>
-            <example type="untouched">To co zrobiłeś jest chamstwem.</example>
             <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
         </rule>
     </rulegroup>
@@ -3226,12 +3199,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="qub"></disambig>
     </rule>
 
-    <rulegroup id="NIE_QUB_SPOSOB" name="nie sposób jest">
-     <rule>
+    <rule id="NIE_QUB_SPOSOB" name="nie sposób jest">
         <pattern>
             <marker>
                 <token postag="qub">nie</token>
                 <token skip="1" postag="pred">sposób</token>
+                <token min="0" max="1">jest</token>
                 <token postag="verb:inf.*" postag_regexp="yes"></token>
             </marker>
         </pattern>
@@ -3239,22 +3212,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
          <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
                   outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> być eleganckim.</example>
          <example type="untouched">Nie sposób się do wojny.</example>
-    </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="qub">nie</token>
-                    <token skip="1" postag="pred">sposób</token>
-                    <token>jest</token>
-                    <token postag="verb:inf.*" postag_regexp="yes"></token>
-                </marker>
-            </pattern>
-            <disambig action="filterall"/>
             <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
                      outputform="sposób[sposób/pred]">Nie <marker>sposób</marker> jest być eleganckim.</example>
-            <example type="untouched">Nie sposób się do wojny.</example>
-        </rule>
-    </rulegroup>
+    </rule>
+
 
     <rule id="NIE_QUB" name="nie w funkcji negacji czasownika, przymiotnika i przysłówka w st. wyższym">
         <pattern>
@@ -3794,11 +3755,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"></disambig>
     </rule>
 
+    <!--
     <rule id="BYLBYM_PRZYSIAGL" name="Byłbym zrobił -> niepotrzebny przecinek">
         <pattern>
             <unify>
                 <feature id="number"/><feature id="gender"/>
-                <token inflected="yes" postag="verb:pot.*" postag_regexp="yes">być</token>
+                <token skip="10" inflected="yes" postag="verb:pot.*" postag_regexp="yes">być<exception scope="next" postag="verb:(?:pot|fin|bedzie|imp.|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
                 <marker>
                     <token postag="verb:praet.*" postag_regexp="yes"/>
                 </marker>
@@ -3806,6 +3768,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="immunize"/>
     </rule>
+    -->
 
     <rule id="CHOC_JOTA" name="choć nie jako spójnik">
         <pattern>

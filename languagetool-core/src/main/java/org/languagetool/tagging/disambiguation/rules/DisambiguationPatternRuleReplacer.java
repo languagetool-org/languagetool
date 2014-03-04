@@ -27,6 +27,7 @@ import org.languagetool.rules.patterns.*;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,8 +37,11 @@ import java.util.regex.Pattern;
  */
 class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
+  List<Boolean> elementsMatched;
+
   public DisambiguationPatternRuleReplacer(DisambiguationPatternRule rule) {
     super(rule, rule.getLanguage().getDisambiguationUnifier());
+    elementsMatched = new ArrayList<>(rule.getPatternElements().size());
   }
 
   public final AnalyzedSentence replace(final AnalyzedSentence sentence)
@@ -51,11 +55,20 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     ElementMatcher elem = null;
     boolean changed = false;
+
+    elementsMatched.clear();
+    for (int j = 0; j <= patternSize; j++) {
+      elementsMatched.add(false);
+    }
+
     int i = 0;
     int minOccurCorrection = getMinOccurrenceCorrection();
     while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
       boolean allElementsMatch = false;
       unifiedTokens = null;
+      for (boolean elementMatched : elementsMatched) {
+        elementMatched = false;
+      }
       int matchingTokens = 0;
       int skipShiftTotal = 0;
       int firstMatchToken = -1;
@@ -88,10 +101,12 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               // this element doesn't match, but it's optional so accept this and continue
               allElementsMatch = true;
               minOccurSkip++;
+              elementsMatched.set(k, false);
               break;
             }
           }
           if (allElementsMatch) {
+            elementsMatched.set(k, true);
             int skipForMax = skipMaxTokens(tokens, elem, firstMatchToken, prevSkipNext,
                 prevElement, m, patternSize - k -1);
             lastMatchToken = m + skipForMax;
@@ -171,8 +186,21 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       matchingTokensWithCorrection += maxPosCorrection;
     }
 
-    final int fromPos = sentence.getOriginalPosition(firstMatchToken
-        + correctedStPos);
+    // adjust positions in case elements with min="0" were not matched before the starting position
+    for (int j = 0; j < startPositionCorrection; j++) {
+      if (!elementsMatched.get(j)) {
+        correctedStPos--;
+      }
+    }
+    int j = 0;
+    while (startPositionCorrection + j < rule.getPatternElements().size() &&
+        !elementsMatched.get(startPositionCorrection + j)) {
+      correctedStPos++;
+      j++;
+    }
+
+    final int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
+
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
     boolean filtered = false;
     final DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
@@ -261,11 +289,16 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     case FILTERALL:
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
         final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
-        Element myEl = rule.getPatternElements().get(i + startPositionCorrection);
-        //FIXME: this is risky; if we have a two tokens with min=0, and the last one is not matched,
-        //we will get a mismatch. Do we store the info which tokens, exactly, were matched at all?
-        if (myEl.getMinOccurrence() == 0 && rule.getPatternElements().size() > matchingTokensWithCorrection) {
-          myEl = rule.getPatternElements().get(i + 1 + startPositionCorrection);
+        Element myEl;
+        if (elementsMatched.get(i + startPositionCorrection)) {
+        myEl = rule.getPatternElements().get(i + startPositionCorrection);
+        } else {
+          int k = 1;
+          while (i + startPositionCorrection + k < rule.getPatternElements().size() &&
+              !elementsMatched.get(i + startPositionCorrection + k)) {
+            k++;
+          }
+          myEl = rule.getPatternElements().get(i + k + startPositionCorrection);
         }
         final Match tmpMatchToken = new Match(myEl.getPOStag(), null,
             true,
@@ -296,7 +329,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             true, disambiguatedPOS, null,
             Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
-
         final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
         final String prevValue = whTokens[fromPos].toString();
         final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
