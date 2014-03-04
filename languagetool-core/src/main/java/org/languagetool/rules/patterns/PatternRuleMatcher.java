@@ -148,31 +148,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
-  private int getMinOccurrenceCorrection() {
-    int minOccurCorrection = 0;
-    for (Element element : rule.getPatternElements()) {
-      if (element.getMinOccurrence() == 0) {
-        minOccurCorrection++;
-      }
-    }
-    return minOccurCorrection;
-  }
-
-  private int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m, int remainingElems) throws IOException {
-    int maxSkip = 0;
-    int maxOccurrences = elem.getElement().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getElement().getMaxOccurrence();
-    for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
-      boolean nextAllElementsMatch = !tokens[m+j].isImmunized() &&
-          testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
-      if (nextAllElementsMatch) {
-        maxSkip++;
-      } else {
-        break;
-      }
-    }
-    return maxSkip;
-  }
-
   private RuleMatch createRuleMatch(final int[] tokenPositions,
       final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
       final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {

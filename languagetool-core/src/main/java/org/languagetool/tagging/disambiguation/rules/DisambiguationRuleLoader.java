@@ -250,6 +250,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           example.append("<marker>");
           if (inPattern) {
             startPos = tokenCounter;
+            inMarker = true;
           }
           break;
       }
@@ -405,6 +406,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           language.getDisambiguationUnifierConfiguration().setEquivalence(uFeature, uType, tokenElement);
           elementList.clear();
         }
+
+        tokenElement.setInsideMarker(inMarker);
+
         if (tokenSpaceBeforeSet) {
           tokenElement.setWhitespaceBefore(tokenSpaceBefore);
         }
@@ -467,6 +471,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         example.append("</marker>");
         if (inPattern) {
           endPos = tokenCountForMarker;
+          inMarker = false;
         }
         break;
     }

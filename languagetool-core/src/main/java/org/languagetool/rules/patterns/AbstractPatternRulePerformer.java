@@ -166,4 +166,31 @@ public abstract class AbstractPatternRulePerformer {
     return thisMatched;
   }
 
+  protected int getMinOccurrenceCorrection() {
+    int minOccurCorrection = 0;
+    for (Element element : rule.getPatternElements()) {
+      if (element.getMinOccurrence() == 0) {
+        minOccurCorrection++;
+      }
+    }
+    return minOccurCorrection;
+  }
+
+  protected int skipMaxTokens(AnalyzedTokenReadings[] tokens, ElementMatcher elem, int firstMatchToken, int prevSkipNext, ElementMatcher prevElement, int m, int remainingElems) throws IOException {
+    int maxSkip = 0;
+    int maxOccurrences = elem.getElement().getMaxOccurrence() == -1 ? Integer.MAX_VALUE : elem.getElement().getMaxOccurrence();
+    for (int j = 1; j < maxOccurrences && m+j < tokens.length - remainingElems; j++) {
+      boolean nextAllElementsMatch = !tokens[m+j].isImmunized() &&
+          testAllReadings(tokens, elem, prevElement, m+j, firstMatchToken, prevSkipNext);
+      if (nextAllElementsMatch) {
+        maxSkip++;
+      } else {
+        break;
+      }
+    }
+    return maxSkip;
+  }
+
+
+
 }
