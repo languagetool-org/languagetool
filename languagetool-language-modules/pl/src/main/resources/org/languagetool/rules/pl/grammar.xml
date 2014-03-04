@@ -3715,7 +3715,19 @@ $Id$
 								<example type="correct">Co on będzie robił?</example>
 						</rule>
 				</rulegroup>
-				<rule id="NIE_JAKIKOLWIEK" name="„nie” + „jakikolwiek” (żaden)">
+                <rule id="ZOSTAC_IMPERF" name="Błędny aspekt czasownika po czasowniku „zostać”">
+                <pattern>
+                    <unify>
+                        <feature id="number"/><feature id="gender"/>
+                        <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">zostać</token>
+                        <token postag="ppas.*nom.voc.*:imperf.*" postag_regexp="yes"><exception postag="ppas.*:perf.*" postag_regexp="yes"/></token>
+                </unify>
+                </pattern>
+                <message>Niegramatyczna zbitka: imiesłów „\2” jest niedokonany, a powinien być dokonany.</message>
+                <example type="incorrect">Książka <marker>została czytana</marker>.</example>
+                <example type="correct">Książka została przeczytana.</example>
+                </rule>
+                <rule id="NIE_JAKIKOLWIEK" name="„nie” + „jakikolwiek” (żaden)">
 						<pattern>
 								<token>nie</token>
 								<token postag="verb:.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes">wszystko|każdy</exception><exception inflected="yes" scope="next">żaden</exception><exception regexp="yes" scope="next">&interp;</exception></token>
