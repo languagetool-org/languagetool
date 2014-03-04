@@ -2019,6 +2019,41 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rulegroup id="PASA" name="pasa jako rzeczownik">
+        <rule>
+            <pattern>
+                <token>do</token>
+                <token>samego</token>
+                <marker><token>pasa</token></marker>
+            </pattern>
+            <disambig postag="subst:sg:gen:m3"></disambig>
+            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                     outputform="pasa[pas/subst:sg:gen:m3]">Miała dekolt do samego <marker>pasa</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">zacisnąć|zaciskać</token>
+                <marker><token>pasa</token></marker>
+            </pattern>
+            <disambig postag="subst:sg:gen:m3"></disambig>
+            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                     outputform="pasa[pas/subst:sg:gen:m3]">Musimy zacisnąć <marker>pasa</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="gender"><type id="m3"/></feature><feature id="case"><type id="gen"></type></feature>
+                    <feature id="number"><type id="sg"></type></feature>
+                    <token>pasa</token>
+                    <token postag_regexp="yes" postag="(?:adj|ppas|pact):sg.*"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                     outputform="pasa[pas/subst:sg:gen:m3]">Nie posiadają <marker>pasa</marker> drogowego.</example>
+        </rule>
+    </rulegroup>
+
     <rulegroup id="NASZA_ADJ" name="nasza jako przymotnik">
     <rule>
         <pattern>
