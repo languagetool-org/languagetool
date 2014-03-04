@@ -159,10 +159,10 @@ public class WikipediaQuickCheck {
         .replaceAll("\\[\\[[a-z]{2,6}:.*?\\]\\]", "")
         // category links
         .replaceAll(
-            "\\[\\[(Category|Categoria|Categoría|Catégorie|Kategorie):.*?\\]\\]", "")
+            "\\[\\[:?(Category|Categoria|Categoría|Catégorie|Kategorie):.*?\\]\\]", "")
         // file links, keeps alt and caption
         .replaceAll(
-            "(File|Fitxer|Fichero|Ficheiro|Fichier|Datei):.*?\\.(png|jpg|svg|jpeg|tiff|PNG|JPG|SVG|JPEG|TIFF)\\|((thumb|miniatur)\\|)?((right|left)\\|)?", "");
+            "(File|Fitxer|Fichero|Ficheiro|Fichier|Datei):.*?\\.(png|jpg|svg|jpeg|tiff|gif|PNG|JPG|SVG|JPEG|TIFF|GIF)\\|((thumb|miniatur)\\|)?((right|left)\\|)?", "");
   }
 
   private MediaWikiContent getRevisionContent(String completeWikiContent) {
