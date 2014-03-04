@@ -22909,25 +22909,6 @@ $Id$
             <example type="correct">Fa referència als tres anys que hi va dedicar</example>
             <example type="correct">Gràcies als cinquanta anys de feina que vam fer.</example>
         </rule>
-        <rule id="VESSANT" name="vessant">
-            <pattern>
-                <token><exception postag="N.F.*" postag_regexp="yes"/></token>
-                <marker>
-                    <and>
-                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">vessants?<exception postag="_GN_M." postag_regexp="yes"/></token>
-                        <token postag="N.*" postag_regexp="yes"/>
-                    </and>    
-                </marker>
-            </pattern>
-            <message>Sempre és preferible usar "vessant" com a nom masculí. En alguns sentits no és correcte en femení.</message>
-            <short>Forma preferible</short>
-            <example type="incorrect">A les <marker>vessants</marker> de la muntanya.</example>
-            <example type="incorrect">En la seva <marker>vessant</marker> humorística.</example>
-            <example type="correct">En el vessant anterior.</example>
-            <example type="correct">Aigües vessants.</example>
-            <example type="correct">presenta tres vessants</example>
-            <example type="correct">a la mà enlairada vessant aigua</example>
-        </rule>
     	<rule id="A_RAN_DE" name="a ran de">
 		    <pattern>
 		    	<marker>
@@ -23471,6 +23452,49 @@ $Id$
                 <example type="incorrect">La forta <marker>rigor</marker>.</example>
                 <example type="incorrect">Les seves <marker>rigors</marker>.</example>
                 <example type="correct">Amb transparents colors.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VESSANT" name="vessant (preferible en masculí)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="D[^R].F.*" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <token regexp="yes">vessants?</token>
+                </pattern>
+                <message>És preferible usar "vessant" com a nom masculí. En alguns sentits no és correcte en femení.</message>
+                <suggestion><match no="1" postag="(D[^R].)F(.*)" postag_regexp="yes" postag_replace="$1M$2" /></suggestion>
+                <short>Forma preferible</short>
+                <example type="incorrect" correction="el">Per a <marker>la</marker> vessant sud.</example>
+                <example type="incorrect" correction="aquells"> Per <marker>aquelles</marker> vessants.</example>
+                <example type="correct">El vessant nord.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag=".*_GN_F.*" postag_regexp="yes" regexp="yes">vessants?</token>
+                    </marker>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <token postag="A..F.*|V.P...F.|PX.F.*" postag_regexp="yes"/>
+                </pattern>
+                <message>És preferible usar "vessant" com a nom masculí. En alguns sentits no és correcte en femení.</message>
+                <short>Forma preferible</short>
+                <example type="incorrect">Eren <marker>vessants</marker> boniques</example>
+                <example type="correct">Vessants salvatges.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A..F.*|V.P...F.|PX.F.*" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">vessants?<exception postag="NP.*" postag_regexp="yes" /></token>
+                    </marker>
+                </pattern>
+                <message>És preferible usar "vessant" com a nom masculí. En alguns sentits no és correcte en femení.</message>
+                <short>Forma preferible</short>
+                <example type="incorrect">L'ampla <marker>vessant</marker>.</example>
+                <example type="correct">L'ample vessant</example>
             </rule>
         </rulegroup>
         <rule id="POSAR_DE_RELLEU" name="posar de/en relleu">
