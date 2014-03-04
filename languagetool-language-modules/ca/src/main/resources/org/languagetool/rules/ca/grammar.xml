@@ -4605,6 +4605,38 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rulegroup id="QUALIFICAR_COM_A_DE" name="qualificar *com a/de">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">qualificar</token>
+                        <token>com</token>
+                    </marker>
+                    <token><exception>a</exception></token>
+                </pattern>
+                <message>El verb "qualificar" regeix normalment la preposició "de".</message>
+                <suggestion><match no="1"/> de</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descriure</match> com</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">definir</match> com</suggestion>
+                <example type="incorrect" correction="qualifiquin de|descriguin com|defineixin com">Que el <marker>qualifiquin com</marker> el més satisfactori</example>
+                <example type="correct">qualificar de</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">qualificar</token>
+                        <token>com</token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>El verb "qualificar" regeix normalment la preposició "de".</message>
+                <suggestion><match no="1"/> de</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descriure</match> com a</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">definir</match> com a</suggestion>
+                <example type="incorrect" correction="qualificaren de|descrigueren com a|descriviren com a|definiren com a">El <marker>qualificaren com a</marker> satisfactori</example>
+                <example type="correct">qualificar de</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COM_A_COM" name="*com a / com">
             <rule>
                 <pattern>
