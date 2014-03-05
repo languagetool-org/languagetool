@@ -7,7 +7,7 @@ title="Easy editing stylesheet" ?>
 Russian grammar and typo rules for LanguageTool.
 See resource/ru/russian_tags.txt for the meaning of the POS tags.
 
-Copyright © 2008-2013 Yakov Reztsov
+Copyright © 2008-2014 Yakov Reztsov
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -2042,6 +2042,25 @@ $Id$
         </rulegroup>
         
         
+        <rulegroup default="on" id="Ni_mnogo_ni_malo" name="Фразеологический оборот «ни много ни мало»">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">не|ни</token>
+                    <token>много</token>
+                    <token>,</token>
+                    <token regexp="yes">не|ни</token>
+                    <token>мало</token>
+                </pattern>
+                <message>Фразеологический оборот: <suggestion>ни \2 ни \5</suggestion>.</message>
+                <short>Фразеологический оборот &quot;ни много ни мало&quot;.</short>
+                <example type="correct"><marker>Ни много ни мало</marker>, а прошло уже 35 лет.</example>
+                <example type="incorrect"><marker>Не много, ни мало</marker>, а прошло уже 35 лет.</example>
+            </rule>
+          
+        </rulegroup>
+        
+        
+        
         <rulegroup default="on" id="Oborot_nikto_inoj_ne" name="Обороты «не кто иной, как» и «никто иной не»">
             <!--  Обороты не кто иной, как..., не что иное, как...      и     никто иной не...; ничто иное не...,
             например: это был не кто иной, как твоя родная сестра, но: никто иной не мог этого сделать;
@@ -3468,7 +3487,7 @@ $Id$
                         <token inflected="yes">интересовать</token>
                         <token>
                             <exception postag=".*:R" postag_regexp="yes"></exception>
-<!--                        <exception postag=".*:V" postag_regexp="yes"></exception> -->
+                            <exception postag=".*:Fem:Sin:V" postag_regexp="yes"></exception> 
                             <exception postag="PNN:.*" postag_regexp="yes"></exception>
                         </token>
                     </marker>
