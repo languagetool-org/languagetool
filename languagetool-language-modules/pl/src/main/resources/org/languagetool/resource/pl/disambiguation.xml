@@ -1986,6 +1986,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="było[być/verb:praet:sg:n1.n2:ter:imperf:nonrefl]">To <marker>było</marker> obojętne.</example>
     </rule>
 
+    <rule id="WINIEN_BYLA" name="powinien + była -> czasownik">
+        <pattern>
+            <token postag="verb:winien.*" postag_regexp="yes"/>
+            <marker><token>była</token></marker>
+        </pattern>
+        <disambig postag="verb:praet:sg:f:ter:imperf:nonrefl"/>
+        <example type="ambiguous" inputform="była[być/verb:praet:sg:f:ter:imperf:nonrefl,była/subst:sg:nom:f,była/subst:sg:voc:f,były/adj:sg:nom.voc:f:pos]"
+                 outputform="była[być/verb:praet:sg:f:ter:imperf:nonrefl]">Powinna <marker>była</marker> to zrobić.</example>
+        <example type="untouched">Moja była kupiła jaguara.</example>
+    </rule>
+
     <rule id="VERBFIN_FUT" name="forma przeszła po „będzie”">
         <pattern>
             <unify>
