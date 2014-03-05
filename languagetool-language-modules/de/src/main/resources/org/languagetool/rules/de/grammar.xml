@@ -6828,6 +6828,21 @@ $Id$
                 <example type="incorrect" correction="Zeitlebens"><marker>Zeit Lebens</marker> war er ein armer Schlucker.</example>
             </rule>
         </rulegroup>
+        <rule id="EBEN_SO" name="Zusammen-/Getrenntschreibung: 'eben so (ebenso)'">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token>eben</token>
+                    <token>so</token>
+                </marker>
+                <token regexp="yes">(gern|gut|lang|oft|schnell|sehr|viel|wenig|wichtig).*|wie</token>
+            </pattern>
+            <message>&getrennt;: Meinten Sie <suggestion>ebenso</suggestion> (= genauso, gleichermaßen, in der gleichen Weise)?</message>
+            <url>https://www.duden.de/rechtschreibung/ebenso</url>
+            <short>&getrennt;.</short>
+            <example type="correct">Wir hätten <marker>ebenso</marker> gut in der Uni bleiben können.</example>
+            <example type="incorrect" correction="ebenso">Wir hätten <marker>eben so</marker> gut in der Uni bleiben können.</example>
+            <example type="correct">Wir hätten die Aufgabe <marker>eben</marker> so oder so lösen können.</example>
+        </rule>
         <rulegroup id="JE_UM_SO" name="Zusammen-/Getrenntschreibung: 'je ... um so (umso) ...'" default="on">
             <rule>
                 <pattern case_sensitive="no">
