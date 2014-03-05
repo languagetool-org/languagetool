@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.079 2014-02-23 00:28:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.080 2014-03-05 23:15:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -103,6 +103,33 @@ $Id: grammar.xml,v 1.079 2014-02-23 00:28:00 marcoagpinto Exp $
       <message>Substituir «à bocado» por <suggestion>há bocado</suggestion>.</message>
       <example type="incorrect">Cheguei <marker>à bocado</marker> do Algarve.</example>
       <example type="correct">Cheguei <marker>há bocado</marker> do Algarve.</example>
+    </rule>
+
+
+
+    <!-- A DENTRO adentro -->
+    <rule id="A_DENTRO" name="adentro">
+      <pattern>
+        <token>a</token>
+        <token>dentro</token>
+      </pattern>
+      <message>Substituir «a dentro» por <suggestion>adentro</suggestion>.</message>
+      <example type="incorrect">Ele atreveu-se rio <marker>a dentro</marker>.</example>
+      <example type="correct">Ele atreveu-se rio <marker>adentro</marker>.</example>
+    </rule>
+
+
+
+    <!-- A DIZER VERDADE a dizer a verdade -->
+    <rule id="A_DIZER_VERDADE" name="a dizer a verdade">
+      <pattern>
+        <token>a</token>
+        <token>dizer</token>
+        <token>verdade</token>
+      </pattern>
+      <message>Substituir «a dizer verdade» por <suggestion>a dizer a verdade</suggestion>.</message>
+      <example type="incorrect">Eles estão <marker>a dizer verdade</marker>.</example>
+      <example type="correct">Eles estão <marker>a dizer a verdade</marker>.</example>
     </rule>
 
 
