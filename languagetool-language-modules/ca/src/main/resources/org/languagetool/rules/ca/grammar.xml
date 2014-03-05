@@ -3403,11 +3403,12 @@ $Id$
                 <token postag="N.*" postag_regexp="yes"></token>
             </pattern>
             <message>Incorrecte amb valor quantitatiu o indefinit.</message>
-            <suggestion><match no="1" postag="AQ.(.).." postag_regexp="yes" postag_replace="AQ0$1P0" setpos="yes">divers</match></suggestion>
-            <suggestion><match no="1" postag="AQ.(.).." postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
-            <suggestion><match no="1" postag="AQ.(.).." postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="1" postag="AQ0(.).0" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
+            <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="AQ0$1P0" setpos="yes">divers</match></suggestion>
+            <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
+            <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
             <suggestion>diferents</suggestion>
             <example type="incorrect" correction="diverses|algunes|unes quantes|diferents">Hi ha <marker>vàries</marker> solucions.</example>
+            <example type="incorrect" correction="diversos|alguns|uns quants|diferents">Te <marker>varis</marker> subtemes</example>
             <example type="correct">Hi ha <marker>diverses</marker> solucions.</example>
             <!-- Val a dir que varis d'aquests apartaments
             sense un alambí o varis. -->
@@ -23061,7 +23062,7 @@ $Id$
                 <pattern>
                 	<token postag="DA.*" postag_regexp="yes"/>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">primavera|estiu|tardor|hivern|Nadal|Pasqua|falla|&mesos_any;</token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">primavera|estiu|tardor|hivern|Nadal|Pasqua|falla|&mesos_any;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="2"/>".</message> 
                 <suggestion><match no="3" postag="N.(..).*" postag_regexp="yes" postag_replace="DD0$10">aquest</match> <match no="3"/></suggestion>
@@ -23070,6 +23071,7 @@ $Id$
                 <example type="incorrect" correction="Aquesta tardor"><marker>La propera tardor</marker></example>
                 <example type="incorrect" correction="Aquest Nadal"><marker>El proper Nadal</marker></example>
                 <example type="correct">L'any que ve</example>
+                <example type="correct">En la propera AG</example>
             </rule>
             <rule>
                 <pattern>
@@ -24611,11 +24613,20 @@ $Id$
         </rule>
         <rule id="VIVENDA" name="vivenda">
             <pattern>
-                <token inflected="yes">vivenda</token>
+                <token>vivenda</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1.*">habitatge</match></suggestion>
+            <suggestion>habitatge</suggestion>
             <example type="incorrect" correction="habitatge">Va comprar una <marker>vivenda</marker>.</example>
+            <example type="correct">Un bon habitatge.</example>
+        </rule>
+        <rule id="VIVENDES" name="vivendes">
+            <pattern>
+                <token>vivendes</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion>habitatges</suggestion>
+            <example type="incorrect" correction="habitatges">Va comprar unes <marker>vivendes</marker>.</example>
             <example type="correct">Un bon habitatge.</example>
         </rule>
         <rule id="MEDIAR" name="mediar">
