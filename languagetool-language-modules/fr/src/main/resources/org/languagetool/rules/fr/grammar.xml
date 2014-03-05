@@ -23233,7 +23233,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">deux[-‑‐]tiers|en[-‑‐](bas|haut|dessous|deça)</token>
+          <token regexp="yes">deux[-‑‐]tiers|en[-‑‐](bas|haut|dessous|de[çc][aà])</token>
         </pattern>
         <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="deux tiers">La bouteille est aux <marker>deux-tiers</marker> pleine.</example>
@@ -23270,7 +23270,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="PLUS_VALUE" name="plus value → plus-value">
       <pattern>
-        <token>plus</token>
+        <token regexp="yes">plus|moins</token>
         <token regexp="yes">values?</token>
       </pattern>
       <message>Employez <suggestion>\1-\2</suggestion> avec un trait d’union.</message>
@@ -24090,9 +24090,9 @@ though, and has since been slightly modified)-->
       <example type="correct">La procédure est semi-automatique.</example>
     </rule>
 
-    <rule id="APOS_QU_IL" name="qu il → qu’il">
+    <rule id="APOS_QU" name="qu il → qu’il">
       <pattern>
-        <token>qu</token>
+        <token regexp="yes">qu|lorsqu|puisqu|presqu|jusqu|aujourd|entr</token>
         <token regexp="yes">[aàâeéêioôuhy].*</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
