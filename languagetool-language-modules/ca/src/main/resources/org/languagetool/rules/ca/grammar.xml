@@ -449,13 +449,26 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">dues-cents|dos-centes</token>
+                    <token>dos-centes</token>
                 </pattern>
                 <message>Error de concordança.</message>
                 <suggestion>dos-cents</suggestion>
                 <suggestion>dues-centes</suggestion>
                 <short>Error de concordança</short>
                 <example type="incorrect"><marker>Dos-centes</marker>.</example>
+                <example type="correct">Dues-centes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>dues</token>
+                    <token>-</token>
+                    <token>cents</token>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>dos-cents</suggestion>
+                <suggestion>dues-centes</suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect"><marker>Dues-cents</marker> xiquetes.</example>
                 <example type="correct">Dues-centes.</example>
             </rule>
             <rule id="UNA_I_DOS" name="una i dos/dues">
@@ -612,10 +625,11 @@ $Id$
                         <token postag="N.F.*" postag_regexp="yes"></token>
                     </unify>
                 </pattern>
-                <message>Error de concordança. <!-- Podria ser: 
-                    <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]S.*" postag_regexp="yes" /> <match no="3" postag="N.FP.*" postag_regexp="yes" /></suggestion>, 
-                    <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]P.*" postag_regexp="yes" /> <match no="3" postag="N.FS.*" postag_regexp="yes" /></suggestion> --></message>
+                <message>Error de concordança. </message>
                 <short>Error de concordança</short>
+                <!-- 
+                    <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]S.*" postag_regexp="yes" /> <match no="3" postag="N.FP.*" postag_regexp="yes" /></suggestion>, 
+                    <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]P.*" postag_regexp="yes" /> <match no="3" postag="N.FS.*" postag_regexp="yes" /></suggestion> -->
                 <example type="incorrect"><marker>Els nostres culleres</marker>.</example>
                 <example type="correct">Les nostres culleres.</example>
                 <example type="correct">al meu nou i espectacular ordinador</example>
