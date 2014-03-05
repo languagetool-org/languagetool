@@ -2072,6 +2072,14 @@ $Id$
                         <example type="correct">W przypadku reprezentacji abstrakcyjnych w ujęciu pluralistycznym (i klasycznym, czysto symbolicznym) można mówić o nośniku informacji semantycznych, który nie informuje o żadnym czasoprzestrzennym przedmiocie, ale ma strukturę, która pozwala na przeprowadzanie różnych operacji obliczeniowych i modyfikuje gotowość do działania.</example>
 				</rule>
 				<rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
+                        <antipattern>
+                            <unify>
+                                <feature id="case"/><feature id="number"/><feature id="gender"/>
+                                <token postag="(?:subst|depr|ger|adj|pact|ppas).*" postag_regexp="yes"/>
+                                <unify-ignore><marker><token>,</token></marker></unify-ignore>
+                                <token postag="(?:subst|depr|ger|adj|pact|ppas).*" postag_regexp="yes"><exception postag="verb.*" postag_regexp="yes"/></token>
+                            </unify>
+                        </antipattern>
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
@@ -2084,6 +2092,8 @@ $Id$
 						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="2"></match> <match include_skipped="following" no="2"></match> <match no="5"></match></suggestion>.</message>
 						<example correction="Poza tym miałem" type="incorrect"><marker>Poza tym, miałem</marker> rację.</example>
 						<example type="correct">Poza tym, jak już mówiłem, miałem rację.</example>
+                        <example type="correct">Dla bezdomnych rodzin republikańskie władze Rosji, Ukrainy, Mołdawii przygotowały koce.</example>
+                        <example type="correct">Dla mnie to przede wszystkim głupi, nierozgarnięty chłopak.</example>
 				</rule>
 				<rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>
@@ -4229,9 +4239,9 @@ $Id$
 				<rule id="JAKIS_DZIEWCZYN" name="„jakiś” + dopełniacz l.mn. (jakichś)">
 						<pattern>
 								<marker>
-										<token>jakiś</token>
+										<token>jakiś<exception scope="previous">taki</exception></token>
 								</marker>
-								<token postag="subst:pl.*gen.*" postag_regexp="yes"><exception postag="subst:sg:nom.*" postag_regexp="yes"></exception></token>
+								<token postag="subst:pl.*gen.*" postag_regexp="yes"><exception postag="subst:sg:nom.*" postag_regexp="yes"></exception><exception>tam</exception></token>
 						</pattern>
 						<message>Zaimek „jakiś” w dopełniaczu liczby mnogiej ma postać: <suggestion>jakichś</suggestion>.</message>
 						<short>Błąd składniowy</short>

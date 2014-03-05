@@ -381,6 +381,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="remove"><wd lemma="gałęzić"/></disambig>
     </rule>
 
+    <rule name="jaka to nie jaka" id="JAKA_NIE_JAKA">
+        <pattern>
+            <token>,</token>
+            <marker><token>jaka</token></marker>
+        </pattern>
+        <disambig action="remove" postag="subst.*"/>
+    </rule>
+
     <rule name="jak to nie jaka" id="JAK_NIE_JAKA">
         <pattern>
             <token>jak</token>
@@ -1891,6 +1899,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="subst:sg:gen:f"></disambig>
     </rule>
 
+    <rule id="OPIEKA_SUBST" name="opieka jako rzeczownik">
+        <pattern>
+            <marker><token regexp="yes">opiek[ąa]</token></marker>
+            <token>nad</token>
+            <token regexp="yes" inflected="yes">dziecko|potomstwo|zabytek|pacjent|bezdomny|wnuk|klient|starszy|matka|kobieta|człowiek|on|Polonia</token>
+        </pattern>
+        <disambig action="remove" postag="verb.*"/>
+        <example type="ambiguous" inputform="opieka[opieka/subst:sg:nom:f,opiekać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                 outputform="opieka[opieka/subst:sg:nom:f]">Obrona, <marker>opieka</marker> nad potomstwem</example>
+    </rule>
+
     <rule id="PIEKLA_SUBST" name="piekła jako genetiwus">
         <pattern>
             <token regexp="yes" inflected="yes">obawa|dno|obraz|wizja|przedsionek|przedsmak|krąg|istnienie|obraza|otchłań|wrota|brama|środek</token>
@@ -2318,6 +2337,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="subst:sg:gen:m1"/>
     </rule>
 
+    <rule id="mialem" name="miałem + acc">
+        <pattern>
+            <marker><token>miałem</token></marker>
+            <token postag=".*acc.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig postag="verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl"/>
+        <example type="ambiguous" inputform="miałem[miał/subst:sg:inst:m3,mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]"
+                 outputform="miałem[mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]">Oczywiście, <marker>miałem</marker> rację.</example>
+        <example type="untouched">Nie bawię się miałem węglowym.</example>
+    </rule>
+
     <rule id="GO" name="go to nie rzeczownik">
         <pattern>
             <token>go<exception scope="previous">w</exception><exception scope="previous" postag="SENT_START"></exception></token>
@@ -2598,7 +2628,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
             <unify>
                 <feature id="number"/>
-                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]aki</exception></token>
+                <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception></token>
                 <token postag="verb:(?:fin|bedzie):.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
             </unify>
             </marker>
@@ -3298,6 +3328,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Martwię się o nie.</example>
     </rule>
 
+    <rule id="NIE_NIEPPRON" name="„nie” to nie zaimek, jeśli bez przyimka">
+        <pattern>
+            <token><exception postag="prep.*acc.*" postag_regexp="yes"></exception></token>
+            <marker><token>nie</token></marker>
+        </pattern>
+        <disambig action="remove" postag="ppron3.*:praep"/>
+        <example type="untouched">Chodziło o nie.</example>
+        <example type="ambiguous" inputform="nie[nie/conj,nie/qub,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:praep]"
+                 outputform="nie[nie/conj,nie/qub]">To <marker>nie</marker> przelewki.</example>
+    </rule>
+
     <rule id="GORZEJ_OD" name="gorzej jako przysłówek">
         <pattern>
             <marker>
@@ -3680,6 +3721,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker><token>meczy</token></marker>
         </pattern>
         <disambig postag="meczeć/verb:fin:sg:ter:imperf:nonrefl"/>
+    </rule>
+
+    <rule id="TO_NIE_ZARTY" name="to nie żarty">
+        <pattern>
+            <token>to</token>
+            <marker>
+            <token postag="qub">nie</token>
+            <token postag="subst:pl:nom:m3">żarty</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="żarty[zrzeć/ppas:sg:acc:m3:imperf:aff,zrzeć/ppas:sg:nom.voc:m1.m2.m3:imperf:aff,żart/subst:pl:acc:m3,żart/subst:pl:nom:m3,żart/subst:pl:voc:m3,żarty/adj:sg:acc:m3:pos,żarty/adj:sg:nom.voc:m1.m2.m3:pos,żreć/ppas:sg:acc:m3:imperf:aff,żreć/ppas:sg:nom.voc:m1.m2.m3:imperf:aff]"
+                 outputform="żarty[żart/subst:pl:nom:m3]">Kognitywistyka to nie <marker>żarty</marker>.</example>
+    </rule>
+
+    <rule id="ZYCIE_NIE_ZYC" name="życie to nie gerundium od żyć">
+        <pattern>
+            <marker><token>życie</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="żyć"/></disambig>
     </rule>
 
     <rulegroup id="OBCE_APOSTROFY" name="odmiana nazwisk i nazw obcych">
