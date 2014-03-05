@@ -89,13 +89,13 @@ $Id$
 		</unification>
 		<unification feature="person">
 				<equivalence type="pri">
-						<token postag=".*:pri.*"></token>
+						<token postag=".*:pri.*" postag_regexp="yes"></token>
 				</equivalence>
 				<equivalence type="sec">
-						<token postag=".*:sec:.*"></token>
+						<token postag=".*:sec:.*" postag_regexp="yes"></token>
 				</equivalence>
 				<equivalence type="ter">
-						<token postag=".*:ter:.*"></token>
+						<token postag=".*:ter:.*" postag_regexp="yes"></token>
 				</equivalence>
 		</unification>
 		<phrases>
@@ -153,7 +153,14 @@ $Id$
                         </unify>
                     </antipattern>
                     <rule>
-								<pattern>
+								<antipattern>   <!-- czas zaprzeszły -->
+                                    <unify>
+                                        <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                        <token postag="verb:praet.*" postag_regexp="yes"/>
+                                        <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                                    </unify>
+								</antipattern>
+                                <pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
 										<phraseref idref="INTERPUNKCJA"></phraseref>
@@ -174,12 +181,21 @@ $Id$
                                 <example type="correct">Od wieków najwyższy arcykapłan zwykł był witać lud pozdrowieniem.</example>
                                 <example type="correct">Jurek wygląda wypisz wymaluj jak babcia.</example>
                                 <example type="correct">I byłby tego niezawodnie dokonał, pewno bardzo pięknie.</example>
+                                <example type="correct">Zwykł był chadzać do parku.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
-								<pattern>
-										<token postag="verb:winien.*" postag_regexp="yes"><exception>nierad</exception><exception inflected="yes">gotowy</exception></token>
-										<token skip="-1"><exception regexp="yes" scope="current">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście</exception><exception postag="interp:comma|comp:comma" postag_regexp="yes" scope="current"></exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
+								<antipattern>
+                                    <unify>
+                                        <feature id="number"/><feature id="gender"/>
+                                        <token skip="7" inflected="yes">powinien<exception scope="next" postag="verb:(?:pot|fin|bedzie|imp.|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                                        <marker>
+                                            <token inflected="yes" postag_regexp="yes" postag="verb:praet.*">być</token>
+                                        </marker>
+                                    </unify>
+                                </antipattern>
+                                <pattern>
+										<token skip="-1" postag="verb:winien.*" postag_regexp="yes"><exception>nierad</exception><exception inflected="yes">gotowy</exception><exception postag="interp:comma|comp:comma" postag_regexp="yes" scope="current"></exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
 										<phraseref idref="INTERPUNKCJA"></phraseref>
 								</pattern>
@@ -188,20 +204,9 @@ $Id$
 								<example type="incorrect">Zdanie człowieka, który <marker>powinien szorować gary nie liczy się w naszej organizacji.</marker></example>
 								<example type="correct">Co z tego, że powinien, nic nie zrobił!</example>
 								<example type="correct">Bank powinien był już wtedy interweniować.</example>
-
-						</rule>
-						<!--powinien + exception: powinien był-->
-						<rule>
-								<pattern>
-										<token postag="verb:winien.*" postag_regexp="yes"></token>
-										<token regexp="yes" skip="-1">był|była|byłem|byłaś|byłeś|byli|były|byliśmy|byliście<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
-										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
-								</pattern>
-								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
-								<short>Błąd interpunkcyjny</short>
 								<example type="incorrect">Zdanie człowieka, który <marker>powinien był szorować gary nie liczy się w naszej organizacji.</marker></example>
 								<example type="correct">Bank powinien był już wtedy interweniować.</example>
+                                <example type="incorrect">Chociaż wiedzieć to <marker>powinien było mu to obojętne.</marker></example>
 						</rule>
 						<rule>
 								<pattern>
@@ -235,9 +240,18 @@ $Id$
                               <example type="correct">Rad nierad poszedłem do szkoły.</example>
                         </rule>
 						<rule>
-								<pattern>
+                            <antipattern> <!-- będzie ... dokonywał -->
+                                    <unify>
+                                        <feature id="number"/>
+                                        <token skip="10" postag="verb:bedzie.*" postag_regexp="yes"><exception scope="next" postag="verb:(?:pot|fin|bedzie|imp.|pred|winien|inf).*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                                        <marker>
+                                        <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
+                                        </marker>
+                                    </unify>
+                            </antipattern>
+                            <pattern>
 										<token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
-										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
+										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
 										<phraseref idref="INTERPUNKCJA"></phraseref>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -247,22 +261,10 @@ $Id$
 								<example type="correct">Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
 								<example type="correct">Trzeba będzie to zrobić.</example>
 								<example type="incorrect">Marek <marker>będzie szukać okularów a Jurek pomoże Romanowi odrabiać lekcje.</marker></example>
-						</rule>
-              <rule>
-                <pattern>                
-                    <token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="3">będ.*<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
-                    <token postag="verb:inf.*" postag_regexp="yes" skip="-1"><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
-                    <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/></token>                
-                    <phraseref idref="INTERPUNKCJA"></phraseref>
-                </pattern>
-                <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
-                <short>Błąd interpunkcyjny</short>
-                <example type="correct">Marek pomagał będzie Jurkowi odrabiać lekcje za Romana.</example>
-                <example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
-                <example type="correct">Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
-                <example type="correct">Trzeba będzie to zrobić.</example>
-                <example type="incorrect">Partie, które oni <marker>będą popierać przegrywały wybory.</marker></example>
-            </rule>
+                                <example type="incorrect">Nie wiedząc, czy on tam <marker>będzie wczoraj pomógł mu bardzo.</marker></example>
+                                <example type="incorrect">Nie wiedząc, czy on tam <marker>będzie wczoraj pomagali mu bardzo.</marker></example>
+                                <example type="incorrect">Partie, które oni <marker>będą popierać przegrywały wybory.</marker></example>
+                        </rule>
 						<rule>
 								<pattern>
 										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|trzeba|można|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
@@ -314,7 +316,7 @@ $Id$
 								<example type="incorrect">Marek <marker>może być marszałkiem pozostając w partii opozycyjnej.</marker></example>
 						</rule>
 						<rule>
-								<pattern case_sensitive="no">
+								<pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|conj|comp|prep.*|qub|adv.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token skip="-1">może<exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|comp:comma" postag_regexp="yes" scope="next"></exception><exception scope="previous">być</exception></token>
 										<token postag="verb:inf.*" postag_regexp="yes" skip="-1"></token>
@@ -3661,6 +3663,19 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+                <rule id="KTOS_KTOREGO" name="„ktoś, którego” (czyjego, kogo)">
+                    <pattern>
+                        <token>ktoś</token>
+                        <token min="0" max="1">,</token>
+                        <marker>
+                            <token>którego</token>
+                        </marker>
+                    </pattern>
+                    <message>Błąd gramatyczny. W zależności od kontekstu powinno być <suggestion>czyjego</suggestion> lub <suggestion>kogo</suggestion>.</message>
+                    <short>Błąd gramatyczny</short>
+                    <example type="incorrect">Czuła, że nawiedził ją ktoś, <marker>którego</marker> pochodzenia mogła się tylko domyślać.</example>
+                    <example type="correct">Czuła, że nawiedził ją ktoś, <marker>czyjego</marker> pochodzenia mogła się tylko domyślać.</example>
+                </rule>
 				<rule id="BEDZIE_POTRAFIC" name="„będzie potrafić” (będzie umieć)">
 						<pattern>
 								<token postag="verb:bedzie.*" postag_regexp="yes"></token>
