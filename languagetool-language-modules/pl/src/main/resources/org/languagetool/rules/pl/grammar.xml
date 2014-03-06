@@ -152,6 +152,15 @@ $Id$
                             </marker>
                         </unify>
                     </antipattern>
+                    <antipattern> <!-- dokonałbym ... był -->
+                        <unify>
+                            <feature id="number"/><feature id="gender"/>
+                            <token skip="10" inflected="yes" postag="verb:pot.*" postag_regexp="yes"><exception scope="next" postag="verb:(?:pot|fin|bedzie|imp.|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                            <marker>
+                                <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token>
+                            </marker>
+                        </unify>
+                    </antipattern>
                     <rule>
 								<antipattern>   <!-- czas zaprzeszły -->
                                     <unify>
@@ -168,6 +177,18 @@ $Id$
                                     <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
                                 </unify> <!-- Wynalazł był znakomite miejsce - „znakomite” to biernik. -->
                                     <token postag="(?:adj|ppas|subst).*(acc|gen|dat).*" postag_regexp="yes"></token>
+                                </antipattern>
+                                <antipattern>   <!-- czas zaprzeszły: był władał (szyk przestawny) -->
+                                    <unify>
+                                    <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                        <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token>
+                                        <marker>
+                                            <token postag="verb:praet.*" postag_regexp="yes"/>
+                                        </marker>
+                                    </unify>
+                                </antipattern>
+                                <antipattern case_sensitive="yes">
+                                    <token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/></token>
                                 </antipattern>
                                 <pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
@@ -193,6 +214,9 @@ $Id$
                                 <example type="correct">I byłby tego niezawodnie dokonał, pewno bardzo pięknie.</example>
                                 <example type="correct">Zwykł był chadzać do parku.</example>
                                 <example type="correct">Wynalazł był znakomite miejsce.</example>
+                                <example type="correct">Każdy inny, prócz naszego bohatera, byłby się był przeląkł.</example>
+                                <example type="correct">Ponieważ powiedziałeś, że gdybyś był słuchał rad moich, uniknąłbyś tego wypadku...</example>
+                                <example type="correct">Gdyż zaledwie wylądowałam w Osunie, zaraz doszły mnie o nim cuda i dziwy.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>

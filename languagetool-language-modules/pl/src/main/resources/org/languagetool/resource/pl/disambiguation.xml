@@ -3556,6 +3556,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="untouched">On może być debilem.</example>
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]" outputform="może[może/qub]">On być <marker>może</marker> jest debilem</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>może</token>
+                </marker>
+                <token postag="verb:.*(?:sg|pl|imp.).*" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="qub"></disambig>
+            <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                     outputform="może[może/qub]">Byłoby się to <marker>może</marker> powiodło.</example>
+        </rule>
     </rulegroup>
 
 
@@ -4241,12 +4252,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
 
+    <rule id="CO_SIE_ZOWIE" name="co się zowie - bez przecinka">
+        <pattern>
+            <marker>
+            <token>co</token>
+            <token>się</token>
+            <token>zowie</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
 
     <rule id="NA_CZYM_SWIAT_STOI" name="kląć/przeklinać na czym świat stoi - bez przecinka">
         <pattern>
             <marker><token>na</token>
             <token>czym</token>
-            <token>świat</token>
+            <token regexp="yes">świat|ziemia</token>
             <token>stoi</token>
             </marker>
         </pattern>
