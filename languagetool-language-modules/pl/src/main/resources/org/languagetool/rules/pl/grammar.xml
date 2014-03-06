@@ -838,6 +838,12 @@ $Id$
                                     <token regexp="yes">było|byłoby</token>
                                     <token postag="pred"/>
                                 </antipattern>
+                                <antipattern>
+                                    <marker>
+                                        <token skip="-1" postag="verb:inf.*" postag_regexp="yes" regexp="yes">(?:po)?móc|s?próbować<exception scope="next" regexp="yes">&interp;</exception></token>
+                                        <token postag_regexp="yes" postag="verb:inf.*"/>
+                                    </marker>
+                                </antipattern>
                                 <pattern>
 										<token inflected="yes" regexp="yes" skip="-1"><exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>by|żeby|aby|ażeby|iżby</token>
 										<token postag="verb:inf.*" postag_regexp="yes" skip="-1">
@@ -861,6 +867,7 @@ $Id$
                                 <example type="incorrect">Trochę nie dojeść, trochę nie dopić, ale <marker>ażeby zostać dobrym wojownikiem wszystko to znieść</marker> trzeba.</example>
                                 <example type="correct">Wolno narazić dwóch przyjaciół na to, aby się znienawidzili i być może pozabijali.</example>
                                 <example type="correct">Czy to ziemia jest rajem, żeby od niej wszystkiego dobrego razem wymagać było można!</example>
+                                <example type="correct">Ani mu przez myśl nie przeszło, by próbować się bronić.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
