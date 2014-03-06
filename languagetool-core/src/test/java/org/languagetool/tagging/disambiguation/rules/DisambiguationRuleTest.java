@@ -35,7 +35,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.XMLValidator;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.patterns.PatternTestTools;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
 import org.languagetool.tools.StringTools;
@@ -72,6 +74,7 @@ public class DisambiguationRuleTest extends TestCase {
               rule.getId(), rule.getSubId(), lang);
         }
         testDisambiguationRulesFromXML(rules, languageTool, lang);
+        System.out.println(rules.size() + " rules tested.");
       }
     }
   }
