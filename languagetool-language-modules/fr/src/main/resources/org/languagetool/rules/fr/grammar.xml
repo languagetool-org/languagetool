@@ -4544,6 +4544,25 @@ though, and has since been slightly modified)-->
         <example type="correct">Sa chemise à carreaux détonne avec son pantalonr rayé.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="PLAIN_PIED" name="plein-pied → plain-pied">
+      <rule>
+        <pattern>
+          <token regexp="yes">pl[ae]in</token>
+          <token regexp="yes">pieds?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>plain-\2</suggestion> ?</message>
+        <example type="incorrect" correction="plain-pied">Une maison de <marker>plein pied</marker>.</example>
+        <example type="correct">Une maison de plain-pied.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">plein[-‑‐]pieds?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(..)." regexp_replace="$1a"/></suggestion> ?</message>
+        <example type="incorrect" correction="plain-pied">Une maison de <marker>plein-pied</marker>.</example>
+        <example type="correct">Une maison de plain-pied.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -8647,7 +8666,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>vieux</token>
         <and>
-          <token regexp="yes">[aeiouh].*</token>
+          <token regexp="yes">[aâeéèêioœuh].*</token>
           <token postag="[NJ] m s" postag_regexp="yes"/>
         </and>
       </pattern>
@@ -9191,7 +9210,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token>j</token>
             <token regexp="yes">[’´'‛′‘]</token>
-            <token postag="V.* 1 s" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
+            <token postag="V.* 1 s" postag_regexp="yes" regexp="yes">[aâàeéèêioœuyh].*</token>
             <token>pas</token>
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
@@ -9206,7 +9225,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token>t<exception scope="previous">ne</exception></token>
             <token regexp="yes">[’´'‛′‘]</token>
-            <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
+            <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">[aàâeéèêioœuyh].*</token>
             <token>pas</token>
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
@@ -9221,7 +9240,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="Z.*|R pers suj.*" postag_regexp="yes"/>
           <marker>
-            <token postag="V.*" postag_regexp="yes" regexp="yes">[aeiouyh].*</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[aàâeéêioœuyh].*</token>
             <token>pas</token>
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
@@ -24093,7 +24112,7 @@ though, and has since been slightly modified)-->
     <rule id="APOS_QU" name="qu il → qu’il">
       <pattern>
         <token regexp="yes">qu|lorsqu|puisqu|presqu|jusqu|aujourd|entr</token>
-        <token regexp="yes">[aàâeéêioôuhy].*</token>
+        <token regexp="yes">[aàâeéêioôœuhy].*</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
       <example type="incorrect" correction="qu’il">Je pense <marker>qu il</marker> ment.</example>
