@@ -189,26 +189,28 @@ public class CatalanWordTokenizer extends WordTokenizer {
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */
   private List<String> wordsToAdd(String s) {
     final List<String> l = new ArrayList<>();
-    if (!s.isEmpty()) {
-      if (!s.contains("-")) {
-        l.add(s);
-      } else {
-        // words containing hyphen (-) are looked up in the dictionary
-        if (!speller.isMisspelled(s)) {
-          l.add(s);
-        }
-        // words with "ela geminada" with typo: col-legi (col·legi)
-        else if (!speller.isMisspelled(s.replace("l-l", "l·l"))) {
+    synchronized (this) { //speller is not thread-safe
+      if (!s.isEmpty()) {
+        if (!s.contains("-")) {
           l.add(s);
         } else {
-          // if not found, the word is split
-          final StringTokenizer st2 = new StringTokenizer(s, "-", true);
-          while (st2.hasMoreElements()) {
-            l.add(st2.nextToken());
+          // words containing hyphen (-) are looked up in the dictionary
+          if (!speller.isMisspelled(s)) {
+            l.add(s);
+          }
+          // words with "ela geminada" with typo: col-legi (col·legi)
+          else if (!speller.isMisspelled(s.replace("l-l", "l·l"))) {
+            l.add(s);
+          } else {
+            // if not found, the word is split
+            final StringTokenizer st2 = new StringTokenizer(s, "-", true);
+            while (st2.hasMoreElements()) {
+              l.add(st2.nextToken());
+            }
           }
         }
       }
+      return l;
     }
-    return l;
   }
 }
