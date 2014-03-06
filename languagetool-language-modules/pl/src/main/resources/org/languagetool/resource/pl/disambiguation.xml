@@ -630,6 +630,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Ona jest gruba.</example>
     </rule>
 
+    <rulegroup id="nowa_adj" name="nowy/a/e jako przymiotnik">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                    <token postag="adj.*" postag_regexp="yes" inflected="yes" regexp="yes">nowy|pierwszy</token>
+                    <token postag="subst.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="nową[nowa/subst:sg:acc:f,nowa/subst:sg:inst:f,nowy/adj:sg:acc:f:pos,nowy/adj:sg:inst:f:pos]"
+                     outputform="nową[nowy/adj:sg:acc:f:pos]">Obmyślał był <marker>nową</marker> zdradę.</example>
+        </rule>
+    </rulegroup>
+
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
         <pattern>
             <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
@@ -690,7 +705,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </pattern>
             <disambig action="unify"/>
             <example type="untouched">Rozdział się pospiesznie.</example>
-            <example type="ambiguous" inputform="rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="rozdział[rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]">Pierwszy <marker>rozdział</marker> opisuje przyrodę Kaukazu.</example>
+            <example type="ambiguous" inputform="rozdział[rozdziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]" outputform="rozdział[rozdział/subst:sg:acc:m3,rozdział/subst:sg:nom:m3]">Drugi <marker>rozdział</marker> opisuje przyrodę Kaukazu.</example>
         </rule>
     </rulegroup>
 
@@ -2016,6 +2031,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="subst:sg:gen:f"></disambig>
     </rule>
 
+    <rule id="BYLA_SERIO" name="być serio">
+        <pattern>
+        <token inflected="yes">być</token>
+        <marker><token>serio</token></marker>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="ambiguous" inputform="serio[seria/subst:sg:voc:f,serio/adj:pl:acc:m1.p1:pos,serio/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,serio/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,serio/adj:pl:gen:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,serio/adj:pl:inst:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,serio/adj:pl:loc:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,serio/adj:pl:nom.voc:m1.p1:pos,serio/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,serio/adj:sg:acc:f:pos,serio/adj:sg:acc:m1.m2:pos,serio/adj:sg:acc:m3:pos,serio/adj:sg:acc:n1.n2:pos,serio/adj:sg:dat:f:pos,serio/adj:sg:dat:m1.m2.m3.n1.n2:pos,serio/adj:sg:gen:f:pos,serio/adj:sg:gen:m1.m2.m3.n1.n2:pos,serio/adj:sg:inst:f:pos,serio/adj:sg:inst:m1.m2.m3.n1.n2:pos,serio/adj:sg:loc:f:pos,serio/adj:sg:loc:m1.m2.m3.n1.n2:pos,serio/adj:sg:nom.voc:f:pos,serio/adj:sg:nom.voc:m1.m2.m3:pos,serio/adj:sg:nom.voc:n1.n2:pos,serio/adv]"
+                 outputform="serio[serio/adv]">To było <marker>serio</marker>.</example>
+    </rule>
+
     <rule id="BYLA_INST" name="była + przymiotnik/czasownik w narzędniku">
         <pattern>
             <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
@@ -2061,7 +2086,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rulegroup id="WINNY_JEST" name="winny + czasownik sg => przymiotnik">
         <rule>
         <pattern>
-            <token skip="-1" postag="adj:sg.*" postag_regexp="yes">winny<exception scope="next" postag="verb:inf.*" postag_regexp="yes"/></token>
+            <token skip="-1" postag="adj:sg.*" postag_regexp="yes">winny<exception scope="next" postag="verb:inf.*" postag_regexp="yes"/><exception scope="next" regexp="yes">&interp;</exception></token>
             <token postag="verb.*sg:.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
@@ -2081,24 +2106,44 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule id="BYC_ADJ_ACC_NOM" name="być + przymiotnik orzecznikowy -> mianownik">
+    <rulegroup id="BYC_ADJ_ACC_NOM" name="być + przymiotnik orzecznikowy -> mianownik">
+        <rule>
         <pattern>
             <unify><feature id="number"/>
                 <marker>
                 <token inflected="yes">być</token>
                 <and>
-                    <token postag="adj:.*nom.*" postag_regexp="yes"/>
-                    <token postag="adj:.*acc.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|ppas):.*nom.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|ppas):.*acc.*" postag_regexp="yes"/>
                 </and>
             </marker>
             </unify>
             <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
         </pattern>
-        <disambig action="unify" postag="adj.*nom.*"/>
+        <disambig action="unify"/>
         <example type="ambiguous" inputform="winny[winny/adj:sg:acc:m3:pos,winny/adj:sg:nom.voc:m1.m2.m3:pos]"
                  outputform="winny[winny/adj:sg:nom.voc:m1.m2.m3:pos]">On był <marker>winny</marker>.</example>
         <example type="untouched">On był niewinną ofiarą.</example>
     </rule>
+        <rule>
+            <pattern>
+                <unify><feature id="number"/>
+                    <marker>
+                        <token inflected="yes">być</token>
+                        <and>
+                            <token postag="ppas:.*nom.*" postag_regexp="yes"/>
+                            <token postag="ppas:.*acc.*" postag_regexp="yes"/>
+                        </and>
+                    </marker>
+                </unify>
+                <token inflected="yes">przez</token>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="zaniedbany[zaniedbany/adj:sg:acc:m3:pos,zaniedbany/adj:sg:nom.voc:m1.m2.m3:pos,zaniedbać/ppas:sg:acc:m3:perf:aff,zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]"
+                     outputform="zaniedbany[zaniedbać/ppas:sg:nom.voc:m1.m2.m3:perf:aff]">On był <marker>zaniedbany</marker> przez rodziców.</example>
+            <example type="untouched">On był niewinną ofiarą.</example>
+        </rule>
+    </rulegroup>
 
     <rule id="VERBFIN_FUT" name="forma przeszła po „będzie”">
         <pattern>
@@ -2108,7 +2153,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
             </unify>
         </pattern>
-        <disambig action="unify"></disambig>
+        <disambig action="unify"/>
         <example type="ambiguous" inputform="jedli[jedla/subst:pl:gen:f,jedla/subst:sg:dat:f,jedla/subst:sg:gen:f,jedla/subst:sg:loc:f,jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]"
                  outputform="jedli[jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]">Będziemy <marker>jedli</marker>.</example>
     </rule>
@@ -2679,6 +2724,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token postag_regexp="yes" postag=".*gen.*"><exception postag=".*acc.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove"><wd lemma="pełnić"/></disambig>
+    </rule>
+
+    <rule id="RADZI_BY_INF" name="radzi jako pred">
+        <pattern>
+            <marker>
+            <token postag="adj:pl:nom:m1.p1:pos">radzi</token>
+            <token skip="4" postag="qub">by</token>
+            </marker>
+            <token postag="verb:inf.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="filterall"></disambig>
     </rule>
 
     <rule id="PREPARE_NOM_ACC_F" name="przygotowanie szukanie orzeczenia dla r. żeńskiego">
@@ -3707,7 +3763,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="add"><wd pos="conj" lemma="że"/></disambig>
     </rule>
-    
+
+    <rule name="żebysie" id="zebysie">
+        <pattern>
+            <token regexp="yes"><exception postag="comp"/>(?:żeby|aby|ażeby|iżby)(?:ś|śmy|ście|m)</token>
+        </pattern>
+        <disambig action="add"><wd pos="comp" lemma="by"/></disambig>
+    </rule>
+
     <rulegroup id="PIECIU" name="Pięciu jako gerundium">
     <rule>
     	<pattern>
@@ -3779,6 +3842,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">To jest można królowa.</example>
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> by to zrobić.</example>
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> było to zrobić.</example>
+    </rule>
+
+    <rule id="aby_qub" name="aby jako kublik">
+        <pattern>
+        <token>czy</token>
+        <token postag="ppron.*" postag_regexp="yes"/>
+        <marker><token>aby</token></marker>
+        </pattern>
+        <disambig postag="qub"></disambig>
+        <example type="ambiguous" inputform="aby[aby/comp,aby/comp:comma,aby/qub]"
+                 outputform="aby[aby/qub]">— Czy oni <marker>aby</marker> umieją chodzić około roli?</example>
     </rule>
 
     <rulegroup name="chociaż/choć jako kublik" id="CHOC">

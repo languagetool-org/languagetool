@@ -109,7 +109,7 @@ public class JLanguageToolTest extends TestCase {
         "BYC_ADJ_ACC_NOM:1 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
         "SUBST_NOM_VOC_VERB:2 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
         "\n" +
-        "BYC_ADJ_ACC_NOM:1 wskazane[wskazany/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:sg:acc:n1.n2:pos,wskazany/adj:sg:nom.voc:n1.n2:pos,wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff,wskazać/ppas:sg:nom.acc.voc:n1.n2:perf:aff] -> wskazane[wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n",
+        "BYC_ADJ_ACC_NOM:1 wskazane[wskazany/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:sg:acc:n1.n2:pos,wskazany/adj:sg:nom.voc:n1.n2:pos,wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff,wskazać/ppas:sg:nom.acc.voc:n1.n2:perf:aff] -> wskazane[wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff]\n",
         sent.getAnnotations());
 
   }

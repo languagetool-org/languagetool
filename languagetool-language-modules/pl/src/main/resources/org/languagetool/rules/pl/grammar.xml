@@ -159,8 +159,16 @@ $Id$
                                         <token postag="verb:praet.*" postag_regexp="yes"/>
                                         <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
                                     </unify> <!-- władał był niemiecki - tu de facto trzeba by mieć dwuelementowy wzorzec ze znakiem przestankowym?... -->
-                                        <token><exception postag="adj.*(?:nom|inst).*" postag_regexp="yes"/></token>
+                                        <token><exception postag="(?:adj|ppas).*(?:nom|inst).*" postag_regexp="yes"/></token>
 								</antipattern>
+                                <antipattern>   <!-- czas zaprzeszły -->
+                                <unify>
+                                    <feature id="number"/><feature id="gender"/><feature id="person"/>
+                                    <token postag="verb:praet.*" postag_regexp="yes"/>
+                                    <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                                </unify> <!-- Wynalazł był znakomite miejsce - „znakomite” to biernik. -->
+                                    <token postag="(?:adj|ppas|subst).*(acc|gen|dat).*" postag_regexp="yes"></token>
+                                </antipattern>
                                 <pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
@@ -184,6 +192,7 @@ $Id$
                                 <example type="correct">Jurek wygląda wypisz wymaluj jak babcia.</example>
                                 <example type="correct">I byłby tego niezawodnie dokonał, pewno bardzo pięknie.</example>
                                 <example type="correct">Zwykł był chadzać do parku.</example>
+                                <example type="correct">Wynalazł był znakomite miejsce.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -211,9 +220,15 @@ $Id$
                                 <example type="incorrect">Chociaż wiedzieć to <marker>powinien było mu to obojętne.</marker></example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token postag="pred"/>
+                                    <marker>
+                                    <token regexp="yes">było(?:by)?</token>
+                                    </marker>
+                                </antipattern>
 								<pattern>
 										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
-										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception></token>
+										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
 										<phraseref idref="INTERPUNKCJA"></phraseref>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
@@ -759,18 +774,24 @@ $Id$
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZEBY" name="Brak przecinka przed „żeby”, „aby”, „ażeby”, „iżby”">
 						<rule>
-								<pattern>
+								<antipattern>
+                                    <token>,</token>
+                                    <token>tak</token>
+                                    <token regexp="yes">(?:żeby|aby|ażeby|iżby)(?:ś|śmy|ście|m)?</token>
+								</antipattern>
+                                <pattern>
 										<token negate="yes" regexp="yes">&interp;|chyba|nawet<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
-										<token regexp="yes">(żeby|aby|ażeby|iżby)(ś|śmy|ście|m)*</token>
+										<token postag="comp" regexp="yes">(?:żeby|aby|ażeby|iżby)(?:ś|śmy|ście|m)?</token>
 								</pattern>
 								<message>Przed tym spójnikiem stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Przemysław wstąpił do domu, żeby spryskać się Przemysławką.</example>
 								<example correction="domu, żeby" type="incorrect">Przemysław wstąpił do <marker>domu żeby</marker> spryskać się Przemysławką.</example>
+                                <example type="correct">Oddalam się z głośnym tupaniem i wrzawą, tak iżby mnie posłyszał człek o dużej stopie…</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes">,<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 										<token regexp="yes">że|iż|chyba|jak|tylko|nawet</token>
 										<token inflected="yes" regexp="yes">żeby|aby|ażeby|iżby</token>
 								</pattern>
@@ -791,9 +812,9 @@ $Id$
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|tak|chyba|gdzie|może|cóż|co|.*kolwiek|próżno|długo|kogo</token>
+												<token negate="yes" regexp="yes">&interp;|tak|chyba|gdzie|może|cóż|.*kolwiek|próżno|długo|kogo</token>
 												<token inflected="yes" skip="-1" postag="comp">by
-                                                    <exception scope="previous" regexp="yes" inflected="yes">rad|który</exception>
+                                                    <exception scope="previous" regexp="yes" inflected="yes">rad|który|co</exception>
                                                     <exception scope="previous" postag="SENT_START|conj|comp|pred|adv.*|verb:praet.*|verb:imps:.*" postag_regexp="yes"/>
                                                     <exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception>
                                                     <exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma|pred" postag_regexp="yes" scope="next"></exception></token>
@@ -811,6 +832,7 @@ $Id$
                                 <example type="correct">Od godziny już by tu być powinny.</example>
                                 <example type="correct">O wojnach mowy by nawet być nie mogło…</example>
                                 <example type="correct">Cały tydzień zastanawiali się, kogo by z nią zaprosić.</example>
+                                <example type="correct">Nie wiem, do czego by ją przyrównać, chyba do bogini.</example>
                                 <!-- błąd ortograficzny, ale na to jest inna reguła -->
                                 <example type="correct">I mnie się zdaje, że należało by strzec się każdego i wszystkiego.</example>
 						</rule>
@@ -840,12 +862,22 @@ $Id$
                                 </antipattern>
                                 <antipattern>
                                     <marker>
-                                        <token skip="-1" postag="verb:inf.*" postag_regexp="yes" regexp="yes">(?:po)?móc|s?próbować<exception scope="next" regexp="yes">&interp;</exception></token>
+                                        <token skip="-1" postag="verb:inf.*" postag_regexp="yes" regexp="yes">(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć<exception scope="next" regexp="yes">&interp;</exception></token>
+                                        <token postag_regexp="yes" postag="verb:inf.*"/>
+                                    </marker>
+                                </antipattern>
+                                <antipattern>
+                                    <marker>
+                                        <token>miało</token>
+                                        <token skip="-1">być<exception scope="next" regexp="yes">&interp;</exception></token>
                                         <token postag_regexp="yes" postag="verb:inf.*"/>
                                     </marker>
                                 </antipattern>
                                 <pattern>
-										<token inflected="yes" regexp="yes" skip="-1"><exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>by|żeby|aby|ażeby|iżby</token>
+										<token inflected="yes" regexp="yes" skip="-1" postag="comp"><exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/><exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>by|żeby|aby|ażeby|iżby
+                                            <exception scope="next" postag="pred"/>
+                                            <exception scope="next" inflected="yes" postag_regexp="yes" postag="verb:.*" regexp="yes">móc|musieć|potrafić|pozwalać|zdołać|umieć|ośmielić|woleć</exception>
+                                        </token>
 										<token postag="verb:inf.*" postag_regexp="yes" skip="-1">
                                             <exception regexp="yes" scope="current">może|lecz|jedna|lub</exception>
                                             <exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception>
@@ -855,7 +887,7 @@ $Id$
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|verb:inf.*" postag_regexp="yes">
                                             <exception postag="subst:.*|adj.*|ppron.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/>
                                             <exception regexp="yes" scope="current">może|jedna</exception>
-                                            <exception inflected="yes" postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|należeć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić</exception>
+                                            <exception inflected="yes" postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|należeć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|chcieć|pomagać|położyć</exception>
                                         </token>
 								</pattern>
 								<message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
@@ -868,6 +900,12 @@ $Id$
                                 <example type="correct">Wolno narazić dwóch przyjaciół na to, aby się znienawidzili i być może pozabijali.</example>
                                 <example type="correct">Czy to ziemia jest rajem, żeby od niej wszystkiego dobrego razem wymagać było można!</example>
                                 <example type="correct">Ani mu przez myśl nie przeszło, by próbować się bronić.</example>
+                                <example type="correct">— Nie mówię ja — rzekł Don Kichot — żeby powinnością rycerza miało być samą tylko grubą strawą się żywić.</example>
+                                <example type="correct">Właśnie historycy (powieściopisarze) powinni by się nauczyć nie zaniedbywać niczego i szczegółowiej pisać.</example>
+                                <example type="correct">Nie dostrzegłem nic takiego, od czego by się prędzej można rozkochać niż przestraszyć.</example>
+                                <example type="correct">Miał tylko żonę, na którą pracował, aby mogła corocznie jeździć do Franzensbadu leczyć się.</example>
+                                <example type="correct">Teraz chodziło jej tylko o to, by jak najprędzej dać słoniowi jeść.</example>
+                                <example type="correct">Już twoją będzie rzeczą, by wolała nazajutrz zostać niż wrócić.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
@@ -11200,7 +11238,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token postag=".*gen.*" postag_regexp="yes"><exception postag="prep|verb.*" postag_regexp="yes"></exception></token>
+										<token postag=".*gen.*" postag_regexp="yes"><exception>go</exception><exception postag="prep|verb.*" postag_regexp="yes"></exception></token>
 										<marker>
 												<token>niema</token>
 										</marker>
@@ -11209,6 +11247,7 @@ $Id$
 								<short>Błąd ortograficzny</short>
 								<example correction="nie ma" type="incorrect">Tu ich <marker>niema</marker>.</example>
 								<example type="correct">Tam stoi niema dziewczyna.</example>
+                                <example type="correct">Tak bardzo uderzyła go niema i posępna boleść tych trzech osób.</example>
 						</rule>
 				</rulegroup>
 				<rule id="NIE_MOZNA" name="„niemożna” (nie można)">
