@@ -62,6 +62,15 @@ public class AnalyzedSentence {
     for (int i = 0; i < copyTokens.length; i++) {
       copyTokens[i] = new AnalyzedTokenReadings(sentence.getTokens()[i].getReadings(),
           sentence.getTokens()[i].getStartPos());
+      copyTokens[i].setHistoricalAnnotations(sentence.getTokens()[i].getHistoricalAnnotations());
+      copyTokens[i].setChunkTags(sentence.getTokens()[i].getChunkTags());
+      if (sentence.getTokens()[i].isImmunized()) {
+        copyTokens[i].immunize();
+      }
+      if (sentence.getTokens()[i].isIgnoredBySpeller()) {
+        copyTokens[i].ignoreSpelling();
+      }
+      copyTokens[i].setWhitespaceBefore(sentence.getTokens()[i].isWhitespaceBefore());
     }
     AnalyzedSentence copy = new AnalyzedSentence(copyTokens);
     copy.setWhPositions(sentence.getWhPositions());

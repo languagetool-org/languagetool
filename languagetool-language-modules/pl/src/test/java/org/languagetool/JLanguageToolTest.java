@@ -48,6 +48,12 @@ public class JLanguageToolTest extends TestCase {
     //but it should get a match with word repetitions:
     assertEquals(1, tool.check("Jurek wygląda wypisz wypisz wymaluj babcia.").size());
     assertEquals(1, tool.check("Jurek wygląda wypisz wymaluj wymaluj babcia.").size());
+    //checking on pattern rules now...
+    tool.activateDefaultPatternRules();
+    //now this should be immunized:
+    assertEquals(0, tool.check("Nudne brednie tak zamąciły głowę chłopu, że klął na czym ziemia stoi, zmuszonym będąc słuchać tego wszystkiego.").size());
+    //but this "chcąc, nie chcąc" immunized only by an antipattern
+    assertEquals(1, tool.check("Chcąc, nie chcąc zjadłem pstrąga.").size());
     //this rule is by default off
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(0, matches.size());
