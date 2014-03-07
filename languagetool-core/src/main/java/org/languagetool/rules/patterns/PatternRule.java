@@ -21,6 +21,7 @@ package org.languagetool.rules.patterns;
 import java.io.IOException;
 import java.util.*;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
@@ -295,13 +296,15 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   private AnalyzedSentence getSentenceWithImmunization(AnalyzedSentence sentence) throws IOException {
-    AnalyzedSentence immunizedSentence = sentence;
     if (antiPatterns != null && !antiPatterns.isEmpty()) {
+      //we need a copy of the sentence, not reference to the old one
+      AnalyzedSentence immunizedSentence = sentence.copy(sentence);
       for (final DisambiguationPatternRule patternRule : antiPatterns) {
         immunizedSentence = patternRule.replace(immunizedSentence);
       }
+      return immunizedSentence;
     }
-    return immunizedSentence;
+    return sentence;
   }
 
 }

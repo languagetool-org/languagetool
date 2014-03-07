@@ -57,7 +57,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     boolean changed = false;
 
     elementsMatched.clear();
-    for (int j = 0; j <= patternSize; j++) {
+    for (int j = 0; j < patternSize; j++) {
       elementsMatched.add(false);
     }
 
@@ -132,7 +132,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
       if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
-
         whTokens = executeAction(sentence, whTokens, unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
         changed = true;
       }
@@ -171,6 +170,18 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     int correctedStPos = 0;
     int startPositionCorrection = rule.getStartPositionCorrection();
     int endPositionCorrection = rule.getEndPositionCorrection();
+
+    int matchingTokensWithCorrection = matchingTokens;
+
+    if (matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection == 0) {
+      int k = startPositionCorrection;
+      for (int j = 0; j < k; j++) {
+        if (!elementsMatched.get(j)) {
+          startPositionCorrection--;
+        }
+      }
+    }
+
     if (startPositionCorrection > 0) {
       for (int l = 0; l <= startPositionCorrection; l++) {
         correctedStPos += tokenPositions[l];
@@ -178,18 +189,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       correctedStPos--;
     }
 
-    int matchingTokensWithCorrection = matchingTokens;
-
-    if (lastMatchToken != -1) {
-      int maxPosCorrection = 0;
-      maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);
-      matchingTokensWithCorrection += maxPosCorrection;
-    }
-
     // adjust positions in case elements with min="0" were not matched before the starting position
-    for (int j = 0; j < startPositionCorrection; j++) {
+    for (int j = 0; j <= startPositionCorrection; j++) {
       if (!elementsMatched.get(j)) {
-        correctedStPos--;
+        correctedStPos -= tokenPositions[j];
       }
     }
     int j = 0;
@@ -197,6 +200,12 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         !elementsMatched.get(startPositionCorrection + j)) {
       correctedStPos++;
       j++;
+    }
+
+    if (lastMatchToken != -1) {
+      int maxPosCorrection = 0;
+      maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);
+      matchingTokensWithCorrection += maxPosCorrection;
     }
 
     final int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
@@ -290,19 +299,21 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
         final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
         Element myEl;
-        if (elementsMatched.get(i + startPositionCorrection)) {
+      if (elementsMatched.get(i + startPositionCorrection)) {
         myEl = rule.getPatternElements().get(i + startPositionCorrection);
         } else {
           int k = 1;
-          while (i + startPositionCorrection + k < rule.getPatternElements().size() &&
+          while (i + startPositionCorrection + k < rule.getPatternElements().size() + endPositionCorrection &&
               !elementsMatched.get(i + startPositionCorrection + k)) {
             k++;
           }
-          myEl = rule.getPatternElements().get(i + k + startPositionCorrection);
+        //FIXME: this is left to see whether this fails anywhere
+         assert(i + k + startPositionCorrection < rule.getPatternElements().size());
+         myEl = rule.getPatternElements().get(i + k + startPositionCorrection);
         }
         final Match tmpMatchToken = new Match(myEl.getPOStag(), null,
             true,
-            myEl.getPOStag(), // myEl.isPOStagRegularExpression()
+            myEl.getPOStag(),
             null, Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
 

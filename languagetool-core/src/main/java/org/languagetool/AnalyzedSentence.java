@@ -50,6 +50,26 @@ public class AnalyzedSentence {
   }
 
   /**
+   * The method copies {@link org.languagetool.AnalyzedSentence} and returns the copy.
+   * Useful for performing local immunization (for example).
+   *
+   * @param sentence {@link org.languagetool.AnalyzedSentence} to be copied
+   * @return a new object which is a copy
+   * @since  2.5
+   */
+  public AnalyzedSentence copy(final AnalyzedSentence sentence) {
+    AnalyzedTokenReadings[] copyTokens = new AnalyzedTokenReadings[sentence.getTokens().length];
+    for (int i = 0; i < copyTokens.length; i++) {
+      copyTokens[i] = new AnalyzedTokenReadings(sentence.getTokens()[i].getReadings(),
+          sentence.getTokens()[i].getStartPos());
+    }
+    AnalyzedSentence copy = new AnalyzedSentence(copyTokens);
+    copy.setWhPositions(sentence.getWhPositions());
+    copy.getTokensWithoutWhitespace();
+    return copy;
+  }
+
+  /**
    * Returns the {@link AnalyzedTokenReadings} of the analyzed text. Whitespace
    * is also a token.
    */
