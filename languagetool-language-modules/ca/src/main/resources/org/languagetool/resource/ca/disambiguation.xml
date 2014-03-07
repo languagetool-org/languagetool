@@ -4475,12 +4475,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <!-- ¿Exigir unificació o no? (Ex. amb un tesi)-->
             <marker>
                 <and>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="NC.*|V.P.*" postag_regexp="yes"/>
                     <token postag="V.[MSI].*" postag_regexp="yes"><exception regexp="yes">era|fou</exception></token>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="[^V].*"></disambig>
+        <disambig action="remove" postag="V.[MSI].*"></disambig>
         <example type="untouched">Per a ambdues <marker>fou</marker> decisiva la seva negativa.</example>
         <example type="untouched">i per tant <marker>resta</marker> una tasca de recopilació</example>
         <example type="untouched">també, segons es <marker>baixa</marker>, des de Montsià</example>
