@@ -159,9 +159,9 @@ public class AnalyzedSentence {
         final String posTag = token.getPOSTag();
         if (element.isSentenceStart()) {
           sb.append("<S>");
-        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(token.getPOSTag())) {
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
           sb.append("</S>");
-        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(token.getPOSTag())) {
+        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)) {
           sb.append("<P/>");
         } else if (posTag == null && !includeChunks) {
           sb.append(token.getToken());
@@ -178,6 +178,9 @@ public class AnalyzedSentence {
         if (includeChunks) {
           sb.append(',');
           sb.append(StringUtils.join(element.getChunkTags(), "|"));
+        }
+        if (element.isImmunized()) {
+          sb.append("{!},");
         }
         sb.append(']');
       } else {

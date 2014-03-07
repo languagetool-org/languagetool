@@ -472,6 +472,9 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       sb.append(StringUtils.join(chunkTags, "|"));
     }
     sb.append(']');
+    if (isImmunized()) {
+      sb.append("{!},");
+    }
     return sb.toString();
   }
 
