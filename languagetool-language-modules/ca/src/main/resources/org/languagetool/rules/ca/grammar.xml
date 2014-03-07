@@ -6152,6 +6152,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="TRES_TRENS" name="*tres/trens de rodalia">
+            <pattern>
+                <marker>
+                    <token>tres</token>
+                </marker>
+                <token>de</token>
+                <token regexp="yes">rodalies|rodalia|mercaderies</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>trens</suggestion>?</message>
+            <suggestion>tren</suggestion>
+            <example type="incorrect"><marker>tres</marker> de rodalia</example>
+            <example type="correct">trens de rodalia</example>
+        </rule>
         <rule id="MEDICAMENT" name="medicament/mèdicament">
             <pattern>
                 <token><exception postag="SPS00|D[^R].MS.|A..[NC]S." postag_regexp="yes"/></token>
