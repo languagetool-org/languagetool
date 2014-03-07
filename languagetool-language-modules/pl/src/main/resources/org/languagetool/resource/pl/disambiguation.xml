@@ -76,10 +76,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token postag=".*:pri.*|SENT_END" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="sec">
-            <token postag=".*:sec:.*|SENT_END" postag_regexp="yes"></token>
+            <token postag=".*:sec.*|SENT_END" postag_regexp="yes"></token>
         </equivalence>
         <equivalence type="ter">
-            <token postag=".*:ter:.*|SENT_END" postag_regexp="yes"></token>
+            <token postag=".*:ter.*|SENT_END" postag_regexp="yes"></token>
         </equivalence>
     </unification>
 
@@ -345,7 +345,45 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	</pattern>
     	<disambig postag="prep:gen"/>    	
     </rule>
-    
+
+    <rule id="ZA_NIE_QUB" name="za to nie kublik, reguła za AdamP (Spejd)">
+        <pattern>
+            <marker>
+                <token postag="prep.*" postag_regexp="yes">za</token>
+            </marker>
+            <token><exception postag="adv.*|adj.*" postag_regexp="yes" negate="yes">to</exception><exception regexp="yes">mało|dużo</exception></token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="za[za/prep:acc,za/prep:gen,za/prep:inst,za/qub]"
+                 outputform="za[za/prep:acc,za/prep:gen,za/prep:inst]">Stoję <marker>za</marker> murem.</example>
+        <example type="ambiguous" inputform="za[za/prep:acc,za/prep:gen,za/prep:inst,za/qub]"
+                 outputform="za[za/prep:acc,za/prep:gen,za/prep:inst]">Dziękuję <marker>za</marker> to.</example>
+        <example type="untouched">To za mało.</example>
+    </rule>
+
+    <rule name="co przed czasownikiem nie jest przyimkiem" id="CO_VERB_ADAMP">
+        <pattern>
+            <marker>
+                <token>co</token>
+            </marker>
+            <token postag="verb.*|pred|pcon.*|pant.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="prep.*"/>
+        <example type="ambiguous" inputform="Co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
+                 outputform="Co[co/comp,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"><marker>Co</marker> słychać?</example>
+    </rule>
+
+    <rule id="CO_SENT_START_ADAMP" name="na początku zwykle jest zaimkiem rzeczownym">
+        <pattern>
+            <token postag="SENT_START"/>
+            <token min="0" max="1" regexp="yes">&interp;</token>
+            <marker><token>co</token></marker>
+        </pattern>
+        <disambig action="filter" postag="subst.*"></disambig>
+        <example type="ambiguous" inputform="Co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
+                 outputform="Co[co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]">— <marker>Co</marker> to znaczy?</example>
+    </rule>
+
     <rule name="ku to nie subst" id="KU_NIE_SUBST">
     	<pattern>
     		<token>ku</token>
@@ -2106,6 +2144,27 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+
+     <rule name="Bądź jako spójnik" id="badz_koordynacja">
+            <pattern>
+                <unify>
+                    <feature id="number"/><feature id="gender"/> <feature id="case"/>
+                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+                    <unify-ignore>
+                        <token min="0" max="1">,</token>
+                        <marker><token>bądź</token></marker>
+                    </unify-ignore>
+                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="conj|comp:comma"/>
+            <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                     outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne <marker>bądź</marker> zależne.</example>
+            <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                  outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
+
+     </rule>
+
     <rulegroup id="BYC_ADJ_ACC_NOM" name="być + przymiotnik orzecznikowy -> mianownik">
         <rule>
         <pattern>
@@ -2555,9 +2614,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 </marker>
             </pattern>
             <disambig action="filterall"/>
-            <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
+            <example type="ambiguous" inputform="co[co/comp,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
                      outputform="co[co/comp]">Dla dzikiej świni wino znaczy tyle, <marker>co</marker> pomyje.</example>
-         <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
+         <example type="ambiguous" inputform="co[co/comp,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
                   outputform="co[co/comp]">Dla dzikiej świni wino znaczy tyle <marker>co</marker> pomyje.</example>
      </rule>
 
@@ -2750,13 +2809,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="unify"/>
         <example type="ambiguous" inputform="straż[straż/subst:sg:acc:f,straż/subst:sg:nom:f]" outputform="straż[straż/subst:sg:acc:f]">Trzeba było zrobić tak zwaną <marker>straż</marker> broni.</example>
     </rule>
-    
-    <!-- rule>
-        <pattern>
-            <token></token>
-        </pattern>
-        <disambig></disambig>
-    </rule -->
 
     <rulegroup id="SUBST_NOM_VOC_VERB" name="potencjalne orzeczenie">
      <rule>
@@ -2810,6 +2862,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="untouched">A to był kostur pastuszy.</example>
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
+        </rule>
+        <rule>
+            <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"/><feature id="person"/>
+                    <token postag="ppron12.*:nom.*" postag_regexp="yes"></token>
+                    <token postag="verb:.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                </unify>
+            </marker>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="miałem[miał/subst:sg:inst:m3,mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]"
+                     outputform="miałem[mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]">Myślisz, że to ja <marker>miałem</marker> zrobić?</example>
         </rule>
     </rulegroup>
 
@@ -3038,47 +3104,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Ale nie w poprzek, jak powinna, by zagrodzić drogę nadjeżdżającej dziewczynie.</example>
     </rule>
 
-    <rule name="nie na początku zdania" id="NIE_ADAMP">
+    <rule name="„nie” na początku zdania" id="NIE_ADAMP">
         <pattern>
             <token postag="SENT_START"/>
+            <token min="0" max="1" regexp="yes">&interp;</token>
             <marker>
                 <token>nie</token>
             </marker>
         </pattern>
         <disambig postag="qub"/>
-    </rule>
-
-    <rulegroup name="chcąc nie chcąc" id="chcac-nie-chcac">
-        <rule>
-            <pattern>
-                <marker>
-                    <token skip="1">chcąc</token>
-                </marker>
-                <token>nie<exception scope="previous" regexp="yes" negate="yes">,|chcąc</exception></token>
-                <token>chcąc</token>
-            </pattern>
-            <disambig postag="qub"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token skip="1">chcąc</token>
-                <token>nie<exception scope="previous" regexp="yes" negate="yes">,|chcąc</exception></token>
-                <marker>
-                    <token>chcąc</token>
-                </marker>
-            </pattern>
-            <disambig postag="qub"/>
-        </rule>
-    </rulegroup>
-
-    <rule name="nawiasem mówiąc" id="nawiasem-mowiac">
-        <pattern>
-            <token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
-            <marker>
-                <token>mówiąc</token>
-            </marker>
-        </pattern>
-        <disambig postag="qub"/>
+        <example type="ambiguous" outputform="Nie[nie/qub]" inputform="Nie[nie/conj,nie/qub,on/ppron3:pl:acc:m2.m3.f.n1.n2.p2.p3:ter:akc.nakc:praep,on/ppron3:sg:acc:n1.n2:ter:akc.nakc:praep]">— <marker>Nie</marker> słyszałeś?</example>
     </rule>
 
     <rule name="oklep" id="na-oklep">

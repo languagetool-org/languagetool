@@ -143,6 +143,20 @@ $Id$
                             <token inflected="yes">nierad</token>
                         </marker>
                     </antipattern>
+                    <antipattern>
+                        <marker>
+                        <token>chcąc</token>
+                         <token min="0" max="1">,</token>
+                        <token>nie</token>
+                        <token>chcąc</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern> <!-- na to jest osobna reguła -->
+                        <token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
+                        <marker>
+                            <token>mówiąc</token>
+                        </marker>
+                    </antipattern>
                     <antipattern> <!-- byłby ... dokonał -->
                         <unify>
                             <feature id="number"/><feature id="gender"/>
@@ -188,7 +202,8 @@ $Id$
                                     </unify>
                                 </antipattern>
                                 <antipattern case_sensitive="yes">
-                                    <token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/></token>
+                                    <token regexp="yes">\p{Ll}+</token>
+                                    <marker><token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token></marker>
                                 </antipattern>
                                 <pattern>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;|verb:winien.*" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
@@ -839,7 +854,8 @@ $Id$
 												<token negate="yes" regexp="yes">&interp;|tak|chyba|gdzie|może|cóż|.*kolwiek|próżno|długo|kogo</token>
 												<token inflected="yes" skip="-1" postag="comp">by
                                                     <exception scope="previous" regexp="yes" inflected="yes">rad|który|co</exception>
-                                                    <exception scope="previous" postag="SENT_START|conj|comp|pred|adv.*|verb:praet.*|verb:imps:.*" postag_regexp="yes"/>
+                                                    <exception scope="previous">należało</exception>
+                                                    <exception scope="previous" postag="SENT_START|conj|comp|pred|adv.*|verb:imps:.*" postag_regexp="yes"/>
                                                     <exception inflected="yes" regexp="yes" scope="next">bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception>
                                                     <exception postag="&lt;ELLIPSIS&gt;|verb:praet:.*|interp:comma|pred" postag_regexp="yes" scope="next"></exception></token>
 										</marker>
@@ -857,6 +873,7 @@ $Id$
                                 <example type="correct">O wojnach mowy by nawet być nie mogło…</example>
                                 <example type="correct">Cały tydzień zastanawiali się, kogo by z nią zaprosić.</example>
                                 <example type="correct">Nie wiem, do czego by ją przyrównać, chyba do bogini.</example>
+                                <example type="incorrect">Pieniędzy ledwo mu <marker>starczyło by</marker> kupić chleb i mleko.</example>
                                 <!-- błąd ortograficzny, ale na to jest inna reguła -->
                                 <example type="correct">I mnie się zdaje, że należało by strzec się każdego i wszystkiego.</example>
 						</rule>
@@ -898,7 +915,9 @@ $Id$
                                     </marker>
                                 </antipattern>
                                 <pattern>
-										<token inflected="yes" regexp="yes" skip="-1" postag="comp"><exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/><exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>by|żeby|aby|ażeby|iżby
+										<token inflected="yes" regexp="yes" skip="-1" postag="comp">(?:a?by|a?żeby|iżby)
+                                            <exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/>
+                                            <exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>
                                             <exception scope="next" postag="pred"/>
                                             <exception scope="next" inflected="yes" postag_regexp="yes" postag="verb:.*" regexp="yes">móc|musieć|potrafić|pozwalać|zdołać|umieć|ośmielić|woleć</exception>
                                         </token>
@@ -906,12 +925,12 @@ $Id$
                                             <exception regexp="yes" scope="current">może|lecz|jedna|lub</exception>
                                             <exception inflected="yes" regexp="yes" scope="next">[\p{Punct}—–„«»…&amp;&amp;[^\.]]+|bądź|czy|ani|lub|albo|oraz|i|kiedy|gdy|który|jaki|że|iż|bo|gdyż|a|jeśli|jeżeli|gdyby|aby|żeby|ażeby|zanim|dopóki</exception>
                                             <exception postag="&lt;ELLIPSIS&gt;" scope="next"/>
-                                            <exception scope="next" inflected="yes" postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|należeć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić</exception>
+                                            <exception scope="next" inflected="yes" postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić</exception>
                                         </token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|verb:inf.*" postag_regexp="yes">
                                             <exception postag="subst:.*|adj.*|ppron.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/>
-                                            <exception regexp="yes" scope="current">może|jedna</exception>
-                                            <exception inflected="yes" postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|należeć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|chcieć|pomagać|położyć</exception>
+                                            <exception regexp="yes" scope="current">może|jedna|należało</exception>
+                                            <exception inflected="yes" postag_regexp="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|chcieć|pomagać|położyć</exception>
                                         </token>
 								</pattern>
 								<message>W tym fragmencie zdania prawdopodobnie brakuje przecinka.</message>
@@ -930,6 +949,9 @@ $Id$
                                 <example type="correct">Miał tylko żonę, na którą pracował, aby mogła corocznie jeździć do Franzensbadu leczyć się.</example>
                                 <example type="correct">Teraz chodziło jej tylko o to, by jak najprędzej dać słoniowi jeść.</example>
                                 <example type="correct">Już twoją będzie rzeczą, by wolała nazajutrz zostać niż wrócić.</example>
+                                <example type="correct">Rozważał w duszy, co by mu czynić należało.</example>
+                                <example type="correct">Nie sądzę wszakże, ażeby nią gardzić należało.</example>
+                                <example type="incorrect"><marker>Aby uniknąć powstawania amin wyższego rzędu należy</marker> użyć nadmiaru amoniaku.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
