@@ -1466,6 +1466,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </pattern>
             <disambig action="remove"><wd lemma="nica" pos="subst:pl:gen:f">nic</wd></disambig>
         </rule>
+        <rule>
+            <pattern>
+                <token>szczerze</token>
+            </pattern>
+            <disambig action="remove"><wd lemma="szczerza"/></disambig>
+        </rule>
     </rulegroup>
 
     <rule id="KLADZIE" name="kładzie to kłaść">
@@ -1706,6 +1712,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="nikczemnić"/></disambig>
     </rule>
 
+    <rule id="NIZ" name="niż to nie nizać ani niżyć">
+        <pattern>
+            <token>niż</token>
+        </pattern>
+        <disambig action="remove" postag="verb.*"/>
+    </rule>
+
     <rule id="OGNI" name="ogni to nie ognić">
         <pattern>
             <marker><token>ogni</token></marker>
@@ -1788,6 +1801,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>przestrzeni</token>
         </pattern>
         <disambig action="remove"><wd lemma="przestrzenić"/></disambig>
+    </rule>
+
+    <rule id="ROZSTROJ" name="rozstrój to nie rozstroić (AdamP)">
+        <pattern>
+            <token>rozstrój</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="rozstroić"/></disambig>
     </rule>
 
     <rule id="STARZY" name="starzy to nie starzyć">
@@ -2086,6 +2106,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="filterall"/>
     </rule>
+
+    <rulegroup id="ZAIMKI_SENT_START" name="Zaimki nie są w miejscowniku, chyba że po odpowiednim przyimku">
+        <rule>
+            <pattern>
+                <token><exception postag=".*loc.*" postag_regexp="yes"/></token>
+                <marker><token postag="(?:ppron.*|siebie.*).*loc.*" postag_regexp="yes"/></marker>
+            </pattern>
+            <disambig action="remove" postag=".*loc.*"/>
+            <example type="ambiguous" inputform="Sobie[się/siebie:dat,się/siebie:loc]"
+                     outputform="Sobie[się/siebie:dat]"><marker>Sobie</marker> robisz tę jajecznicę?</example>
+            <example type="untouched">O sobie to mówisz?</example>
+        </rule>
+    </rulegroup>
 
     <rule id="SENT_START_BYLA_ADJ_NOM" name="była + przymiotnik/czasownik w narzędniku">
         <pattern>
@@ -3596,14 +3629,47 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token>może</token>
                 </marker>
-                <token postag="verb:.*(?:sg|pl|imp.).*" postag_regexp="yes"/>
+                <token min="0" max="-1" negate_pos="yes" postag_regexp="yes" postag="verb:.*(?:sg|pl|imp[st]).*|pred|interp:comma|comp:comma|conj"></token>
+                <token postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"/>
             </pattern>
             <disambig postag="qub"></disambig>
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
                      outputform="może[może/qub]">Byłoby się to <marker>może</marker> powiodło.</example>
+            <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                     outputform="może[może/qub]">Kto wie, <marker>może</marker> by się nam powiodło.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"/>
+                <token min="0" max="-1" negate_pos="yes" postag_regexp="yes" postag="verb:.*(?:sg|pl|imp[st]).*|pred|interp:comma|comp:comma|conj"></token>
+                <marker>
+                    <token>może</token>
+                </marker>
+                    <token><exception postag="verb:inf.*" postag_regexp="yes" /></token>
+            </pattern>
+            <disambig action="replace"><wd pos="qub" lemma="może"/></disambig>
+            <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                     outputform="może[może/qub]">Byłoby <marker>może</marker> lepiej bez tego.</example>
+            <example type="ambiguous" inputform="może[móc/verb:fin:sg:ter:imperf:nonrefl]"
+                     outputform="może[może/qub]">Byłoby wczoraj <marker>może</marker> lepiej bez tego.</example>
+            <example type="untouched">To, że on się spotkał z kucharzem może świadczyć przeciwko niemu.</example>
         </rule>
     </rulegroup>
 
+    <rule id="moze_inf" name="może + bezokolicznik -> czasownik">
+        <pattern>
+            <marker>
+                <token skip="-1">może<exception scope="previous">być</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
+            </marker>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:nonrefl"/>
+        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="może[móc/verb:fin:sg:ter:imperf:nonrefl]">Chyba <marker>może</marker> być patriotą.</example>
+        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="może[móc/verb:fin:sg:ter:imperf:nonrefl]">Chyba <marker>może</marker> w ostateczności być patriotą.</example>
+        <example type="untouched">Być może leczyć się trzeba.</example>
+    </rule>
 
     <rule name="immunize_Windows" id="KOSHER_WINDOWS">
         <pattern>
