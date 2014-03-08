@@ -2839,12 +2839,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="MISTRZ_PYTA" name="nazwy własne błędnie rozpoznane jako czasowniki">
         <pattern case_sensitive="yes">
-            <token regexp="yes" inflected="yes">[Mm]istrz|[Kk]siążę|[Pp]an|[Bb]rat|[Śś]więty</token>
+            <token regexp="yes" inflected="yes">mistrz|książę|pan|brat|święty|doktor</token>
             <marker>
                 <token postag="verb.*" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
             </marker>
         </pattern>
         <disambig action="remove" postag="verb.*"></disambig>
+        <example type="ambiguous" inputform="Czernisz[czernić/verb:fin:sg:sec:imperf:refl.nonrefl]"
+                 outputform="Czernisz[Czernisz]">Dr <marker>Czernisz</marker> pochodził ze sfery ludzi biednych.</example>
     </rule>
 
     <rule id="SPRAWIAC_WRAZENIE" name="sprawiać wrażenie + czas/rzecz -> rzecz">
