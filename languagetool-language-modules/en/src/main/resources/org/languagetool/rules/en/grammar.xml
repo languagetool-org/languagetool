@@ -6573,6 +6573,14 @@ USA
     <example type="correct">Ten items or fewer</example>
     </rule>
     <rule>
+        <antipattern>
+            <token regexp="yes">are|were<exception scope="previous">there</exception></token>
+            <token>more</token>
+            <token>or</token>
+            <marker>
+            <token>less</token>
+            </marker>
+        </antipattern>
     <pattern>
         <marker>
         <token>less</token>
@@ -6585,6 +6593,7 @@ USA
     <example type="incorrect">He has <marker>less</marker> items</example>
     <example type="correct">He has fewer items.</example>
     <example type="correct">Present-day students are more or less religious.</example>
+    <example type="correct">These are more or less plants.</example>
     </rule>
     </rulegroup>
           <rule id="WORST_THAN" name="worst (worse) than">
