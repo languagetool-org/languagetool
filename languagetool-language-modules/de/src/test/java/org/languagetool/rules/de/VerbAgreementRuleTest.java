@@ -21,8 +21,14 @@ package org.languagetool.rules.de;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * @author Markus Brenneis
@@ -133,41 +139,47 @@ public class VerbAgreementRuleTest extends TestCase {
     assertBad("Auch morgen leben er.");
     assertBad("Auch morgen leben ich.");
     assertBad("Auch morgen lebte wir noch.");
-    assertBad2("Du bin nett."); // TODO 2 errors
+    assertBad("Du bin nett.", 2); // TODO 2 errors
     assertBad("Du können heute leider nicht kommen.");
+    assertBad("Du können heute leider nicht kommen.", "Du kannst", "Du konntest", "Du könnest", "Du könntest", "Wir können", "Sie können");
     assertBad("Du leben.");
     assertBad("Du wünscht dir so viel.");
-    assertBad2("Er bin nett.");
-    assertBad2("Er gelangst zu ihr.");
+    assertBad("Er bin nett.", 2);
+    assertBad("Er gelangst zu ihr.", 2);
     assertBad("Er können heute leider nicht kommen.", "Subjekt (Er) und Prädikat (können)");
-    assertBad2("Er lebst.");
-    assertBad2("Ich bist nett.");
+    assertBad("Er lebst.", 2);
+    assertBad("Ich bist nett.", 2);
 //     assertBad("Ich geht jetzt nach Hause und dort gehe ich sofort unter die Dusche."); TODO
-    assertBad2("Ich kannst heute leider nicht kommen.");
+    assertBad("Ich kannst heute leider nicht kommen.", 2);
     assertBad("Ich leben.");
+    assertBad("Ich leben.", "Ich lebe", "Ich lebte", "Wir leben", "Sie leben");
     assertBad("Lebe du?");
+    assertBad("Lebe du?", "Lebest du", "Lebst du", "Lebtest du", "Lebe ich", "Lebe er", "Lebe sie", "Lebe es");
 //     assertBad("Leben du?"); // TODO "Leben" not tagged as verb
-    assertBad2("Nett bist ich nicht.");
+    assertBad("Nett bist ich nicht.", 2);
+    assertBad("Nett bist ich nicht.", 2, "bin ich", "sei ich", "war ich", "wäre ich", "bist du");
     assertBad("Nett sind du.");
     assertBad("Nett sind er.");
-    assertBad2("Nett warst wir.");
-    assertBad2("Wir bin nett.");
-    assertBad2("Wir gelangst zu ihr.");
+    assertBad("Nett sind er.", "ist er", "sei er", "war er", "wäre er", "sind wir", "sind sie");
+    assertBad("Nett warst wir.", 2);
+    assertBad("Wir bin nett.", 2);
+    assertBad("Wir gelangst zu ihr.", 2);
     assertBad("Wir könnt heute leider nicht kommen.");
-    assertBad2("Wir lebst noch.");
     assertBad("Wünscht du dir mehr Zeit?", "Subjekt (du) und Prädikat (Wünscht)");
+    assertBad("Wir lebst noch.", 2);
+    assertBad("Wir lebst noch.", 2, "Wir leben", "Wir lebten", "Du lebst");
   }
 
   private void assertGood(String s) throws IOException {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
 
-  private void assertBad(String s) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(s)).length);
+  private void assertBad(String s, int n) throws IOException {
+    assertEquals(n, rule.match(langTool.getAnalyzedSentence(s)).length);
   }
-  
-  private void assertBad2(String s) throws IOException {
-    assertEquals(2, rule.match(langTool.getAnalyzedSentence(s)).length);
+
+  private void assertBad(String s) throws IOException {
+    assertBad(s, 1);
   }
 
   private void assertBad(String s, String expectedErrorSubstring) throws IOException {
@@ -175,6 +187,24 @@ public class VerbAgreementRuleTest extends TestCase {
     final String errorMessage = rule.match(langTool.getAnalyzedSentence(s))[0].getMessage();
     assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
             errorMessage.contains(expectedErrorSubstring));
+  }
+
+  private void assertBad(String s, int n, String... expectedSuggestions) throws IOException {
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    assertEquals("Did not find " + n + " match(es) in sentence '" + s + "'", n, matches.length);
+    if (expectedSuggestions.length > 0) {
+      RuleMatch match = matches[0];
+      // When two errors are reported by the rule (so TODO above), it might happen that the first match does not have the suggestions, but the second one
+      if(matches.length > 1 && match.getSuggestedReplacements().size()==0) {
+        match = matches[1];
+      }
+      List<String> suggestions = match.getSuggestedReplacements();
+      assertThat(suggestions, is(Arrays.asList(expectedSuggestions)));
+    }
+  }
+
+  private void assertBad(String s, String... expectedSuggestions) throws IOException {
+    assertBad(s, 1, expectedSuggestions);
   }
   
 }
