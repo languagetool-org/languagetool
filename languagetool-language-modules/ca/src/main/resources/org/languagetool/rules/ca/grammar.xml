@@ -881,7 +881,7 @@ $Id$
                 <example type="incorrect" correction="aquella metgessa|aquelles metgesses"><marker>aquell metgesses</marker></example>
                 <example type="incorrect" correction="Aquella metgessa|Aquelles metgesses"><marker>Aquells metgessa</marker>.</example>
                 <example type="incorrect" correction="aquella olor|aquelles olors">Amb <marker>aquell olor</marker> tan agradable.</example>
-                <example type="incorrect" correction="una tesi|unes tesis">Es doctorà en filosofia amb <marker>un tesi</marker> sobre Plotí</example>
+                <!-- <example type="incorrect" correction="una tesi|unes tesis">Es doctorà en filosofia amb <marker>un tesi</marker> sobre Plotí</example> -->
                 <example type="correct">Aquestes metgesses.</example>
                 <example type="correct">Aqueixa metgessa.</example>
                 <example type="correct">Eixes metgesses.</example>
@@ -4214,14 +4214,18 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token>tan</token>
+                        <token>tan<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token postag="SENT_END|_PUNCT.*" postag_regexp="yes"/>
-                </pattern>
+                    <token postag="_PUNCT.*" postag_regexp="yes"><exception postag="_trespunts|_PUNCT_OBRE" postag_regexp="yes"/><exception regexp="yes">[‘“«¡¿]</exception></token>
+                </pattern>    
                 <message>Probablement cal escriure <suggestion>tant</suggestion>.</message>
                 <short>Confusió</short>
-                <example type="incorrect" correction="tant">M'agrada <marker>tan</marker>!.</example>
+                <example type="incorrect" correction="tant">M'agrada <marker>tan</marker>!</example>
+                <example type="incorrect" correction="tant">Va dir: «No m'agrada <marker>tan</marker>».</example>
+                <example type="incorrect" correction="tant">Va dir: "No m'agrada <marker>tan</marker>".</example>
                 <example type="correct">M'agrada tant!</example>
+                <example type="correct">I aquesta calavera tan... tan guapa</example>
+                <example type="correct">És tan "real"</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADV_MENT" name="dos adverbis acabats en -ment">
