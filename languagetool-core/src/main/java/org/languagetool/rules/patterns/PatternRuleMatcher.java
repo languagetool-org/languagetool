@@ -168,6 +168,9 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     int idx = firstMatchToken + correctedStPos;
     if (idx >= tokens.length) {
       // TODO: hacky workaround, find a proper solution. See EnglishPatternRuleTest.testBug()
+      // This is important when the reference points to a token with min="0", which has not been
+      // matched... the subsequent match elements need to be renumbered, I guess, and that one
+      // silently discarded
       idx = tokens.length - 1;
     }
     AnalyzedTokenReadings firstMatchTokenObj = tokens[idx];
