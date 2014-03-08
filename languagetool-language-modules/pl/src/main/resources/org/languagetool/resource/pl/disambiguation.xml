@@ -4279,7 +4279,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rulegroup id="BOG_WIE_SKAD" name="Bóg wie skąd - bez komunikatu o braku przecinka, bo to partykuła">
     <rule>
         <pattern case_sensitive="yes">
-            <token skip="1">Bóg<exception scope="next" negate="yes" regexp="yes">jeden|wie</exception></token>
+            <token>Bóg</token>
+            <token min="0" max="1">jeden</token>
             <marker>
                 <token>wie</token>
                 <token regexp="yes">co|kto|kiedy|dlaczego|gdzie|jak|skąd|dokąd|czemu</token>

@@ -173,12 +173,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     int matchingTokensWithCorrection = matchingTokens;
 
-    if (matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection == 0) {
-      int k = startPositionCorrection;
-      for (int j = 0; j < k; j++) {
-        if (!elementsMatched.get(j)) {
-          startPositionCorrection--;
-        }
+    int w = startPositionCorrection;
+    for (int j = 0; j < w; j++) {
+      if (!elementsMatched.get(j)) {
+        startPositionCorrection--;
       }
     }
 
