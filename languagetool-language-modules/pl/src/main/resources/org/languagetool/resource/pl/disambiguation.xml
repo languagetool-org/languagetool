@@ -297,11 +297,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="OD_DAWNA" name="od dawna">
         <pattern>
-            <token skip="1">od<exception scope="next" negate="yes" regexp="yes">jak|dawna</exception></token>
+            <token>od</token>
+            <token min="0" max="1">jak</token>
             <marker><token>dawna</token></marker>
         </pattern>
         <disambig postag="adjp"/>
         <example type="ambiguous" inputform="dawna[dawny/adj:sg:nom.voc:f:pos]" outputform="dawna[dawny/adjp]">Czy od <marker>dawna</marker> tak jest?</example>
+        <example type="ambiguous" inputform="dawna[dawny/adj:sg:nom.voc:f:pos]" outputform="dawna[dawny/adjp]">Od jak <marker>dawna</marker> tak jest?</example>
     </rule>
 
     <rule id="OD_JAK_DAWNA" name="od jak dawna">
@@ -1810,6 +1812,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="rozstroić"/></disambig>
     </rule>
 
+    <rule id="SPOKOJ" name="spokój to nie spokoić">
+        <pattern>
+            <token>spokój</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="spokoić"/></disambig>
+    </rule>
+
     <rule id="STARZY" name="starzy to nie starzyć">
         <pattern>
             <token>starzy</token>
@@ -2509,17 +2518,30 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="SWOJE_NADZIEJE" name="nadzieje, dzieje i kraje jako rzeczownik">
         <pattern>
+            <marker>
             <unify>
                 <feature id="case"/><feature id="number"><type id="pl"/></feature>
-                <feature id="gender"><type id="f"/></feature>
+                <feature id="gender"/>
                 <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
-                <token regexp="yes">(?:na)?dzieje|kraje</token>
+                <token postag="subst.*" postag_regexp="yes" regexp="yes">(?:na)?dzieje|kraje</token>
             </unify>
+            </marker>
         </pattern>
         <disambig action="unify"></disambig>
         <example type="untouched">Jurek nadzieje kurczaka granatami.</example>
         <example type="ambiguous" inputform="nadzieje[nadziać/verb:fin:sg:ter:perf:refl.nonrefl,nadzieja/subst:pl:acc:f,nadzieja/subst:pl:nom:f,nadzieja/subst:pl:voc:f]"
                  outputform="nadzieje[nadzieja/subst:pl:acc:f,nadzieja/subst:pl:nom:f,nadzieja/subst:pl:voc:f]">W tobie lud egipski złożył swoje <marker>nadzieje</marker>.</example>
+    </rule>
+
+    <rule id="DZIEJE_NARODU" name="dzieje + genetiwus -> rzeczownik">
+        <pattern>
+            <marker><token>dzieje</token></marker>
+            <token postag=".*gen.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="verb.*"/>
+        <example type="ambiguous" inputform="Dzieje[dziać/verb:fin:sg:ter:imperf:refl,dziać/verb:fin:sg:ter:imperf:refl.nonrefl,dzieje/subst:pl:acc:p3,dzieje/subst:pl:nom:p3,dzieje/subst:pl:voc:p3]"
+                 outputform="Dzieje[dzieje/subst:pl:acc:p3,dzieje/subst:pl:nom:p3,dzieje/subst:pl:voc:p3]"><marker>Dzieje</marker> Rosji</example>
+        <example type="untouched">Co się dzieje?</example>
     </rule>
 
     <rule id="NADZIEJA_ZE" name="nadzieją, że -> rzeczownik">
@@ -3689,10 +3711,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="moze_qub_fix" name="może po czasowniku wymagającym zwykle bezokolicznika">
+        <pattern>
+            <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes" inflected="yes" regexp="yes">mieć|móc|musieć|potrafić|pozwolić|pozwalać|zdołać|umieć|ośmielić|powinien|gotów|ważyć|raczyć|usiłować|rozkazać|śmieć|zacząć|uczyć|dozwolić|(?:po)?móc|s?próbować|chcieć|da(?:wa)?ć|iść|pójść|ośmielić|umieć|kazać|mieć|zacząć|przestać|zaczynać|przestawać|pozwolić|pozwalać|starać|jechać|nauczyć|biec|położyć|zdążyć<exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/></token>
+            <marker>
+                <token postag="verb:fin:sg:ter:imperf:nonrefl">może</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="qub" lemma="może"/></disambig>
+        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="może[może/qub]">Chyba cioci dałby się <marker>może</marker> namówić, co?</example>
+    </rule>
+
     <rule id="moze_inf" name="może + bezokolicznik -> czasownik">
         <pattern>
             <marker>
-                <token skip="-1">może<exception scope="previous">być</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet):(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
+                <token postag="verb:fin:sg:ter:imperf:nonrefl" skip="-1">może<exception scope="previous">być</exception><exception postag="&lt;ELLIPSIS&gt;|verb:(pot|fin|bedzie|praet|winien):(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
             </marker>
             <token postag="verb:inf.*" postag_regexp="yes"/>
         </pattern>
