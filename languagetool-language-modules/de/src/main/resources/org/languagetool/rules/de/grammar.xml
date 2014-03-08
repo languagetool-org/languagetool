@@ -40,6 +40,7 @@ $Id$
     <!ENTITY thinsp    "&#x2009;"> <!-- thin space -->
     <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag">
     <!ENTITY monate "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
+    <!ENTITY tageszeitangabenklein "abend|morgen|mittag|nachmittag|nacht|vormittag">
     <!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
     <!ENTITY glalong "Innerhalb von Abkürzungen, die aus mehreren Buchstaben bestehen, sollten (außer bei Schriftarten mit fester Breite) in der Regel geschützte Leerzeichen verwendet werden: ">
@@ -4606,6 +4607,20 @@ $Id$
                 <example type="correct"><marker>Dass</marker> Auto fährt, wer es nicht kann, das ärgert den Herrn Saubermann.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DASS_MIT_SUBJUNKTION" name="Mögliche Wortverwechslung: 'weil dass (das)' etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">bevor|dass|indem|nachdem|obwohl|obgleich|sodass|sofern|solange|weil</token>
+                    <marker>
+                        <token>dass</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
+                <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
+                <example type="incorrect">Weil <marker>dass</marker> Handy zu teuer war, habe ich es nicht gekauft.</example>
+                <example type="correct">Weil <marker>das</marker> Handy zu teuer war, habe ich es nicht gekauft.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SODASS" name="Mögliche Wortverwechslung: 'so das (so dass)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -7899,9 +7914,10 @@ $Id$
         <rule id="DIENSTAG_ABEND" name="Zusammen-/Getrenntschreibung: 'Dienstag abend (Dienstagabend)">
             <pattern case_sensitive="no">
                 <token regexp="yes">&wochentage;</token>
-                <token regexp="yes">morgen|mittag|abend|nacht</token>
+                <token regexp="yes">&tageszeitangabenklein;</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1"/><match case_conversion="startlower" no="2"/></suggestion>?</message>
+            <url>http://www.canoo.net/services/GermanSpelling/Reform/trennung/tageszeitangaben.jsp</url>
             <short>&getrennt;.</short>
             <example type="correct">Am <marker>Dienstagabend</marker> geht es rund!</example>
             <example type="incorrect">Am <marker>Dienstag abend</marker> geht es rund!</example>
@@ -15188,7 +15204,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes">([Vv]or)?[gG]estern|([Üü]ber)morgen|[Hh]eute</token>
                     <marker>
-                        <token regexp="yes">morgen|vormittag|nachmittag|abend|nacht</token>
+                        <token regexp="yes">&tageszeitangabenklein;</token>
                     </marker>
                 </pattern>
                 <message>Tageszeitangaben werden nach "<match no="1" case_conversion="alllower"/>" großgeschrieben. Vorschlag: <suggestion><match no="2" case_conversion="startupper"/></suggestion></message>
@@ -16890,7 +16906,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"><exception postag=".*GEN.*" postag_regexp="yes"/><exception regexp="yes">&anf;</exception></token>
                     <marker>
-                        <token regexp="yes">(&wochentage;)s</token>
+                        <token regexp="yes">(&wochentage;)(&tageszeitangabenklein;)?s</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="alllower"/></suggestion>&advende;</message>
@@ -16901,16 +16917,18 @@ $Id$
                 <example type="correct">Eines <marker>Dienstags</marker> kam er wieder zur Arbeit.</example>
                 <example type="correct">Er hat eines <marker>Sonntags</marker> den Zug verpasst.</example>
                 <example type="correct">Der "<marker>Mittwochs</marker> Anzeiger"</example>
+                <example type="incorrect" correction="montagnachmittags">Der Laden hat <marker>Montagnachmittags</marker> geschlossen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception>,</exception></token>
                     <token postag="ART.*GEN.*MAS.*" postag_regexp="yes"/>
                     <marker>
-                        <token regexp="yes">montags|dienstags|mittwochs|donnerstags|freitags|samstags|sonntags</token>
+                        <token regexp="yes">(montag|dienstag|mittwoch|donnerstag|freitag|samstag|sonntag)(&tageszeitangabenklein;)?s</token>
                     </marker>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
+                <url>http://www.canoo.net/services/GermanSpelling/Reform/trennung/tageszeitangaben.jsp</url>
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Montags">Der Laden hat des <marker>montags</marker> geschlossen.</example>
                 <example type="correct">Der Laden hat des <marker>Montags</marker> geschlossen.</example>
@@ -21298,6 +21316,7 @@ $Id$
         <rule id="DIE_SUCHE" name="Groß-/Kleinschreibung: 'die suche (Suche)'">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[dD]er|[dD]ie</token>
+                <token min="0" postag_regexp="yes" postag="ADJ:.*:SIN:FEM.*DEF"><exception postag_regexp="yes" postag="SUB:.*"/></token>
                 <marker>
                     <token>suche</token>
                 </marker>
@@ -21308,6 +21327,7 @@ $Id$
             <example type="correct">Sie waren auf der <marker>Suche</marker> nach Felix.</example>
             <example type="incorrect">Die <marker>suche</marker> dauerte lange.</example>
             <example type="incorrect">Sie waren auf der <marker>suche</marker> nach Felix.</example>
+            <example type="incorrect">Die binäre <marker>suche</marker> sollte jeder Informatiker verstehen.</example>
         </rule>
         <rule id="DES_WEITEREN" name="Groß-/Kleinschreibung: 'des weiteren (Weiteren)'">
             <pattern case_sensitive="yes">
