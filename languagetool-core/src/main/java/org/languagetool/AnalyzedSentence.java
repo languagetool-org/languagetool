@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber, Marcin Miłkowski (http://www.languagetool.org)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,8 +32,8 @@ public class AnalyzedSentence {
   private final AnalyzedTokenReadings[] tokens;
 
   private AnalyzedTokenReadings[] nonBlankTokens;
-  private Set<String> tokenSet;
-  private Set<String> lemmaSet;
+  private volatile Set<String> tokenSet;
+  private volatile Set<String> lemmaSet;
   private int[] whPositions;
 
   /**
@@ -73,8 +73,8 @@ public class AnalyzedSentence {
       copyTokens[i].setWhitespaceBefore(sentence.getTokens()[i].isWhitespaceBefore());
     }
     AnalyzedSentence copy = new AnalyzedSentence(copyTokens);
+    copy.setNonBlankTokens(sentence.getTokensWithoutWhitespace());
     copy.setWhPositions(sentence.getWhPositions());
-    copy.getTokensWithoutWhitespace();
     return copy;
   }
 
@@ -264,7 +264,7 @@ public class AnalyzedSentence {
   }
 
   @Override
-  public boolean equals(Object obj) {
+  public synchronized boolean equals(Object obj) {
     if (this == obj)
       return true;
     if (obj == null)
@@ -278,16 +278,24 @@ public class AnalyzedSentence {
       return false;
     if (!Arrays.equals(whPositions, other.whPositions))
       return false;
+    if (tokenSet != null && !tokenSet.equals(other.tokenSet)) {
+      return false;
+    }
+    if (lemmaSet != null && !lemmaSet.equals(other.lemmaSet)) {
+      return false;
+    }
     return true;
   }
 
   @Override
-  public int hashCode() {
+  public synchronized int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + Arrays.hashCode(nonBlankTokens);
     result = prime * result + Arrays.hashCode(tokens);
     result = prime * result + Arrays.hashCode(whPositions);
+    result = prime * result + tokenSet.hashCode();
+    result = prime * result + lemmaSet.hashCode();
     return result;
   }
 

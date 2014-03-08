@@ -579,6 +579,9 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (hasSameLemmas != other.hasSameLemmas) {
       return false;
     }
+    if (isIgnoredBySpeller != other.isIgnoredBySpeller) {
+      return false;
+    }
     if (token == null) {
       if (other.token != null)
         return false;
