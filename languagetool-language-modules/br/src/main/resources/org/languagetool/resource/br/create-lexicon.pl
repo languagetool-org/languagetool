@@ -2430,6 +2430,7 @@ while (<LT_EXPAND>) {
       ($lemma eq 'kurun'     and $word =~ /^([kg]|c’h)urun(où)?$/)     or
       ($lemma eq 'ment'      and $word =~ /^[mv]ent$/)                 or
       ($lemma eq 'peskerezh' and $word =~ /^[bfp]eskerezh$/)           or
+      ($lemma eq 'prosesion' and $word =~ /^[bfp]rosesion(où)?$/)      or
       ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/)           or
       ($lemma eq 'trubuilh'  and $word =~ /^[tdz]rubuilh(où)?$/)) {
     $tag =~ s/^N [fm]/N e/;
