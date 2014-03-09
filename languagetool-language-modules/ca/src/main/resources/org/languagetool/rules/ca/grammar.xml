@@ -3183,6 +3183,19 @@ $Id$
                 <example type="correct">ho va fer un cop.</example>
                 <example type="correct">Llavors farem un cop de cap.</example>
             </rule>
+            <rule id="DONAR_MITJA_VOLTA" name="donar mitja volta">
+                <pattern>
+                    <marker>
+                        <token inflected="yes">donar</token>
+                    </marker>
+                    <token>mitja</token>
+                    <token>volta</token>
+                </pattern>
+                <message>Cal dir: <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion></message>
+                <url>http://esadir.cat/entrades/fitxa/id/4086</url>
+                <example type="incorrect" correction="fer">Va <marker>donar</marker> mitja volta.</example>
+                <example type="correct">fer mitja volta</example>
+            </rule>
         </rulegroup>
         <!-- Només funciona per a algunes situacions: van beguts, considerin oportú. <rulegroup id="concorda_verb_objecte" name="Comprova concordança: verb + participi/adjectiu">
         
@@ -8166,6 +8179,17 @@ $Id$
                 <short>Possible confusió</short>
                 <example type="incorrect">Ell ho <marker>proba</marker> tot.</example>
                 <example type="correct">Ell ho <marker>prova</marker> tot.</example>
+            </rule>
+            <rule id="AL_VELL_MIG" name="al *vell/bell mig">
+                <pattern>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>vell</token>
+                    <token>mig</token>
+                </pattern>
+                <message>Error ortogràfic</message>
+                <example type="incorrect"><marker>al vell mig</marker></example>
+                <example type="correct">al bell mig</example>
             </rule>
         </rulegroup>
         <rulegroup id="BABA_BAVA" name="baba/bava">
