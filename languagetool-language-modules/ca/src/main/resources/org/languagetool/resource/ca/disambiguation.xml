@@ -227,7 +227,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[^.,]+</token>
+                    <token regexp="yes">[^.,]*</token>
                     <marker>
                         <token spacebefore="no">1</token>
                     </marker>
@@ -236,7 +236,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[^.,]+</token>
+                    <token regexp="yes">[^.,]*</token>
                     <marker>
                         <token spacebefore="no">1</token>
                     </marker>
@@ -387,7 +387,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">llei|mitjà|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
+                    <token regexp="yes" inflected="yes">llei|final|fi|principi|començament|inici|gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre</token>
                     <token>de</token>
                     <marker>
                         <token regexp="yes">[123456789][1234567890]{0,3}</token>
@@ -4497,18 +4497,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- pels projectes, malgrat una llista -->
         <pattern>
             <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception postag="RG"/></token>
-            <unify>
-            <feature id="nombre"/>
-            <feature id="genere"/>
-                <token postag="D[AIP].*" postag_regexp="yes"><exception regexp="yes">es|s'</exception></token> 
-                <!-- ¿Exigir unificació o no? (Ex. amb un tesi)-->
-                <marker>
-                    <and>
-                        <token postag="NC.*|V.P.*|A.*" postag_regexp="yes"/>
-                        <token postag="V.[MSI].*" postag_regexp="yes"><exception regexp="yes">era|fou</exception></token>
-                    </and>
-                </marker>
-            </unify>
+            <token postag="D[AIP].*" postag_regexp="yes"><exception regexp="yes">es|s'</exception></token> 
+            <!-- ¿Exigir unificació o no? (Ex. amb un tesi, d'un mitjana)-->
+            <marker>
+                <and>
+                    <token postag="NC.*|V.P.*|A.*" postag_regexp="yes"/>
+                    <token postag="V.[MSI].*" postag_regexp="yes"><exception regexp="yes">era|fou|va</exception></token>
+                </and>
+            </marker>
         </pattern>
         <disambig action="remove" postag="V.[MSI].*"></disambig>
         <example type="untouched">Per a ambdues <marker>fou</marker> decisiva la seva negativa.</example>
@@ -6722,7 +6718,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="[^A].*"></disambig>
         </rule>
-    </rulegroup>    
+    </rulegroup>
+    <rulegroup id="numeral_nom" name="numeral + nom plural">
+        <rule>
+            <pattern>
+                <token regexp="yes">(\d[\d.,]+\d|\d+)<exception>1</exception></token>
+                <marker>
+                    <token postag="NC.[PN].*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NC.[PN].*|_GN_.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>1</token>
+                <marker>
+                    <token postag="NC.[SN].*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NC.[SN].*|_GN_.*"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="determinants_numerals" name="deternimants numerals">
         <rule>
             <pattern>
@@ -7063,15 +7079,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NC.*|_GN_.*"></disambig>
         </rule>
     </rulegroup>
-    <rule id="numeral_nom" name="numeral + nom plural">
-        <pattern>
-            <token regexp="yes">(\d[\d.,]+\d|\d+)</token>
-            <marker>
-                <token postag="NC.[PN].*" postag_regexp="yes"></token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="NC.*|_GN_.*"></disambig>
-    </rule>
     <!-- numeral seguit de nom o adjectiu-->
     <rulegroup id="DetNum" name="determinants numerals">
         <rule>
