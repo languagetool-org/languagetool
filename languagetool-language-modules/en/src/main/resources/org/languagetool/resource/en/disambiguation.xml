@@ -3427,6 +3427,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="Most[Most/NNP,most/NN:U,much/JJS,much/RBS]" outputform="Most[much/JJS]"><marker>Most</marker> are around 40-50 μm in diameter.</example>
         </rule>
 
+    <rule id="LESS" name="less as connective (revenues less expenses)">
+        <pattern>
+            <token postag="NN.*" postag_regexp="yes"><exception postag="NN.*" negate_pos="yes" postag_regexp="yes"/></token>
+            <token postag="CC">less</token>
+            <token postag="NNS"><exception postag="JJ"/></token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="less[less/CC,less/JJ,little/JJR,little/RBR]" outputform="less[less/CC]">This is defined as indirect taxes <marker>less</marker> subsidies.</example>
+        <example type="untouched">These batteries have less power.</example>
+    </rule>
+
         <rule id="UP_TO" name="up to - not a noun">
           <pattern>
             <marker><token>up</token></marker>
