@@ -4316,10 +4316,10 @@ $Id$
                 <example type="correct">y=x2</example>
 	        </rule>
 	        <rule>
-	            <pattern case_sensitive="yes">
+	            <pattern>
                 	<token><exception regexp="yes">de|coordenad(a|es)|cromosom(a|es)|i|o|neuropèptids?</exception></token>
                 	<marker>
-                    	<token>Y</token>
+                    	<token regexp="yes">(?-i)Y</token>
                     </marker>
                     <token><exception regexp="yes">[.,;\)\]]|és|=</exception></token>
 	            </pattern>
@@ -4327,6 +4327,7 @@ $Id$
 	            <short>Conjunció 'i'</short>
 	            <example type="incorrect" correction="I">¿<marker>Y</marker> quan tornaràs?</example>
 	            <example type="correct">Sistema de coordenades X i Y.</example>
+                <example type="correct">Cromosoma Y.</example>
 	        </rule>
 	    </rulegroup>    
     	<rulegroup id="E_U_CONJUNCIO" name="França *e/i Itàlia; dona *u/o home">
