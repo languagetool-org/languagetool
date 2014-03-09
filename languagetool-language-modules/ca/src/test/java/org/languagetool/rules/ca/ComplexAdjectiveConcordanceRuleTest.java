@@ -58,6 +58,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("Cada polinomi en forma expandida");
     assertCorrect("El 1967 una partida de liberals rebel al govern");
     assertCorrect("El 1640 una junta de nobles reunida a Lisboa");
     assertCorrect("amb una expressió de dolor i de por barrejats.");
