@@ -72,6 +72,10 @@ public class PolishWordTokenizerTest extends TestCase {
     compoundTokens = wordTokenizer.tokenize("Miała osiemnaście-dwadzieścia lat.");
     assertEquals(8, compoundTokens.size());
     assertEquals("[Miała,  , osiemnaście, -, dwadzieścia,  , lat, .]", compoundTokens.toString());
+    // now three-part adja-adja-adj...:
+    compoundTokens = wordTokenizer.tokenize("Słownik polsko-niemiecko-indonezyjski");
+    assertEquals(7, compoundTokens.size());
+    assertEquals("[Słownik,  , polsko, -, niemiecko, -, indonezyjski]", compoundTokens.toString());
   }
 
 }

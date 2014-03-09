@@ -23,7 +23,7 @@ $Id$
 -->
 
 <!DOCTYPE rules [
-<!ENTITY interp "[\p{Punct}\-–—―„«»…’]+">
+<!ENTITY interp "[\p{Punct}\-–−—―„«»…’]+">
 ]>
 
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -8377,6 +8377,49 @@ $Id$
 						<example type="correct">Dbaj o wymowę w języku polskim.</example>
 						<example type="correct">Rada Języka Polskiego.</example>
 				</rule>
+                <rulegroup id="PISOWNIA_NAZW_CZASOPISM" name="Tytuły czasopism bez wielkich liter">
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <unify>
+                                <feature id="case"/><feature id="number"><type id="sg"/></feature>
+                                <feature id="gender"/>
+                                <and>
+                                    <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik</token>
+                                    <token regexp="yes">\p{Lu}\p{Ll}+</token>
+                                </and>
+                                <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+</token>
+                            </unify>
+                        </pattern>
+                        <message>Tytuły czasopism pisze się wielkimi literami: <suggestion><match no="1" case_conversion="startupper"/> <match
+                                no="2" case_conversion="startupper"/></suggestion>.</message>
+                        <url>http://so.pwn.pl/zasady.php?id=629390</url>
+                        <short>Błąd pisowni wielką i małą literą</short>
+                        <example type="incorrect" correction="Gazecie Wyborczej">Czytałem to w „<marker>Gazecie wyborczej</marker>”.</example>
+                        <example type="correct">Czytałem to w „<marker>Gazecie Wyborczej</marker>”.</example>
+                        <example type="correct">Czytałem gazety ukraińskie.</example>
+                        <example type="correct">Gazety francuskie nie są takie ciekawe.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <unify>
+                                <feature id="case"/><feature id="number"><type id="sg"/></feature>
+                                <feature id="gender"/>
+                                <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik</token>
+                                <unify-ignore>
+                                    <token postag="adja"/>
+                                    <token spacebefore="no">-</token>
+                                </unify-ignore>
+                                <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+</token>
+                            </unify>
+                        </pattern>
+                        <message>Tytuły czasopism pisze się wielkimi literami: <suggestion><match no="1" case_conversion="startupper"/> <match
+                                no="2" case_conversion="startupper"/><match no="3"/><match no="4" case_conversion="startupper"/></suggestion>.</message>
+                        <url>http://so.pwn.pl/zasady.php?id=629390</url>
+                        <short>Błąd pisowni wielką i małą literą</short>
+                        <example type="incorrect" correction="Przeglądzie Filozoficzno-Literackim">Czytałem to w „<marker>Przeglądzie filozoficzno-literackim</marker>”.</example>
+                        <example type="correct">Czytałem to w „<marker>Przeglądzie Filozoficzno-Literackim</marker>”.</example>
+                    </rule>
+                </rulegroup>
 				<rulegroup id="WOJ_MAZOWIECKIE" name="„województwo Mazowieckie” (województwo mazowieckie)">
                 <rule>
                   <pattern case_sensitive="yes">
@@ -8401,7 +8444,7 @@ $Id$
 						<pattern case_sensitive="yes">
 								<token inflected="yes">województwo</token>
 								<marker>
-										<token postag="adv:pos" regexp="yes">\p{Lu}\p{Ll}.*o</token>
+										<token postag="adja" regexp="yes">\p{Lu}\p{Ll}.*o</token>
                                         <token spacebefore="no">-</token>
                                         <token regexp="yes" postag="adj:.*" postag_regexp="yes">\p{Lu}\p{Ll}.*ki.*</token>
 								</marker>
