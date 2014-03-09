@@ -99,7 +99,11 @@ public class MorfologikSpeller {
         if (auxIndex > i) {
           suggestions.remove(auxIndex);
         }
-        suggestions.set(i, uppercaseFirst);
+        if (auxIndex > -1 && auxIndex < i) {
+          suggestions.remove(i);
+        } else {
+          suggestions.set(i, uppercaseFirst);
+        }
       }
     }
     return suggestions;

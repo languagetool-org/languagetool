@@ -87,6 +87,11 @@ public class MorfologikCatalanSpellerRuleTest {
 
         //incorrect words:
         
+        matches = rule.match(langTool.getAnalyzedSentence("Malaysia"));
+        assertEquals(1, matches.length);
+        assertEquals("Malàisia", matches[0].getSuggestedReplacements().get(0));
+        assertEquals(1 , matches[0].getSuggestedReplacements().size());
+        
         matches = rule.match(langTool.getAnalyzedSentence("quna"));
         assertEquals(1, matches.length);
         assertEquals("que", matches[0].getSuggestedReplacements().get(0));
