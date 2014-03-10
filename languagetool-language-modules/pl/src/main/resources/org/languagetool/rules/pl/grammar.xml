@@ -4401,8 +4401,24 @@ $Id$
                                 </marker>
                                 <token>temu</token>
                             </antipattern>
+                            <antipattern>
+                                <token regexp="yes">[234]</token>
+                                <token>miliony</token>
+                                <marker>
+                                    <token>lat</token>
+                                </marker>
+                                <token>temu</token>
+                            </antipattern>
+                            <antipattern>
+                                <token regexp="yes">\d+</token>
+                                <token spacebefore="no">,</token>
+                                <token  regexp="yes">\d+</token>
+                                <token regexp="yes">miliona|tysiąca</token>
+                                <marker><token>lat</token></marker>
+                                <token>temu</token>
+                            </antipattern>
 							<pattern>
-								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:\-\d+)?|\.|mln|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
+								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:[\-–—]\d+)?|\.|mln|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
 						        <token postag="prep:acc">temu</token>
                                 <token><exception postag="num:pl:nom.acc.*" postag_regexp="yes"/></token>
 							     </pattern>
@@ -4418,6 +4434,8 @@ $Id$
                                 <example type="correct">Było to 500-600 lat temu.</example>
                                 <example type="correct">To było sześćdziesiąt z górą lat temu.</example>
                                 <example type="correct">Lat temu kilka przebywałem na dworze.</example>
+                                <example type="correct">To zwierzę pojawia się 2–3,8 miliona lat temu.</example>
+                                <example type="correct">2 miliony lat temu zjadłem kanapkę.</example>
 						</rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">

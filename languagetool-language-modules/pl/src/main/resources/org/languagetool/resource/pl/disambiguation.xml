@@ -385,7 +385,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<pattern>
     		<token>mimo</token>
     	</pattern>
-    	<disambig postag="prep:gen"/>    	
+    	<disambig postag="prep:gen"/>
+    </rule>
+
+    <rule name="jako taki" id="JAKO_TAKI_puddle">
+        <pattern>
+            <token postag="conj">jako</token>
+            <token postag="adj.*" postag_regexp="yes" inflected="yes">taki</token>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="ZA_NIE_QUB" name="za to nie kublik, reguła za AdamP (Spejd)">
@@ -1858,6 +1866,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="przestrzenić"/></disambig>
     </rule>
 
+    <rule id="PRZETRWANIA" name="przetrwania to nie przetrwaniać">
+        <pattern>
+            <token>przetrwania</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="przetrwaniać"/></disambig>
+    </rule>
+
     <rule id="ROZSTROJ" name="rozstrój to nie rozstroić (AdamP)">
         <pattern>
             <token>rozstrój</token>
@@ -3050,6 +3065,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig action="unify"/>
             <example type="ambiguous" inputform="miałem[miał/subst:sg:inst:m3,mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]"
                      outputform="miałem[mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]">Myślisz, że to ja <marker>miałem</marker> zrobić?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="gender"/>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception></token>
+                        <token skip="-1" postag="verb:winien.*:ter.*" postag_regexp="yes"></token>
+                    </unify>
+                </marker>
+                <token postag="verb:inf.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl,powinny/adj:sg:nom.voc:f:pos]"
+                     outputform="powinna[powinien/verb:winien:sg:f:ter:imperf:nonrefl]">Gazeta <marker>powinna</marker> być drukowana.</example>
         </rule>
     </rulegroup>
 
