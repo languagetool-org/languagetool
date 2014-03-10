@@ -403,7 +403,7 @@ public class Main extends WeakBase implements XJobExecutor,
   // See https://bugs.freedesktop.org/show_bug.cgi?id=69416
   // non-private for test case
   String cleanFootnotes(String paraText) {
-    return paraText.replaceAll("([.!?])\\d ", "$1¹ ");
+    return paraText.replaceAll("([^\\d][.!?])\\d ", "$1¹ ");
   }
 
   private synchronized SingleProofreadingError[] checkParaRules(
