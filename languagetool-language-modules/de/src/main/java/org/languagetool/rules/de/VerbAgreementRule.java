@@ -300,12 +300,12 @@ public class VerbAgreementRule extends GermanRule {
    * @return a list of forms of @param verb which match @param expectedVerbPOS (person:number)
    * @param toUppercase true when the suggestions should be capitalized
    */
-  private ArrayList getVerbSuggestions(final AnalyzedTokenReadings verb, final String expectedVerbPOS, final boolean toUppercase) {
+  private List<String> getVerbSuggestions(final AnalyzedTokenReadings verb, final String expectedVerbPOS, final boolean toUppercase) {
     // find the first verb reading
     AnalyzedToken verbToken = new AnalyzedToken("","","");
-    for(AnalyzedToken v : verb.getReadings()) {
-      if(v.getPOSTag().startsWith("VER:")) {
-        verbToken = v;
+    for (AnalyzedToken token : verb.getReadings()) {
+      if (token.getPOSTag().startsWith("VER:")) {
+        verbToken = token;
         break;
       }
     }
@@ -313,17 +313,17 @@ public class VerbAgreementRule extends GermanRule {
     try {
       String[] synthesized = german.getSynthesizer().synthesize(verbToken, "VER.*:"+expectedVerbPOS+".*", true);
       // remove duplicates
-      HashSet hs = new HashSet();
-      hs.addAll(Arrays.asList(synthesized));
-      ArrayList<String> al = new ArrayList<>();
-      al.addAll(hs);
-      if(toUppercase) {
-        for(int i=0; i<al.size(); ++i) {
-          al.set(i, StringTools.uppercaseFirstChar(al.get(i)));
+      Set<String> suggestionSet = new HashSet<>();
+      suggestionSet.addAll(Arrays.asList(synthesized));
+      List<String> suggestions = new ArrayList<>();
+      suggestions.addAll(suggestionSet);
+      if (toUppercase) {
+        for (int i = 0; i < suggestions.size(); ++i) {
+          suggestions.set(i, StringTools.uppercaseFirstChar(suggestions.get(i)));
         }
       }
-      Collections.sort(al);
-      return al;
+      Collections.sort(suggestions);
+      return suggestions;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -333,34 +333,34 @@ public class VerbAgreementRule extends GermanRule {
    * @return a list of pronouns which match the person and number of @param verb
    * @param toUppercase true when the suggestions should be capitalized
    */
-  private ArrayList getPronounSuggestions(final AnalyzedTokenReadings verb, final boolean toUppercase) {
-    ArrayList<String> al = new ArrayList<>();
-    if(verb.hasPartialPosTag(":1:SIN")) {
-      al.add("ich");
+  private List<String> getPronounSuggestions(final AnalyzedTokenReadings verb, final boolean toUppercase) {
+    List<String> result = new ArrayList<>();
+    if (verb.hasPartialPosTag(":1:SIN")) {
+      result.add("ich");
     }
-    if(verb.hasPartialPosTag(":2:SIN")) {
-      al.add("du");
+    if (verb.hasPartialPosTag(":2:SIN")) {
+      result.add("du");
     }
-    if(verb.hasPartialPosTag(":3:SIN")) {
-      al.add("er");
-      al.add("sie");
-      al.add("es");
+    if (verb.hasPartialPosTag(":3:SIN")) {
+      result.add("er");
+      result.add("sie");
+      result.add("es");
     }
-    if(verb.hasPartialPosTag(":1:PLU")) {
-      al.add("wir");
+    if (verb.hasPartialPosTag(":1:PLU")) {
+      result.add("wir");
     }
-    if(verb.hasPartialPosTag(":2:PLU")) {
-      al.add("ihr");
+    if (verb.hasPartialPosTag(":2:PLU")) {
+      result.add("ihr");
     }
-    if(verb.hasPartialPosTag(":3:PLU") && !al.contains("sie")) { // do not add "sie" twice
-      al.add("sie");
+    if (verb.hasPartialPosTag(":3:PLU") && !result.contains("sie")) { // do not add "sie" twice
+      result.add("sie");
     }
-    if(toUppercase) {
-      for(int i=0; i<al.size(); ++i) {
-        al.set(i, StringTools.uppercaseFirstChar(al.get(i)));
+    if (toUppercase) {
+      for (int i = 0; i < result.size(); ++i) {
+        result.set(i, StringTools.uppercaseFirstChar(result.get(i)));
       }
     }
-    return al;
+    return result;
   }
   
   private RuleMatch ruleMatchWrongVerb(final AnalyzedTokenReadings token) {
@@ -375,31 +375,31 @@ public class VerbAgreementRule extends GermanRule {
       ") und Prädikat (" + verb.getToken() + ") bezüglich Person oder Numerus (Einzahl, Mehrzahl - Beispiel: " +
       "'ich sind' statt 'ich bin').";
     
-    ArrayList suggestions = new ArrayList();
-    ArrayList verbSuggestions = new ArrayList();
-    ArrayList pronounSuggestions = new ArrayList();
+    List<String> suggestions = new ArrayList<>();
+    List<String> verbSuggestions = new ArrayList<>();
+    List<String> pronounSuggestions = new ArrayList<>();
     
     RuleMatch ruleMatch;
     if (subject.getStartPos() < verb.getStartPos()) {
       ruleMatch = new RuleMatch(this, subject.getStartPos(), verb.getStartPos() + verb.getToken().length(), msg);
       verbSuggestions.addAll(getVerbSuggestions(verb, expectedVerbPOS, false));
-      for(int i=0; i<verbSuggestions.size(); ++i) {
-        suggestions.add(subject.getToken() + " " + verbSuggestions.get(i));
+      for (String verbSuggestion : verbSuggestions) {
+        suggestions.add(subject.getToken() + " " + verbSuggestion);
       }
       pronounSuggestions.addAll(getPronounSuggestions(verb, Character.isUpperCase(subject.getToken().charAt(0))));
-      for(int i=0; i<pronounSuggestions.size(); ++i) {
-        suggestions.add(pronounSuggestions.get(i) + " " + verb.getToken());
+      for (String pronounSuggestion : pronounSuggestions) {
+        suggestions.add(pronounSuggestion + " " + verb.getToken());
       }
       ruleMatch.setSuggestedReplacements(suggestions);
     } else {
       ruleMatch = new RuleMatch(this, verb.getStartPos(), subject.getStartPos() + subject.getToken().length(), msg);
       verbSuggestions.addAll(getVerbSuggestions(verb, expectedVerbPOS, Character.isUpperCase(verb.getToken().charAt(0))));
-      for(int i=0; i<verbSuggestions.size(); ++i) {
-        suggestions.add(verbSuggestions.get(i) + " " + subject.getToken());
+      for (String verbSuggestion : verbSuggestions) {
+        suggestions.add(verbSuggestion + " " + subject.getToken());
       }
       pronounSuggestions.addAll(getPronounSuggestions(verb, false));
-      for(int i=0; i<pronounSuggestions.size(); ++i) {
-        suggestions.add(verb.getToken() + " " + pronounSuggestions.get(i));
+      for (String pronounSuggestion : pronounSuggestions) {
+        suggestions.add(verb.getToken() + " " + pronounSuggestion);
       }
       ruleMatch.setSuggestedReplacements(suggestions);
     }
