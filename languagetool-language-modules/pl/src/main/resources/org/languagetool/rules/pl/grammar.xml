@@ -685,7 +685,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"/></token>
 										<token regexp="yes">ile|jako|szczególnie|tyle|zwłaszcza|pomimo|mimo<exception postag="SENT_START"></exception></token>
 										<token regexp="yes">że|iż</token>
 								</pattern>
@@ -7639,7 +7639,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>ze</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+|ZSRR<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+|ZSRR<exception regexp="yes">[\&quot;„]|wp[rł].*</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -7649,12 +7649,13 @@ $Id$
 								<example type="correct">Nawet Horacy drwił ze &quot;szkodliwego hazardu&quot;.</example>
 								<example type="correct">Żegnaliśmy go ze łzami.</example>
 								<example correction="z Łodzi" type="incorrect">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
+                                <example type="correct">Żyjemy tylko z wpływów z biletów.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token>ze</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]|wp[rł].*</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
