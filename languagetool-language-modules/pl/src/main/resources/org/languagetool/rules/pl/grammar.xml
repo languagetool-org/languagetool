@@ -13845,7 +13845,20 @@ $Id$
 								<example type="correct">Premier poinformował, że chce iść na spacer.</example>
 								<example correction="że" type="incorrect">Premier poinformował, <marker>ze</marker> trzeba siać, siać, siać.</example>
 						</rule>
-				</rulegroup>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <token>ze</token>
+                            </marker>
+                            <token>wtedy</token>
+                        </pattern>
+                        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example type="correct">Premier poinformował, że chce iść na spacer.</example>
+                        <example correction="że" type="incorrect">Premier poinformował wczoraj, <marker>ze</marker> wtedy jadł pierogi.</example>
+                    </rule>
+
+                </rulegroup>
 				<rulegroup id="Z_POWODY" name="„z powody (z powodu)” itp.">
 						<rule>
 								<pattern>
