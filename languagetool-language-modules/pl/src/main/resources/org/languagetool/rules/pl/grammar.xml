@@ -8148,16 +8148,17 @@ $Id$
 								<token><exception>do</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
 						</pattern>
 						<message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu: <suggestion><match no="1" postag="(.*):refl.nonrefl" postag_replace="$1:nonrefl">przodować</match></suggestion>,
-							<suggestion><match no="1" regexp_match="wiodąc" regexp_replace="główn"/></suggestion>,
-							<suggestion><match no="1" regexp_match="wiodący" regexp_replace="przewodni"/></suggestion>,
-							<suggestion><match no="1" regexp_match="wiodąc" regexp_replace="zasadnicz"/></suggestion>,
-							<suggestion><match no="1" regexp_match="wiodąc" regexp_replace="najlepsz"/></suggestion>.</message>
+							<suggestion><match no="1" regexp_match="(?iu)wiodąc" regexp_replace="główn"/></suggestion>,
+							<suggestion><match no="1" regexp_match="(?iu)wiodący?" regexp_replace="przewodni"/></suggestion>,
+							<suggestion><match no="1" regexp_match="(?iu)wiodąc" regexp_replace="zasadnicz"/></suggestion>,
+							<suggestion><match no="1" regexp_match="(?iu)wiodąc" regexp_replace="najlepsz"/></suggestion>.</message>
 						<short>Wyraz modny lub nadużywany</short>
 						<example type="correct">To jest szlak wiodący wprost na szczyt.</example>
 						<example type="correct">Tematem przewodnim tej książki jest mądrość premiera.</example>
 						<example correction="przodującym|głównym|przewodnim|zasadniczym|najlepszym" type="incorrect">Tematem <marker>wiodącym</marker> tej książki jest mądrość premiera.</example>
                         <example type="incorrect">To <marker>wiodący</marker> we Francji producent telewizorów.</example>
                         <example type="correct">Dla zorientowania się w szlakach współczesnego Kościoła wiodących w przyszłość warto przeczytać ten artykuł.</example>
+                        <example type="incorrect" correction="Przodujące|Główne|Przewodnie|Zasadnicze|Najlepsze"><marker>Wiodące</marker> warszawskie kluby sportowe.</example>
 				</rule>
 				<rule id="POWIEM_TAK" name="„powiem tak”">
 						<pattern case_sensitive="yes">
