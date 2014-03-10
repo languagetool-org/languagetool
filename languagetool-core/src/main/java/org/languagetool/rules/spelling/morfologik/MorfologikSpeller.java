@@ -101,6 +101,7 @@ public class MorfologikSpeller {
         }
         if (auxIndex > -1 && auxIndex < i) {
           suggestions.remove(i);
+          i--;
         } else {
           suggestions.set(i, uppercaseFirst);
         }

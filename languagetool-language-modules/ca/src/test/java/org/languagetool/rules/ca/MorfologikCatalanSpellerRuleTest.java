@@ -43,7 +43,7 @@ public class MorfologikCatalanSpellerRuleTest {
         // prefixes and suffixes.
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("S'autodefineixin com a populars.")).length);
         //assertEquals(0, rule.match(langTool.getAnalyzedSentence("Redibuixen el futur.")).length);
-        //assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'exdirigent del partit.")).length);
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("L'exdirigent del partit.")).length);
 
         // correct sentences:
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("Abacallanada")).length);
@@ -86,6 +86,15 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("AixòÉsUnError")).length);
 
         //incorrect words:
+        
+        matches = rule.match(langTool.getAnalyzedSentence("Bordoy"));
+        assertEquals(1, matches.length);
+        
+        //Bordó; Bordoi; Bordo; bordon
+        assertEquals("Bordó", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("Bordoi", matches[0].getSuggestedReplacements().get(1));
+        assertEquals("Bordo", matches[0].getSuggestedReplacements().get(2));
+        assertEquals("Bordon", matches[0].getSuggestedReplacements().get(3));
         
         matches = rule.match(langTool.getAnalyzedSentence("Malaysia"));
         assertEquals(1, matches.length);
