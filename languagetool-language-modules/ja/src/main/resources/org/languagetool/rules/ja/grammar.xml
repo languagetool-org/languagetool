@@ -11,14 +11,43 @@ Japanese Grammar and Typo Rules file for LanguageTool
   <!-- 文法 -->
   <!-- ============================== -->
   <category name="文法">
-  	<rule id="DOUSI_WO" name="動詞+を">
-  	  <pattern case_sensitive="no">
-  	    <token postag="動詞.*" postag_regexp="yes"></token>
-  	    <token>を</token>
+	<rule id="DOUSI_WO" name="動詞+を">
+	  <pattern case_sensitive="no">
+	    <token postag="動詞.*" postag_regexp="yes"></token>
+	    <token>を</token>
+	  </pattern>
+	  <message>のを</message>
+	  <example type="correct"><marker>見るのを</marker>ためらう</example>
+	  <example type="incorrect"><marker>見るを</marker>ためらう</example>
+	</rule>
+	<rule id="ENAI" name="得ない">
+	  <pattern case_sensitive="no">
+	    <token postag="動詞.*" postag_regexp="yes"></token>
+		<token regexp="yes">おえない|お得ない</token>
+	  </pattern>
+	  <message>を得ない</message>
+	  <example type="correct"><marker>を得ない</marker></example>
+	  <example type="incorrect"><marker>お得ない</marker></example>
+	</rule>
+	<rule id="CHIGAI" name="違い">
+	  <pattern case_sensitive="no">
+		<token>違</token>
+		<token>く</token>
+		<token>て</token>
   	  </pattern>
-  	  <message>のを</message>
-  	  <example type="correct"><marker>見るのを</marker>ためらう</example>
-  	  <example type="incorrect"><marker>見るを</marker>ためらう</example>
+  	  <message>違って</message>
+			<example type="correct">とは<marker>違って</marker></example>
+			<example type="incorrect">とは<marker>違くて</marker></example>
+  	</rule>
+	<rule id="CHIGATTA" name="違った">
+  	  <pattern case_sensitive="no">
+		<token>違</token>
+				<token>かっ</token>
+				<token>た</token>
+  	  </pattern>
+  	  <message>違った</message>
+			<example type="correct"><marker>違った</marker>問題</example>
+			<example type="incorrect"><marker>違かった</marker>問題</example>
   	</rule>
   </category>
   <!-- ============================== -->
@@ -35,6 +64,24 @@ Japanese Grammar and Typo Rules file for LanguageTool
       <example type="correct"><marker>そんじょそこら</marker>で手に入る</example>
       <example type="incorrect"><marker>そんじゃそこら</marker>で手に入る</example>
     </rule>
+	<rule id="OMACHIDOU" name="お待ちどう">
+      <pattern case_sensitive="no">
+				<token>お待ち</token>
+				<token>どお</token>
+      </pattern>
+	  <message>お待ちどう</message>
+			<example type="correct"><marker>お待ちどう</marker>様</example>
+			<example type="incorrect"><marker>お待ちどお</marker>様</example>
+    </rule>
+	<rule id="IU" name="言う">
+  	  <pattern case_sensitive="no">
+		<token regexp="yes">と|が|は</token>
+  	    <token>ゆう</token>
+  	  </pattern>
+	  <message>いう</message>
+			<example type="correct">と<marker>いう</marker>もの</example>
+			<example type="incorrect">と<marker>ゆう</marker>もの</example>
+  	</rule>
 	<rule id="KIMONIMEIJIRU" name="肝に命じる">
       <pattern case_sensitive="no">
 		<token>肝</token>
@@ -119,6 +166,25 @@ Japanese Grammar and Typo Rules file for LanguageTool
       <example type="correct"><marker>有頂天</marker>になる</example>
       <example type="incorrect"><marker>有頂点</marker>になる</example>
     </rule>
+	<rule id="YOHAMANZOKU" name="余は満足">
+      <pattern case_sensitive="no">
+		<token>世</token>
+		<token>は</token>
+		<token>満足</token>
+      </pattern>
+	  <message>世は満足</message>
+			<example type="correct"><marker>余は満足</marker>じゃ</example>
+			<example type="incorrect"><marker>世は満足</marker>じゃ</example>
+    </rule>
+	<rule id="NENREI" name="年齢">
+      <pattern case_sensitive="no">
+		<token>年</token>
+		<token>令</token>
+      </pattern>
+	  <message>年齢</message>
+			<example type="correct"><marker>年齢</marker>の言い方</example>
+			<example type="incorrect"><marker>年令</marker>の言い方</example>
+    </rule>
 	<rule id="URABURERU" name="裏ぶれる">
       <pattern case_sensitive="no">
 		<token>裏</token>
@@ -176,8 +242,8 @@ Japanese Grammar and Typo Rules file for LanguageTool
     </rule>
     <rule id="YUUISA" name="有意差">
       <pattern case_sensitive="no">
-                <token>優位</token>
-                <token>差</token>
+		<token>優位</token>
+		<token>差</token>
       </pattern>
           <message><suggestion>有意差</suggestion>の間違いです</message>
       <example type="correct"><marker>有意差</marker>がある</example>
@@ -185,8 +251,8 @@ Japanese Grammar and Typo Rules file for LanguageTool
     </rule>
     <rule id="KAKURITSUBUNPU" name="確率分布">
       <pattern case_sensitive="no">
-                <token>確立</token>
-                <token>分布</token>
+		<token>確立</token>
+		<token>分布</token>
       </pattern>
           <message><suggestion>確率分布</suggestion>の間違いです</message>
       <example type="correct">さまざまな<marker>確率分布</marker></example>
@@ -194,8 +260,8 @@ Japanese Grammar and Typo Rules file for LanguageTool
     </rule>
     <rule id="KIKAIGAKUSYUU" name="機械学習">
       <pattern case_sensitive="no">
-                <token>機会</token>
-                <token>学習</token>
+		<token>機会</token>
+		<token>学習</token>
       </pattern>
           <message><suggestion>機械学習</suggestion>の間違いです</message>
       <example type="correct"><marker>機械学習</marker>をさせる</example>
@@ -209,6 +275,15 @@ Japanese Grammar and Typo Rules file for LanguageTool
 	  <message>を</message>
       <example type="correct"><marker>上を</marker>見る</example>
       <example type="incorrect"><marker>上お</marker>見る</example>
+    </rule>
+	<rule id="MUNESANZUN" name="胸三寸">
+      <pattern case_sensitive="no">
+		<token>胸先</token>
+		<token>三寸</token>
+      </pattern>
+	  <message>胸三寸</message>
+      <example type="correct"><marker>胸三寸</marker>に納める</example>
+      <example type="incorrect"><marker>胸先三寸</marker>に納める</example>
     </rule>
   </category>
   <!-- ============================== -->
