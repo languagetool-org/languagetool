@@ -733,6 +733,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule name="Bądź jako spójnik" id="badz_koordynacja">
+        <pattern>
+            <unify>
+                <feature id="case"/>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <marker><token>bądź</token></marker>
+                </unify-ignore>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="conj|comp:comma"/>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne <marker>bądź</marker> zależne.</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
+    </rule>
+
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
         <pattern>
             <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
@@ -1268,6 +1287,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
 			<example type="untouched">Dziwny XIX w.</example>
 	</rule>
+
+    <rule name="Warsz" id="IMIE_WARSZ">
+        <pattern case_sensitive="yes">
+            <token inflected="yes">imię</token>
+            <marker><token>Warsz</token></marker>
+        </pattern>
+        <disambig action="replace"><wd lemma="Warsz" pos="subst:sg:nom.voc:m1"/></disambig>
+    </rule>
 
     <rule id="PO_DZIS_DZIEN" name="po dziś dzień - wersja z ręcznie anotowanego NKJP">
         <pattern>
@@ -2244,26 +2271,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-
-     <rule name="Bądź jako spójnik" id="badz_koordynacja">
-            <pattern>
-                <unify>
-                    <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
-                    <unify-ignore>
-                        <token min="0" max="1">,</token>
-                        <marker><token>bądź</token></marker>
-                    </unify-ignore>
-                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
-                </unify>
-            </pattern>
-            <disambig action="filter" postag="conj|comp:comma"/>
-            <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
-                     outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne <marker>bądź</marker> zależne.</example>
-            <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
-                  outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
-
-     </rule>
 
     <rulegroup id="BYC_ADJ_ACC_NOM" name="być + przymiotnik orzecznikowy -> mianownik">
         <rule>
@@ -3935,7 +3942,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="untouched">Był to em. płk James Bond</example>
     	<example type="ambiguous" inputform="em[em/subst:pl:acc:n2,em/subst:pl:dat:n2,em/subst:pl:gen:n2,em/subst:pl:inst:n2,em/subst:pl:loc:n2,em/subst:pl:nom:n2,em/subst:pl:voc:n2,em/subst:sg:acc:n2,em/subst:sg:dat:n2,em/subst:sg:gen:n2,em/subst:sg:inst:n2,em/subst:sg:loc:n2,em/subst:sg:nom:n2,em/subst:sg:voc:n2,emerytowany/brev:pun]" outputform="em[em/subst:pl:acc:n2,em/subst:pl:dat:n2,em/subst:pl:gen:n2,em/subst:pl:inst:n2,em/subst:pl:loc:n2,em/subst:pl:nom:n2,em/subst:pl:voc:n2,em/subst:sg:acc:n2,em/subst:sg:dat:n2,em/subst:sg:gen:n2,em/subst:sg:inst:n2,em/subst:sg:loc:n2,em/subst:sg:nom:n2,em/subst:sg:voc:n2]">Maximilienem de Robespierre'<marker>em</marker> (Wojciech Pszoniak)</example>
     </rule>
-    
+
+    <rule name="Center for" id="CENTER_FOR"> <!-- wyrażenie angielskie w polskim tekście -->
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>Center</token>
+                <token>for</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="ign"/><wd pos="ign"/></disambig>
+    </rule>
      
     <rule name="1 luty" id="NUM_LUTY">
     	<pattern>
