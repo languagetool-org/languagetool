@@ -42,9 +42,9 @@ public class RussianTaggerTest extends TestCase {
   
   public void testTagger() throws IOException {
     TestTools.myAssert("Все счастливые семьи похожи друг на друга,  каждая  несчастливая  семья несчастлива по-своему.",
-        "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]ADV|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- счастливые/[счастливый]ADJ:PL:Nom|счастливые/[счастливый]ADJ:PL:V -- семьи/[семья]NN:Fem:PL:Nom|семьи/[семья]NN:Fem:PL:V|семьи/[семья]NN:Fem:Sin:R -- похожи/[похожий]ADJ_Short:PL -- друг/[друг]NN:Masc:Sin:Nom -- на/[на]PREP -- друга/[друг]NN:Masc:Sin:R|друга/[друг]NN:Masc:Sin:V -- каждая/[каждый]PADJ:Fem:Nom -- несчастливая/[несчастливый]ADJ:Fem:Nom -- семья/[семья]NN:Fem:Sin:Nom -- несчастлива/[несчастливый]ADJ_Short:Fem -- по-своему/[по-своему]ADV", tokenizer, tagger);        
+        "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- счастливые/[счастливый]ADJ:PL:Nom|счастливые/[счастливый]ADJ:PL:V -- семьи/[семья]NN:Fem:PL:Nom|семьи/[семья]NN:Fem:PL:V|семьи/[семья]NN:Fem:Sin:R -- похожи/[похожий]ADJ_Short:PL -- друг/[друг]NN:Masc:Sin:Nom -- на/[на]PREP -- друга/[друг]NN:Masc:Sin:R|друга/[друг]NN:Masc:Sin:V -- каждая/[каждый]PADJ:Fem:Nom -- несчастливая/[несчастливый]ADJ:Fem:Nom -- семья/[семья]NN:Fem:Sin:Nom -- несчастлива/[несчастливый]ADJ_Short:Fem -- по-своему/[по-своему]ADV", tokenizer, tagger);        
     TestTools.myAssert("Все смешалось в доме Облонских.",
-        "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]ADV|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- смешалось/[смешаться]VB:Past:Neut -- в/[в]PREP -- доме/[дом]NN:Masc:Sin:P -- Облонских/[null]null", tokenizer, tagger);        
+        "Все/[весь]PADJ:PL:Nom|Все/[весь]PADJ:PL:V|Все/[все]PNN:PL:Nom|Все/[все]PNN:PL:V|Все/[все]PNN:Sin:Nom|Все/[все]PNN:Sin:V -- смешалось/[смешаться]VB:Past:Neut -- в/[в]PREP -- доме/[дом]NN:Masc:Sin:P -- Облонских/[null]null", tokenizer, tagger);        
   }
 
 }
