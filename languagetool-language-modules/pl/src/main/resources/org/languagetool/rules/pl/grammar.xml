@@ -5888,7 +5888,7 @@ $Id$
 										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
 										<token regexp="yes">rolę|role</token>
 								</pattern>
-								<message>Mówimy <suggestion><match no="1"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"></match></suggestion>, a nie „<match no="1"/> rolę”.</message>
+								<message>Mówimy <suggestion><match no="1"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match></suggestion>, a nie „<match no="1"/> rolę”.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="Pełni funkcję|Odgrywa rolę" type="incorrect"><marker>Pełni rolę</marker> w żegludze różnych typów statków.</example>
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
@@ -5897,22 +5897,23 @@ $Id$
 						<rule>
 								<pattern>
 										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
-										<token postag="(adj|ppas|pact):.*acc.*" postag_regexp="yes"></token>
+										<token postag="(adj|ppas|pact):.*acc.*:f.*" postag_regexp="yes"/>
 										<token regexp="yes">rolę|role</token>
 								</pattern>
-								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"></match> <match no="3"></match></suggestion>, a nie „pełnić rolę”.</message>
+								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"></match></suggestion>, a nie „pełnić rolę”.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="Pełni istotną funkcję|Odgrywa istotną rolę" type="incorrect"><marker>Pełni istotną rolę</marker> w żegludze różnych typów statków.</example>
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+                                <example type="incorrect" correction="spełniając swoją funkcję|odgrywając swoją rolę">Nadal <marker>spełniając swoją rolę</marker>, stali się zależni od Chin.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
 										<token postag="adv.*" postag_regexp="yes"></token>
-										<token postag="(adj|pact|ppas):.*acc.*" postag_regexp="yes"></token>
+										<token postag="(adj|pact|ppas):.*acc.*:f.*" postag_regexp="yes"></token>
 										<token regexp="yes">rolę|role</token>
 								</pattern>
-								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*">odgrywać</match> <match no="2"></match> <match no="3"></match> <match no="4"></match></suggestion>, a nie „pełnić rolę”.</message>
+								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"></match> <match no="4"></match></suggestion>, a nie „pełnić rolę”.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="Pełni naprawdę istotną funkcję|Odgrywa naprawdę istotną rolę" type="incorrect"><marker>Pełni naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
@@ -7625,6 +7626,7 @@ $Id$
 								<example correction="ze Świecia" type="incorrect">Ludwik ma kochankę <marker>z Świecia</marker>.</example>
                                 <example type="correct">Żyjemy tylko z wpływów z biletów.</example>
                                 <example type="correct">Może nas czekać walka z wtórnym analfabetyzmem.</example>
+                                <example type="correct">To wszystko wynika z wpływu wywieranego na odbiorców.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -7642,7 +7644,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>ze</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+|ZSRR<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+|ZSRR<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -7657,7 +7659,7 @@ $Id$
 								<pattern>
 										<token>ze</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]|wp[rł].*|wtó.*</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -13877,7 +13879,21 @@ $Id$
                         <example type="correct">Premier poinformował, że chce iść na spacer.</example>
                         <example correction="że" type="incorrect">Premier poinformował wczoraj, <marker>ze</marker> wtedy jadł pierogi.</example>
                     </rule>
-
+                    <rule>
+                        <pattern>
+                            <token inflected="yes">być</token>
+                            <token>zdania</token>
+                            <token min="0" max="1">,</token>
+                            <marker>
+                                <token>ze</token>
+                            </marker>
+                        </pattern>
+                        <message>Prawdopodobna literówka. Czy chodziło o <suggestion>że</suggestion>?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example type="correct">Premier był zdania, że to dobra ustawa.</example>
+                        <example correction="że" type="incorrect">Premier był zdania, <marker>ze</marker> to dobra ustawa.</example>
+                        <example correction="że" type="incorrect">Premier był zdania <marker>ze</marker> to dobra ustawa.</example>
+                    </rule>
                 </rulegroup>
 				<rulegroup id="Z_POWODY" name="„z powody (z powodu)” itp.">
 						<rule>
