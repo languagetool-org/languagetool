@@ -233,7 +233,8 @@ public class WikipediaQuickCheck {
     final URL url = new URL(urlString);
     final String mediaWikiContent = check.getMediaWikiContent(url);
     final String plainText = check.getPlainText(mediaWikiContent);
-    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, new German());
+    final Language lang = check.getLanguage(url);
+    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, lang);
     final ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(CONTEXT_SIZE);
     for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
