@@ -1217,15 +1217,38 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace"><wd pos="NCMN000"/><wd pos="AQ0MN0"/><wd pos="AQ0MN0"/></disambig>
         </rule> 
     </rulegroup>    
-    <rule id="VAN_GOGH" name="van Gogh">
-        <pattern>
-            <marker>
-                <token>van</token>
-            </marker>    
-            <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
-        </pattern>
-        <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
-    </rule>
+    <rulegroup id="VAN_GOGH" name="van Gogh">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>van</token>
+                </marker>    
+                <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Lu}.+</token>
+                <marker>
+                    <token>van</token>
+                </marker>
+                <token regexp="yes">\p{Lu}.+</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\p{Lu}.+</token>
+                <marker>
+                    <token>van</token>
+                </marker>
+                <token regexp="yes">den|der</token> 
+                <token regexp="yes">\p{Lu}.+</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+        </rule>
+    </rulegroup>    
     <rule id="DA_VINCI" name="da Vinci">
         <pattern>
             <marker>
@@ -1459,7 +1482,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
-                    <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="A.*" postag_regexp="yes"/><exception scope="next" postag="V.P.*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
+                    <token postag="NP.*" postag_regexp="yes" skip="3"><exception postag="A.*|RG|CC" postag_regexp="yes"/><exception scope="next" postag="V.P.*" postag_regexp="yes"/><exception scope="next" postag="P.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </marker>
                 <token postag="V.[MSI].3.*" postag_regexp="yes"/>
             </pattern>
@@ -2800,7 +2823,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes">fer<exception regexp="yes">fets?|feres</exception><exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">fer<exception regexp="yes">fets?|feres|feu</exception><exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="NC.*" postag_regexp="yes"/>
             </pattern>
@@ -4939,6 +4962,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </unify>	    
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>  	
+    </rule>
+    <rule id="feu_nom" name="feu (nom)">
+        <pattern>
+            <token>antic</token>
+            <marker>    
+                <token postag="N.*" postag_regexp="yes">feu</token>
+            </marker>        
+        </pattern>
+        <disambig action="filter" postag="N.*|.*_GN_.*"></disambig>   
     </rule>
     <rule id="quin_punt" name="quin punt">
         <pattern>

@@ -31,6 +31,11 @@ $Id$
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
+    <!ENTITY estacions "primavera|estiu|tardor|hivern">
+    <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
+    <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
+    <!ENTITY expressions_temps "ara|avui|hui|demà|despús-demà|ahir|despús-ahir|endemà|enguany">
+    <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
     <!ENTITY precedits_per_TAN "savi|espectacular|alt|ample|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer">
@@ -1861,6 +1866,216 @@ $Id$
                 <example type="correct">un grup de teatre</example>
                 <example type="correct">un parell d'engegada alt</example>
             </rule>
+        </rulegroup>
+    </category>
+    <category name="Z) Concordances entre subjecte, verb i complements">
+        <rulegroup id="CONCORD_SUBJECTE_VERB" name="concordança subjecte verb.">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="VM[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
+                    </marker>
+                    <token><exception>que</exception></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <!-- <example type="incorrect"><marker>Aquesta sopa són</marker> molt bones.</example> -->
+                <example type="incorrect"><marker>La primera compren</marker> tot l'itinerari</example>
+                <example type="incorrect"><marker>Joan vindran</marker> demà.</example>
+                <example type="incorrect"><marker>Joan no vindran</marker> demà.</example>
+                <!-- <example type="incorrect"><marker>Joan vam</marker> guanyar.</example> -->
+                <example type="correct">Aquesta nit vindran.</example>
+                <example type="correct">Aquesta tardor vindran.</example>
+                <example type="correct">Aquest novembre vindran.</example>
+                <example type="correct">Aquell dia vam guanyar.</example>
+                <example type="correct">Aquella volta vam guanyar.</example>
+                <example type="correct">Pere i Joan vindran demà.</example>
+                <example type="correct">Dos són sacerdots.</example>
+                <example type="correct">La seva passió havien estat les maduixes</example>
+                <example type="correct">La seva passió eren les maduixes</example>
+                <example type="correct">Aquell parell eren bons.</example>
+                <example type="correct">Quines paraules diu Joan?</example>
+                <example type="correct">Martin van Heemskerk</example>
+                <example type="correct">Esment especial mereixen els seus treballs</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes">quin</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="VM[IS].3S.." postag_regexp="yes"><exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception><exception>vinga</exception></token>
+                    </marker>
+                    <token><exception>que</exception></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <!-- <example type="incorrect"><marker>Aquestes sopes és</marker> molt bones.</example> -->
+                <example type="incorrect"><marker>Els avis vindrà</marker> demà.</example>
+                <example type="incorrect"><marker>Els avis no vindrà</marker> demà.</example>
+                <example type="incorrect"><marker>Aquestes alineacions munta</marker> nyoses són com una prolongació</example>
+                <!-- <example type="incorrect"><marker>Els barcelonistes va</marker> guanyar.</example> -->
+                <example type="correct">Aquells dies vindrà l'àvia.</example>
+                <example type="correct">Francis va assentir.</example>
+                <example type="correct">Aquelles nits veia en somnis coses rares.</example>
+                <example type="correct">Quins dies té lliures?</example>
+                <example type="correct">Poca cosa podem fer nosaltres.</example>
+                <example type="correct">Les Borges aconseguirà un bon resultat.</example>
+            </rule>
+            <!-- auxiliars -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="VA[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
+                    </marker>
+                    <token><exception>que</exception></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <!-- <example type="incorrect"><marker>Aquesta sopa són</marker> molt bones.</example> -->
+                <example type="incorrect"><marker>La primera han comprès</marker> tot l'itinerari</example>
+                <example type="incorrect"><marker>Joan han vingut</marker> demà.</example>
+                <example type="incorrect"><marker>Joan no van venir</marker> ahir.</example>
+                <!-- <example type="incorrect"><marker>Joan vam guanyar</marker>.</example> -->
+                <example type="correct">Aquesta nit han vingut.</example>
+                <example type="correct">Aquesta tardor van venir.</example>
+                <example type="correct">Aquest novembre han vingut.</example>
+                <example type="correct">Aquell dia vam guanyar.</example>
+                <example type="correct">Aquella volta vam guanyar.</example>
+                <example type="correct">Pere i Joan vindran demà.</example>
+                <example type="correct">Dos han sigut sacerdots.</example>
+                <example type="correct">La seva passió havien estat les maduixes</example>
+                <example type="correct">La seva passió eren les maduixes</example>
+                <example type="correct">Aquell parell eren bons.</example>
+                <example type="correct">Quines paraules ha dit Joan?</example>
+                <example type="correct">Martin van Heemskerk</example>
+                <example type="correct">Esment especial van merèixer els seus treballs</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes">quin</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="VA[IS].3S.." postag_regexp="yes"><exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
+                    </marker>
+                    <token><exception>que</exception></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <!-- <example type="incorrect"><marker>Aquestes sopes és</marker> molt bones.</example> -->
+                <example type="incorrect"><marker>Els avis ha vingut</marker> avui.</example>
+                <example type="incorrect"><marker>Els avis no va venir</marker> ahir.</example>
+                <example type="incorrect"><marker>Els barcelonistes va guanyar</marker>.</example>
+                <example type="incorrect"><marker>Els dos nois va abaixar</marker> la mirada al mateix temps</example> 
+                <example type="correct">Aquells dies ha vingut l'àvia.</example>
+                <example type="correct">Francis va assentir.</example>
+                <example type="correct">Aquelles nits va veure en somnis coses rares.</example>
+                <example type="correct">Quins dies ha tingut lliures?</example>
+                <example type="correct">Poca cosa hem pogut fer nosaltres.</example>
+                <example type="correct">Les Borges va aconseguir un bon resultat.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="CONCORD_COPULATIVES" name="concordança en frases copulatives">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="V.[IS].3P.." postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <example type="incorrect"><marker>Aquesta sopa són</marker> molt bones.</example>
+                <example type="correct">Dos són sacerdots.</example>
+                <example type="correct">La seva passió havien estat les maduixes</example>
+                <example type="correct">La seva passió eren les maduixes</example>
+                <example type="correct">Aquell parell eren bons.</example>
+                <example type="correct">Esment especial mereixen els seus treballs</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes">quin</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="V.[IS].3S.." postag_regexp="yes" inflected="yes" regexp="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.S|N..S.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <example type="incorrect"><marker>Aquestes sopes és</marker> molt bones.</example>
+                <example type="incorrect"><marker>Els amics és</marker> així.</example>
+                <example type="incorrect"><marker>Els amics té</marker> això.</example>
+                <example type="incorrect"><marker>Esment especial mereixen</marker> el seu treball.</example>
+                <example type="correct">Aquells dies era tot bonic.</example>
+            </rule>
+            
+            <!-- auxiliars -->
+            <!-- <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="VA[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
+                    </marker>
+                    <token><exception>que</exception></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <example type="incorrect"><marker>Aquesta sopa són</marker> molt bones.</example>
+                <example type="incorrect"><marker>La primera han comprès</marker> tot l'itinerari</example>
+                <example type="incorrect"><marker>Joan han vingut</marker> demà.</example>
+                <example type="incorrect"><marker>Joan no van venir</marker> ahir.</example>
+                <example type="incorrect"><marker>Joan vam guanyar</marker>.</example>
+                <example type="correct">Aquesta nit han vingut.</example>
+                <example type="correct">Aquesta tardor van venir.</example>
+                <example type="correct">Aquest novembre han vingut.</example>
+                <example type="correct">Aquell dia vam guanyar.</example>
+                <example type="correct">Aquella volta vam guanyar.</example>
+                <example type="correct">Pere i Joan vindran demà.</example>
+                <example type="correct">Dos han sigut sacerdots.</example>
+                <example type="correct">La seva passió havien estat les maduixes</example>
+                <example type="correct">La seva passió eren les maduixes</example>
+                <example type="correct">Aquell parell eren bons.</example>
+                <example type="correct">Quines paraules ha dit Joan?</example>
+                <example type="correct">Martin van Heemskerk</example>
+                <example type="correct">Esment especial van merèixer els seus treballs</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes">quin</exception></token>
+                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix</exception></token>
+                        <token min="0">no</token>
+                        <token postag="VA[IS].3S.." postag_regexp="yes"><exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
+                    </marker>
+                    <token><exception>que</exception></token>
+                </pattern>
+                <message>Possible error de concordança</message>
+                <example type="incorrect"><marker>Aquestes sopes és</marker> molt bones.</example>
+                <example type="incorrect"><marker>Els avis ha vingut</marker> avui.</example>
+                <example type="incorrect"><marker>Els avis no va venir</marker> ahir.</example>
+                <example type="incorrect"><marker>Els barcelonistes va guanyar</marker>.</example>
+                <example type="correct">Aquells dies ha vingut l'àvia.</example>
+                <example type="correct">Francis va assentir.</example>
+                <example type="correct">Aquelles nits va veure en somnis coses rares.</example>
+                <example type="correct">Quins dies ha tingut lliures?</example>
+                <example type="correct">Poca cosa hem pogut fer nosaltres.</example>
+                <example type="correct">Les Borges va aconseguir un bon resultat.</example>
+            </rule> -->
         </rulegroup>
     </category>
     <category name="Possessius" type="grammar">
@@ -5304,7 +5519,7 @@ $Id$
                         <token regexp="yes">ací|aquí</token>
                     </marker>
                     <token postag="D[IN].*" postag_regexp="yes"/>
-                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|moment|instant|temps</token>
                 </pattern>
                 <message>Cal escriure: <suggestion>d'<match no="2"/> a</suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -5320,7 +5535,7 @@ $Id$
                         <token regexp="yes">ací|aquí</token>
                     </marker>
                     <token postag="D[IN].*" postag_regexp="yes" skip="-1"><exception postag="DN.*|NC.*|_GN.*|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes" /></token>
-                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|moment|instant|temps</token>
                 </pattern>
                 <message>Cal escriure: <suggestion>d'<match no="2"/> a</suggestion>.</message>
                 <short>Expressió incorrecta</short>
@@ -10146,7 +10361,7 @@ $Id$
             <!-- Cal estudiar "que el feu". Mirar que no hi hagi cap verb ni pronom de 2P abans. "que el feu famós"... -->
             <rule>
                 <pattern>
-                    <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP|complement.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|CC|CS" postag_regexp="yes"/></token>
+                    <token skip="1" postag="P0300000|PP3.S000|_GN_.S|N..S.*" postag_regexp="yes"><exception postag="D.0MS0|PX3MS0C0|DP3CSP|complement.*" postag_regexp="yes"/><exception scope="next" postag="_PUNCT.*|CC|CS" postag_regexp="yes"/><exception>antic</exception></token>
                     <marker>
                         <token>feu</token>
                     </marker>
@@ -18374,7 +18589,7 @@ $Id$
 	                <token>a<exception postag="LOC_ADV"/></token>
 					<unify><feature id="nombre"/><feature id="genere"/>	               
 		                <token inflected="yes">poc</token>
-		                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·leni|moment|instant|temps</token>
+		                <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|moment|instant|temps</token>
 	                </unify>
 	                <token regexp="yes">de|d'|que</token>
 	                </marker>
@@ -21220,7 +21435,7 @@ $Id$
                         <token>falta</token>
                         <token skip="2">de</token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·lenni|moment|instant|temps|poc|molt</token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|moment|instant|temps|poc|molt</token>
                 </pattern>
             <message>Construcció incorrecta en expressions de temps.</message>
             <suggestion>quan falten</suggestion>
@@ -21237,7 +21452,7 @@ $Id$
                         <token>falta</token>
                         <token skip="2">d'</token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|segle|mil·lenni|moment|instant|temps|poc|molt</token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|moment|instant|temps|poc|molt</token>
                 </pattern>
             <message>Construcció incorrecta en expressions de temps.</message>
             <suggestion>quan falten </suggestion>
@@ -23185,7 +23400,7 @@ $Id$
                 <pattern>
                 	<token postag="DA.*" postag_regexp="yes"/>
                     <token inflected="yes">proper</token>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">primavera|estiu|tardor|hivern|Nadal|Pasqua|falla|&mesos_any;</token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes">&estacions;|Nadal|Pasqua|falla|&mesos_any;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="2"/>".</message> 
                 <suggestion><match no="3" postag="N.(..).*" postag_regexp="yes" postag_replace="DD0$10">aquest</match> <match no="3"/></suggestion>
@@ -23200,7 +23415,7 @@ $Id$
                 <pattern>
                     <token postag="DD.*" postag_regexp="yes"/>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">primavera|estiu|tardor|hivern|Nadal|Pasqua|falla|&mesos_any;</token>
+                    <token regexp="yes" inflected="yes">&estacions;|Nadal|Pasqua|falla|&mesos_any;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="2"/>".</message> 
                 <suggestion><match no="3" postag="N.(..).*" postag_regexp="yes" postag_replace="DD0$10">aquest</match> <match no="3"/></suggestion>
@@ -23213,7 +23428,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">acte|comici|avaluació|elecció|temporada|legislatura|curs|minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
+                    <token regexp="yes" inflected="yes">acte|comici|avaluació|elecció|temporada|legislatura|curs|&unitats_temps;|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
@@ -23228,7 +23443,7 @@ $Id$
                 <pattern>
                     <token inflected="yes">proper</token>
                     <token/>
-                    <token regexp="yes" inflected="yes">minut|hora|dia|setmana|mes|trimestre|quadrimestre|semestre|any|lustre|dècada|segel|mil·lenni|instant|moment|&dies_setmana;</token>
+                    <token regexp="yes" inflected="yes">&unitats_temps;|instant|moment|&dies_setmana;</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message> 
                 <suggestion><match no="2"/> <match no="3"/> <match no="1" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0C$10">vinent</match></suggestion>
