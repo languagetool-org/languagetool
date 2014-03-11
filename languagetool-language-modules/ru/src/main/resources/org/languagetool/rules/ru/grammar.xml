@@ -3819,7 +3819,6 @@ $Id$
                 <example type="correct">Принеси мне эту книгу завтра.</example>
             </rule>
 
-
         </rulegroup>
         
         
@@ -3828,7 +3827,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>самый</token>               
-                        <token postag="ADJ_S:.*" postag_regexp="yes"/>                    
+                        <token postag="ADJ_S:.*" postag_regexp="yes"><exception regexp="yes">большой|малый|хороший|плохой</exception></token>                    
                     </marker>                 
                 </pattern>
                 <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_S:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
@@ -3841,7 +3840,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>самая</token>               
-                        <token postag="ADJ_S:.*" postag_regexp="yes"/>                    
+                        <token postag="ADJ_S:.*" postag_regexp="yes"><exception regexp="yes">большая|малая|хорошая|плохая</exception></token>                    
                     </marker>                 
                 </pattern>
                 <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_S:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
@@ -3876,11 +3875,7 @@ $Id$
                 <example type="correct">Это менее сложная задача.</example>
             </rule>
 
-
         </rulegroup>
-
-        
-
 
         <rulegroup id="Obrazovanie_form_pril_i_mestoimenij" name="Образование местоимений 3 лица ед. и мн. ч.">
 
