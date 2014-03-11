@@ -97,6 +97,27 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform=":[:]" outputform=":[:/interp:nospace]">Pociąg odjeżdża o 15<marker>:</marker>34.</example>
     </rule>
 
+    <rule name="poor man's agglutination" id="Gdybysie">
+        <pattern>
+            <token regexp="yes">(gdyby|jeśli|jeżeli|jeżeliby|jeśliby|gdy)(ś|śmy|ście|m)</token>
+        </pattern>
+        <disambig action="replace"><match no="1" postag="conj">gdyby</match></disambig>
+    </rule>
+
+    <rule name="żem żeś" id="ZESIE">
+        <pattern>
+            <token regexp="yes">że[mś]</token>
+        </pattern>
+        <disambig action="add"><wd pos="conj" lemma="że"/></disambig>
+    </rule>
+
+    <rule name="żebysie" id="zebysie">
+        <pattern>
+            <token regexp="yes"><exception postag="comp"/>(?:żeby|a?by|ażeby|iżby)(?:ś|śmy|ście|m)</token>
+        </pattern>
+        <disambig action="add"><wd pos="comp" lemma="by"/></disambig>
+    </rule>
+
     <!-- conjunctions that take a comma -->
     <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA">
         <pattern>
@@ -3098,6 +3119,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"></disambig>
     </rule>
 
+    <rule id="moze_by" name="może bym ->">
+        <pattern>
+            <marker>
+                <token>może</token>
+                <token inflected="yes">by</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="qub" lemma="może"/><wd pos="qub" lemma="by"/></disambig>
+        <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
+                 outputform="może[może/qub]">To <marker>może</marker> byś coś zrobił?</example>
+    </rule>
+
     <rule id="PREPARE_NOM_ACC_F" name="przygotowanie szukanie orzeczenia dla r. żeńskiego">
         <pattern>
             <marker>
@@ -3914,7 +3947,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule>
             <pattern>
                 <marker>
-                    <token skip="-1">może<exception scope="next" postag_regexp="yes" postag="SENT_END|(?:interp|comp):comma|conj|verb:inf.*"/></token>
+                    <token skip="-1">może<exception scope="next" postag_regexp="yes" postag="SENT_END|(?:interp|comp):comma|verb:inf.*"/></token>
                 </marker>
                 <token postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"/>
             </pattern>
@@ -3922,7 +3955,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
                      outputform="może[może/qub]">Byłoby się to <marker>może</marker> powiodło.</example>
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
-                     outputform="może[może/qub]">Kto wie, <marker>może</marker> by się nam powiodło.</example>
+                     outputform="może[może/qub]">Kto wie, <marker>może</marker> się powiodło.</example>
         </rule>
         <rule>
             <pattern>
@@ -4167,27 +4200,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<token>K</token>
     	</pattern>
     	<disambig postag="qub"/>
-    </rule>
-    
-    <rule name="poor man's agglutination" id="Gdybysie">
-    	<pattern>
-    		<token regexp="yes">(gdyby|jeśli|jeżeli|jeżeliby|jeśliby|gdy)(ś|śmy|ście|m)</token>
-    	</pattern>
-    	<disambig action="replace"><match no="1" postag="conj">gdyby</match></disambig>
-    </rule>
-
-    <rule name="żem żeś" id="ZESIE">
-        <pattern>
-            <token regexp="yes">że[mś]</token>
-        </pattern>
-        <disambig action="add"><wd pos="conj" lemma="że"/></disambig>
-    </rule>
-
-    <rule name="żebysie" id="zebysie">
-        <pattern>
-            <token regexp="yes"><exception postag="comp"/>(?:żeby|aby|ażeby|iżby)(?:ś|śmy|ście|m)</token>
-        </pattern>
-        <disambig action="add"><wd pos="comp" lemma="by"/></disambig>
     </rule>
 
     <rulegroup id="PIECIU" name="Pięciu jako gerundium">
