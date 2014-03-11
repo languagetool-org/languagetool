@@ -737,7 +737,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <unify>
                 <feature id="case"/>
-                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+                <token postag="(?:adj|pact|ppas|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
                     <marker><token>bądź</token></marker>
@@ -750,6 +750,76 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne <marker>bądź</marker> zależne.</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
+    </rule>
+
+    <rule name="bądź jako spójnik między liczbami" id="badz_num">
+        <pattern>
+            <token postag="num:.*" postag_regexp="yes"/>
+            <marker><token>bądź</token></marker>
+            <token postag="num:.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="conj"/>
+        <example type="untouched">Bądź pozdrowiony!</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/conj]">Dawkę leku powtarzamy co dwa <marker>bądź</marker> trzy tygodnie.</example>
+    </rule>
+
+    <rule name="bądź co bądź" id="BADZ_CO_BADZ">
+        <pattern>
+            <marker>
+                <token postag="qub">bądź</token>
+                <token postag="qub">co</token>
+                <token postag="qub">bądź</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Bądź pozdrowiony!</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]" outputform="bądź[bądź/qub]">Nie wypadało mu mówić głupstw, <marker>bądź</marker> co bądź reprezentował parlament.</example>
+    </rule>
+
+    <rule name="bądź zdrów" id="BADZ_VERB">
+        <pattern>
+            <marker>
+                <token postag="verb:impt:sg:sec:imperf:nonrefl">bądź</token>
+                <token postag="adjc">zdrów</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Bądź co bądź to prawda.</example>
+        <example type="ambiguous" inputform="Bądź[Bądź/comp:comma,być/verb:impt:sg:sec:imperf:nonrefl,bądź/conj,bądź/qub]" outputform="Bądź[być/verb:impt:sg:sec:imperf:nonrefl]"><marker>Bądź</marker> zdrów.</example>
+    </rule>
+
+    <rule name="bądź to (inspiracja z puddle)" id="badz_to">
+        <pattern>
+            <token postag="conj|comp:comma" postag_regexp="yes">bądź<exception scope="previous">co</exception></token>
+            <token postag="qub" regexp="yes">to|też</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Bądź co bądź to prawda.</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/comp:comma,bądź/conj]">Bądź to czysta serweta, <marker>bądź</marker> to brudna ścierka.</example>
+    </rule>
+
+    <rule name="jak bądź" id="jak_badz">
+        <pattern>
+            <token postag="adv" regexp="yes">jak|gdzie|kiedy</token>
+            <token postag="qub">bądź</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Bądź co bądź to prawda.</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/qub]">Wstał z łóżka, ubrał się jak <marker>bądź</marker> i bez kołnierzyka zbiegł czym prędzej do hallu.</example>
+    </rule>
+
+    <rule name="bądź jako spójnik w okolicach czasownika" id="badz_conj_verb">
+        <pattern>
+            <marker><token postag="verb:impt:sg:sec:imperf:nonrefl" skip="-1">bądź<exception scope="next" postag_regexp="yes" postag="(?:comp|interp):comma|SENT_END"/></token></marker>
+            <token postag="verb:.*(sg|pl).*|verb:imp[ts].*|pred" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="conj|comp:comma"/>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/comp:comma,bądź/conj]">Mówił <marker>bądź</marker> milczał.</example>
+        <example type="untouched">Bądź co bądź to prawda.</example>
     </rule>
 
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
@@ -4335,31 +4405,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <disambig postag="brev:pun"/>
     <example type="untouched">To był XX w.</example>
     <example type="ambiguous" inputform="mghr[mghr]" outputform="mghr[mghr/brev:pun]">To jest <marker>mghr</marker>. Lubiwicz.</example>
-    </rule>
-
-    <rule name="bądź co bądź" id="BADZ_CO_BADZ">
-        <pattern>
-            <marker>
-                <token postag="qub">bądź</token>
-                <token postag="qub">co</token>
-                <token postag="qub">bądź</token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="untouched">Bądź pozdrowiony!</example>
-        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]" outputform="bądź[bądź/qub]">Nie wypadało mu mówić głupstw, <marker>bądź</marker> co bądź reprezentował parlament.</example>
-    </rule>
-
-    <rule name="bądź zdrów" id="BADZ_VERB">
-        <pattern>
-            <marker>
-                <token>bądź</token>
-            </marker>
-            <token>zdrów</token>
-        </pattern>
-        <disambig postag="verb:impt:sg:sec:imperf:nonrefl"/>
-        <example type="untouched">Bądź co bądź to prawda.</example>
-        <example type="ambiguous" inputform="Bądź[Bądź/comp:comma,być/verb:impt:sg:sec:imperf:nonrefl,bądź/conj,bądź/qub]" outputform="Bądź[być/verb:impt:sg:sec:imperf:nonrefl]"><marker>Bądź</marker> zdrów.</example>
     </rule>
 
     <rule id="PRZE_ZEMNIE" name="zemnie -> xxx">

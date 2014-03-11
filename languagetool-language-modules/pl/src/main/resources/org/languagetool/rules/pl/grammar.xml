@@ -944,7 +944,7 @@ $Id$
 								<pattern>
 										<marker>
 												<token negate="yes" regexp="yes">,|od|chyba|dopiero|podczas|nawet|potem|więc|teraz|właśnie|wtedy|zwłaszcza|szczególnie|że|czasie|czasach|czasu|chwili|wypadku|przypadku|razie|przecież|rzadko|mało|przynajmniej<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception><exception regexp="yes">&interp;</exception></token>
-												<token>kiedy</token>
+												<token postag="comp">kiedy</token>
 										</marker>
 										<token><exception regexp="yes">&interp;|niekiedy|indziej</exception></token>
 								</pattern>
@@ -954,6 +954,7 @@ $Id$
 								<example type="correct">W sumie rzadko kiedy tam bywam.</example>
 								<example type="correct">Przemysław wstąpił do domu, kiedy poczuł brak Przemysławki.</example>
 								<example correction="domu, kiedy" type="incorrect">Przemysław wstąpił do <marker>domu kiedy</marker> poczuł brak Przemysławki.</example>
+                                <example type="correct">Możesz to zrobić kiedy bądź.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -8689,6 +8690,19 @@ $Id$
 				</rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="boc_co_badz" name="„boć co bądź” (bądź co bądź)">
+                <pattern>
+                    <token>boć</token>
+                    <token min="0" max="1">,</token>
+                    <token>co</token>
+                    <token regexp="yes">bądź|boć</token>
+                </pattern>
+                <message>Błąd ortograficzny. Poprawnie: <suggestion>bądź co bądź</suggestion>.</message>
+                <url>http://so.pwn.pl/zasady.php?id=629494</url>
+                <short>Błąd ortograficzny</short>
+                <example type="correct">Bądź co bądź to prawda.</example>
+                <example type="incorrect">Ale <marker>boć, co boć</marker> był najlepszym bratem na świecie.</example>
+            </rule>
             <rule id="NIEMALZE" name="„niemal że” (niemalże)">
                 <pattern>
                     <token regexp="yes">(?:nie)?o?mal</token>
