@@ -1581,6 +1581,31 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="conj"/>
     </rule>
 
+    <rule id="ZYCIE_SG_TANTUM" name="życie to prawie singulare tantum">
+        <pattern>
+            <and>
+            <token inflected="yes" postag="subst:sg.*" postag_regexp="yes">życie</token>
+            <token inflected="yes" postag="subst:pl.*" postag_regexp="yes">życie</token>
+            </and>
+        </pattern>
+        <disambig action="remove" postag="subst:pl.*"></disambig>
+        <example type="ambiguous" inputform="życia[życie/subst:pl:acc:n2,życie/subst:pl:nom:n2,życie/subst:pl:voc:n2,życie/subst:sg:gen:n2,żyć/ger:sg:gen:n2:imperf:aff:nonrefl]"
+                 outputform="życia[życie/subst:sg:gen:n2,żyć/ger:sg:gen:n2:imperf:aff:nonrefl]">Nie miała słodkiego <marker>życia</marker>.</example>
+    </rule>
+
+    <rule id="PREP_GEN_SUBST_MAMY" name="mamy na końcu wypowiedzenia po wyrażeniu przyimkowym to zwykle rzeczownik">
+        <pattern>
+            <token postag="prep:gen.*" postag_regexp="yes"/>
+            <token postag="subst.*gen.*" postag_regexp="yes"/>
+            <marker><token>mamy</token></marker>
+            <token postag_regexp="yes" postag="conj|interp:comma|SENT_END"><exception>zarówno</exception></token>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"/>
+        <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f,mieć/verb:fin:pl:pri:imperf:refl.nonrefl]"
+                 outputform="mamy[mama/subst:sg:gen:f]">To było za życia <marker>mamy</marker>.</example>
+        <example type="untouched">Wśród autorów mamy wielu ważnych polityków.</example>
+    </rule>
+
     <rule id="BRONIA" name="bronią + przymiotnik -> rzeczownik">
         <pattern>
             <unify>
@@ -2649,6 +2674,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Chyba <marker>jedna</marker> jest spokojna.</example>
+    </rule>
+
+    <rule id="MIEC_NADZIEJE" name="mieć + nadzieję -> rzeczownik">
+        <pattern>
+            <token skip="10" inflected="yes">mieć<exception postag="SENT_END|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+            <marker><token>nadzieję</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:acc:f"/>
+        <example type="untouched">Nadzieję kurczaka granatami.</example>
+        <example type="ambiguous" inputform="nadzieję[nadziać/verb:fin:sg:pri:perf:refl.nonrefl,nadzieja/subst:sg:acc:f]"
+                 outputform="nadzieję[nadzieja/subst:sg:acc:f]">Miałem <marker>nadzieję</marker>, że nadziejesz kurczaka granatami.</example>
     </rule>
 
     <rule id="SWOJE_NADZIEJE" name="nadzieje, dzieje i kraje jako rzeczownik">
