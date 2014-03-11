@@ -10171,25 +10171,30 @@ $Id$
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
-										<token regexp="yes"><exception regexp="yes">X-.*</exception><exception>V-ce</exception>(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+										<token regexp="yes"><exception regexp="yes">^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
-								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="(M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion></message>
+								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion></message>
 								<short>Błąd ortograficzny</short>
 								<example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX-go</marker> wieku.</example>
 								<example type="correct">To poglądy rodem z XIX wieku.</example>
                                 <example type="correct">XX-lecie międzywojenne</example>
+                                <example type="correct">W XV wieku formy z wtórnym ''-e-'' zaczęły być postrzegane jako gwara.</example>
 						</rule>
                         <rule>
                         <pattern case_sensitive="yes">
-                            <token regexp="yes">(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])<exception regexp="yes">^$</exception></token>
+                            <and>
+                                <token regexp="yes">(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])</token>
+                                <token regexp="yes">.+<exception postag="SENT_START"/></token>
+                            </and>
                             <token spacebefore="no">-</token>
                             <token regexp="yes">(:?[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
                         </pattern>
-                        <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="(M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion></message>
+                        <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion>.</message>
                         <short>Błąd ortograficzny</short>
                         <example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX- go</marker> wieku.</example>
                         <example type="correct">To poglądy rodem z XIX wieku.</example>
                         <example type="correct">XX-lecie międzywojenne</example>
+                        <example type="correct">- ego</example>
                     </rule>
 				</rulegroup>
 				<rule id="DATA_KROPKA_PO_DNIU" name="Zbędne kropki w liczebniku w dacie">
