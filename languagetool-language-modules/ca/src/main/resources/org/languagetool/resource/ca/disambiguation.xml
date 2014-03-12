@@ -1981,6 +1981,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         
     </rulegroup>
+    <rule id="ara_no_conjuncio" name="ara (adverbi no conjunció)"> <!-- ¿És necessari en algun cas? -->
+        <pattern>
+            <marker>
+                <token postag="RG">ara<exception postag=".*_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+            <token><exception regexp="yes">bé|,</exception></token>
+        </pattern>
+        <disambig action="remove" postag="CC" />
+    </rule>
     <rule id="noNom" name="no nom">
         <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
         <pattern>
@@ -2806,7 +2815,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="V.N.*"></disambig>
         </rule>
-    </rulegroup>    
+    </rulegroup>
+    <rule id="feu_nom" name="feu (nom)">
+        <pattern>
+            <token>antic</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes">feu</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*|.*_GN_.*"></disambig>
+    </rule>
     <rulegroup id="fer_nom" name="fer + nom/adj: elimina el participi"> <!-- fer amistat, costat, aliat, etc. -->
         <rule>
             <pattern>
@@ -2831,7 +2849,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule> <!-- fer mestral -->
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes">fer<exception regexp="yes">fets?</exception></token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">fer<exception regexp="yes">fets?|feres|feu</exception></token>
                 <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"/>
@@ -3450,7 +3468,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="FOS" name="Fos (verb ser)">
         <!-- És molt comú com a verb. Cal buscar excepcions específiques: metall fos, etc. -->
         <pattern>
-            <token><exception regexp="yes">metall|alumini|nucli|ferro|zinc|sílex|quars|material|coure</exception></token>
+            <token><exception regexp="yes">metall|alumini|nucli|ferro|zinc|sílex|quars|material|coure|bronze</exception></token>
             <marker>
                 <token postag="VS.*" postag_regexp="yes">fos<exception postag="_GN_.*" postag_regexp="yes"/></token>
             </marker>
@@ -4962,15 +4980,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </unify>	    
         </pattern>
         <disambig action="filter" postag="[^V].*"></disambig>  	
-    </rule>
-    <rule id="feu_nom" name="feu (nom)">
-        <pattern>
-            <token>antic</token>
-            <marker>    
-                <token postag="N.*" postag_regexp="yes">feu</token>
-            </marker>        
-        </pattern>
-        <disambig action="filter" postag="N.*|.*_GN_.*"></disambig>   
     </rule>
     <rule id="quin_punt" name="quin punt">
         <pattern>
