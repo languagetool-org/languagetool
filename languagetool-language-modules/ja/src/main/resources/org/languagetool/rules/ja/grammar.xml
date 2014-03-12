@@ -21,16 +21,14 @@ Japanese Grammar and Typo Rules file for LanguageTool
 		</rule>
 		<rule id="ENAI" name="得ない">
 			<pattern case_sensitive="no">
-				<token postag="動詞.*" postag_regexp="yes"/>
-				<token regexp="yes">おえない|お得ない</token>
+				<token>ざる</token>
+				<token>お</token>
+				<token>得</token>
+				<token>ない</token>
 			</pattern>
 			<message>を得ない</message>
-			<example type="correct">
-				<marker>を得ない</marker>
-			</example>
-			<example type="incorrect">
-				<marker>お得ない</marker>
-			</example>
+			<example type="correct">会社を辞め<marker>ざるを得ない</marker></example>
+			<example type="incorrect">会社を辞め<marker>ざるお得ない</marker></example>
 		</rule>
 		<rule id="CHIGAI" name="違い">
 			<pattern case_sensitive="no">
@@ -70,7 +68,8 @@ Japanese Grammar and Typo Rules file for LanguageTool
 		<rule id="OMACHIDOU" name="お待ちどう">
 			<pattern case_sensitive="no">
 				<token>お待ち</token>
-				<token>どお</token>
+				<token>ど</token>
+				<token>お</token>
 			</pattern>
 			<message>お待ちどう</message>
 			<example type="correct"><marker>お待ちどう</marker>様</example>
@@ -82,8 +81,8 @@ Japanese Grammar and Typo Rules file for LanguageTool
 				<token>ゆう</token>
 			</pattern>
 			<message>いう</message>
-			<example type="correct">と<marker>いう</marker>もの</example>
-			<example type="incorrect">と<marker>ゆう</marker>もの</example>
+			<example type="correct"><marker>という</marker>もの</example>
+			<example type="incorrect"><marker>とゆう</marker>もの</example>
 		</rule>
 		<rule id="KIMONIMEIJIRU" name="肝に命じる">
 			<pattern case_sensitive="no">
@@ -189,8 +188,7 @@ Japanese Grammar and Typo Rules file for LanguageTool
 		</rule>
 		<rule id="NENREI" name="年齢">
 			<pattern case_sensitive="no">
-				<token>年</token>
-				<token>令</token>
+				<token>年令</token>
 			</pattern>
 			<message>年齢</message>
 			<example type="correct"><marker>年齢</marker>の言い方</example>
