@@ -2941,6 +2941,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Wróć, to wesele ci się spodoba.</example>
     </rule>
 
+    <rule id="TO_PREP_JAKI_KTORY" name="to jako subst">
+        <pattern>
+            <marker>
+                <token>to</token>
+            </marker>
+                <token min="0" max="1">,</token>
+            <unify>
+                <feature id="case"></feature>
+                <token postag="prep.*" postag_regexp="yes"><exception>jak</exception></token>
+                <token inflected="yes" regexp="yes">który|jaki</token>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="subst.*"/>
+        <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
+                 outputform="to[to/subst:sg:acc:n2,to/subst:sg:nom:n2]">Interesuje nas <marker>to</marker>, w jaki sposób się to dzieje.</example>
+        <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]"
+                 outputform="to[to/subst:sg:acc:n2,to/subst:sg:nom:n2]">Interesuje nas <marker>to</marker> w jaki sposób się to dzieje.</example>
+        <example type="untouched">To, jak jakie pędraki to robią, jest nieinteresujące.</example>
+    </rule>
+
     <rule id="JAK_NIE_CONJ" name="jak w funkcji innej niż spójnik">
         <pattern>
             <marker><token>jak<exception scope="previous">,</exception><exception scope="previous" postag="SENT_START"/></token></marker>
