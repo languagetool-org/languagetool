@@ -1983,6 +1983,11 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONCORD_COPULATIVES" name="concordança en frases copulatives">
+            <antipattern>
+                <token inflected="yes" regexp="yes">semblar|parèixer</token>
+                <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -2019,64 +2024,33 @@ $Id$
                 <example type="incorrect"><marker>Els amics té</marker> això.</example>
                 <example type="incorrect"><marker>Esments especials mereix</marker> els seus treballs.</example>
                 <example type="correct">Aquells dies era tot bonic.</example>
+                <example type="correct">Les coses sembla clarament que són així.</example>
             </rule>
-            
-            <!-- auxiliars -->
-            <!-- <rule>
+            <rule id="CONCORDACES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
                 <pattern>
-                    <token postag="SENT_START"/>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix</exception></token>
-                        <token min="0">no</token>
-                        <token postag="VA[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
-                        <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="persona"/>
+                            <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
+                            <unify-ignore>
+                                <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" />
+                            </unify-ignore>
+                            <token postag="V.[IS].*" postag_regexp="yes"/>
+                    </unify>
                     </marker>
-                    <token><exception>que</exception></token>
                 </pattern>
                 <message>Possible error de concordança</message>
-                <example type="incorrect"><marker>Aquesta sopa són</marker> molt bones.</example>
-                <example type="incorrect"><marker>La primera han comprès</marker> tot l'itinerari</example>
-                <example type="incorrect"><marker>Joan han vingut</marker> demà.</example>
-                <example type="incorrect"><marker>Joan no van venir</marker> ahir.</example>
-                <example type="incorrect"><marker>Joan vam guanyar</marker>.</example>
-                <example type="correct">Aquesta nit han vingut.</example>
-                <example type="correct">Aquesta tardor van venir.</example>
-                <example type="correct">Aquest novembre han vingut.</example>
-                <example type="correct">Aquell dia vam guanyar.</example>
-                <example type="correct">Aquella volta vam guanyar.</example>
-                <example type="correct">Pere i Joan vindran demà.</example>
-                <example type="correct">Dos han sigut sacerdots.</example>
-                <example type="correct">La seva passió havien estat les maduixes</example>
-                <example type="correct">La seva passió eren les maduixes</example>
-                <example type="correct">Aquell parell eren bons.</example>
-                <example type="correct">Quines paraules ha dit Joan?</example>
-                <example type="correct">Martin van Heemskerk</example>
-                <example type="correct">Esment especial van merèixer els seus treballs</example>
+                <example type="incorrect"><marker>Jo pensem</marker> que és així.</example>
+                <example type="incorrect"><marker>Nosaltres dieu</marker> que no.</example>
+                <example type="incorrect">I que <marker>nosaltres dieu</marker> que no.</example>
+                <example type="incorrect"><marker>Jo els en portarem</marker> dues.</example>
+                <example type="correct">Jo els en portaré dues.</example>
+                <example type="correct">A nosaltres dieu que no?</example>
+                <example type="correct">A ell porteu-li el meló.</example>
+                <example type="correct">A ell li portarem el meló.</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <marker>
-                        <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes">quin</exception></token>
-                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix</exception></token>
-                        <token min="0">no</token>
-                        <token postag="VA[IS].3S.." postag_regexp="yes"><exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
-                        <token postag="VM[NP].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
-                    </marker>
-                    <token><exception>que</exception></token>
-                </pattern>
-                <message>Possible error de concordança</message>
-                <example type="incorrect"><marker>Aquestes sopes és</marker> molt bones.</example>
-                <example type="incorrect"><marker>Els avis ha vingut</marker> avui.</example>
-                <example type="incorrect"><marker>Els avis no va venir</marker> ahir.</example>
-                <example type="incorrect"><marker>Els barcelonistes va guanyar</marker>.</example>
-                <example type="correct">Aquells dies ha vingut l'àvia.</example>
-                <example type="correct">Francis va assentir.</example>
-                <example type="correct">Aquelles nits va veure en somnis coses rares.</example>
-                <example type="correct">Quins dies ha tingut lliures?</example>
-                <example type="correct">Poca cosa hem pogut fer nosaltres.</example>
-                <example type="correct">Les Borges va aconseguir un bon resultat.</example>
-            </rule> -->
         </rulegroup>
     </category>
     <category name="Possessius" type="grammar">
