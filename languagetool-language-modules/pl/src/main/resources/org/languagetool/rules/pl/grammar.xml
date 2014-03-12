@@ -674,7 +674,7 @@ $Id$
 				<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo|niemal<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
+										<token negate="yes" regexp="yes">&interp;|bodaj|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo|niemal|omal<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
 										<token regexp="yes" inflected="yes">że|iż</token>
 								</pattern>
 								<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
@@ -682,6 +682,7 @@ $Id$
 								<example type="correct">Przemysław zdradził, że ma na drugie imię Edgar.</example>
 								<example type="correct">Przemysław ostrzegł, że się zemści, chyba że przestaniemy wołać na niego Edgar.</example>
 								<example correction="zdradził, że" type="incorrect">Przemysław <marker>zdradził że</marker> ma na drugie imię Edgar.</example>
+                                <example type="correct">Omal że nie parsknąłem śmiechem.</example>
 						</rule>
 						<rule>
 								<pattern>
