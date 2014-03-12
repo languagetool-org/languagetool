@@ -2026,32 +2026,32 @@ $Id$
                 <example type="correct">Aquells dies era tot bonic.</example>
                 <example type="correct">Les coses sembla clarament que són així.</example>
             </rule>
-            <rule id="CONCORDACES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
-                <pattern>
-                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
-                    <marker>
-                    <unify negate="yes">
-                        <feature id="nombre"/>
-                        <feature id="persona"/>
-                            <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
-                            <unify-ignore>
-                                <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" />
-                            </unify-ignore>
-                            <token postag="V.[IS].*" postag_regexp="yes"/>
-                    </unify>
-                    </marker>
-                </pattern>
-                <message>Possible error de concordança</message>
-                <example type="incorrect"><marker>Jo pensem</marker> que és així.</example>
-                <example type="incorrect"><marker>Nosaltres dieu</marker> que no.</example>
-                <example type="incorrect">I que <marker>nosaltres dieu</marker> que no.</example>
-                <example type="incorrect"><marker>Jo els en portarem</marker> dues.</example>
-                <example type="correct">Jo els en portaré dues.</example>
-                <example type="correct">A nosaltres dieu que no?</example>
-                <example type="correct">A ell porteu-li el meló.</example>
-                <example type="correct">A ell li portarem el meló.</example>
-            </rule>
         </rulegroup>
+        <rule id="CONCORDACES_PRONOM_VERB" name="Concordaces pronom verb: nosaltres *penseu/pensem">
+            <pattern>
+                <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
+                <marker>
+                <unify negate="yes">
+                    <feature id="nombre"/>
+                    <feature id="persona"/>
+                        <token regexp="yes">jo|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
+                        <unify-ignore>
+                            <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" />
+                        </unify-ignore>
+                        <token postag="V.[IS].*" postag_regexp="yes"/>
+                </unify>
+                </marker>
+            </pattern>
+            <message>Possible error de concordança</message>
+            <example type="incorrect"><marker>Jo pensem</marker> que és així.</example>
+            <example type="incorrect"><marker>Nosaltres dieu</marker> que no.</example>
+            <example type="incorrect">I que <marker>nosaltres dieu</marker> que no.</example>
+            <example type="incorrect"><marker>Jo els en portarem</marker> dues.</example>
+            <example type="correct">Jo els en portaré dues.</example>
+            <example type="correct">A nosaltres dieu que no?</example>
+            <example type="correct">A ell porteu-li el meló.</example>
+            <example type="correct">A ell li portarem el meló.</example>
+        </rule>
     </category>
     <category name="Possessius" type="grammar">
         <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
@@ -22993,7 +22993,7 @@ $Id$
     <category name="C7) Expressions preferibles" default="on" type="style">
         <rule id="EL_SUFICIENTMENT" name="el suficientment">
             <pattern>
-                <token>el</token>
+                <token regexp="yes">el|lo</token>
                 <token>suficientment</token>
             </pattern>
             <message>Probablement val més dir <suggestion>prou</suggestion></message>
