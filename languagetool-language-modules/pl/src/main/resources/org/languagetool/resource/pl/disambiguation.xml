@@ -707,6 +707,23 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
   </rulegroup>
 
+    <rule id="interj" name="wykrzyknienia">
+        <pattern>
+                <token postag="SENT_START"/>
+            <marker>
+                <and>
+                    <token postag="interj"/>
+                    <token negate_pos="yes" postag="interj"/>
+                </and>
+            </marker>
+                <token regexp="yes">[,!]</token>
+        </pattern>
+        <disambig postag="interj"/>
+        <example type="ambiguous" inputform="Ha[ha/interj,ha/subst:pl:acc:n2,ha/subst:pl:dat:n2,ha/subst:pl:gen:n2,ha/subst:pl:inst:n2,ha/subst:pl:loc:n2,ha/subst:pl:nom:n2,ha/subst:pl:voc:n2,ha/subst:sg:acc:n2,ha/subst:sg:dat:n2,ha/subst:sg:gen:n2,ha/subst:sg:inst:n2,ha/subst:sg:loc:n2,ha/subst:sg:nom:n2,ha/subst:sg:voc:n2]"
+                 outputform="Ha[ha/interj]"><marker>Ha</marker>, może to prawda?</example>
+        <example type="untouched">To litera ha.</example>
+    </rule>
+
     <rule name="Na wskroś" id="na_wskros_burk">
         <pattern>
             <token>na</token>
@@ -1602,6 +1619,33 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="conj"/>
     </rule>
 
+    <rule id="tylko_ze" name="tylko że">
+        <pattern>
+            <marker><token postag="conj">tylko</token>
+                <token postag="comp.*" postag_regexp="yes">że</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="tylko[tylko/conj,tylko/qub]"
+                 outputform="tylko[tylko/conj]">Chętnie was odprowadzę, <marker>tylko</marker> że nie mam parasola.</example>
+        <example type="untouched">Goście tylko co wyjechali.</example>
+    </rule>
+
+    <rule id="tyle_tylko_ze" name="tyle tylko, że">
+        <pattern>
+            <marker>
+                <token postag="adv">tyle</token>
+                <token postag="conj">tylko</token>
+                <token min="0" max="1">,</token>
+                <token postag="comp.*" postag_regexp="yes">że</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="tylko[tylko/conj,tylko/qub]"
+                 outputform="tylko[tylko/conj]">Chętnie was odprowadzę, tyle <marker>tylko</marker>, że nie mam parasola.</example>
+        <example type="untouched">Goście tylko co wyjechali.</example>
+    </rule>
+
     <rule id="ZYCIE_SG_TANTUM" name="życie to prawie singulare tantum">
         <pattern>
             <and>
@@ -2049,6 +2093,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>szalbierzy</token>
         </pattern>
         <disambig action="remove"><wd lemma="szalbierzyć"/></disambig>
+    </rule>
+
+    <rule id="SWIETNI" name="świetni to nie świetnić">
+        <pattern>
+            <token>świetni</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="świetnić"/></disambig>
     </rule>
 
     <rule id="TRUPIA" name="trupi(ą) to nie trupić">
@@ -2635,6 +2686,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Powtórzyła to <marker>jedna</marker>, druga...</example>
     </rule>
 
+    <rule id="TYLKO_JEDEN" name="tylko jako kublik">
+        <pattern>
+            <marker><token postag="qub">tylko</token>
+                <token inflected="yes" postag="adj.*" postag_regexp="yes">jeden</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="Tylko[Tylka/subst:sg:voc:f,Tylka/subst:sg:voc:m1,tylko/conj,tylko/qub]"
+                 outputform="Tylko[tylko/qub]"><marker>Tylko</marker> jedna Natalka nic się nie zdziwiła.</example>
+        <example type="untouched">Jedź, tylko żebyś nikogo nie zabił!</example>
+    </rule>
+
     <rulegroup id="JEDNA_UNIFY" name="„jedna” jako przymiotnik przed przymotnikiem lub rzeczownikiem">
     <rule>
         <pattern>
@@ -2660,7 +2723,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     <unify>
                         <feature id="case"/><feature id="number"><type id="sg"/></feature>
                         <feature id="gender"><type id="f"/></feature>
-                        <token postag="adj.*|subst.*" postag_regexp="yes"/>
+                        <token postag="adj.*|subst.*" postag_regexp="yes"><exception>tylko</exception></token>
                         <token skip="-1">jedna<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
                     </unify>
                 </marker>
@@ -2672,6 +2735,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
                  outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Ada <marker>jedna</marker> jest spokojna.</example>
             <example type="untouched">Dyktator jedna się z narodem co czwartek.</example>
+            <example type="untouched">Tylko jedna Natalka nic się nie zdziwiła.</example>
     </rule>
         <rule>
             <pattern>
@@ -3910,6 +3974,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="nie[nie/conj,nie/qub]">To <marker>nie</marker> przelewki.</example>
     </rule>
 
+    <rule id="nie_tylko" name="nie tylko">
+        <pattern>
+            <marker>
+                <token postag="qub">nie</token>
+                <token postag="qub">tylko</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="tylko[tylko/conj,tylko/qub]" outputform="tylko[tylko/qub]">To nie <marker>tylko</marker> grubianin, ale i cham.</example>
+    </rule>
+
     <rule id="GORZEJ_OD" name="gorzej jako przysłówek">
         <pattern>
             <marker>
@@ -4045,6 +4120,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="ambiguous" inputform="jp[jak poprzednio/brev:pun]" outputform="jp[jp]">Alergie.mp.<marker>jp</marker> - serwis</example>
     	<example type="untouched">Skrót - jp.</example>
     </rule>
+    <rule name="l'art" id="L_ART">
+        <pattern>
+            <token>l</token>
+            <token regexp="yes">['’]</token>
+            <marker><token>art</token></marker>
+        </pattern>
+        <disambig action="replace"><wd pos="ign" lemma="art"/></disambig>
+        <example type="untouched">Art. 234 KC</example>
+        <example type="ambiguous" inputform="art[artykuł/brev:pun]"
+                 outputform="art[art/ign]">L'<marker>art</marker> du cuisinier</example>
+    </rule>
     <rule name="KC" id="KC">
     	<pattern case_sensitive="yes">
     		<marker><token>KC</token></marker>
@@ -4052,6 +4138,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	</pattern>
     	<disambig action="remove"><wd lemma="kodeks cywilny"/></disambig>
     	<example type="ambiguous" inputform="KC[KC/subst:pl:acc:m3,KC/subst:pl:acc:n2,KC/subst:pl:dat:m3,KC/subst:pl:dat:n2,KC/subst:pl:gen:m3,KC/subst:pl:gen:n2,KC/subst:pl:inst:m3,KC/subst:pl:inst:n2,KC/subst:pl:loc:m3,KC/subst:pl:loc:n2,KC/subst:pl:nom:m3,KC/subst:pl:nom:n2,KC/subst:pl:voc:m3,KC/subst:pl:voc:n2,KC/subst:sg:acc:m3,KC/subst:sg:acc:n2,KC/subst:sg:dat:m3,KC/subst:sg:dat:n2,KC/subst:sg:gen:m3,KC/subst:sg:gen:n2,KC/subst:sg:inst:m3,KC/subst:sg:inst:n2,KC/subst:sg:loc:m3,KC/subst:sg:loc:n2,KC/subst:sg:nom:m3,KC/subst:sg:nom:n2,KC/subst:sg:voc:m3,KC/subst:sg:voc:n2,kodeks cywilny/brev:pun]" outputform="KC[KC/subst:pl:acc:m3,KC/subst:pl:acc:n2,KC/subst:pl:dat:m3,KC/subst:pl:dat:n2,KC/subst:pl:gen:m3,KC/subst:pl:gen:n2,KC/subst:pl:inst:m3,KC/subst:pl:inst:n2,KC/subst:pl:loc:m3,KC/subst:pl:loc:n2,KC/subst:pl:nom:m3,KC/subst:pl:nom:n2,KC/subst:pl:voc:m3,KC/subst:pl:voc:n2,KC/subst:sg:acc:m3,KC/subst:sg:acc:n2,KC/subst:sg:dat:m3,KC/subst:sg:dat:n2,KC/subst:sg:gen:m3,KC/subst:sg:gen:n2,KC/subst:sg:inst:m3,KC/subst:sg:inst:n2,KC/subst:sg:loc:m3,KC/subst:sg:loc:n2,KC/subst:sg:nom:m3,KC/subst:sg:nom:n2,KC/subst:sg:voc:m3,KC/subst:sg:voc:n2]"><marker>KC</marker> KPZR</example>
+    </rule>
+    <rule name="KL" id="KL">
+        <pattern case_sensitive="yes">
+            <marker><token>KL</token></marker>
+            <token><exception>.</exception></token>
+        </pattern>
+        <disambig action="remove"><wd pos="brev:pun"/></disambig>
+        <example type="ambiguous" inputform="KL[klarnet/brev:pun,klasa/brev:pun]" outputform="KL[KL]"><marker>KL</marker> Warschau</example>
+        <example type="untouched">WYCIECZKA KL. III</example>
+        <example type="untouched">Jestem w kl. VIIb.</example>
     </rule>
     <rule name="R - nie rok" id="NON_START_POS_R">
     	<pattern case_sensitive="yes">
@@ -4740,6 +4836,41 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">[wo]|[zn]a</token>
             <marker><token>nie</token></marker>
             <token>nie</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="LEDWO_LEDWO" name="ledwo ledwo">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>ledwo</token>
+            <marker><token>ledwo</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="LEDWIE_LEDWIE" name="ledwie ledwie"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>ledwie</token>
+            <marker><token>ledwie</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="I_I" name="Józef I i">               <!-- suppress in word repeat rule -->
+        <pattern case_sensitive="yes">
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token>I</token>
+            <marker><token>i</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="NIE_NIE" name="nie_ppron_nie_qub">    <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker>
+                <token negate_pos="yes" postag="qub">nie</token>
+            </marker>
+            <token negate_pos="yes" postag="ppron.*" postag_regexp="yes">nie</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>

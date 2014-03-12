@@ -1928,7 +1928,7 @@ $Id$
 										<token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|).*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
-												<token postag="verb:(praet:|pot:|fin:)?sg:(.*)?ter.*" postag_regexp="yes"></token>
+												<token postag="verb:(pot:|fin:)?sg:(.*)?ter.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
 										</marker>
 								</pattern>
 								<message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \4</suggestion>.</message>
@@ -1936,11 +1936,33 @@ $Id$
 								<example type="correct">Gazeta jest źródłem informacji.</example>
 								<example type="correct">Dyspozycyjność każdej własności jest jej cechą wewnętrzną, jest rysem jej natury.</example>
 								<example correction=" jest" type="incorrect">Gazeta<marker>, jest</marker> źródłem informacji.</example>
-								<example correction=" przybył" type="incorrect">Kennedy<marker>, przybył</marker> na lotnisko.</example>
                                 <example type="correct">Mała, zdaje się, ma talent...</example>
                                 <example type="correct">Coś ty, zdaje ci się.</example>
+                                <example type="correct">Wódz ich, Mami, wnosząc ze znalezionych przy Cervantesie listów...</example>
 						</rule>
-						<rule>
+                        <rule>
+                        <pattern>
+                            <token postag="SENT_START"></token>
+                            <unify>
+                            <feature id="gender"/>
+                            <feature id="number"/>
+                            <token postag="subst:.*:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|).*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+                            <marker>
+                                <unify-ignore>
+                                <token>,</token>
+                                </unify-ignore>
+                                <token postag="verb:(praet|winien):.*:ter.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                            </marker>
+                            </unify>
+                        </pattern>
+                        <message>Przecinek między podmiotem a orzeczeniem jest zbędny, powinno być: <suggestion> \4</suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                            <example correction=" przybył" type="incorrect">Kennedy<marker>, przybył</marker> na lotnisko.</example>
+                            <example type="correct">Kennedy <marker>przybył</marker> na lotnisko.</example>
+                            <example type="correct">Uchwała, powiedział, ustala dwa równoległe cele.</example>
+                            <example type="correct">Cymbał, zdawało mu się, że wszyscy przed nim będą plackiem!</example>
+                        </rule>
+                        <rule>
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak|to</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
