@@ -6362,6 +6362,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="UNIVERSITAT_HARVARD" name="Universitat Harvard">
+            <pattern>
+                <token>Universitat</token>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes">Harvard|Yale|Colúmbia</token>
+            </pattern>
+            <message>\3 no és un topònim.</message>
+            <suggestion>Universitat \3</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/nomsduniversitats</url>
+            <example type="incorrect" correction="Universitat Harvard"><marker>Universitat de Harvard</marker></example>
+            <example type="correct">Universitat Harvard</example>
+        </rule>
         <rule id="TRES_TRENS" name="*tres/trens de rodalia">
             <pattern>
                 <marker>
