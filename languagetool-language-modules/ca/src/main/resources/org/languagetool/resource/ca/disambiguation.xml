@@ -6763,12 +6763,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rulegroup id="numeral_nom" name="numeral + nom plural">
         <rule>
             <pattern>
-                <token regexp="yes">(\d[\d.,]+\d|\d+)<exception>1</exception></token>
+                <token regexp="yes">(\d[\d.,]+\d|\d+)<exception>1</exception><exception postag="_C_TEMPS"/></token>
                 <marker>
                     <token postag="NC.[PN].*" postag_regexp="yes"></token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NC.[PN].*|_GN_.*"></disambig>
+            <disambig action="remove" postag="NC.S.*"></disambig>
         </rule>
         <rule>
             <pattern>
@@ -6777,7 +6777,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="NC.[SN].*" postag_regexp="yes"></token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="NC.[SN].*|_GN_.*"></disambig>
+            <disambig action="remove" postag="NC.P.*"></disambig>
         </rule>
     </rulegroup>
     <rulegroup id="determinants_numerals" name="deternimants numerals">
