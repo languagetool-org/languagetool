@@ -359,7 +359,7 @@ $Id$
 						<rule>
 								<pattern>
 										<phraseref idref="NIE_INTERPUNKCJA"></phraseref>
-										<token regexp="yes">chyba|dlatego|właśnie|tak|tylko</token>
+										<token regexp="yes">chyba|dlatego|właśnie|tak|tylko<exception scope="previous">nie</exception></token>
 										<token regexp="yes">że|iż</token>
 								</pattern>
 								<message>Należy postawić przecinek w zależności od intonacji i sensu zdania: <suggestion>\1 \2, \3</suggestion> lub <suggestion>\1, \2 \3</suggestion>.</message>
@@ -368,6 +368,7 @@ $Id$
 								<example correction="tego właśnie, że|tego, właśnie że" type="incorrect">Nie rozumiał <marker>tego właśnie że</marker> upadł na głowę.</example>
 								<example type="correct">Przemysław jest wierny, tylko że nic nie potrafi.</example>
 								<example correction="wierny tylko, że|wierny, tylko że" type="incorrect">Przemysław jest <marker>wierny tylko że</marker> nic nie potrafi.</example>
+                                <example type="correct">Filistyni nie tylko że nie zostali wówczas pobici, ale z czasem sami ujarzmili Izraelitów.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -672,22 +673,48 @@ $Id$
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZE" name="Brak przecinka przed „że” i „iż”">
+                        <antipattern>
+                            <token>gdzie</token>
+                            <token regexp="yes">że(?:[śm]|ście|śmy)</token>
+                        </antipattern>
+                        <antipattern>
+                            <token regexp="yes">&interp;</token>
+                            <token>tak</token>
+                            <token regexp="yes" inflected="yes">że|iż</token>
+                        </antipattern>
+                        <antipattern>
+                            <token postag="SENT_START"/>
+                            <token>tak</token>
+                            <token regexp="yes" inflected="yes">że|iż</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>o</token>
+                            <token>mało</token>
+                            <token>że</token>
+                        </antipattern>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">&interp;|bodaj|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo|niemal|omal<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"></exception></token>
-										<token regexp="yes" inflected="yes">że|iż</token>
+										<token negate="yes" regexp="yes">&interp;|bodaj|bardziej|chyba|ile|szczególnie|tyle|zwłaszcza|pomimo|mimo|także|również|dlatego|właśnie|prawie|ledwie|ledwo|nieo?mal|omal|jeno<exception postag="SENT_START|conj|comp|&lt;/CONJ&gt;" postag_regexp="yes"/><exception postag="verb:impt:sg:sec.*" postag_regexp="yes"/></token>
+										<token regexp="yes" inflected="yes" postag="comp">że|iż</token>
 								</pattern>
 								<message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Przemysław zdradził, że ma na drugie imię Edgar.</example>
 								<example type="correct">Przemysław ostrzegł, że się zemści, chyba że przestaniemy wołać na niego Edgar.</example>
 								<example correction="zdradził, że" type="incorrect">Przemysław <marker>zdradził że</marker> ma na drugie imię Edgar.</example>
+                                <example type="correct">To ich nieco stropiło, tak że przestali rozmawiać.</example>
+                                <example type="correct">I cóż, stary Balu — dodała — jak żeś wyszedł z tej przygody?</example>
+                                <!-- jest na to inna reguła: NIEMALZE -->
                                 <example type="correct">Omal że nie parsknąłem śmiechem.</example>
+                                <!-- jest na to inna reguła: GDZIEZES -->
+                                <example type="correct">Gdzie żeś się podziewała tyle czasu!</example>
+                                <!-- na to jest reguła: DAJZE -->
+                                <example type="correct">Daj że mi spokój!</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token negate="yes" regexp="yes">&interp;<exception postag="SENT_START|conj|comp" postag_regexp="yes"/></token>
-										<token regexp="yes">ile|jako|szczególnie|tyle|zwłaszcza|pomimo|mimo<exception postag="SENT_START"></exception></token>
+										<token regexp="yes">ile|jako|szczególnie|tyle|zwłaszcza|(?:po)?mimo|prawie<exception postag="SENT_START"></exception></token>
 										<token regexp="yes">że|iż</token>
 								</pattern>
 								<message>Przecinek stawiamy przed całym spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
@@ -721,6 +748,33 @@ $Id$
 								<example correction="się, z tym że|się z tym, że" type="incorrect">Licz <marker>się z tym że</marker> mam broń.</example>
 								<example type="correct">Licz się z tym, że mam broń.</example>
 						</rule>
+                        <rule>
+                            <antipattern>
+                                <token>nie</token>
+                                <token regexp="yes">dość|tylko</token>
+                                <token>że</token>
+                            </antipattern>
+                            <pattern>
+                                <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
+                                <token postag="conj"/>
+                                <token>że</token>
+                            </pattern>
+                            <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+                            <short>Brak przecinka</short>
+                            <example correction="poszło, dość że" type="incorrect">Nie wiadomo, o co im właściwie tam <marker>poszło dość że</marker> przez kilka minut za ścianą działo się piekło..</example>
+                            <example type="correct">Nie wiadomo, o co im właściwie tam poszło, dość że przez kilka minut za ścianą działo się piekło.</example>
+                        </rule>
+                        <rule>
+                            <pattern>
+                                <token>nie</token>
+                                <token>dość</token>
+                                <token>że</token>
+                            </pattern>
+                            <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1 \2, \3</suggestion>.</message>
+                            <short>Brak przecinka</short>
+                            <example type="correct">Nie dość, że dostali marny żołd, to jeszcze w fałszywych banknotach.</example>
+                            <example type="incorrect" correction="Nie dość, że"><marker>Nie dość że</marker> dostali marny żołd, to jeszcze w fałszywych banknotach.</example>
+                        </rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
 						<rule>
@@ -8728,6 +8782,29 @@ $Id$
                 <short>Błąd ortograficzny</short>
                 <example type="correct">Bądź co bądź to prawda.</example>
                 <example type="incorrect">Ale <marker>boć, co boć</marker> był najlepszym bratem na świecie.</example>
+            </rule>
+            <rule id="DAJZE" name="„daj że” (dajże)">
+                <pattern>
+                    <token postag="verb:impt:sg:sec.*" postag_regexp="yes"/>
+                    <token>że</token>
+                </pattern>
+                <message>Te wyrazy należy napisać łącznie (jeśli cząstka „że” funkcjonuje jako wzmocnienie rozkazu) lub z przecinkiem, jeśli wprowadza zdanie podrzędne.</message>
+                <suggestion>\1\2</suggestion>
+                <suggestion>\1, \2</suggestion>
+                <url>http://so.pwn.pl/zasady.php?id=629496</url>
+                <short>Błąd ortograficzny lub brak przecinka</short>
+                <example type="correct">Dajże mi spokój!</example>
+                <example type="incorrect" correction="Dajże|Daj, że"><marker>Daj że</marker> mi spokój!</example>
+            </rule>
+            <rule id="GDZIEZES" name="„gdzie żeś (gdzieżeś)">
+                <pattern>
+                    <token>gdzie</token>
+                    <token regexp="yes">że(?:[śm]|ście|śmy)</token>
+                </pattern>
+                <message>To wyrażenie piszemy łącznie: <suggestion>\1\2</suggestion>.</message>
+                <short>Błąd ortograficzny</short>
+                <example type="correct">Gdzieżeś się podziewała tyle czasu?</example>
+                <example type="incorrect" correction="Gdzieżeś"><marker>Gdzie żeś</marker> się podziewała tyle czasu?</example>
             </rule>
             <rule id="NIEMALZE" name="„niemal że” (niemalże)">
                 <pattern>

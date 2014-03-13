@@ -108,7 +108,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token regexp="yes">że[mś]</token>
         </pattern>
-        <disambig action="add"><wd pos="conj" lemma="że"/></disambig>
+        <disambig action="add"><wd pos="comp" lemma="że"/></disambig>
     </rule>
 
     <rule name="żebysie" id="zebysie">
@@ -2963,7 +2963,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="DOSC_ZE" name="dość że">
         <pattern>
-            <marker><token>dość</token></marker>
+            <marker><token regexp="yes">dość|jako</token></marker>
             <token>że</token>
         </pattern>
         <disambig postag="conj"/> <!-- wg Innego słownika -->
@@ -3198,6 +3198,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token postag_regexp="yes" postag=".*gen.*"><exception postag=".*acc.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="remove"><wd lemma="pełnić"/></disambig>
+    </rule>
+
+    <rule id="OSIEDLI" name="osiedli mieszkaniowych -> rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"></feature>
+                <token>osiedli</token>
+                <token regexp="yes">mieszkaniowych|robotnicznych|ludzkich|żydowskich|podmiejskich|zamkniętych|miejskich</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Osiedli na laurach.</example>
+        <example type="ambiguous" inputform="osiedli[osiedle/subst:pl:gen:n2,osiedlić/verb:fin:sg:ter:perf:nonrefl,osiedlić/verb:fin:sg:ter:perf:refl.nonrefl,osieść/verb:praet:pl:m1.p1:ter:perf:refl.nonrefl,osiąść/verb:praet:pl:m1.p1:ter:perf:refl.nonrefl]"
+                 outputform="osiedli[osiedle/subst:pl:gen:n2]">Zachował się duży zespół <marker>osiedli</marker> mieszkaniowych.</example>
     </rule>
 
     <rule id="RADZI_BY_INF" name="radzi jako pred">
@@ -3462,6 +3476,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="której[który/adj:sg:loc:f:pos]" outputform="której[której/comp:comma,który/adj:sg:loc:f:pos]">Krainę, w <marker>której</marker> kupiłem krowę, zapamiętam do końca życia.</example>
     </rule>
 
+    <rule id="JAK_ZES" name="jak żeś -> adv qub">
+        <pattern>
+            <token>jak</token>
+            <token inflected="yes">że</token>
+        </pattern>
+        <disambig postag="replace"><wd pos="adv" lemma="jak"/><wd pos="qub" lemma="że"/></disambig>
+        <example type="ambiguous" inputform="żeś[że/comp,żeś/comp:comma]" outputform="żeś[że/qub]">I cóż, stary Balu — dodała — jak <marker>żeś</marker> wyszedł z tej przygody?</example>
+    </rule>
 
     <rule name="mają to nie maić" id="MAJA_MAIC">
         <pattern>
