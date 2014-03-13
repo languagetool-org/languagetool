@@ -9707,9 +9707,13 @@ $Id$
                 <example type="correct"><marker>na Ignàsia</marker></example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>Home</token>
+                    <token regexp="yes">Guard|Fleet|Rule</token>
+                </antipattern>
                 <pattern>
                     <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs|URSS|UJI<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
@@ -9718,6 +9722,7 @@ $Id$
                 <example type="incorrect" correction="l'umma"><marker>la umma</marker></example>
                 <example type="incorrect" correction="l'urca"><marker>la urca</marker></example>
                 <example type="incorrect" correction="l'UJI"><marker>la UJI</marker></example>
+                <example type="incorrect" correction="l'insta"><marker>la insta</marker></example>
                 <example type="correct">l'ombra</example>
                 <example type="correct">la efa suau</example>
                 <example type="correct">la orfebrería española</example>
@@ -9726,6 +9731,7 @@ $Id$
                 <example type="correct">la uixera</example>
                 <example type="correct">Era la una de la nit</example>
                 <example type="correct">Estudia a la UdA</example>
+                <example type="correct">Que la infon a tothom.</example>
             </rule>
             <rule>
                 <pattern>
