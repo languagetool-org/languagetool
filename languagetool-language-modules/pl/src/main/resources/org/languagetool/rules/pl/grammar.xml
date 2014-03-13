@@ -23,7 +23,9 @@ $Id$
 -->
 
 <!DOCTYPE rules [
-<!ENTITY interp "[\p{Punct}\-–−—―„«»…’]+">
+    <!ENTITY interp "[\p{Punct}\-–−—―„«»…’]+">
+    <!ENTITY conj "bądź|czy|ani|lub|albo|oraz|i">
+    <!ENTITY interp_conj "&interp;|&conj;">
 ]>
 
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -99,9 +101,6 @@ $Id$
 				</equivalence>
 		</unification>
 		<phrases>
-				<phrase id="INTERPUNKCJA">
-						<token regexp="yes">&interp;|bądź|czy|ani|lub|albo|oraz|i</token>
-				</phrase>
 				<phrase id="NIE_INTERPUNKCJA">
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
@@ -213,7 +212,7 @@ $Id$
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">
                                             <exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"/>
                                         </token>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+                                        <token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -256,7 +255,7 @@ $Id$
                                 <pattern>
 										<token skip="-1" postag="verb:winien.*" postag_regexp="yes"><exception>nierad</exception><exception inflected="yes">gotowy</exception><exception postag="interp:comma|comp:comma" postag_regexp="yes" scope="current"></exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+                                    <token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -277,7 +276,7 @@ $Id$
 								<pattern>
 										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -292,7 +291,7 @@ $Id$
                               <pattern>                   
                                 <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception>widać</exception></token>
                                 <token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać</exception></token>
-                                <phraseref idref="INTERPUNKCJA"></phraseref>
+                                <token regexp="yes">&interp_conj;</token>
                                </pattern>
                               <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
                               <short>Błąd interpunkcyjny</short>
@@ -317,7 +316,7 @@ $Id$
                             <pattern>
 										<token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|adv:.*|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -334,7 +333,7 @@ $Id$
 								<pattern>
 										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|adv:.*|prep.*|qub|conj|comp|verb:praet.*|verb:inf.*|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|trzeba|można|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="verb:bedzie.*|pcon:imperf.*" postag_regexp="yes" regexp="yes" skip="-1">będ.*</token>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym zdaniem a drugim.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -422,7 +421,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 										<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|chyba</token>
 										<marker>
 												<token>,</token>
@@ -463,7 +462,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 										<token>tyle</token>
 										<marker>
 												<token>,</token>
@@ -503,7 +502,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 										<token regexp="yes">dopiero|od|czy|to|podczas|potem|teraz|zwłaszcza|szczególnie|że|nawet</token>
 										<marker>
 												<token>,</token>
@@ -570,7 +569,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 										<marker>
 												<token>,</token>
@@ -621,7 +620,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 										<token regexp="yes">że|iż|chyba|jak|tylko</token>
 										<marker>
 												<token>,</token>
@@ -659,7 +658,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<phraseref idref="INTERPUNKCJA"></phraseref>
+										<token regexp="yes">&interp_conj;</token>
 										<token>jeszcze</token>
 										<marker>
 												<token>,</token>
@@ -756,13 +755,14 @@ $Id$
                             </antipattern>
                             <pattern>
                                 <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
-                                <token postag="conj"/>
+                                <token postag="conj"><exception regexp="yes">&conj;</exception></token>
                                 <token>że</token>
                             </pattern>
                             <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
                             <short>Brak przecinka</short>
                             <example correction="poszło, dość że" type="incorrect">Nie wiadomo, o co im właściwie tam <marker>poszło dość że</marker> przez kilka minut za ścianą działo się piekło..</example>
                             <example type="correct">Nie wiadomo, o co im właściwie tam poszło, dość że przez kilka minut za ścianą działo się piekło.</example>
+                            <example type="correct">Serce mi mówi, że to nieosobliwe dla nas miejsce i że więcej nam potrzeba teraz użytku nóg.</example>
                         </rule>
                         <rule>
                             <pattern>
@@ -1209,9 +1209,7 @@ $Id$
 						</rule>
 						<rule>
                                 <antipattern>
-                                    <token>nie</token>
-                                    <token inflected="yes" postag="verb.*|pact.*" postag_regexp="yes">mieć</token>
-                                    <token min="0" max="1">się</token>
+                                    <token skip="3" inflected="yes" postag="verb.*|pact.*" postag_regexp="yes">mieć<exception scope="next" postag="(?:subst|adj|verb|pact|pcon|conj|comp|interp).*" postag_regexp="yes"/></token>
                                     <unify>
                                         <feature id="case"></feature>
                                         <marker>
@@ -1224,7 +1222,7 @@ $Id$
 								<pattern>
 										<marker>
 												<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
-												<token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception></token>
+												<token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
 										</marker>
 										<token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi|qub" postag_regexp="yes"></exception></token>
 										<token><exception regexp="yes">&interp;</exception><exception postag="SENT_END"></exception></token>
@@ -1242,6 +1240,9 @@ $Id$
                                 <example type="correct">Nie ma o czym mówić.</example>
                                 <example type="correct">Nie miałem na czym go zapisać.</example>
                                 <example type="correct">Nie ma się z czego śmiać.</example>
+                                <example type="correct">Sprzedał spory szmat ziemi, byle mieć za co tych ksiąg nakupić.</example>
+                                <example type="correct">Zresztą do Jastrzębic nie ma już po co wracać...</example>
+                                <example type="correct">— Dla bardzo prostej przyczyny: nie mam tu z czego żyć.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1326,7 +1327,7 @@ $Id$
                             <unify>
                                 <feature id="case"/><feature id="gender"/><feature id="number"/>
                                 <marker>
-                                    <token inflected="yes">jaki</token>
+                                    <token inflected="yes" postag="adj.*" postag_regexp="yes">jaki</token>
                                 </marker>
                                 <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes"><exception inflected="yes">były</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
                             </unify>

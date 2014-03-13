@@ -771,14 +771,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule name="Bądź jako spójnik" id="badz_koordynacja">
+    <rule name="Bądź i lub jako spójnik" id="badz_koordynacja">
         <pattern>
             <unify>
                 <feature id="case"/>
                 <token postag="(?:adj|pact|ppas|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
-                    <marker><token>bądź</token></marker>
+                    <marker><token regexp="yes">bądź|lub</token></marker>
                 </unify-ignore>
                 <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
             </unify>
@@ -790,16 +790,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
     </rule>
 
-    <rule name="bądź jako spójnik między liczbami" id="badz_num">
+    <rule name="bądź i lub jako spójnik między liczbami" id="badz_num">
         <pattern>
             <token postag="num:.*" postag_regexp="yes"/>
-            <marker><token>bądź</token></marker>
+            <marker><token regexp="yes">bądź|lub</token></marker>
             <token postag="num:.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="conj"/>
         <example type="untouched">Bądź pozdrowiony!</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/conj]">Dawkę leku powtarzamy co dwa <marker>bądź</marker> trzy tygodnie.</example>
+        <example type="ambiguous" inputform="lub[lub/comp:comma,lub/conj,lubić/verb:impt:sg:sec:imperf:nonrefl,lubić/verb:impt:sg:sec:imperf:refl.nonrefl]"
+                 outputform="lub[lub/conj]">Dawkę leku powtarzamy co dwa <marker>lub</marker> trzy tygodnie.</example>
     </rule>
 
     <rule name="bądź co bądź" id="BADZ_CO_BADZ">
@@ -3342,7 +3344,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <unify>
                         <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst).*"/></token>
+                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst|comp:comma).*"/></token>
                         <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*|SENT_END"/></token>
                     </unify>
                 </marker>
