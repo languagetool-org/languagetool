@@ -269,12 +269,17 @@ $Id$
 						<rule>
                                 <antipattern>
                                     <token postag="pred"/>
+                                    <token min="0" max="2" postag="siebie|qub|ppron.*" postag_regexp="yes"></token>
                                     <marker>
                                     <token regexp="yes">było(?:by)?</token>
                                     </marker>
                                 </antipattern>
+                                <antipattern>
+                                    <token>wiadomo</token>
+                                    <token>jest</token>
+                                </antipattern>
 								<pattern>
-										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać|dość|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
 										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
 										<token regexp="yes">&interp_conj;</token>
 								</pattern>
@@ -286,6 +291,8 @@ $Id$
 								<example type="correct">Było trzeba kupić wino, było można narwać owoców w ogrodzie.</example>
 								<example type="incorrect"><marker>Trzeba kupić wino można narwać owoców w ogrodzie.</marker></example>
                                 <example type="correct">— Mój przyjacielu — odparł — ty widać nie wiesz, co to rozrywka na tym świecie.</example>
+                                <example type="correct">Nie można się było wahać.</example>
+                                <example type="correct">Można by było pomyśleć, że zdrzemnęli się.</example>
 						</rule>
                         <rule>
                               <pattern>                   
@@ -753,9 +760,21 @@ $Id$
                                 <token regexp="yes">dość|tylko</token>
                                 <token>że</token>
                             </antipattern>
+                            <antipattern>
+                                <token postag="interp:comma|SENT_START" postag_regexp="yes"/>
+                                <token>mimo</token>
+                                <token>zaś</token>
+                                <token>że</token>
+                            </antipattern>
+                            <antipattern>
+                                <token postag="interp:comma|SENT_START" postag_regexp="yes"/>
+                                <token regexp="yes">dlatego|jak</token>
+                                <token>tylko</token>
+                                <token>że</token>
+                            </antipattern>
                             <pattern>
                                 <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
-                                <token postag="conj"><exception regexp="yes">&conj;</exception></token>
+                                <token postag="conj"><exception regexp="yes">&conj;</exception><exception>to</exception><exception scope="previous" postag="comp:comma"/></token>
                                 <token>że</token>
                             </pattern>
                             <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
@@ -1139,6 +1158,17 @@ $Id$
             
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_TEN_CO" name="Brak przecinka przed „kto” i „co”">
+                    <antipattern>
+                        <token skip="3" inflected="yes" postag="verb.*|pact.*" postag_regexp="yes">mieć<exception scope="next" postag="(?:subst|adj|verb|pact|pcon|conj|comp|interp).*" postag_regexp="yes"/></token>
+                        <unify>
+                            <feature id="case"></feature>
+                            <marker>
+                                <token postag="prep.*" postag_regexp="yes"/>
+                                <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag="(?:comp|interp):comma|SENT_END"/></token>
+                            </marker>
+                        </unify>
+                        <token postag="verb:inf.*" postag_regexp="yes"></token>
+                    </antipattern>
 						<rule>
 								<pattern>
 										<token><exception>,</exception></token>
@@ -1209,13 +1239,17 @@ $Id$
 						</rule>
 						<rule>
                                 <antipattern>
-                                    <token skip="3" inflected="yes" postag="verb.*|pact.*" postag_regexp="yes">mieć<exception scope="next" postag="(?:subst|adj|verb|pact|pcon|conj|comp|interp).*" postag_regexp="yes"/></token>
+                                    <token>czego</token>
+                                    <token>innego</token>
+                                </antipattern>
+                                <antipattern>
+                                    <token skip="3" regexp="yes">było|jest|będzie<exception scope="next" postag="(?:subst|adj|verb|pact|pcon|conj|comp|interp).*" postag_regexp="yes"/></token>
                                     <unify>
-                                        <feature id="case"></feature>
-                                        <marker>
-                                            <token postag="prep.*" postag_regexp="yes"/>
-                                            <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag="(?:comp|interp):comma|SENT_END"/></token>
-                                        </marker>
+                                    <feature id="case"></feature>
+                                    <marker>
+                                        <token postag="prep.*" postag_regexp="yes"/>
+                                        <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag="(?:comp|interp):comma|SENT_END"/></token>
+                                    </marker>
                                     </unify>
                                     <token postag="verb:inf.*" postag_regexp="yes"></token>
                                 </antipattern>
@@ -1243,6 +1277,8 @@ $Id$
                                 <example type="correct">Sprzedał spory szmat ziemi, byle mieć za co tych ksiąg nakupić.</example>
                                 <example type="correct">Zresztą do Jastrzębic nie ma już po co wracać...</example>
                                 <example type="correct">— Dla bardzo prostej przyczyny: nie mam tu z czego żyć.</example>
+                                <example type="correct">Brali się do czego innego.</example>
+                                <example type="correct">Było z czego pękać od śmiechu.</example>
 						</rule>
 						<rule>
 								<pattern>
