@@ -188,7 +188,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     }
 
     // adjust positions in case elements with min="0" were not matched before the starting position
-    for (int j = 0; j <= startPositionCorrection; j++) {
+    for (int j = 0; j <= startPositionCorrection && j < elementsMatched.size(); j++) {
       if (!elementsMatched.get(j)) {
         correctedStPos -= tokenPositions[j];
       }
