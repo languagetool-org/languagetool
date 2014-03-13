@@ -190,8 +190,11 @@ License:
  Russian:
  Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  http://www.aot.ru/download.php file rus-src-morph.tar.gz
- or http://seman.svn.sourceforge.net/viewvc/seman/trunk/Dicts/SrcMorph/RusSrc/morphs.mrd?revision=99
- It was partially converted to fsa format in 2008-2011 by Yakov Reztsov.  
+ or http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcMorph/RusSrc/    file  morphs.mrd
+ It was partially converted to fsa format in 2008-2011, 2014 by Yakov Reztsov.  
+ Frequency information for spell-checking dictionary from www.aot.ru
+ Source frequency information http://sourceforge.net/p/seman/svn/HEAD/tree/trunk/Dicts/SrcBinDict/  file   WordData.txt
+ It was converted to use with spell-checking dictionary in 2014 by Yakov Reztsov.  
 
  Slovak:
  The Slovak data were created by Zdenko Podobný based on Slovak National
