@@ -790,6 +790,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
     </rule>
 
+    <rule name="Bądź i lub jako spójnik w konstrukcji „bądź x, bądź y”" id="badz_koordynacja_2">
+        <pattern>
+            <marker><token regexp="yes">bądź|lub</token></marker>
+            <unify>
+                <feature id="case"/>
+                <token postag="(?:adj|pact|ppas|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <token regexp="yes">bądź|lub</token>
+                </unify-ignore>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="conj|comp:comma"/>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/comp:comma,bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem, bądź hulajnogą.</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/comp:comma,bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem bądź hulajnogą.</example>
+    </rule>
+
     <rule name="bądź i lub jako spójnik między liczbami" id="badz_num">
         <pattern>
             <token postag="num:.*" postag_regexp="yes"/>
@@ -816,6 +836,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Bądź pozdrowiony!</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]" outputform="bądź[bądź/qub]">Nie wypadało mu mówić głupstw, <marker>bądź</marker> co bądź reprezentował parlament.</example>
     </rule>
+
+    <rule name="bądź jak bądź" id="BADZ_JAK_BADZ">
+        <pattern>
+            <marker>
+                <token postag="qub">bądź</token>
+                <token postag="adv">jak</token>
+                <token postag="qub">bądź</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Bądź pozdrowiony!</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]" outputform="bądź[bądź/qub]">„Bądź jak <marker>bądź</marker> – mówił do siebie Rzecki...</example>
+    </rule>
+
 
     <rule name="bądź zdrów" id="BADZ_VERB">
         <pattern>
@@ -3386,6 +3420,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="unify_ten_subst" name="unifikacja ten + rzeczownik">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"/><feature id="gender"/><feature id="case"/>
+                    <token postag="adj.*" postag_regexp="yes" inflected="yes">ten</token>
+                    <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*|SENT_END"/></token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="Ci[ci/qub,ten/adj:pl:nom.voc:m1.p1:pos,ty/ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc]"
+                 outputform="Ci[ten/adj:pl:nom.voc:m1.p1:pos]"><marker>Ci</marker> smarkacze byli nieznośni.</example>
+    </rule>
+
+    <rule id="CI_PANT" name="ci = ten, kiedy przed imiesłowem">
+        <pattern>
+            <token>ci</token>
+            <token>,</token>
+            <token postag="pant:perf.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="adj:pl:nom.voc:m1.p1:pos"></disambig>
+        <example type="ambiguous" inputform="ci[ci/qub,ten/adj:pl:nom.voc:m1.p1:pos,ty/ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc]"
+                 outputform="ci[ten/adj:pl:nom.voc:m1.p1:pos]">A <marker>ci</marker>, ujrzawszy królewnę, zjedli krzesło.</example>
+    </rule>
+
   <!-- specjalnie robimy to drugi raz... to jest kaskada! -->
     <rule name="Przyimek z rzeczownikiem po unifikacji" id="PREP_SUBST_2">    
         <pattern>
@@ -5014,6 +5074,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="MULTIPLE_HYPHENS" name="dywizy - jeden token w naszym układzie">
         <pattern>
             <token regexp="yes">-+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="GDZIEZES_SPELLING" name="gdzieżeś łącznie">
+        <pattern>
+            <token regexp="yes">(?:gdzie|có|czy|ju|skąd|jak|kiedy|bodaj)że(?:ś(?:my|cie)?|m)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

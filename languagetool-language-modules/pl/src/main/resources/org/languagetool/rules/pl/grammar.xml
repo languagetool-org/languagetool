@@ -1902,10 +1902,10 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token skip="-1">bądź<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
+										<token skip="-1" postag="conj">bądź<exception regexp="yes" scope="next">[\(…,;–\-—„”]</exception></token>
 										<token skip="-1"><exception regexp="yes">,|co</exception><exception regexp="yes" scope="next">[\.\?!…:,;–\-—„”]+</exception></token>
 										<marker>
-												<token>bądź</token>
+												<token postag="conj">bądź</token>
 										</marker>
 								</pattern>
 								<message>Prawdopodobnie brakuje przecinka. Powinno być: <suggestion>, \3</suggestion>.</message>
@@ -1913,6 +1913,7 @@ $Id$
 								<example type="correct">Kup gruszek bądź jabłek.</example>
 								<example correction=", bądź" type="incorrect">Dojadę tam bądź rowerem<marker> bądź</marker> hulajnogą.</example>
 								<example type="correct">Masz bądź co bądź duży majątek.</example>
+                                <example type="correct">I nie zniżę się do zazdrości, która bądź jak bądź jest podłym uczuciem.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup default="off" id="BRAK_PRZECINKA_I_KWITA" name="Brak przecinka przed „i kwita” itp.">
@@ -2506,7 +2507,7 @@ $Id$
 						<rule>
 								<pattern>
                                         <marker>
-										<token regexp="yes">\p{L}+<exception postag="UNKNOWN"/></token>
+										<token regexp="yes">\p{L}+<exception postag="UNKNOWN"/><exception postag="num:comp"/></token>
                                         <token spacebefore="no" regexp="yes">[–—]</token>
                                         </marker>
                                         <token spacebefore="yes"/>
@@ -2518,6 +2519,7 @@ $Id$
                                 <example type="correct">Przy nazwach typu „izo–” (np izobutyl) pierwszą literą jest „i”.</example>
                                 <example type="correct">Z czasów panowania chanów protobułgarskich (VII–IX wiek) pochodzą ryte w kamieniu napisy.</example>
                                 <example type="correct">To jest przykład—błędny—ale jest.</example>
+                                <example type="correct">Powozy jedno– i dwukonne toczą się w dalszym ciągu.</example>
 						</rule>
 						<rule>
 								<pattern>                              
@@ -2993,7 +2995,7 @@ $Id$
                         <rule>
                         <pattern>
                             <marker>
-                                <token>cztery<exception scope="previous">w</exception></token>
+                                <token>cztery<exception scope="previous" regexp="yes">we?|na</exception></token>
                                 <token>oczy</token>
                             </marker>
                         </pattern>
@@ -4078,7 +4080,7 @@ $Id$
 								<pattern>
 										<marker>
 												<token postag="SENT_START"></token>
-												<token skip="-1">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"></exception><exception inflected="yes" postag="adj:pl.*" postag_regexp="yes" regexp="yes" scope="next">który|jaki</exception></token>
+												<token skip="-1" postag="ppron12:sg:dat:m1.m2.m3.f.n1.n2:sec:nakc">ci<exception postag="verb:.*pl.*" postag_regexp="yes" scope="next"></exception><exception inflected="yes" postag="adj:pl.*" postag_regexp="yes" regexp="yes" scope="next">który|jaki</exception></token>
 										</marker>
 										<token postag="verb:.*sg.*" postag_regexp="yes"></token>
 								</pattern>
@@ -4087,6 +4089,7 @@ $Id$
 								<example type="correct">Tobie się wydaje, żeś kiep i pacan.</example>
 								<example type="correct">Ci, którzy korzystają z dokonań nauki, posługują się wówczas wiedzą.</example>
 								<example correction="Tobie" type="incorrect"><marker>Ci</marker> się wydaje, żeś kiep i pacan.</example>
+                                <example type="correct">Ci ludzie, prości, skromni i nieuczeni...</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -5444,16 +5447,28 @@ $Id$
 				<rulegroup id="BYC_ZNAJDOWAC_SIE_W_POSIADANIU" name="„być/znajdować się w posiadaniu” (mieć, posiadać)">
 						<rule>
 								<pattern>
-										<token inflected="yes">być</token>
+										<token inflected="yes">być<exception postag="pact.*" postag_regexp="yes"/></token>
 										<token>w</token>
 										<token>posiadaniu</token>
 								</pattern>
-								<message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(.*):nonrefl" postag_replace="$1:refl.nonrefl">mieć</match></suggestion>, <suggestion><match no="1" postag="(.*):imperf:nonrefl" postag_replace="$1:perf:nonrefl">posiadać</match></suggestion>.</message>
+								<message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="(.*):nonrefl" postag_replace="$1:refl.nonrefl">mieć</match></suggestion>, <suggestion><match no="1" postag="(.*)(:imperf|:aff):nonrefl" postag_replace="$1(:perf|:aff).*">posiadać</match></suggestion>.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="mam|posiadam" type="incorrect">Nie <marker>jestem w posiadaniu</marker> tego obrazu.</example>
 								<example type="correct">Nie mam tego obrazu.</example>
 						</rule>
-						<rule>
+                        <rule>
+                        <pattern>
+                            <token postag="pact.*" postag_regexp="yes" inflected="yes">być</token>
+                            <token>w</token>
+                            <token>posiadaniu</token>
+                        </pattern>
+                        <message>Wyrażenie niepoprawne. Poprawnie: <suggestion><match no="1" postag="pact:(.*):imperf:(aff|neg):nonrefl" postag_replace="ppas:$1:imperf:$2.*">posiadać</match> przez</suggestion>.</message>
+                        <short>Błąd leksykalny</short>
+                            <example correction="posiadanymi przez" type="incorrect">Pokrzepiał się środkami podniecającymi <marker>będącymi w posiadaniu</marker> Marianiego.</example>
+                            <example type="incorrect" correction="nieposiadane przez">To są środki <marker>niebędące w posiadaniu</marker> rządu naszej krainy.</example>
+                            <example type="correct">Nie mam tego obrazu.</example>
+                        </rule>
+                        <rule>
 								<!--  FIXME: change suggestion -->
 								<pattern>
 										<token inflected="yes" regexp="yes">znajdować|znaleźć</token>
@@ -10716,6 +10731,12 @@ $Id$
 				<!-- błędna pisownia rozłączna -->
 				<rulegroup id="PONAD_TO" name="„ponad to”, „po nadto” (ponadto)">
 						<rule>
+                                <antipattern>
+                                    <token>ponad</token>
+                                    <token>to</token>
+                                    <token>,</token>
+                                    <token regexp="yes">co|że</token>
+                                </antipattern>
 								<pattern case_sensitive="no">
 										<token>ponad</token>
 										<token>to</token>
@@ -10724,6 +10745,7 @@ $Id$
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ponadto samochód wyposażony jest w ogromny bagażnik.</example>
 								<example correction="Ponadto" type="incorrect"><marker>Ponad to</marker> samochód wyposażony jest w ogromny bagażnik.</example>
+                                <example type="correct">Nie umie ona więcej ponad to, co się znajduje w  podręczniku.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="no">
@@ -11223,9 +11245,10 @@ $Id$
 				<rulegroup id="HYPO" name="Przedrostek „hypo” (hipo)">
 						<rule>
 								<pattern>
-										<token postag="UNKNOWN" regexp="yes">hypo.*</token>
+										<token postag="UNKNOWN" regexp="yes">hypo.*<exception>hypocaustum</exception></token>
 								</pattern>
-								<message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"></match></suggestion>.</message>
+								<message>Przedrostek „hipo” piszemy przez „i”. Wyjątkiem są wyrazy zupełnie niespolszczone.</message>
+                                <suggestion><match suppress_misspelled="yes" no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"></match></suggestion>
 								<short>Błąd ortograficzny</short>
 								<example correction="hipochondrykiem" type="incorrect">On jest <marker>hypochondrykiem</marker>.</example>
 								<example type="correct">Jakie przemyślne hypokaustum!</example>
@@ -11234,7 +11257,7 @@ $Id$
 								<pattern>
 										<token inflected="yes">hypoalergiczny</token>
 								</pattern>
-								<message>Przedrostek „hipo” piszemy przez „i”. Poprawnie: <suggestion><match no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"></match></suggestion>.</message>
+								<message>Przedrostek „hipo” piszemy przez „i”. <suggestion><match no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"></match></suggestion>.</message>
 								<short>Błąd ortograficzny</short>
 								<example correction="hipoalergiczny" type="incorrect">To świetny krem <marker>hypoalergiczny</marker>.</example>
 								<example type="correct">To świetny krem hipoalergiczny.</example>
@@ -11413,8 +11436,11 @@ $Id$
 				</rulegroup>
 				<rule id="DLA_CZEGO" name="„dla czego” (dlaczego)">
 						<pattern>
+                            <marker>
 								<token>dla</token>
 								<token regexp="yes">czego|czegoż|czegóż</token>
+                            </marker>
+                                <token><exception>innego</exception></token>
 						</pattern>
 						<message>Zaimek przysłowny <suggestion>dla\2</suggestion> piszemy łącznie.</message>
 						<short>Błąd ortograficzny</short>
@@ -13144,6 +13170,10 @@ $Id$
 						<example type="correct">Nie mam pojęcia.</example>
 				</rule>
 				<rulegroup id="WRAZ_TYM" name="„wraz tym” (wraz z tym)">
+                        <antipattern>
+                            <token>raz</token>
+                            <token>wraz</token>
+                        </antipattern>
 						<rule>
 								<pattern>
 										<token>wraz</token>
@@ -13153,16 +13183,19 @@ $Id$
 								<short>Prawdopodobna literówka</short>
 								<example correction="wraz ze mną" type="incorrect">Pojechał <marker>wraz mną</marker> na targ.</example>
 								<example type="correct">Pojechał wraz ze mną na targ.</example>
+                                <!-- na ten błąd jest reguła raz_wraz -->
+                                <example type="correct">Niebo od południa rozjaśniało się raz wraz krwawymi błyskawicami.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token>wraz</token>
-										<token negate="yes" postag=".*inst.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">ze|z</exception>s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu</token>
+										<token negate="yes" postag=".*inst.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">ze|za?</exception>s[wftśsrłndwpgklcbmżń].+|[zśźż][wftśsrłndwpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu</token>
 								</pattern>
 								<message>Prawdopodobna literówka. Czy chodziło o <suggestion>\1 z \2</suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
 								<example correction="wraz z nim" type="incorrect">Pojechał <marker>wraz nim</marker> na targ.</example>
 								<example type="correct">Pojechał wraz ze mną na targ.</example>
+                                <example type="correct">Ona uparcie odradzała się wraz za nią.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="WESPOL_BURK" name="„wespół” (wespół z)">
@@ -13256,7 +13289,7 @@ $Id$
 				</rule>
 				<rule id="DO_ZROBIENI" name="„do zrobieni” (do zrobienia)">
 						<pattern>
-								<token postag="prep:gen"></token>
+								<token postag="prep:gen"><exception regexp="yes">obok|wokół</exception></token>
 								<marker>
 										<token postag="ppas:pl:nom.voc:m1.p1:perf:aff"></token>
 								</marker>
@@ -13265,6 +13298,7 @@ $Id$
 						<short>Prawdopodobna literówka</short>
 						<example type="correct">Mam wiele rzeczy do zrobienia.</example>
 						<example correction="zrobienia" type="incorrect">Mam wiele rzeczy do <marker>zrobieni</marker>.</example>
+                        <example type="correct">Marta i Varadol siedzieli obok zasępieni i milczący.</example>
 				</rule>
 				<rulegroup id="ZDROWA_ZDROWIA" name="„zdrowa” (zdrowia)">
 						<rule>
@@ -13730,7 +13764,7 @@ $Id$
 				</rule>
 				<rule id="MAJA_MAJA" name="„maja” (mają)">
 						<pattern case_sensitive="yes">
-								<token><exception inflected="yes" regexp="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception></token>
+								<token><exception inflected="yes" regexp="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception><exception>całego</exception></token>
 								<marker>
 										<token>maja</token>
 								</marker>
@@ -14067,6 +14101,11 @@ $Id$
 				</rulegroup>
 				<rulegroup id="NA_PRZEKOR" name="„chybcika, przekór” (na chybcika, na przekór) itd.">
 						<rule>
+                            <antipattern>
+                                <token>na</token>
+                                <token>samym</token>
+                                <token regexp="yes">wyjezdnym|odjezdnym|odchodnym</token>
+                            </antipattern>
 								<pattern>
 										<token><exception regexp="yes">na|[\&quot;„]|któr.*</exception></token>
 										<marker>
@@ -14077,6 +14116,7 @@ $Id$
 								<short>Prawdopodobna literówka</short>
 								<example type="correct">To jest zrobione na chybcika.</example>
 								<example correction="na chybcika" type="incorrect">To jest zrobione <marker>chybcika</marker>.</example>
+                                <example type="correct">Na samym odjezdnym karczmarz dał plebanowi jakieś papiery.</example>
 						</rule>
 						<rule>
 								<pattern>
