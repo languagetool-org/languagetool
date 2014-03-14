@@ -1017,6 +1017,27 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Bądź co bądź to prawda.</example>
     </rule>
 
+    <rule name="bądź więc" id="badz_wiec">
+        <pattern>
+            <marker><token>bądź</token></marker>
+            <token regexp="yes">więc|pan</token>
+        </pattern>
+        <disambig postag="verb:impt:sg:sec:imperf:nonrefl"/>
+        <example type="untouched">Bądź zdrów!</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl]">List ten piszę własną ręką, <marker>bądź</marker> więc ostrożny.</example>
+    </rule>
+
+    <rule name="bądź cicho" id="badz_cicho">
+    <pattern>
+        <marker><token>bądź</token></marker>
+        <token>cicho</token>
+        <token regexp="yes">[!,]</token>
+    </pattern>
+    <disambig postag="verb:impt:sg:sec:imperf:nonrefl"/>
+    </rule>
+
+
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
         <pattern>
             <token inflected="yes" postag="(?:verb|pact).*" postag_regexp="yes">być</token>
