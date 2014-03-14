@@ -785,6 +785,42 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="ALE_ALE" name="Ale, ale jako wykrzyknik (za Innym słownikiem)">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"/>
+            <marker>
+            <token>Ale</token>
+            <token>,</token>
+            <token>ale</token>
+            </marker>
+            <token regexp="yes">[!,]</token>
+        </pattern>
+        <disambig action="replace"><wd pos="interj" lemma="ale"/><wd pos="interp:comma" lemma=","/><wd pos="interj" lemma="ale"/></disambig>
+        <example type="untouched">Ale to nieprawda.</example>
+        <example type="ambiguous" inputform="Ale[Al/depr:pl:nom:m2,Al/depr:pl:voc:m2,Ala/subst:pl:acc:f,Ala/subst:pl:nom:f,Ala/subst:pl:voc:f,Ale/comp:comma,Ali/depr:pl:nom:m2,Ali/depr:pl:voc:m2,Alo/depr:pl:nom:m2,Alo/depr:pl:voc:m2,ale/conj,ale/qub]"
+                 outputform="Ale[ale/interj]"><marker>Ale</marker>, ale, byłbym zapomniał!</example>
+    </rule>
+
+    <rule id="ALE" name="Ale to pewnie spójnik">
+        <pattern case_sensitive="yes">
+            <token postag="SENT_START"/>
+            <marker><token>Ale<exception postag="interj"/></token></marker>
+        </pattern>
+        <disambig action="remove" postag="(?:subst|depr).*"/>
+        <example type="untouched">To prawda, ale co z tego?</example>
+        <example type="ambiguous" inputform="Ale[Al/depr:pl:nom:m2,Al/depr:pl:voc:m2,Ala/subst:pl:acc:f,Ala/subst:pl:nom:f,Ala/subst:pl:voc:f,Ale/comp:comma,Ali/depr:pl:nom:m2,Ali/depr:pl:voc:m2,Alo/depr:pl:nom:m2,Alo/depr:pl:voc:m2,ale/conj,ale/qub]"
+                 outputform="Ale[Ale/comp:comma,ale/conj,ale/qub]"><marker>Ale</marker> są głupcami.</example>
+    </rule>
+
+    <rule id="JESLI_TO" name="jeśli/jeżeli, to...">
+        <pattern>
+            <token skip="-1" regexp="yes">jeśli|jeżeli<exception scope="next" postag="comp:comma"/></token>
+            <token>,</token>
+            <marker><token>to</token></marker>
+        </pattern>
+        <disambig postag="conj"/>
+    </rule>
+
     <rulegroup name="lecz" id="lecz">
         <rule>
             <pattern>
@@ -1231,7 +1267,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="NOWE_MYSLI" name="myśli to rzeczownik">
         <pattern>
-            <token postag="adj.*" postag_regexp="yes">nowe</token>
+            <token postag="adj.*" postag_regexp="yes" regexp="yes">nowe|podłe</token>
             <token postag="subst.*" postag_regexp="yes">myśli</token>
         </pattern>
         <disambig action="filterall"/>
@@ -3084,7 +3120,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="DOSC_ZE" name="dość że">
         <pattern>
-            <marker><token regexp="yes">dość|jako</token></marker>
+            <marker><token regexp="yes">dość|dosyć|jako</token></marker>
             <token>że</token>
         </pattern>
         <disambig postag="conj"/> <!-- wg Innego słownika -->

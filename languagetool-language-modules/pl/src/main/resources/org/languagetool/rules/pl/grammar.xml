@@ -783,6 +783,7 @@ $Id$
                             <example correction="poszło, dość że" type="incorrect">Nie wiadomo, o co im właściwie tam <marker>poszło dość że</marker> przez kilka minut za ścianą działo się piekło..</example>
                             <example type="correct">Nie wiadomo, o co im właściwie tam poszło, dość że przez kilka minut za ścianą działo się piekło.</example>
                             <example type="correct">Serce mi mówi, że to nieosobliwe dla nas miejsce i że więcej nam potrzeba teraz użytku nóg.</example>
+                            <example type="correct">Jeżeli czemu się dziwię, to że dotąd zachowywała się tak spokojnie.</example>
                         </rule>
                         <rule>
                             <pattern>
@@ -5552,11 +5553,26 @@ $Id$
 						</rule>
 				</rulegroup>
 				<rule id="BYNAJMNIEJ" name="„bynajmniej” (przynajmniej)">
+                        <antipattern case_sensitive="yes">
+                            <token postag="SENT_START"/>
+                            <token regexp="yes">[—–]</token>
+                            <token>Bynajmniej</token>
+                            <token regexp="yes">&interp;</token>
+                        </antipattern>
+                        <antipattern case_sensitive="yes">
+                            <token>,</token>
+                            <token>bynajmniej</token>
+                            <token>!</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>ależ</token>
+                            <token>bynajmniej</token>
+                        </antipattern>
 						<pattern>
 								<token postag="SENT_START" skip="-1"><exception scope="next">nie</exception></token>
 								<token skip="-1"><exception scope="next">nie</exception></token>
 								<marker>
-										<token skip="-1">bynajmniej<exception scope="next">nie</exception><exception scope="next" postag="adj.*" postag_regexp="yes" regexp="yes">nie.+</exception></token>
+										<token skip="-1">bynajmniej<exception scope="previous" postag=".*:neg:.*" postag_regexp="yes"></exception><exception scope="next">nie</exception><exception scope="next" postag="adj.*" postag_regexp="yes" regexp="yes">nie.+</exception></token>
 								</marker>
 								<token postag="SENT_END"></token>
 						</pattern>
@@ -5565,7 +5581,12 @@ $Id$
 						<example correction="przynajmniej" type="incorrect">Wiersz po prostu śliczny, <marker>bynajmniej</marker> dla mnie.</example>
 						<example type="correct">Wiersz po prostu śliczny, <marker>przynajmniej</marker> dla mnie.</example>
 						<example type="correct">Bynajmniej.</example>
+                        <example type="correct">— Bynajmniej… </example>
+                        <example type="correct">— Bynajmniej! — odparł Mugger głosem łagodnym.</example>
                         <example type="correct">Myślę, że to problem bynajmniej niebłahy.</example>
+                        <example type="correct">Oto przegląd — niewyczerpujący bynajmniej — płaszczyzn, na których porusza się myśl.</example>
+                        <example type="correct">Na chromego małżonka Wenery, bynajmniej!</example>
+                        <example type="correct">— Ależ bynajmniej.</example>
 				</rule>
 				<rule id="SPELNIAC_OPIEKE" name="„spełniać opiekę” (sprawować opiekę)">
 						<pattern>
