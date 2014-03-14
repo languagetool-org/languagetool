@@ -3647,14 +3647,14 @@ $Id$
             <example type="correct">cals Kxdlf</example>
         </rule>
         <rulegroup id="DETERMINANTS_IMPOSSIBLE" name="Combinacions impossibles de determinants: *els tots els">
-            <!--  falten combinacions de dos: els aquests -->
-            <!-- <rule>
+            <rule>
                 <pattern>
                     <marker>
-                    <token postag="D.*" postag_regexp="yes"></token>
-                    <token postag="D[^R].*" postag_regexp="yes"></token>
-                    <token postag="D[^RN].*" postag_regexp="yes"></token>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
                     </marker>
+                    <token><exception postag="_C_TEMPS"/></token>
                 </pattern>
                 <message>Combinacio impossible de determinants.</message>
                 <example type="incorrect">No sé <marker>els aquests els</marker> detalls</example>
@@ -3663,16 +3663,27 @@ $Id$
                 <example type="correct">els tres mil</example>
                 <example type="correct">els trenta-quatre mil restants</example>
                 <example type="correct">totes les quals sumes</example>
-            </rule> -->
+                <example type="correct">Als dos els donarem això</example>
+                <example type="correct">l'un el 1538, en temps de Solimà</example>
+            </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">el</token>
-                    <token inflected="yes">tot</token>
+                    <token inflected="yes" regexp="yes">tot|molt</token>
                     <token inflected="yes">el</token>
                 </pattern>
                 <message>Combinació impossible de determinants.</message>
                 <example type="incorrect"><marker>els tots els</marker> detalls</example>
                 <example type="correct">tots els detalls</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="DD.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Combinació impossible de determinants.</message>
+                <example type="incorrect"><marker>els aquests</marker> detalls</example>
+                <example type="correct">Aquests detalls</example>
             </rule>
         </rulegroup>
         <rule id="VARIS" name="varis com a determinant">
@@ -5748,6 +5759,11 @@ $Id$
                 <example type="correct">d'exemplars ben verds, fins a ben marrons</example>
             </rule>
             <rule id="FINS_QUASI" name="*fins quasi / fins a">
+                <antipattern>
+                    <token>els</token>
+                    <token>seus</token>
+                    <token>fins</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>fins</token>
@@ -5765,6 +5781,7 @@ $Id$
                 <example type="correct">Fins molt de temps després</example>
                 <example type="correct">ni límit fins que reduïts a l'extrema indigència,</example>
                 <example type="correct">va perdurar fins més enllà de mitjans del segle passat</example>
+                <example type="correct">Aconseguir els seus fins moralment reprovables.</example>
                 <!-- fins bastant entrats els segles; 
                 fins aproximadament pel març del 1869
                 fins poc més amunt del santuari-->
@@ -23117,6 +23134,20 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/id/2178</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="enguany|des de principi d'any"><marker>en el que portem d'any</marker></example>
+            <example type="correct">aquest any</example>
+        </rule>
+        <rule id="PORTA_UNA_HORA" name="porta una hora/fa una hora">
+            <pattern>
+                <token inflected="yes" regexp="yes">portar|dur</token>
+                <token postag="D[NI].*" postag_regexp="yes" skip="1"/>
+                <token inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>Fa <match no="2" include_skipped="all"/> <match no="3"/> (que ...)</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2178</url>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="Fa una hora (que ...)"><marker>Porta una hora</marker> dient-ho</example>
+            <example type="incorrect" correction="Fa mig any (que ...)"><marker>Porta mig any</marker> de gira.</example>
             <example type="correct">aquest any</example>
         </rule>
         <!-- per fer: porta mitja hora/molt (de) temps/ un any -->
