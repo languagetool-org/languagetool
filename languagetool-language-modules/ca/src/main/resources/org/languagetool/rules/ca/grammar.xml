@@ -3632,6 +3632,20 @@ $Id$
     </rulegroup>    
     </category>
     <category name="Determinants" type="grammar">
+        <rule id="CALS" name="Comprova: cals + nom">
+            <pattern>
+                <marker>
+                    <token>cals</token>
+                </marker>
+                <token><exception postag="NC[MC][PN].*|A..[MC][SN].|NP.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
+            </pattern>
+            <message>Falta un nom darrere de "cals" (= ca + els).</message>
+            <example type="incorrect"><marker>cals</marker> vindrà</example>
+            <example type="incorrect">La fabricació de <marker>cals</marker>.</example>
+            <example type="correct">cals Martínez</example>
+            <example type="correct">cals tintorers</example>
+            <example type="correct">cals Kxdlf</example>
+        </rule>
         <rulegroup id="DETERMINANTS_IMPOSSIBLE" name="Combinacions impossibles de determinants: *els tots els">
             <!--  falten combinacions de dos: els aquests -->
             <!-- <rule>
@@ -3652,9 +3666,9 @@ $Id$
             </rule> -->
             <rule>
                 <pattern>
-                    <token>els</token>
-                    <token>tots</token>
-                    <token>els</token>
+                    <token inflected="yes">el</token>
+                    <token inflected="yes">tot</token>
+                    <token inflected="yes">el</token>
                 </pattern>
                 <message>Combinació impossible de determinants.</message>
                 <example type="incorrect"><marker>els tots els</marker> detalls</example>
