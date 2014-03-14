@@ -534,9 +534,23 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="remove"><wd lemma="juszyć"/></disambig>
     </rule>
 
+    <rule name="ślubić" id="SLUBIC">
+        <pattern>
+            <marker><token inflected="yes">ślubić</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="ślubić"/></disambig>
+    </rule>
+
     <rule name="niechęcić" id="NIECHECIC">
         <pattern><token inflected="yes">niechęcić</token></pattern>
         <disambig action="remove"><wd lemma="niechęcić"/></disambig>
+    </rule>
+
+    <rule name="dosyć" id="dosyc">
+        <pattern>
+            <token>dosyć</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="dosycić"/></disambig>
     </rule>
 
     <rule name="mniejszy" id="MNIEJSZY">
@@ -771,6 +785,50 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rulegroup name="lecz" id="lecz">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>lecz</token>
+                </marker>
+                <token>się</token>
+                <token>sam</token>
+                <token regexp="yes">[\.!,-—…]+</token>
+            </pattern>
+            <disambig action="filter" postag="verb:impt.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token>lecz</token>
+                </marker>
+            </pattern>
+            <disambig postag="conj"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>lecz</token>
+                </marker>
+                <token regexp="yes">też|również|i</token>
+            </pattern>
+            <disambig postag="conj"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token>lecz</token>
+                </marker>
+                <token>za</token>
+                <token>to</token>
+            </pattern>
+            <disambig postag="conj"/>
+        </rule>
+    </rulegroup>
+
     <rule name="Bądź i lub jako spójnik" id="badz_koordynacja">
         <pattern>
             <unify>
@@ -822,6 +880,33 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="bądź[bądź/conj]">Dawkę leku powtarzamy co dwa <marker>bądź</marker> trzy tygodnie.</example>
         <example type="ambiguous" inputform="lub[lub/comp:comma,lub/conj,lubić/verb:impt:sg:sec:imperf:nonrefl,lubić/verb:impt:sg:sec:imperf:refl.nonrefl]"
                  outputform="lub[lub/conj]">Dawkę leku powtarzamy co dwa <marker>lub</marker> trzy tygodnie.</example>
+    </rule>
+
+    <rule name="lub że" id="lub_ze">
+        <pattern>
+            <marker>
+                <token regexp="yes">l(?:ub|ecz)</token>
+            </marker>
+            <token>że</token>
+        </pattern>
+        <disambig action="filter" postag="conj|comp:comma"/>
+        <example type="ambiguous" inputform="lub[lub/comp:comma,lub/conj,lubić/verb:impt:sg:sec:imperf:nonrefl,lubić/verb:impt:sg:sec:imperf:refl.nonrefl]"
+                 outputform="lub[lub/comp:comma,lub/conj]">że nawracają się na łożu śmierci <marker>lub</marker> że nie ma ateistów w okopach.</example>
+    </rule>
+
+    <rule id="badz_ze" name="bądź że">
+        <pattern>
+            <token>,</token>
+            <marker>
+                <token>bądź</token>
+            </marker>
+            <token skip="-1">że<exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"></exception></token>
+            <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="conj"/>
+        <example type="untouched">Ludwiku, bądż że rozsądny!</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/conj]">Aby podkreślić ładne powiedzenie siostry, <marker>bądź</marker> że zazdrościła Swannowi, ...</example>
     </rule>
 
     <rule name="bądź co bądź" id="BADZ_CO_BADZ">
@@ -3435,6 +3520,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="Ci[ten/adj:pl:nom.voc:m1.p1:pos]"><marker>Ci</marker> smarkacze byli nieznośni.</example>
     </rule>
 
+    <rule id="unify_sposob" name="unifikacja rzeczownika „sposób">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="number"/><feature id="gender"/><feature id="case"/>
+                    <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+                    <token>sposób</token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="sposób[sposobić/verb:impt:sg:sec:imperf:refl.nonrefl,sposób/pred,sposób/subst:sg:acc:m3,sposób/subst:sg:nom:m3]"
+                 outputform="sposób[sposób/subst:sg:acc:m3]">Zrobiłem to w ten <marker>sposób</marker>.</example>
+        <example type="untouched">Acanie, sposób się do wojny!</example>
+    </rule>
+
     <rule id="CI_PANT" name="ci = ten, kiedy przed imiesłowem">
         <pattern>
             <token>ci</token>
@@ -3720,29 +3821,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="brev:pun"/>
     </rule>
-
-    <rulegroup name="lecz" id="lecz">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>lecz</token>
-                </marker>
-                <token>się</token>
-                <token>sam</token>
-                <token regexp="yes">[\.!,-—…]+</token>
-            </pattern>
-            <disambig action="filter" postag="verb:impt.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>,</token>
-                <marker>
-                    <token>lecz</token>
-                </marker>
-            </pattern>
-            <disambig postag="conj"/>
-        </rule>
-    </rulegroup>
 
 <!-- 
     <rule name="wzgledem" id="względem">

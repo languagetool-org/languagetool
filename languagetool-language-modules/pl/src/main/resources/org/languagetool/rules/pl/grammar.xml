@@ -775,7 +775,7 @@ $Id$
                             </antipattern>
                             <pattern>
                                 <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
-                                <token postag="conj"><exception regexp="yes">&conj;</exception><exception>to</exception><exception scope="previous" postag="comp:comma"/></token>
+                                <token postag="conj"><exception regexp="yes">&conj;</exception><exception inflected="yes">to</exception><exception scope="previous" postag="comp:comma"/></token>
                                 <token>że</token>
                             </pattern>
                             <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
@@ -794,6 +794,18 @@ $Id$
                             <short>Brak przecinka</short>
                             <example type="correct">Nie dość, że dostali marny żołd, to jeszcze w fałszywych banknotach.</example>
                             <example type="incorrect" correction="Nie dość, że"><marker>Nie dość że</marker> dostali marny żołd, to jeszcze w fałszywych banknotach.</example>
+                        </rule>
+                        <rule>
+                            <pattern>
+                                <token inflected="yes" postag="subst.*" postag_regexp="yes">to<exception scope="previous">z</exception></token>
+                                <token>że</token>
+                            </pattern>
+                            <message>Przed spójnikiem „że” stawiamy przecinek: <suggestion>\1, \2</suggestion>.</message>
+                            <short>Błąd interpunkcyjny</short>
+                            <example type="correct">Denerwuje mnie to, że masz rację.</example>
+                            <example type="incorrect" correction="to, że">Denerwuje mnie <marker>to że</marker> masz rację.</example>
+                            <!-- inna reguła powyżej: -->
+                            <example type="correct">Licz się z tym że mam broń.</example>
                         </rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_JESLI" name="Brak przecinka przed „jeśli”, „jeżeli”, „gdyby” itd.">
@@ -3812,7 +3824,7 @@ $Id$
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
-										<token regexp="yes">bowiem|ale|zaś|lecz</token>
+										<token regexp="yes" postag="conj|comp" postag_regexp="yes">bowiem|ale|zaś|lecz</token>
 								</marker>
 								<token></token>
 						</pattern>
@@ -3820,6 +3832,7 @@ $Id$
 						<short>Błędny szyk wyrazów</short>
 						<example type="correct">Ludwik bowiem chciał być wicepremierem.</example>
 						<example type="incorrect"><marker>Bowiem</marker> Ludwik chciał być wicepremierem.</example>
+                        <example type="correct">Lecz się sam!</example>
 				</rule>
 				<rule id="BOWIEM_ZAS_PRZECINEK" name="„bowiem” i „zaś” na początku zdania podrzędnego">
 						<pattern>
