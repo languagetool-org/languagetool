@@ -3822,6 +3822,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="brev:pun"/>
     </rule>
 
+    <rule id="dr_femininum" name="pani dr">
+        <pattern>
+            <unify>
+                <feature id="case"></feature>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                <unify-ignore>
+                <marker>
+                    <token>dr</token>
+                </marker>
+                </unify-ignore>
+                <token postag="subst.*:f" postag_regexp="yes" regexp="yes">\p{Lu}\p{Ll}+<exception postag="subst.*:m1" postag_regexp="yes"/></token>
+            </unify>
+        </pattern>
+        <disambig postag="brev:npun"/>
+    </rule>
+
 <!-- 
     <rule name="wzgledem" id="względem">
         <pattern>
@@ -4405,7 +4421,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		</marker>
     		<token inflected="yes">Awiw</token>
     	</pattern>
-    	<disambig action="replace"><match no="2" postag_regexp="yes" postag="subst.*">Tel</match></disambig>
+    	<disambig postag="burk"/>
     </rule>
     
     <rule name="n.e." id="NE_BREV">
