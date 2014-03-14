@@ -836,7 +836,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
         </rule>
-        <rule id="mes_tard" name="anys/dies/hores/minuts... més tard">
+        <rule id="mes_tard" name="més tard">
             <pattern>
                 <token><exception postag="D[IN].*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&unitats_temps;</exception></token>
                 <marker>
@@ -845,6 +845,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="prou_mes_tard" name="prou més tard">
+            <pattern>
+                <marker>
+                    <token regexp="yes">prou|bastant|molt</token>
+                    <token>més</token>
+                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
         </rule>
         <rule id="anys_mes_tard" name="anys/dies/hores/minuts... més tard">
             <pattern>
@@ -857,7 +867,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
         </rule>
-        <rule id="uns_anys_mes_tard" name="anys/dies/hores/minuts... més tard">
+        <rule id="uns_anys_mes_tard" name="uns anys/dies/hores/minuts... més tard">
             <pattern>
                 <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
                 <marker>
