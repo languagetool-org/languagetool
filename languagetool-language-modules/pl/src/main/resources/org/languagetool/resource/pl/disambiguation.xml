@@ -1565,9 +1565,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
        </rule>
     </rulegroup>
 
+    <rule id="MNIE" name="mnie to nie miąć; bardzo ostra reguła, ale praktycznie nie zdarza się w uzusie...">
+        <pattern>
+            <marker><token postag="verb:fin:sg:ter:imperf:refl.nonrefl">mnie</token></marker>
+        </pattern>
+        <disambig action="filter" postag="ppron12.*"/>
+    </rule>
+
     <rule id="stawac_nonrefl" name="stawać niezwrotne">
         <pattern>
-            <marker><token regexp="yes" inflected="yes">stać|stawać</token></marker>
+            <marker><token regexp="yes" inflected="yes">stać|stawać<exception>stanie</exception></token></marker>
             <token regexp="yes">tyłem|profilem|kępami|bokiem|twarzą|otworem|okoniem|mi|go|we|rzędem|rzędami|pustkami|godzinami|kwadransami|kwaterą</token>
         </pattern>
         <disambig action="filter" postag=".*nonrefl.*"/>
@@ -1576,12 +1583,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl]">Piwnice <marker>stały</marker> pustkami.</example>
     </rule>
 
-    <rule id="MNIE" name="mnie to nie miąć; bardzo ostra reguła, ale praktycznie nie zdarza się w uzusie...">
-        <pattern>
-            <marker><token postag="verb:fin:sg:ter:imperf:refl.nonrefl">mnie</token></marker>
-        </pattern>
-        <disambig action="filter" postag="ppron12.*"/>
-    </rule>
 
     <rule id="PO_ADJP" name="po polsku">
         <pattern>
