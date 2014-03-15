@@ -3679,11 +3679,12 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="DA.*" postag_regexp="yes"/>
-                    <token postag="DD.*" postag_regexp="yes"/>
+                    <token postag="DD.*" postag_regexp="yes"><exception inflected="yes">tal</exception></token>
                 </pattern>
                 <message>Combinació impossible de determinants.</message>
                 <example type="incorrect"><marker>els aquests</marker> detalls</example>
                 <example type="correct">Aquests detalls</example>
+                <example type="correct">Les tals germanes no vingueren.</example>
             </rule>
         </rulegroup>
         <rule id="VARIS" name="varis com a determinant">
@@ -3698,11 +3699,13 @@ $Id$
             <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
             <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
             <suggestion>diferents</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2370</url>
             <example type="incorrect" correction="diverses|algunes|unes quantes|diferents">Hi ha <marker>vàries</marker> solucions.</example>
             <example type="incorrect" correction="diversos|alguns|uns quants|diferents">Te <marker>varis</marker> subtemes</example>
             <example type="correct">Hi ha <marker>diverses</marker> solucions.</example>
             <!-- Val a dir que varis d'aquests apartaments
-            sense un alambí o varis. -->
+            sense un alambí o varis.
+            De bestieses, n'ha fet vàries al llarg de la vida -->
         </rule>
         <rulegroup id="NOMBRES_ROMANS" name="comprova nombres romans" type="misspelling">
             <rule>
@@ -23138,17 +23141,27 @@ $Id$
         </rule>
         <rule id="PORTA_UNA_HORA" name="porta una hora/fa una hora">
             <pattern>
-                <token inflected="yes" regexp="yes">portar|dur</token>
-                <token postag="D[NI].*" postag_regexp="yes" skip="1"/>
-                <token inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                <marker>
+                    <token postag="V.[SI].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception></token>
+                    <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+                </marker>
             </pattern>
             <message>Val més usar una altra expressió.</message>
-            <suggestion>Fa <match no="2" include_skipped="all"/> <match no="3"/> (que ...)</suggestion>
+            <suggestion>fa <match no="3" include_skipped="all"/> <match no="4"/> (que ...)</suggestion>
             <url>http://esadir.cat/entrades/fitxa/id/2178</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="Fa una hora (que ...)"><marker>Porta una hora</marker> dient-ho</example>
             <example type="incorrect" correction="Fa mig any (que ...)"><marker>Porta mig any</marker> de gira.</example>
-            <example type="correct">aquest any</example>
+            <example type="incorrect" correction="Fa molt de temps (que ...)"><marker>Porta molt de temps</marker> així.</example>
+            <example type="incorrect" correction="fa moltíssims anys (que ...)">alguna d'elles <marker>porta moltíssims anys</marker> d'existència</example>
+            <example type="correct">Això ens portarà molts anys.</example>
+            <example type="correct">Aquella amistat durà vint anys.</example>
+            <example type="correct">només li portava un mes d'avantatge</example>
+            <example type="correct">Ho havia de portar cada dia.</example>
+            <example type="correct">Dura dos dies.</example>
+            <example type="correct">tots els anomenats portaven una segona vida</example>
         </rule>
         <!-- per fer: porta mitja hora/molt (de) temps/ un any -->
         <rule id="DONAR_COMENCAMENT" name="donar començament">
