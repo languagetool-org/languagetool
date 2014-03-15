@@ -19696,6 +19696,50 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">alçada|alçària</token>
+                    </marker>
+                    <token skip="4" regexp="yes">sobre|damunt</token>
+                    <token>mar</token>
+                </pattern>
+                <message>Probablement cal dir <suggestion>altitud</suggestion>.</message>
+                <suggestion>altura</suggestion>
+                <url>http://www.ub.edu/untipdetrucs//?p=1244</url>
+                <short>Possible confusió</short>
+                <example type="incorrect"><marker>alçada</marker> sobre el mar</example>
+                <example type="incorrect"><marker>alçada</marker> sobre el nivell del mar</example>
+                <example type="correct">altura sobre el mar</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[23456789]\d{2}|.+\d{3}.*</token>
+                    <token regexp="yes">metres|m</token>
+                    <token>d'</token>
+                    <marker>
+                        <token regexp="yes">alçada|alçària</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal dir <suggestion>altitud</suggestion>.</message>
+                <suggestion>altura</suggestion>
+                <url>http://www.ub.edu/untipdetrucs//?p=1244</url>
+                <short>Possible confusió</short>
+                <example type="incorrect"> 3.000 metres d'<marker>alçada</marker></example>
+                <example type="correct">L'abre pot arribar a 4 metres d'alçada.</example>
+                <example type="correct">Un edifici de 124 metres d'alçària.</example>
+                <example type="correct">Pau Gasol fa més de 2 metres d'alçada.</example>
+            </rule>
+        </rulegroup>
+        <rule id="PLAC" name="plaç (plaçar) / termini">
+            <pattern>
+                <token>plaç</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>termini</suggestion>? "Plaç" és del verb "plaçar" (jo plaç).</message>
+            <example type="incorrect" correction="termini">A llarg <marker>plaç</marker>.</example>
+            <example type="correct">A llarg termini</example>
+        </rule>
         <rule id="BUSSO_BUSTIA" name="bussó / bústia">
             <pattern>
                 <token inflected="yes">bussó</token>
