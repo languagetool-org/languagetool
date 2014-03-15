@@ -5986,6 +5986,24 @@ $Id$
             <example type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
             <example type="correct">La possibilitat <marker>que</marker> ho facis</example>
         </rule>
+        <rule id="EN_EL_CAS_DE_QUE" name="en el cas de que">
+            <pattern>
+                <token>en</token>
+                <token>el</token>
+                <token>cas</token>
+                <token min="0" postag="A..[MC]S." postag_regexp="yes"/>
+                <marker>
+                    <token>de</token>
+                    <token>què</token>
+                </marker>
+                <token><exception inflected="yes" regexp="yes">parlar|tractar</exception></token>
+            </pattern>
+            <message>Construcció probablement incorrecta. Només és correcta si equival a "del qual".</message>
+            <suggestion>que</suggestion>
+            <short>Construcció incorrecta</short>
+            <example type="incorrect">en el cas particular <marker>de què</marker> aparegui</example>
+            <example type="correct">en el cas concret de què parlem</example>
+        </rule>
         <rule id="D_ENCA" name="d'ençà *(de|que)">
             <pattern>
                 <marker>
