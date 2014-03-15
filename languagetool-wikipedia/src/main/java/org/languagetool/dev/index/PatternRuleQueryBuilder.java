@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.languagetool.dev.index.LanguageToolFilter.LEMMA_PREFIX;
 import static org.languagetool.dev.index.LanguageToolFilter.POS_PREFIX;
 
 /**
@@ -135,8 +136,9 @@ public class PatternRuleQueryBuilder {
     final Query termQuery;
     final Term termQueryTerm = getTermQueryTerm(element, termStr);
     if (element.isInflected() && element.isRegularExpression()) {
-      // TODO: support this, e.g. "walk|climb|run"
-      return null;
+      Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX + "(", termStr, ")");
+      final RegexpQuery regexpQuery = new RegexpQuery(lemmaQueryTerm);
+      return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (element.isInflected() && !element.isRegularExpression()) {
       final Synthesizer synthesizer = language.getSynthesizer();
       if (synthesizer != null) {
@@ -169,10 +171,10 @@ public class PatternRuleQueryBuilder {
     final Query posQuery;
     final Term posQueryTerm;
     if (element.isPOStagRegularExpression()) {
-      posQueryTerm = getPosQueryTerm(element, POS_PREFIX + "(", pos, ")");
+      posQueryTerm = getQueryTerm(element, POS_PREFIX + "(", pos, ")");
       posQuery = getRegexQuery(posQueryTerm, pos);
     } else {
-      posQueryTerm = getPosQueryTerm(element, POS_PREFIX, pos, "");
+      posQueryTerm = getQueryTerm(element, POS_PREFIX, pos, "");
       posQuery = new TermQuery(posQueryTerm);
     }
     if (element.getPOSNegation()) {
@@ -191,11 +193,11 @@ public class PatternRuleQueryBuilder {
     }
   }
 
-  private Term getPosQueryTerm(Element element, String prefix, String pos, String suffix) {
+  private Term getQueryTerm(Element element, String prefix, String str, String suffix) {
     if (element.isCaseSensitive()) {
-      return new Term(FIELD_NAME, prefix + pos + suffix);
+      return new Term(FIELD_NAME, prefix + str + suffix);
     } else {
-      return new Term(FIELD_NAME_LOWERCASE, prefix.toLowerCase() + pos.toLowerCase() + suffix.toLowerCase());
+      return new Term(FIELD_NAME_LOWERCASE, prefix.toLowerCase() + str.toLowerCase() + suffix.toLowerCase());
     }
   }
 

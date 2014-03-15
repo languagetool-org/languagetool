@@ -175,6 +175,14 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token inflected='yes'>checker</token>"), 1);
   }
 
+  public void testInflectedAndRegex() throws Exception {
+    assertMatches(makeRule("<token inflected='yes' regexp='yes'>foo|bar</token>"), 0);
+    assertMatches(makeRule("<token inflected='yes' regexp='yes'>walk|be</token>"), 1);
+    assertMatches(makeRule("<token inflected='yes' regexp='yes'>somefoo|wonderful</token>"), 1);
+    assertMatches(makeRule("<token inflected='yes' regexp='yes'>somefoo|wonderf.l</token>"), 1);
+    assertMatches(makeRule("<token inflected='yes' regexp='yes'>somefoo|wonderX.l</token>"), 0);
+  }
+
   public void testSeveralElements() throws Exception {
 
     // See setup() for the texts we can match

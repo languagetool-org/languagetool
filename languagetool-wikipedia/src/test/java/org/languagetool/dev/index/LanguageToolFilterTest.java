@@ -33,18 +33,20 @@ import org.languagetool.language.English;
 public class LanguageToolFilterTest extends BaseTokenStreamTestCase {
   
   public void testFilter() throws Exception {
-    final String input = "How do you thin?";
+    final String input = "How to?";
 
     final TokenStream stream = new AnyCharTokenizer(TEST_VERSION_CURRENT, new StringReader(input));
     final LanguageToolFilter filter = new LanguageToolFilter(stream, new JLanguageTool(new English()), false);
     //displayTokensWithFullDetails(filter);
 
-    assertTokenStreamContents(filter, new String[] { "_POS_SENT_START", "How", "_POS_WRB", "do",
-        "_POS_VBP", "_POS_VB", "you", "_POS_PRP", "thin", "_POS_VBP", "_POS_VB", "_POS_JJ", "?",
-        "_POS_SENT_END" }, new int[] { 0, 0, 0, 4, 4, 4, 7, 7, 11, 11, 11, 11, 15, 15 }, new int[] {
-        0, 3, 3, 6, 6, 6, 10, 10, 15, 15, 15, 15, 16, 16 }, new String[] { "pos", "word", "pos",
-        "word", "pos", "pos", "word", "pos", "word", "pos", "pos", "pos", "word", "pos" },
-        new int[] { 1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0 }, 16);
+    String start = "_POS_SENT_START";
+    assertTokenStreamContents(filter, 
+        new String[] { start, "How", "_LEMMA_how", "_POS_WRB", "to",   "_LEMMA_to", "_POS_TO", "_LEMMA_to", "_POS_IN", "?",    "_POS_SENT_END" },
+        new int[]    { 0,     0,     0,            0,          4,      4,           4,         4,           4,         6,      6 }, 
+        new int[]    { 0,     3,     3,            3,          6,      6,           6,         6,           6,         7,      7 },
+        new String[] { "pos", "word", "pos",       "pos",      "word", "pos",       "pos",     "pos",       "pos",     "word", "pos" },
+        new int[]    { 1,     1,     0,            0,          1,      0,           0,         0,           0,         1,      0 },
+        7);
   }
 
   private static void displayTokensWithFullDetails(TokenStream stream) throws IOException {

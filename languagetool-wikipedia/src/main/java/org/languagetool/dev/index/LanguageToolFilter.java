@@ -44,6 +44,7 @@ import org.languagetool.JLanguageTool;
 public final class LanguageToolFilter extends TokenFilter {
 
   static final String POS_PREFIX = "_POS_";
+  static final String LEMMA_PREFIX = "_LEMMA_";
 
   private final JLanguageTool languageTool;
   private final boolean toLowerCase;
@@ -109,10 +110,18 @@ public final class LanguageToolFilter extends TokenFilter {
       // but breaks other cases:
       //termAtt.append("SENT_START");
       typeAtt.setType("pos");
+      String posTag = tr.getAnalyzedToken(0).getPOSTag();
+      String lemma = tr.getAnalyzedToken(0).getLemma();
       if (toLowerCase) {
-        termAtt.append(POS_PREFIX.toLowerCase()).append(tr.getAnalyzedToken(0).getPOSTag().toLowerCase());
+        termAtt.append(POS_PREFIX.toLowerCase()).append(posTag.toLowerCase());
+        if (lemma != null) {
+          termAtt.append(LEMMA_PREFIX.toLowerCase()).append(lemma.toLowerCase());
+        }
       } else {
-        termAtt.append(POS_PREFIX).append(tr.getAnalyzedToken(0).getPOSTag());
+        termAtt.append(POS_PREFIX).append(posTag);
+        if (lemma != null) {
+          termAtt.append(LEMMA_PREFIX).append(lemma);
+        }
       }
       return true;
     }
@@ -131,6 +140,14 @@ public final class LanguageToolFilter extends TokenFilter {
           posStack.push(POS_PREFIX.toLowerCase() + token.getPOSTag().toLowerCase());
         } else {
           posStack.push(POS_PREFIX + token.getPOSTag());
+        }
+      }
+      if (token.getLemma() != null) {
+        if (toLowerCase) {
+          posStack.push(LEMMA_PREFIX.toLowerCase() + token.getLemma().toLowerCase());
+        } else {
+          // changes are good this is the same for all loop iterations, store it anyway...
+          posStack.push(LEMMA_PREFIX + token.getLemma());
         }
       }
     }
