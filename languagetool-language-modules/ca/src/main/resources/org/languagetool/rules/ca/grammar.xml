@@ -3651,7 +3651,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
-                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">quant|cap|poc|força|gens|tot|cert|molt</exception></token>
                         <token postag="D[^RN].*" postag_regexp="yes"><exception inflected="yes" regexp="yes">cap|poc|força|gens|tot|cert|molt</exception></token>
                     </marker>
                     <token><exception postag="_C_TEMPS"/></token>
@@ -3665,6 +3665,7 @@ $Id$
                 <example type="correct">totes les quals sumes</example>
                 <example type="correct">Als dos els donarem això</example>
                 <example type="correct">l'un el 1538, en temps de Solimà</example>
+                <example type="correct">n'hi ha uns quants la llavor dels quals</example>
             </rule>
             <rule>
                 <pattern>
@@ -6060,7 +6061,7 @@ $Id$
         </rule>
         <rule id="A_QUE" name="a que">
             <pattern>
-            	<token><exception regexp="yes">per|degut</exception></token>
+                <token><exception regexp="yes">per|degut|fins</exception></token>
             	<marker>
 	                <token>a<exception postag="NP.*" postag_regexp="yes"/></token>
 	                <token>que</token>
@@ -6134,6 +6135,18 @@ $Id$
             <suggestion><match no="1"/> que</suggestion>
             <example type="incorrect" correction="por que">Tenia <marker>por a què</marker> vinguera.</example>
             <example type="correct">Tenia por de què?</example>
+        </rule>
+        <rule id="FINS_A_QUE" name="fins a que">
+            <pattern>
+                <token>fins</token>
+                <token>a</token>
+                <token regexp="yes">que|què</token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion>fins que</suggestion>
+            <url>http://esadir.cat/gramatica/sintaxi/prepfinsfinsa</url>
+            <example type="incorrect">No serà <marker>fins a que</marker> vindran.</example>
+            <example type="correct">Fins que arribin.</example>
         </rule>
         <rule id="PER_QUE" name="per que">
             <pattern>
@@ -10391,9 +10404,9 @@ $Id$
         </rule>
     	<rulegroup id="QUE_QUE" name="què/que">
     		<rule>
-			    <pattern>
-			    	<marker>
-				        <token regexp="yes">ja|fins|més|els|mentre|tant</token>
+                    <pattern>
+                    <marker>
+                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense</token>
 				        <token>què</token>
 			        </marker>
 			        <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
