@@ -6444,6 +6444,22 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="RESPECTA_RESPECTE" name="respecta/respecte">
+            <antipattern>
+                <token regexp="yes">en|pe</token>
+                <token regexp="yes">el|l</token>
+                <token>que</token>
+                <token>respecta</token>
+            </antipattern>
+            <pattern>
+                <token>respecta</token>
+                <token>a</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>respecte a</suggestion>?</message>
+            <example type="incorrect"><marker>respecta a</marker></example>
+            <example type="correct">Pel que respecta a això</example>
+            <example type="correct">En el que respecta a això</example>
+        </rule>
         <rule id="UNIVERSITAT_HARVARD" name="Universitat Harvard">
             <pattern>
                 <token>Universitat</token>
@@ -12226,14 +12242,15 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception postag="SPS00"/></token>
                     <marker>
                         <token regexp="yes">dona|dones<exception postag="_GN_F.|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
-                    <token><exception postag="AQ.[CF].." postag_regexp="yes"/></token>
+                    <token><exception postag="AQ.[CF]..|V.P...F." postag_regexp="yes"/></token>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
-                <suggestion><match no="1" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>
+                <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="Dóna"><marker>Dona</marker> molt a pensar.</example>
                 <example type="correct">Una dona molt bonica.</example>
