@@ -19,7 +19,6 @@
 package org.languagetool.dev.index;
 
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.FieldType;
@@ -31,8 +30,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.LuceneTestCase;
-import org.apache.lucene.util.Version;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.English;
 import org.languagetool.rules.patterns.PatternRule;
@@ -41,16 +38,12 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
 
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
-
-  private static final Version LUCENE_VERSION = Version.LUCENE_41;
 
   private IndexSearcher searcher;
   private DirectoryReader reader;
@@ -68,13 +61,8 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     }
     directory = FSDirectory.open(indexPath);*/
 
-    // TODO: avoid duplication - use Indexer.java!
-    final Map<String, Analyzer> analyzerMap = new HashMap<>();
-    analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
-    analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
-    final Analyzer analyzer = new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
-
-    final IndexWriterConfig config = new IndexWriterConfig(LUCENE_VERSION, analyzer);
+    final Analyzer analyzer = Indexer.getAnalyzer(language);
+    final IndexWriterConfig config = Indexer.getIndexWriterConfig(analyzer);
     try (IndexWriter writer = new IndexWriter(directory, config)) {
       addDocument(writer, "How do you thin about this wonderful idea?");
       addDocument(writer, "The are several grammar checkers for English, E.G. LanguageTool.");

@@ -56,11 +56,8 @@ public class Indexer implements AutoCloseable {
 
   public Indexer(Directory dir, Language language) {
     try {
-      final Map<String, Analyzer> analyzerMap = new HashMap<>();
-      analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
-      analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
-      final Analyzer analyzer = new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
-      final IndexWriterConfig writerConfig = new IndexWriterConfig(LUCENE_VERSION, analyzer);
+      final Analyzer analyzer = getAnalyzer(language);
+      final IndexWriterConfig writerConfig = getIndexWriterConfig(analyzer);
       writerConfig.setOpenMode(OpenMode.CREATE);
       writer = new IndexWriter(dir, writerConfig);
       sentenceTokenizer = language.getSentenceTokenizer();
@@ -72,6 +69,17 @@ public class Indexer implements AutoCloseable {
   public static void main(String[] args) throws IOException {
     ensureCorrectUsageOrExit(args);
     run(args[0], args[1], args[2]);
+  }
+
+  static Analyzer getAnalyzer(Language language) throws IOException {
+    final Map<String, Analyzer> analyzerMap = new HashMap<>();
+    analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
+    analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));
+    return new PerFieldAnalyzerWrapper(new DoNotUseAnalyzer(), analyzerMap);
+  }
+
+  static IndexWriterConfig getIndexWriterConfig(Analyzer analyzer) {
+    return new IndexWriterConfig(LUCENE_VERSION, analyzer);
   }
 
   private static void ensureCorrectUsageOrExit(String[] args) {
