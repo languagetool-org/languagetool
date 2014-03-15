@@ -229,6 +229,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="unify"/>
     </rule>
+
+    <rule name="tym niemniej" id="tym_niemniej">
+        <pattern>
+            <marker><token>tym</token></marker>
+            <token>niemniej</token>
+        </pattern>
+        <disambig postag="conj"/>
+    </rule>
+
+    <rule name="tym + com" id="tym_com">
+        <pattern>
+            <marker><token>tym</token></marker>
+            <token postag_regexp="yes" postag="ad[vj].*:com"/>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="untouched">Tym przypadkiem nie będziemy się zajmować.</example>
+        <example type="ambiguous" inputform="Tym[Tym/subst:sg:nom:m1,ten/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,ten/adj:sg:inst:m1.m2.m3.n1.n2:pos,ten/adj:sg:loc:m1.m2.m3.n1.n2:pos,to/subst:sg:inst:n2,to/subst:sg:loc:n2,tym/adv,tym/conj]"
+                 outputform="Tym[tym/adv]"><marker>Tym</marker> lepiej!</example>
+    </rule>
+
+    <rule name="dzisiaj, dziś, wczoraj jako przysłówek" id="dzis_adv">
+        <pattern>
+            <marker><token regexp="yes">dziś|dzisiaj|wczoraj<exception scope="previous" postag_regexp="yes" postag="prep.*"></exception></token></marker>
+        </pattern>
+        <disambig postag="adv"/>
+    </rule>
         
         <rulegroup name="co (i) rusz" id="CO_RUSZ">
         <rule>
@@ -546,6 +572,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="niechęcić"/></disambig>
     </rule>
 
+    <rule name="lepiej" id="LEPIEJ">
+        <pattern>
+            <marker><token>lepiej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="lepiej"/></disambig>
+    </rule>
+
     <rule name="dosyć" id="dosyc">
         <pattern>
             <token>dosyć</token>
@@ -553,9 +586,36 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="dosycić"/></disambig>
     </rule>
 
+    <rule name="potem jako przysłówek" id="a_potem">
+        <pattern>
+            <marker>
+            <token postag="conj">a</token>
+            <token postag="adv">potem</token></marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule name="mniejszy" id="MNIEJSZY">
         <pattern><token>mniejszy</token></pattern>
         <disambig action="remove"><wd lemma="mniejszyć"/></disambig>
+    </rule>
+
+    <rule name="umarły by usłyszał" id="subst_praet_by_praet">
+        <pattern>
+            <marker>
+            <unify><feature id="gender"/><feature id="number"/>
+                <and>
+                    <token postag="subst.*nom.*" postag_regexp="yes"></token>
+                    <token postag="verb:praet.*" postag_regexp="yes"/>
+                </and>
+                <unify-ignore>
+                    <token>by</token>
+                </unify-ignore>
+                <token postag="verb:praet.*" postag_regexp="yes"/>
+            </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"></disambig>
     </rule>
 
     <rule id="LA_PREP_GEN" name="la to nie prep:gen (z Doroszewskiego)">
@@ -574,6 +634,37 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token><exception negate_pos="yes" postag="SENT_END">.</exception></token>
         </pattern>
         <disambig action="remove"><wd pos="brev:pun"/></disambig>
+    </rule>
+
+    <rule id="o_wym_2" name="wym na końcu zdania">
+        <pattern>
+            <token>o</token>
+            <marker>
+                <token postag="SENT_END">wym</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd pos="brev:pun"/></disambig>
+    </rule>
+
+    <rule id="niby_adv" name="niby jako kublik">
+        <pattern>
+            <marker><token>niby</token></marker>
+            <token postag="adv"/>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="untouched">Kosę, niby szablę, pod słońce obejrzał.</example>
+        <example type="ambiguous" inputform="niby[niby/conj,niby/prep:nom,niby/qub]"
+                 outputform="niby[niby/qub]">Ale <marker>niby</marker> dokąd?</example>
+    </rule>
+
+    <rule id="oto_adv" name="oto jako kublik">
+        <pattern>
+            <marker><token>oto</token></marker>
+            <token postag="adv"/>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="ambiguous" inputform="oto[oto/adv,oto/qub]"
+                 outputform="oto[oto/qub]">No i <marker>oto</marker> dlaczego mnie nie lubią.</example>
     </rule>
 
     <rulegroup name="do, re, mi - prep, ppron lub subst" id="DO_PREP_SUBST">
@@ -1473,6 +1564,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
        	<example type="ambiguous" inputform="mną[ja/ppron12:sg:inst:m1.m2.m3.f.n1.n2:pri,miąć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mną[ja/ppron12:sg:inst:m1.m2.m3.f.n1.n2:pri]">Oczywiście, że ze <marker>mną</marker>!</example>
        </rule>
     </rulegroup>
+
+    <rule id="stawac_nonrefl" name="stawać niezwrotne">
+        <pattern>
+            <marker><token regexp="yes" inflected="yes">stać|stawać</token></marker>
+            <token regexp="yes">tyłem|profilem|kępami|bokiem|twarzą|otworem|okoniem|mi|go|we|rzędem|rzędami|pustkami|godzinami|kwadransami|kwaterą</token>
+        </pattern>
+        <disambig action="filter" postag=".*nonrefl.*"/>
+        <example type="untouched">Karol, który stał się aktorem.</example>
+        <example type="ambiguous" inputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl,stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:refl,stały/adj:sg:acc:m3:pos,stały/adj:sg:nom.voc:m1.m2.m3:pos]"
+                 outputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl]">Piwnice <marker>stały</marker> pustkami.</example>
+    </rule>
 
     <rule id="MNIE" name="mnie to nie miąć; bardzo ostra reguła, ale praktycznie nie zdarza się w uzusie...">
         <pattern>
@@ -4297,8 +4399,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
         <rule>
             <pattern>
-                <token postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"/>
-                <token min="0" max="-1" negate_pos="yes" postag_regexp="yes" postag="verb:.*(?:sg|pl|imp[st]).*|pred|interp:comma|comp:comma|conj"></token>
+                <token skip="-1" postag="verb:.*(?:sg|pl|imp[st]).*|pred" postag_regexp="yes"><exception scope="next" postag_regexp="yes" postag="interp:comma|comp:comma|conj"/></token>
                 <marker>
                     <token>może</token>
                 </marker>
@@ -4307,7 +4408,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig action="replace"><wd pos="qub" lemma="może"/></disambig>
             <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
                      outputform="może[może/qub]">Byłoby <marker>może</marker> lepiej bez tego.</example>
-            <example type="ambiguous" inputform="może[móc/verb:fin:sg:ter:imperf:nonrefl]"
+            <example type="ambiguous" inputform="może[może/qub,móc/verb:fin:sg:ter:imperf:nonrefl]"
                      outputform="może[może/qub]">Byłoby wczoraj <marker>może</marker> lepiej bez tego.</example>
             <example type="untouched">To, że on się spotkał z kucharzem może świadczyć przeciwko niemu.</example>
         </rule>
@@ -4469,6 +4570,31 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		</marker>
     	</pattern>
     	<disambig postag="interj"></disambig>
+    </rule>
+
+    <rule id="no_impt_interj" name="no jako wykrzyknik po czasowniku w trybie rozkazującym">
+        <pattern>
+            <token postag="verb:impt.*" postag_regexp="yes"/>
+            <marker><token>no</token></marker>
+        </pattern>
+        <disambig postag="interj"/>
+        <example type="ambiguous" inputform="no[no/interj,no/qub,no/subst:pl:acc:n2,no/subst:pl:dat:n2,no/subst:pl:gen:n2,no/subst:pl:inst:n2,no/subst:pl:loc:n2,no/subst:pl:nom:n2,no/subst:pl:voc:n2,no/subst:sg:acc:n2,no/subst:sg:dat:n2,no/subst:sg:gen:n2,no/subst:sg:inst:n2,no/subst:sg:loc:n2,no/subst:sg:nom:n2,no/subst:sg:voc:n2]"
+                 outputform="no[no/interj]">Pawlak, podejdź <marker>no</marker> do płota!</example>
+        <example type="untouched">Aktor teatru no</example>
+    </rule>
+
+    <rule name="teatr no" id="teatr_no">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/>
+                <token inflected="yes" regexp="yes">teatr|dramat|przedstawienie|sztuka</token>
+                <token>no</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">No, no!</example>
+        <example type="ambiguous" inputform="no[no/interj,no/qub,no/subst:pl:acc:n2,no/subst:pl:dat:n2,no/subst:pl:gen:n2,no/subst:pl:inst:n2,no/subst:pl:loc:n2,no/subst:pl:nom:n2,no/subst:pl:voc:n2,no/subst:sg:acc:n2,no/subst:sg:dat:n2,no/subst:sg:gen:n2,no/subst:sg:inst:n2,no/subst:sg:loc:n2,no/subst:sg:nom:n2,no/subst:sg:voc:n2]"
+                 outputform="no[no/subst:sg:loc:n2]">W teatrze <marker>no</marker> maska to omote.</example>
     </rule>
     
     <rule name="Tel Awiw" id="TEL_AWIW">
