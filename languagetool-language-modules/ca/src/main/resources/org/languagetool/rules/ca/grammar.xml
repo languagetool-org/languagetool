@@ -23143,19 +23143,22 @@ $Id$
             <pattern>
                 <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
                 <marker>
-                    <token postag="V.[SI].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception></token>
+                    <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception></token>
                     <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
                     <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
                 </marker>
             </pattern>
             <message>Val més usar una altra expressió.</message>
-            <suggestion>fa <match no="3" include_skipped="all"/> <match no="4"/> (que ...)</suggestion>
+            <suggestion><match no="2" postag="(V.[SIN])(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3" include_skipped="all"/> <match no="4"/> (que ...)</suggestion>
             <url>http://esadir.cat/entrades/fitxa/id/2178</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="Fa una hora (que ...)"><marker>Porta una hora</marker> dient-ho</example>
             <example type="incorrect" correction="Fa mig any (que ...)"><marker>Porta mig any</marker> de gira.</example>
-            <example type="incorrect" correction="Fa molt de temps (que ...)"><marker>Porta molt de temps</marker> així.</example>
+            <example type="incorrect" correction="Feia molt de temps (que ...)"><marker>Portava molt de temps</marker> així.</example>
             <example type="incorrect" correction="fa moltíssims anys (que ...)">alguna d'elles <marker>porta moltíssims anys</marker> d'existència</example>
+            <example type="incorrect" correction="fer moltíssims anys (que ...)">Deu <marker>portar moltíssims anys</marker> d'existència</example>
+            <example type="incorrect" correction="fes tants anys (que ...)">I que <marker>portés tants anys</marker> d'existència</example>
+            <example type="incorrect" correction="fera tants anys (que ...)">I que <marker>portàrem tants anys</marker> d'existència</example>
             <example type="correct">Això ens portarà molts anys.</example>
             <example type="correct">Aquella amistat durà vint anys.</example>
             <example type="correct">només li portava un mes d'avantatge</example>
