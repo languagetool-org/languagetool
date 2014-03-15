@@ -10513,17 +10513,30 @@ $Id$
                 <example type="correct">una restricció sostinguda del son de quatre hores al dia</example>
                 <example type="correct">per fer-li venir son</example>
                 <!-- 
-                     Sa mare era professora de piano i son pare professor de cant
-                     Converses sobre els aliments, begudes, vestits, son i descans, jocs ;
-                     estrès, son, cansament, fatiga
-                     alegria, mareig, son
-                     sonambulisme, son,
-                     esabarjo o son
-                     son o estupor
-                     fatiga, son, gana
-                     produint son i anorèxia
-                     vigília i son
-                     ES POT FER IGUAL QUE AMB: cafè, te, ...-->
+                    Converses sobre els aliments, begudes, vestits, son i descans, jocs.
+                    Estrès, son, cansament, fatiga.
+                    Alegria, mareig, son.
+                    somnambulisme, son.
+                    esbarjo o son.
+                    Son o estupor.
+                    Fatiga, son, gana.
+                    Produint son i anorèxia.
+                    Vigília i son.
+                    ES POT FER IGUAL QUE AMB: cafè, te, ...-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SPS00|.*LOC_PREP.*|D[^R].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">tenir|venir|agafar|produir</exception></token>
+                    <marker>
+                        <token>son<exception postag="_possible_nompropi"/></token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és del verb 'ser', cal accentuar.</message>
+                <suggestion>són</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="són">El que és interessant <marker>son</marker> les novetats.</example>
+                <example type="correct">Aquesta son m'esgota.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PEL_PELS" name="pel/pèl">
