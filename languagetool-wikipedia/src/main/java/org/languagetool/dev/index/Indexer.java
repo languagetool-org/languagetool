@@ -49,7 +49,7 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NA
  */
 public class Indexer implements AutoCloseable {
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_44;
+  private static final Version LUCENE_VERSION = Version.LUCENE_47;
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
