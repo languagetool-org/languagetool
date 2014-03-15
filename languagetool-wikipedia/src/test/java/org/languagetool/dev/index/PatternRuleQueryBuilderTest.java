@@ -106,27 +106,17 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testQueryBuilder() throws Exception {
-    final StringBuilder sb = new StringBuilder();
+    final String ruleXml =
+        "<token skip=\"-1\">How</token>" // match "How"
+      + "<token postag=\"PRP\"></token>"// match"you/[PRP]"
+      + "<token skip=\"1\">thin</token>" // match "thin"
+      + "<token postag_regexp=\"yes\" postag=\"JJ|DT\">this</token>" // match "this/[DT]"
+      + "<token regexp=\"yes\" negate=\"yes\">bad|good</token>" // match "wonderful"
+      + "<token regexp=\"yes\">idea|proposal</token>"; // match "idea"
 
-    sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rules lang=\"en\"> <category name=\"Test\"> <rule id=\"TEST_RULE\" name=\"test\"> <pattern>");
-
-    // TODO: use makeRule()
-    sb.append("<token skip=\"-1\">How</token>"); // match "How"
-    sb.append("<token postag=\"PRP\"></token>");// match"you/[PRP]"
-    sb.append("<token skip=\"1\">thin</token>"); // match "thin"
-    sb.append("<token postag_regexp=\"yes\" postag=\"JJ|DT\">this</token>"); // match "this/[DT]"
-    sb.append("<token regexp=\"yes\" negate=\"yes\">bad|good</token>"); // match "wonderful"
-    sb.append("<token regexp=\"yes\">idea|proposal</token>"); // match "idea"
-
-    sb.append("</pattern> </rule> </category> </rules>");
-
-    final InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
-    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-
-    final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");
-
+    final PatternRule patternRule = makeRule(ruleXml);
     final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
-    final Query query = patternRuleQueryBuilder.buildRelaxedQuery(rules.get(0));
+    final Query query = patternRuleQueryBuilder.buildRelaxedQuery(patternRule);
     assertEquals("+fieldLowercase:how +fieldLowercase:_pos_prp +fieldLowercase:thin " +
             "+spanNear([fieldLowercase:this, SpanMultiTermQueryWrapper(fieldLowercase:/_pos_(jj|dt)/)], 0, false) " +
             "+fieldLowercase:/idea|proposal/", query.toString());
