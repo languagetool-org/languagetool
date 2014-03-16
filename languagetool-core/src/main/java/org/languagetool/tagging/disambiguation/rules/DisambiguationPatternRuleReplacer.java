@@ -194,10 +194,18 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
     }
     int j = 0;
-    while (startPositionCorrection + j < rule.getPatternElements().size() &&
+    while (startPositionCorrection + j < elementsMatched.size() &&
         !elementsMatched.get(startPositionCorrection + j)) {
-      correctedStPos++;
+      correctedStPos += tokenPositions[j];
       j++;
+    }
+
+    if (endPositionCorrection < 0) { // adjust the end position correction if one of the elements has not been matched
+      for (int d = startPositionCorrection; d < elementsMatched.size(); d++) {
+        if (!elementsMatched.get(d)) {
+          endPositionCorrection++;
+        }
+      }
     }
 
     if (lastMatchToken != -1) {
