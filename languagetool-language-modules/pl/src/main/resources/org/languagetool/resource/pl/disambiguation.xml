@@ -2759,7 +2759,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule id="VERBFIN_FUT" name="forma przeszła po „będzie”">
+    <rulegroup id="VERBFIN_FUT" name="forma przeszła po „będzie”">
+     <rule>
         <pattern>
             <unify>
                 <feature id="number"/>
@@ -2771,6 +2772,38 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="jedli[jedla/subst:pl:gen:f,jedla/subst:sg:dat:f,jedla/subst:sg:gen:f,jedla/subst:sg:loc:f,jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]"
                  outputform="jedli[jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]">Będziemy <marker>jedli</marker>.</example>
     </rule>
+        <rule> <!-- FIXME: in this pattern, min="0" max="2" does not work in <unify-ignore/> -->
+            <pattern>
+                <unify>
+                    <feature id="number"/>
+                    <token postag="verb:bedzie.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="adv.*|qub" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="jedli[jedla/subst:pl:gen:f,jedla/subst:sg:dat:f,jedla/subst:sg:gen:f,jedla/subst:sg:loc:f,jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]"
+                     outputform="jedli[jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]">Będziemy nawet <marker>jedli</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="number"/>
+                    <token postag="verb:bedzie.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token postag="adv.*|qub" postag_regexp="yes"/>
+                        <token postag="adv.*|qub" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="jedli[jedla/subst:pl:gen:f,jedla/subst:sg:dat:f,jedla/subst:sg:gen:f,jedla/subst:sg:loc:f,jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]"
+                     outputform="jedli[jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]">Będziemy nawet dzisiaj <marker>jedli</marker>.</example>
+        </rule>
+    </rulegroup>
 
     <rule id="W_SZTUCE_BIEGŁY" name="w sztuce biegły">
         <pattern>

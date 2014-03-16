@@ -150,6 +150,10 @@ $Id$
                         <token>chcąc</token>
                         </marker>
                     </antipattern>
+                    <antipattern>
+                        <token>jak</token>
+                        <marker><token>znalazł</token></marker>
+                    </antipattern>
                     <antipattern> <!-- na to jest osobna reguła -->
                         <token regexp="yes">nawiasem|krótko|prawdę|ściśle</token>
                         <marker>
@@ -316,9 +320,9 @@ $Id$
                             <antipattern> <!-- będzie ... dokonywał -->
                                     <unify>
                                         <feature id="number"/>
-                                        <token skip="10" postag="verb:bedzie.*" postag_regexp="yes"><exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien|inf).*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                                        <token skip="10" postag="verb:bedzie.*" postag_regexp="yes"><exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien|inf:imperf).*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
                                         <marker>
-                                        <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
+                                            <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
                                         </marker>
                                     </unify>
                             </antipattern>
@@ -337,10 +341,13 @@ $Id$
                                 <example type="incorrect">Nie wiedząc, czy on tam <marker>będzie wczoraj pomógł mu bardzo.</marker></example>
                                 <example type="incorrect">Nie wiedząc, czy on tam <marker>będzie wczoraj pomagali mu bardzo.</marker></example>
                                 <example type="incorrect">Partie, które oni <marker>będą popierać przegrywały wybory.</marker></example>
+                                <example type="correct">Schowaj do komórki, uschnie do zimy i będzie jak znalazł na podpałkę.</example>
+                                <example type="correct">Będą umierać musieli.</example>
                         </rule>
 						<rule>
                                 <antipattern>
                                     <marker><token regexp="yes">trzeba|można|wolno|trza</token></marker>
+                                    <token min="0" max="2" postag="siebie|qub|ppron.*" postag_regexp="yes"></token>
                                     <token>będzie</token>
                                 </antipattern>
 								<pattern>
