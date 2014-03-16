@@ -101,7 +101,8 @@ public class PatternRuleQueryBuilder {
         final SpanQuery[] spanClauses = {spanQueryForTerm, spanQueryForPos};
         return new BooleanClause(new SpanNearQuery(spanClauses, 0, false), BooleanClause.Occur.MUST);
       } else {
-        throw new UnsupportedPatternRuleException("FIXME: Term/POS combination not supported yet: " + element);
+        // should not happen, we always use Occur.MUST:
+        throw new UnsupportedPatternRuleException("Term/POS combination not supported yet: " + element);
       }
     
     } else if (termQuery != null) {
