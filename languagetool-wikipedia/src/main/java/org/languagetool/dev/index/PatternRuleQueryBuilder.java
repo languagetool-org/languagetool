@@ -137,7 +137,7 @@ public class PatternRuleQueryBuilder {
     }
     final Query termQuery;
     final Term termQueryTerm = getTermQueryTerm(element, termStr);
-    if (element.getNegation()) {
+    if (element.getNegation() || element.getMinOccurrence() == 0) {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
     } else if (element.isInflected() && element.isRegularExpression()) {
@@ -170,19 +170,17 @@ public class PatternRuleQueryBuilder {
     }
     final Query posQuery;
     final Term posQueryTerm;
-    if (element.isPOStagRegularExpression()) {
+    if (element.getPOSNegation() || element.getMinOccurrence() == 0) {
+      // we need to ignore this - negation, if any, must happen at the same position
+      return null;
+    } else if (element.isPOStagRegularExpression()) {
       posQueryTerm = getQueryTerm(element, POS_PREFIX + "(", pos, ")");
       posQuery = getRegexQuery(posQueryTerm, pos);
     } else {
       posQueryTerm = getQueryTerm(element, POS_PREFIX, pos, "");
       posQuery = new TermQuery(posQueryTerm);
     }
-    if (element.getPOSNegation()) {
-      // we need to ignore this - negation, if any, must happen at the same position
-      return null;
-    } else {
-      return new BooleanClause(posQuery, BooleanClause.Occur.MUST);
-    }
+    return new BooleanClause(posQuery, BooleanClause.Occur.MUST);
   }
 
   private Term getTermQueryTerm(Element element, String str) {

@@ -181,6 +181,10 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     assertMatches(makeRule("<token regexp='yes'>12\\d</token>"), 1);
   }
 
+  public void testIgnoreOptionalTokens() throws Exception {
+    assertMatches(makeRule("<token min='0'>optional</token><token>idea</token>"), 1);
+  }
+
   public void testOnlyInflected() throws Exception {
     assertMatches(makeRule("<token inflected='yes'>think</token>"), 0);
     assertMatches(makeRule("<token inflected='yes'>LanguageTool</token>"), 1);
