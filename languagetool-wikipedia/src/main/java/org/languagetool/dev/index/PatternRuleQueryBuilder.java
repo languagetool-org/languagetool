@@ -203,6 +203,10 @@ public class PatternRuleQueryBuilder {
 
   private Query getRegexQuery(Term term, String str) {
     try {
+      if (str.contains("(?:")) {
+        // regex syntax not supported, but doesn't matter - remove it:
+        return new RegexpQuery(new Term(term.field(), term.text().replace("(?:", "(")));
+      }
       if (str.contains("?iu") || str.contains("?-i") || str.contains("\\d")) {
         // Lucene's RegexpQuery doesn't seem to handle this correctly
         return getFallbackRegexQuery(str);
@@ -223,6 +227,10 @@ public class PatternRuleQueryBuilder {
 
   private void checkUnsupportedElement(Element patternElement)
       throws UnsupportedPatternRuleException {
+    if (patternElement.hasOrGroup()) {
+      // TODO: this is not enough: the first of the tokens in the <or> group will not get into this branch
+      throw new UnsupportedPatternRuleException("<or> not yet supported.");
+    }
     if (patternElement.isUnified()) {
       throw new UnsupportedPatternRuleException("Elements with unified tokens are not supported.");
     }
