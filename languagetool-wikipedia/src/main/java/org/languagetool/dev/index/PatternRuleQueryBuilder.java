@@ -137,7 +137,10 @@ public class PatternRuleQueryBuilder {
     }
     final Query termQuery;
     final Term termQueryTerm = getTermQueryTerm(element, termStr);
-    if (element.isInflected() && element.isRegularExpression()) {
+    if (element.getNegation()) {
+      // we need to ignore this - negation, if any, must happen at the same position
+      return null;
+    } else if (element.isInflected() && element.isRegularExpression()) {
       Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX + "(", termStr, ")");
       final RegexpQuery regexpQuery = new RegexpQuery(lemmaQueryTerm);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
@@ -158,12 +161,7 @@ public class PatternRuleQueryBuilder {
     } else {
       termQuery = new TermQuery(termQueryTerm);
     }
-    if (element.getNegation()) {
-      // we need to ignore this - negation, if any, must happen at the same position
-      return null;
-    } else {
-      return new BooleanClause(termQuery, BooleanClause.Occur.MUST);
-    }
+    return new BooleanClause(termQuery, BooleanClause.Occur.MUST);
   }
 
   private BooleanClause getPosQueryOrNull(Element element, String pos) {
