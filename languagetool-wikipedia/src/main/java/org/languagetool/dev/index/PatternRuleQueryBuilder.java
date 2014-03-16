@@ -203,11 +203,12 @@ public class PatternRuleQueryBuilder {
 
   private Query getRegexQuery(Term term, String str) {
     try {
-      if (str.contains("(?:")) {
-        // regex syntax not supported, but doesn't matter - remove it:
-        return new RegexpQuery(new Term(term.field(), term.text().replace("(?:", "(")));
+      if (str.contains("(?:") || str.contains("\\d")) {
+        // regex syntax not supported, but doesn't matter - remove or simplify it:
+        Term newTerm = new Term(term.field(), term.text().replace("(?:", "(").replace("\\d", "[0-9]"));
+        return new RegexpQuery(newTerm);
       }
-      if (str.contains("?iu") || str.contains("?-i") || str.contains("\\d")) {
+      if (str.contains("?iu") || str.contains("?-i")) {
         // Lucene's RegexpQuery doesn't seem to handle this correctly
         return getFallbackRegexQuery(str);
       }
