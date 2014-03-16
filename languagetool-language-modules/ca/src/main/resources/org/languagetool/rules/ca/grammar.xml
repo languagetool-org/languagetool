@@ -6028,14 +6028,28 @@ $Id$
                 <token regexp="yes">part|pesar|més|causa</token>
                 <marker>
                     <token>de</token>
-                    <token regexp="yes">què|que</token>
+                    <token>què</token>
                 </marker>
-                <token><exception>?</exception></token>
+                <token><exception regexp="yes">\?|\.</exception></token>
             </pattern>
             <message>Construcció incorrecta</message>
             <suggestion>que</suggestion>
             <example type="incorrect">A pesar <marker>de què</marker> és així.</example>
-            <example type="correct">A pesar de què?</example>
+            <example type="correct">No se sap a causa de què.</example>
+        </rule>
+        <rule id="GRACIES_A_QUE" name="gràcies a què">
+            <pattern>
+                <token regexp="yes">gràcies|mercès</token>
+                <marker>
+                    <token>a</token>
+                    <token>què</token>
+                </marker>
+                <token><exception regexp="yes">\?|\.</exception></token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion>al fet que</suggestion>
+            <example type="incorrect">Gràcies <marker>a què</marker> és així.</example>
+            <example type="correct">Gràcies a què?</example>
         </rule>
         <rule id="MALGRAT_DE_QUE" name="malgrat de què">
             <pattern>
@@ -18889,15 +18903,29 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">quant?</token>
+                        <token>abans</token>
+                        <token>millor</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>com més aviat millor</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">Cal fer-ho <marker>quant abans millor</marker>.</example>
+                <example type="correct">Cal fer-ho com més aviat millor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token>quant</token>
                         <token>abans</token>
                     </marker>
-                    <token><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/><exception>millor</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>com més aviat</suggestion>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect">Cal fer-ho <marker>quant abans</marker> millor.</example>
+                <example type="incorrect"><marker>quant abans</marker> ho vem, abans acabarem.</example>
                 <example type="correct">Cal fer-ho com més aviat millor.</example>
                 <example type="correct">quan abans només n'hi havia 18.000,</example>
             </rule>
@@ -23232,12 +23260,22 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="MILLORIA" name="milloria/millora">
+            <pattern>
+                <marker>
+                    <token inflected="yes">milloria</token>
+                </marker>
+            </pattern>
+            <message>Val més dir: <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">millora</match></suggestion>. "Milloria" té sentits més poc habituals.</message>
+            <example type="incorrect" correction="millora">Ha experimentat una <marker>milloria</marker>.</example>
+            <example type="correct">Quina millora!</example>
+        </rule>
         <rule id="CARGOL_CARBASSA" name="cargol, carbassa / caragol, carabassa">
             <pattern>
                 <token postag="[ANV].*" postag_regexp="yes" inflected="yes" regexp="yes">.*(car)(gol|bass).*</token>
             </pattern>
             <message>Forma secundària.</message>
-            <suggestion><match no="1" regexp_match="(.*car)(.*)" regexp_replace="$1a$2"/></suggestion>
+            <suggestion><match no="1" regexp_match="(.*[Cc]ar)(.*)" regexp_replace="$1a$2"/></suggestion>
             <short>Forma secundària</short>
             <example type="incorrect" correction="descaragolaven"><marker>descargolaven</marker></example>
             <example type="incorrect" correction="carabassal"><marker>carbassal</marker></example>
@@ -23249,7 +23287,7 @@ $Id$
                 <token inflected="yes">cartró</token>
             </pattern>
             <message>Forma secundària.</message>
-            <suggestion><match no="1" regexp_match="(.*cart)r(.*)" regexp_replace="$1$2"/></suggestion>
+            <suggestion><match no="1" regexp_match="(.*[Cc]art)r(.*)" regexp_replace="$1$2"/></suggestion>
             <short>Forma preferible</short>
             <example type="incorrect" correction="cartons"><marker>cartrons</marker></example>
             <example type="incorrect" correction="cartó"><marker>cartró</marker></example>
@@ -23393,6 +23431,7 @@ $Id$
                 <token>matí</token>
             </pattern>
             <message>Expressió preferible.</message>
+            <suggestion>de la nit al dia</suggestion>
             <example type="incorrect"><marker>de la nit al matí</marker></example>
             <example type="correct">de la nit al dia</example>
         </rule>
