@@ -146,7 +146,7 @@ public class PatternRuleQueryBuilder {
       if (synthesizer != null) {
         try {
           final String[] synthesized = synthesizer.synthesize(new AnalyzedToken(termStr, null, termStr), ".*", true);
-          final RegexpQuery regexpQuery = new RegexpQuery(new Term(FIELD_NAME, StringUtils.join(synthesized, "|")));
+          final RegexpQuery regexpQuery = new RegexpQuery(getTermQueryTerm(element, StringUtils.join(synthesized, "|")));
           return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
         } catch (IOException e) {
           throw new RuntimeException("Could not build Lucene query for '" + element + "' and '" + termStr + "'", e);
