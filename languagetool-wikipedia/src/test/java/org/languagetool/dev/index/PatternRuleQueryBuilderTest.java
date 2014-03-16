@@ -65,7 +65,7 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final IndexWriterConfig config = Indexer.getIndexWriterConfig(analyzer);
     try (IndexWriter writer = new IndexWriter(directory, config)) {
       addDocument(writer, "How do you thin about this wonderful idea?");
-      addDocument(writer, "The are several grammar checkers for English, E.G. LanguageTool.");
+      addDocument(writer, "The are several grammar checkers for English, E.G. LanguageTool 123.");
     }
     reader = DirectoryReader.open(directory);
     searcher = newSearcher(reader);
@@ -153,10 +153,17 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testUnsupportedPatternRule() throws Exception {
-    final PatternRule patternRule = makeRule("<token skip='-1'><exception>and</exception></token>", false);
     final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
     try {
-      patternRuleQueryBuilder.buildRelaxedQuery(patternRule);
+      patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token skip='-1'><exception>and</exception></token>", false));
+      fail("Exception should be thrown for unsupported PatternRule");
+    } catch (UnsupportedPatternRuleException expected) {}
+  }
+
+  public void testUnsupportedBackReferencePatternRule() throws Exception {
+    final PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language);
+    try {
+      patternRuleQueryBuilder.buildRelaxedQuery(makeRule("<token>\\1</token>", false));
       fail("Exception should be thrown for unsupported PatternRule");
     } catch (UnsupportedPatternRuleException expected) {}
   }
@@ -167,6 +174,11 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final Query query = queryBuilder.buildRelaxedQuery(patternRule);
     assertEquals("+fieldLowercase:\\p{Punct}", query.toString());
     assertMatches(patternRule, 2);
+  }
+
+  public void testNumberRegex() throws Exception {
+    assertMatches(makeRule("<token regexp='yes'>13\\d</token>"), 0);
+    assertMatches(makeRule("<token regexp='yes'>12\\d</token>"), 1);
   }
 
   public void testOnlyInflected() throws Exception {

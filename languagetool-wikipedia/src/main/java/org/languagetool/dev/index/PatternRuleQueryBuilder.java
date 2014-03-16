@@ -72,6 +72,7 @@ public class PatternRuleQueryBuilder {
         final BooleanClause clause = makeQuery(element);
         booleanQuery.add(clause);
       } catch (UnsupportedPatternRuleException e) {
+        //System.out.println("Ignoring because it's not supported: " + element + ": " + e);
         // cannot handle - okay to ignore, as we may return too broad matches
       } catch (Exception e) {
         throw new RuntimeException("Could not create query for rule " + rule.getId(), e);
@@ -203,7 +204,7 @@ public class PatternRuleQueryBuilder {
 
   private Query getRegexQuery(Term term, String str) {
     try {
-      if (str.contains("?iu") || str.contains("?-i")) {
+      if (str.contains("?iu") || str.contains("?-i") || str.contains("\\d")) {
         // Lucene's RegexpQuery doesn't seem to handle this correctly
         return getFallbackRegexQuery(str);
       }
@@ -226,22 +227,9 @@ public class PatternRuleQueryBuilder {
     if (patternElement.isUnified()) {
       throw new UnsupportedPatternRuleException("Elements with unified tokens are not supported.");
     }
-    if (patternElement.getString().contains("\\d")) {
-      throw new UnsupportedPatternRuleException("Elements with regex containing \\d are not supported.");
-    }
     if (patternElement.getString().matches("\\\\\\d+")) { // e.g. "\1"
-      throw new UnsupportedPatternRuleException("Elements with only match references are not supported.");
+      throw new UnsupportedPatternRuleException("Elements with only match references (e.g. \\1) are not supported.");
     }
-    /*if (patternElement.isRegularExpression() && isProbablySlowRegex(patternElement.getString())) {
-      throw new UnsupportedPatternRuleException("Elements with potentially slow regex not supported: " + patternElement.getString());
-    }
-    if (patternElement.isPOStagRegularExpression() && isProbablySlowRegex(patternElement.getPOStag())) {
-      throw new UnsupportedPatternRuleException("Elements with potentially slow POS regex not supported: " + patternElement.getPOStag());
-    }*/
   }
-
-  //private boolean isProbablySlowRegex(String regex) {
-  //  return regex.startsWith(".") || regex.toLowerCase().startsWith("[a-");
-  //}
 
 }
