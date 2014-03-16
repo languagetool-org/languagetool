@@ -416,6 +416,45 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Od[Oda/subst:pl:gen:f,od/prep:gen:nwok,oda/subst:pl:gen:f]" outputform="Od[od/prep:gen:nwok]"><marker>Od</marker> roku 2000 jestem nieruchawy.</example>
     </rule>
 
+    <rule name="W wiek" id="w_wiek">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
+            <marker><token>w</token></marker>
+            <token>.</token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+        <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Dziwny był ten XX <marker>w</marker>.</example>
+        <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Polska w opiniach obcych X-XII <marker>w</marker>.</example>
+        <example type="untouched">Mam to w szufladzie.</example>
+    </rule>
+    <rule id="w_wiek_II" name="W w. XX">
+        <pattern case_sensitive="yes">
+            <marker><token>w</token></marker>
+            <token>.</token>
+            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+        <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">To było w <marker>w</marker>. XX.</example>
+    </rule>
+    <rule name="W wat" id="W_wat">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">\d+</token>
+            <marker><token>W</token></marker>
+        </pattern>
+        <disambig postag="brev:npun"/>
+        <example type="untouched">Dużo wody jest w szklance.</example>
+        <example type="untouched">To było w XIX w.</example>
+        <example type="ambiguous" inputform="W[w/prep:acc:nwok,w/prep:loc:nwok,wat/brev:npun,wiek/brev:pun]" outputform="W[wat/brev:npun]">Te głośniki mają moc 20 <marker>W</marker>.</example>
+    </rule>
+    <rule name="W prep" id="w_prep">
+        <pattern>
+            <token postag_regexp="yes" postag="prep:(acc|loc):nwok">w</token>
+        </pattern>
+        <disambig action="remove" postag="brev:n?pun"/>
+        <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
+        <example type="untouched">Dziwny XIX w.</example>
+    </rule>
+
     <rule name="dzięki czemu" id="dzieki_prep_dat">
     <pattern>    		
     		<marker>
@@ -1214,6 +1253,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl,musić/verb:fin:pl:ter:imperf:refl.nonrefl,musza/subst:sg:inst:f,muszy/adj:sg:acc:f:pos,muszy/adj:sg:inst:f:pos]" outputform="muszą[musieć/verb:fin:pl:ter:imperf:nonrefl]">Oni <marker>muszą</marker> zarabiać.</example>
     </rule>
 
+    <rule id="mosci" name="mości jako wołacz">
+        <pattern>
+            <unify>
+                <feature id="case"><type id="voc"/></feature>
+                <feature id="gender"><type id="m1"/><type id="f"/></feature>
+                <feature id="number"><type id="sg"/></feature>
+                <token>mości</token>
+                <token postag="subst:sg.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Jaskółka mości sobie gniazdko.</example>
+        <example type="ambiguous" inputform="mości[mości/burk,mościć/verb:fin:sg:ter:imperf:refl.nonrefl,mość/subst:pl:gen:f,mość/subst:sg:acc:m1,mość/subst:sg:dat:f,mość/subst:sg:dat:m1,mość/subst:sg:gen:f,mość/subst:sg:gen:m1,mość/subst:sg:loc:f,mość/subst:sg:loc:m1,mość/subst:sg:voc:f,mość/subst:sg:voc:m1]"
+                 outputform="mości[mość/subst:sg:voc:f]">A <marker>mości</marker> brzytewko, miły skrobibrodo!</example>
+    </rule>
+
     <rulegroup id="MNA" name="mną">
      <rule>
         <pattern>
@@ -1571,6 +1626,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="filter" postag="ppron12.*"/>
     </rule>
+    
+    <rule id="rozmaicie" name="rozmaicie to przysłówek; reguła bezwarunkowa, ale uzus naprawdę uzasadnia">
+        <pattern>
+            <marker><token>rozmaicie</token></marker>
+        </pattern>
+        <disambig postag="adv:pos"/>
+    </rule>
 
     <rule id="stawac_nonrefl" name="stawać niezwrotne">
         <pattern>
@@ -1583,6 +1645,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl]">Piwnice <marker>stały</marker> pustkami.</example>
     </rule>
 
+    <rule id="bardzo_wolno" name="bardzo wolno to nie predykatyw">
+        <pattern>
+            <token>bardzo</token>
+            <marker><token>wolno</token></marker>
+        </pattern>
+        <disambig postag="adv:pos"/>
+        <example type="untouched">Co wolno wojewodzie, to nie tobie, dziki smrodzie!</example>
+        <example type="ambiguous" inputform="wolno[wolno/adv:pos,wolno/pred]"
+                 outputform="wolno[wolno/adv:pos]">Trzeba się tam posuwać bardzo <marker>wolno</marker>.</example>
+    </rule>
 
     <rule id="PO_ADJP" name="po polsku">
         <pattern>
@@ -1637,45 +1709,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="śmiało[śmiało/adv:pos]">Chodź <marker>śmiało</marker>.</example>
         <example type="untouched">Zaczęła wręcz nawoływać do utworzenia wspólnej listy.</example>
     </rule>
-
-    <rule name="W wiek" id="w_wiek">
-			<pattern case_sensitive="yes">
-			<token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
-			<marker><token>w</token></marker>
-			<token>.</token>
-			</pattern>
-			<disambig postag="brev:pun"/>
-			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Dziwny był ten XX <marker>w</marker>.</example>
-            <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">Polska w opiniach obcych X-XII <marker>w</marker>.</example>
-			<example type="untouched">Mam to w szufladzie.</example>
-	</rule>
-    <rule id="w_wiek_II" name="W w. XX">
-        <pattern case_sensitive="yes">
-            <marker><token>w</token></marker>
-            <token>.</token>
-            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
-        </pattern>
-        <disambig postag="brev:pun"/>
-        <example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[wiek/brev:pun]">To było w <marker>w</marker>. XX.</example>
-    </rule>
-    <rule name="W wat" id="W_wat">
-        <pattern case_sensitive="yes">
-            <token regexp="yes">\d+</token>
-            <marker><token>W</token></marker>
-        </pattern>
-        <disambig postag="brev:npun"/>
-        <example type="untouched">Dużo wody jest w szklance.</example>
-        <example type="untouched">To było w XIX w.</example>
-        <example type="ambiguous" inputform="W[w/prep:acc:nwok,w/prep:loc:nwok,wat/brev:npun,wiek/brev:pun]" outputform="W[wat/brev:npun]">Te głośniki mają moc 20 <marker>W</marker>.</example>
-    </rule>
-	<rule name="W prep" id="w_prep">
-			<pattern>
-				<token postag_regexp="yes" postag="prep:(acc|loc):nwok">w</token>
-			</pattern>
-			<disambig action="remove" postag="brev:n?pun"/>
-			<example type="ambiguous" inputform="w[w/prep:acc:nwok,w/prep:loc:nwok,wiek/brev:pun]" outputform="w[w/prep:acc:nwok,w/prep:loc:nwok]">Mam to <marker>w</marker> szufladzie.</example>
-			<example type="untouched">Dziwny XIX w.</example>
-	</rule>
 
     <rule name="Warsz" id="IMIE_WARSZ">
         <pattern case_sensitive="yes">
@@ -2759,6 +2792,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="przecie_qub" name="przecie jako kublik">
+        <pattern>
+            <marker><token>przecie</token></marker>
+            <token postag="verb.*|pant.*|pcon.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="untouched">Do czego przecie?</example>
+        <example type="ambiguous" inputform="przecie[przecie/qub,przeć/verb:fin:pl:sec:imperf:refl.nonrefl]"
+                 outputform="przecie[przecie/qub]">Ale nie będzie <marker>przecie</marker> strzelał ze swej trąby do zwierzyny tak jak ja ze sztucera.</example>
+    </rule>
+
     <rulegroup id="VERBFIN_FUT" name="forma przeszła po „będzie”">
      <rule>
         <pattern>
@@ -2802,6 +2846,23 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig action="unify"/>
             <example type="ambiguous" inputform="jedli[jedla/subst:pl:gen:f,jedla/subst:sg:dat:f,jedla/subst:sg:gen:f,jedla/subst:sg:loc:f,jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]"
                      outputform="jedli[jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]">Będziemy nawet dzisiaj <marker>jedli</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="number"/>
+                    <marker>
+                    <token postag="verb:bedzie.*" postag_regexp="yes"/>
+                    <unify-ignore>
+                        <token min="0" max="2" postag="prep.*|subst.*" postag_regexp="yes"/>
+                    </unify-ignore>
+                    <token postag="verb:praet.*:imperf.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="jedli[jedla/subst:pl:gen:f,jedla/subst:sg:dat:f,jedla/subst:sg:gen:f,jedla/subst:sg:loc:f,jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]"
+                     outputform="jedli[jeść/verb:praet:pl:m1.p1:ter:imperf:refl.nonrefl]">Będziemy po uczcie <marker>jedli</marker>.</example>
         </rule>
     </rulegroup>
 
@@ -2882,6 +2943,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                      outputform="pasa[pas/subst:sg:gen:m3]">Nie posiadają <marker>pasa</marker> drogowego.</example>
         </rule>
     </rulegroup>
+
+    <rule name="tłum jako rzeczownik" id="tlum_subst">
+        <pattern>
+            <marker><token>tłum</token></marker>
+            <token postag_regexp="yes" postag="subst.*gen.*(?:f|m1)"/>
+        </pattern>
+        <disambig action="filter" postag="subst.*"/>
+        <example type="untouched">Tłum powstania, dyktatorze!</example>
+        <example type="ambiguous" inputform="tłum[tłum/subst:sg:acc:m3,tłum/subst:sg:nom:m3,tłumić/verb:impt:sg:sec:imperf:refl.nonrefl]"
+                 outputform="tłum[tłum/subst:sg:acc:m3,tłum/subst:sg:nom:m3]">Był tam <marker>tłum</marker> gości.</example>
+    </rule>
 
     <rulegroup id="NASZA_ADJ" name="nasza jako przymotnik">
     <rule>
@@ -3696,6 +3768,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </pattern>
             <disambig action="unify"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="gender"/> <feature id="case"/>
+                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst|comp:comma).*"/></token>
+                        <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|adj).*"/></token>
+                    </unify>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="drogi[droga/subst:pl:acc:f,droga/subst:pl:nom:f,droga/subst:pl:voc:f,droga/subst:sg:gen:f,drogi/adj:sg:acc:m3:pos,drogi/adj:sg:nom.voc:m1.m2.m3:pos,drogi/subst:pl:acc:p3,drogi/subst:pl:nom:p3,drogi/subst:pl:voc:p3]"
+                     outputform="drogi[droga/subst:sg:gen:f]">Szukałem innej <marker>drogi</marker>.</example>
+        </rule>
     </rulegroup>
 
     <rule id="unify_ten_subst" name="unifikacja ten + rzeczownik">
@@ -4187,7 +4274,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="add"><wd lemma="co" pos="co_drugi">co</wd></disambig>
         <example type="untouched">To było coś innego.</example>
-        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/co_drugi,co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
+        <example type="ambiguous" inputform="co[co/subst:sg:acc:n2]" outputform="co[co/co_drugi,co/subst:sg:acc:n2]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
     </rule>
 
     <rulegroup name="To co...? -> conj" id="TO_CO">

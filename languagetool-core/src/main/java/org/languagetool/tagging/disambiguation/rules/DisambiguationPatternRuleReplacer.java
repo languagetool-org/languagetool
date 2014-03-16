@@ -227,6 +227,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     switch (disAction) {
     case UNIFY:
       if (unifiedTokens != null) {
+        //TODO: unifiedTokens.length is larger > matchingTokensWithCorrection in cases where there are no markers...
         if (unifiedTokens.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
           if (whTokens[sentence.getOriginalPosition(firstMatchToken
               + correctedStPos + unifiedTokens.length - 1)].isSentenceEnd()) {
