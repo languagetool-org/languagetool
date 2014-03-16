@@ -5986,10 +5986,11 @@ $Id$
             <example type="incorrect">La possibilitat <marker>de que</marker> ho facis</example>
             <example type="correct">La possibilitat <marker>que</marker> ho facis</example>
         </rule>
-        <rule id="EN_EL_CAS_DE_QUE" name="en el cas de que">
+        <rule id="EN_EL_CAS_DE_QUE" name="en el cas de què">
             <pattern>
                 <token>en</token>
-                <token>el</token>
+                <token regexp="yes">el|l'</token>
+                <token min="0" postag="A..[MC]S." postag_regexp="yes"/>
                 <token>cas</token>
                 <token min="0" postag="A..[MC]S." postag_regexp="yes"/>
                 <marker>
@@ -6002,7 +6003,52 @@ $Id$
             <suggestion>que</suggestion>
             <short>Construcció incorrecta</short>
             <example type="incorrect">en el cas particular <marker>de què</marker> aparegui</example>
+            <example type="incorrect">En l'hipotètic cas <marker>de què</marker> aparegui</example>
             <example type="correct">en el cas concret de què parlem</example>
+        </rule>
+        <rule id="EN_CAS_DE_QUE" name="en cas de què">
+            <pattern>
+                <token>en</token>
+                <token>cas</token>
+                <token min="0" postag="A..[MC]S." postag_regexp="yes"/>
+                <marker>
+                    <token>de</token>
+                    <token>què</token>
+                </marker>
+            </pattern>
+            <message>Construcció incorrecta.</message>
+            <suggestion>que</suggestion>
+            <short>Construcció incorrecta</short>
+            <example type="incorrect">En cas <marker>de què</marker> aparegui</example>
+            <example type="correct">en el cas concret de què parlem</example>
+        </rule>
+        <rule id="A_PESAR_DE_QUE" name="a pesar de què">
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">part|pesar|més</token>
+                <marker>
+                    <token>de</token>
+                    <token regexp="yes">què|que</token>
+                </marker>
+                <token><exception>?</exception></token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion>que</suggestion>
+            <example type="incorrect">A pesar <marker>de què</marker> és així.</example>
+            <example type="correct">A pesar de què?</example>
+        </rule>
+        <rule id="MALGRAT_DE_QUE" name="malgrat de què">
+            <pattern>
+                <token>malgrat</token>
+                <marker>
+                    <token>de</token>
+                    <token regexp="yes">què|que</token>
+                </marker>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion>que</suggestion>
+            <example type="incorrect">Malgrat <marker>de què</marker></example>
+            <example type="correct">Malgrat que</example>
         </rule>
         <rule id="D_ENCA" name="d'ençà *(de|que)">
             <pattern>
@@ -6114,7 +6160,7 @@ $Id$
         <rule id="INFORMAR_DE_QUE" name="informar *de què/que">
             <pattern>
                 <marker>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">adonar|informar|dubtar</token>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">adonar|informar|dubtar|advertir</token>
                     <token>de</token>
                     <token>què</token>
                 </marker>
@@ -8523,6 +8569,17 @@ $Id$
                 <example type="incorrect"><marker>al vell mig</marker></example>
                 <example type="correct">al bell mig</example>
             </rule>
+            <rule id="DE_VELL_NOU" name="de *vell/bell nou/antuvi">
+                <pattern>
+                    <token>de</token>
+                    <token>vell</token>
+                    <token regexp="yes">nou|antuvi</token>
+                </pattern>
+                <message>Error ortogràfic</message>
+                <suggestion>de bell \3</suggestion>
+                <example type="incorrect" correction="de bell antuvi"><marker>de vell antuvi</marker></example>
+                <example type="correct">de bell nou</example>
+            </rule>
         </rulegroup>
         <rulegroup id="BABA_BAVA" name="baba/bava">
             <rule>
@@ -10424,7 +10481,7 @@ $Id$
     		<rule>
                     <pattern>
                     <marker>
-                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense</token>
+                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat</token>
 				        <token>què</token>
 			        </marker>
 			        <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
@@ -14718,6 +14775,22 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="A_LES_PRIMERES_DE_CANVI" name="a les primeres de canvi">
+            <pattern>
+                <token>a</token>
+                <token>les</token>
+                <token>primeres</token>
+                <token>de</token>
+                <token>canvi</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>de primer moment</suggestion>
+            <suggestion>abans de tot</suggestion>
+            <suggestion>primer de tot</suggestion>
+            <suggestion>de bell antuvi</suggestion>
+            <example type="incorrect"><marker>a les primeres de canvi</marker></example>
+            <example type="correct">de primer moment</example>
+        </rule>
         <rule id="A_BONES_HORES" name="*a bones hores/a bona hora">
             <pattern>
                 <token>a</token>
