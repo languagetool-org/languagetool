@@ -5859,34 +5859,51 @@ $Id$
             <example type="correct">Fa de tot per a arribar a l'endemà.</example>
             <example type="correct">Esperarem a l'endemà.</example>
         </rule>
-        <rule id="AL_1996" name="*al 1996/el 1996">
-            <pattern>
-                <or>
+        <rulegroup id="AL_1996" name="*al 1996/el 1996">
+            <rule>
+                <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                    <marker>
+                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">[12]\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Els anys s'escriuen sense la preposició 'a'.</message>
+                <suggestion>el <match no="4"/></suggestion>
+                <suggestion>en <match no="4"/></suggestion>
+                <suggestion>l'any <match no="4"/></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+                <short>Sobra la preposició 'a'</short>
+                <example type="incorrect" correction="El 1992|En 1992|L'any 1992"><marker>Al 1992</marker> foren les olimpíades de Barcelona.</example>
+                <example type="correct">Va néixer el 2004.</example>
+                <example type="correct">Del 1734 al 1756.</example>
+                <example type="correct">Es remunta, pel cap baix, al 2800 aC. </example>
+                <!-- <example type="correct">que es remuntava, en un cas, al 1943 i, en l'altre, al 1949</example> -->
+                <example type="correct">correspon en bona part al 1980</example>
+                <example type="correct">dels anys vuitanta al 1992</example>
+                <example type="correct">D'aquí al 2030</example>
+                <example type="correct">De cara al 2015</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
-                </or>
-                <marker>
-                    <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
-                    <token spacebefore="no">l</token>
-                    <token regexp="yes">[12]\d{3}</token>
-                </marker>
-            </pattern>
-            <message>Els anys s'escriuen sense la preposició 'a'.</message>
-            <suggestion>el <match no="4"/></suggestion>
-            <suggestion>en <match no="4"/></suggestion>
-            <suggestion>l'any <match no="4"/></suggestion>
-            <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
-            <short>Sobra la preposició 'a'</short>
-            <example type="incorrect" correction="El 1992|En 1992|L'any 1992"><marker>Al 1992</marker> foren les olimpíades de Barcelona.</example>
-            <example type="correct">Va néixer el 2004.</example>
-            <example type="correct">Del 1734 al 1756.</example>
-            <example type="correct">Es remunta, pel cap baix, al 2800 aC. </example>
-            <!-- <example type="correct">que es remuntava, en un cas, al 1943 i, en l'altre, al 1949</example> -->
-            <example type="correct">correspon en bona part al 1980</example>
-            <example type="correct">dels anys vuitanta al 1992</example>
-            <example type="correct">D'aquí al 2030</example>
-            <example type="correct">De cara al 2015</example>
-        </rule>
+                    <marker>
+                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
+                        <token spacebefore="no">l</token>
+                        <token regexp="yes">[12]\d{3}</token>
+                    </marker>
+                </pattern>
+                <message>Els anys s'escriuen sense la preposició 'a'.</message>
+                <suggestion>el <match no="4"/></suggestion>
+                <suggestion>en <match no="4"/></suggestion>
+                <suggestion>l'any <match no="4"/></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+                <short>Sobra la preposició 'a'</short>
+                <example type="incorrect" correction="el 1992|en 1992|l'any 1992">Va arribar a la ciutat <marker>al 1992</marker>.</example>
+                <example type="correct">Va arribar a la ciutat el 1992.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_L_ANY_1996" name="*al 1996/el 1996">
             <pattern>
                 <or>
@@ -6053,7 +6070,7 @@ $Id$
         </rule>
         <rule id="MALGRAT_DE_QUE" name="malgrat de què">
             <pattern>
-                <token>malgrat</token>
+                <token regexp="yes">malgrat|risc</token>
                 <marker>
                     <token>de</token>
                     <token regexp="yes">què|que</token>
@@ -14799,9 +14816,13 @@ $Id$
             </pattern>
             <message>Expressió incorrecta</message>
             <suggestion>de primer moment</suggestion>
+            <suggestion>d'entrada</suggestion>
+            <suggestion>tot just començar</suggestion>
+            <suggestion>per començar</suggestion>
             <suggestion>abans de tot</suggestion>
             <suggestion>primer de tot</suggestion>
             <suggestion>de bell antuvi</suggestion>
+            <suggestion>d'antuvi</suggestion>
             <example type="incorrect"><marker>a les primeres de canvi</marker></example>
             <example type="correct">de primer moment</example>
         </rule>
