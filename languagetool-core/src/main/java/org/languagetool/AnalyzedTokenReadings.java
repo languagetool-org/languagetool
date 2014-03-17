@@ -223,6 +223,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     if (l.isEmpty()) {
       l.add(new AnalyzedToken(this.token, null, null));
+      l.get(0).setWhitespaceBefore(isWhitespaceBefore);
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
@@ -245,6 +246,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     }
     if (l.isEmpty()) {
       l.add(new AnalyzedToken(this.token, null, null));
+      l.get(0).setWhitespaceBefore(isWhitespaceBefore);
     }
     anTokReadings = l.toArray(new AnalyzedToken[l.size()]);
     setNoRealPOStag();
