@@ -363,7 +363,7 @@ $Id$
 						<rule>
                                 <antipattern>
                                     <marker><token regexp="yes">trzeba|można|wolno|trza</token></marker>
-                                    <token min="0" max="2" postag="siebie|qub|ppron.*" postag_regexp="yes"></token>
+                                    <token min="0" max="2" postag="siebie|qub|ppron.*|subst.*|adv" postag_regexp="yes"></token>
                                     <token>będzie</token>
                                 </antipattern>
 								<pattern>
@@ -377,6 +377,7 @@ $Id$
 								<example type="correct">Trzeba będzie pomóc Jurkowi odrabiać lekcje za Romana.</example>
 								<example type="correct">Marek będzie pomagał Jurkowi odrabiać lekcje za Romana.</example>
 								<example type="incorrect">Jurek <marker>pomoże Romanowi odrabiać lekcje a Marek będzie szukać okularów.</marker></example>
+                                <example type="correct">Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
 						</rule>
 				</rulegroup>
 				<rule id="MULTISPOJNIKI" name="Brak przecinka przed „a więc”, „a mianowicie”...">
@@ -1844,9 +1845,9 @@ $Id$
                 </rule>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
-								<pattern case_sensitive="yes">
+								<pattern>
 										<token postag="SENT_START"></token>
-										<token skip="-1"><exception scope="next">ani</exception><exception scope="current">Ani</exception></token>
+										<token skip="-1"><exception scope="next" inflected="yes">ani</exception><exception scope="current" inflected="yes">ani</exception></token>
 										<marker>
 												<token>,</token>
 												<token>ani</token>
@@ -1857,13 +1858,14 @@ $Id$
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Nie kupiłem gruszek ani jabłek.</example>
 								<example type="correct">Ani prośby, ani groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe.</example>
+                                <example type="correct">„Ani prośby, ani groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe”.</example>
 								<example correction=" ani" type="incorrect">Nie kupiłem gruszek<marker>, ani</marker> jabłek.</example>
 								<example type="correct">Nie oddał pieniędzy, ani też nie przeprosił.</example>
 						</rule>
 						<rule>
-								<pattern case_sensitive="yes">
+								<pattern>
 										<token postag="SENT_START"></token>
-										<token skip="-1"><exception scope="next">ni</exception><exception scope="current">Ni</exception></token>
+										<token skip="-1"><exception scope="next">ni</exception><exception scope="current">ni</exception></token>
 										<marker>
 												<token>,</token>
 												<token>ni</token>
@@ -1876,9 +1878,9 @@ $Id$
 								<example correction=" ni" type="incorrect">Nie kupiłem gruszek<marker>, ni</marker> jabłek.</example>
 						</rule>
 						<rule>
-								<pattern case_sensitive="yes">
+								<pattern>
 										<token postag="SENT_START"></token>
-										<token skip="-1"><exception scope="next">albo</exception><exception scope="current">Albo</exception></token>
+										<token skip="-1"><exception scope="next">albo</exception><exception scope="current">albo</exception></token>
 										<marker>
 												<token>,</token>
 												<token>albo</token>
@@ -1891,6 +1893,7 @@ $Id$
 								<example type="correct">Albo pójdziesz stąd, albo dam Ci w ryja.</example>
 								<example type="correct">Był to żwawy staruszek, albo raczej zaciekły i wredny staruch.</example>
 								<example correction=" albo" type="incorrect">Kup gruszek<marker>, albo</marker> jabłek.</example>
+                                <example type="correct">- Albo rodzice czegoś potrzebowali, albo Monika wbiegała nagle.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -4738,7 +4741,7 @@ $Id$
 								<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
 								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"></match></suggestion>”.</message>
 								<short>Błąd składniowy</short>
-								<example type="correct">Ludwik był uznany za aktora</example>
+								<example type="correct">Ludwik był uznany za aktora.</example>
 								<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
 								<example type="correct">Nie mogę uznać przekornego kryterium Gawlika.</example>
 								<example type="correct">Ludwik był uznanym aktorem.</example>
@@ -14347,7 +14350,7 @@ $Id$
 								<marker>
 										<token postag=".*:refl" postag_regexp="yes" inflected="yes" regexp="yes">stawać|stać<exception postag="ger.*" postag_regexp="yes"/></token>
 								</marker>
-								<token skip="-1" postag="^(?!prep:).*inst.*" postag_regexp="yes"><exception regexp="yes">czasem|kilku|tyłem|bokiem|twarzą|otworem|okoniem|mi|go|we|rzędem|rzędami</exception><exception scope="next">się</exception></token>
+                                <token skip="-1" postag="^(?!prep:).*inst.*" postag_regexp="yes"><exception regexp="yes">czasem|kilku|tyłem|bokiem|twarzą|otworem|okoniem|mi|go|we|rzędem|rzędami</exception><exception scope="next">się</exception></token>
 								<token postag="SENT_END"></token>
 						</pattern>
 						<message>W tym zdaniu prawdopodobnie brakuje wyrazu „się”: <suggestion>się \2</suggestion>.</message>
