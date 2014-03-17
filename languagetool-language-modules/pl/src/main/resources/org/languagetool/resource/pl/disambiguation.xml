@@ -826,7 +826,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <example type="untouched">To jest o. Pio.</example>
       <example type="ambiguous" inputform="o[o/interj,o/prep:acc,o/prep:loc,ocean/brev:pun,ojciec/brev:pun]" outputform="o[o/prep:acc,o/prep:loc]">Spotykamy się <marker>o</marker> dwunastej</example> 
     </rule>
-  </rulegroup>      
+  </rulegroup>
+
+    <rule name="auto da fe" id="auto_da_fe">
+        <pattern>
+            <token regexp="yes">autos?</token>
+            <token>da</token>
+            <token regexp="yes">f[ée]</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="auto" pos="ign"/><wd lemma="de" pos="ign"/><wd lemma="fé" pos="ign"/></disambig>
+    </rule>
     
     <rulegroup name="Na - dezambiguacja" id="na_interj_prep">
       <rule>
