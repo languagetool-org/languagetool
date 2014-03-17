@@ -109,6 +109,15 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rule id="ZUR_STANDE" name="zur Stande (zustande, zu Stande)">
+            <pattern>
+                <token>zur</token>
+                <token>Stande</token>
+            </pattern>
+            <message>Die feste Wendung lautet '<suggestion>zustande</suggestion> bringen' oder '<suggestion>zu Stande</suggestion> bringen'</message>
+            <example type='incorrect'>Keinen vernünftigen Gesichtsausdruck <marker>zur Stande</marker> bringen.</example>
+            <example type='correct'>Keinen vernünftigen Gesichtsausdruck <marker>zustande</marker> bringen.</example>
+        </rule>
         <rule id="SUCH_SICH" name="Möglicher Tippfehler: lasst/lässt such (sich)">
             <pattern>
                 <token regexp="yes">lassen|lässt|wird|kann|darf|mag</token>
@@ -6294,6 +6303,16 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="NIEDER_SCHLAGEN" name="nieder schlagen (niederschlagen)">
+            <pattern>
+                <token>nieder</token>
+                <token regexp='yes'>schlägt|schlug</token>
+            </pattern>
+            <message>'niederschlagen' wird zusammengeschrieben</message>
+            <suggestion>\1\2</suggestion>
+            <example type='incorrect'>Wie sich das Wetter in den Verkäufen <marker>nieder schlägt</marker>.</example>
+            <example type='correct'>Wie sich das Wetter in den Verkäufen <marker>niederschlägt</marker>.</example>
+        </rule>
         <rule id="GERAETE_WAHL" name="Zusammen-/Getrenntschreibung: 'Geräte Wahl (Gerätewahl)' etc.">
             <pattern>
                 <token regexp="yes">Bundestag|Bundesrat|Geräte|Landtag</token>
