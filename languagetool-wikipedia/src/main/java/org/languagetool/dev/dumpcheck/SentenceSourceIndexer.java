@@ -62,8 +62,8 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     while (mixingSource.hasNext()) {
       Sentence sentence = mixingSource.next();
       if (sentenceCount % 100 == 0) {
-        System.out.println("Indexing sentence #" + sentenceCount + ":");
-        System.out.println("  " + sentence);
+        System.out.println("Indexing sentence #" + sentenceCount + " (" + mixingSource.getSourceDistribution() + "):");
+        System.out.println("  [" +  sentence.getSource() + "] " + sentence);
       }
       indexer.index(sentence.getText(), sentence.getSource(), true, sentenceCount);
       sentenceCount++;

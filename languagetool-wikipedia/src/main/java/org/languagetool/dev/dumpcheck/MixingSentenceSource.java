@@ -24,9 +24,7 @@ import org.languagetool.Language;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * Alternately returns sentences from different sentence sources.
@@ -35,6 +33,7 @@ import java.util.NoSuchElementException;
 class MixingSentenceSource extends SentenceSource {
 
   private final List<SentenceSource> sources;
+  private final Map<String, Integer> sourceDistribution = new HashMap<>();
   
   private int count;
 
@@ -59,6 +58,10 @@ class MixingSentenceSource extends SentenceSource {
     this.sources = sources;
   }
 
+  Map<String, Integer> getSourceDistribution() {
+    return sourceDistribution;
+  }
+  
   @Override
   public boolean hasNext() {
     for (SentenceSource source : sources) {
@@ -81,7 +84,18 @@ class MixingSentenceSource extends SentenceSource {
       sentenceSource = sources.get(count % sources.size());
     }
     count++;
-    return sentenceSource.next();
+    Sentence next = sentenceSource.next();
+    updateDistributionMap(next);
+    return next;
+  }
+
+  private void updateDistributionMap(Sentence next) {
+    Integer prevCount = sourceDistribution.get(next.getSource());
+    if (prevCount != null) {
+      sourceDistribution.put(next.getSource(), prevCount + 1);
+    } else {
+      sourceDistribution.put(next.getSource(), 1);
+    }
   }
 
   @Override
