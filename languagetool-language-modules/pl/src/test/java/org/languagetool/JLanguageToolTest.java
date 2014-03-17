@@ -39,6 +39,7 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(1, matches.size());
     //no error thanks to disambiguation
     assertEquals(0, tool.check("Mają one niemałe znaczenie.").size());
+    assertEquals(0, tool.check("Często wystarczy obrócić na wspak wyroki świata, aby trafnie osądzić jakąś osobę.").size());
     //with immunization
     assertEquals(0, tool.check("A teraz każcie mi dać jaki bądź posiłek.").size());
     assertEquals(0, tool.check("Kiedym wóz zobaczył, byłbym przysiągł, że wielka przygoda mnie czeka.").size());

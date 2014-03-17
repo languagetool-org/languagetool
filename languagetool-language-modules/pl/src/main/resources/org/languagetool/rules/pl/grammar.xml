@@ -2555,6 +2555,12 @@ $Id$
 		<category name="Błędy typograficzne" type="typographical">
 				<rulegroup type="whitespace" id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
 						<rule>
+                                <antipattern>
+                                    <token>[</token>
+                                    <token spacebefore="no">w</token>
+                                    <token spacebefore="no">:</token>
+                                    <token spacebefore="no">]</token>
+                                </antipattern>
 								<pattern case_sensitive="yes">
 										<marker>
 												<token negate_pos="yes" postag="SENT_END" regexp="yes"><exception postag="interp:nospace"></exception>[;:]</token>
@@ -2566,6 +2572,7 @@ $Id$
 								<example correction="; " type="incorrect">To jest błąd<marker>;</marker>wiem to dobrze.</example>
 								<example type="correct">Jest godzina 8:42.</example>
 								<example type="correct">To jest błąd; wiem to dobrze.</example>
+                                <example type="correct">Piotr Chmielowski, Bolesław Prus, [w:] Nasi powieściopisarze. Zarysy literackie, s. 5.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -8003,6 +8010,33 @@ $Id$
 				</rulegroup>
 				<rulegroup id="PL_DWA_WYRAZY" name="Powtórzenie dwóch wyrazów („dla niego dla niego”)">
 						<rule>
+                                <antipattern>
+                                    <token>słowo</token>
+                                    <token>w</token>
+                                    <token>słowo</token>
+                                </antipattern>
+                                <antipattern>
+                                    <token>dzień</token>
+                                    <token>w</token>
+                                    <token>dzień</token>
+                                </antipattern>
+                                <antipattern>
+                                    <token>raz</token>
+                                    <token>w</token>
+                                    <token>raz</token>
+                                </antipattern>
+                                <antipattern>
+                                    <token>od</token>
+                                    <token>czasu</token>
+                                    <token>do</token>
+                                    <token>czasu</token>
+                                </antipattern>
+                                <antipattern>
+                                    <token>z</token>
+                                    <token>rąk</token>
+                                    <token>do</token>
+                                    <token>rąk</token>
+                                </antipattern>
 								<pattern>
 										<token negate_pos="yes" postag="SENT_START" regexp="yes">\p{L}+</token>
 										<token regexp="yes">\p{L}+</token>
@@ -8013,6 +8047,7 @@ $Id$
 								<short>Powtórzone wyrażenie</short>
 								<example correction="do niego|do niego, do niego" type="incorrect">Idź <marker>do niego do niego</marker>.</example>
 								<example type="correct">Idź do niego.</example>
+                                <example type="correct">Zachodzili od czasu do czasu do gospody na wino.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="NA_POCZ_XX" name="„na początku XX” (na początku XX wieku)">
@@ -8541,8 +8576,13 @@ $Id$
 		</category>
 		<category name="Pisownia małą i wielką literą" type="misspelling">
 				<rule id="CI_KTORZY" name="Zbędna litera w wyrazach mylonych z zaimkami">
+                        <antipattern>
+                            <token postag="SENT_START"/>
+                            <token regexp="yes">[»«„–—-]</token>
+                            <marker><token>Ci</token></marker>
+                        </antipattern>
 						<pattern case_sensitive="yes">
-								<token><exception postag="SENT_START"></exception></token>
+								<token><exception postag="SENT_START"/></token>
 								<marker>
 										<token>Ci</token>
 								</marker>
@@ -8552,6 +8592,8 @@ $Id$
 						<message>Prawdopodobnie ten wyraz nie jest zaimkiem osobowym (nie oznacza „tobie”, lecz jest formą zaimka „ten”), więc nie ma sensu pisać go wielką literą. Poprawnie: <suggestion><match case_conversion="alllower" no="2"></match></suggestion>.</message>
 						<example correction="ci" type="incorrect">Sztuką zajmują się <marker>Ci</marker>, którzy tego chcą!</example>
 						<example type="correct">Powiem Ci, że mam ochotę na ciastko.</example>
+                        <example type="correct">„Ci, którzy stworzyli te cuda — myślał Wokulski ...</example>
+                        <example type="correct">— Ci, którzy byli u pana? — spytał Jumart.</example>
 				</rule>
 				<rulegroup id="ZBEDNA_WIELKA_LITERA_TY" name="Zbędna wielka litera w zaimkach osobowych">
 						<rule>
@@ -13567,7 +13609,7 @@ $Id$
                         <antipattern>
                             <token>po</token>
                             <token postag="adjp"/>
-                            <token>,</token>
+                            <token regexp="yes">oraz|i|lub|bądź|czy|,</token>
                             <marker><token postag="adjp"/></marker>
                         </antipattern>
                         <antipattern>
@@ -13579,7 +13621,7 @@ $Id$
                             <marker><token postag="adjp"/></marker>
                         </antipattern>
 						<pattern>
-								<token><exception regexp="yes">i|po</exception></token>
+								<token><exception scope="previous" postag="adjp"/><exception regexp="yes">i|po</exception></token>
 								<marker>
 										<token postag="adjp"><exception postag="subst.*" postag_regexp="yes"/><exception regexp="yes">mała|(?-iu)Brunszwicku|dawna</exception></token>
 								</marker>
@@ -13591,6 +13633,7 @@ $Id$
 						<example correction="Po prostu" type="incorrect"><marker>Prostu</marker> się mylisz.</example>
                         <example type="correct">Od pięciu lat istnieje w Brunszwicku w Niemieckiej Republice Federalnej zespół pieśni i tańca.</example>
                         <example type="correct">Czy on mówi po angielsku, francusku czy niemiecku?</example>
+                        <example type="correct">Woli pan mówić po niemiecku czy angielsku?</example>
 				</rule>
 				<rule id="W_ODROZNIENIU_DO" name="„w odróżnieniu do” (w odróżnieniu od)">
 						<pattern>

@@ -777,6 +777,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="względem[wzgląd/subst:sg:inst:m3,względem/prep:gen]" outputform="względem[wzgląd/subst:sg:inst:m3]">Pod tym <marker>względem</marker> Brazylia jest szczególna.</example>
         <example type="untouched">Nie bądź względem niego taki ostry!</example>
     </rule>
+
+    <rule id="na_wspak" name="na wspak">
+        <pattern>
+            <token>na</token>
+            <marker><token>wspak</token></marker>
+        </pattern>
+        <disambig postag="adv"/>
+    </rule>
     
     <rule name="godzinę temu" id="temu">
     	<pattern>    		
@@ -1580,9 +1588,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <!--  przyimki zawsze z tym samym przypadkiem --> 
         <rule>
             <pattern>
-                <!--
-                <token regexp="yes">[uwz]|[pd]o|ode?|oprócz|dla|(:?po)?między|(:po)?nade?|na|ze|przede?|pode?|podczas|(:?po)?mimo|(:?po)?przez|pośrodku</token>
-                -->
                 <token postag="prep:[^\.]+" postag_regexp="yes"><exception>co</exception><exception>jak</exception></token>
                 <marker>
                     <and>
@@ -1596,36 +1601,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f,mieć/verb:fin:pl:pri:imperf:refl.nonrefl]" outputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]">Spotykaliśmy się u <marker>mamy</marker>.</example>
         </rule>
 
-        <!--  inne przyimki 
-        <rule>
-            <pattern>
-                <!- -
-                <token regexp="yes">[uwz]|[pd]o|ode?|oprócz|dla|(:?po)?między|(:po)?nade?|na|ze|przede?|pode?|podczas|(:?po)?mimo|(:?po)?przez|pośrodku</token>
-                - ->
-                <token postag="prep:.*" postag_regexp="yes"><exception postag="prep:[^\.]+" postag_regexp="yes"/><exception>co</exception></token>
-                <marker>
-                    <and>
-                        <token><match no="0" postag_regexp="yes" postag="prep:(.*)" postag_replace="(ad[jv]|subst|ppron):$1" setpos="yes"/></token>
-                        <token postag="verb.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="adj.*|adv.*|subst.*|ppron.*"/>
-            <example type="untouched">Tu mamy piękny przykład sztuki barokowej.</example>
-            <example type="ambiguous" inputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f,mieć/verb:fin:pl:pri:imperf:refl.nonrefl]" outputform="mamy[mama/subst:pl:acc:f,mama/subst:pl:nom:f,mama/subst:pl:voc:f,mama/subst:sg:gen:f]">Stanąłem naprzeciw <marker>mamy</marker>.</example>
-        </rule>        
-        -->
        <rule>
        	<pattern>
        		<unify>
        			<feature id="case"/>
-       			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/></token>       			
+       			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
                 <token postag_regexp="yes" postag="(adj|subst|ppron).*"><exception>pewne</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
        	<example type="untouched">Oni mną papiery.</example>
        	<example type="ambiguous" inputform="mną[ja/ppron12:sg:inst:m1.m2.m3.f.n1.n2:pri,miąć/verb:fin:pl:ter:imperf:refl.nonrefl]" outputform="mną[ja/ppron12:sg:inst:m1.m2.m3.f.n1.n2:pri]">Oczywiście, że ze <marker>mną</marker>!</example>
+           <example type="ambiguous" inputform="chęci[chęcić/verb:fin:sg:ter:imperf:refl.nonrefl,chęć/subst:pl:acc:f,chęć/subst:pl:gen:f,chęć/subst:pl:nom:f,chęć/subst:pl:voc:f,chęć/subst:sg:dat:f,chęć/subst:sg:gen:f,chęć/subst:sg:loc:f,chęć/subst:sg:voc:f]"
+                    outputform="chęci[chęć/subst:sg:dat:f]">Żeglarze biegną w stronę wiatru i wbrew <marker>chęci</marker> nawracają wstecz.</example>
        </rule>
     </rulegroup>
 
