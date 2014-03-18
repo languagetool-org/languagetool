@@ -3964,6 +3964,54 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+                <rule id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
+                    <antipattern> <!-- dokonałbym ... był -->
+                        <unify>
+                            <feature id="number"/><feature id="gender"/>
+                            <token skip="10" inflected="yes" postag="verb:pot.*" postag_regexp="yes"><exception scope="next" postag="verb:(?:pot|fin|bedzie|imp[st]|pred|winien).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                            <marker>
+                                <token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token>
+                            </marker>
+                        </unify>
+                    </antipattern>
+                    <antipattern>   <!-- czas zaprzeszły -->
+                        <unify>
+                            <feature id="number"/><feature id="gender"/><feature id="person"/>
+                            <token postag="verb:praet.*" postag_regexp="yes"/>
+                            <marker><token postag="verb:praet.*" postag_regexp="yes" inflected="yes">być</token></marker>
+                        </unify> <!-- spostrzegła była -->
+                    </antipattern>
+                    <antipattern>   <!-- czas przeszły predykatywu, np. widać było -->
+                        <token postag="pred"/>
+                        <token min="0" max="3" postag="siebie|qub|ppron.*|prep.*|adv|comp|conj|subst.*|adj.*" postag_regexp="yes"><exception postag="comp:comma"/></token>
+                        <marker>
+                            <token>było</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern> <!-- to jest zamiast unifikacji: wyjątek może trochę zbyt hojnie napisany, ale inaczej trzeba by mieć 2 x 9 reguł, pfuj -->
+                        <marker>
+                        <token inflected='yes' regexp='yes' postag='verb:praet:.*:ter.*' postag_regexp='yes'>być</token>
+                        </marker>
+                        <token skip="10" postag='ppas:.*inst.*' postag_regexp='yes'><exception scope="next" postag="(?:comp|interp):comma" postag_regexp="yes"/></token>
+                        <token postag_regexp="yes" postag="subst.*inst.*"/>
+                    </antipattern>
+                    <pattern>
+                    <unify negate="yes">
+                        <feature id="gender"/><feature id="number"/>
+                        <token inflected='yes' regexp='yes' postag='verb:praet:.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token>
+                        <token postag='ppas:.*' postag_regexp='yes'><exception postag="ppas:pl:gen.loc.*" postag_regexp="yes"/></token>
+                    </unify>
+                </pattern>
+                    <message>Forma imiesłowu („\2”) nie jest zgodna z formą czasownika („\1”).</message>
+                    <short>Błąd gramatyczny</short>
+                    <example type='incorrect'><marker>Zostało zrobiony</marker>.</example>
+                    <example type="correct">Kilka osób zostało zabitych.</example>
+                    <example type='correct'>Został zrobiony.</example>
+                    <example type="correct">Spostrzegła była rozkochane spojrzenie.</example>
+                    <example type="correct">Daleko w przestrzeni widać było przymglony las Meudon.</example>
+                    <example type="correct">Eurycjusz nie był zmyśloną postacią.</example>
+                    <example type="correct">Odpowiedzi moje na jego zapytania były niewyczerpaną rozmów materią.</example>
+                </rule>
                 <rule id="KTOS_KTOREGO" name="„ktoś, którego” (czyjego, kogo)">
                     <pattern>
                         <token>ktoś</token>
@@ -4607,6 +4655,11 @@ $Id$
 								<example type="correct">Ma na myśli na przykład Józia.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token>przez</token>
+                                    <token>Bóg</token>
+                                    <token>żywy</token>
+                                </antipattern>
 								<pattern>
 										<token postag="prep:acc.*" postag_regexp="yes"><exception>przezeń</exception><exception>temu</exception><exception postag="prep:(?!acc).*" postag_regexp="yes"/></token>
 										<marker>
@@ -4622,6 +4675,7 @@ $Id$
 								<example type="correct">On mówił przez <marker>nos</marker>.</example>
 								<example type="correct">Pisze się o literaturze.</example>
                                 <example type="correct">zagnieżdżenie się zapłodnionej komórki jajowej w błonie śluzowej macicy</example>
+                                <example type="correct">Przez Bóg żywy!</example>
 						</rule>
                         <rule>
                           <pattern>                          
