@@ -256,6 +256,8 @@ public class AnalyzedSentence {
         for (AnalyzedToken lemmaTok : token.getReadings()) {
           if (lemmaTok.getLemma() != null) {
             lemmaSet.add(lemmaTok.getLemma().toLowerCase());
+          } else {
+            lemmaSet.add(lemmaTok.getToken().toLowerCase());
           }
         }
       }
