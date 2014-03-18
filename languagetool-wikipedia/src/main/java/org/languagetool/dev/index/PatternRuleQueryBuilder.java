@@ -212,9 +212,10 @@ public class PatternRuleQueryBuilder {
 
   private Query getRegexQuery(Term term, String str) {
     try {
-      if (str.contains("(?:") || str.contains("\\d")) {
+      if (str.contains("(?:") || str.contains("\\d") || str.contains("\\w")) {
         // regex syntax not supported, but doesn't matter - remove or simplify it:
-        Term newTerm = new Term(term.field(), term.text().replace("(?:", "(").replace("\\d", "[0-9]"));
+        String termVal = term.text().replace("(?:", "(").replace("\\d", "[0-9]").replace("\\w", "[a-zA-Z_0-9]");
+        Term newTerm = new Term(term.field(), termVal);
         return new RegexpQuery(newTerm);
       }
       if (str.contains("?iu") || str.contains("?-i")) {
