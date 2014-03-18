@@ -3738,6 +3738,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Adverbis" type="grammar">
+        <rule id="GENS" name="gens / gens de">
+            <pattern>
+                <marker>
+                    <token>gens</token>
+                </marker>
+                <token postag="NC.*" postag_regexp="yes"><exception postag="AQ.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>gens de</suggestion>?</message>
+            <example type='incorrect' correction="gens de">No serà <marker>gens</marker> faena.</example>
+            <example type='correct'>No serà gens bonic.</example>
+            <example type='correct'>No queda gens clar.</example>
+        </rule>
         <rule id="QUANT_QUAN" name="quant/quan">
             <pattern>
                 <token><exception regexp="yes">cada|en|a|amb|tot|de</exception><exception postag="D[^R].MS." postag_regexp="yes"/></token>
@@ -14870,6 +14882,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="FER_A_VIA" name="fer a via">
+            <pattern>
+                <token inflected='yes'>fer</token>
+                <token>a</token>
+                <token>via</token>
+            </pattern>
+            <message>Construcció informal.</message>
+            <suggestion><match no="1"/> <match no="3"/></suggestion>
+            <short>Construcció informal</short>
+            <example type="incorrect" correction="Farem via"><marker>Farem a via</marker></example>
+            <example type="correct">Fer via</example>
+        </rule>
         <rule id="A_LES_PRIMERES_DE_CANVI" name="a les primeres de canvi">
             <pattern>
                 <token>a</token>
