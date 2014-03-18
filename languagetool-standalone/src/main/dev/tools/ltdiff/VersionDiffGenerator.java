@@ -160,6 +160,10 @@ class VersionDiffGenerator {
               } // for each old incorrect example
 
             } // for each new incorrect example
+            
+            // remove correct examples which have a related incorrect example
+            // (users probably want to see correct examples only when false positives are fixed)
+            r.removeCorrectExamplesWithRelatedIncorrectExample();
 
             modifiedRules.add(r);
 
@@ -223,6 +227,32 @@ class VersionDiffGenerator {
       s = s.substring(0, s.length() - 5) + "</div>";
           
       return s;
+      
+    }
+    
+    /**
+     * removes correct examples for which an incorrect example which only differs in the part between &lt;b&gt;&lt;/b&gt; exists
+     */
+    public void removeCorrectExamplesWithRelatedIncorrectExample() {
+      
+      for(int i = 0; i < correct.size(); i++) {
+        
+        boolean found = false;
+        
+        for(int j = 0; j < incorrect.size() && !found; j++) {
+          
+          if(correct.get(i).startsWith(incorrect.get(j).substring(0, incorrect.get(j).indexOf("<b>")+3))
+          && correct.get(i).endsWith(incorrect.get(j).substring(incorrect.get(j).indexOf("</b>")))) {
+            
+            correct.remove(i);
+            i--;
+            found=true;
+            
+          }
+          
+        }
+        
+      }
       
     }
     
