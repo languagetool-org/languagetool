@@ -141,7 +141,7 @@ public class PatternRuleQueryBuilder {
       // we need to ignore this - negation, if any, must happen at the same position
       return null;
     } else if (element.isInflected() && element.isRegularExpression()) {
-      Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX + "(", termStr, ")");
+      Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX + "(", simplifyRegex(termStr), ")");
       final RegexpQuery regexpQuery = new RegexpQuery(lemmaQueryTerm);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (element.isInflected() && !element.isRegularExpression()) {
@@ -168,11 +168,21 @@ public class PatternRuleQueryBuilder {
       }
       return null;
     } else if (element.isRegularExpression()) {
-      termQuery = getRegexQuery(termQueryTerm, termStr);
+      termQuery = getRegexQuery(termQueryTerm, termStr, element);
     } else {
       termQuery = new TermQuery(termQueryTerm);
     }
     return new BooleanClause(termQuery, BooleanClause.Occur.MUST);
+  }
+
+  // regex syntax not supported, but doesn't matter - remove or simplify it:
+  private String simplifyRegex(String regex) {
+    return regex.replace("(?:", "(").replace("\\d", "[0-9]").replace("\\w", "[a-zA-Z_0-9]");
+  }
+
+  // the new and fast Regex query of Lucene doesn't support full Java regex syntax:
+  private boolean needsSimplification(String regex) {
+    return regex.contains("(?:") || regex.contains("\\d") || regex.contains("\\w");
   }
 
   private BooleanClause getPosQueryOrNull(Element element, String pos) {
@@ -186,7 +196,7 @@ public class PatternRuleQueryBuilder {
       return null;
     } else if (element.isPOStagRegularExpression()) {
       posQueryTerm = getQueryTerm(element, POS_PREFIX + "(", pos, ")");
-      posQuery = getRegexQuery(posQueryTerm, pos);
+      posQuery = getRegexQuery(posQueryTerm, pos, element);
     } else {
       posQueryTerm = getQueryTerm(element, POS_PREFIX, pos, "");
       posQuery = new TermQuery(posQueryTerm);
@@ -210,28 +220,27 @@ public class PatternRuleQueryBuilder {
     }
   }
 
-  private Query getRegexQuery(Term term, String str) {
+  private Query getRegexQuery(Term term, String str, Element element) {
     try {
-      if (str.contains("(?:") || str.contains("\\d") || str.contains("\\w")) {
-        // regex syntax not supported, but doesn't matter - remove or simplify it:
-        String termVal = term.text().replace("(?:", "(").replace("\\d", "[0-9]").replace("\\w", "[a-zA-Z_0-9]");
-        Term newTerm = new Term(term.field(), termVal);
+      if (needsSimplification(str)) {
+        Term newTerm = new Term(term.field(), simplifyRegex(term.text()));
         return new RegexpQuery(newTerm);
       }
       if (str.contains("?iu") || str.contains("?-i")) {
         // Lucene's RegexpQuery doesn't seem to handle this correctly
-        return getFallbackRegexQuery(str);
+        return getFallbackRegexQuery(str, element);
       }
       return new RegexpQuery(term);
     } catch (IllegalArgumentException e) {
       // fallback for special constructs like "\p{Punct}" not supported by Lucene RegExp:
-      return getFallbackRegexQuery(str);
+      return getFallbackRegexQuery(str, element);
     }
   }
 
-  private RegexQuery getFallbackRegexQuery(String str) {
+  /** Return a query with the old (and slow, but more complete) way Lucene implements regular expressions. */
+  private RegexQuery getFallbackRegexQuery(String str, Element element) {
     // No lowercase of str, so '\p{Punct}' doesn't become '\p{punct}':
-    final RegexQuery query = new RegexQuery(new Term(FIELD_NAME_LOWERCASE, str));
+    final RegexQuery query = new RegexQuery(new Term(element.isCaseSensitive() ? FIELD_NAME : FIELD_NAME_LOWERCASE, str));
     query.setRegexImplementation(new JavaUtilRegexCapabilities(JavaUtilRegexCapabilities.FLAG_CASE_INSENSITIVE));
     return query;
   }

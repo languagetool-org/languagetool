@@ -78,7 +78,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     final Language language = new English();
     //final Language language = new French();
     //final Language language = new Spanish();
-    //final Language language = new Polish(); // TODO: still "Clauses must have same field"
+    //final Language language = new Polish();
     //final Language language = new German();
     final JLanguageTool lt = new JLanguageTool(language);
     lt.activateDefaultPatternRules();

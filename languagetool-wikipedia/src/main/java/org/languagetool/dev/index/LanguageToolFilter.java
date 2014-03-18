@@ -146,7 +146,7 @@ public final class LanguageToolFilter extends TokenFilter {
         if (toLowerCase) {
           posStack.push(LEMMA_PREFIX.toLowerCase() + token.getLemma().toLowerCase());
         } else {
-          // changes are good this is the same for all loop iterations, store it anyway...
+          // chances are good this is the same for all loop iterations, store it anyway...
           posStack.push(LEMMA_PREFIX + token.getLemma());
         }
       }
