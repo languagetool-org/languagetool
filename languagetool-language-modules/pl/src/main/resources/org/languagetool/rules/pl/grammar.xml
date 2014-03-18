@@ -12405,6 +12405,48 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+         <rulegroup id="PROPOS" name="„propos” (a propos)">
+             <rule>
+                 <pattern>
+                     <token><exception regexp="yes">[aà`']</exception></token>
+                     <marker><token>propos</token></marker>
+                 </pattern>
+                 <message>To wyrażenie nie jest samodzielne. Poprawnie: <suggestion>à propos</suggestion>.</message>
+                 <url>http://so.pwn.pl/lista.php?co=a+propos</url>
+                 <short>Literówka</short>
+                 <example type="correct">A to à propos czego?</example>
+                 <example type="incorrect" correction="à propos">A to <marker>propos</marker> czego?</example>
+             </rule>
+             <rule>
+                 <pattern>
+                     <marker>
+                         <token regexp="yes">[aá]</token>
+                         <token>propos</token>
+                     </marker>
+                 </pattern>
+                 <message>W tym wyrażeniu „a” musi być z akcentem w lewą stronę. Poprawnie: <suggestion>à propos</suggestion>.</message>
+                 <url>http://so.pwn.pl/lista.php?co=a+propos</url>
+                 <short>Literówka</short>
+                 <example type="correct">A to à propos czego?</example>
+                 <example type="incorrect" correction="à propos">A to <marker>a propos</marker> czego?</example>
+                 <example type="incorrect" correction="à propos">A to <marker>á propos</marker> czego?</example>
+             </rule>
+             <rule>
+                 <pattern>
+                     <marker>
+                         <token>a</token>
+                         <token regexp="yes">[`']</token>
+                         <token>propos</token>
+                     </marker>
+                 </pattern>
+                 <message>W tym wyrażeniu „a” musi być z akcentem w lewą stronę. Poprawnie: <suggestion>à propos</suggestion>.</message>
+                 <url>http://so.pwn.pl/lista.php?co=a+propos</url>
+                 <short>Literówka</short>
+                 <example type="correct">A to à propos czego?</example>
+                 <example type="incorrect" correction="à propos">A to <marker>a` propos</marker> czego?</example>
+                 <example type="incorrect" correction="à propos">A to <marker>a' propos</marker> czego?</example>
+             </rule>
+         </rulegroup>
          <rule id="SENSU_STRICTE" name="„sensu stricte” (sensu stricto)">
              <pattern>
                  <token>sensu</token>
