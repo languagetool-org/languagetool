@@ -165,6 +165,7 @@ public class Searcher {
       final int sentencesChecked = getSentenceCheckCount(query, indexSearcher);
       final SearcherResult searcherResult = new SearcherResult(matchingSentences, sentencesChecked, query);
       searcherResult.setHasTooManyLuceneMatches(runnable.hasTooManyLuceneMatches());
+      searcherResult.setLuceneMatchCount(runnable.getLuceneMatchCount());
       if (runnable.hasTooManyLuceneMatches()) {
         // more potential matches than we can check in an acceptable time :-(
         searcherResult.setDocCount(maxHits);
@@ -298,6 +299,7 @@ public class Searcher {
     private List<MatchingSentence> matchingSentences;
     private Exception exception;
     private boolean tooManyLuceneMatches;
+    private int luceneMatchCount;
 
     SearchRunnable(IndexSearcher indexSearcher, Query query, Language language, PatternRule rule) {
       this.indexSearcher = indexSearcher;
@@ -317,6 +319,7 @@ public class Searcher {
         final PossiblyLimitedTopDocs limitedTopDocs = getTopDocs(query, sort);
         final long luceneTime = System.currentTimeMillis() - t2;
         final long t3 = System.currentTimeMillis();
+        luceneMatchCount = limitedTopDocs.topDocs.totalHits;
         if (limitedTopDocs.topDocs.scoreDocs.length >= maxHits) {
           tooManyLuceneMatches = true;
         } else {
@@ -340,6 +343,10 @@ public class Searcher {
      */
     boolean hasTooManyLuceneMatches() {
       return tooManyLuceneMatches;
+    }
+
+    int getLuceneMatchCount() {
+      return luceneMatchCount;
     }
 
     List<MatchingSentence> getMatchingSentences() {

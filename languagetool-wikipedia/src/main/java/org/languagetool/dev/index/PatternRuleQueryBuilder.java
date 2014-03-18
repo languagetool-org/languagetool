@@ -145,6 +145,12 @@ public class PatternRuleQueryBuilder {
       final RegexpQuery regexpQuery = new RegexpQuery(lemmaQueryTerm);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (element.isInflected() && !element.isRegularExpression()) {
+      /*
+      This is simpler, but leads to problem with e.g. German rules ZEITLICH_SYNCHRON and GEWISSEN_SUBST:
+      Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX, termStr, "");
+      Query query = new TermQuery(lemmaQueryTerm);
+      return new BooleanClause(query, BooleanClause.Occur.MUST);
+      */
       final Synthesizer synthesizer = language.getSynthesizer();
       if (synthesizer != null) {
         try {

@@ -111,9 +111,11 @@ public class IndexerSearcherTest extends LuceneTestCase {
           }
           if (!foundExpectedMatch) {
             System.out.println("Error: No match found for " + patternRule);
-            System.out.println("Query   : " + searcherResult.getRelaxedQuery().toString(FIELD_NAME_LOWERCASE));
-            System.out.println("Matches : " + matchingSentences);
-            System.out.println("Examples: " + rule.getIncorrectExamples());
+            System.out.println("Query      : " + searcherResult.getRelaxedQuery().toString(FIELD_NAME_LOWERCASE)); 
+            System.out.println("Default field: " + FIELD_NAME_LOWERCASE);
+            System.out.println("Lucene Hits: " + searcherResult.getLuceneMatchCount());
+            System.out.println("Matches    : " + matchingSentences);
+            System.out.println("Examples   : " + rule.getIncorrectExamples());
             System.out.println();
             ruleProblems++;
           } else {
