@@ -1223,7 +1223,7 @@ $Id$
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_TEN_CO" name="Brak przecinka przed „kto” i „co”">
                     <antipattern>
-                        <token skip="3" inflected="yes" postag="verb.*|pact.*" postag_regexp="yes">mieć<exception scope="next" postag="(?:subst|adj|verb|pact|pcon|conj|comp|interp).*" postag_regexp="yes"/></token>
+                        <token skip="3" inflected="yes" postag="(?:verb|pact|pcon).*" postag_regexp="yes">mieć<exception scope="next" postag="(?:subst|adj|verb|pact|pcon|conj|comp|interp).*" postag_regexp="yes"/></token>
                         <unify>
                             <feature id="case"></feature>
                             <marker>
@@ -1238,7 +1238,7 @@ $Id$
 										<token><exception>,</exception></token>
 										<marker>
 												<token inflected="yes">ten</token>
-												<token inflected="yes" regexp="yes">kto|co<exception postag="&lt;ADV&gt;"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
+												<token inflected="yes" regexp="yes" postag="subst.*" postag_regexp="yes">kto|co<exception postag="&lt;ADV&gt;"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
 										</marker>
 										<token><exception regexp="yes">więcej|gorsza|\?|,|inny</exception><exception postag="SENT_END"></exception></token>
 								</pattern>
@@ -1255,6 +1255,7 @@ $Id$
 								<example type="correct">No to co?</example>
 								<example correction="Ten, kto" type="incorrect"><marker>Ten kto</marker> sieje wiatr, zbiera burzę.</example>
 								<example type="correct">Jednak ulica ta co najmniej od 2003 roku jest przejezdna.</example>
+                                <example type="correct">Kupcy pojechali w dalszą drogę, mając o czym na długi czas gadać sobie dla zabawki.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1317,22 +1318,35 @@ $Id$
                                     </unify>
                                     <token postag="verb:inf.*" postag_regexp="yes"></token>
                                 </antipattern>
+                                <antipattern>
+                                    <unify negate="yes">
+                                        <feature id="case"/>
+                                        <marker>
+                                        <token postag="prep.*" postag_regexp="yes"/>
+                                        <token inflected="yes" postag="subst.*" postag_regexp="yes">co</token>
+                                        </marker>
+                                    </unify>
+                                </antipattern>
+                                <antipattern>
+                                    <token postag="prep.*gen.*" postag_regexp="yes"/>
+                                    <token>co</token>
+                                </antipattern>
 								<pattern>
 										<marker>
 												<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
-												<token postag="prep:.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/></token>
-										</marker>
-										<token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi|qub" postag_regexp="yes"></exception></token>
+												<token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/><exception>jak</exception></token>
+										        <token inflected="yes" postag="subst.*" postag_regexp="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi|qub" postag_regexp="yes"></exception></token>
+                                        </marker>
 										<token><exception regexp="yes">&interp;</exception><exception postag="SENT_END"></exception></token>
 								</pattern>
-								<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
+								<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"/>, <match no="2"/> <match no="3"/></suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Nie wiadomo, w związku z czym zabrał głos.</example>
 								<example type="correct">Łaciny używano na co dzień.</example>
 								<example type="correct">A wyda na co?...</example>
 								<example type="correct">Problem tkwi w czym innym.</example>
 								<example type="correct">Naprawdę nie masz za co dziękować.</example>
-								<example correction="Oto, do" type="incorrect"><marker>Oto do</marker> czego doprowadziły rządy ludzi niespełna rozumu.</example>
+								<example correction="Oto, do czego" type="incorrect"><marker>Oto do czego</marker> doprowadziły rządy ludzi niespełna rozumu.</example>
 								<example type="correct">Spotykamy się w co drugi piątek.</example>
 								<example type="correct">Ograniczyli ich użycie do minimum, np. pomagając sobie przy co trudniejszych animacjach.</example>
                                 <example type="correct">Nie ma o czym mówić.</example>
@@ -1343,6 +1357,8 @@ $Id$
                                 <example type="correct">— Dla bardzo prostej przyczyny: nie mam tu z czego żyć.</example>
                                 <example type="correct">Brali się do czego innego.</example>
                                 <example type="correct">Było z czego pękać od śmiechu.</example>
+                                <example type="correct">Wyły teraz ze strachu, wdrapując się na co najwyższe miejsca ruin.</example>
+                                <example type="correct">A miał o czym marzyć dzisiaj mały Tumai.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1384,7 +1400,7 @@ $Id$
                       <token postag="subst:sg.*" postag_regexp="yes" inflected="yes">to<exception postag="qub|conj" postag_regexp="yes"></exception></token>                                       
                       <token regexp="yes" inflected="yes">co|czy|kto|skąd|dokąd|czyj|gdzie|jak|dlaczego</token>
                       </marker>
-                      <token><exception postag="SENT_END"></exception></token>
+                      <token><exception postag="SENT_END"/><exception>niemiara</exception></token>
                     </pattern>
                     <message>Prawdopodobnie brak przecinka. Powinno być: <suggestion>\2, \3</suggestion></message>
                     <short>Błąd interpunkcyjny</short>
@@ -1392,6 +1408,7 @@ $Id$
                     <example type="incorrect" correction="tego, czy">Zależy od <marker>tego czy</marker> faktycznie dzisiaj przed południem znajduję się w Krakowie.</example>                    
                     <example type="incorrect" correction="to, gdzie">Jest ono prawdziwe bez względu na <marker>to gdzie</marker>, kiedy i przez kogo zostało wypowiedziane.</example>
                     <example type="incorrect" correction="to, czy">Bez względu na <marker>to czy</marker> i jakie posiadam na ten temat przekonania.</example>
+                      <example type="correct">Było tego co niemiara.</example>
                   </rule>
                 </rulegroup>
 				<rulegroup id="KTOS_CZYJ" name="Brak przecinka przed „czyj”">
@@ -1845,6 +1862,10 @@ $Id$
                 </rule>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
+                                <antipattern>
+                                    <token>ani</token>
+                                    <token>ani</token>
+                                </antipattern>
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token skip="-1"><exception scope="next" inflected="yes">ani</exception><exception scope="current" inflected="yes">ani</exception></token>
@@ -1861,13 +1882,14 @@ $Id$
                                 <example type="correct">„Ani prośby, ani groźby, nie przekonają nas, że czarne jest czarne, a białe jest białe”.</example>
 								<example correction=" ani" type="incorrect">Nie kupiłem gruszek<marker>, ani</marker> jabłek.</example>
 								<example type="correct">Nie oddał pieniędzy, ani też nie przeprosił.</example>
+                                <example type="correct">Pamiętał tylko początek wiersza, a potem już ani ani.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
 										<token skip="-1"><exception scope="next">ni</exception><exception scope="current">ni</exception></token>
 										<marker>
-												<token>,</token>
+												<token>,<exception scope="previous" postag="interj"/></token>
 												<token>ni</token>
 										</marker>
 								</pattern>
@@ -1876,6 +1898,7 @@ $Id$
 								<example type="correct">Nie kupiłem gruszek ni jabłek.</example>
 								<example type="correct">Ni to, ni sio.</example>
 								<example correction=" ni" type="incorrect">Nie kupiłem gruszek<marker>, ni</marker> jabłek.</example>
+                                <example type="correct">— Ano, ni mniej, ni więcej, ino pięć roków i trzy miesiące.</example>
 						</rule>
 						<rule>
 								<pattern>
