@@ -3943,10 +3943,10 @@ $Id$
         <rulegroup id="RECENT" name="recent + adjectiu">
             <rule>
                 <pattern>
-                	<token><exception>més</exception></token>
+	               <token><exception regexp="yes">més|cas|període</exception></token>
                     <marker>
-                        <token regexp="yes">recents?<exception postag="_GN.*" postag_regexp="yes"/></token>
-                        <token postag="V.P.*" postag_regexp="yes"/>
+                        <token>recent</token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">néixer|casar</exception></token>
                     </marker>
                 </pattern>
                 <message>"Recent" no és un adverbi.</message>
@@ -3954,8 +3954,47 @@ $Id$
                 <suggestion><match no="3"/> de poc</suggestion> 
                 <suggestion><match no="3"/> de nou</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/recent</url>
-                <example type="incorrect" correction="acabats de casar|casats de poc|casats de nou"><marker>recent casats</marker></example>
-                <example type="correct">acabats de casar</example>
+                <example type="incorrect" correction="acabats de pintar|pintats de poc|pintats de nou"><marker>recent pintats</marker></example>
+                <example type="incorrect" correction="acabat de pintar|pintat de poc|pintat de nou"><marker>recent pintat</marker></example>
+                <example type="correct">l'altre més recent viscut pels nostres pares</example>
+                <example type="correct">un cas recent lligat a un estímul admiratiu</example>
+                <example type="correct">en un període recent units de manera contínua</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">més|cas|període</exception></token>
+                    <marker>
+                        <token>recent</token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">néixer</token>
+                    </marker>
+                </pattern>
+                <message>"Recent" no és un adverbi.</message>
+                <suggestion><match no="3" postag="V.P.*(.).." postag_regexp="yes" postag_replace="NCM$1.*">nadó</match></suggestion>
+                <suggestion><match no="3" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="NC$2$1.*">nounat</match></suggestion>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">acabar</match> de <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion> 
+                <url>http://esadir.cat/entrades/fitxa/node/recent</url>
+                <example type="incorrect" correction="nadons|nounats|acabats de nàixer|acabats de néixer"><marker>recent nascuts</marker></example>
+                <!-- <example type="incorrect" correction="nadó|nounada|acabada de nàixer|acabada de néixer"><marker>recent nascuda</marker></example> -->
+                <example type="correct">l'altre més recent viscut pels nostres pares</example>
+                <example type="correct">un cas recent lligat a un estímul admiratiu</example>
+                <example type="correct">en un període recent units de manera contínua</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">més|cas|període</exception></token>
+                    <marker>
+                        <token>recent</token>
+                        <token postag="V.P.*" postag_regexp="yes" inflected="yes">casar</token>
+                    </marker>
+                </pattern>
+                <message>"Recent" no és un adverbi.</message>
+                <suggestion>nou<match no="3"/></suggestion>
+                <suggestion><match no="3" postag="V.P.*(.)(.)." postag_regexp="yes" postag_replace="NC$2$1.*">novençà</match></suggestion>
+                <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1">acabar</match> de <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion> 
+                <url>http://esadir.cat/entrades/fitxa/node/recent</url>
+                <example type="incorrect" correction="noucasats|novençans|acabats de casar"><marker>recent casats</marker></example>
+                <!-- <example type="incorrect" correction="noucasades|novençanes|acabades de casar"><marker>recent casades</marker></example> -->
+                <example type="incorrect" correction="noucasat|novençà|acabat de casar"><marker>recent casat</marker></example>
                 <example type="correct">l'altre més recent viscut pels nostres pares</example>
                 <example type="correct">un cas recent lligat a un estímul admiratiu</example>
                 <example type="correct">en un període recent units de manera contínua</example>
