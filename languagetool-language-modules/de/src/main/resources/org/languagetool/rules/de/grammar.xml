@@ -6303,6 +6303,18 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="XJAEHRIG" name="Xjährig (X-jährig)">
+            <pattern>
+                <token regexp='yes'>\d+jährige[rsn]?</token>
+            </pattern>
+            <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
+            <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
+            <short>Fehlender Bindestrich</short>
+            <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
+            <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
+            <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
+            <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+        </rule>
         <rule id="NIEDER_SCHLAGEN" name="nieder schlagen (niederschlagen)">
             <pattern>
                 <token>nieder</token>
