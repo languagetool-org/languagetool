@@ -4617,6 +4617,52 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="S’il"><marker>Si il</marker> pleut, je reste ici.</example>
       <example type="correct">S’il pleut, je reste ici.</example>
     </rule>
+    <rulegroup id="VOILA" name="voila → voilà">
+      <rule>
+        <pattern>
+          <marker><token>voila</token></marker>
+          <token regexp="yes">qu[ei]?|quel?|quelles?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voilà</suggestion> ?</message>
+        <example type="incorrect">Il arriva et <marker>voila</marker> qu’un ondée vint à tomber.</example>
+        <example type="correct">Il arriva et <marker>voilà</marker> qu’un ondée vint à tomber.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">que|en</token>
+          <marker><token>voila</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voilà</suggestion> ?</message>
+        <example type="incorrect">Les beaux fruits que <marker>voila</marker> !</example>
+        <example type="correct">Les beaux fruits que <marker>voilà</marker> !</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token min="0" max="1">
+            <exception regexp="yes">il|elle|on</exception>
+            <exception postag="Z.*" postag_regexp="yes"/>
+          </token>
+          <marker><token>voila</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voilà</suggestion> ?</message>
+        <example type="incorrect"><marker>Voila</marker> ce qu’il a dit.</example>
+        <example type="correct">Voilà ce qu’il a dit.</example>
+        <example type="incorrect">Et <marker>voila</marker> ce qu’il a dit.</example>
+        <example type="incorrect">Vous <marker>voila</marker> arrivé.</example>
+        <example type="correct">Vous voilà arrivé.</example>
+        <example type="correct">Et voilà ce qu’il a dit.</example>
+        <example type="correct">Elle voila son visage.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>voila-t-il</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voilà-t-il</suggestion> ?</message>
+        <example type="incorrect">Ne <marker>voila-t-il</marker> pas ce qu’on appelle un signe des temps ?</example>
+        <example type="correct">Ne <marker>voilà-t-il</marker> pas ce qu’on appelle un signe des temps ?</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Grammaire">
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
