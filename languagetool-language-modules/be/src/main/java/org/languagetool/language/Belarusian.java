@@ -29,7 +29,7 @@ import org.languagetool.rules.UppercaseSentenceStartRule;
 import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.be.MorfologikBelarusianSpellerRule;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.be.BelarusianTagger;
+import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -61,7 +61,7 @@ public class Belarusian extends Language {
     @Override
     public Tagger getTagger() {
         if (tagger == null) {
-            tagger = new BelarusianTagger();
+            tagger = new DemoTagger();
         }
         return tagger;
     }
