@@ -2394,7 +2394,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>en</token>
+          <token>en<exception scope="previous">il</exception></token>
           <marker><token>soit</token></marker>
           <token postag="M fin"/>
         </pattern>
@@ -2403,6 +2403,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Un drap en <marker>soie</marker>.</example>
         <example type="incorrect">Il n’est pas mauvais en <marker>soit</marker>.</example>
         <example type="correct">Il n’est pas mauvais en <marker>soi</marker>.</example>
+        <example type="correct">Quoi qu’il en soit.</example>
       </rule>
       <rule>
         <pattern>
@@ -8555,7 +8556,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[^ae][-‑‐]t[-‑‐](il|elle|on)<exception regexp="yes">convainc[-‑‐]t[-‑‐].*</exception></token>
+          <token regexp="yes">.*[^ae][-‑‐]t[-‑‐](il|elle|on)<exception regexp="yes">(?:convainc|voilà)[-‑‐]t[-‑‐].*</exception></token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec les verbes se terminant en a ou e et avec le verbe convaincre.</message>
         <url>http://66.46.185.79/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
@@ -8563,6 +8564,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Quand arrivera-t-il ?</example>
         <example type="correct">Quand arrive-t-il ?</example>
         <example type="correct">Vous convainc-t-il par ses arguments ?</example>
+        <example type="correct">Ne voilà-t-il pas ce qu’on appelle un signe des temps ?</example>
       </rule>
       <rule>
         <pattern>
