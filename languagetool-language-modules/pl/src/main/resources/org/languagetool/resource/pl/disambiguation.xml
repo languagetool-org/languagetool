@@ -1662,6 +1662,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Napój[napoić/verb:impt:sg:sec:perf:refl.nonrefl,napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]" outputform="Napój[napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]"><marker>Napój</marker> miłosny</example>
     </rule>
 
+
+    <rule id="prep_gen_co" name="co to nie genetiwus po przyimku">
+        <pattern>
+            <token postag="prep:gen.*" postag_regexp="yes"/>
+            <marker><token postag="subst:sg:gen:n2">co</token></marker>
+        </pattern>
+        <disambig action="remove" postag="subst:sg:gen:n2"/>
+    </rule>
+
+
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
         <rule>
@@ -1685,7 +1695,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
        		<unify>
        			<feature id="case"/>
        			<token postag="prep:.*" postag_regexp="yes"><exception postag="prep.*|adv" negate_pos="yes" postag_regexp="yes"/></token>
-                <token postag_regexp="yes" postag="(adj|subst|ppron).*"><exception postag="subst:sg:gen:n2">co</exception><exception>pewne</exception></token>
+                <token postag_regexp="yes" postag="(adj|subst|ppron).*"><exception>pewne</exception></token>
        		</unify>
        	</pattern>
        	<disambig action="unify"/>
@@ -4342,110 +4352,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="wiodącą[wieść/pact:sg:acc.inst:f:imperf:aff:refl.nonrefl]" outputform="wiodącą[wieść/adj:sg:acc.inst:f:pos]">Szedłem drogą <marker>wiodącą</marker> w stronę wioski.</example>
     </rule>
 
-    <rulegroup name="co innego" id="CO_INNEGO">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>co</token>
-                </marker>
-                <token>innego</token>
-            </pattern>
-            <disambig action="add"><wd lemma="co" pos="co_innego">co</wd></disambig>
-            <example type="untouched">To było coś innego.</example>
-            <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/co_innego,co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]">To było <marker>co</marker> innego.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>czym</token>
-                </marker>
-                <token>innym</token>
-            </pattern>
-            <disambig action="add"><wd lemma="co" pos="czym_innym">czym</wd></disambig>
-            <example type="untouched">To było coś innego.</example>
-            <example type="ambiguous" inputform="czym[co/subst:sg:loc:n2]" outputform="czym[co/czym_innym,co/subst:sg:loc:n2]">Mowa o <marker>czym</marker> innym.</example>
-        </rule>
-    </rulegroup>
-
-    <rule name="co drugi" id="CO_DRUGI">
-        <pattern>
-            <marker>
-                <token>co<exception scope="previous">,</exception></token>
-            </marker>
-            <token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty</token>
-        </pattern>
-        <disambig postag="qub"/>
-        <example type="untouched">To było coś innego.</example>
-        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
-                 outputform="co[co/qub]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
-    </rule>
-
-    <rule name="co niemiara" id="co_niemiara">
-        <pattern>
-            <marker>
-                <token postag="qub">co</token>
-                <token postag="burk">niemiara</token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
-                 outputform="co[co/qub]">Pracy miałem <marker>co</marker> niemiara.</example>
-    </rule>
-
-    <rule id="co_qub_com_sup" name="co jako kublik przed stopniem wyższym i najwyższym">
-        <pattern>
-            <unify>
-                   <feature id="case"/>
-                    <token postag_regexp="yes" postag="prep.*"/>
-                <unify-ignore>
-                    <token postag="qub">co</token>
-                </unify-ignore>
-                    <token postag="ad[vj].*(:?com|sup)" postag_regexp="yes"/>
-            </unify>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
-                 outputform="co[co/qub]">Postroili się też na to swoje święto w <marker>co</marker> najbogatsze żupany, szuby, kiereje.</example>
-        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/qub]">Przy <marker>co</marker> trudniejszych fragmentach robił sobie notatki.</example>
-        <example type="untouched">I, co najważniejsze, jemy kiełbasę.</example>
-    </rule>
-
-    <rulegroup name="To co...? -> conj" id="TO_CO">
-        <rule>
-            <pattern>
-                <token postag="SENT_START"/>
-                <token min="0" max="1">no</token>
-                <marker>
-                    <token>to</token>
-                </marker>
-                <token skip="-1" regexp="yes">co|kto</token>
-                <token postag="SENT_END">?</token>
-            </pattern>
-            <disambig postag="conj"/>
-            <example type="untouched">To co zrobiłeś jest chamstwem.</example>
-            <example type="ambiguous" inputform="To[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?</example>
-            <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START"/>
-                <token min="0" max="1">no</token>
-                <marker>
-                    <token>to</token>
-                </marker>
-                <token skip="-1" regexp="yes">co|kto</token>
-                <token>?</token>
-                <token>.</token>
-                <token>.</token>
-                <token postag="SENT_END">.</token>
-            </pattern>
-            <disambig postag="conj"/>
-            <example type="untouched">To co zrobiłeś jest chamstwem.</example>
-            <example type="ambiguous" inputform="To[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?...</example>
-            <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
-        </rule>
-    </rulegroup>
-
     <rule name="Jest to -> ten/adj" id="TO_TEN_ADJ">
         <pattern>
             <token regexp="yes">jest|będzie|był[oa]?</token>
@@ -5194,6 +5100,113 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="ign"/>
     </rule>
+
+    <rulegroup name="co innego" id="CO_INNEGO">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>co</token>
+                </marker>
+                <token>innego</token>
+            </pattern>
+            <disambig action="add"><wd lemma="co" pos="co_innego">co</wd></disambig>
+            <example type="untouched">To było coś innego.</example>
+            <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/co_innego,co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]">To było <marker>co</marker> innego.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>czym</token>
+                </marker>
+                <token>innym</token>
+            </pattern>
+            <disambig action="add"><wd lemma="co" pos="czym_innym">czym</wd></disambig>
+            <example type="untouched">To było coś innego.</example>
+            <example type="ambiguous" inputform="czym[co/subst:sg:loc:n2]" outputform="czym[co/czym_innym,co/subst:sg:loc:n2]">Mowa o <marker>czym</marker> innym.</example>
+        </rule>
+    </rulegroup>
+
+
+    <rule name="co drugi" id="CO_DRUGI">
+        <pattern>
+            <marker>
+                <token>co<exception scope="previous">,</exception></token>
+            </marker>
+            <token inflected="yes" regexp="yes">drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty</token>
+        </pattern>
+        <disambig postag="qub"/>
+        <example type="untouched">To było coś innego.</example>
+        <example type="ambiguous" inputform="co[co/subst:sg:acc:n2]"
+                 outputform="co[co/qub]">Spotykamy się w <marker>co</marker> drugi wtorek.</example>
+    </rule>
+
+    <rule name="co niemiara" id="co_niemiara">
+        <pattern>
+            <marker>
+                <token postag="qub">co</token>
+                <token postag="burk">niemiara</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]"
+                 outputform="co[co/qub]">Pracy miałem <marker>co</marker> niemiara.</example>
+    </rule>
+
+    <rule id="co_qub_com_sup" name="co jako kublik przed stopniem wyższym i najwyższym">
+        <pattern>
+            <unify>
+                <feature id="case"/>
+                <token postag_regexp="yes" postag="prep.*"/>
+                <unify-ignore>
+                    <marker>
+                    <token>co</token>
+                    </marker>
+                </unify-ignore>
+                <token postag="ad[vj].*(:?com|sup)" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="replace"><wd pos="qub" lemma="co"/></disambig>
+        <example type="ambiguous" inputform="co[co/subst:sg:acc:n2]"
+                 outputform="co[co/qub]">Postroili się też na to swoje święto w <marker>co</marker> najbogatsze żupany, szuby, kiereje.</example>
+        <example type="ambiguous" inputform="co[co/comp,co/prep:acc,co/prep:nom,co/qub,co/subst:sg:acc:n2,co/subst:sg:gen:n2,co/subst:sg:nom:n2]" outputform="co[co/qub]">Przy <marker>co</marker> trudniejszych fragmentach robił sobie notatki.</example>
+        <example type="untouched">I, co najważniejsze, jemy kiełbasę.</example>
+    </rule>
+
+    <rulegroup name="To co...? -> conj" id="TO_CO">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="1">no</token>
+                <marker>
+                    <token>to</token>
+                </marker>
+                <token skip="-1" regexp="yes">co|kto</token>
+                <token postag="SENT_END">?</token>
+            </pattern>
+            <disambig postag="conj"/>
+            <example type="untouched">To co zrobiłeś jest chamstwem.</example>
+            <example type="ambiguous" inputform="To[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?</example>
+            <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <token min="0" max="1">no</token>
+                <marker>
+                    <token>to</token>
+                </marker>
+                <token skip="-1" regexp="yes">co|kto</token>
+                <token>?</token>
+                <token>.</token>
+                <token>.</token>
+                <token postag="SENT_END">.</token>
+            </pattern>
+            <disambig postag="conj"/>
+            <example type="untouched">To co zrobiłeś jest chamstwem.</example>
+            <example type="ambiguous" inputform="To[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="To[to/conj]"><marker>To</marker> co mam zrobić?...</example>
+            <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">No <marker>to</marker> co mam zrobić?...</example>
+        </rule>
+    </rulegroup>
 
     <rule id="AD_FINEM" name="ad finem -> zwrot obcojęzyczny">
         <pattern>
