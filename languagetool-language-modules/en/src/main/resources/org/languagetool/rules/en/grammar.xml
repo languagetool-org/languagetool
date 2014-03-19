@@ -111,7 +111,7 @@ USA
                 <example type="correct">Best of all though, the review will be great.</example>
             </rule>          
         </rulegroup>
-	    <rule id="ALSO_KNOW" name="also know (known)">
+        <rule id="ALSO_KNOW" name="also know (known)">
             <pattern>
                    <token>also</token>
                    <marker>
@@ -11098,7 +11098,30 @@ USA
         </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
-    <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
+        <rule id="WITCH_IS_WRONG" name="witch (which) is wrong">
+            <pattern>
+                <marker>
+                    <token>witch</token>
+                </marker>
+                <token regexp='yes'>is|was</token>
+                <token regexp='yes'>wrong|right</token>
+            </pattern>
+            <message>Did you mean <suggestion>which</suggestion>?</message>
+            <example type='incorrect' correction="which">Which position is right and <marker>witch</marker> is wrong</example>
+            <example type='correct'>Which position is right and <marker>which</marker> is wrong</example>
+        </rule>
+        <rule id="THEY_WHERE" name="where (were)">
+            <pattern>
+                <token regexp='yes'>they|we</token>
+                <marker>
+                    <token>where</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>were</suggestion>, the simple past of "to be"?</message>
+            <example type='incorrect' correction="were">It seems unlikely that they <marker>where</marker> going to achieve it.</example>
+            <example type='correct'>It seems unlikely that they <marker>were</marker> going to achieve it.</example>
+        </rule>
+        <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
     <rule>
   	<pattern>
     	<marker>
@@ -11139,7 +11162,7 @@ USA
     <example type="correct">He will radically alter his work.</example>
     </rule>
     </rulegroup>
-    <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
+        <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
     <rule>
     <pattern>
         <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
@@ -11411,19 +11434,31 @@ USA
             <example type="incorrect" correction="believe">We <marker>belief</marker> that this is wrong.</example>
             <example type="incorrect" correction="believes">He <marker>beliefs</marker> that this is wrong.</example>
         </rule>
-        <rule id="PROVE_PROOF" name="prove (proof)">
-            <pattern>
-                <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/><exception>former</exception></token>
-              <marker>
-                  <token regexp="yes">proves?</token>
-              </marker>
-            </pattern>
-            <message>Did you mean <suggestion><match no="2" regexp_match="ove" regexp_replace="oof"/></suggestion> (noun) instead of <match no="2"/> (verb)?</message>
-            <short>Possible typo</short>
-            <example type="correct">Their <marker>proof</marker> is wrong.</example>
-            <example type="incorrect" correction="proof">Their <marker>prove</marker> is wrong.</example>
-<!--             <example type="incorrect" correction="proof">The <marker>prove</marker> is wrong.</example> TODO-->
-        </rule>
+        <rulegroup id="PROVE_PROOF" name="prove (proof)">
+            <rule>
+                <pattern>
+                    <token>prove</token>
+                    <token>of</token>
+                    <token>concept</token>
+                </pattern>
+                <message>Did you mean <suggestion>proof of concept</suggestion>?</message>
+                <example type='incorrect' correction="proof of concept">It's just a <marker>prove of concept</marker>.</example>
+                <example type='correct'>It's just a <marker>proof of concept</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="JJ|PRP\$" postag_regexp="yes"><exception postag="JJ|PRP\$" postag_regexp="yes" negate_pos="yes"/><exception>former</exception></token>
+                  <marker>
+                      <token regexp="yes">proves?</token>
+                  </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="ove" regexp_replace="oof"/></suggestion> (noun) instead of <match no="2"/> (verb)?</message>
+                <short>Possible typo</short>
+                <example type="correct">Their <marker>proof</marker> is wrong.</example>
+                <example type="incorrect" correction="proof">Their <marker>prove</marker> is wrong.</example>
+                <!--<example type="incorrect" correction="proof">The <marker>prove</marker> is wrong.</example> TODO-->
+            </rule>
+        </rulegroup>
         <rulegroup id="IT_SEAMS" name="it seams (seems)">
             <rule>
                 <pattern>
