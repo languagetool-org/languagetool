@@ -14884,6 +14884,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="DE_A_PEU" name="de a peu">
+            <pattern>
+                <token>de</token>
+                <token>a</token>
+                <token>peu</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>de peu</suggestion>
+            <suggestion>d'infanteria</suggestion>
+            <suggestion>que va a peu</suggestion>
+            <suggestion>del carrer</suggestion>
+            <example type="incorrect"><marker>de a peu</marker></example>
+            <example type="correct">de peu</example>
+        </rule>
         <rule id="FER_A_VIA" name="fer a via">
             <pattern>
                 <token inflected='yes'>fer</token>
@@ -19981,6 +19995,28 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PETROLIFER" name="petrolífer/petrolier">
+            <pattern>
+                <token regexp="yes" inflected="yes">indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
+                <token inflected="yes">petrolífer</token>
+            </pattern>
+            <message>Paraula inadequada en aquest context. "Petrolífer" vol dir només "que conté petroli".</message>
+            <suggestion><match no="1"/> <match no="2" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">petrolier</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/petrolifer</url>
+            <short>Error de context</short>
+            <example type="incorrect" correction="indústries petrolieres"><marker>indústries petrolíferes</marker></example>
+            <example type="correct">indústria petroliera</example>
+        </rule>
+        <rule id="PORTANTVEUS" name="portantveus / portaveus">
+            <pattern>
+                <token>portantveus</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>portaveus</suggestion>? "Portantveus" existeix com a càrrec històric, no actual.</message>
+            <url>http://esadir.cat/entrades/fitxa/id/2177</url>
+            <short>Arcaisme</short>
+            <example type="incorrect" correction="portaveus">Els <marker>portantveus</marker> del partit.</example>
+            <example type="correct">Els portaveus del partit.</example>
+        </rule>
         <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
             <rule>
                 <pattern>
