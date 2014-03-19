@@ -7679,6 +7679,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
       <rule>
+        <antipattern>
+          <token regexp="yes">voulu|souhaité</token>
+          <token postag="V.* inf" postag_regexp="yes"></token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
           <token postag="N . p" postag_regexp="yes"><exception>fois</exception></token>
@@ -7694,6 +7698,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Les parties de poker qu’il <marker>a jouées</marker>.</example>
         <example type="correct">Le sac à main que j’ai acheté.</example>
         <example type="correct">Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
+        <example type="correct">Les lettres que j’ai voulu envoyer.</example>
       </rule>
       <rule>
         <pattern>
@@ -7713,6 +7718,10 @@ though, and has since been slightly modified)-->
         <example type="correct">Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token regexp="yes">voulu|souhaité</token>
+          <token postag="V.* inf" postag_regexp="yes"></token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
           <token postag="N f .*" postag_regexp="yes">
@@ -7737,6 +7746,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
         <example type="correct">L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
         <example type="correct">De la même nature que celles qui ont été saisies.</example>
+        <example type="correct">La lettre que j’ai voulu envoyer.</example>
       </rule>
       <rule>
         <pattern>
