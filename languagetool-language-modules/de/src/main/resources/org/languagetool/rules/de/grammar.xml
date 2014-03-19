@@ -54,6 +54,7 @@ $Id$
     <!ENTITY subende " hier als Substantiv gebraucht wird und daher großgeschrieben werden muss.">
     <!ENTITY advende " hier als Adverb gebraucht wird und daher kleingeschrieben werden muss.">
     <!ENTITY adjende " hier als Adjektiv gebraucht wird und daher kleingeschrieben werden muss.">
+    <!ENTITY verende " hier als Verb gebraucht wird und daher kleingeschrieben werden muss.">
     <!ENTITY inwend "In der Wendung ">
     <!ENTITY getrennt "Bitte prüfen Sie die Getrenntschreibung">
     <!ENTITY umgangsspr " ist eine umgangssprachliche Ausdrucksweise.">
@@ -109,7 +110,7 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
-        <rule id="ZUR_STANDE" name="zur Stande (zustande, zu Stande)">
+        <rule id="ZUR_STANDE" name="Möglicher Tippfehler: zur Stande (zustande, zu Stande)">
             <pattern>
                 <token>zur</token>
                 <token>Stande</token>
@@ -118,6 +119,16 @@ $Id$
             <example type='incorrect'>Keinen vernünftigen Gesichtsausdruck <marker>zur Stande</marker> bringen.</example>
             <example type='correct'>Keinen vernünftigen Gesichtsausdruck <marker>zustande</marker> bringen.</example>
         </rule>
+        <rulegroup id="BIT_62" name="Möglicher Tippfehler: 62-Bit (64-Bit) etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(62|34)\-bit.*</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="62|34" regexp_replace="32"/></suggestion> oder <suggestion><match no="1" regexp_match="62|34" regexp_replace="64"/></suggestion>?</message>
+                <example type="incorrect" correction="32-Bit-Version|64-Bit-Version">Du solltest die <marker>62-Bit-Version</marker> installieren</example>
+                <example type="correct">Du solltest die <marker>64-Bit-Version</marker> installieren</example>
+            </rule>
+        </rulegroup>
         <rule id="SUCH_SICH" name="Möglicher Tippfehler: lasst/lässt such (sich)">
             <pattern>
                 <token regexp="yes">lassen|lässt|wird|kann|darf|mag</token>
@@ -3481,7 +3492,7 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
-        <rule id="KEIM_NOMEN" name="Keim (Kein) Mensch(...)">
+        <rule id="KEIM_NOMEN" name="Mögliche Wortverwechslung: Keim (Kein) Mensch etc.">
             <pattern>
                 <marker>
                     <token>Keim</token>
@@ -5433,7 +5444,7 @@ $Id$
                 <example type="incorrect" correction="OpenStreetMap">Bei <marker>Openstreetmaps</marker> handelt es sich um eine freie Geodatenbank.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IF_SCHLEIFE" name="'if-Schleife (if-Bedingung)'">
+        <rulegroup id="IF_SCHLEIFE" name="Fachbegriff: 'if-Schleife (if-Bedingung)'">
             <rule>
                 <pattern>
                     <token regexp="yes">if-Schleifen?</token>
@@ -5452,7 +5463,7 @@ $Id$
                 <example type="incorrect" correction="if-Bedingung">Hier muss man eine <marker>if Schleife</marker> verwenden.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="JAVASCRIPT_APPLET" name="'JavaScript-Applet (Java-Applet)'">
+        <rulegroup id="JAVASCRIPT_APPLET" name="Fachbegriff: 'JavaScript-Applet (Java-Applet)'">
             <rule>
                 <pattern>
                     <token regexp="yes">JavaScript-Applets?</token>
@@ -10878,6 +10889,45 @@ $Id$
                 <example type="incorrect" correction="Öffnen">Das <marker>öffnen</marker> von Bierflaschen mit dem Feuerzeug sollte als elementare Kulturtechnik in der Schule unterrichtet werden.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SUB_VER_KLEIN" name="Groß-/Kleinschreibung: Verben, die auch Substantive sein können (z.B. 'ich Besuche (besuche)) (nur 1. Person Singular)'">
+            <!-- TODO weitere Personen -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="VER:1.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</exception></token>
+                    <marker>
+                        <and>
+                            <token postag="VER:1.*" postag_regexp="yes"/>
+                            <token postag="SUB.*" postag_regexp="yes"/>
+                        </and>
+                    </marker>
+                    <token skip="-1">ich<exception scope="next" postag="VER:1.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</exception></token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startlower"/></suggestion>&verende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="besuche">Momentan <marker>Besuche</marker> ich die katholische Grundschule in Kaarst.</example>
+                <example type="correct">Momentan <marker>besuche</marker> ich die katholische Grundschule in Kaarst.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="VER:1.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</exception></token>
+                    <token regexp="yes">[Ii]ch</token>
+                    <marker>
+                        <and>
+                            <token postag="VER:1.*" postag_regexp="yes" skip="-1"><exception scope="next" postag="VER:1.*" postag_regexp="yes" regexp="yes">[a-zäöü].*</exception></token>
+                            <token postag="SUB.*" postag_regexp="yes"/>
+                        </and>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startlower"/></suggestion>&verende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="besuche">Ich <marker>Besuche</marker> momentan die katholische Grundschule in Kaarst.</example>
+<!--                 <example type="incorrect" correction="besuche">Ich <marker>Besuche</marker> eine Schule in Neuss.</example> -->
+                <example type="correct">Ich <marker>besuche</marker> momentan die katholische Grundschule in Kaarst.</example>
+                <example type="correct">So hasste ich <marker>Besuche</marker> bei meinen Großeltern.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IM_KLAREN" name="Groß-/Kleinschreibung: 'im klaren (Klaren)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -12940,7 +12990,7 @@ $Id$
                 <example type="incorrect" correction="Klappe">Ich mit meiner großen <marker>klappe</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SUBSTANTIVE_KLEIN" name="Groß-/Kleinschreibung: Substantive, die auch Verben oder Adjektive sein können">
+        <rulegroup id="SUBSTANTIVE_KLEIN" name="Groß-/Kleinschreibung: Substantive, die auch Verben oder Adjektive sein können (z.B. 'die aussagen (Aussagen)')">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
@@ -23202,7 +23252,7 @@ $Id$
                 <pattern>
                     <token><exception>,</exception></token>
                     <marker>
-                        <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:MAS.*" postag_regexp="yes"/>
+                        <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:MAS.*" postag_regexp="yes"/>
                         <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:MAS.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                         <token postag="SUB:NOM:SIN:MAS"/>
                     </marker>
@@ -23216,7 +23266,7 @@ $Id$
                 <pattern>
                     <token><exception>,</exception></token>
                     <marker>
-                        <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:FEM.*" postag_regexp="yes"/>
+                        <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:FEM.*" postag_regexp="yes"/>
                         <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                         <token postag="SUB:NOM:SIN:FEM"/>
                     </marker>
@@ -23234,7 +23284,7 @@ $Id$
                 <pattern>
                     <token><exception>,</exception></token>
                     <marker>
-                        <token postag="(ART:(IND|DEF)|PRO:POS):NOM:SIN:NEU.*" postag_regexp="yes"/>
+                        <token postag="(ART:(IND|DEF)|PRO:(IND|POS)):NOM:SIN:NEU.*" postag_regexp="yes"/>
                         <token postag="ADJ:PRD:GRU"><exception postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                         <token postag="SUB:NOM:SIN:NEU"/>
                     </marker>
@@ -23244,6 +23294,8 @@ $Id$
                 <example type="incorrect"><marker>Mein klein Haus</marker> ist zu klein.</example>
                 <example type="correct"><marker>Mein kleines Haus</marker> ist zu klein.</example>
                 <example type="correct"><marker>Das bundlose Griffbrett</marker> ist schön.</example>
+                <example type="incorrect"><marker>Jedes möglich Wort</marker> enthält nur genau ein „a“.</example>
+                <example type="correct"><marker>Jedes mögliche Wort</marker> enthält nur genau ein „a“.</example>
             </rule>
         </rulegroup>
         <rule id="PASSIV_KEIN_PARTIZIP" name="Grammatik: fehlerhafte Passivkonstruktion (z.B. 'ist fahndet (gefahndet) worden')">
