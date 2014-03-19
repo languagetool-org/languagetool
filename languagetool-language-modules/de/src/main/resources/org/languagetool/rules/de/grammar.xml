@@ -10691,6 +10691,17 @@ $Id$
                 <example type="incorrect" correction="Liebe Grüße|Lieber Gruß"><marker>LG</marker></example>
             </rule>
         </rulegroup>
+        <rule id="SIE_GROSS" name="Möglicherweise fälschlich großgeschriebenes 'Sie'">
+            <pattern case_sensitive='yes'>
+                <token postag='VER:3:SIN:PRÄ:.*' postag_regexp='yes'/>
+                <marker>
+                    <token>Sie</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="alllower"/></suggestion>?</message>
+            <example type='incorrect'>Aber gibt <marker>Sie</marker> uns das?</example>
+            <example type='correct'>Aber gibt <marker>sie</marker> uns das?</example>
+        </rule>
         <rulegroup id="SIE_ANREDE" name="Möglicherweise fälschlich kleingeschriebenes 'sie' markieren" default="off">
             <rule>
                 <pattern case_sensitive="yes">
