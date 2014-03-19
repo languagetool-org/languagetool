@@ -61,7 +61,7 @@ dictionaries in morfologik-stemming Java library.
 
 TAGSET
 
-The tagset used is roughly similar to IPI/NKJP corpus tagset, and described in more detail in the readme_pl.txt file.
+The tagset used is roughly similar to IPI/NKJP corpus tagset, and described in more detail in the tagset.txt file.
 See also www.nkjp.pl.
 
 Morfologik, (c) 2007-2013 Marcin Miłkowski.
