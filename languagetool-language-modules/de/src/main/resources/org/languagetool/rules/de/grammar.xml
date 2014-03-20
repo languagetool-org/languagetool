@@ -10704,6 +10704,8 @@ $Id$
         </rulegroup>
         <rule id="SIE_GROSS" name="Möglicherweise fälschlich großgeschriebenes 'Sie'">
             <pattern case_sensitive='yes'>
+                <token postag='SENT_START'/>
+                <token postag='ADV.*' postag_regexp='yes' min="0"/>
                 <token postag='VER:3:SIN:PRÄ:.*' postag_regexp='yes'/>
                 <marker>
                     <token>Sie</token>
@@ -10711,7 +10713,10 @@ $Id$
             </pattern>
             <message>Meinten Sie <suggestion><match no="2" case_conversion="alllower"/></suggestion>?</message>
             <example type='incorrect'>Aber gibt <marker>Sie</marker> uns das?</example>
+            <example type='incorrect'>Gibt <marker>Sie</marker> uns das?</example>
             <example type='correct'>Aber gibt <marker>sie</marker> uns das?</example>
+            <example type='correct'>Gibt <marker>sie</marker> uns das?</example>
+            <example type='correct'>Der Bus wird <marker>Sie</marker> zum Stadtzentrum bringen.</example>
         </rule>
         <rulegroup id="SIE_ANREDE" name="Möglicherweise fälschlich kleingeschriebenes 'sie' markieren" default="off">
             <rule>
