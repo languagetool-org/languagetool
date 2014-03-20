@@ -10711,9 +10711,9 @@ $Id$
                     <token>Sie</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="2" case_conversion="alllower"/></suggestion>?</message>
-            <example type='incorrect'>Aber gibt <marker>Sie</marker> uns das?</example>
-            <example type='incorrect'>Gibt <marker>Sie</marker> uns das?</example>
+            <message>Meinten Sie <suggestion><match no="4" case_conversion="alllower"/></suggestion>?</message>
+            <example type='incorrect' correction="sie">Aber gibt <marker>Sie</marker> uns das?</example>
+            <example type='incorrect' correction="sie">Gibt <marker>Sie</marker> uns das?</example>
             <example type='correct'>Aber gibt <marker>sie</marker> uns das?</example>
             <example type='correct'>Gibt <marker>sie</marker> uns das?</example>
             <example type='correct'>Der Bus wird <marker>Sie</marker> zum Stadtzentrum bringen.</example>
@@ -21390,7 +21390,7 @@ $Id$
                         <token>vorgehen</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>Vorgehen</suggestion>?</message>
+                <message>&subanfang;<suggestion>Vorgehen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Wir werden das weitere <marker>Vorgehen</marker> zusammen abstimmen.</example>
                 <example type="incorrect">Wir werden das weitere <marker>vorgehen</marker> zusammen abstimmen.</example>
@@ -23187,6 +23187,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Die Präposition '\2' erfordert in der Regel den Genitiv.</message>
+                <suggestion>\2 <match no="3" postag_regexp="yes" postag="(.*)(DAT|NOM|AKK)(.*)" postag_replace="$1GEN$3"/></suggestion>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Praeposition/Kasus/Genitiv.html</url>
                 <short>Diese Präposition erfordert den Genitiv</short>
                 <example type="correct">von Rechts wegen die Bestrafung</example>
@@ -23531,6 +23532,12 @@ $Id$
         </rulegroup>
         <rulegroup id="ART_ADJ_SOL" name="Grammatik: Stark oder gemischt flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
             <rule>
+                <antipattern>
+                    <token>,</token>
+                    <token postag="PRP:.*" postag_regexp="yes"/>
+                    <token regexp="yes">der|die|das|des|dem|den|im</token>
+                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes"><exception scope="current" postag="ADJ:.*:DEF" postag_regexp="yes"/><exception scope="current" postag="ADJ:PRD.*" postag_regexp="yes"/><exception scope="current" postag="ADV.*|ZUS.*" postag_regexp="yes"/></token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">,</token>
                     <marker>
@@ -23541,18 +23548,19 @@ $Id$
                     <token><exception postag="ADJ:.*" postag_regexp="yes"/><exception postag="UNKNOWN"/></token> <!-- TODO must match 2nd token in KNG -->
                 </pattern>
                 <message>Nach einem Artikel steht in der Regel kein stark oder gemischt flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen').</message>
+                <suggestion>\2 <match no="3" postag_regexp="yes" postag="(.*)(SOL|IND)(.*)" postag_replace="$1DEF$3"/></suggestion>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Adjektiv/Deklinationstyp/index.html?MenuId=Word313#Anchor-Deklinationstypen-35882</url>
-                <example type="incorrect"><marker>Im mentalem</marker> Lexikon ist viel gespeichert.</example>
-                <example type="incorrect">In <marker>dem heißem</marker> Ofen ist heiße Luft.</example>
-                <example type="incorrect">Die Regel gilt auch <marker>im beruflichem</marker> Umfeld.</example>
-                <example type="incorrect">Meiner Meinung nach war <marker>das duales</marker> Studium eine gute Wahl</example>
-                <example type="correct">Meiner Meinung nach war <marker>das duale</marker> Studium eine gute Wahl</example>
+                <example type="incorrect" correction="Im mentalen"><marker>Im mentalem</marker> Lexikon ist viel gespeichert.</example>
+                <example type="incorrect" correction="dem heißen">In <marker>dem heißem</marker> Ofen ist heiße Luft.</example>
+                <example type="incorrect" correction="im beruflichen">Die Regel gilt auch <marker>im beruflichem</marker> Umfeld.</example>
+                <example type="incorrect" correction="das duale">Meiner Meinung nach war <marker>das duales</marker> Studium eine gute Wahl</example>
                 <example type="correct"><marker>Im mentalen</marker> Lexikon ist viel gespeichert.</example>
+                <example type="correct">Meiner Meinung nach war <marker>das duale</marker> Studium eine gute Wahl</example>
                 <example type="correct">In <marker>dem heißen</marker> Ofen ist heiße Luft.</example>
                 <example type="correct">Die Sachen, <marker>die menschlichem</marker> Handeln entsprechen.</example>
                 <example type="correct">Die Fragen <marker>der unterschiedlichem</marker> Glauben angehörigen Menschen sind schwer.</example>
                 <example type="correct">Sie sind von der <marker>früher verbreiteten</marker> Vorstellung abgekommen.</example>
-<!--                 <example type="correct">Es ist der Planet, auf <marker>dem flüssiges</marker> Wasser zu finden ist.</example> TODO -->
+                <example type="correct">Es ist der Planet, auf <marker>dem flüssiges</marker> Wasser zu finden ist.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Grammatik: Starke, schwache oder gemischte Adjektiv-Flektion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
