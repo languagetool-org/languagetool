@@ -45,6 +45,16 @@ public class UkrainianTaggerTest extends TestCase {
       "300/[300]numr -- р/[р]todo -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
        tokenizer, tagger);
     
+    // one-way case sensitivity
+    TestTools.myAssert("києві", "києві/[кий]noun:m:v_dav", tokenizer, tagger);
+    TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav", tokenizer, tagger);
+    TestTools.myAssert("віл", "віл/[віл]noun:m:v_naz", tokenizer, tagger);
+    TestTools.myAssert("Віл", "Віл/[віл]noun:m:v_naz", tokenizer, tagger);
+    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:nv|ВІЛ/[віл]noun:m:v_naz", tokenizer, tagger);
+    TestTools.myAssert("далі", "далі/[далі]adv", tokenizer, tagger);
+    TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis|Далі/[Далі]noun:m:nv|Далі/[далі]adv", tokenizer, tagger);
+    TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz|Бен/[бен]todo", tokenizer, tagger);
+    TestTools.myAssert("бен", "бен/[бен]todo", tokenizer, tagger);
   
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:f:v_zna -- порушено/[порушено]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",

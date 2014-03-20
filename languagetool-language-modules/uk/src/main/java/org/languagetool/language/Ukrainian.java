@@ -148,8 +148,8 @@ public class Ukrainian extends Language {
 //            UppercaseSentenceStartRule.class,
             WhitespaceRule.class,
             // specific to Ukrainian:
-            SimpleReplaceRule.class//,
-//            TokenAgreementRule.class
+            SimpleReplaceRule.class,
+            TokenAgreementRule.class
     );
   }
   

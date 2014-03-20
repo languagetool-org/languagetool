@@ -6,16 +6,17 @@
 <rules lang="uk"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
-    <!-- TODO: взяти до уваги прикметники, напр. Друга Світова, Перший Національний тощо -->
+    <!-- TODO: взяти до уваги прикметники, напр. Друга Світова тощо -->
     <rule name="Слова з великої літери в середині речення - це іменники" id="PROPER_NOUN_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">
-            <token regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+<exception scope="previous" postag="SENT_START"/></token>
+            <token regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+<exception scope="previous" postag="SENT_START"/><exception regexp="yes">Друга|Другої|Другій|Другу|Другою|Курську|Курська|Донецьку|Донецька|Луганська|Луганську|Золота|Золоті</exception></token>
         </pattern>
         <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
         <example type="ambiguous" 
             inputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz,любий/adj:f:v_naz]" 
             outputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz]">Агов <marker>Люба</marker></example>
-        <example type="untouched">Їм треба в їхати.</example>
+        <example type="untouched">Тоді почалася Друга світова війна.</example>
+        <example type="untouched">Знати про Курську дугу.</example>
     </rule>
 
 </rules>

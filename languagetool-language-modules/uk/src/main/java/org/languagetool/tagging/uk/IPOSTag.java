@@ -24,9 +24,11 @@ public enum IPOSTag {
     adj("adj"),
     verb("verb"),
     adv("adv"),
+    part("aprt"),
     numr("numr"),
     dieprysl("dieprysl"),
     prysudk_sl("prysudk_sl"),
+    insert_sl("insert_sl"),
     todo("todo");
     
     private final String text;
@@ -37,6 +39,10 @@ public enum IPOSTag {
 
 		public String getText() {
 			return text;
+		}
+		
+		public boolean match(String posTag) {
+			return posTag != null && posTag.startsWith(this.name());
 		}
     
 }
