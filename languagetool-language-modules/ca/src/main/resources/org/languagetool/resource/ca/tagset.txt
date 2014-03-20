@@ -1,0 +1,39 @@
+
+The tags used by the Catalan tagger are mostly based on Freeling.
+See: http://nlp.lsi.upc.edu/freeling/doc/tagsets/tagset-ca.html
+
+For example, "cap" will be tagged with these strings:
+
+wordform lemma postag 
+
+cap cabre VMIP1S0Z
+cap cabre VMIP3S00
+cap cabre VMM02S00
+cap cap DI0CS0
+cap cap NCCS000
+cap cap PI0CS000
+cap cap SPS00
+cap capar VMIP1S0B
+
+
+Use the online text analyser at http://community.languagetool.org/analysis/index?lang=ca
+to see how words are tagged by LanguageTool.
+
+
+** Rule Examples **
+
+If you want to have a rule that matches all adjectives, use this:
+
+  <token postag_regexp="yes" postag="A.*" />
+  
+For a rule that matches masculine singular adjectives, use this:
+
+  <token postag_regexp="yes" postag="A..MS." />
+
+For a rule that matches plural femenine nouns use:
+
+  <token postag_regexp="yes" postag="NCFP.*" />
+
+For a rule that matches singular nouns use:
+
+  <token postag_regexp="yes" postag="NC.S.*" />
