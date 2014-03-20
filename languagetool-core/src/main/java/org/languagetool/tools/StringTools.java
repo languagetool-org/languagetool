@@ -288,7 +288,7 @@ public final class StringTools {
    * Escapes these characters: less than, greater than, quote, ampersand.
    */
   public static String escapeHTML(final String s) {
-    // this version is much faster than using s.replaceAll
+    // this version is much faster than using s.replaceAll()
     final StringBuilder sb = new StringBuilder();
     final int n = s.length();
     for (int i = 0; i < n; i++) {
@@ -345,18 +345,17 @@ public final class StringTools {
     final StringBuilder xml = new StringBuilder(200);
 
     if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
-      xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-      xml.append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" + " buildDate=\"")
+      xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+         .append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" + " buildDate=\"")
          .append(JLanguageTool.BUILD_DATE).append("\">\n");
     }
     
     if (lang != null || motherTongue != null) {
-      String languageXml;
-      languageXml = "<language ";
+      String languageXml = "<language ";
       if (lang != null) {
         languageXml += "shortname=\"" + lang.getShortNameWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
       }
-      if(null != motherTongue && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
+      if(motherTongue != null && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
         languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
       }
       languageXml += "/>\n";
@@ -366,8 +365,8 @@ public final class StringTools {
     final ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
-    final String START_MARKER = "__languagetool_start_marker";
-    contextTools.setErrorMarkerStart(START_MARKER);
+    final String startMarker = "__languagetool_start_marker";
+    contextTools.setErrorMarkerStart(startMarker);
     contextTools.setErrorMarkerEnd("");
 
     for (final RuleMatch match : ruleMatches) {
@@ -390,15 +389,15 @@ public final class StringTools {
       xml.append(" replacements=\"").append(escapeXMLForAPIOutput(listToString(
               match.getSuggestedReplacements(), "#"))).append('"');
       // get position of error in context and remove artificial marker again:
-      final int contextOffset = context.indexOf(START_MARKER);
-      context = context.replaceFirst(START_MARKER, "");
+      final int contextOffset = context.indexOf(startMarker);
+      context = context.replaceFirst(startMarker, "");
       context = context.replaceAll("[\n\r]", " ");
       xml.append(" context=\"").append(StringTools.escapeXML(context)).append('"')
          .append(" contextoffset=\"").append(contextOffset).append('"')
          .append(" offset=\"").append(match.getFromPos()).append('"')
          .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append('"');
       if (match.getRule().getUrl() != null) {
-          xml.append(" url=\"").append(escapeXMLForAPIOutput(match.getRule().getUrl().toString())).append('"');
+        xml.append(" url=\"").append(escapeXMLForAPIOutput(match.getRule().getUrl().toString())).append('"');
       }
       final Category category = match.getRule().getCategory();
       if (category != null) {
@@ -571,7 +570,7 @@ public final class StringTools {
    */
   public static String filterXML(final String str) {
     String s = str;       
-    s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");        
+    s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
     s = XML_PATTERN.matcher(s).replaceAll("");
     return s;
   }
