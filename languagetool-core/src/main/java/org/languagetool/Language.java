@@ -233,6 +233,7 @@ public abstract class Language {
    * Get the location of the rule file(s).
    * @deprecated use {@link #getRuleFileNames()} instead (deprecated since 2.3)
    */
+  @Deprecated
   public List<String> getRuleFileName() {
     return getRuleFileNames();
   }
@@ -585,7 +586,9 @@ public abstract class Language {
    * @param messages {{@link ResourceBundle} language bundle to translate the info
    * @return A list of maintainers, sorted by name of language.
    * @since 0.9.9
+   * @deprecated iterate over {@link #REAL_LANGUAGES} and call {@link #getMaintainers()} (deprecated since 2.5)
    */
+  @Deprecated
   public static String getAllMaintainers(final ResourceBundle messages) {
     final StringBuilder maintainersInfo = new StringBuilder();
     final List<String> toSort = new ArrayList<>();
