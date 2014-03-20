@@ -11272,15 +11272,27 @@ $Id$
                         <token inflected="yes">net</token>
                     </marker>
                     <token regexp="yes">de|d'</token>
-                    <or>
-                        <token postag="D.*|NP.*|_possible_nompropi" postag_regexp="yes"/>
-                        <token regexp="yes">\p{Lu}.+</token>
-                    </or>
+                    <token postag="D.*|NP.*|_possible_nompropi" postag_regexp="yes"/>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect" correction="néta">És <marker>neta</marker> del president.</example>
+                <example type="correct">És net de sabó.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ser</token>
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">\p{Lu}.+</token>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <short>S'accentua quan és nom</short>
+                <example type="incorrect" correction="néta">És <marker>neta</marker> de Nyfdufer.</example>
                 <example type="correct">És net de sabó.</example>
             </rule>
         </rulegroup>
