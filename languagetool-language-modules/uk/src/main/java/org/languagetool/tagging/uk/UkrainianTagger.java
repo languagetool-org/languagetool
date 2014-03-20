@@ -58,6 +58,7 @@ public class UkrainianTagger extends BaseTagger {
   public UkrainianTagger() {
     super();
     setLocale(new Locale("uk", "UA"));
+    dontTagLowercaseWithUppercase();
   }
   
   @Override
