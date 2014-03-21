@@ -18,12 +18,8 @@
  */
 package org.languagetool.tools;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.*;
 import java.util.Collection;
@@ -320,7 +316,7 @@ public final class StringTools {
    * 
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
-   * @deprecated Use {@link #ruleMatchesToXML(List,String,int,XmlPrintMode)} instead
+   * @deprecated Use {@link #ruleMatchesToXML(List,String,int,XmlPrintMode)} instead (deprecated since ~ 1.0)
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize) {
@@ -335,82 +331,19 @@ public final class StringTools {
    * @param xmlMode how to print the XML
    * @param lang the language of the text (might be null)
    * @param motherTongue the mother tongue of the user (might be null)
+   * @deprecated Use {@link RuleAsXmlSerializer} instead (deprecated since 2.5)
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize, final XmlPrintMode xmlMode,
       final Language lang, final Language motherTongue) {
-    //
-    // IMPORTANT: people rely on this format, don't change it!
-    //
     final StringBuilder xml = new StringBuilder(200);
-
+    RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
     if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
-      xml.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-         .append("<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\"" + " buildDate=\"")
-         .append(JLanguageTool.BUILD_DATE).append("\">\n");
+      xml.append(serializer.getXmlStart(lang, motherTongue));
     }
-    
-    if (lang != null || motherTongue != null) {
-      String languageXml = "<language ";
-      if (lang != null) {
-        languageXml += "shortname=\"" + lang.getShortNameWithCountryAndVariant() + "\" name=\"" + lang.getName() + "\"";
-      }
-      if(motherTongue != null && (lang == null || !motherTongue.getShortName().equals(lang.getShortNameWithCountryAndVariant()))) {
-        languageXml += " mothertongueshortname=\"" + motherTongue.getShortName() + "\" mothertonguename=\"" + motherTongue.getName() + "\"";
-      }
-      languageXml += "/>\n";
-      xml.append(languageXml);
-    }
-
-    final ContextTools contextTools = new ContextTools();
-    contextTools.setEscapeHtml(false);
-    contextTools.setContextSize(contextSize);
-    final String startMarker = "__languagetool_start_marker";
-    contextTools.setErrorMarkerStart(startMarker);
-    contextTools.setErrorMarkerEnd("");
-
-    for (final RuleMatch match : ruleMatches) {
-      String subId = "";
-      if (match.getRule() instanceof PatternRule) {
-        final PatternRule pRule = (PatternRule) match.getRule();
-        if (pRule.getSubId() != null) {
-          subId = " subId=\"" + escapeXMLForAPIOutput(pRule.getSubId()) + "\" ";
-        }
-      }
-      xml.append("<error fromy=\"").append(match.getLine()).append('"')
-         .append(" fromx=\"").append(match.getColumn() - 1).append('"')
-         .append(" toy=\"").append(match.getEndLine()).append('"')
-         .append(" tox=\"").append(match.getEndColumn() - 1).append('"')
-         .append(" ruleId=\"").append(match.getRule().getId()).append('"');
-      final String msg = match.getMessage().replaceAll("</?suggestion>", "'");
-      xml.append(subId);
-      xml.append(" msg=\"").append(escapeXMLForAPIOutput(msg)).append('"');
-      String context = contextTools.getContext(match.getFromPos(), match.getToPos(), text);
-      xml.append(" replacements=\"").append(escapeXMLForAPIOutput(listToString(
-              match.getSuggestedReplacements(), "#"))).append('"');
-      // get position of error in context and remove artificial marker again:
-      final int contextOffset = context.indexOf(startMarker);
-      context = context.replaceFirst(startMarker, "");
-      context = context.replaceAll("[\n\r]", " ");
-      xml.append(" context=\"").append(StringTools.escapeXML(context)).append('"')
-         .append(" contextoffset=\"").append(contextOffset).append('"')
-         .append(" offset=\"").append(match.getFromPos()).append('"')
-         .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append('"');
-      if (match.getRule().getUrl() != null) {
-        xml.append(" url=\"").append(escapeXMLForAPIOutput(match.getRule().getUrl().toString())).append('"');
-      }
-      final Category category = match.getRule().getCategory();
-      if (category != null) {
-        xml.append(" category=\"").append(escapeXMLForAPIOutput(category.getName())).append('"');
-      }
-      final ITSIssueType type = match.getRule().getLocQualityIssueType();
-      if (type != null) {
-        xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type.toString())).append('"');
-      }
-      xml.append("/>\n");
-    }
-    if (xmlMode == XmlPrintMode.END_XML || xmlMode == XmlPrintMode.NORMAL_XML) {
-      xml.append("</matches>\n");
+    xml.append(serializer.ruleMatchesToXmlSnippet(ruleMatches, text, contextSize));
+    if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.END_XML) {
+      xml.append(serializer.getXmlEnd());
     }
     return xml.toString();
   }
@@ -421,15 +354,11 @@ public final class StringTools {
    * @param text the original text that was checked, used to get the context of the matches
    * @param contextSize the desired context size in characters
    * @param xmlMode how to print the XML
+   * @deprecated Use {@link RuleAsXmlSerializer} instead (deprecated since 2.5)
    */
   public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
       final String text, final int contextSize, final XmlPrintMode xmlMode) {
     return ruleMatchesToXML(ruleMatches, text, contextSize, xmlMode, null, null);
-  }
-
-  private static String escapeXMLForAPIOutput(final String s) {
-    // this is simplified XML, i.e. put the "<error>" in one line:
-    return escapeXML(s).replaceAll("[\n\r]", " ");
   }
 
   public static String listToString(final Collection<String> l, final String delimiter) {
