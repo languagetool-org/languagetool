@@ -1868,6 +1868,30 @@ $Id$
                 <example type="correct">un grup de teatre</example>
                 <example type="correct">un parell d'engegada alt</example>
             </rule>
+            <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
+                <pattern>
+                    <token regexp="yes">catequesis|diesis|deisis|èmesis|catarsis<exception postag="_GN_FP"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="catequesi">Hi anàvem a fer <marker>catequesis</marker>.</example>
+                <example type="correct">Les anàlisis són correctes.</example>
+                <example type="correct">Escriví anàlisis de gran transcendència</example>
+                <!-- Costa trobar anàlisis -->
+            </rule>
+            <rule id="LA_TESIS" name="la tesis/ la tesi">
+                <pattern>
+                    <token postag="D...S.|PX..S.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>tesis</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>tesi</suggestion> (singular) en comptes de "tesis" (plural de "tesi", o del verb "tesar"")?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="tesi">Va dir que la <marker>tesis</marker> era bona.</example>
+                <example type="incorrect" correction="tesi">Va dir que la nostra <marker>tesis</marker> era bona.</example>
+                <example type="correct">Les anàlisis són correctes.</example>
+            </rule>
         </rulegroup>
     </category>
     <category name="Z) Concordances entre subjecte, verb i complements">
@@ -6126,6 +6150,7 @@ $Id$
         <rule id="MALGRAT_DE_QUE" name="malgrat de què">
             <pattern>
                 <token regexp="yes">malgrat|risc|fet|possibilitat|condició</token>
+                <token min="0" postag="AQ..S." postag_regexp="yes"></token>
                 <marker>
                     <token>de</token>
                     <token regexp="yes">què|que</token>
@@ -6134,6 +6159,8 @@ $Id$
             <message>Construcció incorrecta</message>
             <suggestion>que</suggestion>
             <example type="incorrect">Malgrat <marker>de què</marker></example>
+            <example type="incorrect">Amb la condició addicional <marker>de què</marker> vingui.</example>
+            <example type="incorrect">Amb la possibilitat concreta <marker>de què</marker> vingui.</example>
             <example type="correct">Malgrat que</example>
         </rule>
         <rule id="D_ENCA" name="d'ençà *(de|que)">
@@ -7562,17 +7589,6 @@ $Id$
             <example type="incorrect" correction="capcot">Se n'anà <marker>cap cot</marker>.</example>
             <example type="correct">amb el cap cot</example>
             <example type="correct">un cap buit no pot adquirir saviesa</example>
-        </rule>
-        <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
-            <pattern>
-                <token regexp="yes">catequesis|diesis|deisis|èmesis|catarsis<exception postag="_GN_FP"/></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect" correction="catequesi">Hi anàvem a fer <marker>catequesis</marker>.</example>
-            <example type="correct">Les anàlisis són correctes.</example>
-            <example type="correct">Escriví anàlisis de gran transcendència</example>
-            <!-- Costa trobar anàlisis -->
         </rule>
         <rule id="LLIURAMENT_LLIUREMENT" name="lliurament/lliurement">
             <pattern>
@@ -14899,6 +14915,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="TOT_I_A" name="tot i a">
+            <pattern>
+                <token>tot</token>
+                <token>i</token>
+                <token>a</token>
+            </pattern>
+            <message>Construcció incorrecta</message>
+            <suggestion>tot i</suggestion>
+            <short>construcció incorrecta</short>
+            <example type='incorrect'><marker>tot i a</marker></example>
+            <example type='correct'>tot i</example>
+        </rule>
         <rule id="DE_A_PEU" name="de a peu">
             <pattern>
                 <token>de</token>
