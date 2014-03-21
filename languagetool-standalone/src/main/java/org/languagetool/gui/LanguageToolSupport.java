@@ -127,7 +127,7 @@ class LanguageToolSupport {
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
-  private int millisecondDelay = 1500;//ms
+  private int millisecondDelay = 1500;
   private AtomicInteger check;
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;

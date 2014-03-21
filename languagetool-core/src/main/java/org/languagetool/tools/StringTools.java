@@ -22,10 +22,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.*;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -71,9 +68,7 @@ public final class StringTools {
    * Throw exception if the given string is null or empty or only whitespace.
    */
   public static void assureSet(final String s, final String varName) {
-    if (s == null) {
-      throw new NullPointerException(varName + " cannot be null");
-    }
+    Objects.requireNonNull(varName);
     if (isEmpty(s.trim())) {
       throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
     }

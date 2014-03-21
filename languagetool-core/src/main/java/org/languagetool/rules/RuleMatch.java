@@ -243,9 +243,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /** Compare by start position. */
   @Override
   public int compareTo(final RuleMatch other) {
-    if (other == null) {
-      throw new NullPointerException();
-    }
+    Objects.requireNonNull(other);
     return Integer.compare(getFromPos(), other.getFromPos());
   }
 
