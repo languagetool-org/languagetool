@@ -54,7 +54,7 @@ public class Tools {
   /**
    * Get the default context (40 characters) of the given text range,
    * highlighting the range with HTML.
-   * @deprecated use {@link ContextTools}
+   * @deprecated use {@link ContextTools} (deprecated since 1.8)
    */
   public static String getContext(final int fromPos, final int toPos, final String text) {
     return getContext(fromPos, toPos, text, DEFAULT_CONTEXT_SIZE);
@@ -63,7 +63,7 @@ public class Tools {
   /**
    * Get the context (<code>contextSize</code> characters) of the given text
    * range, highlighting the range with HTML code.
-   * @deprecated use {@link ContextTools}
+   * @deprecated use {@link ContextTools} (deprecated since 1.8)
    */
   public static String getContext(final int fromPos, final int toPos, final String fileContents,
       int contextSize) {
@@ -75,7 +75,7 @@ public class Tools {
    * Get the context (<code>contextSize</code> characters) of the given text
    * range, highlighting the range with the given marker strings, not escaping
    * HTML.
-   * @deprecated use {@link ContextTools}
+   * @deprecated use {@link ContextTools} (deprecated since 1.8)
    */
   public static String getContext(final int fromPos, final int toPos,
       final String fileContents, final int contextSize,

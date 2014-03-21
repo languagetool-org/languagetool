@@ -111,7 +111,7 @@ public abstract class Rule {
   /**
    * Whether this is a spelling rule.
    * @since 1.8
-   * @deprecated use {@link #isDictionaryBasedSpellingRule()} instead
+   * @deprecated use {@link #isDictionaryBasedSpellingRule()} instead (deprecated since 2.4)
    */
   @Deprecated
   public boolean isSpellingRule() {
