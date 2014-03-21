@@ -26,11 +26,10 @@ import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.synthesis.ManualSynthesizer;
 
 /**
- * Romanian word form synthesizer. <br/>
+ * Romanian word form synthesizer.
  *
  * @author Ionuț Păduraru
  */
-
 public class RomanianSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/ro/romanian_synth.dict";
@@ -46,6 +45,7 @@ public class RomanianSynthesizer extends BaseSynthesizer {
   @Override
   protected void lookup(String lemma, String posTag, List<String> results) {
     super.lookup(lemma, posTag, results);
+    initSynth();
     // add words that are missing from the romanian_synth.dict file
     final List<String> manualForms = manualSynthesizer.lookup(lemma, posTag);
     if (manualForms != null) {
@@ -54,19 +54,23 @@ public class RomanianSynthesizer extends BaseSynthesizer {
   }
 
   @Override
-  protected void initSynthesizer() throws IOException {
-    super.initSynthesizer();
-    if (manualSynthesizer == null) {
-      manualSynthesizer = new ManualSynthesizer(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
-    }
-  }
-  @Override
   protected void initPossibleTags() throws IOException {
     super.initPossibleTags();
+    initSynth();
     // add any possible tag from manual synthesiser
     for (String tag : manualSynthesizer.getPossibleTags()) {
       if (!possibleTags.contains(tag)) {
         possibleTags.add(tag);
+      }
+    }
+  }
+
+  private void initSynth() {
+    if (manualSynthesizer == null) {
+      try {
+        manualSynthesizer = new ManualSynthesizer(JLanguageTool.getDataBroker().getFromResourceDirAsStream(USER_DICT_FILENAME));
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
     }
   }

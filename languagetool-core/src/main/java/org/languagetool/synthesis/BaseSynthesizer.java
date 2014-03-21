@@ -114,7 +114,6 @@ public class BaseSynthesizer implements Synthesizer {
    */
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
-    initSynthesizer();
     final List<String> wordForms = new ArrayList<>();
     lookup(token.getLemma(), posTag, wordForms);
     return wordForms.toArray(new String[wordForms.size()]);
@@ -124,7 +123,6 @@ public class BaseSynthesizer implements Synthesizer {
   public String[] synthesize(final AnalyzedToken token, final String posTag,
       final boolean posTagRegExp) throws IOException {
     if (posTagRegExp) {
-      initSynthesizer();
       initPossibleTags();
       final Pattern p = Pattern.compile(posTag);
       final List<String> results = new ArrayList<>();
@@ -166,7 +164,9 @@ public class BaseSynthesizer implements Synthesizer {
     }
   }
 
-  // TODO: mark as @deprecated or simply remove?
+  /**
+   * @deprecated this method doesn't do anything anymore (deprecated since 2.5)
+   */
   protected void initSynthesizer() throws IOException {
     // The base implementation does no longer need this method, but extended classes may still rely on it.
     // Dictionary-loading is implemented in getDictionary().

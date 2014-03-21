@@ -72,7 +72,6 @@ public class CatalanSynthesizer extends BaseSynthesizer {
 
   @Override
   public String[] synthesize(final AnalyzedToken token, final String posTag) throws IOException {
-    initSynthesizer();
     initPossibleTags();
     Pattern p;
     boolean addDt = false; 

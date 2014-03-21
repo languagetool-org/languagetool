@@ -112,7 +112,6 @@ public class EnglishSynthesizer extends BaseSynthesizer {
         det = "the ";
       }
 
-      initSynthesizer();
       initPossibleTags();
       final Pattern p = Pattern.compile(myPosTag);
       final List<String> results = new ArrayList<>();
