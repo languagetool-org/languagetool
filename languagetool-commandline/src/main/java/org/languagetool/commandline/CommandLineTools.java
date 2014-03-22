@@ -196,6 +196,7 @@ public final class CommandLineTools {
    * @return  The number of rules matched on the bitext.
    * @throws IOException
    * @since 1.0.1
+   * @deprecated use {@link #checkBitext(BitextReader, JLanguageTool, JLanguageTool, List, boolean)} instead (deprecated since 2.5) 
    */
   public static int checkBitext(final String src, final String trg,
                                 final JLanguageTool srcLt, final JLanguageTool trgLt,
