@@ -6267,10 +6267,11 @@ $Id$
 								</marker>
 								<token regexp="yes">stratę|straty</token>
 						</pattern>
-						<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(verb.*):(im)?perf.*" postag_replace="$1:perf.*">spowodować</match></suggestion> lub <suggestion><match no="1" postag="(verb.*):(im)?perf.*" postag_replace="$1:imperf.*">powodować</match></suggestion>.</message>
+						<message>Prawdopodobnie użyto niewłaściwego czasownika. Powinno być: <suggestion><match no="1" postag="(.*)(?:im)?perf(.*)" postag_replace="$1perf$2">spowodować</match></suggestion> lub <suggestion><match no="1" postag="(.*)(?:im)?perf(.*)" postag_replace="$1imperf$2">powodować</match></suggestion>.</message>
 						<short>Błąd leksykalny</short>
 						<example correction="Spowodował|Powodował" type="incorrect"><marker>Wyrządził</marker> straty na około 300 złotych.</example>
 						<example type="correct"><marker>Spowodował</marker> straty na około 300 złotych.</example>
+                        <example type="incorrect" correction="spowodowaną|powodowaną">Jak zamierza naprawić <marker>wyrządzoną</marker> stratę?</example>
 				</rule>
 				<rule id="ZDJAC_ZE_STANOWISKA" name="„zdjąć ze stanowiska” (zwolnić ze stanowiska)">
 						<pattern>
