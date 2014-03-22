@@ -29,6 +29,8 @@ import java.util.List;
 
 /**
  * Generate XML to represent matching rules.
+ * 
+ * @since 2.5
  */
 public class RuleAsXmlSerializer {
 
@@ -119,7 +121,6 @@ public class RuleAsXmlSerializer {
       if (type != null) {
         xml.append(" locqualityissuetype=\"").append(escapeXMLForAPIOutput(type.toString())).append('"');
       }
-      // TODO: add link to rule on community.languagetool.org
       xml.append("/>\n");
     }
     return xml.toString();
