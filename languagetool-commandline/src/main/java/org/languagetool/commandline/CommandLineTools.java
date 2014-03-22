@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.ContextTools;
+import org.languagetool.tools.RuleAsXmlSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -99,8 +100,9 @@ public final class CommandLineTools {
       r.setEndLine(r.getEndLine() + lineOffset);
     }
     if (apiFormat) {
-      final String xml = StringTools.ruleMatchesToXML(ruleMatches, contents,
-              contextSize, xmlMode);
+      final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+      final String xml = serializer.ruleMatchesToXml(ruleMatches, contents,
+              contextSize, lt.getLanguage());
       final PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(xml);
     } else {
@@ -244,10 +246,14 @@ public final class CommandLineTools {
                                 final boolean apiFormat) throws IOException {
     final long startTime = System.currentTimeMillis();
     final int contextSize = DEFAULT_CONTEXT_SIZE;
-    StringTools.XmlPrintMode xmlMode = StringTools.XmlPrintMode.START_XML;
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     int matchCount = 0;
     int sentCount = 0;
+    final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+    final PrintStream out = new PrintStream(System.out, true, "UTF-8");
+    if (apiFormat) {
+      out.print(serializer.getXmlStart(null, null));
+    }
     for (StringPair srcAndTrg : reader) {
       final List<RuleMatch> curMatches = Tools.checkBitext(
               srcAndTrg.getSource(), srcAndTrg.getTarget(),
@@ -264,13 +270,8 @@ public final class CommandLineTools {
       ruleMatches.addAll(fixedMatches);
       if (fixedMatches.size() > 0) {
         if (apiFormat) {
-          final String xml = StringTools.ruleMatchesToXML(fixedMatches,
-                  reader.getCurrentLine(),
-                  contextSize, xmlMode);
-          if (xmlMode == StringTools.XmlPrintMode.START_XML) {
-            xmlMode = StringTools.XmlPrintMode.CONTINUE_XML;
-          }
-          final PrintStream out = new PrintStream(System.out, true, "UTF-8");
+          final String xml = serializer.ruleMatchesToXmlSnippet(fixedMatches,
+                  reader.getCurrentLine(), contextSize);
           out.print(xml);
         } else {
           printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize);
@@ -281,8 +282,7 @@ public final class CommandLineTools {
     }
     displayTimeStats(startTime, sentCount, apiFormat);
     if (apiFormat) {
-      final PrintStream out = new PrintStream(System.out, true, "UTF-8");
-      out.print("</matches>");
+      out.print(serializer.getXmlEnd());
     }
     return ruleMatches.size();
   }
