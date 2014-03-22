@@ -6294,7 +6294,7 @@ $Id$
         <rule id="ABANS_DE_QUE" name="abans *de què/que">
             <pattern>
                 <marker>
-                    <token regexp="yes">després|abans</token>
+                    <token regexp="yes">després|abans|culpables?</token>
                     <token>de</token>
                     <token>què</token>
                 </marker>
@@ -14919,13 +14919,13 @@ $Id$
             <pattern>
                 <token>tot</token>
                 <token>i</token>
-                <token>a</token>
+                <token>a<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Construcció incorrecta</message>
             <suggestion>tot i</suggestion>
             <short>construcció incorrecta</short>
             <example type='incorrect'><marker>tot i a</marker></example>
-            <example type='correct'>tot i</example>
+            <example type='correct'>tot i a contracor</example>
         </rule>
         <rule id="DE_A_PEU" name="de a peu">
             <pattern>
@@ -26290,13 +26290,14 @@ $Id$
         <rulegroup id="ENTRE_ELS_QUE" name="entre els *que/quals destaca">
             <rule>
                 <pattern>
+                    <token><exception inflected="yes">diferència</exception></token>
                     <token>entre</token>
                     <token postag="DA..P." postag_regexp="yes"></token>
                     <marker>
                         <token>que</token>
                     </marker>
                     <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">destacar|trobar|haver</token>
+                    <token inflected="yes" regexp="yes">destacar|trobar</token>
                     <token><exception>.</exception></token>
                 </pattern>
                 <message>Construcció probablement incorrecta.</message>
@@ -26305,6 +26306,8 @@ $Id$
                 <short>Reviseu la construcció de relatiu</short>
                 <example type='incorrect'>Unes obres entre les <marker>que</marker> destaquen les més famoses.</example>
                 <example type='correct'>Joan està entre els que destaquen.</example>
+                <example type='correct'>una gran diferència entre els que es troben per sobre o a prop de la carretera</example>
+                <example type='correct'>àdhuc entre les que han superat el clericalisme</example>
             </rule>
             <rule>
                 <pattern>
