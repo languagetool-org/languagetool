@@ -4622,26 +4622,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="ambiguous" inputform="m[metr/brev:npun]" outputform="m[metr/brev:pun]">Jest to <marker>m</marker>.in. kretyn.</example>
     </rule>
     
-    <rule name=".pl" id="PL_DOMAIN_NAME">
+    <rule name=".pl, .jp, .al" id="PL_DOMAIN_NAME">
     	<pattern>
     		<token>.</token>
     		<marker>
-    		<token spacebefore="no">pl</token>
+    		<token spacebefore="no" regexp="yes">pl|jp|al</token>
     		</marker>
     	</pattern>
-    	<disambig action="remove"><wd lemma="plac"/></disambig>
+    	<disambig action="remove"><wd pos="brev:pun"/></disambig>
     	<example type="ambiguous" inputform="pl[plac/brev:pun]" outputform="pl[pl]">Alergie.mp.<marker>pl</marker> - serwis</example>
     	<example type="untouched">Adres: pl. Zbawiciela 122</example>
-    </rule>
-	<rule name=".jp" id="JP_DOMAIN_NAME">
-    	<pattern>
-    		<token>.</token>
-    		<marker>
-    		<token spacebefore="no">jp</token>
-    		</marker>
-    	</pattern>
-    	<disambig action="remove"><wd lemma="jak poprzednio"/></disambig>
-    	<example type="ambiguous" inputform="jp[jak poprzednio/brev:pun]" outputform="jp[jp]">Alergie.mp.<marker>jp</marker> - serwis</example>
+		<example type="ambiguous" inputform="jp[jak poprzednio/brev:pun]" outputform="jp[jp]">Alergie.mp.<marker>jp</marker> - serwis</example>
     	<example type="untouched">Skrót - jp.</example>
     </rule>
     <rule name="l'art" id="L_ART">
@@ -4700,6 +4691,50 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<disambig action="remove"><wd lemma="emerytowany"/></disambig>
     	<example type="untouched">Był to em. płk James Bond</example>
     	<example type="ambiguous" inputform="em[em/subst:pl:acc:n2,em/subst:pl:dat:n2,em/subst:pl:gen:n2,em/subst:pl:inst:n2,em/subst:pl:loc:n2,em/subst:pl:nom:n2,em/subst:pl:voc:n2,em/subst:sg:acc:n2,em/subst:sg:dat:n2,em/subst:sg:gen:n2,em/subst:sg:inst:n2,em/subst:sg:loc:n2,em/subst:sg:nom:n2,em/subst:sg:voc:n2,emerytowany/brev:pun]" outputform="em[em/subst:pl:acc:n2,em/subst:pl:dat:n2,em/subst:pl:gen:n2,em/subst:pl:inst:n2,em/subst:pl:loc:n2,em/subst:pl:nom:n2,em/subst:pl:voc:n2,em/subst:sg:acc:n2,em/subst:sg:dat:n2,em/subst:sg:gen:n2,em/subst:sg:inst:n2,em/subst:sg:loc:n2,em/subst:sg:nom:n2,em/subst:sg:voc:n2]">Maximilienem de Robespierre'<marker>em</marker> (Wojciech Pszoniak)</example>
+    </rule>
+    <rule name="P=NP" id="NP_NOT_BREV">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token>P</token>
+                <token>=</token>
+                <token>NP</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="ign"/><wd lemma="=" pos="interp"/><wd pos="ign"/></disambig>
+        <example type="ambiguous" inputform="P[pan/brev:pun,patrz/brev:pun,piętro/brev:pun,punkt/brev:pun]"
+                 outputform="P[P/ign]">Problem, czy <marker>P</marker>=NP, jest nadal otwarty.</example>
+        <example type="ambiguous" inputform="P[pan/brev:pun,patrz/brev:pun,piętro/brev:pun,punkt/brev:pun]"
+                 outputform="P[P/ign]">Problem, czy <marker>P</marker> = NP, jest nadal otwarty.</example>
+    </rule>
+    <rule name="litery jako zmienne, nie skróty" id="nie_brev_tylko_zmienna">
+        <pattern>
+            <marker><token regexp="yes" postag="brev:pun">\p{L}</token></marker>
+            <token>=</token>
+        </pattern>
+        <disambig action="remove" postag="brev:pun"/>
+        <example type="ambiguous" inputform="r[rok/brev:pun]" outputform="r[r]"><marker>r</marker> = 0; s = 1</example>
+    </rule>
+    <rule name="litery jako litery" id="nie_brev_tylko_nazwa_litery">
+        <pattern>
+        <token regexp="yes">\p{L}</token>
+        <token>,</token>
+        <marker><token regexp="yes" postag="brev:pun">\p{L}</token></marker>
+        <token>,</token>
+        <token regexp="yes">\p{L}</token>
+        </pattern>
+        <disambig action="remove" postag="brev:pun"/>
+        <example type="ambiguous" inputform="p[pan/brev:pun,patrz/brev:pun,piętro/brev:pun,punkt/brev:pun]"
+                 outputform="p[p]">Porządkowanie alfabetyczne ma postać: a, ą, ã, b, c, d, e, é, ë, f, g, h, i, j, k, l, ł, m, n, ń, o, ò, ó, ô, <marker>p</marker>, r, s, t, u, ù, w, y, z, ż.</example>
+    </rule>
+    <rule name="am jako wyraz niemiecki" id="AM_NIEM">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+            <marker><token>am</token></marker>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <disambig action="remove" postag="brev:pun"/>
+        <example type="ambiguous" inputform="am[amerykański/brev:pun]" outputform="am[am]">Frankfurt <marker>am</marker> Main</example>
+        <example type="untouched">Ten wyraz to „meliorise” (am. meliorize).</example>
     </rule>
 
     <rule name="Center for" id="CENTER_FOR"> <!-- wyrażenie angielskie w polskim tekście -->
