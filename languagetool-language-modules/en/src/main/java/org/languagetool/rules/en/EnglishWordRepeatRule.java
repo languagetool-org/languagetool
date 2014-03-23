@@ -46,7 +46,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("had", tokens, position)) {
       return true;   // "If I had had time, I would have gone to see him."
     }
-    if (wordRepetitionOf("that", tokens, position) && previousWordIsIn(tokens, position, "think", "thinks", "believe", "believes")) {
+    if (wordRepetitionOf("that", tokens, position) && nextPOSIsIn(tokens, position, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
       return true;   // "I don't think that that is a problem."
     }
     if (wordRepetitionOf("Pago", tokens, position)) {
@@ -61,6 +61,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("sapiens", tokens, position)) {
       return true;   // "Homo sapiens sapiens"
     }
+    if (wordRepetitionOf("tse", tokens, position)) {
+      return true;   // "tse tse"
+    }
 
     return false;
   }
@@ -73,6 +76,18 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
           return true;
         }
       }
+    }
+    return false;
+  }
+
+  private boolean nextPOSIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {
+    if (tokens.length > position + 1) {
+      for (String posTag : posTags) {
+        if (tokens[position + 1].hasPartialPosTag(posTag)) {
+          return true;
+        }
+      }
+
     }
     return false;
   }

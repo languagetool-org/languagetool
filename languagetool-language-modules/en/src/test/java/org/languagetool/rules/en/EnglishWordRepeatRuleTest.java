@@ -42,6 +42,11 @@ public class EnglishWordRepeatRuleTest {
     assertGood("This is a test.");
     assertGood("If I had had time, I would have gone to see him.");
     assertGood("I don't think that that is a problem.");
+    assertGood("He also said that Azerbaijan had fulfilled a task he set, which was that that their defense budget should exceed the entire state budget of Armenia.");
+    assertGood("Just as if that was proof that that English was correct.");
+    assertGood("It was noticed after more than a month that that promise had not been carried out.");
+    assertGood("It was said that that lady was an actress.");
+    assertGood("Kurosawa's three consecutive movies after Seven Samurai had not managed to capture Japanese audiences in the way that that film had.");
     assertBad("You can feel confident that that this administration will continue to support a free and open Internet.");
     assertBad("This is is a test.");
   }
