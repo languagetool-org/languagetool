@@ -379,6 +379,16 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="untouched">Ten dollars</example>
       <example type='ambiguous' inputform="10[10]" outputform="10[10/CD]"><marker>10</marker> dollars</example>
     </rule>
+
+    <rule id="number_JJ" name="Tag number-based adjectives">
+        <pattern>
+            <token regexp="yes">\d?(1st|2nd|3rd|\dth)</token>
+        </pattern>
+        <disambig postag="JJ"/>
+        <example type="ambiguous" inputform="22nd[22nd]" outputform="22nd[22nd/JJ]">This is the <marker>22nd</marker> place.</example>
+        <example type="untouched">1nd place</example>
+        <example type="untouched">1 dollar</example>
+    </rule>
             
         <rule id="SO_JJ" name="so + adj/rb => so/RB">
           <pattern>
@@ -2314,7 +2324,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token postag_regexp="yes" postag="VBP"></token>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="NN.*"></token>
+            <token postag_regexp="yes" postag="NN.*|CD"></token>
         </pattern>
         <disambig action="remove" postag="VBP?"/>
         <example type="untouched">Peter the great</example>
@@ -2329,7 +2339,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token postag_regexp="yes" postag="NN.*"></token>
                 </and>
             </marker>
-            <token><exception postag="DT"/></token>
+            <token><exception postag="DT|RB?" postag_regexp="yes"/></token>
         </pattern>
         <disambig><match no="2" postag_regexp="yes" postag="NN.*"></match></disambig>
         <example type="untouched">His friend is now in England.</example>

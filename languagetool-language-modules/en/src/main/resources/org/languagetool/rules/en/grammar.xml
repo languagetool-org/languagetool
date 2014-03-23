@@ -1305,6 +1305,21 @@ USA
             <example correction="yours" type="incorrect">This house is <marker>yours'</marker>.</example>
             <example type="correct">My heart is hers.</example>
         </rule>
+        <rule id="CD_WEEK_S" name="Number + 'week's time' (weeks' time)">
+            <pattern>
+                <token postag="CD"><exception regexp="yes">one|1</exception></token>
+                <token regexp="yes">week|month|hour</token>
+                <token regexp="yes">'</token>
+                <token>s</token>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </pattern>
+            <message>The apostrophe is probably in the wrong place here. Did you mean <suggestion>\1 \2\4' \5</suggestion>?</message>
+            <url>http://www.quickanddirtytips.com/education/grammar/two-weeks-notice</url>
+            <short>Possible typo</short>
+            <example type="correct">He'll be sailing around the world in two weeks' time.</example>
+            <example type="incorrect" correction="two weeks' time">"he'll be sailing around the world in <marker>two week's time</marker>.</example>
+            <example type="correct">It was ready in a week's time.</example>
+        </rule>
         <rulegroup id="HERE_HEAR" name="here (hear)">
             <rule>
                 <pattern>
@@ -3416,9 +3431,9 @@ USA
                     <token><exception postag="PRP$"/><exception inflected="yes" regexp="yes">give|avail|serve</exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"></exception></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception regexp="yes">his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">\p{Ll}*s<exception regexp="yes">his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"></exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VBD|VBN|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"></exception></token>
                     <token><exception regexp="yes">\p{Punct}</exception></token>
                 </pattern>
                 <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"></match>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"></match>'s</suggestion>?</message>
@@ -3440,9 +3455,9 @@ USA
                     <token><exception postag="PRP$"></exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"></exception></token>
                     <marker>
-                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">.[^']*s<exception regexp="yes">his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
+                        <token postag="NNS|NNPS" postag_regexp="yes" regexp="yes">\p{Ll}*s<exception regexp="yes">his|ones|relations|affairs</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NN|NNP" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">.{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"></exception></token>
+                    <token postag="NN|NN:.*" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"></exception></token>
                     <token regexp="yes">\p{Punct}</token>
                 </pattern>
                 <message>Possible typo: apostrophe is missing. Did you mean <suggestion><match no="3"></match>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"></match>'s</suggestion>?</message>
@@ -3453,6 +3468,7 @@ USA
                 <example type="correct">Owen was seven years younger.</example>
                 <example type="correct">Universities A and B are old universities...</example>
                 <example correction="presidents'|president's" type="incorrect">This is a transcript of the <marker>presidents</marker> speech.</example>
+                <example type="correct">All Souls College, Oxford</example>
             </rule>
         </rulegroup>
         <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
@@ -9061,12 +9077,17 @@ USA
             </marker>            
             <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
             </pattern>
-            <message>A determiner is probably missing <suggestion>\1 the \2</suggestion>.</message>
+            <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
             <short>Grammatical problem</short>
             <example type="correct">He is my best friend.</example>
             <example type="incorrect" correction="is the funniest">The guy <marker>is funniest</marker> friend.</example>
         </rule>
         <rule>
+            <antipattern>
+                <token>least</token>
+                <token postag="JJ"/>
+                <token><exception postag="NN.*" postag_regexp="yes"/></token>
+            </antipattern>
         <pattern>                       
             <marker>            
             <token><exception postag="PRP\$|DT|JJ|C[DC]|,|NNP" postag_regexp="yes"/><exception>s</exception><exception>'</exception><exception>at</exception></token>
@@ -9074,10 +9095,11 @@ USA
             </marker>            
             <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
             </pattern>
-            <message>A determiner is probably missing <suggestion>\1 the \2</suggestion>.</message>
+            <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
             <short>Grammatical problem</short>
             <example type="correct">He is at least my friend.</example>
             <example type="incorrect" correction="is the least">The guy <marker>is least</marker> funny friend.</example>
+            <example type="correct">He is least likely to come.</example>
         </rule>        
         <rule>
         <pattern>                       
@@ -10116,26 +10138,74 @@ USA
             <example type="correct">I have got <marker>lots of wine</marker>.</example>
         </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
+            <antipattern>   <!-- *two sliver and black triangles* -->
+                <marker>><token postag="CD"/>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+                <token regexp="yes">and|or</token>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+                </marker>
+                <token postag="NNS"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">the|another</token>
+                <token>number</token>
+                <marker><token postag="CD"/></marker>
+            </antipattern>
+            <antipattern>
+                <token>be</token>
+                <marker>
+                    <token postag="CD"/>
+                    <token>next</token>
+                    <token regexp="yes">month|year|birthday|week</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <token postag="CD"/>
+                <token>by</token>
+                <token postag="CD"/>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Billboard</token>
+                <token min="0" max="1">Hot</token>
+                <marker><token regexp="yes">[12]00</token></marker>
+            </antipattern>
+            <antipattern>
+                <token>top</token>
+                <token>ten</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD"/>
+                <token>page</token>
+                <token>survey</token>
+            </antipattern>
+            <antipattern> <!-- two week's time - there's another rule for this mistake: CD_WEEK_S -->
+                <token postag="CD"><exception regexp="yes">one|1</exception></token>
+                <token regexp="yes">week|month|hour</token>
+                <token regexp="yes">'</token>
+                <token>s</token>
+                <token postag="NN.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token spacebefore="yes" postag="CD">
                     <exception regexp="yes">one|thou|zero|1</exception>
-                    <exception regexp="yes">19\d\d</exception><!-- exclude, might be year -->
+                    <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
                     <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
                     <exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
+                    <exception scope="previous">×</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|cm|BC|[KMGk]B|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
-                    <exception regexp="yes">[,;()]</exception>                    
+                    <exception regexp="yes">[,;()×]</exception>
                 </token>
                 <marker>
                     <token chunk="E-NP-singular">
                         <exception postag="NN:UN?|NNS|NNPS|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception>will</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|saw</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw</exception>
                         <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday</exception>                        
                         <exception>year</exception><!-- "16 year old Ahmad" -->
@@ -10179,7 +10249,13 @@ USA
             <example type="correct">Last week the board, by a 4 to 3 vote, decided to ask voters.</example>
             <example type="correct">Before he was forty Griffith had created the art of the film.</example>
             <example type="correct">In the 1860 - 70 decade there are many poems like Revulsion.</example>
-            <!-- TODO: while the right half is split into two sliver and black triangles -->
+            <example type="correct">And also a twin 15 mm version based on the Light Tank Mk.</example>
+            <example type="correct">The right half is split into two sliver and black triangles.</example>
+            <example type="correct">List of players to wear the number 14 shirt since Johan Cruyff's departure</example>
+            <example type="correct">She said he would be sixteen next month.</example>
+            <example type="correct">The screen is fixed to the 640 × 400 1-bit mono mode, and no external video port was provided.</example>
+            <example type="correct">Game board with 108 spaces arranged in a 12 by 9 array</example>
+            <example type="correct">In the United States, the song peaked at number six on the Billboard Hot 100 chart, paving the way for their first album and their first trip as a group there.</example>
         </rule>
         <rule id="CD_DOZENS_OF" name="Plural form of numbers in 'two dozens of' (two dozen)">
         <pattern>
