@@ -25,7 +25,7 @@ import org.languagetool.tagging.BaseTagger;
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
  * see readme.txt for details, the POS tagset is
- * described in russian_tags.txt
+ * described in tagset.txt
  * 
  *  */
 public class RussianTagger extends BaseTagger {
