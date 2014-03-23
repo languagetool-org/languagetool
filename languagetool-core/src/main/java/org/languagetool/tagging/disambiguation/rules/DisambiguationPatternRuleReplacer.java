@@ -437,6 +437,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     newAtr.setWhitespaceBefore(spaceBefore);
     newAtr.setStartPos(startPosition);
     newAtr.setChunkTags(chunkTags);
+    if (oldAtr.isImmunized()) {
+      newAtr.immunize();
+    }
     annotateChange(newAtr, prevValue, prevAnot);
     return newAtr;
   }

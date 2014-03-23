@@ -165,6 +165,9 @@ public class MatchState {
     if (!formattedToken.getChunkTags().isEmpty()) {
       anTkRead.setChunkTags(formattedToken.getChunkTags());
     }
+    if (formattedToken.isImmunized()) {
+     anTkRead.immunize();
+    }
     return anTkRead;
   }
 
