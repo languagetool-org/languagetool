@@ -74,6 +74,7 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("Burke-rostagno the Richard S. Burkes' home in Wayne may be the setting for the wedding reception for their daughter.");
     assertCorrect("The '49 team was off to a so-so 5-5 beginning");
     assertCorrect("A Republican survey says Kennedy won the '60 election on the religious issue.");
+    assertCorrect("Economy class seats have a seat pitch of 31-33\", with newer aircraft having thinner seats that have a 31\" pitch.");
 
 
     //Should be correct!

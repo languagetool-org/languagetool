@@ -32,7 +32,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'" };
   private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
 
-  private static final Pattern NUMBER = Pattern.compile("\\d+");
+  private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
   private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\d");
   private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
 
