@@ -87,7 +87,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
         return false;
       }
       // Exception for English plural Saxon genitive
-      if ("'".equals(tokenStr) && tokens[i].hasPosTag("POS")) {
+      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && tokens[i].hasPosTag("POS")) {
         return false;
       }
       // puttin' on the Ritz
