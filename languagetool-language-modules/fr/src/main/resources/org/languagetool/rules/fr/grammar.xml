@@ -6692,7 +6692,7 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 1 token + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception regexp="yes">ce|celle</exception>
+            <exception regexp="yes">ce|celle|cela</exception>
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
           </token>
@@ -6707,6 +6707,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Ce ne sont pas des histoires.</example>
         <example type="incorrect"><marker>Elle se demandent</marker>.</example>
         <example type="correct">Elle se demande.</example>
+        <example type="correct">Il a converti cela en médailles.</example>
       </rule>
       <rule name="ça + 1 tokens + Verbe">
         <pattern>
@@ -17677,12 +17678,13 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="APPRECIER_QUE" name="apprécier que">
       <pattern>
-        <token inflected="yes" skip="2">apprécier</token>
+        <token inflected="yes" skip="1">apprécier</token>
         <token>que</token>
       </pattern>
       <message>« Apprécier que » est un anglicisme (to appreciate that). Employez <suggestion>aimer que</suggestion>, <suggestion>désirer que</suggestion>, <suggestion>souhaiter que</suggestion>, <suggestion>savoir gré</suggestion> (à quelqu’un), <suggestion>être reconnaissant</suggestion> (envers quelqu’un).</message>
       <example type="incorrect"><marker>apprécie que</marker></example>
       <example type="correct"><marker>aime que</marker></example>
+      <example type="correct">Ils m’apprécient en tant que collègue.</example>
     </rule>
     <rule id="ETRE_A_SON_MEILLEUR" name="être à son meilleur">
       <pattern>
