@@ -2306,6 +2306,10 @@ $Id$
             <example type="incorrect">Autopflege <marker>van</marker> Hand ist einfach.</example>
         </rule>
         <rulegroup id="WAHR_NEHMEN" name="Möglicher Tippfehler: 'nehme ... war (wahr)'">
+            <antipattern>
+                <token>genommen</token>
+                <token>werden</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token negate="yes">zu</token>
@@ -2313,7 +2317,7 @@ $Id$
                     <marker>
                         <token>war</token>
                     </marker>
-                    <token negate="yes" regexp="yes">so|somit|damit</token>
+                    <token negate="yes" regexp="yes">so|somit|damit|noch</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>wahr</suggestion> wie in 'wahrnehmen' statt 'war' (Vergangenheit von 'sein')?</message>
                 <example type="correct">So nehme ich das <marker>wahr</marker>.</example>
@@ -2323,6 +2327,8 @@ $Id$
                 <example type="incorrect">So nimmst du das <marker>war</marker>.</example>
                 <example type="correct">Diese Aufgabe, die viel Zeit in  Anspruch nahm, <marker>war</marker> einfach.</example>
                 <example type="correct">Das irakische Fernsehen nahm seinen Sendebetrieb auf und <marker>war</marker> somit eine der ältesten Fernsehanstalten.</example>
+                <example type="correct">Es wurde wieder in Betrieb genommen und <marker>war</marker> noch bis 2012 in Dienst.</example>
+                <example type="correct">Sklaven konnten während der Kriege genommen werden und Sklavenhandel <marker>war</marker> üblich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAS_AMEN" name="Möglicher Tippfehler: 'das Armen (Amen)'">
@@ -8006,6 +8012,11 @@ $Id$
         </rulegroup>
         <rulegroup id="INFINITIV_MIT_ZU" name="Zusammen-/Getrenntschreibung: Infinitiv mit 'zu'">
             <!-- Siehe auch die Regel ZU_ZUMUTEN. -->
+            <antipattern>
+                <token>aus</token>
+                <token>zu</token>
+                <token regexp="yes">tätigen|installieren</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
@@ -8032,9 +8043,10 @@ $Id$
                 <message>&getrennt;: Meinten Sie <suggestion><match no="1"/><match no="2"/><match no="3"/></suggestion>?</message>
                 <example type="correct">Ist es gut, Geld <marker>auszugeben</marker>?</example>
                 <example type="correct">Ist es gut <marker>unterzugehen</marker>?</example>
+                <example type="correct">Die Überweisung ist direkt vom eigenen Konto <marker>aus zu tätigen</marker>.</example>
                 <example type="incorrect" correction="auszugeben">Ist es gut, Geld <marker>aus zu geben</marker>?</example>
                 <example type="incorrect" correction="unterzugehen">Ist es gut <marker>unter zu gehen</marker>?</example>
-                <!-- <example type="correct">Sie können versuchen, es von der CD <marker>aus zu installieren</marker></example> TODO -->
+                <example type="correct">Sie können versuchen, es von der CD <marker>aus zu installieren</marker></example>
             </rule>
             <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
             <rule>
@@ -18330,7 +18342,10 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception postag_regexp="yes" postag=".*GEN.*"/></token>
+                    <token>
+                        <exception postag_regexp="yes" postag=".*GEN.*"/>
+                        <exception>leid</exception>
+                    </token>
                     <marker>
                         <token>wegen</token>
                     </marker>
@@ -18341,6 +18356,7 @@ $Id$
                 <example type="incorrect" correction="Wegen">Viel Glück und viel Segen auf all deinen <marker>wegen</marker>.</example>
                 <example type="correct">Viel Glück und viel Segen auf all deinen <marker>Wegen</marker>.</example>
                 <example type="correct">Sie tat es des Geldes <marker>wegen</marker>.</example>
+                <example type="correct">Tut mir leid <marker>wegen</marker> gestern</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
@@ -22756,7 +22772,11 @@ $Id$
                     <marker>
                         <token regexp="yes">allgemeinen?</token>
                     </marker>
-                    <token><exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/><exception regexp="yes">,|oder|und</exception></token>
+                    <token>
+                        <exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
+                        <exception regexp="yes">,|oder|und</exception>
+                        <exception postag_regexp="yes" postag="ADJ:.*"/>
+                    </token>
                 </pattern>
                 <message>&subanfang;<suggestion>Allgemeinen</suggestion>&subende;</message>
                 <url>http://www.korrekturen.de/wortliste/im_allgemeinen.shtml</url>
@@ -22764,6 +22784,7 @@ $Id$
                 <example type="incorrect" correction="Allgemeinen">Daneben stellen Geschwister im <marker>allgemeine</marker> auch ein „Problem“ dar.</example>
                 <example type="incorrect" correction="Allgemeinen">Im <marker>allgemeinen</marker> stimme ich dir zu.</example>
                 <example type="correct">Daneben stellen Geschwister im <marker>Allgemeinen</marker> auch ein „Problem“ dar.</example>
+                <example type="correct">Im <marker>allgemeinen</marker> europäischen Sprachgebrauch ist das anders.</example>
                 <example type="correct">Im <marker>allgemeinen</marker> Sprachgebrauch ist das anders.</example>
                 <example type="correct">Im <marker>allgemeinen</marker>, umgangssprachlichen Sprachgebrauch ist das anders.</example>
                 <example type="correct">Im <marker>allgemeinen</marker> und umgangssprachlichen Sprachgebrauch ist das anders.</example>
@@ -25181,13 +25202,14 @@ $Id$
                     <token regexp="yes">im|zum|beim|am</token>
                     <marker>
                         <token regexp="yes">[0-9]{1,2}</token>
-                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception>Zoll</exception></token>
+                        <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/><exception regexp="yes">Zoll|Grad</exception></token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2. \3</suggestion>? Möglicherweise haben Sie einen Punkt nach '\2' vergessen, oder '\3' müsste im Plural stehen.</message>
                 <short>Meinten Sie \2. \3?</short>
                 <example type="correct">In den vergangenen <marker>20 Jahrhunderten</marker> gab es zwei Weltkriege.</example>
                 <example type="correct">Im <marker>20. Stock</marker> ist was los.</example>
+                <example type="correct">Im <marker>5 Grad</marker> kalten Wasser.</example>
                 <example type="incorrect" correction="20. Stock">Im <marker>20 Stock</marker> ist was los.</example>
                 <example type="incorrect" correction="20. Mai">Am <marker>20 Mai</marker> geht es los.</example>
             </rule>
