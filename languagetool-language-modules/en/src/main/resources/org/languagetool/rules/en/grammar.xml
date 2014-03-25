@@ -2565,12 +2565,16 @@ USA
         </rule>
         <rule id="CANT" name="cant (can't)">
             <pattern>
-                <token>cant</token>
+                <marker>
+                    <token>cant</token>
+                </marker>
+                <token><exception>to</exception></token>
             </pattern>
             <message>Did you mean <suggestion>can't</suggestion> or <suggestion>cannot</suggestion>?</message>
             <short>Possible typo</short>
             <example type="correct">I <marker>can't</marker> view pdf files in Explorer.</example>
             <example type="incorrect">I <marker>cant</marker> view pdf files in Explorer.</example>
+            <example type="correct">... despite all the modern cant to the contrary.</example>
         </rule>
         <rulegroup id="HELL" name="hell/shell (he'll, she'll)">
         <rule>
@@ -3477,7 +3481,7 @@ USA
                     <token><exception postag="DT|JJ.*" postag_regexp="yes"></exception></token>
                     <marker>
                         <token postag="NN|NN:UN" postag_regexp="yes"><exception postag="VB"></exception></token>
-                        <token regexp="yes">'|’</token>
+                        <token regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
                     <token postag="VBD|VBP" postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"></exception><exception>got</exception></token>
@@ -3487,12 +3491,14 @@ USA
                 <example type="correct">7 reasons why <marker>teachers</marker> found us top class</example>
                 <example type="correct">And how funny it'll seem, sending presents to one's own feet!</example>
                 <example correction="teachers" type="incorrect">7 reasons why <marker>teacher's</marker> found us top class</example>
+                <example type="correct">The whole sky's caved in.</example>
+                <example type="correct">His throat's shut.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="NN|NN:.*|NNP" postag_regexp="yes"><exception postag="RB"></exception></token>
-                        <token regexp="yes">'|’</token>
+                        <token regexp="yes">['’]</token>
                         <token>s</token>
                     </marker>
                     <token postag="WRB"></token>
@@ -6679,7 +6685,7 @@ USA
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <pattern>
                 <!-- 't': from "doesn't" etc -->
-                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|lets?|did|be|is|were|was|that|about|of|lest|whether</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make</exception></token>
+                <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
                 <token>it</token>
                 <token min="0" max="1" postag="RB"/>
                 <marker>
@@ -6704,7 +6710,8 @@ USA
             <example type="correct">It fell without resistance to Union forces under Brig.</example>
             <example type="correct">You may take this book as long as you keep it clean.</example>
             <example type="correct">Embrace life whether it be a moment or, an eternity.</example>
-            <example type="correct">But he insisted that it be housed in a special museum.</example>            
+            <example type="correct">But he insisted that it be housed in a special museum.</example>
+            <example type="correct">Many other components beside it determine how much cooling you'll get.</example>
         </rule>
         <rule id="DID_PAST" name="'did' with past tense verb">
             <pattern>
@@ -9213,7 +9220,7 @@ USA
         <rule id="AS_ADJ_AS" name="Comparison with 'as'">
             <pattern>
                 <token>as</token>
-                <token postag="JJ|RB" postag_regexp="yes"><exception>other</exception></token>
+                <token postag="JJ|RB" postag_regexp="yes"><exception>other</exception><exception postag="JJR"/></token>
                 <marker>
                     <token regexp="yes">like|than|then</token>
                 </marker>
@@ -9225,6 +9232,7 @@ USA
             <example type="correct">This box contains as much <marker>as</marker> possible.</example>
             <example type="incorrect">This box contains as much <marker>like</marker> possible.</example>
             <example type="correct">It is inappropriate to cite this document as other than work in progress.</example>
+            <example type="correct">This strikes me as less than a satisfactory expression of appreciation.</example>
         </rule>
         <rule id="EAGER_TO" name="Non-infinitive verb with 'eager to...'">
             <pattern>
@@ -9352,7 +9360,7 @@ USA
             </rule>
             <rule>
                 <pattern>                    
-                    <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/></token>
+                    <token skip="1" postag="PRP">you<exception scope="previous" postag="IN"/><exception scope="next" postag="PRP"/></token>
                     <marker>
                         <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/></token>
                     </marker>
@@ -9363,7 +9371,8 @@ USA
                 <example type="correct">You <marker>make</marker> a lot of mistakes.</example>                
                 <example type="correct">One of you thinks that this is possible.</example>
                 <example type="correct">Be sure the man nearest you is awake.</example>
-                <example type="correct">You guys remember that.</example> 
+                <example type="correct">You guys remember that.</example>
+                <example type="correct">How many times do I have to tell you he isn't here?</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -12098,14 +12107,18 @@ USA
         <rule id="IN_THE_MOMENT" name="in the moment (currently)">
             <!-- Typical mistake for German native speakers -->
             <pattern>
+                <marker>
                 <token>in</token>
                 <token>the</token>
                 <token>moment</token>
+                </marker>
+                <token><exception>of</exception></token>
             </pattern>
             <message>Did you mean <suggestion>at the moment</suggestion> (=currently)?</message>
             <short>Nonstandard phrase</short>
             <example correction="at the moment|currently" type="correct">No, <marker>currently</marker> not.</example>
             <example type="incorrect">No, <marker>in the moment</marker> not.</example>
+            <example type="correct">But in the moment of truth everyone could see that.</example>
         </rule>
         <rule id="MAKE_SINCE" name="make since (sense)">
             <pattern>

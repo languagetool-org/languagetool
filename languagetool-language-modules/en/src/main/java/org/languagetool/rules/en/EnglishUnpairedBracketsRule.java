@@ -34,7 +34,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
 
   private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
-  private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\d");
+  private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");
   private static final Pattern ALPHA = Pattern.compile("\\p{L}+");
 
   public EnglishUnpairedBracketsRule(final ResourceBundle messages,
@@ -59,7 +59,6 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
     //TODO: add an', o', 'till, 'tain't, 'cept, 'fore in the disambiguator
     //and mark up as contractions somehow
-    // add exception for dates like '52
 
     if (i <= 1) {
       return true;
