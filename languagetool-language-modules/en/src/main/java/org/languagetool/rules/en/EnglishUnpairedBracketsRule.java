@@ -26,6 +26,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
+import org.languagetool.rules.SymbolLocator;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
@@ -79,12 +80,16 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       return false;
     }
 
-    if (!precSpace && follSpace) {
+    if (!precSpace && follSpace || tokens[i].isSentenceEnd()) {
       // exception for English inches, e.g., 20"
       final AnalyzedTokenReadings prevToken = tokens[i - 1];
-      if ("\"".equals(tokenStr)
-          && NUMBER.matcher(prevToken.getToken()).matches()) {
-        return false;
+      if ("\"".equals(tokenStr))
+           {
+        if (!symbolStack.empty() && "\"".equals(symbolStack.peek().getSymbol())) {
+          return true;
+        } else if (NUMBER.matcher(prevToken.getToken()).matches()) {
+          return false;
+        }
       }
       // Exception for English plural Saxon genitive
       if (("'".equals(tokenStr) || "’".equals(tokenStr)) && tokens[i].hasPosTag("POS")) {

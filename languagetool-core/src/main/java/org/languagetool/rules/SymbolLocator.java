@@ -25,7 +25,8 @@ package org.languagetool.rules;
  * 
  * @author Marcin Miłkowski
  */
-class SymbolLocator {
+public class SymbolLocator {
+
   String symbol;
   int index;
 
@@ -33,4 +34,13 @@ class SymbolLocator {
     this.symbol = symbol;
     this.index = index;
   }
+
+  /**
+   * @return The symbol in the locator
+   * @since 2.5
+   */
+  public String getSymbol() {
+    return symbol;
+  }
+
 }

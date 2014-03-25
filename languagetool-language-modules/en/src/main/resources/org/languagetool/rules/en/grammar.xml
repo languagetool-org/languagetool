@@ -10653,8 +10653,13 @@ USA
                 <example correction="“" type="incorrect">This is another <marker>&quot;</marker>test&quot;.</example>
             </rule>
             <rule>
+                <antipattern> <!-- don't beautify inches -->
+                    <token postag_regexp="yes" postag="''|SENT_START" skip="-1"><exception scope="next" postag="``"/></token>
+                    <token regexp="yes">\d{1,2}(?:[-\.]\d{1,2})?</token>
+                    <marker><token postag="''"/></marker>
+                </antipattern>
                 <pattern>
-                    <token postag="''"><exception regexp="yes" scope="previous">\d+(?:-\d+)?</exception></token>
+                    <token postag="''"/>
                 </pattern>
                 <message>Use a smart closing quote here: <suggestion>”</suggestion>.</message>
                 <url>https://en.wikipedia.org/wiki/Smart_quote#Typing_quotation_marks_on_a_computer_keyboard</url>
@@ -10662,8 +10667,10 @@ USA
                 <example correction="”" type="incorrect">This is a (&quot;test<marker>&quot;</marker>)</example>
                 <example correction="”" type="incorrect">Use a quote &quot;here<marker>&quot;</marker> to say something.</example>
                 <example correction="”" type="incorrect">This is another &quot;test<marker>&quot;</marker>.</example>
+                <example type="incorrect" correction="”">Achilles is mentioned in the song &quot;57821<marker>&quot;</marker>, by Janelle Monáe ft.</example>
+
                 <example type="correct">“Test”!</example>
-                <example type="correct">Economy class seats have a seat pitch of 31-33"</example>
+                <example type="correct">Economy class seats have a seat pitch of 31-33&quot;</example>
             </rule>
             <rule>
                 <pattern>

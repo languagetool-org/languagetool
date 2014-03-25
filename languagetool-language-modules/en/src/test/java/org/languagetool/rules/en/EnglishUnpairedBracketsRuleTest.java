@@ -75,6 +75,9 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("The '49 team was off to a so-so 5-5 beginning");
     assertCorrect("A Republican survey says Kennedy won the '60 election on the religious issue.");
     assertCorrect("Economy class seats have a seat pitch of 31-33\", with newer aircraft having thinner seats that have a 31\" pitch.");
+    assertCorrect("\"02\" will sort before \"10\" as expected so it will have size of 10\".");
+    assertCorrect("\"02\" will sort before \"10\" as expected so it will have size of 10\""); // inch symbol is at the sentence end
+    assertCorrect("\"02\" will sort before \"10\""); // quotation mark is at the sentence end
 
 
     //Should be correct!

@@ -152,7 +152,7 @@ public class GenericUnpairedBracketsRule extends Rule {
                   && token.equals(startSymbols[j])) {
             symbolStack.push(new SymbolLocator(startSymbols[j], i));
             break;
-          } else if (noException && followedByWhitespace
+          } else if (noException && (followedByWhitespace || tokens[i].isSentenceEnd())
                   && token.equals(endSymbols[j])) {
             if (i > 1 && endSymbols[j].equals(")")
                     && (numerals.matcher(tokens[i - 1].getToken()).matches()
