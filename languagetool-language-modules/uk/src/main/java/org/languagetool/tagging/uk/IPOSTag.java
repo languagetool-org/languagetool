@@ -20,29 +20,29 @@
 package org.languagetool.tagging.uk;
 
 public enum IPOSTag {
-    noun("noun"),
-    adj("adj"),
-    verb("verb"),
-    adv("adv"),
-    part("aprt"),
-    numr("numr"),
-    dieprysl("dieprysl"),
-    prysudk_sl("prysudk_sl"),
-    insert_sl("insert_sl"),
-    todo("todo");
-    
-    private final String text;
-    
-    private IPOSTag(String text) {
-    	this.text = text;
-    }
+  noun("noun"),
+  adj("adj"),
+  verb("verb"),
+  adv("adv"),
+  part("aprt"),
+  numr("numr"),
+  dieprysl("dieprysl"),
+  prysudk_sl("prysudk_sl"),
+  insert_sl("insert_sl"),
+  todo("todo");
 
-		public String getText() {
-			return text;
-		}
-		
-		public boolean match(String posTag) {
-			return posTag != null && posTag.startsWith(this.name());
-		}
-    
+  private final String text;
+
+  private IPOSTag(String text) {
+    this.text = text;
+  }
+
+  public String getText() {
+    return text;
+  }
+
+  public boolean match(String posTag) {
+    return posTag != null && posTag.startsWith(this.name());
+  }
+
 }

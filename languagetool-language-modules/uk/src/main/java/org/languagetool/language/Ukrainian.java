@@ -44,14 +44,14 @@ import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
 
 public class Ukrainian extends Language {
-	private static final List<String> RULE_FILES = Arrays.asList(
-	  "grammar-spelling.xml",
-	  "grammar-grammar.xml",
-	  "grammar-barbarism.xml",
-	  "grammar-style.xml",
-	  "grammar-punctuation.xml"
-	);
-	
+  private static final List<String> RULE_FILES = Arrays.asList(
+      "grammar-spelling.xml",
+      "grammar-grammar.xml",
+      "grammar-barbarism.xml",
+      "grammar-style.xml",
+      "grammar-punctuation.xml"
+      );
+
   private Tagger tagger;
   private SRXSentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
@@ -77,7 +77,7 @@ public class Ukrainian extends Language {
   public String[] getCountries() {
     return new String[]{"UA"};
   }
-  
+
   @Override
   public String[] getUnpairedRuleStartSymbols() {
     return new String[]{ "[", "(", "{", "„", "«", "»" };
@@ -87,7 +87,7 @@ public class Ukrainian extends Language {
   public String[] getUnpairedRuleEndSymbols() {
     return new String[]{ "]", ")", "}", "“", "»", "«" };
   }
-  
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
@@ -119,51 +119,51 @@ public class Ukrainian extends Language {
     }
     return wordTokenizer;
   }
-  
+
   @Override
   public SRXSentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
-       sentenceTokenizer = new SRXSentenceTokenizer(this);
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
   }
-  
+
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-      new Contributor("Andriy Rysin"),
-      new Contributor("Maksym Davydov")
+        new Contributor("Andriy Rysin"),
+        new Contributor("Maksym Davydov")
     };
   }
 
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-// TODO: does not handle !.. and ?..            
-//            DoublePunctuationRule.class,
-            MorfologikUkrainianSpellerRule.class,
-            MixedAlphabetsRule.class,
-// TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
-//            UppercaseSentenceStartRule.class,
-            WhitespaceRule.class,
-            // specific to Ukrainian:
-            SimpleReplaceRule.class,
-            TokenAgreementRule.class
-    );
+        CommaWhitespaceRule.class,
+        // TODO: does not handle !.. and ?..            
+        //            DoublePunctuationRule.class,
+        MorfologikUkrainianSpellerRule.class,
+        MixedAlphabetsRule.class,
+        // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
+        //            UppercaseSentenceStartRule.class,
+        WhitespaceRule.class,
+        // specific to Ukrainian:
+        SimpleReplaceRule.class,
+        TokenAgreementRule.class
+        );
   }
-  
+
   @Override
-	public List<String> getRuleFileNames() {
-	  List<String> ruleFileNames = super.getRuleFileNames();
+  public List<String> getRuleFileNames() {
+    List<String> ruleFileNames = super.getRuleFileNames();
     ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     String dirBase = dataBroker.getRulesDir() + "/" + getShortName() + "/";
 
     for(String ruleFile: RULE_FILES) {
-    	ruleFileNames.add(dirBase + ruleFile);
+      ruleFileNames.add(dirBase + ruleFile);
     } 
-    
-		return ruleFileNames;
-	}
+
+    return ruleFileNames;
+  }
 
 }
