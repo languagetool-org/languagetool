@@ -53,6 +53,7 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Max und ich sollten das machen.");
     assertGood("Osama bin Laden stammt aus Saudi-Arabien.");
     assertGood("Solltet ihr das machen?");
+    assertGood("Ein Geschenk, das er einst von Aphrodite erhalten hatte.");
     assertGood("/usr/bin/firefox");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");

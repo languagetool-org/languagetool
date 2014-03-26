@@ -258,7 +258,8 @@ public class VerbAgreementRule extends GermanRule {
         || !token.hasPartialPosTag("VER")
         || token.hasPartialPosTag("PA2")
         || token.hasPartialPosTag("PRO:")
-        || token.hasPartialPosTag("ZAL")) {
+        || token.hasPartialPosTag("ZAL")
+        || "einst".equals(token.getToken())) {
       return false;
     }
     return (token.hasPartialPosTag(":1:") || token.hasPartialPosTag(":2:") || token.hasPartialPosTag(":3:"));
