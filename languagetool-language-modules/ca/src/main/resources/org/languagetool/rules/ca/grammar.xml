@@ -20064,6 +20064,62 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CAREJAR" name="carejar / acarar">
+            <pattern>
+                <token inflected="yes">carejar</token>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">acarar</match></suggestion>. Correcte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">confrontar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">encarar</match></suggestion>
+            <example type="incorrect" correction="acararen|confrontaren|encararen">Els <marker>carejaren</marker> davant del jutge.</example>
+            <example type="correct">S'encararen.</example>
+        </rule>
+        <rule id="CEBAR" name="cebar / encebar">
+            <pattern>
+                <token>cebar<exception postag="_GN_MS"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>encebar</suggestion>? "Cebar" és correcte en el sentit de "camp plantat de cebes".</message>
+            <example type="incorrect" correction="encebar">El van <marker>cebar</marker>.</example>
+            <example type="correct">Van plantar un bon cebar.</example>
+        </rule>
+        <rule id="CANTERA" name="cantera / pedrera">
+            <pattern>
+                <token inflected="yes">cantera</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">pedrera</match></suggestion>? "Cantera" és correcte en altres sentits.</message>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">planter</match></suggestion>
+            <example type="incorrect" correction="pedrera|planter">És de la <marker>cantera</marker>.</example>
+            <example type="correct">Vinc de la pedrera.</example>
+        </rule>
+        <rule id="CONXA" name="conxa / closca">
+            <pattern>
+                <token inflected="yes">conxa</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">petxina</match></suggestion>? "Conxa" és correcte en altres sentits.</message>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">conquilla</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">closca</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">coverol</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">carei</match></suggestion>
+            <example type="incorrect" correction="petxines|conquilles|closques|coverols|careis">Les <marker>conxes</marker>.</example>
+            <example type="correct">Vinc de la pedrera.</example>
+        </rule>
+        <rule id="CAMILLER" name="camiller/portalliteres">
+            <pattern>
+                <token inflected="yes">camiller</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>portalliteres</suggestion>? "Camiller" és sinònim de "caramellaire, cantaire de caramelles".</message>
+            <example type="incorrect"><marker>camillers</marker></example>
+            <example type="correct">portalliteres</example>
+        </rule>
+        <rule id="CALENTAMENT" name="calentament">
+            <pattern>
+                <token>calentament</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>escalfament</suggestion>?</message>
+            <suggestion>calfament</suggestion>
+            <example type="incorrect"><marker>calentament</marker></example>
+            <example type="correct">escalfament</example>
+        </rule>
         <rule id="PERTINENCIES" name="pertinencies">
             <pattern>
                 <token>pertinències</token>
@@ -25664,6 +25720,15 @@ $Id$
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> esclatar</suggestion>
             <example type="incorrect" correction="Féu explotar|Féu esclatar"><marker>Explosionà</marker></example>
             <example type="correct">la féu esclatar</example>
+        </rule>
+        <rule id="ABORREGAR" name="aborregar">
+            <pattern>
+                <token inflected="yes">aborregar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">amoltonar</match></suggestion>
+            <example type="incorrect" correction="amoltonaren">s'<marker>aborregaren</marker></example>
+            <example type="correct">S'amoltonaven.</example>
         </rule>
         <rule id="AFINCAR" name="afincar">
             <pattern>
