@@ -6331,6 +6331,15 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="ZU_ALLERERST" name="zu allererst (zuallererst)">
+            <pattern>
+                <token>zu</token>
+                <token regexp='yes'>allererst|allerletzt|alleroberst|allerunterst|allermeist</token>
+            </pattern>
+            <message>Das Adverb <suggestion><match no="1"/><match no="2"/></suggestion> wird zusammengeschrieben.</message>
+            <example type='incorrect'><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
+            <example type='correct'>Zuallererst mal in Ruhe nachdenken.</example>
+        </rule>
         <rule id="XJAEHRIG" name="Xjährig (X-jährig)">
             <pattern>
                 <token regexp='yes'>\d+jährige[rsn]?</token>
