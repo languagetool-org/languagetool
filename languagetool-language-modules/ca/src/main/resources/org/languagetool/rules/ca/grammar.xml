@@ -2863,13 +2863,34 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
+            <antipattern>
+                <token inflected="yes">haver</token>
+                <token>de</token>
+                <token>menester</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">haver</token>
+                </marker>
+                <token>o</token>
+                <token>no</token>
+                <token><match no="0"/></token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">haver</token>
+                </marker>
+                <token>o</token>
+                <token>no</token>
+                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token><match no="0"/></token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
                         <token postag="VA..[12]...?" postag_regexp="yes" inflected="yes">haver<exception postag="VA..3S..?|_perfet|_obligacio|_GV_|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="V.[NG].*" postag_regexp="yes"/><exception>esment</exception></token>     
-                    <token><exception>menester</exception><exception>esment</exception></token>  
                 </pattern>
                 <message>Falta un participi o la preposició 'de'.</message>             
                 <example type="incorrect"><marker>Hem</marker> pràcticament esgotant.</example>
@@ -2887,7 +2908,6 @@ $Id$
                         <token postag="VA..3...?" postag_regexp="yes" inflected="yes">haver<exception postag="_perfet|_obligacio|_GV_" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception postag="V.[NG].*" postag_regexp="yes"/><exception>esment</exception></token>
-                    <token><exception>menester</exception><exception>esment</exception></token>
                 </pattern>
                 <message>Falta un participi, el pronom 'hi' o la preposició 'de'.</message>
                 <suggestion>hi <match no="2"/></suggestion>
@@ -2899,6 +2919,7 @@ $Id$
                 <example type="incorrect">Ho <marker>han</marker> fermament realitzar.</example>
                 <example type="incorrect">A classe <marker>havia</marker> dos nois fora mida.</example>
                 <example type="incorrect">Que <marker>ha</marker> s'ha trobat</example>
+                <example type="incorrect">Hi havia o no <marker>havia</marker>.</example>
                 <example type="correct">no me n'hauria pas recordat.</example>
                 <example type="correct">no me n'hauria pas recordat.</example>
                 <example type="correct">S'han fos els ploms.</example>
@@ -2910,6 +2931,10 @@ $Id$
                 <example type="correct">No n'hagué esment</example>
                 <example type="correct">S'havia d'assegurar del seu valor.</example>
                 <example type="correct">S'havia engrescat força.</example>
+                <example type="correct">Ha hagut de menester.</example>
+                <example type="correct">Havia o no havia assumit això?</example>
+                <example type="correct">Ho havia o no ho havia assumit?</example>
+                <example type="correct">Havia o no dit això.</example>
             </rule>                   
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
