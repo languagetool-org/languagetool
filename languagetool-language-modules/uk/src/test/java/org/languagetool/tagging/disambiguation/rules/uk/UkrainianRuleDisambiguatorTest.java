@@ -22,6 +22,8 @@ import java.io.IOException;
 
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
@@ -36,14 +38,16 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
   private SRXSentenceTokenizer sentenceTokenizer;
   private UkrainianHybridDisambiguator disambiguator;
   private DemoDisambiguator demoDisambiguator;
-  
+  private Disambiguator chunker;
+
   @Override
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
     sentenceTokenizer = new SRXSentenceTokenizer(new Ukrainian());
     disambiguator = new UkrainianHybridDisambiguator();
-    demoDisambiguator = new DemoDisambiguator(); 
+    demoDisambiguator = new DemoDisambiguator();
+    chunker = new MultiWordChunker("/uk/multiwords.txt");
   }
 
   public void testRules() throws Exception {

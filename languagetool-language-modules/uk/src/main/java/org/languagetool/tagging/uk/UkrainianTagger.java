@@ -19,6 +19,7 @@
 package org.languagetool.tagging.uk;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -36,39 +37,41 @@ import org.languagetool.AnalyzedToken;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
-  private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?");
-	
-  public static final Map<String, String> VIDMINKY_MAP = new HashMap<String, String>();
+	private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?");
 
-  static {
-  	VIDMINKY_MAP.put("v_naz", "називний");
-  	VIDMINKY_MAP.put("v_rod", "родовий");
-  	VIDMINKY_MAP.put("v_dav", "давальний");
-  	VIDMINKY_MAP.put("v_zna", "знахідний");
-  	VIDMINKY_MAP.put("v_oru", "орудний");
-  	VIDMINKY_MAP.put("v_mis", "місцевий");
-  	VIDMINKY_MAP.put("v_kly", "кличний");
-  }
-  
-  @Override
-  public final String getFileName() {
-    return "/uk/ukrainian.dict";    
-  }
-  
-  public UkrainianTagger() {
-    super();
-    setLocale(new Locale("uk", "UA"));
-    dontTagLowercaseWithUppercase();
-  }
-  
-  @Override
-  public List<AnalyzedToken> additionalTags(String word) {
-    if ( NUMBER.matcher(word).matches() ){
-      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.numr.toString(), word));
-        return additionalTaggedTokens;
-    }
-    return null;
-  }
+	public static final Map<String, String> VIDMINKY_MAP;
+
+	static {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("v_naz", "називний");
+		map.put("v_rod", "родовий");
+		map.put("v_dav", "давальний");
+		map.put("v_zna", "знахідний");
+		map.put("v_oru", "орудний");
+		map.put("v_mis", "місцевий");
+		map.put("v_kly", "кличний");
+		VIDMINKY_MAP = Collections.unmodifiableMap(map);
+	}
+
+	@Override
+	public final String getFileName() {
+		return "/uk/ukrainian.dict";    
+	}
+
+	public UkrainianTagger() {
+		super();
+		setLocale(new Locale("uk", "UA"));
+		dontTagLowercaseWithUppercase();
+	}
+
+	@Override
+	public List<AnalyzedToken> additionalTags(String word) {
+		if ( NUMBER.matcher(word).matches() ){
+			List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
+			additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.numr.toString(), word));
+			return additionalTaggedTokens;
+		}
+		return null;
+	}
 
 }

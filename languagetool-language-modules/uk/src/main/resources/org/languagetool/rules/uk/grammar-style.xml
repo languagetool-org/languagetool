@@ -162,15 +162,18 @@ $Id$
                     <marker>
                         <token>в</token>
                     </marker>
-                    <token regexp="yes">[234567890ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm].*</token>
+                    <token regexp="yes">[23456789ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm][^у].*</token>
                 </pattern>
                 <message>Між двома приголосними варто писати у: \1 <suggestion>у</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example type="correct">Стіг у степу.</example>
+                <example type="correct">скинув в 0</example>
+                <example type="correct">Однотипний апарат в музеї Монако</example>
                 <example type="incorrect">Стіг <marker>в</marker> степу.</example>
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">.*[у]</exception></token>
                     <marker>
                         <token>в</token>
                     </marker>
@@ -180,7 +183,10 @@ $Id$
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example type="correct">у вівторок.</example>
                 <example type="correct">Сьогодні у Львові.</example>
+                <example type="correct">перевагу в швидкості</example>
                 <example type="incorrect"><marker>в</marker> вівторок.</example>
+                <example type="incorrect"><marker>В</marker> вольєрі сталася пожежа.</example>
+                <example type="incorrect">Наприклад, <marker>в</marker> фанерних будинках.</example>
                 <example type="incorrect">Сьогодні <marker>в</marker> Львові.</example>
             </rule>
 
@@ -188,14 +194,16 @@ $Id$
                 <pattern>
                     <token postag="SENT_START"></token>
                     <marker>
-                        <token>в</token>
+                        <token>В</token>
                     </marker>
-                    <token regexp="yes">[1234567890ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm].*</token>
+                    <token regexp="yes">([238]|[ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm]{2,}).*</token>
                 </pattern>
-                <message>На початку речення перед приголосними варто писати у: <suggestion>У</suggestion> \3</message>
+                <message>На початку речення перед збігом приголосних варто писати у: <suggestion>У</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
-                <example type="correct">У будинку сталася пожежа.</example>
-                <example type="incorrect"><marker>В</marker> будинку сталася пожежа.</example>
+                <example type="correct">В будинку сталася пожежа.</example>
+                <example type="correct">В установі сталася пожежа.</example>
+                <example type="incorrect"><marker>В</marker> приміщенні сталася пожежа.</example>
+                <example type="incorrect"><marker>В</marker> 88 році там сталася пожежа.</example>
             </rule>
 
             <rule>
@@ -204,12 +212,14 @@ $Id$
                     <marker>
                         <token>в</token>
                     </marker>
-                    <token regexp="yes">[1234567890ґйцкнгшщзхфвпрлджчсмтьбqwrtpsdfghjklzxcvbnm].*</token>
+                    <token regexp="yes">([238]|[ґйцкнгшщзхпрлджчсмтьбqrtpsdghjklzxcbnm]{2,}).*</token>
                 </pattern>
-                <message>після паузи перед приголосними варто писати у: <suggestion>у</suggestion> \3</message>
+                <message>Після паузи перед збігом приголосних варто писати у: <suggestion>у</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example type="correct">Звичайно, у закладі.</example>
-                <example type="incorrect">Звичайно, <marker>в</marker> закладі.</example>
+                <example type="correct">Звичайно, в закладі.</example>
+                <example type="incorrect">Наприклад, <marker>в</marker> простих визарах.</example>
+                <example type="incorrect">Наприклад, <marker>в</marker> 80 років.</example>
             </rule>
 
             <rule>
@@ -224,6 +234,7 @@ $Id$
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example type="correct">В Україні.</example>
                 <example type="incorrect"><marker>У</marker> Україні.</example>
+                <example type="incorrect"><marker>У</marker> арт-проекту.</example>
             </rule>
 
             <rule>

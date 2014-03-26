@@ -43,6 +43,7 @@ if [ "$1" == "-f" ]; then
         make -C $spell_uk_dir regtest
     fi
     
+#    cat all_words.lst | encode | sort -u > all.tagged.tmp && \
     cat $spell_uk_dir/test/all_aspell.srt | encode | sort -u > all.tagged.tmp && \
     cat  all.tagged.tmp | #$MFL_CMD tab2morph -i all.tagged.tmp | \
     $MFL_CMD fsa_build $FSA_FLAGS -o uk_UA.dict && \

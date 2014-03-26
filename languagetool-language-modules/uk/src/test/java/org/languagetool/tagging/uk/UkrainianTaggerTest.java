@@ -55,13 +55,13 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis|Далі/[Далі]noun:m:nv|Далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz|Бен/[бен]todo", tokenizer, tagger);
     TestTools.myAssert("бен", "бен/[бен]todo", tokenizer, tagger);
-  
+
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:f:v_zna -- порушено/[порушено]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",
        tokenizer, tagger);
        
     String expected = 
-      "Майже/[майже]todo -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
+      "Майже/[майже]adv -- два/[два]noun:m:v_naz|два/[два]noun:m:v_zna|два/[два]noun:n:v_naz|два/[два]noun:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
     + " -- тому/[той]pron:m:v_dav|тому/[той]pron:m:v_mis|тому/[той]pron:n:v_dav|тому/[той]pron:n:v_mis|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod"
     + " -- Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]pryim:rv_rod:rv_zna:rv_oru"
     + " -- чоловіком/[чоловік]noun:m:v_oru -- Степаном/[Степан]noun:m:v_oru -- виїхали/[виїхати]verb:past:m -- туди/[туди]adv"

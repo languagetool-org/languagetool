@@ -80,6 +80,7 @@ public class TokenAgreementRuleTest {
 
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через усім відомі причини"))));
     
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через нікому не відомі причини"))));
 
 //    assertEquals(0, rule.match(langTool.getAnalyzedSentence("як у Конана Дойла")).length); //TODO
 //    assertEquals(0, rule.match(langTool.getAnalyzedSentence("як у Конану Дойла")).length);

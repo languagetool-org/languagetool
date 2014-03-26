@@ -403,6 +403,18 @@ $Id$
        </rule>
        <rule>
          <pattern>
+            <token regexp="yes">після|перед</token>
+            <marker>
+              <token inflected="yes">їжа</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>їда</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/9.htm</url>
+         <example type="incorrect">Випиту склянку після <marker>їжі</marker>.</example>
+         <example type="correct">Багато їжи.</example>
+       </rule>
+       <rule>
+         <pattern>
             <marker>
               <token>на</token>
               <token>сьогоднішній</token>
@@ -924,6 +936,16 @@ $Id$
          <example type="incorrect">дивимося <marker>пряме включення</marker></example>
          <example type="correct">дивимося пряму трансляцію</example>
        </rule>
+       <rule>
+         <pattern>
+            <token>в</token>
+            <token>міру</token>
+            <token>необхідності</token>
+         </pattern>
+         <message>Правильно: <suggestion>за потреби</suggestion>, <suggestion>як до потреби</suggestion>, <suggestion>в міру потреби</suggestion>, <suggestion>при потребі</suggestion></message>
+         <example type="incorrect">Збори скликаються <marker>в міру необхідності</marker></example>
+         <example type="correct">збори скликаються за потреби</example>
+       </rule>
      </rulegroup>
 
      <rulegroup id="PREPOSITION_PO" name="помилкове вживання прийменника «по»">
@@ -1306,18 +1328,16 @@ $Id$
          <example type="correct">цілими днями</example>
        </rule>
        
-       <!-- TODO: need to correct the dictionary
        <rule>
          <pattern>
               <token>по</token>
-              <token regexp="yes" postag_regexp="yes" postag=".*:.:v_dav.*" inflected="yes">ваш|він|вони|вона</token>
+              <token regexp="yes" postag_regexp="yes">вашій|його|її</token>
               <token>милості</token>
          </pattern>
-         <message>Правильно: <suggestion>з <match no="2" postag_regexp="yes" postag="(noun:.):v_...(.*)" postag_replace="$1:v_rod$2"/> ласки</suggestion></message>
+         <message>Правильно: <suggestion>з <match no="2" postag_regexp="yes" postag="(^.*?:.):v_...(.*)" postag_replace="$1:v_rod$2"/> ласки</suggestion></message>
          <example type="incorrect" correction="з вашої ласки"><marker>по вашій милості</marker></example>
          <example type="correct">з вашої ласки</example>
        </rule>
-        -->
 
 <!-- TODO: розглянути випадки
        <rule>
