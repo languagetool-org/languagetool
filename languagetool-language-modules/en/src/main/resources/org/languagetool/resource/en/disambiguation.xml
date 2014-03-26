@@ -2026,12 +2026,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
-                    <token postag_regexp="yes" postag="VB|JJ"></token>
+                    <token postag_regexp="yes" postag="VB|JJ" negate="yes" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</token>
                 </and>
             </marker>
             <token postag="NNP" regexp="yes">\p{Lu}\p{Ll}+</token>
         </pattern>
         <disambig postag="NNP"></disambig>
+        <example type="untouched">It is in many Caribbean and Latin American countries...</example>
     </rule>
     <rule name="Uppercase word/NNP|NN -&gt; NNP" id="UPPER_NNP">
         <pattern case_sensitive="yes">
