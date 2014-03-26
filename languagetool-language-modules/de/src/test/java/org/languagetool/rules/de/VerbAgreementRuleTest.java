@@ -54,6 +54,12 @@ public class VerbAgreementRuleTest extends TestCase {
     assertGood("Osama bin Laden stammt aus Saudi-Arabien.");
     assertGood("Solltet ihr das machen?");
     assertGood("Ein Geschenk, das er einst von Aphrodite erhalten hatte.");
+    assertGood("Wenn ich sterben sollte, wer würde sich dann um die Katze kümmern?");
+    assertGood("Wenn er sterben sollte, wer würde sich dann um die Katze kümmern?");
+    assertGood("Wenn sie sterben sollte, wer würde sich dann um die Katze kümmern?");
+    assertGood("Wenn es sterben sollte, wer würde sich dann um die Katze kümmern?");
+    assertGood("Wenn ihr sterben solltet, wer würde sich dann um die Katze kümmern?");
+    assertGood("Wenn wir sterben sollten, wer würde sich dann um die Katze kümmern?");
     assertGood("/usr/bin/firefox");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");

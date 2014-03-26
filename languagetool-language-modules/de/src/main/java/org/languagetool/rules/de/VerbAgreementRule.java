@@ -181,7 +181,9 @@ public class VerbAgreementRule extends GermanRule {
                && !isQuotationMark(tokens[posIch-1])) {
       final int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       if (!verbDoesMatchPersonAndNumber(tokens[posIch-1], tokens[posIch+plus1], "1", "SIN")) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], finiteVerb, "1:SIN"));
+        if (!nextButOneIsModal(tokens, posIch)) {
+          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posIch], finiteVerb, "1:SIN"));
+        }
       }
     }
     
@@ -192,13 +194,15 @@ public class VerbAgreementRule extends GermanRule {
       if (!verbDoesMatchPersonAndNumber(tokens[posDu-1], tokens[posDu+plus1], "2", "SIN") &&
           !tokens[posDu+plus1].hasPartialPosTag("VER:1:SIN:KJ2") && // "Wenn ich du wäre"
           !tokens[posDu-1].hasPartialPosTag("VER:1:SIN:KJ2")) {
-        ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], finiteVerb, "2:SIN"));
+        if (!nextButOneIsModal(tokens, posDu)) {
+          ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], finiteVerb, "2:SIN"));
+        }
       }
     }
     
     if (posEr > 0 && !isNear(posPossibleVer3Sin, posEr) && !isQuotationMark(tokens[posEr-1])) {
       final int plus1 = ((posEr + 1) == tokens.length) ? 0 : +1;
-      if (!verbDoesMatchPersonAndNumber(tokens[posEr-1], tokens[posEr+plus1], "3", "SIN")) {
+      if (!verbDoesMatchPersonAndNumber(tokens[posEr-1], tokens[posEr+plus1], "3", "SIN") && !nextButOneIsModal(tokens, posEr)) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], finiteVerb, "3:SIN"));
       }
     }
@@ -207,14 +211,19 @@ public class VerbAgreementRule extends GermanRule {
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Plu]));
     } else if (posWir > 0 && !isNear(posPossibleVer1Plu, posWir) && !isQuotationMark(tokens[posWir-1])) {
       final int plus1 = ((posWir + 1) == tokens.length) ? 0 : +1;
-      if (!verbDoesMatchPersonAndNumber(tokens[posWir-1], tokens[posWir+plus1], "1", "PLU")) {
+      if (!verbDoesMatchPersonAndNumber(tokens[posWir-1], tokens[posWir+plus1], "1", "PLU") && !nextButOneIsModal(tokens, posWir)) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posWir], finiteVerb, "1:PLU"));
       }
     }
     
     return toRuleMatchArray(ruleMatches);
   }
-  
+
+  // avoid false alarm on 'wenn ich sterben sollte ...':
+  private boolean nextButOneIsModal(AnalyzedTokenReadings[] tokens, int pos) {
+    return pos < tokens.length - 2 && tokens[pos+2].hasPartialPosTag(":MOD:");
+  }
+
   /**
    * @return true if |a - b| &lt; 5, and a != -1 
    */

@@ -333,7 +333,7 @@ $Id$
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next">aus</exception></token>
                 <marker>
-                    <token skip="5">auf<exception scope="next" regexp="yes">,|\(|oder|und|aus</exception></token>
+                    <token skip="5">auf<exception scope="next" regexp="yes">,|\(|oder|und|aus|etwa|circa</exception></token>
                 </marker>
                 <token skip="2" postag_regexp="yes" postag="SUB:AKK.*"><exception scope="next" regexp="yes">,|\(|oder|und|aus</exception></token>
                 <token inflected="yes">entfernen</token>
@@ -22134,6 +22134,10 @@ $Id$
         </rulegroup>
         <rulegroup id="PRAEP_PLUS_VERB" name="Groß-/Kleinschreibung: 'zum mitnehmen (Mitnehmen), im sitzen (Sitzen)' etc.">
             <rule>
+                <antipattern>
+                    <token>erhalten</token>
+                    <token inflected="yes">geblieben</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]um|[bB]eim|im</token>
                     <marker>
@@ -22150,6 +22154,7 @@ $Id$
                 <example type="incorrect" correction="Mitnehmen">Alle Gerichte auch zum <marker>mitnehmen</marker>.</example>
                 <example type="incorrect" correction="Stehen">Ich bin fast im <marker>stehen</marker> eingeschlafen.</example>
                 <example type="incorrect" correction="Suchen">Beim <marker>suchen</marker> fiel mir etwas ein.</example>
+                <example type="correct">Er steht im <marker>erhalten</marker> gebliebenen Seitenflügel.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -23274,7 +23279,7 @@ $Id$
         <rulegroup id="MEIN_KLEIN_HAUS" name="Grammatik: Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <rule>
                 <pattern>
-                    <token postag="PRP:.*" postag_regexp="yes"><exception regexp="yes">um|zu</exception></token>
+                    <token postag="PRP:.*" postag_regexp="yes"><exception regexp="yes">um|zu|als</exception></token>
                     <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                     <token postag="SUB:.*" postag_regexp="yes">
                         <exception postag="SUB:.*:ADJ" postag_regexp="yes" />
@@ -23293,6 +23298,7 @@ $Id$
                 <example type="correct">Du darfst nicht <marker>zu schnell Öl</marker> hinzufügen.</example>
                 <example type="correct">Das Signal kann <marker>mit maximal Lichtgeschwindigkeit</marker> den Beobachter erreichen.</example>
                 <example type="correct">Wir sind ganz auf die Bedürfnisse <marker>von bewusst Reisenden</marker> eingestellt.</example>
+                <example type="correct"><marker>Als zufällig Jahre</marker> später der Brief gefunden wurde...</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
@@ -26474,6 +26480,13 @@ $Id$
         </rule>
         -->
         <rulegroup id="DE_PHRASE_REPETITION" name="Wiederholung von Wortgruppen (z.B. 'auf der auf der Straße')">
+            <antipattern>
+                <token>von</token>
+                <token>Fall</token>
+                <token>zu</token>
+                <token>Fall</token>
+                <token>zu</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token negate_pos="yes" postag="SENT_START" regexp="yes"><exception>und</exception>\p{L}+</token>
