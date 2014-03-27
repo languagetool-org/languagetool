@@ -2809,7 +2809,7 @@ USA
               <marker>
                  <token>its<exception scope="previous" regexp="yes">of|all</exception><exception scope="previous" postag_regexp="yes" postag="VB.*|IN"></exception></token>
               </marker>                 
-             <token postag="VBG"><exception postag="NN.*" postag_regexp="yes"/></token>
+             <token postag="VBG"><exception postag="[JN].*" postag_regexp="yes"/></token>
             </pattern>
             <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
             <short>Possible typo</short>
@@ -2818,6 +2818,7 @@ USA
             <example type="incorrect" correction="it's|it is">Well, <marker>its</marker> gonna take some time.</example>
             <example type="correct">It was mainly because of its burgeoning economy.</example>
             <example type="correct">No wonder Melissa responded so completely to its beckoning.</example>
+                <example type="correct">That may be extended to Cambridge and its surrounding countryside.</example>
             </rule>
             <rule>
             <pattern>
@@ -8940,7 +8941,7 @@ USA
                         <token>this</token>
                     </marker>
                     <token postag="NNS"><exception postag="VBZ|NN|JJ.*" postag_regexp="yes"></exception><exception>data</exception></token>
-                    <token><exception postag="NN|NNP|NN:.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="NNP?|NN:.*" postag_regexp="yes"></exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
                 <short>Grammatical problem</short>
@@ -8952,7 +8953,7 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes">these|those</token>
-                        <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="VBZ|VBG|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"></exception><exception>are</exception></token>
+                        <token postag="NN|NN:.*" postag_regexp="yes"><exception postag="VB[ZGN]|NNS|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"></exception><exception>are</exception></token>
                     </marker>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
                 </pattern>
@@ -8964,6 +8965,7 @@ USA
                 <example correction="This error|These errors" type="incorrect"><marker>These error</marker> are easy to fix.</example>
                 <example type="correct">This forms a sharp contract with...</example>
                 <example type="correct">These eleven authors are right.</example>
+                <example type="correct">Those illustrated are reminiscent of a circus top.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10291,7 +10293,7 @@ USA
             <example type="correct">Before he was forty Griffith had created the art of the film.</example>
             <example type="correct">In the 1860 - 70 decade there are many poems like Revulsion.</example>
             <example type="correct">And also a twin 15 mm version based on the Light Tank Mk.</example>
-            <example type="correct">The right half is split into two sliver and black triangles.</example>
+            <example type="correct">The right half is split into two silver and black triangles.</example>
             <example type="correct">List of players to wear the number 14 shirt since Johan Cruyff's departure</example>
             <example type="correct">She said he would be sixteen next month.</example>
             <example type="correct">The screen is fixed to the 640 × 400 1-bit mono mode, and no external video port was provided.</example>
@@ -10379,7 +10381,7 @@ USA
                 <pattern>
                     <marker>
                         <token>many</token>
-                        <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+                        <token postag="NN:U"><exception postag="NN:UN|NN[PS]?|NNPS|JJ.*|VBG" postag_regexp="yes"></exception></token>
                     </marker>
                     <token><exception postag="NNS|NNPS|CC" postag_regexp="yes"></exception><exception>'</exception></token>
                 </pattern>
@@ -10388,12 +10390,13 @@ USA
                 <example correction="much wine|a good deal of wine" type="incorrect">I have <marker>many wine</marker>.</example>
                 <example type="correct">I have <marker>much wine</marker>.</example>
                 <example type="correct">How many wine bars are there in Cheshire?</example>
+                <example type="correct">This ended in death-like trances with many lying exhausted and panting on chair and floor.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>many</token>
-                        <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*" postag_regexp="yes"></exception></token>
+                        <token postag="NN:U"><exception postag="NN:UN|NN|NNP|NNS|NNPS|JJ.*|VBG" postag_regexp="yes"></exception></token>
                     </marker>
                     <token postag="CC"></token>
                     <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
@@ -11717,7 +11720,7 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>re</token>
                 </marker>
-                <token postag="NN|NN:U|NN:UN|NNP|NNPS|NNS" postag_regexp="yes"><exception postag="JJ"/><exception regexp="yes">one|still|right</exception></token>
+                <token postag="NN|NN:U|NN:UN|NNPS|NNS" postag_regexp="yes"><exception postag="JJ"/><exception regexp="yes">one|still|right</exception></token>
                 <token><exception>enough</exception></token>
             </pattern>
             <message>Did you mean <suggestion>your</suggestion>?</message>
@@ -11732,6 +11735,7 @@ USA
             <example type="correct">You're in perky form, aren't you?</example>
             <example type="correct"> You're man enough to let her play, she's experimental and confident enough to do it.</example>
             <example type="incorrect" correction="Your"><marker>You're</marker> optimization is a good example.</example>
+            <example type="correct">You're Arthur Willis.</example>
         </rule>
         <rulegroup id="ACCEPT_EXCEPT" name="accept/except">
             <rule>

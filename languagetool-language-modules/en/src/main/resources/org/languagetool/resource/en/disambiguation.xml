@@ -7,6 +7,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
+    <unification feature="number">
+        <equivalence type="sg">
+            <token postag="NNP?(:UN?)?|VB[ZD]|SENT_END" postag_regexp="yes"></token>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag="NNP?S|VB[PD]|SENT_END" postag_regexp="yes"></token>
+        </equivalence>
+    </unification>
+
 <!--  these just add temporary entries to the dictionary -->
 
      <rule name="animate" id="ANIMATE">
@@ -16,6 +25,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 
     <rule name="cooling" id="COOLING">
         <pattern><token>cooling</token></pattern>
+        <disambig action="remove"><wd pos="NNS"/></disambig>
+    </rule>
+
+    <rule name="fooling" id="FOOLING">
+        <pattern><token>fooling</token></pattern>
         <disambig action="remove"><wd pos="NNS"/></disambig>
     </rule>
 
@@ -51,6 +65,11 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern><token>deferment</token></pattern>
         <disambig postag="NN:UN"/>
       </rule>
+
+        <rule name="ENGLISH" id="ENGLISH">
+            <pattern case_sensitive="yes"><token>English</token></pattern>
+            <disambig action="remove"><wd pos="NN:U"/></disambig>
+        </rule>
 
      <rule name="disjoint" id="DISJOINT">
         <pattern><token>disjoint</token></pattern>
@@ -968,18 +987,29 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule id="DO_not_VBNN_VB" name="do/did/does + not + verb/noun -> VB">
       <pattern>
-        <token regexp="yes">do|did|does</token>
-        <token>not</token>
-            <marker>
+          <marker>
+            <token postag="VB.*" postag_regexp="yes" regexp="yes">do|did|does</token>
+            <token>not</token>
                 <and>
                     <token postag="VB"></token>
                     <token postag_regexp="yes" postag="JJ|NN.*"></token>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="VB"></disambig>       
+        <disambig action="filterall"></disambig>
         <example type="untouched">I did my homework.</example>
         <example type="ambiguous" inputform="notice[notice/NN:UN,notice/VB,notice/VBP]" outputform="notice[notice/VB]">I did not <marker>notice</marker> what you said.</example>
+    </rule>
+    <rule id="DOES_not" name="does + not = verb">
+        <pattern>
+            <marker>
+                <token postag="VBZ">does</token>
+                <token>not</token>
+                <token postag="VB"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+        <example type="ambiguous" inputform="does[do/VBZ,doe/NNS]" outputform="does[do/VBZ]">This <marker>does</marker> not happen.</example>
     </rule>
     <rule id="DONT_VBNN_VB" name="don't/didn't/doesn't + verb/noun -> VB">
       <pattern>
@@ -1875,7 +1905,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     
     <rule name="determiner + verb/NN -&gt; NN (2)" id="DT_VB_NN_SENTEND">
         <pattern>
-            <token postag="DT"><exception postag="PDT"></exception></token>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se</exception></token>
             <marker>
                 <and>
                     <token postag="VB"></token>
@@ -2275,6 +2305,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="NNP"></disambig>
     </rule>
 
+    <rule id="NNP_NNS_VBZ_NNP" name="NNP/NNS -> NNP if followed by singular verb">
+        <pattern>
+            <marker>
+            <and>
+                <token postag="NNP"/>
+                <token postag="NNS"/>
+            </and>
+            </marker>
+            <token postag="VBZ"><exception postag="NNS"/></token>
+        </pattern>
+        <disambig postag="NNP"/>
+        <example type="untouched">Badlands heights</example>
+        <example type="ambiguous" inputform="Badlands[Badlands/NNP,badland/NNS]"
+                 outputform="Badlands[Badlands/NNP]">The Canadian <marker>Badlands</marker> is important.</example>
+    </rule>
+
     <!--  from X to X -->
     <rulegroup name="from X to X -&gt; NN:UN" id="from_NN_to_NN">
         <rule>
@@ -2442,6 +2488,83 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="untouched">His friend is now in England.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
+    </rule>
+    <rule name="DT|JJ + JJ + end of phrase -&gt; NN" id="DT_JJ_NN">
+    <pattern>
+        <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
+        <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception>one</exception></token>
+        <marker>
+        <unify>
+            <feature id="number"/>
+        <and>
+            <token postag="NN.*" postag_regexp="yes"/>
+            <token postag="JJ.?" postag_regexp="yes"/>
+        </and>
+        <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*" postag_regexp="yes"/></token>
+        </unify>
+        </marker>
+    </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="English[English/JJ,English/NNP]" outputform="English[English/NNP]">Excuse my bad <marker>English</marker>.</example>
+        <example type="untouched">These real English are nice.</example>
+    </rule>
+    <rule name="those/these + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
+        <pattern>
+            <token regexp="yes">th[eo]se</token>
+            <marker>
+                <and>
+                <token postag="VB[PN]" postag_regexp="yes"/>
+                <token postag="NN(:U?N)?" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token><exception postag="NNS|NNPS" postag_regexp="yes"></exception></token>
+        </pattern>
+        <disambig action="remove" postag="NNP?(:U?N)?|VB[DP]?"/>
+        <example type="ambiguous" inputform="illustrated[illustrate/VBD,illustrate/VBN,illustrated/NN]"
+                 outputform="illustrated[illustrate/VBN]">Those <marker>illustrated</marker> are a prime example.</example>
+    </rule>
+    <rule name="those/these + so + VBN/VBD/JJ -> so = JJ" id="DT_plural_so_vbn">
+        <pattern>
+                <token regexp="yes">th[eo]se</token>
+            <marker>
+                <token postag="JJ">so</token>
+                <token postag="VBN"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+        <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
+    </rule>
+    <rule name="JJ_NN -> JJ" id="JJ_NN_JJ">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="JJ.?|P?DT|PRP.?" postag_regexp="yes"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+                <token postag="NN.*" postag_regexp="yes"/>
+                <token postag="SENT_END|VB.|CC" postag_regexp="yes"><exception postag="NN.*" postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="remove" postag="NN.*"/>
+        <example type="ambiguous" inputform="Canadian[Canadian/JJ,Canadian/NNP]" outputform="Canadian[Canadian/JJ]">The <marker>Canadian</marker> Badlands is nice.</example>
+        <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
+        <example type="untouched">This is a nice machine.</example>
+    </rule>
+    <rule name="DT + whatever/NN + end of phrase -> NN" id="DT_NN_SENT_END">
+        <pattern>
+            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no</exception></token>
+            <marker>
+            <unify>
+                <feature id="number"/>
+                <and>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="JJ.?" postag_regexp="yes"/>
+                </and>
+                <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/></token>
+            </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
     </rule>
     <rule name="plural noun + that/which etc. + plural verb/nn => verb" id="NNS_WDT_VBNNS_VBP">
       <pattern>
@@ -2696,14 +2819,14 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern>
             <marker>
                 <and>
-                    <token postag="PDT"></token>
+                    <token postag="PDT"><exception scope="previous" postag="JJ"/></token>
                     <token postag="DT"></token>
                 </and>
             </marker>
             <token><exception postag_regexp="yes" postag="DT|PRP\$"></exception></token>
         </pattern>
         <disambig postag="DT"></disambig>
-        <example type="ambiguous" inputform="All[all/DT,all/JJ,all/NN:U,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
+        <example type="ambiguous" inputform="All[all/DT,all/JJ,all/PDT]" outputform="All[all/DT]"><marker>All</marker> students are happy.</example>
         <example type="untouched">All the people.</example>
     </rule>
     <rule name="PDT/DT -&gt; PDT" id="PDT_PDT">
@@ -3250,9 +3373,10 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beatiful.</example>
 	</rule>
   		
-		<rule id="VBN_VBD" name="Past Participle">
+	<rule id="VBN_VBD" name="Past Participle">
 		<pattern>
 			<token inflected="yes" regexp="yes">be|have</token>
+            <token min="0" max="2" postag="PRP|NN.*|RB" postag_regexp="yes"/>
 			<marker>
 				<and>
 					<token postag="VBD"/>
@@ -3262,8 +3386,25 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		</pattern>
 		<disambig postag="VBN"/>
 		<example type="untouched">He has a car.</example>
-		<example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>		
+		<example type="ambiguous" inputform="made[make/VBD,make/VBN]" outputform="made[make/VBN]">He has <marker>made</marker> a mistake.</example>
+        <example type="ambiguous" outputform="liked[like/VBN]" inputform="liked[like/VBD,like/VBN]">Have you <marker>liked</marker> Dutch jazz music?</example>
 	</rule>
+
+    <rule id="VBD_VBN" name="Past">
+        <pattern>
+            <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">be|have</exception></token>
+            <token postag_regexp="yes" postag="PRP|NN.*"/>
+            <marker>
+                <and>
+                    <token postag="VBD"><exception postag="VB"/></token>
+                    <token postag="VBN"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="VBD"/>
+        <example type="ambiguous" inputform="had[have/VBD,have/VBN]" outputform="had[have/VBD]">He <marker>had</marker> a car.</example>
+        <example type="untouched">He has made a mistake.</example>
+    </rule>
 	
 	<rule id="JJ_VB" name="companies: verb to noun if preceded by adj">
 		<pattern>
@@ -3464,7 +3605,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <disambig action="filter" postag="NN.*"/>
           <example type="untouched">I do what I want to.</example>
           <example type="untouched">Your two best boys.</example>
-          <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example>
+          <!-- example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example -->
         </rule>
         
         
@@ -3600,7 +3741,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           </pattern>
           <disambig postag="RB"/>
           <example type="untouched">You are right.</example>
-          <example type="ambiguous" inputform="right[right/JJ,right/NN:UN,right/UH,right/VB,right/VBP]" outputform="right[right/RB]">Do it <marker>right</marker> now!</example>
+          <example type="ambiguous" inputform="right[right/JJ,right/UH,right/VB,right/VBP]" outputform="right[right/RB]">Do it <marker>right</marker> now!</example>
         </rule>
  
         <rule id="SENT_START_IS_JJ" name="Is/was + it + verb/JJ =>JJ">
@@ -3782,22 +3923,14 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <rulegroup id='STEP_BY_STEP' name="Phrases of the form similar to: step by step">
           <rule>
           <pattern>
-            <marker><token regexp="yes">step|bit|year|month|week|day|hour|minute|second</token></marker>
+            <marker><token postag="NN" regexp="yes">step|bit|year|month|week|day|hour|minute|second</token>
             <token>by</token>
-            <token><match no="0"/></token>
+            <token postag="NN"><match no="0"/></token>
+            </marker>
           </pattern>
-          <disambig postag="NN"/>
+          <disambig action="filterall"/>
           <example type="untouched">These are the steps you need to make.</example>          
           <example type="ambiguous" inputform="step[step/NN,step/VB,step/VBP]" outputform="step[step/NN]">Study it <marker>step</marker> by step.</example>
-          </rule>
-          <rule>
-          <pattern>
-            <token regexp="yes">step|bit|year|month|week|day|hour|minute|second</token>
-            <token>by</token>            
-            <marker><token><match no="0"/></token></marker>
-          </pattern>
-          <disambig postag="NN"/>
-          <example type="untouched">These are the steps you need to make.</example>
           <example type="ambiguous" inputform="step[step/NN,step/VB,step/VBP]" outputform="step[step/NN]">Study it step by <marker>step</marker>.</example>
           </rule>                   
         </rulegroup>
@@ -3956,7 +4089,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token><exception postag="NN.*" postag_regexp="yes"></exception></token>
           </pattern>
           <disambig action="filter" postag="JJ.?"/>
-          <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
+          <!-- example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have many <marker>red</marker> wine.</example -->
           <example type="untouched">This is a nice machine.</example>
         </rule>
 
