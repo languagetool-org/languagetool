@@ -22564,7 +22564,7 @@ $Id$
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?|somnis?</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception inflected="yes" scope="previous" regexp="yes">haver|considerar|-ne</exception><exception postag="_C_TEMPS"/><exception regexp="yes" scope="next">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?|somnis?</exception></token>
+                    <token regexp="yes" skip="-1">(in)?complert(a|s|es)?<exception inflected="yes" scope="previous" regexp="yes">haver|considerar|-ne</exception><exception postag="_C_TEMPS|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes" scope="next">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?|somnis?</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -22581,7 +22581,8 @@ $Id$
             <example type="correct">Objectiu complert!</example>
             <example type="correct">Complerts els desitjos</example>
             <example type="correct">és a dir, lleis concretes complertes amb un autèntic goig.</example>
-            <example type="correct">Haven complert les seves obligacions,</example>
+            <example type="correct">Havent complert les seves obligacions,</example>
+            <example type="correct">Havent complert un llustre,</example>
             <!-- un cop complerta la condemna -->
         </rule>
         <rulegroup id="MODALS" name="modals">
