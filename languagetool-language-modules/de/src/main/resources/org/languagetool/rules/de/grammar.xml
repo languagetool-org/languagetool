@@ -5405,17 +5405,6 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">girls|boys</token>
-                    <token>day</token>
-                </pattern>
-                <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
-                <short>&eigenname;</short>
-                <example type="correct">Der <marker>Girls’ Day</marker> findet einmal im Jahr statt.</example>
-                <example type="incorrect" correction="Girls’ Day">Der <marker>Girls Day</marker> findet einmal im Jahr statt.</example>
-                <example type="incorrect" correction="Boys’ Day">Der <marker>Boys Day</marker> ist ein Aktionstag.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">girls|boys</token>
                     <token regexp="yes">'|’|`|´|‘</token>
                     <token spacebefore="no">day</token>
                 </pattern>
@@ -25045,6 +25034,13 @@ $Id$
         </rulegroup>
         <rulegroup id="PLURAL_APOSTROPH" name="Zeichensetzung: AGB's (AGBs) usw.">
             <rule>
+                <!-- detected by GIRLS_DAY with better message -->
+                <antipattern>
+                    <token regexp="yes">Girl|Boy</token>
+                    <token regexp="yes">'|’|`|´|‘</token>
+                    <token>s</token>
+                    <token>Day</token>
+                </antipattern>
                 <pattern>
                     <or>
                         <token>AGB</token>
@@ -25062,6 +25058,7 @@ $Id$
                 <!-- vgl. http://web.archive.org/web/20110214064020/http://www.duden.de/deutsche_sprache/sprachberatung/newsletter/archiv.php?id=54 -->
                 <example type="correct">Es gelten die <marker>AGBs</marker>.</example>
                 <example type="correct">Es gelten die <marker>AGB</marker>.</example>
+                <example type="correct">Der <marker>Girls’</marker> Day findet jährlich statt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="APOSTROPH_S" name="Zeichensetzung: Apostroph vor Genitiv-s">
@@ -25124,6 +25121,11 @@ $Id$
                 -->
 <!--             </rule> -->
             <rule>
+                <antipattern>
+                    <token regexp="yes">Girls|Boys</token>
+                    <token regexp="yes" spacebefore="no">'|’</token>
+                    <token>Day</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes">'|’</token>
                     <marker>
@@ -25141,6 +25143,7 @@ $Id$
                 <example type="correct"><marker>Schultheiß’</marker> Pläne</example>
                 <example type="correct">Das nennt die Regierung jetzt '<marker>Versorgungsgesetz'</marker>.</example>
                 <example type="correct">Die <marker>Lenz'</marker>sche Regel ist wichtig.</example>
+                <example type="correct">Der <marker>Girls’</marker> Day findet jährlich statt.</example>
                 <example type="triggers_error"><marker>Strauß’</marker> Politik</example>
                 <example type="incorrect" correction="Zirkus">Der Direktor des <marker>Zirkus'</marker> Krone</example>
                 <example type="incorrect" correction="Hauses">Der Direktor des <marker>Haus'</marker> Krone</example>
@@ -26105,6 +26108,7 @@ $Id$
                     <token regexp="yes">s|sche[mrns]?</token>
                 </pattern>
                 <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>\1'\3</suggestion> oder <suggestion>\1’\3</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Apostroph#Typografisch_falsch</url>
                 <short>Akzent statt Apostroph</short>
                 <example type="correct"><marker>McDonald’s</marker></example>
                 <example type="correct"><marker>McDonald's</marker></example>
@@ -26119,6 +26123,7 @@ $Id$
                     <token regexp="yes">n|nen?</token>
                 </pattern>
                 <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>'\2</suggestion> oder <suggestion>’\2</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Apostroph#Typografisch_falsch</url>
                 <short>Akzent statt Apostroph</short>
                 <example type="correct">Das war vielleicht <marker>’ne</marker> Party!</example>
                 <example type="correct">Das war vielleicht <marker>'ne</marker> Party!</example>
@@ -26130,6 +26135,7 @@ $Id$
                     <token regexp="yes">n|nen?</token>
                 </pattern>
                 <message>Wollten Sie einen Apostroph verwenden? Vorschlag: <suggestion>'\2</suggestion> oder <suggestion>’\2</suggestion></message>
+                <url>http://de.wikipedia.org/wiki/Apostroph#Typografisch_falsch</url>
                 <short>Akzent statt Apostroph</short>
                 <example type="correct">Das war vielleicht <marker>’ne</marker> Party!</example>
                 <example type="correct">Das war vielleicht <marker>'ne</marker> Party!</example>
@@ -26144,6 +26150,7 @@ $Id$
                     <token>t</token>
                 </pattern>
                 <message>Der Name der Computerzeitschrift <suggestion>c’t</suggestion> wird mit einem Apostroph geschrieben.</message>
+                <url>http://de.wikipedia.org/wiki/Apostroph#Typografisch_falsch</url>
                 <short>Akzent statt Apostroph</short>
                 <example type="correct">Die <marker>c’t</marker> ist eine Computerzeitschrift.</example>
                 <example type="incorrect" correction="c’t">Die <marker>c`t</marker> ist eine Computerzeitschrift.</example>
@@ -26155,8 +26162,9 @@ $Id$
                     <token>day</token>
                 </pattern>
                 <message>Meinten Sie den Aktionstag <suggestion>\1’ Day</suggestion>?</message>
+                <url>http://de.wikipedia.org/wiki/Apostroph#Typografisch_falsch</url>
                 <short>&eigenname;</short>
-                <example type="correct">Der <marker>Girls’ Day</marker> findet einmal im Jahr statt.</example>
+                <example type="correct">Der <marker>Boys’ Day</marker> findet einmal im Jahr statt.</example>
                 <example type="incorrect" correction="Boys’ Day">Der <marker>Boys` Day</marker> ist ein Aktionstag.</example>
             </rule>
         </rulegroup>
