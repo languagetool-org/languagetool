@@ -6009,33 +6009,48 @@ $Id$
                 <example type="correct">Va arribar a la ciutat el 1992.</example>
             </rule>
         </rulegroup>
-        <rule id="A_L_ANY_1996" name="*al 1996/el 1996">
-            <pattern>
-                <or>
+        <rulegroup id="A_L_ANY_1996" name="*al 1996/el 1996">
+            <rule>
+                <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
+                    <marker>
+                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre</exception></token>
+                        <token>l'</token>
+                        <token>any</token>
+                        <token regexp="yes">\d{1,4}</token>
+                    </marker>
+                </pattern>
+                <message>Els anys s'escriuen sense la preposició 'a'.</message>
+                <suggestion>l'any <match no="5"/></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+                <short>Sobra la preposició 'a'</short>
+                <example type="incorrect" correction="L'any 1992"><marker>A l'any 1992</marker> foren les olimpíades de Barcelona.</example>
+                <example type="correct">Va néixer el 2004.</example>
+                <example type="correct">De l'any 1734 a l'any 1756.</example>
+                <example type="correct">Es remunta, pel cap baix, a l'any 2800 aC. </example>
+                <!-- <example type="correct">que es remuntava, en un cas, a l'any 1943 i, en l'altre, a l'any 1949</example> -->
+                <example type="correct">correspon en bona part a l'any 1980</example>
+                <example type="correct">dels anys vuitanta a l'any 1992</example>
+                <!-- A l'any 1965 remunta igualment -->
+            </rule>
+            <rule>
+                <pattern>
                     <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
-                </or>
-                <marker>
-                    <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
-                    <token>l'</token>
-                    <token>any</token>
-                    <token regexp="yes">\d{1,4}</token>
-                </marker>
-            </pattern>
-            <message>Els anys s'escriuen sense la preposició 'a'.</message>
-            <suggestion>l'any <match no="5"/></suggestion>
-            <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
-            <short>Sobra la preposició 'a'</short>
-            <example type="incorrect" correction="L'any 1992"><marker>A l'any 1992</marker> foren les olimpíades de Barcelona.</example>
-            <example type="incorrect" correction="l'any 1801">quan va emigrar a Amèrica es va endur <marker>a l'any 1801</marker> quatre mascles.</example>
-            <example type="correct">Va néixer el 2004.</example>
-            <example type="correct">De l'any 1734 a l'any 1756.</example>
-            <example type="correct">Es remunta, pel cap baix, a l'any 2800 aC. </example>
-            <!-- <example type="correct">que es remuntava, en un cas, a l'any 1943 i, en l'altre, a l'any 1949</example> -->
-            <example type="correct">correspon en bona part a l'any 1980</example>
-            <example type="correct">dels anys vuitanta a l'any 1992</example>
-            <!-- A l'any 1965 remunta igualment -->
-        </rule>
+                    <marker>
+                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre</exception></token>
+                        <token>l'</token>
+                        <token>any</token>
+                        <token regexp="yes">\d{1,4}</token>
+                    </marker>
+                </pattern>
+                <message>Els anys s'escriuen sense la preposició 'a'.</message>
+                <suggestion>l'any <match no="5"/></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/prepatemporal</url>
+                <short>Sobra la preposició 'a'</short>
+                <example type="incorrect" correction="l'any 1801">quan va emigrar a Amèrica es va endur <marker>a l'any 1801</marker> quatre mascles.</example>
+                <example type="correct">Va néixer el 2004.</example>
+            </rule>
+        </rulegroup>
         <rule id="SENSE_CAP_NI_UN_SENSE_CAP" name="sense cap ni un/sense cap">
             <pattern>
                 <token>sense</token>
