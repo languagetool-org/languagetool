@@ -94,7 +94,7 @@ $Id$
         <rulegroup name="Узгодженість числа іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC">
             <rule>
                 <pattern>
-                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]</token>
+                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/]</exception></token>
                     <marker>
 <!--
                         <token postag_regexp="yes" postag="noun:m:.*">
@@ -119,9 +119,10 @@ $Id$
                 <example type="correct">двадцять три вулики</example>
                 <example type="correct">двадцять три дні</example>
                 <example type="correct">три чверті</example>
+                <example type="correct">1/2 шилінга</example>
+                <example type="correct">після поразки 0:2 Базилевича</example>
                 <!-- TODO
                 <example type="correct">три головні завдання</example>
-                <example type="correct">після поразки 0:2 Базилевича</example>
                 -->
                 <example type="correct">2,2 мільйона</example>
                 <example type="correct">три століття</example>
