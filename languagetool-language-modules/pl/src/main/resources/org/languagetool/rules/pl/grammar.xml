@@ -26,6 +26,7 @@ $Id$
     <!ENTITY interp "[\p{Punct}\-–−—―„«»…’]+">
     <!ENTITY conj "bądź|czy|ani|lub|albo|oraz|i">
     <!ENTITY interp_conj "&interp;|&conj;">
+    <!ENTITY nbsp " ">
 ]>
 
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -2655,15 +2656,28 @@ $Id$
 						<example correction="„przykład" type="incorrect">To jest <marker>„ przykład</marker>”.</example>
 						<example type="correct">To jest „przykład”.</example>
 				</rule>
-				<rule id="MNOZENIE" name="Znak mnożenia „x” (×)">
+				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
+                    <rule>
+                        <pattern>
+                            <token regexp="yes">\d+</token>
+                            <token>x</token>
+                            <token regexp="yes">\d+</token>
+                        </pattern>
+                        <message>Ten znak mnożenia lepiej zastąpić typograficznym: <suggestion>\1&nbsp;×&nbsp;\3</suggestion>.</message>
+                        <short>Błąd typograficzny</short>
+                        <example correction="800 × 600" type="incorrect">Rozdzielczość ekranu <marker>800 x 600</marker></example>
+                        <example type="correct">Rozdzielczość ekranu 800 × 600</example>
+                    </rule>
+                    <rule>
 						<pattern>
 								<token regexp="yes">\d+x\d+</token>
 						</pattern>
-						<message>Ten znak mnożenia lepiej zastąpić typograficznym: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)" regexp_replace="$1×$2"></match></suggestion>.</message>
+						<message>Ten znak mnożenia lepiej zastąpić typograficznym: <suggestion><match no="1" postag_replace="" regexp_match="(\d+)x(\d+)" regexp_replace="$1&nbsp;×&nbsp;$2"></match></suggestion>.</message>
 						<short>Błąd typograficzny</short>
-						<example correction="800×600" type="incorrect">Rozdzielczość ekranu <marker>800x600</marker></example>
+						<example correction="800 × 600" type="incorrect">Rozdzielczość ekranu <marker>800x600</marker></example>
 						<example type="correct">Rozdzielczość ekranu 800×600</example>
-				</rule>
+				    </rule>
+                </rulegroup>
 				<rulegroup id="PL_ELLIPSIS" name="„...” (…)">
 						<rule default="off">
 								<pattern>
