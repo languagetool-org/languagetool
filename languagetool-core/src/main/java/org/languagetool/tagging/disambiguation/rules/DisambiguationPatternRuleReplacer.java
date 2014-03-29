@@ -238,7 +238,9 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             unifiedTokens[i].setStartPos(whTokens[position].getStartPos());
             final String prevValue = whTokens[position].toString();
             final String prevAnot = whTokens[position].getHistoricalAnnotations();
+            List<ChunkTag> chTags = whTokens[position].getChunkTags();
             whTokens[position] = unifiedTokens[i];
+            whTokens[position].setChunkTags(chTags);
             annotateChange(whTokens[position], prevValue, prevAnot);
           }
         }
