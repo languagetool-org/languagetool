@@ -1865,7 +1865,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
       <example type="untouched">The black dogs barks loudly.</example>
       <example type="ambiguous" inputform="Boss[boss/JJ,boss/NN,boss/VB,boss/VBP]" outputform="Boss[boss/NN]">The <marker>Boss</marker> wants performance, not gripes.</example>      
     </rule>
-     
+
     <rule name="determiner + adj + verb/NN -&gt; NN" id="DT_JJ_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
@@ -2460,14 +2460,14 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     </rule>
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <pattern>
-            <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"></exception></token>
+            <token postag_regexp="yes" postag="DT|JJ|PRP\$"><exception postag="WDT"/></token>
             <marker>
                 <and>
                     <token postag="JJ|VBG" postag_regexp="yes"><exception postag_regexp="yes" negate_pos="yes" postag="JJ|NN.*|VB.*"></exception></token>
                     <token postag_regexp="yes" postag="VBP"></token>
                 </and>
             </marker>
-            <token postag_regexp="yes" postag="NN.*|CD"></token>
+            <token postag_regexp="yes" postag="NN.*|CD"/>
         </pattern>
         <disambig action="remove" postag="VBP?"/>
         <example type="untouched">Peter the great</example>
@@ -2489,6 +2489,41 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example> 
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
     </rule>
+    <rulegroup name="a few + JJ + NNS" id="a_few_JJ_NNS">
+     <rule>
+        <pattern>
+            <token>a</token>
+            <token>few</token>
+            <marker>
+                <token postag="NNS"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <token>few</token>
+                <marker>
+                    <token postag="JJ"/>
+                    <token postag="NNS"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <token>few</token>
+                <marker>
+                    <token postag="JJ"/>
+                    <token postag="JJ"/>
+                    <token postag="NNS"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
     <rule name="DT|JJ + JJ + end of phrase -&gt; NN" id="DT_JJ_NN">
     <pattern>
         <token postag_regexp="yes" postag="DT|JJ|PRP\$"></token>
@@ -2500,7 +2535,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <token postag="NN.*" postag_regexp="yes"/>
             <token postag="JJ.?" postag_regexp="yes"/>
         </and>
-        <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*" postag_regexp="yes"/></token>
+        <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*|VBN" postag_regexp="yes"/></token>
         </unify>
         </marker>
     </pattern>
@@ -2550,7 +2585,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have a lot of <marker>red</marker> wine.</example>
         <example type="untouched">This is a nice machine.</example>
     </rule>
-    <rule name="DT + whatever/NN + end of phrase -> NN" id="DT_NN_SENT_END">
+    <rule name="required to" id="required_to">
+        <pattern>
+            <marker>
+                <token postag="VBN">required<exception scope="previous" postag="PRP"/></token>
+                <token postag="TO"></token>
+                <token postag="VB"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="required[require/VBD,require/VBN]" outputform="required[require/VBN]">The space <marker>required</marker> to store the input numbers is not counted.</example>
+        <example type="untouched">He required to store the input numbers.</example>
+    </rule>
+    <rulegroup name="DT + whatever/NN + end of phrase -> NN" id="DT_NN_SENT_END">
+        <rule>
         <pattern>
             <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no</exception></token>
             <marker>
@@ -2560,12 +2608,31 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token postag="JJ.?" postag_regexp="yes"/>
                 </and>
-                <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*|JJ.*" postag_regexp="yes"/></token>
+                <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*|JJ.*|``|''" postag_regexp="yes"/></token>
             </unify>
             </marker>
         </pattern>
         <disambig action="unify"/>
     </rule>
+        <rule>
+            <pattern>
+            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no</exception></token>
+            <marker>
+            <and>
+                <token postag="NN.*" postag_regexp="yes"/>
+                <token postag="JJ.?" postag_regexp="yes"/>
+            </and>
+            </marker>
+                <and>
+                    <token postag="''"/>
+                    <token postag="SENT_END"/>
+                </and>
+            </pattern>
+            <disambig action="filter" postag="NN.*"/>
+            <example type="ambiguous" inputform="animal[animal/JJ,animal/NN:UN]"
+                     outputform="animal[animal/NN:UN]">"The <marker>animal</marker>"</example>
+        </rule>
+    </rulegroup>
     <rule name="plural noun + that/which etc. + plural verb/nn => verb" id="NNS_WDT_VBNNS_VBP">
       <pattern>
         <token postag="NNS"/>
