@@ -648,6 +648,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="ślubić"/></disambig>
     </rule>
 
+    <rule name="praw to zwykle rzeczownik" id="PRAW">
+        <pattern>
+            <token>praw</token>
+        </pattern>
+        <disambig postag="subst:pl:gen:n2"/>
+    </rule>
+
+    <rule name="cień to nie cienić" id="CIEN">
+        <pattern>
+            <token>cień</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="cienić"/></disambig>
+    </rule>
+
     <rule name="niechęcić" id="NIECHECIC">
         <pattern><token inflected="yes">niechęcić</token></pattern>
         <disambig action="remove"><wd lemma="niechęcić"/></disambig>
@@ -1078,7 +1092,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     <token min="0" max="1">,</token>
                     <marker><token regexp="yes">bądź|lub</token></marker>
                 </unify-ignore>
-                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*|SENT_END"/></token>
             </unify>
         </pattern>
         <disambig action="filter" postag="conj|comp:comma"/>
