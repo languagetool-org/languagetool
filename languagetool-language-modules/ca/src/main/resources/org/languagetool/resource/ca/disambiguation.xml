@@ -2883,6 +2883,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
 	    </pattern>
 	    <disambig action="filter" postag="V.N.*"></disambig>
 	</rule>
+    <rule id="poder_substantiu" name="el poder/saber/voler + no infinitiu">
+        <pattern>
+            <token postag="DA0MS0"/>
+            <marker>
+                <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">poder|voler</token> <!-- saber?: tractament especial -->
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+            <token><exception regexp="yes">això|açò|allò</exception><exception postag="V.N.*" postag_regexp="yes"/><exception postag="P.*" postag_regexp="yes" regexp="yes">-.+</exception></token>
+        </pattern>
+        <disambig action="remove" postag="V.N.*"></disambig>
+    </rule>
     <rule id="menjar_substantiu" name="menjar substantiu">
         <pattern>
             <token postag="D[^R].[CM]S.*" postag_regexp="yes"><exception>tant</exception></token>
@@ -2974,7 +2987,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove" postag="V.N.*"></disambig>
         </rule>
-        <rule id="poder_substantiu" name="poder (substantiu) + de">
+        <rule id="poder_substantiu2" name="poder (substantiu) + de">
 	        <pattern>
 	            <marker>
 	                <and>
