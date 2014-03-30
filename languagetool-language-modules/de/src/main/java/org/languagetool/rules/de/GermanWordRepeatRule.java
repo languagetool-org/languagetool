@@ -34,7 +34,7 @@ import org.languagetool.rules.WordRepeatRule;
  */
 public class GermanWordRepeatRule extends WordRepeatRule {
 
-  private static final Pattern PREPOSITIONS = Pattern.compile("ab|an|auf|bei|für|in|mit|nach|ohne|über|zu");
+  private static final Pattern PREPOSITIONS = Pattern.compile("ab|an|auf|bei|durch|für|in|mit|nach|ohne|über|von|zu");
 
   public GermanWordRepeatRule(final ResourceBundle messages, final Language language) {
     super(messages, language);

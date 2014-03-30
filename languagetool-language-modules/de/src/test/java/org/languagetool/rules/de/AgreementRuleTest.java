@@ -104,6 +104,7 @@ public class AgreementRuleTest extends TestCase {
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
+    assertGood("Der Mann, durch den quadratische Fische schwammen.");
     assertGood("Gutenberg, der quadratische Mann.");
     // TODO: not detected, because "die" is considered a relative pronoun:
     //assertBad("Gutenberg, die Genie.");
