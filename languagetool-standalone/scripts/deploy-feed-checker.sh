@@ -7,7 +7,7 @@ if [ "$(basename $CURRENT_DIR)" != 'scripts' ]; then
     exit 1;
 fi
 
-BASE_NAME=LanguageTool-wikipedia-2.5-SNAPSHOT
+BASE_NAME=LanguageTool-wikipedia-2.6-SNAPSHOT
 TARGET_FILE=$BASE_NAME.zip
 
 cd ../..
