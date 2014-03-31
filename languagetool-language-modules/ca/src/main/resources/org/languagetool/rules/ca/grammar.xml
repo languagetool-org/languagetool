@@ -3788,6 +3788,37 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Adverbis" type="grammar">
+        <rulegroup id="SENSE_NO" name="sense que ningú *no">
+            <rule>
+                <pattern>
+                    <token skip="1">sense</token>
+                    <token>que</token>
+                    <marker>
+                        <token regexp="yes">res|cap|ningú|gens|enlloc|mai|tampoc</token>
+                        <token>no</token>
+                    </marker>
+                </pattern>
+                <message>No cal duplicar la negació.</message>
+                <suggestion>\3</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
+                <example type="incorrect" correction="ningú">Sense deixar que <marker>ningú no</marker> ho vegi</example>
+                <example type="correct">sense que ningú ho vegi</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="1">sense</token>
+                    <token>que</token>
+                    <marker>
+                        <token>no</token>
+                    </marker>
+                </pattern>
+                <message>No cal duplicar la negació.</message>
+                <suggestion></suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
+                <example type="incorrect" correction="">Sense que <marker>no</marker> ho vegi ningú.</example>
+                <example type="correct">sense que ningú ho vegi</example>
+            </rule>
+        </rulegroup>
         <rule id="GENS" name="gens / gens de">
             <pattern>
                 <marker>
