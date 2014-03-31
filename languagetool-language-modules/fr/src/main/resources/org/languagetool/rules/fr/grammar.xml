@@ -3625,7 +3625,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>Dark</token>
+          <token regexp="yes">Darke?</token>
           <token regexp="yes">Va[dt]ere?|Va[dt]|re|Vadore</token>
         </pattern>
         <message>Écrivez <suggestion>Dark Vador</suggestion> (<suggestion>Darth Vader</suggestion> en anglais) s’il s’agit du personnage de Star Wars.</message>
@@ -3636,7 +3636,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>Darth</token>
+          <token regexp="yes">Darth|Darke</token>
           <token regexp="yes">Vadore?|Vatere?|Vadere|Va[dt]re</token>
         </pattern>
         <message>Écrivez <suggestion>Dark Vador</suggestion> (<suggestion>Darth Vader</suggestion> en anglais) s’il s’agit du personnage de Star Wars.</message>
@@ -7091,6 +7091,11 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="IMP_PRON" name="Impératif + pronom">
       <rule>
+        <antipattern>
+          <token>Force</token>
+          <token>nous</token>
+          <token>est</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <marker>
@@ -7111,6 +7116,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Veuillez lui dire d’attendre.</example>
         <example type="correct">Veuillez vous en aller.</example>
         <example type="correct">Veuillez nous y conduire.</example>
+        <example type="correct">Force nous est de constater…</example>
       </rule>
       <rule>
         <pattern>
