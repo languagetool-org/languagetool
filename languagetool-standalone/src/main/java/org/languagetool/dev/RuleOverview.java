@@ -102,21 +102,14 @@ public final class RuleOverview {
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + " " + variantsText + "</td>");
       }
-      //FIXME: this does not work for en-GB and en-US
-      final String xmlFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + langCode + File.separator + "grammar.xml";
-      final URL url = this.getClass().getResource(xmlFile);    
-      if (url == null) {
+
+      int allRules = countRulesForLanguage(lang);
+      if (allRules == 0) {
         System.out.println("<td valign=\"top\" align=\"right\">0</td>");
       } else {
-        // count XML rules:
-        String xmlRules = StringTools.readStream(Tools.getStream(xmlFile), "utf-8");
-        xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
-        xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
-        final int count = countXmlRules(xmlRules);
-        final int countInRuleGroup = countXmlRuleGroupRules(xmlRules);
         final String ruleBase = "https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/"
                 + langCode + "/src/main/resources/org/languagetool/rules/";
-        System.out.print("<td valign=\"top\" align=\"right\">" + (count + countInRuleGroup) + "</td>");
+        System.out.print("<td valign=\"top\" align=\"right\">" + allRules + "</td>");
         System.out.print("<td valign=\"top\" align=\"right\">" +
             //"<a href=\"" + ruleBase + langCode + "/grammar.xml" + "\">Show</a> / " +
             "<a href=\"http://community.languagetool.org/rule/list?lang=" + langCode + "\">Browse</a>,&nbsp;" +
@@ -176,6 +169,22 @@ public final class RuleOverview {
 
     System.out.println("</tbody>");
     System.out.println("</table>");
+  }
+
+  private int countRulesForLanguage(Language lang) throws IOException {
+    List<String> ruleFileNames = lang.getRuleFileNames();
+    int count = 0;
+    for (String ruleFileName : ruleFileNames) {
+      final URL url = this.getClass().getResource(ruleFileName);
+      if (url != null) {
+        String xmlRules = StringTools.readStream(Tools.getStream(ruleFileName), "utf-8");
+        xmlRules = xmlRules.replaceAll("(?s)<!--.*?-->", "");
+        xmlRules = xmlRules.replaceAll("(?s)<rules.*?>", "");
+        count += countXmlRules(xmlRules);
+        count += countXmlRuleGroupRules(xmlRules);
+      }
+    }
+    return count;
   }
 
   private List<String> getVariants(List<Language> allLanguages, Language lang) {
