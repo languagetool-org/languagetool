@@ -29,6 +29,7 @@ import java.util.ResourceBundle;
  * Checks that there's whitespace between sentences.
  *   
  * @author Daniel Naber
+ * @since 2.5
  */
 public class SentenceWhitespaceRule extends Rule {
 
