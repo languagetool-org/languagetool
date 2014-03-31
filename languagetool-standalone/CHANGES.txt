@@ -1,9 +1,12 @@
 LanguageTool Change Log
 
-2.5-SNAPSHOT (release planned for 2014-03-31)
+2.5 (2014-03-31)
 
+-Breton:
+    -a new rule checks that there is a space character between sentences
+    
 -Catalan:
-    -added/improved several rules
+    -added/improved many rules
     -fixed false alarms
     -added hundreds of suggestions for barbarisms in a simple replace rule
 
@@ -20,24 +23,30 @@ LanguageTool Change Log
     -fixed a large number of false alarms
     -added new rules to handle common contextual misspellings and
      redundant phrases as well as common grammatical mistakes. Now
-     the number of rules for English exceeds 1000
+     the number of rules for English exceeds 1000.
     -made it possible to use synthesizer to both add a determiner and
      make different replacement operations when creating suggestions;
      simply add \\+INDT or \\+DT as special keywords to the regex that
      creates the POS tag in the match element
-    -a new rule checks for a space character between sentences
+    -a new rule checks that there is a space character between sentences
 
 -Esperanto:
     -added/improved several rules
+    -a new rule checks that there is a space character between sentences
 
 -French:
     -updated POS tag dictionary and Hunspell dictionary to Dicollecte-5.0.2
     -added/improved several rules
+    -a new rule checks that there is a space character between sentences
 
 -German:
     -fixed several false alarms
-    -a new rule checks for a space character between sentences
-    
+    -added/improved several rules
+    -a new rule checks that there is a space character between sentences
+
+-Japanese:
+    -added some rules (thanks to Silvan Jegen)
+
 -Polish:
     -updated POS tag dictionary to PoliMorfologik 2.1
     -cleaned up spelling rules and hyphenation rules, added some frequent
@@ -50,10 +59,12 @@ LanguageTool Change Log
      word is no longer its part; multi-word expressions with a hyphen
      are also split into their component parts to avoid many false
      alarms in spell-checking
+    -a new rule checks that there is a space character between sentences
      
 -Portuguese:
     -added/improved several rules
-    -added dozens of compounds: it now has 3400+ compound words    
+    -added dozens of compounds: it now has 3400+ compound words
+    -a new rule checks that there is a space character between sentences
     
 -Russian:
     -added a few rules
@@ -61,7 +72,6 @@ LanguageTool Change Log
     -added many false friends rules (Russian/English)
     -updated POS tag dictionary and synthesizer dictionary from AOT.ru(Seman) rev. 242
     -added frequency information for spell-checking dictionary from AOT.ru(Seman)
-
     
 -Slovenian:
     -fixed sentence detection so that sentences that begin with a lowercase
@@ -71,24 +81,24 @@ LanguageTool Change Log
  set of tokenizing characters in most languages
 
 -added new element <unify-ignore/> in XML rules to mark the parts of the unified
-  sequence that are not checked (useful to ignore punctuation, connectives, or not
-  inflected words)
+ sequence that are not checked (useful to ignore punctuation, connectives, or not
+ inflected words)
 
 -added new element <antipattern> (which can include <token>, <and>, <unify>, and <marker>),
-  useful for marking complex multiword exceptions in rules and rulegroups (a single
-  antipattern can be shared by multiple rules in the same group)
+ useful for marking complex multiword exceptions in rules and rulegroups (a single
+ antipattern can be shared by multiple rules in the same group)
 
 -spell checking:
-   -Immunized tokens are now ignored and don't cause a spelling error anymore;
-    one can also add particular contextual expressions to ignored words by using
-    a new action of the disambiguator: "ignore_spelling".
-   -The words in ignore.txt are checked using case conversions allowed in the
-    speller dictionary (in MorfologikSpeller-based dictionaries).
-    This usually means that the word added in lowercase will be accepted
-    also when it is found at the beginning of the sentence; but if it is added in
-    uppercase, it won't be accepted when written in lowercase.
-   -updated Morfologik libraries to 1.9.0 to speed up suggestion generation in spell
-    checks, not only when using replacement pairs but also for ignoring diacritics.
+    -Immunized tokens are now ignored and don't cause a spelling error anymore;
+     one can also add particular contextual expressions to ignored words by using
+     a new action of the disambiguator: "ignore_spelling".
+    -The words in ignore.txt are checked using case conversions allowed in the
+     speller dictionary (in MorfologikSpeller-based dictionaries).
+     This usually means that the word added in lowercase will be accepted
+     also when it is found at the beginning of the sentence; but if it is added in
+     uppercase, it won't be accepted when written in lowercase.
+    -updated Morfologik libraries to 1.9.0 to speed up suggestion generation in spell
+     checks, not only when using replacement pairs but also for ignoring diacritics.
 
 -stand-alone GUI:
     -The "More..." dialog now contains a link to community.languagetool.org
