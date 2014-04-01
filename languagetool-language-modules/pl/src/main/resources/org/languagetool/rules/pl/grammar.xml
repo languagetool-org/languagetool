@@ -8680,6 +8680,56 @@ $Id$
 				</rule>
 		</category>
 		<category name="Pisownia małą i wielką literą" type="misspelling">
+                <rulegroup name="Zła pisownia jednostek herc, ohm i wat" id="herc_om">
+                    <rule>
+                    <pattern case_sensitive="yes">
+                        <token postag='num:.*' postag_regexp='yes'></token>
+                        <marker>
+                            <token inflected='yes' regexp="yes">Hertz|Ohm</token>
+                        </marker>
+                    </pattern>
+                    <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="rtz" regexp_replace="rc"/></suggestion></message>
+                    <short>Zbędna wielka litera</short>
+                    <example type='incorrect' correction="herców">Czasy te odpowiadają częstotliwości kilkuset <marker>Hertzów</marker>.</example>
+                    <example type='correct'>Czasy te odpowiadają częstotliwości kilkuset herców.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp='yes'>\d+</token>
+                            <marker>
+                                <token inflected='yes' regexp="yes">Hertz|Ohm</token>
+                            </marker>
+                        </pattern>
+                        <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="rtz" regexp_replace="rc"/></suggestion></message>
+                        <short>Zbędna wielka litera</short>
+                        <example type='incorrect' correction="ohmów">Czasy te odpowiadają częstotliwości 100 <marker>Ohmów</marker>.</example>
+                        <example type='correct'>Czasy te odpowiadają częstotliwości kilkuset herców.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token postag='num:.*' postag_regexp='yes'></token>
+                            <marker>
+                                <token inflected='yes'>Watt</token>
+                            </marker>
+                        </pattern>
+                        <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="tt" regexp_replace="t"/></suggestion></message>
+                        <short>Zbędna wielka litera</short>
+                        <example type='incorrect' correction="watów">Te głośniki mają moc stu <marker>Wattów</marker>.</example>
+                        <example type="correct">Te głośniki mają moc stu watów.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token regexp='yes'>\d+</token>
+                            <marker>
+                                <token inflected='yes'>Watt</token>
+                            </marker>
+                        </pattern>
+                        <message>Ta jednostka miary pisana jest małą literą: <suggestion><match no="2" case_conversion="alllower" regexp_match="tt" regexp_replace="t"/></suggestion></message>
+                        <short>Zbędna wielka litera</short>
+                        <example type='incorrect' correction="watów">Te głośniki mają moc 1400 <marker>Wattów</marker>.</example>
+                        <example type="correct">Te głośniki mają moc 1400 watów.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="CI_KTORZY" name="Zbędna litera w wyrazach mylonych z zaimkami">
                         <antipattern>
                             <token postag="SENT_START"/>
