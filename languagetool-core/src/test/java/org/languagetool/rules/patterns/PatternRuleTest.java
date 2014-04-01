@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.String;
@@ -88,21 +89,32 @@ public class PatternRuleTest extends TestCase {
 
   private boolean skipCountryVariant(Language lang) {
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    return !dataBroker.ruleFileExists(getGrammarFileName(lang)) && Language.REAL_LANGUAGES.length > 1;
+    boolean hasGrammarFiles = false;
+    for (String grammarFile : getGrammarFileNames(lang)) {
+      if (dataBroker.ruleFileExists(grammarFile)) {
+        hasGrammarFiles = true;
+      }
+    }
+    return !hasGrammarFiles && Language.REAL_LANGUAGES.length > 1;
   }
 
-  private String getGrammarFileName(Language lang) {
+  private List<String> getGrammarFileNames(Language lang) {
     final String shortNameWithVariant = lang.getShortNameWithCountryAndVariant();
-    final String fileName;
-    if (shortNameWithVariant.contains("-x-")) {
-      fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
-    } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
-            && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
-      fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + JLanguageTool.PATTERN_FILE;
-    } else {
-      fileName = lang.getShortName() + "/" + JLanguageTool.PATTERN_FILE;
+    final List<String> fileNames = new ArrayList<>();
+    for (String ruleFile : lang.getRuleFileNames()) {
+      final String nameOnly = new File(ruleFile).getName();
+      final String fileName;
+      if (shortNameWithVariant.contains("-x-")) {
+        fileName = lang.getShortName() + "/" + nameOnly;
+      } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
+              && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
+        fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + nameOnly;
+      } else {
+        fileName = lang.getShortName() + "/" + nameOnly;
+      }
+      fileNames.add(fileName);
     }
-    return fileName;
+    return fileNames;
   }
 
   private void runGrammarRulesFromXmlTestIgnoringLanguages(Set<Language> ignoredLanguages) throws IOException {
@@ -140,19 +152,21 @@ public class PatternRuleTest extends TestCase {
 
   private void validatePatternFile(Language lang) throws IOException {
     final XMLValidator validator = new XMLValidator();
-    final String grammarFile = getGrammarFileName(lang);
-    System.out.println("Running XML validation for " + grammarFile + "...");
-    final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
-    final String ruleFilePath = rulesDir + "/" + grammarFile;
-    final InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath);
-    if (xmlStream == null) {
-      System.out.println("No rule file found at " + ruleFilePath);
-      return;
-    }
-    try {
-      validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
-    } finally {
-      xmlStream.close();
+    final List<String> grammarFiles = getGrammarFileNames(lang);
+    for (String grammarFile : grammarFiles) {
+      System.out.println("Running XML validation for " + grammarFile + "...");
+      final String rulesDir = JLanguageTool.getDataBroker().getRulesDir();
+      final String ruleFilePath = rulesDir + "/" + grammarFile;
+      final InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath);
+      if (xmlStream == null) {
+        System.out.println("No rule file found at " + ruleFilePath + " in classpath");
+        continue;
+      }
+      try {
+        validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
+      } finally {
+        xmlStream.close();
+      }
     }
   }
 

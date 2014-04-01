@@ -239,7 +239,7 @@ public abstract class Language {
   }
 
   /**
-   * Get the location of the rule file(s).
+   * Get the location of the rule file(s) in a form like {@code /org/languagetool/rules/de/grammar.xml}.
    */
   public List<String> getRuleFileNames() {
     final List<String> ruleFiles = new ArrayList<>();
