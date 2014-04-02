@@ -10214,7 +10214,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>top</token>
-                <token>ten</token>
+                <token regexp="yes">ten|10</token>
             </antipattern>
             <antipattern>
                 <token postag="CD"/>
@@ -10248,13 +10248,13 @@ USA
                         <exception postag="NN:UN?|NNS|NNPS|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception>will</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|stat|[ck]c|hr|min|m3|mcg|cpu|[KMGk]B|kelvin|saw|percent</exception>
                         <exception regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday</exception>                        
                         <exception>year</exception><!-- "16 year old Ahmad" -->
                         <exception>trained</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception>caused</exception>
-                        <exception regexp="yes">Ave|Avenue|Street|Terrace|Square</exception><!-- probably an address, "333 Grant Avenue" -->
+                        <exception regexp="yes">Ave|Avenue|Street|Terrace|Square|Plaza</exception><!-- probably an address, "333 Grant Avenue" -->
                     </token>
                 </marker>                
             </pattern>
@@ -10299,6 +10299,9 @@ USA
             <example type="correct">The screen is fixed to the 640 × 400 1-bit mono mode, and no external video port was provided.</example>
             <example type="correct">Game board with 108 spaces arranged in a 12 by 9 array</example>
             <example type="correct">In the United States, the song peaked at number six on the Billboard Hot 100 chart, paving the way for their first album and their first trip as a group there.</example>
+            <example type="correct">Since then the corporate headquarters have moved to New York City at 1 Park Avenue in Manhattan, before moving to the Financial District to the former JP Morgan Chase headquarters at 4 New York Plaza.</example>
+            <example type="correct">It's ten past six.</example>
+            <example type="correct">The price of rice rose by three percent.</example>
         </rule>
         <rule id="CD_DOZENS_OF" name="Plural form of numbers in 'two dozens of' (two dozen)">
         <pattern>

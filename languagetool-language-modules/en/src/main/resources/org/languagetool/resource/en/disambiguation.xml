@@ -391,6 +391,13 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <pattern><token>clearly</token></pattern>
         <disambig action="remove"><wd pos="JJ"/></disambig>        
       </rule>
+
+       <rule name="Intel" id="INTEL">
+           <pattern case_sensitive="yes">
+               <marker><token>Intel</token></marker>
+           </pattern>
+           <disambig action="add"><wd pos="NNP"/></disambig>
+       </rule>
       
 <!-- end of temporary entries -->
 
@@ -429,6 +436,30 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <example type="ambiguous" inputform="22nd[22nd]" outputform="22nd[22nd/JJ]">This is the <marker>22nd</marker> place.</example>
         <example type="untouched">1nd place</example>
         <example type="untouched">1 dollar</example>
+    </rule>
+
+    <rule id="CD_PAST_CD" name="Disambiguate time">
+        <pattern>
+            <marker>
+                <token postag="CD"/>
+                <token postag="IN" regexp="yes">past|to</token>
+                <token postag="CD"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="six[six/CD,six/JJ,six/NN]" outputform="six[six/CD]">It's ten past <marker>six</marker>.</example>
+    </rule>
+
+    <rule id="half_past_CD" name="Disambiguate time no. 2">
+        <pattern>
+            <marker>
+                <token postag="NN">half</token>
+                <token postag="IN" regexp="yes">past|to</token>
+                <token postag="CD"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="six[six/CD,six/JJ,six/NN]" outputform="six[six/CD]">It's half past <marker>six</marker>.</example>
     </rule>
             
         <rule id="SO_JJ" name="so + adj/rb => so/RB">
