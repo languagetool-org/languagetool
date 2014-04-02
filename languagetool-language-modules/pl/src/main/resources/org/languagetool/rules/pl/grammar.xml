@@ -2800,6 +2800,17 @@ $Id$
                 <example type="incorrect" correction="5-letni|5 — letni">Okres <marker>5—letni</marker>.</example>
                 <example type="correct">Okres 5-letni</example>
                 </rule>
+                <rule id="LICZBA_BEZ_DYWIZU_ZAKRES" name="Myślnik zamiast dywizu w zakresie liczbowym">
+                    <pattern>
+                        <token regexp="yes">\d+</token>
+                        <token regexp="yes" spacebefore="no">[—–]</token>
+                        <token regexp="yes" spacebefore="no">\d+</token>
+                    </pattern>
+                    <message>Myślnika nie używa się w oznaczeniu zakresu liczbowego. Powinno być: <suggestion>\1-\3</suggestion>.</message>
+                    <short>Błąd typograficzny</short>
+                    <example type="incorrect" correction="266-267">V.S. Ramachandran, dz. cyt., s. <marker>266–267</marker>.</example>
+                    <example type="correct">V.S. Ramachandran, dz. cyt., s. <marker>266-267</marker>.</example>
+                </rule>
 				<rulegroup id="APOSTROF_DATA" name="błędne apostrofy przed datami rocznymi">
 						<rule>
 								<pattern>
