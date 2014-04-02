@@ -952,6 +952,7 @@ $Id$
                 <example type="correct">se'n van trobar altres de mal formats</example>
                 <example type="correct">la poesia, de forta base realista,</example>
                 <example type="correct">una nova i sòlida base rural</example>
+                <example type="correct">resistí encara nou mesos</example>
             </rule>
             <rule>
                 <pattern>
@@ -4062,9 +4063,10 @@ $Id$
                 <suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1" >acabar</match> de <match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion> 
                 <suggestion><match no="3"/> de poc</suggestion> 
                 <suggestion><match no="3"/> de nou</suggestion>
+                <suggestion>recentment <match no="3"/></suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/recent</url>
-                <example type="incorrect" correction="acabats de pintar|pintats de poc|pintats de nou"><marker>recent pintats</marker></example>
-                <example type="incorrect" correction="acabat de pintar|pintat de poc|pintat de nou"><marker>recent pintat</marker></example>
+                <example type="incorrect" correction="acabats de pintar|pintats de poc|pintats de nou|recentment pintats"><marker>recent pintats</marker></example>
+                <example type="incorrect" correction="acabat de pintar|pintat de poc|pintat de nou|recentment pintat"><marker>recent pintat</marker></example>
                 <example type="correct">l'altre més recent viscut pels nostres pares</example>
                 <example type="correct">un cas recent lligat a un estímul admiratiu</example>
                 <example type="correct">en un període recent units de manera contínua</example>
@@ -6727,6 +6729,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="I_MAJ_L_MIN" name="confusió i majúscula / l minúsucla">
+            <pattern>
+                <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+</token>
+            </pattern>
+            <message>Possible confusió de lletres.</message>
+            <suggestion><match no="1" regexp_match="(.*)I(.+)" regexp_replace="$1l$2" case_conversion="alllower"/></suggestion>
+            <example type="incorrect" correction="lloretencs"><marker>lIoretencs</marker></example>
+            <example type="incorrect" correction="l'home"><marker>I'home</marker></example>
+            <example type="correct">lloretencs</example>
+        </rule>
         <!-- <rule id="VENGUT_VENUT" name="vengut / venut">
             <pattern>
                 <token regexp='yes'>venguts?|venguda|vengudes</token>
