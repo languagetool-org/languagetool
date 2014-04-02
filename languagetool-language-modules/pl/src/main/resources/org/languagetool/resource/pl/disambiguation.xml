@@ -2370,6 +2370,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="kulać"/></disambig>
     </rule>
 
+    <rule id="MAJ" name="maj to nie maić">
+        <pattern>
+            <token>maj</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="maić"/></disambig>
+    </rule>
+
     <rule id="MILI" name="mili to nie milić">
         <pattern>
             <marker><token>mili</token></marker>
@@ -2536,6 +2543,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">trupią?</token>
         </pattern>
         <disambig action="remove"><wd lemma="trupić"/></disambig>
+    </rule>
+
+    <rule id="UDZIAL" name="udział to nie udziać">
+        <pattern>
+            <token>udział</token>
+        </pattern>
+        <disambig action="remove"><wd pos="udziać"/></disambig>
     </rule>
 
     <rule id="UROCZA" name="uroczą/y to nie uroczyć">
@@ -3315,6 +3329,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="nadzieją[nadzieja/subst:sg:inst:f]">Prostacze serce jego zakołatało po raz ostatni <marker>nadzieją</marker>, że może czeka go krzyż.</example>
     </rule>
 
+    <rule id="GRA_ADJ" name="gra + przymiotnik = subst">
+        <pattern>
+            <unify>
+                <feature id="case"><type id="nom"/></feature><feature id="number"><type id="sg"/></feature>
+                    <feature id="gender"><type id="f"/></feature>
+                <token>gra</token>
+                <token postag="(?:adj|pact|ppas).*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Jarek gra w szachy z Alikiem.</example>
+        <example type="ambiguous" inputform="gra[gra/subst:sg:nom:f,grać/verb:fin:sg:ter:imperf:refl.nonrefl]" outputform="gra[gra/subst:sg:nom:f]">Alpha Centauri - <marker>gra</marker> komputerowa</example>
+    </rule>
+
     <rule id="KRAJE_UBOGIE" name="nadzieje, dzieje i kraje jako rzeczownik">
         <pattern>
             <unify>
@@ -3346,6 +3374,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="święta[święta/subst:pl:acc:p3,święta/subst:pl:nom:p3,święta/subst:pl:voc:p3,święta/subst:sg:nom:f,święta/subst:sg:voc:f,święto/subst:pl:acc:n2,święto/subst:pl:nom:n2,święto/subst:pl:voc:n2,święto/subst:sg:gen:n2,święty/adj:sg:nom.voc:f:pos]"
                  outputform="święta[święty/adj:sg:nom.voc:f:pos]">Ganges to <marker>święta</marker> rzeka.</example>
+    </rule>
+
+    <rule id="RZEKA_W" name="rzeka w... = subst">
+        <pattern>
+            <marker><token>rzeka</token></marker>
+            <token>w</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="rzekać"/></disambig>
     </rule>
 
     <rule id="MOJ_BLIZNI" name="bliźni - zwykle nie czasownik">
@@ -3706,13 +3742,45 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <unify>
                 <feature id="case"/><feature id="number"/><feature id="gender"></feature>
                 <token>osiedli</token>
-                <token regexp="yes">mieszkaniowych|robotnicznych|ludzkich|żydowskich|podmiejskich|zamkniętych|miejskich</token>
+                <token regexp="yes">mieszkaniowych|robotnicznych|ludzkich|żydowskich|arabskich|podmiejskich|zamkniętych|miejskich</token>
             </unify>
         </pattern>
         <disambig action="unify"/>
         <example type="untouched">Osiedli na laurach.</example>
         <example type="ambiguous" inputform="osiedli[osiedle/subst:pl:gen:n2,osiedlić/verb:fin:sg:ter:perf:nonrefl,osiedlić/verb:fin:sg:ter:perf:refl.nonrefl,osieść/verb:praet:pl:m1.p1:ter:perf:refl.nonrefl,osiąść/verb:praet:pl:m1.p1:ter:perf:refl.nonrefl]"
                  outputform="osiedli[osiedle/subst:pl:gen:n2]">Zachował się duży zespół <marker>osiedli</marker> mieszkaniowych.</example>
+    </rule>
+
+    <rule id="OSIEDLA" name="osiedla mieszkaniowe -> rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"></feature>
+                <token>osiedla</token>
+                <token regexp="yes">mieszkaniowe|robotniczne|ludzkie|żydowskie|arabskie|podmiejskie|zamknięte|miejskie</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Osiedli na laurach.</example>
+        <example type="ambiguous" inputform="osiedla[osiedlać/verb:fin:sg:ter:imperf:refl.nonrefl,osiedle/subst:pl:acc:n2,osiedle/subst:pl:nom:n2,osiedle/subst:pl:voc:n2,osiedle/subst:sg:gen:n2]"
+                 outputform="osiedla[osiedle/subst:pl:acc:n2,osiedle/subst:pl:nom:n2,osiedle/subst:pl:voc:n2]">Widzę <marker>osiedla</marker> mieszkaniowe.</example>
+    </rule>
+
+    <rule id="PODROZ_SUBST" name="podróż do... to rzeczownik">
+        <pattern>
+            <marker><token>podróż</token></marker>
+            <token>do</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="podrożyć"/></disambig>
+    </rule>
+
+    <rule id="MUZEUM_GOI" name="Muzeum Goi">
+        <pattern>
+            <token regexp="yes" inflected="yes">muzeum|obraz</token>
+            <marker>
+                <token>Goi</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="goić"/></disambig>
     </rule>
 
     <rule id="RADZI_BY_INF" name="radzi jako pred">
@@ -4678,6 +4746,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">WYCIECZKA KL. III</example>
         <example type="untouched">Jestem w kl. VIIb.</example>
     </rule>
+    <rule id="OK_BREV" name="ok jako skrót">
+        <pattern>
+            <marker><token>ok</token></marker>
+            <token spacebefore="no">.<exception postag="SENT_END"/></token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+        <example type="ambiguous" inputform="ok[oko/subst:pl:gen:n2,około/brev:pun]" outputform="ok[około/brev:pun]">Naraziło go to na ostre ataki ze strony Seweryna Goszczyńskiego i Leszka Dunina Borkowskiego, w wyniku których zaprzestał publikowania swoich utworów, pisując do szuflady przez <marker>ok</marker>. 18 lat.</example>
+    </rule>
     <rule name="R - nie rok" id="NON_START_POS_R">
     	<pattern case_sensitive="yes">
     		<marker><token>R<exception scope="previous" postag="SENT_START"></exception></token></marker>
@@ -4751,6 +4827,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Ten wyraz to „meliorise” (am. meliorize).</example>
     </rule>
 
+    <rule name="&amp;lt;br" id="lt_br">
+        <pattern>
+            <token>&amp;lt</token>
+            <token>;</token>
+            <marker><token>br</token></marker>
+        </pattern>
+        <disambig action="remove"><wd pos="brev:pun"/></disambig>
+    </rule>
+
     <rule name="Center for" id="CENTER_FOR"> <!-- wyrażenie angielskie w polskim tekście -->
         <pattern case_sensitive="yes">
             <marker>
@@ -4759,6 +4844,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
         </pattern>
         <disambig action="replace"><wd pos="ign"/><wd pos="ign"/></disambig>
+    </rule>
+
+    <rule name="US OPEN" id="US_Open">
+        <pattern>
+            <marker>
+                <token>US</token>
+            </marker>
+            <token>Open</token>
+        </pattern>
+        <disambig postag="ign"/>
     </rule>
 
     <rule name="glam rock" id="GLAM_ROCK">
@@ -5683,6 +5778,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">(?:gdzie|có|czy|ju|skąd|jak|kiedy|bodaj)że(?:ś(?:my|cie)?|m)</token>
         </pattern>
         <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="HTML_ENTITIES" name="ignorujemy encje html">
+        <pattern>
+            <marker><token regexp="yes">&amp;[gl]t</token>
+            <token spacebefore="no">;</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
     </rule>
 
 </rules>
