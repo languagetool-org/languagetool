@@ -6731,13 +6731,14 @@ $Id$
     <category name="Z) Confusions" type="grammar">
         <rule id="I_MAJ_L_MIN" name="confusió i majúscula / l minúsucla">
             <pattern>
-                <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+</token>
+                <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+<exception regexp="yes">I'm|\p{Lu}+</exception></token>
             </pattern>
             <message>Possible confusió de lletres.</message>
             <suggestion><match no="1" regexp_match="(.*)I(.+)" regexp_replace="$1l$2" case_conversion="alllower"/></suggestion>
             <example type="incorrect" correction="lloretencs"><marker>lIoretencs</marker></example>
             <example type="incorrect" correction="l'home"><marker>I'home</marker></example>
             <example type="correct">lloretencs</example>
+            <example type="correct">les llistes oficials de LIC</example>
         </rule>
         <!-- <rule id="VENGUT_VENUT" name="vengut / venut">
             <pattern>
