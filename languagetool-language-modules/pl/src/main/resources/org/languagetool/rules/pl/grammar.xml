@@ -2822,10 +2822,10 @@ $Id$
                     <example type="incorrect" correction="266-267">V.S. Ramachandran, dz. cyt., s. <marker>266–267</marker>.</example>
                     <example type="correct">V.S. Ramachandran, dz. cyt., s. <marker>266-267</marker>.</example>
                 </rule>
-				<rulegroup id="APOSTROF_DATA" name="błędne apostrofy przed datami rocznymi">
+				<rulegroup id="APOSTROF_DATA" name="Błędne apostrofy przed datami rocznymi">
 						<rule>
 								<pattern>
-										<token>'</token>
+                                        <token regexp="yes">['’]</token>
 										<token regexp="yes">[0-1][0-9]</token>
 								</pattern>
 								<message>Prawdopodobnie błędny skrót daty rocznej; nie stawia się apostrofu przed datami rocznymi, które przypadają w pierwszych dwóch dekadach wieku. Poprawnie: <suggestion>19\2</suggestion> lub <suggestion>20\2</suggestion>.</message>
@@ -2835,7 +2835,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token>'</token>
+                                        <token regexp="yes">['’]</token>
 										<token regexp="yes">[1-9][0-9][0-9][0-9]</token>
 								</pattern>
 								<message>Prawdopodobnie zbędny apostrof przed pełną datą roczną. Poprawnie: <suggestion>\2</suggestion>.</message>
@@ -2843,7 +2843,51 @@ $Id$
 								<example correction="2012" type="incorrect">Zapraszamy na Euro <marker>'2012</marker>.</example>
 								<example type="correct">Zapraszamy na obchody Maja '68.</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <token inflected="yes">lato</token>
+                            <marker>
+                            <token regexp="yes">['’]</token>
+                            <token regexp="yes">\d0</token>
+                            </marker>
+                            <token>.</token>
+                        </pattern>
+                        <message>Zbędny apostrof. Poprawnie: <suggestion>\3</suggestion></message>
+                        <url>http://www.ekorekta24.pl/porady-jezykowe/19-interpunkcja/188-lata-90-te-lata-90-czy-lata-90-jak-zapisac-liczebniki-porzadkowe</url>
+                        <short>Błąd typograficzny</short>
+                        <example correction="90" type="incorrect">Piekne lata <marker>'90</marker>.</example>
+                        <example type="correct">To były lata 90.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                                <token inflected="yes">lato</token>
+                            <marker>
+                                <token regexp="yes">['’]</token>
+                                <token regexp="yes">\d0</token>
+                            </marker>
+                            <token><exception>.</exception></token>
+                        </pattern>
+                        <message>Zbędny apostrof. Poprawnie: <suggestion>\3.</suggestion></message>
+                        <url>http://www.ekorekta24.pl/porady-jezykowe/19-interpunkcja/188-lata-90-te-lata-90-czy-lata-90-jak-zapisac-liczebniki-porzadkowe</url>
+                        <short>Błąd typograficzny</short>
+                        <example correction="90." type="incorrect">Piekne lata <marker>'90</marker> były za nami</example>
+                        <example type="correct">To były lata 90., ale co tu dużo mówić.</example>
+                    </rule>
 				</rulegroup>
+                <rule type="locale-violation" id="DATA_KROPKA_RZYMSKIE" name="Zbędne kropki w datach dziennych">
+                    <pattern case_sensitive="yes">
+                        <token regexp="yes">\d{1,2}</token>
+                        <token>.</token>
+                        <token regexp="yes">(?:I{1,3})?|(:?VI{0,3})?|(:?I[XV])?|(:?XI{0,2})?</token>
+                        <token>.</token>
+                        <token regexp="yes">\d{2,4}</token>
+                    </pattern>
+                    <message>Prawdopodobnie błędny zapis daty. Powinno być bez kropek: <suggestion>\1 \3 \5</suggestion>.</message>
+                    <url>http://so.pwn.pl/zasady.php?id=629747</url>
+                    <short>Błąd typograficzny</short>
+                    <example type="correct">11 XI 1918</example>
+                    <example type="incorrect" correction="11 XI 1918"><marker>11.XI.1918</marker></example>
+                </rule>
 				<rule id="POMINIECIE" name="(...) → [...]">
 						<pattern>
 								<token>(</token>
