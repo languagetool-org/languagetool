@@ -69,9 +69,9 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
     RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
     assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
-            ruleMatchApplication.getTextWithCorrection().contains("<span class=\"error\">wegen dem</span> Leerzeichen."));
-    assertThat(ruleMatchApplication.getOriginalErrorContext(10), is(" richtig, <span class=\"error\">wegen dem</span> Le"));
-    assertThat(ruleMatchApplication.getCorrectedErrorContext(10), is(" richtig, <span class=\"error\">wegen dem</span> Le"));
+            ruleMatchApplication.getTextWithCorrection().contains("<<span class=\"error\">>wegen dem<</span>> Leerzeichen."));
+    assertThat(ruleMatchApplication.getOriginalErrorContext(12), is("st richtig, <<span class=\"error\">>wegen dem<</span>> Le"));
+    assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <<span class=\"error\">>wegen dem<</span>> Le"));
   }
 
   public void testGetPlainText() {

@@ -42,8 +42,8 @@ public class SuggestionReplacer {
   public SuggestionReplacer(PlainTextMapping textMapping, String originalText) {
     this.textMapping = textMapping;
     this.originalText = originalText;
-    this.errorMarkerStart = "<span class=\"error\">";
-    this.errorMarkerEnd = "</span>";
+    this.errorMarkerStart = "<<span class=\"error\">>";  // use <<span>> to avoid clashes with <span> in original markup
+    this.errorMarkerEnd = "<</span>>";
   }
 
   public SuggestionReplacer(PlainTextMapping textMapping, String originalText, String errorMarkerStart, String errorMarkerEnd) {
