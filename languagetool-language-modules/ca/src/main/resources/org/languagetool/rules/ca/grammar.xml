@@ -11439,13 +11439,14 @@ $Id$
                     <marker>
                         <token regexp="yes">(?-i)ma</token>
                     </marker>
-                    <token postag="S.*" postag_regexp="yes"></token>
+                    <token postag="SP.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
                 <suggestion>mà</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="mà">Arribarà <marker>ma</marker> d'obra barata.</example>
                 <example type="correct">A ma mare.</example>
+                <example type="correct">A ma mare</example>
                 <example type="correct">Aquella mà.</example>
                 <example type="correct">Estimava moltíssim ma mare.</example>   
                 <example type="correct">En tota ma vida.</example>
@@ -19473,6 +19474,7 @@ $Id$
         </rulegroup>
         <rule id="AL_POC_TEMPS" name="al poc temps">
             <pattern>
+                <token><exception inflected="yes" regexp="yes">deure|atribuir</exception></token>
                 <marker>
                     <token>a</token>
                     <token>l</token>
@@ -19486,7 +19488,8 @@ $Id$
             <suggestion>poc temps després</suggestion>
             <example type="incorrect"><marker>al poc temps</marker></example>
             <example type="correct">al cap de poc</example>
-            <!-- <example type="correct">ho va atribuir al poc temps amb què ho prepararen</example> -->
+            <example type="correct">ho va atribuir al poc temps amb què ho prepararen</example>
+            <example type="correct">Fou degut al poc temps de preparació</example>
         </rule>
         <rule id="DONAR_LABAST" name="*donar a l'abast/donar l'abast">
             <pattern>
@@ -20207,7 +20210,7 @@ $Id$
         </rule>
         <rule id="PETROLIFER" name="petrolífer/petrolier">
             <pattern>
-                <token regexp="yes" inflected="yes">indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
+                <token regexp="yes" inflected="yes">plataforma|prospecció|indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
                 <token inflected="yes">petrolífer</token>
             </pattern>
             <message>Paraula inadequada en aquest context. "Petrolífer" vol dir només "que conté petroli".</message>
@@ -22137,7 +22140,7 @@ $Id$
         <rulegroup id="A_L_ACTUALITAT" name="a l'actualitat">
             <rule>
                 <pattern>
-                    <token postag="SENT_START|_PUNCT.*|SPS00" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes" inflected="yes">origen|any|segle</exception><exception scope="next" regexp="yes">\d{3,4}</exception><exception scope="next" inflected="yes" regexp="yes">portar|saltar|tornar|remetre|arribar|transportar|traslladar|dedicar|repàs|repassada|aplicable|aplicar|referent|referir|anterior|referència|transcendir|corresponent|atent</exception></token>
+                    <token postag="SENT_START|_PUNCT.*|SPS00" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes" inflected="yes">origen|any|segle</exception><exception scope="next" regexp="yes">\d{3,4}</exception><exception scope="next" inflected="yes" regexp="yes">vincular|lligar|portar|saltar|tornar|remetre|arribar|transportar|traslladar|dedicar|repàs|repassada|aplicable|aplicar|referent|referir|anterior|referència|transcendir|corresponent|atent</exception></token>
                     <marker>
                         <token>a<exception scope="previous" regexp="yes">per|fins|cap|degut|ullada|ull</exception></token>
                         <token>l'</token>
