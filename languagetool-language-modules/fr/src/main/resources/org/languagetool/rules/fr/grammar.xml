@@ -7264,7 +7264,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="QUI_VCONJ" name="Verbe conjugué après pronom relatif qui">
       <rule>
         <pattern>
-          <token>moi<exception scope="previous" regexp="yes">(?-i)en|ou|et</exception></token>
+          <token>moi<exception scope="previous" regexp="yes">(?-i)en|ou|et|que</exception></token>
           <token skip="1">qui</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -7286,10 +7286,11 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Et moi qui <marker>pensait</marker> qu’il m’aimait.</example>
         <example type="correct">Et moi qui pensais qu’il m’aimait.</example>
         <example type="correct">Il n’y avait qu’elle et moi qui savions.</example>
+        <example type="correct">Des copains plus vieux que moi qui fumaient.</example>
       </rule>
       <rule>
         <pattern>
-          <token>toi<exception regexp="yes" scope="previous">en|ou</exception></token>
+          <token>toi<exception regexp="yes" scope="previous">en|ou|que</exception></token>
           <token skip="1">qui</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -7305,6 +7306,7 @@ though, and has since been slightly modified)-->
         <example type="correct">C’est toi qui me prends</example>
         <example type="correct">C’est l’animal en toi qui le veut.</example>
         <example type="correct">Était-ce toi qui as laissé la porte ouverte ?</example>
+        <example type="correct">Des copains plus vieux que toi qui fumaient.</example>
       </rule>
       <rule>
         <pattern>
@@ -7381,7 +7383,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token><exception>en</exception></token>
+          <token><exception regexp="yes">en|que</exception></token>
           <token>nous</token>
           <token>qui</token>
           <marker>
@@ -7392,10 +7394,11 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Nous qui <marker>travaille</marker> ici</example>
         <example type="correct">Nous qui travaillons ici</example>
         <example type="correct">C’est l’enfant en nous qui parle.</example>
+        <example type="correct">Des copains plus vieux que nous qui fumaient.</example>
       </rule>
       <rule>
         <pattern>
-          <token>nous</token>
+          <token>nous<exception scope="previous">que</exception></token>
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker>
@@ -7405,10 +7408,14 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \4 » devrait être à la 1e personne plurielle.</message>
         <example type="incorrect">Nous qui vous <marker>aimé</marker></example>
         <example type="correct">Nous qui vous aimons</example>
+        <example type="correct">Des copains plus vieux que nous qui me dérangeaient.</example>
       </rule>
       <rule>
         <pattern>
-          <token>vous<exception postag="P" scope="previous"/></token>
+          <token>vous
+            <exception postag="P" scope="previous"/>
+            <exception scope="previous">que</exception>
+          </token>
           <token>qui</token>
           <marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/></token>
@@ -7418,10 +7425,11 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Vous qui <marker>travailler</marker> ici</example>
         <example type="correct">Vous qui travaillez ici</example>
         <example type="correct">Y a-t-il quelqu’un parmi vous qui a un briquet ?</example>
+        <example type="correct">Des copains plus vieux que vous qui fumaient.</example>
       </rule>
       <rule>
         <pattern>
-          <token>vous</token>
+          <token>vous<exception scope="previous">que</exception></token>
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker>
@@ -7431,6 +7439,7 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \4 » devrait être à la 2e personne plurielle.</message>
         <example type="incorrect">Vous qui me <marker>dérangé</marker> ici</example>
         <example type="correct">Vous qui me dérangez</example>
+        <example type="correct">Des copains plus vieux que vous qui me dérangaient.</example>
       </rule>
     </rulegroup>
     <rulegroup id="AUX_AVOIR" name="auxiliaire avoir">
