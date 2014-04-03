@@ -3134,6 +3134,29 @@ $Id$
                   </rulegroup>
 		</category>
 		<category name="Błędy odmiany" type="grammar">
+                <rulegroup id="TYLNI" name="„tylni” (tylni)">
+                    <rule>
+                        <pattern>
+                        <token>tylni</token>
+                        <token postag='subst:sg:nom:m[1-3]' postag_regexp='yes'></token>
+                    </pattern>
+                    <message>To błędna forma tego przymiotnika. Poprawnie: <suggestion>tylny <match no="2"/></suggestion>.</message>
+                    <short>Błędna odmiana</short>
+                    <example type='incorrect'>Wieje <marker>tylni wiatr</marker>.</example>
+                    <example type='correct'>Wieje tylny wiatr.</example>
+                    </rule>
+                    <rule id="ID" name="„tylni” (tylni)">
+                        <pattern>
+                            <token>tylnim</token>
+                            <token postag='(:?subst|ger):sg:loc:[nm][1-3].*' postag_regexp='yes'></token>
+                        </pattern>
+                        <message>To błędna forma tego przymiotnika. Poprawnie: <suggestion>tylnym <match no="2"/></suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=9687</url>
+                        <short>Błędna odmiana</short>
+                        <example type='incorrect'>Siedzę na <marker>tylnim siedzeniu</marker>.</example>
+                        <example type='correct'>Siedzę na tylnym siedzeniu.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="BALI_BALOW" name="„bali maskowych” (balów)">
 						<pattern>
 								<marker>
