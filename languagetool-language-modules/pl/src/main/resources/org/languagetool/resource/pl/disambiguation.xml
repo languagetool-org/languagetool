@@ -2650,7 +2650,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="BRONI_SUBST" name="broni jako genetiwus">
         <pattern>
-            <token regexp="yes" inflected="yes">zawieszenie|nierozprzestrzenianie|braterstwo|posiadać|użyć|towarzysz|noszenie|dostawa|rodzaj|magazyn|eksport</token>
+            <token regexp="yes" inflected="yes">zawieszenie|nierozprzestrzenianie|braterstwo|posiadać|użyć|towarzysz|noszenie|dostawa|rodzaj|magazyn|eksport|skład</token>
             <marker><token>broni</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:f"/>
@@ -3357,6 +3357,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3]">Są to <marker>kraje</marker> ubogie.</example>
     </rule>
 
+    <rule id="KRAJE_NATO" name="kraje NATO => rzeczownik">
+        <pattern>
+            <marker><token postag="verb:fin:sg:ter:imperf:refl.nonrefl">kraje</token></marker>
+            <token>NATO</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="krajać"/></disambig>
+        <example type="ambiguous" inputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3,krajać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                 outputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3]">To były <marker>kraje</marker> NATO.</example>
+    </rule>
 
     <rule id="PANSTWO_MLODZI" name="państwo młodzi">
         <pattern>
@@ -4825,6 +4834,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove" postag="brev:pun"/>
         <example type="ambiguous" inputform="am[amerykański/brev:pun]" outputform="am[am]">Frankfurt <marker>am</marker> Main</example>
         <example type="untouched">Ten wyraz to „meliorise” (am. meliorize).</example>
+    </rule>
+    <rule name="Pan Am" id="PAN_AM">
+        <pattern case_sensitive="yes">
+            <token>Pan</token>
+            <marker><token>Am</token></marker>
+        </pattern>
+        <disambig action="remove" postag="brev:pun"/>
+        <example type="ambiguous" inputform="Am[amerykański/brev:pun]" outputform="Am[Am]">Samolot linii Pan <marker>Am</marker> leciał do Libii.</example>
     </rule>
 
     <rule name="&amp;lt;br" id="lt_br">
