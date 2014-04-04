@@ -322,6 +322,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Słownik niemiecko-francuski</example>
     </rule>
 
+    <rule id="ADJA_WON_SENT_END" name="adja nie może być na końcu zdania">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="adja"/>
+                    <token negate_pos="yes" postag="adja"/>
+                    <token postag="SENT_END"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd pos="adja"/></disambig>
+    </rule>
+
     <rule id="ADJA_OK" name="adja to dobra interpretacja z dywizem">
         <pattern>
             <marker>

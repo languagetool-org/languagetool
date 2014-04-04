@@ -2536,6 +2536,21 @@ $Id$
 								<example type="correct">To jest zdanie z „cytatem na końcu i przypisem”.</example>
 								<example type="correct">Pożycz mi sto złotych…</example>
 						</rule>
+                        <rule>
+                        <pattern>
+                            <token postag="SENT_START" skip="-1"></token>
+                            <marker>
+                                <and>
+                                    <token postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes" skip="-1"></token>
+                                    <token postag="SENT_END"/>
+                                </and>
+                            </marker>
+                        </pattern>
+                        <message>To zdanie kończy się przecinkiem. Prawdopodobnie powinno być: <suggestion>\2.</suggestion></message>
+                        <short>Zdanie bez kropki</short>
+                        <example correction="stało." type="incorrect">Tak też się <marker>stało</marker></example>
+                        <example type="correct">Pożycz mi sto złotych…</example>
+                        </rule>
 				</rulegroup>
 		</category>
     <category name="Formatowanie liczb" type="numbers">
@@ -8091,6 +8106,20 @@ $Id$
 								<example type="correct">Krakusy mówią, że kaczki przeglądają się we wodzie.</example>
 								<example correction="w &quot;pięknej" type="incorrect">Ludwik ma randkę z Przemysławem <marker>we &quot;pięknej</marker> Łodzi&quot;.</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                            <token>we</token>
+                            </marker>
+                            <token min="0" max="1" regexp="yes">[\&quot;„]</token>
+                            <token regexp="yes">Wiedniu|Warszawie</token>
+                        </pattern>
+                        <message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w</suggestion>.</message>
+                        <short>Błąd fonetyczny</short>
+                        <example type="correct">Ludwik ma randkę z Przemysławem w Warszawie.</example>
+                        <example correction="w" type="incorrect">Ludwik ma randkę z Przemysławem <marker>we</marker> Wiedniu.</example>
+                        <example correction="w" type="incorrect">Ludwik ma randkę z Przemysławem <marker>we</marker> „Wiedniu i Moskwie”.</example>
+                    </rule>
 				</rulegroup>
 				<rulegroup id="Z_ZE" name="„z” przed spółgłoską (ze)">
 						<rule>
