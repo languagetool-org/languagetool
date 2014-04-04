@@ -142,7 +142,7 @@ public class PatternRuleQueryBuilder {
       return null;
     } else if (element.isInflected() && element.isRegularExpression()) {
       Term lemmaQueryTerm = getQueryTerm(element, LEMMA_PREFIX + "(", simplifyRegex(termStr), ")");
-      final RegexpQuery regexpQuery = new RegexpQuery(lemmaQueryTerm);
+      final Query regexpQuery = getRegexQuery(lemmaQueryTerm, termStr, element);
       return new BooleanClause(regexpQuery, BooleanClause.Occur.MUST);
     } else if (element.isInflected() && !element.isRegularExpression()) {
       /*

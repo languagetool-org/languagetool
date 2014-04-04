@@ -25,6 +25,8 @@ import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.sandbox.queries.regex.RegexQuery;
+import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.Directory;
@@ -173,7 +175,17 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
     final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language);
     final Query query = queryBuilder.buildRelaxedQuery(patternRule);
     assertEquals("+fieldLowercase:\\p{Punct}", query.toString());
+    assertEquals(RegexQuery.class, ((BooleanQuery)query).clauses().get(0).getQuery().getClass());
     assertMatches(patternRule, 2);
+  }
+
+  public void testSpecialRegexSyntax2() throws Exception {
+    final PatternRule patternRule = makeRule("<token regexp='yes' inflected='yes'>\\p{Lu}\\p{Ll}+</token>", false);
+    final PatternRuleQueryBuilder queryBuilder = new PatternRuleQueryBuilder(language);
+    final Query query = queryBuilder.buildRelaxedQuery(patternRule);
+    assertEquals("+fieldLowercase:\\p{Lu}\\p{Ll}+", query.toString());
+    assertEquals(RegexQuery.class, ((BooleanQuery)query).clauses().get(0).getQuery().getClass());
+    assertMatches(patternRule, 0);
   }
 
   public void testNumberRegex() throws Exception {
