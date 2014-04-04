@@ -6731,7 +6731,7 @@ $Id$
     <category name="Z) Confusions" type="grammar">
         <rule id="I_MAJ_L_MIN" name="confusió i majúscula / l minúsucla">
             <pattern>
-                <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+<exception regexp="yes">I'm|\p{Lu}+</exception></token>
+                <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+<exception regexp="yes">I'm|I'll|\p{Lu}+</exception></token>
             </pattern>
             <message>Possible confusió de lletres.</message>
             <suggestion><match no="1" regexp_match="(.*)I(.+)" regexp_replace="$1l$2" case_conversion="alllower"/></suggestion>
@@ -10703,7 +10703,12 @@ $Id$
         </rule>
     	<rulegroup id="QUE_QUE" name="què/que">
     		<rule>
-                    <pattern>
+                <antipattern>
+                    <token regexp="yes">una?</token>
+                    <token regexp="yes">vegada|volta|pic|col?p</token>
+                    <token>més</token>
+                </antipattern>
+                <pattern>
                     <marker>
                         <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó</token>
 				        <token>què</token>
@@ -10717,6 +10722,7 @@ $Id$
 			    <example type="incorrect" correction="més que">La <marker>més què</marker> probable reelecció.</example>
 			    <example type="correct">Són els què?</example>
 			    <example type="correct">No saben ja què fer.</example>
+                <example type="correct">comprovem una vegada més què passa</example>
 			</rule>
 			<rule>
 			    <pattern>
@@ -12444,6 +12450,11 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="DONA" name="dona/dóna">
+            <antipattern>
+                <token>homes</token>
+                <token regexp="yes">i|o</token>
+                <token>dones</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="_GN_.*" postag_regexp="yes"/>
@@ -15016,16 +15027,60 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="DONARSE_A_LA_FUGA" name="donar-se a la fuga">
+            <rule>
+                <pattern>
+                    <and>
+                        <token inflected="yes">donar</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <token>a</token>
+                    <token>la</token>
+                    <token>fuga</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>(fugir)</suggestion>
+                <suggestion>(escapar-se)</suggestion>
+                <suggestion>(evadir-se)</suggestion>
+                <suggestion>(fugar-se)</suggestion>
+                <example type="incorrect">Es <marker>donà a la fuga</marker></example>
+                <example type="correct">Bach donà a la fuga un caràcter alegre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <and>
+                        <token postag="VA.*" postag_regexp="yes"/>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <token inflected="yes" skip="1">donar</token>
+                    <token>a</token>
+                    <token>la</token>
+                    <token>fuga</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>(fugir)</suggestion>
+                <suggestion>(escapar-se)</suggestion>
+                <suggestion>(evadir-se)</suggestion>
+                <suggestion>(fugar-se)</suggestion>
+                <example type="incorrect">Es <marker>va donar a la fuga</marker></example>
+                <example type="incorrect">S'<marker>ha donat a la fuga</marker></example>
+                <example type="correct">Bach va donar a la fuga un caràcter alegre.</example>
+            </rule>
+        </rulegroup>
         <rule id="TOT_I_A" name="tot i a">
             <pattern>
-                <token>tot</token>
-                <token>i</token>
-                <token>a<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                <token><exception>-ho</exception></token>
+                <marker>
+                    <token>tot</token>
+                    <token>i</token>
+                    <token>a<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                </marker>
+                <token><exception regexp="yes">partir|pesar</exception></token>
             </pattern>
             <message>Construcció incorrecta</message>
             <suggestion>tot i</suggestion>
             <short>construcció incorrecta</short>
-            <example type='incorrect'><marker>tot i a</marker></example>
+            <example type='incorrect'><marker>tot i a</marker> això.</example>
             <example type='correct'>tot i a contracor</example>
         </rule>
         <rule id="DE_A_PEU" name="de a peu">
@@ -20210,7 +20265,7 @@ $Id$
         </rule>
         <rule id="PETROLIFER" name="petrolífer/petrolier">
             <pattern>
-                <token regexp="yes" inflected="yes">plataforma|prospecció|indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
+                <token regexp="yes" inflected="yes">exportació|importació|port|vaixell|extracció|monopoli|sector|activitat|explotació|plataforma|prospecció|indústria|crisi|companyia|empresa|grup|productor|holding|hòlding</token>
                 <token inflected="yes">petrolífer</token>
             </pattern>
             <message>Paraula inadequada en aquest context. "Petrolífer" vol dir només "que conté petroli".</message>
