@@ -2813,16 +2813,16 @@ $Id$
                 </rule>
                 <rule id="LICZBA_BEZ_DYWIZU_ZAKRES" name="Myślnik zamiast dywizu w zakresie liczbowym">
                     <pattern>
-                        <token regexp="yes">\d+</token>
-                        <token regexp="yes" spacebefore="no">[—–]</token>
-                        <token regexp="yes" spacebefore="no">\d+</token>
+                        <token regexp='yes'>\d+</token>
+                        <token spacebefore='no'>—</token>
+                        <token regexp='yes' spacebefore='no'>\d+</token>
                     </pattern>
-                    <message>Myślnika nie używa się w oznaczeniu zakresu liczbowego. Powinno być: <suggestion>\1-\3</suggestion>.</message>
+                    <message>Myślnika nie używa się w oznaczeniu zakresu liczbowego. Powinno być: <suggestion><match no="1"/>-<match no="3"/></suggestion> lub <suggestion>\1–\3</suggestion> (z półpauzą).</message>
                     <short>Błąd typograficzny</short>
-                    <example type="incorrect" correction="266-267">V.S. Ramachandran, dz. cyt., s. <marker>266–267</marker>.</example>
-                    <example type="correct">V.S. Ramachandran, dz. cyt., s. <marker>266-267</marker>.</example>
+                    <example type='incorrect'>V.S. Ramachandran, dz. cyt., s. <marker>266—267</marker>.</example>
+                    <example type='correct'>V.S. Ramachandran, dz. cyt., s. 266-267.</example>
                 </rule>
-				<rulegroup id="APOSTROF_DATA" name="Błędne apostrofy przed datami rocznymi">
+                <rulegroup id="APOSTROF_DATA" name="Błędne apostrofy przed datami rocznymi">
 						<rule>
 								<pattern>
                                         <token regexp="yes">['’]</token>
@@ -3134,6 +3134,18 @@ $Id$
                   </rulegroup>
 		</category>
 		<category name="Błędy odmiany" type="grammar">
+                <rule id="AKTYW" name="„tych aktyw” (tych aktywów)">
+                    <pattern>
+                        <token postag='(?:ppas|pact|adj):pl:gen.*' postag_regexp='yes'></token>
+                        <token>aktyw</token>
+                    </pattern>
+                    <message>Błędna odmiana. Poprawnie: <suggestion><match no="1"/> aktywów</suggestion>.</message>
+                    <url>http://so.pwn.pl/lista.php?co=aktywa</url>
+                    <short>Błędna odmiana</short>
+                    <example type='incorrect'>Obiecano odmrożenie <marker>zablokowanych aktyw</marker> reżimu.</example>
+                    <example type='correct'>Obiecano odmrożenie zablokowanych aktywów reżimu.</example>
+                    <example type='incorrect'>Nie tkniesz <marker>moich aktyw</marker>!</example>
+                </rule>
                 <rulegroup id="TYLNI" name="„tylni” (tylni)">
                     <rule>
                         <pattern>
@@ -6817,6 +6829,36 @@ $Id$
 								<example correction="niemniej jednak" type="incorrect">Problem potraktowano <marker>tym niemniej jednak</marker> poważnie.</example>
 						</rule>
 				</rulegroup>
+                <rulegroup id="NAPOTKAC_NA" name="„napotkać na trudności” (napotkać trudności)">
+                    <rule>
+                        <pattern>
+                            <token inflected='yes' regexp='yes'>napoty?kać</token>
+                            <token>na</token>
+                            <token regexp='yes'>trudno(:?ści|ść)|problemy?</token>
+                        </pattern>
+                        <message>Niepoprawne użycie przyimka „na” z tym czasownikiem. Poprawnie: <suggestion><match no="1"/> <match no="3"/></suggestion></message>
+                        <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
+                        <short>Błąd leksykalny</short>
+                        <example type='incorrect'><marker>Napotkałem na trudności</marker>.</example>
+                        <example type='correct'>Napotkałem trudności.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token inflected='yes' regexp='yes'>napoty?kać</token>
+                            <token>na</token>
+                            <unify><feature id="case"><type id="acc"/></feature><feature id="gender"/><feature id="number"/>
+                            <token postag='(:?ppas|adj|pact).*' postag_regexp='yes'></token>
+                            <token regexp='yes'>trudno(:?ści|ść)|problemy?</token>
+                            </unify>
+                        </pattern>
+                        <message>Niepoprawne użycie przyimka „na” z tym czasownikiem. Poprawnie: <suggestion><match no="1"/> <match no="3"/> <match no="4"/></suggestion></message>
+                        <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
+                        <short>Błąd leksykalny</short>
+                        <example type='incorrect'><marker>Napotkałem na wielkie trudności</marker>.</example>
+                        <example type='correct'>Napotkałem wielkie trudności.</example>
+                        <example type="correct">Napotykałem na pierwszej trudności wręcz gigantyczne.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="UZNAC_JAKO" name="„uznać jako” (za)">
 						<pattern>
 								<token inflected="yes" regexp="yes" skip="-1">uznać|uznawać<exception regexp="yes" scope="next">za|,|który|jaki|co|.*ania</exception></token>
@@ -14233,7 +14275,7 @@ $Id$
 				</rule>
 				<rule id="MAJA_MAJA" name="„maja” (mają)">
 						<pattern case_sensitive="yes">
-								<token><exception inflected="yes" regexp="yes">\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception><exception>całego</exception></token>
+								<token><exception inflected="yes" regexp="yes">\d+|\d+[-–]\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception><exception>całego</exception></token>
 								<marker>
 										<token>maja</token>
 								</marker>
@@ -14248,6 +14290,7 @@ $Id$
 						<example type="correct">Wydarzenia maja 1968 w Paryżu</example>
 						<example type="correct">Bronił ideałów maja '68.</example>
 						<example type="correct">Było to w połowie maja.</example>
+                        <example type="correct">W dniach 28-29	maja w Turcji odbyła się konferencja.</example>
 						<example correction="mają" type="incorrect">Członkowie partii rządzącej <marker>maja</marker> brudne interesy.</example>
 				</rule>
 				<rule id="GLOWNIE_GLOWNIE" name="„głownie” (głównie)">
@@ -14497,7 +14540,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token postag="verb:.*(sg|pl).*" postag_regexp="yes"></token>
+										<token postag="verb:.*(sg|pl|imps).*" postag_regexp="yes"></token>
 										<token>,</token>
 										<marker>
 												<token>ze</token>
@@ -14508,6 +14551,7 @@ $Id$
 								<short>Prawdopodobna literówka</short>
 								<example type="correct">Premier poinformował, że chce iść na spacer.</example>
 								<example correction="że" type="incorrect">Premier poinformował, <marker>ze</marker> trzeba siać, siać, siać.</example>
+                                <example type="incorrect" correction="że">Potwierdzono, <marker>ze</marker> grupa kontaktowa uległa przekształceniu.</example>
 						</rule>
                     <rule>
                         <pattern>
