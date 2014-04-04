@@ -2373,10 +2373,14 @@ $Id$
                         <example type="correct">W przypadku reprezentacji abstrakcyjnych w ujęciu pluralistycznym (i klasycznym, czysto symbolicznym) można mówić o nośniku informacji semantycznych, który nie informuje o żadnym czasoprzestrzennym przedmiocie, ale ma strukturę, która pozwala na przeprowadzanie różnych operacji obliczeniowych i modyfikuje gotowość do działania.</example>
 				</rule>
 				<rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
+                        <antipattern>
+                            <token>po</token>
+                            <token regexp="yes">pierwsze|drugie|trzecie</token>
+                        </antipattern>
 						<pattern>
 								<token postag="SENT_START"></token>
 								<marker>
-										<token regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w<exception scope="next" regexp="yes">[(:]</exception><exception scope="next" postag="conj">,</exception></token>
+										<token postag="prep.*" postag_regexp="yes" regexp="yes" skip="-1"><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*|pred" postag_regexp="yes" scope="next"/>poza|dla|dzięki|mimo|oprócz|wobec|po|w<exception scope="next" regexp="yes">[(:]</exception><exception scope="next" postag="conj">,</exception></token>
 										<token>,<exception scope="previous">ciebie</exception><exception postag="conj"/></token>
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
@@ -2390,6 +2394,7 @@ $Id$
                         <example type="correct">Oprócz niepowtarzalnego piękna przyrody park ten, leżący częściowo na terenie Czech, fascynuje ponadto bogactwem zamków i ruin oraz legend.</example>
                         <example type="incorrect" correction="Po zakończeniu prac biuro"><marker>Po zakończeniu prac, biuro</marker> uległo likwidacji.</example>
                         <example type="incorrect" correction="W Warszawie ruch"><marker>W Warszawie, ruch</marker> drogowy wzrósł o 120%.</example>
+                        <example type="correct">W. Marciszewski, Mała encyklopedia logiki</example>
 				</rule>
 				<rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>

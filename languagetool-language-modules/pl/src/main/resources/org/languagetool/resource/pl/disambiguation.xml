@@ -494,6 +494,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">To było w XIX w.</example>
         <example type="ambiguous" inputform="W[w/prep:acc:nwok,w/prep:loc:nwok,wat/brev:npun,wiek/brev:pun]" outputform="W[wat/brev:npun]">Te głośniki mają moc 20 <marker>W</marker>.</example>
     </rule>
+    <rule name="W jako inicjał" id="W_uppercase">
+        <pattern case_sensitive="yes">
+            <marker><token>W</token></marker>
+            <token>.</token>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <disambig action="replace"><wd pos="brev:pun"/></disambig>
+    </rule>
     <rule name="W prep" id="w_prep">
         <pattern>
             <token postag_regexp="yes" postag="prep:(acc|loc):nwok">w</token>
