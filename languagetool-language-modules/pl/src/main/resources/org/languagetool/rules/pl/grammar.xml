@@ -9268,6 +9268,19 @@ $Id$
                         <example type='incorrect' correction="Rabce-Zdroju">Mieszkam <marker>Rabce-zdroju</marker>.</example>
                         <example type='correct'>Mieszkam w Rabce-Zdroju.</example>
                     </rule>
+                    <rule>
+                        <pattern case_sensitive='yes'>
+                            <unify><feature id="case"/><feature id="gender"/><feature id="number"/>
+                            <token inflected='yes'>Ruda</token>
+                            <token inflected='yes'>śląski<exception regexp='yes'>Śl.*</exception></token>
+                            </unify>
+                        </pattern>
+                        <message>W dwuczłonowych nazwach miast oba człony piszemy wielką literą: <suggestion><match no="1"/> <match no="2" case_conversion="startupper"/></suggestion>.</message>
+                        <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
+                        <short>Błąd pisowni wielką i małą literą</short>
+                        <example type='incorrect' correction="Rudzie Śląskiej">Byłem w <marker>Rudzie śląskiej</marker>.</example>
+                        <example type='correct'>Byłem w Rudzie Śląskiej.</example>
+                    </rule>
                 </rulegroup>
 
 				<rulegroup default="off" id="PL_CAPITALIZE" name="Poprawianie wyrazów małymi literami („kraków”)">
@@ -11982,13 +11995,13 @@ $Id$
                     <rule>
                     <pattern>
                         <marker>
-                        <token>w</token>
+                        <token regexp="yes">[wj]</token>
                         <token>/</token>
                         <token>w</token>
                         </marker>
                         <token><exception>.</exception></token>
                     </pattern>
-                    <message>Ten skrót poprawnie zapisujemy jako <suggestion>ww.</suggestion>, bez ukośników.</message>
+                    <message>Ten skrót poprawnie zapisujemy jako <suggestion>\1w.</suggestion>, bez ukośników.</message>
                     <url>http://portalwiedzy.onet.pl/141580,,,,ww_w_w,haslo.html</url>
                     <short>Błąd ortograficzny</short>
                     <example type="correct">Lubię ww. cukierki.</example>
@@ -11997,13 +12010,13 @@ $Id$
                     <rule>
                         <pattern>
                             <marker>
-                                <token>w</token>
+                                <token regexp="yes">[wj]</token>
                                 <token>/</token>
                                 <token>w</token>
                             </marker>
                             <token>.</token>
                         </pattern>
-                        <message>Ten skrót poprawnie zapisujemy jako <suggestion>ww</suggestion>, bez ukośników.</message>
+                        <message>Ten skrót poprawnie zapisujemy jako <suggestion>\1w</suggestion>, bez ukośników.</message>
                         <url>http://portalwiedzy.onet.pl/141580,,,,ww_w_w,haslo.html</url>
                         <short>Błąd ortograficzny</short>
                         <example type="correct">Lubię ww. cukierki.</example>
