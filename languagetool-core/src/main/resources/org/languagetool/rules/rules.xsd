@@ -37,6 +37,14 @@
 				<xs:element ref="category"/>
 			</xs:choice>
 			<xs:attribute name="lang" type="xs:language" use="required" />
+            <xs:attribute name="integrate" use="optional">
+                <xs:simpleType>
+                    <xs:restriction base="xs:NMTOKEN">
+                        <xs:enumeration value="replace"/>
+                        <xs:enumeration value="add"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:attribute>
 		</xs:complexType>
 	</xs:element>
 

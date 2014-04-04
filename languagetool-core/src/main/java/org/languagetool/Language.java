@@ -59,6 +59,8 @@ public abstract class Language {
   private static final String PROPERTIES_KEY = "languageClasses";
   
   private static List<Language> externalLanguages = new ArrayList<>();
+
+  private List<String> externalRuleFiles = new ArrayList<>();
   
   /**
    * All languages supported by LanguageTool. This includes at least a "demo" language
@@ -243,6 +245,7 @@ public abstract class Language {
    */
   public List<String> getRuleFileNames() {
     final List<String> ruleFiles = new ArrayList<>();
+    ruleFiles.addAll(getExternalRuleFiles());
     final ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
     ruleFiles.add(dataBroker.getRulesDir()
             + "/" + getShortName() + "/" + JLanguageTool.PATTERN_FILE);
@@ -256,6 +259,20 @@ public abstract class Language {
     }
     return ruleFiles;
   }
+
+  public List<String> getExternalRuleFiles() {
+    return externalRuleFiles;
+  }
+
+  /**
+   * Adds an external rule file to the language.
+   * @param externalRuleFile Absolute file path to rules.
+   * @since 2.6
+   */
+  public void addExternalRuleFiles(String externalRuleFile) {
+    externalRuleFiles.add(externalRuleFile);
+  }
+
 
   /**
    * Languages that have country variants need to overwrite this to select their most common variant.
