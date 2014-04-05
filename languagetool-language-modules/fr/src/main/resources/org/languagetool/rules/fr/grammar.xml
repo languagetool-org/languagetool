@@ -2167,7 +2167,139 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
 
-    <rulegroup id="COMPTE_CONTE" name="compte (conte)">
+    <rulegroup id="CONTE_COMPTE" name="conte → compte">
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token>bon</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">À bon <marker>conte</marker></example>
+        <example type="correct">À bon <marker>compte</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>à</token>
+          <token>ce</token>
+          <marker><token regexp="yes">conte(-là)?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="n" regexp_replace="mp"/></suggestion> ?</message>
+        <example type="incorrect" correction="compte-là">À ce <marker>conte-là</marker></example>
+        <example type="correct">À ce <marker>compte-là</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>fin</token>
+          <token>de</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">En fin de <marker>conte</marker>.</example>
+        <example type="correct">En fin de compte.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">contes?</token></marker>
+          <token regexp="yes">tenus?|rendus?|joints?|courants?|chèques?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="n" regexp_replace="mp"/></suggestion> ?</message>
+        <example type="incorrect" correction="Compte"><marker>Conte</marker> tenu de la situation…</example>
+        <example type="correct"><marker>Compte</marker> tenu de la situation…</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">tenir</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">Il a tenu <marker>conte</marker> de la situation.</example>
+        <example type="correct">Il a tenu <marker>compte</marker> de la situation.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>en</token>
+          <token>ligne</token>
+          <token>de</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">En ligne de <marker>conte</marker>.</example>
+        <example type="correct">En ligne de <marker>comte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>tout</token>
+          <marker><token>conte</token></marker>
+          <token>fait</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">Tout <marker>conte</marker> fait.</example>
+        <example type="correct">Tout <marker>comte</marker> fait.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>loin</token>
+          <token>du</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">Il est loin du <marker>conte</marker>.</example>
+        <example type="correct">Il est loin du <marker>conpte</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">rendre</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">Je me suis rendu <marker>conte</marker> de l’erreur.</example>
+        <example type="correct">Je me suis rendu <marker>compte</marker> de l’erreur.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">règlements?</token>
+          <token>de</token>
+          <marker><token>contes</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>comptes</suggestion> ?</message>
+        <example type="incorrect">Un règlement de <marker>contes</marker>…</example>
+        <example type="correct">Un règlement de <marker>comptes</marker>…</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">contes?</token></marker>
+          <token>à</token>
+          <token regexp="yes">rebours|découvert|terme</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="n" regexp_replace="mp"/></suggestion> ?</message>
+        <example type="incorrect" correction="compte">Un <marker>conte</marker> à rebours</example>
+        <example type="correct">Un <marker>compe</marker> à rebours</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>la</token>
+          <token>cour</token>
+          <token>des</token>
+          <marker><token>contes</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>comptes</suggestion> ?</message>
+        <example type="incorrect">La cour des <marker>contes</marker>…</example>
+        <example type="correct">La cour des <marker>comptes</marker>…</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">laisser</token>
+          <token>pour</token>
+          <marker><token>conte</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>compte</suggestion> ?</message>
+        <example type="incorrect">Laisser pour <marker>conte</marker>…</example>
+        <example type="correct">Laisser pour <marker>compte</marker>…</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="COMPTE_CONTE" name="compte → conte">
       <rule>
         <pattern>
           <marker>
@@ -2176,7 +2308,7 @@ though, and has since been slightly modified)-->
           <token>de</token>
           <token regexp="yes">fées?|traditions?</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="mp" regexp_replace="n"/></suggestion> ?</message>
         <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> de fées.</example>
         <example type="correct">Elle aime les contes de fées.</example>
       </rule>
@@ -2189,7 +2321,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">amour|horreur</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="mp" regexp_replace="n"/></suggestion> ?</message>
         <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> d’horreur.</example>
         <example type="correct">Elle aime les contes d’horreur.</example>
       </rule>
@@ -2200,9 +2332,40 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">allégoriques?|fantastiques?|littéraires?|merveilleux|morals?|oral|oraux|écrits?|populaires?|satiriques?|véhiculés?</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.*)mp(.*)" regexp_replace="$1n$2"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="mp" regexp_replace="n"/></suggestion> ?</message>
         <example type="incorrect" correction="contes">Elle aime les <marker>comptes</marker> fantastiques.</example>
         <example type="correct">Elle aime les contes fantastiques.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">comptes?</token></marker>
+          <token>et</token>
+          <token regexp="yes">légendes?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="mp" regexp_replace="n"/></suggestion> ?</message>
+        <example type="incorrect" correction="contes">Les <marker>comptes</marker> et légendes de Bretagne.</example>
+        <example type="correct">Les contes et légendes de Bretagne.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">comptes?</token></marker>
+          <token>des</token>
+          <token>frères</token>
+          <token>Grimm</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="mp" regexp_replace="n"/></suggestion> ?</message>
+        <example type="incorrect" correction="contes">Les <marker>comptes</marker> des frères Grimm.</example>
+        <example type="correct">Les <marker>contes</marker> des frères Grimm.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">poètes?</token>
+          <token>et</token>
+          <marker><token regexp="yes">compteurs?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="mp" regexp_replace="n"/></suggestion> ?</message>
+        <example type="incorrect" correction="conteurs">Poètes et <marker>compteurs</marker> de Bretagne.</example>
+        <example type="correct">Poètes et <marker>conteurs</marker> de Bretagne.</example>
       </rule>
     </rulegroup>
 
