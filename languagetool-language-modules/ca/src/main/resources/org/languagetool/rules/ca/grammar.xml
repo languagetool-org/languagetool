@@ -17681,25 +17681,55 @@ $Id$
             <example type="correct"><marker>alhora que</marker> cuino podem xerrar</example>
             <example type="correct">fins al temps que</example>
         </rule>
-        <rule id="ARREL_DE" name="arrel de">
-            <pattern>
-                <token><exception regexp="yes" inflected="yes">de|tallar|recollir|arreplegar</exception></token>
-                <marker>
-                    <token regexp="yes">arrel|rel|raïl<exception postag="_GN_FS"/></token>
-                    <token regexp="yes">de|d'</token>
-                </marker>
-            </pattern>
-            <message>Expressió incorrecta quan equival a <suggestion>arran <match no="3"/></suggestion>.</message>
-            <example type="incorrect"><marker>arrel de</marker> la situació, ja no es parlen</example>
-            <example type="correct"><marker>arran de</marker> la situació, ja no es parlen</example>
-            <example type="correct">una arrel de pi</example>
-            <example type="correct">l'arrel de quatre</example>
-            <example type="incorrect">a <marker>rel de</marker> la victòria socialista</example>
-            <example type="correct">que aquest vici sigui extirpat de soca-rel del monestir</example>
-            <example type="correct">El que es pot anomenar l'arrel d'una planta</example>
-            <example type="correct">Un àpex d'arrel de ceba.</example>
-            <example type="correct">Tallava arrel de valeriana</example>
-        </rule>
+        <rulegroup id="ARREL_DE" name="arrel de">
+            <antipattern>
+                <token regexp="yes">arrel|rel|raïl</token>
+                <token skip="2" regexp="yes">de|d'</token>
+                <token regexp="yes" inflected="yes">polinomi|paraula|funció|índex|cua|unitat|pi</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">arrel|rel|raïl</token>
+                <token skip="2" regexp="yes">de|d'</token>
+                <token postag="DN.*" postag_regexp="yes"/>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">de|tallar|recollir|arreplegar|certificat|síl·laba|ducat|directori|servidor|node|element|tàxon</exception></token>
+                    <marker>
+                        <token>arrel<exception postag="_GN_FS"/></token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta quan equival a <suggestion>arran <match no="3"/></suggestion>.</message>
+                <example type="incorrect" correction="arran de"><marker>arrel de</marker> la situació, ja no es parlen</example>
+                <example type="correct">una arrel de pi</example>
+                <example type="correct">l'arrel de quatre</example>
+                <example type="correct">que aquest vici sigui extirpat de soca-rel del monestir</example>
+                <example type="correct">El que es pot anomenar l'arrel d'una planta</example>
+                <example type="correct">Un àpex d'arrel de ceba.</example>
+                <example type="correct">Tallava arrel de valeriana</example>
+                <example type="correct">Arrel de quatre.</example>
+                <example type="correct">És arrel d'un polinomi.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">de|tallar|recollir|arreplegar</exception></token>
+                    <marker>
+                        <token>a</token>
+                        <token regexp="yes">rel|raïl<exception postag="_GN_FS"/></token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta quan equival a <suggestion>arran <match no="4"/></suggestion>.</message>
+                <example type="incorrect" correction="arran d'"><marker>a rel d'</marker>això</example>
+                <example type="correct">un rel de pi</example>
+                <example type="correct">la rel de quatre</example>
+                <example type="correct">que aquest vici sigui extirpat de soca-rel del monestir</example>
+                <example type="correct">El que es pot anomenar la rel d'una planta</example>
+                <example type="correct">Un àpex de rel de ceba.</example>
+                <example type="correct">Tallava rel de valeriana</example>
+            </rule>
+        </rulegroup>
         <rule id="ATEMPTAT_A" name="atemptat a">
             <pattern>
                 <marker>
