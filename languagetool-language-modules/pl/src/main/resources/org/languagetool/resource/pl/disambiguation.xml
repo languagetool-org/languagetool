@@ -2412,6 +2412,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="młodzić"/></disambig>
     </rule>
 
+    <rule id="NACZYN" name="naczyń to nie czasownik">
+        <pattern>
+            <token>naczyń</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="naczynić"/></disambig>
+    </rule>
+
     <rule id="NIKCZEMNI" name="nikczemni to nie nikczemnić">
         <pattern>
             <token>nikczemni</token>
@@ -2529,6 +2536,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>spokój</token>
         </pattern>
         <disambig action="remove"><wd lemma="spokoić"/></disambig>
+    </rule>
+
+    <rule id="SLOW" name="słów to nie słowić">
+        <pattern>
+            <token>słów</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="słowić"/></disambig>
     </rule>
 
     <rule id="STARZY" name="starzy to nie starzyć">
@@ -3139,6 +3153,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </unify>
         </pattern>
         <disambig action="unify"/>
+    </rule>
+
+    <rule id="NAZWIE_SUBST" name="nazwie jako rzeczownik">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"><type id="sg"/></feature><feature id="gender"/>
+                <token postag="adj:sg.*" postag_regexp="yes"/>
+                <token>nazwie</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Jurek nazwie ją „grzybkiem”.</example>
+        <example type="ambiguous" inputform="nazwie[nazwa/subst:sg:dat:f,nazwa/subst:sg:loc:f,nazwać/verb:fin:sg:ter:perf:refl.nonrefl]"
+                 outputform="nazwie[nazwa/subst:sg:loc:f]">Okręty o tej <marker>nazwie</marker> są ładne.</example>
     </rule>
 
     <rule id="MOJE" name="moje to nie „moja” ani „moje” plurale tantum">

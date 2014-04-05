@@ -106,7 +106,7 @@ $Id$
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
-						<token><exception postag="subst.*voc.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|zamiast|szczególnie|zwłaszcza</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
 				</phrase>
 				<phrase id="ACC_NOM_1">
 						<token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"></exception></token>
@@ -2356,6 +2356,16 @@ $Id$
 						<example type="correct">W tym przypadku, który już opisałem, miałem rację.</example>
 				</rule>
 				<rule id="W_MYSL_PRZECINEK" name="Zbędny przecinek po „w przypadku/razie/myśl/miarę” na początku zdania">
+                    <antipattern>
+                        <unify>
+                            <feature id="case"/>
+                            <token/>
+                            <unify-ignore><token>,</token></unify-ignore>
+                            <marker>
+                                <token><exception postag="verb:inf.*" postag_regexp="yes"/></token>
+                            </marker>
+                        </unify>
+                    </antipattern>
 						<pattern>
 								<token postag="SENT_START"></token>
 								<token>w</token>
@@ -2371,11 +2381,40 @@ $Id$
 						<example correction="myśl tej teorii miałem" type="incorrect">W <marker>myśl tej teorii, miałem</marker> rację.</example>
 						<example type="correct">W myśl tej teorii, którą już opisałem, miałem rację.</example>
                         <example type="correct">W przypadku reprezentacji abstrakcyjnych w ujęciu pluralistycznym (i klasycznym, czysto symbolicznym) można mówić o nośniku informacji semantycznych, który nie informuje o żadnym czasoprzestrzennym przedmiocie, ale ma strukturę, która pozwala na przeprowadzanie różnych operacji obliczeniowych i modyfikuje gotowość do działania.</example>
+                        <example type="correct">W przypadku kobiet ich zarobki, majątek, BMI ich oraz ich dzieci polepszają się.</example>
 				</rule>
 				<rule id="POZA_TYM" name="Zbędny przecinek po „poza”, „dla”, „dzięki”, „mimo” itp. na początku zdania">
                         <antipattern>
                             <token>po</token>
                             <token regexp="yes">pierwsze|drugie|trzecie</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>w</token>
+                            <token>porządku</token>
+                        </antipattern>
+                        <antipattern>
+                            <unify>
+                                <feature id="case"/>
+                                <token/>
+                                <unify-ignore><token>,</token></unify-ignore>
+                                <marker>
+                                <token/>
+                                </marker>
+                            </unify>
+                        </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <token regexp="yes">\d+%?</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <marker><token>tak</token></marker>
+                            <token>jak</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>,</token>
+                            <marker><token regexp="yes" postag="UNKNOWN">\p{L}{1,2}</token></marker>
+                            <token>,</token>
                         </antipattern>
 						<pattern>
 								<token postag="SENT_START"></token>
@@ -2384,7 +2423,6 @@ $Id$
 										<token>,<exception scope="previous">ciebie</exception><exception postag="conj"/></token>
 										<phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
 								</marker>
-
 						</pattern>
 						<message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="2"></match> <match include_skipped="following" no="2"></match> <match no="5"></match></suggestion>.</message>
 						<example correction="Poza tym miałem" type="incorrect"><marker>Poza tym, miałem</marker> rację.</example>
@@ -2395,6 +2433,14 @@ $Id$
                         <example type="incorrect" correction="Po zakończeniu prac biuro"><marker>Po zakończeniu prac, biuro</marker> uległo likwidacji.</example>
                         <example type="incorrect" correction="W Warszawie ruch"><marker>W Warszawie, ruch</marker> drogowy wzrósł o 120%.</example>
                         <example type="correct">W. Marciszewski, Mała encyklopedia logiki</example>
+                        <example type="correct">W 1913 roku Frederick Soddy, badając produkty rozpadu promieniotwórczego...</example>
+                        <example type="correct">W rolnictwie, przemyśle i budownictwie powstawały nowe miejsca pracy.</example>
+                        <example type="correct">W 1990 86,9% ludności żyło w miastach.</example>
+                        <example type="correct">W tydzień później, 22 marca 1939, Hitler zmusił Litwę do przekazania...</example>
+                        <example type="correct">W bardziej suchych miejscach, gdzie rzeki pojawiają się tylko okresowo, buduje się zapory.</example>
+                        <example type="correct">W 612 p.n.e., wraz z Medami i Babilończykami, Persowie zdobyli Niniwę.</example>
+                        <example type="correct">W innych sytuacjach, tak jak w Ardenach, był zbyt ostrożny.</example>
+                        <example type="correct">W języku walijskim digrafy ch, dd, ff, ng, ll, ph, rh i th są uznawane za odrębne.</example>
 				</rule>
 				<rule id="DODATKOWO" name="Zbędny przecinek po „dodatkowo” na początku zdania">
 						<pattern>
@@ -9024,7 +9070,7 @@ $Id$
                                 <feature id="case"/><feature id="number"><type id="sg"/></feature>
                                 <feature id="gender"/>
                                 <and>
-                                    <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik</token>
+                                    <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik|kwartalnik|rocznik</token>
                                     <token regexp="yes">\p{Lu}\p{Ll}+</token>
                                 </and>
                                 <token postag="adj.*" postag_regexp="yes" regexp="yes">\p{Ll}+</token>
@@ -9044,7 +9090,7 @@ $Id$
                             <unify>
                                 <feature id="case"/><feature id="number"><type id="sg"/></feature>
                                 <feature id="gender"/>
-                                <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik</token>
+                                <token regexp="yes" inflected="yes">gazeta|przegląd|dziennik|kurier|express|tygodnik|kwartalnik|rocznik</token>
                                 <unify-ignore>
                                     <token postag="adja"/>
                                     <token spacebefore="no">-</token>
@@ -10346,7 +10392,7 @@ $Id$
                     <rule>
 						<pattern>
 								<token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+[^ye](?&lt;!es)</token>
-								<token spacebefore="no">'</token>
+                                <token spacebefore="no" regexp="yes">['`’]</token>
 								<token regexp="yes">[aeu]|ie|owi|[ioe]m|ach|ami|owie|ów|ego|emu</token>
 						</pattern>
 						<message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
@@ -10360,7 +10406,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+ey</token>
-                            <token spacebefore="no">'</token>
+                            <token spacebefore="no" regexp="yes">['`’]</token>
                             <token regexp="yes">[aeu]|owi|[oe]m|ach|ami|owie|ów</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
@@ -10368,6 +10414,18 @@ $Id$
                         <example correction="Bentleyu" type="incorrect">Porozmawiajmy o <marker>Bentley'u</marker>.</example>
                         <example type="correct">Porozmawiajmy o <marker>Bentleyu</marker> Lennonie.</example>
                         <example type="correct">To wielka szansa dla <marker>Rorty'ego</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token regexp="yes">Andrew|Hugh|Matthew</token>
+                            <token spacebefore="no" regexp="yes">['`’]</token>
+                            <token regexp="yes">em|owi|a</token>
+                        </pattern>
+                        <message>To imię jest nieodmienne. Poprawnie: <suggestion>\1</suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=10494</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="correct">Wywiad z Andrew Jacksonem</example>
+                        <example type="incorrect" correction="Andrew">Wywiad z <marker>Andrew'em</marker> Jacksonem</example>
                     </rule>
                 </rulegroup>
 				<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
@@ -12795,6 +12853,33 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+         <rulegroup id="STALA_SIE" name="„stałą się” (stała się)">
+             <rule>
+                 <pattern>
+                     <token>stałą</token>
+                     <token>się</token>
+                 </pattern>
+                 <message>Czy chodziło o <suggestion>stała się</suggestion>?</message>
+                 <short>Prawdopodobna literówka</short>
+                 <example type='incorrect' correction="Stała się"><marker>Stałą się</marker> rozkapryszoną gwiazdką.</example>
+                 <example type='correct'>Stała się rozkapryszoną gwiazdką.</example>
+             </rule>
+             <rule>
+                 <pattern>
+                     <marker>
+                     <token>się<exception postag='.*refl.*' postag_regexp='yes' scope='previous'></exception></token>
+                     <token>stałą</token>
+                     </marker>
+                     <token><exception regexp='yes'>[a-z]</exception></token>
+                 </pattern>
+                 <message>Czy chodziło o <suggestion>się stała</suggestion>?</message>
+                 <short>Prawdopodobna literówka</short>
+                 <example type='incorrect' correction="się stała">Ona <marker>się stałą</marker> rozkapryszoną gwiazdką.</example>
+                 <example type='correct'>Ona się stała rozkapryszoną gwiazdką.</example>
+                 <example type='correct'>Wyróżnia się stałą litosferę.</example>
+                 <example type='correct'>Wskazuje się stałą c, która jest ujemna.</example>
+             </rule>
+         </rulegroup>
          <rulegroup id="PROPOS" name="„propos” (a propos)">
              <rule>
                  <pattern>
