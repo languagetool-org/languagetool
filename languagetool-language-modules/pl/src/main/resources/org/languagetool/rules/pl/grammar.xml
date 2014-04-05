@@ -10390,10 +10390,15 @@ $Id$
 				</rule>
 				<rulegroup id="IMIONA_Z_APOSTROFAMI" name="Niepotrzebne apostrofy w formach odmiennych">
                     <rule>
+                        <antipattern>
+                            <token>Bill</token>
+                            <token>'</token>
+                            <token regexp="yes">e(?:go|mu)|im</token>
+                        </antipattern>
 						<pattern>
 								<token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+[^ye](?&lt;!es)</token>
                                 <token spacebefore="no" regexp="yes">['`’]</token>
-								<token regexp="yes">[aeu]|ie|owi|[ioe]m|ach|ami|owie|ów|ego|emu</token>
+								<token regexp="yes">[aeu]|iem?|owi|[ioe]m|ach|ami|owie|ów|ego|emu</token>
 						</pattern>
 						<message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -10415,7 +10420,7 @@ $Id$
                         <example type="correct">Porozmawiajmy o <marker>Bentleyu</marker> Lennonie.</example>
                         <example type="correct">To wielka szansa dla <marker>Rorty'ego</marker>.</example>
                     </rule>
-                    <rule>
+                    <rule> <!-- nieodmienne -->
                         <pattern>
                             <token regexp="yes">Andrew|Hugh|Matthew</token>
                             <token spacebefore="no" regexp="yes">['`’]</token>
@@ -10426,6 +10431,69 @@ $Id$
                         <short>Błąd ortograficzny</short>
                         <example type="correct">Wywiad z Andrew Jacksonem</example>
                         <example type="incorrect" correction="Andrew">Wywiad z <marker>Andrew'em</marker> Jacksonem</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token regexp='yes'>.*\p{Ll}+y<exception regexp='yes'>(?-iu)Shy</exception></token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token>m</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
+                        <url>http://so.pwn.pl/zasady.php?id=629610</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect'>Porozmawiajmy o <marker>Andy'm</marker>.</example>
+                        <example type='correct'>Porozmawiajmy o Andym.</example>
+                    </rule>
+                    <rule> <!-- paradygmat A.2.2.1g, np. Joyce -->
+                        <pattern>
+                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*lie|.*ethe|.*nde</exception></token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token>m</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1"/>’em</suggestion>.</message>
+                        <url>http://so.pwn.pl/zasady.php?id=629610</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect'>Zajmijmy się wreszcie <marker>Joyce'm</marker>.</example>
+                        <example type='correct'>Zajmijmy się wreszcie Joyce'em.</example>
+                        <example type='correct'>Zajmuję się Locke'm.</example>
+                    </rule>
+                    <rule> <!-- paradygmat A.2.2.2e, np. Locke, Braque -->
+                        <pattern>
+                            <token regexp='yes'>.*\p{Ll}+(?:c?ke|que)</token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token>m</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1" regexp_match="(.*)(?:c?ke|que)" regexp_replace="$1kiem"/></suggestion>.</message>
+                        <url>http://so.pwn.pl/zasady.php?id=629610</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect' correction="Lockiem">Zajmuję się <marker>Locke'm</marker>.</example>
+                        <example type='incorrect' correction="Brakiem">Zajmuję się <marker>Braque'm</marker>.</example>
+                        <example type='correct'>Zajmuję się Lockiem.</example>
+                    </rule>
+                    <rule> <!-- paradygmat A.2.2.9, np. Barrie, Blikle, Charlie, Eile, Eliade, Fauré, Fichte... -->
+                        <pattern>
+                            <token regexp='yes'>.*\p{Ll}+(?:ie|ethe|ende|kle|[nr]te|[au]de|oce|uré|rmé|mée|chte|[dl]ke|lbe|u[snz]e|n[dg]e|ese|lye)|Eile|Heine|Hesse|Hoppe|Huelle|Monroe|Nietzsche|Palme|Paszke|Pele|Poe|Tagore|Versace</token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes'>e?(?:go|mu|m)</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1"/><match no="3" regexp_match=".*(go|mu|m)" regexp_replace="$1"/></suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Chaplin</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect' correction="Charliego">Zaprośmy <marker>Charlie'go</marker>.</example>
+                        <example type='correct'>Zaprośmy Charliego.</example>
+                        <example type='incorrect' correction="Charliego">Zaprośmy <marker>Charlie'ego</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token>Bill</token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token>im</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion><match no="1"/>ym</suggestion>.</message>
+                        <url>http://so.pwn.pl/zasady.php?id=629610</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect' correction="Billym">Porozmawiajmy o <marker>Bill'im</marker>.</example>
+                        <example type='correct'>Porozmawiajmy o Billym.</example>
                     </rule>
                 </rulegroup>
 				<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
