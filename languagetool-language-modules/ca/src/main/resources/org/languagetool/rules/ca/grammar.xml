@@ -7209,7 +7209,7 @@ $Id$
         </rule>
     	<rule id="EXERCIT" name="exercit/exèrcit">
             <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">control|paper|càrrec|monopoli|apostolat|mandat</exception></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">control|paper|càrrec|monopoli|apostolat|mandat|poder|dret</exception></token>
                 <marker>
                     <token regexp="yes">exercits?<exception postag="_GV_|.*LOC_ADV_TEMP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">moviment|govern|ofici|dret</exception></token>
                 </marker>
@@ -7289,9 +7289,30 @@ $Id$
             <example type="correct">Fen l'aire.</example>
         </rule>
         <rulegroup id="GALA_GALLA" name="gala/gal·la">
+            <antipattern>
+                <token inflected="yes" skip="1" regexp="yes">fer|presentar|celebrar</token>
+                <token inflected="yes">gala</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">a|de|en|millor|gran|nombrós|seu|únic|sol|cada|divers|diferent|prestigiós</token>
+                <token inflected="yes">gala</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">passeig|sortida|eixida</token>
+                <token regexp="yes">i|o</token>
+                <token inflected="yes">gala</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DN.*|AO.*" postag_regexp="yes"/>
+                <token inflected="yes">gala</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">gala</token>
+                <token regexp="yes" inflected="yes">anual|benèfic|formal|commemoratiu|celebrar</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token><exception inflected="yes">fer</exception><exception>de</exception><exception postag="D..FS." postag_regexp="yes"/></token>
+                    <token><exception postag="D..FS." postag_regexp="yes"/></token>
                     <marker>
                         <token>gala</token>
                     </marker>
@@ -7302,6 +7323,7 @@ $Id$
                 <example type="correct">Es va posar el vestit de gala.</example>
                 <example type="correct">Una gala benèfica</example>
                 <example type="correct">La fundació Gala Dalí.</example>
+                <example type="correct">Fou la primera gala.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -7314,18 +7336,19 @@ $Id$
                 <example type="incorrect" correction="gal·les">Les tropes <marker>gales</marker> envairen el país.</example>
                 <example type="correct">Mostrà les seves millors gales.</example>
                 <example type="correct">Totes les gales de televisió.</example>
+                <example type="correct">Ha presentat gales a la televisió</example>
             </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token>Gales</token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>Gal·les</suggestion> (nom de país)?</message>
-                <example type="incorrect" correction="Gal·les">El país de <marker>Gales</marker>.</example>
-                <example type="correct">Mostrà les seves millors gales.</example>
-            </rule>
-        </rulegroup>            
+        </rulegroup>
+        <rule id="GALES_GALLES" name="Gales/Gal·les">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>Gales</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Gal·les</suggestion> (nom de país)?</message>
+            <example type="incorrect" correction="Gal·les">El país de <marker>Gales</marker>.</example>
+            <example type="correct">Mostrà les seves millors gales.</example>
+        </rule>
         <rule id="OS_US" name="*os/us agrada">
             <pattern>
                 <token><exception postag="SPS.*|.*LOC_PREP.*" postag_regexp="yes"/></token>
