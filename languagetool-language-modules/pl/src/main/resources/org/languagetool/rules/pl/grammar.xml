@@ -10392,13 +10392,18 @@ $Id$
                     <rule>
                         <antipattern>
                             <token>Bill</token>
-                            <token>'</token>
+                            <token spacebefore="no" regexp="yes">['`’]</token>
                             <token regexp="yes">e(?:go|mu)|im</token>
+                        </antipattern>
+                        <antipattern>
+                            <token>Eric</token>
+                            <token spacebefore="no" regexp="yes">['`’]</token>
+                            <token regexp="yes">i?em</token>
                         </antipattern>
 						<pattern>
 								<token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+[^ye](?&lt;!es)</token>
                                 <token spacebefore="no" regexp="yes">['`’]</token>
-								<token regexp="yes">[aeu]|iem?|owi|[ioe]m|ach|ami|owie|ów|ego|emu</token>
+								<token regexp="yes">[aeu]|iem?|owi|[ioe]m|ach|ami|owie|ów|ego|emu|zie</token>
 						</pattern>
 						<message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -10446,7 +10451,7 @@ $Id$
                     </rule>
                     <rule> <!-- paradygmat A.2.2.1g, np. Joyce -->
                         <pattern>
-                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*lie|.*ethe|.*nde</exception></token>
+                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dln]ie|.*ethe|.*nde</exception></token>
                             <token regexp='yes' spacebefore='no'>['`’]</token>
                             <token>m</token>
                         </pattern>
@@ -10472,7 +10477,7 @@ $Id$
                     </rule>
                     <rule> <!-- paradygmat A.2.2.9, np. Barrie, Blikle, Charlie, Eile, Eliade, Fauré, Fichte... -->
                         <pattern>
-                            <token regexp='yes'>.*\p{Ll}+(?:ie|ethe|ende|kle|[nr]te|[au]de|oce|uré|rmé|mée|chte|[dl]ke|lbe|u[snz]e|n[dg]e|ese|lye)|Eile|Heine|Hesse|Hoppe|Huelle|Monroe|Nietzsche|Palme|Paszke|Pele|Poe|Tagore|Versace</token>
+                            <token regexp='yes'>.*\p{Ll}+(?:ie|ethe|ende|kle|[nr]te|[au]de|oce|uré|rmé|mée|chte|[dl]ke|lbe|u[snz]e|n[dg]e|[^e]ese|lye)|Eile|Heine|Hesse|Hoppe|Huelle|Monroe|Nietzsche|Palme|Paszke|Pele|Poe|Tagore|Versace</token>
                             <token regexp='yes' spacebefore='no'>['`’]</token>
                             <token regexp='yes'>e?(?:go|mu|m)</token>
                         </pattern>
@@ -10494,6 +10499,31 @@ $Id$
                         <short>Błąd ortograficzny</short>
                         <example type='incorrect' correction="Billym">Porozmawiajmy o <marker>Bill'im</marker>.</example>
                         <example type='correct'>Porozmawiajmy o Billym.</example>
+                    </rule>
+                    <rule> <!-- paradygmat A.2.2.1g, np. Steve, Wayne -->
+                        <pattern>
+                            <token regexp='yes'>\p{L}*\p{Ll}+([iea]ve|eese|yne)</token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token>ie</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1ie"/></suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=8782</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect'>Porozmawiajmy o <marker>Steve'ie</marker>.</example>
+                        <example type='correct'>Porozmawiajmy o Stevie.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token>Eric</token>
+                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes'>i?em</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się tak: <suggestion>Erikiem</suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Clapton</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect'>Zajmij się <marker>Eric'iem</marker>.</example>
+                        <example type='correct'>Zajmij się Erikiem.</example>
+                        <example type='incorrect'>Zajmij się <marker>Eric'em</marker>.</example>
                     </rule>
                 </rulegroup>
 				<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
@@ -12921,6 +12951,23 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+         <rule id="ROZNY" name="„rożnych” (różnych)">
+                <antipattern>
+                    <unify>
+                        <feature id="case"/><feature id="gender"/><feature id="number"/>
+                        <token inflected="yes">rzut</token>
+                        <marker><token inflected="yes">rożny</token></marker>
+                    </unify>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">rożny</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>różnych</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Aplikacja ta jest dostępna dla <marker>rożnych</marker> platform.</example>
+                <example type='correct'>Aplikacja ta jest dostępna dla różnych platform</example>
+                <example type='correct'>W jaki sposób doskonalić wykonywanie rzutów rożnych?</example>
+         </rule>
          <rulegroup id="STALA_SIE" name="„stałą się” (stała się)">
              <rule>
                  <pattern>
