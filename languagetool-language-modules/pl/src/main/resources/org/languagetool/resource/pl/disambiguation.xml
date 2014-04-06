@@ -1925,7 +1925,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <unify> <feature id="case"/>
                 <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
-                <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"/>        
@@ -1950,7 +1950,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <unify> <feature id="case"/>
                 <token regexp="yes">przeciw|poza|około</token>
-                <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
             </unify>
         </pattern>
         <disambig action="unify"></disambig>
@@ -1962,7 +1962,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule>
     	<pattern>
     		<marker><token regexp="yes">jako?|a|niż|niczym</token></marker> <!-- jeśli a, jak, jako, niczym, niż nie występuje z mianownikiem, to nie jest przyimkiem -->
-    		<token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception postag=".*nom.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception></token>
+    		<token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"><exception postag=".*nom.*|conj|adv.*" postag_regexp="yes"></exception><exception regexp="yes">.*um</exception></token>
     	</pattern>
     	<disambig><match no="1" postag="^(?!prep:nom).*" postag_regexp="yes"></match></disambig> 
     	<example type="untouched">Mówię dziś jako rzecznik samorządu przedszkolnego.</example>
@@ -1971,9 +1971,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule> <!-- złożone wyrażenie przyimkowe ze związkiem rządu: na mocy, na podstawie-->
             <pattern>
                 <token>na</token>
-                <token regexp="yes">mocy|podstawie|spodzie</token>
+                <token regexp="yes">mocy|podstawie|spodzie|działanie</token>
                 <marker>
-                    <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*gen.*"/>
@@ -1983,9 +1983,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule> <!-- złożone wyrażenia przyimkowe ze związkiem rządu: w razie, w wyniku, w rezultacie, w efekcie -->
         <pattern>
             <token>w</token>
-            <token regexp="yes">braku|ciągu|efekcie|myśl|razie|rezultacie|trakcie|wyniku</token>
+            <token regexp="yes">braku|ciągu|czasie|efekcie|myśl|razie|rezultacie|trakcie|wyniku|wypadku|przypadku</token>
             <marker>
-                <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
             </marker>
         </pattern>
         <disambig action="filter" postag=".*gen.*"/>
@@ -1997,7 +1997,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token>z</token>
                 <token regexp="yes">nadejściem|początkiem|pomocą|powodu|przyczyny|wyjątkiem</token>
                 <marker>
-                    <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*gen.*"/>
@@ -2009,7 +2009,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>za</token>
                 <token>pomocą</token>
                 <marker>
-                    <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*gen.*"/>
@@ -2021,7 +2021,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token>pod</token>
                 <token regexp="yes">pretekstem|względem</token>
                 <marker>
-                    <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*gen.*"/>
@@ -2033,7 +2033,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token regexp="yes">[aà]</token>
                 <token>propos</token>
                 <marker>
-                    <token postag="(?:adj|depr|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag=".*gen.*"/>
@@ -2042,17 +2042,41 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule id="W_CZASIE_GEN" name="W czasie + rzeczownik -> genetivus">
+    <rule id="PREP_CD_ROKU_GEN" name="W xxx + 'roku' -> unify">
         <pattern>
-            <token>w</token>
-            <token>czasie</token>
             <marker>
-                <token postag_regexp="yes" postag="(adj|subst|ger|ppron.*|ppas|pact).*gen.*"/>
+                <unify><feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                    <unify-ignore>
+                        <token regexp="yes">\d{1,4}</token>
+                    </unify-ignore>
+                <token inflected="yes">rok</token>
+                </unify>
             </marker>
         </pattern>
-        <disambig action="filter" postag=".*gen.*"></disambig>
-        <example type="untouched">Uwielbiam podroże w czasie.</example>
-        <example type="ambiguous" inputform="zimy[zima/subst:pl:acc:f,zima/subst:pl:nom:f,zima/subst:pl:voc:f,zima/subst:sg:gen:f]" outputform="zimy[zima/subst:sg:gen:f]">W czasie <marker>zimy</marker> niedźwiedzie piją Coca-Colę.</example>
+        <disambig action="unify"></disambig>
+        <example type="untouched">Byłem tam w tym roku.</example>
+        <example type="ambiguous" inputform="roku[rok/subst:sg:gen:m3,rok/subst:sg:loc:m3,rok/subst:sg:voc:m3]"
+                 outputform="roku[rok/subst:sg:loc:m3]">Byłem tam w 1994 <marker>roku</marker>.</example>
+    </rule>
+
+    <rule id="NP_GEN_teoria" name="teoria x-a">
+        <pattern>
+            <token inflected="yes">teoria</token>
+            <marker><token postag="subst:sg.*gen.*" postag_regexp="yes"/></marker>
+        </pattern>
+        <disambig action="filter" postag="subst:sg.*gen.*"/>
+        <example type="ambiguous" inputform="względności[względność/subst:pl:acc:f,względność/subst:pl:gen:f,względność/subst:pl:nom:f,względność/subst:pl:voc:f,względność/subst:sg:dat:f,względność/subst:sg:gen:f,względność/subst:sg:loc:f,względność/subst:sg:voc:f]"
+                 outputform="względności[względność/subst:sg:gen:f]">Nie lubię teorii <marker>względności</marker>.</example>
+    </rule>
+
+    <rule id="NP_GEN_architektura" name="architektura von Neumanna">
+        <pattern>
+            <token inflected="yes">architektura</token>
+            <token>von</token>
+            <marker><token>Neumanna</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:m1"/>
     </rule>
 
     <rule id="NIE_MA_GEN" name="nie ma + dopełniacz">
