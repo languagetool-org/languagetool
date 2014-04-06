@@ -2079,6 +2079,35 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="subst:sg:gen:m1"/>
     </rule>
 
+    <rule id="EDWARDA_GIERKA" name="Edwarda + nazwisko męskie -> imię męskie">
+        <pattern case_sensitive="yes">
+            <unify>
+                <feature id="case"><type id="acc"/><type id="gen"/></feature>
+                <feature id="number"><type id="sg"/></feature>
+                <feature id="gender"><type id="m1"/></feature>
+                <and>
+                    <token postag="subst:sg:(gen|acc):m1" postag_regexp="yes" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+                    <token postag="subst:sg:nom:f"/>
+                </and>
+                <token postag="subst:sg:(gen|acc):m1" postag_regexp="yes" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="Edwarda[Edward/subst:sg:acc:m1,Edward/subst:sg:gen:m1,Edwarda/subst:sg:nom:f]"
+                 outputform="Edwarda[Edward/subst:sg:acc:m1,Edward/subst:sg:gen:m1]">Spotkałem <marker>Edwarda</marker> Gierka.</example>
+        <example type="untouched">W roli głównej Ryszarda Hanin.</example>
+    </rule>
+
+    <rule id="NP_GEN_zona" name="żona + genetiwus">
+        <pattern>
+            <token inflected="yes">żona</token>
+            <marker><token postag="subst:sg:gen:m1"/></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:m1"/>
+        <example type="ambiguous" inputform="Edwarda[Edward/subst:sg:acc:m1,Edward/subst:sg:gen:m1]"
+                 outputform="Edwarda[Edward/subst:sg:gen:m1]">To była żona <marker>Edwarda</marker> Gierka.</example>
+    </rule>
+
     <rule id="NIE_MA_GEN" name="nie ma + dopełniacz">
         <pattern>
             <token>nie</token>
@@ -2705,6 +2734,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="święci[święcić/verb:fin:sg:ter:imperf:refl.nonrefl,święty/adj:pl:nom.voc:m1.p1:pos,święty/subst:pl:nom:m1,święty/subst:pl:voc:m1]"
                  outputform="święci[święty/subst:pl:nom:m1]">Nie <marker>święci</marker> garnki lepią.</example>
 
+    </rule>
+
+    <rule id="SKALA" name="skala jako rzeczownik">
+        <pattern>
+            <marker><token>skala</token></marker>
+            <token>1</token>
+            <token>:</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="skalać"/></disambig>
     </rule>
 
     <rule id="BRONI_SUBST" name="broni jako genetiwus">
@@ -4919,7 +4957,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="&amp;lt;br" id="lt_br">
         <pattern>
-            <token>&amp;lt</token>
+            <token regexp="yes">.*&amp;lt</token>
             <token>;</token>
             <marker><token>br</token></marker>
         </pattern>
