@@ -2184,7 +2184,7 @@ though, and has since been slightly modified)-->
           <token>ce</token>
           <marker><token regexp="yes">conte([-‑‐]là)?</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="n" regexp_replace="mp"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="n" regexp_replace="mp"/></suggestion> ?</message>
         <example type="incorrect" correction="compte-là">À ce <marker>conte-là</marker></example>
         <example type="correct">À ce <marker>compte-là</marker></example>
       </rule>
@@ -4766,7 +4766,7 @@ though, and has since been slightly modified)-->
           <marker><token inflected="yes">croasser</token></marker>
         </pattern>
         <message>Le corbeau ou la corneille croassent, mais la grenouille ou le crapaud coassent.</message>
-        <suggestion><match no="1" regexp_match="^cr" regexp_replace="c"/></suggestion>
+        <suggestion><match no="2" regexp_match="^cr" regexp_replace="c"/></suggestion>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2025</url>
         <example type="incorrect" correction="coassent">Les grenouilles <marker>croassent</marker>.</example>
         <example type="incorrect" correction="coassent">Les grenouilles mâles <marker>croassent</marker>.</example>
@@ -4782,19 +4782,19 @@ though, and has since been slightly modified)-->
         <message>Le corbeau ou la corneille croassent, mais la grenouille ou le crapaud coassent.</message>
         <suggestion><match no="1" regexp_match="^cr" regexp_replace="c"/></suggestion>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2025</url>
-        <example type="incorrect" correction="coassements">Les croassements inquiétants des <marker>crapauds</marker>.</example>
+        <example type="incorrect" correction="coassements">Les <marker>croassements</marker> inquiétants des <marker>crapauds</marker>.</example>
         <example type="correct">Les coassements inquiétants des <marker>crapauds</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">corbeau|corneille</token>
-          <token inflected="yes">coasser</token>
+          <marker>><token inflected="yes">coasser</token></marker>
         </pattern>
         <message>La grenouille ou le crapaud coassent, mais le corbeau ou la corneille croassent.</message>
-        <suggestion><match no="1" regexp_match="^(.)" regexp_replace="$1r"/></suggestion>
+        <suggestion><match no="2" regexp_match="^(.)" regexp_replace="$1r"/></suggestion>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2025</url>
         <example type="incorrect" correction="croassent">Les corbeaux <marker>coassent</marker>.</example>
-        <example type="correct">Les corbeaux <marker>croassent</marker>.</example>
+        <example type="correct">Les corbeaux croassent.</example>
       </rule>
       <rule>
         <pattern>
@@ -4803,9 +4803,9 @@ though, and has since been slightly modified)-->
           <token inflected="yes" regexp="yes">corbeau|corneille</token>
         </pattern>
         <message>La grenouille ou le crapaud coassent, mais le corbeau ou la corneille croassent.</message>
-        <suggestion><match no="1" regexp_match="^cr" regexp_replace="c"/></suggestion>
+        <suggestion><match no="1" regexp_match="^(.)" regexp_replace="$1r"/></suggestion>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2025</url>
-        <example type="incorrect" correction="croassements">Les coassements inquiétants des <marker>corbeaux</marker>.</example>
+        <example type="incorrect" correction="croassements">Les <marker>coassements</marker> inquiétants des corbeaux.</example>
         <example type="correct">Les croassements inquiétants des <marker>corbeaux</marker>.</example>
       </rule>
     </rulegroup>
@@ -4901,7 +4901,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">voila[-‑‐]-t[-‑‐]il</token>
+          <token regexp="yes">voila[-‑‐]t[-‑‐]il</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>voilà-t-il</suggestion> ?</message>
         <example type="incorrect">Ne <marker>voila-t-il</marker> pas ce qu’on appelle un signe des temps ?</example>
