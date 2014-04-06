@@ -4503,7 +4503,7 @@ though, and has since been slightly modified)-->
           <marker><token>arrivé</token></marker>
         </pattern>
         <message>Confusion probable entre le nom <suggestion>arrivée</suggestion> et le participe passé.</message>
-        <url>http://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
+        <url>https://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
         <example type="incorrect">Son <marker>arrivé</marker> m’a fait plaisir.</example>
         <example type="correct">Son arrivée m’a fait plaisir.</example>
       </rule>
@@ -4513,7 +4513,7 @@ though, and has since been slightly modified)-->
           <marker><token>arrivés</token></marker>
         </pattern>
         <message>Confusion probable entre le nom <suggestion>arrivées</suggestion> et le participe passé.</message>
-        <url>http://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
+        <url>https://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
         <example type="incorrect">Leurs <marker>arrivés</marker> m’ont fait plaisir.</example>
         <example type="correct">Leurs arrivées m’ont fait plaisir.</example>
       </rule>
@@ -4524,7 +4524,7 @@ though, and has since been slightly modified)-->
           <marker><token>arrivé</token></marker>
         </pattern>
         <message>Confusion probable entre le nom <suggestion>arrivée</suggestion> et le participe passé.</message>
-        <url>http://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
+        <url>https://fr.wiktionary.org/wiki/arriv%C3%A9e</url>
         <example type="incorrect">L’<marker>arrivé</marker> du tour de France.</example>
         <example type="correct">L’arrivée du tour de France.</example>
         <example type="incorrect">La ligne d’<marker>arrivé</marker> du tour de France.</example>
@@ -9809,7 +9809,7 @@ though, and has since been slightly modified)-->
           <token>jours</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>mises à jour</suggestion> ?</message>
-        <url>http://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
+        <url>https://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
         <example type="incorrect">Je reçois des <marker>mises à jours</marker> régulièrement.</example>
         <example type="correct">Je reçois des mises à jour régulièrement.</example>
       </rule>
@@ -9818,7 +9818,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">mises?[-‑‐][àa][-‑‐]jours?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="([^-‑]+).*" regexp_replace="$1"/> à jour</suggestion> ?</message>
-        <url>http://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
+        <url>https://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
         <example type="incorrect" correction="mises à jour">Je reçois des <marker>mises-à-jour</marker> régulièrement.</example>
         <example type="correct">Je reçois des mises à jour régulièrement.</example>
       </rule>
@@ -26440,6 +26440,30 @@ though, and has since been slightly modified)-->
       <message>Voulez-vous écrire <suggestion>laissez-passer</suggestion> ?</message>
       <example type="incorrect">Il vous faut un <marker>laisser-passer</marker>.</example>
       <example type="correct">Il vous faut un laissez-passer.</example>
+    </rule>
+    <rule id="NOEUDS_PAR_HEURE" name="nœuds par heure → nœuds">
+      <pattern>
+        <token regexp="yes">(demi-)?(nœud|noeud)s?</token>
+        <token>par</token>
+        <token>heure</token>
+      </pattern>
+      <message>« nœud » est une unité de vitesse, on ne doit donc pas ajouter « par heure », sauf dans de rares cas où l’on parle de variation de vitesse.</message>
+      <suggestion>\1</suggestion>
+      <url>https://fr.wikipedia.org/wiki/N%C5%93ud_%28unit%C3%A9%29</url>
+      <example type="incorrect">Le courant est d’un <marker>demi-nœud par heure</marker>.</example>
+      <example type="correct">Le courant est d’un demi-nœud.</example>
+    </rule>
+    <rule id="HZ_PAR_SECONDE" name="hertz par second → hertz">
+      <pattern>
+        <token regexp="yes">[KMG]?Hz|(kilo|mega|giga)?hertz</token>
+        <token>par</token>
+        <token>seconde</token>
+      </pattern>
+      <message>L’unité de fréquence « hertz » mesure le nombre d’oscillations par seconde. On ne doit donc pas ajouter « par seconde », sauf dans de rare cas où l’on mesure une variation de frequence.</message>
+      <suggestion>\1</suggestion>
+      <url>https://fr.wikipedia.org/wiki/Hz</url>
+      <example type="incorrect">Un signal de 3,5 <marker>Hz par seconde</marker>.</example>
+      <example type="correct">Un signal de 3,5 Hz.</example>
     </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
