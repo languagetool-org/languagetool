@@ -6162,15 +6162,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="PENLIZH_DEIZ" name="Pennlizherennoù d’an deizioù">
       <rule>
         <pattern case_sensitive="yes">
-          <token regexp="yes">lun|merc’her|yaou|gwener|sadorn|sul</token>
+          <token regexp="yes">(?:lun|merc’her|yaou|gwener|sadorn|sul)(?:-(?:mañ|se))?</token>
         </pattern>
         <message>Lakaet e vez ur bennlizherenn da anvioù an deizioù. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" case_conversion="startupper"/></suggestion>? (CHALM A17)</message>
         <example type="incorrect" correction="Sul">Ar <marker>sul</marker> zo hiziv.</example>
         <example type="correct">Ar Sul zo hiziv.</example>
+        <example type="incorrect" correction="Gwener-se">Petra en doa graet d’ar <marker>gwener-se</marker>?</example>
+        <example type="correct">Petra en doa graet d’ar Gwener-se?</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
-          <token>meurzh<exception scope="previous">miz</exception></token>
+          <token regexp="yes">meurzh(?:-(?:mañ|se))?<exception scope="previous">miz</exception></token>
         </pattern>
         <message>Lakaet e vez ur bennlizherenn da anvioù an deizioù. Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" case_conversion="startupper"/></suggestion>? (CHALM A17)</message>
         <example type="incorrect" correction="Meurzh">Ar <marker>meurzh</marker> zo hiziv.</example>
