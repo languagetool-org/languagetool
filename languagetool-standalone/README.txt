@@ -108,9 +108,9 @@ License:
     * Grup Transducens, Universitat d'Alacant
 
  The Breton FSA spelling dictionary is based on the Breton Hunspell dictionary
- "Difazier Hunspell an Drouizig" (0.10) licensed under the Lesser GNU Public
+ "Difazier Hunspell an Drouizig" (0.12) licensed under the Lesser GNU Public
  License (LGPL), available at:
- http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/pscreleasefolder.2012-08-22.5582266403/0.10/dict-br_0.10.oxt
+ http://extensions.libreoffice.org/extension-center/an-drouizig-breton-spellchecker/releases/0.12/difazier-an-drouizig-0.12
 
  Catalan:
  The Catalan data for part-of-speech tagging were created by Jaume Ortolà 
