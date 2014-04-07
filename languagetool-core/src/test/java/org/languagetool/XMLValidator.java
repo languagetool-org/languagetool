@@ -27,15 +27,22 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.languagetool.tools.StringTools;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -123,6 +130,61 @@ public final class XMLValidator {
 
   /**
    * Validate XML file using the given XSD. Throws an exception on error.
+   * @param baseFilename File to prepend common parts (unification) from before validating main file
+   * @param filename File in classpath to validate
+   * @param xmlSchemaPath XML schema file in classpath
+   */
+  public void validateWithXmlSchema(String baseFilename, String filename, String xmlSchemaPath) throws IOException {
+    try {
+      final InputStream xmlStream = this.getClass().getResourceAsStream(filename);
+      final InputStream baseXmlStream = this.getClass().getResourceAsStream(baseFilename);
+      if (xmlStream == null || baseXmlStream == null ) {
+        throw new IOException("File not found in classpath: " + filename);
+      }
+      try {
+        final URL schemaUrl = this.getClass().getResource(xmlSchemaPath);
+        if (schemaUrl == null) {
+          throw new IOException("XML schema not found in classpath: " + xmlSchemaPath);
+        }
+        validateInternal(mergeIntoSource(baseXmlStream, xmlStream, this.getClass().getResource(xmlSchemaPath)), schemaUrl);
+      } finally {
+        xmlStream.close();
+      }
+    } catch (Exception e) {
+      throw new IOException("Cannot load or parse '" + filename + "'", e);
+    }
+  }
+
+
+  private static Source mergeIntoSource(InputStream baseXmlStream, InputStream xmlStream, URL xmlSchema) throws Exception {
+    DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+    domFactory.setIgnoringComments(true);
+    domFactory.setValidating(false);
+    domFactory.setNamespaceAware(true);
+
+//    SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//    Schema schema = sf.newSchema(xmlSchema);
+//    domFactory.setSchema(schema);
+    
+    DocumentBuilder builder = domFactory.newDocumentBuilder();
+    Document baseDoc = builder.parse(baseXmlStream);
+    Document ruleDoc = builder.parse(xmlStream);
+
+    // Shall this be more generic, i.e. reuse not just unification ???
+    NodeList unificationNodes = baseDoc.getElementsByTagName("unification");
+    Node ruleNode = ruleDoc.getElementsByTagName("rules").item(0);
+    Node firstChildRuleNode = ruleNode.getChildNodes().item(1);
+
+    for(int i=0; i<unificationNodes.getLength(); i++) {
+      Node unificationNode = ruleDoc.importNode(unificationNodes.item(i), true);
+      ruleNode.insertBefore(unificationNode, firstChildRuleNode);
+    }
+
+    return new DOMSource(ruleDoc);
+  }
+  
+  /**
+   * Validate XML file using the given XSD. Throws an exception on error.
    * @param xml the XML string to be validated
    * @param xmlSchemaPath XML schema file in classpath
    * @since 2.3
@@ -169,6 +231,14 @@ public final class XMLValidator {
     final Validator validator = schema.newValidator();
     validator.setErrorHandler(new ErrorHandler());
     validator.validate(new StreamSource(xml));
+  }
+
+  private void validateInternal(Source xmlSrc, URL xmlSchema) throws SAXException, IOException {
+    final SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+    final Schema schema = sf.newSchema(xmlSchema);
+    final Validator validator = schema.newValidator();
+    validator.setErrorHandler(new ErrorHandler());
+    validator.validate(xmlSrc);
   }
 
   /**

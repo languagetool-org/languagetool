@@ -163,7 +163,14 @@ public class PatternRuleTest extends TestCase {
         continue;
       }
       try {
-        validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
+        // if there are multiple xml grammar files we'll prepend all unification elements 
+        // from the first file to the rest of them 
+        if( grammarFiles.size() > 1 && ! grammarFiles.get(0).equals(grammarFile) ) {
+          validator.validateWithXmlSchema(rulesDir + "/" + grammarFiles.get(0), ruleFilePath, rulesDir + "/rules.xsd");
+        }
+        else {
+          validator.validateWithXmlSchema(ruleFilePath, rulesDir + "/rules.xsd");
+        }
       } finally {
         xmlStream.close();
       }
