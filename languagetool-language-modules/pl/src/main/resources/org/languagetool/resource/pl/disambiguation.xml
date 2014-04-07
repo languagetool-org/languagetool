@@ -2778,6 +2778,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Dobrze gada!</example>
     </rule>
 
+    <rule id="GOSC_SUBST" name="gość jako rzeczownik">
+        <pattern>
+            <marker><token>gość</token></marker>
+            <token postag="(?:subst|ger|depr).*gen.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="subst:sg:nom:m1"/>
+    </rule>
+
     <rule id="KULI_SUBST" name="kuli jako genetiwus">
         <pattern>
             <token regexp="yes" inflected="yes">świst|zakątek|kształt|promień|obszar|powierzchnia|rejon|efekt|obwód|środek|uderzenie|punkt|lot|wnętrze|ruch|miejsce</token>
