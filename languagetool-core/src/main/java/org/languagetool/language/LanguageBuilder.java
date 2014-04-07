@@ -21,7 +21,6 @@ package org.languagetool.language;
 import java.io.File;
 import java.util.*;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 
@@ -64,7 +63,7 @@ public final class LanguageBuilder {
     Language newLanguage;
     if (Language.isLanguageSupported(parts[1])) {
       newLanguage = Language.getLanguageForShortName(parts[1]); //FIXME: subclass this!
-      newLanguage.addExternalRuleFiles(file.getAbsolutePath());
+      newLanguage.addExternalRuleFile(file.getAbsolutePath());
     } else {
       newLanguage = new Language() {
         @Override

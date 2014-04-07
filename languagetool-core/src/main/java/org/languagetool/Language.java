@@ -272,7 +272,7 @@ public abstract class Language {
    * @param externalRuleFile Absolute file path to rules.
    * @since 2.6
    */
-  public void addExternalRuleFiles(String externalRuleFile) {
+  public void addExternalRuleFile(String externalRuleFile) {
     externalRuleFiles.add(externalRuleFile);
   }
 
