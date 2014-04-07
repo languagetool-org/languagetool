@@ -260,6 +260,9 @@ public abstract class Language {
     return ruleFiles;
   }
 
+  /**
+   * @since 2.6
+   */
   public List<String> getExternalRuleFiles() {
     return externalRuleFiles;
   }
