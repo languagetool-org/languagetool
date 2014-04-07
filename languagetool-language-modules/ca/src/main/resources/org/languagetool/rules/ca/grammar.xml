@@ -2565,27 +2565,32 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure</token>
-                    <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">ls?</token>
+                    <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure</token>
+                        <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">ls?</token>
+                    </marker>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'.</message>
-                <suggestion><match no="1"/> e<match no="3"/></suggestion>
+                <suggestion><match no="2"/> e<match no="4"/></suggestion>
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="emprenyeu el">No <marker>emprenyeu al</marker> comissari.</example>
                 <example type="correct">No emprenyeu el comissari</example>
                 <example type="correct">Afecten al voltant de 300 persones.</example>
+                <example type="correct">El sorprengué al nord de França</example>
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
                 	<marker>
-	                    <token postag="V.[ISMNG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+	                    <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
 	                    <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     </marker>
                     <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'. La preposició és necessària en casos d'ambigüitat.</message>
-                <suggestion><match no="1"/></suggestion>
+                <suggestion><match no="2"/></suggestion>
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="emprenyeu">No <marker>emprenyeu a</marker> la comissària.</example>
                 <example type="incorrect" correction="concerneix">Pel que <marker>concerneix a</marker> l'estil.</example>
@@ -2595,10 +2600,13 @@ $Id$
                 <example type="correct">des dels termes afectats als altres</example>
                 <example type="correct">va dir molt afectada a Joan</example>
                 <example type="correct">o elles et perjudiquen a tu</example>
+                <example type="correct">El sorprengué a l'estranger.</example>
                 <!-- <example type="correct">va atraure a aquesta ciutat un gran nombre de comerciants</example> -->
             </rule>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
+                    <token postag="VA.*" postag_regexp="yes"/>
                 	<marker>
                 	    <and>
                             <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -2609,11 +2617,33 @@ $Id$
                     <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'. La preposició és necessària en casos d'ambigüitat.</message>
-                <suggestion><match no="1"/></suggestion>
+                <suggestion><match no="3"/></suggestion>
                 <short>Verb transitiu</short>
                 <example type="incorrect" correction="afectat">No ha <marker>afectat a</marker> la relació.</example>
                 <example type="correct">No ha afectat a tots igual.</example>
-            </rule>    
+                <example type="correct">Fou sorprès a Vilanova.</example>
+                <example type="correct">L'ha sorprès a Vilanova.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">el|la|els|les|em|et|us|vos|ens|l'</exception></token>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <marker>
+                        <and>
+                            <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                            <token postag="_GV_"/>
+                        </and>
+                        <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'. La preposició és necessària en casos d'ambigüitat.</message>
+                <suggestion><match no="3"/></suggestion>
+                <short>Verb transitiu</short>
+                <example type="incorrect" correction="afectar">No va <marker>afectar a</marker> la relació.</example>
+                <example type="correct">No va afectar a tots igual.</example>
+                <example type="correct">El va sorprendre a Vilanova.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
             <rule>
