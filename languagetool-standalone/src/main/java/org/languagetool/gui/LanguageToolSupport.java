@@ -460,7 +460,7 @@ class LanguageToolSupport {
       });
       popup.add(moreItem);
 
-      JMenuItem ignoreItem = new JMenuItem(messages.getString("guiOOoIgnoreButton"));
+      JMenuItem ignoreItem = new JMenuItem(messages.getString("guiTurnOffRule"));
       ignoreItem.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
