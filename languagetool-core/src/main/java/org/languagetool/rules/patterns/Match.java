@@ -21,12 +21,13 @@ package org.languagetool.rules.patterns;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tools.StringTools;
 
 /**
  * A {@link Match} is the configuration of an algorithm used to match {@link AnalyzedTokenReadings}s.
- * Use {@link #createState(Synthesizer, AnalyzedTokenReadings)} and {@link #createState(Synthesizer, AnalyzedTokenReadings[], int, int)}
+ * Use {@link #createState(Synthesizer, AnalyzedTokenReadings, Language)} and {@link #createState(Synthesizer, AnalyzedTokenReadings[], Language, int, int)}
  * to create a {@link MatchState} used to actually match {@link AnalyzedTokenReadings}.
  *
  * @author Marcin Miłkowski
@@ -107,8 +108,8 @@ public class Match {
    * Creates a state used for actually matching a token.
    * @since 2.3
    */
-  public MatchState createState(final Synthesizer synthesizer, final AnalyzedTokenReadings token) {
-    final MatchState state = new MatchState(this, synthesizer);
+  public MatchState createState(final Synthesizer synthesizer, final AnalyzedTokenReadings token, Language language) {
+    final MatchState state = new MatchState(this, synthesizer, language);
     state.setToken(token);
     return state;
   }
@@ -117,8 +118,8 @@ public class Match {
    * Creates a state used for actually matching a token.
    * @since 2.3
    */
-  public MatchState createState(final Synthesizer synthesizer, final AnalyzedTokenReadings[] tokens, final int index, final int next) {
-    final MatchState state = new MatchState(this, synthesizer);
+  public MatchState createState(final Synthesizer synthesizer, final AnalyzedTokenReadings[] tokens, Language language, final int index, final int next) {
+    final MatchState state = new MatchState(this, synthesizer, language);
     state.setToken(tokens, index, next);
     return state;
   }

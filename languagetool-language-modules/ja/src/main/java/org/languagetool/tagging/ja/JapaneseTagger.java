@@ -20,11 +20,13 @@ package org.languagetool.tagging.ja;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 
 public class JapaneseTagger implements Tagger {
 
@@ -71,6 +73,11 @@ public class JapaneseTagger implements Tagger {
       buff.append(bytes[i]).append(' ');
     }
     return buff.toString();
+  }
+
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
+    return Collections.emptyList();
   }
 
 }

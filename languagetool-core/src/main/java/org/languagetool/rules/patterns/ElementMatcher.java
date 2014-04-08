@@ -64,7 +64,7 @@ public class ElementMatcher {
       final int refPos = firstMatchToken
           + baseElement.getMatch().getTokenRef();
       if (refPos < tokens.length) {
-        element = baseElement.compile(tokens[refPos],
+        element = baseElement.compile(language, tokens[refPos],
             language.getSynthesizer());
       }
     }

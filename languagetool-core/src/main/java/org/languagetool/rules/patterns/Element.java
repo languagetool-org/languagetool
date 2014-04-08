@@ -28,8 +28,10 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -49,7 +51,8 @@ public class Element implements Cloneable {
   private final boolean stringRegExp;
 
   private String stringToken;
-  private String posToken;
+  private String posToken;   // a string (maybe a regex) of the POS tag to match
+  private TokenPoS tokenPoS;  // a structured specification of the POS tags to match
   private ChunkTag chunkToken;
   private boolean posRegExp;
   private boolean negation;
@@ -345,6 +348,13 @@ public class Element implements Cloneable {
   }
 
   /**
+   * @since 2.6
+   */
+  public final void setTokenPos(final TokenPoS tokenPoS) {
+    this.tokenPoS = tokenPoS;
+  }
+
+  /**
    * @since 2.3
    */
   public final void setChunkElement(final ChunkTag chunkTag) {
@@ -447,18 +457,21 @@ public class Element implements Cloneable {
    * @return true if matches
    */
   private boolean isPosTokenMatched(final AnalyzedToken token) {
-    if (posToken == null) {
+    if (posToken == null && tokenPoS == null) {
       // if no POS set defaulting to true
       return true;
     }
-    if (token.getPOSTag() == null) {
+    if (token.getPOSTag() == null && tokenPoS == null) {
       return posUnknown && token.hasNoTag();
     }
-    boolean match;
+    boolean match = true;
+    if (tokenPoS != null && !tokenPoS.isSubsetOf(token.getTokenPoS())) {
+      return false;
+    }
     if (posRegExp) {
       final Matcher mPos = pPos.matcher(token.getPOSTag());
       match = mPos.matches();
-    } else {
+    } else if (posToken != null) {
       match = posToken.equals(token.getPOSTag());
     }
     if (!match && posUnknown) { // ignore helper tags
@@ -603,7 +616,7 @@ public class Element implements Cloneable {
    * @param token the token specified as {@link AnalyzedTokenReadings}
    * @param synth the language synthesizer ({@link Synthesizer})
    */
-  public final Element compile(final AnalyzedTokenReadings token, final Synthesizer synth)
+  public final Element compile(Language language, final AnalyzedTokenReadings token, final Synthesizer synth)
       throws IOException {
     final Element compiledElement;
     try {
@@ -611,13 +624,13 @@ public class Element implements Cloneable {
     } catch (CloneNotSupportedException e) {
       throw new IllegalStateException("Could not clone element", e);
     }
-    compiledElement.doCompile(token, synth);
+    compiledElement.doCompile(token, synth, language);
     return compiledElement;
   }
 
-  void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth) throws IOException {
+  void doCompile(final AnalyzedTokenReadings token, final Synthesizer synth, Language language) throws IOException {
     p = null;
-    final MatchState matchState = tokenReference.createState(synth, token);
+    final MatchState matchState = tokenReference.createState(synth, token, language);
 
     if (StringTools.isEmpty(referenceString)) {
       referenceString = stringToken;

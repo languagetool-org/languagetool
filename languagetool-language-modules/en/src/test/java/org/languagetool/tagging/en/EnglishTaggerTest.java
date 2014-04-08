@@ -49,17 +49,17 @@ public class EnglishTaggerTest extends TestCase {
 
   public void testTagger() throws IOException {
     TestTools.myAssert("This is a big house.",
-        "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- big/[big]JJ|big/[big]RB -- house/[house]NN|house/[house]VB|house/[house]VBP", tokenizer, tagger);
+        "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- big/[big]JJ|big/[big]RB -- house/[house]NN|house/[house]VB|house/[house]VBP|house/[house]VBP|house/[house]VBP|house/[house]VBP|house/[house]VBP", tokenizer, tagger);
     TestTools.myAssert("Marketing do a lot of trouble.",
-        "Marketing/[market]VBG|Marketing/[marketing]NN:U -- do/[do]VB|do/[do]VBP -- a/[a]DT -- lot/[lot]NN -- of/[of]IN -- trouble/[trouble]NN:UN|trouble/[trouble]VB|trouble/[trouble]VBP", tokenizer, tagger);
+        "Marketing/[market]VBG|Marketing/[marketing]NN:U -- do/[do]VB|do/[do]VBP|do/[do]VBP|do/[do]VBP|do/[do]VBP|do/[do]VBP -- a/[a]DT -- lot/[lot]NN -- of/[of]IN -- trouble/[trouble]NN:UN|trouble/[trouble]VB|trouble/[trouble]VBP|trouble/[trouble]VBP|trouble/[trouble]VBP|trouble/[trouble]VBP|trouble/[trouble]VBP", tokenizer, tagger);
     TestTools.myAssert("Manager use his laptop every day.",
-        "Manager/[manager]NN -- use/[use]NN:UN|use/[use]VB|use/[use]VBP -- his/[hi]NNS|his/[his]PRP$ -- laptop/[laptop]NN -- every/[every]DT -- day/[day]NN:UN", tokenizer, tagger);
+        "Manager/[manager]NN -- use/[use]NN:UN|use/[use]VB|use/[use]VBP|use/[use]VBP|use/[use]VBP|use/[use]VBP|use/[use]VBP -- his/[hi]NNS|his/[his]PRP$ -- laptop/[laptop]NN -- every/[every]DT -- day/[day]NN:UN", tokenizer, tagger);
     TestTools.myAssert("This is a bigger house.",
-        "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- bigger/[big]JJR -- house/[house]NN|house/[house]VB|house/[house]VBP", tokenizer, tagger);
+        "This/[this]DT|This/[this]PDT -- is/[be]VBZ -- a/[a]DT -- bigger/[big]JJR -- house/[house]NN|house/[house]VB|house/[house]VBP|house/[house]VBP|house/[house]VBP|house/[house]VBP|house/[house]VBP", tokenizer, tagger);
     TestTools.myAssert("He doesn't believe me.",
-        "He/[he]PRP -- doesn/[do]VBZ -- t/[null]null -- believe/[believe]VB|believe/[believe]VBP -- me/[I]PRP", tokenizer, tagger);
+        "He/[he]PRP -- doesn/[do]VBZ -- t/[null]null -- believe/[believe]VB|believe/[believe]VBP|believe/[believe]VBP|believe/[believe]VBP|believe/[believe]VBP|believe/[believe]VBP -- me/[I]PRP", tokenizer, tagger);
     TestTools.myAssert("It has become difficult.",
-        "It/[it]PRP -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger); 
+        "It/[it]PRP -- has/[have]VBZ -- become/[become]VB|become/[become]VBN|become/[become]VBP|become/[become]VBP|become/[become]VBP|become/[become]VBP|become/[become]VBP -- difficult/[difficult]JJ", tokenizer, tagger); 
   }
   
   public void testLemma() throws IOException {

@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.patterns.*;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -295,7 +296,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               lemma = newTokenReadings[i].getLemma();
             }
             final AnalyzedToken newTok = new AnalyzedToken(token,
-                newTokenReadings[i].getPOSTag(), lemma);
+                newTokenReadings[i].getTokenPoS(), newTokenReadings[i].getPOSTag(), lemma);
             final String prevValue = whTokens[position].toString();
             final String prevAnot = whTokens[position].getHistoricalAnnotations();
             whTokens[position].addReading(newTok);
@@ -326,7 +327,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             null, Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
 
-        MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[position]);
+        MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[position], rule.getLanguage());
         final String prevValue = whTokens[position].toString();
         final String prevAnot = whTokens[position].getHistoricalAnnotations();
         whTokens[position] = matchState.filterReadings();
@@ -349,7 +350,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             true, disambiguatedPOS, null,
             Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
-        final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+        final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos], rule.getLanguage());
         final String prevValue = whTokens[fromPos].toString();
         final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
         whTokens[fromPos] = matchState.filterReadings();
@@ -376,7 +377,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               } else {
                 lemma = newTokenReadings[i].getLemma();
               }
-              final AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getPOSTag(), lemma);
+              final AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getTokenPoS(), newTokenReadings[i].getPOSTag(), lemma);
               final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
                   analyzedToken,
                   whTokens[fromPos].getStartPos());
@@ -395,14 +396,17 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
           if (StringTools.isEmpty(lemma)) {
             lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
           }
-
-          final AnalyzedToken analyzedToken = new AnalyzedToken(whTokens[fromPos].getToken(), disambiguatedPOS, lemma);
+          final List<TokenPoS> disambiguatedTokenPoS = rule.getLanguage().getTagger().resolvePOSTag(disambiguatedPOS);
+          List<AnalyzedToken> analyzedTokens = new ArrayList<>();
+          for (TokenPoS tokenPoS : disambiguatedTokenPoS) {
+            analyzedTokens.add(new AnalyzedToken(whTokens[fromPos].getToken(), tokenPoS, disambiguatedPOS, lemma));
+          }
           final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
-              analyzedToken, whTokens[fromPos].getStartPos());
+              analyzedTokens, whTokens[fromPos].getStartPos());
           whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);
         } else {
           // using the match element
-          final MatchState matchElementState = matchElement.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+          final MatchState matchElementState = matchElement.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos], rule.getLanguage());
           final String prevValue = whTokens[fromPos].toString();
           final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
           whTokens[fromPos] = matchElementState.filterReadings();

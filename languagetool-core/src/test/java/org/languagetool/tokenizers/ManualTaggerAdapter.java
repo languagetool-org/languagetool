@@ -20,12 +20,14 @@ package org.languagetool.tokenizers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 
 /**
  * Adapter from {@link ManualTagger} to {@link Tagger}. <br/>
@@ -73,6 +75,11 @@ public class ManualTaggerAdapter implements Tagger {
   @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
+  }
+
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
+    return Collections.emptyList();
   }
 
 }

@@ -28,6 +28,8 @@ import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.IncorrectExample;
+import org.languagetool.tagging.TokenPoS;
+import org.languagetool.tagging.TokenPoSBuilder;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
@@ -77,6 +79,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean tokenSpaceBefore;
   protected boolean tokenSpaceBeforeSet;
   protected String posToken;
+  protected TokenPoS tokenPoS;
   protected ChunkTag chunkTag;
   protected boolean posNegation;
   protected boolean posRegExp;
@@ -469,8 +472,28 @@ public class XMLRuleHandler extends DefaultHandler {
       tokenSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
 
+    tokenPoS = buildTokenPoS(attrs);
+
     if (!inAndGroup && !inOrGroup) {
       tokenCounter++;
+    }
+  }
+
+  protected TokenPoS buildTokenPoS(Attributes attrs) {
+    TokenPoSBuilder builder = new TokenPoSBuilder();
+    addValues(builder, attrs, "pos");
+    addValues(builder, attrs, "tense");
+    // TODO: add more: person, ...
+    return builder.create();
+  }
+
+  private void addValues(TokenPoSBuilder builder, Attributes attrs, String type) {
+    String attrValue = attrs.getValue(type);
+    if (attrValue != null) {
+      String[] values = attrValue.split("\\|");
+      for (String val : values) {
+        builder.add(type, val);
+      }
     }
   }
 
@@ -539,6 +562,10 @@ public class XMLRuleHandler extends DefaultHandler {
     if (posToken != null) {
       tokenElement.setPosElement(posToken, posRegExp, posNegation);
       posToken = null;
+    }
+    if (tokenPoS != null && !tokenPoS.isEmpty()) {
+      tokenElement.setTokenPos(tokenPoS);
+      tokenPoS = null;
     }
     if (chunkTag != null) {
       tokenElement.setChunkElement(chunkTag);

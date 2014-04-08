@@ -21,6 +21,7 @@ package org.languagetool;
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.languagetool.tagging.TokenPoS;
 
 /**
  * A word (or punctuation, or whitespace) and its part-of-speech tag.
@@ -30,6 +31,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 public class AnalyzedToken {
 
   private final String token;
+  private final TokenPoS tokenPoS;
   private final String posTag;
   private final String lemma;
 
@@ -42,22 +44,31 @@ public class AnalyzedToken {
   
   private boolean hasNoPOSTag;
 
-  public AnalyzedToken(final String token, final String posTag, final String lemma) {
+  public AnalyzedToken(final String token, final TokenPoS tokenPoS, final String posTag, final String lemma) {
     this.token = Objects.requireNonNull(token, "token cannot be null");
+    this.tokenPoS = tokenPoS;
     this.posTag = posTag;
-    this.lemma = lemma;    
+    this.lemma = lemma;
     if (lemma == null) {
       tokenInflected = token;
     } else {
       tokenInflected = lemma;
     }
-    hasNoPOSTag = (posTag == null 
-        || JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
-        || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag));
+    hasNoPOSTag = (posTag == null
+            || JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
+            || JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag));
+  }
+  
+  public AnalyzedToken(final String token, final String posTag, final String lemma) {
+    this(token, null, posTag, lemma);
   }
 
   public final String getToken() {
     return token;
+  }
+  
+  public TokenPoS getTokenPoS() {
+    return tokenPoS;
   }
 
   public final String getPOSTag() {
@@ -98,10 +109,13 @@ public class AnalyzedToken {
     }
     //empty tokens never match anything
     if ("".equals(an.getToken()) && an.getLemma() == null 
-        && an.getPOSTag() == null) {
+        && an.getPOSTag() == null && an.getTokenPoS() == null) {
       return false;
     }
     boolean found = true;
+    if (an.getTokenPoS() != null) {
+      found = an.getTokenPoS().equals(this.tokenPoS);
+    }
     if (!"".equals(an.getToken())) { //token cannot be null
       found = an.getToken().equals(this.token);
     }
@@ -149,6 +163,7 @@ public class AnalyzedToken {
     int result = 1;
     result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
     result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
+    result = prime * result + ((tokenPoS == null) ? 0 : tokenPoS.hashCode());    
     result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());    
     result = prime * result + ((token == null) ? 0 : token.hashCode());
     return result;
@@ -164,6 +179,7 @@ public class AnalyzedToken {
     final AnalyzedToken rhs = (AnalyzedToken) obj;
     return new EqualsBuilder()
             .append(token, rhs.token)
+            .append(tokenPoS, rhs.tokenPoS)
             .append(posTag, rhs.posTag)
             .append(lemma, rhs.lemma)
             .append(isWhitespaceBefore, rhs.isWhitespaceBefore)

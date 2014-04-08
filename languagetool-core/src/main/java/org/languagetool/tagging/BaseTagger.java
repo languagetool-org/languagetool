@@ -21,6 +21,7 @@ package org.languagetool.tagging;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -53,6 +54,11 @@ public abstract class BaseTagger implements Tagger {
 
   public void setLocale(Locale locale) {
     conversionLocale = locale;
+  }
+  
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
+    return Collections.emptyList();
   }
 
   protected Dictionary getDictionary() throws IOException {
@@ -118,11 +124,27 @@ public abstract class BaseTagger implements Tagger {
         l.add(new AnalyzedToken(word, null, null));
       }
 
-      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
+      List<AnalyzedToken> tokenPostList = addStructuredPoSData(l);
+      tokenReadings.add(new AnalyzedTokenReadings(tokenPostList, pos));
       pos += word.length();
     }
 
     return tokenReadings;
+  }
+
+  private List<AnalyzedToken> addStructuredPoSData(List<AnalyzedToken> analysis) {
+    List<AnalyzedToken> result = new ArrayList<>();
+    for (AnalyzedToken reading : analysis) {
+      List<TokenPoS> tokenPoSList = resolvePOSTag(reading.getPOSTag());
+      if (tokenPoSList.size() == 0) {
+        result.add(reading);
+      } else {
+        for (TokenPoS tokenPoS : tokenPoSList) {
+          result.add(new AnalyzedToken(reading.getToken(), tokenPoS, reading.getPOSTag(), reading.getLemma()));
+        }
+      }
+    }
+    return result;
   }
 
   protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {

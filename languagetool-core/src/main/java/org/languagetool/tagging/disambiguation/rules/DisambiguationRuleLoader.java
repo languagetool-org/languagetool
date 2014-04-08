@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule.DisambiguatorAction;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -77,6 +78,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
   private boolean inWord;
 
   private String disambiguatedPOS;
+  private TokenPoS disambiguatedTokenPOS;
 
   private int startPos = -1;
   private int endPos = -1;
@@ -165,6 +167,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         case DISAMBIG:
           inDisambiguation = true;
           disambiguatedPOS = attrs.getValue(POSTAG);
+          disambiguatedTokenPOS = buildTokenPoS(attrs);
           if (attrs.getValue(ACTION) == null) {
             // default mode:
             disambigAction = DisambiguatorAction.REPLACE;
@@ -270,7 +273,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
     switch (qName) {
       case RULE:
         final DisambiguationPatternRule rule = new DisambiguationPatternRule(id,
-            name, language, elementList, disambiguatedPOS, posSelector,
+            name, language, elementList, disambiguatedTokenPOS, disambiguatedPOS, posSelector,
             disambigAction);
 
         endPositionCorrection = endPos - tokenCountForMarker;
@@ -456,7 +459,8 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         inUnificationNeutral = false;
         break;
       case WD:
-        addNewWord(wd.toString(), wdLemma, wdPos);
+        final List<TokenPoS> disambiguatedTokenPoS = language.getTagger().resolvePOSTag(wdPos);
+        addNewWord(wd.toString(), wdLemma, disambiguatedTokenPoS, wdPos);
         inWord = false;
         break;
       case EXAMPLE:
@@ -484,6 +488,22 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       newWdList = new ArrayList<>();
     }
     newWdList.add(newWd);
+  }
+
+  // TODO: leads to "English rule error. The number of interpretations specified with wd: 5 must be equal to the number of matched tokens (1)
+  // Line: 1525, column: 12." 
+  private void addNewWord(final String word, final String lemma,
+                          final List<TokenPoS> disambiguatedTokenPoS, final String pos) {
+    List<AnalyzedToken> analyzedTokens = new ArrayList<>();
+    for (TokenPoS tokenPoS : disambiguatedTokenPoS) {
+      final AnalyzedToken newWd = new AnalyzedToken(word, tokenPoS, pos, lemma);
+      analyzedTokens.add(newWd);
+    }
+    if (newWdList == null) {
+      newWdList = new ArrayList<>();
+    }
+    //newWdList.add(newWd);
+    newWdList.addAll(analyzedTokens);
   }
 
   @Override

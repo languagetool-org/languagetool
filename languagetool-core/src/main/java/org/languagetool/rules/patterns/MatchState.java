@@ -34,6 +34,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Match.IncludeRange;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -46,14 +47,16 @@ public class MatchState {
 
   private final Match match;
   private final Synthesizer synthesizer;
+  private final Language language;
 
   private AnalyzedTokenReadings formattedToken;
   private AnalyzedTokenReadings matchedToken;
   private String skippedTokens;
 
-  public MatchState(Match match, Synthesizer synthesizer) {
+  public MatchState(Match match, Synthesizer synthesizer, Language language) {
     this.match = match;
     this.synthesizer = synthesizer;
+    this.language = language;
     final String lemma = match.getLemma();
     if (!StringUtils.isEmpty(lemma)) {
       formattedToken = new AnalyzedTokenReadings(new AnalyzedToken(lemma, match.getPosTag(), lemma), 0);
@@ -133,8 +136,12 @@ public class MatchState {
               if (posTagReplace != null) {
                 targetPosTag = pPosRegexMatch.matcher(targetPosTag).replaceAll(posTagReplace);
               }
-              l.add(new AnalyzedToken(token, targetPosTag,
-                  formattedToken.getAnalyzedToken(i).getLemma()));
+              List<TokenPoS> tokenPoS = language.getTagger().resolvePOSTag(targetPosTag);
+              for (TokenPoS poS : tokenPoS) {
+                //System.out.println("tokenPoS " + tokenPoS);
+                l.add(new AnalyzedToken(token, poS, targetPosTag,
+                        formattedToken.getAnalyzedToken(i).getLemma()));
+              }
               l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
           }
@@ -226,7 +233,10 @@ public class MatchState {
         if (StringTools.isEmpty(lemma)) {
           lemma = formattedToken.getAnalyzedToken(0).getLemma();
         }
-        list.add(new AnalyzedToken(token, posTag, lemma));
+        List<TokenPoS> tokenPoS = language.getTagger().resolvePOSTag(posTag);
+        for (TokenPoS poS : tokenPoS) {
+          list.add(new AnalyzedToken(token, poS, posTag, lemma));
+        }
         list.get(list.size() - 1).setWhitespaceBefore(
             formattedToken.isWhitespaceBefore());
       }

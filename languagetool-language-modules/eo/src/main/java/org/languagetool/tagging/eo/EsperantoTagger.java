@@ -22,10 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +31,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 
 /**
  * A part-of-speech tagger for Esperanto.
@@ -312,4 +310,10 @@ public class EsperantoTagger implements Tagger {
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
   }
+
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
+    return Collections.emptyList();
+  }
+
 }

@@ -53,5 +53,14 @@ public interface Tagger {
    * Create a token specific to the language of the implementing class.
    */
   public AnalyzedToken createToken(String token, String posTag);
+
+  /**
+   * Returns a structured interpretation of a POS tag where properties like pos, number, tense
+   * etc. are properties with value sets (instead of just a simple string for both property name 
+   * and their values).
+   * @since 2.6
+   * @param posTag a part-of-speech tag as returned by the tagger, e.g. {@code NNS} for English.
+   */
+  public List<TokenPoS> resolvePOSTag(String posTag);
     
 }

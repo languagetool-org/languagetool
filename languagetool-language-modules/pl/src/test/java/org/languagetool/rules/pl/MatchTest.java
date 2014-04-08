@@ -24,6 +24,8 @@ import junit.framework.TestCase;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
+import org.languagetool.language.Demo;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.Match.CaseConversion;
@@ -31,6 +33,8 @@ import org.languagetool.rules.patterns.Match.IncludeRange;
 import org.languagetool.rules.patterns.MatchState;
 
 public class MatchTest extends TestCase {
+
+  private final Language language = new Demo();
 
   private AnalyzedTokenReadings getAnalyzedTokenReadings(String token, String posTag, String lemma) {
     return new AnalyzedTokenReadings(new AnalyzedToken(token, posTag, lemma), 0);
@@ -50,20 +54,20 @@ public class MatchTest extends TestCase {
     //tests with synthesizer
     Match match = getMatch("POS1", "POS2", true);
     final Polish polish = new Polish();
-    MatchState matchState = new MatchState(match, polish.getSynthesizer());
+    MatchState matchState = new MatchState(match, polish.getSynthesizer(), language);
     matchState.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
     //getting empty strings, which is what we want
     assertEquals("[]", Arrays.toString(matchState.toFinalString(polish)));
 
     // contrast with a speller = false!
     match = getMatch("POS1", "POS2", false);
-    matchState = new MatchState(match, polish.getSynthesizer());
+    matchState = new MatchState(match, polish.getSynthesizer(), language);
     matchState.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
     assertEquals("[(inflectedform11)]", Arrays.toString(matchState.toFinalString(polish)));
 
     //and now a real word - we should get something
     match = getMatch("subst:sg:acc.nom:m3", "subst:sg:gen:m3", true);
-    matchState = new MatchState(match, polish.getSynthesizer());
+    matchState = new MatchState(match, polish.getSynthesizer(), language);
     matchState.setToken(getAnalyzedTokenReadings("AON", "subst:sg:acc.nom:m3", "AON"));
     assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
 
@@ -71,15 +75,15 @@ public class MatchTest extends TestCase {
     match = getTextMatch("^(.*)$", "$0-u", true);
     match.setSynthesizer(polish.getSynthesizer());
     match.setLemmaString("AON");
-    matchState = new MatchState(match, polish.getSynthesizer());
+    matchState = new MatchState(match, polish.getSynthesizer(), language);
     assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
     match.setLemmaString("batalion");
     //should be empty
-    matchState = new MatchState(match, polish.getSynthesizer());
+    matchState = new MatchState(match, polish.getSynthesizer(), language);
     assertEquals("[]", Arrays.toString(matchState.toFinalString(polish)));
     match.setLemmaString("ASEAN");
     //and this one not
-    matchState = new MatchState(match, polish.getSynthesizer());
+    matchState = new MatchState(match, polish.getSynthesizer(), language);
     assertEquals("[ASEAN-u]", Arrays.toString(matchState.toFinalString(polish)));
   }
 }

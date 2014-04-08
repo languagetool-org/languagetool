@@ -384,7 +384,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       final Language language = rule.language;
       if (len == 1) {
         final int skippedTokens = nextTokenPos - tokenIndex;
-        final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
+        final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, language, tokenIndex - 1, skippedTokens);
         finalMatch = matchState.toFinalString(language);
         if (suggestionMatches.get(start).checksSpelling()
             && finalMatch.length == 1
@@ -396,7 +396,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         final List<String[]> matchList = new ArrayList<>();
         for (int i = 0; i < len; i++) {
           final int skippedTokens = nextTokenPos - (tokenIndex + i);
-          final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1 + i, skippedTokens);
+          final MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, language, tokenIndex - 1 + i, skippedTokens);
           matchList.add(matchState.toFinalString(language));
         }
         return combineLists(matchList.toArray(new String[matchList.size()][]),

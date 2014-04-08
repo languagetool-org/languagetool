@@ -19,11 +19,13 @@
 package org.languagetool.tagging.xx;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 
 /**
  * A trivial tagger that does nothing than assign null
@@ -55,6 +57,11 @@ public class DemoTagger implements Tagger {
   @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
+  }
+
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
+    return Collections.emptyList();
   }
 
 }

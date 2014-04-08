@@ -21,6 +21,7 @@ package org.languagetool.tagging.de;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import morfologik.stemming.Dictionary;
@@ -33,6 +34,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -210,6 +212,11 @@ public class GermanTagger implements Tagger {
   @Override
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedGermanToken(token, posTag);
+  }
+
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
+    return Collections.emptyList();
   }
 
   /**

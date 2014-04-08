@@ -337,7 +337,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case ANTIPATTERN:
         final DisambiguationPatternRule rule = new DisambiguationPatternRule(
             id + "_antipattern:" + antiPatternCounter,
-            "antipattern", language, elementList, null, null,
+            "antipattern", language, elementList, null, null, null,
             DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
         if (startPos != -1 && endPos != -1) {
           rule.setStartPositionCorrection(startPos);

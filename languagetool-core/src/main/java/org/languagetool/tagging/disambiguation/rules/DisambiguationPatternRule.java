@@ -27,6 +27,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
+import org.languagetool.tagging.TokenPoS;
 
 /**
  * A Rule that describes a pattern of words or part-of-speech tags used for
@@ -42,6 +43,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   }
 
   private final String disambiguatedPOS;
+  private final TokenPoS disambiguatedTokenPOS;
   private final Match matchElement;
   private final DisambiguatorAction disAction;
 
@@ -60,7 +62,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    */
   public DisambiguationPatternRule(final String id, final String description,
                                    final Language language, final List<Element> elements,
-                                   final String disamb, final Match posSelect,
+                                   final TokenPoS disambTokenPos, final String disamb, final Match posSelect,
                                    final DisambiguatorAction disambAction) {
     super(id, description, language, elements, true);
     if (disamb == null && posSelect == null
@@ -73,6 +75,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
         && disambAction != DisambiguatorAction.IGNORE_SPELLING) {
       throw new NullPointerException("disambiguated POS cannot be null");
     }
+    this.disambiguatedTokenPOS = disambTokenPos;
     this.disambiguatedPOS = disamb;
     this.matchElement = posSelect;
     this.disAction = disambAction;
@@ -163,6 +166,13 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    */
   public String getDisambiguatedPOS() {
     return disambiguatedPOS;
+  }
+
+  /**
+   * @since 2.6
+   */
+  public TokenPoS getDisambiguatedTokenPOS() {
+    return disambiguatedTokenPOS;
   }
 
 }

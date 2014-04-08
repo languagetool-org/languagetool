@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;
@@ -53,6 +54,8 @@ public class MatchTest extends TestCase {
   protected JLanguageTool languageTool;
   protected Synthesizer synthesizer;
   protected Tagger tagger;
+  
+  private final Language language = new Demo();
 
   //-- helper methods
 
@@ -105,93 +108,93 @@ public class MatchTest extends TestCase {
 
   public void testStartUpper() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.STARTUPPER);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"), language);
     assertEquals("[Inflectedform121, Inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testStartLower() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.STARTLOWER);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testAllUpper() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.ALLUPPER);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"), language);
     assertEquals("[INFLECTEDFORM121, INFLECTEDFORM122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testAllLower() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.ALLLOWER);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPreserveStartUpper() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.PRESERVE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm11", "POS1", "Lemma1"), language);
     assertEquals("[Inflectedform121, Inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testStaticLemmaPreserveStartLower() throws Exception {
     final Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
     match.setLemmaString("lemma2");
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform121", "POS2", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform121", "POS2", "Lemma1"), language);
     assertEquals("[inflectedform2]", Arrays.toString(state.toFinalString(null)));
   }
   public void testStaticLemmaPreserveStartUpper() throws Exception {
     final Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
     match.setLemmaString("lemma2");
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm121", "POS2", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("InflectedForm121", "POS2", "Lemma1"), language);
     assertEquals("[Inflectedform2]", Arrays.toString(state.toFinalString(null)));
   }
   public void testStaticLemmaPreserveAllUpper() throws Exception {
     final Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
     match.setLemmaString("lemma2");
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("INFLECTEDFORM121", "POS2", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("INFLECTEDFORM121", "POS2", "Lemma1"), language);
     assertEquals("[INFLECTEDFORM2]", Arrays.toString(state.toFinalString(null)));
   }
   public void testStaticLemmaPreserveMixed() throws Exception {
     final Match match = getMatch("POS2", "POS1", Match.CaseConversion.PRESERVE);
     match.setLemmaString("lemma2");
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("infleCtedForm121", "POS2", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("infleCtedForm121", "POS2", "Lemma1"), language);
     assertEquals("[inflectedform2]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPreserveStartLower() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.PRESERVE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedForm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedForm11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPreserveAllUpper() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.PRESERVE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("INFLECTEDFORM11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("INFLECTEDFORM11", "POS1", "Lemma1"), language);
     assertEquals("[INFLECTEDFORM121, INFLECTEDFORM122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPreserveMixed() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.PRESERVE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflecTedForm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflecTedForm11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
 
   }
 
   public void testPreserveNoneUpper() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.NONE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("INFLECTEDFORM11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("INFLECTEDFORM11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPreserveNoneLower() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.NONE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPreserveNoneMixed() throws Exception {
     final Match match = getMatch("POS1", "POS2", Match.CaseConversion.NONE);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inFLectedFOrm11", "POS1", "Lemma1"));
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inFLectedFOrm11", "POS1", "Lemma1"), language);
     assertEquals("[inflectedform121, inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
@@ -199,26 +202,26 @@ public class MatchTest extends TestCase {
 
   public void testSimpleIncludeFollowing() throws Exception {
     final Match match = getMatch(null, null, Match.IncludeRange.FOLLOWING);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), language, 1, 3);
     assertEquals("[inflectedform2 inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPOSIncludeFollowing() throws Exception {
     // POS is ignored when using IncludeRange.Following
     final Match match = getMatch("POS2", "POS33", Match.IncludeRange.FOLLOWING);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), language, 1, 3);
     assertEquals("[inflectedform2 inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testIncludeAll() throws Exception {
     final Match match = getMatch(null, null, Match.IncludeRange.ALL);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), language, 1, 3);
     assertEquals("[inflectedform11 inflectedform2 inflectedform122]", Arrays.toString(state.toFinalString(null)));
   }
 
   public void testPOSIncludeAll() throws Exception {
     final Match match = getMatch("POS1", "POS3", Match.IncludeRange.ALL);
-    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), 1, 3);
+    final MatchState state = match.createState(synthesizer, getAnalyzedTokenReadings("inflectedform11 inflectedform2 inflectedform122 inflectedform122"), language, 1, 3);
     assertEquals("[inflectedform123 inflectedform2 inflectedform122]", Arrays.toString(state.toFinalString(null)));
     // Note that in this case the first token has the requested POS (POS3 replaces POS1)
   }
