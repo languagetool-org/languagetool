@@ -13374,17 +13374,22 @@ $Id$
                 <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aei]</token>
                     <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne)</token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne|els?|en|ens|l|m|s|t|n)</token>
                     </marker>
                     <token><exception postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
-                <suggestion><match no="2" regexp_match="-([mntsl])[eo](s?)" regexp_replace="'$1$2"/></suggestion>
+                <suggestion><match no="2" regexp_match="-e?([mntsl])[eo]?(s?)" regexp_replace="'$1$2"/></suggestion>
                 <example type="incorrect" correction="'l">Veure<marker>-lo</marker>.</example>
                 <example type="incorrect" correction="'ns">Veure<marker>-nos</marker>.</example>
                 <example type="incorrect" correction="'n">Veure<marker>-ne</marker>.</example>
+                <example type="incorrect" correction="'n">treure<marker>-n</marker>.</example>
+                <example type="incorrect" correction="'l">Porta<marker>-l</marker>.</example>
+                <example type="incorrect" correction="'ns">Porta<marker>-ens</marker>.</example>
                 <example type="correct">Envia-me-la ara mateix.</example>
                 <example type="correct">Envia-me'ls ara mateix.</example>
+                <example type="correct">Porta-l'hi.</example>
+                <example type="correct">Porta-m'ho.</example>
             </rule>
             <rule>
                 <pattern>
