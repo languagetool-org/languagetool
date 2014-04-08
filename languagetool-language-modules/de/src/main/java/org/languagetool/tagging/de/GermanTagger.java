@@ -37,7 +37,7 @@ import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 
 /**
- * German part-of-speech tagger, requires data file in <code>resource/de/german.dict</code>.
+ * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
  * The POS tagset is described in
  * <a href="https://github.com/languagetool-org/languagetool/blob/master/languagetool-language-modules/de/src/main/resources/org/languagetool/resource/de/tagset.txt">tagset.txt</a>
  *

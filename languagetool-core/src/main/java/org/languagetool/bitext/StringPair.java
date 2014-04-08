@@ -27,7 +27,6 @@ package org.languagetool.bitext;
 public class StringPair {
 
   private final String sourceString;
-  
   private final String targetString;
   
   public StringPair(final String source, final String target) {
