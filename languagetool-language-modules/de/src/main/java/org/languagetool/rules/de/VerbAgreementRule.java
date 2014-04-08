@@ -280,10 +280,10 @@ public class VerbAgreementRule extends GermanRule {
    */
   private boolean verbDoesMatchPersonAndNumber(final AnalyzedTokenReadings token1, final AnalyzedTokenReadings token2,
                                                final String person, final String number) {
-   if (token1.getToken().equals(",") || token1.getToken().equals("und") ||
-       token2.getToken().equals(",") || token2.getToken().equals("und")) {
-    return true;
-   }
+    if (token1.getToken().equals(",") || token1.getToken().equals("und") ||
+        token2.getToken().equals(",") || token2.getToken().equals("und")) {
+      return true;
+    }
    
     boolean foundFiniteVerb = false;
     

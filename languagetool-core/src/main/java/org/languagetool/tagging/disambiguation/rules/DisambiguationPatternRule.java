@@ -84,7 +84,7 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
    * @param newReadings
    *          An array of AnalyzedTokens. The length of the array should be the
    *          same as the number of the tokens matched and selected by
-   *          mark/mark_from & mark_to attributes (>1).
+   *          {@code <marker>...</marker>} elements.
    */
   public final void setNewInterpretations(final AnalyzedToken[] newReadings) {
     newTokenReadings = newReadings.clone();

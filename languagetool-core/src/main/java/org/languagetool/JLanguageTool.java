@@ -935,7 +935,7 @@ public class JLanguageTool {
     return sentenceCount;
   }
 
-  protected void printIfVerbose(final String s) {
+  private void printIfVerbose(final String s) {
     if (printStream != null) {
       printStream.println(s);
     }
