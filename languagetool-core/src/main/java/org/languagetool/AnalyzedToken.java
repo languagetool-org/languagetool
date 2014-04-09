@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.languagetool.tagging.TokenPoS;
 
 /**
  * A word (or punctuation, or whitespace) and its analysis (part-of-speech tag, lemma)
