@@ -377,9 +377,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
               } else {
                 lemma = newTokenReadings[i].getLemma();
               }
-              final AnalyzedToken analyzedToken = new AnalyzedToken(token, newTokenReadings[i].getTokenPoS(), newTokenReadings[i].getPOSTag(), lemma);
+              final List<TokenPoS> disambiguatedTokenPoS = rule.getLanguage().getTagger().resolvePOSTag(disambiguatedPOS);
+              final List<AnalyzedToken> analyzedTokens = getAnalyzedTokens(token, newTokenReadings[i].getPOSTag(), lemma, disambiguatedTokenPoS);
               final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
-                  analyzedToken,
+                  analyzedTokens,
                   whTokens[fromPos].getStartPos());
               whTokens[position] = replaceTokens(
                   whTokens[position], toReplace);
@@ -397,10 +398,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             lemma = whTokens[fromPos].getAnalyzedToken(0).getLemma();
           }
           final List<TokenPoS> disambiguatedTokenPoS = rule.getLanguage().getTagger().resolvePOSTag(disambiguatedPOS);
-          List<AnalyzedToken> analyzedTokens = new ArrayList<>();
-          for (TokenPoS tokenPoS : disambiguatedTokenPoS) {
-            analyzedTokens.add(new AnalyzedToken(whTokens[fromPos].getToken(), tokenPoS, disambiguatedPOS, lemma));
-          }
+          final List<AnalyzedToken> analyzedTokens = getAnalyzedTokens(whTokens[fromPos].getToken(), disambiguatedPOS, lemma, disambiguatedTokenPoS);
           final AnalyzedTokenReadings toReplace = new AnalyzedTokenReadings(
               analyzedTokens, whTokens[fromPos].getStartPos());
           whTokens[fromPos] = replaceTokens(whTokens[fromPos], toReplace);
@@ -417,6 +415,18 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     }
     return whTokens;
+  }
+
+  private List<AnalyzedToken> getAnalyzedTokens(String token, String pos, String lemma, List<TokenPoS> disambiguatedTokenPoS) {
+    List<AnalyzedToken> analyzedTokens = new ArrayList<>();
+    for (TokenPoS tokenPoS : disambiguatedTokenPoS) {
+      analyzedTokens.add(new AnalyzedToken(token, tokenPoS, pos, lemma));
+    }
+    if (analyzedTokens.size() == 0) {
+      // happens if the language's tagger has no mapping to TokenPoS yet:
+      analyzedTokens.add(new AnalyzedToken(token, pos, lemma));
+    }
+    return analyzedTokens;
   }
 
   private void annotateChange(AnalyzedTokenReadings atr,

@@ -20,11 +20,13 @@ package org.languagetool.tagging.zh;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 
 public class ChineseTagger implements Tagger {
 

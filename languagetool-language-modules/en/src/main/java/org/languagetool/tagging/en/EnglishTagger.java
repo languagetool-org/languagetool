@@ -151,6 +151,10 @@ public class EnglishTagger extends BaseTagger {
         return l(pos("pronoun").add("type", "wh"));  // TODO: ???
       case "WRB":
         return l(pos("adverb").add("type", "wh"));  // TODO: ???
+
+      // tags introduced in disambiguation.xml:
+      case "SYM":
+        return l(pos("unknown"));
       
       default:
         throw new RuntimeException("posTag '" + posTag + "' not yet handled");

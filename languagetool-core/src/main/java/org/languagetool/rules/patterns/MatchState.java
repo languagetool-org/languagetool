@@ -142,6 +142,9 @@ public class MatchState {
                 l.add(new AnalyzedToken(token, poS, targetPosTag,
                         formattedToken.getAnalyzedToken(i).getLemma()));
               }
+              if (tokenPoS.size() == 0) {
+                l.add(new AnalyzedToken(token, targetPosTag, formattedToken.getAnalyzedToken(i).getLemma()));
+              }
               l.get(l.size() - 1).setWhitespaceBefore(formattedToken.isWhitespaceBefore());
             }
           }
@@ -236,6 +239,9 @@ public class MatchState {
         List<TokenPoS> tokenPoS = language.getTagger().resolvePOSTag(posTag);
         for (TokenPoS poS : tokenPoS) {
           list.add(new AnalyzedToken(token, poS, posTag, lemma));
+        }
+        if (tokenPoS.size() == 0) {
+          list.add(new AnalyzedToken(token, posTag, lemma));
         }
         list.get(list.size() - 1).setWhitespaceBefore(
             formattedToken.isWhitespaceBefore());

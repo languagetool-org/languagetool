@@ -295,7 +295,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
               throw new SAXException(
                   language.getName() + " rule error. The number of interpretations specified with wd: "
                       + newWdList.size()
-                      + " must be equal to the number of matched tokens (" + matchedTokenCount + ")"
+                      + " must be equal to the number of matched tokens in <marker>...</marker> (" + matchedTokenCount + ")"
                       + "\n Line: " + pLocator.getLineNumber() + ", column: "
                       + pLocator.getColumnNumber() + ".");
             }
@@ -459,8 +459,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         inUnificationNeutral = false;
         break;
       case WD:
-        final List<TokenPoS> disambiguatedTokenPoS = language.getTagger().resolvePOSTag(wdPos);
-        addNewWord(wd.toString(), wdLemma, disambiguatedTokenPoS, wdPos);
+        addNewWord(wd.toString(), wdLemma, wdPos);
         inWord = false;
         break;
       case EXAMPLE:
@@ -488,22 +487,6 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
       newWdList = new ArrayList<>();
     }
     newWdList.add(newWd);
-  }
-
-  // TODO: leads to "English rule error. The number of interpretations specified with wd: 5 must be equal to the number of matched tokens (1)
-  // Line: 1525, column: 12." 
-  private void addNewWord(final String word, final String lemma,
-                          final List<TokenPoS> disambiguatedTokenPoS, final String pos) {
-    List<AnalyzedToken> analyzedTokens = new ArrayList<>();
-    for (TokenPoS tokenPoS : disambiguatedTokenPoS) {
-      final AnalyzedToken newWd = new AnalyzedToken(word, tokenPoS, pos, lemma);
-      analyzedTokens.add(newWd);
-    }
-    if (newWdList == null) {
-      newWdList = new ArrayList<>();
-    }
-    //newWdList.add(newWd);
-    newWdList.addAll(analyzedTokens);
   }
 
   @Override

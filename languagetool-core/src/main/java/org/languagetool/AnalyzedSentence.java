@@ -132,6 +132,55 @@ public class AnalyzedSentence {
   }
 
   /**
+   * Return string representation without chunk information and without ambiguity caused by
+   * more than one TokenPoS reading.
+   * @since 2.6
+   */
+  // TODO: avoid duplication with toString()
+  public final String toCompactString(String readingDelimiter) {
+    final StringBuilder sb = new StringBuilder();
+    for (final AnalyzedTokenReadings element : tokens) {
+      if (!element.isWhitespace()) {
+        sb.append(element.getToken());
+        sb.append('[');
+      }
+      Iterator<AnalyzedToken> iterator = element.iterator();
+      String prevToken = "";
+      while (iterator.hasNext()) {
+        final AnalyzedToken token = iterator.next();
+        final String posTag = token.getPOSTag();
+        if (element.isSentenceStart()) {
+          sb.append("<S>");
+        } else if (JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)) {
+          sb.append("</S>");
+        } else if (JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)) {
+          sb.append("<P/>");
+        } else if (posTag == null) {
+          sb.append(token.getToken());
+        } else {
+          if (!element.isWhitespace() && !token.toString().equals(prevToken)) {
+            sb.append(token.toString());
+            if (iterator.hasNext()) {
+              sb.append(readingDelimiter);
+            }
+          }
+          prevToken = token.toString();
+        }
+      }
+      if (!element.isWhitespace()) {
+        if (element.isImmunized()) {
+          sb.append("{!},");
+        }
+        sb.append(']');
+      } else {
+        sb.append(' ');
+      }
+
+    }
+    return sb.toString();
+  }
+
+  /**
    * Return string representation without chunk information.
    * @since 2.3
    */
