@@ -124,6 +124,7 @@ public abstract class Language {
    * Returns all languages supported by LanguageTool but without the demo language.
    * In contrast to Language.REAL_LANGUAGES contains external languages as well.
    * @return All supported languages.
+   * @since 2.6
    */
   public static Language[] getRealLanguages() {
     List<Language> result = new ArrayList<>();
