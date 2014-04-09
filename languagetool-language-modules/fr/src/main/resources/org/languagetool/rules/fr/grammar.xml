@@ -24470,17 +24470,18 @@ though, and has since been slightly modified)-->
     <rulegroup id="APOS_M" name="je m étais → je m’étais">
       <rule>
         <pattern>
-          <token regexp="yes">[mnts]<exception scope="previous" regexp="yes">lettre|consonne</exception></token>
+          <token regexp="yes">[mnts]<exception scope="previous" regexp="yes">lettre|consonne|.</exception></token>
           <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
         <example type="incorrect" correction="m’étais">Je <marker>m étais</marker> perdu.</example>
         <example type="correct">Je m’étais perdu.</example>
         <example type="correct">La lettre l est mal écrite.</example>
+        <example type="correct">Moody's a abaissé la note de la dette du Japon.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[ld]<exception scope="previous" regexp="yes">lettre|consonne</exception></token>
+          <token regexp="yes">[ld]<exception scope="previous" regexp="yes">lettre|consonne|.</exception></token>
           <token regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
