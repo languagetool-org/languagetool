@@ -120,7 +120,12 @@ public abstract class Language {
    */
   public static final Language[] REAL_LANGUAGES = getRealLanguages();
 
-  private static Language[] getRealLanguages() {
+  /**
+   * Returns all languages supported by LanguageTool but without the demo language.
+   * In contrast to Language.REAL_LANGUAGES contains external languages as well.
+   * @return All supported languages.
+   */
+  public static Language[] getRealLanguages() {
     List<Language> result = new ArrayList<>();
     for (Language lang : LANGUAGES) {
       if (!"xx".equals(lang.getShortName())) {  // skip demo language
