@@ -82,10 +82,10 @@ public abstract class AbstractPatternRulePerformer {
             if (tokens[tokenNo].hasSameLemmas()) {
               return false; // same lemmas everywhere
             }
-          } else
+          } else {
             return false; // the token is the same, we will not get a match
-        }
-        else if (!elem.getElement().getPOSNegation() // postag =! null
+          }
+        } else if (!elem.getElement().getPOSNegation() // postag =! null
             && !tokens[tokenNo].isTagged()) {
           return false; // we won't find any postag here anyway
         }
@@ -99,12 +99,14 @@ public abstract class AbstractPatternRulePerformer {
     }
     if (thisMatched) {
       for (int l = 0; l < numberOfReadings; l++) {
-        if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l)))
+        if (elem.isExceptionMatchedCompletely(tokens[tokenNo].getAnalyzedToken(l))) {
           return false;
+        }
       }
       if (tokenNo > 0 && elem.hasPreviousException()) {
-        if (elem.isMatchedByPreviousException(tokens[tokenNo - 1]))
+        if (elem.isMatchedByPreviousException(tokens[tokenNo - 1])) {
           return false;
+        }
       }
       if (elem.getElement().isUnificationNeutral()) {
         unifier.addNeutralElement(tokens[tokenNo]);

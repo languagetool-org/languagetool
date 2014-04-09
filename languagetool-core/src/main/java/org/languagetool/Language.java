@@ -21,7 +21,6 @@ package org.languagetool;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
-import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
@@ -53,8 +52,6 @@ import java.util.*;
  */
 public abstract class Language {
 
-  public static final Language DEMO = new Demo();
-  
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
   
@@ -101,7 +98,6 @@ public abstract class Language {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    languages.add(DEMO);
     return languages.toArray(new Language[languages.size()]);
   }
 
@@ -118,18 +114,9 @@ public abstract class Language {
   }
 
   /**
-   * All languages supported by LanguageTool, but without the demo language.
+   * All languages supported by LanguageTool (the same as {@link #LANGUAGES} since LanguageTool 2.6).
    */
-  public static final Language[] REAL_LANGUAGES = new Language[LANGUAGES.length-1];
-  static {
-    int i = 0;
-    for (final Language lang : LANGUAGES) {
-      if (!lang.getShortName().equals(Demo.SHORT_NAME)) {
-        REAL_LANGUAGES[i] = lang;
-        i++;
-      }
-    }
-  }
+  public static final Language[] REAL_LANGUAGES = LANGUAGES;
 
   private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
 
@@ -229,15 +216,6 @@ public abstract class Language {
     } else {
       return getLocale();
     }
-  }
-
-  /**
-   * Get the location of the rule file(s).
-   * @deprecated use {@link #getRuleFileNames()} instead (deprecated since 2.3)
-   */
-  @Deprecated
-  public List<String> getRuleFileName() {
-    return getRuleFileNames();
   }
 
   /**
@@ -602,37 +580,6 @@ public abstract class Language {
   public final String toString() {
     return getName();
   }
-  
-  /**
-   * Get sorted info about all maintainers (without country variants) to be used in the About dialog.
-   * @param messages {{@link ResourceBundle} language bundle to translate the info
-   * @return A list of maintainers, sorted by name of language.
-   * @since 0.9.9
-   * @deprecated iterate over {@link #REAL_LANGUAGES} and call {@link #getMaintainers()} (deprecated since 2.5)
-   */
-  @Deprecated
-  public static String getAllMaintainers(final ResourceBundle messages) {
-    final StringBuilder maintainersInfo = new StringBuilder();
-    final List<String> toSort = new ArrayList<>();
-    for (final Language lang : Language.REAL_LANGUAGES) {
-      if (!lang.isVariant()) {
-        if (lang.getMaintainers() != null) {
-          final List<String> names = new ArrayList<>();
-          for (Contributor contributor : lang.getMaintainers()) {
-            names.add(contributor.getName());
-          }
-          toSort.add(messages.getString(lang.getShortName()) +
-              ": " + listToStringWithLineBreaks(names));
-        }
-      }            
-    }    
-    Collections.sort(toSort);
-    for (final String lElem : toSort) {
-      maintainersInfo.append(lElem);
-      maintainersInfo.append('\n');
-    }
-    return maintainersInfo.toString();
-  }
 
   /**
    * Whether this is a country variant of another language, i.e. whether it doesn't
@@ -686,24 +633,6 @@ public abstract class Language {
 
   private boolean hasCountry() {
     return getCountries().length == 1;
-  }
-
-  private static String listToStringWithLineBreaks(final Collection<String> l) {
-    final StringBuilder sb = new StringBuilder();
-    int i = 0;
-    for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
-      final String str = iter.next();
-      sb.append(str);
-      if (iter.hasNext()) {
-        if (i > 0 && i % 3 == 0) {
-          sb.append(",\n    ");
-        } else {
-          sb.append(", ");
-        }
-      }
-      i++;
-    }
-    return sb.toString();
   }
 
 }

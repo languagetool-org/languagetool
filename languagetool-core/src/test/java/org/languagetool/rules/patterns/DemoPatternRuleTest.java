@@ -30,21 +30,23 @@ import java.util.List;
 
 public class DemoPatternRuleTest extends PatternRuleTest {
 
+  private static final Language language = TestTools.getDemoLanguage();
+  
   public void testRules() throws IOException {
     runTestForLanguage(new Demo());
   }
 
   public void testGrammarRulesFromXML2() throws IOException {
-    new PatternRule("-1", Language.DEMO, Collections.<Element>emptyList(), "", "", "");
+    new PatternRule("-1", language, Collections.<Element>emptyList(), "", "", "");
   }
 
   public void testMakeSuggestionUppercase() throws IOException {
-    final JLanguageTool langTool = new JLanguageTool(Language.DEMO);
+    final JLanguageTool langTool = new JLanguageTool(language);
     langTool.activateDefaultPatternRules();
 
     final Element element = new Element("Were", false, false, false);
     final String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";
-    final PatternRule rule = new PatternRule("MY_ID", Language.DEMO, Collections.singletonList(element), "desc", message, "msg");
+    final PatternRule rule = new PatternRule("MY_ID", language, Collections.singletonList(element), "desc", message, "msg");
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Were are in the process of ..."));
 
     assertEquals(1, matches.length);
@@ -58,7 +60,7 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   public void testRule() throws IOException {
     PatternRule pr;
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Language.DEMO);
+    JLanguageTool langTool = new JLanguageTool(language);
 
     pr = makePatternRule("one");
     matches = pr
@@ -114,7 +116,7 @@ public class DemoPatternRuleTest extends PatternRuleTest {
   }
 
   public void testSentenceStart() throws IOException {
-    JLanguageTool langTool = new JLanguageTool(Language.DEMO);
+    JLanguageTool langTool = new JLanguageTool(language);
     final PatternRule pr = makePatternRule("SENT_START One");
     RuleMatch[] matches = pr.match(langTool.getAnalyzedSentence("Not One word."));
     assertEquals(0, matches.length);

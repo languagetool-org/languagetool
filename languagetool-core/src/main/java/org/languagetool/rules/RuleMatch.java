@@ -46,7 +46,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private final int fromPos;
   private final int toPos;
   private final String message;
-  private final String shortMessage;   // for OOo/LO context menu
+  private final String shortMessage;   // used e.g. for OOo/LO context menu
 
   private List<String> suggestedReplacements = new ArrayList<>();
 

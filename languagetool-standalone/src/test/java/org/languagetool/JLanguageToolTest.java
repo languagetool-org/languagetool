@@ -102,7 +102,7 @@ public class JLanguageToolTest {
   }
 
   @Test
-  public void testAnnotateTextCheckMultipleSentencesFIXME() throws IOException {
+  public void testAnnotateTextCheckMultipleSentences2() throws IOException {
     JLanguageTool languageTool = new JLanguageTool(new English());
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("here")

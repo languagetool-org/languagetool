@@ -59,10 +59,7 @@ public final class RuleActivityOverview {
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
     
     final List<String> sortedLanguages = new ArrayList<String>();
-    for (Language element : Language.LANGUAGES) {
-      if (element == Language.DEMO) {
-        continue;
-      }
+    for (Language element : Language.REAL_LANGUAGES) {
       sortedLanguages.add(element.getName());
     }
     Collections.sort(sortedLanguages);
@@ -82,7 +79,7 @@ public final class RuleActivityOverview {
       final String command = "svn log -q -r {" + pastString + "}:{" + todayString + "} src/" + xmlFile;
       final Process process = runtime.exec(command);
       final InputStream inputStream = process.getInputStream();
-      final String output = StringTools.readFile(inputStream);
+      final String output = StringTools.readStream(inputStream);
       process.waitFor();
       final int commits = getCommits(output);
       System.out.println(commits + "\t" + langName);

@@ -825,17 +825,17 @@ $Id$
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="el camió|els camions">Porta <marker>el camions</marker>.</example>
                 <example type="incorrect" correction="El pis|Els pisos|La pi|Les pis"><marker>Els pis</marker> del meu amic.</example>
+                <example type="incorrect" correction="El metge|Els metges"><marker>El metges</marker> ha vingut tard.</example>
                 <example type="correct">Els pisos.</example>
                 <example type="correct">Els pins.</example>
                 <example type="correct">Porta els camions.</example>
-                <example type="correct">El metges.</example>
+
                 <example type="correct">el Carme</example>
                 <example type="correct">la Carme</example>
                 <example type="correct">Si qui les calça és un diputat</example>
                 <example type="correct">La número 2, per a cors i instruments de vent</example>
                 <example type="correct">És la número cinquanta-u.</example>
                 <example type="correct">Era el base de l'equip</example>
-                <!-- metges és verb conjugat de metjar -->
             </rule>
             <rule>
                 <pattern>
@@ -5948,7 +5948,9 @@ $Id$
                 <antipattern>
                     <token>els</token>
                     <token>seus</token>
-                    <token>fins</token>
+                    <marker>
+                        <token>fins</token>
+                    </marker>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -6791,7 +6793,9 @@ $Id$
                 <token regexp="yes">en|pe</token>
                 <token regexp="yes">el|l</token>
                 <token>que</token>
-                <token>respecta</token>
+                <marker>
+                    <token>respecta</token>
+                </marker>
             </antipattern>
             <pattern>
                 <token>respecta</token>
@@ -7321,23 +7325,33 @@ $Id$
         <rulegroup id="GALA_GALLA" name="gala/gal·la">
             <antipattern>
                 <token inflected="yes" skip="1" regexp="yes">fer|presentar|celebrar</token>
-                <token inflected="yes">gala</token>
+                <marker>
+                    <token inflected="yes">gala</token>
+                </marker>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">a|de|en|millor|gran|nombrós|seu|únic|sol|cada|divers|diferent|prestigiós</token>
-                <token inflected="yes">gala</token>
+                <marker>
+                    <token inflected="yes">gala</token>
+                </marker>
             </antipattern>
             <antipattern>
                 <token regexp="yes" inflected="yes">passeig|sortida|eixida</token>
                 <token regexp="yes">i|o</token>
-                <token inflected="yes">gala</token>
+                <marker>
+                    <token inflected="yes">gala</token>
+                </marker>
             </antipattern>
             <antipattern>
                 <token postag="DN.*|AO.*" postag_regexp="yes"/>
-                <token inflected="yes">gala</token>
+                <marker>
+                    <token inflected="yes">gala</token>
+                </marker>
             </antipattern>
             <antipattern>
-                <token inflected="yes">gala</token>
+                <marker>
+                    <token inflected="yes">gala</token>
+                </marker>
                 <token regexp="yes" inflected="yes">anual|benèfic|formal|commemoratiu|celebrar</token>
             </antipattern>
             <rule>
@@ -13360,17 +13374,22 @@ $Id$
                 <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aei]</token>
                     <marker>
-                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne)</token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(me|te|se|nos|lo|los|ne|els?|en|ens|l|m|s|t|n)</token>
                     </marker>
                     <token><exception postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</exception></token>
                 </pattern>
                 <message>Forma de pronom feble incorrecta.</message>
-                <suggestion><match no="2" regexp_match="-([mntsl])[eo](s?)" regexp_replace="'$1$2"/></suggestion>
+                <suggestion><match no="2" regexp_match="-e?([mntsl])[eo]?(s?)" regexp_replace="'$1$2"/></suggestion>
                 <example type="incorrect" correction="'l">Veure<marker>-lo</marker>.</example>
                 <example type="incorrect" correction="'ns">Veure<marker>-nos</marker>.</example>
                 <example type="incorrect" correction="'n">Veure<marker>-ne</marker>.</example>
+                <example type="incorrect" correction="'n">treure<marker>-n</marker>.</example>
+                <example type="incorrect" correction="'l">Porta<marker>-l</marker>.</example>
+                <example type="incorrect" correction="'ns">Porta<marker>-ens</marker>.</example>
                 <example type="correct">Envia-me-la ara mateix.</example>
                 <example type="correct">Envia-me'ls ara mateix.</example>
+                <example type="correct">Porta-l'hi.</example>
+                <example type="correct">Porta-m'ho.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20299,6 +20318,15 @@ $Id$
             <message>¿Volíeu dir <suggestion>encebar</suggestion>? "Cebar" és correcte en el sentit de "camp plantat de cebes".</message>
             <example type="incorrect" correction="encebar">El van <marker>cebar</marker>.</example>
             <example type="correct">Van plantar un bon cebar.</example>
+        </rule>
+        <rule id="METJA" name="metja / metge">
+            <pattern>
+                <token>metja</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>metge</suggestion>? "Metja" és correcte com a verb (de "metjar").</message>
+            <short>Possible error</short>
+            <example type="incorrect" correction="metge">Ha vingut el <marker>metja</marker>?</example>
+            <example type="correct">Ha vingut el metge.</example>
         </rule>
         <rule id="CANTERA" name="cantera / pedrera">
             <pattern>

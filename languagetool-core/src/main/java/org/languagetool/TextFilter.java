@@ -22,6 +22,7 @@ package org.languagetool;
  * Filter, i.e. clean up, text before it is checked.
  * 
  * @author Daniel Naber
+ * @deprecated deprecated since 2.6 (was not used)
  */
 public interface TextFilter {
 

@@ -38,16 +38,9 @@ public class UnsyncStack<E> extends ArrayList<E> {
 
   /**
    * Pushes an item onto the top of this stack. This has exactly the same effect
-   * as: <blockquote>
+   * as: {@code add(item)}
    * 
-   * <pre>
-   * add(item)
-   * </pre>
-   * 
-   * </blockquote>
-   * 
-   * @param item
-   *          the item to be pushed onto this stack.
+   * @param item the item to be pushed onto this stack.
    * @return the <code>item</code> argument.
    * @see java.util.ArrayList#add
    */
@@ -62,8 +55,7 @@ public class UnsyncStack<E> extends ArrayList<E> {
    * 
    * @return The object at the top of this stack (the last item of the
    *         <tt>ArrayList</tt> object).
-   * @exception EmptyStackException
-   *              if this stack is empty.
+   * @exception EmptyStackException if this stack is empty.
    */
   public E pop() {
     E obj;
@@ -79,13 +71,13 @@ public class UnsyncStack<E> extends ArrayList<E> {
    * 
    * @return the object at the top of this stack (the last item of the
    *         <tt>ArrayList</tt> object).
-   * @exception EmptyStackException
-   *              if this stack is empty.
+   * @exception EmptyStackException if this stack is empty.
    */
   public E peek() {
     int len = size();
-    if (len == 0)
+    if (len == 0) {
       throw new EmptyStackException();
+    }
     return get(len - 1);
   }
 

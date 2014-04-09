@@ -272,14 +272,6 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * @deprecated use {@link #isSentenceStart()} instead - deprecated since 2.3
-   */
-  @Deprecated
-  public final boolean isSentStart() {
-    return isSentenceStart();
-  }
-
-  /**
    * @since 2.3
    */
   public final boolean isSentenceStart() {
@@ -295,22 +287,6 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   }
 
   /**
-   * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
-   */
-  @Deprecated
-  public final boolean isParaEnd() {
-    return isParagraphEnd();
-  }
-
-  /**
-   * @deprecated use {@link #isParagraphEnd()} instead - deprecated since 2.3
-   */
-  @Deprecated
-  public void setParaEnd() {
-    setParagraphEnd();
-  }
-
-  /**
    * Add a reading with a paragraph end token unless this is already a paragraph end.
    * @since 2.3
    */
@@ -320,14 +296,6 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
           JLanguageTool.PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(paragraphEnd);
     }
-  }
-
-  /**
-   * @deprecated use {@link #isSentenceEnd()} instead - deprecated since 2.3
-   */
-  @Deprecated
-  public final boolean isSentEnd() {
-    return isSentenceEnd();
   }
 
   /**
@@ -548,6 +516,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return result;
   }
 
+  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public boolean equals(Object obj) {
     if (this == obj)
@@ -575,20 +544,18 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       return false;
     if (startPos != other.startPos)
       return false;
-    if (!chunkTags.equals(other.chunkTags)) {
+    if (!chunkTags.equals(other.chunkTags))
       return false;
-    }
-    if (hasSameLemmas != other.hasSameLemmas) {
+    if (hasSameLemmas != other.hasSameLemmas)
       return false;
-    }
-    if (isIgnoredBySpeller != other.isIgnoredBySpeller) {
+    if (isIgnoredBySpeller != other.isIgnoredBySpeller)
       return false;
-    }
     if (token == null) {
       if (other.token != null)
         return false;
-    } else if (!token.equals(other.token))
+    } else if (!token.equals(other.token)) {
       return false;
+    }
     return true;
   }
 

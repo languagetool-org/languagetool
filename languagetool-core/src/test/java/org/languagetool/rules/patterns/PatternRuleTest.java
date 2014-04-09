@@ -451,7 +451,7 @@ public class PatternRuleTest extends TestCase {
       elements.add(se);
       pos = false;
     }
-    final PatternRule rule = new PatternRule("ID1", Language.DEMO, elements,
+    final PatternRule rule = new PatternRule("ID1", TestTools.getDemoLanguage(), elements,
         "test rule", "user visible message", "short comment");
     return rule;
   }

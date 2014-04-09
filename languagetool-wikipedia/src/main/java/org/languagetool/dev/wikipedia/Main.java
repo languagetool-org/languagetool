@@ -40,11 +40,7 @@ public class Main {
     } else {
       final String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
       final String command = args[0];
-      if (command.equals("check-dump")) {
-        CheckWikipediaDump.main(remainingArgs);
-      } else if (command.equals("wiki-index")) {
-        WikipediaIndexHandler.main(remainingArgs);
-      } else if (command.equals("check-data")) {
+      if (command.equals("check-data")) {
         SentenceSourceChecker.main(remainingArgs);
       } else if (command.equals("index-data")) {
         SentenceSourceIndexer.main(remainingArgs);
@@ -73,9 +69,6 @@ public class Main {
     System.out.println("   wiki-check - check a single Wikipedia page, fetched via the Mediawiki API");
     System.out.println("   index      - index a plain text file, putting the analysis in a Lucene index for faster rule match search");
     System.out.println("   search     - search for rule matches in an index created with 'index' or 'wiki-index'");
-    System.out.println("   check-dump - check a Wikipedia XML dump (deprecated),");
-    System.out.println("                like those available from http://dumps.wikimedia.org/backup-index.html");
-    System.out.println("   wiki-index - index a Wikipedia XML dump (deprecated)");
     System.out.println("   version    - print LanguageTool version number and build date");
     System.out.println("");
     System.out.println("All commands have different usages. Call them without arguments to get help.");

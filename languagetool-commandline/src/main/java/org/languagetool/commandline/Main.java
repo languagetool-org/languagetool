@@ -535,7 +535,7 @@ class Main {
   // for language auto detect
   // TODO: alter tika's language profiles so they are in line with LT's supported languages
   private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
-    final String text = StringTools.readFile(new FileInputStream(filename), encoding);
+    final String text = StringTools.readStream(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);
   }
 

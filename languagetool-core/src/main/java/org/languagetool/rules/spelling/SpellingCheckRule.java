@@ -77,11 +77,6 @@ public abstract class SpellingCheckRule extends Rule {
   public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
 
   @Override
-  public boolean isSpellingRule() {
-    return true;
-  }
-
-  @Override
   public boolean isDictionaryBasedSpellingRule() {
     return true;
   }

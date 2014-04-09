@@ -31,6 +31,7 @@ import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.tools.RuleAsXmlSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -247,15 +248,15 @@ class LanguageToolHttpHandler implements HttpHandler {
       matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
     setCommonHeaders(httpExchange);
-    final String response = StringTools.ruleMatchesToXML(matches, text,
-            CONTEXT_SIZE, StringTools.XmlPrintMode.NORMAL_XML, lang, motherTongue);
+    final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+    final String xmlResponse = serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
     
     String messageSent = "sent";
     String languageMessage = lang.getShortNameWithCountryAndVariant();
     final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
     try {
-      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
-      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+      httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
 
       if (motherTongue != null) {
         languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";

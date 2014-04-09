@@ -20,13 +20,11 @@ package org.languagetool.tagging.zh;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.TokenPoS;
 
 public class ChineseTagger implements Tagger {
 
@@ -64,19 +62,6 @@ public class ChineseTagger implements Tagger {
     }
     String[] parts = word.split("/");
     return new AnalyzedToken(parts[0], parts[1], null);
-  }
-
-  /**
-   * @deprecated deprecated since 2.5
-   */
-  @Deprecated
-  public static final String arrayToString(byte[] bytes) {
-    StringBuffer buff = new StringBuffer();
-
-    for (int i = 0; i < bytes.length; i++) {
-      buff.append(bytes[i]).append(' ');
-    }
-    return buff.toString();
   }
 
   @Override

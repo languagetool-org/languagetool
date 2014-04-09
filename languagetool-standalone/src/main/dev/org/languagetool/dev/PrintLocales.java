@@ -43,22 +43,20 @@ public final class PrintLocales {
 
   private void run() throws IOException {
     String locales = "";
-    for (final Language element : Language.LANGUAGES) {
-      if (!element.equals(Language.DEMO)) {
-        String var;
-        for (final String variant : element.getCountryVariants()) {
+    for (final Language element : Language.REAL_LANGUAGES) {
+      String var;
+      for (final String variant : element.getCountryVariants()) {
 
-          if (StringTools.isEmpty(variant)) {
-            var = "";
-          } else {
-            var = "-" + variant;
-          }
+        if (StringTools.isEmpty(variant)) {
+          var = "";
+        } else {
+          var = "-" + variant;
+        }
 
-          if (!StringTools.isEmpty(locales)) {
-            locales = locales + " " + element.getShortName() + var;
-          } else {
-            locales = element.getShortName() + var;
-          }
+        if (!StringTools.isEmpty(locales)) {
+          locales = locales + " " + element.getShortName() + var;
+        } else {
+          locales = element.getShortName() + var;
         }
       }
     }

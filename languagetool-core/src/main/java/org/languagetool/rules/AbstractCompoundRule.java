@@ -42,7 +42,6 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Daniel Naber & Marcin Miłkowski (refactoring)
  */
-
 public abstract class AbstractCompoundRule extends Rule {
 
   private static final int MAX_TERMS = 5;
@@ -130,8 +129,9 @@ public abstract class AbstractCompoundRule extends Rule {
           final String stringToCheck = normalize(sb.toString());
           stringsToCheck.add(stringToCheck);
           origStringsToCheck.add(sb.toString().trim());
-          if (!stringToToken.containsKey(stringToCheck))
+          if (!stringToToken.containsKey(stringToCheck)) {
             stringToToken.put(stringToCheck, atr);
+          }
         }
         j++;
       }

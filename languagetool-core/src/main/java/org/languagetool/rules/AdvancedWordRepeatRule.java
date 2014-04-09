@@ -61,7 +61,7 @@ public abstract class AdvancedWordRepeatRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     boolean repetition = false;
-    final TreeSet<String> inflectedWords = new TreeSet<>();
+    final Set<String> inflectedWords = new TreeSet<>();
     String prevLemma;
     int curToken = 0;
     // start from real token, 0 = SENT_START

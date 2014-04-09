@@ -109,16 +109,6 @@ public abstract class Rule {
   }
 
   /**
-   * Whether this is a spelling rule.
-   * @since 1.8
-   * @deprecated use {@link #isDictionaryBasedSpellingRule()} instead (deprecated since 2.4)
-   */
-  @Deprecated
-  public boolean isSpellingRule() {
-    return false;
-  }
-
-  /**
    * Whether this is a spelling rule that uses a dictionary.
    * Rules that return {@code true} here are basically rules that work like
    * a simple hunspell-like spellchecker: they check words without considering
@@ -180,9 +170,7 @@ public abstract class Rule {
 
   /**
    * Method to add matches.
-   * 
-   * @param ruleMatch
-   *          RuleMatch - matched rule added by check()
+   * @param ruleMatch RuleMatch - matched rule added by check()
    */
   public final void addRuleMatch(final RuleMatch ruleMatch) {
     if (previousMatches == null) {
@@ -193,9 +181,7 @@ public abstract class Rule {
 
   /**
    * Deletes (or disables) previously matched rule.
-   * 
-   * @param index
-   *          Index of the rule that should be deleted.
+   * @param index Index of the rule that should be deleted.
    */
   public final void setAsDeleted(final int index) {
     if (removedMatches == null) {
@@ -265,6 +251,7 @@ public abstract class Rule {
 
   /**
    * @since 1.8
+   * @see #getUrl()
    */
   public void setUrl(URL url) {
     this.url = url;

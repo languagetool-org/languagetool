@@ -72,7 +72,7 @@ public final class CheckBNC {
       }
     } else {
       System.out.println("Checking " + file.getAbsolutePath());
-      String text = StringTools.readFile(new FileInputStream(file.getAbsolutePath()));
+      String text = StringTools.readStream(new FileInputStream(file.getAbsolutePath()));
       text = textFilter.filter(text);
       if (CHECK_BY_SENTENCE) {
         final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();

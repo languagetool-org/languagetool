@@ -20,7 +20,7 @@ package org.languagetool.commandline;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.TestTools;
 import org.languagetool.rules.WordRepeatRule;
 import org.xml.sax.SAXException;
 
@@ -56,7 +56,7 @@ public class CommandLineToolsTest extends TestCase {
   }
 
   public void testCheck() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool tool = new JLanguageTool(Language.DEMO);
+    final JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
     tool.activateDefaultPatternRules();
     tool.activateDefaultFalseFriendRules();
 
@@ -66,7 +66,7 @@ public class CommandLineToolsTest extends TestCase {
     assertEquals(0, matches);
 
     tool.disableRule("test_unification_with_negation");
-    tool.addRule(new WordRepeatRule(getMessages("en"), Language.DEMO));
+    tool.addRule(new WordRepeatRule(getMessages("en"), TestTools.getDemoLanguage()));
     matches = CommandLineTools.checkText("To jest problem problem.", tool);
     output = new String(this.out.toByteArray());
     assertTrue(output.contains("Rule ID: WORD_REPEAT_RULE"));

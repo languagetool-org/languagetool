@@ -16,9 +16,8 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.bitext;
+package org.languagetool;
 
-import org.languagetool.Language;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Rule;
 
@@ -27,9 +26,19 @@ import java.util.List;
 
 public class FakeLanguage extends Language {
 
+  private final String langCode;
+
+  public FakeLanguage(String langCode) {
+    this.langCode = langCode;
+  }
+
+  public FakeLanguage() {
+    this.langCode = "yy";
+  }
+
   @Override
   public String getShortName() {
-    return "yy";
+    return langCode;
   }
 
   @Override

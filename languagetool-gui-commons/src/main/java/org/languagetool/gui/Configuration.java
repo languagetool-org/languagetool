@@ -174,7 +174,7 @@ public class Configuration {
         language = Language.getLanguageForShortName(languageStr);
       }
       final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
-      if (motherTongueStr != null) {
+      if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
         motherTongue = Language.getLanguageForShortName(motherTongueStr);
       }
             

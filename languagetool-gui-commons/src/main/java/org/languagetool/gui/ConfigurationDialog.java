@@ -182,11 +182,7 @@ private JCheckBox serverSettingsCheckbox;
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox(getPossibleMotherTongues());
     if (motherTongue != null) {
-      if (motherTongue == Language.DEMO) {
-        motherTongueBox.setSelectedItem(NO_MOTHER_TONGUE);
-      } else {
-        motherTongueBox.setSelectedItem(motherTongue.getTranslatedName(messages));
-      }
+      motherTongueBox.setSelectedItem(motherTongue.getTranslatedName(messages));
     }
     motherTonguePanel.add(motherTongueBox, cons);
     
@@ -330,10 +326,8 @@ private JCheckBox serverSettingsCheckbox;
   private Object[] getPossibleMotherTongues() {
     final List<Object> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
-    for (final Language lang : Language.LANGUAGES) {
-      if (lang != Language.DEMO) {
-        motherTongues.add(lang.getTranslatedName(messages));
-      }
+    for (final Language lang : Language.REAL_LANGUAGES) {
+     motherTongues.add(lang.getTranslatedName(messages));
     }
     return motherTongues.toArray();
   }
@@ -432,10 +426,7 @@ private JCheckBox serverSettingsCheckbox;
    * @return a Language object or <code>null</code>
    */
   private Language getLanguageForLocalizedName(final String languageName) {
-    for (final Language element : Language.LANGUAGES) {
-      if (NO_MOTHER_TONGUE.equals(languageName)) {
-        return Language.DEMO;
-      }
+    for (final Language element : Language.REAL_LANGUAGES) {
       if (languageName.equals(element.getTranslatedName(messages))) {
         return element;
       }

@@ -35,10 +35,10 @@ public class TabBitextReader implements BitextReader {
   protected BufferedReader in;
   protected StringPair nextPair; 
   protected String nextLine;
-  private String prevLine;
+  protected int sentencePos;
 
+  private String prevLine;
   private int lineCount = -1;
-  protected int sentencePos;  
 
   public TabBitextReader(final String filename, final String encoding) {
     try {     

@@ -70,18 +70,29 @@ public class Main extends WeakBase implements XJobExecutor,
     XServiceDisplayName, XServiceInfo, XProofreader,
     XLinguServiceEventBroadcaster {
 
+  // Service name required by the OOo API && our own name.
+  private static final String[] SERVICE_NAMES = {
+          "com.sun.star.linguistic2.Proofreader",
+          "org.languagetool.openoffice.Main" };
+
+  // use a different name than the stand-alone version to avoid conflicts:
+  private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
+
+  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
+
+  // LibreOffice (since 4.2.0) special tag for locale with variant 
+  // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
+  private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
+
   private Configuration config;
   private JLanguageTool langTool;
   private Language docLanguage;
 
   private String docID;
 
-  /*
-   * Rules disabled using the config dialog box rather than Spelling dialog box
-   * or the context menu.
-   */
+  // Rules disabled using the config dialog box rather than Spelling dialog box
+  // or the context menu.
   private Set<String> disabledRules;
-
   private Set<String> disabledRulesUI;
 
   private List<XLinguServiceEventListener> xEventListeners;
@@ -97,20 +108,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private int position;
   private List<RuleMatch> paragraphMatches;
 
-  // Service name required by the OOo API && our own name.
-  private static final String[] SERVICE_NAMES = {
-      "com.sun.star.linguistic2.Proofreader",
-      "org.languagetool.openoffice.Main" };
-
-  // use a different name than the stand-alone version to avoid conflicts:
-  private static final String CONFIG_FILE = ".languagetool-ooo.cfg";
-
-  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-
-  // LibreOffice (since 4.2.0) special tag for locale with variant 
-  // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
-  private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
-  
   private XComponentContext xContext;
 
   public Main(final XComponentContext xCompContext) {
@@ -152,7 +149,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Checks the language under the cursor. Used for opening the configuration
    * dialog.
-   * @return Language the language under the visible cursor
+   * @return the language under the visible cursor
    */
   private Language getLanguage() {
     final XComponent xComponent = getXComponent();
@@ -448,10 +445,9 @@ public class Main extends WeakBase implements XJobExecutor,
     final SingleProofreadingError aError = new SingleProofreadingError();
     aError.nErrorType = com.sun.star.text.TextMarkupType.PROOFREADING;
     // the API currently has no support for formatting text in comments
-    final String comment = ruleMatch.getMessage()
+    aError.aFullComment = ruleMatch.getMessage()
         .replaceAll("<suggestion>", "\"").replaceAll("</suggestion>", "\"")
-        .replaceAll("([\r]*\n)", " "); // convert line ends to spaces
-    aError.aFullComment = comment;
+        .replaceAll("([\r]*\n)", " ");
     // not all rules have short comments
     if (!StringTools.isEmpty(ruleMatch.getShortMessage())) {
       aError.aShortComment = ruleMatch.getShortMessage();
@@ -678,10 +674,9 @@ public class Main extends WeakBase implements XJobExecutor,
         && (version.startsWith("1.0") || version.startsWith("1.1")
             || version.startsWith("1.2") || version.startsWith("1.3")
             || version.startsWith("1.4") || version.startsWith("1.5")
-            || version .startsWith("1.6"))) {
+            || version.startsWith("1.6"))) {
       final DialogThread dt = new DialogThread(
-          "Error: LanguageTool requires Java 7.0 or later. Current version: "
-              + version);
+          "Error: LanguageTool requires Java 7.0 or later. Current version: " + version);
       dt.start();
       return false;
     }
@@ -713,6 +708,7 @@ public class Main extends WeakBase implements XJobExecutor,
         + System.getProperty("java.vm.vendor");
     msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
+    e.printStackTrace();  // without this, we see no exception if a test case fails
     dt.start();
   }
 

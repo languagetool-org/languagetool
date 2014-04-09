@@ -37,14 +37,6 @@ public class AmericanEnglish extends English {
     return "English (US)";
   }
 
-  /**
-   * @deprecated was never used (deprecated since 2.5) 
-   */
-  @Deprecated
-  public final String getId() {
-      return "MORFOLOGIK_RULE_EN_US";
-  }
-  
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     final List<Class<? extends Rule>> rules = new ArrayList<>();

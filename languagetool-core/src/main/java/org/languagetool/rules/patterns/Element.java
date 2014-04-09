@@ -318,14 +318,6 @@ public class Element implements Cloneable {
   }
 
   /**
-   * @deprecated use {@link #isSentenceStart()} - deprecated since 2.3
-   */
-  @Deprecated
-  public final boolean isSentStart() {
-    return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
-  }
-
-  /**
    * Checks if the token is a sentence start.
    * @return True if the element starts the sentence and the element hasn't been set to have negated POS token.
    */
@@ -433,9 +425,7 @@ public class Element implements Cloneable {
    * @param posToken The part of the speech tag in the exception.
    * @param posRegExp True if the POS is specified as a regular expression.
    * @param posNegation True if the POS exception is negated.
-   * 
    * @since 2.5
-   * 
    */
   public final void setOptionalException(
       final String token, final boolean regExp, final boolean inflected,
@@ -447,8 +437,6 @@ public class Element implements Cloneable {
     exception.setPosElement(posToken, posRegExp, posNegation);
     setException(exception, false);
   }
-
-
 
   /**
    * Tests if part of speech matches a given string.
@@ -666,16 +654,6 @@ public class Element implements Cloneable {
 
   /**
    * Whether the element matches case sensitively.
-   * @deprecated use {@link #isCaseSensitive()} instead (deprecated since 2.3)
-   * @since 0.9.3
-   */
-  @Deprecated
-  public final boolean getCaseSensitive() {
-    return caseSensitive;
-  }
-
-  /**
-   * Whether the element matches case sensitively.
    * @since 2.3
    */
   public final boolean isCaseSensitive() {
@@ -786,7 +764,6 @@ public class Element implements Cloneable {
   /**
    * Sets the element as ignored during unification.
    * @since 2.5
-   *
    */
   public void setUnificationNeutral() {
     this.unificationNeutral = true;

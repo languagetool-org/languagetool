@@ -246,8 +246,6 @@ public class MatchState {
 
   /**
    * Gets all strings formatted using the match element.
-   *
-   * @return array of strings
    * @throws IOException in case of synthesizer-related I/O problems
    */
   public final String[] toFinalString(Language lang) throws IOException {

@@ -27,6 +27,7 @@ $Id$
     <!ENTITY conj "bądź|czy|ani|lub|albo|oraz|i">
     <!ENTITY interp_conj "&interp;|&conj;">
     <!ENTITY nbsp " ">
+    <!ENTITY apost "['`’]">
 ]>
 
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -581,7 +582,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">&interp;<exception>'</exception></token>
+										<token regexp="yes">&interp;<exception regexp="yes">&apost;</exception></token>
 										<marker>
 												<token spacebefore="yes">a</token>
 												<token>,</token>
@@ -2893,7 +2894,7 @@ $Id$
                 <rulegroup id="APOSTROF_DATA" name="Błędne apostrofy przed datami rocznymi">
 						<rule>
 								<pattern>
-                                        <token regexp="yes">['’]</token>
+                                        <token regexp="yes">&apost;</token>
 										<token regexp="yes">[0-1][0-9]</token>
 								</pattern>
 								<message>Prawdopodobnie błędny skrót daty rocznej; nie stawia się apostrofu przed datami rocznymi, które przypadają w pierwszych dwóch dekadach wieku. Poprawnie: <suggestion>19\2</suggestion> lub <suggestion>20\2</suggestion>.</message>
@@ -2903,7 +2904,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-                                        <token regexp="yes">['’]</token>
+                                        <token regexp="yes">&apost;</token>
 										<token regexp="yes">[1-9][0-9][0-9][0-9]</token>
 								</pattern>
 								<message>Prawdopodobnie zbędny apostrof przed pełną datą roczną. Poprawnie: <suggestion>\2</suggestion>.</message>
@@ -2915,7 +2916,7 @@ $Id$
                         <pattern>
                             <token inflected="yes">lato</token>
                             <marker>
-                            <token regexp="yes">['’]</token>
+                            <token regexp="yes">&apost;</token>
                             <token regexp="yes">\d0</token>
                             </marker>
                             <token>.</token>
@@ -2930,7 +2931,7 @@ $Id$
                         <pattern>
                                 <token inflected="yes">lato</token>
                             <marker>
-                                <token regexp="yes">['’]</token>
+                                <token regexp="yes">&apost;</token>
                                 <token regexp="yes">\d0</token>
                             </marker>
                             <token><exception>.</exception></token>
@@ -8203,7 +8204,7 @@ $Id$
 				<rulegroup id="ZE_Z_SPOL" name="„ze” nie przed spółgłoską (z)">
 						<rule>
 								<pattern>
-										<token>ze</token>
+										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
 										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
@@ -8217,7 +8218,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token>ze</token>
+										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
 										<token regexp="yes">[\&quot;„]</token>
 										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
@@ -10378,7 +10379,7 @@ $Id$
 				<rule id="SKROTOWCE_Z_APOSTROFEM" name="Skrótowce z apostrofem w przypadkach zależnych">
 						<pattern>
 								<token regexp="yes">\p{Lu}{2}+[i]*\p{Lu}+</token>
-								<token spacebefore="no">'</token>
+								<token spacebefore="no" regexp="yes">&apost;</token>
 								<token regexp="yes" spacebefore="no">[\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+</token>
 						</pattern>
 						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem: <suggestion>\1-\3</suggestion>.</message>
@@ -10392,18 +10393,18 @@ $Id$
                     <rule>
                         <antipattern>
                             <token>Bill</token>
-                            <token spacebefore="no" regexp="yes">['`’]</token>
+                            <token spacebefore="no" regexp="yes">&apost;</token>
                             <token regexp="yes">e(?:go|mu)|im</token>
                         </antipattern>
                         <antipattern>
                             <token>Eric</token>
-                            <token spacebefore="no" regexp="yes">['`’]</token>
+                            <token spacebefore="no" regexp="yes">&apost;</token>
                             <token regexp="yes">i?em</token>
                         </antipattern>
 						<pattern>
 								<token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+[^ye](?&lt;!es)</token>
-                                <token spacebefore="no" regexp="yes">['`’]</token>
-								<token regexp="yes">[aeu]|iem?|owi|[ioe]m|ach|ami|owie|ów|ego|emu|zie</token>
+                                <token spacebefore="no" regexp="yes">&apost;</token>
+								<token regexp="yes">[aeu]|iem?|owi|[ioe]m|ach|ami|owie|ów|ego|emu|zie|ze</token>
 						</pattern>
 						<message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -10415,8 +10416,8 @@ $Id$
 				    </rule>
                     <rule>
                         <pattern>
-                            <token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+ey</token>
-                            <token spacebefore="no" regexp="yes">['`’]</token>
+                            <token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+ey|Ray</token>
+                            <token spacebefore="no" regexp="yes">&apost;</token>
                             <token regexp="yes">[aeu]|owi|[oe]m|ach|ami|owie|ów</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
@@ -10428,7 +10429,7 @@ $Id$
                     <rule> <!-- nieodmienne -->
                         <pattern>
                             <token regexp="yes">Andrew|Hugh|Matthew</token>
-                            <token spacebefore="no" regexp="yes">['`’]</token>
+                            <token spacebefore="no" regexp="yes">&apost;</token>
                             <token regexp="yes">em|owi|a</token>
                         </pattern>
                         <message>To imię jest nieodmienne. Poprawnie: <suggestion>\1</suggestion>.</message>
@@ -10440,7 +10441,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token regexp='yes'>.*\p{Ll}+y<exception regexp='yes'>(?-iu)Shy</exception></token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>m</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
@@ -10451,8 +10452,8 @@ $Id$
                     </rule>
                     <rule> <!-- paradygmat A.2.2.1g, np. Joyce -->
                         <pattern>
-                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dln]ie|.*ethe|.*nde|Joe</exception></token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dlnvw]ie|.*ethe|.*nde|Joe</exception></token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>m</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1"/>’em</suggestion>.</message>
@@ -10465,8 +10466,8 @@ $Id$
                     <rule> <!-- paradygmat A.2.2.2e, np. Locke, Braque -->
                         <pattern>
                             <token regexp='yes'>.*\p{Ll}+(?:c?ke|que)</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
-                            <token>m</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
+                            <token regexp="yes">(?:i?e)?m</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1" regexp_match="(.*)(?:c?ke|que)" regexp_replace="$1kiem"/></suggestion>.</message>
                         <url>http://so.pwn.pl/zasady.php?id=629610</url>
@@ -10478,7 +10479,7 @@ $Id$
                     <rule> <!-- paradygmat A.2.2.9, np. Barrie, Blikle, Charlie, Eile, Eliade, Fauré, Fichte... -->
                         <pattern>
                             <token regexp='yes'>.*\p{Ll}+(?:ie|ethe|ende|kle|[nr]te|[au]de|oce|uré|rmé|mée|chte|[dl]ke|lbe|u[snz]e|n[dg]e|[^e]ese|lye)|Eile|Heine|Hesse|Hoppe|Huelle|Monroe|Nietzsche|Palme|Paszke|Pele|Poe|Tagore|Versace</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token regexp='yes'>e?(?:go|mu|i?m)</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1"/><match no="3" regexp_match=".*(go|mu|i?m)" regexp_replace="$1"/></suggestion>.</message>
@@ -10491,7 +10492,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token>Bill</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>im</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion><match no="1"/>ym</suggestion>.</message>
@@ -10503,7 +10504,7 @@ $Id$
                     <rule> <!-- paradygmat A.2.2.1g, np. Steve, Wayne -->
                         <pattern>
                             <token regexp='yes'>\p{L}*\p{Ll}+([iea]ve|eese|yne)</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>ie</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1" regexp_match="(.*)e" regexp_replace="$1ie"/></suggestion>.</message>
@@ -10515,7 +10516,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token>Eric</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token regexp='yes'>i?em</token>
                         </pattern>
                         <message>Ten wyraz odmienia się tak: <suggestion>Erikiem</suggestion>.</message>
@@ -10528,7 +10529,7 @@ $Id$
                     <rule> <!-- paradygmat A.2.2.1.a James, Douglas, Keynes -->
                         <pattern>
                             <token regexp='yes' postag='subst:sg:.*:m[1-3]' postag_regexp='yes'>.*\p{Ll}+(?:mes|glas)|Keynes|Louis</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token regexp='yes'>a|ie|owi|[oe]m|ach|ami|owie|ów</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion><match no="1"/><match no="3"/></suggestion>.</message>
@@ -10540,7 +10541,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token>Joe</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token regexp='yes'>a|go</token>
                         </pattern>
                         <message>To imię odmienia się bez apostrofów: <suggestion><match no="1"/>go</suggestion>.</message>
@@ -10552,7 +10553,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token>Joe</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>owi</token>
                         </pattern>
                         <message>To imię odmienia się inaczej: <suggestion><match no="1"/>mu</suggestion>.</message>
@@ -10564,7 +10565,7 @@ $Id$
                     <rule>
                         <pattern>
                             <token>Joe</token>
-                            <token regexp='yes' spacebefore='no'>['`’]</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token regexp='yes'>e?mu?</token>
                         </pattern>
                         <message>To imię odmienia się inaczej: <suggestion><match no="1"/><match no="3" regexp_match="e?(mu?)" regexp_replace="$1"/></suggestion>.</message>
@@ -10573,6 +10574,18 @@ $Id$
                         <example type='incorrect' correction="Joemu">Dowal <marker>Joe'emu</marker>.</example>
                         <example type='incorrect' correction="Joem">Porozmawiajmy o <marker>Joe'em</marker>.</example>
                         <example type='correct'>Dowal Joemu.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token regexp='yes'>\p{L}*\p{Ll}+nce</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
+                            <token>ie</token>
+                        </pattern>
+                        <message>Ten wyraz odmienia się prawdopodobnie tak: <suggestion><match no="1" regexp_match="(.*)ce" regexp_replace="$1sie"/></suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Olivier</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect'>Porozmawiajmy o <marker>Laurence'ie</marker>.</example>
+                        <example type='correct'>Porozmawiajmy o Laurensie.</example>
                     </rule>
                 </rulegroup>
 				<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
@@ -12864,7 +12877,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>a</token>
-										<token regexp="yes">['’`]</token>
+										<token regexp="yes">&apost;</token>
 										<token>la</token>
 								</pattern>
 								<message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> (=w rodzaju, na sposób)?</message>
@@ -12874,7 +12887,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">['`’]</token>
+										<token regexp="yes">&apost;</token>
 										<token>a</token>
 										<token>la</token>
 								</pattern>
@@ -12885,10 +12898,10 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token><exception regexp="yes" scope="previous">['`’]</exception>a</token>
+										<token><exception regexp="yes" scope="previous">&apost;</exception>a</token>
 										<token>la</token>
 								</pattern>
-								<message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> (=w rodzaju, na sposób)?</message>
+								<message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> &apost; (=w rodzaju, na sposób)?</message>
 								<short>Prawdopodobny błąd ortograficzny</short>
 								<example correction="à la" type="incorrect">Naleśniki <marker>a la</marker> Gundel</example>
 								<example type="correct">Naleśniki à la Gundel</example>
@@ -13074,7 +13087,7 @@ $Id$
                  <pattern>
                      <marker>
                          <token>a</token>
-                         <token regexp="yes">[`']</token>
+                         <token regexp="yes">&apost;</token>
                          <token>propos</token>
                      </marker>
                  </pattern>
@@ -14014,6 +14027,9 @@ $Id$
 						<example type="correct">To narzędzie odegrało rolę kluczową w całej sprawie.</example>
 				</rule>
 				<rule id="WLADCE" name="„władce, twórce” (władcę, twórcę)">
+                        <antipattern case_sensitive="yes">
+                            <token>Pierce</token>
+                        </antipattern>
 						<pattern>
 								<token postag="depr:pl:nom:m2" regexp="yes"><exception postag="subst:sg:loc:f"/><exception postag="subst:pl:nom:[mp]1" postag_regexp="yes"/>
 								.*ce</token>
@@ -14652,7 +14668,7 @@ $Id$
 								<marker>
 										<token>maja</token>
 								</marker>
-								<token><exception regexp="yes">[0-9]{2,4}|['’]</exception></token>
+								<token><exception regexp="yes">[0-9]{2,4}|&apost;</exception></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>mają</suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
@@ -14900,7 +14916,7 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token>ze</token>
+												<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
 										</marker>
 										<token postag="verb.*" postag_regexp="yes"><exception postag="subst.*|adj.*inst.*" postag_regexp="yes"></exception></token>
 								</pattern>

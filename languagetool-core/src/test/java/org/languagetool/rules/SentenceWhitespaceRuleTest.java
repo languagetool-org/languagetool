@@ -21,7 +21,6 @@ package org.languagetool.rules;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Demo;
 
 import java.io.IOException;
 
@@ -33,7 +32,7 @@ public class SentenceWhitespaceRuleTest {
   @Test
   public void testMatch() throws Exception {
     SentenceWhitespaceRule rule = new SentenceWhitespaceRule(TestTools.getEnglishMessages());
-    JLanguageTool languageTool = new JLanguageTool(new Demo());
+    JLanguageTool languageTool = new JLanguageTool(TestTools.getDemoLanguage());
     languageTool.addRule(rule);
 
     assertGood("This is a text. And there's the next sentence.", rule, languageTool);

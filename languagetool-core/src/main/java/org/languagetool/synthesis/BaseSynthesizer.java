@@ -39,10 +39,9 @@ public class BaseSynthesizer implements Synthesizer {
 
   private final String tagFileName;
   private final String resourceFileName;
+  private final IStemmer stemmer;
 
   private volatile Dictionary dictionary;
-
-  private final IStemmer stemmer;
 
   /**
    * @param resourceFileName The dictionary file name.
@@ -162,14 +161,6 @@ public class BaseSynthesizer implements Synthesizer {
         }
       }
     }
-  }
-
-  /**
-   * @deprecated this method doesn't do anything anymore (deprecated since 2.5)
-   */
-  protected void initSynthesizer() throws IOException {
-    // The base implementation does no longer need this method, but extended classes may still rely on it.
-    // Dictionary-loading is implemented in getDictionary().
   }
 
 }

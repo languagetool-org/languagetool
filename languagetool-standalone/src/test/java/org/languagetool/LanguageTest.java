@@ -47,7 +47,6 @@ public class LanguageTest {
     assertEquals("[/org/languagetool/rules/en/grammar.xml, /org/languagetool/rules/en/en-US/grammar.xml]", new AmericanEnglish().getRuleFileNames().toString());
     assertEquals("[/org/languagetool/rules/en/grammar.xml]", new English().getRuleFileNames().toString());
     assertEquals("[/org/languagetool/rules/de/grammar.xml]", new German().getRuleFileNames().toString());
-    assertEquals("[/org/languagetool/rules/de/grammar.xml]", new German().getRuleFileName().toString());  // old, deprecated API
   }
 
   @Test
@@ -181,8 +180,4 @@ public class LanguageTest {
     assertFalse(new English().equalsConsiderVariantsIfSpecified(new German()));
   }
 
-  @Test
-  public void testGetAllMaintainers() {
-    assertTrue(Language.getAllMaintainers(TestTools.getMessages("en")).length() > 100);
-  }
 }

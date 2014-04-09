@@ -207,12 +207,12 @@ public abstract class WrongWordInContextRule extends Rule {
     }
     
     private String addBoundaries(String str) {
-      String ignore_case = "";
+      String ignoreCase = "";
       if (str.startsWith("(?i)")) {
         str = str.substring(4);
-        ignore_case = "(?i)";
+        ignoreCase = "(?i)";
       }
-      return ignore_case + "\\b(" + str + ")\\b";
+      return ignoreCase + "\\b(" + str + ")\\b";
     }
     
     public void setWord(int i, String word) {

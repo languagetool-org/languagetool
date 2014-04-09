@@ -398,8 +398,83 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
            </pattern>
            <disambig action="add"><wd pos="NNP"/></disambig>
        </rule>
-      
-<!-- end of temporary entries -->
+
+    <rule id="VERBS_THAT_LT_DOES_NOT_KNOW-verb-base" name="Terms that LT does not know as base verbs (VB)">
+        <pattern>
+            <token>increment</token>
+        </pattern>
+        <disambig action="add"><wd pos="VB" lemma="increment"/></disambig>
+    </rule>
+    <rule id="increment_VBP" name="Terms that LT does not know as base verbs (VBP)">
+        <pattern>
+            <token>increment</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBP" lemma="increment"/></disambig>
+    </rule>
+    <rule id="VERBS_THAT_LT_DOES_NOT_KNOW-verb-3rdpers-singular" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
+        <pattern>
+            <token>increments</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBZ" lemma="increment"/></disambig>
+    </rule>
+    <rule id="incremented_vbd" name="Terms that LT does not know as base verbs (VBD)">
+        <pattern>
+            <token>incremented</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBD" lemma="increment"/></disambig>
+    </rule>
+    <rule id="incremented_vbn" name="Terms that LT does not know as base verbs (VBN)">
+        <pattern>
+            <token>incremented</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBN" lemma="increment"/></disambig>
+    </rule>
+    <rule id="incremented_vbg" name="VBG">
+        <pattern>
+            <token>incrementing</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBG" lemma="increment"/></disambig>
+    </rule>
+
+    <rule id="decrement_VB" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
+        <pattern>
+            <token>decrement</token>
+        </pattern>
+        <disambig action="add"><wd pos="VB" lemma="decrement"/></disambig>
+    </rule>
+    <rule id="decrement_VBP" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
+        <pattern>
+            <token>decrement</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBP" lemma="decrement"/></disambig>
+    </rule>
+    <rule id="decrement_VBZ" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
+        <pattern>
+            <token>decrements</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBZ" lemma="decrement"/></disambig>
+    </rule>
+    <rule id="decrement_VBD" name="decrement vbd">
+        <pattern>
+            <token>decremented</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBD" lemma="decrement"/></disambig>
+    </rule>
+    <rule id="decrement_VBN" name="decrement vbn">
+        <pattern>
+            <token>decremented</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBN" lemma="decrement"/></disambig>
+    </rule>
+    <rule id="decrement_VBG" name="decrement vbg">
+        <pattern>
+            <token>decrementing</token>
+        </pattern>
+        <disambig action="add"><wd pos="VBG" lemma="decrement"/></disambig>
+    </rule>
+
+
+    <!-- end of temporary entries -->
 
        <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
@@ -569,6 +644,19 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </marker>
       </pattern>
       <disambig postag="NN:UN"/>
+    </rule>
+
+    <rule id="REMOVE_POS_NNU-adjectives" name="Remove POS NN:U from adjectives"><!-- NN:U = Mass noun -->
+        <pattern>
+            <token postag="DT"/>
+            <marker>
+                <token regexp="yes">large|small</token><!-- this is the safe option. Alternatively, use JJ and NN:U -->
+            </marker>
+            <token postag_regexp="yes" postag="NN|NN:U|NN:UN|NNS"/>
+        </pattern>
+        <disambig action="remove"><wd pos="NN:U"/></disambig>
+        <example type="untouched">When you have a choice about which brush to use, use the <marker>large</marker>.</example>
+        <example type="ambiguous" inputform="large[large/JJ,large/NN:U]" outputform="large[large/JJ]">Use the <marker>large</marker> brush.</example>
     </rule>
 
     <rule id="UH" name="Interjections">

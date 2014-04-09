@@ -34,7 +34,7 @@ public class CommaWhitespaceRuleTest extends TestCase {
   @Override
   public void setUp() throws IOException {
     rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
-    langTool = new JLanguageTool(Language.DEMO);
+    langTool = new JLanguageTool(TestTools.getDemoLanguage());
   }
   
   public void testRule() throws IOException {

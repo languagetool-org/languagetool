@@ -21,9 +21,6 @@ package org.languagetool.dev.index;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NAME;
-import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_FIELD;
-import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_FIELD_VAL;
-import static org.languagetool.dev.wikipedia.WikipediaIndexHandler.MAX_DOC_COUNT_VALUE;
 
 import java.io.File;
 import java.io.IOException;
@@ -63,6 +60,10 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
  * @author Daniel Naber
  */
 public class Searcher {
+
+  private static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
+  private static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
+  private static final String MAX_DOC_COUNT_FIELD_VAL = "1";
 
   private int maxHits = 1000;
   private int maxSearchTimeMillis = 5000;
