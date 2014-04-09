@@ -116,9 +116,19 @@ public abstract class Language {
   }
 
   /**
-   * All languages supported by LanguageTool (the same as {@link #LANGUAGES} since LanguageTool 2.6).
+   * All languages supported by LanguageTool, but without the demo language.
    */
-  public static final Language[] REAL_LANGUAGES = LANGUAGES;
+  public static final Language[] REAL_LANGUAGES = getRealLanguages();
+
+  private static Language[] getRealLanguages() {
+    List<Language> result = new ArrayList<>();
+    for (Language lang : LANGUAGES) {
+      if (!lang.getShortName().equals("xx")) {  // skip demo language
+        result.add(lang);
+      }
+    }
+    return result.toArray(new Language[result.size()]);
+  }
 
   private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
 
