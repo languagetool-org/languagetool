@@ -59,10 +59,7 @@ public final class RuleActivityOverview {
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
     
     final List<String> sortedLanguages = new ArrayList<String>();
-    for (Language element : Language.LANGUAGES) {
-      if (element == Language.DEMO) {
-        continue;
-      }
+    for (Language element : Language.REAL_LANGUAGES) {
       sortedLanguages.add(element.getName());
     }
     Collections.sort(sortedLanguages);

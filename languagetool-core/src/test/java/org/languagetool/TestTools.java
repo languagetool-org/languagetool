@@ -35,6 +35,7 @@ import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 
+import org.languagetool.language.Demo;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -46,7 +47,13 @@ import static org.junit.Assert.assertEquals;
 
 public final class TestTools {
 
+  private static final Language DEMO_LANGUAGE = new Demo();
+  
   private TestTools() {
+  }
+
+  public static Language getDemoLanguage() {
+    return DEMO_LANGUAGE;
   }
 
   public static ResourceBundle getEnglishMessages() {
@@ -124,7 +131,7 @@ public final class TestTools {
       int startPos = 0;
       int noWhitespaceCount = 0;
       for (final String tokenStr : tokens) {
-        AnalyzedTokenReadings posTag = null;
+        AnalyzedTokenReadings posTag;
         if (isWord(tokenStr)) {
           posTag = aTokens.get(noWhitespaceCount);
           posTag.setStartPos(startPos);

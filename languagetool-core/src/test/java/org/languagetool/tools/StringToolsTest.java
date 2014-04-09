@@ -20,17 +20,14 @@ package org.languagetool.tools;
 
 import junit.framework.TestCase;
 import org.languagetool.Language;
+import org.languagetool.TestTools;
 import org.languagetool.language.Contributor;
-import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.Element;
-import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -168,10 +165,11 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testAddSpace() {
-    assertEquals(" ", StringTools.addSpace("word", Language.DEMO));
-    assertEquals("", StringTools.addSpace(",", Language.DEMO));
-    assertEquals("", StringTools.addSpace(",", Language.DEMO));
-    assertEquals("", StringTools.addSpace(",", Language.DEMO));
+    Language demoLanguage = TestTools.getDemoLanguage();
+    assertEquals(" ", StringTools.addSpace("word", demoLanguage));
+    assertEquals("", StringTools.addSpace(",", demoLanguage));
+    assertEquals("", StringTools.addSpace(",", demoLanguage));
+    assertEquals("", StringTools.addSpace(",", demoLanguage));
     assertEquals("", StringTools.addSpace(".", new FakeLanguage("fr")));
     assertEquals("", StringTools.addSpace(".", new FakeLanguage("de")));
     assertEquals(" ", StringTools.addSpace("!", new FakeLanguage("fr")));
@@ -211,17 +209,6 @@ public class StringToolsTest extends TestCase {
   public void testAsString() {
     assertNull(StringTools.asString(null));
     assertEquals("foo!", "foo!");
-  }
-  
-  private class FakeRule extends PatternRule {
-    public FakeRule() {
-      super("FAKE_ID", Language.DEMO, Collections.singletonList(new Element("foo", true, false, false)),
-              "My fake description", "Fake message", "Fake short message");
-    }
-    @Override
-    public ITSIssueType getLocQualityIssueType() {
-      return ITSIssueType.Misspelling;
-    }
   }
   
   private class FakeLanguage extends Language {

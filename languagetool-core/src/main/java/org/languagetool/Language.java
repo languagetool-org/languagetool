@@ -124,7 +124,7 @@ public abstract class Language {
   static {
     int i = 0;
     for (final Language lang : LANGUAGES) {
-      if (!lang.getShortName().equals(Demo.SHORT_NAME)) {
+      if (!lang.getShortName().equals("xx")) {  // skip demo language
         REAL_LANGUAGES[i] = lang;
         i++;
       }

@@ -21,6 +21,7 @@ package org.languagetool.tools;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.TestTools;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
@@ -43,13 +44,14 @@ import static junit.framework.TestCase.assertTrue;
 public class RuleAsXmlSerializerTest {
   
   private static final RuleAsXmlSerializer SERIALIZER = new RuleAsXmlSerializer();
+  private static final Language language = TestTools.getDemoLanguage();
 
   @Test
   public void testLanguageAttributes() throws IOException {
-    final String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, Language.DEMO);
+    final String xml1 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, language);
     assertTrue(xml1.contains("shortname=\"xx-XX\""));
     assertTrue(xml1.contains("name=\"Testlanguage\""));
-    final String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, Language.DEMO, new FakeLanguage());
+    final String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, language, new FakeLanguage());
     assertTrue(xml2.contains("shortname=\"xx-XX\""));
     assertTrue(xml2.contains("name=\"Testlanguage\""));
     assertTrue(xml2.contains("shortname=\"ZZ\""));
@@ -67,7 +69,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, Language.DEMO);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language);
     assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
     final Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
@@ -85,7 +87,7 @@ public class RuleAsXmlSerializerTest {
     final List<RuleMatch> matches = new ArrayList<>();
     final String text = "This is a test sentence.";
     final List<Element> elements = Collections.emptyList();
-    final Rule patternRule = new PatternRule("MY_ID", Language.DEMO, elements, "my description", "my message", "short message");
+    final Rule patternRule = new PatternRule("MY_ID", language, elements, "my description", "my message", "short message");
     patternRule.setCategory(new Category("MyCategory"));
     final RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
     match.setColumn(99);
@@ -93,7 +95,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, Language.DEMO, Language.DEMO);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language, language);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
@@ -120,7 +122,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, Language.DEMO);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
@@ -138,7 +140,7 @@ public class RuleAsXmlSerializerTest {
     match.setLine(44);
     match.setEndLine(45);
     matches.add(match);
-    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, Language.DEMO);
+    final String xml = SERIALIZER.ruleMatchesToXml(matches, text, 5, language);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
@@ -148,7 +150,7 @@ public class RuleAsXmlSerializerTest {
 
   private class FakeRule extends PatternRule {
     public FakeRule() {
-      super("FAKE_ID", Language.DEMO, Collections.singletonList(new Element("foo", true, false, false)),
+      super("FAKE_ID", TestTools.getDemoLanguage(), Collections.singletonList(new Element("foo", true, false, false)),
               "My fake description", "Fake message", "Fake short message");
     }
     @Override

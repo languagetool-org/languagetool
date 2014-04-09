@@ -24,7 +24,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 public class DifferentLengthRuleTest extends TestCase {
@@ -33,9 +33,9 @@ public class DifferentLengthRuleTest extends TestCase {
     final DifferentLengthRule rule = new DifferentLengthRule();
       //(TestTools.getEnglishMessages(), Language.ENGLISH);
     RuleMatch[] matches;
-    final JLanguageTool trgLangTool = new JLanguageTool(Language.DEMO);
+    final JLanguageTool trgLangTool = new JLanguageTool(TestTools.getDemoLanguage());
     final JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());
-    rule.setSourceLang(Language.DEMO);
+    rule.setSourceLang(TestTools.getDemoLanguage());
     // correct sentences:
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("This is a test sentence."),

@@ -21,7 +21,6 @@ package org.languagetool.rules;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Demo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -31,7 +30,7 @@ public class LongSentenceRuleTest {
   @Test
   public void testMatch() throws Exception {
     LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages());
-    JLanguageTool languageTool = new JLanguageTool(new Demo());
+    JLanguageTool languageTool = new JLanguageTool(TestTools.getDemoLanguage());
     assertThat(rule.match(languageTool.getAnalyzedSentence("This is a rather short text.")).length, is(0));
     assertThat(rule.match(languageTool.getAnalyzedSentence("Now this is not " +
             "a a a a a a a a a a a " +

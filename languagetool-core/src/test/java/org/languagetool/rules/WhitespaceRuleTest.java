@@ -23,7 +23,6 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 
 /**
@@ -33,9 +32,9 @@ import org.languagetool.TestTools;
 public class WhitespaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), Language.DEMO);
+    final WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(Language.DEMO);
+    final JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
 
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence."));
