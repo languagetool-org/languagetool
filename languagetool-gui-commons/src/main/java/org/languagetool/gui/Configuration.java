@@ -45,6 +45,7 @@ public class Configuration {
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
   private static final String USE_GUI_CONFIG_KEY = "useGUIConfig";
   private static final String DELIMITER = ",";
+  private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
   private final File configFile;
   private final HashMap<String, String> configForOtherLangs;
@@ -58,6 +59,7 @@ public class Configuration {
   private boolean autoDetect;
   private boolean guiConfig;
   private int serverPort = DEFAULT_SERVER_PORT;
+  private String externalRuleDirectory;
 
   /**
    * Uses the configuration file from the default location.
@@ -156,6 +158,14 @@ public class Configuration {
     this.serverPort = serverPort;
   }
 
+  public String getExternalRuleDirectory() {
+    return externalRuleDirectory;
+  }
+
+  public void setExternalRuleDirectory(final String path) {
+    externalRuleDirectory = path;
+  }
+
   private void loadConfiguration(final Language lang) throws IOException {
 
     final String qualifier = getQualifier(lang);
@@ -185,6 +195,10 @@ public class Configuration {
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
         serverPort = Integer.parseInt(serverPortString);
+      }
+      final String extRules = (String) props.get(EXTERNAL_RULE_DIRECTORY);
+      if (extRules != null) {
+        externalRuleDirectory = extRules;
       }
       
       //store config for other languages
@@ -247,6 +261,10 @@ public class Configuration {
     props.setProperty(USE_GUI_CONFIG_KEY, Boolean.valueOf(guiConfig).toString());
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
+
+    if (externalRuleDirectory != null) {
+      props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
+    }
 
     for (final String key : configForOtherLangs.keySet()) {
       props.setProperty(key, configForOtherLangs.get(key));
