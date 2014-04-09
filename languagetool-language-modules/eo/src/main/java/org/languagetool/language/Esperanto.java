@@ -45,6 +45,7 @@ public class Esperanto extends Language {
   private SentenceTokenizer sentenceTokenizer;
   private Tokenizer wordTokenizer;
   private Disambiguator disambiguator;
+  private String name = "Esperanto";
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
@@ -64,8 +65,14 @@ public class Esperanto extends Language {
 
   @Override
   public String getName() {
-    return "Esperanto";
+    return name;
   }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
+  }
+
 
   @Override
   public String getShortName() {

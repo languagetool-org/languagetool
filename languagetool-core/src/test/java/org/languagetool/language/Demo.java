@@ -35,6 +35,8 @@ import org.languagetool.tagging.xx.DemoTagger;
 public class Demo extends Language {
 
   public static final String SHORT_NAME = "xx";
+
+  String name = "Testlanguage";
   
   private Tagger tagger;
   private Chunker chunker;
@@ -46,12 +48,17 @@ public class Demo extends Language {
 
   @Override
   public String getName() {
-    return "Testlanguage";
+    return name;
   }
 
   @Override
   public String getShortName() {
     return SHORT_NAME;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

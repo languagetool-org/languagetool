@@ -57,6 +57,7 @@ public class Ukrainian extends Language {
   private Tokenizer wordTokenizer;
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
+  private String name = "Ukrainian";
 
   @Override
   public Locale getLocale() {
@@ -65,7 +66,12 @@ public class Ukrainian extends Language {
 
   @Override
   public String getName() {
-    return "Ukrainian";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

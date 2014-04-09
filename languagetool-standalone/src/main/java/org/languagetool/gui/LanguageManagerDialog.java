@@ -166,7 +166,7 @@ public class LanguageManagerDialog implements ActionListener {
   /**
    * Return all external Languages.
    */
-  List<Language> getLanguages() {
+  List<Language> getLanguages() throws IllegalAccessException, InstantiationException {
     final List<Language> languages = new ArrayList<>();
     for (File ruleFile : ruleFiles) {
       if (ruleFile != null) {

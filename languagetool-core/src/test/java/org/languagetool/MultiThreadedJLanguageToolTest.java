@@ -105,6 +105,8 @@ public class MultiThreadedJLanguageToolTest {
         return "Fake Language";
       }
       @Override
+      public void setName(final String name) {};
+      @Override
       public String[] getCountries() {
         return new String[0];
       }

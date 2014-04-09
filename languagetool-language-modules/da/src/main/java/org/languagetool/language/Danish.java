@@ -41,10 +41,16 @@ public class Danish extends Language {
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
-  
+  private String name = "Danish";
+
   @Override
-  public final String getName() {
-    return "Danish";
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

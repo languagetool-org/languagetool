@@ -47,6 +47,9 @@ public class FakeLanguage extends Language {
   }
 
   @Override
+  public void setName(final String name) { };
+
+  @Override
   public String[] getCountries() {
     return new String[] {"YY"};
   }

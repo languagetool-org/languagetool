@@ -42,11 +42,17 @@ public class Slovak extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  private Synthesizer synthesizer; 
-  
+  private Synthesizer synthesizer;
+  private String name = "Slovak";
+
   @Override
   public String getName() {
-    return "Slovak";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

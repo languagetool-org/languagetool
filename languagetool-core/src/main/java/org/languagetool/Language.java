@@ -57,6 +57,8 @@ public abstract class Language {
   
   private static List<Language> externalLanguages = new ArrayList<>();
 
+  private boolean isExternalLanguage = false;
+
   private List<String> externalRuleFiles = new ArrayList<>();
   
   /**
@@ -64,7 +66,7 @@ public abstract class Language {
    * for testing.
    */
   public static Language[] LANGUAGES = getLanguages();
-  
+
   private static Language[] getLanguages() {
     final List<Language> languages = new ArrayList<>();
     final Set<String> languageClassNames = new HashSet<>();
@@ -143,6 +145,12 @@ public abstract class Language {
    * @return language name
    */
   public abstract String getName();
+
+  /**
+   * Set this language's name in English.
+   * @since 2.6
+   */
+  public abstract void setName(final String name);
   
   /**
    * Get this language's country options , e.g. <code>US</code> (as in <code>en-US</code>) or
@@ -611,7 +619,16 @@ public abstract class Language {
   }
 
   public boolean isExternal() {
-    return false;
+    return isExternalLanguage;
+  }
+
+  /**
+   * Sets the language as external. Useful for
+   * making a copy of an existing language.
+   * @since 2.6
+   */
+  public void makeExternal() {
+    isExternalLanguage = true;
   }
 
   /**

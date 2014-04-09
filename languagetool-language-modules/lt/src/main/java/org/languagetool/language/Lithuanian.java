@@ -35,10 +35,16 @@ import org.languagetool.tagging.xx.DemoTagger;
 public class Lithuanian extends Language {
 
   private Tagger tagger;
-  
+  private String name = "Lithuanian";
+
   @Override
   public String getName() {
-    return "Lithuanian";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

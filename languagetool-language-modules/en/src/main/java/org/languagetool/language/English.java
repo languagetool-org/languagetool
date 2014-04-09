@@ -56,6 +56,7 @@ public class English extends Language {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
   private WordTokenizer wordTokenizer;
+  private String name = "English";
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -72,7 +73,12 @@ public class English extends Language {
 
   @Override
   public String getName() {
-    return "English";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override
