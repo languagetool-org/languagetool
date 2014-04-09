@@ -21,7 +21,6 @@ package org.languagetool;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
-import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
@@ -53,8 +52,6 @@ import java.util.*;
  */
 public abstract class Language {
 
-  public static final Language DEMO = new Demo();
-  
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
   
@@ -101,7 +98,6 @@ public abstract class Language {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-    languages.add(DEMO);
     return languages.toArray(new Language[languages.size()]);
   }
 
@@ -118,18 +114,9 @@ public abstract class Language {
   }
 
   /**
-   * All languages supported by LanguageTool, but without the demo language.
+   * All languages supported by LanguageTool (the same as {@link #LANGUAGES} since LanguageTool 2.6).
    */
-  public static final Language[] REAL_LANGUAGES = new Language[LANGUAGES.length-1];
-  static {
-    int i = 0;
-    for (final Language lang : LANGUAGES) {
-      if (!lang.getShortName().equals("xx")) {  // skip demo language
-        REAL_LANGUAGES[i] = lang;
-        i++;
-      }
-    }
-  }
+  public static final Language[] REAL_LANGUAGES = LANGUAGES;
 
   private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
 
