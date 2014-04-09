@@ -123,7 +123,7 @@ public abstract class Language {
   private static Language[] getRealLanguages() {
     List<Language> result = new ArrayList<>();
     for (Language lang : LANGUAGES) {
-      if (!lang.getShortName().equals("xx")) {  // skip demo language
+      if (!"xx".equals(lang.getShortName())) {  // skip demo language
         result.add(lang);
       }
     }
