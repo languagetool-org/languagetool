@@ -126,7 +126,9 @@ public class Tools {
    *
    * @param label Label to convert
    * @return String UI element with {@code ~} replacing {@code &}.
+   * @deprecated deprecated since 2.6 (was not used)
    */
+  @Deprecated
   public static String getOOoLabel(final String label) {
     return label.replaceAll("&([^&])", "~$1").replaceAll("&&", "&");
   }
