@@ -264,7 +264,10 @@ public abstract class Language {
   }
 
   /**
-   * Adds an external rule file to the language.
+   * Adds an external rule file to the language. After running this method,
+   * one has to run JLanguageTool.activateDefaultPatternRules() to make sure
+   * that all external rules are activated.
+   *
    * @param externalRuleFile Absolute file path to rules.
    * @since 2.6
    */
