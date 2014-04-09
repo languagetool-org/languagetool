@@ -32,15 +32,14 @@ import org.languagetool.bitext.StringPair;
 public class IncorrectBitextExample {
 
   private final StringPair example;
-  
-  private List<String> corrections;
+  private final List<String> corrections;
 
   public IncorrectBitextExample(final StringPair example) {
-    this.example = example;
+    this(example, null);
   }
 
   public IncorrectBitextExample(final StringPair example, final String[] corrections) {
-    this(example);
+    this.example = example;
     this.corrections = Arrays.asList(corrections);
   }
   

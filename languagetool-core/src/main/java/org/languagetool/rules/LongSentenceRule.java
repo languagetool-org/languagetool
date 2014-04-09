@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -32,6 +33,7 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
+  private static final Pattern NON_WORD_REGEX = Pattern.compile("[?!:;,~’-]");
 
   private final int maxWords;
 
@@ -50,6 +52,9 @@ public class LongSentenceRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Style);
   }
 
+  /**
+   * Creates a rule with the default maximum sentence length (40 words).
+   */
   public LongSentenceRule(final ResourceBundle messages) {
     this(messages, DEFAULT_MAX_WORDS);
   }
@@ -77,7 +82,7 @@ public class LongSentenceRule extends Rule {
       for (AnalyzedTokenReadings aToken : tokens) {
         final String token = aToken.getToken();
         pos += token.length();  // won't match the whole offending sentence, but much of it
-        if (!token.matches("[?!:;,~’-]") && !aToken.isSentenceStart() && !aToken.isSentenceEnd()) {
+        if (!aToken.isSentenceStart() && !aToken.isSentenceEnd() && !NON_WORD_REGEX.matcher(token).matches()) {
           numWords++;
         }
       }
@@ -87,7 +92,6 @@ public class LongSentenceRule extends Rule {
       ruleMatches.add(ruleMatch);
     }
     return toRuleMatchArray(ruleMatches);
-
   }
 
   @Override

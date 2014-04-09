@@ -265,6 +265,7 @@ public class AnalyzedSentence {
     return lemmaSet;
   }
 
+  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   public synchronized boolean equals(Object obj) {
     if (this == obj)
@@ -280,12 +281,10 @@ public class AnalyzedSentence {
       return false;
     if (!Arrays.equals(whPositions, other.whPositions))
       return false;
-    if (tokenSet != null && !tokenSet.equals(other.tokenSet)) {
+    if (tokenSet != null && !tokenSet.equals(other.tokenSet))
       return false;
-    }
-    if (lemmaSet != null && !lemmaSet.equals(other.lemmaSet)) {
+    if (lemmaSet != null && !lemmaSet.equals(other.lemmaSet))
       return false;
-    }
     return true;
   }
 

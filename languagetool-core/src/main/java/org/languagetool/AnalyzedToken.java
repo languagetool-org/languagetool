@@ -21,9 +21,10 @@ package org.languagetool;
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- * A word (or punctuation, or whitespace) and its part-of-speech tag.
+ * A word (or punctuation, or whitespace) and its analysis (part-of-speech tag, lemma)
  * 
  * @author Daniel Naber
  */
@@ -144,14 +145,7 @@ public class AnalyzedToken {
 
   @Override
   public final int hashCode() {
-    // TODO: use Apache Commons Lang HashCodeBuilder
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + (isWhitespaceBefore ? 1231 : 1237);
-    result = prime * result + ((lemma == null) ? 0 : lemma.hashCode());
-    result = prime * result + ((posTag == null) ? 0 : posTag.hashCode());    
-    result = prime * result + ((token == null) ? 0 : token.hashCode());
-    return result;
+    return new HashCodeBuilder().append(isWhitespaceBefore).append(lemma).append(posTag).append(token).toHashCode();
   }
 
   @Override

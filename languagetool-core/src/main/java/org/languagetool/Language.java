@@ -648,22 +648,4 @@ public abstract class Language {
     return getCountries().length == 1;
   }
 
-  private static String listToStringWithLineBreaks(final Collection<String> l) {
-    final StringBuilder sb = new StringBuilder();
-    int i = 0;
-    for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
-      final String str = iter.next();
-      sb.append(str);
-      if (iter.hasNext()) {
-        if (i > 0 && i % 3 == 0) {
-          sb.append(",\n    ");
-        } else {
-          sb.append(", ");
-        }
-      }
-      i++;
-    }
-    return sb.toString();
-  }
-
 }

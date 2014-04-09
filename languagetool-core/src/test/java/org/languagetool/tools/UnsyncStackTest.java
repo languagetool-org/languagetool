@@ -21,6 +21,8 @@ package org.languagetool.tools;
 
 import junit.framework.TestCase;
 
+import java.util.EmptyStackException;
+
 public class UnsyncStackTest extends TestCase {
 
   public void testStack() {
@@ -30,6 +32,12 @@ public class UnsyncStackTest extends TestCase {
     assertEquals("test", stack.peek());
     assertFalse(stack.empty());
     assertEquals("test", stack.pop());
-    assertTrue(stack.empty());    
+    assertTrue(stack.empty());
+    try {
+      stack.pop();
+    } catch (EmptyStackException expected) {}
+    try {
+      stack.peek();
+    } catch (EmptyStackException expected) {}
   }
 }

@@ -41,5 +41,6 @@ public class LongSentenceRuleTest {
     LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), 6);
     assertThat(shortRule.match(languageTool.getAnalyzedSentence("This is a rather short text.")).length, is(0));
     assertThat(shortRule.match(languageTool.getAnalyzedSentence("This is also a rather short text.")).length, is(1));
+    assertThat(shortRule.match(languageTool.getAnalyzedSentence("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.")).length, is(0));
   }
 }

@@ -52,7 +52,6 @@ public final class Tools {
    * @param trgLt Target JLanguageTool (used to analyze the text).
    * @param bRules  Bilingual rules used in addition to target standard rules.  
    * @return  The list of rule matches on the bitext.
-   * @throws IOException
    * @since 1.0.1
    */
   public static List<RuleMatch> checkBitext(final String src, final String trg,
@@ -77,9 +76,6 @@ public final class Tools {
    * @param source  Source language.
    * @param target  Target language.
    * @return  List of Bitext rules
-   * @throws IOException
-   * @throws ParserConfigurationException
-   * @throws SAXException
    */
   public static List<BitextRule> getBitextRules(final Language source, 
       final Language target) throws IOException, ParserConfigurationException, SAXException {
@@ -148,7 +144,6 @@ public final class Tools {
 
   /**
    * @return the number of rule matches
-   * @throws IOException
    */
   public static int profileRulesOnLine(final String contents,
       final JLanguageTool lt, final Rule rule) throws IOException {
@@ -220,7 +215,6 @@ public final class Tools {
    * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
    * 
    * @return the stream of the file
-   * @throws IOException
    */
   public static InputStream getStream(final String filename) throws IOException {
     // the other ways to load the stream like

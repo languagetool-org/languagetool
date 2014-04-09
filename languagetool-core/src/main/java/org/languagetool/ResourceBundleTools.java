@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import static org.languagetool.JLanguageTool.MESSAGE_BUNDLE;
 
 /**
+ * Message bundle helper class used for translation of the user interface.
  * @since 2.3
  */
 final class ResourceBundleTools {

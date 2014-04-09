@@ -29,6 +29,7 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
  * first tag.
  * 
  * @author Jozef Licko
+ * @deprecated deprecated since 2.6 (was not used)
  */
 public class TrimDisambiguator implements Disambiguator {
 

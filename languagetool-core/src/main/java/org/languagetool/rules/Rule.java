@@ -170,9 +170,7 @@ public abstract class Rule {
 
   /**
    * Method to add matches.
-   * 
-   * @param ruleMatch
-   *          RuleMatch - matched rule added by check()
+   * @param ruleMatch RuleMatch - matched rule added by check()
    */
   public final void addRuleMatch(final RuleMatch ruleMatch) {
     if (previousMatches == null) {
@@ -183,9 +181,7 @@ public abstract class Rule {
 
   /**
    * Deletes (or disables) previously matched rule.
-   * 
-   * @param index
-   *          Index of the rule that should be deleted.
+   * @param index Index of the rule that should be deleted.
    */
   public final void setAsDeleted(final int index) {
     if (removedMatches == null) {
@@ -255,6 +251,7 @@ public abstract class Rule {
 
   /**
    * @since 1.8
+   * @see #getUrl()
    */
   public void setUrl(URL url) {
     this.url = url;

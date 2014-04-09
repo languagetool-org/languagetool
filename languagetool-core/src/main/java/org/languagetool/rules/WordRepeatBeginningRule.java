@@ -67,7 +67,7 @@ public class WordRepeatBeginningRule extends Rule {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     
-    if (tokens.length>3) {
+    if (tokens.length > 3) {
       final AnalyzedTokenReadings analyzedToken = tokens[1];
       final String token = analyzedToken.getToken();
       // avoid "..." etc. to be matched:
