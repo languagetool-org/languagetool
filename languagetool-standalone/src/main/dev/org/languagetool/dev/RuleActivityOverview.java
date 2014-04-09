@@ -82,7 +82,7 @@ public final class RuleActivityOverview {
       final String command = "svn log -q -r {" + pastString + "}:{" + todayString + "} src/" + xmlFile;
       final Process process = runtime.exec(command);
       final InputStream inputStream = process.getInputStream();
-      final String output = StringTools.readFile(inputStream);
+      final String output = StringTools.readStream(inputStream);
       process.waitFor();
       final int commits = getCommits(output);
       System.out.println(commits + "\t" + langName);

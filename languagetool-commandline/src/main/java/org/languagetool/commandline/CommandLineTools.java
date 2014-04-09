@@ -180,55 +180,6 @@ public final class CommandLineTools {
    * Checks the bilingual input (bitext) and displays the output (considering the target 
    * language) in API format or in the simple text format.
    *
-   * NOTE: the positions returned by the rule matches are relative
-   * to the target string only, and always start at the first line 
-   * and first column, no matter how many lines were checked before.
-   * To have multiple lines taken into account, use the checkBitext
-   * method that takes a BitextReader.
-   *
-   * @param src   Source text.
-   * @param trg   Target text.
-   * @param srcLt Source JLanguageTool (used to analyze the text).
-   * @param trgLt Target JLanguageTool (used to analyze the text).
-   * @param bRules  Bilingual rules used in addition to target standard rules.
-   * @param apiFormat Whether API format should be used.
-   * @param xmlMode The mode of XML output display.
-   * @return  The number of rules matched on the bitext.
-   * @throws IOException
-   * @since 1.0.1
-   * @deprecated use {@link #checkBitext(BitextReader, JLanguageTool, JLanguageTool, List, boolean)} instead (deprecated since 2.5) 
-   */
-  public static int checkBitext(final String src, final String trg,
-                                final JLanguageTool srcLt, final JLanguageTool trgLt,
-                                final List<BitextRule> bRules,
-                                final boolean apiFormat, final StringTools.XmlPrintMode xmlMode) throws IOException {
-    final long startTime = System.currentTimeMillis();
-    final int contextSize = DEFAULT_CONTEXT_SIZE;
-    final List<RuleMatch> ruleMatches =
-            Tools.checkBitext(src, trg, srcLt, trgLt, bRules);
-    final List<RuleMatch> adaptedMatches = new ArrayList<>();
-    for (RuleMatch match : ruleMatches) {
-      match = trgLt.adjustRuleMatchPos(match, 0, 0, 0, trg, null);
-      adaptedMatches.add(match);
-    }
-    if (apiFormat) {
-      final String xml = StringTools.ruleMatchesToXML(adaptedMatches, trg, contextSize, xmlMode);
-      final PrintStream out = new PrintStream(System.out, true, "UTF-8");
-      out.print(xml);
-    } else {
-      printMatches(adaptedMatches, 0, trg, contextSize);
-    }
-    //display stats if it's not in a buffered mode:
-    if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
-      displayTimeStats(startTime, srcLt.getSentenceCount(), apiFormat);
-    }
-    return adaptedMatches.size();
-  }
-
-  /**
-   * Checks the bilingual input (bitext) and displays the output (considering the target 
-   * language) in API format or in the simple text format.
-   *
    * NOTE: the positions returned by the rule matches are adjusted
    * according to the data returned by the reader.
    *

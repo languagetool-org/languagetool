@@ -20,9 +20,9 @@ package org.languagetool.tools;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.commandline.CommandLineTools;
 import org.languagetool.language.English;
 import org.languagetool.language.Polish;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.xml.sax.SAXException;
 
@@ -65,21 +65,16 @@ public class ToolsTest extends TestCase {
     
     final List<BitextRule> rules = Tools.getBitextRules(english, polish);
     
-    int matches = CommandLineTools.checkBitext(
+    int matches1 = Tools.checkBitext(
         "This is a perfectly good sentence.",
-        "To jest całkowicie prawidłowe zdanie.", srcTool, trgTool, rules,
-        false, StringTools.XmlPrintMode.NORMAL_XML);
-    String output = new String(this.out.toByteArray());
-    assertTrue(output.indexOf("Time:") == 0);
-    assertEquals(0, matches);
+        "To jest całkowicie prawidłowe zdanie.", srcTool, trgTool, rules).size();
+    assertEquals(0, matches1);
 
-    matches = CommandLineTools.checkBitext(
-        "This is not actual.", 
-        "To nie jest aktualne.", 
-        srcTool, trgTool, 
-        rules, false, StringTools.XmlPrintMode.NORMAL_XML);        
-    output = new String(this.out.toByteArray());
-    assertTrue(output.contains("Rule ID: ACTUAL"));
-    assertEquals(1, matches);
+    List<RuleMatch> matches = Tools.checkBitext(
+            "This is not actual.",
+            "To nie jest aktualne.",
+            srcTool, trgTool, rules);
+    assertEquals(1, matches.size());
+    assertTrue(matches.get(0).getRule().getId().equals("ACTUAL"));
   }
 }

@@ -72,11 +72,6 @@ public class ContractionSpellingRule extends AbstractSimpleReplaceRule {
   }
 
   @Override
-  public boolean isSpellingRule() {
-    return true;
-  }
-
-  @Override
   public boolean isDictionaryBasedSpellingRule() {
     return true;
   }

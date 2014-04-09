@@ -34,9 +34,6 @@ public class AnalyzedTokenReadingsTest extends TestCase {
     assertEquals(false, tokenReadings.isSentenceEnd());
     assertEquals(false, tokenReadings.isParagraphEnd());
     assertEquals(false, tokenReadings.isSentenceStart());
-    assertEquals(false, tokenReadings.isSentStart()); // deprecated
-    assertEquals(false, tokenReadings.isSentEnd());   // deprecated
-    assertEquals(false, tokenReadings.isParaEnd());   // deprecated
     tokenReadings.setSentEnd();
     assertEquals(false, tokenReadings.isSentenceStart());
     assertEquals(true, tokenReadings.isSentenceEnd());

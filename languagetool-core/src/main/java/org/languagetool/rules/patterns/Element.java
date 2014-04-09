@@ -315,14 +315,6 @@ public class Element implements Cloneable {
   }
 
   /**
-   * @deprecated use {@link #isSentenceStart()} - deprecated since 2.3
-   */
-  @Deprecated
-  public final boolean isSentStart() {
-    return JLanguageTool.SENTENCE_START_TAGNAME.equals(posToken) && !posNegation;
-  }
-
-  /**
    * Checks if the token is a sentence start.
    * @return True if the element starts the sentence and the element hasn't been set to have negated POS token.
    */
@@ -649,16 +641,6 @@ public class Element implements Cloneable {
    */
   public final boolean isPartOfPhrase() {
     return phraseName != null;
-  }
-
-  /**
-   * Whether the element matches case sensitively.
-   * @deprecated use {@link #isCaseSensitive()} instead (deprecated since 2.3)
-   * @since 0.9.3
-   */
-  @Deprecated
-  public final boolean getCaseSensitive() {
-    return caseSensitive;
   }
 
   /**

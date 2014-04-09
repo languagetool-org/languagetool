@@ -94,7 +94,7 @@ public final class XMLValidator {
       throw new IOException("Not found in classpath: " + filename);
     }
     try {
-      final String xml = StringTools.readFile(xmlStream, "utf-8");
+      final String xml = StringTools.readStream(xmlStream, "utf-8");
       validateInternal(xml, dtdPath, docType);
     } catch (Exception e) {
       throw new IOException("Cannot load or parse '" + filename + "'", e);

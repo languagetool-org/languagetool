@@ -19,10 +19,12 @@
 package org.languagetool.tools;
 
 import org.languagetool.Language;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.Objects;
 import java.util.regex.Pattern;
 
 /**
@@ -56,7 +58,6 @@ public final class StringTools {
     CONTINUE_XML
   }
 
-  private static final int DEFAULT_CONTEXT_SIZE = 25;
   private static final Pattern XML_COMMENT_PATTERN = Pattern.compile("<!--.*?-->", Pattern.DOTALL);
   private static final Pattern XML_PATTERN = Pattern.compile("(?<!<)<[^<>]+>", Pattern.DOTALL);
 
@@ -72,22 +73,6 @@ public final class StringTools {
     if (isEmpty(s.trim())) {
       throw new IllegalArgumentException(varName + " cannot be empty or whitespace only");
     }
-  }
-
-  /**
-   * Read a file's content.
-   * @deprecated use {@link #readStream(java.io.InputStream, String)} instead (deprecated since LT 2.3)
-   */
-  public static String readFile(final InputStream file) throws IOException {
-    return readFile(file, null);
-  }
-
-  /**
-   * Read the text stream using the given encoding.
-   * @deprecated use {@link #readStream(java.io.InputStream, String)} instead (deprecated since LT 2.3)
-   */
-  public static String readFile(final InputStream stream, final String encoding) throws IOException {
-    return readStream(stream, encoding);
   }
 
   /**
@@ -253,15 +238,6 @@ public final class StringTools {
     return sb.toString();
   }
 
-  /**
-   * @deprecated use {@link #streamToString(java.io.InputStream, String)} instead (deprecated since 1.8)
-   */
-  public static String streamToString(final InputStream is) throws IOException {
-    try (InputStreamReader isr = new InputStreamReader(is)) {
-      return readerToString(isr);
-    }
-  }
-
   public static String streamToString(final InputStream is, String charsetName) throws IOException {
     try (InputStreamReader isr = new InputStreamReader(is, charsetName)) {
       return readerToString(isr);
@@ -306,56 +282,6 @@ public final class StringTools {
     return sb.toString();
   }
 
-  /**
-   * Get an XML representation of the given rule matches.
-   * 
-   * @param text the original text that was checked, used to get the context of the matches
-   * @param contextSize the desired context size in characters
-   * @deprecated Use {@link #ruleMatchesToXML(List,String,int,XmlPrintMode)} instead (deprecated since ~ 1.0)
-   */
-  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
-      final String text, final int contextSize) {
-    return ruleMatchesToXML(ruleMatches, text, contextSize, XmlPrintMode.NORMAL_XML);
-  }
-
-  /**
-   * Get an XML representation of the given rule matches.
-   *
-   * @param text the original text that was checked, used to get the context of the matches
-   * @param contextSize the desired context size in characters
-   * @param xmlMode how to print the XML
-   * @param lang the language of the text (might be null)
-   * @param motherTongue the mother tongue of the user (might be null)
-   * @deprecated Use {@link RuleAsXmlSerializer} instead (deprecated since 2.5)
-   */
-  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
-      final String text, final int contextSize, final XmlPrintMode xmlMode,
-      final Language lang, final Language motherTongue) {
-    final StringBuilder xml = new StringBuilder(200);
-    RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
-    if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.START_XML) {
-      xml.append(serializer.getXmlStart(lang, motherTongue));
-    }
-    xml.append(serializer.ruleMatchesToXmlSnippet(ruleMatches, text, contextSize));
-    if (xmlMode == XmlPrintMode.NORMAL_XML || xmlMode == XmlPrintMode.END_XML) {
-      xml.append(serializer.getXmlEnd());
-    }
-    return xml.toString();
-  }
-
-  /**
-   * Get an XML representation of the given rule matches.
-   *
-   * @param text the original text that was checked, used to get the context of the matches
-   * @param contextSize the desired context size in characters
-   * @param xmlMode how to print the XML
-   * @deprecated Use {@link RuleAsXmlSerializer} instead (deprecated since 2.5)
-   */
-  public static String ruleMatchesToXML(final List<RuleMatch> ruleMatches,
-      final String text, final int contextSize, final XmlPrintMode xmlMode) {
-    return ruleMatchesToXML(ruleMatches, text, contextSize, xmlMode, null, null);
-  }
-
   public static String listToString(final Collection<String> l, final String delimiter) {
     final StringBuilder sb = new StringBuilder();
     for (final Iterator<String> iter = l.iterator(); iter.hasNext();) {
@@ -366,26 +292,6 @@ public final class StringTools {
       }
     }
     return sb.toString();
-  }
-
-  /**
-   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String)} instead (deprecated since LanguageTool 2.3)
-   */
-  public static String getContext(final int fromPos, final int toPos,
-      final String contents) {
-    final ContextTools contextTools = new ContextTools();
-    contextTools.setContextSize(DEFAULT_CONTEXT_SIZE);
-    return contextTools.getPlainTextContext(fromPos, toPos, contents);
-  }
-
-  /**
-   * @deprecated use {@link ContextTools#getPlainTextContext(int, int, String)} instead (deprecated since LanguageTool 2.3)
-   */
-  public static String getContext(final int fromPos, final int toPos,
-      final String contents, final int contextSize) {
-    final ContextTools contextTools = new ContextTools();
-    contextTools.setContextSize(contextSize);
-    return contextTools.getPlainTextContext(fromPos, toPos, contents);
   }
 
   /**

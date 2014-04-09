@@ -62,16 +62,4 @@ public class JapaneseTagger implements Tagger {
     return new AnalyzedToken(parts[0], parts[1], parts[2]);
   }
 
-  /**
-   * @deprecated deprecated since LanguageTool 2.2
-   */
-  public static final String arrayToString(byte[] bytes) {
-    StringBuffer buff = new StringBuffer();
-    for (int i = 0; i < bytes.length; i++) {
-      buff.append(bytes[i]).append(' ');
-    }
-    return buff.toString();
-  }
-
 }
-

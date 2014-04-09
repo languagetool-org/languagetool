@@ -19,26 +19,19 @@
 package org.languagetool.tools;
 
 import junit.framework.TestCase;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.Contributor;
-import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Daniel Naber
@@ -153,92 +146,6 @@ public class StringToolsTest extends TestCase {
     assertEquals("!ä&quot;&lt;&gt;&amp;&amp;", StringTools.escapeHTML("!ä\"<>&&"));
   }
 
-  public void testRuleMatchesToXML() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is an test sentence. Here's another sentence with more text.";
-    final FakeRule rule = new FakeRule();
-    final RuleMatch match = new RuleMatch(rule, 8, 10, "myMessage");
-    match.setColumn(99);
-    match.setEndColumn(100);
-    match.setLine(44);
-    match.setEndLine(45);
-    matches.add(match);
-    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertTrue(xml.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"));
-    final Pattern matchesPattern =
-            Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
-    final Matcher matcher = matchesPattern.matcher(xml);
-    assertTrue(matcher.matches());
-    assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
-            "</matches>\n"));
-  }
-
-  public void testRuleMatchesToXMLWithCategory() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is a test sentence.";
-    final List<Element> elements = Collections.emptyList();
-    final Rule patternRule = new PatternRule("MY_ID", Language.DEMO, elements, "my description", "my message", "short message");
-    patternRule.setCategory(new Category("MyCategory"));
-    final RuleMatch match = new RuleMatch(patternRule, 8, 10, "myMessage");
-    match.setColumn(99);
-    match.setEndColumn(100);
-    match.setLine(44);
-    match.setEndLine(45);
-    matches.add(match);
-    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"MY_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is a test ...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"MyCategory\" " +
-            "locqualityissuetype=\"uncategorized\"/>\n" +
-            "</matches>\n"));
-  }
-
-  public void testRuleMatchesWithUrlToXML() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is an test sentence. Here's another sentence with more text.";
-    final RuleMatch match = new RuleMatch(new FakeRule() {
-      @Override
-      public URL getUrl() {
-        try {
-          return new URL("http://server.org?id=1&foo=bar");
-        } catch (MalformedURLException e) {
-          throw new RuntimeException(e);
-        }
-      }
-    }, 8, 10, "myMessage");
-    match.setColumn(99);
-    match.setEndColumn(100);
-    match.setLine(44);
-    match.setEndLine(45);
-    matches.add(match);
-    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" url=\"http://server.org?id=1&amp;foo=bar\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
-            "</matches>\n"));
-  }
-
-  public void testRuleMatchesToXMLEscapeBug() throws IOException {
-    final List<RuleMatch> matches = new ArrayList<>();
-    final String text = "This is \"an test sentence. Here's another sentence with more text.";
-    final RuleMatch match = new RuleMatch(new FakeRule(), 9, 11, "myMessage");
-    match.setColumn(99);
-    match.setEndColumn(100);
-    match.setLine(44);
-    match.setEndLine(45);
-    matches.add(match);
-    final String xml = StringTools.ruleMatchesToXML(matches, text, 5, StringTools.XmlPrintMode.NORMAL_XML);
-    assertTrue(xml.contains(">\n" +
-            "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
-            "replacements=\"\" context=\"... is &quot;an test...\" contextoffset=\"8\" offset=\"9\" errorlength=\"2\" " +
-            "locqualityissuetype=\"misspelling\"/>\n" +
-            "</matches>\n"));
-  }
-
   public void testListToString() {
     final List<String> list = new ArrayList<>();
     list.add("foo");
@@ -246,12 +153,6 @@ public class StringToolsTest extends TestCase {
     list.add(",");
     assertEquals("foo,bar,,", StringTools.listToString(list, ","));
     assertEquals("foo\tbar\t,", StringTools.listToString(list, "\t"));
-  }
-
-  public void testGetContext() {
-    final String input = "This is a test sentence. Here's another sentence with more text.";
-    final String result = StringTools.getContext(8, 14, input, 5);
-    assertEquals("...s is a test sent...\n        ^^^^^^     ", result);
   }
 
   public void testTrimWhitespace() {

@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
  * @author Daniel Naber
  * @deprecated use {@link org.languagetool.tokenizers.SRXSentenceTokenizer} instead (deprecated since LT 1.8)
  */
+@SuppressWarnings("AssignmentToMethodParameter")
 public class RegexSentenceTokenizer implements SentenceTokenizer {
 
   // end of sentence marker:
@@ -204,7 +205,7 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
     // text = re.compile("(:\s+)%s(\s*[%s])" % (self.EOS, string.lowercase),
     // re.DOTALL).sub("\\1\\2", text)
 
-    // "13. Dezember" etc. -> keine Satzgrenze:
+    // "13. Dezember" etc. -> no sentence boundary:
     if (monthNames != null) {
       for (String element : monthNames) {
         s = s.replaceAll("(\\d+\\.) " + EOS + "(" + element + ")", "$1 $2");
@@ -217,7 +218,7 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
     // z.B. "Das hier ist (genau!) ein Satz."
     s = repair11.matcher(s).replaceAll("$1$2 ");
 
-    // z.B. "bla (...) blubb" -> kein Satzende
+    // z.B. "bla (...) blubb" -> no sentence boundary
     s = repair12.matcher(s).replaceAll("$1 ");
 
     return s;
@@ -240,10 +241,5 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
     s = repair3.matcher(s).replaceAll("$1" + EOS + "$2");
     return s;
   }
-
-  /*public static void main(final String[] args) {
-    final SentenceTokenizer st = new GermanSentenceTokenizer();
-    st.tokenize("Er sagte (...) und");
-  }*/
 
 }

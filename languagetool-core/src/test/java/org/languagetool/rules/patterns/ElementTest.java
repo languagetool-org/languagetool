@@ -28,7 +28,6 @@ public class ElementTest extends TestCase {
   public void testSentenceStart() {
     final Element element = new Element("", false, false, false);
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, false);
-    assertTrue(element.isSentStart());
     assertTrue(element.isSentenceStart());
     element.setPosElement(JLanguageTool.SENTENCE_START_TAGNAME, false, true);
     assertFalse(element.isSentenceStart());

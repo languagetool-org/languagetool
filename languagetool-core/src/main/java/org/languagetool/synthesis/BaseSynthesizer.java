@@ -164,12 +164,4 @@ public class BaseSynthesizer implements Synthesizer {
     }
   }
 
-  /**
-   * @deprecated this method doesn't do anything anymore (deprecated since 2.5)
-   */
-  protected void initSynthesizer() throws IOException {
-    // The base implementation does no longer need this method, but extended classes may still rely on it.
-    // Dictionary-loading is implemented in getDictionary().
-  }
-
 }
