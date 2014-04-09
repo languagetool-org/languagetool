@@ -483,7 +483,9 @@ public class XMLRuleHandler extends DefaultHandler {
     TokenPoSBuilder builder = new TokenPoSBuilder();
     addValues(builder, attrs, "pos");
     addValues(builder, attrs, "tense");
-    // TODO: add more: person, ...
+    addValues(builder, attrs, "person");
+    addValues(builder, attrs, "number");
+    // TODO: add more
     return builder.create();
   }
 
