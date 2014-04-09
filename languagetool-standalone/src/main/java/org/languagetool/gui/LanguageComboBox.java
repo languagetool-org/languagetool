@@ -55,8 +55,8 @@ public class LanguageComboBox extends JComboBox<Language> {
 
   private void initAllLanguages() {
     languages.clear();
-    for (Language language : Language.REAL_LANGUAGES) {
-      final boolean skip = language.hasVariant();
+    for (Language language : Language.LANGUAGES) {
+      final boolean skip = language.hasVariant() || "Testlanguage".equals(language.getName());
       // TODO: "Simple German" would hide "German (Germany)" - find a proper solution
       final boolean simpleGermanWorkaround = language.getShortNameWithCountryAndVariant().equals("de-DE");
       if (!skip || simpleGermanWorkaround) {
