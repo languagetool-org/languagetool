@@ -31,7 +31,7 @@ public class MainTest extends TestCase {
     final String testString = "To jest trudne zdanie. A to następne.  A to przedostatnie jest.\u0002 Test ostatniego.";
     final Locale plLoc = new Locale("pl", "PL", "");
     final PropertyValue[] prop = new PropertyValue[0];
-    for (int i = 0; i<=testString.length(); i++) {
+    for (int i = 0; i <= testString.length(); i++) {
       final ProofreadingResult paRes = prog.doProofreading("1", testString, plLoc, i, testString.length(), prop);
       assertEquals("1", paRes.aDocumentIdentifier);
       assertTrue(paRes.nStartOfNextSentencePosition >= i);
@@ -57,9 +57,9 @@ public class MainTest extends TestCase {
     final Main prog = new Main(null);
     final String testString = "Sigui quina siga la teva intenció. Això és una prova.";
     // LibreOffice config for languages with variants
-    final Locale cavaLoc = new Locale("qlt","ES","ca-ES-valencia"); 
+    final Locale cavaLoc = new Locale("qlt", "ES", "ca-ES-valencia"); 
     final PropertyValue[] prop = new PropertyValue[0];
-    for (int i = 0; i<=testString.length(); i++) {
+    for (int i = 0; i <= testString.length(); i++) {
       final ProofreadingResult paRes = prog.doProofreading("1", testString, cavaLoc, i, testString.length(), prop);
       assertEquals("1", paRes.aDocumentIdentifier);
       assertTrue(paRes.nStartOfNextSentencePosition >= i);
@@ -70,7 +70,7 @@ public class MainTest extends TestCase {
         //assertEquals(2, paRes.aErrors.length);
       }
     }
-    final Locale caLoc = new Locale("ca","ES","");
+    final Locale caLoc = new Locale("ca", "ES", "");
     final ProofreadingResult paRes = prog.doProofreading("1", testString, caLoc, 0, testString.length(), prop);
     assertEquals("1", paRes.aDocumentIdentifier);
     //assertEquals(1, paRes.aErrors.length);
