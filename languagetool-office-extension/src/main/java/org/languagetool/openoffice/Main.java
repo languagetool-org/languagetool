@@ -708,6 +708,7 @@ public class Main extends WeakBase implements XJobExecutor,
         + System.getProperty("java.vm.vendor");
     msg += metaInfo;
     final DialogThread dt = new DialogThread(msg);
+    e.printStackTrace();  // without this, we see no exception if a test case fails
     dt.start();
   }
 
