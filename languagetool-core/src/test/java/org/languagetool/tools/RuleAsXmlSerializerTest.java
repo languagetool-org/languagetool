@@ -22,11 +22,11 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.Contributor;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.FakeLanguage;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
 
@@ -54,8 +54,8 @@ public class RuleAsXmlSerializerTest {
     final String xml2 = SERIALIZER.ruleMatchesToXml(Collections.<RuleMatch>emptyList(), "Fake", 5, language, new FakeLanguage());
     assertTrue(xml2.contains("shortname=\"xx-XX\""));
     assertTrue(xml2.contains("name=\"Testlanguage\""));
-    assertTrue(xml2.contains("shortname=\"ZZ\""));
-    assertTrue(xml2.contains("name=\"Fakelanguage\""));
+    assertTrue(xml2.contains("shortname=\"yy\""));
+    assertTrue(xml2.contains("name=\"FakeLanguage\""));
   }
 
   @Test
@@ -157,23 +157,6 @@ public class RuleAsXmlSerializerTest {
     public ITSIssueType getLocQualityIssueType() {
       return ITSIssueType.Misspelling;
     }
-  }
-
-  private class FakeLanguage extends Language {
-
-    @Override
-    public String getShortName() {
-      return "ZZ";
-    }
-
-    @Override
-    public String getName() {
-      return "Fakelanguage";
-    }
-
-    @Override public String[] getCountries() { return null; }
-    @Override public Contributor[] getMaintainers() { return null; }
-    @Override public List<Class<? extends Rule>> getRelevantRules() { return null; }
   }
 
 }

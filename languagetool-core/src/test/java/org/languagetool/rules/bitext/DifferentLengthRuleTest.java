@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
@@ -31,7 +32,6 @@ public class DifferentLengthRuleTest extends TestCase {
   
   public void testRule() throws IOException {
     final DifferentLengthRule rule = new DifferentLengthRule();
-      //(TestTools.getEnglishMessages(), Language.ENGLISH);
     RuleMatch[] matches;
     final JLanguageTool trgLangTool = new JLanguageTool(TestTools.getDemoLanguage());
     final JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());

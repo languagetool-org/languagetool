@@ -21,8 +21,7 @@ package org.languagetool.tools;
 import junit.framework.TestCase;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.Contributor;
-import org.languagetool.rules.Rule;
+import org.languagetool.FakeLanguage;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -209,40 +208,6 @@ public class StringToolsTest extends TestCase {
   public void testAsString() {
     assertNull(StringTools.asString(null));
     assertEquals("foo!", "foo!");
-  }
-  
-  private class FakeLanguage extends Language {
-
-    private final String code;
-
-    private FakeLanguage(String code) {
-      this.code = code;
-    }
-
-    @Override
-    public String getShortName() {
-      return code;
-    }
-
-    @Override
-    public String getName() {
-      return "Fakelanguage-" + code;
-    }
-
-    @Override
-    public String[] getCountries() {
-      return new String[] {"XX"};
-    }
-
-    @Override
-    public Contributor[] getMaintainers() {
-      return null;
-    }
-
-    @Override
-    public List<Class<? extends Rule>> getRelevantRules() {
-      return null;
-    }
   }
 
 }

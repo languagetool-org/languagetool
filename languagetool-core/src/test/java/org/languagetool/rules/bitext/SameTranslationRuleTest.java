@@ -23,6 +23,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
