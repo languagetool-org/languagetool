@@ -8690,7 +8690,7 @@ though, and has since been slightly modified)-->
           <token negate_pos="yes" postag="V .* 1 s" postag_regexp="yes"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect"><marker>Puis je</marker> déposer mes affaires ?</example>
+        <example type="incorrect" correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
         <example type="correct">Puis-je déposer mes affaires ?</example>
         <example type="correct">Sans doute je ne vais pas.</example>
         <example type="correct">Si d’aventure on en a.</example>
@@ -8720,7 +8720,7 @@ though, and has since been slightly modified)-->
           <token postag="R pers suj 2 s"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>manges tu</marker> ?</example>
+        <example type="incorrect" correction="manges-tu">Que <marker>manges tu</marker> ?</example>
         <example type="correct">Que manges-tu ?</example>
       </rule>
       <rule>
@@ -8739,28 +8739,29 @@ though, and has since been slightly modified)-->
           <token><exception>y</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>prend il</marker> ?</example>
+        <example type="incorrect" correction="prend-il">Que <marker>prend il</marker> ?</example>
         <example type="correct">Que prend-il ?</example>
         <example type="correct">Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
         <example type="correct">Ce prédateur réintroduit il y a 30 ans.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>elle</token>
+          <token>aussi</token>
+        </antipattern>
         <pattern>
-          <marker>
-            <and>
-              <token postag="V.* 3 s" postag_regexp="yes">
-                <exception postag="[^V].*" postag_regexp="yes"/>
-                <exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
-                <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
-              </token>
-              <token regexp="yes">.*[^aec]</token>
-            </and>
-            <token>elle</token>
-          </marker>
-          <token><exception>aussi</exception></token>
+          <and>
+            <token postag="V.* 3 s" postag_regexp="yes">
+              <exception postag="[^V].*" postag_regexp="yes"/>
+              <exception regexp="yes" scope="previous">[’´'‛′‘]</exception>
+              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+            </token>
+            <token regexp="yes">.*[^aec]</token>
+          </and>
+          <token>elle</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>prend elle</marker> ?</example>
+        <example type="incorrect" correction="prend-elle">Que <marker>prend elle</marker> ?</example>
         <example type="correct">Que prend-elle ?</example>
         <example type="correct">C’est elle qui vient.</example>
         <example type="correct">Anne menait elle aussi sa petite existence.</example>
@@ -8785,11 +8786,11 @@ though, and has since been slightly modified)-->
           <token><exception>y</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>mange il</marker> ?</example>
+        <example type="incorrect" correction="mange-il">Que <marker>mange il</marker> ?</example>
         <example type="correct">Que mange-t-il ?</example>
-        <example type="incorrect">Où <marker>va il</marker> ?</example>
+        <example type="incorrect" correction="va-il">Où <marker>va il</marker> ?</example>
         <example type="correct">Où <marker>va-t-il</marker> ?</example>
-        <example type="incorrect">Quel âge <marker>a t-elle</marker> ?</example>
+        <example type="incorrect" correction="a-t-elle">Quel âge <marker>a t-elle</marker> ?</example>
         <example type="correct">Quel âge a-t-elle ?</example>
         <example type="correct">Comme cela elle n’a pas à cuisiner.</example>
         <example type="correct">Les jours de fête on ne travaille pas.</example>
@@ -8807,7 +8808,7 @@ though, and has since been slightly modified)-->
           <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>mangeons nous</marker> ?</example>
+        <example type="incorrect" correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
         <example type="correct">Que mangeons-nous ?</example>
         <example type="correct">Allons nous asseoir ici.</example>
       </rule>
@@ -8823,7 +8824,7 @@ though, and has since been slightly modified)-->
           <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>mangez vous</marker> ?</example>
+        <example type="incorrect" correction="mangez-vous">Que <marker>mangez vous</marker> ?</example>
         <example type="correct">Que mangez-vous ?</example>
         <example type="correct">Veuillez vous rendre à l’accueil.</example>
         <example type="correct">Sachez vous éloigner.</example>
@@ -8835,12 +8836,28 @@ though, and has since been slightly modified)-->
             <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
             <exception scope="previous">ce</exception>
           </token>
-          <token postag="R pers suj 3 . p" postag_regexp="yes"/>
+          <token postag="R pers suj 3 . p" postag_regexp="yes"><exception>elles</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-        <example type="incorrect">Que <marker>mangent ils</marker> ?</example>
+        <example type="incorrect" correction="mangent-ils">Que <marker>mangent ils</marker> ?</example>
         <example type="correct">Que mangent-ils ?</example>
         <example type="correct">Ce sont elles qui parlent.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token postag="V .* 3 p" postag_regexp="yes">
+              <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
+              <exception scope="previous">ce</exception>
+            </token>
+            <token>elles</token>
+          </marker>
+          <token><exception>aussi</exception></token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+        <example type="incorrect" correction="Vont-elles"><marker>Vont elles</marker> participer ?</example>
+        <example type="correct">Vont-elles participer ?</example>
+        <example type="correct">Les femmes vont elles aussi participer.</example>
       </rule>
       <rule>
         <pattern>
@@ -8849,7 +8866,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">ils?|elles?|on</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-\3</suggestion> ?</message>
-        <example type="incorrect">Que <marker>mange-t’on</marker> ?</example>
+        <example type="incorrect" correction="mange-t-on">Que <marker>mange-t’on</marker> ?</example>
         <example type="correct">Que <marker>mange-t-on</marker> ?</example>
       </rule>
     </rulegroup>
