@@ -1658,11 +1658,11 @@ $Id$
                         <example type="correct">Anno Domini MCMXXI, 1922</example>
                         <example type="correct">Dajno mi ją, braciszku.</example>
 				</rule>
-				<rule id="JAK_I" name="Brak przecinka przed „jak i”">
+				<rule id="JAK_I" name="Brak przecinka przed „jak i/również”">
 						<pattern>
 								<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|tak|podobnie</exception></token>
 								<token>jak</token>
-								<token>i</token>
+								<token regexp="yes">i|również</token>
 						</pattern>
 						<message>Tu prawdopodobnie brakuje przecinka. Powinno być: <suggestion>\1, \2 \3</suggestion>.</message>
 						<short>Błąd interpunkcyjny</short>
