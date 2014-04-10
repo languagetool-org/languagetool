@@ -57,6 +57,22 @@ public class Tools {
   }
 
   /**
+   * Show a file chooser dialog in a specified directory
+   * @param frame Owner frame.
+   * @param fileFilter The pattern of files to choose from.
+   * @param initialDir The initial directory
+   * @return the selected file.
+   * @since 2.6
+   */
+  static File openFileDialog(final Frame frame, final FileFilter fileFilter, final File initialDir) {
+    final JFileChooser jfc = new JFileChooser();
+    jfc.setCurrentDirectory(initialDir);
+    jfc.setFileFilter(fileFilter);
+    jfc.showOpenDialog(frame);
+    return jfc.getSelectedFile();
+  }
+
+  /**
    * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
   static void showError(final Exception e) {

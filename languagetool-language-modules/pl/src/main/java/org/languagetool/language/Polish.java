@@ -52,6 +52,7 @@ public class Polish extends Language {
   private PolishWordTokenizer wordTokenizer;
   private Disambiguator disambiguator;
   private Synthesizer synthesizer;
+  private String name = "Polish";
 
   public Polish() {
     wordTokenizer = new PolishWordTokenizer();
@@ -60,7 +61,12 @@ public class Polish extends Language {
 
   @Override
   public String getName() {
-    return "Polish";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

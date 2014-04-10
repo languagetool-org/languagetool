@@ -37,10 +37,16 @@ import org.languagetool.tagging.sv.SwedishTagger;
 public class Swedish extends Language {
 
   private Tagger tagger;
+  private String name ="Swedish";
 
   @Override
-  public final String getName() {
-    return "Swedish";
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

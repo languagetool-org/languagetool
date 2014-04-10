@@ -669,6 +669,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="ślubić"/></disambig>
     </rule>
 
+    <rule name="wieczor" id="wieczor">
+        <pattern>
+            <marker><token inflected="yes">wieczor</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="wieczor"/></disambig>
+    </rule>
+
     <rule name="praw to zwykle rzeczownik" id="PRAW">
         <pattern>
             <token>praw</token>
@@ -1024,6 +1031,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="albo_complex" name="albo w spójniku złożonym - spójnik na pewno">
+        <pattern>
+            <marker><token>albo</token></marker>
+            <token regexp="yes">więc|i|też</token>
+        </pattern>
+        <disambig postag="conj"/>
+    </rule>
+
     <rule id="ALE_ALE" name="Ale, ale jako wykrzyknik (za Innym słownikiem)">
         <pattern case_sensitive="yes">
             <token postag="SENT_START"/>
@@ -1111,16 +1126,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag="(?:adj|pact|ppas|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
-                    <marker><token regexp="yes">bądź|lub</token></marker>
+                    <marker><token regexp="yes">bądź|lub|i</token></marker>
                 </unify-ignore>
-                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*|SENT_END"/></token>
+                <token postag="(?:adj|pact|ppas|subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*|SENT_END"/></token>
             </unify>
         </pattern>
-        <disambig action="filter" postag="conj|comp:comma"/>
+        <disambig action="filter" postag="conj"/>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
-                 outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne <marker>bądź</marker> zależne.</example>
+                 outputform="bądź[bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne <marker>bądź</marker> zależne.</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
-                 outputform="bądź[bądź/comp:comma,bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
+                 outputform="bądź[bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
     </rule>
 
     <rule name="Bądź i lub jako spójnik w konstrukcji „bądź x, bądź y”" id="badz_koordynacja_2">
@@ -1133,20 +1148,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     <token min="0" max="1">,</token>
                     <token regexp="yes">bądź|lub</token>
                 </unify-ignore>
-                <token postag="(?:adj|pact|ppas|subst).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst).*"/></token>
+                <token postag="(?:adj|pact|ppas|subs|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|ppas|subst|ger).*"/></token>
             </unify>
         </pattern>
-        <disambig action="filter" postag="conj|comp:comma"/>
+        <disambig action="filter" postag="conj"/>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
-                 outputform="bądź[bądź/comp:comma,bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem, bądź hulajnogą.</example>
+                 outputform="bądź[bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem, bądź hulajnogą.</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
-                 outputform="bądź[bądź/comp:comma,bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem bądź hulajnogą.</example>
+                 outputform="bądź[bądź/conj]">Dojadę tam <marker>bądź</marker> rowerem bądź hulajnogą.</example>
     </rule>
 
     <rule name="bądź i lub jako spójnik między liczbami" id="badz_num">
         <pattern>
             <token postag="num:.*" postag_regexp="yes"/>
-            <marker><token regexp="yes">bądź|lub</token></marker>
+            <marker><token regexp="yes">bądź|lub|i</token></marker>
             <token postag="num:.*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="conj"/>
@@ -1286,6 +1301,67 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">On wart jest stu takich drabów.</example>
         <example type="ambiguous" inputform="eleganckim[elegancki/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos,elegancki/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
                  outputform="eleganckim[elegancki/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Nie sposób być <marker>eleganckim</marker>.</example>
+    </rule>
+
+    <rule name="ppas + była" id="ppas_byla">
+        <pattern>
+            <marker>
+            <token postag="ppas:sg:nom.voc:f:imperf:aff"/>
+            <token postag="verb:praet:sg:f:ter:imperf:nonrefl">była</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">To jest moja była.</example>
+        <example type="ambiguous" inputform="była[być/verb:praet:sg:f:ter:imperf:nonrefl,była/subst:sg:nom:f,była/subst:sg:voc:f,były/adj:sg:nom.voc:f:pos]"
+                 outputform="była[być/verb:praet:sg:f:ter:imperf:nonrefl]">Postulowana <marker>była</marker> pierwotność intencjonalności.</example>
+    </rule>
+
+    <rule name="ppas + były" id="ppas_byly">
+        <pattern>
+            <marker>
+                <token postag="ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:imperf:aff"/>
+                <token postag="verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl">były</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">One były pijane.</example>
+        <example type="ambiguous" inputform="były[być/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl,były/adj:sg:acc:m3:pos,były/adj:sg:nom.voc:m1.m2.m3:pos,były/subst:sg:nom:m1,były/subst:sg:voc:m1]"
+                 outputform="były[być/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl]">Tam robione <marker>były</marker> przekręty.</example>
+    </rule>
+
+    <rule name="jest to..." id="jest_to_nom">
+        <pattern>
+            <unify>
+                <feature id="number"/>
+                <marker>
+                <token postag="verb:fin.*:ter:imperf:nonrefl" inflected="yes" postag_regexp="yes">być</token>
+                    <unify-ignore>
+                        <token>to</token>
+                    </unify-ignore>
+                <token postag=".*nom[:\.].*" postag_regexp="yes"/>
+            </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="niewielki[niewielki/adj:sg:acc:m3:pos,niewielki/adj:sg:nom.voc:m1.m2.m3:pos]"
+                 outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Jest to <marker>niewielki</marker> elektromagnes.</example>
+    </rule>
+
+    <rule name="był to..." id="byl_to">
+        <pattern>
+            <unify>
+                <feature id="gender"/><feature id="number"/>
+                <token postag_regexp="yes" inflected="yes" postag="verb:praet.*">być</token>
+                <unify-ignore>
+                    <token>to</token>
+                </unify-ignore>
+                <token postag=".*nom[\.:].*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Był to czasami wyjątkowo uciążliwy dureń.</example>
+        <example type="ambiguous" inputform="niewielki[niewielki/adj:sg:acc:m3:pos,niewielki/adj:sg:nom.voc:m1.m2.m3:pos]"
+                 outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Był to <marker>niewielki</marker> elektromagnes.</example>
     </rule>
 
     <rule name="głosować przeciw" id="glosowac_przeciw">
@@ -2563,9 +2639,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="przeciwić"/></disambig>
     </rule>
 
-    <rule id="PRZESTRZENI" name="przestrzeni to nie przestrzenić">
+    <rule id="PRZESTRZENI" name="przestrzeni(ą) to nie przestrzenić">
         <pattern>
-            <token>przestrzeni</token>
+            <token regexp="yes">przestrzenią?</token>
         </pattern>
         <disambig action="remove"><wd lemma="przestrzenić"/></disambig>
     </rule>
@@ -3302,9 +3378,9 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="adj:sg:nom.voc:f:pos"/>
         <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Jest to <marker>jedna</marker> z najpiękniejszych dziewic na świecie.</example>
+                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Oto <marker>jedna</marker> z najpiękniejszych dziewic na świecie.</example>
         <example type="ambiguous" inputform="jedna[jeden/adj:sg:nom.voc:f:pos,jednać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Jest to <marker>jedna</marker> ze sztuk, jakiej karzełka gdzieś w cyrku wyuczono.
+                 outputform="jedna[jeden/adj:sg:nom.voc:f:pos]">Oto <marker>jedna</marker> ze sztuk, jakiej karzełka gdzieś w cyrku wyuczono.
         </example>
         <example type="untouched">Tyran jedna się z narodem.</example>
     </rule>
@@ -3473,7 +3549,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="unify"></disambig>
         <example type="untouched">Jurek nadzieje kurczaka granatami.</example>
         <example type="ambiguous" inputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3,krajać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                 outputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3]">Są to <marker>kraje</marker> ubogie.</example>
+                 outputform="kraje[kraj/subst:pl:acc:m3,kraj/subst:pl:nom:m3,kraj/subst:pl:voc:m3]">Nawet <marker>kraje</marker> ubogie potrzebują wsparcia.</example>
     </rule>
 
     <rule id="KRAJE_NATO" name="kraje NATO => rzeczownik">
@@ -3674,7 +3750,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rulegroup id="BRATA_SUBST" name="„brata” itp. jako rzeczownik">
         <rule>
             <pattern>
-                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
                 <marker>
                     <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|kluczy|lata|myśli|niewoli|piekła|powodzi|soli|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
                 </marker>
@@ -3683,17 +3759,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
         <rule>
         <pattern>
-            <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+            <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
             <marker>
                 <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|kluczy|lata|myśli|niewoli|piekła|powodzi|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="subst.*"/>
+            <example type="ambiguous" inputform="myśli[myśl/subst:pl:acc:f,myśl/subst:pl:gen:f,myśl/subst:pl:nom:f,myśl/subst:pl:voc:f,myśl/subst:sg:dat:f,myśl/subst:sg:gen:f,myśl/subst:sg:loc:f,myśl/subst:sg:voc:f,myśleć/verb:fin:sg:ter:imperf:nonrefl,myślić/verb:fin:sg:ter:imperf:nonrefl]"
+                     outputform="myśli[myśl/subst:pl:acc:f,myśl/subst:pl:gen:f,myśl/subst:pl:nom:f,myśl/subst:pl:voc:f,myśl/subst:sg:dat:f,myśl/subst:sg:gen:f,myśl/subst:sg:loc:f,myśl/subst:sg:voc:f]">To jest tzw. język <marker>myśli</marker>.</example>
         </rule>
         <rule>
             <pattern>
                 <marker>
-                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|kluczy|lata|broni|ciąży|myśli|niewoli|piekła|powodzi|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|kluczy|lata|broni|ciąży|myśli|niewoli|piekła|powodzi|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
             </pattern>
@@ -3706,7 +3784,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rulegroup id="ADJ_PRAET_ADJ" name="wyrosła jako przymiotnik">
         <rule>
             <pattern>
-               <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+               <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
                 <marker>
                 <unify>
                     <feature id="case"/><feature id="number"/><feature id="gender"/>
@@ -3725,7 +3803,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
                 <token postag="subst.*" postag_regexp="yes"/>
                 <marker>
                     <unify>
@@ -3745,7 +3823,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
         <rule>
         <pattern>
-        <token postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+        <token postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
             <marker>
                 <unify>
                     <feature id="case"/><feature id="number"/><feature id="gender"/>
@@ -3765,7 +3843,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
         <rule>
             <pattern>
-                <token postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                <token postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                 <token postag="subst.*" postag_regexp="yes"/>
                 <marker>
                     <unify>
@@ -3786,7 +3864,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
         <rule>
             <pattern>
-                <token postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                <token postag="verb:.*(sg|pl).*|verb:imps.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                 <marker>
                     <unify>
                         <feature id="case"/><feature id="number"/><feature id="gender"/>
@@ -3812,7 +3890,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     <feature id="case"/><feature id="number"/><feature id="gender"/>
                     <token postag="(?:subst|ger|depr).*" postag_regexp="yes"/>
                     <and>
-                        <token skip="-1" postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception postag="(?:adj|pact|subst|ppas|verb:praet).*" postag_regexp="yes" negate_pos="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">&interp;</exception></token>
+                        <token skip="-1" postag="(?:adj|pact|ppas).*" postag_regexp="yes"><exception postag="(?:adj|pact|subst|ppas|verb:praet).*" postag_regexp="yes" negate_pos="yes"/><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"/></token>
                         <token postag="verb:praet.*" postag_regexp="yes"/>
                     </and>
                 </unify>
@@ -3996,7 +4074,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="robot[robot/subst:sg:acc:m3,robot/subst:sg:nom:m2,robot/subst:sg:nom:m3]"
-                     outputform="robot[robot/subst:sg:nom:m2,robot/subst:sg:nom:m3]">Mój <marker>robot</marker> będzie przygotowywał posiłki.</example>
+                     outputform="robot[robot/subst:sg:nom:m2,robot/subst:sg:nom:m3]">Mój <marker>robot</marker> będzie przygotowywać posiłki.</example>
             <example type="untouched">A to był kostur pastuszy.</example>
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
@@ -4169,7 +4247,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Spojrzał na nową, ale się nie odezwał.</example>
     </rule>
 
-    <rule name="Unifikacja rzeczowników z innymi (koordynacja)" id="Unify_3_noun">
+    <rulegroup name="Unifikacja rzeczowników z innymi (koordynacja)" id="Unify_2_3_noun">
+     <rule>
         <pattern>
             <unify>
                 <feature id="case"/>
@@ -4189,6 +4268,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="konie[konie/subst:pl:acc:p3,koń/subst:pl:acc:m2]">Patrzył na kozy, <marker>konie</marker> i robaki.</example>
         <example type="untouched">Spojrzał na nową, ale się nie odezwał.</example>
     </rule>
+        <rule>
+            <pattern>
+                <marker>
+                <unify>
+                    <feature id="case"/>
+                    <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+                    <unify-ignore>
+                        <token regexp="yes">[,i]|oraz|ani|lub|albo|bądź|czy</token>
+                    </unify-ignore>
+                    <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/></token>
+                </unify>
+                </marker>
+                <token><exception regexp="yes">[,i]|oraz|ani|lub|albo|bądź|czy</exception></token>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="konie[konie/subst:pl:acc:p3,konie/subst:pl:nom:p3,konie/subst:pl:voc:p3,koń/subst:pl:acc:m2,koń/subst:pl:nom:m2,koń/subst:pl:voc:m2]"
+                     outputform="konie[konie/subst:pl:acc:p3,koń/subst:pl:acc:m2]">Patrzył na kozy i <marker>konie</marker>.</example>
+            <example type="untouched">Spojrzał na nową, ale się nie odezwał.</example>
+        </rule>
+    </rulegroup>
 
     <rule name="rzeczowniki z dywizem" id="unify_noun_hyphen">
     <pattern case_sensitive="yes">
@@ -4223,7 +4322,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <!-- conjunctions that take a comma -->
     <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA_2">
         <pattern>
-            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|bądź|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|i|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|lub|oraz|ponieważ|póki|wszelako|zanim|że|żeby<exception postag="comp:comma"/></token>
+            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|oraz|ponieważ|póki|wszelako|zanim|że|żeby<exception postag="comp:comma"/></token>
         </pattern>
         <disambig action="add"><wd pos="comp:comma"/></disambig>
         <example type="untouched">To jest krowa.</example>

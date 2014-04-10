@@ -29,7 +29,6 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.languagetool.language.Contributor;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -95,23 +94,7 @@ public class MultiThreadedJLanguageToolTest {
 
   @Test
   public void testTwoRulesOnly() throws IOException {
-    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new Language() {
-      @Override
-      public String getShortName() {
-        return "zz";
-      }
-      @Override
-      public String getName() {
-        return "Fake Language";
-      }
-      @Override
-      public String[] getCountries() {
-        return new String[0];
-      }
-      @Override
-      public Contributor[] getMaintainers() {
-        return null;
-      }
+    MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new FakeLanguage() {
       @Override
       public List<Class<? extends Rule>> getRelevantRules() {
         // less rules than processors (depending on the machine), should at least not crash
@@ -121,6 +104,6 @@ public class MultiThreadedJLanguageToolTest {
         );
       }
     });
-    langTool.check("my test text");
+    assertThat(langTool.check("my test  text").size(), is(2));
   }
 }

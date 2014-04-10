@@ -39,10 +39,16 @@ import org.languagetool.tagging.tl.TagalogTagger;
 public class Tagalog extends Language {
 
   private Tagger tagger;
+  private String name ="Tagalog";
 
   @Override
   public String getName() {
-    return "Tagalog";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

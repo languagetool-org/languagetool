@@ -35,10 +35,16 @@ import org.languagetool.tagging.ast.AsturianTagger;
 public class Asturian extends Language {
 
   private Tagger tagger;
+  private String name = "Asturian";
 
   @Override
   public String getName() {
-    return "Asturian";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

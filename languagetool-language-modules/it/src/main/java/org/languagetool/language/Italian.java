@@ -43,10 +43,16 @@ import org.languagetool.tagging.it.ItalianTagger;
 public class Italian extends Language {
 
   private Tagger tagger;
+  private String name = "Italian";
 
   @Override
   public String getName() {
-    return "Italian";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

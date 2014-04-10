@@ -34,7 +34,7 @@ public final class LanguageBuilder {
   private LanguageBuilder() {
   }
 
-  public static Language makeAdditionalLanguage(final File file) {
+  public static Language makeAdditionalLanguage(final File file) throws InstantiationException, IllegalAccessException {
     return makeLanguage(file, true);
   }
 
@@ -43,7 +43,7 @@ public final class LanguageBuilder {
    * e.g. <tt>rules-de-German.xml</tt> and builds
    * a Language object for that language.
    */
-  private static Language makeLanguage(final File file, final boolean isAdditional) {
+  private static Language makeLanguage(final File file, final boolean isAdditional) throws IllegalAccessException, InstantiationException {
     Objects.requireNonNull(file, "file cannot be null");
     if (!file.getName().endsWith(".xml")) {
       throw new RuleFilenameException(file);
@@ -62,8 +62,10 @@ public final class LanguageBuilder {
 
     Language newLanguage;
     if (Language.isLanguageSupported(parts[1])) {
-      newLanguage = Language.getLanguageForShortName(parts[1]); //FIXME: subclass this!
+      newLanguage = Language.getLanguageForShortName(parts[1]).getClass().newInstance();
       newLanguage.addExternalRuleFile(file.getAbsolutePath());
+      newLanguage.setName(parts[2].replace(".xml", ""));
+      newLanguage.makeExternal();
     } else {
       newLanguage = new Language() {
         @Override
@@ -95,6 +97,11 @@ public final class LanguageBuilder {
         @Override
         public String getName() {
           return parts[2].replace(".xml", "");
+        }
+
+        @Override
+        public void setName(final String name) {
+          //cannot be changed for this language
         }
 
         @Override

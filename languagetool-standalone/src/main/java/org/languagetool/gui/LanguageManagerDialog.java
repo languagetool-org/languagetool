@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -142,7 +143,32 @@ public class LanguageManagerDialog implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addButton) {
-      final File ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());
+      Configuration config = null;
+      try {
+        config = new Configuration(null);
+      } catch (IOException e1) {
+        throw new RuntimeException(e1);
+      }
+      File initialDir;
+      File ruleFile;
+      if (config.getExternalRuleDirectory() != null) {
+        initialDir = new File(config.getExternalRuleDirectory());
+        if (initialDir.isDirectory()) {
+          ruleFile = Tools.openFileDialog(owner, new XMLFileFilter(), initialDir);
+        } else {
+          ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());
+        }
+      } else {
+          ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());
+      }
+      if (config != null) {
+        config.setExternalRuleDirectory(ruleFile.getParent());
+        try {
+          config.saveConfiguration(null);
+        } catch (IOException e1) {
+          throw new RuntimeException(e1);
+        }
+      }
       if (!ruleFiles.contains(ruleFile)) {
         ruleFiles.add(ruleFile);
         list.setListData(ruleFiles.toArray(new File[ruleFiles.size()]));
@@ -166,7 +192,7 @@ public class LanguageManagerDialog implements ActionListener {
   /**
    * Return all external Languages.
    */
-  List<Language> getLanguages() {
+  List<Language> getLanguages() throws IllegalAccessException, InstantiationException {
     final List<Language> languages = new ArrayList<>();
     for (File ruleFile : ruleFiles) {
       if (ruleFile != null) {

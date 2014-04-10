@@ -58,6 +58,7 @@ public class German extends Language {
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
+  private String name = "German";
 
   @Override
   public Language getDefaultLanguageVariant() {
@@ -74,7 +75,12 @@ public class German extends Language {
 
   @Override
   public String getName() {
-    return "German";
+    return name;
+  }
+
+  @Override
+  public void setName(final String name) {
+    this.name = name;
   }
 
   @Override

@@ -6761,6 +6761,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="TANTS_SOLS" name="tants sols / tan sols">
+            <pattern>
+                <token>tants</token>
+                <token>sols</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>tan sols</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>tants sols</marker></example>
+            <example type="correct">tan sols</example>
+        </rule>
         <rule id="I_MAJ_L_MIN" name="confusió i majúscula / l minúsucla">
             <pattern>
                 <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+<exception regexp="yes">I'm|I'll|\p{Lu}+</exception></token>
@@ -11677,7 +11687,21 @@ $Id$
                 <example type="correct">Què passaria si...?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MES" name="mes/més">    
+        <rulegroup id="MES" name="mes/més">
+            <antipattern>
+                <token regexp="yes">/|mateix</token>
+                <marker>
+                    <token>mes</token>
+                </marker>
+            </antipattern>  
+            <antipattern>
+                <token regexp="yes">inicis?|principis?|començaments?|finals?|acabaments?|dia|dies|setmana|setmanes|fi|fins|mitjans|dilluns|dimarts|dimecres|dijous|dissabtes?|diumenges?</token>
+                <token regexp="yes">de|d'</token>
+                <token min="0" postag="D.*" postag_regexp="yes"/>
+                <marker>
+                    <token>mes</token>
+                </marker>
+            </antipattern>  
             <rule>
                 <pattern>
                     <token postag="V.[^P].*|_GV_" postag_regexp="yes"><exception postag="_GN_MS"/></token>
@@ -11696,7 +11720,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">cada|un|altre|algun|cert|mateix</exception><exception postag="D[^R].MS.|A..[MC][SN]." postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert|mateix|per</exception><exception postag="D[^R].MS.|A..[MC][SN]." postag_regexp="yes"/></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -11710,10 +11734,11 @@ $Id$
                 <example type="correct">El mes era la fracció major</example>
                 <example type="correct">el primer mes corresponia a una data entre febrer i març</example>
                 <example type="correct">que el mes tingui un nombre enter de setmanes</example>
-                <!-- a finals de mes arriba... 
-                cada primer dissabte de mes exposa 
-                a mitjans de mes
-                la precipitació mitjana per mes varia-->
+                <example type="correct">la precipitació mitjana per mes varia</example>
+                <example type="correct">A finals de mes arriba</example>
+                <example type="correct">cada primer dissabte de mes exposa </example>
+                <example type="correct">a mitjans de mes partirà</example>
+                <example type="correct">L'últim diumenge de mes vindrem</example>
             </rule>
             <rule>
                 <pattern>
@@ -11845,7 +11870,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception></token>
+                    <token><exception regexp="yes">cada|un|altre|algun|cert</exception><exception postag="AO.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -11859,9 +11884,9 @@ $Id$
                 <example type="correct">Necessita <marker>més</marker> de quatre hores.</example>
                 <example type="correct">un mes de trenta dies</example>
                 <example type="correct">un altre mes de trenta dies</example>
-                <!-- <example type="correct">El segon mes de 1540</example>  
-                el mateix mes de 1540
-                aquest mes de 1540
+                <example type="correct">El segon mes de 1540</example>  
+                <example type="correct">el mateix mes de 1540</example>
+                <!-- aquest mes de 1540
                 dubtós -->
             </rule>
             <rule>
@@ -11921,6 +11946,8 @@ $Id$
                 <example type="correct">Mes també s'ha de fer constar</example>
                 <example type="correct">És el mes menys plujós</example>
                 <example type="correct">Un o dos dies per mes solament</example>
+                <example type="correct">En la tercera setmana del mes aproximadament</example>
+                <example type="correct">A principis de mes aproximadament</example>
             </rule>
             <rule>
                 <pattern>
@@ -16503,15 +16530,20 @@ $Id$
         </rulegroup>
         <rule id="FER_UN_LLEIG" name="fer un lleig">
             <pattern>
-                <token skip="2" inflected="yes">fer</token>
                 <marker>
+                    <token skip="2" inflected="yes">fer</token>
                     <token>un</token>
                     <token>lleig</token>
                 </marker>
             </pattern>
-            <message>Cal dir: <suggestion>un malfet</suggestion>, <suggestion>una mala passada</suggestion>. O bé: tenir una descortesia, una indelicadesa.</message>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" include_skipped="all"/> un malfet</suggestion>
+            <suggestion><match no="1" include_skipped="all"/> una mala passada</suggestion>
+            <suggestion>(tenir) una descortesia</suggestion>
+            <suggestion>(tenir) una indelicadesa</suggestion>
             <short>Expressió incorrecta</short>
-            <example type="incorrect">Li va fer <marker>un lleig</marker></example>
+            <example type="incorrect" correction="fer un malfet|fer una mala passada|(tenir) una descortesia|(tenir) una indelicadesa">Li va <marker>fer un lleig</marker></example>
+            <example type="incorrect" correction="fer-li un malfet|fer-li una mala passada|(tenir) una descortesia|(tenir) una indelicadesa">Va <marker>fer-li un lleig</marker></example>
             <example type="correct">Li va fer una mala passada</example>
         </rule>
         <rule id="FER_LA_VISTA_GROSSA" name="fer la vista grossa">

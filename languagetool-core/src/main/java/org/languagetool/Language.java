@@ -57,6 +57,8 @@ public abstract class Language {
   
   private static List<Language> externalLanguages = new ArrayList<>();
 
+  private boolean isExternalLanguage = false;
+
   private List<String> externalRuleFiles = new ArrayList<>();
   
   /**
@@ -64,7 +66,7 @@ public abstract class Language {
    * for testing.
    */
   public static Language[] LANGUAGES = getLanguages();
-  
+
   private static Language[] getLanguages() {
     final List<Language> languages = new ArrayList<>();
     final Set<String> languageClassNames = new HashSet<>();
@@ -114,9 +116,25 @@ public abstract class Language {
   }
 
   /**
-   * All languages supported by LanguageTool (the same as {@link #LANGUAGES} since LanguageTool 2.6).
+   * All languages supported by LanguageTool, but without the demo language.
    */
-  public static final Language[] REAL_LANGUAGES = LANGUAGES;
+  public static final Language[] REAL_LANGUAGES = getRealLanguages();
+
+  /**
+   * Returns all languages supported by LanguageTool but without the demo language.
+   * In contrast to Language.REAL_LANGUAGES contains external languages as well.
+   * @return All supported languages.
+   * @since 2.6
+   */
+  public static Language[] getRealLanguages() {
+    List<Language> result = new ArrayList<>();
+    for (Language lang : LANGUAGES) {
+      if (!"xx".equals(lang.getShortName())) {  // skip demo language
+        result.add(lang);
+      }
+    }
+    return result.toArray(new Language[result.size()]);
+  }
 
   private static final Language[] BUILTIN_LANGUAGES = LANGUAGES;
 
@@ -143,6 +161,12 @@ public abstract class Language {
    * @return language name
    */
   public abstract String getName();
+
+  /**
+   * Set this language's name in English.
+   * @since 2.6
+   */
+  public abstract void setName(final String name);
   
   /**
    * Get this language's country options , e.g. <code>US</code> (as in <code>en-US</code>) or
@@ -246,7 +270,10 @@ public abstract class Language {
   }
 
   /**
-   * Adds an external rule file to the language.
+   * Adds an external rule file to the language. After running this method,
+   * one has to run JLanguageTool.activateDefaultPatternRules() to make sure
+   * that all external rules are activated.
+   *
    * @param externalRuleFile Absolute file path to rules.
    * @since 2.6
    */
@@ -611,7 +638,16 @@ public abstract class Language {
   }
 
   public boolean isExternal() {
-    return false;
+    return isExternalLanguage;
+  }
+
+  /**
+   * Sets the language as external. Useful for
+   * making a copy of an existing language.
+   * @since 2.6
+   */
+  public void makeExternal() {
+    isExternalLanguage = true;
   }
 
   /**

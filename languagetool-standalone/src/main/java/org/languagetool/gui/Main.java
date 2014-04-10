@@ -149,7 +149,7 @@ public final class Main {
     }
   }
 
-  private void addLanguage() {
+  private void addLanguage() throws InstantiationException, IllegalAccessException {
     final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
     lmd.show();
     try {
@@ -1021,7 +1021,13 @@ public final class Main {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      addLanguage();
+      try {
+        addLanguage();
+      } catch (InstantiationException e1) {
+        throw new RuntimeException(e1);
+      } catch (IllegalAccessException e1) {
+        throw new RuntimeException(e1);
+      }
     }
   }
 
