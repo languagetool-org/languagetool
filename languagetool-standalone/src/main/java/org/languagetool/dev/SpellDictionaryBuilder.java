@@ -42,7 +42,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     SpellDictionaryBuilder builder = new SpellDictionaryBuilder(new File(infoFile));
     
     if (args.length == 4) {
-      String freqListFile= args[3];
+      String freqListFile = args[3];
       builder.readFreqList(new File(freqListFile));
       builder.build(languageCode, builder.addFreqData(new File(plainTextFile)));
     } else {

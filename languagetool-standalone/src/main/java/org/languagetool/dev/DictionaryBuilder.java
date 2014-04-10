@@ -147,8 +147,6 @@ class DictionaryBuilder {
         }
       }
       br.close();
-    } catch (FileNotFoundException e) {
-      System.out.println("Frequencies wordlist file does not exist: " + freqListFile.getAbsolutePath());
     } catch (IOException e) {
       System.out.println("Cannot read file: " + freqListFile.getAbsolutePath());
     }
@@ -189,8 +187,6 @@ class DictionaryBuilder {
       br.close();
       bw.close();
       System.out.println(freqList.size() + " frequency values applied in " + freqValuesApplied + " word forms.");
-    } catch (FileNotFoundException e) {
-      System.out.println("File not found: " + dictFile.getAbsolutePath());
     } catch (IOException e) {
       System.out.println("Cannot read file: " + dictFile.getAbsolutePath());
     }
