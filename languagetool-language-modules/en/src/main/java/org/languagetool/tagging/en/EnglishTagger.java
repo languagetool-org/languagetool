@@ -108,10 +108,10 @@ public class EnglishTagger extends BaseTagger {
       case "POS":
         return l(pos("??"));  // TODO: possessive marker
       case "PRP":
-        return l(pos("pronoun").add("typ", "personal"));
+        return l(pos("pronoun").add("type", "personal"));
       case "WP$":
       case "PRP$":
-        return l(pos("pronoun").add("typ", "possessive"));
+        return l(pos("pronoun").add("type", "possessive"));
       case "RB":
         return l(pos("adverb").add("degree", "positive"));
       case "RBR":
@@ -130,8 +130,7 @@ public class EnglishTagger extends BaseTagger {
       case "VBD":
         return l(pos("verb").add("tense", "simple_past"));
       case "VBG":
-        
-        return l(pos("verb").add("tense", "gerund"));  // TODO: it's not exactly 'tense'
+        return l(pos("verb").add("tense", "progressive"));
       case "VBN":
         return l(pos("verb").add("tense", "past_participle"));
       case "VBP":
