@@ -13014,6 +13014,16 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="TYCH_ROZNIC" name="„tych różnić” (tych różnic)">
+                <pattern>
+                    <token regexp="yes">(?:tam)?tych</token>
+                    <token>różnić</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>tych różnic</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Mimo <marker>tych różnić</marker> można wskazać pewne stałe elementy.</example>
+                <example type='correct'>Mimo tych różnic można wskazać pewne stałe elementy.</example>
+            </rule>
          <rule id="ROZNY" name="„rożnych” (różnych)">
                 <antipattern>
                     <unify>
