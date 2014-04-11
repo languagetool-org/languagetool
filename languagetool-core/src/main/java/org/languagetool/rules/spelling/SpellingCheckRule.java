@@ -30,7 +30,6 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tokenizers.WordTokenizer;
-import org.languagetool.tools.StringTools;
 
 /**
  * An abstract rule for spellchecking rules.
@@ -111,10 +110,6 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
-    return ignoreWord(tokens[idx].getToken());
-  }
-
   protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
     List<String> moreSuggestions = new ArrayList<>();
     if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
@@ -124,8 +119,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   * @throws IOException
-   * @deprecated please use {@link #ignoreToken(AnalyzedTokenReadings[], int)} - deprecated since 2.2
+   * Returns true iff the token at the given position should be ignored by the spell checker.
+   */
+  protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
+    return ignoreWord(tokens[idx].getToken());
+  }
+
+  /**
+   * Returns true iff the word should be ignored by the spell checker.
+   * If possible, use {@link #ignoreToken(org.languagetool.AnalyzedTokenReadings[], int)} instead.
    */
   protected boolean ignoreWord(String word) throws IOException {
     if (!considerIgnoreWords) {
