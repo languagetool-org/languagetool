@@ -464,6 +464,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Od[Oda/subst:pl:gen:f,od/prep:gen:nwok,oda/subst:pl:gen:f]" outputform="Od[od/prep:gen:nwok]"><marker>Od</marker> roku 2000 jestem nieruchawy.</example>
     </rule>
 
+    <rule name="przede wszystkim" id="przede_wszystkim">
+        <pattern>
+            <token>przede</token>
+            <marker><token>wszystkim</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:inst:n2"/>
+    </rule>
+
     <rule name="W wiek" id="w_wiek">
         <pattern case_sensitive="yes">
             <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception></token>
@@ -4355,7 +4363,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag="(?:subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|depr|subst|ger).*"/><exception scope="previous" postag_regexp="yes" postag="(?:ger|subst).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
-                    <marker><token regexp="yes">bądź|lub|i</token></marker>
+                    <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
                 </unify-ignore>
                 <token postag="(?:subst|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|depr|subst|ger).*|SENT_END"/></token>
             </unify>
@@ -4375,7 +4383,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
-                    <marker><token regexp="yes">bądź|lub|i</token></marker>
+                    <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
                 </unify-ignore>
                 <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*|SENT_END"/></token>
             </unify>
@@ -4395,7 +4403,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token postag="(?:ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|ppas).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
-                    <marker><token regexp="yes">bądź|lub|i</token></marker>
+                    <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
                 </unify-ignore>
                 <token postag="(?:ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|ppas).*|SENT_END"/></token>
             </unify>
@@ -4524,12 +4532,62 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <!-- conjunctions that take a comma -->
     <rule name="Spójniki wymagające przecinka lub zastępujące go" id="COMP_COMMA_2">
         <pattern>
-            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|choć|chociaż|chociażby|czy|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|oraz|ponieważ|póki|wszelako|zanim|że|żeby<exception postag="comp:comma"/></token>
+            <token inflected="yes" regexp="yes">aby|acz|aczkolwiek|albo|albowiem|ale|aleć|aliści|ani|azali|ażeby|bo|byleby|choć|chociaż|chociażby|czyli|czyliż|dlaczego|dopóki|dopóty|gdy|gdyby|gdyż|gdyżby|ilekolwiek|ilekroć|iż|iżby|jaki|jeśli|jeżeli|kiedy|który|którędy|lecz|oraz|ponieważ|póki|wszelako|zanim|że|żeby<exception postag="comp:comma"/></token>
         </pattern>
         <disambig action="add"><wd pos="comp:comma"/></disambig>
         <example type="untouched">To jest krowa.</example>
         <example type="ambiguous" inputform="której[który/adj:sg:loc:f:pos]" outputform="której[której/comp:comma,który/adj:sg:loc:f:pos]">Krainę, w <marker>której</marker> kupiłem krowę, zapamiętam do końca życia.</example>
     </rule>
+
+    <rulegroup id="STAJE_VERB" name="staje się => czasownik">
+        <rule><pattern>
+            <token postag="verb:fin:sg:ter:imperf:refl">staje</token>
+            <token postag="qub">się</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="staje[staj/subst:pl:acc:m3,staj/subst:pl:nom:m3,staj/subst:pl:voc:m3,staja/subst:pl:acc:f,staja/subst:pl:nom:f,staja/subst:pl:voc:f,stajać/verb:fin:sg:ter:perf:nonrefl,staje/subst:sg:acc:n2,staje/subst:sg:nom:n2,staje/subst:sg:voc:n2,stawać/verb:fin:sg:ter:imperf:nonrefl,stawać/verb:fin:sg:ter:imperf:refl]"
+                 outputform="staje[stawać/verb:fin:sg:ter:imperf:refl]">Kluczowe <marker>staje</marker> się stanowisko rządu.</example>
+        <example type="untouched">Pociąg staje na stacji.</example>
+        </rule>
+        <rule><pattern>
+            <token postag="qub">się</token>
+            <token postag="verb:fin:sg:ter:imperf:refl">staje</token>
+        </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="staje[staj/subst:pl:acc:m3,staj/subst:pl:nom:m3,staj/subst:pl:voc:m3,staja/subst:pl:acc:f,staja/subst:pl:nom:f,staja/subst:pl:voc:f,stajać/verb:fin:sg:ter:perf:nonrefl,staje/subst:sg:acc:n2,staje/subst:sg:nom:n2,staje/subst:sg:voc:n2,stawać/verb:fin:sg:ter:imperf:nonrefl,stawać/verb:fin:sg:ter:imperf:refl]"
+                     outputform="staje[stawać/verb:fin:sg:ter:imperf:refl]">Kluczowe się <marker>staje</marker> stanowisko rządu.</example>
+            <example type="untouched">Pociąg staje na stacji.</example>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="VERB_REFL_NONREFL" name="czasownik zwrotny i niezwrotny + się => zwrotny">
+        <rule>
+        <pattern>
+            <and>
+                <token postag=".*:refl" postag_regexp="yes"/>
+                <token postag=".*:nonrefl" postag_regexp="yes"/>
+            </and>
+            <token postag="qub">się</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Jajko stało na stole.</example>
+        <example type="ambiguous" inputform="stało[stać/verb:praet:sg:n1.n2:ter:imperf:nonrefl,stać/verb:praet:sg:n1.n2:ter:perf:nonrefl,stać/verb:praet:sg:n1.n2:ter:perf:refl]"
+                 outputform="stało[stać/verb:praet:sg:n1.n2:ter:perf:refl]">To <marker>stało</marker> się nagle.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="qub">się</token>
+                <and>
+                    <token postag=".*:refl" postag_regexp="yes"/>
+                    <token postag=".*:nonrefl" postag_regexp="yes"/>
+                </and>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="untouched">Jajko stało na stole.</example>
+            <example type="ambiguous" inputform="stało[stać/verb:praet:sg:n1.n2:ter:imperf:nonrefl,stać/verb:praet:sg:n1.n2:ter:perf:nonrefl,stać/verb:praet:sg:n1.n2:ter:perf:refl]"
+                     outputform="stało[stać/verb:praet:sg:n1.n2:ter:perf:refl]">To się <marker>stało</marker> nagle.</example>
+        </rule>
+    </rulegroup>
 
     <rule id="JAK_ZES" name="jak żeś -> adv qub">
         <pattern>
@@ -4702,6 +4760,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Mam[mama/subst:pl:gen:f,mamić/verb:impt:sg:sec:imperf:refl.nonrefl,mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"
                  outputform="Mam[mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"><marker>Mam</marker> powody.</example>
         <example type="untouched">Zwróciliśmy się do mam pracujących w komitecie rodzicielskim.</example>
+    </rule>
+
+    <rule name="mam na myśli" id="mam_na_mysli">
+        <pattern>
+            <token postag="verb:fin:sg:pri:imperf:refl.nonrefl">mam</token>
+            <token postag="prep:loc">na</token>
+            <token regexp="yes" postag="subst:sg.*loc.*" postag_regexp="yes">myśli|celu</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="mam[mama/subst:pl:gen:f,mamić/verb:impt:sg:sec:imperf:refl.nonrefl,mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"
+                 outputform="mam[mieć/verb:fin:sg:pri:imperf:refl.nonrefl]">Tu <marker>mam</marker> na myśli dzialałność usługową.</example>
     </rule>
 
     <rule name="miał + inf -> verb" id="mial">
@@ -6161,7 +6230,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     
     <rule id="LICZBY_RZYMSKIE" name="Pomijaj liczby rzymskie">
         <pattern case_sensitive="yes">
-            <token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))(?:-(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX])))?</token>
+            <token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))(?:-(?:M*(?:D?C{0,3}|C[DM])(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})))?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

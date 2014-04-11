@@ -390,7 +390,7 @@ $Id$
 						<pattern>
 								<phraseref idref="NIE_INTERPUNKCJA"></phraseref>
 								<token>a</token>
-								<token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak(:?że)?|choć|chociaż|ponieważ|także|również|następnie|jeśli|jeżeli|gdyby|gdy|kiedy|zarazem|raczej|potem|nawet|przynajmniej|jednocześnie</token>
+								<token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak(:?że)?|choć|chociaż|ponieważ|także|również|następnie|jeśli|jeżeli|gdyby|gdy|kiedy|zarazem|raczej|potem|nawet|przynajmniej|jednocześnie|zwłaszcza|raz</token>
 						</pattern>
 						<message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
 						<short>Błąd interpunkcyjny</short>
@@ -2962,7 +2962,19 @@ $Id$
                     <example type="correct">11 XI 1918</example>
                     <example type="incorrect" correction="11 XI 1918"><marker>11.XI.1918</marker></example>
                 </rule>
-				<rule id="POMINIECIE" name="(...) → [...]">
+				<rulegroup id="POMINIECIE" name="(...) → […]">
+                    <rule>
+                        <pattern>
+                            <token>(</token>
+                            <token>…</token>
+                            <token>)</token>
+                        </pattern>
+                        <message>W języku polskim zwyczaj typograficzny nakazuje wielokropek umieszczać w nawiasie kwadratowym: <suggestion>[…]</suggestion>.</message>
+                        <short>Błąd typograficzny</short>
+                        <example correction="[…]" type="incorrect">„prawdziwe arcydzieło <marker>(…)</marker> o wprost ogromnej teoretycznej doniosłości</example>
+                        <example type="correct">„prawdziwe arcydzieło […] o wprost ogromnej teoretycznej doniosłości</example>
+                    </rule>
+                    <rule>
 						<pattern>
 								<token>(</token>
 								<token>.</token>
@@ -2974,7 +2986,8 @@ $Id$
 						<short>Błąd typograficzny</short>
 						<example correction="[...]" type="incorrect">„prawdziwe arcydzieło <marker>(...)</marker> o wprost ogromnej teoretycznej doniosłości</example>
 						<example type="correct">„prawdziwe arcydzieło [...] o wprost ogromnej teoretycznej doniosłości</example>
-				</rule>
+				    </rule>
+                </rulegroup>
 				<rulegroup id="CUDZYSLOW_OTWIERAJACY" name="Zmiana cudzysłowu angielskiego na polski">
 						<rule>
 								<pattern>
@@ -8598,6 +8611,26 @@ $Id$
 				</rule>
 		</category>
 		<category name="Wyrazy modne i nadużywane" type="style">
+                <rule id="KONCEPT" name="„koncept” (pojęcie)">
+                    <pattern>
+                        <marker><token inflected="yes">koncept</token></marker>
+                    </pattern>
+                    <message>Ten termin jest często nadużywane (kalka z angielskiego). Poprawnie: <suggestion><match no="1" postag="(.*):m3" postag_replace="$1:n2">pojęcie</match></suggestion> (wyjątkiem jest sytuacja, gdy mowa o konceptach w poezji barokowej).</message>
+                    <short>Kalka z angielskiego</short>
+                    <example type="incorrect">Zdefiniujmy najpierw podstawowe <marker>koncepty</marker>.</example>
+                    <example type="correct">Zdefiniujmy najpierw podstawowe <marker>pojęcia</marker>.</example>
+                </rule>
+                <rule id="W_TERMINACH" name="„w terminach” (w kategoriach)">
+                    <pattern>
+                        <token>w</token>
+                        <token>terminach</token>
+                        <token postag="(subst|ger|adj).*gen.*" postag_regexp="yes"/>
+                    </pattern>
+                    <message>Kalka z angielskiego. Lepiej: <suggestion>w kategoriach \3</suggestion>.</message>
+                    <short>Kalka z angielskiego</short>
+                    <example type="incorrect" correction="w kategoriach temperamentu">Interpretują ożywienie <marker>w terminach temperamentu</marker>.</example>
+                    <example type="correct">Interpretują ożywienie <marker>w kategoriach temperamentu</marker>.</example>
+                </rule>
 				<rulegroup id="W_BLISKIEJ_ODLEGLOSCI" name="„w bliskiej odległości” (blisko)">
 						<rule>
 								<pattern>
@@ -8839,7 +8872,7 @@ $Id$
 				</rule>
 				<rule id="WYDAWAC_SIE_BYC" name="„wydaje się być” (wydaje się)">
 						<pattern>
-								<token inflected="yes" regexp="yes">wydawać|zdawać|wydać|zdać</token>
+								<token inflected="yes" regexp="yes">wydawać|zdawać|wydać|zdać|okazać|okazywać</token>
 								<token>się</token>
 								<token>być</token>
 						</pattern>
@@ -10372,7 +10405,7 @@ $Id$
 				</rulegroup>
 				<rule id="SKROTOWCE_BEZ_DYWIZU" name="Skrótowce bez dywizu w przypadkach zależnych">
 						<pattern>
-								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|[GMT]Hz|MKOl|PKOl|UWr|REDakcj.*|KPCh|VBScript|GUŁag|HCl</exception></token>
+								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|[GMT]Hz|MKOl|PKOl|UWr|REDakcj.*|KPCh|VBScript|GUŁag|HCl|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
 						</pattern>
 						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
@@ -11069,22 +11102,23 @@ $Id$
 				<rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
 						<rule>
 								<pattern>
-										<token regexp="yes">\d+-(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
 								</pattern>
-								<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion>.</message>
+								<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match>.</suggestion>.</message>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="5." type="incorrect">To już <marker>5-ty</marker> raz!</example>
 								<example type="correct">20-lecie międzywojenne było okresem pełnym intryg politycznych.</example>
 								<example correction="1." type="incorrect">To już <marker>1-wszy</marker> raz!</example>
 								<example correction="1." type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
+                                <example type="incorrect" correction="90.">Zainicjowana przez Philippe’a Turchet w latach <marker>90tych</marker>, synergologia była wielką ściemą.</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token regexp="yes">\d+-(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+										<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 										<token postag="adj.*" postag_regexp="yes"></token>
 								</pattern>
-								<message>Przymiotniki zawierające liczby zapisujemy łącznie i z myślnikiem: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>-<match no="2"></match></suggestion>.</message>
+								<message>Przymiotniki zawierające liczby zapisujemy łącznie i z myślnikiem: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match>-<match no="2"></match></suggestion>.</message>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="32-bitowy" type="incorrect">To już <marker>32-u bitowy</marker> komputer.</example>
@@ -11094,11 +11128,11 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token regexp="yes">\d+-(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+												<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 										</marker>
 										<token postag="conj"></token>
 								</pattern>
-								<message>W wypadku rozdzielenia przymiotników zawierających liczby pierwszy piszemy tylko z łącznikiem: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>-</suggestion>.</message>
+								<message>W wypadku rozdzielenia przymiotników zawierających liczby pierwszy piszemy tylko z łącznikiem: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match>-</suggestion>.</message>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="32-" type="incorrect">W tym czasie istniały maszyny <marker>32-u</marker> i 64-bitowe.</example>
@@ -11108,20 +11142,20 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token regexp="yes">\d+-(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
+												<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 										</marker>
 										<token negate_pos="yes" postag="conj|comp|adj.*" postag_regexp="yes"></token>
 								</pattern>
-								<message>Nigdy nie dodaje się końcówek do odmienianych liczb; piszemy je po prostu: <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match></suggestion> lub <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion> (w wypadku liczebników porządkowych.</message>
+								<message>Nigdy nie dodaje się końcówek do odmienianych liczb; piszemy je po prostu: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match></suggestion> lub <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion> (w wypadku liczebników porządkowych.</message>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="10|10." type="incorrect">Odnotowano <marker>10-cio</marker> proc. wzrost.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
-										<token regexp="yes"><exception regexp="yes">^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])-([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+										<token regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
-								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion></message>
+								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?.*" regexp_replace="$1"></match></suggestion></message>
 								<short>Błąd ortograficzny</short>
 								<example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX-go</marker> wieku.</example>
 								<example type="correct">To poglądy rodem z XIX wieku.</example>
@@ -11131,13 +11165,13 @@ $Id$
                         <rule>
                         <pattern case_sensitive="yes">
                             <and>
-                                <token regexp="yes">(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])</token>
+                                <token regexp="yes">((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))</token>
                                 <token regexp="yes">.+<exception postag="SENT_START"/></token>
                             </and>
                             <token spacebefore="no">-</token>
-                            <token regexp="yes">(:?[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|im|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+                            <token regexp="yes">(:?[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
                         </pattern>
-                        <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((L?X{0,3}|X[LC])(V?I{0,3}|I[VX]))-.*" regexp_replace="$1"></match></suggestion>.</message>
+                        <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-" regexp_replace="$1"></match></suggestion>.</message>
                         <short>Błąd ortograficzny</short>
                         <example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX- go</marker> wieku.</example>
                         <example type="correct">To poglądy rodem z XIX wieku.</example>
