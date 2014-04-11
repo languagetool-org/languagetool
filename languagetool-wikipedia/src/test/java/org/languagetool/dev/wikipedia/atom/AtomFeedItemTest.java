@@ -60,6 +60,16 @@ public class AtomFeedItemTest {
     assertThat(item.getNewContent().size(), is(0));  // some content was deleted, so there's no new version
   }
 
+  @Test
+  public void testAddedTableLine() throws IOException {
+    // The table changes we get may be incomplete tables, so Sweble cannot filter
+    // them and we'd be left with Mediawiki syntax without filtering...
+    AtomFeedItem item = getSummary("summary-table.txt");
+    assertThat(item.getOldContent().size(), is(0));
+    assertThat(item.getNewContent().size(), is(1));
+    assertThat(item.getNewContent().get(0), is("Besetzung"));  // was "!Besetzung" in XML
+  }
+
   private AtomFeedItem getSummary(String filename) throws IOException {
     InputStream stream = Tools.getStream("/org/languagetool/dev/wikipedia/atom/" + filename);
     return new AtomFeedItem("fakeId", "fakeTitle", StringTools.streamToString(stream, "UTF-8"), new Date(100000));

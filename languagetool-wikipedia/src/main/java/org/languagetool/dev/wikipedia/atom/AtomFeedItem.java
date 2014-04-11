@@ -82,6 +82,7 @@ class AtomFeedItem {
         if (matcher.find()) {
           String cleanContent = matcher.group(1)
                   .replaceAll("<span.*?>", "").replace("</span>", "")
+                  .replaceAll("<div.*?>[!\\|]", "").replace("<div>", "")  // remove table syntax 
                   .replaceAll("<div.*?>", "").replace("</div>", "")
                   .replaceAll("<ins.*?>", "").replace("</ins>", "")
                   .replaceAll("<del.*?>", "").replace("</del>", "")
