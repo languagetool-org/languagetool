@@ -31,10 +31,13 @@ import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ast.AsturianTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Asturian extends Language {
 
   private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
   private String name = "Asturian";
 
   @Override
@@ -72,6 +75,14 @@ public class Asturian extends Language {
             UppercaseSentenceStartRule.class,
             WhitespaceRule.class
     );
+  }
+
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
