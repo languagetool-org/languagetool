@@ -61,6 +61,29 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
         prefixes = Collections.unmodifiableSet(tempSet);
     }
 
+    /**
+   * non-word suffixes that should not be suggested (only morphological endings, never after a space)
+   */
+    private static final Set<String> bannedSuffixes;
+
+    static {
+      final Set<String> tempSet = new HashSet<>();
+      tempSet.add("ami");
+      tempSet.add("ach");
+      tempSet.add("e");
+      tempSet.add("ego");
+      tempSet.add("em");
+      tempSet.add("emu");
+      tempSet.add("ie");
+      tempSet.add("im");
+      tempSet.add("m");
+      tempSet.add("om");
+      tempSet.add("owie");
+      tempSet.add("owi");
+      tempSet.add("ze");
+      bannedSuffixes = Collections.unmodifiableSet(tempSet);
+    }
+
   public MorfologikPolishSpellerRule(ResourceBundle messages,
                                      Language language) throws IOException {
     super(messages, language);
@@ -101,7 +124,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
             List<String> suggestions = speller.getSuggestions(word);
             suggestions.addAll(getAdditionalSuggestions(suggestions, word));
             if (!suggestions.isEmpty()) {
-                ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions,word));
+                ruleMatch.setSuggestedReplacements(pruneSuggestions(orderSuggestions(suggestions,word)));
             }
             ruleMatches.add(ruleMatch);
         }
@@ -148,5 +171,26 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
             return false;
         }
         return true;
+    }
+
+  /**
+   * Remove suggestions -- not really runon words using a list of non-word suffixes
+   * @param suggestions
+   * @return A list of pruned suggestions.
+   * @since 2.6
+   */
+    private List<String> pruneSuggestions(final List<String> suggestions) {
+      List<String> prunedSuggestions = new ArrayList<String>(suggestions.size());
+      for (final String suggestion : suggestions) {
+        if (suggestion.indexOf(' ') == -1) {
+          prunedSuggestions.add(suggestion);
+        } else {
+          String[] complexSug = suggestion.split(" ");
+          if (!bannedSuffixes.contains(complexSug[1])) {
+            prunedSuggestions.add(suggestion);
+          }
+        }
+      }
+      return prunedSuggestions;
     }
 }
