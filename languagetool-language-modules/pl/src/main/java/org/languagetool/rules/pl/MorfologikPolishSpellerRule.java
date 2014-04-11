@@ -114,7 +114,6 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
      *
      * @param word Word to be checked.
      * @return True if the word is not a compound.
-     * @throws IOException
      * @since 2.5
      */
     private boolean isNotCompound(String word) throws IOException {

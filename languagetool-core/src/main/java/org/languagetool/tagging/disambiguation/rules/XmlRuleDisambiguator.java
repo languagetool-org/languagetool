@@ -71,9 +71,6 @@ public class XmlRuleDisambiguator implements Disambiguator {
    * Load disambiguation rules from an XML file. Use {@link org.languagetool.JLanguageTool#addRule} to add
    * these rules to the checking process.
    * 
-   * @throws ParserConfigurationException
-   * @throws SAXException
-   * @throws IOException
    * @return a List of {@link DisambiguationPatternRule} objects
    */
   protected List<DisambiguationPatternRule> loadPatternRules(final String filename) throws ParserConfigurationException, SAXException, IOException {

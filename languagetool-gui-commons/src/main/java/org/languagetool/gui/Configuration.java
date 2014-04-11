@@ -65,8 +65,6 @@ public class Configuration {
    * Uses the configuration file from the default location.
    * @param lang The language for the configuration, used to distinguish 
    * rules that are enabled or disabled per language.
-   *  
-   * @throws IOException
    */
   public Configuration(final Language lang) throws IOException {
     this(new File(System.getProperty("user.home")), CONFIG_FILE, lang);

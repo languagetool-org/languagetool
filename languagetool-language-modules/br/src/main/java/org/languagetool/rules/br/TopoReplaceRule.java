@@ -134,7 +134,6 @@ public class TopoReplaceRule extends Rule {
    * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
    * @param file the file to load.
    * @return the list of maps containing the error-corrections pairs. <br/>The n-th map contains key strings of (n+1) words.
-   * @throws IOException when the file contains errors.
    * @see #getWordTokenizer
    */
   private List<Map<String, String>> loadWords(final InputStream file)
