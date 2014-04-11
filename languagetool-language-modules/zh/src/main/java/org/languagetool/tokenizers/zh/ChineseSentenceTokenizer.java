@@ -24,9 +24,9 @@ import java.util.List;
 import org.ictclas4j.bean.Sentence;
 import org.ictclas4j.segment.SentenceSeg;
 import org.ictclas4j.utility.Utility;
-import org.languagetool.tokenizers.RegexSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
-public class ChineseSentenceTokenizer extends RegexSentenceTokenizer {
+public class ChineseSentenceTokenizer implements SentenceTokenizer {
 
   @Override
   public List<String> tokenize(String text) {
@@ -46,5 +46,16 @@ public class ChineseSentenceTokenizer extends RegexSentenceTokenizer {
       list.add(str);
     }
     return list;
+  }
+
+  /** Note: does have no effect for Chinese */
+  @Override
+  public void setSingleLineBreaksMarksParagraph(boolean lineBreakParagraphs) {
+  }
+
+  /** Note: will always return {@code false} */
+  @Override
+  public boolean singleLineBreaksMarksPara() {
+    return false;
   }
 }

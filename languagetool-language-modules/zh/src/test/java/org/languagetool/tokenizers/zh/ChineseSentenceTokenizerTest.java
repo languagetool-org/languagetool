@@ -71,6 +71,12 @@ public class ChineseSentenceTokenizerTest extends TestCase {
 
   }
 
+  public void testTokenize2() {
+    testSplit("Linux是一種自由和開放源碼的類UNIX操作系統。",
+              "该操作系统的内核由林纳斯·托瓦兹在1991年10月5日首次发布。",
+              "在加上使用者空間的應用程式之後，", "成為Linux作業系統。");
+  }
+
   private void testSplit(final String... sentences) {
     TestTools.testSplit(sentences, stokenizer);
   }
