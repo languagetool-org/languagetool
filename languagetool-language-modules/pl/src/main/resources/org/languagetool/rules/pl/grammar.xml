@@ -11101,7 +11101,7 @@ $Id$
 				</rulegroup>
 				<rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
 						<rule>
-								<pattern>
+								<pattern case_sensitive="yes">
 										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match>.</suggestion>.</message>
@@ -11140,7 +11140,7 @@ $Id$
 								<example correction="6-" type="incorrect">Kupiłem <marker>6-cio</marker> oraz 2-miesięcznego kota.</example>
 						</rule>
 						<rule>
-								<pattern>
+								<pattern case_sensitive="yes">
 										<marker>
 												<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
 										</marker>
@@ -11153,7 +11153,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
-										<token regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+										<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?.*" regexp_replace="$1"></match></suggestion></message>
 								<short>Błąd ortograficzny</short>
@@ -11161,6 +11161,7 @@ $Id$
 								<example type="correct">To poglądy rodem z XIX wieku.</example>
                                 <example type="correct">XX-lecie międzywojenne</example>
                                 <example type="correct">W XV wieku formy z wtórnym ''-e-'' zaczęły być postrzegane jako gwara.</example>
+                                <example type="correct">Ich nazwy dodawane są na końcu listy argumentów.</example>
 						</rule>
                         <rule>
                         <pattern case_sensitive="yes">
