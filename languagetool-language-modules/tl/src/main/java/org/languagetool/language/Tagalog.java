@@ -32,14 +32,17 @@ import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.tl.TagalogTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 /** 
  * @author Nathaniel Oco
  */
 public class Tagalog extends Language {
 
+  private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
-  private String name ="Tagalog";
+  private String name = "Tagalog";
 
   @Override
   public String getName() {
@@ -60,7 +63,15 @@ public class Tagalog extends Language {
   public String[] getCountries() {
     return new String[] {"PH"};
   }
-  
+
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
+  }
+
   @Override
   public Tagger getTagger() {
     if (tagger == null) {

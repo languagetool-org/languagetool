@@ -49,7 +49,7 @@ public class SentenceWhitespaceRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Missing space between sentences";
+    return messages.getString("missing_space_between_sentences");
   }
 
   @Override

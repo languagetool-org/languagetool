@@ -43,7 +43,6 @@ public interface Disambiguator {
    *          have multiple tags.
    * @return Analyzed sentence, where each word has only one (possibly the most
    *         correct) tag.
-   * @throws IOException
    */
   AnalyzedSentence disambiguate(AnalyzedSentence input) throws IOException;
 

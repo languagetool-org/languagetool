@@ -53,7 +53,6 @@ public final class CommandLineTools {
    *
    * @param contents Text to tag.
    * @param lt LanguageTool instance
-   * @throws java.io.IOException
    */
   public static void tagText(final String contents, final JLanguageTool lt) throws IOException {
     AnalyzedSentence analyzedText;
@@ -84,7 +83,6 @@ public final class CommandLineTools {
    * @param prevMatches number of previously matched rules
    * @param xmlMode mode of xml printout for simple xml output
    * @return Number of rule matches to the input text.
-   * @throws IOException
    */
   public static int checkText(final String contents, final JLanguageTool lt,
                               final boolean apiFormat, int contextSize, final int lineOffset,
@@ -189,7 +187,6 @@ public final class CommandLineTools {
    * @param bRules  Bilingual rules used in addition to target standard rules.
    * @param apiFormat Whether API format should be used.
    * @return The number of rules matched on the bitext.
-   * @throws IOException
    * @since 1.0.1
    */
   public static int checkBitext(final BitextReader reader,
@@ -245,7 +242,6 @@ public final class CommandLineTools {
    *
    * @param contents text to check
    * @param lt instance of LanguageTool
-   * @throws IOException
    */
   public static void profileRulesOnText(final String contents,
                                         final JLanguageTool lt) throws IOException {

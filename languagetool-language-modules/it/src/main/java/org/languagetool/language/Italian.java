@@ -39,10 +39,13 @@ import org.languagetool.rules.WhitespaceBeforePunctuationRule;
 
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.it.ItalianTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Italian extends Language {
 
   private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
   private String name = "Italian";
 
   @Override
@@ -81,6 +84,14 @@ public class Italian extends Language {
       tagger = new ItalianTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override

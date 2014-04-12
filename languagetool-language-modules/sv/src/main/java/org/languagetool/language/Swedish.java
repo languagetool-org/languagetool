@@ -33,11 +33,14 @@ import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.rules.sv.CompoundRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.sv.SwedishTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Swedish extends Language {
 
+  private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
-  private String name ="Swedish";
+  private String name = "Swedish";
 
   @Override
   public String getName() {
@@ -65,6 +68,14 @@ public class Swedish extends Language {
       tagger = new SwedishTagger();
     }
     return tagger;
+  }
+
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override

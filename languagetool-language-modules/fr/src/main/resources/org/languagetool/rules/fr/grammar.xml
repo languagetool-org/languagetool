@@ -24487,23 +24487,47 @@ though, and has since been slightly modified)-->
     <rulegroup id="APOS_M" name="je m étais → je m’étais">
       <rule>
         <pattern>
-          <token regexp="yes">[mnts]<exception scope="previous" regexp="yes">lettre|consonne|.</exception></token>
+          <token regexp="yes">[mts]<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|\d\+|.</exception></token>
           <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
         <example type="incorrect" correction="m’étais">Je <marker>m étais</marker> perdu.</example>
         <example type="correct">Je m’étais perdu.</example>
         <example type="correct">La lettre l est mal écrite.</example>
+        <example type="correct">La variable x est constante.</example>
         <example type="correct">Moody's a abaissé la note de la dette du Japon.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">[ld]<exception scope="previous" regexp="yes">lettre|consonne|.</exception></token>
-          <token regexp="yes">[aâeéèêioôuh].*</token>
+          <marker>
+            <token>n</token>
+            <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*</token>
+          </marker>
+          <token min="0" max="1" regexp="yes">presque|toujours|encore</token>
+          <token regexp="yes">pas|guère|point|rien|jamais</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
+        <example type="incorrect" correction="n’arrive">Il <marker>n arrive</marker> presque jamais à l’heure.</example>
+        <example type="incorrect" correction="n’arrive">Il <marker>n arrive</marker> jamais à l’heure.</example>
+        <example type="correct">Il n’arrive jamais à l’heure.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>l<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|\d\+|.</exception></token>
+          <token regexp="yes">[aâeéèêioôuh].*</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>l’\2</suggestion> ?</message>
         <example type="incorrect" correction="L’histoire"><marker>L histoire</marker>.</example>
         <example type="correct">L’histoire.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>d<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|\d\+|.</exception></token>
+          <token regexp="yes" postag="[^V].*" postag_regexp="yes">[aâeéèêioôuh].*</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>d’\2</suggestion> ?</message>
+        <example type="incorrect" correction="d’histoire">Un livre <marker>d histoire</marker> et géographie.</example>
+        <example type="correct">Un livre d’histoire et géographie.</example>
       </rule>
     </rulegroup>
     <rule id="APOS_ESPACE" name="apostrophe + espace">

@@ -214,7 +214,6 @@ public class Hunspell {
      * @param baseFileName the base name of the dictionary, 
      * passing /dict/da_DK means that the files /dict/da_DK.dic
      * and /dict/da_DK.aff get loaded
-     * @throws IOException 
      */
     public Dictionary getDictionary(String baseFileName)
             throws IOException {
@@ -265,7 +264,6 @@ public class Hunspell {
         /**
          * Creates an instance of the dictionary.
          * @param baseFileName the base name of the dictionary, 
-         * @throws IOException 
          */
         Dictionary(String baseFileName) throws IOException {
             File dic = new File(baseFileName + ".dic");
@@ -341,7 +339,6 @@ public class Hunspell {
          * Returns a list of suggestions 
          *
          * @param word The word to check and offer suggestions for
-         * @throws CharacterCodingException 
          */
         public List<String> suggest(String word) throws CharacterCodingException {
             List<String> res = new ArrayList<>();
@@ -396,7 +393,6 @@ public class Hunspell {
         /**
          * Adds a word to the runtime dictionary.
          * @param word Word to be added.
-         * @throws UnsupportedEncodingException
          */
         public void addWord(final String word) throws UnsupportedEncodingException {
             hsl.Hunspell_add(hunspellDict, stringToBytes(word));

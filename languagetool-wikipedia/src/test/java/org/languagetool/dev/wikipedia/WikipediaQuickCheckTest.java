@@ -60,7 +60,8 @@ public class WikipediaQuickCheckTest extends TestCase {
             "Eine kleine Auswahl von Fehlern.\n\n" +
             "Das Komma ist richtig, wegen dem Leerzeichen.";
     final MediaWikiContent wikiContent = new MediaWikiContent(markup, "2012-11-11T20:00:00");
-    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German());
+    final ErrorMarker errorMarker = new ErrorMarker("<err>", "</err>");
+    final MarkupAwareWikipediaResult result = check.checkWikipediaMarkup(new URL("http://fake-url.org"), wikiContent, new German(), errorMarker);
     assertThat(result.getLastEditTimestamp(), is("2012-11-11T20:00:00"));
     final List<AppliedRuleMatch> appliedMatches = result.getAppliedRuleMatches();
     // even though this error has no suggestion, there's a (pseudo) correction:
@@ -69,9 +70,9 @@ public class WikipediaQuickCheckTest extends TestCase {
     assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
     RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
     assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
-            ruleMatchApplication.getTextWithCorrection().contains("<<span class=\"error\">>wegen dem<</span>> Leerzeichen."));
-    assertThat(ruleMatchApplication.getOriginalErrorContext(12), is("st richtig, <<span class=\"error\">>wegen dem<</span>> Le"));
-    assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <<span class=\"error\">>wegen dem<</span>> Le"));
+            ruleMatchApplication.getTextWithCorrection().contains("<err>wegen dem</err> Leerzeichen."));
+    assertThat(ruleMatchApplication.getOriginalErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
+    assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
   }
 
   public void testGetPlainText() {

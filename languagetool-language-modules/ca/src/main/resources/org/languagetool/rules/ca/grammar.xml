@@ -3160,6 +3160,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PASSAT_PERIFRASTIC" name="Comprova: passat perifràstic">
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>Le</token>
+                    <token>Vau</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>vas</token>
+                    <token regexp="yes">decorat|usat</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" skip="5">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*|P[P0].*" postag_regexp="yes"/></token>
@@ -3262,7 +3274,7 @@ $Id$
                 <pattern>
                     <token>va<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">acompanyat|acoblat|adreçat|afaitat|afegit|amarrat|aparellat|armat|associat|calçat|carregat|cedit|cenyit|classificat|combinat|col·locat|connectat|collat|datat|decidit|decorat|dedicat|descordat|desesperat|despentinat|destinat|dirigit|disfressat|disposat|dotat|drogat|embolicat|encaixonat|encaminat|encapçalat|encolat|enferit|enfocat|enganxat|ensellat|envergat|enviat|equipat|equivocat|errat|esgarriat|espentolat|esverat|fermat|fixat|guarnit|igualat|inclinat|incorporat|indicat|indignat|inscrit|inserit|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|ornat|precedit|proveït|regit|reforçat|relacionat|representat|seguit|servit|situat|sobrat|soldat|sopreposat|subjectat|timbrat|unit|vestit|vinculat</exception></token>
+                        <token postag="V.P.*SM." postag_regexp="yes" regexp="yes">.+[aiï]t<exception regexp="yes">abillat|acompanyat|acoblat|adreçat|afaitat|afegit|afermat|amarrat|aparellat|armat|associat|calçat|carregat|cedit|cenyit|classificat|combinat|col·locat|connectat|collat|datat|decidit|decorat|dedicat|descordat|desesperat|despentinat|destinat|dirigit|disfressat|disposat|dotat|drogat|embolicat|encaixonat|encaminat|encapçalat|encolat|endollat|enfadat|enferit|enfocat|enfurit|enfurismat|enganxat|ensellat|enutjat|envergat|enviat|equipat|equivocat|errat|esgarriat|espentolat|esverat|fermat|fixat|guarnit|igualat|inclinat|incorporat|indicat|indignat|inscrit|inserit|integrat|introduït|lligat|marcat|muntat|ocupat|orientat|ornat|posposat|precedit|proveït|regit|reforçat|relacionat|representat|seguit|servit|situat|sobrat|soldat|sopreposat|subjectat|timbrat|unit|vestit|vinculat</exception></token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>?</message>
@@ -10716,23 +10728,36 @@ $Id$
         	</rule>
         	<rule id="CONEIXO" name="*coneixo/conec">
         		<pattern>
-        			<token regexp="yes">(des)?apareixo|(des|re)?coneixo</token>
+                    <token regexp="yes">(desa|a)pareixo|(des|re)?coneixo</token>
         		</pattern>
-        		<message>La 1a persona del present d'indicatiu és <suggestion><match no="1" regexp_match="(.*)eixo" regexp_replace="$1ec"/></suggestion>.</message>
-        		<short>Error ortogràfic</short>
+                <message>Verb conjugat de manera incorrecta.</message> 
+                <suggestion><match no="1" regexp_match="(.*)eixo" regexp_replace="$1ec"/></suggestion>
+                <short>Verb incorrecte</short>
                 <example type="incorrect" correction="desconec">Ho <marker>desconeixo</marker>.</example>
-                <example type="correct">El conec.</example>
+                <example type="correct">Jo pareixo.</example>
         	</rule>
+
             <rule id="CONEIXIN" name="*coneixin/coneguin">
                 <pattern>
-                    <token regexp="yes">(des)?apareixin?|(des|re)?coneixin?</token>
+                    <token regexp="yes">(desa|a|com)pareixin?|(des|re)?coneixin?</token>
                 </pattern>
                 <message>Forma incorrecta de subjuntiu.</message>
                 <suggestion><match no="1" regexp_match="(.*)eixi(n?)" regexp_replace="$1egui$2"/></suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="coneguin">Sembla que el <marker>coneixin</marker>.</example>
                 <example type="incorrect" correction="desaparegui">I quan <marker>desapareixi</marker>?</example>
-                <example type="correct">El conec.</example>
+                <example type="correct">Quan pareixi.</example>
+            </rule>
+            <rule id="CONEIXESSIN" name="*coneixessin/coneguessin">
+                <pattern>
+                    <token regexp="yes">((desa|a|com)?pareix|(des|re)?coneix)(és|ess[ei]s|éss[ei]m|éss[ei]u|ess[ei]n)</token>
+                </pattern>
+                <message>Verb conjugat de manera incorrecta.</message> 
+                <suggestion><match no="1" regexp_match="(.+)eix(.+)" regexp_replace="$1egu$2"/></suggestion>
+                <short>Verb incorrecte</short>
+                <example type="incorrect" correction="reconeguessin">Que ho <marker>reconeixessin</marker>.</example>
+                <example type="incorrect" correction="pareguessin">Que ho <marker>pareixessin</marker>.</example>
+                <example type="correct">Que parissin.</example>
             </rule>
         </rulegroup>
     </category>
@@ -22238,7 +22263,7 @@ $Id$
         </rulegroup>
        <rule id="ACONSEGUIT" name="aconseguit/reeixit">
             <pattern>
-                <token regexp="yes">molt|ben</token>
+                <token regexp="yes">molt|ben|tan</token>
                 <marker>
                     <token postag="V.P.*" postag_regexp="yes" inflected="yes">aconseguir<exception postag="_GV_"/></token>
                 </marker>

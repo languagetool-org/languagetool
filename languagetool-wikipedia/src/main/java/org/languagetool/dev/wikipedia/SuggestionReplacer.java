@@ -33,24 +33,30 @@ public class SuggestionReplacer {
 
   private final PlainTextMapping textMapping;
   private final String originalText;
-  private final String errorMarkerStart;
-  private final String errorMarkerEnd;
+  private final ErrorMarker errorMarker;
 
   /**
    * @param originalText the original text that includes markup
    */
   public SuggestionReplacer(PlainTextMapping textMapping, String originalText) {
-    this.textMapping = textMapping;
-    this.originalText = originalText;
-    this.errorMarkerStart = "<<span class=\"error\">>";  // use <<span>> to avoid clashes with <span> in original markup
-    this.errorMarkerEnd = "<</span>>";
+    // use <<span>> to avoid clashes with <span> in original markup:
+    this(textMapping, originalText, new ErrorMarker("<<span class=\"error\">>", "<</span>>"));
   }
 
-  public SuggestionReplacer(PlainTextMapping textMapping, String originalText, String errorMarkerStart, String errorMarkerEnd) {
+  /**
+   * @since 2.6
+   */
+  public SuggestionReplacer(PlainTextMapping textMapping, String originalText, ErrorMarker errorMarker) {
     this.textMapping = textMapping;
     this.originalText = originalText;
-    this.errorMarkerStart = errorMarkerStart;
-    this.errorMarkerEnd = errorMarkerEnd;
+    this.errorMarker = errorMarker;
+  }
+
+  /**
+   * @deprecated use {@link #SuggestionReplacer(PlainTextMapping, String, ErrorMarker)} instead (deprecated since 2.6)
+   */
+  public SuggestionReplacer(PlainTextMapping textMapping, String originalText, String errorMarkerStart, String errorMarkerEnd) {
+    this(textMapping, originalText, new ErrorMarker(errorMarkerStart, errorMarkerEnd));
   }
 
   /**
@@ -95,9 +101,9 @@ public class SuggestionReplacer {
 
       final String context = originalText.substring(contextFrom, contextTo);
       final String text = originalText.substring(0, contextFrom)
-              + errorMarkerStart
+              + errorMarker.getStartMarker()
               + context
-              + errorMarkerEnd
+              + errorMarker.getEndMarker()
               + originalText.substring(contextTo);
       String newContext;
       if (StringUtils.countMatches(context, errorText) == 1) {
@@ -110,15 +116,15 @@ public class SuggestionReplacer {
       }
       final String newText = originalText.substring(0, contextFrom)
               // we do a simple string replacement as that works even if our mapping is off a bit:
-              + errorMarkerStart
+              + errorMarker.getStartMarker()
               + newContext
-              + errorMarkerEnd
+              + errorMarker.getEndMarker()
               + originalText.substring(contextTo);
       final RuleMatchApplication application;
       if (hasRealReplacements) {
-        application = RuleMatchApplication.forMatchWithReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
+        application = RuleMatchApplication.forMatchWithReplacement(match, text, newText, errorMarker);
       } else {
-        application = RuleMatchApplication.forMatchWithoutReplacement(match, text, newText, errorMarkerStart, errorMarkerEnd);
+        application = RuleMatchApplication.forMatchWithoutReplacement(match, text, newText, errorMarker);
       }
       ruleMatchApplications.add(application);
     }

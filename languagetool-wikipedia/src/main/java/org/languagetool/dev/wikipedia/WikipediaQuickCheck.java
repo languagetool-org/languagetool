@@ -33,10 +33,9 @@ import javax.xml.parsers.SAXParserFactory;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
-import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.ContextTools;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -50,7 +49,6 @@ public class WikipediaQuickCheck {
 
   private static final Pattern WIKIPEDIA_URL_REGEX = Pattern.compile("https?://(..)\\.wikipedia\\.org/wiki/(.*)"); 
   private static final Pattern SECURE_WIKIPEDIA_URL_REGEX = Pattern.compile("https://secure\\.wikimedia\\.org/wikipedia/(..)/wiki/(.*)");
-  private static final int CONTEXT_SIZE = 25;
 
   private List<String> disabledRuleIds = new ArrayList<>();
 
@@ -92,6 +90,13 @@ public class WikipediaQuickCheck {
   }
 
   public MarkupAwareWikipediaResult checkPage(URL url) throws IOException, PageNotFoundException {
+    return checkPage(url, null);
+  }
+
+  /**
+   * @since 2.6
+   */
+  public MarkupAwareWikipediaResult checkPage(URL url, ErrorMarker errorMarker) throws IOException, PageNotFoundException {
     validateWikipediaUrl(url);
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     final String xml = check.getMediaWikiContent(url);
@@ -99,10 +104,10 @@ public class WikipediaQuickCheck {
     if (wikiContent.getContent().trim().isEmpty() || wikiContent.getContent().toLowerCase().contains("#redirect")) {
       throw new PageNotFoundException("No content found at " + url);
     }
-    return checkWikipediaMarkup(url, wikiContent, getLanguage(url));
+    return checkWikipediaMarkup(url, wikiContent, getLanguage(url), errorMarker);
   }
 
-  MarkupAwareWikipediaResult checkWikipediaMarkup(URL url, MediaWikiContent wikiContent, Language language) throws IOException {
+  MarkupAwareWikipediaResult checkWikipediaMarkup(URL url, MediaWikiContent wikiContent, Language language, ErrorMarker errorMarker) throws IOException {
     final SwebleWikipediaTextFilter filter = new SwebleWikipediaTextFilter();
     final PlainTextMapping mapping = filter.filter(wikiContent.getContent());
     final JLanguageTool langTool = getLanguageTool(language);
@@ -110,7 +115,9 @@ public class WikipediaQuickCheck {
     final List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     int internalErrors = 0;
     for (RuleMatch match : matches) {
-      final SuggestionReplacer replacer = new SuggestionReplacer(mapping, wikiContent.getContent());
+      final SuggestionReplacer replacer = errorMarker != null ? 
+              new SuggestionReplacer(mapping, wikiContent.getContent(), errorMarker) :
+              new SuggestionReplacer(mapping, wikiContent.getContent());
       try {
         final List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);
         appliedMatches.add(new AppliedRuleMatch(match, ruleMatchApplications));
@@ -218,29 +225,33 @@ public class WikipediaQuickCheck {
       System.out.println(plainText);
   }*/
     
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, PageNotFoundException {
     if (args.length != 1) {
       System.out.println("Usage: " + WikipediaQuickCheck.class.getName() + " <url>");
       System.exit(1);
     }
-    final WikipediaQuickCheck check = new WikipediaQuickCheck();
+    WikipediaQuickCheck check = new WikipediaQuickCheck();
     // URL examples:
     //final String urlString = "http://de.wikipedia.org/wiki/Angela_Merkel";
     //final String urlString = "https://de.wikipedia.org/wiki/Benutzer_Diskussion:Dnaber";
     //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/G%C3%BCtersloh";
-    //final String urlString = "https://secure.wikimedia.org/wikipedia/de/wiki/Benutzer_Diskussion:Dnaber";
-    final String urlString = args[0];
-    final URL url = new URL(urlString);
-    final String mediaWikiContent = check.getMediaWikiContent(url);
-    final String plainText = check.getPlainText(mediaWikiContent);
-    final Language lang = check.getLanguage(url);
-    final WikipediaQuickCheckResult checkResult = check.checkPage(plainText, lang);
-    final ContextTools contextTools = new ContextTools();
-    contextTools.setContextSize(CONTEXT_SIZE);
-    for (RuleMatch ruleMatch : checkResult.getRuleMatches()) {
-      System.out.println(ruleMatch.getMessage());
-      final String context = contextTools.getPlainTextContext(ruleMatch.getFromPos(), ruleMatch.getToPos(), checkResult.getText());
-      System.out.println(context);
+    String urlString = args[0];
+    MarkupAwareWikipediaResult result = check.checkPage(new URL(urlString), new ErrorMarker("***", "***"));
+    int errorCount = 0;
+    for (AppliedRuleMatch match : result.getAppliedRuleMatches()) {
+      RuleMatchApplication matchApplication = match.getRuleMatchApplications().get(0);
+      RuleMatch ruleMatch = match.getRuleMatch();
+      Rule rule = ruleMatch.getRule();
+      System.out.println("");
+      String message = ruleMatch.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'");
+      errorCount++;
+      System.out.print(errorCount + ". " + message);
+      if (rule instanceof PatternRule) {
+        System.out.println(" (" + rule.getId() + "[" + ((PatternRule) rule).getSubId() + "])");
+      } else {
+        System.out.println(" (" + rule.getId() + ")");
+      }
+      System.out.println("    ..." + matchApplication.getOriginalErrorContext(50).replace("\n", "\\n") + "...");
     }
   }
   

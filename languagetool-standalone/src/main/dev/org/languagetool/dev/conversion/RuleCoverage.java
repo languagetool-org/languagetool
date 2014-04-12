@@ -142,9 +142,8 @@ public class RuleCoverage {
     
     /**
      * Returns true if the input string is covered by an existing JLanguageTool error 
-     * @param str: input error string
-     * @return: true if (entire) string is considered an error, false o.w.; this doesn't work
-     * @throws IOException
+     * @param str input error string
+     * @return true if (entire) string is considered an error, false o.w.; this doesn't work
      */
     public boolean isCovered(String str) throws IOException {
         List<RuleMatch> matches = tool.check(str);
@@ -188,8 +187,6 @@ public class RuleCoverage {
     
     /**
      * Generates an error string that matches the given PatternRule object 
-     * @param patternrule
-     * @return
      */
     public String generateIncorrectExample(PatternRule patternrule) {
         ArrayList<String> examples = new ArrayList<String>();
@@ -259,8 +256,6 @@ public class RuleCoverage {
     
     /**
      * Generates a word that matches the given Element 
-     * @param e
-     * @return
      */
     //TODO: doesn't deal with skipped tokens
     @SuppressWarnings("unchecked")
@@ -403,10 +398,6 @@ public class RuleCoverage {
     
     /**
      * Returns an element with the string set as the previously matched element
-     * @param e
-     * @param elements
-     * @param examples
-     * @return
      */
     private Element getReferenceElement(Element e, List<Element> elements, ArrayList<String> examples) {
       int r = e.getMatch().getTokenRef();
@@ -454,8 +445,6 @@ public class RuleCoverage {
     /**
      * Returns a random one of the or-ed elements. Random seems like the right thing to do here.
      * Only applied to simple or-ed lists of words, e.g. this|that|those
-     * @param e
-     * @return
      */
     private String randomOredElement(Element e) {
       String[] split = e.getString().split("\\|");
@@ -466,9 +455,6 @@ public class RuleCoverage {
     
     /** 
      * Faster version of inExceptionList, because we don't have to re-compile the Patterns for the exception elements
-     * @param word
-     * @param exceptionAttributes
-     * @return
      */
     @SuppressWarnings("unchecked")
   private boolean inExceptionList(String word, ArrayList<ArrayList<Pattern>> exceptionAttributes, List<Element> exceptions) {
@@ -492,10 +478,6 @@ public class RuleCoverage {
     
     /**
      * Faster version of isExampleOf, since you don't have to recompile the Patterns every time
-     * @param word
-     * @param tokenPattern
-     * @param posPattern
-     * @return
      */
     public boolean isExampleOf(String word, Pattern tokenPattern, Pattern posPattern, Element e) {
       if (tokenPattern.pattern().isEmpty() && posPattern == null) {
@@ -574,8 +556,6 @@ public class RuleCoverage {
     
     /**
      * Returns a list of the word's POS tags
-     * @param word
-     * @return
      */
     private List<String> getPosTags(String word) {
         List<WordData> lwd = dictLookup.lookup(word);
@@ -587,8 +567,6 @@ public class RuleCoverage {
     }
     /**
      * Returns an or-ed group of the lemmas of a word
-     * @param word
-     * @return
      */
     private ArrayList<String> getLemmas(String word) {
       List<WordData> lwd = dictLookup.lookup(word);
@@ -622,8 +600,6 @@ public class RuleCoverage {
     
     /**
      * Returns true if the element has a (non-regexp, non-negated) token and no exception list
-     * @param e
-     * @return
      */
     private static boolean isJustToken(Element e) {
       return (!e.getString().isEmpty() && !e.isRegularExpression() && !e.getNegation() && e.getExceptionList() == null);
@@ -632,8 +608,6 @@ public class RuleCoverage {
     /**
      * Returns true if the given element's string is a regex set of punctuation.
      * e.g. ['"] or [.,;:?!]
-     * @param e
-     * @return
      */
     public static boolean isPunctuation(Element e) {
       if (regexSet.matcher(e.getString()).matches() && !e.getNegation() && e.getPOStag() == null) {
@@ -644,8 +618,6 @@ public class RuleCoverage {
     
     /**
      * Grabs the first element of a punctuation set matched by the above method.
-     * @param e
-     * @return
      */
     public String getOnePunc(Element e) {
       String set = e.getString();
@@ -657,8 +629,6 @@ public class RuleCoverage {
     /** 
      * Returns true if the element is an or-ed list of words, without a specified pos-tag.
      * e.g. can|could|would|should
-     * @param e
-     * @return
      */
     private static boolean isSimpleOrRegex(Element e) {
       // any number of conditions that could halt this check

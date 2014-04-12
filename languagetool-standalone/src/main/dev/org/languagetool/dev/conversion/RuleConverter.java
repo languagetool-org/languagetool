@@ -120,24 +120,17 @@ public abstract class RuleConverter {
     
     /**
      * The main method: parses the input file and populates the rule lists
-     * @throws IOException
      */
     public abstract void parseRuleFile() throws IOException;
     
     /**
      * Takes a rule object and returns the original string representation of the rule
-     * @param ruleObject: element from getRules()
-     * @return
+     * @param ruleObject element from getRules()
      */
     public abstract String getOriginalRuleString(Object ruleObject);
     /**
      * Takes a rule object (element from getRules()), an id, a name, and a rule type (this.ruleType) and returns a 
      * list of strings, the rule in LanguageTool format. Almost always called by getLtRules, etc methods
-     * @param rule
-     * @param id
-     * @param name
-     * @param type
-     * @return
      */
     public abstract List<String> ltRuleAsList(Object rule, String id, String name, String type);
     
@@ -145,29 +138,16 @@ public abstract class RuleConverter {
     public abstract String generateName(Object ruleObject);
     /**
      * Returns a list of acceptable file types
-     * @return
      */
     public abstract String[] getAcceptableFileTypes();
     
     /**
      * Returns true if the rule object is a disambiguation rule (i.e. should go into the disambiguation.xml file)
-     * @param ruleObject
-     * @return
      */
     public abstract boolean isDisambiguationRule(Object ruleObject);
     
     /**
      * Takes a LT rule list and elements of a token, and adds the proper <token> element to the rule list.
-     * @param orig
-     * @param token
-     * @param postag
-     * @param exceptions
-     * @param careful
-     * @param inflected
-     * @param negate
-     * @param skip
-     * @param indent
-     * @return
      */
     protected static ArrayList<String> addToken(ArrayList<String> orig, String token, String postag, String exceptions, 
                           boolean careful, boolean inflected, boolean negate, int skip, int indent) {
@@ -252,8 +232,6 @@ public abstract class RuleConverter {
         return returnList;
     }
     
-    
-    
     /**
      * returns if the string contains a character that might indicate it's a regex
      */
@@ -317,7 +295,5 @@ public abstract class RuleConverter {
       return str;
     }
   }
-    
-    
     
 }

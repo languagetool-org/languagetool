@@ -65,7 +65,6 @@ public class SimpleReplaceRuleTest extends TestCase {
    *
    * @param sentence the sentence containing the incorrect/misspelled word.
    * @param word the word that is correct (the suggested replacement).
-   * @throws IOException
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));

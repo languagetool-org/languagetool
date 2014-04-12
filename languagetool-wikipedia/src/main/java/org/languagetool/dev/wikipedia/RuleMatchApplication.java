@@ -28,30 +28,28 @@ public class RuleMatchApplication {
   private final RuleMatch ruleMatch;
   private final String text;
   private final String textWithCorrection;
-  private final String errorMarkerStart;
-  private final String errorMarkerEnd;
+  private final ErrorMarker errorMarker;
   private final boolean hasRealReplacement;
 
-  static RuleMatchApplication forMatchWithReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd) {
-    return new RuleMatchApplication(ruleMatch, text, textWithCorrection, errorMarkerStart, errorMarkerEnd, true);
+  static RuleMatchApplication forMatchWithReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, ErrorMarker errorMarker) {
+    return new RuleMatchApplication(ruleMatch, text, textWithCorrection, errorMarker, true);
   }
 
-  static RuleMatchApplication forMatchWithoutReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd) {
-    return new RuleMatchApplication(ruleMatch, text, textWithCorrection, errorMarkerStart, errorMarkerEnd, false);
+  static RuleMatchApplication forMatchWithoutReplacement(RuleMatch ruleMatch, String text, String textWithCorrection, ErrorMarker errorMarker) {
+    return new RuleMatchApplication(ruleMatch, text, textWithCorrection, errorMarker, false);
   }
 
-  private RuleMatchApplication(RuleMatch ruleMatch, String text, String textWithCorrection, String errorMarkerStart, String errorMarkerEnd, boolean hasRealReplacement) {
-    if (!textWithCorrection.contains(errorMarkerStart)) {
-      throw new IllegalArgumentException("No start error marker (" + errorMarkerEnd + ") found in text with correction");
+  private RuleMatchApplication(RuleMatch ruleMatch, String text, String textWithCorrection, ErrorMarker errorMarker, boolean hasRealReplacement) {
+    if (!textWithCorrection.contains(errorMarker.getStartMarker())) {
+      throw new IllegalArgumentException("No start error marker (" + errorMarker.getStartMarker() + ") found in text with correction");
     }
-    if (!textWithCorrection.contains(errorMarkerEnd)) {
-      throw new IllegalArgumentException("No end error marker (" + errorMarkerEnd + ") found in text with correction");
+    if (!textWithCorrection.contains(errorMarker.getEndMarker())) {
+      throw new IllegalArgumentException("No end error marker (" + errorMarker.getEndMarker() + ") found in text with correction");
     }
     this.ruleMatch = ruleMatch;
     this.text = text;
     this.textWithCorrection = textWithCorrection;
-    this.errorMarkerStart = errorMarkerStart;
-    this.errorMarkerEnd = errorMarkerEnd;
+    this.errorMarker = errorMarker;
     this.hasRealReplacement = hasRealReplacement;
   }
 
@@ -64,8 +62,8 @@ public class RuleMatchApplication {
   }
 
   private String getContext(String text, int contextSize) {
-    int errorStart = textWithCorrection.indexOf(errorMarkerStart);
-    int errorEnd = textWithCorrection.indexOf(errorMarkerEnd);
+    int errorStart = textWithCorrection.indexOf(errorMarker.getStartMarker());
+    int errorEnd = textWithCorrection.indexOf(errorMarker.getEndMarker());
     int errorContextStart = Math.max(errorStart - contextSize, 0);
     int errorContentEnd = Math.min(errorEnd + contextSize, text.length());
     return text.substring(errorContextStart, errorContentEnd);
@@ -83,12 +81,19 @@ public class RuleMatchApplication {
     return textWithCorrection;
   }
 
+  /** @since 2.6 */
+  public ErrorMarker getErrorMarker() {
+    return errorMarker;
+  }
+  
+  /** @deprecated use {@link #getErrorMarker()} instead (deprecated since 2.6) */
   public String getErrorMarkerStart() {
-    return errorMarkerStart;
+    return errorMarker.getStartMarker();
   }
 
+  /** @deprecated use {@link #getErrorMarker()} instead (deprecated since 2.6) */
   public String getErrorMarkerEnd() {
-    return errorMarkerEnd;
+    return errorMarker.getEndMarker();
   }
 
   public boolean hasRealReplacement() {

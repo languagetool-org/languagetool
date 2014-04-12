@@ -31,10 +31,13 @@ import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.lt.MorfologikLithuanianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class Lithuanian extends Language {
 
   private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
   private String name = "Lithuanian";
 
   @Override
@@ -55,6 +58,14 @@ public class Lithuanian extends Language {
   @Override
   public String getShortName() {
     return "lt";
+  }
+
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override

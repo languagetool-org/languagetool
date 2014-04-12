@@ -23,6 +23,8 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.ml.MorfologikMalayalamSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ml.MalayalamTagger;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ml.MalayalamWordTokenizer;
 
@@ -31,6 +33,7 @@ import java.util.List;
 
 public class Malayalam extends Language {
 
+  private SentenceTokenizer sentenceTokenizer;
   private Tagger tagger;
   private Tokenizer wordTokenizer;
   private String name = "Malayalam";
@@ -61,6 +64,14 @@ public class Malayalam extends Language {
   @Override
   public final String[] getCountries() {
     return new String[]{"IN"};
+  }
+
+  @Override
+  public final SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
   
   @Override

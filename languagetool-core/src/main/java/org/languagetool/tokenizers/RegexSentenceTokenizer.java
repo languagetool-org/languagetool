@@ -191,10 +191,6 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
     // e.g.: "That's right!" he said.
     s = abbrev6.matcher(s).replaceAll("$1$2");
 
-    // fixme? not sure where this should occur, leaving it commented out:
-    // don't break: text . . some more text.
-    // text=~s/(\s\.\s)$EOS(\s*)/$1$2/sg;
-
     // e.g. "Das ist . so." -> assume one sentence
     s = abbrev7.matcher(s).replaceAll("$1");
 
@@ -229,10 +225,6 @@ public class RegexSentenceTokenizer implements SentenceTokenizer {
    * character at these positions.
    */
   private String splitUnsplitStuff(String s) {
-    // e.g. "x5. bla..." -- not sure, leaving commented out:
-    // text = re.compile("(\D\d+)(%s)(\s+)" % self.P, re.DOTALL).sub("\\1\\2%s\\3" % self.EOS, text)
-    // Not sure about this one, leaving out four now:
-    // text = re.compile("(%s\s)(\s*\()" % self.PAP, re.DOTALL).sub("\\1%s\\2" % self.EOS, text)
     // Split e.g.: He won't. #Really.
     s = repair1.matcher(s).replaceAll("$1" + EOS + "$2");
     // Split e.g.: He won't say no. Not really.

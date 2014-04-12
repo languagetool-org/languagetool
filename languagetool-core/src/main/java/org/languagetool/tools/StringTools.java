@@ -82,7 +82,6 @@ public final class StringTools {
    * @param encoding the stream's character encoding, e.g. {@code utf-8}, or {@code null} to use the system encoding
    * @return a string with the stream's content, lines separated by {@code \n} (note that {@code \n} will
    *  be added to the last line even if it is not in the stream)
-   * @throws IOException
    * @since LanguageTool 2.3
    */
   public static String readStream(final InputStream stream, final String encoding) throws IOException {
