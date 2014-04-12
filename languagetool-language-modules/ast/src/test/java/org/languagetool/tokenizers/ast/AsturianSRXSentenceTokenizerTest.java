@@ -30,6 +30,12 @@ public class AsturianSRXSentenceTokenizerTest extends TestCase {
   public void testTokenize() {
     testSplit("De secute, los hackers de Minix aportaron idegues y códigu al núcleu Linux, y güey recibiera contribuciones de miles de programadores. ",
               "Torvalds sigue lliberando nueves versiones del núcleu, consolidando aportes d'otros programadores y faciendo cambios el mesmu.");
+    stokenizer.setSingleLineBreaksMarksParagraph(false);
+    testSplit("De secute,\nlos hackers de Minix...");
+    testSplit("De secute,\n\n", "los hackers de Minix...");
+    stokenizer.setSingleLineBreaksMarksParagraph(true);
+    testSplit("De secute,\n", "los hackers de Minix...");
+    testSplit("De secute,\n", "\n", "los hackers de Minix...");
   }
 
   private void testSplit(String... sentences) {
