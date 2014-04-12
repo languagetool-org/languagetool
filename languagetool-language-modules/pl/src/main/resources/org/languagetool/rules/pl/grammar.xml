@@ -2166,7 +2166,7 @@ $Id$
                         <rule>
 								<pattern>
 										<token postag="SENT_START"></token>
-										<token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak|to</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
+										<token postag="subst:sg:nom.*" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="current">nic|co|jak|to</exception><exception postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes" scope="next">[\-—–!\?;\(\):]|kiedy|gdy|który|jaki|że|iż|bo|a|jeśli|jeżeli|aby|żeby|ażeby|zanim|acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|byleby|czyli|czyliż|dlaczego|dopóki|dopóty|gdyż|gdyżby|ilekolwiek|ilekroć|póki|tedy|ten|to</exception><exception postag="verb:(praet:|pot:|fin:|)sg.*ter.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" scope="next"></exception></token>
 										<marker>
 												<token>,</token>
 												<token>to</token>
@@ -2180,6 +2180,7 @@ $Id$
                                 <example type="correct">To nie kobieta, to anioł.</example>
                                 <example type="correct">Hałas był wielki, to nie ulega wątpliwości.</example>
                                 <example type="correct">Pokonany, to znaczy przede wszystkim — upokorzony.</example>
+                                <example type="correct">Armia to państwo w państwie, to jedno z przekleństw naszych czasów.</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -5766,7 +5767,7 @@ $Id$
 										<token inflected="yes" postag="verb.*|pact.*" postag_regexp="yes" regexp="yes" skip="2"><exception regexp="yes" scope="next">się|w</exception>ubierać|ubrać</token>
 										<token regexp="yes">futro|golf|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
 								</pattern>
-								<message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag="verb(.*):(im)?perf.*" postag_replace="verb$1:perf.*">włożyć</match> <match no="2"></match></suggestion>.</message>
+								<message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" include_skipped="all" postag="verb(.*):(im)?perf.*" postag_replace="verb$1:perf.*">włożyć</match> <match no="2"></match></suggestion>.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="włożył golf" type="incorrect">Przemysław znowu <marker>ubrał golf</marker>.</example>
 								<example type="correct">Doda była ubrana w sukienkę.</example>
@@ -5774,14 +5775,25 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes" skip="2">zakładać|założyć</token>
+										<token inflected="yes" skip="2">zakładać</token>
 										<token regexp="yes">futro|golf|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
 								</pattern>
-								<message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" postag=".*">włożyć</match> <match no="2" postag_replace=""></match></suggestion>.</message>
+								<message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match include_skipped="all" no="1" postag=".*">wkładać</match> <match no="2"></match></suggestion>.</message>
 								<short>Błąd leksykalny</short>
-								<example correction="włożył buty" type="incorrect">Przemysław znowu <marker>założył buty</marker>.</example>
+								<example correction="wkładał buty" type="incorrect">Przemysław będzie znowu <marker>zakładał buty</marker>.</example>
+                                <example type="incorrect" correction="wkładać swój płaszcz">Przytrzymam ci torbę, gdy ty będziesz <marker>zakładać swój płaszcz</marker>.</example>
 								<example type="correct">Przemysław znowu założył partię.</example>
 						</rule>
+                        <rule>
+                        <pattern>
+                            <token inflected="yes" skip="2">założyć</token>
+                            <token regexp="yes">futro|golf|kapelusz|płaszcz|sukienkę|garnitur|buty</token>
+                        </pattern>
+                        <message>Prawdopodobnie użyto błędnego czasownika. Powinno być: <suggestion><match no="1" include_skipped="all" postag=".*">włożyć</match> <match no="2"></match></suggestion>.</message>
+                        <short>Błąd leksykalny</short>
+                        <example correction="włożył buty" type="incorrect">Przemysław znowu <marker>założył buty</marker>.</example>
+                        <example type="correct">Przemysław znowu założył partię.</example>
+                        </rule>
 				</rulegroup>
 				<rule id="FORMULA_KREMU" name="„formuła kremu” (skład)">
 						<pattern>
