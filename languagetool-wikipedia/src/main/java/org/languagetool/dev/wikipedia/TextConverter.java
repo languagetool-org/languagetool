@@ -29,22 +29,7 @@ import org.sweble.wikitext.engine.utils.EntityReferences;
 import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 import org.sweble.wikitext.lazy.LinkTargetException;
 import org.sweble.wikitext.lazy.encval.IllegalCodePoint;
-import org.sweble.wikitext.lazy.parser.Bold;
-import org.sweble.wikitext.lazy.parser.Enumeration;
-import org.sweble.wikitext.lazy.parser.EnumerationItem;
-import org.sweble.wikitext.lazy.parser.ExternalLink;
-import org.sweble.wikitext.lazy.parser.HorizontalRule;
-import org.sweble.wikitext.lazy.parser.ImageLink;
-import org.sweble.wikitext.lazy.parser.InternalLink;
-import org.sweble.wikitext.lazy.parser.Italics;
-import org.sweble.wikitext.lazy.parser.Itemization;
-import org.sweble.wikitext.lazy.parser.ItemizationItem;
-import org.sweble.wikitext.lazy.parser.MagicWord;
-import org.sweble.wikitext.lazy.parser.Paragraph;
-import org.sweble.wikitext.lazy.parser.Section;
-import org.sweble.wikitext.lazy.parser.Url;
-import org.sweble.wikitext.lazy.parser.Whitespace;
-import org.sweble.wikitext.lazy.parser.XmlElement;
+import org.sweble.wikitext.lazy.parser.*;
 import org.sweble.wikitext.lazy.preprocessor.TagExtension;
 import org.sweble.wikitext.lazy.preprocessor.Template;
 import org.sweble.wikitext.lazy.preprocessor.TemplateArgument;
@@ -62,9 +47,8 @@ import xtc.tree.Location;
  * better understand the visitor pattern as implemented by the Visitor class,
  * please take a look at the following resources:
  * <ul>
- * <li>{@link http://en.wikipedia.org/wiki/Visitor_pattern} (classic pattern)</li>
- * <li>{@link http://www.javaworld.com/javaworld/javatips/jw-javatip98.html}
- * (the version we use here)</li>
+ * <li>http://en.wikipedia.org/wiki/Visitor_pattern (classic pattern)</li>
+ * <li>http://www.javaworld.com/javaworld/javatips/jw-javatip98.html (the version we use here)</li>
  * </ul>
  *
  * The methods needed to descend into an AST and visit the children of a given
@@ -142,8 +126,22 @@ public class TextConverter extends Visitor {
 
   // =========================================================================
 
+  private boolean inGallery = false;
+  
   public void visit(AstNode n) {
     // Fallback for all nodes that are not explicitly handled elsewhere
+    Object data = n.getAttribute("RTD");
+    if (data != null && data instanceof RtData) {
+      RtData rtd = (RtData) data;
+      Object[][] rts = rtd.getRts();
+      if (rts.length > 0 && rts[0].length > 0) {
+        if ("<gallery".equals(rts[0][0])) {
+          inGallery = true;
+        } else if ("</gallery>".equals(rts[0][0])) {
+          inGallery = false;
+        }
+      }
+    }
   }
 
   public void visit(NodeList n) {
@@ -173,6 +171,9 @@ public class TextConverter extends Visitor {
   }
 
   public void visit(Text text) {
+    if (inGallery) {
+      return;
+    }
     addMapping(text);
     write(text.getContent());
   }
