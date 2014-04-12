@@ -8790,6 +8790,15 @@ $Id$
 						<example correction="w zakresie|w" type="incorrect">Bogate tradycje szkoły należy odnotować również <marker>na odcinku</marker> rozwoju zespołów artystycznych.</example>
 				</rule>
 				<rule id="WIADACY" name="„wiodący” (przodujący)">
+                        <antipattern>
+                            <unify>
+                                <feature id="case"/><feature id="number"/><feature id="gender"><type id="f"/></feature>
+                                <token inflected="yes">ścieżka</token>
+                                <marker>
+                                <token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
+                                </marker>
+                            </unify>
+                        </antipattern>
 						<pattern>
 								<marker>
 										<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
@@ -8808,6 +8817,7 @@ $Id$
                         <example type="incorrect">To <marker>wiodący</marker> we Francji producent telewizorów.</example>
                         <example type="correct">Dla zorientowania się w szlakach współczesnego Kościoła wiodących w przyszłość warto przeczytać ten artykuł.</example>
                         <example type="incorrect" correction="Przodujące|Główne|Przewodnie|Zasadnicze|Najlepsze"><marker>Wiodące</marker> warszawskie kluby sportowe.</example>
+                        <example type="correct">Ścieżka wiodąca od tego domku do lasku bambusowego wyłożona była krowami.</example>
 				</rule>
 				<rule id="POWIEM_TAK" name="„powiem tak”">
 						<pattern case_sensitive="yes">
@@ -11101,6 +11111,12 @@ $Id$
 				</rulegroup>
 				<rulegroup id="LICZEBNIKI" name="Liczebniki porządkowe z końcówkami przypadków">
 						<rule>
+                                <antipattern>
+                                    <marker>
+                                    <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                                    </marker>
+                                    <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                                </antipattern>
 								<pattern case_sensitive="yes">
 										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
 								</pattern>
@@ -11112,7 +11128,20 @@ $Id$
 								<example correction="1." type="incorrect">To już <marker>1-wszy</marker> raz!</example>
 								<example correction="1." type="incorrect">Rosjanie byli <marker>1-wsi</marker> w kosmosie.</example>
                                 <example type="incorrect" correction="90.">Zainicjowana przez Philippe’a Turchet w latach <marker>90tych</marker>, synergologia była wielką ściemą.</example>
+                                <!-- to łapie reguła niżej -->
+                                <example type="correct" correction="21 maja">To było <marker>21go maja</marker>.</example>
 						</rule>
+                        <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                        </pattern>
+                        <message>W datach nie używamy końcówek przypadków: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match> <match no="2"/></suggestion>.</message>
+                        <short>Błąd ortograficzny</short>
+                            <example type="correct">To było 21 maja.</example>
+                            <example type="incorrect" correction="21 maja">To było <marker>21-go maja</marker>.</example>
+                            <example type="incorrect" correction="21 maja">To było <marker>21go maja</marker>.</example>
+                        </rule>
 						<rule>
 								<pattern>
 										<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
@@ -14743,7 +14772,7 @@ $Id$
 				</rule>
 				<rule id="MAJA_MAJA" name="„maja” (mają)">
 						<pattern case_sensitive="yes">
-								<token><exception inflected="yes" regexp="yes">\d+|\d+[-–]\d+|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception><exception>całego</exception></token>
+								<token><exception inflected="yes" regexp="yes">\d+.*|pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty|do|od|koniec|początek|tydzień|połowa|dzień</exception><exception>całego</exception></token>
 								<marker>
 										<token>maja</token>
 								</marker>
