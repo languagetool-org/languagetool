@@ -5,9 +5,9 @@
 <formathandle type="end" include="yes"></formathandle>
 <formathandle type="isolated" include="no"></formathandle>
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes"></okpsrx:options>
-<okpsrx:sample language="pl_two" useMappedRules="yes">Ingevolge paragraaf 4.7.4. van het SGR is ...
+<okpsrx:sample language="pl_two" useMappedRules="no">Ingevolge paragraaf 4.7.4. van het SGR is ...
 Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
-Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love. B. Szymura, Psychologia poznawcza, op. cit., s. 60, 652.
+Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love. B. Szymura, Psychologia poznawcza, op. cit., s. 60, 652. Alba Mons (d. Alba Patera) Zob. Józef Piłsudski. Dzieje ludności kultury Anasazi podzielić można na dwa okresy chronologiczne: Wyplataczy koszy (100 r. p.n.e. - 700 r. n.e.) 
 pl.Openoffice.org
 Ad. 1, 5 ha. ziemi na Mazurach
 Planowany wzrost przychodów najludniejszych gmin w br. będzie o 2 pkt. proc. wyższy od prognozowanej na br. stopy średniorocznej inflacji (15 proc.) natomiast wzrost wydatków przewyższa o 12 pkt. proc. stopę inflacji (co za dziwota! - przyp. red.) i tak dalej.
@@ -503,7 +503,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bzob\.\s</beforebreak>
+<beforebreak>\b[Zz]ob\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -737,6 +737,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 <rule break="no">
 <beforebreak>\b[Pp]rzyp\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bp\.n\.e\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!--msza św. lub św. Paweł; śp. Jadwiga Jagiełłowa-->
@@ -1027,6 +1031,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>^[„"]?[A-ZŚĆŻŹ]\.\s</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}\p{Ll}\p{Ll}+</afterbreak>
 </rule>
+<rule break="no">
+<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!--Józef S. (45 l.)-->
 <rule break="no">
 <beforebreak>\s[A-Z]\.\s</beforebreak>
@@ -1241,6 +1249,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="no">
 <beforebreak>\b(?:Kan|Ill|M[ai]ss)\.\s</beforebreak>
 <afterbreak>\p{Ll}+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <rule break="yes">
 <beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002¹²³]*\s</beforebreak>
