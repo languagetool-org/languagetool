@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:en="http://www.languagetool.org">
 <!-- 
  * LanguageTool, a natural language style checker 
  * Copyright (c) Marcin Miłkowski, 2014 (http://www.languagetool.org)
@@ -21,8 +22,10 @@
  
  Schema for patterns: used in grammar rules and in disambiguator rules
  -->
- 
- 	<xs:annotation>
+
+    <xs:import namespace="http://www.languagetool.org" schemaLocation="attributes-en.xsd"/>
+
+    <xs:annotation>
 		<xs:documentation xml:lang="en"> Unification declarations
 		</xs:documentation>
 	</xs:annotation>
@@ -189,10 +192,10 @@
 				</xs:simpleType>
 			</xs:attribute>
 			<xs:attribute name="postag" type="xs:token" use="optional" />
-			<xs:attribute name="pos" type="xs:token" use="optional" />
-			<xs:attribute name="tense" type="xs:token" use="optional" />
-			<xs:attribute name="person" type="xs:token" use="optional" />
-			<xs:attribute name="number" type="xs:string" use="optional" />
+			<xs:attribute ref="en:pos" use="optional" />
+			<xs:attribute ref="en:tense" use="optional" />
+			<xs:attribute ref="en:person" use="optional" />
+			<xs:attribute ref="en:number" use="optional" />
 			<xs:attribute name="skip" use="optional">
 				<xs:simpleType>
 					<xs:restriction base="xs:integer">

@@ -1,0 +1,68 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.languagetool.org"
+           xmlns:en="http://www.languagetool.org">
+
+    <!-- NOTE: keep possible values in sync with EnglishTagger -->
+
+    <xs:attribute name="pos">
+        <xs:simpleType>
+            <xs:restriction base="xs:NMTOKEN">
+                <xs:enumeration value="SENT_START" />
+                <xs:enumeration value="SENT_END" />
+                <xs:enumeration value="symbol" />
+                <xs:enumeration value="conjunction" />
+                <xs:enumeration value="number" />
+                <xs:enumeration value="determiner" />
+                <xs:enumeration value="existential_there" />
+                <xs:enumeration value="adjective" />
+                <xs:enumeration value="verb" />
+                <xs:enumeration value="noun" />
+                <xs:enumeration value="determiner" />
+                <xs:enumeration value="pronoun" />
+                <xs:enumeration value="adverb" />
+                <xs:enumeration value="particle" />
+                <xs:enumeration value="to" />
+                <xs:enumeration value="interjection" />
+                <xs:enumeration value="unknown" />
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="tenseType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="baseform" />
+            <xs:enumeration value="simple_past" />
+            <xs:enumeration value="progressive" />
+            <xs:enumeration value="past_participle" />
+            <xs:enumeration value="present" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="tense">
+        <xs:simpleType>
+            <xs:list itemType="en:tenseType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="personType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="1" />
+            <xs:enumeration value="2" />
+            <xs:enumeration value="3" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="person">
+        <xs:simpleType>
+            <xs:list itemType="en:personType"/>
+        </xs:simpleType>
+    </xs:attribute>
+    
+    <xs:attribute name="number">
+        <xs:simpleType>
+            <xs:restriction base="xs:NMTOKEN">
+                <xs:enumeration value="singular" />
+                <xs:enumeration value="plural" />
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    
+</xs:schema>
