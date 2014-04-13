@@ -6210,6 +6210,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
 
+    <rule id="Liczby_000_000" name="zera w tysiącach">    <!-- suppress in word repeat rule -->
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <marker><token>000</token>
+            <token>000</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule id="W_JAKIE_POL" name="W jakie pół godziny - nie wymaga przecinka">
         <pattern>
             <token postag="prep:.*" postag_regexp="yes"/>
