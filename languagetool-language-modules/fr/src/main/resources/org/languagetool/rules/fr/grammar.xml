@@ -26543,6 +26543,41 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Un signal de 3,5 <marker>Hz par seconde</marker>.</example>
       <example type="correct">Un signal de 3,5 Hz.</example>
     </rule>
+    <rulegroup id="kWh" name="kW/h → kWh">
+      <rule>
+        <pattern>
+          <token regexp="yes">[KMGT]?W|(kilo|mega|giga|tera)?watt</token>
+          <token spacebefore="no">/</token>
+          <token spacebefore="no" regexp="yes">h|heure</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1·\3</suggestion> s’il s’agit d’une énergie ?</message>
+        <url>https://fr.wikipedia.org/wiki/Kilowatt-heure#Confusion_entre_watts.2C_watt-heures_et_watts_par_heure</url>
+        <example type="incorrect" correction="kW·h">L’appareil a consomé 5 <marker>kW/h</marker>.</example>
+        <example type="correct">L’appareil a consomé 5 kW·h.</example>
+        <example type="correct">L’appareil a consomé 5 kWh.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(?-i)KW</token>
+          <token spacebefore="no">·</token>
+          <token spacebefore="no">h</token>
+        </pattern>
+        <message>Le préfixe de kilo doit être écrit en minuscule. Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/>h</suggestion> ou <suggestion><match no="1" case_conversion="startlower"/>·h</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Kilowatt-heure#Confusion_entre_watts.2C_watt-heures_et_watts_par_heure</url>
+        <example type="incorrect" correction="kWh|kW·h">L’appareil a consomé 5 <marker>KW·h</marker>.</example>
+        <example type="correct">L’appareil a consomé 5 kW·h.</example>
+      </rule>
+      <rule>
+        <pattern case_sensitive="yes">
+          <token>KWh</token>
+        </pattern>
+        <message>Le préfixe de kilo doit être écrit en minuscule. Voulez-vous écrire <suggestion><match no="1" case_conversion="startlower"/></suggestion> ou <suggestion><match no="1" case_conversion="startlower" regexp_match=".$" regexp_replace="·h"/></suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Kilowatt-heure#Confusion_entre_watts.2C_watt-heures_et_watts_par_heure</url>
+        <example type="incorrect" correction="kWh|kW·h">L’appareil a consomé 5 <marker>KWh</marker>.</example>
+        <example type="correct">L’appareil a consomé 5 kW·h.</example>
+        <example type="correct">L’appareil a consomé 5 kWh.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
