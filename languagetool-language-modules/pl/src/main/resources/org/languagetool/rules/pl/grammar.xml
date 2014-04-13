@@ -10487,11 +10487,12 @@ $Id$
 				    </rule>
                     <rule>
                         <pattern>
-                            <token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+ey|Ray</token>
+                            <token regexp="yes">.*\p{Ll}+(?:ey|[sr]ay)|Ray</token>
                             <token spacebefore="no" regexp="yes">&apost;</token>
                             <token regexp="yes">[aeu]|owi|[oe]m|ach|ami|owie|ów</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Ramsay</url>
                         <short>Błąd ortograficzny</short>
                         <example correction="Bentleyu" type="incorrect">Porozmawiajmy o <marker>Bentley'u</marker>.</example>
                         <example type="correct">Porozmawiajmy o <marker>Bentleyu</marker> Lennonie.</example>
@@ -10676,11 +10677,23 @@ $Id$
                             <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>ie</token>
                         </pattern>
-                        <message>To imię odmienia się inaczej: <suggestion>Stonie</suggestion>.</message>
+                        <message>To nazwisko odmienia się inaczej: <suggestion>Stonie</suggestion>.</message>
                         <url>http://so.pwn.pl/lista.php?co=Stone</url>
                         <short>Błąd ortograficzny</short>
                         <example type='incorrect' correction="Stonie">Porozmawiajmy o <marker>Stone'ie</marker>.</example>
                         <example type='correct'>Porozmawiajmy o Stonie.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token>Wright</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
+                            <token regexp="yes">c?ie</token>
+                        </pattern>
+                        <message>To nazwisko odmienia się inaczej: <suggestion>Wrighcie</suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Wright</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect' correction="Wrighcie">Porozmawiajmy o <marker>Wright'cie</marker>.</example>
+                        <example type='correct'>Porozmawiajmy o Wrighcie.</example>
                     </rule>
                 </rulegroup>
 				<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
