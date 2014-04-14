@@ -30,6 +30,7 @@ public class ItalianSRXSentenceTokenizerTest extends TestCase {
   public void testTokenize() {
     testSplit("Il Castello Reale di Racconigi è situato a Racconigi, in provincia di Cuneo ma poco distante da Torino. ",
               "Nel corso della sua quasi millenaria storia ha visto numerosi rimaneggiamenti e divenne di proprietà dei Savoia a partire dalla seconda metà del XIV secolo.");
+    testSplit("Dott. Bunsen Honeydew");  // abbreviation
   }
 
   private void testSplit(String... sentences) {
