@@ -48,6 +48,21 @@ public class PatternRuleTest extends TestCase {
     // there's no test here - the languages are supposed to extend this class and call runGrammarRulesFromXmlTest() 
   }
 
+  public void testSupportsLanguage() {
+    FakeLanguage fakeLanguage1 = new FakeLanguage("yy");
+    FakeLanguage fakeLanguage2 = new FakeLanguage("zz");
+    PatternRule patternRule1 = new PatternRule("ID", fakeLanguage1, Collections.<Element>emptyList(), "", "", "");
+    assertTrue(patternRule1.supportsLanguage(fakeLanguage1)); 
+    assertFalse(patternRule1.supportsLanguage(fakeLanguage2));
+    FakeLanguage fakeLanguage1WithVariant1 = new FakeLanguage("zz", "VAR1");
+    FakeLanguage fakeLanguage1WithVariant2 = new FakeLanguage("zz", "VAR2");
+    PatternRule patternRuleVariant1 = new PatternRule("ID", fakeLanguage1WithVariant1, Collections.<Element>emptyList(), "", "", "");
+    assertTrue(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant1));    
+    assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1));
+    assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage2));
+    assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant2));
+  }
+
   /**
    * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
    * @param ignoredLanguage ignore this language - useful to speed up tests from languages that 

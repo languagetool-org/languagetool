@@ -78,6 +78,11 @@ public abstract class AbstractPatternRule extends Rule {
     }
   }
 
+  @Override
+  public boolean supportsLanguage(final Language language) {
+    return language.equalsConsiderVariantsIfSpecified(this.language);
+  }
+
   private boolean initUnifier() {
     for (final Element elem : patternElements) {
       if (elem.isUnified()) {

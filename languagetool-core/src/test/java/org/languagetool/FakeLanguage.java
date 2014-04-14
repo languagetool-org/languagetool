@@ -27,13 +27,21 @@ import java.util.List;
 public class FakeLanguage extends Language {
 
   private final String langCode;
-
-  public FakeLanguage(String langCode) {
-    this.langCode = langCode;
-  }
+  private final String country;
 
   public FakeLanguage() {
     this.langCode = "yy";
+    this.country = "YY";
+  }
+
+  public FakeLanguage(String langCode) {
+    this.langCode = langCode;
+    this.country = "YY";
+  }
+
+  public FakeLanguage(String langCode, String country) {
+    this.langCode = langCode;
+    this.country = country;
   }
 
   @Override
@@ -47,11 +55,11 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  public void setName(final String name) { };
+  public void setName(final String name) { }
 
   @Override
   public String[] getCountries() {
-    return new String[] {"YY"};
+    return new String[] {country};
   }
 
   @Override
