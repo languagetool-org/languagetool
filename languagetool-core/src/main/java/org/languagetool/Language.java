@@ -29,10 +29,7 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.tokenizers.RegexSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
@@ -140,7 +137,7 @@ public abstract class Language {
 
   private static final Disambiguator DEMO_DISAMBIGUATOR = new DemoDisambiguator();
   private static final Tagger DEMO_TAGGER = new DemoTagger();
-  private static final SentenceTokenizer SENTENCE_TOKENIZER = new RegexSentenceTokenizer();
+  private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
   
   private UnifierConfiguration unifierConfiguration = new UnifierConfiguration();

@@ -25,6 +25,10 @@ LanguageTool Change Log
     -Almost all deprecated methods and classes have been removed. If you're upgrading 
      from a version earlier than 2.5, we recommend to upgrade to 2.5 first, fix all
      deprecation warnings, and then upgrade to 2.6.
+    -If you extend the 'Language' class and don't implement the getSentenceTokenizer()
+     method, your language now uses SimpleSentenceTokenizer. This is a very simple
+     tokenizer and you probably want to implement getSentenceTokenizer() to return
+     a LocalSRXSentenceTokenizer instead that's adapted to your needs.
     -The public field Language.DEMO has been removed. It is now only available 
      internally for tests, together with the demo language itself and DemoChunker.
     -JLanguageTool.printIfVerbose() has been changed from protected to private,
