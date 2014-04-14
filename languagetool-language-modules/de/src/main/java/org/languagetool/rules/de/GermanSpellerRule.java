@@ -35,6 +35,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
   
   private static final int MAX_EDIT_DISTANCE = 2;
+  private static final int SUGGESTION_MIN_LENGTH = 2;
   private static final List<Replacement> REPL = new ArrayList<>();
   static {
     // see de_DE.aff:
@@ -130,14 +131,28 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           break;
         }
       }
-      if (moveSuggestionToTop) {
-        // this should be preferred, as the replacements make it equal to the suggestion:
-        result.add(0, suggestion);
-      } else {
-        result.add(suggestion);
+      if (!ignoreSuggestion(suggestion)) {
+        if (moveSuggestionToTop) {
+          // this should be preferred, as the replacements make it equal to the suggestion:
+          result.add(0, suggestion);
+        } else {
+          result.add(suggestion);
+        }
       }
     }
     return result;
+  }
+
+  private boolean ignoreSuggestion(String suggestion) {
+    String[] parts = suggestion.split(" ");
+    if (parts.length > 1) {
+      for (String part : parts) {
+        if (part.length() < SUGGESTION_MIN_LENGTH) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static class Replacement {

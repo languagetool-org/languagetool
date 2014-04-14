@@ -43,7 +43,7 @@ public class GermanSpellerRuleTest {
   public void testSortSuggestion() throws Exception {
     final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("German"), GERMAN_DE);
     assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("Fehler", "fehl er", "fehle r")).toString(),
-            is("[Fehler, fehl er, fehle r]"));
+            is("[Fehler, fehl er]"));
   }
 
   @Test
