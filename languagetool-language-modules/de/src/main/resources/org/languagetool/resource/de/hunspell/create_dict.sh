@@ -21,14 +21,16 @@ PREFIX=${LANG_CODE}_${COUNTRY_CODE}
 TOKENIZER_LANG=${LANG_CODE}-${COUNTRY_CODE}
 CONTENT_DIR=languagetool-language-modules/${LANG_CODE}/src/main/resources/org/languagetool/resource/$LANG_CODE/hunspell
 INFO_FILE=${CONTENT_DIR}/${PREFIX}.info
+DIC_NO_SUFFIX=$CONTENT_DIR/$PREFIX
+DIC_FILE=$DIC_NO_SUFFIX.dic
 
 echo "Using $CONTENT_DIR/$PREFIX.dic and affix $CONTENT_DIR/$PREFIX.aff..."
 
 mvn clean package -DskipTests &&
- unmunch $CONTENT_DIR/$PREFIX.dic $CONTENT_DIR/$PREFIX.aff | \
+ unmunch $DIC_FILE $CONTENT_DIR/$PREFIX.aff | \
  # unmunch doesn't properly work for languages with compounds, thus we filter
- # the result using grep:
- grep -v "^#" | grep -v "/" | grep -v "-" | recode latin1..utf8 >$TEMP_FILE
+ # the result using hunspell:
+ recode latin1..utf8 | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
 
 java -cp languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar org.languagetool.dev.SpellDictionaryBuilder ${LANG_CODE}-${COUNTRY_CODE} $TEMP_FILE $INFO_FILE
 
