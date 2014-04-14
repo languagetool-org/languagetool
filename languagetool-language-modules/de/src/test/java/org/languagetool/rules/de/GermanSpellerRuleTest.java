@@ -44,6 +44,8 @@ public class GermanSpellerRuleTest {
     final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("German"), GERMAN_DE);
     assertThat(rule.sortSuggestionByQuality("fehler", Arrays.asList("Fehler", "fehl er", "fehle r")).toString(),
             is("[Fehler, fehl er]"));
+    assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
+            is("[Mülleimer, Mülheimer, -mülheimer, Melkeimer, Mühlheimer]"));
   }
 
   @Test
@@ -116,6 +118,8 @@ public class GermanSpellerRuleTest {
     assertCorrection(rule, "Theatrekasse", "Theaterkasse");
     assertCorrection(rule, "Traprennen", "Trabrennen");
     assertCorrection(rule, "Autuverkehr", "Autoverkehr");
+    assertCorrection(rule, "Rechtschreibprüfun", "Rechtschreibprüfung");
+    assertCorrection(rule, "Rechtschreib-Prüfun", "Rechtschreib-Prüfung");
     
     //TODO: requires morfologik-speller change (suggestions for known words):
     //assertCorrection(rule, "Arbeitamt", "Arbeitsamt");

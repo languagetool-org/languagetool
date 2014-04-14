@@ -120,6 +120,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    List<String> sorted1 = sortByReplacements(misspelling, suggestions);
+    List<String> sorted2 = sortByCase(misspelling, sorted1);
+    return sorted2;
+  }
+
+  private List<String> sortByReplacements(String misspelling, List<String> suggestions) {
     final List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
       boolean moveSuggestionToTop = false;
@@ -138,6 +144,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
         } else {
           result.add(suggestion);
         }
+      }
+    }
+    return result;
+  }
+
+  private List<String> sortByCase(String misspelling, List<String> suggestions) {
+    final List<String> result = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      if (misspelling.equalsIgnoreCase(suggestion)) {
+        // this should be preferred - only case differs:
+        result.add(0, suggestion);
+      } else {
+        result.add(suggestion);
       }
     }
     return result;
