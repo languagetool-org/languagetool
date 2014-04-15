@@ -2657,7 +2657,7 @@ $Id$
     </rulegroup>
     <rule name="Spacja przed znakiem procenta" id="SPACJA_PROCENT">
       <pattern>
-        <token regexp="yes">±?\d+</token>
+        <token regexp="yes">±?\d+(?:[–-]\d+)?</token>
         <token spacebefore="yes">%</token>
       </pattern>
       <message>Przed znakiem procenta nie stawia się spacji. Poprawnie: <suggestion>\1\2</suggestion>.</message>
@@ -2665,6 +2665,7 @@ $Id$
       <short>Zbędna spacja</short>
       <example type="correct">10%</example>
       <example type="incorrect" correction="10%"><marker>10 %</marker></example>
+      <example type="incorrect" correction="65-67%">Badani mieszkańcy Krymu dali odpowiedź: za - <marker>65-67 %</marker>.</example>
     </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
@@ -8441,7 +8442,7 @@ $Id$
 				<rulegroup id="LICZBA_PROC" name="liczba słownie + „%” (proc.)">
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">±?\d+</token>
+										<token negate="yes" regexp="yes">±?\d+(?:[–-]\d+)?</token>
 										<marker>
 												<token>%</token>
 										</marker>
@@ -8451,10 +8452,11 @@ $Id$
 								<short>Niewłaściwe użycie symbolu procenta</short>
 								<example correction="proc." type="incorrect">W wyborach nasza partia uzyskała dwadzieścia <marker>%</marker> głosów.</example>
 								<example type="correct">W wyborach nasza partia uzyskała 20% głosów.</example>
+                                <example type="correct">Badani mieszkańcy Krymu dali odpowiedź: za - 65-67%, przeciw – 23%.</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">±?\d+</token>
+										<token negate="yes" regexp="yes">±?\d+(?:[–-]\d+)?</token>
 										<marker>
 												<token>%</token>
 										</marker>
