@@ -40,15 +40,21 @@ public class AtomFeedParserTest {
     assertThat(item1.getId(), is("//de.wikipedia.org/w/index.php?title=Peter_Bichsel&diff=125079808&oldid=125079797"));
     assertThat(item1.getTitle(), is("Peter Bichsel"));
     assertThat(item1.getDiffId(), is(125079808L));
+    assertThat(item1.getOldContent().toString(), is("[}}llllllllll]"));
+    assertThat(item1.getNewContent().toString(), is("[}}]"));
 
     AtomFeedItem item2 = items.get(1);
     assertThat(item2.getId(), is("//de.wikipedia.org/wiki/Timo_b%C3%A4cker"));
     assertThat(item2.getTitle(), is("Timo bäcker"));
     assertThat(item2.getDiffId(), is(0L));
+    assertThat(item2.getOldContent().toString(), is("[]"));
+    assertThat(item2.getNewContent().toString(), is("[]"));
 
     AtomFeedItem item3 = items.get(2);
     assertThat(item3.getId(), is("//de.wikipedia.org/w/index.php?title=Vallourec_Deutschland_GmbH&diff=125079807&oldid=124992032"));
     assertThat(item3.getTitle(), is("Vallourec Deutschland GmbH"));
     assertThat(item3.getDiffId(), is(125079807L));
+    assertThat(item3.getOldContent().toString(), is("[]"));
+    assertThat(item3.getNewContent().toString(), is("[* [http://www.rp-online.de/nrw/staedte/] Fehler: der Haus, * [http://www.vmtubes.com], ]"));
   }
 }

@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import de.fau.cs.osr.ptk.common.ast.*;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.sweble.wikitext.engine.Page;
 import org.sweble.wikitext.engine.PageTitle;
-import org.sweble.wikitext.engine.utils.EntityReferences;
 import org.sweble.wikitext.engine.utils.SimpleWikiConfiguration;
 import org.sweble.wikitext.lazy.LinkTargetException;
 import org.sweble.wikitext.lazy.encval.IllegalCodePoint;
@@ -202,16 +202,10 @@ public class TextConverter extends Visitor {
 
   public void visit(XmlEntityRef er) {
     addMapping(er);
-    String ch = EntityReferences.resolve(er.getName());
     if ("nbsp".equals(er.getName())) {
       write(' ');
-    } else if ("ndash".equals(er.getName()) || "mdash".equals(er.getName())) {
-      write('-');
-    } else if (ch == null) {
-      write('&');
-      write(er.getName());
-      write(';');
     } else {
+      String ch = StringEscapeUtils.unescapeHtml("&" + er.getName() + ";");
       write(ch);
     }
   }
