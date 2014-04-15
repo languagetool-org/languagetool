@@ -29,6 +29,36 @@ $Id$
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
+        <rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
+            <rule> 
+                <pattern>
+                    <token>кВт</token>
+                    <token>/</token>
+                    <token>ч</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>кВт⋅ч</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9A%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0%D1%82%D1%82-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Потребление электроэнергии составляет 100 <marker>кВт/ч</marker>.</example>
+                <example type="correct">Потребление электроэнергии составило 100 кВт*ч.</example>
+                <example type="correct">Потребление электроэнергии составляет 100 кВт⋅ч.</example>
+            </rule>          
+        </rulegroup>
+        <rulegroup id="А.H" name="Обозначение физических величин «А⋅ч»">
+            <rule> 
+                <pattern>
+                    <token>А</token>
+                    <token>/</token>  
+                    <token>ч</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>А⋅ч</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Ёмкость аккумулятора составляет 60 <marker>А/ч</marker>.</example>
+                <example type="correct">Ёмкость аккумулятора составляет 60 А*ч.</example>
+                <example type="correct">Ёмкость аккумулятора составляет 60 А⋅ч.</example>
+            </rule>          
+        </rulegroup>  
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
