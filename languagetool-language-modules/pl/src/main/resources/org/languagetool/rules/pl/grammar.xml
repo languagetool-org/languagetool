@@ -2657,7 +2657,7 @@ $Id$
     </rulegroup>
     <rule name="Spacja przed znakiem procenta" id="SPACJA_PROCENT">
       <pattern>
-        <token regexp="yes">±?\d+</token>
+        <token regexp="yes">±?\d+(?:[–-]\d+)?</token>
         <token spacebefore="yes">%</token>
       </pattern>
       <message>Przed znakiem procenta nie stawia się spacji. Poprawnie: <suggestion>\1\2</suggestion>.</message>
@@ -2665,6 +2665,7 @@ $Id$
       <short>Zbędna spacja</short>
       <example type="correct">10%</example>
       <example type="incorrect" correction="10%"><marker>10 %</marker></example>
+      <example type="incorrect" correction="65-67%">Badani mieszkańcy Krymu dali odpowiedź: za - <marker>65-67 %</marker>.</example>
     </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
@@ -8150,18 +8151,19 @@ $Id$
 						<rule>
 								<pattern>
 										<token>w</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
 								<example type="correct">Ludwik ma randkę z Przemysławem we wtorek.</example>
 								<example correction="we wtorek" type="incorrect">Ludwik ma randkę z Przemysławem <marker>w wtorek</marker>.</example>
+                                <example type="correct">To jedenaście punktów radykalnej naprawy sytuacji w ww. czasopismach.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token>w</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8173,7 +8175,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>we</token>
-										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8186,7 +8188,7 @@ $Id$
 								<pattern>
 										<token>we</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(?:le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(?:le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8213,7 +8215,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>z</token>
-										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|w(?:p[rł]|t[oó]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|[\p{L}&amp;&amp;[^aeiouyąę]]+|w(?:p[rł]|t[oó]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8229,7 +8231,7 @@ $Id$
 								<pattern>
 										<token>z</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|w(?:p[rł]|t[óo]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|[\p{L}&amp;&amp;[^aeiouyąę]]+|w(?:p[rł]|t[óo]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8241,7 +8243,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8256,7 +8258,7 @@ $Id$
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8440,7 +8442,7 @@ $Id$
 				<rulegroup id="LICZBA_PROC" name="liczba słownie + „%” (proc.)">
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">±?\d+</token>
+										<token negate="yes" regexp="yes">±?\d+(?:[–-]\d+)?</token>
 										<marker>
 												<token>%</token>
 										</marker>
@@ -8450,10 +8452,11 @@ $Id$
 								<short>Niewłaściwe użycie symbolu procenta</short>
 								<example correction="proc." type="incorrect">W wyborach nasza partia uzyskała dwadzieścia <marker>%</marker> głosów.</example>
 								<example type="correct">W wyborach nasza partia uzyskała 20% głosów.</example>
+                                <example type="correct">Badani mieszkańcy Krymu dali odpowiedź: za - 65-67%, przeciw – 23%.</example>
 						</rule>
 						<rule>
 								<pattern>
-										<token negate="yes" regexp="yes">±?\d+</token>
+										<token negate="yes" regexp="yes">±?\d+(?:[–-]\d+)?</token>
 										<marker>
 												<token>%</token>
 										</marker>
@@ -10487,11 +10490,12 @@ $Id$
 				    </rule>
                     <rule>
                         <pattern>
-                            <token postag="subst:sg:.*:m[1-3]" postag_regexp="yes" regexp="yes">.*\p{Ll}+ey|Ray</token>
+                            <token regexp="yes">.*\p{Ll}+(?:ey|[sr]ay)|Ray</token>
                             <token spacebefore="no" regexp="yes">&apost;</token>
                             <token regexp="yes">[aeu]|owi|[oe]m|ach|ami|owie|ów</token>
                         </pattern>
                         <message>Ten wyraz odmienia się prawdopodobnie bez apostrofów: <suggestion>\1\3</suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Ramsay</url>
                         <short>Błąd ortograficzny</short>
                         <example correction="Bentleyu" type="incorrect">Porozmawiajmy o <marker>Bentley'u</marker>.</example>
                         <example type="correct">Porozmawiajmy o <marker>Bentleyu</marker> Lennonie.</example>
@@ -10676,11 +10680,23 @@ $Id$
                             <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>ie</token>
                         </pattern>
-                        <message>To imię odmienia się inaczej: <suggestion>Stonie</suggestion>.</message>
+                        <message>To nazwisko odmienia się inaczej: <suggestion>Stonie</suggestion>.</message>
                         <url>http://so.pwn.pl/lista.php?co=Stone</url>
                         <short>Błąd ortograficzny</short>
                         <example type='incorrect' correction="Stonie">Porozmawiajmy o <marker>Stone'ie</marker>.</example>
                         <example type='correct'>Porozmawiajmy o Stonie.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token>Wright</token>
+                            <token regexp='yes' spacebefore='no'>&apost;</token>
+                            <token regexp="yes">c?ie</token>
+                        </pattern>
+                        <message>To nazwisko odmienia się inaczej: <suggestion>Wrighcie</suggestion>.</message>
+                        <url>http://so.pwn.pl/lista.php?co=Wright</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type='incorrect' correction="Wrighcie">Porozmawiajmy o <marker>Wright'cie</marker>.</example>
+                        <example type='correct'>Porozmawiajmy o Wrighcie.</example>
                     </rule>
                 </rulegroup>
 				<rule id="CHART_DUCHA" name="„chart ducha” (hart ducha)">
@@ -11131,14 +11147,15 @@ $Id$
 						<rule>
                                 <antipattern>
                                     <marker>
-                                    <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                                    <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
                                     </marker>
                                     <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
                                 </antipattern>
 								<pattern case_sensitive="yes">
-										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match>.</suggestion>.</message>
+                                <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="5." type="incorrect">To już <marker>5-ty</marker> raz!</example>
@@ -11180,6 +11197,7 @@ $Id$
 										<token postag="conj"></token>
 								</pattern>
 								<message>W wypadku rozdzielenia przymiotników zawierających liczby pierwszy piszemy tylko z łącznikiem: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match>-</suggestion>.</message>
+                                <url>http://poradnia.pwn.pl/lista.php?id=10793</url>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="32-" type="incorrect">W tym czasie istniały maszyny <marker>32-u</marker> i 64-bitowe.</example>
@@ -11193,7 +11211,8 @@ $Id$
 										</marker>
 										<token negate_pos="yes" postag="conj|comp|adj.*" postag_regexp="yes"></token>
 								</pattern>
-								<message>Nigdy nie dodaje się końcówek do odmienianych liczb; piszemy je po prostu: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match></suggestion> lub <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion> (w wypadku liczebników porządkowych.</message>
+								<message>Nigdy nie dodaje się końcówek do odmienianych liczb; piszemy je po prostu: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match></suggestion> lub <suggestion><match no="1" regexp_match="(\d+)-(.*)" regexp_replace="$1"></match>.</suggestion> (w wypadku liczebników porządkowych).</message>
+                                <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
 								<short>Błąd ortograficzny</short>
 								<example type="correct">Ten system jest 32-bitowy.</example>
 								<example correction="10|10." type="incorrect">Odnotowano <marker>10-cio</marker> proc. wzrost.</example>
@@ -11203,6 +11222,7 @@ $Id$
 										<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?.*" regexp_replace="$1"></match></suggestion></message>
+                                <url>http://poradnia.pwn.pl/lista.php?id=13046</url>
 								<short>Błąd ortograficzny</short>
 								<example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX-go</marker> wieku.</example>
 								<example type="correct">To poglądy rodem z XIX wieku.</example>
@@ -11220,6 +11240,7 @@ $Id$
                             <token regexp="yes">(:?[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
                         </pattern>
                         <message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-" regexp_replace="$1"></match></suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=13046</url>
                         <short>Błąd ortograficzny</short>
                         <example correction="XIX" type="incorrect">To poglądy rodem z <marker>XIX- go</marker> wieku.</example>
                         <example type="correct">To poglądy rodem z XIX wieku.</example>

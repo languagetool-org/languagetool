@@ -29,6 +29,36 @@ $Id$
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
+        <rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
+            <rule> 
+                <pattern>
+                    <token>кВт</token>
+                    <token>/</token>
+                    <token>ч</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>кВт⋅ч</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9A%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0%D1%82%D1%82-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Потребление электроэнергии составляет 100 <marker>кВт/ч</marker>.</example>
+                <example type="correct">Потребление электроэнергии составило 100 кВт*ч.</example>
+                <example type="correct">Потребление электроэнергии составляет 100 кВт⋅ч.</example>
+            </rule>          
+        </rulegroup>
+        <rulegroup id="А.H" name="Обозначение физических величин «А⋅ч»">
+            <rule> 
+                <pattern>
+                    <token>А</token>
+                    <token>/</token>  
+                    <token>ч</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>А⋅ч</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Ёмкость аккумулятора составляет 60 <marker>А/ч</marker>.</example>
+                <example type="correct">Ёмкость аккумулятора составляет 60 А*ч.</example>
+                <example type="correct">Ёмкость аккумулятора составляет 60 А⋅ч.</example>
+            </rule>          
+        </rulegroup>  
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
@@ -3830,10 +3860,10 @@ $Id$
                 <pattern>
                     <marker>
                         <token>самый</token>               
-                        <token postag="ADJ_S:.*" postag_regexp="yes"><exception regexp="yes">большой|малый|хороший|плохой|лучший</exception></token>                    
+                        <token postag="ADJ_Com:.*" postag_regexp="yes"><exception regexp="yes">большой|малый|хороший|плохой|лучший</exception></token>                    
                     </marker>                 
                 </pattern>
-                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_S:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
+                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_Com:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
                 <short>Сложная превосходная степень</short>
                 <example type="incorrect">Это <marker>самый талантливейший</marker> художник 19-го века.</example>
                 <example type="correct">Это самый талантливый художник 19-го века.</example>
@@ -3843,10 +3873,10 @@ $Id$
                 <pattern>
                     <marker>
                         <token>самая</token>               
-                        <token postag="ADJ_S:.*" postag_regexp="yes"><exception regexp="yes">большая|малая|хорошая|плохая|лучшая</exception></token>                    
+                        <token postag="ADJ_Com:.*" postag_regexp="yes"><exception regexp="yes">большая|малая|хорошая|плохая|лучшая</exception></token>                    
                     </marker>                 
                 </pattern>
-                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_S:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
+                <message>Сложная превосходная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_Com:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
                 <short>Сложная превосходная степень</short>
                 <example type="incorrect">Это <marker>самая красивейшая</marker> девочка в классе.</example>
                 <example type="correct">Это самая красивая девочка в классе.</example>
@@ -3856,10 +3886,10 @@ $Id$
                 <pattern>
                     <marker>
                         <token>более</token>               
-                        <token postag="ADJ_S:.*" postag_regexp="yes"/>                    
+                        <token postag="ADJ_Com:.*" postag_regexp="yes"/>                    
                     </marker>                 
                 </pattern>
-                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_S:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
+                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_Com:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
                 <short>Сложная сравнительная степень</short>
                 <example type="incorrect">Это <marker>более вкуснейший</marker> салат.</example>
                 <example type="correct">Это более вкусный салат.</example>
@@ -3869,10 +3899,10 @@ $Id$
                 <pattern>
                     <marker>
                         <token>менее</token>               
-                        <token postag="ADJ_S:.*"  postag_regexp="yes"/>                    
+                        <token postag="ADJ_Com:.*"  postag_regexp="yes"/>                    
                     </marker>                 
                 </pattern>
-                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_S:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
+                <message>Сложная сравнительная степень образуется с полной формой положительной степени прилагательного: <suggestion><match no="1"></match> <match no="2" postag="ADJ_Com:(.*):(.*)" postag_regexp="yes" postag_replace="ADJ:$1:$2"></match></suggestion></message>
                 <short>Сложная сравнительная степень</short>
                 <example type="incorrect">Это <marker>менее сложнейшая</marker> задача.</example>
                 <example type="correct">Это менее сложная задача.</example>

@@ -16,25 +16,22 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.tokenizers.it;
+package org.languagetool.tokenizers;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.TestTools;
-import org.languagetool.language.Italian;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
-public class ItalianSRXSentenceTokenizerTest extends TestCase {
+public class SimpleSentenceTokenizerTest {
 
-  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Italian());
+  private static final SimpleSentenceTokenizer tokenizer = new SimpleSentenceTokenizer();
 
-  public void testTokenize() {
-    testSplit("Il Castello Reale di Racconigi è situato a Racconigi, in provincia di Cuneo ma poco distante da Torino. ",
-              "Nel corso della sua quasi millenaria storia ha visto numerosi rimaneggiamenti e divenne di proprietà dei Savoia a partire dalla seconda metà del XIV secolo.");
-    testSplit("Dott. Bunsen Honeydew");  // abbreviation
+  @Test
+  public void testTokenize() throws Exception {
+    testSplit("Hi! ", "This is a test. ", "Here's more. ", "And even more?? ", "Yes.");
   }
 
   private void testSplit(String... sentences) {
-    TestTools.testSplit(sentences, stokenizer);
+    TestTools.testSplit(sentences, tokenizer);
   }
-  
+
 }

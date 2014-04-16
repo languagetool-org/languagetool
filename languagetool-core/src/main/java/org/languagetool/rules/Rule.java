@@ -99,11 +99,11 @@ public abstract class Rule {
   public abstract void reset();
 
   /**
-   * Whether this rule can be used for text in the given language. Note that
-   * this just checks if this rule is in the list of hard-coded rules for the
-   * given language, thus is will never return {@code true} for {@link org.languagetool.rules.patterns.PatternRule}s.
+   * Whether this rule can be used for text in the given language.
+   * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
+   * (before, it used to always return {@code false} for those).
    */
-  public final boolean supportsLanguage(final Language language) {
+  public boolean supportsLanguage(final Language language) {
     final List<Class<? extends Rule>> relevantRuleClasses = language.getRelevantRules();
     return relevantRuleClasses != null && relevantRuleClasses.contains(this.getClass());
   }

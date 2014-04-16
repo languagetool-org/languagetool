@@ -2748,16 +2748,17 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Ww]ird|[Ww]urde|[Ww]urden|[Ww]ürde|[Ii]st|[Ss]ind|waren</token>
-                    <marker>
-                        <token>war</token>
-                    </marker>
+                    <token>war</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
-                <example type="correct">Seine Träume wurden <marker>wahr</marker>.</example>
-                <example type="incorrect">Seine Träume wurden <marker>war</marker>.</example>
-                <example type="correct">Das ist <marker>wahr</marker>.</example>
-                <example type="incorrect">Das ist <marker>war</marker>.</example>
-                <example type="correct">Initiative zur Förderung Fair-Trade-zertifizierter Waren <marker>war</marker> erfolgreich</example>
+                <suggestion>\1, \2</suggestion>
+                <example type="correct">Seine Träume <marker>wurden wahr</marker>.</example>
+                <example type="incorrect">Seine Träume <marker>wurden war</marker>.</example>
+                <example type="correct">Als ich vor 30 Jahren geboren <marker>wurde, war</marker> ich noch sehr jung.</example>
+                <example type="incorrect">Als ich vor 30 Jahren geboren <marker>wurde war</marker> ich noch sehr jung.</example>
+                <example type="correct">Das <marker>ist wahr</marker>.</example>
+                <example type="incorrect">Das <marker>ist war</marker>.</example>
+                <example type="correct">Initiative zur Förderung Fair-Trade-zertifizierter <marker>Waren war</marker> erfolgreich</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">

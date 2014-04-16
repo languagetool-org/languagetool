@@ -72,7 +72,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       }
     }
 
-    final Collection<String> parts = wordSplitter.tokenize(word);
+    final List<String> parts = wordSplitter.tokenize(word);
     int partCount = 0;
     for (String part : parts) {
       if (dictionary.misspelled(part)) {
@@ -82,7 +82,11 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
         }
         for (String suggestion : suggestions) {
           final List<String> partsCopy = new ArrayList<>(parts);
-          partsCopy.set(partCount, suggestion);
+          if (partCount > 0 && !parts.get(partCount-1).endsWith("-")) {
+            partsCopy.set(partCount, suggestion.toLowerCase());
+          } else {
+            partsCopy.set(partCount, suggestion);
+          }
           candidates.add(StringTools.listToString(partsCopy, ""));
         }
       }

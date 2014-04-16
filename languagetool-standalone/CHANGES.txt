@@ -8,6 +8,14 @@ LanguageTool Change Log
 -French:
     -added/improved several rules
     
+-Portuguese:
+    -added/improved several rules    
+    
+-Russian:
+    - added big wordlist to spellcheck dictionary. Thanks for wordlist to Dmitri Gabinski
+    - fixed wrong tag in tagger dictionary:  ADJ_Comp --> ADJ_Sup,  ADJ_S --> ADJ_Com
+       
+    
 -Asturian, Italian, Lithuanian, Malayalam, Swedish, and Tagalog have been switched
  to an SRX-based sentence tokenizer implementation. 
 
@@ -20,6 +28,12 @@ LanguageTool Change Log
     -Almost all deprecated methods and classes have been removed. If you're upgrading 
      from a version earlier than 2.5, we recommend to upgrade to 2.5 first, fix all
      deprecation warnings, and then upgrade to 2.6.
+    -If you extend the 'Language' class and don't implement the getSentenceTokenizer()
+     method, your language now uses SimpleSentenceTokenizer. This is a very simple
+     tokenizer and you probably want to implement getSentenceTokenizer() to return
+     a LocalSRXSentenceTokenizer instead that's adapted to your needs.
+    -Rule.supportsLanguage() now also works for PatternRules (i.e. rules loaded from
+     XML files). It used to always return 'false' for those rules.
     -The public field Language.DEMO has been removed. It is now only available 
      internally for tests, together with the demo language itself and DemoChunker.
     -JLanguageTool.printIfVerbose() has been changed from protected to private,

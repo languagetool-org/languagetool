@@ -35,6 +35,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
   
   private static final int MAX_EDIT_DISTANCE = 2;
+  private static final int SUGGESTION_MIN_LENGTH = 2;
   private static final List<Replacement> REPL = new ArrayList<>();
   static {
     // see de_DE.aff:
@@ -119,6 +120,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
   protected List<String> sortSuggestionByQuality(String misspelling, List<String> suggestions) {
+    List<String> sorted1 = sortByReplacements(misspelling, suggestions);
+    List<String> sorted2 = sortByCase(misspelling, sorted1);
+    return sorted2;
+  }
+
+  private List<String> sortByReplacements(String misspelling, List<String> suggestions) {
     final List<String> result = new ArrayList<>();
     for (String suggestion : suggestions) {
       boolean moveSuggestionToTop = false;
@@ -130,14 +137,41 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           break;
         }
       }
-      if (moveSuggestionToTop) {
-        // this should be preferred, as the replacements make it equal to the suggestion:
+      if (!ignoreSuggestion(suggestion)) {
+        if (moveSuggestionToTop) {
+          // this should be preferred, as the replacements make it equal to the suggestion:
+          result.add(0, suggestion);
+        } else {
+          result.add(suggestion);
+        }
+      }
+    }
+    return result;
+  }
+
+  private List<String> sortByCase(String misspelling, List<String> suggestions) {
+    final List<String> result = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      if (misspelling.equalsIgnoreCase(suggestion)) {
+        // this should be preferred - only case differs:
         result.add(0, suggestion);
       } else {
         result.add(suggestion);
       }
     }
     return result;
+  }
+
+  private boolean ignoreSuggestion(String suggestion) {
+    String[] parts = suggestion.split(" ");
+    if (parts.length > 1) {
+      for (String part : parts) {
+        if (part.length() < SUGGESTION_MIN_LENGTH) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static class Replacement {

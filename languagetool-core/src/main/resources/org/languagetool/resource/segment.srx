@@ -7,9 +7,9 @@
 <okpsrx:options oneSegmentIncludesAll="no" trimLeadingWhitespaces="no" trimTrailingWhitespaces="no" useJavaRegex="yes"></okpsrx:options>
 <okpsrx:sample language="pl_two" useMappedRules="no">Ingevolge paragraaf 4.7.4. van het SGR is ...
 Jestem zły, bo... (wpisz własną odpowiedź) drażni mnie krowa.
-Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love. B. Szymura, Psychologia poznawcza, op. cit., s. 60, 652. Alba Mons (d. Alba Patera) Zob. Józef Piłsudski. Dzieje ludności kultury Anasazi podzielić można na dwa okresy chronologiczne: Wyplataczy koszy (100 r. p.n.e. - 700 r. n.e.) 
+Kierownictwo toleruje pracę z konieczności ("Skąd wezmę innego pracownika?") i jest zadowolone. Józek D. (45 l.) T.Love. B. Szymura, Psychologia poznawcza, op. cit., s. 60, 652. Alba Mons (d. Alba Patera) Zob. Józef Piłsudski. Dzieje ludności kultury Anasazi podzielić można na dwa okresy chronologiczne: Wyplataczy koszy (100 r. p.n.e. - 700 r. n.e.) Wolny głos, czyli nowy tomik pism, Paryż 1850, wyd. następne: zobacz Wydania zbiorowe poz. 3; poz. 4, t. 2, cz. 5. Abu Simbel (rzadziej Abu Sunbul, arab. ‏أبو سمبل‎, z greckiego Syene) – miejscowość w okręgu Muhafazah w Egipcie. Krowa (wym. „krowa”). Po 1815 było z kolei stolicą rejencji bydgoskiej w obrębie Wielkiego Księstwa Poznańskiego (od 1848 r. Prowincji Poznańskiej). Powstanie upadło w 1944 r. Od tej pory nic się nie działo, aż do II poł. XIX wieku. 1700-700 l. p.n.e. Rundfunk-Sinfonieorchester Berlin (dyr. muz. Josef Stalin) Znaczny wzrost demograficzny, powodujący problemy z zaopatrzeniem w żywność, połączony z okresem tzw. Wielkiej Suszy (1276 r. n.e. - 1299 r. n.e.). Skończyło się to 1234 r. n.e. Potem było lepiej.
 pl.Openoffice.org
-Ad. 1, 5 ha. ziemi na Mazurach
+Ad. 1, 5 ha. ziemi na Mazurach. W Biblii jest także mowa o Adzie, matce flecistów i grających na harfie (Rdz. 4, 21). 
 Planowany wzrost przychodów najludniejszych gmin w br. będzie o 2 pkt. proc. wyższy od prognozowanej na br. stopy średniorocznej inflacji (15 proc.) natomiast wzrost wydatków przewyższa o 12 pkt. proc. stopę inflacji (co za dziwota! - przyp. red.) i tak dalej.
 Nie jesteś Rosjaninem? - spytał przedstawiciel okręgu. 11.X.2001 (b. dobra gra).
 Temperatura wody w systemie wynosi 30°C.W skład obiegu..
@@ -172,7 +172,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bczw\.\s</beforebreak>
+<beforebreak>\bczw?\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -507,6 +507,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
+<beforebreak>\bsłow\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
 <beforebreak>\bang\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
@@ -573,7 +577,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\bwył\.\s</beforebreak>
+<beforebreak>\bwy[łdm]\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -743,6 +747,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\bp\.n\.e\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="no">
+<beforebreak>\bdyr\.\smuz\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <!--msza św. lub św. Paweł; śp. Jadwiga Jagiełłowa-->
 <rule break="no">
 <beforebreak>\b[śŚ][pwW]\.\s</beforebreak>
@@ -751,6 +759,11 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="no">
 <beforebreak>\bw\.\s</beforebreak>
 <afterbreak>((?:X{0,2})(?:V?I{0,3}|I[VX]))(?&lt;=[XVI]+)</afterbreak>
+</rule>
+<!--I poł. XIX w.-->
+<rule break="no">
+<beforebreak>\bII?\społ\.\s</beforebreak>
+<afterbreak>[IVX]+</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\betc\.\s</beforebreak>
@@ -924,6 +937,28 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <beforebreak>\b[rls]\.\s</beforebreak>
 <afterbreak>[1-9]+</afterbreak>
 </rule>
+<!--1800-700 l. p.n.e.-->
+<rule break="no">
+<beforebreak>[\d-–]+\sl\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<!--(od 1945 r.-->
+<rule break="no">
+<beforebreak>\((?:od|do|w)\s[1-9]\d*\sr\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\d+\sr\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bn\.e\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bt\.\s</beforebreak>
+<afterbreak>\d+</afterbreak>
+</rule>
 <!--i s. Alicji, o s. Rafaeli-->
 <rule break="no">
 <beforebreak>\b[,uoi]\ss\.\s</beforebreak>
@@ -938,6 +973,10 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <rule break="no">
 <beforebreak>\b[Nn]a\sos\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\barab\.\s</beforebreak>
+<afterbreak>[^\x00-\x80]+</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\bT\.</beforebreak>
@@ -1032,7 +1071,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Ll}|\p{Lu}\p{Ll}\p{Ll}+</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+<beforebreak>\(\p{Lu}?\p{Ll}+\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!--Józef S. (45 l.)-->
@@ -5306,6 +5345,56 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 </rule>
 </languagerule>
 <languagerule languagerulename="Italian">
+<!-- Italian abbreviations A - C-->
+<rule break="no">
+<beforebreak>\b(a\.c|a\.C|ad es|all|Amn|Arch|Avv|Bcc|Cav|c\.a|C\.A\.P|Cc|banc|post|c\.c\.p|c\.m|Co|c\.p|C\.P|C\.p\.r|corr|c\.s|c\.v)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(Chia\.mo|C\.so|Circ\.ne)\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Italian abbreviations D - L -->
+<rule break="no">
+<beforebreak>\b(d\.C|Dott|Dr|ecc|Egr|e\.p\.c|fatt|FF\.AA|FF\.SS|Geom|Gen|g|gg|Id|Ing|int|lett)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(Dott\.ssa|Egr\.i|Egr\.ia|F\.lli|Gent\.mo|Gent\.mi|Gent\.ma|Gent\.me|Ill\.mo|L\.go)\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Italian abbreviations M - P -->
+<rule break="no">
+<beforebreak>\b(Mo|Mons|N\.B|n|ogg|On|p|pag|par|pp|p\.c|p\.c\.c|p\.es|p\.f|p\.r|P\.S|p\.v|P\.T|Prof)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(P\.zza|P\.le|Preg\.mo|Prof\.ssa)\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Italian abbreviations R - S -->
+<rule break="no">
+<beforebreak>\b(R|racc|Rag|Rev|ric|Rif|R\.P|R\.S\.V\.P|S\.A|S\. acc|S\.B\.F|seg|sgg|ss|S|Ss|Sig|Sigg|s\.n\.c|Soc|S\.p\.A|Spett|S\.P\.M|S\.r\.l)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(Sig\.na|Sig\.ra|Stim\.mo)\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Italian abbreviations T - V -->
+<rule break="no">
+<beforebreak>\b(tel|u\.s|V|V\.P|v\.r|v\.s)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(V\.le)\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Italian dictionary abbreviations -->
+<rule break="no">
+<beforebreak>\b(abbr|acron|agg|art|avv|card|compar|conf|cong|det|dim|f|fonosimb|ger|impers|indef|indet|inter|intr|inv|lat|loc|m|n|num|ord|p|pers|pl|pass|pres|pref|prep|pron|ponom|rel|s|sost|simb|suff|ter|tr|v|var)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002¹²³]*\s</beforebreak>
 <afterbreak></afterbreak>

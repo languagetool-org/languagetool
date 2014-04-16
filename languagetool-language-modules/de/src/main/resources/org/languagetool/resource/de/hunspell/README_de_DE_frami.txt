@@ -1,17 +1,16 @@
-Bei dem Wörterbuch xxx_frami handelt es sich um ein Addon. Es enthält
-alle Wörter des Basiswörterbuchs, zusätzlich jedoch etliche, die entweder
-im Basiswörterbuch noch fehlen oder die nicht unbedingt zum Kernwortschatz
-des Deutschen gehören. Die zusätzlichen Aufnahmen sind ungeprüft.
-Dieses Wörterbuch basiert auf dem igerman98 Ispell-Wörterbuch, zu finden
-unter http://www.j3e.de/ispell/igerman98/ .
+[source: http://extensions.libreoffice.org/extension-center/german-de-de-frami-dictionaries]
 
-Das Wörterbuch und alle enthaltenen Wortlisten sind lizenziert unter der
-GNU GPL, Version 2.
-Fehlermeldungen oder Ergänzungswünsche können gemailt werden an:
-Franz Michael Baumann <frami.baumann@web.de>
+Spell checking
+==============
+de-DE_frami
+Version: 2013-12-06
+Author:  Franz Michael Baumann <fm.baumann@uni-muenster.de>
+Based on igerman98 dictionary:
+Version: 2013-12-06
+Author:  BjÃ¶rn Jacke <bjoern@j3e.de>
+         Download: http://www.j3e.de/ispell/igerman98/dict/
+License: GNU GPL Version 2 or GPL Version 3 or OASIS 0.1
 
-Autor des Grundwörterbuchs:
-Bjoern Jacke <bjoern@j3e.de>
-
-Autor der Erweiterung
-Franz Michael Baumann <frami.baumann@web.de>
+The frami dictionary contains the complete word list of igerman98 
+and in addition numerous supplements by Franz Michael Baumann according to
+the reform of 2006-08-01.

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2009 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,35 +19,42 @@
 package org.languagetool.tokenizers;
 
 import net.sourceforge.segment.srx.SrxDocument;
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Class to tokenize sentences using LanguageTool's global SRX file for all
- * languages. If you add a language that's not part of the official LanguageTool
- * distribution, see {@link LocalSRXSentenceTokenizer} instead.
- * 
- * @author Marcin Miłkowski
- * @author Jarek Lipski
+ * Class to tokenize sentences using an SRX file.
+ * See <a href="http://wiki.languagetool.org/customizing-sentence-segmentation-in-srx-rules">our wiki</a>
+ * for a description of how we use SRX.
+ * @see SRXSentenceTokenizer
+ * @since 2.6
  */
-public class SRXSentenceTokenizer implements SentenceTokenizer {
+public class LocalSRXSentenceTokenizer implements SentenceTokenizer {
 
-  private static final SrxDocument DOCUMENT = SrxTools.createSrxDocument(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/segment.srx"));
-
-  private final String languageCode;
+  private final SrxDocument srxDocument;
+  private final Language language;
 
   private String parCode;
 
-  public SRXSentenceTokenizer(final Language language) {
-    this.languageCode = language.getShortName();
+  /**
+   * @param srxInClassPath the path to an SRX file in the classpath 
+   */
+  public LocalSRXSentenceTokenizer(Language language, String srxInClassPath) {
+    this.language = Objects.requireNonNull(language);
+    InputStream stream = this.getClass().getResourceAsStream(srxInClassPath);
+    if (stream == null) {
+      throw new RuntimeException("Could not find SRX file in classpath: " + srxInClassPath);
+    }
+    this.srxDocument = SrxTools.createSrxDocument(stream);  // will close the stream on its own
     setSingleLineBreaksMarksParagraph(false);
   }
 
   @Override
   public final List<String> tokenize(final String text) {
-    return SrxTools.tokenize(text, DOCUMENT, languageCode + parCode);
+    return SrxTools.tokenize(text, srxDocument, language.getShortName() + parCode);
   }
 
   @Override

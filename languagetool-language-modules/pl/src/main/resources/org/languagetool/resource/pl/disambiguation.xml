@@ -1681,7 +1681,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="STARA_ADJ" name="stara to przymiotnik przed rzeczownikiem r. ż.">
         <pattern>
             <token postag="adj:sg:nom.voc:f:pos">stara</token>
-            <token postag="subst:sg:nom:f"/>
+            <token postag="subst:sg:nom:f|adj:sg:nom.voc:f.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filterall"/>
     </rule>
@@ -5364,6 +5364,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd pos="brev:pun"/></disambig>
     </rule>
 
+    <rule name="br" id="br_element">
+        <pattern>
+            <token>&lt;</token>
+            <marker>
+                <token>br</token>
+            </marker>
+        </pattern>
+        <disambig action="remove"><wd pos="brev:pun"/></disambig>
+    </rule>
+
     <rule name="Center for" id="CENTER_FOR"> <!-- wyrażenie angielskie w polskim tekście -->
         <pattern case_sensitive="yes">
             <marker>
@@ -6206,6 +6216,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <token negate_pos="yes" postag="qub">nie</token>
             </marker>
             <token negate_pos="yes" postag="ppron.*" postag_regexp="yes">nie</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="Liczby_000_000" name="zera w tysiącach">    <!-- suppress in word repeat rule -->
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <marker><token>000</token>
+            <token>000</token>
+            </marker>
         </pattern>
         <disambig action="immunize"/>
     </rule>
