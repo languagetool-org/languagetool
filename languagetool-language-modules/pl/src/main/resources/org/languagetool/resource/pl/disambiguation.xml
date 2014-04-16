@@ -6,6 +6,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
 <!DOCTYPE rules [
         <!ENTITY interp "[\p{Punct}\-−–—―„«»…’]+">
+        <!ENTITY apost "['`’]">
         ]>
 
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -536,6 +537,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<token>mimo</token>
     	</pattern>
     	<disambig postag="prep:gen"/>
+    </rule>
+
+    <rule id="apost_u" name="u jako końcówka po apostrofie">
+        <pattern>
+            <token regexp="yes">\p{L}+</token>
+            <token spacebefore="no" regexp="yes">&apost;</token>
+            <marker><token spacebefore="no">u</token></marker>
+        </pattern>
+        <disambig action="remove"><wd pos="prep:gen"/></disambig>
+        <example type="untouched">To było 'Przyjęcie u kota'.</example>
+        <example type="ambiguous" inputform="u[u/prep:gen]" outputform="u[u]">W wormhole'<marker>u</marker> grawitacja się zagina.</example>
     </rule>
 
     <rule name="jako taki" id="JAKO_TAKI_puddle">
@@ -5240,7 +5252,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule name="l'art" id="L_ART">
         <pattern>
             <token>l</token>
-            <token regexp="yes">['’]</token>
+            <token regexp="yes">&apost;</token>
             <marker><token>art</token></marker>
         </pattern>
         <disambig action="replace"><wd pos="ign" lemma="art"/></disambig>
@@ -5293,7 +5305,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rule>
     <rule name="em" id="em">
     	<pattern>
-    		<token regexp="yes">['’]</token>
+    		<token regexp="yes">&apost;</token>
     		<marker>
     		<token spacebefore="no">em</token>
     		</marker>
@@ -5700,7 +5712,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
                 </marker>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token spacebefore="no" regexp="yes">a|ego</token>
             </pattern>
             <disambig action="replace"><match no="2" postag_regexp="yes" postag="(subst:sg.*):nom:(.*)" postag_replace="$1:gen:$2"/></disambig>
@@ -5714,7 +5726,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
                 </marker>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token spacebefore="no" regexp="yes">a|ego</token>
             </pattern>
             <disambig action="replace"><match no="2" postag_regexp="yes" postag="(subst:sg.*):nom:(.*)" postag_replace="$1:acc:$2"/></disambig>
@@ -5728,7 +5740,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
                 </marker>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token spacebefore="no">owi</token>
             </pattern>
             <disambig action="replace"><match no="2" postag_regexp="yes" postag="(.*):nom:(.*)" postag_replace="$1:dat:$2"/></disambig>
@@ -5741,7 +5753,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
                 </marker>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token spacebefore="no">em</token>
             </pattern>
             <disambig action="replace"><match no="2" postag_regexp="yes" postag="(.*):nom:(.*)" postag_replace="$1:inst:$2"/></disambig>
@@ -5754,7 +5766,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token postag_regexp="yes" postag="subst:.*nom.*" regexp="yes">.*[eys]$</token>
                 </marker>
-                <token spacebefore="no" regexp="yes">['’]</token>
+                <token spacebefore="no" regexp="yes">&apost;</token>
                 <token spacebefore="no">u</token>
             </pattern>
             <disambig action="replace"><match no="2" postag_regexp="yes" postag="(.*):nom:(.*)" postag_replace="$1:loc:$2"/></disambig>
