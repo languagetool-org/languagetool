@@ -388,14 +388,22 @@ public class Element implements Cloneable {
       final String token, final boolean regExp, final boolean inflected,
       final boolean negation, final boolean scopeNext, final boolean scopePrevious,
       final String posToken, final boolean posRegExp, final boolean posNegation) {
+    setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, null, posToken, posRegExp, posNegation);
+  }
+
+  /** @since 2.6 */
+  public final void setStringPosException(
+      final String token, final boolean regExp, final boolean inflected,
+      final boolean negation, final boolean scopeNext, final boolean scopePrevious,
+       final TokenPoS tokenPoS, String posToken, final boolean posRegExp, final boolean posNegation) {
 
     final Element exception = new Element(token, caseSensitive, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosElement(posToken, posRegExp, posNegation);
     exception.exceptionValidNext = scopeNext;
+    exception.tokenPoS = tokenPoS;
     setException(exception, scopePrevious);
   }
-
 
   private void setException(final Element elem, final boolean scopePrevious) {
     exceptionValidPrevious |= scopePrevious;

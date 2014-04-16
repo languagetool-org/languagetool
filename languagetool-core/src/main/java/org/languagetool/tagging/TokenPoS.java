@@ -18,6 +18,8 @@
  */
 package org.languagetool.tagging;
 
+import org.languagetool.JLanguageTool;
+
 import java.util.Map;
 
 /**
@@ -28,6 +30,14 @@ import java.util.Map;
 public class TokenPoS {
   
   private final Map<String,ValueSet> posSet;
+
+  public static TokenPoS getSentenceStart() {
+    return new TokenPoSBuilder().add("pos", JLanguageTool.SENTENCE_START_TAGNAME).create();
+  }
+
+  public static TokenPoS getSentenceEnd() {
+    return new TokenPoSBuilder().add("pos", JLanguageTool.SENTENCE_END_TAGNAME).create();
+  }
 
   TokenPoS(Map<String, ValueSet> posSet) {
     this.posSet = posSet;

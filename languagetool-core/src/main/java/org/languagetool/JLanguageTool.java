@@ -56,6 +56,7 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.SuggestionExtractor;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.xml.sax.SAXException;
@@ -826,7 +827,7 @@ public class JLanguageTool {
     final AnalyzedTokenReadings[] tokenArray = new AnalyzedTokenReadings[tokens.size() + 1];
     final AnalyzedToken[] startTokenArray = new AnalyzedToken[1];
     int toArrayCount = 0;
-    final AnalyzedToken sentenceStartToken = new AnalyzedToken("", SENTENCE_START_TAGNAME, null);
+    final AnalyzedToken sentenceStartToken = new AnalyzedToken("", TokenPoS.getSentenceStart(), SENTENCE_START_TAGNAME, null);
     startTokenArray[0] = sentenceStartToken;
     tokenArray[toArrayCount++] = new AnalyzedTokenReadings(startTokenArray, 0);
     int startPos = 0;

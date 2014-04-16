@@ -28,6 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.ChunkTag;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -319,7 +320,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    */
   public final void setSentEnd() {
     if (!isSentenceEnd()) {
-      final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
+      final AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(), TokenPoS.getSentenceEnd(),
           JLanguageTool.SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
       addReading(sentenceEnd);
     }

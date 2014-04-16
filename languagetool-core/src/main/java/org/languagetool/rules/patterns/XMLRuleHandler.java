@@ -90,6 +90,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean tokenInflected;
 
   protected String exceptionPosToken;
+  protected TokenPoS exceptionTokenPoS;
   protected boolean exceptionStringRegExp;
   protected boolean exceptionStringNegation;
   protected boolean exceptionStringInflected;
@@ -403,6 +404,10 @@ public class XMLRuleHandler extends DefaultHandler {
     exceptionValidPrev = "previous".equals(attrs.getValue(SCOPE));
     exceptionStringInflected = YES.equals(attrs.getValue(INFLECTED));
 
+    TokenPoS tokenPoS = buildTokenPoS(attrs);
+    if (!tokenPoS.isEmpty()) {
+      exceptionTokenPoS = tokenPoS;
+    }
     if (attrs.getValue(POSTAG) != null) {
       exceptionPosToken = attrs.getValue(POSTAG);
       exceptionPosRegExp = YES.equals(attrs.getValue(POSTAG_REGEXP));
@@ -423,11 +428,12 @@ public class XMLRuleHandler extends DefaultHandler {
       exceptionSet = true;
     }
     tokenElement.setNegation(tokenNegated);
-    if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
+    if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null || exceptionTokenPoS != null) {
       tokenElement.setStringPosException(StringTools.trimWhitespace(exceptions
           .toString()), exceptionStringRegExp, exceptionStringInflected,
           exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-          exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
+          exceptionTokenPoS, exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
+      exceptionTokenPoS = null;
       exceptionPosToken = null;
     }
     if (exceptionSpaceBeforeSet) {
@@ -490,9 +496,10 @@ public class XMLRuleHandler extends DefaultHandler {
   }
 
   private void addValues(TokenPoSBuilder builder, Attributes attrs, String type) {
-    String attrValue = attrs.getValue(type);
+    String namespace = language != null ? language.getShortName() + ":" : "";
+    String attrValue = attrs.getValue(namespace + type);
     if (attrValue != null) {
-      String[] values = attrValue.split("\\|");
+      String[] values = attrValue.split(" ");
       for (String val : values) {
         builder.add(type, val);
       }

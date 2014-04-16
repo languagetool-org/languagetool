@@ -54,9 +54,9 @@ public class EnglishTagger extends BaseTagger {
     }
     switch (posTag) {
       case JLanguageTool.SENTENCE_START_TAGNAME:
-        return l(pos(JLanguageTool.SENTENCE_START_TAGNAME));
+        return Collections.singletonList(TokenPoS.getSentenceStart());
       case JLanguageTool.SENTENCE_END_TAGNAME:
-        return l(pos(JLanguageTool.SENTENCE_END_TAGNAME));
+        return Collections.singletonList(TokenPoS.getSentenceEnd());
       
       case "#":
       case "$":
