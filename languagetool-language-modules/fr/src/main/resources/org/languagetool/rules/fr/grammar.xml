@@ -3591,6 +3591,21 @@ though, and has since been slightly modified)-->
         <example type="correct">Kanye West</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Bjarne</token>
+          <token>Stroustrup</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Bjarnes?</token>
+          <token regexp="yes">St?ro?o??u?r?ss?t?tr?o?o?u?pp?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Bjarne Stroustrup</suggestion> s’il s’agit de l’auteur du language c++.</message>
+        <url>https://fr.wikipedia.org/wiki/Bjarne_Stroustrup</url>
+        <example type="incorrect" correction="Bjarne Stroustrup"><marker>Bjarne Stroustroup</marker> est l’auteur du c++.</example>
+        <example type="incorrect" correction="Bjarne Stroustrup"><marker>Bjarnes Stroustrup</marker> est l’auteur du c++.</example>
+        <example type="correct">Bjarne Stroustrup est l’auteur du c++.</example>
+      </rule>
+      <rule>
         <pattern>
           <token>Linux</token>
           <token regexp="yes">Th?orvald?s?</token>
