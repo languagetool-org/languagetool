@@ -20,15 +20,13 @@ package org.languagetool.dev;
 
 import morfologik.tools.FSABuildTool;
 import morfologik.tools.Launcher;
+import org.languagetool.Language;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -114,7 +112,13 @@ class DictionaryBuilder {
   }
 
   protected File buildDict(File tempFile) throws Exception {
-    File resultFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), ".dict");
+    return buildDict(tempFile, null);
+  }
+  
+  protected File buildDict(File tempFile, Language language) throws Exception {
+    String suffix = language != null ?
+            "-" + language.getShortNameWithCountryAndVariant() + ".dict" : ".dict";
+    File resultFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), suffix);
     String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
     System.out.println("Running Morfologik FSABuildTool.main with these options: " + Arrays.toString(buildToolOptions));
     FSABuildTool.main(buildToolOptions);

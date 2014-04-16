@@ -70,7 +70,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     File tempFile = null;
     try {
       tempFile = tokenizeInput(plainTextDictFile, language);
-      return buildDict(tempFile);
+      return buildDict(tempFile, language);
     } finally {
       if (tempFile != null) {
         tempFile.delete();
