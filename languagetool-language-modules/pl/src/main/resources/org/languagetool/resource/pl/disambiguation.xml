@@ -682,6 +682,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="remove"><wd lemma="juszyć"/></disambig>
     </rule>
 
+    <rule name="motylić" id="motylic">
+        <pattern><token inflected="yes">motylić</token></pattern>
+        <disambig action="remove"><wd lemma="motylić"/></disambig>
+    </rule>
+
+    <rule name="osić" id="osic">
+        <pattern><token inflected="yes">osić</token></pattern>
+        <disambig action="remove"><wd lemma="osić"/></disambig>
+    </rule>
+
     <rule name="ślubić" id="SLUBIC">
         <pattern>
             <marker><token inflected="yes">ślubić</token></marker>
@@ -2068,6 +2078,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token postag=".*acc.*" postag_regexp="yes"><exception postag=".*gen.*" postag_regexp="yes"></exception></token>
         </pattern>
         <disambig postag="prep:acc"/>
+    </rule>
+
+    <rule id="PO_NIESPODZIEWANIE" name="po niespodziewanie">
+        <pattern>
+            <token>po</token>
+            <marker><token>niespodziewanie</token></marker>
+        </pattern>
+        <disambig postag="adv:pos"/>
+        <example type="ambiguous" inputform="niespodziewanie[niespodziewanie/adv:pos,spodziewać/ger:sg:nom.acc:n2:imperf:neg:refl]"
+                 outputform="niespodziewanie[niespodziewanie/adv:pos]">W lipcu 1940, po <marker>niespodziewanie</marker> łatwym zwycięstwie nad Francją...</example>
     </rule>
 
     <rulegroup name="Przyimek z rzeczownikiem" id="PREP_SUBST">
@@ -5278,6 +5298,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">WYCIECZKA KL. III</example>
         <example type="untouched">Jestem w kl. VIIb.</example>
     </rule>
+    <rule name="KS" id="KS">
+    <pattern case_sensitive="yes">
+            <marker><token>KS</token></marker>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+    </pattern>
+        <disambig action="replace"><wd pos="brev:npun" lemma="klub sportowy"/></disambig>
+        <example type="untouched">Ks. Lemański jada pomidory z biskupem.</example>
+        <example type="ambiguous" inputform="KS[ksiądz/brev:pun,książę/brev:pun]" outputform="KS[klub sportowy/brev:npun]">Takim klubem był <marker>KS</marker> Admira w Poznaniu.</example>
+    </rule>
     <rule id="OK_BREV" name="ok jako skrót">
         <pattern>
             <marker><token>ok</token></marker>
@@ -6238,6 +6267,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker><token>000</token>
             <token>000</token>
             </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="VOO_VOO" name="Voo Voo">  <!-- suppress in word repeat rule -->
+        <pattern case_sensitive="yes">
+            <marker><token>Voo</token></marker>
+            <token>Voo</token>
         </pattern>
         <disambig action="immunize"/>
     </rule>

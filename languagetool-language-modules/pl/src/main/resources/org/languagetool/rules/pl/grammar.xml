@@ -2886,12 +2886,14 @@ $Id$
                 <pattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes" spacebefore="no">[—–]</token>
-                <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">(ok|po|przed)</exception></token>
+                <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">(ok|po|przed|te|tych|tymi?)</exception></token>
                 </pattern>
                 <message>Myślnika nie używa się wewnątrz wyrazu: <suggestion>\1-\3</suggestion>. Jeśli ten znak jest między osobnymi wyrazami, należy napisać ze spacjami: <suggestion suppress_misspelled="yes"><match no="1"/> <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Błąd typograficzny</short>
                 <example type="incorrect" correction="5-letni|5 — letni">Okres <marker>5—letni</marker>.</example>
                 <example type="correct">Okres 5-letni</example>
+                   <!-- błąd pisowni liczebników -->
+                   <example type="correct">Jest bardzo popularny na świecie, a w latach	70–tych zwłaszcza w Grójcu.</example>
                 </rule>
                 <rule id="LICZBA_BEZ_DYWIZU_ZAKRES" name="Myślnik zamiast dywizu w zakresie liczbowym">
                     <pattern>
@@ -4930,7 +4932,7 @@ $Id$
                                 <token>temu</token>
                             </antipattern>
 							<pattern>
-								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:[\-–—]\d+)?|\.|mln|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
+								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:[\-–—]\d+)?|\.|ml[dn]|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
 						        <token postag="prep:acc">temu</token>
                                 <token><exception postag="num:pl:nom.acc.*" postag_regexp="yes"/></token>
 							     </pattern>
@@ -4948,6 +4950,7 @@ $Id$
                                 <example type="correct">Lat temu kilka przebywałem na dworze.</example>
                                 <example type="correct">To zwierzę pojawia się 2–3,8 miliona lat temu.</example>
                                 <example type="correct">2 miliony lat temu zjadłem kanapkę.</example>
+                                <example type="correct">Ok. 1 mld lat temu powstały złoża kanapek.</example>
 						</rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
@@ -8151,7 +8154,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>w</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8163,7 +8166,7 @@ $Id$
 								<pattern>
 										<token>w</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -11177,6 +11180,45 @@ $Id$
                             <example type="incorrect" correction="21 maja">To było <marker>21-go maja</marker>.</example>
                             <example type="incorrect" correction="21 maja">To było <marker>21go maja</marker>.</example>
                         </rule>
+                    <rule>
+                        <antipattern>
+                            <marker>
+                                <token regexp="yes">\d+</token>
+                                <token regexp="yes">[–—]</token>
+                                <token regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                            </marker>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                        </antipattern>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\d+</token>
+                            <token regexp="yes">[–—]</token>
+                            <token regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                        </pattern>
+                        <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1"/>.</suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="correct">Ten system jest 32-bitowy.</example>
+                        <example correction="5." type="incorrect">To już <marker>5—ty</marker> raz!</example>
+                        <example type="correct">20-lecie międzywojenne było okresem pełnym intryg politycznych.</example>
+                        <example correction="1." type="incorrect">To już <marker>1—wszy</marker> raz!</example>
+                        <example correction="1." type="incorrect">Rosjanie byli <marker>1—wsi</marker> w kosmosie.</example>
+                        <example type="incorrect" correction="90.">Zainicjowana przez Philippe’a Turchet w latach <marker>90—tych</marker>, synergologia była wielką ściemą.</example>
+                        <!-- to łapie reguła niżej -->
+                        <example type="correct" correction="21 maja">To było <marker>21—go maja</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\d+</token>
+                            <token regexp="yes">[–—]</token>
+                            <token regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                        </pattern>
+                        <message>W datach nie używamy końcówek przypadków:: <suggestion><match no="1"/> <match no="4"/></suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="correct">Ten system jest 32-bitowy.</example>
+                        <example type="incorrect" correction="21 maja">To było <marker>21—go maja</marker>.</example>
+                    </rule>
 						<rule>
 								<pattern>
 										<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
@@ -12419,12 +12461,14 @@ $Id$
 										<token>n</token>
 										<token>/</token>
 								</marker>
-								<token regexp="yes">\p{Lu}.*</token>
+								<token regexp="yes">\p{Lu}.*<exception>a</exception></token>
 						</pattern>
 						<message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="n." type="incorrect">Kazimierz <marker>n/</marker> Wisłą.</example>
 						<example type="correct">Kazimierz n. Wisłą.</example>
+                        <!-- z angielskiego -->
+                        <example type="correct">n/a</example>
 				</rule>
 				<rulegroup id="NIEMA_NIE_MA" name="„niema” (nie ma)">
 						<rule>
