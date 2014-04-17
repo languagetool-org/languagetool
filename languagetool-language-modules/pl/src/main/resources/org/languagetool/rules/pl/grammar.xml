@@ -13195,6 +13195,16 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="NI_NIE" name="„ni tylko” (nie tylko)">
+                <pattern>
+                    <token>ni</token>
+                    <token>tylko</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>nie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>On <marker>ni tylko</marker> może, ale i powinien.</example>
+                <example type='correct'>On nie tylko może, ale i powinien</example>
+            </rule>
             <rule id="TYCH_ROZNIC" name="„tych różnić” (tych różnic)">
                 <pattern>
                     <token regexp="yes">(?:tam)?tych</token>
