@@ -1561,7 +1561,7 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">give|gave|given</token>
-                    <token postag="PRP"></token>
+                    <token min="0" max="1" postag="PRP"></token>
                     <marker>
                         <token>advise</token>
                     </marker>
@@ -1570,6 +1570,7 @@ USA
                 <short>Possible typo</short>
                 <example type="correct">Please give me advice, I don't know what to do.</example>
                 <example type="incorrect">Please give me <marker>advise</marker>, I don't know what to do.</example>
+                <example type='incorrect' correction="advice">Could someone give <marker>advise</marker> on a better way to do this.</example>
             </rule>
             <rule>
                 <pattern>
