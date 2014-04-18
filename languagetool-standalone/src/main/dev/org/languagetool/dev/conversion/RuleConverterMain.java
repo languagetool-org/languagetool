@@ -25,7 +25,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
-import org.languagetool.Language;
+import org.languagetool.language.English;
 
 public class RuleConverterMain {
     
@@ -112,7 +112,7 @@ public class RuleConverterMain {
         //TODO: fix this so we can have this functionality
         try {
           if (args[0].equals("--check")) {
-            RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
+            RuleCoverage checker = new RuleCoverage(new English());
             String inFile = args[1];
             checker.evaluateRules(inFile);
             System.exit(1);

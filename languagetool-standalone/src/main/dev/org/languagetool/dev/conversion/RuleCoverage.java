@@ -41,6 +41,7 @@ import morfologik.stemming.WordData;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
@@ -64,7 +65,7 @@ public class RuleCoverage {
 
     // default constructor; defaults to English
     public RuleCoverage() throws IOException {
-      language = Language.ENGLISH;
+      language = new English();
       tool = new JLanguageTool(language);
         tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
@@ -85,7 +86,7 @@ public class RuleCoverage {
     
     // for testing purposes, defaults to English
     public RuleCoverage(String dictFileName) throws IOException {
-      language = Language.ENGLISH;
+      language = new English();
       tool = new JLanguageTool(language);
         tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
