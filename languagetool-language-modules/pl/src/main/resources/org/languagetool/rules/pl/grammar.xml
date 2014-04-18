@@ -253,6 +253,7 @@ $Id$
                                 <example type="incorrect">Jeżeli do danego atomu węgla <marker>są przyłączone dwa lub więcej podstawników to przypisujemy im tą samą cyfrę.</marker></example>
                                 <example type="correct">Proces asymilacji został w pełni zakończony i Japonia jest krajem monoetnicznym.</example>
                                 <example type="correct">Według jednego z nich Afrodyta nie miała rodziców i pewnego dnia wyłoniła się z piany morskiej w pobliżu Cypru.</example>
+                                <example type="incorrect">Tym, co <marker>spostrzegamy (wzrokowo, słuchowo itd.) są cechy przedmiotu.</marker></example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -5039,12 +5040,12 @@ $Id$
 								<pattern>
 										<token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception regexp="yes" scope="next">za|na|przy|między|nad|nade|znad|o|po|w|&interp;</exception><exception postag="ppas.*inst.*" postag_regexp="yes"></exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/><exception postag_regexp="yes" scope="next" postag="verb.*(sg|pl).*"/></token>
 										<marker>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*|.*acc.dat.gen.inst.loc.nom.voc:n" postag_regexp="yes"></exception></token>
+												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*acc[:\.]f.*|.*acc.dat.gen.inst.loc.nom.voc:n" postag_regexp="yes"></exception></token>
 										</marker>
 										<token><exception postag="(adj|ppas|pact|subst).*inst.*" postag_regexp="yes"></exception></token>
 								</pattern>
-								<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
-								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"></match></suggestion>”.</message>
+								<!--  FIXME: czy to też rozdzielić na rodzaje? trudno zachować rodzaj w podpowiedzi... -->
+								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*$3"></match></suggestion>”.</message>
 								<short>Błąd składniowy</short>
 								<example type="correct">Ludwik był uznany za aktora.</example>
 								<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
@@ -5053,22 +5054,96 @@ $Id$
 								<example correction="za aktora" type="incorrect">Ludwik był uznawany <marker>aktorem</marker>.</example>
                                 <example type="correct">Tłumaczenie (wyjaśnianie) jako dobieranie do następstwa uznanego racji jest rozumowaniem redukcyjnym.</example>
 						</rule>
-						<rule>
+						<rule> <!-- m1 -->
 								<pattern>
 										<token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
 										<marker>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*|.*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*" postag_regexp="yes"></exception></token>
+                                            <unify>
+                                                <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="m1"/></feature>
+												<token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+												<token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                            </unify>
 										</marker>
 								</pattern>
-								<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
-								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*):(com|pos|sup)" postag_regexp="yes" postag_replace="$1:$2.*(acc|gen).*:m[1-3]?.*:$5"></match> <match no="3" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"></match></suggestion>”.</message>
+								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m1.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m1.*$3"></match></suggestion>”.</message>
 								<short>Błąd składniowy</short>
 								<example type="correct">Ludwik był uznany za wielkiego aktora</example>
 								<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
 								<example type="correct">Ludwik był uznanym polskim aktorem.</example>
-								<example correction="za wielki aktora|za wielkiego aktora" type="incorrect">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
+								<example correction="za wielkiego aktora" type="incorrect">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
 						</rule>
+                        <rule> <!-- m2 -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="m2"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m2.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m2.*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za wielkiego lewa|za wielkiego lwa" type="incorrect">Ten okaz był uznawany <marker>wielkim lwem</marker>.</example>
+                        </rule>
+                        <rule> <!-- m3 -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="m3"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m3.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m3.*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za bestseller wydawniczy" type="incorrect">Książka była uznawany <marker>bestsellerem wydawniczym</marker>.</example>
+                        </rule>
+                        <rule> <!-- f -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="f"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*(acc)[:\.]f.*|.*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*(acc)[:\.]f.*" postag_regexp="yes"></exception></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*f.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*f.*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za piękną modelkę" type="incorrect">Julia była uznawany <marker>piękną modelką</marker>.</example>
+                        </rule>
+                    <rule> <!-- n1, n2 -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="n1"/><type id="n2"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*n[12].*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*n[12].*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za małe dziecko" type="incorrect">Ludwik był uznawany <marker>małym dzieckiem</marker>.</example>
+                    </rule>
 				</rulegroup>
 				<!-- TODO: limit the number of suggestions -->
 				<rule id="ZAINTERESOWANIE_DLA" name="„zainteresowanie dla czego” (czym)">
@@ -10537,7 +10612,7 @@ $Id$
                     </rule>
                     <rule> <!-- paradygmat A.2.2.1g, np. Joyce -->
                         <pattern>
-                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dlnvw]ie|.*ethe|.*nde|Joe</exception></token>
+                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dlnvwk]ie|.*ethe|.*nde|Joe</exception></token>
                             <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>m</token>
                         </pattern>

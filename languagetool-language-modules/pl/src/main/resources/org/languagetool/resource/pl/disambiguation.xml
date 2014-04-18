@@ -140,6 +140,38 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
     </rule>
 
+    <rule name="nawiasy z wtrąceniem, ale bez zdania w środku" id="nawiasy_1">
+        <pattern>
+            <marker><token skip="-1">(<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            </marker>
+            <token>)</token>
+        </pattern>
+        <disambig action="replace"><wd pos="interp"/></disambig>
+        <example type="untouched">On był (jeśli w ogóle można mówić o kimś takim „on”) wyjątkowo wredny.</example>
+        <example type="ambiguous" inputform="([(/interp:comma]" outputform="([(/interp]">On był <marker>(</marker> wyjątkowo) wredny.</example>
+    </rule>
+
+    <rule name="nawiasy z wtrąceniem, ale bez zdania w środku" id="nawiasy_2">
+        <pattern>
+            <token skip="-1">(<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            <marker>
+            <token>)</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="interp"/></disambig>
+        <example type="untouched">On był (jeśli w ogóle można mówić o kimś takim „on”) wyjątkowo wredny.</example>
+        <example type="ambiguous" inputform=")[)/interp:comma]" outputform=")[)/interp]">On był (wyjątkowo<marker>)</marker> wredny.</example>
+    </rule>
+
+    <rule name="przecinek w nawiasie wtrącenia" id="przecinek_w_nawiasie">
+        <pattern>
+            <token postag="interp" skip="-1">(</token>
+            <marker><token skip="-1">,</token></marker>
+            <token postag="interp">)</token>
+        </pattern>
+        <disambig action="replace"><wd pos="interp"/></disambig>
+    </rule>
+
     <rule name="opisany powyżej" id="opisany_powyzej">
         <pattern>
             <token inflected="yes" regexp="yes">pisać|opisać|przedstawić|przedstawiać|podać|zamieścić|wymienić</token>
