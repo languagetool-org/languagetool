@@ -2568,6 +2568,12 @@ $Id$
 				</rulegroup>
 				<rulegroup id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
 						<rule>
+                                <antipattern case_sensitive="yes"> <!-- Wikipedia -->
+                                    <marker><token>Zobacz</token></marker>
+                                    <token>też</token>
+                                    <token>=</token>
+                                    <token>=</token>
+                                </antipattern>
 								<pattern>
 										<token postag="SENT_START" skip="-1"></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes" skip="-1"><exception>rozdział</exception></token>
@@ -2583,6 +2589,7 @@ $Id$
 								<example type="correct">Pożycz mi sto złotych…</example>
                                 <example type="correct">Rozdział I</example>
                                 <example type="correct">*(Kubuś zaczyna pogwizdywać.)*</example>
+                                <example type="correct">== Zobacz też ==</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -12462,7 +12469,7 @@ $Id$
 										<token>n</token>
 										<token>/</token>
 								</marker>
-								<token regexp="yes">\p{Lu}.*<exception>a</exception></token>
+								<token regexp="yes">\p{Lu}.*<exception>A</exception></token>
 						</pattern>
 						<message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
 						<short>Błąd ortograficzny</short>
@@ -13196,10 +13203,20 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="POZNA_NIA" name="„pozna nią” (poza nią)">
+                <pattern>
+                    <token>pozna</token>
+                    <token>nią</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>poza nią</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>W tym miejscu zajmiemy się analizą tego, gdzie w polskiej sieci i <marker>pozna nią</marker> można zrobić naprawdę tanie zakupy.</example>
+                <example type='correct'>W tym miejscu zajmiemy się analizą tego, gdzie w polskiej sieci i poza nią można zrobić naprawdę tanie zakupy.</example>
+            </rule>
             <rule id="NI_NIE" name="„ni tylko” (nie tylko)">
                 <pattern>
                     <token>ni</token>
-                    <token>tylko</token>
+                    <token regexp="yes">tylko|bardzo|wszystko|można</token>
                 </pattern>
                 <message>Czy chodziło o <suggestion>nie</suggestion>?</message>
                 <short>Prawdopodobna literówka</short>

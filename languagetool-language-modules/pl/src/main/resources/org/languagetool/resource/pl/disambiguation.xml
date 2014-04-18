@@ -4820,7 +4820,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token postag="verb:fin:sg:pri:imperf:refl.nonrefl">mam</token>
             <token postag="prep:loc">na</token>
-            <token regexp="yes" postag="subst:sg.*loc.*" postag_regexp="yes">myśli|celu</token>
+            <token regexp="yes" postag="subst:sg.*loc.*" postag_regexp="yes">myśli|celu|względzie</token>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="mam[mama/subst:pl:gen:f,mamić/verb:impt:sg:sec:imperf:refl.nonrefl,mieć/verb:fin:sg:pri:imperf:refl.nonrefl]"
@@ -5610,22 +5610,40 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     	<example type="ambiguous" inputform="wiadomo[wiadomo/adv:pos,wiadomo/pred]" outputform="wiadomo[wiadomo/pred]">Jak <marker>wiadomo</marker>, nie tylko Marsjanie lubili pierogi.</example>
     </rule>
     
-    <rule name="można" id="mozna">
-    <pattern>
-      <marker>
-      <and>
-        <token postag="pred" skip="1">można</token>
-        <token postag="adj:sg:nom.voc:f:pos"/>
-      </and>
-      <token postag="verb:inf.*" postag_regexp="yes"/> 
-      </marker>
-    </pattern>
-    <disambig postag="pred"/>
-    <example type="untouched">Jest to można kobieta.</example>
-    <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> spotkać go w lasach.</example>
-   </rule>
+    <rulegroup name="można" id="mozna">
+        <rule>
+            <pattern>
+              <marker>
+                <and>
+                <token postag="pred" skip="1">można</token>
+                <token postag="adj:sg:nom.voc:f:pos"/>
+                </and>
+              </marker>
+            <token postag="verb:inf.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="pred"/>
+        <example type="untouched">Jest to można kobieta.</example>
+        <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> spotkać go w lasach.</example>
+       </rule>
+        <rule>
+            <pattern>
+                <token skip="1" postag="verb:inf.*" postag_regexp="yes"><exception scope="next" postag="(interp|comp):comma" postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="pred" skip="1">można</token>
+                        <token postag="adj:sg:nom.voc:f:pos"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig postag="pred"/>
+            <example type="untouched">Jest to można kobieta.</example>
+            <example type="ambiguous" inputform="można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="można[można/pred]">Spotkać <marker>można</marker> go w lasach.</example>
+            <example type="ambiguous" inputform="można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="można[można/pred]">Spotkać go <marker>można</marker> w lasach.</example>
+        </rule>
+    </rulegroup>
 
-    <rule name="można by/było" id="mozna_by">
+    <rulegroup name="można by/było" id="mozna_by">
+        <rule>
         <pattern>
             <marker><token>można</token></marker>
             <token regexp="yes">by(?:ło)?</token>
@@ -5634,7 +5652,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">To jest można królowa.</example>
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> by to zrobić.</example>
         <example type="ambiguous" inputform="Można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="Można[można/pred]"><marker>Można</marker> było to zrobić.</example>
-    </rule>
+        </rule>
+        <rule>
+            <pattern>
+                <token>było</token>
+                <marker><token>można</token></marker>
+            </pattern>
+            <disambig postag="pred"/>
+            <example type="untouched">To jest można królowa.</example>
+            <example type="ambiguous" inputform="można[można/pred,możny/adj:sg:nom.voc:f:pos]" outputform="można[można/pred]">Wówczas było <marker>można</marker>.</example>
+        </rule>
+    </rulegroup>
 
     <rule id="aby_qub" name="aby jako kublik">
         <pattern>
