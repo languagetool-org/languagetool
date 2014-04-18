@@ -50,12 +50,12 @@ public class ExportGermanNouns {
   private Set<String> getWords() throws IOException {
     final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
     String lastTerm = null;
-    final Set<String> set = new HashSet<String>();
+    final Set<String> set = new HashSet<>();
     for (ByteBuffer bb : fsa) {
       final byte [] sequence = new byte [bb.remaining()];
       bb.get(sequence);
       final String output = new String(sequence, "iso-8859-1");
-      if (output.indexOf("+SUB:") != -1 && output.indexOf(":ADJ") == -1) {
+      if (output.contains("+SUB:") && !output.contains(":ADJ")) {
         final String[] parts = output.split("\\+");
         final String term = parts[0].toLowerCase();
         if (lastTerm == null || !lastTerm.equals(parts[0])) {

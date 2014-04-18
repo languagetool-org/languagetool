@@ -58,7 +58,7 @@ public final class RuleActivityOverview {
     System.out.println("Commits per language in the last " + PAST_DAYS + " days");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
     
-    final List<String> sortedLanguages = new ArrayList<String>();
+    final List<String> sortedLanguages = new ArrayList<>();
     for (Language element : Language.REAL_LANGUAGES) {
       sortedLanguages.add(element.getName());
     }
@@ -79,7 +79,7 @@ public final class RuleActivityOverview {
       final String command = "svn log -q -r {" + pastString + "}:{" + todayString + "} src/" + xmlFile;
       final Process process = runtime.exec(command);
       final InputStream inputStream = process.getInputStream();
-      final String output = StringTools.readStream(inputStream);
+      final String output = StringTools.readStream(inputStream, "utf-8");
       process.waitFor();
       final int commits = getCommits(output);
       System.out.println(commits + "\t" + langName);
@@ -88,16 +88,13 @@ public final class RuleActivityOverview {
 
   private int getCommits(String svnOutput) {
     int count = 0;
-    final Scanner scanner = new Scanner(svnOutput);
-    try {
+    try (Scanner scanner = new Scanner(svnOutput)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
         if (line.matches("^r\\d+.*")) {
           count++;
         }
       }
-    } finally {
-      scanner.close();
     }
     return count;
   }

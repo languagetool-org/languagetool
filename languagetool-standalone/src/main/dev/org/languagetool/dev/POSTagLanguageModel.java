@@ -36,12 +36,8 @@ import org.languagetool.Language;
  * 
  * @author Marcin Milkowski
  */
-public class POSTagLanguageModel {
+public final class POSTagLanguageModel {
 
-  /**
-   * @param args
-   * @throws IOException
-   */
   public static void main(final String[] args) throws IOException {
     if (args.length == 1) {
       final Language language = getLanguageOrExit(args[0]);
@@ -55,7 +51,7 @@ public class POSTagLanguageModel {
   private static Language getLanguageOrExit(final String lang) {
     Language language = null;
     boolean foundLanguage = false;
-    final List<String> supportedLanguages = new ArrayList<String>();
+    final List<String> supportedLanguages = new ArrayList<>();
     for (final Language tmpLang : Language.LANGUAGES) {
       supportedLanguages.add(tmpLang.getShortName());
       if (lang.equals(tmpLang.getShortName())) {
@@ -73,12 +69,11 @@ public class POSTagLanguageModel {
   }
 
   private static void exitWithUsageMessage() {
-    System.out
-        .println("Usage: java org.languagetool.dev.POSTagLanguageModel language");
+    System.out.println("Usage: java org.languagetool.dev.POSTagLanguageModel <language>");
   }
 
   private static void runOnStdIn(final JLanguageTool lt) throws IOException {
-    final int MAX_FILE_SIZE = 64000;
+    final int MAX_FILE_SIZE = 64_000;
     InputStreamReader isr = null;
     BufferedReader br = null;
     StringBuilder sb = new StringBuilder();
@@ -104,7 +99,6 @@ public class POSTagLanguageModel {
         tagText(sb.toString(), lt);
       }
     }
-
     br.close();
     isr.close();
   }
