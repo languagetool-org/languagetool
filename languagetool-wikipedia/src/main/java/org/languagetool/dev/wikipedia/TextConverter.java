@@ -226,6 +226,11 @@ public class TextConverter extends Visitor {
         throw new RuntimeException("Error getting content of external link " + link, e);
       }
     }
+    
+    // TODO: sometimes this seems to fix the error position, but we'd need to find out under which circumstances:
+    //String url = link.getTarget().getProtocol() + ":" + link.getTarget().getPath();
+    //int correction = url.length();
+    //addMapping(link, correction);
     addMapping(link);
     write(out.toString());
   }
@@ -365,10 +370,15 @@ public class TextConverter extends Visitor {
   }
 
   private void addMapping(Locatable loc) {
+    addMapping(loc, 0);
+  }
+
+  private void addMapping(Locatable loc, int columnCorrection) {
     String contentSoFar = sb.toString() + line;
     int textPos = contentSoFar.length() + needNewlines + 1;
     if (loc.hasLocation()) {
-      mapping.put(textPos, loc.getLocation());
+      Location location = loc.getLocation();
+      mapping.put(textPos, new Location(location.file, location.line, location.column + columnCorrection));
       //System.out.println("PUT " + textPos + " -> " + loc.getLocation());
     }
   }
