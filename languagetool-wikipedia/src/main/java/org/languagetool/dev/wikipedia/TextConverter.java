@@ -127,6 +127,7 @@ public class TextConverter extends Visitor {
   // =========================================================================
 
   private boolean inGallery = false;
+  private boolean inSource = false;
   
   public void visit(AstNode n) {
     // Fallback for all nodes that are not explicitly handled elsewhere
@@ -135,10 +136,15 @@ public class TextConverter extends Visitor {
       RtData rtd = (RtData) data;
       Object[][] rts = rtd.getRts();
       if (rts.length > 0 && rts[0].length > 0) {
-        if ("<gallery".equals(rts[0][0])) {
+        Object rtsElem = rts[0][0];
+        if ("<gallery".equals(rtsElem)) {
           inGallery = true;
-        } else if ("</gallery>".equals(rts[0][0])) {
+        } else if ("<source".equals(rtsElem)) {
+          inSource = true;
+        } else if ("</gallery>".equals(rtsElem)) {
           inGallery = false;
+        } else if ("</source>".equals(rtsElem)) {
+          inSource = false;
         }
       }
     }
@@ -171,7 +177,7 @@ public class TextConverter extends Visitor {
   }
 
   public void visit(Text text) {
-    if (inGallery) {
+    if (inGallery || inSource) {
       return;
     }
     addMapping(text);
