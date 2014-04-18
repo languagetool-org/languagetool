@@ -5,14 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 import org.languagetool.dev.conversion.cg.CgCompositeTag;
 import org.languagetool.dev.conversion.cg.CgContextualTest;
@@ -49,16 +42,16 @@ public class CgRuleConverter extends RuleConverter {
   @Override
   public void parseRuleFile() throws IOException {
     parseCgFile();  // builds the grammar
-    List<CgRule> ruleList = new ArrayList<CgRule>();
+    List<CgRule> ruleList = new ArrayList<>();
     for (CgRule rule : grammar.rule_by_number) {
       ruleList.add(rule);
     }
     ruleObjects  = ruleList;
-    ltRules = new ArrayList<List<String>>();
-    allLtRules = new ArrayList<List<String>>();
-    disambiguationRules = new ArrayList<List<String>>();
-    originalRuleStrings = new ArrayList<String>();
-    warnings = new ArrayList<String[]>();
+    ltRules = new ArrayList<>();
+    allLtRules = new ArrayList<>();
+    disambiguationRules = new ArrayList<>();
+    originalRuleStrings = new ArrayList<>();
+    warnings = new ArrayList<>();
     for (Object ruleObject : ruleObjects) {
       CgRule cgrule = (CgRule) ruleObject;
       List<String> ruleAsList = ltRuleAsList(cgrule,generateId(ruleObject),generateName(ruleObject),cgrule.type.name());
@@ -111,7 +104,7 @@ public class CgRuleConverter extends RuleConverter {
             System.exit(1);
         } 
         String[] lines = inArray.split("\n");
-        this.lines = lines;;
+        this.lines = lines;
   }
   
   /**
@@ -123,25 +116,25 @@ public class CgRuleConverter extends RuleConverter {
   public List<String> ltRuleAsList(Object ruleObject, String id, String name, String type) {
     CgRule rule = (CgRule)ruleObject;
     type = rule.type.name();  // like K_SELECT or K_REMOVE
-    List<String> ltRule = new ArrayList<String>();
-    ArrayList<String> currentWarnings = new ArrayList<String>();
+    List<String> ltRule = new ArrayList<>();
+    List<String> currentWarnings = new ArrayList<>();
 
     String cgRuleString = lines[rule.line];
     ltRule.add("<!-- " + cgRuleString + " -->");
 //    ArrayList<CgRule> rules = splitUnificationRule(mainRule, grammar);
 //    for (CgRule rule : rules) {
-    ArrayList<Token> tokensList = new ArrayList<Token>();
-    ArrayList<ArrayList<Token>> outerList = new ArrayList<ArrayList<Token>>();   // in case we need to split the rule into several rules
-    ArrayList<Token[]> processedLists = new ArrayList<Token[]>();
+    ArrayList<Token> tokensList = new ArrayList<>();
+    List<ArrayList<Token>> outerList = new ArrayList<>();   // in case we need to split the rule into several rules
+    ArrayList<Token[]> processedLists = new ArrayList<>();
     
     CgSet targetSet = expandSetSets(grammar.getSet(rule.target));
     Token target = new Token(targetSet,false,0,false,false,new CgSet(),false,0,false);
     if (!isOrCompatible(target)) {
       System.err.println("Target for rule on line " + rule.line + " cannot be represented as one LT rule. Consider rewriting it.");
-      return new ArrayList<String>();
+      return new ArrayList<>();
     }
     tokensList.add(target);
-    ArrayList<CgContextualTest> sortedTestsHeads = new ArrayList<CgContextualTest>();
+    List<CgContextualTest> sortedTestsHeads = new ArrayList<>();
     // puts the parent test at the end, so it's processed last
     for (CgContextualTest test : rule.test_heads) {
       if (test.isParentTest()) {
@@ -168,7 +161,7 @@ public class CgRuleConverter extends RuleConverter {
             Token childTestToken = getTokenFromNormalTest(childTest);
             newTokenList.add(childTestToken);
           } else if (childTest.isLinkedTest()) {
-            ArrayList<CgContextualTest> linkedTests = new ArrayList<CgContextualTest>();
+            ArrayList<CgContextualTest> linkedTests = new ArrayList<>();
             CgContextualTest curTest = childTest;
             while (curTest.next != 0) {  // while there are still more tests to link to
               linkedTests.add(curTest);
@@ -184,7 +177,7 @@ public class CgRuleConverter extends RuleConverter {
         }
       } else if (test.isLinkedTest()) {
         // add all the linked tests to a list
-        ArrayList<CgContextualTest> linkedTests = new ArrayList<CgContextualTest>();
+        ArrayList<CgContextualTest> linkedTests = new ArrayList<>();
         CgContextualTest curTest = test;
         while (curTest.next != 0) {  // while there are still more tests to link to
           linkedTests.add(curTest);
@@ -207,10 +200,10 @@ public class CgRuleConverter extends RuleConverter {
     for (int i=0;i<outerList.size();i++) {
       Token[] tokens = outerList.get(i).toArray(new Token[outerList.get(i).size()]);
       if (negativeBackwardBarrierScan(tokens)) {
-        ArrayList<List<Token>> split = splitNegativeBackwardBarrierScan(tokens);
+        Iterable<List<Token>> split = splitNegativeBackwardBarrierScan(tokens);
         outerList.remove(i);
         for (List<Token> splitList : split) {
-          outerList.add(i, new ArrayList<Token>(splitList));
+          outerList.add(i, new ArrayList<>(splitList));
           i++;
         }
       }
@@ -224,7 +217,7 @@ public class CgRuleConverter extends RuleConverter {
         tokens = addSkipTokens(tokens);
         tokens = resolveLinkedTokens(tokens);
         if (!singleRuleCompatible(tokens)) {
-          ArrayList<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(tokens);
+          Iterable<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(tokens);
           for (List<Token> srctl : singleRuleCompatibleTokens) {
             Token[] srcta = srctl.toArray(new Token[srctl.size()]);
             processedLists.add(srcta);
@@ -234,7 +227,7 @@ public class CgRuleConverter extends RuleConverter {
         }
       }
       else {
-        ArrayList<List<Token>> splitTokenLists = getSkipSafeTokens(tokens);
+        List<List<Token>> splitTokenLists = getSkipSafeTokens(tokens);
         for (int j=0;j<splitTokenLists.size();j++) {
           Token[] indSplitTokenList = splitTokenLists.get(j).toArray(new Token[splitTokenLists.get(j).size()]);
           indSplitTokenList = addSkipTokens(indSplitTokenList);
@@ -242,7 +235,7 @@ public class CgRuleConverter extends RuleConverter {
           Arrays.sort(indSplitTokenList);
           indSplitTokenList = addGapTokens(indSplitTokenList);
           if (!singleRuleCompatible(indSplitTokenList)) {
-            ArrayList<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(indSplitTokenList);
+            Iterable<List<Token>> singleRuleCompatibleTokens = splitForSingleRule(indSplitTokenList);
             for (List<Token> srctl : singleRuleCompatibleTokens) {
               Token[] srcta = srctl.toArray(new Token[srctl.size()]);
               processedLists.add(srcta);
@@ -278,12 +271,10 @@ public class CgRuleConverter extends RuleConverter {
   /**
    * For if there's multiple surface/base forms and postags in a single token that we can't "or" together
    * in one LT token. E.g. if a token includes ("man" or "woman" or NN or NNP), it'd have to be split.
-   * @param tokens
-   * @return
    */
-  public ArrayList<List<Token>> splitForSingleRule(Token[] tokens) {
-    ArrayList<List<Token>> list = new ArrayList<List<Token>>();
-    ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
+  public List<List<Token>> splitForSingleRule(Token[] tokens) {
+    List<List<Token>> list = new ArrayList<>();
+    List<Token> tokenList = new ArrayList<>(Arrays.asList(tokens));
     list.add(tokenList);
     boolean notdone = true;
     while (notdone) {
@@ -294,7 +285,7 @@ public class CgRuleConverter extends RuleConverter {
           continue;
         } else {
           list.remove(i);
-          ArrayList<List<Token>> splitTokens = splitListForSingleRule(insideList);
+          Iterable<List<Token>> splitTokens = splitListForSingleRule(insideList);
           for (List<Token> ind : splitTokens) {
             list.add(ind);
           }
@@ -308,20 +299,18 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Actually performs the splitting for wrapper method splitForSingleRule. Only performs a split for a single token.
-   * @param tokens
-   * @return
    */
-  public ArrayList<List<Token>> splitListForSingleRule(List<Token> tokens) {
-    ArrayList<List<Token>> list = new ArrayList<List<Token>>();
-    final ArrayList<Token> firstList = new ArrayList<Token>();
+  public List<List<Token>> splitListForSingleRule(List<Token> tokens) {
+    ArrayList<List<Token>> list = new ArrayList<>();
+    final List<Token> firstList = new ArrayList<>();
     list.add(firstList);
-    int i=0;
+    int i;
     for (i=0;i<tokens.size();i++) {
       if (isOrCompatible(tokens.get(i))) {
         firstList.add(tokens.get(i));
       } else {
         list.remove(firstList);
-        ArrayList<CgSet> newSets = splitCgSet(tokens.get(i).target);
+        Iterable<CgSet> newSets = splitCgSet(tokens.get(i).target);
         for (CgSet set : newSets) {
           Token newToken = new Token(tokens.get(i));
           newToken.target = expandSetSets(set);
@@ -330,7 +319,7 @@ public class CgRuleConverter extends RuleConverter {
           newToken.surfaceforms = newToken.target.getSingleTagSurfaceformsString();
           newToken.compositeTags = newToken.target.getCompositeTags();
           // clone the first list
-          ArrayList<Token> newList = new ArrayList<Token>();
+          List<Token> newList = new ArrayList<>();
           for (Token token : firstList) {
             newList.add(new Token(token));
           }
@@ -345,7 +334,7 @@ public class CgRuleConverter extends RuleConverter {
     // finish up the list
     for (int j=i+1;j<tokens.size();j++) {
       for (int k=0;k<list.size();k++) {
-        ArrayList<Token> insideList = (ArrayList<Token>)list.get(k);
+        List<Token> insideList = list.get(k);
         insideList.add(tokens.get(j));
         list.set(k,insideList);
       }
@@ -355,12 +344,10 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Splits off part of a CgSet that can't be represented in a single LT token
-   * @param target
-   * @return
    */
-  public ArrayList<CgSet> splitCgSet(CgSet target) {
+  public List<CgSet> splitCgSet(CgSet target) {
     // setting up the lists to perform the check
-    ArrayList<CgSet> newSets = new ArrayList<CgSet>();
+    List<CgSet> newSets = new ArrayList<>();
     CgTag[] postags = target.getSingleTagPostags();
     CgTag[] baseforms = target.getSingleTagBaseforms();
     CgTag[] surfaceforms = target.getSingleTagSurfaceforms();
@@ -421,14 +408,12 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Groups the composite tags along lines that can be represented in a single LT rule
-   * @param target
-   * @return
    */
   @SuppressWarnings("unchecked")
-  private ArrayList<CgSet> groupCompositeTags(CgSet target) {
-    HashMap<String,ArrayList<CgCompositeTag>> bf = new HashMap<String,ArrayList<CgCompositeTag>>();
-    HashMap<String,ArrayList<CgCompositeTag>> sf = new HashMap<String,ArrayList<CgCompositeTag>>();
-    HashMap<String,CgCompositeTag> dict = new HashMap<String,CgCompositeTag>();  // dictionary of sorts
+  private List<CgSet> groupCompositeTags(CgSet target) {
+    HashMap<String,ArrayList<CgCompositeTag>> bf = new HashMap<>();
+    Map<String, ArrayList<CgCompositeTag>> sf = new HashMap<>();
+    Map<String, CgCompositeTag> dict = new HashMap<>();  // dictionary of sorts
     for (CgCompositeTag ctag : target.tags) {
       CgCompositeTag postags = new CgCompositeTag();
       CgCompositeTag baseforms = new CgCompositeTag();
@@ -452,11 +437,11 @@ public class CgRuleConverter extends RuleConverter {
       }
       dict.put(postags.toString(), postags);
     }
-    ArrayList<CgSet> ret = new ArrayList<CgSet>();
+    List<CgSet> ret = new ArrayList<>();
     for (String postagSet : bf.keySet()) {
       CgSet newSet = new CgSet(target);
-      newSet.tags = new HashSet<CgCompositeTag>();
-      ArrayList<CgCompositeTag> bfs = bf.get(postagSet);
+      newSet.tags = new HashSet<>();
+      Iterable<CgCompositeTag> bfs = bf.get(postagSet);
       for (CgCompositeTag singleBf : bfs) {
         CgCompositeTag newTotalTag = new CgCompositeTag();
         for (CgTag tag : dict.get(postagSet).tags) {
@@ -477,8 +462,8 @@ public class CgRuleConverter extends RuleConverter {
    * and each of which will be a separate rule. This applies when we have a scanning token
    * before a non-scanning token, offset wise
    */
-  public ArrayList<List<Token>> getSkipSafeTokens(Token[] tokens) {
-    ArrayList<List<Token>> list = new ArrayList<List<Token>>();
+  public List<List<Token>> getSkipSafeTokens(Token[] tokens) {
+    List<List<Token>> list = new ArrayList<>();
     List<Token> tokenList = Arrays.asList(tokens);
     list.add(tokenList);
     boolean notdone = true;
@@ -491,7 +476,7 @@ public class CgRuleConverter extends RuleConverter {
           }
         } else {
           list.remove(i);
-          ArrayList<List<Token>> splitTokens = splitOutSkipTokens(insideList);
+          Iterable<List<Token>> splitTokens = splitOutSkipTokens(insideList);
           for (List<Token> isl : splitTokens) {
             list.add(isl);
           }
@@ -505,14 +490,12 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Actually does the splitting for wrapper method getSkipSafeTokens
-   * @param tokens
-   * @return
    */
-  public ArrayList<List<Token>> splitOutSkipTokens(List<Token> tokens) {
-    ArrayList<List<Token>> list = new ArrayList<List<Token>>();
-    ArrayList<Token> scanningTokens = new ArrayList<Token>();
-    ArrayList<Token> reverseScanningTokens = new ArrayList<Token>();
-    ArrayList<Token> normalTokens = new ArrayList<Token>();
+  public List<List<Token>> splitOutSkipTokens(List<Token> tokens) {
+    ArrayList<List<Token>> list = new ArrayList<>();
+    ArrayList<Token> scanningTokens = new ArrayList<>();
+    ArrayList<Token> reverseScanningTokens = new ArrayList<>();
+    ArrayList<Token> normalTokens = new ArrayList<>();
     for (Token token : tokens) {
       if (token.scanahead) scanningTokens.add(token);
       else if (token.scanbehind) reverseScanningTokens.add(token);
@@ -524,8 +507,8 @@ public class CgRuleConverter extends RuleConverter {
       for (int n=0;n<normalTokens.size();n++) {
         final Token normal = normalTokens.get(n);
         if (normal.offset >= scanning.offset) {
-          ArrayList<Token> newTokenList1 = new ArrayList<Token>();
-          ArrayList<Token> newTokenList2 = new ArrayList<Token>();
+          List<Token> newTokenList1 = new ArrayList<>();
+          List<Token> newTokenList2 = new ArrayList<>();
           for (Token ntoken : normalTokens) {
             newTokenList1.add(ntoken);
             newTokenList2.add(ntoken);
@@ -547,8 +530,8 @@ public class CgRuleConverter extends RuleConverter {
       for (int n=0;n<normalTokens.size();n++) {
         final Token normal = normalTokens.get(n);
         if (normal.offset <= scanning.offset) {
-          ArrayList<Token> newTokenList1 = new ArrayList<Token>();
-          ArrayList<Token> newTokenList2 = new ArrayList<Token>();
+          List<Token> newTokenList1 = new ArrayList<>();
+          List<Token> newTokenList2 = new ArrayList<>();
           for (Token ntoken : normalTokens) {
             newTokenList1.add(ntoken);
             newTokenList2.add(ntoken);
@@ -570,13 +553,11 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Handles special case of negative backwards barrier scan (e.g. (NOT -1* Verb BARRIER CLB));
-   * @param tokens
-   * @return
    */
-  public ArrayList<List<Token>> splitNegativeBackwardBarrierScan(Token[] tokens) {
-    ArrayList<List<Token>> list = new ArrayList<List<Token>>();
-    ArrayList<Token> newTokenList1 = new ArrayList<Token>();
-    ArrayList<Token> newTokenList2 = new ArrayList<Token>();
+  public List<List<Token>> splitNegativeBackwardBarrierScan(Token[] tokens) {
+    ArrayList<List<Token>> list = new ArrayList<>();
+    List<Token> newTokenList1 = new ArrayList<>();
+    List<Token> newTokenList2 = new ArrayList<>();
     int index=0;
     for (index = 0;index<tokens.length;index++) {
       if (tokens[index].scanbehind && tokens[index].negate && !tokens[index].barrier.isEmpty()) {
@@ -666,7 +647,7 @@ public class CgRuleConverter extends RuleConverter {
    * Expands the tests in a linked test to multiple tokens
    */
   public Token[] resolveLinkedTokens(Token[] tokens) {
-    ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
+    List<Token> tokenList = new ArrayList<>(Arrays.asList(tokens));
     boolean notdone = true;
     while (notdone) {
       for (int i=0;i<tokenList.size();i++) {
@@ -692,7 +673,7 @@ public class CgRuleConverter extends RuleConverter {
    * returns only the head of the linked tokens, have to iterate through them later when you add them
    */
   public Token getLinkedTokens(ArrayList<CgContextualTest> tests) {
-    ArrayList<Token> tokens = new ArrayList<Token>();
+    ArrayList<Token> tokens = new ArrayList<>();
     for (int i=0;i<tests.size();i++) {
       if (i == 0) {
         // this kind of assumes that it won't be a parent test
@@ -740,11 +721,9 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Adds gap tokens in the case of a linked (sub) list of tokens
-   * @param ts
-   * @return
    */
   public Token[] addLinkedGapTokens(Token[] ts) {
-    ArrayList<Token> tokens = new ArrayList<Token>(Arrays.asList(ts));
+    ArrayList<Token> tokens = new ArrayList<>(Arrays.asList(ts));
     boolean notdone = true;
     while (notdone) {
       for (int i=0;i<tokens.size();i++) {
@@ -779,7 +758,7 @@ public class CgRuleConverter extends RuleConverter {
    * it always goes in the previous token with scope next
    */
   public Token[] addSkipTokens(Token[] tokens) {
-    ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
+    ArrayList<Token> tokenList = new ArrayList<>(Arrays.asList(tokens));
     for (int i=0;i<tokenList.size();i++) {
       // forward scans (1* Verb)
       if (tokenList.get(i).scanahead) {
@@ -892,12 +871,10 @@ public class CgRuleConverter extends RuleConverter {
   /**
    * For cases where there needs to be an empty token inserted in order to make a proper LT pattern
    * e.g. REMOVE N IF (1 Verb) (3 Det);
-   * @param tokens
-   * @return
    */
   public Token[] addGapTokens(Token[] tokens) {
     boolean notdone = true;
-    ArrayList<Token> tokenList = new ArrayList<Token>(Arrays.asList(tokens));
+    ArrayList<Token> tokenList = new ArrayList<>(Arrays.asList(tokens));
     while (notdone) {
       for (int i=0;i<tokenList.size();i++) {
         if (i == 0) continue;
@@ -919,8 +896,8 @@ public class CgRuleConverter extends RuleConverter {
     return tokenList.toArray(new Token[tokenList.size()]);
   }
   
-  public ArrayList<Token> copyTokenList(ArrayList<Token> tokens) {
-    ArrayList<Token> newList = new ArrayList<Token>();
+  public ArrayList<Token> copyTokenList(Iterable<Token> tokens) {
+    ArrayList<Token> newList = new ArrayList<>();
     for (Token token : tokens) {
       newList.add(new Token(token));
     }
@@ -931,7 +908,7 @@ public class CgRuleConverter extends RuleConverter {
     if (tokens.size() == 1) {
       return tokens;
     } else {
-      ArrayList<Token> newTokenList = new ArrayList<Token>();
+      ArrayList<Token> newTokenList = new ArrayList<>();
       for (Token token : tokens) {
         if (!token.isEmpty()) {
           newTokenList.add(token);
@@ -952,9 +929,9 @@ public class CgRuleConverter extends RuleConverter {
    * otherwise, splits the tokens and returns multiple rules.
    */
   public boolean skipSafe(Token[] tokens) {
-    HashSet<Token> scanningTokens = new HashSet<Token>();
-    HashSet<Token> reverseScanningTokens = new HashSet<Token>();
-    HashSet<Token> normalTokens = new HashSet<Token>();
+    Collection<Token> scanningTokens = new HashSet<>();
+    Collection<Token> reverseScanningTokens = new HashSet<>();
+    Collection<Token> normalTokens = new HashSet<>();
     for (Token token : tokens) {
       if (token.scanahead) {
         scanningTokens.add(token);
@@ -990,11 +967,6 @@ public class CgRuleConverter extends RuleConverter {
     return false;
   }
   
-  /**
-   * 
-   * @param tokens
-   * @return
-   */
   public boolean singleRuleCompatible(Token[] tokens) {
     for (Token token : tokens) {
       if (!isOrCompatible(token)) return false;
@@ -1005,8 +977,6 @@ public class CgRuleConverter extends RuleConverter {
   /**
    * Returns true if the {@link Token} can be represented in a single LT rule, false otherwise.
    * Example: "are"|noun cannot be represented as one LT token
-   * @param token
-   * @return
    */
   public boolean isOrCompatible(Token token) {
     if (token.postags.length > 0 && (token.baseforms.length > 0 || token.surfaceforms.length > 0)) {
@@ -1018,9 +988,9 @@ public class CgRuleConverter extends RuleConverter {
     if (token.compositeTags.length > 0 && (token.postags.length > 0 || token.baseforms.length > 0 || token.surfaceforms.length > 0)) {
       return false;
     }
-    HashSet<String> pos = new HashSet<String>();
-    HashSet<String> base = new HashSet<String>();
-    HashSet<String> surf = new HashSet<String>();
+    Collection<String> pos = new HashSet<>();
+    Collection<String> base = new HashSet<>();
+    Collection<String> surf = new HashSet<>();
     for (CgCompositeTag ctag : token.compositeTags) {
       CgCompositeTag postagCompile = new CgCompositeTag();
       for (CgTag tag : ctag.tags) {
@@ -1056,8 +1026,8 @@ public class CgRuleConverter extends RuleConverter {
    */
   @SuppressWarnings("unchecked")
   public List<String> getRuleByType(CgSet target, Token[] tokens, CgRule rule, String id, String name, String type) {
-    ArrayList<String> ltRule = new ArrayList<String>();
-    TreeMap<Integer,ArrayList<Token>> tokenmap = new TreeMap<Integer,ArrayList<Token>>();
+    ArrayList<String> ltRule = new ArrayList<>();
+    TreeMap<Integer,ArrayList<Token>> tokenmap = new TreeMap<>();
     for (Token token : tokens) {
       tokenmap = (TreeMap)smartPut(tokenmap,token.offset,token);
     }
@@ -1109,10 +1079,6 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Helper for getRuleByType
-   * @param ltRule
-   * @param token
-   * @param indent
-   * @return
    */
   public ArrayList<String> addCgToken(ArrayList<String> ltRule, Token token, int indent) {
     String postags = postagsToString(token.postags);
@@ -1122,8 +1088,8 @@ public class CgRuleConverter extends RuleConverter {
     // should never have both composite tags and any of the postags/baseforms/surfaceforms
     // also, if there're composite tags, they should have the same postags component, and not both base and surface forms
     if (compositeTags.length != 0) {
-      ArrayList<String> baseformsList = new ArrayList<String>();
-      ArrayList<String> surfaceformsList = new ArrayList<String>();
+      ArrayList<String> baseformsList = new ArrayList<>();
+      ArrayList<String> surfaceformsList = new ArrayList<>();
       for (CgCompositeTag ctag : compositeTags) {
         CgCompositeTag postagCompiled = new CgCompositeTag();
         for (CgTag tag : ctag.tags) {
@@ -1164,8 +1130,6 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Helper for getRuleByType
-   * @param token
-   * @return
    */
   public String getBarrierExceptionStringFromToken(Token token) {
     boolean not = token.negate;
@@ -1227,8 +1191,6 @@ public class CgRuleConverter extends RuleConverter {
   
   /** 
    * Returns the position of the target token, which is always relative to the furthest back token in the rules
-   * @param tokens
-   * @return
    */
   public int getPositionOfTarget(Token[] tokens) {
     Token firstToken = tokens[0];
@@ -1238,8 +1200,6 @@ public class CgRuleConverter extends RuleConverter {
   /**
    * Helper that takes a normal contextual test (i.e. not a Parent or a Linked test, e.g. (1 Noun))
    * and returns the properly filled-out Token object
-   * @param test
-   * @return
    */
   public Token getTokenFromNormalTest(CgContextualTest test) {
     CgSet testTarget = expandSetSets(grammar.getSet(test.target));
@@ -1381,15 +1341,6 @@ public class CgRuleConverter extends RuleConverter {
     return newSet;
   }
   
-
-  
-  
-  
-  
-  
-  
-  
-  
   @Override
   public String generateName(Object ruleObject) {
     CgRule rule = (CgRule) ruleObject;
@@ -1497,6 +1448,7 @@ public class CgRuleConverter extends RuleConverter {
       this.relativeOffset = 0;
     }
     
+    @Override
     public int compareTo(Token token) {
       if (this.offset < token.offset) {
         return -1;
@@ -1576,8 +1528,6 @@ public class CgRuleConverter extends RuleConverter {
   
   /** 
    * Removes the quotation marks, angle brackets, and suffixes from surface/base forms
-   * @param words
-   * @return
    */
   public static String[] cleanForms(String[] words) {
     for (int i=0;i<words.length;i++) {
@@ -1774,12 +1724,6 @@ public class CgRuleConverter extends RuleConverter {
   
   /**
    * Helper to properly put an item to a map where the values are lists
-   * @param <K>
-   * @param <V>
-   * @param map
-   * @param key
-   * @param value
-   * @return
    */
   public static <K,V> Map<K,ArrayList<V>> smartPut(Map<K,ArrayList<V>> map, K key, V value) {
     if (map.containsKey(key)) {
@@ -1787,7 +1731,7 @@ public class CgRuleConverter extends RuleConverter {
       original.add(value);
       map.put(key, original);
     } else {
-      ArrayList<V> newcollection = new ArrayList<V>();
+      ArrayList<V> newcollection = new ArrayList<>();
       newcollection.add(value);
       map.put(key, newcollection);
     }

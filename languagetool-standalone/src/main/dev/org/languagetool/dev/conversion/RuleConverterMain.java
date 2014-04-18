@@ -28,15 +28,16 @@ import java.util.List;
 import org.languagetool.language.English;
 
 public class RuleConverterMain {
-    
-    private String grammarFile;
-    private String specificFiletype;
-    private String discardFile;
-    private String disambigFile;
+
+    private static final String[] supportedGeneralFiletypes = {"atd","cg"};
+    private static final String[] supportedSpecificFiletypes = {"avoid","default"};
+
+    private final String grammarFile;
+    private final String specificFiletype;
+    private final String discardFile;
+    private final String disambigFile;
+  
     private RuleConverter rc;
-    
-    private static String[] supportedGeneralFiletypes = {"atd","cg"};
-    private static String[] supportedSpecificFiletypes = {"avoid","default"};
     
     private static void exitWithUsageMessage() {
         System.out
@@ -217,8 +218,5 @@ public class RuleConverterMain {
         }
         return type;
     }
-    
-
-  
     
 }

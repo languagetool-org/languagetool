@@ -156,7 +156,7 @@ public class RuleCoverage {
      */
     public String[] isCoveredBy(String str) throws IOException {
       List<RuleMatch> matches = tool.check(str);
-      ArrayList<String> coverages = new ArrayList<String>();
+      ArrayList<String> coverages = new ArrayList<>();
       if (matches.size() > 0) {
         for (RuleMatch match : matches) {
           coverages.add(match.getRule().getId());
@@ -166,7 +166,7 @@ public class RuleCoverage {
     }
     
     public String[] isCoveredBy(PatternRule rule) throws IOException {
-      ArrayList<String> coverages = new ArrayList<String>();
+      ArrayList<String> coverages = new ArrayList<>();
       String example = generateIncorrectExample(rule);
     List<RuleMatch> matches = tool.check(example);
     if (matches.size() > 0) {
@@ -178,7 +178,7 @@ public class RuleCoverage {
     }
     
     public ArrayList<String[]> isCoveredBy(List<PatternRule> rules) throws IOException {
-      ArrayList<String[]> coverages = new ArrayList<String[]>();
+      ArrayList<String[]> coverages = new ArrayList<>();
       for (PatternRule rule : rules) {
         String[] cov = isCoveredBy(rule);
         coverages.add(cov);
@@ -190,15 +190,15 @@ public class RuleCoverage {
      * Generates an error string that matches the given PatternRule object 
      */
     public String generateIncorrectExample(PatternRule patternrule) {
-        ArrayList<String> examples = new ArrayList<String>();
+        ArrayList<String> examples = new ArrayList<>();
         List<Element> elements = patternrule.getElements();
         for (int i=0;i<elements.size();i++) {
           List<Element> prevExceptions;
           if (i == elements.size()-1) {
-            prevExceptions = new ArrayList<Element>();
+            prevExceptions = new ArrayList<>();
           } else {
             prevExceptions = elements.get(i+1).getPreviousExceptionList();
-            if (prevExceptions == null) prevExceptions = new ArrayList<Element>();
+            if (prevExceptions == null) prevExceptions = new ArrayList<>();
           }
             examples.add(getSpecificExample(elements.get(i),prevExceptions,elements,examples));
         }
@@ -275,10 +275,10 @@ public class RuleCoverage {
             }
           }
           // get the patterns of all the and-ed elements, to make processing faster
-          ArrayList<Pattern> tokenPatterns = new ArrayList<Pattern>(andGroup.size());
-          ArrayList<Pattern> posPatterns = new ArrayList<Pattern>(andGroup.size());
+          List<Pattern> tokenPatterns = new ArrayList<>(andGroup.size());
+          List<Pattern> posPatterns = new ArrayList<>(andGroup.size());
           // get all the exceptions and attributes
-          ArrayList<Element> allExceptions = new ArrayList<Element>();
+          List<Element> allExceptions = new ArrayList<>();
           allExceptions.addAll(prevExceptions);  // add all the exceptions from the next token with scope="previous"
           for (int a=0;a<andGroup.size();a++) {
             Element and = andGroup.get(a);
@@ -305,7 +305,7 @@ public class RuleCoverage {
             andGroup.set(a,and);
           }
           // get exceptions in attribute form for faster processings
-          ArrayList<ArrayList<Pattern>> exceptionAttributes = getExceptionAttributes(allExceptions);
+          List<List<Pattern>> exceptionAttributes = getExceptionAttributes(allExceptions);
           
           // do the dictionary iteration thing; this part could take a while, depending on how far through the dict we have to go
           int numResets = 0;
@@ -339,11 +339,11 @@ public class RuleCoverage {
           String postag = e.getPOStag();
             List<Element> exceptions = e.getExceptionList();
             if (exceptions == null) {
-              exceptions = new ArrayList<Element>();
+              exceptions = new ArrayList<>();
             }
             exceptions.addAll(prevExceptions);
             
-            ArrayList<ArrayList<Pattern>> exceptionAttributes = getExceptionAttributes(exceptions);
+            List<List<Pattern>> exceptionAttributes = getExceptionAttributes(exceptions);
 
             if (e.isSentenceStart()) {
                 return "";
@@ -411,18 +411,16 @@ public class RuleCoverage {
     /**
      * Gets all the attributes of each element of the exception, so we don't have to keep compiling the Pattern,
      * which wastes a lot of time
-     * @param exceptions
-     * @return
      */
     @SuppressWarnings("unchecked")
-  private ArrayList<ArrayList<Pattern>> getExceptionAttributes(List<Element> exceptions) {
+  private List<List<Pattern>> getExceptionAttributes(List<Element> exceptions) {
       if (exceptions.size() == 0) {
-        return new ArrayList<ArrayList<Pattern>>();
+        return new ArrayList<>();
       } 
       int size = exceptions.size();
-      ArrayList<ArrayList<Pattern>> ret = new ArrayList<ArrayList<Pattern>>(6);
-      ArrayList<Pattern> tokenPatterns = new ArrayList<Pattern>(size);
-      ArrayList<Pattern> posPatterns = new ArrayList<Pattern>(size);
+      List<List<Pattern>> ret = new ArrayList<>(6);
+      List<Pattern> tokenPatterns = new ArrayList<>(size);
+      List<Pattern> posPatterns = new ArrayList<>(size);
       for (Element e : exceptions) {
         String token = e.getString();
         String postag = e.getPOStag();
@@ -458,12 +456,12 @@ public class RuleCoverage {
      * Faster version of inExceptionList, because we don't have to re-compile the Patterns for the exception elements
      */
     @SuppressWarnings("unchecked")
-  private boolean inExceptionList(String word, ArrayList<ArrayList<Pattern>> exceptionAttributes, List<Element> exceptions) {
+  private boolean inExceptionList(String word, List<List<Pattern>> exceptionAttributes, List<Element> exceptions) {
       if (exceptions.size() == 0) {
         return false;
       }
-      ArrayList<Pattern> tokenPatterns = exceptionAttributes.get(0);
-      ArrayList<Pattern> posPatterns = exceptionAttributes.get(1);
+      List<Pattern> tokenPatterns = exceptionAttributes.get(0);
+      List<Pattern> posPatterns = exceptionAttributes.get(1);
       
       for (int i=0;i<exceptions.size();i++) {
         Element curException = exceptions.get(i);
@@ -545,7 +543,7 @@ public class RuleCoverage {
     private boolean isInflectedStringMatch(String word, Element e) {
       Matcher m;
       Pattern lemmaPattern = Pattern.compile(RuleConverter.glueWords(getLemmas(e)));
-    ArrayList<String> wordLemmas = getLemmas(word);
+    List<String> wordLemmas = getLemmas(word);
     for (String lemma : wordLemmas) {
       m = lemmaPattern.matcher(lemma);
       if (m.matches()) {
@@ -560,7 +558,7 @@ public class RuleCoverage {
      */
     private List<String> getPosTags(String word) {
         List<WordData> lwd = dictLookup.lookup(word);
-        ArrayList<String> postags = new ArrayList<String>();
+        ArrayList<String> postags = new ArrayList<>();
         for (WordData wd : lwd) {
             postags.add(wd.getTag().toString());
         }
@@ -571,7 +569,7 @@ public class RuleCoverage {
      */
     private ArrayList<String> getLemmas(String word) {
       List<WordData> lwd = dictLookup.lookup(word);
-      ArrayList<String> lemmas = new ArrayList<String>();
+      ArrayList<String> lemmas = new ArrayList<>();
       for (WordData wd : lwd) {
         if (!lemmas.contains(wd.getStem())) {
           lemmas.add(wd.getStem().toString());
@@ -587,7 +585,7 @@ public class RuleCoverage {
         return getLemmas(e.getString());
       } else {
         if (isOrRegex(e)) {
-          ArrayList<String> lemmas = new ArrayList<String>();
+          ArrayList<String> lemmas = new ArrayList<>();
           String[] words = e.getString().split("\\|");
           for (String word : words) {
             lemmas.addAll(getLemmas(word));
@@ -722,7 +720,7 @@ public class RuleCoverage {
       try {
         return ruleLoader.getRules(is, null);
       } catch (IOException e) {
-        return new ArrayList<PatternRule>();
+        return new ArrayList<>();
       }
     }
     
@@ -736,7 +734,7 @@ public class RuleCoverage {
       try {
         return ruleLoader.getRules(is, null);
       } catch (IOException e) {
-        return new ArrayList<PatternRule>();
+        return new ArrayList<>();
       }
     }
     
