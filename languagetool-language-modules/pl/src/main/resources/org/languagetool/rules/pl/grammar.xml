@@ -13203,6 +13203,15 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="SANATOR_SENATOR" name="„sanator” (senator)">
+                <pattern>
+                    <token inflected='yes'>sanator</token>
+                </pattern>
+                <message><match no="1"/> to bardzo rzadki wyraz, oznaczający zwolennika sanacji. Czy chodziło o <suggestion><match no="1" regexp_match="sa" regexp_replace="se"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="senator">To był <marker>sanator</marker>.</example>
+                <example type='correct'>To był senator.</example>
+            </rule>
             <rule id="POZNA_NIA" name="„pozna nią” (poza nią)">
                 <pattern>
                     <token>pozna</token>
