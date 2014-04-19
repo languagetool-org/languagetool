@@ -181,6 +181,13 @@ $Id$
                             </marker>
                         </unify>
                     </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" postag="interp">(<exception scope="next" regexp="yes">[()]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next">(</exception></token>
+                        </marker>
+                        <token postag="interp">)</token>
+                    </antipattern>
                     <rule>
 								<antipattern>   <!-- czas zaprzeszły -->
                                     <unify>
@@ -254,6 +261,9 @@ $Id$
                                 <example type="correct">Proces asymilacji został w pełni zakończony i Japonia jest krajem monoetnicznym.</example>
                                 <example type="correct">Według jednego z nich Afrodyta nie miała rodziców i pewnego dnia wyłoniła się z piany morskiej w pobliżu Cypru.</example>
                                 <example type="incorrect">Tym, co <marker>spostrzegamy (wzrokowo, słuchowo itd.) są cechy przedmiotu.</marker></example>
+                                <example type="correct">Początkowo działała pod nazwą American Engineering Standards Committee (AESC), w 1928 roku zmieniła nazwę na American Standards Association (ASA).</example>
+                                <example type="correct">Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
+                                <example type="correct">Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -600,6 +610,11 @@ $Id$
 								<example correction="a więc" type="incorrect">Jesteś mierny, ale wierny, <marker>a, więc</marker> nadajesz się znakomicie.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token>mimo</token>
+                                    <marker><token>to</token></marker>
+                                    <token>,</token>
+                                </antipattern>
 								<pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
 										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
@@ -610,6 +625,7 @@ $Id$
 								<short>Błąd interpunkcyjny</short>
 								<example correction="odejdę, nawet jeśli" type="incorrect">Naprawdę <marker>odejdę nawet, jeśli</marker> pójdzie się myć.</example>
 								<example type="correct">Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
+                                <example type="correct">Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -4353,7 +4369,7 @@ $Id$
 				</rule>
 				<rule id="DOFINANSOWANIE_DO_CZEGOS" name="„dofinansowanie do czegoś” (dofinansowanie czegoś)">
 						<pattern>
-								<token inflected="yes" postag="ger.*" postag_regexp="yes">dofinansować</token>
+								<token inflected="yes">dofinansowanie</token>
 								<token>do</token>
 						</pattern>
 						<message>Nieprawidłowa forma, tego wyrazu używa się bez przyimka „do” (chyba że ten przyimek jest konieczny ze względu na inne wyrazy w zdaniu). Wystarczy: <suggestion>\1</suggestion>.</message>
@@ -9488,7 +9504,7 @@ $Id$
                     <message>W dwuczłonowych nazwach miast oba człony piszemy wielką literą: <suggestion><match no="1"/>-<match no="3" case_conversion="startupper"/></suggestion></message>
                     <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
                     <short>Błąd pisowni wielką i małą literą</short>
-                    <example type='incorrect' correction="Bielsku-Białej">Mieszkam <marker>Bielsku-białej</marker>.</example>
+                    <example type='incorrect' correction="Bielsku-Białej">Mieszkam w <marker>Bielsku-białej</marker>.</example>
                     <example type='correct'>Mieszkam w Bielsku-Białej.</example>
                     </rule>
                     <rule>
@@ -9500,7 +9516,7 @@ $Id$
                         <message>W dwuczłonowych nazwach miast oba człony piszemy wielką literą: <suggestion><match no="1"/>-<match no="3" case_conversion="startupper"/></suggestion></message>
                         <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
                         <short>Błąd pisowni wielką i małą literą</short>
-                        <example type='incorrect' correction="Rabce-Zdroju">Mieszkam <marker>Rabce-zdroju</marker>.</example>
+                        <example type='incorrect' correction="Rabce-Zdroju">Mieszkam w <marker>Rabce-zdroju</marker>.</example>
                         <example type='correct'>Mieszkam w Rabce-Zdroju.</example>
                     </rule>
                     <rule>
