@@ -6773,6 +6773,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="TENIR_EN_COMTE_CONTE_COMPTE" name="tenir en comte/conte/compte">
+            <pattern>
+                <token inflected="yes" skip="1">tenir</token>
+                <marker>
+                    <token regexp="yes">en|amb</token>
+                    <token regexp="yes">co[mn]te</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en compte</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="en compte">tenir sempre <marker>amb comte</marker></example>
+            <example type="correct">tenir en compte</example>
+        </rule>
         <rule id="TANTS_SOLS" name="tants sols / tan sols">
             <pattern>
                 <token>tants</token>
