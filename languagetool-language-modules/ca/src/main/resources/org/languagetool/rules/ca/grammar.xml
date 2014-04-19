@@ -6773,6 +6773,15 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="RAPIT_RAPID" name="rapit/ràpid">
+            <pattern>
+                <token regexp="yes">rapits?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ràpid</suggestion>? "Rapit" és participi del verb rapir.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>rapit</marker></example>
+            <example type="correct">ràpid</example>
+        </rule>
         <rule id="TENIR_EN_COMTE_CONTE_COMPTE" name="tenir en comte/conte/compte">
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
@@ -16096,7 +16105,7 @@ $Id$
             <pattern>
                 <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
                 <marker>
-                    <token>en</token>
+                    <token>en<exception scope="previous" inflected="yes">tenir</exception></token>
                     <token>compte</token>
                 </marker>
             </pattern>
@@ -16104,6 +16113,7 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect" correction="amb compte">Sempre anaven <marker>en compte</marker></example>
             <example type="correct">No van tenir en compte aquell cas.</example>
+            <example type="correct">Es van tenint en compte aquell cas.</example>
         </rule>  
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
