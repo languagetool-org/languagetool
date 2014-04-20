@@ -5443,6 +5443,17 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy leksykalne" type="style">
+            <!-- Polish rule, 2014-04-20 -->
+            <rule id="LOGARYTM_ALGORYTM" name="„logarytm” (algorytm)">
+                <pattern>
+                    <token>logarytm<exception inflected='yes' regexp='yes' scope='previous'>naturalny|ujemny|dziesiętny</exception></token>
+                    <token postag='ger:sg:gen.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>algorytm</suggestion> (=metoda obliczania)? Logarytm przy podstawie a z liczby b oznacza liczbę c, będącą potęgą, do której podstawa a musi być podniesiona, aby dać liczbę b.</message>
+                <short>Błąd leksykalny</short>
+                <example type='incorrect'>To jest <marker>logarytm obliczania</marker> średniej.</example>
+                <example type='correct'>To jest algorytm obliczania średniej.</example>
+            </rule>
 				<rule id="DOKONAC_BLEDU" name="„dokonać błędu” (popełnić błąd)">
 						<pattern>
 								<token inflected="yes">dokonać</token>
