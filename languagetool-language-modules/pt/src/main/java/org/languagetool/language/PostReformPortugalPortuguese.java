@@ -27,6 +27,7 @@ import java.util.List;
 /**
  * Post-spelling-reform Portuguese.
  * @since 2.6
+ * @deprecated see https://github.com/languagetool-org/languagetool/issues/96
  */
 public class PostReformPortugalPortuguese extends PortugalPortuguese {
 

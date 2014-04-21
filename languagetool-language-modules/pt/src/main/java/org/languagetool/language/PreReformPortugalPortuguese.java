@@ -27,6 +27,7 @@ import java.util.List;
 /**
  * Pre-spelling-reform Portuguese.
  * @since 2.6
+ * @deprecated see https://github.com/languagetool-org/languagetool/issues/96
  */
 public class PreReformPortugalPortuguese extends PortugalPortuguese {
 
