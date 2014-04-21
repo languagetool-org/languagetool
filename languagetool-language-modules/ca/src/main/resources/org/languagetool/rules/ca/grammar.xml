@@ -1871,14 +1871,15 @@ $Id$
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
-                    <token regexp="yes">catequesis|diesis|deisis|èmesis|catarsis|crisis<exception postag="_GN_FP"/></token>
+                    <token regexp="yes">catequesis|diesis|deisis|èmesis|catarsis<exception postag="_GN_FP"/></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion> (singular) en comptes de "<match no="1"/>" (plural)?</message>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="catequesi">Hi anàvem a fer <marker>catequesis</marker>.</example>
                 <example type="correct">Les anàlisis són correctes.</example>
                 <example type="correct">Escriví anàlisis de gran transcendència</example>
-                <!-- Costa trobar anàlisis -->
+                <example type="correct">Sotmès a crisis d'aquesta magnitud.</example>
+                <!-- Costa trobar anàlisis, crisis -->
             </rule>
             <rule id="LA_TESIS" name="la tesis/ la tesi">
                 <pattern>
@@ -6773,6 +6774,24 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="A_MENA_DE" name="a mena de">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>mena</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token>mena</token>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a manera \3</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="A manera de"><marker>A mena de</marker> conclusió.</example>
+            <example type="correct">a manera de</example>
+        </rule>
         <rule id="RAPIT_RAPID" name="rapit/ràpid">
             <pattern>
                 <token regexp="yes">rapits?</token>
