@@ -58,7 +58,7 @@ public class Portuguese extends Language {
 
   @Override
   public Language getDefaultLanguageVariant() {
-    return new PortuguesePortugal();
+    return new PortugalPortuguese();
   }
 
   @Override

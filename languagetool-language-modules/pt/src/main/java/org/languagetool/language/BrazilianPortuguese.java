@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,19 +18,16 @@
  */
 package org.languagetool.language;
 
-/**
- * @deprecated use {@link PortugalPortuguese} instead (deprecated since 2.6)
- */
-public class PortuguesePortugal extends Portuguese {
+public class BrazilianPortuguese extends Portuguese {
 
   @Override
   public String getName() {
-    return "Portuguese (Portugal)";
+    return "Portuguese (Brazil)";
   }
 
   @Override
   public String[] getCountries() {
-    return new String[]{"PT"};
+    return new String[]{"BR"};
   }
 
 }
