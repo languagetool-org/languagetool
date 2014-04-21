@@ -177,13 +177,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform=")[)/interp:comma]" outputform=")[)/interp]">On był (wyjątkowo<marker>)</marker> wredny.</example>
     </rule>
 
-    <rule name="przecinek w nawiasie wtrącenia" id="przecinek_w_nawiasie">
+    <rule name="przecinek i znak zapytania w nawiasie wtrącenia" id="przecinek_w_nawiasie">
         <pattern>
             <token postag="interp" skip="-1">(<exception scope="next" regexp="yes">[()]</exception></token>
-            <marker><token skip="-1" postag="interp:comma">,<exception scope="next">(</exception></token></marker>
+            <marker><token skip="-1" postag="interp:comma" regexp="yes">[,?!]<exception scope="next">(</exception></token></marker>
             <token postag="interp">)</token>
         </pattern>
         <disambig action="replace"><wd pos="interp"/></disambig>
+        <example type="ambiguous" inputform=",[,/interp:comma]" outputform=",[,/interp]">To były liczby (np. 1<marker>,</marker> 2), którymi się posługiwał.</example>
     </rule>
 
     <rule name="drugi przecinek w nawiasie wtrącenia" id="drugi_przecinek_w_nawiasie">
@@ -2040,6 +2041,38 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove" postag="subst:sg:gen:n2"/>
     </rule>
 
+    <rulegroup name="Przyimek z rzeczownikiem, poprzedzony zaimkiem w funkcji dzierżawczej" id="PREP_PPRON_SUBST"> <!-- z zaimkiem w środku -->
+        <rule>
+            <pattern>
+                <unify> <feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                    <unify-ignore>
+                        <token regexp="yes">jego|ich|jej</token>
+                    </unify-ignore>
+                    <token postag="(?:adj|depr|ger|num|subst|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="untouched">Tu mamy piękny przykład.</example>
+            <example type="untouched">Łaciny używamy na co dzień.</example>
+            <example type="ambiguous" inputform="samoloty[samolot/subst:pl:acc:m3,samolot/subst:pl:nom:m3,samolot/subst:pl:voc:m3]"
+                     outputform="samoloty[samolot/subst:pl:acc:m3]">Patrzę na jej <marker>samoloty</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <unify> <feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"><exception postag="prep.*" negate_pos="yes" postag_regexp="yes"/><exception>co</exception></token>
+                    <unify-ignore>
+                        <marker><token regexp="yes">jego|ich|jej</token></marker>
+                    </unify-ignore>
+                    <token postag="(?:adj|depr|ger|num|subst|ppas|pact):.*" postag_regexp="yes"><exception>co</exception><exception postag="qub"/></token>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="ppron.*:gen:.*"/>
+            <example type="ambiguous" inputform="jego[on/ppron3:sg:acc:m1.m2.m3:ter:akc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:akc:npraep,on/ppron3:sg:gen:n1.n2:ter:akc:npraep]"
+                     outputform="jego[on/ppron3:sg:gen:m1.m2.m3:ter:akc:npraep,on/ppron3:sg:gen:n1.n2:ter:akc:npraep]">Patrzę na <marker>jego</marker> samoloty.</example>
+        </rule>
+    </rulegroup>
 
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
@@ -2400,6 +2433,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:dat:f,stymulacja/subst:sg:gen:f,stymulacja/subst:sg:loc:f]"
                      outputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:gen:f]">Mówisz to a propos <marker>stymulacji</marker> cytokinowej?</example>
         </rule>
+
     </rulegroup>
 
     <rule id="PREP_CD_ROKU_GEN" name="W xxx + 'roku' -> unify">
@@ -3253,12 +3287,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="SOLI_SUBST" name="soli jako genetiwus">
         <pattern>
-            <token regexp="yes" inflected="yes">szczypta|kopalnia|warzelnia|łyżeczka|słup|baryłka|roztwór|kryształek|beczka|łyżka|pokład|tona|kilo|odrobina|spożycie|kryształ|grudka|bryła</token>
+            <token regexp="yes" inflected="yes">szczypta|brak|niedostatek|kopalnia|warzelnia|łyżeczka|słup|baryłka|roztwór|kryształek|beczka|łyżka|pokład|tona|kilo|odrobina|spożycie|kryształ|grudka|bryła</token>
             <marker><token>soli</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:f"></disambig>
         <example type="ambiguous" inputform="soli[sol/subst:pl:gen:m2,sola/subst:pl:gen:f,sola/subst:sg:dat:f,sola/subst:sg:gen:f,sola/subst:sg:loc:f,solić/verb:fin:sg:ter:imperf:refl.nonrefl,sól/subst:pl:gen:f,sól/subst:sg:dat:f,sól/subst:sg:gen:f,sól/subst:sg:loc:f,sól/subst:sg:voc:f]"
                  outputform="soli[sól/subst:sg:gen:f]">Mam szczyptę <marker>soli</marker>.</example>
+    </rule>
+
+    <rule id="SOLI_SUBST_2" name="soli wapnia, potasu, magnezu = subst">
+        <pattern>
+            <marker><token>soli</token></marker>
+            <token regexp="yes">wapnia|potasu|magnezu|żelaza|metali|srebra|kwasu</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="solić"/></disambig>
     </rule>
 
     <rule id="SMIECI_SUBST" name="śmieci jako genetiwus">
@@ -3884,6 +3926,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="remove"><wd lemma="rzekać"/></disambig>
     </rule>
+
 
     <rule id="MOJ_BLIZNI" name="bliźni - zwykle nie czasownik">
         <pattern>

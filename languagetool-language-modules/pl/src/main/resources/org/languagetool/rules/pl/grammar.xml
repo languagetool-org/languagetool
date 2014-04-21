@@ -188,6 +188,30 @@ $Id$
                         </marker>
                         <token postag="interp">)</token>
                     </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" spacebefore="yes" postag="interp" regexp="yes">[-−–—―]<exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                        </marker>
+                        <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" spacebefore="yes" postag="interp" regexp="yes">[-−–—―]<exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                        </marker>
+                        <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" spacebefore="yes" postag="interp" regexp="yes">[-−–—―]<exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                        </marker>
+                        <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
+                    </antipattern>
                     <rule>
 								<antipattern>   <!-- czas zaprzeszły -->
                                     <unify>
@@ -264,6 +288,7 @@ $Id$
                                 <example type="correct">Początkowo działała pod nazwą American Engineering Standards Committee (AESC), w 1928 roku zmieniła nazwę na American Standards Association (ASA).</example>
                                 <example type="correct">Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
                                 <example type="correct">Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
+                                <example type="correct">Egzystują w nim różne grupy interesów — od klasowych począwszy, na klikowych skończywszy — to zaś stwarza kłopoty.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -5443,7 +5468,6 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy leksykalne" type="style">
-            <!-- Polish rule, 2014-04-20 -->
             <rule id="LOGARYTM_ALGORYTM" name="„logarytm” (algorytm)">
                 <pattern>
                     <token>logarytm<exception inflected='yes' regexp='yes' scope='previous'>naturalny|ujemny|dziesiętny</exception></token>
@@ -12146,6 +12170,18 @@ $Id$
                            <example type="correct">W cukrzycy typu II w wyspach trzustkowych odkłada się peptyd amylina.</example>
 						</rule>
 				</rulegroup>
+                <rule id="OK_BEZ_KROPKI" name="„ok” (ok.)">
+                    <pattern>
+                        <marker>
+                            <token>ok</token>
+                        </marker>
+                        <token regexp='yes'>\d+</token>
+                    </pattern>
+                    <message>Czy chodziło o skrót <suggestion>ok.</suggestion>?</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example type='incorrect' correction="ok.">To było <marker>ok</marker> 200 psów.</example>
+                    <example type='correct'>To było ok. 200 psów.</example>
+                </rule>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
 						<pattern>
 								<marker>
