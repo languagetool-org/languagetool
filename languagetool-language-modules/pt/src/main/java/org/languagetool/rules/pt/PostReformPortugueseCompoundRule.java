@@ -18,21 +18,20 @@
  */
 package org.languagetool.rules.pt;
 
+import org.languagetool.rules.AbstractCompoundRule;
+
 import java.io.IOException;
 import java.util.ResourceBundle;
 
-import org.languagetool.rules.AbstractCompoundRule;
-
 /**
  * Checks that compounds (if in the list) are not written as separate words.
- * 
- * @deprecated use {@link PreReformPortugueseCompoundRule} or {@link PostReformPortugueseCompoundRule} instead (deprecated sine 2.6)
+ * @since 2.6
  */
-public class PortugueseCompoundRule extends AbstractCompoundRule {
+public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/pt/pre-reform-compounds.txt";
+  private static final String FILE_NAME = "/pt/post-reform-compounds.txt";
  
-  public PortugueseCompoundRule(final ResourceBundle messages) throws IOException {    
+  public PostReformPortugueseCompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages, FILE_NAME,
             "Esta palavra é hifenizada.",
             "Esta palavra é escrita em conjunto.",
@@ -43,7 +42,7 @@ public class PortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getId() {
-    return "PT_COMPOUNDS";
+    return "PT_COMPOUNDS_PRE_REFORM";
   }
 
   @Override

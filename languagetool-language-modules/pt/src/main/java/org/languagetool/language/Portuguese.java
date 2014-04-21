@@ -94,9 +94,7 @@ public class Portuguese extends Language {
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
             WhitespaceRule.class,
-            SentenceWhitespaceRule.class,
-            //Specific to Portuguese
-            PortugueseCompoundRule.class
+            SentenceWhitespaceRule.class
     );
   }
 
