@@ -42,6 +42,10 @@ import java.util.StringTokenizer;
  * 132 errors found that are marked as errors in the corpus (this does not count whether LanguageTool's correction was perfect)
  * => 19,61% recall
  * </pre>
+ * 
+ * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
+ * considering only correct suggestions (by comparing the first suggestion to the expected correction).</p>
+ * 
  * @since 2.6
  */
 class RealWordCorpusEvaluator {
