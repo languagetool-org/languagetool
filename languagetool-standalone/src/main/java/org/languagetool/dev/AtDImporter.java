@@ -36,22 +36,28 @@ public class AtDImporter {
     try(FileInputStream fis = new FileInputStream(file)) {
       ObjectInputStream oos = new ObjectInputStream(fis);
       Object c = oos.readObject();
-      System.out.println(c.getClass());
+      //System.out.println(c.getClass());
       Scalar s = (Scalar)c;
-      System.out.println(">s:"+s);
-      System.out.println(">s:"+(s.objectValue()));
+      //System.out.println(">s:"+s);
+      //System.out.println(">s:"+(s.objectValue()));
+      
+      LanguageModel lm = (LanguageModel) s.objectValue();
+      System.out.println("a >" + lm.Pbigram1("a", "house"));
+      System.out.println("an>" + lm.Pbigram1("an", "house"));
+      
+      /*System.out.println(">s:"+lm);
       Map languageModel = ((LanguageModel) s.objectValue()).getLanguageModel();
       System.out.println(">s:" + languageModel.size());
-      Iterator iterator = languageModel.entrySet().iterator();
+      Iterator iterator = languageModel.entrySet().iterator();*/
 
-      for (int i = 0; i < 20; i++) {
+      /*for (int i = 0; i < 20; i++) {
         Object next = iterator.next();
         Field next1 = next.getClass().getDeclaredField("next");
         next1.setAccessible(true);
         System.out.println("F1: " + next1);
         System.out.println("F2: " + ((Map.Entry)next1.get(next)));
         System.out.println("F3: " + ((Map)next1.get(next)));
-      }
+      }*/
 
       /*Field count = next.getClass().getDeclaredField("count");
       count.setAccessible(true);
