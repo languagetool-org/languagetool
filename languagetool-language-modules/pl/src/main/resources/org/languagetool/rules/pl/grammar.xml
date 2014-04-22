@@ -5011,6 +5011,59 @@ $Id$
                                 <example type="correct">2 miliony lat temu zjadłem kanapkę.</example>
                                 <example type="correct">Ok. 1 mld lat temu powstały złoża kanapek.</example>
 						</rule>
+                        <rule>
+                            <antipattern>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <marker><token>około</token></marker>
+                            </antipattern>
+                            <pattern>
+                                    <token>około</token>
+                                    <marker>
+                                        <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'></token>
+                                    </marker>
+                            </pattern>
+                            <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="2" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
+                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <short>Przyimek wymaga dopełniacza.</short>
+                            <example type='incorrect' correction="dwuset|dwustu|dwóchset">To było około <marker>dwieście</marker> psów.</example>
+                            <example type='correct'>To było około dwustu psów.</example>
+                            <!-- to zbieg przyimków, więc „około” jest partykułą -->
+                            <example type="correct">Pociąg spóźnił się o około dwie godziny.</example>
+                        </rule>
+                        <rule>
+                            <antipattern>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <marker><token>ok</token></marker>
+                                <token>.</token>
+                            </antipattern>
+                            <pattern>
+                                <token>ok</token>
+                                <token>.</token>
+                                <marker>
+                                    <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'></token>
+                                </marker>
+                            </pattern>
+                            <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="3" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
+                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <short>Przyimek wymaga dopełniacza.</short>
+                            <example type='incorrect' correction="dwuset|dwustu|dwóchset">To było ok. <marker>dwieście</marker> psów.</example>
+                            <example type='correct'>To było ok. dwustu psów.</example>
+                            <!-- tu ok. jest traktowane jako partykuła -->
+                            <example type="correct">Pociąg spóźnił się o ok. dwie godziny.</example>
+                        </rule>
+                        <rule>
+                            <pattern>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <marker><token>około</token>
+                                <token postag="num:pl:gen.*" postag_regexp="yes"/>
+                                </marker>
+                            </pattern>
+                            <message>„Około” po przyimku wymagającym innego przypadku niż dopełniacz traktowane jest jako partykuła, a przypadek dostosowuje się do poprzedzającego przyimka. Można też zastąpić „około” wyrażeniem „prawie” lub „mniej więcej”.</message>
+                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <short>Ten przyimek nie wymaga dopełniacza.</short>
+                            <example type="incorrect">Pociąg spóźnił się o <marker>około dwóch</marker> godzin.</example>
+                            <example type="correct">Pociąg spóźnił się o około dwie godziny.</example>
+                        </rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
@@ -5095,7 +5148,7 @@ $Id$
 								<pattern>
 										<token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception regexp="yes" scope="next">za|na|przy|między|nad|nade|znad|o|po|w|&interp;</exception><exception postag="ppas.*inst.*" postag_regexp="yes"></exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/><exception postag_regexp="yes" scope="next" postag="verb.*(sg|pl).*"/></token>
 										<marker>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*acc[:\.]f.*|.*acc.dat.gen.inst.loc.nom.voc:n" postag_regexp="yes"></exception></token>
+												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*acc[:\.]f.*|.*acc.dat.gen.inst.loc.nom.voc:n" postag_regexp="yes"/><exception scope="previous"  postag="prep:inst.*" postag_regexp="yes"/></token>
 										</marker>
 										<token><exception postag="(adj|ppas|pact|subst).*inst.*" postag_regexp="yes"></exception></token>
 								</pattern>
@@ -5109,6 +5162,7 @@ $Id$
 								<example correction="za aktora" type="incorrect">Ludwik był uznawany <marker>aktorem</marker>.</example>
                                 <example type="correct">Tłumaczenie (wyjaśnianie) jako dobieranie do następstwa uznanego racji jest rozumowaniem redukcyjnym.</example>
                                 <example type="correct">Za słuszną zasadę trzeba uznać daleko idącą koncepcję i kompleksowość inwestycji portowych.</example>
+                                <example type="correct">Co ma sądzić człowiek, uznający się przed godziną za najszczęśliwszego, pozbawiony naraz żony?</example>
 						</rule>
 						<rule> <!-- m1 -->
 								<pattern>
@@ -8975,7 +9029,7 @@ $Id$
 								<marker>
 										<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
 								</marker>
-								<token><exception>do</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
+								<token><exception regexp="yes">do|ku</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
 						</pattern>
 						<message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu: <suggestion><match no="1" postag="(.*):refl.nonrefl" postag_replace="$1:nonrefl">przodować</match></suggestion>,
 							<suggestion><match no="1" regexp_match="(?iu)wiodąc" regexp_replace="główn"/></suggestion>,
@@ -12170,18 +12224,32 @@ $Id$
                            <example type="correct">W cukrzycy typu II w wyspach trzustkowych odkłada się peptyd amylina.</example>
 						</rule>
 				</rulegroup>
-                <rule id="OK_BEZ_KROPKI" name="„ok” (ok.)">
-                    <pattern>
-                        <marker>
-                            <token>ok</token>
-                        </marker>
-                        <token regexp='yes'>\d+</token>
-                    </pattern>
-                    <message>Czy chodziło o skrót <suggestion>ok.</suggestion>?</message>
-                    <short>Prawdopodobna literówka</short>
-                    <example type='incorrect' correction="ok.">To było <marker>ok</marker> 200 psów.</example>
-                    <example type='correct'>To było ok. 200 psów.</example>
-                </rule>
+                <rulegroup id="OK_BEZ_KROPKI" name="„ok” (ok.)">
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <token>ok</token>
+                            </marker>
+                            <token regexp='yes'>\d+</token>
+                        </pattern>
+                        <message>Czy chodziło o skrót <suggestion>ok.</suggestion>?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example type='incorrect' correction="ok.">To było <marker>ok</marker> 200 psów.</example>
+                        <example type='correct'>To było ok. 200 psów.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <token>ok</token>
+                            </marker>
+                            <token postag='num:pl:.*' postag_regexp='yes'></token>
+                        </pattern>
+                        <message>Czy chodziło o skrót <suggestion>ok.</suggestion> (=około)?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example type='incorrect'>To było <marker>ok</marker> dwustu psów.</example>
+                        <example type='correct'>To było ok. dwustu psów.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
 						<pattern>
 								<marker>
