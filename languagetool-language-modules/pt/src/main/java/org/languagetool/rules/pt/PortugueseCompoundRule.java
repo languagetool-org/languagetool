@@ -26,11 +26,11 @@ import org.languagetool.rules.AbstractCompoundRule;
 /**
  * Checks that compounds (if in the list) are not written as separate words.
  * 
- * @author Daniel Naber
+ * @deprecated use {@link PreReformPortugueseCompoundRule} or {@link PostReformPortugueseCompoundRule} instead (deprecated sine 2.6)
  */
 public class PortugueseCompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/pt/compounds.txt";
+  private static final String FILE_NAME = "/pt/pre-reform-compounds.txt";
  
   public PortugueseCompoundRule(final ResourceBundle messages) throws IOException {    
     super(messages, FILE_NAME,

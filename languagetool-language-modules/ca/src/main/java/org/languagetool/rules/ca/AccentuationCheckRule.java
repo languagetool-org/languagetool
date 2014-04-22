@@ -85,6 +85,7 @@ public class AccentuationCheckRule extends CatalanRule {
   private static final Pattern GN = Pattern.compile(".*_GN_.*|<?/?N[CP].*");
   private static final Pattern EXCEPCIONS_DARRERE_DE = Pattern.compile("forma|manera|por|costat", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
+  private static final Pattern PRONOM_FEBLE = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00"); // Exclosos: PP3..A00 (coincideixe amb articles determinats)
 
   private final Map<String, AnalyzedTokenReadings> relevantWords;
   private final Map<String, AnalyzedTokenReadings> relevantWords2;
@@ -145,6 +146,18 @@ public class AccentuationCheckRule extends CatalanRule {
         isRelevantWord2 = true;
       }
 
+      if (!isRelevantWord && !isRelevantWord2) {
+        continue;
+      }
+
+      // verb amb pronom feble davant
+      if (matchPostagRegexp(tokens[i - 1], PRONOM_FEBLE)
+          && !prevToken.startsWith("'")
+          && !prevToken.startsWith("-")) {
+        continue;
+      }
+      
+      
       String replacement = null;
       final Matcher mPreposicioDE = PREPOSICIO_DE.matcher(nextToken);
       final Matcher mExcepcionsDE = EXCEPCIONS_DARRERE_DE.matcher(nextNextToken);

@@ -25,11 +25,10 @@ import java.io.IOException;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.TextFilter;
+import org.languagetool.commandline.CommandLineTools;
 import org.languagetool.language.English;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tools.StringTools;
-import org.languagetool.tools.Tools;
 
 /**
  * Uses JLanguageTol recursively on the files of the BNC (British National Corpus).
@@ -39,7 +38,7 @@ import org.languagetool.tools.Tools;
 public final class CheckBNC {
 
   private JLanguageTool langTool = null;
-  private final TextFilter textFilter = new BNCTextFilter();
+  private final BNCTextFilter textFilter = new BNCTextFilter();
 
   static final boolean CHECK_BY_SENTENCE = true;
 
@@ -55,7 +54,7 @@ public final class CheckBNC {
   private CheckBNC() throws IOException {
     langTool = new JLanguageTool(new English());
     langTool.activateDefaultPatternRules();
-    final String[] disRules = new String[] {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
+    final String[] disRules = {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
     System.err.println("Note: disabling the following rules:");
     for (String disRule : disRules) {
@@ -72,7 +71,7 @@ public final class CheckBNC {
       }
     } else {
       System.out.println("Checking " + file.getAbsolutePath());
-      String text = StringTools.readStream(new FileInputStream(file.getAbsolutePath()));
+      String text = StringTools.readStream(new FileInputStream(file.getAbsolutePath()), "utf-8");
       text = textFilter.filter(text);
       if (CHECK_BY_SENTENCE) {
         final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();
@@ -81,25 +80,25 @@ public final class CheckBNC {
           CommandLineTools.checkText(sentence, langTool, false, 1000);
         }
       } else {
-        Tools.checkText(text, langTool);
+        CommandLineTools.checkText(text, langTool);
       }
     }
   }
 
-}
+  class BNCTextFilter {
 
-class BNCTextFilter implements TextFilter {
+    public String filter(String text) {
+      String fText = text.replaceAll("(?s)<header.*?>.*?</header>", "");
+      fText = fText.replaceAll("<w.*?>", "");
+      fText = fText.replaceAll("<c.*?>", "");
+      fText = fText.replaceAll("<.*?>", "");
+      fText = fText.replaceAll(" +", " ");
+      fText = fText.replaceAll("&bquo|&equo", "\"");
+      fText = fText.replaceAll("&mdash;?", "--");
+      fText = fText.replaceAll("&amp;?", "&");
+      return fText;
+    }
 
-  public String filter(String text) {
-    text = text.replaceAll("(?s)<header.*?>.*?</header>", "");
-    text = text.replaceAll("<w.*?>", "");
-    text = text.replaceAll("<c.*?>", "");
-    text = text.replaceAll("<.*?>", "");
-    text = text.replaceAll(" +", " ");
-    text = text.replaceAll("&bquo|&equo", "\"");
-    text = text.replaceAll("&mdash;?", "--");
-    text = text.replaceAll("&amp;?", "&");
-    return text;
   }
-  
+
 }

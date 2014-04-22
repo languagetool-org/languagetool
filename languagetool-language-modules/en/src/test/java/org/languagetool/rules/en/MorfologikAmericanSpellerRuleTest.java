@@ -67,6 +67,14 @@ public class MorfologikAmericanSpellerRuleTest {
     assertEquals(3, matches[0].getFromPos());
     assertEquals(10, matches[0].getToPos());
     assertEquals("taught", matches[0].getSuggestedReplacements().get(0));
+    
+    // hyphens - accept words if all their parts are okay:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A web-based software.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("A wxeb-based software.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("A web-baxsed software.")).length);
+    // yes, we also accept fantasy words:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("A web-feature-driven-car software.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
   }
 
 }

@@ -181,6 +181,37 @@ $Id$
                             </marker>
                         </unify>
                     </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" postag="interp">(<exception scope="next" regexp="yes">[()]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next">(</exception></token>
+                        </marker>
+                        <token postag="interp">)</token>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" spacebefore="yes" postag="interp" regexp="yes">[-−–—―]<exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                        </marker>
+                        <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" spacebefore="yes" postag="interp" regexp="yes">[-−–—―]<exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                        </marker>
+                        <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <token skip="-1" spacebefore="yes" postag="interp" regexp="yes">[-−–—―]<exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception scope="next" postag="interp" spacebefore="yes" regexp="yes">regexp="yes">[-−–—―]</exception></token>
+                        <marker>
+                            <token skip="-1" postag="pcon:imperf.*|pant:perf.*" postag_regexp="yes"/>
+                        </marker>
+                        <token spacebefore="yes" postag="interp" regexp="yes">[-−–—―]</token>
+                    </antipattern>
                     <rule>
 								<antipattern>   <!-- czas zaprzeszły -->
                                     <unify>
@@ -253,6 +284,11 @@ $Id$
                                 <example type="incorrect">Jeżeli do danego atomu węgla <marker>są przyłączone dwa lub więcej podstawników to przypisujemy im tą samą cyfrę.</marker></example>
                                 <example type="correct">Proces asymilacji został w pełni zakończony i Japonia jest krajem monoetnicznym.</example>
                                 <example type="correct">Według jednego z nich Afrodyta nie miała rodziców i pewnego dnia wyłoniła się z piany morskiej w pobliżu Cypru.</example>
+                                <example type="incorrect">Tym, co <marker>spostrzegamy (wzrokowo, słuchowo itd.) są cechy przedmiotu.</marker></example>
+                                <example type="correct">Początkowo działała pod nazwą American Engineering Standards Committee (AESC), w 1928 roku zmieniła nazwę na American Standards Association (ASA).</example>
+                                <example type="correct">Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
+                                <example type="correct">Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
+                                <example type="correct">Egzystują w nim różne grupy interesów — od klasowych począwszy, na klikowych skończywszy — to zaś stwarza kłopoty.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -599,6 +635,11 @@ $Id$
 								<example correction="a więc" type="incorrect">Jesteś mierny, ale wierny, <marker>a, więc</marker> nadajesz się znakomicie.</example>
 						</rule>
 						<rule>
+                                <antipattern>
+                                    <token>mimo</token>
+                                    <marker><token>to</token></marker>
+                                    <token>,</token>
+                                </antipattern>
 								<pattern>
 										<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
 										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
@@ -609,6 +650,7 @@ $Id$
 								<short>Błąd interpunkcyjny</short>
 								<example correction="odejdę, nawet jeśli" type="incorrect">Naprawdę <marker>odejdę nawet, jeśli</marker> pójdzie się myć.</example>
 								<example type="correct">Naprawdę odejdę, <marker>nawet jeśli</marker> pójdzie się myć.</example>
+                                <example type="correct">Mimo to, jeśli przez dłuższy czas kulka pada na pole czerwone, rośnie w nas chęć obstawienia czarnych w kolejnym rzucie.</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -1171,7 +1213,7 @@ $Id$
                                 </antipattern>
 								<pattern>
 										<marker>
-												<token negate="yes" regexp="yes">&interp;|niby|oto<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
+												<token negate="yes" regexp="yes">&interp;|niby|o?to<exception postag="SENT_START|conj|comp" postag_regexp="yes"></exception></token>
 												<token>dlaczego</token>
 										</marker>
 										<token><exception regexp="yes">&interp;</exception></token>
@@ -1184,6 +1226,7 @@ $Id$
 								<example type="correct">A niby dlaczego miałbym pominąć?</example>
 								<example type="correct">Możesz sobie mówić, że jesteś normalny, tylko dlaczego chcesz rządzić krajem?</example>
                                 <example type="correct">I oto dlaczego nie podejmę tu dowodzenia.</example>
+                                <example type="correct">Jeżeli zaś nie — to dlaczego mówi się o tym w tak alarmistycznym tonie.</example>
                                 <!-- inny błąd: dla_czego -->
                                 <example type="correct">Nigdy prawie ta praktyczność nie powstaje dlaczego innego.</example>
 						</rule>
@@ -1378,7 +1421,7 @@ $Id$
 												<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception><exception inflected="yes" regexp="yes">mieć|być</exception></token>
 												<token regexp="yes">za|o<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception></token>
 										</marker>
-										<token inflected="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
+										<token inflected="yes" postag="subst:sg.*" postag_regexp="yes">co<exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"></exception><exception postag="co_innego|czym_innym|co_drugi" postag_regexp="yes"></exception></token>
 										<token><exception regexp="yes">&interp;</exception><exception postag="SENT_END"></exception><exception postag="verb:inf.*" postag_regexp="yes"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie brak przecinka. Powinno być: <suggestion><match no="1"></match>, <match no="2"></match></suggestion>.</message>
@@ -1388,6 +1431,7 @@ $Id$
 								<example type="correct">Słuchacze myślą o czym innym.</example>
 								<example type="correct">Chodziło o co innego: o rozwinięcie kontaktów.</example>
 								<example type="correct">Jest o czym pisać.</example>
+                                <example type="correct">W przeciwnym bowiem razie ciąg moglibyśmy przedłużyć o co najmniej jeszcze jeden trójkąt.</example>
 						</rule>
 				</rulegroup>
                 <rulegroup id="PYTANIE_CO" name="Brak przecinka w „pytanie, co...”">
@@ -2568,6 +2612,12 @@ $Id$
 				</rulegroup>
 				<rulegroup id="BRAK_KROPKI" name="Brak kropki na końcu zdania">
 						<rule>
+                                <antipattern case_sensitive="yes"> <!-- Wikipedia -->
+                                    <marker><token>Zobacz</token></marker>
+                                    <token>też</token>
+                                    <token>=</token>
+                                    <token>=</token>
+                                </antipattern>
 								<pattern>
 										<token postag="SENT_START" skip="-1"></token>
 										<token postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes" skip="-1"><exception>rozdział</exception></token>
@@ -2583,6 +2633,7 @@ $Id$
 								<example type="correct">Pożycz mi sto złotych…</example>
                                 <example type="correct">Rozdział I</example>
                                 <example type="correct">*(Kubuś zaczyna pogwizdywać.)*</example>
+                                <example type="correct">== Zobacz też ==</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -2886,12 +2937,14 @@ $Id$
                 <pattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes" spacebefore="no">[—–]</token>
-                <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">(ok|po|przed)</exception></token>
+                <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">(ok|po|przed|te|tych|tymi?)</exception></token>
                 </pattern>
                 <message>Myślnika nie używa się wewnątrz wyrazu: <suggestion>\1-\3</suggestion>. Jeśli ten znak jest między osobnymi wyrazami, należy napisać ze spacjami: <suggestion suppress_misspelled="yes"><match no="1"/> <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Błąd typograficzny</short>
                 <example type="incorrect" correction="5-letni|5 — letni">Okres <marker>5—letni</marker>.</example>
                 <example type="correct">Okres 5-letni</example>
+                   <!-- błąd pisowni liczebników -->
+                   <example type="correct">Jest bardzo popularny na świecie, a w latach	70–tych zwłaszcza w Grójcu.</example>
                 </rule>
                 <rule id="LICZBA_BEZ_DYWIZU_ZAKRES" name="Myślnik zamiast dywizu w zakresie liczbowym">
                     <pattern>
@@ -4206,6 +4259,13 @@ $Id$
                         <token skip="10" postag='ppas:.*inst.*' postag_regexp='yes'><exception scope="next" postag="(?:comp|interp):comma" postag_regexp="yes"/></token>
                         <token postag_regexp="yes" postag="subst.*inst.*"/>
                     </antipattern>
+                    <antipattern>
+                        <unify>
+                        <feature id="gender"/><feature id="number"/>
+                        <token postag="ppas:.*" postag_regexp="yes"/>
+                        <marker><token inflected='yes' regexp='yes' postag='verb:praet:.*:.*:ter.*' postag_regexp='yes'>zostać|zostawać|być</token></marker>
+                        </unify>
+                    </antipattern>
                     <pattern>
                     <unify negate="yes">
                         <feature id="gender"/><feature id="number"/>
@@ -4222,6 +4282,7 @@ $Id$
                     <example type="correct">Daleko w przestrzeni widać było przymglony las Meudon.</example>
                     <example type="correct">Eurycjusz nie był zmyśloną postacią.</example>
                     <example type="correct">Odpowiedzi moje na jego zapytania były niewyczerpaną rozmów materią.</example>
+                    <example type="correct">Kolumbowie jako sztuka o powstaniu warszawskim poprzedzeni zostali zorganizowaną nagonką polityczną reakcyjnego odłamu Polonii.</example>
                 </rule>
                 <rule id="KTOS_KTOREGO" name="„ktoś, którego” (czyjego, kogo)">
                     <pattern>
@@ -4343,7 +4404,7 @@ $Id$
 				</rule>
 				<rule id="DOFINANSOWANIE_DO_CZEGOS" name="„dofinansowanie do czegoś” (dofinansowanie czegoś)">
 						<pattern>
-								<token inflected="yes" postag="ger.*" postag_regexp="yes">dofinansować</token>
+								<token inflected="yes">dofinansowanie</token>
 								<token>do</token>
 						</pattern>
 						<message>Nieprawidłowa forma, tego wyrazu używa się bez przyimka „do” (chyba że ten przyimek jest konieczny ze względu na inne wyrazy w zdaniu). Wystarczy: <suggestion>\1</suggestion>.</message>
@@ -4930,7 +4991,7 @@ $Id$
                                 <token>temu</token>
                             </antipattern>
 							<pattern>
-								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:[\-–—]\d+)?|\.|mln|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
+								<marker><token regexp="yes" inflected="yes">godzina|rok|miesiąc|tydzień|minuta|chwila|moment|wiek|stulecie<exception postag_regexp="yes" postag=".*acc.*"/><exception scope="previous" regexp="yes">000|[5-9]|[1-9][0-9]+(?:[\-–—]\d+)?|\.|ml[dn]|tysiące</exception><exception scope="previous" postag="num:.*" postag_regexp="yes"/></token></marker>
 						        <token postag="prep:acc">temu</token>
                                 <token><exception postag="num:pl:nom.acc.*" postag_regexp="yes"/></token>
 							     </pattern>
@@ -4948,7 +5009,61 @@ $Id$
                                 <example type="correct">Lat temu kilka przebywałem na dworze.</example>
                                 <example type="correct">To zwierzę pojawia się 2–3,8 miliona lat temu.</example>
                                 <example type="correct">2 miliony lat temu zjadłem kanapkę.</example>
+                                <example type="correct">Ok. 1 mld lat temu powstały złoża kanapek.</example>
 						</rule>
+                        <rule>
+                            <antipattern>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <marker><token>około</token></marker>
+                            </antipattern>
+                            <pattern>
+                                    <token>około</token>
+                                    <marker>
+                                        <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'></token>
+                                    </marker>
+                            </pattern>
+                            <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="2" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
+                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <short>Przyimek wymaga dopełniacza.</short>
+                            <example type='incorrect' correction="dwuset|dwustu|dwóchset">To było około <marker>dwieście</marker> psów.</example>
+                            <example type='correct'>To było około dwustu psów.</example>
+                            <!-- to zbieg przyimków, więc „około” jest partykułą -->
+                            <example type="correct">Pociąg spóźnił się o około dwie godziny.</example>
+                        </rule>
+                        <rule>
+                            <antipattern>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <marker><token>ok</token></marker>
+                                <token>.</token>
+                            </antipattern>
+                            <pattern>
+                                <token>ok</token>
+                                <token>.</token>
+                                <marker>
+                                    <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'></token>
+                                </marker>
+                            </pattern>
+                            <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="3" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
+                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <short>Przyimek wymaga dopełniacza.</short>
+                            <example type='incorrect' correction="dwuset|dwustu|dwóchset">To było ok. <marker>dwieście</marker> psów.</example>
+                            <example type='correct'>To było ok. dwustu psów.</example>
+                            <!-- tu ok. jest traktowane jako partykuła -->
+                            <example type="correct">Pociąg spóźnił się o ok. dwie godziny.</example>
+                        </rule>
+                        <rule>
+                            <pattern>
+                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <marker><token>około</token>
+                                <token postag="num:pl:gen.*" postag_regexp="yes"/>
+                                </marker>
+                            </pattern>
+                            <message>„Około” po przyimku wymagającym innego przypadku niż dopełniacz traktowane jest jako partykuła, a przypadek dostosowuje się do poprzedzającego przyimka. Można też zastąpić „około” wyrażeniem „prawie” lub „mniej więcej”.</message>
+                            <url>http://obcyjezykpolski.strefa.pl/?md=archive&amp;id=94</url>
+                            <short>Ten przyimek nie wymaga dopełniacza.</short>
+                            <example type="incorrect">Pociąg spóźnił się o <marker>około dwóch</marker> godzin.</example>
+                            <example type="correct">Pociąg spóźnił się o około dwie godziny.</example>
+                        </rule>
 				</rulegroup>
 				<rule id="WIEKSZY_JAK" name="„większy/lepszy jak” (większy/lepszy od/niż)">
 						<pattern>
@@ -5026,15 +5141,19 @@ $Id$
 				</rule>
 				<rulegroup id="UZNAC_JAKIMS" name="„uznać jakimś” (za jakieś)">
 						<rule>
+                            <antipattern>
+                                <marker><token postag="pact:sg:acc.inst:f:imperf:aff:nonrefl"/></marker>
+                                <token postag="subst:sg:acc:f"/>
+                            </antipattern>
 								<pattern>
 										<token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception regexp="yes" scope="next">za|na|przy|między|nad|nade|znad|o|po|w|&interp;</exception><exception postag="ppas.*inst.*" postag_regexp="yes"></exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/><exception postag_regexp="yes" scope="next" postag="verb.*(sg|pl).*"/></token>
 										<marker>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*|.*acc.dat.gen.inst.loc.nom.voc:n" postag_regexp="yes"></exception></token>
+												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*acc[:\.]f.*|.*acc.dat.gen.inst.loc.nom.voc:n" postag_regexp="yes"/><exception scope="previous"  postag="prep:inst.*" postag_regexp="yes"/></token>
 										</marker>
 										<token><exception postag="(adj|ppas|pact|subst).*inst.*" postag_regexp="yes"></exception></token>
 								</pattern>
-								<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
-								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"></match></suggestion>”.</message>
+								<!--  FIXME: czy to też rozdzielić na rodzaje? trudno zachować rodzaj w podpowiedzi... -->
+								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*$3"></match></suggestion>”.</message>
 								<short>Błąd składniowy</short>
 								<example type="correct">Ludwik był uznany za aktora.</example>
 								<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
@@ -5042,23 +5161,99 @@ $Id$
 								<example type="correct">Ludwik był uznanym aktorem.</example>
 								<example correction="za aktora" type="incorrect">Ludwik był uznawany <marker>aktorem</marker>.</example>
                                 <example type="correct">Tłumaczenie (wyjaśnianie) jako dobieranie do następstwa uznanego racji jest rozumowaniem redukcyjnym.</example>
+                                <example type="correct">Za słuszną zasadę trzeba uznać daleko idącą koncepcję i kompleksowość inwestycji portowych.</example>
+                                <example type="correct">Co ma sądzić człowiek, uznający się przed godziną za najszczęśliwszego, pozbawiony naraz żony?</example>
 						</rule>
-						<rule>
+						<rule> <!-- m1 -->
 								<pattern>
 										<token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
 										<marker>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*|.*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
-												<token postag="(adj|pact|ppas|subst).*inst.*" postag_regexp="yes"><exception postag=".*(acc|inst)[:\.]f.*" postag_regexp="yes"></exception></token>
+                                            <unify>
+                                                <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="m1"/></feature>
+												<token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+												<token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                            </unify>
 										</marker>
 								</pattern>
-								<!--  FIXME: nie bierze pod uwagę żywotnych męskich... -->
-								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst):(sg|pl):(inst.loc|inst)(:.*):(com|pos|sup)" postag_regexp="yes" postag_replace="$1:$2.*(acc|gen).*:m[1-3]?.*:$5"></match> <match no="3" postag="(adj|subst):(sg|pl):(inst.loc|inst):.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*"></match></suggestion>”.</message>
+								<message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m1.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m1.*$3"></match></suggestion>”.</message>
 								<short>Błąd składniowy</short>
 								<example type="correct">Ludwik był uznany za wielkiego aktora</example>
 								<example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
 								<example type="correct">Ludwik był uznanym polskim aktorem.</example>
-								<example correction="za wielki aktora|za wielkiego aktora" type="incorrect">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
+								<example correction="za wielkiego aktora" type="incorrect">Ludwik był uznawany <marker>wielkim aktorem</marker>.</example>
 						</rule>
+                        <rule> <!-- m2 -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="m2"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m2.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m2.*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za wielkiego lewa|za wielkiego lwa" type="incorrect">Ten okaz był uznawany <marker>wielkim lwem</marker>.</example>
+                        </rule>
+                        <rule> <!-- m3 -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="m3"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m3.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*m3.*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za bestseller wydawniczy" type="incorrect">Książka była uznawany <marker>bestsellerem wydawniczym</marker>.</example>
+                        </rule>
+                        <rule> <!-- f -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="f"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*(acc)[:\.]f.*|.*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*(acc)[:\.]f.*" postag_regexp="yes"></exception></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*f.*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*f.*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za piękną modelkę" type="incorrect">Julia była uznawany <marker>piękną modelką</marker>.</example>
+                        </rule>
+                    <rule> <!-- n1, n2 -->
+                        <pattern>
+                            <token inflected="yes" regexp="yes" skip="2">uznać|uznawać<exception postag="ppas.*inst.*" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="next">za|,|na|przy|między|nad|nade|znad|o|po|w</exception><exception postag="conj" scope="next"/><exception postag="comp" scope="next"/></token>
+                            <marker>
+                                <unify>
+                                    <feature id="case"><type id="inst"/></feature><feature id="number"/><feature id="gender"><type id="n1"/><type id="n2"/></feature>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"><exception postag=".*nom.gen.dat.acc.inst.loc.voc:n" postag_regexp="yes"></exception></token>
+                                    <token postag="(adj|pact|ppas|subst).*" postag_regexp="yes"></token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Mówi się „uznać <suggestion>za <match no="2" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*n[12].*$3"></match> <match no="3" postag="(adj|subst|pact|ppas):(sg|pl):(?:inst.loc|inst):[^:]*(:com|:pos|:sup)?" postag_regexp="yes" postag_replace="$1:$2.*acc.*n[12].*$3"></match></suggestion>”.</message>
+                        <short>Błąd składniowy</short>
+                        <example type="correct">Ludwik był uznany za wielkiego aktora</example>
+                        <example type="correct">Ten filozof uznaje przyczynową rolę za istotną.</example>
+                        <example type="correct">Ludwik był uznanym polskim aktorem.</example>
+                        <example correction="za małe dziecko" type="incorrect">Ludwik był uznawany <marker>małym dzieckiem</marker>.</example>
+                    </rule>
 				</rulegroup>
 				<!-- TODO: limit the number of suggestions -->
 				<rule id="ZAINTERESOWANIE_DLA" name="„zainteresowanie dla czego” (czym)">
@@ -5327,6 +5522,16 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy leksykalne" type="style">
+            <rule id="LOGARYTM_ALGORYTM" name="„logarytm” (algorytm)">
+                <pattern>
+                    <token>logarytm<exception inflected='yes' regexp='yes' scope='previous'>naturalny|ujemny|dziesiętny</exception></token>
+                    <token postag='ger:sg:gen.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>algorytm</suggestion> (=metoda obliczania)? Logarytm przy podstawie a z liczby b oznacza liczbę c, będącą potęgą, do której podstawa a musi być podniesiona, aby dać liczbę b.</message>
+                <short>Błąd leksykalny</short>
+                <example type='incorrect'>To jest <marker>logarytm obliczania</marker> średniej.</example>
+                <example type='correct'>To jest algorytm obliczania średniej.</example>
+            </rule>
 				<rule id="DOKONAC_BLEDU" name="„dokonać błędu” (popełnić błąd)">
 						<pattern>
 								<token inflected="yes">dokonać</token>
@@ -8151,7 +8356,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>w</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8163,7 +8368,7 @@ $Id$
 								<pattern>
 										<token>w</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8824,7 +9029,7 @@ $Id$
 								<marker>
 										<token inflected="yes" postag="pact.*" postag_regexp="yes">wieść</token>
 								</marker>
-								<token><exception>do</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
+								<token><exception regexp="yes">do|ku</exception><exception postag="prep:acc:.*" postag_regexp="yes" inflected="yes">w</exception></token>
 						</pattern>
 						<message>Ten rusycyzm jest błędnie używany po polsku w znaczeniu: <suggestion><match no="1" postag="(.*):refl.nonrefl" postag_replace="$1:nonrefl">przodować</match></suggestion>,
 							<suggestion><match no="1" regexp_match="(?iu)wiodąc" regexp_replace="główn"/></suggestion>,
@@ -9403,7 +9608,7 @@ $Id$
                     <message>W dwuczłonowych nazwach miast oba człony piszemy wielką literą: <suggestion><match no="1"/>-<match no="3" case_conversion="startupper"/></suggestion></message>
                     <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
                     <short>Błąd pisowni wielką i małą literą</short>
-                    <example type='incorrect' correction="Bielsku-Białej">Mieszkam <marker>Bielsku-białej</marker>.</example>
+                    <example type='incorrect' correction="Bielsku-Białej">Mieszkam w <marker>Bielsku-białej</marker>.</example>
                     <example type='correct'>Mieszkam w Bielsku-Białej.</example>
                     </rule>
                     <rule>
@@ -9415,7 +9620,7 @@ $Id$
                         <message>W dwuczłonowych nazwach miast oba człony piszemy wielką literą: <suggestion><match no="1"/>-<match no="3" case_conversion="startupper"/></suggestion></message>
                         <url>https://pl.wikipedia.org/wiki/Pomoc:Powszechne_błędy_językowe</url>
                         <short>Błąd pisowni wielką i małą literą</short>
-                        <example type='incorrect' correction="Rabce-Zdroju">Mieszkam <marker>Rabce-zdroju</marker>.</example>
+                        <example type='incorrect' correction="Rabce-Zdroju">Mieszkam w <marker>Rabce-zdroju</marker>.</example>
                         <example type='correct'>Mieszkam w Rabce-Zdroju.</example>
                     </rule>
                     <rule>
@@ -10527,7 +10732,7 @@ $Id$
                     </rule>
                     <rule> <!-- paradygmat A.2.2.1g, np. Joyce -->
                         <pattern>
-                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dlnvw]ie|.*ethe|.*nde|Joe</exception></token>
+                            <token regexp='yes'>.*\p{Ll}+e<exception regexp='yes'>.*c?ke|.*que|.*[dlnvwk]ie|.*ethe|.*nde|Joe</exception></token>
                             <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>m</token>
                         </pattern>
@@ -11177,6 +11382,46 @@ $Id$
                             <example type="incorrect" correction="21 maja">To było <marker>21-go maja</marker>.</example>
                             <example type="incorrect" correction="21 maja">To było <marker>21go maja</marker>.</example>
                         </rule>
+                    <rule>
+                        <antipattern>
+                            <marker>
+                                <token regexp="yes">\d+</token>
+                                <token spacebefore="no" regexp="yes">[–—]</token>
+                                <token spacebefore="no" regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                            </marker>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                        </antipattern>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\d+</token>
+                            <token spacebefore="no" regexp="yes">[–—]</token>
+                            <token regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                        </pattern>
+                        <message>Liczebniki porządkowe zapisujemy nie z końcówkami przypadków, tylko z kropką: <suggestion><match no="1"/>.</suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="correct">Ten system jest 32-bitowy.</example>
+                        <example correction="5." type="incorrect">To już <marker>5—ty</marker> raz!</example>
+                        <example type="correct">20-lecie międzywojenne było okresem pełnym intryg politycznych.</example>
+                        <example correction="1." type="incorrect">To już <marker>1—wszy</marker> raz!</example>
+                        <example correction="1." type="incorrect">Rosjanie byli <marker>1—wsi</marker> w kosmosie.</example>
+                        <example type="incorrect" correction="90.">Zainicjowana przez Philippe’a Turchet w latach <marker>90—tych</marker>, synergologia była wielką ściemą.</example>
+                        <!-- to łapie reguła niżej -->
+                        <example type="correct" correction="21 maja">To było <marker>21—go maja</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\d+</token>
+                            <token spacebefore="no" regexp="yes">[–—]</token>
+                            <token spacebefore="no" regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                        </pattern>
+                        <message>W datach nie używamy końcówek przypadków:: <suggestion><match no="1"/> <match no="4"/></suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="correct">Ten system jest 32-bitowy.</example>
+                        <example type="incorrect" correction="21 maja">To było <marker>21—go maja</marker>.</example>
+                        <example type="correct">Góry i morze – pisał Asnyk w liście do ojca 28 maja 1874 – to jedyne uniwersalne lekarstwo.</example>
+                    </rule>
 						<rule>
 								<pattern>
 										<token regexp="yes">\d+-?(?:[cm]?io|mo|o|[t]?[e]?ro|sto|to|dmio|dno|[w]?u|y|rzy)</token>
@@ -11219,7 +11464,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
-										<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+										<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*|Ice|Isi</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?.*" regexp_replace="$1"></match></suggestion></message>
                                 <url>http://poradnia.pwn.pl/lista.php?id=13046</url>
@@ -11229,6 +11474,7 @@ $Id$
                                 <example type="correct">XX-lecie międzywojenne</example>
                                 <example type="correct">W XV wieku formy z wtórnym ''-e-'' zaczęły być postrzegane jako gwara.</example>
                                 <example type="correct">Ich nazwy dodawane są na końcu listy argumentów.</example>
+                                <example type="correct">Android 4.0 Ice Cream Sandwich.</example>
 						</rule>
                         <rule>
                         <pattern case_sensitive="yes">
@@ -11978,6 +12224,32 @@ $Id$
                            <example type="correct">W cukrzycy typu II w wyspach trzustkowych odkłada się peptyd amylina.</example>
 						</rule>
 				</rulegroup>
+                <rulegroup id="OK_BEZ_KROPKI" name="„ok” (ok.)">
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <token>ok</token>
+                            </marker>
+                            <token regexp='yes'>\d+</token>
+                        </pattern>
+                        <message>Czy chodziło o skrót <suggestion>ok.</suggestion>?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example type='incorrect' correction="ok.">To było <marker>ok</marker> 200 psów.</example>
+                        <example type='correct'>To było ok. 200 psów.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <token>ok</token>
+                            </marker>
+                            <token postag='num:pl:.*' postag_regexp='yes'></token>
+                        </pattern>
+                        <message>Czy chodziło o skrót <suggestion>ok.</suggestion> (=około)?</message>
+                        <short>Prawdopodobna literówka</short>
+                        <example type='incorrect'>To było <marker>ok</marker> dwustu psów.</example>
+                        <example type='correct'>To było ok. dwustu psów.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="POD_KONTEM" name="„pod kontem czegoś” (pod kątem)">
 						<pattern>
 								<marker>
@@ -12418,12 +12690,14 @@ $Id$
 										<token>n</token>
 										<token>/</token>
 								</marker>
-								<token regexp="yes">\p{Lu}.*</token>
+								<token regexp="yes">\p{Lu}.*<exception>A</exception></token>
 						</pattern>
 						<message>Ten skrót zapisujemy z kropką: <suggestion>n.</suggestion>, np. „Kazimierz n. Wisłą”.</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="n." type="incorrect">Kazimierz <marker>n/</marker> Wisłą.</example>
 						<example type="correct">Kazimierz n. Wisłą.</example>
+                        <!-- z angielskiego -->
+                        <example type="correct">n/a</example>
 				</rule>
 				<rulegroup id="NIEMA_NIE_MA" name="„niema” (nie ma)">
 						<rule>
@@ -13038,7 +13312,7 @@ $Id$
 										<token><exception regexp="yes" scope="previous">&apost;</exception>a</token>
 										<token>la</token>
 								</pattern>
-								<message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> &apost; (=w rodzaju, na sposób)?</message>
+								<message>Czy chodziło o francuskie wyrażenie <suggestion>à la</suggestion> (=w rodzaju, na sposób)?</message>
 								<short>Prawdopodobny błąd ortograficzny</short>
 								<example correction="à la" type="incorrect">Naleśniki <marker>a la</marker> Gundel</example>
 								<example type="correct">Naleśniki à la Gundel</example>
@@ -13150,6 +13424,35 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="SANATOR_SENATOR" name="„sanator” (senator)">
+                <pattern>
+                    <token inflected='yes'>sanator</token>
+                </pattern>
+                <message><match no="1"/> to bardzo rzadki wyraz, oznaczający zwolennika sanacji. Czy chodziło o <suggestion><match no="1" regexp_match="sa" regexp_replace="se"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="senator">To był <marker>sanator</marker>.</example>
+                <example type='correct'>To był senator.</example>
+            </rule>
+            <rule id="POZNA_NIA" name="„pozna nią” (poza nią)">
+                <pattern>
+                    <token>pozna</token>
+                    <token>nią</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>poza nią</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>W tym miejscu zajmiemy się analizą tego, gdzie w polskiej sieci i <marker>pozna nią</marker> można zrobić naprawdę tanie zakupy.</example>
+                <example type='correct'>W tym miejscu zajmiemy się analizą tego, gdzie w polskiej sieci i poza nią można zrobić naprawdę tanie zakupy.</example>
+            </rule>
+            <rule id="NI_NIE" name="„ni tylko” (nie tylko)">
+                <pattern>
+                    <token>ni</token>
+                    <token regexp="yes">tylko|bardzo|wszystko|można</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>nie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>On <marker>ni tylko</marker> może, ale i powinien.</example>
+                <example type='correct'>On nie tylko może, ale i powinien</example>
+            </rule>
             <rule id="TYCH_ROZNIC" name="„tych różnić” (tych różnic)">
                 <pattern>
                     <token regexp="yes">(?:tam)?tych</token>
@@ -14613,7 +14916,7 @@ $Id$
 										<marker>
 												<token>struj</token>
 										</marker>
-										<token postag="subst:sg.*[\.:]gen.*|(adj|ppas|pact):sg:.*[\.:]m.*" postag_regexp="yes"></token>
+										<token postag="subst:sg.*[\.:]gen.*|(adj|ppas|pact):sg:.*[\.:]m.*|subst:sg:acc:m1" postag_regexp="yes"></token>
 								</pattern>
 								<message>Prawdopodobnie chodziło o wyraz <suggestion>strój</suggestion> (ubranie), a nie o tryb rozkazujący od czasownika „struć”.</message>
 								<short>Prawdopodobna literówka</short>
@@ -15262,7 +15565,7 @@ $Id$
 								<marker>
 										<token postag=".*:refl" postag_regexp="yes" inflected="yes" regexp="yes">stawać|stać<exception postag="ger.*" postag_regexp="yes"/></token>
 								</marker>
-                                <token skip="-1" postag="^(?!prep:).*inst.*" postag_regexp="yes"><exception regexp="yes">czasem|kilku|tyłem|bokiem|twarzą|otworem|okoniem|mi|go|we|rzędem|rzędami</exception><exception scope="next">się</exception></token>
+                                <token skip="-1" postag="^(?!prep:).*inst.*" postag_regexp="yes"><exception regexp="yes">wieczorem|czasami|czasem|kilku|tyłem|bokiem|twarzą|otworem|okoniem|mi|go|we|rzędem|rzędami</exception><exception scope="next">się</exception></token>
 								<token postag="SENT_END"></token>
 						</pattern>
 						<message>W tym zdaniu prawdopodobnie brakuje wyrazu „się”: <suggestion>się \2</suggestion>.</message>

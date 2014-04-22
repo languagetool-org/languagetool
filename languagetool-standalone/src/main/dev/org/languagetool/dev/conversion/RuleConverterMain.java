@@ -25,18 +25,19 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
-import org.languagetool.Language;
+import org.languagetool.language.English;
 
 public class RuleConverterMain {
-    
-    private String grammarFile;
-    private String specificFiletype;
-    private String discardFile;
-    private String disambigFile;
+
+    private static final String[] supportedGeneralFiletypes = {"atd","cg"};
+    private static final String[] supportedSpecificFiletypes = {"avoid","default"};
+
+    private final String grammarFile;
+    private final String specificFiletype;
+    private final String discardFile;
+    private final String disambigFile;
+  
     private RuleConverter rc;
-    
-    private static String[] supportedGeneralFiletypes = {"atd","cg"};
-    private static String[] supportedSpecificFiletypes = {"avoid","default"};
     
     private static void exitWithUsageMessage() {
         System.out
@@ -112,7 +113,7 @@ public class RuleConverterMain {
         //TODO: fix this so we can have this functionality
         try {
           if (args[0].equals("--check")) {
-            RuleCoverage checker = new RuleCoverage(Language.ENGLISH);
+            RuleCoverage checker = new RuleCoverage(new English());
             String inFile = args[1];
             checker.evaluateRules(inFile);
             System.exit(1);
@@ -217,8 +218,5 @@ public class RuleConverterMain {
         }
         return type;
     }
-    
-
-  
     
 }

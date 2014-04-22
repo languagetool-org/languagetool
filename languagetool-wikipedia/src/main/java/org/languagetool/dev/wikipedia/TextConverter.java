@@ -127,6 +127,7 @@ public class TextConverter extends Visitor {
   // =========================================================================
 
   private boolean inGallery = false;
+  private boolean inSource = false;
   
   public void visit(AstNode n) {
     // Fallback for all nodes that are not explicitly handled elsewhere
@@ -135,10 +136,15 @@ public class TextConverter extends Visitor {
       RtData rtd = (RtData) data;
       Object[][] rts = rtd.getRts();
       if (rts.length > 0 && rts[0].length > 0) {
-        if ("<gallery".equals(rts[0][0])) {
+        Object rtsElem = rts[0][0];
+        if ("<gallery".equals(rtsElem)) {
           inGallery = true;
-        } else if ("</gallery>".equals(rts[0][0])) {
+        } else if ("<source".equals(rtsElem)) {
+          inSource = true;
+        } else if ("</gallery>".equals(rtsElem)) {
           inGallery = false;
+        } else if ("</source>".equals(rtsElem)) {
+          inSource = false;
         }
       }
     }
@@ -171,7 +177,7 @@ public class TextConverter extends Visitor {
   }
 
   public void visit(Text text) {
-    if (inGallery) {
+    if (inGallery || inSource) {
       return;
     }
     addMapping(text);
@@ -226,6 +232,11 @@ public class TextConverter extends Visitor {
         throw new RuntimeException("Error getting content of external link " + link, e);
       }
     }
+    
+    // TODO: sometimes this seems to fix the error position, but we'd need to find out under which circumstances:
+    //String url = link.getTarget().getProtocol() + ":" + link.getTarget().getPath();
+    //int correction = url.length();
+    //addMapping(link, correction);
     addMapping(link);
     write(out.toString());
   }
@@ -365,10 +376,15 @@ public class TextConverter extends Visitor {
   }
 
   private void addMapping(Locatable loc) {
+    addMapping(loc, 0);
+  }
+
+  private void addMapping(Locatable loc, int columnCorrection) {
     String contentSoFar = sb.toString() + line;
     int textPos = contentSoFar.length() + needNewlines + 1;
     if (loc.hasLocation()) {
-      mapping.put(textPos, loc.getLocation());
+      Location location = loc.getLocation();
+      mapping.put(textPos, new Location(location.file, location.line, location.column + columnCorrection));
       //System.out.println("PUT " + textPos + " -> " + loc.getLocation());
     }
   }

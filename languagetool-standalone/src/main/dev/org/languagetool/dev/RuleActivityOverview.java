@@ -30,7 +30,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Scanner;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tools.StringTools;
 
@@ -58,46 +57,47 @@ public final class RuleActivityOverview {
     System.out.println("Commits per language in the last " + PAST_DAYS + " days");
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
     
-    final List<String> sortedLanguages = new ArrayList<String>();
+    final List<String> sortedLanguages = new ArrayList<>();
     for (Language element : Language.REAL_LANGUAGES) {
       sortedLanguages.add(element.getName());
     }
     Collections.sort(sortedLanguages);
 
-    final Calendar today = GregorianCalendar.getInstance();
     final Calendar past = GregorianCalendar.getInstance();
     past.add(Calendar.DAY_OF_MONTH, -PAST_DAYS);
     
     final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    final String todayString = dateFormat.format(today.getTime());
     final String pastString = dateFormat.format(past.getTime());
     
     final Runtime runtime = Runtime.getRuntime();
     for (final String langName : sortedLanguages) {
       final Language lang = Language.getLanguageForName(langName);
-      final File xmlFile = new File(".", JLanguageTool.getDataBroker().getRulesDir() + File.separator + lang.getShortName() + File.separator + "grammar.xml");
-      final String command = "svn log -q -r {" + pastString + "}:{" + todayString + "} src/" + xmlFile;
-      final Process process = runtime.exec(command);
-      final InputStream inputStream = process.getInputStream();
-      final String output = StringTools.readStream(inputStream);
-      process.waitFor();
-      final int commits = getCommits(output);
-      System.out.println(commits + "\t" + langName);
+      String langCode = lang.getShortName();
+      List<String> ruleFileNames = lang.getRuleFileNames();
+      int commits = 0;
+      for (String ruleFileName : ruleFileNames) {
+        final File xmlFile = new File("languagetool-language-modules/" + langCode
+                + "/src/main/resources/" + ruleFileName);
+        final String command = "git log --after=" + pastString + " " + xmlFile;
+        final Process process = runtime.exec(command);
+        final InputStream inputStream = process.getInputStream();
+        final String output = StringTools.readStream(inputStream, "utf-8");
+        process.waitFor();
+        commits += getCommits(output);
+      }
+      System.out.println(commits + "\t" + langName + (lang.isVariant() ? " (including the parent language)" : ""));
     }
   }
 
   private int getCommits(String svnOutput) {
     int count = 0;
-    final Scanner scanner = new Scanner(svnOutput);
-    try {
+    try (Scanner scanner = new Scanner(svnOutput)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
-        if (line.matches("^r\\d+.*")) {
+        if (line.startsWith("commit ")) {
           count++;
         }
       }
-    } finally {
-      scanner.close();
     }
     return count;
   }

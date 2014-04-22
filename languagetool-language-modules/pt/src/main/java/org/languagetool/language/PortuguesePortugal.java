@@ -18,6 +18,9 @@
  */
 package org.languagetool.language;
 
+/**
+ * @deprecated use {@link PortugalPortuguese} instead (deprecated since 2.6)
+ */
 public class PortuguesePortugal extends Portuguese {
 
   @Override

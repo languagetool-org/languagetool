@@ -57,7 +57,20 @@ $Id$
                 <example type="incorrect">Ёмкость аккумулятора составляет 60 <marker>А/ч</marker>.</example>
                 <example type="correct">Ёмкость аккумулятора составляет 60 А*ч.</example>
                 <example type="correct">Ёмкость аккумулятора составляет 60 А⋅ч.</example>
-            </rule>          
+            </rule>
+             <rule> 
+                <pattern>
+                    <token>мА</token>
+                    <token>/</token>  
+                    <token>ч</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>мА⋅ч</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Ёмкость аккумулятора составляет 900 <marker>мА/ч</marker>.</example>
+                <example type="correct">Ёмкость аккумулятора составляет 900 мА*ч.</example>
+                <example type="correct">Ёмкость аккумулятора составляет 900 мА⋅ч.</example>
+            </rule>            
         </rulegroup>  
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
@@ -66,6 +79,7 @@ $Id$
                     <token>свет</token>
                 </pattern>
                 <message>Имелось в виду <suggestion>ближний \2</suggestion>?</message>
+                <url>http://ru.wiktionary.org/wiki/%D0%B1%D0%BB%D0%B8%D0%B6%D0%BD%D0%B8%D0%B9</url>
                 <short>Логическая ошибка.</short>
                 <example type="incorrect">Водитель включил <marker>близкий свет</marker> фар.</example>
                 <example type="correct">Водитель включил ближний свет фар.</example>
@@ -76,6 +90,7 @@ $Id$
                     <token regexp = "yes" >человек|друг|товарищ</token>
                 </pattern>
                 <message>Имелось в виду <suggestion>близкий \2</suggestion>?</message>
+                <url>http://ru.wiktionary.org/wiki/%D0%B1%D0%BB%D0%B8%D0%B7%D0%BA%D0%B8%D0%B9</url>
                 <short>Логическая ошибка.</short>
                 <example type="incorrect">Он - <marker>ближний друг</marker>.</example>
                 <example type="correct">Он - близкий друг.</example>
@@ -256,6 +271,7 @@ $Id$
                 <token negate="yes" regexp="yes">.|/</token>
             </pattern>
             <message>Точка должна стоять после сокращений: <suggestion>\1.</suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D1%8F</url>
             <short>Точка после сокращений.</short>
             <example type="correct">Стоимость работ составила 10 тыс. рублей.</example>
             <example type="incorrect">Стоимость работ составила 10 <marker>тыс</marker> рублей.</example>
@@ -282,6 +298,7 @@ $Id$
                     <token regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Нет запятой: <suggestion>\1, \2\3</suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Нет запятой.</short>
                 <example type="correct">Закройте дверь, <marker>пожалуйста.</marker></example>
                 <example type="incorrect">Закройте <marker>дверь пожалуйста.</marker></example>
@@ -387,6 +404,7 @@ $Id$
                     <token>.</token>
                 </pattern>
                 <message>Оборот &quot;как и&quot; выделяется запятыми: <suggestion>\1, \2 \3</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D0%BE%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%BE</url>
                 <short>Оборот &quot;как и&quot; выделяется запятыми.</short>
                 <example type="correct">Мы<marker>, как и</marker> наши товарищи, любим заниматься спортом.</example>
                 <example type="correct">Они подготовили реферат <marker>как и</marker> на бумажном носителе, так и в электронном виде.</example>
@@ -1056,6 +1074,9 @@ $Id$
                 <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example type="correct">Он не нашёлся что ответить.</example>
+                <example type="correct">Я найду куда обратиться.</example>
+                <example type="correct">Ему есть чем заняться.</example>
+                <example type="correct">Я не нахожу что сказать.</example>
                 <example type="incorrect">Он не <marker>нашёлся, что ответить</marker>.</example>
             </rule>
             <rule>

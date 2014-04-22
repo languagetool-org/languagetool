@@ -1878,7 +1878,8 @@ $Id$
                 <example type="incorrect" correction="catequesi">Hi anàvem a fer <marker>catequesis</marker>.</example>
                 <example type="correct">Les anàlisis són correctes.</example>
                 <example type="correct">Escriví anàlisis de gran transcendència</example>
-                <!-- Costa trobar anàlisis -->
+                <example type="correct">Sotmès a crisis d'aquesta magnitud.</example>
+                <!-- Costa trobar anàlisis, crisis -->
             </rule>
             <rule id="LA_TESIS" name="la tesis/ la tesi">
                 <pattern>
@@ -3807,7 +3808,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="yes">[MCDXLVI]+<exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception><exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/><exception regexp="yes">XML|DLL</exception></token>
                     </marker>
                 </pattern>
                 <message>Nombre romà incorrecte.</message>
@@ -6773,6 +6774,46 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="A_MENA_DE" name="a mena de">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>mena</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token>mena</token>
+                <token regexp="yes">de|d'</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a manera \3</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="A manera de"><marker>A mena de</marker> conclusió.</example>
+            <example type="correct">a manera de</example>
+        </rule>
+        <rule id="RAPIT_RAPID" name="rapit/ràpid">
+            <pattern>
+                <token regexp="yes">rapits?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ràpid</suggestion>? "Rapit" és participi del verb rapir.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect"><marker>rapit</marker></example>
+            <example type="correct">ràpid</example>
+        </rule>
+        <rule id="TENIR_EN_COMTE_CONTE_COMPTE" name="tenir en comte/conte/compte">
+            <pattern>
+                <token inflected="yes" skip="1">tenir</token>
+                <marker>
+                    <token regexp="yes">en|amb</token>
+                    <token regexp="yes">co[mn]te</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en compte</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="en compte">tenir sempre <marker>amb comte</marker></example>
+            <example type="correct">tenir en compte</example>
+        </rule>
         <rule id="TANTS_SOLS" name="tants sols / tan sols">
             <pattern>
                 <token>tants</token>
@@ -10198,6 +10239,13 @@ $Id$
                 <example type="correct">Que la infon a tothom.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>una</token>
+                        <token>en</token>
+                        <token>punt</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">tocar|migdia|dinar|menjar|sopar|.*dormir|hora|nit</exception></token>
                     <marker>
@@ -10218,6 +10266,7 @@ $Id$
                 <example type="correct">A la una de la nit.</example>
                 <example type="correct">Cap a la una de la matinada.</example>
                 <example type="correct">A la una comença la revetlla.</example>
+                <example type="correct">Arribarem a la una en punt.</example>
                 <!-- <example type="correct">A la una hem d'anar tots allà.</example> -->
             </rule>
             <rule>
@@ -16083,7 +16132,7 @@ $Id$
             <pattern>
                 <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
                 <marker>
-                    <token>en</token>
+                    <token>en<exception scope="previous" inflected="yes">tenir</exception></token>
                     <token>compte</token>
                 </marker>
             </pattern>
@@ -16091,6 +16140,7 @@ $Id$
             <short>Expressió incorrecta</short>
             <example type="incorrect" correction="amb compte">Sempre anaven <marker>en compte</marker></example>
             <example type="correct">No van tenir en compte aquell cas.</example>
+            <example type="correct">Es van tenint en compte aquell cas.</example>
         </rule>  
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
@@ -21799,19 +21849,25 @@ $Id$
             <example type="correct">S'ha difós molt.</example>
         </rule>
         <rule id="BUSCA" name="busca / cerca ">
+            <antipattern>
+                <marker>
+                    <token skip="2">busca</token>
+                    <token regexp="yes" inflected="yes">ratolí|ull</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="D[DAI].FS.*" postag_regexp="yes"/>
                     <token>busca</token>
-                    <token regexp="yes" skip="-1">de|d'<exception scope="next" regexp="yes">ulls?</exception></token>
+                    <token regexp="yes">de|d'</token>
                 </marker>
-                <token postag="SENT_END"/>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1"/> cerca <match no="3"/></suggestion> en lloc de "busca" (= bri, barreta)?</message>
             <suggestion><match no="1"/> recerca <match no="3"/></suggestion>
             <example type="incorrect" correction="la cerca de|la recerca de"><marker>la busca de</marker> solucions.</example>
             <example type="incorrect" correction="aquesta cerca de|aquesta recerca de">en <marker>aquesta busca de</marker> solucions</example>
             <example type="correct">trau-me la busca de l'ull</example>
+            <example type="correct">La busca del ratolí</example>
         </rule>
         <rule id="BESTIA" name="bestia">
             <pattern>

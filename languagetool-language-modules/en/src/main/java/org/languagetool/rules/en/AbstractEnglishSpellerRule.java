@@ -29,6 +29,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
+    setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
   }

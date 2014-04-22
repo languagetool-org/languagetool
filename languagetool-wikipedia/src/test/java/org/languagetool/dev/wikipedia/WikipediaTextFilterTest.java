@@ -63,7 +63,7 @@ public class WikipediaTextFilterTest extends TestCase {
     assertExtract("* [http://theanarchistlibrary.org ''Anarchism: From Theory to Practice''] by [[Daniel Guerin]]. Monthly Review Press.\n",
                   "Anarchism: From Theory to Practice by Daniel Guerin. Monthly Review Press.");
     assertExtract("The <code>$pattern</code>", "The $pattern");
-    assertExtract("<source lang=\"bash\">some source</source>", "some source");
+    assertExtract("foo <source lang=\"bash\">some source</source> bar", "foo bar");
   }
 
   private void assertExtract(String input, String expected) {

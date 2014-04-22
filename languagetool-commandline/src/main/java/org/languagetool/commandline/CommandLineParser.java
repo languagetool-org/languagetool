@@ -19,9 +19,6 @@
 package org.languagetool.commandline;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.languagetool.Language;
 import org.languagetool.tools.LanguageIdentifierTools;
@@ -166,17 +163,7 @@ public class CommandLineParser {
   }
 
   private Language getLanguage(String userSuppliedLangCode) {
-    try {
-      return Language.getLanguageForShortName(userSuppliedLangCode);
-    } catch (IllegalArgumentException e){
-      final List<String> supportedLanguages = new ArrayList<>();
-      for (final Language lang : Language.LANGUAGES) {
-        supportedLanguages.add(lang.getShortNameWithCountryAndVariant());
-      }
-      Collections.sort(supportedLanguages);
-      throw new IllegalArgumentException("Unknown language '" + userSuppliedLangCode
-                  + "'. Supported languages are: " + supportedLanguages);
-    }
+    return Language.getLanguageForShortName(userSuppliedLangCode);
   }
 
 }
