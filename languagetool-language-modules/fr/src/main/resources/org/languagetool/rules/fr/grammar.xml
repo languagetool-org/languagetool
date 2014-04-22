@@ -3596,7 +3596,7 @@ though, and has since been slightly modified)-->
           <token>Stroustrup</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">Bjarnes?</token>
+          <token regexp="yes">Bj?arne?s?</token>
           <token regexp="yes">St?ro?o??u?r?ss?t?tr?o?o?u?pp?</token>
         </pattern>
         <message>Écrivez <suggestion>Bjarne Stroustrup</suggestion> s’il s’agit de l’auteur du language c++.</message>
@@ -4852,7 +4852,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|[IVXLCM]+e?</exception></token>
+        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|(?-i)[IVXLCM]+e?</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737</url>
@@ -4868,6 +4868,8 @@ though, and has since been slightly modified)-->
       <example type="correct">Le IIe siècle.</example>
       <example type="correct">Dépose-le au courrier.</example>
       <example type="correct">Dépose-la au courrier.</example>
+      <example type="incorrect" correction="qu’il">Je pense <marker>que il</marker> va bientôt arriver.</example>
+      <example type="correct">Je pense qu’il va bientôt arriver.</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
