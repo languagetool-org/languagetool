@@ -279,7 +279,8 @@ public class JLanguageTool {
         if (constructors.length > 0) {
           boolean constructorFound = addNewlyConstructedRules(language, messages, rules, constructors);
           if (!constructorFound) {
-            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName());
+            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName()
+                    + " - add at least a constructor with a ResourceBundle parameter");
           }
         } else {
           throw new RuntimeException("No public constructor for rule class: " + ruleClass.getName());
