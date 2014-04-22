@@ -280,9 +280,11 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <token regexp="yes">przeszło|ponad</token>
                 </marker>
-                <token inflected="yes" regexp="yes">.+letni|.+krotnie</token>
+                <token inflected="yes" regexp="yes">.+letni|.+krotnie|\d+</token>
             </pattern>
             <disambig postag="qub"/>
+            <example type="untouched">Przeszło trzydziestu panów pije wódkę.</example>
+            <example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:n1.n2:ter:perf:nonrefl,przejść/verb:praet:sg:n1.n2:ter:perf:refl,przeszło/qub,przeszły/adja]" outputform="Przeszło[przeszło/qub]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
         </rule>
         <rule>
             <pattern>
@@ -293,18 +295,37 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </pattern>
             <disambig postag="qub"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">przeszło|ponad</token>
+                </marker>
+                <unify><feature id="case"/>
+                <token postag="prep.*" postag_regexp="yes"/>
+                <token postag="num.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig postag="qub"/>
+            <example type="ambiguous" inputform="przeszło[przejść/verb:praet:sg:n1.n2:ter:perf:nonrefl,przejść/verb:praet:sg:n1.n2:ter:perf:refl,przeszło/qub,przeszły/adja]"
+                     outputform="przeszło[przeszło/qub]">Turnie, wznosząc się <marker>przeszło</marker> na cztery tysiące metrów ponad dnem tej przepaści, spadały ku niej prawie pionowo.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">przeszło|ponad</token>
+                </marker>
+                <unify><feature id="case"/>
+                    <token postag="prep.*" postag_regexp="yes"/>
+                    <token>roku</token>
+                </unify>
+            </pattern>
+            <disambig postag="qub"/>
+            <example type="ambiguous" inputform="przeszło[przejść/verb:praet:sg:n1.n2:ter:perf:nonrefl,przejść/verb:praet:sg:n1.n2:ter:perf:refl,przeszło/qub,przeszły/adja]"
+                     outputform="przeszło[przeszło/qub]">Ta sprawa datuje się <marker>przeszło</marker> sprzed roku.</example>
+        </rule>
+
     </rulegroup>
-    <rule name="przeszło" id="PRZESZLO">
-        <pattern>
-            <marker>
-                <token>przeszło</token>
-            </marker>
-            <token regexp="yes">\d+</token>
-        </pattern>
-        <disambig postag="qub"/>
-        <example type="untouched">Przeszło trzydziestu panów pije wódkę.</example>
-        <example type="ambiguous" inputform="Przeszło[przejść/verb:praet:sg:n1.n2:ter:perf:nonrefl,przejść/verb:praet:sg:n1.n2:ter:perf:refl,przeszło/qub,przeszły/adja]" outputform="Przeszło[przeszło/qub]"><marker>Przeszło</marker> 30 panów pije wódkę.</example>
-    </rule>
+
     <rule name="prawie/subst -> kublik" id="prawie">
         <pattern>
             <token><exception postag="prep.*inst" postag_regexp="yes"/></token>
@@ -867,6 +888,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule name="mniejszy" id="MNIEJSZY">
         <pattern><token>mniejszy</token></pattern>
         <disambig action="remove"><wd lemma="mniejszyć"/></disambig>
+    </rule>
+
+    <rule name="trochę to nie trocha" id="TROCHE">
+        <pattern>
+            <token>trochę</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="trocha"/></disambig>
     </rule>
 
     <rule name="umarły by usłyszał" id="subst_praet_by_praet">
@@ -2142,6 +2170,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl,stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:refl,stały/adj:sg:acc:m3:pos,stały/adj:sg:nom.voc:m1.m2.m3:pos]"
                  outputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl]">Piwnice <marker>stały</marker> pustkami.</example>
     </rule>
+
 
     <rule id="bardzo_wolno" name="bardzo wolno to nie predykatyw">
         <pattern>
@@ -4158,6 +4187,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="adv:pos"/>
     </rule>
+        <rule>
+            <pattern>
+                <marker><token>śmiało</token></marker>
+                <token skip="-1">się<exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
+                <token postag="verb.*:refl(?:\.nonrefl)?" postag_regexp="yes"/>
+            </pattern>
+            <disambig postag="adv:pos"/>
+        </rule>
     </rulegroup>
 
 
@@ -4166,7 +4203,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <pattern>
                 <token inflected="yes" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1">mieć<exception scope="current">miano</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|comp:comma|interp:comma" postag_regexp="yes" scope="next"/></token>
                 <marker>
-                    <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|kluczy|lata|myśli|niewoli|piekł[oa]|powodzi|soli|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
+                    <token regexp="yes">bąka|brata|broni|burzy|czci|czerwieni|ciąży|kluczy|lata|myśli|niewoli|piekł[oa]|powodzi|soli|stanie|towarzyszy|troska|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="subst.*"/>
@@ -4175,7 +4212,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
             <marker>
-                <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|kluczy|lata|myśli|niewoli|piekł[oa]|powodzi|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
+                <token regexp="yes">bąka|brata|broni|burzy|ciąży|czci|czerwieni|kluczy|lata|myśli|niewoli|piekł[oa]|powodzi|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|złości|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="subst.*"/>
@@ -4185,7 +4222,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule>
             <pattern>
                 <marker>
-                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|kluczy|lata|broni|ciąży|myśli|niewoli|piekł[oa]|powodzi|soli|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                    <token skip="-1" regexp="yes">bąka|brata|burzy|czci|czerwieni|kluczy|lata|broni|ciąży|myśli|niewoli|piekł[oa]|powodzi|soli|stanie|troska|towarzyszy|zieleni|zwierza|przyjaźni|gości|rzeką|(?:roz|po|prze|u)?dział|wieści|zazdrości|zbroją|złości<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|adv.*|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
             </pattern>
