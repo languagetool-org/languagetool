@@ -7595,11 +7595,35 @@ $Id$
     		<pattern>
     			<token regexp="yes">(con|di)fosament</token>
     		</pattern>
-    		<message>¿Volíeu dir <suggestion><match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fusament" /></suggestion> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fús"/>) en comptes de <match no="1"/> (derovat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fondre" />)?</message>
+    		<message>¿Volíeu dir <suggestion><match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fusament" /></suggestion> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fús"/>) en comptes de <match no="1"/> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fondre" />)?</message>
     		<short>Possible confusió</short>
     		<example type="incorrect" correction="difusament"><marker>difosament</marker></example>
     		<example type="correct">confusament</example>
     	</rule>
+        <rule id="FLUIDAMENT" name="fluïdament/fluidament">
+            <pattern>
+                <token>fluïdament</token>
+            </pattern>
+            <message>Cal escriure <suggestion>fluidament</suggestion>, derivat de l'adj. "fluid -a".</message>
+            <short>Error ortogràfic</short>
+            <example type="incorrect" correction="fluidament"><marker>fluïdament</marker></example>
+            <example type="correct">fluidament</example>
+        </rule>
+        <rule id="FLUIDA" name="fluïda/fluida">
+            <pattern>
+                <token><exception postag="VA.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">fluïd(a|es)|fluïts?</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)[ïÏ][DdTt](.*)" regexp_replace="$1id$2" /></suggestion>. "<match no="1"/>" és correcte com a participi de "fluir".</message>
+            <short>Error ortogràfic</short>
+            <example type="incorrect" correction="fluida">És <marker>fluïda</marker></example>
+            <example type="incorrect" correction="fluid">És <marker>fluït</marker></example>
+            <example type="incorrect" correction="fluides">Són <marker>fluïdes</marker></example>
+            <example type="incorrect" correction="fluids">Són <marker>fluïts</marker></example>
+            <example type="correct">Han fluït molt bé</example>
+        </rule>
     	<rule id="DES_DE" name="des de/que">
             <pattern>
                 <marker>
