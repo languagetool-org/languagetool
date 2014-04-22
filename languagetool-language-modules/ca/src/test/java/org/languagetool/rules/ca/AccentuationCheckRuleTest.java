@@ -42,6 +42,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("M'espero qualsevol cosa.");
     assertCorrect("Carrega de nou l'arxiu.");
     assertCorrect("Espero d'ell moltes coses");
     assertCorrect("cal que abans figuri inscrit en l'Ordre del dia");
