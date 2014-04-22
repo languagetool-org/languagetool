@@ -18,9 +18,7 @@
  */
 package org.languagetool.rules.de;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -73,7 +71,8 @@ public class DashRule extends GermanRule {
           "ein überflüssiges Leerzeichen eingefügt. Eventuell haben Sie auch versehentlich einen Bindestrich statt eines Punktes eingefügt.";
           final RuleMatch ruleMatch = new RuleMatch(this, tokens[i-1].getStartPos(),
               tokens[i-1].getStartPos()+prevToken.length()+1, msg);
-          ruleMatch.setSuggestedReplacement(tokens[i-1].getToken());
+          String prevTokenStr = tokens[i-1].getToken();
+          ruleMatch.setSuggestedReplacements(Arrays.asList(prevTokenStr, prevTokenStr + ", "));
           ruleMatches.add(ruleMatch);
         }
       }      
