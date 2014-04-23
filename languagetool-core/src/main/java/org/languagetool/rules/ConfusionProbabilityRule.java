@@ -85,7 +85,7 @@ public class ConfusionProbabilityRule extends Rule {
       ConfusionSet confusionSet = wordToSet.get(token.getToken());
       boolean isEasilyConfused = confusionSet != null;
       if (isEasilyConfused) {
-        System.out.println("*** isEasilyConfused:" + token.getToken());
+        //System.out.println("*** isEasilyConfused:" + token.getToken());
         String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
         if (betterAlternative != null) {
           int endPos = token.getStartPos() + token.getToken().length();
@@ -110,7 +110,7 @@ public class ConfusionProbabilityRule extends Rule {
     double textScore = score(token.getToken(), next, next2, prev, prev2);
     double bestScore = textScore;
     String betterAlternative = null;
-    System.out.println("CF " + confusionSet.set + ", textScore:" + textScore);
+    //System.out.println("CF " + confusionSet.set + ", textScore:" + textScore);
     for (String alternative : confusionSet.set) {
       if (alternative.equalsIgnoreCase(token.getToken())) {
         // this is the text variant, calculated above already...
@@ -148,25 +148,25 @@ public class ConfusionProbabilityRule extends Rule {
       trigram2    => Ptrigram2($option, $next, $next2)
       also see http://blog.afterthedeadline.com/2010/03/04/all-about-language-models/
     */
-    System.out.println("---------------------------");
-    System.out.println(option + ", next " + next + ", prev: " + prev);
+    //System.out.println("---------------------------");
+    //System.out.println(option + ", next " + next + ", prev: " + prev);
     
     double pref = languageModel.Pbigram1(prev, option);
-    System.out.println(prev + " " + option + " => " + pref);
+    //System.out.println(prev + " " + option + " => " + pref);
     double postf = languageModel.Pbigram2(option, next);
-    System.out.println(option + " " + next + " => " + postf);
+    //System.out.println(option + " " + next + " => " + postf);
     
     double trigram = languageModel.Ptrigram(prev2, prev, option);
-    System.out.println(prev2 + " " + prev + " " + option + " => " + trigram);
+    //System.out.println(prev2 + " " + prev + " " + option + " => " + trigram);
     double trigram2 = languageModel.Ptrigram2(option, next, next2);
-    System.out.println(option + " " + next + " " + next2 + " => " + trigram2);
+    //System.out.println(option + " " + next + " " + next2 + " => " + trigram2);
     
     double wordProbability = languageModel.Pword(option);
 
     // TODO: AtD seems to use the probabilities as input for a neural network for weighting,
     // see http://blog.afterthedeadline.com/2009/09/25/statistical-grammar-correction-or-not/
     double score = wordProbability + pref + postf + trigram + trigram2;
-    System.out.println(option + " -> " + score + " (" + wordProbability + "+" + pref + "+" + postf + "+" + trigram + "+" + trigram2 + ")");
+    //System.out.println(option + " -> " + score + " (" + wordProbability + "+" + pref + "+" + postf + "+" + trigram + "+" + trigram2 + ")");
 
     return score;
   }
