@@ -128,7 +128,7 @@ public class ConfusionProbabilityRule extends Rule {
   private String get(AnalyzedTokenReadings[] tokens, int i) {
     if (i == -1) {
       return "0BEGIN.0";  // TODO: this is the AtD marker
-    } else if (i > tokens.length) {
+    } else if (i >= tokens.length) {
       return "0END.0";    // TODO: this is the AtD marker
     } else if (i >= 0 && i < tokens.length) {
       return tokens[i].getToken();
