@@ -6627,6 +6627,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="AUX_AVOIR_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
       <rule>
+        <antipattern>
+          <token regexp="yes">bisphénols?</token>
+          <token regexp="yes">(?-i)A</token>
+        </antipattern>
         <pattern>
           <token postag="V avoir .*" postag_regexp="yes"/>
           <marker>
@@ -6650,6 +6654,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Nous avons compris ce qui se passe.</example>
         <example type="incorrect">J’ai <marker>manger</marker> de la soupe.</example>
         <example type="correct">J’ai <marker>mangé</marker> de la soupe.</example>
+        <example type="correct">L’exposition au bisphénol A entraine des malformations.</example>
       </rule>
       <rule>
         <pattern>
