@@ -13438,6 +13438,26 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="MLODU" name="„młodu” (za młodu)">
+                <pattern>
+                    <token>młodu<exception regexp='yes' scope='previous'>za?</exception></token>
+                </pattern>
+                <message>Ten wyraz nie występuje samodzielnie. Czy chodziło o <suggestion>za <match no="1"/></suggestion>?</message>
+                <url>http://so.pwn.pl/lista.php?co=m%B3odu</url>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Kupiłem to <marker>młodu</marker>.</example>
+                <example type='correct'>Kupiłem to za młodu.</example>
+            </rule>
+            <rule id="BEZCEN" name="„bezcen” (za bezcen)">
+                <pattern>
+                    <token>bezcen<exception scope='previous'>za</exception></token>
+                </pattern>
+                <message>Ten wyraz nie występuje samodzielnie. Czy chodziło o <suggestion>za bezcen</suggestion>? A może o <suggestion>bez cen</suggestion>?</message>
+                <url>http://so.pwn.pl/lista.php?co=bezcen</url>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="za bezcen|bez cen">Kupiłem to <marker>bezcen</marker>.</example>
+                <example type='correct'>Kupiłem to za bezcen.</example>
+            </rule>
             <rule id="SANATOR_SENATOR" name="„sanator” (senator)">
                 <pattern>
                     <token inflected='yes'>sanator</token>
