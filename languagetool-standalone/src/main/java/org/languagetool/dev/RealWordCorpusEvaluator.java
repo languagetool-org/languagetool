@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * <pre>
  * 673 lines checked.
  * 132 errors found that are marked as errors in the corpus (this does not count whether LanguageTool's correction was perfect)
- * => 19,61% recall
+ * => 19,91% recall
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
@@ -123,8 +123,8 @@ class RealWordCorpusEvaluator {
     int startPos = 0;
     while (normalized.indexOf("<ERR targ=", startPos) != -1) {
       int startTagStart = normalized.indexOf("<ERR targ=", startPos);
-      int startTagEnd = normalized.indexOf(">", startPos + startTagStart);
-      int endTagStart = normalized.indexOf("</ERR>", startPos + startTagStart);
+      int startTagEnd = normalized.indexOf(">", startTagStart);
+      int endTagStart = normalized.indexOf("</ERR>", startTagStart);
       errors.add(new Error(startTagEnd + 1, endTagStart));
       startPos = startTagStart + 1;
     }
