@@ -167,13 +167,6 @@ public final class Main {
     final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     Configuration config = ltSupport.getConfig();
-    config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
-    config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
-    config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
-    config.setMotherTongue(configDialog.getMotherTongue());
-    config.setRunServer(configDialog.getRunServer());
-    config.setUseGUIConfig(configDialog.getUseGUIConfig());
-    config.setServerPort(configDialog.getServerPort());
     try { //save config - needed for the server
       config.saveConfiguration(langTool.getLanguage());
     } catch (IOException e) {
@@ -822,7 +815,6 @@ public final class Main {
     @Override
     public void itemStateChanged(ItemEvent e) {
       try {
-        final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
         final Configuration config = ltSupport.getConfig();
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
@@ -830,15 +822,9 @@ public final class Main {
           enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
           config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
-          if (configDialog != null) {
-            configDialog.setRunServer(true);
-          }
         } else if (e.getStateChange() == ItemEvent.DESELECTED) {
           config.setRunServer(false);
           config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
-          if (configDialog != null) {
-            configDialog.setRunServer(false);
-          }
           stopServer();
         }
       } catch (IOException ex) {

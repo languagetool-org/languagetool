@@ -47,8 +47,8 @@ public class Configuration {
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
-  private final File configFile;
-  private final HashMap<String, String> configForOtherLangs;
+  private File configFile;
+  private final HashMap<String, String> configForOtherLangs = new HashMap<>();
 
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
@@ -76,12 +76,68 @@ public class Configuration {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
     }
     configFile = new File(baseDir, filename);
-    configForOtherLangs = new HashMap<>();
     loadConfiguration(lang);
   }
 
   public Configuration(final File baseDir, final Language lang) throws IOException {
     this(baseDir, CONFIG_FILE, lang);
+  }
+
+  Configuration() {
+  }
+
+  /**
+   *
+   * Returns a copy of the given configuration.
+   *
+   * @param configuration the object to copy.
+   * @return the copy.
+   * @since 2.6
+   */
+  Configuration copy(Configuration configuration) {
+    Configuration copy = new Configuration();
+    copy.configFile = configuration.configFile;
+    copy.language = configuration.language;
+    copy.motherTongue = configuration.motherTongue;
+    copy.runServer = configuration.runServer;
+    copy.autoDetect = configuration.autoDetect;
+    copy.guiConfig = configuration.guiConfig;
+    copy.serverPort = configuration.serverPort;
+    copy.externalRuleDirectory = configuration.externalRuleDirectory;
+    copy.disabledRuleIds.addAll(configuration.disabledRuleIds);
+    copy.enabledRuleIds.addAll(configuration.enabledRuleIds);
+    copy.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
+    for (String key : configuration.configForOtherLangs.keySet()) {
+      copy.configForOtherLangs.put(key, configuration.configForOtherLangs.get(key));
+    }
+    return copy;
+  }
+
+  /**
+   * Restore the state of this object from configuration
+   *
+   * @param configuration the object from which we will read the state
+   * @since 2.6
+   */
+  void restoreState(Configuration configuration) {
+    this.configFile = configuration.configFile;
+    this.language = configuration.language;
+    this.motherTongue = configuration.motherTongue;
+    this.runServer = configuration.runServer;
+    this.autoDetect = configuration.autoDetect;
+    this.guiConfig = configuration.guiConfig;
+    this.serverPort = configuration.serverPort;
+    this.externalRuleDirectory = configuration.externalRuleDirectory;
+    this.disabledRuleIds.clear();
+    this.disabledRuleIds.addAll(configuration.disabledRuleIds);
+    this.enabledRuleIds.clear();
+    this.enabledRuleIds.addAll(configuration.enabledRuleIds);
+    this.disabledCategoryNames.clear();
+    this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
+    this.configForOtherLangs.clear();
+    for (String key : configuration.configForOtherLangs.keySet()) {
+      this.configForOtherLangs.put(key, configuration.configForOtherLangs.get(key));
+    }
   }
 
   public Set<String> getDisabledRuleIds() {

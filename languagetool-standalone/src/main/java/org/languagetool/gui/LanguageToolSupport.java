@@ -200,14 +200,7 @@ class LanguageToolSupport {
     if (configDialogs.containsKey(language)) {
       configDialog = configDialogs.get(language);
     } else {
-      configDialog = new ConfigurationDialog(frame, false);
-      configDialog.setMotherTongue(config.getMotherTongue());
-      configDialog.setDisabledRules(config.getDisabledRuleIds());
-      configDialog.setEnabledRules(config.getEnabledRuleIds());
-      configDialog.setDisabledCategories(config.getDisabledCategoryNames());
-      configDialog.setRunServer(config.getRunServer());
-      configDialog.setServerPort(config.getServerPort());
-      configDialog.setUseGUIConfig(config.getUseGUIConfig());
+      configDialog = new ConfigurationDialog(frame, false, config);
       configDialogs.put(language, configDialog);
     }
     return configDialog;
@@ -216,23 +209,22 @@ class LanguageToolSupport {
   private void getCurrentLanguageTool() {
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
-      final ConfigurationDialog configDialog = getCurrentConfigDialog();
-      languageTool = new MultiThreadedJLanguageTool(currentLanguage, configDialog.getMotherTongue());
+      languageTool = new MultiThreadedJLanguageTool(currentLanguage, config.getMotherTongue());
       languageTool.activateDefaultPatternRules();
       languageTool.activateDefaultFalseFriendRules();
-      final Set<String> disabledRules = configDialog.getDisabledRuleIds();
+      final Set<String> disabledRules = config.getDisabledRuleIds();
       if (disabledRules != null) {
         for (final String ruleId : disabledRules) {
           languageTool.disableRule(ruleId);
         }
       }
-      final Set<String> disabledCategories = configDialog.getDisabledCategoryNames();
+      final Set<String> disabledCategories = config.getDisabledCategoryNames();
       if (disabledCategories != null) {
         for (final String categoryName : disabledCategories) {
           languageTool.disableCategory(categoryName);
         }
       }
-      final Set<String> enabledRules = configDialog.getEnabledRuleIds();
+      final Set<String> enabledRules = config.getEnabledRuleIds();
       if (enabledRules != null) {
         for (String ruleName : enabledRules) {
           languageTool.enableDefaultOffRule(ruleName);
