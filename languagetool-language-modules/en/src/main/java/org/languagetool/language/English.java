@@ -149,7 +149,7 @@ public class English extends Language {
         LongSentenceRule.class,
         SentenceWhitespaceRule.class,
         // specific to English:
-        ConfusionProbabilityRule.class,
+        //ConfusionProbabilityRule.class,
         EnglishUnpairedBracketsRule.class,
         EnglishWordRepeatRule.class,
         AvsAnRule.class,

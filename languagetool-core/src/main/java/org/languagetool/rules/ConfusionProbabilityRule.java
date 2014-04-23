@@ -34,36 +34,35 @@ public class ConfusionProbabilityRule extends Rule {
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
 
-  public ConfusionProbabilityRule(ResourceBundle messages) throws IOException, ClassNotFoundException {
-    this("/data/corpus/after_the_deadline/homophonedb.txt");
+  public ConfusionProbabilityRule(ResourceBundle messages) throws IOException {
+    this("/data/corpus/after_the_deadline/homophonedb.txt");  // TODO
   }
   
-  public ConfusionProbabilityRule(String path) throws IOException, ClassNotFoundException {
-    wordToSet = loadConfusionSet(path);
+  public ConfusionProbabilityRule(String path) throws IOException {
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+    wordToSet = confusionSetLoader.loadConfusionSet(path);
     System.out.println("Loading large language model...");
     String file = "/prg/atd/models/model.bin";  // TODO: use morfologik instead
     try(FileInputStream fis = new FileInputStream(file)) {
       ObjectInputStream oos = new ObjectInputStream(fis);
-      Object c = oos.readObject();
+      Object c = null;
+      try {
+        c = oos.readObject();
+      } catch (ClassNotFoundException e) {
+        throw new RuntimeException("Could not deserialize data in " + file, e);
+      }
       Scalar s = (Scalar)c;
       languageModel = (LanguageModel) s.objectValue();
       System.out.println("Language model loaded.");
     }
   }
-  
-  private Map<String,ConfusionSet> loadConfusionSet(String path) throws FileNotFoundException {
-    Map<String,ConfusionSet> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(new File(path), "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        String[] words = line.split(",\\s*");
-        ConfusionSet confusionSet = new ConfusionSet(words);
-        for (String word : words) {
-          map.put(word, confusionSet);
-        }
-      }
+
+  /** @deprecated used only for tests */
+  public void setConfusionSet(ConfusionSet set) {
+    wordToSet.clear();
+    for (String word : set.set) {
+      wordToSet.put(word, set);
     }
-    return map;
   }
 
   @Override
@@ -175,10 +174,15 @@ public class ConfusionProbabilityRule extends Rule {
   public void reset() {
   }
 
-  static class ConfusionSet {
+  public static class ConfusionSet {
     Set<String> set = new HashSet<>();
+
     ConfusionSet(String... words) {
       Collections.addAll(this.set, words);
+    }
+    
+    public Set<String> getSet() {
+      return set;
     }
   }
 }

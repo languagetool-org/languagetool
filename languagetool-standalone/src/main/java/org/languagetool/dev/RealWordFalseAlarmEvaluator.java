@@ -21,6 +21,8 @@ package org.languagetool.dev;
 import org.apache.tika.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.BritishEnglish;
+import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -28,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Runs LanguageTool's confusion rule on Wikipedia-extracted sentences that we assume to be correct.
@@ -38,18 +41,23 @@ class RealWordFalseAlarmEvaluator {
   private static final int MAX_SENTENCES = 1000;
   
   private final JLanguageTool langTool;
+  private final ConfusionProbabilityRule confusionRule;
+  private final Map<String,ConfusionProbabilityRule.ConfusionSet> confusionSet;
   
   private int globalSentenceCount;
   private int globalRuleMatches;
 
   RealWordFalseAlarmEvaluator() throws IOException {
+    ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
+    confusionSet = confusionSetLoader.loadConfusionSet("/data/corpus/after_the_deadline/homophonedb.txt");//TODO
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
     List<Rule> rules = langTool.getAllActiveRules();
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
     }
-    langTool.enableRule("CONFUSION_RULE");
+    confusionRule = new ConfusionProbabilityRule(JLanguageTool.getMessageBundle());
+    langTool.addRule(confusionRule);
   }
 
   void run(File dir) throws IOException {
@@ -70,6 +78,7 @@ class RealWordFalseAlarmEvaluator {
   }
 
   private void checkLines(List<String> lines, String name) throws IOException {
+    confusionRule.setConfusionSet(confusionSet.get(name));
     int sentenceCount = 0;
     int ruleMatches = 0;
     for (String line : lines) {
