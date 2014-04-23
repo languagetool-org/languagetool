@@ -305,7 +305,9 @@ public class Unifier {
     if (tokSequence.isEmpty()) {
       return null;
     }
-    if (!firstUnified) {
+
+    if (!firstUnified) {  //FIXME: this is wrong, we should remove features after every token, not just once
+                          // the test case for Polish is "dawnym kurowskim obyczajem", which should get one reading per token after unify_adj_subst
       final AnalyzedTokenReadings tmpATR;
       int first = 0;
       tmpFeaturesFound.add(true); // Bentley's search idea
@@ -327,7 +329,7 @@ public class Unifier {
         }
         tokSequence.set(0, tmpATR);
       }
-      firstUnified = true;
+     firstUnified = true;
     }
     return tokSequence.toArray(new AnalyzedTokenReadings[tokSequence.size()]);
   }
@@ -361,6 +363,7 @@ public class Unifier {
         uniMatched |= isSatisfied(matchToken, uFeatures);
       }
       uniAllMatched = uniMatched;
+
       if (lastReading) {
         startNextToken();
         unifiedTokens = getUnifiedTokens();

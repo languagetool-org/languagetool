@@ -4,11 +4,12 @@
 $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     -->
 
+        <!-- TODO: zastąpić verb_.* słownikiem walencyjnym -->
 <!DOCTYPE rules [
         <!ENTITY interp "[\p{Punct}\-−–—―„«»…’]+">
         <!ENTITY apost "['`’]">
         <!ENTITY verb_obj_gen "doglądać|dokonać|dokonywać|dopełnia?ć|dopilnować|dosiadać|dosięgnąć|dosłuchiwać|dotrzymać|dotrzymywać|dotykać|dotknąć|nienawidzić|pilnować|poszukiwać|pożądać|przestrzegać|przydać|przydawać|s?pytać|strzec|szukać|tknąć|udziel[ia]ć|użyć|używać|wypatrywać|zaniechać|zaniedbać|zaniedbywać|zażyć">
-        <!ENTITY verb_no_obj "stać|stawać">
+        <!ENTITY verb_no_obj "stać|stawać|być">
         ]>
 
 <rules lang="pl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -1221,6 +1222,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="qub"/>
         <example type="ambiguous" inputform="gruba[gruba/subst:sg:nom:f,gruba/subst:sg:voc:f,gruby/adj:sg:nom.voc:f:pos]" outputform="gruba[gruba/qub]">Zdaje się z <marker>gruba</marker> ciosany.</example>
         <example type="untouched">Ona jest gruba.</example>
+    </rule>
+
+    <rule id="ZA_OKOLO" name="za około - z biernikiem">
+        <pattern>
+            <marker><token>za</token></marker>
+            <token>około</token>
+        </pattern>
+        <disambig postag="prep:acc"/>
     </rule>
 
     <rulegroup id="nowa_adj" name="nowy/a/e jako przymiotnik">
@@ -4548,7 +4557,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <rule> <!-- verb:praet:sg + subst:sg, lecz inny rodzaj-->
             <pattern>
                 <unify negate="yes"><feature id="gender"/>
-                    <token postag="verb:praet:sg.*:ter.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_no_obj;</exception></token>
+                    <token postag="verb:(praet|pot):sg.*:ter.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_no_obj;</exception></token>
                     <marker>
                         <and>
                             <token postag="(:?ppron[1-3]|subst|adj):sg:acc.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|ppron|adj).*|SENT_END"/></token>
@@ -4557,17 +4566,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     </marker>
                 </unify>
             </pattern>
-            <disambig action="filter" postag="(:?ppron[1-3]|subst|adj):sg:acc.*"></disambig>
+            <disambig action="filter" postag="(:?ppron[1-3]|subst|adj):.*:acc.*"></disambig>
             <example type="ambiguous" inputform="ślub[ślub/subst:sg:acc:m3,ślub/subst:sg:nom:m3]"
                      outputform="ślub[ślub/subst:sg:acc:m3]">Anna składała <marker>ślub</marker>.</example>
             <example type="ambiguous" inputform="swe[swój/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,swój/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,swój/adj:sg:acc:n1.n2:pos,swój/adj:sg:nom.voc:n1.n2:pos]"
-                     outputform="swe[swój/adj:sg:acc:n1.n2:pos]">Wiatr łamał <marker>swe</marker> zwierciadło.</example>
+                     outputform="swe[swój/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,swój/adj:sg:acc:n1.n2:pos]">Wiatr łamał <marker>swe</marker> zwierciadło.</example>
             <example type="untouched">Byt określa świadomość.</example>
+            <example type="ambiguous" inputform="świadomość[świadomość/subst:sg:acc:f,świadomość/subst:sg:nom:f]"
+                     outputform="świadomość[świadomość/subst:sg:acc:f]">Byt określałby <marker>świadomość</marker>.</example>
         </rule>
         <rule> <!-- verb:praet:pl + subst:pl, lecz inny rodzaj -->
             <pattern>
                 <unify negate="yes"><feature id="gender"/>
-                    <token postag="verb:praet:pl.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_no_obj;</exception></token>
+                    <token postag="verb:(praet|pot):pl.*:ter.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_no_obj;</exception></token>
                     <marker>
                         <and>
                             <token postag="(:?ppron[1-3]|subst|adj):pl:acc.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|ppron|adj).*|SENT_END"/></token>
@@ -4576,7 +4587,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                     </marker>
                 </unify>
             </pattern>
-            <disambig action="filter" postag="(:?ppron[1-3]|subst|adj):pl:acc.*"></disambig>
+            <disambig action="filter" postag="(:?ppron[1-3]|subst|adj):.*:acc.*"></disambig>
             <example type="ambiguous" inputform="śluby[ślub/subst:pl:acc:m3,ślub/subst:pl:nom:m3,ślub/subst:pl:voc:m3]"
                      outputform="śluby[ślub/subst:pl:acc:m3]">Anna z Janem składali <marker>śluby</marker>.</example>
             <example type="untouched">Byt określa świadomość.</example>
@@ -4602,7 +4613,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:m1.m2.m3:ter:nakc:npraep,on/ppron3:sg:gen:n1.n2:ter:nakc:npraep]"
                      outputform="go[on/ppron3:sg:acc:m1.m2.m3:ter:nakc:npraep]">Brano <marker>go</marker> na spytki.</example>
         </rule>
-        <rule> <!-- verb:imps + subst/nom|gen -->
+        <rule> <!-- verb pri/sec + subst/nom|gen -->
             <pattern>
                 <token postag="verb:.*(pri|sec).*" postag_regexp="yes"><exception>jednaj</exception><exception inflected="yes" regexp="yes">&verb_obj_gen;|&verb_no_obj;</exception></token>
                 <marker>
@@ -5385,10 +5396,10 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="mam[mieć/verb:fin:sg:pri:imperf:refl.nonrefl]">Tu <marker>mam</marker> na myśli dzialałność usługową.</example>
     </rule>
 
-    <rule name="miał + inf -> verb" id="mial">
+    <rule name="miał(y) + inf -> verb" id="mial">
         <pattern>
             <marker>
-                <token>miał</token>
+                <token regexp="yes">miały?</token>
             </marker>
             <token postag_regexp="yes" postag="verb:inf.*"/>
         </pattern>

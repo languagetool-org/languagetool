@@ -3824,6 +3824,7 @@ $Id$
 						<example correction="To" type="incorrect"><marker>Te</marker> milczenie jest męczące.</example>
 						<example correction="To" type="incorrect"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
                         <example type="correct">Mają one coś wspólnego z jego przyjacielem Hathim.</example>
+                        <example type="correct">Wydaliśmy huczne przyjęcie.</example>
 				</rule>
 				<rulegroup id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
 						<rule>
@@ -5015,13 +5016,14 @@ $Id$
 						</rule>
                         <rule>
                             <antipattern>
-                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <token postag="prep.*" postag_regexp="yes"/>
                                 <marker><token>około</token></marker>
+                                <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'/>
                             </antipattern>
                             <pattern>
                                     <token>około</token>
                                     <marker>
-                                        <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'></token>
+                                        <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'/>
                                     </marker>
                             </pattern>
                             <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="2" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
@@ -5031,6 +5033,7 @@ $Id$
                             <example type='correct'>To było około dwustu psów.</example>
                             <!-- to zbieg przyimków, więc „około” jest partykułą -->
                             <example type="correct">Pociąg spóźnił się o około dwie godziny.</example>
+                            <example type="correct">Za około dwa tygodnie.</example>
                         </rule>
                         <rule>
                             <antipattern>
