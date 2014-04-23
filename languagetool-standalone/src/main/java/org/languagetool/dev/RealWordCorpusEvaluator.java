@@ -123,8 +123,8 @@ class RealWordCorpusEvaluator {
     int startPos = 0;
     while (normalized.indexOf("<ERR targ=", startPos) != -1) {
       int startTagStart = normalized.indexOf("<ERR targ=", startPos);
-      int startTagEnd = normalized.indexOf(">", startPos + startTagStart);
-      int endTagStart = normalized.indexOf("</ERR>", startPos + startTagStart);
+      int startTagEnd = normalized.indexOf(">", startTagStart);
+      int endTagStart = normalized.indexOf("</ERR>", startTagStart);
       errors.add(new Error(startTagEnd + 1, endTagStart));
       startPos = startTagStart + 1;
     }
