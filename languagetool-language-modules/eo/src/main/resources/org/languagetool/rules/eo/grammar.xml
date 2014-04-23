@@ -109,12 +109,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rule id="REBELO" name="Rebelo (Ribelo)">
+      <antipattern>
+        <token>Flavio</token>
+        <marker><token>Rebelo</token></marker>
+      </antipattern>
       <pattern>
         <token inflected="yes" regexp="yes">rebel[oi]</token>
       </pattern>
       <message>La vorto «\1» estas neverŝajna. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="^(.)." regexp_replace="$1i"/></suggestion>?</message>
       <example type="incorrect" correction="ribeloj">La <marker>rebeloj</marker> venkis.</example>
       <example type="correct">La ribeloj venkis.</example>
+      <example type="correct">Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
     </rule>
     <rulegroup id="DANKEMA" name="Dankema (Danka)">
       <rule>
@@ -392,6 +397,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1n"/></suggestion>?</message>
       <example type="incorrect">Post la rusia revolucio de 1905 la <marker>finlandanoj</marker> sukcesis havigi al si pliajn rajtojn.</example>
       <example type="correct">Post la rusia revolucio de 1905 la finnlandanoj sukcesis havigi al si pliajn rajtojn.</example>
+    </rule>
+  </category>
+  <category name="Misliterumaj propraj nomoj">
+    <rule id="FLAVIO_REBELO" name="Flavio Ribelo → Flavio Rebelo">
+      <pattern>
+        <token>Flavio</token>
+        <token>Ribelo</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\1 Rebelo</suggestion>, se temas pri la Esperantisto, kiu kreis Ĝangalon?</message>
+      <url>http://eo.wikipedia.org/wiki/Flavio_Rebelo</url>
+      <example type="incorrect" correction="Flavio Rebelo"><marker>Flavio Ribelo</marker> funkciigis la retpaĝaron Ĝangalo.</example>
+      <example type="correct">Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
+    </rule>
+    <rule id="BERTILO_WENNERGREN" name="Bertilow Wennergren → Bertilo Wennergren">
+      <antipattern>
+        <token>Bertilo</token>
+        <token>Wennergren</token>
+      </antipattern>
+      <pattern>
+        <token regexp="yes">Bertilow?</token>
+        <token regexp="yes">Wenn?er?grenn?</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>Bertilo Wennergren</suggestion>, se temas pri la verkisto de PMEG?</message>
+      <url>http://eo.wikipedia.org/wiki/Bertilo_Wennergren</url>
+      <example type="incorrect"><marker>Bertilow Wennergren</marker> estas sveda esperantisto.</example>
+      <example type="incorrect"><marker>Bertilo Wenergren</marker> estas sveda esperantisto.</example>
+      <example type="correct">Bertilo Wennergren estas sveda esperantisto.</example>
     </rule>
   </category>
   <category name="Evitindaĵoj">
