@@ -8033,19 +8033,21 @@ though, and has since been slightly modified)-->
           <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
           <token postag="N . p" postag_regexp="yes"><exception>fois</exception></token>
           <token regexp="yes" skip="2">que?</token>
+          <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
           <marker>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir.*" postag_regexp="yes"/></token>
-            <token postag="V ppa.* s" postag_regexp="yes"/>
+            <token postag="V.* ppa.* s" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
-        <example type="correct">Les documents qu’ils <marker>ont achetés</marker>.</example>
-        <example type="incorrect">Les documents qu’ils <marker>ont acheté</marker>.</example>
-        <example type="correct">Les parties de poker qu’il <marker>a jouées</marker>.</example>
+        <example type="correct">Les documents qu’ils ont <marker>achetés</marker>.</example>
+        <example type="incorrect">Les documents qu’ils ont <marker>acheté</marker>.</example>
+        <example type="correct">Les parties de poker qu’il a <marker>jouées</marker>.</example>
         <example type="correct">Le sac à main que j’ai acheté.</example>
         <example type="correct">Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
         <example type="correct">Les lettres que j’ai voulu envoyer.</example>
         <example type="correct">Les images qu’elle a envoyées ont montré une structure inattendue.</example>
+        <example type="incorrect">Les récompenses qu’elle a <marker>eue</marker>.</example>
+        <example type="correct">Les récompenses qu’elle a eues.</example>
       </rule>
       <rule>
         <pattern>
@@ -8056,7 +8058,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="2">que?</token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa.* p" postag_regexp="yes"/>
+            <token postag="V.* ppa.* p" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
@@ -8078,7 +8080,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="2">que?<exception scope="next" regexp="yes">quand|celles?</exception></token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa m .*" postag_regexp="yes"/>
+            <token postag="V.* ppa m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
@@ -8102,7 +8104,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="2">que?</token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa f .*" postag_regexp="yes"/>
+            <token postag="V.* ppa f .*" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
