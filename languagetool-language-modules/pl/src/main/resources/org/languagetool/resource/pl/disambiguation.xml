@@ -829,6 +829,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="remove"><wd lemma="juszyć"/></disambig>
     </rule>
 
+    <rule name="łuno" id="luno">
+        <pattern>
+            <marker><token inflected="yes">łuno</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="łuno"/></disambig>
+    </rule>
+
+    <rule name="możliwe" id="mozliwe"> <!-- niepotrzebny wpis z sjp -->
+        <pattern>
+            <marker><token inflected="yes">możliwe</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="możliwe"/></disambig>
+    </rule>
+
     <rule name="motylić" id="motylic">
         <pattern><token inflected="yes">motylić</token></pattern>
         <disambig action="remove"><wd lemma="motylić"/></disambig>
@@ -2508,7 +2522,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:dat:f,stymulacja/subst:sg:gen:f,stymulacja/subst:sg:loc:f]"
                      outputform="stymulacji[stymulacja/subst:pl:gen:f,stymulacja/subst:sg:gen:f]">Mówisz to a propos <marker>stymulacji</marker> cytokinowej?</example>
         </rule>
-
+        <rule>
+            <pattern>
+                <token skip="-1" regexp="yes">(?:po)?między</token>
+                <token>a</token>
+                <marker><token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag=".*inst.*"/>
+            <example type="ambiguous" inputform="tym[ten/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,ten/adj:sg:inst:m1.m2.m3.n1.n2:pos,ten/adj:sg:loc:m1.m2.m3.n1.n2:pos,to/subst:sg:inst:n2,to/subst:sg:loc:n2,tym/adv,tym/conj]"
+                     outputform="tym[ten/adj:sg:inst:m1.m2.m3.n1.n2:pos,to/subst:sg:inst:n2]">Jest to jeszcze gra pomiędzy nią a <marker>tym</marker> młodym i pięknym jak dziewczyna mędrcem.</example>
+        </rule>
     </rulegroup>
 
     <rule id="PREP_CD_ROKU_GEN" name="W xxx + 'roku' -> unify">
@@ -5094,16 +5118,43 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Pokazały się owoce nauki i wyniki poszybowały w górę.</example>
     </rule>
 
-    <rule name="Bądź i lub jako spójnik" id="badz_koordynacja_adj">
+    <rule name="Bądź i lub jako spójnik" id="badz_koordynacja_adj_subst">
         <pattern>
             <unify>
                 <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
+                <feature id="gender"/>
+                <feature id="number"/>
                 <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
                 <unify-ignore>
                     <token min="0" max="1">,</token>
                     <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
                 </unify-ignore>
-                <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*|SENT_END"/></token>
+                <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
+                <token postag="(?:subst|ger|depr).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|subst|depr|ger).*|SENT_END"/></token>
+            </unify>
+        </pattern>
+        <disambig action="filter" postag="conj"/>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre autonomiczne <marker>bądź</marker> zależne terytoria.</example>
+        <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
+                 outputform="bądź[bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre autonomiczne, <marker>bądź</marker> zależne terytoria.</example>
+
+    </rule>
+
+    <rule name="Bądź i lub jako spójnik" id="badz_koordynacja_subst_adj">
+        <pattern>
+            <unify>
+                <feature id="case"><type id="acc"/><type id="inst"/><type id="gen"/><type id="dat"/><type id="loc"/><type id="nom"/></feature>
+                <feature id="gender"/>
+                <feature id="number"/>
+                <token postag="(?:subst|ger|depr).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|subst|depr|ger).*|SENT_END"/></token>
+                <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
+                <unify-ignore>
+                    <token min="0" max="1">,</token>
+                    <marker><token regexp="yes">bądź|lub|i|czy</token></marker>
+                </unify-ignore>
+                <token postag="(?:adj|pact).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:adj|pact|subst).*"/></token>
+
             </unify>
         </pattern>
         <disambig action="filter" postag="conj"/>
@@ -5112,7 +5163,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/conj]">Restrykcyjne przepisy aborcyjne mają też niektóre terytoria autonomiczne, <marker>bądź</marker> zależne.</example>
     </rule>
-
 
     <rule name="Bądź i lub jako spójnik" id="badz_koordynacja_ppas">
         <pattern>
@@ -5190,7 +5240,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                         </and>
                     </marker>
                 </unify>
-                <token postag="SENT_END|interp:comma" postag_regexp="yes"/>
+                <token postag="SENT_END|(?:interp|comp):comma" postag_regexp="yes"/>
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="winny[winny/adj:sg:acc:m3:pos,winny/adj:sg:nom.voc:m1.m2.m3:pos]"
