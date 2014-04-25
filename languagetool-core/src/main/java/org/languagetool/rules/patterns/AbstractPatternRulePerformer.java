@@ -147,14 +147,14 @@ public abstract class AbstractPatternRulePerformer {
             thisMatched = unifier.isUnified(matchToken,
                 elem.getUniFeatures(), lastReading,
                 elemIsMatched);
+            if (thisMatched && rule.isGetUnified()) {
+              unifiedTokens = unifier.getFinalUnified();
+            }
           } else { // we don't care about the truth value, let it run
             unifier.isUnified(matchToken,
                 elem.getUniFeatures(), lastReading,
                 elemIsMatched);
           }
-        }
-        if (thisMatched && rule.isGetUnified()) {
-          unifiedTokens = unifier.getFinalUnified();
         }
       }
       if (!elem.isUnified()) {
