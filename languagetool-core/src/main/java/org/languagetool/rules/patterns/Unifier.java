@@ -36,7 +36,8 @@ import org.languagetool.AnalyzedTokenReadings;
  */
 public class Unifier {
 
-  public static final String UNIFY_IGNORE = "unify-ignore";
+  private static final String UNIFY_IGNORE = "unify-ignore";
+    
   private final List<AnalyzedTokenReadings> tokSequence;
 
   /**
