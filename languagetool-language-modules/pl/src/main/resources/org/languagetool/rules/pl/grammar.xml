@@ -253,6 +253,7 @@ $Id$
                                         <token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
+                                <url>http://www.rjp.pan.pl/index.php?option=com_content&amp;view=article&amp;id=1041:przecinek-przy-imiesowach-przysowkowych-&amp;catid=44:porady-jzykowe&amp;Itemid=58</url>
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
 								<example type="incorrect"><marker>Kupiłem wino chciałem też pić wodę.</marker></example>
@@ -289,6 +290,23 @@ $Id$
                                 <example type="correct">Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
                                 <example type="correct">Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
                                 <example type="correct">Egzystują w nim różne grupy interesów — od klasowych począwszy, na klikowych skończywszy — to zaś stwarza kłopoty.</example>
+                                <example type="incorrect">Sam jej właściciel, jak odniosłem wrażenie, <marker>wydawał się nieco bledszy i poważniejszy niż zazwyczaj go widywałem.</marker></example>
+                                <example type="incorrect">Romuald <marker>odpowiedział z ważną i tajemniczą miną zwielokrotniając głoskę.</marker></example>
+                                <example type="incorrect">Kali przypomniał sobie poniewczasie, że <marker>mając myśl zatroskaną i zajętą czym innym zapomniał kazać związać czarowników.</marker></example>
+                                <example type="incorrect">Fatma <marker>ucałowawszy ręce obu inżynierów i dzieci wyszła,</marker> błogosławiąc szczególniej Nel.</example>
+                                <example type="incorrect">Potężny zwierz <marker>ujrzawszy jeźdźców i konie podniósł się na przednie łapy i</marker> począł na nich patrzeć.</example>
+                                <example type="correct">Nastąpiło głosowanie i Wilczur został wybrany.</example>
+                                <example type="correct">Przyrzekł mi sekret i rzecz była ukryta, aż póki się moje suknie nie rozpadły.</example>
+                                <example type="incorrect">Tymczasem Szmul przestał się modlić i <marker>zdjąwszy śmiertelną koszulę i cycełe poszedł je schować do alkierza.</marker></example>
+                                <example type="incorrect">Nie należy do tych, co <marker>obnażając nasze błędy i wady sądzą,</marker> że już wszystko zdziałali.</example>
+                                <example type="incorrect">Apostoł zaś <marker>broniąc się od podzięki i czci rzekł:</marker></example>
+                                <example type="incorrect">Kazał mu jechać za sobą, ten zaś <marker>poznawszy trybuna i augustianina nie śmiał się rozkazowi sprzeciwić.</marker></example>
+                                <example type="incorrect">Wydało mu się, że <marker>zalecając czystość i walkę z żądzami starzec śmie tym samym nie tylko potępiać jego miłość,</marker> ale zraża Ligię do niego.</example>
+                                <example type="incorrect">Na trzeci dzień Fabrycy był w Parmie, gdzie <marker>ubawił hrabiego i księżnę opowiadając im z najdrobniejszymi szczegółami,</marker> jak czynił zawsze, historię swej podróży.</example>
+                                <example type="correct">Stanisław podsunął mu cygaro i sam podawał ogień.</example>
+                                <example type="correct">Trupia bladość pokryła mu twarz i ciało poczęło tężeć.</example>
+                                <example type="correct">Muszę tam czekać śmierci, gdyż jestem stary i nerwy moje są chore.</example>
+                                <example type="correct">— Dobrześ ułożyła dziś fałdy i rad jestem z ciebie, Eunice.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -8382,7 +8400,7 @@ $Id$
 								<pattern>
 										<token>w</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8394,7 +8412,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>we</token>
-										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach|ły)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8407,7 +8425,7 @@ $Id$
 								<pattern>
 										<token>we</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(?:le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(?:le|łach|ły)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -10195,12 +10213,13 @@ $Id$
 										<token>od</token>
 										<token>tak</token>
 								</marker>
-								<token><exception postag=".*[:\.]gen[:\.].*" postag_regexp="yes"></exception></token>
+								<token><exception postag=".*[:\.]gen[:\.].*" postag_regexp="yes"></exception><exception>dawna</exception></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>ot, tak</suggestion> (=od niechcenia)?</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="ot, tak" type="incorrect">Zrobiłem to <marker>od tak</marker>.</example>
 						<example type="correct">Od tak zwanych mikrobów chroni nas produkt firmy chińskiej.</example>
+                        <example type="correct">Przebywają przecież z sobą od tak dawna i każda z nim rozmowa nie przestaje być największą przyjemnością.</example>
 				</rule>
 				<rulegroup id="POKARZ" name="„pokarz” (pokaż)">
 				<rule>
