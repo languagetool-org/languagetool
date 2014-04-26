@@ -96,20 +96,7 @@ public class Configuration {
    */
   Configuration copy(Configuration configuration) {
     Configuration copy = new Configuration();
-    copy.configFile = configuration.configFile;
-    copy.language = configuration.language;
-    copy.motherTongue = configuration.motherTongue;
-    copy.runServer = configuration.runServer;
-    copy.autoDetect = configuration.autoDetect;
-    copy.guiConfig = configuration.guiConfig;
-    copy.serverPort = configuration.serverPort;
-    copy.externalRuleDirectory = configuration.externalRuleDirectory;
-    copy.disabledRuleIds.addAll(configuration.disabledRuleIds);
-    copy.enabledRuleIds.addAll(configuration.enabledRuleIds);
-    copy.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
-    for (String key : configuration.configForOtherLangs.keySet()) {
-      copy.configForOtherLangs.put(key, configuration.configForOtherLangs.get(key));
-    }
+    copy.restoreState(configuration);
     return copy;
   }
 
