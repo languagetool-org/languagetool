@@ -946,6 +946,76 @@ $Id$
          <example type="incorrect">Збори скликаються <marker>в міру необхідності</marker></example>
          <example type="correct">збори скликаються за потреби</example>
        </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes">носити</token>
+            <token>назву</token>
+         </pattern>
+         <message>Правильно: <suggestion>мати назву</suggestion>, <suggestion>називатися</suggestion>, <suggestion>зватися</suggestion>, <suggestion>іменуватися</suggestion></message>
+         <url>http://slovopedia.org.ua/34/53405/33275.html</url>
+         <example type="incorrect">Вулиця <marker>носить назву</marker> Героїв Небесної Сотні</example>
+         <example type="correct">Вулиця має назву Героїв Небесної Сотні</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">носити</token>
+           </marker>
+            <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+            <token>характер</token>
+         </pattern>
+         <message>Правильно: <suggestion>мати</suggestion></message>
+         <url>http://slovopedia.org.ua/34/53405/33275.html</url>
+         <example type="incorrect">Розмова <marker>носить</marker> односторонній характер</example>
+         <example type="incorrect">Розмова <marker>носитиме</marker> характер піар-заходу</example>
+         <example type="correct">Розмова має односторонній характер</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes" skip="2">присвоїти</token>
+           </marker>
+<!--
+            <token postag_regexp="yes" postag="pron.*" min="0" max="2"/>
+            <token min="0" max="2"/>
+-->
+            <token>звання</token>
+         </pattern>
+         <message>Правильно: <suggestion>надати</suggestion>, <suggestion>надавати</suggestion></message>
+         <url>http://yak-my-hovorymo.wikidot.com/prysvoyity-nadaty</url>
+         <example type="incorrect"><marker>Присвоїли</marker> звання доцента</example>
+         <example type="incorrect"><marker>Присвоїли</marker> почесне звання народного артиста</example>
+         <example type="incorrect"><marker>Присвоїли</marker> йому звання народного артиста</example>
+         <example type="incorrect"><marker>Присвоїли</marker> йому почесне звання народного артиста</example>
+         <example type="correct">Присвоїли собі чуже добро</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes" regexp="yes">знімати|зняти</token>
+           </marker>
+            <token regexp="yes">житло|квартиру|помешкання|офіс</token>
+         </pattern>
+         <message>Правильно: <suggestion>наймати</suggestion>, <suggestion>винаймати</suggestion>, <suggestion>найняти</suggestion></message>
+         <example type="incorrect"><marker>Знімати</marker> житло у Києві стало значно дорожче</example>
+<!-- TODO:         <example type="correct">Знімати житло на відео</example> -->
+         <example type="correct">Знімати на відео</example>
+       </rule>
+       <!-- 
+       <rule>
+         <pattern>
+           <marker>
+            <token>виходячи</token>
+            <token postag_regexp="yes">з|із|зі</token>
+           </marker>
+            <token postag_regexp="yes">цього|того|змісту|статті|логіки|аналогі[їй]|принципу|даних|знань|досвіду|повноважень|інтересів|попиту|законодавства</token>
+         </pattern>
+         <message>Правильно: <suggestion>зважаючи на</suggestion>, <suggestion>на підстваі</suggestion>, <suggestion>припускаючи</suggestion></message>
+         <example type="incorrect">Розмова <marker>носить</marker> односторонній характер</example>
+         <example type="incorrect">Розмова <marker>носитиме</marker> характер піар-заходу</example>
+         <example type="correct">Розмова має односторонній характер</example>
+       </rule>
+       -->
      </rulegroup>
 
      <rulegroup id="PREPOSITION_PO" name="помилкове вживання прийменника «по»">
