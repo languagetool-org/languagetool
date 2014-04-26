@@ -27,6 +27,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -38,6 +39,8 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -221,6 +224,44 @@ public class ConfigurationDialog implements ActionListener {
     TreeListener.install(configTree);
     checkBoxPanel.add(configTree, cons);
 
+    final JPanel treeButtonPanel = new JPanel();
+    cons = new GridBagConstraints();
+    cons.gridx = 0;
+    cons.gridy = 0;
+    final JButton expandAllButton = new JButton(messages.getString("guiExpandAll"));
+    treeButtonPanel.add(expandAllButton, cons);
+    expandAllButton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        TreeNode root = (TreeNode) configTree.getModel().getRoot();
+        TreePath parent = new TreePath(root);
+        for (Enumeration categ = root.children(); categ.hasMoreElements();) {
+          TreeNode n = (TreeNode) categ.nextElement();
+          TreePath child = parent.pathByAddingChild(n);
+          configTree.expandPath(child);
+        }
+      }
+    });
+
+    cons.gridx = 1;
+    cons.gridy = 0;
+    final JButton collapseAllbutton = new JButton(messages.getString("guiCollapseAll"));
+    treeButtonPanel.add(collapseAllbutton, cons);
+    collapseAllbutton.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        TreeNode root = (TreeNode) configTree.getModel().getRoot();
+        TreePath parent = new TreePath(root);
+        for (Enumeration categ = root.children(); categ.hasMoreElements();) {
+          TreeNode n = (TreeNode) categ.nextElement();
+          TreePath child = parent.pathByAddingChild(n);
+          configTree.collapsePath(child);
+        }
+      }
+    });
+
     final JPanel motherTonguePanel = new JPanel();
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
     motherTongueBox = new JComboBox(getPossibleMotherTongues());
@@ -354,11 +395,19 @@ public class ConfigurationDialog implements ActionListener {
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
+    cons.anchor = GridBagConstraints.LINE_END;
+    contentPane.add(treeButtonPanel, cons);
+    
+    cons.gridx = 0;
+    cons.gridy = 2;
+    cons.weightx = 0.0f;
+    cons.weighty = 0.0f;
+    cons.fill = GridBagConstraints.NONE;
     cons.anchor = GridBagConstraints.WEST;
     contentPane.add(motherTonguePanel, cons);
 
     cons.gridx = 0;
-    cons.gridy = 2;
+    cons.gridy = 3;
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
@@ -366,7 +415,7 @@ public class ConfigurationDialog implements ActionListener {
     contentPane.add(portPanel, cons);
 
     cons.gridx = 0;
-    cons.gridy = 3;
+    cons.gridy = 4;
     cons.weightx = 0.0f;
     cons.weighty = 0.0f;
     cons.fill = GridBagConstraints.NONE;
