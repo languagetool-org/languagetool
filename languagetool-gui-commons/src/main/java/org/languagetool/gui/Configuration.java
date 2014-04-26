@@ -354,10 +354,10 @@ public class Configuration {
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
-    props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.valueOf(autoDetect).toString());
-    props.setProperty(USE_GUI_CONFIG_KEY, Boolean.valueOf(guiConfig).toString());
-    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
-    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
+    props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.toString(autoDetect));
+    props.setProperty(USE_GUI_CONFIG_KEY, Boolean.toString(guiConfig));
+    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.toString(runServer));
+    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.toString(serverPort));
     if(null != fontName) {
       props.setProperty(FONT_NAME_CONFIG_KEY, fontName);
     }
