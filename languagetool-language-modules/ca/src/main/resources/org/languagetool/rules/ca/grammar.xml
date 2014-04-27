@@ -18002,6 +18002,13 @@ $Id$
             <example type="correct">el criminal està en <marker>crida i cerca</marker></example>
         </rule>
         <rule id="CAMI_DE" name="*camí de/cap a">
+            <antipattern>
+                <marker>
+                    <token>camí</token>
+                    <token skip="1" regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">cerca|directori|fitxer|arxiu|recerca</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">en|a|lo|de</exception><exception inflected="yes" regexp="yes">tenir|fer|dir|anomenar|denominar</exception></token>
                 <marker>
@@ -21241,11 +21248,12 @@ $Id$
                         <token regexp="yes">full(a|es)</token>
                     </marker>
                     <token>de</token>
-                    <token regexp="yes">serveis|càlculs?|programació</token>
+                    <token regexp="yes" inflected="yes">servei|càlcul|programació|reclamació|denúncia</token>
                 </pattern>
                 <message>En aquest sentit, cal dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">full</match></suggestion> (nom masculí).</message>
                 <short>Gènere incorrecte</short>
                 <example type="incorrect" correction="full">Obre la <marker>fulla</marker> de càlcul</example>
+                <example type="incorrect" correction="fulls">Hi ha <marker>fulles</marker> de reclamació a disposició dels clients</example>
                 <example type="correct">jo tinc el full dominical</example>                
             </rule>
         </rulegroup>
@@ -27162,7 +27170,7 @@ $Id$
                         <token regexp="yes" skip="-1">(?-i);|I|O|Ni|Però<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
@@ -27690,6 +27698,7 @@ $Id$
                 <suggestion><match no="1" regexp_match="^(.+)é(s)?" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">El <marker>quaranta-quatré</marker>.</example>
                 <example type="correct">El <marker>quaranta-quatrè</marker>.</example>
+                <example type="correct">Refés l'acció.</example>
             </rule>
             <rule>
                 <pattern>
