@@ -1605,9 +1605,11 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule name="rad jestem" id="rad_jestem">
         <pattern>
             <marker><token>rad</token></marker>
-            <token regexp="yes">jestem|byłem|będę|byłbym</token>
+            <token regexp="yes">jest(?:e[mś])?|był(?:e[mś])?|będę|byłby[mś]?|będzie(?:sz)?</token>
         </pattern>
         <disambig postag="adj:sg:nom:m1:pos"/>
+        <example type="ambiguous" inputform="rad[rad/adj:sg:nom:m1.m2.m3:pos,rad/subst:sg:acc:m3,rad/subst:sg:nom:m3,rada/subst:pl:gen:f]" outputform="rad[rad/adj:sg:nom:m1:pos]">Leżał, patrząc na otaczające go spustoszenie i <marker>rad</marker> był, że nie potrzebuje iść na pokład.</example>
+        <example type="untouched">Nie potrzebuję twoich rad!</example>
     </rule>
 
     <rule name="być z narzędnikiem dla orzecznika" id="BYC_INST">
@@ -4911,6 +4913,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                         <token postag="(?:subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|depr|ger).*"/><exception>nic</exception></token>
                     </unify>
                 </marker>
+                    <token postag="interp:comma|SENT_END" postag_regexp="yes"/>
             </pattern>
             <disambig action="unify"/>
             <example type="ambiguous" inputform="konie[konie/subst:pl:acc:p3,konie/subst:pl:nom:p3,konie/subst:pl:voc:p3,koń/subst:pl:acc:m2,koń/subst:pl:nom:m2,koń/subst:pl:voc:m2]"
@@ -5091,6 +5094,40 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <unify>
                         <feature id="number"/><feature id="gender"/>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception regexp="yes">[tj]aki|rad</exception></token>
+                        <token postag="(?:adj|ppas|pact).*:nom.*" postag_regexp="yes"/>
+                        <token postag="verb:(?:praet|pot):.*ter.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                    </unify>
+                </marker>
+                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="miały[miał/subst:pl:acc:m3,miał/subst:pl:nom:m3,miał/subst:pl:voc:m3,mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]"
+                     outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj kobiety nieczyste <marker>miały</marker> dużo pracy.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="gender"/>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception regexp="yes">[tj]aki|rad</exception></token>
+                        <unify-ignore>
+                            <token regexp="yes">jego|ich|jej</token>
+                        </unify-ignore>
+                        <token postag="verb:(?:praet|pot):.*ter.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                    </unify>
+                </marker>
+                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="miały[miał/subst:pl:acc:m3,miał/subst:pl:nom:m3,miał/subst:pl:voc:m3,mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]"
+                     outputform="miały[mieć/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl]">Wczoraj koty jego <marker>miały</marker> używanie.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="gender"/>
                         <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception regexp="yes">[tj]aki</exception></token>
                         <unify-ignore>
                             <token postag="adv(?::pos)?|qub" postag_regexp="yes"><exception postag="conj|comp.*" postag_regexp="yes"/><exception>jak</exception></token>
@@ -5164,6 +5201,28 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/>
+                        <token postag="subst.*nom.*|ppron.*:nom.*:ter.*" postag_regexp="yes"><exception postag="verb:winien:.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">był[ao]?|jest</exception><exception scope="previous">nie</exception><exception regexp="yes">[tj]ak[ia]</exception></token>
+                        <unify-ignore>
+                            <token regexp="yes">jego|jej|ich</token>
+                        </unify-ignore>
+                        <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                    </unify>
+                </marker>
+                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="kot[kot/subst:sg:nom:m1,kot/subst:sg:nom:m2,kota/subst:pl:gen:f]"
+                     outputform="kot[kot/subst:sg:nom:m1,kot/subst:sg:nom:m2]">Nie lubię sposobu, w jaki <marker>kot</marker> jego jada myszy.</example>
+            <example type="untouched">A to był kostur pastuszy.</example>
+            <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
+            <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
+        </rule>
+
         <rule>
             <pattern>
                 <marker>
