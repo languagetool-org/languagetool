@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -103,7 +104,7 @@ public class Unifier {
     equivalencesMatched = new ArrayList<>();
     this.equivalenceTypes = equivalenceTypes;
     this.equivalenceFeatures = equivalenceFeatures;
-    equivalencesToBeKept = new HashMap<>();
+    equivalencesToBeKept = new ConcurrentHashMap<>();
     featuresFound = new ArrayList<>();
     tmpFeaturesFound = new ArrayList<>();
     tokSequence = new ArrayList<>();
@@ -135,7 +136,7 @@ public class Unifier {
       unified = checkNext(aToken, uFeatures);
     } else {
       while (equivalencesMatched.size() <= tokCnt) {
-        equivalencesMatched.add(new HashMap<String, Set<String>>());
+        equivalencesMatched.add(new ConcurrentHashMap<String, Set<String>>());
       }
       for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
         types = feat.getValue();
@@ -184,7 +185,7 @@ public class Unifier {
     boolean anyFeatUnified = false;
     List<String> types;
     final List<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
-    final Map<String, Set<String>> equivalencesMatchedHere = new HashMap<>();
+    final Map<String, Set<String>> equivalencesMatchedHere = new ConcurrentHashMap<>();
     if (allFeatsIn) {
       for (int i = 0; i < tokCnt; i++) {
         boolean allFeatsUnified = true;
@@ -290,17 +291,30 @@ public class Unifier {
    * @since 2.5
    */
   public final boolean getFinalUnificationValue(final Map<String, List<String>> uFeatures) {
-    for (int i = 0; i < tokCnt; i++) {
-      int featUnified = 0;
-      for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-        if (equivalencesMatched.get(i).containsKey(feat.getKey()) &&
-            equivalencesMatched.get(i).get(feat.getKey()).isEmpty()) {
-          featUnified = 0;
-          tmpFeaturesFound.set(i, false);
+    int tokUnified = 0;
+    for (int j = 0; j < tokSequence.size(); j++) {
+      for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
+        int featUnified = 0;
+        if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
+          if (i == 0) {
+            tokUnified++;
+          }
+          continue;
         } else {
-          featUnified++;
+          for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
+            if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey()) &&
+                tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).isEmpty()) {
+              featUnified = 0;
+            } else {
+              featUnified++;
+            }
+            if (featUnified == unificationFeats.entrySet().size() && tokUnified <= j) {
+              tokUnified++;
+              break;
+            }
+          }
         }
-        if (featUnified == uFeatures.entrySet().size()) {
+        if (tokUnified == tokSequence.size()) {
           return true;
         }
       }
@@ -400,7 +414,6 @@ public class Unifier {
 
       if (lastReading) {
         startNextToken();
-        // unifiedTokens = getUnifiedTokens();
         uniMatched = false;
       }
       return uniAllMatched && getFinalUnificationValue(uFeatures);
@@ -432,8 +445,9 @@ public class Unifier {
   public final void addNeutralElement(final AnalyzedTokenReadings analyzedTokenReadings) {
     tokSequence.add(analyzedTokenReadings);
     List<Map<String, Set<String>>> tokEquivs = new ArrayList<>(analyzedTokenReadings.getReadingsLength());
-    Map<String, Set<String>> dummy = new HashMap<>();
-    dummy.put(UNIFY_IGNORE, null);
+    Map<String, Set<String>> dummy = new ConcurrentHashMap<>();
+    Set<String> dummySet = new HashSet<>();
+    dummy.put(UNIFY_IGNORE, dummySet);
     for (int i = 0; i < analyzedTokenReadings.getReadingsLength(); i++) {
       tokEquivs.add(dummy);
     }

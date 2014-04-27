@@ -2141,7 +2141,37 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
     </rule>
 
-    <rule id="NUM_CONGR" name="liczebnik ze związkiem zgody">
+    <rulegroup id="NUM_CONGR" name="liczebnik ze związkiem zgody">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="case"/><feature id="number"/><feature id="gender"/>
+                    <token postag="num.*:congr" postag_regexp="yes"/>
+                    <token postag="num.*:congr" postag_regexp="yes"/>
+                    <token postag="num.*:congr" postag_regexp="yes"/>
+                    <token postag="(subst|adj|pact|ppas).*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="untouched">Chyba nie chcesz, żebyśmy się rozdziały przy ludziach?</example>
+            <example type="ambiguous" inputform="mężczyzn[mężczyzna/subst:pl:acc:m1,mężczyzna/subst:pl:gen:m1]"
+                     outputform="mężczyzn[mężczyzna/subst:pl:gen:m1]">Stu czterdziestu ośmiu <marker>mężczyzn</marker> jadło lody.</example>
+        </rule>
+        <rule>
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="number"/><feature id="gender"/>
+                <token postag="num.*:congr" postag_regexp="yes"/>
+                <token postag="num.*:congr" postag_regexp="yes"/>
+                <token postag="(subst|adj|pact|ppas).*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="untouched">Chyba nie chcesz, żebyśmy się rozdziały przy ludziach?</example>
+        <example type="ambiguous" inputform="mężczyzn[mężczyzna/subst:pl:acc:m1,mężczyzna/subst:pl:gen:m1]"
+                 outputform="mężczyzn[mężczyzna/subst:pl:gen:m1]">Czterdziestu ośmiu <marker>mężczyzn</marker> jadło lody.</example>
+        </rule>
+        <rule>
         <pattern>
             <unify>
                 <feature id="case"/><feature id="number"/><feature id="gender"/>
@@ -2153,7 +2183,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Chyba nie chcesz, żebyśmy się rozdziały przy ludziach?</example>
         <example type="ambiguous" inputform="rozdziały[rozdziać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:refl.nonrefl,rozdział/subst:pl:acc:m3,rozdział/subst:pl:nom:m3,rozdział/subst:pl:voc:m3]"
                  outputform="rozdziały[rozdział/subst:pl:acc:m3,rozdział/subst:pl:nom:m3,rozdział/subst:pl:voc:m3]">Dwa <marker>rozdziały</marker> książki.</example>
-    </rule>
+        </rule>
+</rulegroup>
 
     <rule id="SPORO_NUM_GEN" name="gen po sporo/num">
         <pattern>
@@ -4899,7 +4930,24 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                 <marker>
                     <unify>
                         <feature id="number"/><feature id="gender"/> <feature id="case"/>
-                        <token max="2" postag="adj.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|subst|comp:comma).*"/></token>
+                        <token postag="(?:adj|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|ppas|depr|subst|comp:comma).*"/></token>
+                        <token postag="(?:adj|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|ppas|depr|subst|comp:comma).*"/></token>
+                        <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*|SENT_END"/></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="młoda[młoda/subst:sg:nom:f,młoda/subst:sg:voc:f,młody/adj:sg:nom.voc:f:pos]"
+                     outputform="młoda[młody/adj:sg:nom.voc:f:pos]">Piękna <marker>młoda</marker> kobieta</example>
+            <example type="ambiguous" inputform="dawnym[dawny/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,dawny/adj:sg:inst:m1.m2.m3.n1.n2:pos,dawny/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
+                     outputform="dawnym[dawny/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Uklękła przy starym i <marker>dawnym</marker> kurowskim obyczajem zaśpiewała stłumionym nieco głosem.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <unify>
+                        <feature id="number"/><feature id="gender"/> <feature id="case"/>
+                        <token postag="(?:adj|ppas).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(adj|ppas|depr|subst|comp:comma).*"/></token>
                         <token postag="(subst|depr|ger).*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr).*|SENT_END"/></token>
                     </unify>
                 </marker>
@@ -4907,8 +4955,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig action="unify"/>
             <example type="ambiguous" inputform="Młoda[młoda/subst:sg:nom:f,młoda/subst:sg:voc:f,młody/adj:sg:nom.voc:f:pos]"
                      outputform="Młoda[młody/adj:sg:nom.voc:f:pos]"><marker>Młoda</marker> kobieta</example>
-            <example type="ambiguous" inputform="dawnym[dawny/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,dawny/adj:sg:inst:m1.m2.m3.n1.n2:pos,dawny/adj:sg:loc:m1.m2.m3.n1.n2:pos]"
-                     outputform="dawnym[dawny/adj:sg:inst:m1.m2.m3.n1.n2:pos]">Uklękła przy starym i <marker>dawnym</marker> kurowskim obyczajem zaśpiewała stłumionym nieco głosem.</example>
         </rule>
         <rule>
             <pattern>
