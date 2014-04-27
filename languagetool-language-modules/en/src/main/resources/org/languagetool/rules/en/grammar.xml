@@ -11243,6 +11243,20 @@ USA
             <example type="correct">The store closed its doors for good in October 1958.</example>
             <example type="incorrect" correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example>
         </rule>
+        <rule id="BY_DEFAULT_COMMA" name="Comma after by default at the beginning of a sentence.">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token>By</token>
+                    <token>default</token>
+                </marker>
+                <token negate="yes">,</token>
+            </pattern>
+            <message>Did you mean: <suggestion>By default,</suggestion>?</message>
+            <short>Punctuation error</short>
+            <example type="incorrect"><marker>By default</marker> this setting is enabled.</example>
+            <example type="correct">By default, this setting is enabled.</example>
+        </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
         <rule id="WITCH_IS_WRONG" name="witch (which) is wrong">
