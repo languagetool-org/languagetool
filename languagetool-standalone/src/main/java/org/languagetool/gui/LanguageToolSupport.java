@@ -110,7 +110,7 @@ class LanguageToolSupport {
   private static final int MAX_RULES_PER_MENU = 12;
   //maximum category menu entries, if more create a More submenu
   private static final int MAX_CATEGORIES_PER_MENU = 12;
-  
+
   private final JFrame frame;
   private final JTextComponent textComponent;
   private final EventListenerList listenerList = new EventListenerList();
@@ -122,8 +122,8 @@ class LanguageToolSupport {
   private HighlightPainter redPainter;
   // a blue color highlight painter for marking grammar errors
   private HighlightPainter bluePainter;
-  private List<RuleMatch> ruleMatches;
-  private List<Span> documentSpans;
+  private final List<RuleMatch> ruleMatches;
+  private final List<Span> documentSpans;
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
@@ -142,6 +142,8 @@ class LanguageToolSupport {
     this.frame = frame;
     this.textComponent = textComponent;
     this.messages = JLanguageTool.getMessageBundle();
+    ruleMatches = new ArrayList<>();
+    documentSpans = new ArrayList<>();    
     init();
   }
 
@@ -247,8 +249,6 @@ class LanguageToolSupport {
     warmUpChecker();
     redPainter = new HighlightPainter(Color.red);
     bluePainter = new HighlightPainter(Color.blue);
-    ruleMatches = new ArrayList<>();
-    documentSpans = new ArrayList<>();
 
     checkExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
       @Override
@@ -426,10 +426,10 @@ class LanguageToolSupport {
     JPopupMenu popup = new JPopupMenu("Grammar Menu");
     if (span != null) {
       JLabel msgItem = new JLabel("<html>"
-          + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
-          + "</html>");
+              + span.msg.replace("<suggestion>", "<b>").replace("</suggestion>", "</b>")
+              + "</html>");
       msgItem.setToolTipText(
-          span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
+              span.desc.replace("<suggestion>", "").replace("</suggestion>", ""));
       msgItem.setBorder(new JMenuItem().getBorder());
       popup.add(msgItem);
 
@@ -758,7 +758,7 @@ class LanguageToolSupport {
         continue;
       }
       matches.add(match);
-      createSpan(spans, match);
+      spans.add(new Span(match));
     }
     prepareUpdateHighlights(matches, spans);
   }
@@ -766,7 +766,7 @@ class LanguageToolSupport {
   private void updateHighlights(List<RuleMatch> matches) {
     List<Span> spans = new ArrayList<>();
     for (RuleMatch match : matches) {
-      createSpan(spans, match);
+      spans.add(new Span(match));
     }
     prepareUpdateHighlights(matches, spans);
   }
@@ -817,19 +817,6 @@ class LanguageToolSupport {
     }
   }
 
-  private void createSpan(List<Span> spans, RuleMatch match) {
-    Span span = new Span();
-    span.start = match.getFromPos();
-    span.end = match.getToPos();
-    span.msg = StringUtils.isNotEmpty(match.getShortMessage()) ? match.getShortMessage() : match.getMessage();
-    span.msg = Tools.shortenComment(span.msg);
-    span.desc = match.getMessage();
-    span.replacement = new ArrayList<>();
-    span.replacement.addAll(match.getSuggestedReplacements());
-    span.rule = match.getRule();
-    spans.add(span);
-  }
-
   private void showDialog(Component parent, String title, String message, Rule rule) {
     int dialogWidth = 320;
     JTextPane textPane = new JTextPane();
@@ -858,19 +845,19 @@ class LanguageToolSupport {
     String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
             + "?lang=" + languageTool.getLanguage().getShortNameWithCountryAndVariant() + "&amp;ref=standalone-gui";
     String ruleDetailLink = rule instanceof FalseFriendPatternRule ? "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
-    textPane.setText("<html>" 
-            + messageWithBold + exampleSentences + formatURL(rule.getUrl()) 
-            + "<br><br>" 
-            + ruleDetailLink 
+    textPane.setText("<html>"
+            + messageWithBold + exampleSentences + formatURL(rule.getUrl())
+            + "<br><br>"
+            + ruleDetailLink
             + "</html>");
     JScrollPane scrollPane = new JScrollPane(textPane);
     scrollPane.setPreferredSize(
-        new Dimension(dialogWidth, textPane.getPreferredSize().height));
+            new Dimension(dialogWidth, textPane.getPreferredSize().height));
     scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
     String cleanTitle = title.replace("<suggestion>", "'").replace("</suggestion>", "'");
     JOptionPane.showMessageDialog(parent, scrollPane, cleanTitle,
-        JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.INFORMATION_MESSAGE);
   }
 
   private String encodeUrl(Rule rule) {
@@ -906,7 +893,7 @@ class LanguageToolSupport {
       return "";
     }
     return String.format("<br/><br/><a href=\"%s\">%s</a>",
-        url.toExternalForm(), StringUtils.abbreviate(url.toString(), 50));
+            url.toExternalForm(), StringUtils.abbreviate(url.toString(), 50));
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
@@ -999,12 +986,27 @@ class LanguageToolSupport {
   }
 
   private static class Span {
+
     private int start;
     private int end;
-    private String msg;
-    private String desc;
-    private List<String> replacement;
-    private Rule rule;
+    private final String msg;
+    private final String desc;
+    private final List<String> replacement;
+    private final Rule rule;
+
+    private Span(RuleMatch match) {
+      start = match.getFromPos();
+      end = match.getToPos();
+      String tmp = match.getShortMessage();
+      if (StringUtils.isEmpty(tmp)) {
+        tmp = match.getMessage();
+      }
+      msg = Tools.shortenComment(tmp);
+      desc = match.getMessage();
+      replacement = new ArrayList<>();
+      replacement.addAll(match.getSuggestedReplacements());
+      rule = match.getRule();
+    }
   }
 
   private class RunnableImpl implements Runnable {
