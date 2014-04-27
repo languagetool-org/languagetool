@@ -2677,7 +2677,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule id="NP_GEN_teren" name="obszar x-a">
         <pattern>
-            <token inflected="yes" regexp="yes">obszar|teren|region</token>
+            <token inflected="yes" regexp="yes">obszar|teren|region<exception scope="previous" inflected="yes">ten</exception></token>
             <marker><token postag="subst:sg.*gen.*" postag_regexp="yes"/></marker>
         </pattern>
         <disambig action="filter" postag="subst:sg.*gen.*"/>
@@ -4733,6 +4733,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:gen.*"></disambig>
             <example type="ambiguous" inputform="przekornego[przekorny/adj:sg:acc:m1.m2:pos,przekorny/adj:sg:gen:m1.m2.m3.n1.n2:pos]"
                      outputform="przekornego[przekorny/adj:sg:gen:m1.m2.m3.n1.n2:pos]">Tam nie było <marker>przekornego</marker> chłopaka.</example>
+        </rule>
+        <rule> <!-- SKŁADNIA NEGACJI: subst/nom|gen + nie + było/ma (szyk przestawny) -->
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="(:?ppron[1-3]|subst|adj):.*:(nom|gen).*" postag_regexp="yes"></token>
+                        <token postag="(:?ppron[1-3]|subst|adj):.*:acc.*" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="(?:subst|ger|depr|ppron|adj).*|SENT_END"/></token>
+                    </and>
+                </marker>
+                <token>nie</token>
+                <token regexp="yes">było|ma</token>
+            </pattern>
+            <disambig action="filter" postag="(subst|ppron[1-3]|adj):.*:gen.*"></disambig>
+            <example type="ambiguous" inputform="chłopaka[chłopak/subst:sg:acc:m1,chłopak/subst:sg:gen:m1]"
+                     outputform="chłopaka[chłopak/subst:sg:gen:m1]">A przekornego <marker>chłopaka</marker> nie było.</example>
         </rule>
         <rule> <!-- SKŁADNIA NEGACJI: nie + imps + subst acc|gen -->
             <pattern>
