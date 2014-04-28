@@ -22,16 +22,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * The unsorted values of a {@link TokenPoS}.
+ * 
  * @since 2.6
  */
-class ValueSet {
+public class ValueSet {
 
   private final Set<String> values = new HashSet<>();
 
   ValueSet() {
   }
 
-  Set<String> getValues() {
+  public Set<String> getValues() {
     return values;
   }
 

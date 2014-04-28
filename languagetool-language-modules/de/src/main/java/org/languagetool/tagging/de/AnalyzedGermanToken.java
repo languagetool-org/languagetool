@@ -19,6 +19,7 @@
 package org.languagetool.tagging.de;
 
 import org.languagetool.AnalyzedToken;
+import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tagging.de.GermanToken.Genus;
 import org.languagetool.tagging.de.GermanToken.Kasus;
 import org.languagetool.tagging.de.GermanToken.Numerus;
@@ -50,6 +51,11 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   public AnalyzedGermanToken(String token, String posTag, String lemma) {
     super(token, posTag, lemma);
+    init();
+  }
+  
+  public AnalyzedGermanToken(String token, TokenPoS tokenPoS, String posTag, String lemma) {
+    super(token, tokenPoS, posTag, lemma);
     init();
   }
   

@@ -21,7 +21,6 @@ package org.languagetool.tagging.de;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import morfologik.stemming.Dictionary;
@@ -50,6 +49,8 @@ public class GermanTagger implements Tagger {
   private static final String DICT_FILENAME = "/de/german.dict";
   private static final String USER_DICT_FILENAME = "/de/added.txt";
 
+  private final GermanPosTagResolver tagResolver = new GermanPosTagResolver();
+  
   private volatile Dictionary dictionary;
   private volatile ManualTagger manualTagger;
   private volatile GermanCompoundTokenizer compoundTokenizer;
@@ -140,10 +141,27 @@ public class GermanTagger implements Tagger {
         }
       }
 
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
+      List<AnalyzedToken> tokenPostList = addStructuredPoSData(l);
+      tokenReadings.add(new AnalyzedTokenReadings(tokenPostList, pos));
       pos += word.length();
     }
     return tokenReadings;
+  }
+
+  // TODO: avoid duplication with BaseTagger
+  private List<AnalyzedToken> addStructuredPoSData(List<AnalyzedGermanToken> analysis) {
+    List<AnalyzedToken> result = new ArrayList<>();
+    for (AnalyzedToken reading : analysis) {
+      List<TokenPoS> tokenPoSList = resolvePOSTag(reading.getPOSTag());
+      if (tokenPoSList.size() == 0) {
+        result.add(reading);
+      } else {
+        for (TokenPoS tokenPoS : tokenPoSList) {
+          result.add(new AnalyzedGermanToken(reading.getToken(), tokenPoS, reading.getPOSTag(), reading.getLemma()));
+        }
+      }
+    }
+    return result;
   }
 
   private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l) {
@@ -216,7 +234,7 @@ public class GermanTagger implements Tagger {
 
   @Override
   public List<TokenPoS> resolvePOSTag(String posTag) {
-    return Collections.emptyList();
+    return tagResolver.resolvePOSTag(posTag);
   }
 
   /**
