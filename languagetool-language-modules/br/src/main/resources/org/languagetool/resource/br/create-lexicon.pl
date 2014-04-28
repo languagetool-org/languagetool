@@ -2559,6 +2559,7 @@ print OUT "c’hamaradoù\tgamarad\tN m p M:0a:2:\n";
 print OUT "gamaradoù\tgamarad\tN m p M:1:1a:\n";
 print OUT "c’hamaladoù\tgamalad\tN m p M:0a:2:\n";
 print OUT "gamaladoù\tgamalad\tN m p M:1:1a:\n";
+print OUT "choaz\tchoaz\tV inf\n";
 close(OUT) or die "can't close [$dic_out]\n";
 
 print "Lemma words missing from dictionary:\n";

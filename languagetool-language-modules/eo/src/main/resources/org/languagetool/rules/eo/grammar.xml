@@ -109,12 +109,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rule id="REBELO" name="Rebelo (Ribelo)">
+      <antipattern>
+        <token>Flavio</token>
+        <marker><token>Rebelo</token></marker>
+      </antipattern>
       <pattern>
         <token inflected="yes" regexp="yes">rebel[oi]</token>
       </pattern>
       <message>La vorto «\1» estas neverŝajna. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="^(.)." regexp_replace="$1i"/></suggestion>?</message>
+      <url>https://eo.wikipedia.org/wiki/Flavio_Rebelo</url>
       <example type="incorrect" correction="ribeloj">La <marker>rebeloj</marker> venkis.</example>
       <example type="correct">La ribeloj venkis.</example>
+      <example type="correct">Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
     </rule>
     <rulegroup id="DANKEMA" name="Dankema (Danka)">
       <rule>
@@ -126,6 +132,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">helpo|servo</token>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="1" regexp_match="(.*)em(.*)" regexp_replace="$1$2"/></suggestion>. Teorie «dankema» estas uzata por konstanta inklino al dankado, ne por provizora helpo.</message>
+        <url>http://www.reta-vortaro.de/revo/art/dank.html</url>
         <example type="incorrect" correction="dankaj">Ili estas tre <marker>dankemaj</marker> pro via helpo.</example>
         <example type="correct">Mi estas tre danka pro via helpo.</example>
         <example type="correct">Mi estas dankema al miaj infanoj.</example>
@@ -139,6 +146,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
         </pattern>
         <message>Laŭ la kunteksto ŝajnas, ke vi intencis skribi <suggestion><match no="2" regexp_match="(.*)em(.*)" regexp_replace="$1$2"/></suggestion>. Teorie «dankema» estas uzata por konstanta inklino al dankado, ne por provizora helpo.</message>
+        <url>http://www.reta-vortaro.de/revo/art/dank.html</url>
         <example type="incorrect" correction="dankaj">Se vi helpus min, ni estus <marker>dankemaj</marker>.</example>
         <example type="incorrect" correction="dankaj">Se vi helpus min, ni estus tre <marker>dankemaj</marker>.</example>
         <example type="correct">Se vi helpus min, ni estus dankaj.</example>
@@ -231,6 +239,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Laŭ la kunteksto, ŝajnas, ke vi intencis diri <suggestion><match no="2" regexp_match="li" regexp_replace="lo"/></suggestion>.</message>
       <example type="incorrect" correction="violonon">Ŝi ludas la <marker>violinon</marker> bonege.</example>
       <example type="correct">Ŝi ludas la violonon bonege.</example>
+    </rule>
+    <rule id="NATURALA" name="naturala → natura">
+      <pattern>
+        <token regexp="yes" inflected="yes">(?:ne|mal|super)?natural(?:eg)?[aeio]</token>
+      </pattern>
+      <message>«\1» ŝajnas esti eraro pro influo de nacia lingvo. Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="al" regexp_replace=""/></suggestion>?</message>
+      <example type="incorrect" correction="natura">Ŝi estas <marker>naturala</marker> virino.</example>
+      <example type="correct">Ŝi estas natura virino.</example>
     </rule>
     <rulegroup id="POLUCIO_POLUO" name="polucio kaj poluo">
       <rule>
@@ -392,6 +408,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Ĉu vi intencis skribi <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1n"/></suggestion>?</message>
       <example type="incorrect">Post la rusia revolucio de 1905 la <marker>finlandanoj</marker> sukcesis havigi al si pliajn rajtojn.</example>
       <example type="correct">Post la rusia revolucio de 1905 la finnlandanoj sukcesis havigi al si pliajn rajtojn.</example>
+    </rule>
+  </category>
+  <category name="Misliterumaj propraj nomoj">
+    <rule id="ZAMENHOF" name="Zamenof → Zamenhof">
+      <pattern>
+        <token regexp="yes">zh?amenh?o[vf]<exception>Zamenhof</exception></token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>Zamenhof</suggestion>, se temas pri L.L. Zamenhof, kiu kreis Esperaton?</message>
+      <url>https://eo.wikipedia.org/wiki/L._L._Zamenhof</url>
+      <example type="incorrect"><marker>Zamenof</marker> kreis Esperanton.</example>
+      <example type="correct">Zamenhof kreis Esperanton.</example>
+    </rule>
+    <rule id="FLAVIO_REBELO" name="Flavio Ribelo → Flavio Rebelo">
+      <pattern>
+        <token>Flavio</token>
+        <token>Ribelo</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>\1 Rebelo</suggestion>, se temas pri la Esperantisto, kiu kreis Ĝangalon?</message>
+      <url>http://eo.wikipedia.org/wiki/Flavio_Rebelo</url>
+      <example type="incorrect" correction="Flavio Rebelo"><marker>Flavio Ribelo</marker> funkciigis la retpaĝaron Ĝangalo.</example>
+      <example type="correct">Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
+    </rule>
+    <rule id="BERTILO_WENNERGREN" name="Bertilow Wennergren → Bertilo Wennergren">
+      <antipattern>
+        <token>Bertilo</token>
+        <token>Wennergren</token>
+      </antipattern>
+      <pattern>
+        <token regexp="yes">Bertilow?</token>
+        <token regexp="yes">Wenn?er?grenn?</token>
+      </pattern>
+      <message>Ĉu vi intencis skribi <suggestion>Bertilo Wennergren</suggestion>, se temas pri la verkisto de PMEG?</message>
+      <url>http://eo.wikipedia.org/wiki/Bertilo_Wennergren</url>
+      <example type="incorrect"><marker>Bertilow Wennergren</marker> estas sveda esperantisto.</example>
+      <example type="incorrect"><marker>Bertilo Wenergren</marker> estas sveda esperantisto.</example>
+      <example type="correct">Bertilo Wennergren estas sveda esperantisto.</example>
     </rule>
   </category>
   <category name="Evitindaĵoj">
@@ -2412,6 +2464,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">sia?j?</token>
       </pattern>
       <message>«\4» ne povas reprezenti la unuajn (mi, ni) aŭ duajn personojn (vi, ci).</message>
+      <url>http://bertilow.com/pmeg/gramatiko/pronomoj/si/simplaj_frazoj.html#i-eht</url>
       <example type="incorrect"><marker>Mi venis kun sia</marker> frato.</example>
       <example type="correct">Mi venis kun mia frato.</example>
     </rule>
@@ -3187,6 +3240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>ol</token>
       </pattern>
       <message>Uzu <suggestion>\1</suggestion> (sen «ol»).</message>
+      <url>http://bertilow.com/pmeg/gramatiko/i-verboj/kun_rolvortetoj.html#i-ugd</url>
       <example type="incorrect" correction="anstataŭ">Li rezignis <marker>anstataŭ ol</marker> lerni la lingvon.</example>
       <example type="correct">Li rezignis anstataŭ lerni la lingvon.</example>
     </rule>
@@ -3279,6 +3333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token><exception>mem</exception></token>
       </pattern>
       <message>La vorto «\1» ne povas esti subjekto.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/pronomoj/si/simplaj_frazoj.html#i-f6s</url>
       <example type="incorrect"><marker>Si</marker> estas bela.</example>
       <example type="incorrect">Mi kredas, ke <marker>si</marker> ne venos.</example>
       <example type="correct">Li kombas al si la harojn.</example>

@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.082 2014-04-15 10:00:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.083 2014-04-23 18:05:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -539,6 +539,22 @@ $Id: grammar.xml,v 1.082 2014-04-15 10:00:00 marcoagpinto Exp $
 
 
 
+    <!-- ADIVINHA DISSO QUE advinha disso que -->
+    <rule id="ADIVINHA_DISSO_QUE" name="advinha disso que">
+      <pattern>
+        <marker>	              	  
+	        <token>adivinha</token>
+        </marker>                
+        <token>disso</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «adivinha» por <suggestion>advinha</suggestion>.</message>
+      <example type="incorrect">A mensagem <marker>adivinha</marker> disso que ele revelou.</example>
+      <example type="correct">A mensagem <marker>advinha</marker> disso que ele revelou.</example>
+    </rule>
+
+
+
     <!-- AFIM DE a fim de -->
     <rule id="AFIM_DE" name="a fim de">
       <pattern>
@@ -602,6 +618,22 @@ $Id: grammar.xml,v 1.082 2014-04-15 10:00:00 marcoagpinto Exp $
       <message>Substituir «as braceletes» por <suggestion>os braceletes</suggestion>.</message>
       <example type="incorrect">Coloca <marker>as braceletes</marker>.</example>
       <example type="correct">Coloca <marker>os braceletes</marker>.</example>
+    </rule>
+
+
+
+    <!-- ASSERTO DE CONTAS acerto de contas -->
+    <rule id="ASSERTO_DE_CONTAS" name="acerto de contas">
+      <pattern>
+        <marker>	              	  
+	        <token>asserto</token>
+        </marker>                
+        <token>de</token>
+        <token>contas</token>
+      </pattern>
+      <message>Substituir «asserto» por <suggestion>acerto</suggestion>.</message>
+      <example type="incorrect">Temos de fazer um <marker>asserto</marker> de contas.</example>
+      <example type="correct">Temos de fazer um <marker>acerto</marker> de contas.</example>
     </rule>
 
 
@@ -1317,6 +1349,19 @@ $Id: grammar.xml,v 1.082 2014-04-15 10:00:00 marcoagpinto Exp $
       <message>Substituir «há tua» por <suggestion>à tua</suggestion>.</message>
       <example type="incorrect">Dá uma mãozinha <marker>há tua</marker> família.</example>
       <example type="correct">Dá uma mãozinha <marker>à tua</marker> família.</example>
+    </rule>
+
+
+
+    <!-- MAIS BOM melhor -->
+    <rule id="MAIS_BOM" name="melhor">
+      <pattern>
+        <token>mais</token>
+        <token>bom</token>
+      </pattern>
+      <message>Substituir «mais bom» por <suggestion>melhor</suggestion>.</message>
+      <example type="incorrect">Aquele artigo é <marker>mais bom</marker> que o outro.</example>
+      <example type="correct">Aquele artigo é <marker>melhor</marker> que o outro.</example>
     </rule>
 
 

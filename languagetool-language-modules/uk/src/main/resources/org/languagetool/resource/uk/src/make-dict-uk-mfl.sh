@@ -31,7 +31,7 @@ $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian_synth.dict
 
 rm -f all.tagged.tmp
 
-grep "^[^#].*[a-z]" tagged.* | awk '{ print $3 }' | sort | uniq > ukrainian_tags.txt
+grep "^[^# ].*[a-z]" tagged.main.txt | awk '{ print $3 }' | sort | uniq > ukrainian_tags.txt
 
 fi
 

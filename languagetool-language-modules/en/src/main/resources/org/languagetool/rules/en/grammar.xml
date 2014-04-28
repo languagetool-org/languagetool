@@ -6473,6 +6473,16 @@ USA
             <example type="correct">He buys a car from time to time.</example>
             <example type="incorrect" correction="from time to time">He buys a car <marker>for time to time</marker>.</example>
         </rule>
+        <rule id="CONFUSION_OF_SAVE_SAFE_TO_IGNORE" name="confusion of save/safe to ignore">
+            <pattern>
+                <token>save</token>
+                <token>to</token>
+                <token>ignore</token>
+            </pattern>
+            <message>Did you mean <suggestion>safe to ignore</suggestion>?</message>
+            <example type="incorrect">It is <marker>save to ignore</marker> trivial code when writing unit tests.</example>
+            <example type="correct">It is safe to ignore trivial code when writing unit tests.</example>
+        </rule>
     </category>
     <!-- ====================================================================== -->
     <!-- Grammar -->
@@ -11234,6 +11244,36 @@ USA
             <short>Spurious comma</short>
             <example type="correct">The store closed its doors for good in October 1958.</example>
             <example type="incorrect" correction="October 1958">The store closed its doors for good in <marker>October, 1958</marker>.</example>
+        </rule>
+        <rule id="BY_DEFAULT_COMMA" name="Comma after by default at the beginning of a sentence.">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token>By</token>
+                    <token>default</token>
+                </marker>
+                <token negate="yes">,</token>
+            </pattern>
+            <message>Did you mean: <suggestion>By default,</suggestion>?</message>
+            <short>Punctuation error</short>
+            <example type="incorrect"><marker>By default</marker> this setting is enabled.</example>
+            <example type="correct">By default, this setting is enabled.</example>
+        </rule>
+        <rule id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
+            <pattern>
+                <marker>
+                    <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
+                    <token postag="SENT_START"/>
+                    <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
+                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|in addition|in comparision|in contrast|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similiarly|still|subsequently|thereafter|therefore|thus</token>
+                </marker>
+                <token negate="yes">,</token>
+            </pattern>
+            <message>Did you forgot a <suggestion>,</suggestion> after a conjunctive/linking adverb?</message>
+            <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
+            <short>Punctuation error</short>
+            <example type="incorrect"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
+            <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
         </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">

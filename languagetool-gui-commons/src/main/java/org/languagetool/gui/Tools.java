@@ -22,7 +22,7 @@ import java.awt.*;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -165,6 +165,20 @@ public class Tools {
       return '\u0000';
     }
     return label.charAt(mnemonicPos + 1);
+  }
+
+  /**
+   * Set dialog location to the center of the screen
+   *
+   * @param dialog the dialog which will be centered
+   * @since 2.6
+   */
+  public static void centerDialog(JDialog dialog) {
+    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final Dimension frameSize = dialog.getSize();
+    dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
+            screenSize.height / 2 - frameSize.height / 2);
+    dialog.setLocationByPlatform(true);
   }
 
 }

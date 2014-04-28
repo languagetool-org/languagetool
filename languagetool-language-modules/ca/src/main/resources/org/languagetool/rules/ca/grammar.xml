@@ -47,7 +47,7 @@ $Id$
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
     <!ENTITY exceptions_MES "solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ">
-    <!ENTITY mots_HAC_ASPIRADA "Haarlem|Harlem|Haifa|haikus?|haima|haimes|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heiden.*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
+    <!ENTITY mots_HAC_ASPIRADA "Haarlem|Harlem|Haifa|haikus?|haima|haimes|halar|hall.*|Halloweens?|Hamada|Hamas|Hamàs|hamilton.*|Hamlet.*|Hammond|Hampton|handicaps?|Hannover|Hanoi|Hans|Hansa|hardware|harolds?|Harrison|harrods?|harry|Hartmann?|Haruki|Harvard|Havilland|hawai.*|hawk.*|Haydn|Hayworth|Heard|hearst|heav.*|hegel.*|Heidelberg|Heide[gn].*|Heilig.*|hein.*|Heisen.*|Heitz|Helen|Heming.*|henna|hennes|Henry|Hepburn|herbert.*|Hereford|Hesse|Hessen|Hezboll.+|high.*|hilbert.*|Hilda|hinden.*|hinterlands?|Hitch.*|hitler.*|hobby|hobbies|Hohen.*|holdings?|hollywood.*|Holmes.*|Holstein|Hong|hongk.+|Honolu.+|Honsh[uū]|h[òo]bbits?|hoover.*|hopkins|Hork.*|horst|H[ou]f.*|Houston|Howard|Hubble|humbold.*|Hume|hunting.*|husseinit.+">
     <!ENTITY mots_HAC_ASPIRADA2 "Higgs|high|Hill|hippies|hippy|Hirado|His|Hubei|Hudson|Hunter|Husserl|Utah">
     <!ENTITY exceptions_A_MANS_DE "anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|tornar|perdre|morir|pèrdua|matança|mort1|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi2|assassinar|assassinat|saqueig|saquejar">
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
@@ -5240,7 +5240,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -7595,11 +7595,35 @@ $Id$
     		<pattern>
     			<token regexp="yes">(con|di)fosament</token>
     		</pattern>
-    		<message>¿Volíeu dir <suggestion><match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fusament" /></suggestion> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fús"/>) en comptes de <match no="1"/> (derovat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fondre" />)?</message>
+    		<message>¿Volíeu dir <suggestion><match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fusament" /></suggestion> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fús"/>) en comptes de <match no="1"/> (derivat de <match no="1" regexp_match="(con|di)fosament" regexp_replace="$1fondre" />)?</message>
     		<short>Possible confusió</short>
     		<example type="incorrect" correction="difusament"><marker>difosament</marker></example>
     		<example type="correct">confusament</example>
     	</rule>
+        <rule id="FLUIDAMENT" name="fluïdament/fluidament">
+            <pattern>
+                <token>fluïdament</token>
+            </pattern>
+            <message>Cal escriure <suggestion>fluidament</suggestion>, derivat de l'adj. "fluid -a".</message>
+            <short>Error ortogràfic</short>
+            <example type="incorrect" correction="fluidament"><marker>fluïdament</marker></example>
+            <example type="correct">fluidament</example>
+        </rule>
+        <rule id="FLUIDA" name="fluïda/fluida">
+            <pattern>
+                <token><exception postag="VA.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">fluïd(a|es)|fluïts?</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)[ïÏ][DdTt](.*)" regexp_replace="$1id$2" /></suggestion>. "<match no="1"/>" és correcte com a participi de "fluir".</message>
+            <short>Error ortogràfic</short>
+            <example type="incorrect" correction="fluida">És <marker>fluïda</marker></example>
+            <example type="incorrect" correction="fluid">És <marker>fluït</marker></example>
+            <example type="incorrect" correction="fluides">Són <marker>fluïdes</marker></example>
+            <example type="incorrect" correction="fluids">Són <marker>fluïts</marker></example>
+            <example type="correct">Han fluït molt bé</example>
+        </rule>
     	<rule id="DES_DE" name="des de/que">
             <pattern>
                 <marker>
@@ -10861,7 +10885,7 @@ $Id$
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó</token>
+                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí</token>
 				        <token>què</token>
 			        </marker>
 			        <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
@@ -17978,6 +18002,13 @@ $Id$
             <example type="correct">el criminal està en <marker>crida i cerca</marker></example>
         </rule>
         <rule id="CAMI_DE" name="*camí de/cap a">
+            <antipattern>
+                <marker>
+                    <token>camí</token>
+                    <token skip="1" regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">cerca|directori|fitxer|arxiu|recerca</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">en|a|lo|de</exception><exception inflected="yes" regexp="yes">tenir|fer|dir|anomenar|denominar</exception></token>
                 <marker>
@@ -21217,11 +21248,12 @@ $Id$
                         <token regexp="yes">full(a|es)</token>
                     </marker>
                     <token>de</token>
-                    <token regexp="yes">serveis|càlculs?|programació</token>
+                    <token regexp="yes" inflected="yes">servei|càlcul|programació|reclamació|denúncia</token>
                 </pattern>
                 <message>En aquest sentit, cal dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">full</match></suggestion> (nom masculí).</message>
                 <short>Gènere incorrecte</short>
                 <example type="incorrect" correction="full">Obre la <marker>fulla</marker> de càlcul</example>
+                <example type="incorrect" correction="fulls">Hi ha <marker>fulles</marker> de reclamació a disposició dels clients</example>
                 <example type="correct">jo tinc el full dominical</example>                
             </rule>
         </rulegroup>
@@ -27138,7 +27170,7 @@ $Id$
                         <token regexp="yes" skip="-1">(?-i);|I|O|Ni|Però<exception postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|CS" postag_regexp="yes" scope="next"/><exception scope="next" regexp="yes">perquè|com</exception></token>
                     </or>
                     <marker>
-                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                        <token postag="V.[^NGP].*" postag_regexp="yes" skip="-1"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception>di</exception><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                         <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag=".*_GN_.*|N.*|A.*|V.[NGP].*|.*LOC.*|_loc_nosequi|.*LOC_ADV.*|RG|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">di|cap</exception></token>
                     </marker>
                 </pattern> 
@@ -27666,6 +27698,7 @@ $Id$
                 <suggestion><match no="1" regexp_match="^(.+)é(s)?" regexp_replace="$1è$2"></match></suggestion>
                 <example type="incorrect">El <marker>quaranta-quatré</marker>.</example>
                 <example type="correct">El <marker>quaranta-quatrè</marker>.</example>
+                <example type="correct">Refés l'acció.</example>
             </rule>
             <rule>
                 <pattern>

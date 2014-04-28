@@ -33,8 +33,11 @@ import java.util.*;
 public class Configuration {
   
   static final int DEFAULT_SERVER_PORT = 8081;  // TODO: should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
+  static final int FONT_STYLE_INVALID = -1;
+  static final int FONT_SIZE_INVALID = -1;
 
   private static final String CONFIG_FILE = "languagetool.properties";
+
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
   private static final String ENABLED_RULES_CONFIG_KEY = "enabledRules";
   private static final String DISABLED_CATEGORIES_CONFIG_KEY = "disabledCategories";
@@ -44,11 +47,15 @@ public class Configuration {
   private static final String SERVER_RUN_CONFIG_KEY = "serverMode";
   private static final String SERVER_PORT_CONFIG_KEY = "serverPort";
   private static final String USE_GUI_CONFIG_KEY = "useGUIConfig";
+  private static final String FONT_NAME_CONFIG_KEY = "font.name";
+  private static final String FONT_STYLE_CONFIG_KEY = "font.style";
+  private static final String FONT_SIZE_CONFIG_KEY = "font.size";
+
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
-  private final File configFile;
-  private final HashMap<String, String> configForOtherLangs;
+  private File configFile;
+  private final HashMap<String, String> configForOtherLangs = new HashMap<>();
 
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
@@ -58,6 +65,9 @@ public class Configuration {
   private boolean runServer;
   private boolean autoDetect;
   private boolean guiConfig;
+  private String fontName;
+  private int fontStyle;
+  private int fontSize;
   private int serverPort = DEFAULT_SERVER_PORT;
   private String externalRuleDirectory;
 
@@ -72,16 +82,65 @@ public class Configuration {
   
   public Configuration(final File baseDir, final String filename, final Language lang)
       throws IOException {
+    this();
     if (!baseDir.isDirectory()) {
       throw new IllegalArgumentException("Not a directory: " + baseDir);
     }
     configFile = new File(baseDir, filename);
-    configForOtherLangs = new HashMap<>();
     loadConfiguration(lang);
   }
 
   public Configuration(final File baseDir, final Language lang) throws IOException {
     this(baseDir, CONFIG_FILE, lang);
+  }
+
+  Configuration() {
+    fontStyle = FONT_STYLE_INVALID;
+    fontSize = FONT_SIZE_INVALID;
+  }
+
+  /**
+   *
+   * Returns a copy of the given configuration.
+   *
+   * @param configuration the object to copy.
+   * @return the copy.
+   * @since 2.6
+   */
+  Configuration copy(Configuration configuration) {
+    Configuration copy = new Configuration();
+    copy.restoreState(configuration);
+    return copy;
+  }
+
+  /**
+   * Restore the state of this object from configuration
+   *
+   * @param configuration the object from which we will read the state
+   * @since 2.6
+   */
+  void restoreState(Configuration configuration) {
+    this.configFile = configuration.configFile;
+    this.language = configuration.language;
+    this.motherTongue = configuration.motherTongue;
+    this.runServer = configuration.runServer;
+    this.autoDetect = configuration.autoDetect;
+    this.guiConfig = configuration.guiConfig;
+    this.fontName = configuration.fontName;
+    this.fontStyle = configuration.fontStyle;
+    this.fontSize = configuration.fontSize;    
+    this.serverPort = configuration.serverPort;
+    this.externalRuleDirectory = configuration.externalRuleDirectory;
+    this.disabledRuleIds.clear();
+    this.disabledRuleIds.addAll(configuration.disabledRuleIds);
+    this.enabledRuleIds.clear();
+    this.enabledRuleIds.addAll(configuration.enabledRuleIds);
+    this.disabledCategoryNames.clear();
+    this.disabledCategoryNames.addAll(configuration.disabledCategoryNames);
+    this.configForOtherLangs.clear();
+    for (String key : configuration.configForOtherLangs.keySet()) {
+      this.configForOtherLangs.put(key, configuration.configForOtherLangs.get(key));
+    }
   }
 
   public Set<String> getDisabledRuleIds() {
@@ -164,6 +223,30 @@ public class Configuration {
     externalRuleDirectory = path;
   }
 
+  public String getFontName() {
+    return fontName;
+  }
+
+  public void setFontName(String fontName) {
+    this.fontName = fontName;
+  }
+
+  public int getFontStyle() {
+    return fontStyle;
+  }
+
+  public void setFontStyle(int fontStyle) {
+    this.fontStyle = fontStyle;
+  }
+
+  public int getFontSize() {
+    return fontSize;
+  }
+
+  public void setFontSize(int fontSize) {
+    this.fontSize = fontSize;
+  }
+
   private void loadConfiguration(final Language lang) throws IOException {
 
     final String qualifier = getQualifier(lang);
@@ -189,6 +272,22 @@ public class Configuration {
       autoDetect = "true".equals(props.get(AUTO_DETECT_CONFIG_KEY));
       guiConfig = "true".equals(props.get(USE_GUI_CONFIG_KEY));
       runServer = "true".equals(props.get(SERVER_RUN_CONFIG_KEY));
+
+      fontName = (String) props.get(FONT_NAME_CONFIG_KEY);
+      if(props.get(FONT_STYLE_CONFIG_KEY) != null) {
+        try {
+          fontStyle = Integer.parseInt((String) props.get(FONT_STYLE_CONFIG_KEY));
+        } catch (NumberFormatException e) {
+          // Ignore
+        }
+      }
+      if(props.get(FONT_SIZE_CONFIG_KEY) != null) {
+        try {
+          fontSize = Integer.parseInt((String) props.get(FONT_SIZE_CONFIG_KEY));
+        } catch (NumberFormatException e) {
+          // Ignore
+        }
+      }
 
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
@@ -255,11 +354,19 @@ public class Configuration {
     if (motherTongue != null) {
       props.setProperty(MOTHER_TONGUE_CONFIG_KEY, motherTongue.getShortName());
     }
-    props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.valueOf(autoDetect).toString());
-    props.setProperty(USE_GUI_CONFIG_KEY, Boolean.valueOf(guiConfig).toString());
-    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.valueOf(runServer).toString());
-    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.valueOf(serverPort).toString());
-
+    props.setProperty(AUTO_DETECT_CONFIG_KEY, Boolean.toString(autoDetect));
+    props.setProperty(USE_GUI_CONFIG_KEY, Boolean.toString(guiConfig));
+    props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.toString(runServer));
+    props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.toString(serverPort));
+    if(null != fontName) {
+      props.setProperty(FONT_NAME_CONFIG_KEY, fontName);
+    }
+    if(fontStyle != FONT_STYLE_INVALID) {
+      props.setProperty(FONT_STYLE_CONFIG_KEY, Integer.toString(fontStyle));
+    }
+    if(fontSize != FONT_SIZE_INVALID) {
+      props.setProperty(FONT_SIZE_CONFIG_KEY, Integer.toString(fontSize));
+    }
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }

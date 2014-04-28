@@ -58,7 +58,8 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     boolean changed = false;
 
     elementsMatched.clear();
-    for (int j = 0; j < patternSize; j++) {
+    for (ElementMatcher elementMatcher : elementMatchers) { //the list has exactly the same number
+                                                          // of elements as the list of ElementMatchers
       elementsMatched.add(false);
     }
 
@@ -67,13 +68,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     while (i < limit + minOccurCorrection && !(rule.isSentStart() && i > 0)) {
       boolean allElementsMatch = false;
       unifiedTokens = null;
-      for (boolean elementMatched : elementsMatched) {
-        elementMatched = false;
-      }
       int matchingTokens = 0;
       int skipShiftTotal = 0;
       int firstMatchToken = -1;
-      int lastMatchToken = -1;
+      int lastMatchToken;
       int firstMarkerMatchToken = -1;
       int lastMarkerMatchToken = -1;
       int prevSkipNext = 0;
@@ -174,31 +172,29 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
 
     int matchingTokensWithCorrection = matchingTokens;
 
-    int w = startPositionCorrection;
-    for (int j = 0; j < w; j++) {
-      if (!elementsMatched.get(j)) {
-        startPositionCorrection--;
-      }
+    List<Integer> tokenPositionList = new ArrayList<>();
+    for (int i : tokenPositions) {
+      tokenPositionList.add(i);
     }
 
     if (startPositionCorrection > 0) {
-      for (int l = 0; l <= startPositionCorrection; l++) {
-        correctedStPos += tokenPositions[l];
+      correctedStPos--; //token positions are shifted by 1
+      for (int j = 0; j < elementsMatched.size(); j++) {
+        if (!elementsMatched.get(j)) {
+          tokenPositionList.add(j, 0);    // add zero-length token corresponding to the non-matching pattern element so that position count is fine
+        }
       }
-      correctedStPos--;
-    }
 
-    // adjust positions in case elements with min="0" were not matched before the starting position
-    for (int j = 0; j <= startPositionCorrection && j < elementsMatched.size(); j++) {
-      if (!elementsMatched.get(j)) {
-        correctedStPos -= tokenPositions[j];
+      for (int l = 0; l <= startPositionCorrection; l++) {
+        correctedStPos += tokenPositionList.get(l);
       }
-    }
-    int j = 0;
-    while (startPositionCorrection + j < elementsMatched.size() &&
-        !elementsMatched.get(startPositionCorrection + j)) {
-      correctedStPos += tokenPositions[j];
-      j++;
+
+      int w = startPositionCorrection; // adjust to make sure the token count is fine as it's checked later
+      for (int j = 0; j <= w; j++) {
+        if (j < elementsMatched.size() && !elementsMatched.get(j)) {
+          startPositionCorrection--;
+        }
+      }
     }
 
     if (endPositionCorrection < 0) { // adjust the end position correction if one of the elements has not been matched
@@ -210,8 +206,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     }
 
     if (lastMatchToken != -1) {
-      int maxPosCorrection = 0;
-      maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);
+      int maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);
       matchingTokensWithCorrection += maxPosCorrection;
     }
 

@@ -253,6 +253,7 @@ $Id$
                                         <token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
+                                <url>http://www.rjp.pan.pl/index.php?option=com_content&amp;view=article&amp;id=1041:przecinek-przy-imiesowach-przysowkowych-&amp;catid=44:porady-jzykowe&amp;Itemid=58</url>
 								<short>Błąd interpunkcyjny</short>
 								<example type="correct">Kupiłem wino, chciałem też pić wodę.</example>
 								<example type="incorrect"><marker>Kupiłem wino chciałem też pić wodę.</marker></example>
@@ -289,6 +290,26 @@ $Id$
                                 <example type="correct">Jotę zapisujemy zaś obok, ale nie wymawiamy (nazywając ją wtedy iota adscriptum, tj. Αι, Ηι, Ωι).</example>
                                 <example type="correct">Anna z Janem wzięli ślub i Anna zaszła w ciążę.</example>
                                 <example type="correct">Egzystują w nim różne grupy interesów — od klasowych począwszy, na klikowych skończywszy — to zaś stwarza kłopoty.</example>
+                                <example type="incorrect">Sam jej właściciel, jak odniosłem wrażenie, <marker>wydawał się nieco bledszy i poważniejszy niż zazwyczaj go widywałem.</marker></example>
+                                <example type="incorrect">Romuald <marker>odpowiedział z ważną i tajemniczą miną zwielokrotniając głoskę.</marker></example>
+                                <example type="incorrect">Kali przypomniał sobie poniewczasie, że <marker>mając myśl zatroskaną i zajętą czym innym zapomniał kazać związać czarowników.</marker></example>
+                                <example type="incorrect">Fatma <marker>ucałowawszy ręce obu inżynierów i dzieci wyszła,</marker> błogosławiąc szczególniej Nel.</example>
+                                <example type="incorrect">Potężny zwierz <marker>ujrzawszy jeźdźców i konie podniósł się na przednie łapy i</marker> począł na nich patrzeć.</example>
+                                <example type="correct">Nastąpiło głosowanie i Wilczur został wybrany.</example>
+                                <example type="correct">Przyrzekł mi sekret i rzecz była ukryta, aż póki się moje suknie nie rozpadły.</example>
+                                <example type="incorrect">Tymczasem Szmul przestał się modlić i <marker>zdjąwszy śmiertelną koszulę i cycełe poszedł je schować do alkierza.</marker></example>
+                                <example type="incorrect">Nie należy do tych, co <marker>obnażając nasze błędy i wady sądzą,</marker> że już wszystko zdziałali.</example>
+                                <example type="incorrect">Apostoł zaś <marker>broniąc się od podzięki i czci rzekł:</marker></example>
+                                <example type="incorrect">Kazał mu jechać za sobą, ten zaś <marker>poznawszy trybuna i augustianina nie śmiał się rozkazowi sprzeciwić.</marker></example>
+                                <example type="incorrect">Wydało mu się, że <marker>zalecając czystość i walkę z żądzami starzec śmie tym samym nie tylko potępiać jego miłość,</marker> ale zraża Ligię do niego.</example>
+                                <example type="incorrect">Na trzeci dzień Fabrycy był w Parmie, gdzie <marker>ubawił hrabiego i księżnę opowiadając im z najdrobniejszymi szczegółami,</marker> jak czynił zawsze, historię swej podróży.</example>
+                                <example type="correct">Stanisław podsunął mu cygaro i sam podawał ogień.</example>
+                                <example type="correct">Trupia bladość pokryła mu twarz i ciało poczęło tężeć.</example>
+                                <example type="correct">Muszę tam czekać śmierci, gdyż jestem stary i nerwy moje są chore.</example>
+                                <example type="correct">— Dobrześ ułożyła dziś fałdy i rad jestem z ciebie, Eunice.</example>
+                                <example type="correct">Rząd jednak nie zdecydował się na tę zmianę i państwo nadal zachowuje militarną neutralność.</example>
+                                <example type="incorrect">Tymczasem, kiedy <marker>odwiedziliśmy Państwowe Gospodarstwo Rolne tego regionu żniwa trwały już dziesięć dni,</marker> a nie był to nawet półmetek.</example>
+                                <example type="correct">Obiecywał, że to już jutro zwycięży, a te jutra tworzyły długie miesiące i zwycięstwa nie było.</example>
 						</rule>
 						<!--powinien + exception: powinien był-->
 						<rule>
@@ -1500,7 +1521,7 @@ $Id$
                             <unify>
                                 <feature id="case"/><feature id="gender"/><feature id="number"/>
                                 <marker>
-                                    <token inflected="yes" postag="adj.*" postag_regexp="yes">jaki</token>
+                                    <token inflected="yes" postag="adj.*" postag_regexp="yes" regexp="yes">jaki|który</token>
                                 </marker>
                                 <token skip="-1" postag="(?:adj|subst|num:pl):.*" postag_regexp="yes"><exception inflected="yes">były</exception><exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes"/></token>
                             </unify>
@@ -1564,6 +1585,7 @@ $Id$
                                 <example type="correct">„Oni tam także nie śpią, zda się; może zaniemógł który”.</example>
                                 <example type="correct">Wszystko razem mogło sięgać jakich trzydziestu tysięcy dusz.</example>
                                 <example type="correct">Wchodzę niekiedy do biblioteki i biorę jaką książkę; najczęściej jest to książka historyczna.</example>
+                                <example type="correct">Jeżeli chciałem złapać którego ptaka, śmiało się do mnie obracał i dziobem groził.</example>
 						</rule>
 						<rule>
                                <antipattern>
@@ -2001,7 +2023,7 @@ $Id$
 										<token skip="-1"><exception scope="next">lub</exception><exception scope="current">Lub</exception></token>
 										<marker>
 												<token>,</token>
-												<token>lub</token>
+												<token postag="conj">lub</token>
 										</marker>
 										<token><exception>raczej</exception></token>
 								</pattern>
@@ -2010,6 +2032,7 @@ $Id$
 								<example type="correct">Może kupię kilo gruszek lub jabłek.</example>
 								<example correction=" lub" type="incorrect">Lubię zjeść trochę gruszek<marker>, lub</marker> jabłek.</example>
 								<example type="correct">Przemysław jest wierny, lub raczej wierny jak pies.</example>
+                                <example type="correct">Ludwiku, lub robić coś!</example>
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
@@ -2960,17 +2983,18 @@ $Id$
                 <rulegroup id="APOSTROF_DATA" name="Błędne apostrofy przed datami rocznymi">
 						<rule>
 								<pattern>
-                                        <token regexp="yes">&apost;</token>
+                                        <token spacebefore="yes" regexp="yes">&apost;</token>
 										<token regexp="yes">[0-1][0-9]</token>
 								</pattern>
 								<message>Prawdopodobnie błędny skrót daty rocznej; nie stawia się apostrofu przed datami rocznymi, które przypadają w pierwszych dwóch dekadach wieku. Poprawnie: <suggestion>19\2</suggestion> lub <suggestion>20\2</suggestion>.</message>
 								<short>Błąd typograficzny</short>
 								<example correction="1905|2005" type="incorrect">Było to w sierpniu <marker>'05</marker>.</example>
 								<example type="correct">Maj '68 był bardzo gorącym okresem.</example>
+                                <example type="correct">Współrzędne: 59°47'16"N</example>
 						</rule>
 						<rule>
 								<pattern>
-                                        <token regexp="yes">&apost;</token>
+                                        <token spacebefore="yes" regexp="yes">&apost;</token>
 										<token regexp="yes">[1-9][0-9][0-9][0-9]</token>
 								</pattern>
 								<message>Prawdopodobnie zbędny apostrof przed pełną datą roczną. Poprawnie: <suggestion>\2</suggestion>.</message>
@@ -3822,6 +3846,7 @@ $Id$
 						<example correction="To" type="incorrect"><marker>Te</marker> milczenie jest męczące.</example>
 						<example correction="To" type="incorrect"><marker>Te</marker> dziecko zachowuje się grzecznie.</example>
                         <example type="correct">Mają one coś wspólnego z jego przyjacielem Hathim.</example>
+                        <example type="correct">Wydaliśmy huczne przyjęcie.</example>
 				</rule>
 				<rulegroup id="PIERWSZY_STYCZEN_1993" name="Błędna odmiana miesiąca w datach, np. 1 styczeń 2010 (1 stycznia)">
 						<rule>
@@ -4049,7 +4074,7 @@ $Id$
 								<example correction="forów" type="incorrect">Nienawidzę <marker>for</marker> internetowych.</example>
 						</rule>
 				</rulegroup>
-				<rulegroup id="PRAWDOPODOBNYM_JEST" name="orzecznik w narzędniku (zamiast mianownika)">
+				<rulegroup id="PRAWDOPODOBNYM_JEST" name="Orzecznik w narzędniku (zamiast mianownika)">
 						<rule>
 								<pattern>
 										<token><exception postag="(subst|ger):*sg:.*(inst|loc).*[.\:](m|n).*" postag_regexp="yes"></exception></token>
@@ -4809,7 +4834,7 @@ $Id$
 						<example type="correct">Przemysław jest najbliżej Lecha.</example>
 						<example correction="najbliżej" type="incorrect">Przemysław jest <marker>najbardziej najbliżej</marker> Lecha.</example>
 				</rule>
-				<rule id="ROZUMIEC_POD" name="Błąd związku rzędu: „rozumieć coś pod czymś” (przez coś)">
+				<rule id="ROZUMIEC_POD" name="Błąd związku rządu: „rozumieć coś pod czymś” (przez coś)">
 						<!-- FIXME: podpowiedź nie uwzględnia odmiany -->
 						<pattern>
 								<token negate="yes" skip="1">przez</token>
@@ -5013,13 +5038,14 @@ $Id$
 						</rule>
                         <rule>
                             <antipattern>
-                                <token postag="prep.*" postag_regexp="yes"><exception postag="prep:gen"/></token>
+                                <token postag="prep.*" postag_regexp="yes"/>
                                 <marker><token>około</token></marker>
+                                <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'/>
                             </antipattern>
                             <pattern>
                                     <token>około</token>
                                     <marker>
-                                        <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'></token>
+                                        <token postag='num:pl:nom.acc.voc.*' postag_regexp='yes'/>
                                     </marker>
                             </pattern>
                             <message>Przyimek „około” wymaga dopełniacza: <suggestion><match no="2" postag_regexp="yes" postag="(.*)nom.acc.voc" postag_replace="$1gen.*"/></suggestion></message>
@@ -5029,6 +5055,7 @@ $Id$
                             <example type='correct'>To było około dwustu psów.</example>
                             <!-- to zbieg przyimków, więc „około” jest partykułą -->
                             <example type="correct">Pociąg spóźnił się o około dwie godziny.</example>
+                            <example type="correct">Za około dwa tygodnie.</example>
                         </rule>
                         <rule>
                             <antipattern>
@@ -5282,17 +5309,24 @@ $Id$
                         <example type="correct">Minie może półtorej albo i dwie doby.</example>
 				</rule>
 				<rulegroup id="UZYWAC_CO" name="„używać co” (czego)">
+                        <antipattern>
+                            <marker>
+                                <token>raz</token>
+                                <token>po</token>
+                                <token>raz</token>
+                            </marker>
+                        </antipattern>
 						<rule>
 								<pattern>
 										<token inflected="yes" regexp="yes">używać|użyć<exception postag="ger:.*|ppas:.*" postag_regexp="yes"/><exception scope="previous" postag=".*gen.*" postag_regexp="yes"/></token>
 										<marker>
-												<token postag="(adj|subst|ppas|pact):.*:(acc|nom|acc\.nom\.voc|acc\.inst).*" postag_regexp="yes"><exception postag=".*gen.*|conj|comp|adv.*|prep.*|qub" postag_regexp="yes"/><exception>on</exception><exception>pan</exception></token>
+												<token postag="(adj|subst|ppas|pact):.*:(acc|nom|acc\.nom\.voc|acc\.inst).*" postag_regexp="yes"><exception postag=".*gen.*|conj|comp|adv.*|prep.*|qub" postag_regexp="yes"/><exception>on</exception><exception>pan</exception><exception>raz</exception></token>
 										</marker>
 								</pattern>
 								<message>Czasownik „<match no="1" postag="verb:inf.*" postag_regexp="yes"></match>” łączy się z dopełniaczem: <suggestion><match no="2" postag="(adj|subst|ppas|pact):(sg|pl).*acc:(?:[pfmn123\.])+(:com|:pos|:sup|:imperf:aff|:imperf\.perf:aff|:perf:aff)?.*" postag_regexp="yes" postag_replace="$1:$2.*gen.*$3"></match></suggestion>.</message>
 								<short>Błąd składniowy</short>
 								<example type="correct">Używam starego żelazka.</example>
-								<example correction="starego|starej|starych" type="incorrect">Używam <marker>stare</marker> żelazko.</example>
+								<example correction="starego|starej" type="incorrect">Używam <marker>stare</marker> żelazko.</example>
 								<example correction="żelazka" type="incorrect">Używam <marker>żelazko</marker>.</example>
 								<example correction="słowa" type="incorrect">Pan poseł używa <marker>słowo</marker> „zlecenie”.</example>
 								<example correction="młotka" type="incorrect">Używam <marker>młotek</marker>.</example>
@@ -5305,6 +5339,8 @@ $Id$
                                 <example type="correct">Nie używał też niczego innego.</example>
                                 <example type="correct">Usłyszeli świst podobny temu, jakiego używają pasterze trzód.</example>
                                 <example type="correct">Używa on do wszystkiego swej mowy.</example>
+                                <example type="correct">Używał raz po raz wyrażeń przyjętych w gwarze rewolucyjenj.</example>
+                                <example type="correct">Chciałbyś użyć trochę życia?</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -8368,7 +8404,7 @@ $Id$
 								<pattern>
 										<token>w</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">[wf][tśsrłndwpgklzcbmż].*|Lwowie|mgle<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+|FSO</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>we \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8380,7 +8416,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>we</token>
-										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">w|[wf].+|Lwowie|środ(ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(le|łach|ły)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8393,7 +8429,7 @@ $Id$
 								<pattern>
 										<token>we</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(?:le|łach)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wf].+|Lwowie|środ(?:ę|y)|czwart(ek|ki)|dw.+|tr.+|mnie|znaki|drzwi(?:ach)?|krwi|śnie|dnie|mg(?:le|łach|ły)|łbie|czterech|czwórkę|czworo|are|mszy|łzach|lwowski.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>w \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -9127,7 +9163,7 @@ $Id$
 						<example type="correct">Dziś jestem znacznie zdrowszy.</example>
 						<example correction="znacznie zdrowszy" type="incorrect">Dziś jestem <marker>dużo zdrowszy</marker>.</example>
 				</rule>
-				<rule id="TLUMACZENIE_PRZYSIEGLE" name="„tłumaczenie przysięgłe (tłumaczenie uwierzytelnione)">
+				<rule id="TLUMACZENIE_PRZYSIEGLE" name="„tłumaczenie przysięgłe” (tłumaczenie uwierzytelnione)">
 						<pattern>
 								<unify>
 										<feature id="number"></feature>
@@ -9541,8 +9577,8 @@ $Id$
 						<example correction="Trzeciego Świata" type="incorrect">Spotkaliśmy się z przedstawicielami <marker>trzeciego świata</marker>.</example>
 						<example type="correct">Spotkaliśmy się z przedstawicielami Trzeciego Świata.</example>
 				</rule>
-				<rulegroup id="MORZE_BALTYCKIE" name="morze bałtyckie (Morze Bałtyckie)">
-						<rule name="">
+				<rulegroup id="MORZE_BALTYCKIE" name="„morze bałtyckie” (Morze Bałtyckie)">
+						<rule>
 								<pattern case_sensitive="yes">
 										<unify>
 												<feature id="number"></feature>
@@ -9564,7 +9600,7 @@ $Id$
 								<example type="correct">Uwielbiam cywilizację basenu Morza Śródziemnego.</example>
 								<example type="correct">Widziałem nad tamtym morzem bałtyckie rybitwy.</example>
 						</rule>
-						<rule name="">
+						<rule>
 								<pattern case_sensitive="yes">
 										<unify>
 												<feature id="number"></feature>
@@ -9679,7 +9715,7 @@ $Id$
                 <example type="correct">Dajże mi spokój!</example>
                 <example type="incorrect" correction="Dajże|Daj, że"><marker>Daj że</marker> mi spokój!</example>
             </rule>
-            <rule id="GDZIEZES" name="„gdzie żeś (gdzieżeś)">
+            <rule id="GDZIEZES" name="„gdzie żeś” (gdzieżeś)">
                 <pattern>
                     <token>gdzie</token>
                     <token regexp="yes">że(?:[śm]|ście|śmy)</token>
@@ -10181,12 +10217,13 @@ $Id$
 										<token>od</token>
 										<token>tak</token>
 								</marker>
-								<token><exception postag=".*[:\.]gen[:\.].*" postag_regexp="yes"></exception></token>
+								<token><exception postag=".*[:\.]gen[:\.].*" postag_regexp="yes"></exception><exception>dawna</exception></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>ot, tak</suggestion> (=od niechcenia)?</message>
 						<short>Błąd ortograficzny</short>
 						<example correction="ot, tak" type="incorrect">Zrobiłem to <marker>od tak</marker>.</example>
 						<example type="correct">Od tak zwanych mikrobów chroni nas produkt firmy chińskiej.</example>
+                        <example type="correct">Przebywają przecież z sobą od tak dawna i każda z nim rozmowa nie przestaje być największą przyjemnością.</example>
 				</rule>
 				<rulegroup id="POKARZ" name="„pokarz” (pokaż)">
 				<rule>
@@ -11464,7 +11501,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern case_sensitive="yes">
-										<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*|Ice|Isi</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
+										<token postag="UNKNOWN" regexp="yes"><exception regexp="yes">^\p{Ll}.*|^-.*|Ice|Isi|Ite|Lo</exception><exception regexp="yes">X-.*</exception><exception>V-ce</exception>((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</token>
 								</pattern>
 								<message>Liczebniki porządkowe pisane liczbami rzymskimi zapisujemy bez żadnych końcówek przypadków. Poprawnie: <suggestion><match no="1" regexp_match="((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))-?.*" regexp_replace="$1"></match></suggestion></message>
                                 <url>http://poradnia.pwn.pl/lista.php?id=13046</url>
@@ -12964,7 +13001,7 @@ $Id$
 								<example correction="Zresztą" type="incorrect"><marker>Z resztą</marker> nikogo to nie obchodziło.</example>
 						</rule>
 				</rulegroup>
-				<rulegroup id="ZRESZTA_Z_RESZTA" name="zresztą (z resztą)">
+				<rulegroup id="ZRESZTA_Z_RESZTA" name="„zresztą” (z resztą)">
 						<rule>
 								<pattern>
 										<token regexp="yes">razem|wraz</token>
@@ -13424,6 +13461,26 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="MLODU" name="„młodu” (za młodu)">
+                <pattern>
+                    <token>młodu<exception regexp='yes' scope='previous'>za?</exception></token>
+                </pattern>
+                <message>Ten wyraz nie występuje samodzielnie. Czy chodziło o <suggestion>za <match no="1"/></suggestion>?</message>
+                <url>http://so.pwn.pl/lista.php?co=m%B3odu</url>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Kupiłem to <marker>młodu</marker>.</example>
+                <example type='correct'>Kupiłem to za młodu.</example>
+            </rule>
+            <rule id="BEZCEN" name="„bezcen” (za bezcen)">
+                <pattern>
+                    <token>bezcen<exception scope='previous'>za</exception></token>
+                </pattern>
+                <message>Ten wyraz nie występuje samodzielnie. Czy chodziło o <suggestion>za bezcen</suggestion>? A może o <suggestion>bez cen</suggestion>?</message>
+                <url>http://so.pwn.pl/lista.php?co=bezcen</url>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="za bezcen|bez cen">Kupiłem to <marker>bezcen</marker>.</example>
+                <example type='correct'>Kupiłem to za bezcen.</example>
+            </rule>
             <rule id="SANATOR_SENATOR" name="„sanator” (senator)">
                 <pattern>
                     <token inflected='yes'>sanator</token>
@@ -14336,7 +14393,7 @@ $Id$
 										<token>to</token>
 										<token regexp="yes">jest|była|będzie</token>
 										<marker>
-												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|drukowana|ona</exception>.*a</token>
+												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|drukowana|wzruszona|zajęta|zgnębiona|ona</exception>.*a</token>
 												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
 										</marker>
 								</pattern>
@@ -14363,7 +14420,7 @@ $Id$
 								<pattern>
 										<token regexp="yes">jest|była|będzie</token>
 										<marker>
-												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|drukowana|ona</exception>.*a</token>
+												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes"><exception regexp="yes">zainteresowana|przerażona|zdziwiona|oburzona|wstrząśnięta|drukowana|wzruszona|zajęta|zgnębiona|ona</exception>.*a</token>
 												<token postag="adj.*:f.*|subst.*:f" postag_regexp="yes" regexp="yes">.*ą</token>
 										</marker>
 								</pattern>
@@ -15420,7 +15477,7 @@ $Id$
                         <example correction="że" type="incorrect">Premier był zdania <marker>ze</marker> to dobra ustawa.</example>
                     </rule>
                 </rulegroup>
-				<rulegroup id="Z_POWODY" name="„z powody (z powodu)” itp.">
+				<rulegroup id="Z_POWODY" name="„z powody” (z powodu) itp.">
 						<rule>
 								<pattern>
 										<token regexp="yes">z|wiele|tyle|mało</token>
@@ -15707,7 +15764,7 @@ $Id$
 						<example type="correct">Nie lubię tego dania.</example>
 						<example correction="dnia" type="incorrect">Politycy żyją z <marker>dania</marker> na dzień.</example>
 				</rule>
-				<rulegroup id="RANGE" name="range (rangę)">
+				<rulegroup id="RANGE" name="„range” (rangę)">
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
