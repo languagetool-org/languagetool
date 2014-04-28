@@ -2501,8 +2501,8 @@ $Id$
             <example type="incorrect">Он <marker>в пошёл</marker> лес.</example>
         </rule>
         
-        <rule default="on" id="PREP_and_PNN" name="Предлог и местоимения">
-            
+        <rulegroup default="on" id="PREP_and_PNN" name="Предлог и местоимения">
+            <rule>
             <pattern>
                 <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )   -->
                 <marker>
@@ -2518,7 +2518,7 @@ $Id$
                         <token regexp="yes" negate="yes">[н].*</token>
                     </and>
                 </marker>
-                <token postag="SENT_END"></token>
+           <!--     <token postag="SENT_END"></token>  -->
             </pattern>
             <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
@@ -2527,6 +2527,35 @@ $Id$
             <example type="correct">Дело удалось благодаря его усилиям.</example>
             <example type="incorrect">Он подошёл <marker>к ему</marker>.</example>
         </rule>
+      
+        <rule>
+            <pattern>
+                <!--            без ней, для ней, до ней, от ней -> без неё, для неё, до неё, от неё  -->
+                <token regexp="yes">без|для|до|от</token>
+                <token >ней</token>
+            </pattern>
+            <message>Нормативная форма - неё: <suggestion>\1 неё</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Нормативная форма - неё</short>
+            <example type="correct">Всё было сделано без неё</example>
+
+            <example type="incorrect">Всё было сделано <marker>без ней</marker>.</example>
+        </rule>
+        
+        <rule>
+            <pattern>
+                <!--           у ней  -> у неё  -->
+                <token>у</token>
+                <token>ней</token>
+            </pattern>
+            <message>Форма "у ней" придаёт высказыванию разговорный характер. Нормативная форма: <suggestion>\1 неё</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Разговорная форма.</short>
+            <example type="correct">У неё на окошке герань.</example>
+            <example type="incorrect"><marker>У ней</marker> занавески в разводах.</example>
+        </rule>
+        
+        </rulegroup>
         <rule default="on" id="PREP_K_and_Noun" name="Предлог «к» и существительное">
             <pattern case_sensitive="yes">
                 <!--              PREP к, ко -> NN:.*:D   -->
