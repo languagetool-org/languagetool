@@ -4120,6 +4120,15 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
           <example type="ambiguous" inputform="step[step/NN,step/VB,step/VBP]" outputform="step[step/NN]">Study it step by <marker>step</marker>.</example>
           </rule>                   
         </rulegroup>
+
+        <rule id="FURTHER_FAR" name="further as adjective">
+            <pattern>
+                <marker><token>further</token></marker>
+                <token postag_regexp="yes" postag="JJ.*|NN.*"><exception postag="VB.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig postag="JJR"/>
+            <example type="ambiguous" inputform="Further[far/JJR,further/RB,further/VB,further/VBP]" outputform="Further[far/JJR]"><marker>Further</marker> Spanish attacks led by Hugo of Moncada in 1519 were harsh.</example>
+        </rule>
         
         <rule id="FORWARD_RB" name="forward as adverb">
           <pattern>

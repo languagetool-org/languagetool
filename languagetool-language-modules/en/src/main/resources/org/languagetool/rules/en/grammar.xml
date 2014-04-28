@@ -11258,12 +11258,25 @@ USA
             <example type="correct">By default, this setting is enabled.</example>
         </rule>
         <rule id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
+            <antipattern>
+                <marker><token>instead</token></marker>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <marker><token chunk="B-PP">besides</token></marker>
+            </antipattern>
+            <antipattern>
+                <marker><token>also</token></marker>
+                <token>in</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
                     <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
-                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|in addition|in comparision|in contrast|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similiarly|still|subsequently|thereafter|therefore|thus</token>
+                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|in addition|in comparision|in contrast|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similiarly|still|subsequently|thereafter|therefore|thus
+                        <exception negate_pos="yes" postag="RB">further</exception>
+                    </token>
                 </marker>
                 <token negate="yes">,</token>
             </pattern>
@@ -11272,6 +11285,10 @@ USA
             <short>Punctuation error</short>
             <example type="incorrect"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
             <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
+            <example type="correct">Further Spanish attacks were harsh.</example>
+            <example type="correct">Besides the power analysis, there are less formal methods...</example>
+            <example type="incorrect"><marker>Besides</marker> I promised her we would come.</example>
+            <example type="correct">Also in 1875, the legislature passed the Blaine Amendment.</example>
         </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
