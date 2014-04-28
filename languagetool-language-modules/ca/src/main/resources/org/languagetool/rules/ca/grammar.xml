@@ -1628,6 +1628,13 @@ $Id$
                 <example type="correct">Per altra part.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>esquerra</token>
+                        <token regexp="yes">[-/]</token>
+                        <token>dreta</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token postag="N.MS.*" postag_regexp="yes"><exception postag="_GN_FS" /></token>
                     <marker>
@@ -1640,6 +1647,7 @@ $Id$
                 <example type="incorrect">El braç <marker>esquerra</marker>.</example>
                 <example type="correct">El braç esquerre.</example>
                 <example type="correct">En la part esquerra.</example>
+                <example type="correct">En l'eix esquerra-dreta.</example>
             </rule>
             <rule>
                 <pattern>
