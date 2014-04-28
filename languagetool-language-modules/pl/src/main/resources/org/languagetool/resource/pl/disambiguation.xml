@@ -144,6 +144,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
     </rule>
 
+    <rule id="TO_CONJ" name="to jako spójnik skoordynowany z gdyby i jeśli">
+        <pattern>
+            <token skip="-1" regexp="yes">(?:gdyby|jeśli|jeżeli|jakby).*</token>
+            <marker><token>to<exception scope="previous" postag="interp:comma" negate_pos="yes"/></token></marker>
+        </pattern>
+        <disambig postag="conj"/>
+        <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">— Gdybyście ją obaczyli — na to Don Kichot — <marker>to</marker> cóż by za zasługa wasza była, że przyznalibyście prawdę.</example>
+        <example type="untouched">No to co?</example>
+        <example type="untouched">Jeśli jest to głupi przypadek, jestem w kropce.</example>
+    </rule>
+
     <rule name="Liczby z częścią dziesiętną - przecinek nie jest językowy" id="number_comma">
         <pattern>
             <token regexp="yes">\d+</token>
@@ -252,10 +263,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
                 <token spacebefore="yes" regexp="yes">[-−–—―]</token>
             </marker>
+            <token><exception postag="ppron.*:nom:.*|conj" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="replace"><wd pos="interp"/></disambig>
         <example type="untouched">On był (jeśli w ogóle można mówić o kimś takim „on”) wyjątkowo wredny.</example>
         <example type="ambiguous" inputform="–[–/interp:comma]" outputform="–[–/interp]">On był – wyjątkowo <marker>–</marker> wredny.</example>
+        <example type="untouched">„Nie, nie, nie bój się — na to mu Don Kichot — ja mu nie każę, a on rozkazy moje szanować musi”.</example>
+        <example type="untouched">— Gdybyście ją obaczyli — na to Don Kichot — to cóż by za zasługa wasza była, że przyznalibyście prawdę.</example>
     </rule>
 
     <rule name="opisany powyżej" id="opisany_powyzej">
