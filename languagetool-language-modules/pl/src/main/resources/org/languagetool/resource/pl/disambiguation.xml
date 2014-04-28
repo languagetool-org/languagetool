@@ -248,7 +248,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="wtrącenia z myślnikami, ale bez zdania w środku" id="myslniki_1">
         <pattern>
-            <marker><token spacebefore="yes" skip="-1" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            <marker><token spacebefore="yes" skip="-1" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred|pant.*|pcon.*" postag_regexp="yes"/></token>
             </marker>
             <token spacebefore="yes" regexp="yes">[-−–—―]</token>
         </pattern>
@@ -259,7 +259,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="nawiasy z wtrąceniem, ale bez zdania w środku" id="myslniki_2">
         <pattern>
-            <token skip="-1" spacebefore="yes" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            <token skip="-1" spacebefore="yes" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred|pant.*|pcon.*" postag_regexp="yes"/></token>
             <marker>
                 <token spacebefore="yes" regexp="yes">[-−–—―]</token>
             </marker>
