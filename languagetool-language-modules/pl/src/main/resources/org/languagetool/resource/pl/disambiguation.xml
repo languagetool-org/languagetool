@@ -144,6 +144,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform=",[,]" outputform=",[,/interp:comma]">To jest coś<marker>,</marker> co wiedziałem od dawna.</example>
     </rule>
 
+    <rule id="TO_CONJ" name="to jako spójnik skoordynowany z gdyby i jeśli">
+        <pattern>
+            <token skip="-1" regexp="yes">(?:gdyby|jeśli|jeżeli|jakby).*</token>
+            <marker><token>to<exception scope="previous" postag="interp:comma" negate_pos="yes"/></token></marker>
+        </pattern>
+        <disambig postag="conj"/>
+        <example type="ambiguous" inputform="to[ten/adj:sg:acc:n1.n2:pos,ten/adj:sg:nom.voc:n1.n2:pos,to/conj,to/qub,to/subst:sg:acc:n2,to/subst:sg:nom:n2]" outputform="to[to/conj]">— Gdybyście ją obaczyli — na to Don Kichot — <marker>to</marker> cóż by za zasługa wasza była, że przyznalibyście prawdę.</example>
+        <example type="untouched">No to co?</example>
+        <example type="untouched">Jeśli jest to głupi przypadek, jestem w kropce.</example>
+    </rule>
+
     <rule name="Liczby z częścią dziesiętną - przecinek nie jest językowy" id="number_comma">
         <pattern>
             <token regexp="yes">\d+</token>
@@ -237,7 +248,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="wtrącenia z myślnikami, ale bez zdania w środku" id="myslniki_1">
         <pattern>
-            <marker><token spacebefore="yes" skip="-1" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            <marker><token spacebefore="yes" skip="-1" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred|pant.*|pcon.*" postag_regexp="yes"/></token>
             </marker>
             <token spacebefore="yes" regexp="yes">[-−–—―]</token>
         </pattern>
@@ -248,14 +259,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="nawiasy z wtrąceniem, ale bez zdania w środku" id="myslniki_2">
         <pattern>
-            <token skip="-1" spacebefore="yes" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred" postag_regexp="yes"/></token>
+            <token skip="-1" spacebefore="yes" regexp="yes">[-−–—―]<exception scope="next" postag="verb:.*(sg|pl).*|verb:imps.*|pred|pant.*|pcon.*" postag_regexp="yes"/></token>
             <marker>
                 <token spacebefore="yes" regexp="yes">[-−–—―]</token>
             </marker>
+            <token><exception postag="ppron.*:nom:.*|conj|comp" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="replace"><wd pos="interp"/></disambig>
         <example type="untouched">On był (jeśli w ogóle można mówić o kimś takim „on”) wyjątkowo wredny.</example>
         <example type="ambiguous" inputform="–[–/interp:comma]" outputform="–[–/interp]">On był – wyjątkowo <marker>–</marker> wredny.</example>
+        <example type="untouched">„Nie, nie, nie bój się — na to mu Don Kichot — ja mu nie każę, a on rozkazy moje szanować musi”.</example>
+        <example type="untouched">— Gdybyście ją obaczyli — na to Don Kichot — to cóż by za zasługa wasza była, że przyznalibyście prawdę.</example>
+        <example type="untouched">Szef rządu radzieckiego Nikita  Chruszczow zaapelował dziewiątego sierpnia bieżącego roku do rządów odnośnych państw - w tym również do rządu tureckiego - by wykazały umiar i bezwzględne poszanowanie niezawisłości.</example>
     </rule>
 
     <rule name="opisany powyżej" id="opisany_powyzej">
@@ -2630,6 +2645,24 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="tym[ten/adj:pl:dat:m1.m2.m3.f.n1.n2.p1.p2.p3:pos,ten/adj:sg:inst:m1.m2.m3.n1.n2:pos,ten/adj:sg:loc:m1.m2.m3.n1.n2:pos,to/subst:sg:inst:n2,to/subst:sg:loc:n2,tym/adv,tym/conj]"
                      outputform="tym[ten/adj:sg:inst:m1.m2.m3.n1.n2:pos,to/subst:sg:inst:n2]">Jest to jeszcze gra pomiędzy nią a <marker>tym</marker> młodym i pięknym jak dziewczyna mędrcem.</example>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="prep:gen">śród</token>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*gen.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="prep:gen">względem<exception scope="previous">pod</exception></token>
+                    <token postag="(?:adj|depr|ger|num|subst|ppron.*|ppas|pact):.*gen.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
     </rulegroup>
 
     <rule id="PREP_CD_ROKU_GEN" name="W xxx + 'roku' -> unify">
@@ -3240,6 +3273,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>szalbierzy</token>
         </pattern>
         <disambig action="remove"><wd lemma="szalbierzyć"/></disambig>
+    </rule>
+
+    <rule id="SZLI" name="szli to nie szla">
+        <pattern>
+            <token>szli</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="szla"/></disambig>
     </rule>
 
     <rule id="SWIETNI" name="świetni to nie świetnić">
@@ -4244,6 +4284,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="miałem[miał/subst:sg:inst:m3,mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]"
                  outputform="miałem[mieć/verb:praet:sg:m1.m2.m3:pri:imperf:refl.nonrefl]">Oczywiście, <marker>miałem</marker> rację.</example>
         <example type="untouched">Nie bawię się miałem węglowym.</example>
+    </rule>
+
+    <rule id="ktora_ma" name="który ma => verb">
+        <pattern>
+            <token regexp="yes">która|jaka</token>
+            <marker><token>ma</token></marker>
+        </pattern>
+        <disambig postag="verb:fin:sg:ter:imperf:refl.nonrefl"/>
+        <example type="ambiguous" inputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl,mój/adj:sg:nom.voc:f:pos]" outputform="ma[mieć/verb:fin:sg:ter:imperf:refl.nonrefl]">... całej wieczności, która mnie poprzedziła, i tej która <marker>ma</marker> po mnie nastąpić.</example>
+    </rule>
+
+    <rule id="jacy_ktorzy_byli" name="jacy byli => verb">
+        <pattern>
+            <token regexp="yes">jacy|którzy</token>
+            <marker><token>byli</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="były"/></disambig>
+        <example type="ambiguous" inputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl,były/adj:pl:nom.voc:m1.p1:pos,były/subst:pl:nom:m1,były/subst:pl:voc:m1]"
+                 outputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl]">Ciągle wchodzili nowi, wszyscy, jacy <marker>byli</marker> od samego początku naszego klasztoru.</example>
     </rule>
 
     <rule id="GO" name="go to nie rzeczownik">

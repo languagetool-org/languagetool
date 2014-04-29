@@ -11260,12 +11260,29 @@ USA
             <example type="correct">By default, this setting is enabled.</example>
         </rule>
         <rule id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
+            <antipattern>
+                <marker><token>instead</token></marker>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <marker><token>rather</token></marker>
+                <token>than</token>
+            </antipattern>
+            <antipattern>
+                <marker><token chunk="B-PP">besides</token></marker>
+            </antipattern>
+            <antipattern>
+                <marker><token>also</token></marker>
+                <token>in</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
                     <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
-                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|in addition|in comparision|in contrast|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similiarly|still|subsequently|thereafter|therefore|thus</token>
+                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|in addition|in comparision|in contrast|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similiarly|still|subsequently|thereafter|therefore|thus
+                        <exception negate_pos="yes" postag="RB">further</exception>
+                    </token>
                 </marker>
                 <token negate="yes">,</token>
             </pattern>
@@ -11274,6 +11291,10 @@ USA
             <short>Punctuation error</short>
             <example type="incorrect"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
             <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
+            <example type="correct">Further Spanish attacks were harsh.</example>
+            <example type="correct">Besides the power analysis, there are less formal methods...</example>
+            <example type="incorrect"><marker>Besides</marker> I promised her we would come.</example>
+            <example type="correct">Also in 1875, the legislature passed the Blaine Amendment.</example>
         </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
@@ -12787,7 +12808,7 @@ USA
             <example correction="best" type="incorrect">Top ten <marker>best ever</marker> beer names.</example>
             <example type="correct">Top ten best beer names.</example>
         </rule>
-        <rule id="BIG_IN_SIZE" name="Big in size, etc">
+        <rule id="ADJECTIVE_IN_ATTRIBUTE" name="Big in size, yellow in color, etc.">
          <pattern>
                  <token postag_regexp="yes" postag="JJ|JJR|JJS"><exception regexp="yes">similar|alone|religious|corresponding|equal|next|possible|autocratic|necessary|beautiful|rich|back|identical|more|much|second|comparable</exception><exception postag="VBN"/></token>
                   <token>in</token>
@@ -13434,6 +13455,11 @@ USA
                 <token>general</token>
                 <token regexp="yes">public|consensus</token>
             </pattern>
+            <antipattern>
+                <token>General</token>
+                <token>Public</token>
+                <token>License</token>
+            </antipattern>
             <message>Use simply <suggestion>\2</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="public" type="incorrect">We should show this to the <marker>general public</marker>.</example>
@@ -13490,17 +13516,6 @@ USA
                 <example type="correct">I enjoy exaggerating.</example>
             </rule>
         </rulegroup>
-        <rule id="X_IN_COLOR" name="black in color (black)">
-            <pattern>
-                <token regexp="yes">green|blue|red|yellow|grey|gray|orange|white|black|purple|teal|beige|tan|violet|pink</token>
-                <token>in</token>
-                <token>color</token>
-            </pattern>
-            <message>Use simply <suggestion>\1</suggestion>.</message>
-            <short>Redundant phrase</short>
-            <example correction="pink" type="incorrect">My shirt is <marker>pink in color</marker>.</example>
-            <example type="correct">My shirt is pink.</example>
-        </rule>
         <rule id="ORIGINALLY_BORN_IN" name="originally born in (born in)">
             <pattern>
                 <token>originally</token>
