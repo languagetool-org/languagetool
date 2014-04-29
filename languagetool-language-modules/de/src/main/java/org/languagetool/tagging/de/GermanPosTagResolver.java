@@ -164,7 +164,9 @@ class GermanPosTagResolver {
           return l(pos("konjunktion").add("konjunktion", get(parts[1])));
       }
     } catch (Exception e) {
-      throw new RuntimeException("Could not map Morphy POS tag '" + posTag + "'", e);
+      if (strictMode) {
+        throw new RuntimeException("Could not map Morphy POS tag '" + posTag + "'", e);
+      }
     }
     return assertMapping(posTag);
   }
