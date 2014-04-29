@@ -6782,6 +6782,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="RESOLVENT_RESOLENT" name="resolvent/resolent">
+            <pattern>
+                <token><exception postag="D.*" postag_regexp="yes"/><exception regexp="yes">conjunt|matriu|reflector|operador|funció</exception></token>
+                <marker>
+                    <token>resolvent</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>resolent</suggestion> (gerundi) en comptes de "resolvent" (adjectiu o nom)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Era al Congo <marker>resolvent</marker> un cas.</example>
+            <example type="incorrect">S'anava <marker>resolvent</marker> el problema.</example>
+            <example type="correct">Una funció resolvent</example>
+            <example type="correct">per a un resolvent de Galois</example>
+        </rule>
         <rule id="A_MENA_DE" name="a mena de">
             <antipattern>
                 <marker>
