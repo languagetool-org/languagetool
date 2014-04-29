@@ -18,24 +18,19 @@
  */
 package org.languagetool.tagging.de;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.TokenPoS;
-import org.languagetool.tagging.ValueSet;
-import org.languagetool.tools.StringTools;
+import org.languagetool.tagging.PosTagResolverTestBase;
 
 import java.io.IOException;
-import java.util.*;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-public class GermanPosTagResolverTest {
+public class GermanPosTagResolverTest extends PosTagResolverTestBase {
 
   private final GermanPosTagResolver resolver = new GermanPosTagResolver();
+
+  public GermanPosTagResolverTest() {
+    resolver.setStrictResolveMode(true);
+  }
 
   @Test
   public void test() {
@@ -59,33 +54,22 @@ public class GermanPosTagResolverTest {
     assertTag("INJ", "pos=interjektion");  // "naja"
     assertTag("ZUS", "pos=verbzusatz");  // "übrig"
   }
+  
+  private void assertTag(String input, String expected) {
+    assertTag(input, expected, resolver);
+  }
 
   @Test
   public void testDictionary() throws IOException {
-    resolver.setStrictResolveMode(true);
-    Dictionary dictionary = Dictionary.read(
-            JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
-    DictionaryLookup dl = new DictionaryLookup(dictionary);
-    for (WordData wd : dl) {
-      String posTag = wd.getTag().toString();
-      if (ignoreKnownProblems(wd)) {
-        System.err.println("Ignoring: " + posTag + " for word '" + wd.getWord() + "'");
-        continue;
-      }
-      try {
-        resolver.resolvePOSTag(posTag);
-      } catch (Exception e) {
-        //System.err.println("Could not resolve '" + posTag + "' for word '" + wd.getWord() + "': " + e.getMessage());
-        throw new RuntimeException("Could not resolve '" + posTag + "' for word '" + wd.getWord() + "'", e);
-      }
-    }
+    super.testDictionary("/de/german.dict", resolver);
   }
 
   /**
    * Known problems with the data, ignore for now.
    * TODO: remove once the dictionary data is fixed
    */ 
-  private boolean ignoreKnownProblems(WordData wd) {
+  @Override
+  protected boolean ignoreKnownProblems(WordData wd) {
     String word = wd.getWord().toString();
     String pos = wd.getTag().toString();
     if ("Nummerierungen".equals(word)) {
@@ -100,26 +84,4 @@ public class GermanPosTagResolverTest {
     return false;
   }
 
-  private void assertTag(String input, String expected) {
-    List<TokenPoS> pos = resolver.resolvePOSTag(input);
-    String[] parts = expected.split(", ");
-    assertThat(pos.size(), is(1));
-    for (String part : parts) {
-      String[] keyVal = part.split("=");
-      String expectedKey = keyVal[0];
-      String expectedVal = keyVal[1];
-      ValueSet values = pos.get(0).getValues(expectedKey);
-      if (values == null) {
-        throw new RuntimeException("No value found for expected key '" + expectedKey + "'");
-      }
-      List<String> sortedValues = new ArrayList<>(values.getValues());
-      Collections.sort(sortedValues, new Comparator<String>() {
-        @Override
-        public int compare(String o1, String o2) {
-          return o1.compareTo(o2);
-        }
-      });
-      assertThat("Failure for input '" + input + "', key '" + expectedKey + "'", StringTools.listToString(sortedValues, "|"), is(expectedVal));
-    }
-  }
 }

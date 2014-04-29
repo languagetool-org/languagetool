@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging.de;
 
+import org.languagetool.tagging.PosTagResolver;
 import org.languagetool.tagging.TokenPoS;
 import org.languagetool.tagging.TokenPoSBuilder;
 
@@ -27,7 +28,7 @@ import java.util.*;
  * Maps Morphy tags like {@code SUB:GEN:PLU:FEM} to structured {@link TokenPoS}.
  * @since 2.6
  */
-class GermanPosTagResolver {
+class GermanPosTagResolver implements PosTagResolver {
   
   private static final Map<String,String> MAP;
   static {
@@ -124,7 +125,8 @@ class GermanPosTagResolver {
 
   private boolean strictMode;
 
-  List<TokenPoS> resolvePOSTag(String posTag) {
+  @Override
+  public List<TokenPoS> resolvePOSTag(String posTag) {
     if (posTag == null) {
       return Collections.emptyList();
     }
