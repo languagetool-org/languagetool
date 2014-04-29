@@ -487,11 +487,28 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected TokenPoS buildTokenPoS(Attributes attrs) {
     TokenPoSBuilder builder = new TokenPoSBuilder();
+    // common
     addValues(builder, attrs, "pos");
+    // English:
     addValues(builder, attrs, "tense");
     addValues(builder, attrs, "person");
     addValues(builder, attrs, "number");
-    // TODO: add more
+    // German:
+    addValues(builder, attrs, "kasus");
+    addValues(builder, attrs, "numerus");
+    addValues(builder, attrs, "genus");
+    addValues(builder, attrs, "artikel");
+    addValues(builder, attrs, "eigenname");
+    addValues(builder, attrs, "gebrauch");
+    addValues(builder, attrs, "komparation");
+    addValues(builder, attrs, "partizip");
+    addValues(builder, attrs, "form");
+    addValues(builder, attrs, "art");
+    addValues(builder, attrs, "pronomen");
+    addValues(builder, attrs, "adverb");
+    addValues(builder, attrs, "präposition");
+    addValues(builder, attrs, "stellung");
+    // add more attributes here to support another language...
     return builder.create();
   }
 

@@ -77,7 +77,7 @@ public abstract class AbstractPatternRulePerformer {
       //short-circuit when the search cannot possibly match
       if (!thisMatched && (prevElement == null ||
           prevElement.getElement().getExceptionList() == null)) {
-        if (elem.getElement().getPOStag() == null) {
+        if (elem.getElement().getPOStag() == null && elem.getElement().getTokenPos() == null) {
           if (elem.getElement().isInflected()) {
             if (tokens[tokenNo].hasSameLemmas()) {
               return false; // same lemmas everywhere

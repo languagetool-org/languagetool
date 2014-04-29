@@ -90,7 +90,10 @@ $Id$
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
 ]>
 
-<rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+<rules lang="de" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
+       xmlns:de="http://www.languagetool.org/de">
 
     <!-- ====================================================================== -->
     <!-- Tippfehler -->
@@ -163,7 +166,8 @@ $Id$
                     <marker>
                         <token skip="1">da</token>
                     </marker>
-                    <token postag_regexp="yes" postag=".*(NOM|AKK):SIN:NEU.*"/>
+                    <!-- old code: <token postag_regexp="yes" postag=".*(NOM|AKK):SIN:NEU.*"/> -->
+                    <token de:pos="verb nomen" de:kasus="nominativ akkusativ" de:numerus="singular" de:genus="neutrum" />
                     <token postag_regexp="yes" postag=".*(NOM|AKK):SIN:NEU.*|VER:(PA)?[123].*"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>das</suggestion>?</message>

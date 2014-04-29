@@ -347,6 +347,13 @@ public class Element implements Cloneable {
   }
 
   /**
+   * @since 2.6
+   */
+  public final TokenPoS getTokenPos() {
+    return this.tokenPoS;
+  }
+
+  /**
    * @since 2.3
    */
   public final void setChunkElement(final ChunkTag chunkTag) {

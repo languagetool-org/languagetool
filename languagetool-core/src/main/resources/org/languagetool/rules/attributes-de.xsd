@@ -1,8 +1,220 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.languagetool.org">
-    <!-- TODO -->
-    <xs:attribute name="pos" type="xs:token"/>
-    <xs:attribute name="tense" type="xs:token" />
-    <xs:attribute name="person" type="xs:token" />
-    <xs:attribute name="number" type="xs:string" />
+           targetNamespace="http://www.languagetool.org/de"
+           xmlns:de="http://www.languagetool.org/de">
+
+    <!-- NOTE: keep possible values in sync with EnglishPosTagResolver -->
+
+    <xs:simpleType name="posType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="SENT_START" />
+            <xs:enumeration value="SENT_END" />
+            <xs:enumeration value="nomen" />
+            <xs:enumeration value="eigenname" />
+            <xs:enumeration value="verb" />
+            <xs:enumeration value="adjektiv" />
+            <xs:enumeration value="artikel" />
+            <xs:enumeration value="pronomen" />
+            <xs:enumeration value="adverb" />
+            <xs:enumeration value="präposition" />
+            <xs:enumeration value="negationspartikel" />
+            <xs:enumeration value="abkürzung" />
+            <xs:enumeration value="zahlwort" />
+            <xs:enumeration value="interjektion" />
+            <xs:enumeration value="verbzusatz" />
+            <xs:enumeration value="konjunktion" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="pos">
+        <xs:simpleType>
+            <xs:list itemType="de:posType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="kasusType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="nominativ" />
+            <xs:enumeration value="akkusativ" />
+            <xs:enumeration value="dativ" />
+            <xs:enumeration value="genitiv" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="kasus">
+        <xs:simpleType>
+            <xs:list itemType="de:kasusType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="numerusType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="singular" />
+            <xs:enumeration value="plural" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="numerus">
+        <xs:simpleType>
+            <xs:list itemType="de:numerusType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="genusType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="maskulinum" />
+            <xs:enumeration value="femininum" />
+            <xs:enumeration value="neutrum" />
+            <xs:enumeration value="ohne_genus" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="genus">
+        <xs:simpleType>
+            <xs:list itemType="de:genusType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <!-- für Eigennamen -->
+    <xs:simpleType name="artikelType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="mit" />
+            <xs:enumeration value="ohne" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="artikel">
+        <xs:simpleType>
+            <xs:list itemType="de:artikelType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <!-- für Eigennamen -->
+    <xs:simpleType name="eigennameType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="land" />
+            <xs:enumeration value="gebirge" />
+            <xs:enumeration value="vorname" />
+            <xs:enumeration value="nachname" />
+            <xs:enumeration value="geographischer_eigenname" />
+            <xs:enumeration value="gebiet" />
+            <xs:enumeration value="personal" />
+            <xs:enumeration value="stadt" />
+            <xs:enumeration value="gewässer" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="eigenname">
+        <xs:simpleType>
+            <xs:list itemType="de:eigennameType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="gebrauchType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="attributiv" />
+            <xs:enumeration value="prädikativ" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="gebrauch">
+        <xs:simpleType>
+            <xs:list itemType="de:gebrauchType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="komparationType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="grundform" />
+            <xs:enumeration value="komparativ" />
+            <xs:enumeration value="superlativ" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="komparation">
+        <xs:simpleType>
+            <xs:list itemType="de:komparationType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="partizipType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="1" />
+            <xs:enumeration value="2" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="partizip">
+        <xs:simpleType>
+            <xs:list itemType="de:partizipType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <!-- für Verben -->
+    <xs:simpleType name="formType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="hilfsverb" />
+            <xs:enumeration value="modalsverb" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="form">
+        <xs:simpleType>
+            <xs:list itemType="de:formType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <!-- für Verben -->
+    <xs:simpleType name="artType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="bestimmt" />
+            <xs:enumeration value="unbestimmt" />
+            <xs:enumeration value="alleinstehend" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="art">
+        <xs:simpleType>
+            <xs:list itemType="de:artType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="pronomenType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="demonstrativ" />
+            <xs:enumeration value="unbestimmt" />
+            <xs:enumeration value="relativ" />
+            <xs:enumeration value="interrogativ" />
+            <xs:enumeration value="personal" />
+            <xs:enumeration value="reflexiv" />
+            <xs:enumeration value="possessiv" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="pronomen">
+        <xs:simpleType>
+            <xs:list itemType="de:pronomenType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="prepType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="lokal" />
+            <xs:enumeration value="temporal" />
+            <xs:enumeration value="modal" />
+            <xs:enumeration value="kausal" />
+            <xs:enumeration value="interrogativ" />
+            <xs:enumeration value="pronomen" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="adverb">
+        <xs:simpleType>
+            <xs:list itemType="de:prepType"/>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="präposition">
+        <xs:simpleType>
+            <xs:list itemType="de:prepType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
+    <xs:simpleType name="stellungType">
+        <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="begleitend" />
+            <xs:enumeration value="stellvertretend" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:attribute name="stellung">
+        <xs:simpleType>
+            <xs:list itemType="de:stellungType"/>
+        </xs:simpleType>
+    </xs:attribute>
+
 </xs:schema>

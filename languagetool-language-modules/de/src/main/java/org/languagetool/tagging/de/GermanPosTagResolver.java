@@ -32,8 +32,8 @@ class GermanPosTagResolver {
   private static final Map<String,String> MAP;
   static {
     Map<String,String> m = new HashMap<>();
-    m.put("AKK", "akkusativ");
     m.put("NOM", "nominativ");
+    m.put("AKK", "akkusativ");
     m.put("DAT", "dativ");
     m.put("GEN", "genitiv");
 
@@ -80,8 +80,8 @@ class GermanPosTagResolver {
     m.put("PRÄ", "präsens");
 
     m.put("DEF", "bestimmt");
-    m.put("SOL", "alleinstehend");
     m.put("IND", "unbestimmt");
+    m.put("SOL", "alleinstehend");
 
     m.put("ATT", "attributiv");
     m.put("PRD", "prädikativ");
@@ -169,6 +169,11 @@ class GermanPosTagResolver {
     return assertMapping(posTag);
   }
 
+  /** Fail with exception if no mapping is possible. */
+  void setStrictResolveMode(boolean strictMode) {
+    this.strictMode = strictMode;
+  }
+
   private List<TokenPoS> handleNoun(String[] parts) {
     // e.g. SUB:DAT:SIN:MAS:ADJ
     return l(pos("nomen")
@@ -201,7 +206,7 @@ class GermanPosTagResolver {
       return l(pos("verb")
               .add("gebrauch", get(parts[1]))
               .add("komparation", get(parts[2]))
-              .add("art", get(parts[4]))
+              .add("form", get(parts[4]))
               .add("partizip", get(participle))   // extension to Morphy
       );
     } else if (parts.length == 6 || parts.length == 7) {
@@ -255,7 +260,9 @@ class GermanPosTagResolver {
   private List<TokenPoS> handleAdjective(String posTag, String[] parts) {
     if (parts.length == 3) {
       // e.g. ADJ:PRD:KOM
-      return l(pos("adjektiv").add("gebrauch", get(parts[1])).add("komparation", get(parts[2])));
+      return l(pos("adjektiv")
+              .add("gebrauch", get(parts[1]))
+              .add("komparation", get(parts[2])));
     } else if (parts.length == 6) {
       // e.g. ADJ:DAT:SIN:MAS:SUP:DEF
       return l(pos("adjektiv")
@@ -282,6 +289,7 @@ class GermanPosTagResolver {
 
   private List<TokenPoS> handlePronoun(String posTag, String[] parts) {
     if (parts.length == 2) {
+      // only PRO:DEM (selber, selbst)
       return l(pos("artikel")
               .add("pronomen", get(parts[1])));
     } else if (parts.length == 4) {
@@ -302,7 +310,7 @@ class GermanPosTagResolver {
         // e.g. PRO:RIN:NOM:SIN:NEU:B/S
         handlePronounProperty(parts[1], builder);
         builder.add("kasus", get(parts[2]))
-                .add("numerus", get(parts[3]));
+               .add("numerus", get(parts[3]));
         handlePronounGender(parts[4], builder);
       }
       if (parts.length == 6) {
@@ -333,16 +341,13 @@ class GermanPosTagResolver {
     return l(propBuilder);
   }
 
+  // =====================================================================
+
   private List<TokenPoS> assertMapping(String posTag) {
     if (strictMode) {
       throw new RuntimeException("posTag '" + posTag + "' not yet handled");
     }
     return l();
-  }
-
-  /** Fail with exception if no mapping is possible. */
-  void setStrictResolveMode(boolean strictMode) {
-    this.strictMode = strictMode;
   }
 
   private void addParts(String part, String name, TokenPoSBuilder propBuilder) {

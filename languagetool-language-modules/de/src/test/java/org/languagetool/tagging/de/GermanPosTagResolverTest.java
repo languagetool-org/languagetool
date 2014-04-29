@@ -83,7 +83,7 @@ public class GermanPosTagResolverTest {
 
   /**
    * Known problems with the data, ignore for now.
-   * TODO: remove once the data is fixed
+   * TODO: remove once the dictionary data is fixed
    */ 
   private boolean ignoreKnownProblems(WordData wd) {
     String word = wd.getWord().toString();
