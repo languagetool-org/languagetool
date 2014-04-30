@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.083 2014-04-23 18:05:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.084 2014-04-30 20:30:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -634,6 +634,22 @@ $Id: grammar.xml,v 1.083 2014-04-23 18:05:00 marcoagpinto Exp $
       <message>Substituir «asserto» por <suggestion>acerto</suggestion>.</message>
       <example type="incorrect">Temos de fazer um <marker>asserto</marker> de contas.</example>
       <example type="correct">Temos de fazer um <marker>acerto</marker> de contas.</example>
+    </rule>
+
+
+
+    <!-- ASSUNTO/ASSUNTOS A ESCLARECER assunto/assuntos para esclarecer -->
+    <rule id="ASSUNTO_ASSUNTOS_A_ESCLARECER" name="assunto/assuntos para esclarecer">
+      <pattern>
+		 <token regexp="yes">assunto|assuntos</token>      
+		 <marker>
+            <token>a</token>
+         </marker>         
+        <token>esclarecer</token>
+      </pattern>
+      <message>Substituir «a» por <suggestion>para</suggestion>.</message>
+      <example type="incorrect">Temos vários assuntos <marker>a</marker> esclarecer.</example>
+      <example type="correct">Temos vários assuntos <marker>para</marker> esclarecer.</example>
     </rule>
 
 
@@ -1295,6 +1311,22 @@ $Id: grammar.xml,v 1.083 2014-04-23 18:05:00 marcoagpinto Exp $
       <message>Substituir «houveram muitos» por <suggestion>houve muitos</suggestion>.</message>
       <example type="incorrect">No passado <marker>houveram muitos</marker> muitos acidentes.</example>
       <example type="correct">No passado <marker>houve muitos</marker> muitos acidentes.</example>
+    </rule>
+
+
+
+    <!-- ARREAR A/AS VELA/S BANDEIRA/S arriar a/as vela/s bandeira/s -->
+    <rule id="ARREAR_A_AS_VELA_S_BANDEIRA_S" name="arriar a/as vela/s bandeira/s">
+      <pattern>
+		 <marker>
+            <token>arrear</token>
+         </marker>         
+		 <token regexp="yes">a|as</token>      
+		 <token regexp="yes">vela|velas|bandeira|bandeiras</token>      
+      </pattern>
+      <message>Substituir «arrear» por <suggestion>arriar</suggestion>.</message>
+      <example type="incorrect">Vamos <marker>arrear</marker> a vela.</example>
+      <example type="correct">Vamos <marker>arriar</marker> a vela.</example>
     </rule>
 
 
