@@ -17821,6 +17821,7 @@ $Id$
                 <suggestion>avui dia</suggestion>
                 <suggestion>avui en dia</suggestion>
                 <suggestion>ara com ara</suggestion>
+                <suggestion>avui</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>a dia d'avui</marker> em trobo millor</example>
                 <example type="correct"><marker>ara com ara</marker> em trobo millor</example>
@@ -17837,6 +17838,7 @@ $Id$
                 <suggestion>hui dia</suggestion>
                 <suggestion>hui en dia</suggestion>
                 <suggestion>ara com ara</suggestion>
+                <suggestion>hui</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>a dia de hui</marker> em trobe millor</example>
                 <example type="correct"><marker>el dia de hui</marker> em trobe millor</example>
@@ -24003,6 +24005,24 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="POSAR_EN_VALOR" name="sublevar">
+            <pattern>
+                <token inflected="yes">posar</token>
+                <token>en</token>
+                <token>valor</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valorar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> valer</suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afavorir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">treure</match> profit</suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remarcar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">realçar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reivindicar</match></suggestion>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="Valorarem|Farem valer|Afavorirem|Traurem profit|Remarcarem|Realçarem|Reivindicarem"><marker>Posarem en valor</marker> el museu.</example>
+            <example type="correct">Valorarem.</example>
+        </rule>
         <rule id="EL_SUFICIENTMENT" name="el suficientment">
             <pattern>
                 <token regexp="yes">el|lo</token>
