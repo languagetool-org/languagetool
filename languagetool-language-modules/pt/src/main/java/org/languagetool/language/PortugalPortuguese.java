@@ -18,12 +18,6 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class PortugalPortuguese extends Portuguese {
 
   @Override
@@ -34,13 +28,6 @@ public class PortugalPortuguese extends Portuguese {
   @Override
   public String[] getCountries() {
     return new String[]{"PT"};
-  }
-
-  @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<>(super.getRelevantRules());
-    rules.add(PreReformPortugueseCompoundRule.class);
-    return rules;
   }
 
 }
