@@ -24,11 +24,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
@@ -224,6 +227,68 @@ public class ConfigurationDialog implements ActionListener {
     TreeListener.install(configTree);
     checkBoxPanel.add(configTree, cons);
 
+    MouseAdapter ma = new MouseAdapter() {
+      private void handlePopupEvent(MouseEvent e) {
+        final JTree tree = (JTree) e.getSource();
+
+        TreePath path = tree.getPathForLocation(e.getX(), e.getY());
+        if (path == null) {
+          return;
+        }
+
+        DefaultMutableTreeNode node
+                = (DefaultMutableTreeNode) path.getLastPathComponent();
+
+        TreePath[] paths = tree.getSelectionPaths();
+
+        boolean isSelected = false;
+        if (paths != null) {
+          for (TreePath selectionPath : paths) {
+            if (selectionPath.equals(path)) {
+              isSelected = true;
+            }
+          }
+        }
+        if (!isSelected) {
+          tree.setSelectionPath(path);
+        }
+        if (node.isLeaf()) {
+          JPopupMenu popup = new JPopupMenu();
+          final JMenuItem aboutRuleMenuItem = new JMenuItem(messages.getString("guiAboutRuleMenu"));
+          aboutRuleMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+              RuleNode node = (RuleNode) tree.getSelectionPath().getLastPathComponent();
+              Rule rule = node.getRule();
+              Language lang = config.getLanguage();
+              if(lang == null) {
+                lang = Language.getLanguageForLocale(Locale.getDefault());
+              }
+              Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
+                      rule.getDescription(), rule, messages,
+                      lang.getShortNameWithCountryAndVariant());
+            }
+          });
+          popup.add(aboutRuleMenuItem);
+          popup.show(tree, e.getX(), e.getY());
+        }
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {
+        if (e.isPopupTrigger()) {
+          handlePopupEvent(e);
+        }
+      }
+
+      @Override
+      public void mouseReleased(MouseEvent e) {
+        if (e.isPopupTrigger()) {
+          handlePopupEvent(e);
+        }
+      }
+    };
+    configTree.addMouseListener(ma);
     final JPanel treeButtonPanel = new JPanel();
     cons = new GridBagConstraints();
     cons.gridx = 0;

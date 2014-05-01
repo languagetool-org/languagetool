@@ -21,8 +21,6 @@ package org.languagetool.gui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Desktop;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -34,10 +32,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,22 +49,16 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.EventListenerList;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.text.AbstractDocument;
@@ -87,10 +76,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.patterns.FalseFriendPatternRule;
 import org.languagetool.tools.LanguageIdentifierTools;
 
 /**
@@ -818,82 +805,7 @@ class LanguageToolSupport {
   }
 
   private void showDialog(Component parent, String title, String message, Rule rule) {
-    int dialogWidth = 320;
-    JTextPane textPane = new JTextPane();
-    textPane.setEditable(false);
-    textPane.setContentType("text/html");
-    textPane.setBorder(BorderFactory.createEmptyBorder());
-    textPane.setOpaque(false);
-    textPane.setBackground(new Color(0, 0, 0, 0));
-    textPane.addHyperlinkListener(new HyperlinkListener() {
-      @Override
-      public void hyperlinkUpdate(HyperlinkEvent e) {
-        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-          if (Desktop.isDesktopSupported()) {
-            try {
-              Desktop.getDesktop().browse(e.getURL().toURI());
-            } catch (Exception ex) {
-              Tools.showError(ex);
-            }
-          }
-        }
-      }
-    });
-    textPane.setSize(dialogWidth, Short.MAX_VALUE);
-    String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
-    String exampleSentences = getExampleSentences(rule);
-    String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
-            + "?lang=" + languageTool.getLanguage().getShortNameWithCountryAndVariant() + "&amp;ref=standalone-gui";
-    String ruleDetailLink = rule instanceof FalseFriendPatternRule ? "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
-    textPane.setText("<html>"
-            + messageWithBold + exampleSentences + formatURL(rule.getUrl())
-            + "<br><br>"
-            + ruleDetailLink
-            + "</html>");
-    JScrollPane scrollPane = new JScrollPane(textPane);
-    scrollPane.setPreferredSize(
-            new Dimension(dialogWidth, textPane.getPreferredSize().height));
-    scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-    String cleanTitle = title.replace("<suggestion>", "'").replace("</suggestion>", "'");
-    JOptionPane.showMessageDialog(parent, scrollPane, cleanTitle,
-            JOptionPane.INFORMATION_MESSAGE);
-  }
-
-  private String encodeUrl(Rule rule) {
-    try {
-      return URLEncoder.encode(rule.getId(), "utf-8");
-    } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private String getExampleSentences(Rule rule) {
-    StringBuilder examples = new StringBuilder(200);
-    List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
-    if (incorrectExamples.size() > 0) {
-      String incorrectExample = incorrectExamples.iterator().next().getExample();
-      String sentence = incorrectExample.replace("<marker>", "<span style='background-color:#ff8080'>").replace("</marker>", "</span>");
-      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red;font-style:italic;font-weight:bold'>x</span>");
-    }
-    List<String> correctExamples = rule.getCorrectExamples();
-    if (correctExamples.size() > 0) {
-      String correctExample = correctExamples.iterator().next();
-      String sentence = correctExample.replace("<marker>", "<span style='background-color:#80ff80'>").replace("</marker>", "</span>");
-      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
-    }
-    if (examples.length() > 0) {
-      examples.insert(0, "<br/><br/>" + messages.getString("guiExamples"));
-    }
-    return examples.toString();
-  }
-
-  private static String formatURL(URL url) {
-    if (url == null) {
-      return "";
-    }
-    return String.format("<br/><br/><a href=\"%s\">%s</a>",
-            url.toExternalForm(), StringUtils.abbreviate(url.toString(), 50));
+    Tools.showRuleInfoDialog(parent, title, message, rule, messages, languageTool.getLanguage().getShortNameWithCountryAndVariant());
   }
 
   private static class HighlightPainter extends DefaultHighlighter.DefaultHighlightPainter {
