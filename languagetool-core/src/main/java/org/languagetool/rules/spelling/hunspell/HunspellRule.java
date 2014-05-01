@@ -163,8 +163,7 @@ public class HunspellRule extends SpellingCheckRule {
       if ("".equals(path)) {
         dictionary = null;
       } else {
-        dictionary = Hunspell.getInstance().
-            getDictionary(path);
+        dictionary = Hunspell.getInstance().getDictionary(path);
 
         if (!"".equals(dictionary.getWordChars())) {
           wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
@@ -187,15 +186,14 @@ public class HunspellRule extends SpellingCheckRule {
     //to the local temporary directory
     if ("jar".equals(dictURL.getProtocol())) {
       final File tempDir = new File(System.getProperty("java.io.tmpdir"));
-      File temporaryFile = new File(tempDir, dicName + ".dic");
-      JLanguageTool.addTemporaryFile(temporaryFile);
+      File tempDicFile = new File(tempDir, dicName + ".dic");
+      JLanguageTool.addTemporaryFile(tempDicFile);
       fileCopy(JLanguageTool.getDataBroker().
-          getFromResourceDirAsStream(originalPath), temporaryFile);
-      temporaryFile = new File(tempDir, dicName + ".aff");
-      JLanguageTool.addTemporaryFile(temporaryFile);
+          getFromResourceDirAsStream(originalPath), tempDicFile);
+      File tempAffFile = new File(tempDir, dicName + ".aff");
+      JLanguageTool.addTemporaryFile(tempAffFile);
       fileCopy(JLanguageTool.getDataBroker().
-          getFromResourceDirAsStream(originalPath.
-              replaceFirst(".dic$", ".aff")), temporaryFile);
+          getFromResourceDirAsStream(originalPath.replaceFirst(".dic$", ".aff")), tempAffFile);
 
       dictionaryPath = tempDir.getAbsolutePath() + "/" + dicName;
     } else {
