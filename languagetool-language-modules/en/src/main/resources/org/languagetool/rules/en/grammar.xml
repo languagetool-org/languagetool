@@ -9747,6 +9747,20 @@ USA
             <example type="correct">They need to do this.</example>    
             </rule>
         </rulegroup>
+        <rule id="DID_VBD" name="Agreement error: did with past tense verb">
+          <pattern>
+            <token postag="SENT_START"/>
+            <token>Did</token>
+            <token regexp="yes">I|you|he|she|we|they</token>
+            <marker>
+              <token postag="VBD"><exception postag="VB"/></token>
+            </marker>
+          </pattern>
+          <message>Did you mean <suggestion><match no="4" postag="VBP" postag_regexp="yes"/></suggestion>?</message>
+          <short>Possible grammatical error</short>
+          <example type="incorrect">Did you <marker>forgot</marker> it?</example>
+          <example type="correct">Did you forget it?</example>
+        </rule>
         <rule id="EQUALLY_AS" name="equally+as (equally)">
             <pattern>
                 <token>equally</token>
