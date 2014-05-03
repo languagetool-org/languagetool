@@ -33,7 +33,7 @@ import org.languagetool.AnalyzedTokenReadings;
 public class LongSentenceRule extends Rule {
 
   private static final int DEFAULT_MAX_WORDS = 40;
-  private static final Pattern NON_WORD_REGEX = Pattern.compile("[?!:;,~’-]");
+  private static final Pattern NON_WORD_REGEX = Pattern.compile("[?!:;,~’'\"„“»«‚‘«»›‹-]");
 
   private final int maxWords;
 
