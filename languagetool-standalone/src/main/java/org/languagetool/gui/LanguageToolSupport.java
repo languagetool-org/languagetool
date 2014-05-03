@@ -186,6 +186,7 @@ class LanguageToolSupport {
   ConfigurationDialog getCurrentConfigDialog() {
     Language language = this.currentLanguage;
     final ConfigurationDialog configDialog;
+    this.config.setLanguage(language);
     if (configDialogs.containsKey(language)) {
       configDialog = configDialogs.get(language);
     } else {
