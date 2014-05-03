@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -61,7 +62,7 @@ public class LongSentenceRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Readability: sentence over " + maxWords + " words";
+    return MessageFormat.format(messages.getString("long_sentence_rule_desc"), maxWords);
   }
 
   @Override
@@ -73,7 +74,7 @@ public class LongSentenceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    final String msg = "Sentence is over " + maxWords + " words long, consider revising.";
+    final String msg = MessageFormat.format(messages.getString("long_sentence_rule_msg"), maxWords);
     int numWords = 0;
     int pos = 0;
     if (tokens.length < maxWords + 1) {   // just a short-circuit
