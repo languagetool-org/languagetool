@@ -1898,14 +1898,78 @@ $Id$
         </rulegroup>
         <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов «наверху», «внизу» ...">
             <!-- To Do
-вместо
-вне
-заместо
-навстречу
-насчёт
-ниже
-посередине
+-вместо
+-вне
+-заместо
+-навстречу
+-насчёт
+-ниже
+-посередине
 -->
+   
+
+            <rule>
+                <!-- вместо вне   -->
+                <pattern case_sensitive="no">
+                    <token>в</token>
+                    <token regexp="yes">место|не</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Это новое оборудование можно  использовать <marker>вместо</marker> старого.</example>
+                <example type="incorrect">Это новое оборудование можно  использовать <marker>в место</marker> старого.</example>
+            </rule>
+            <rule>
+                <!-- заместо    -->
+                <pattern case_sensitive="no">
+                    <token>за</token>
+                    <token>место</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Это новое оборудование можно  использовать <marker>заместо</marker> старого.</example>
+                <example type="incorrect">Это новое оборудование можно  использовать <marker>за место</marker> старого.</example>
+            </rule>
+
+
+            <rule>
+                <!-- навстречу насчёт   -->
+                <pattern case_sensitive="no">
+                    <token>на</token>
+                    <token regexp="yes">встречу|счёт|счет</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Они шли <marker>навстречу</marker> друг другу.</example>
+                <example type="incorrect">Они шли  <marker>на встречу</marker> друг другу.</example>
+            </rule>
+<rule>
+                <!-- ниже    -->
+                <pattern case_sensitive="no">
+                    <token>ни</token>
+                    <token>же</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Эта игрушка висит <marker>ниже</marker> на другой ветке ёлки.</example>
+                <example type="incorrect">Эта игрушка висит <marker>ни же</marker> на другой ветке ёлки.</example>
+            </rule>
+            <rule>
+      <!-- посередине    -->
+                <pattern case_sensitive="no">
+                    <token>по</token>
+                    <token>середине</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Эта игрушка висит <marker>посередине</marker> между двумя шарами.</example>
+                <example type="incorrect">Эта игрушка висит <marker>по середине</marker> между двумя шарами.</example>
+            </rule>
+
+
+
+
+
             <rule>
                 <!-- накануне, наподобие, напротив               
   -->
