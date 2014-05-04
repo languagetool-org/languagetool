@@ -1897,22 +1897,13 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов «наверху», «внизу» ...">
-            <!-- To Do
--вместо
--вне
--заместо
--навстречу
--насчёт
--ниже
--посередине
--->
-   
+    
 
             <rule>
                 <!-- вместо вне   -->
                 <pattern case_sensitive="no">
                     <token>в</token>
-                    <token regexp="yes">место|не</token>
+                    <token>место</token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
@@ -1936,14 +1927,17 @@ $Id$
                 <!-- навстречу насчёт   -->
                 <pattern case_sensitive="no">
                     <token>на</token>
-                    <token regexp="yes">встречу|счёт|счет</token>
+                    <token regexp="yes">встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example type="correct">Они шли <marker>навстречу</marker> друг другу.</example>
-                <example type="incorrect">Они шли  <marker>на встречу</marker> друг другу.</example>
+             <!--   <example type="correct">Деньги переведены <marker>на счёт</marker> в банке.</example>  -->
+                <example type="correct">Тебе следует быть осторожным <marker>насчёт</marker> того, чтобы пойти в поход.</example>
+                <example type="incorrect">Они шли <marker>на встречу</marker> друг другу.</example>
+                <example type="incorrect">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
             </rule>
-<rule>
+            <rule>
                 <!-- ниже    -->
                 <pattern case_sensitive="no">
                     <token>ни</token>
