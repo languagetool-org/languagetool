@@ -34,6 +34,9 @@ import org.languagetool.Language;
  */
 public class PatternTestTools {
 
+    // These characters should not be present in token values as they split tokens in all languages.
+    private static final Pattern TOKEN_SEPARATOR_PATTERN = Pattern.compile("[ 	.,:;…!?(){}<>«»\"]");
+
     private static final Pattern PROBABLE_PATTERN = Pattern.compile(".*([^*]\\*|[.+?{}()|\\[\\]].*|\\\\d).*");
 
     // Polish POS tags use dots, so do not consider the presence of a dot
@@ -285,6 +288,17 @@ public class PatternTestTools {
             final Language lang,
             final String ruleId,
             final int tokenIndex) {
+
+          // Check that the string value does not contain token separator.
+          if (!isPos && !isRegularExpression && stringValue.length() > 1) {
+            // Example: <token>foo bar</token> can't be valid because
+            // token value contains a space which is a token separator.
+            if (TOKEN_SEPARATOR_PATTERN.matcher(stringValue).find()) {
+              System.err.println("The " + lang.toString() + " rule: "
+                  + ruleId + ", token [" + tokenIndex + "], contains " + "\"" + stringValue
+                  + "\" that contains token separators, so can't possibly be matched.");
+            }
+          }
 
           // Use a different regexp to check for probable regexp in Polish POS tags
           // since Polish uses dot '.' in POS tags. So a dot does not indicate that
