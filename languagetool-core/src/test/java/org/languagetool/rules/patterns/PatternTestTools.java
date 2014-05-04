@@ -392,7 +392,20 @@ public class PatternTestTools {
                 final String[] alt = group.split("\\|");
                 final Set<String> partSet = new HashSet<>();
                 final Set<String> partSetNoCase = new HashSet<>();
+                boolean hasSingleChar = false; 
+                boolean hasSingleDot = false; 
+
                 for (String part : alt) {
+                  if (part.length() == 1) {
+                    // If all alternatives in disjunction have one char, then
+                    // a dot . (any char) does not make sense since it would match
+                    // other characters.
+                    if (part.equals(".")) {
+                      hasSingleDot = true;
+                    } else {
+                      hasSingleChar = true;
+                    }
+                  }
                   final String partNoCase = isCaseSensitive ? part : part.toLowerCase();
                   if (partSetNoCase.contains(partNoCase)) {
                     if (partSet.contains(part)) {
@@ -413,10 +426,18 @@ public class PatternTestTools {
                   partSetNoCase.add(partNoCase);
                   partSet.add(part);
                 }
+                if (hasSingleDot && hasSingleChar) {
+                  // This finds errors like this <token regexp="yes">.|;|:</token>
+                  // which should be <token regexp="yes">\.|;|:</token> or
+                  // even better <token regexp="yes">[.;:]</token>
+                  System.err.println("The " + lang.toString() + " rule: "
+                      + ruleId + ", token [" + tokenIndex + "], contains a single dot (matching any char) "
+                      + "so other single char disjunction are useless within " + "\"" + stringValue 
+                      + "\". Did you forget forget a backslash before the dot?");
+                }
               }
             }
           }
-
         }
 
 
