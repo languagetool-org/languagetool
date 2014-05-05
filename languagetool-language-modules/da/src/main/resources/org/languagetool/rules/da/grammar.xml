@@ -218,9 +218,7 @@ $Id$
     <rulegroup id="talord" name="Talord" default="on">
       <rule> <!-- Talord over 100 med 'og' -->
         <pattern>
-          <token regexp="yes">((en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er))
-            (hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er))
-            .*(hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er)|og|en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems))
+          <token regexp="yes">((en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|hundrede?|tusind(er?)?|million(er)?|milliard(er)?)(hundrede?|tusind(er?)?|million(er)?|milliard(er)?).*(hundrede?|tusind(er?)?|million(er)?|milliard(er)?|og|en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems))
           <exception negate="yes" regexp="yes">.*[a-s,u-å]og.*[a-s,u-å]</exception></token>
         </pattern>
         <message>Talord over hundrede skrives i flere ord: <suggestion><match no="1" regexp_match="(?iu)((og)((en|et|to|tre|fire|fem|seks|syv|otte|ni)og(tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems)))|((og)(en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems)(?!((hundred|tusind|million|milliard)(er|e|))))|(og)|(en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|(hundred|tusind|million|milliard)(er|e|))" regexp_replace="$2$7$12$13 $3$8"/></suggestion>.</message>
@@ -240,8 +238,8 @@ $Id$
       <rule> <!-- Talord over 100 uden 'og' (kun to talord) -->
         <pattern>
           <token regexp="yes">
-            (en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er))
-            (hundred(|e)|tusind(|e|er)|million(|er)|milliard(|er)) </token>
+            (en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|hundrede?|tusind(er?)?|million(er?)?|milliard(er?)?)(hundrede?|tusind(er?)?|million(er)?|milliard(er)?)
+          </token>
         </pattern>
         <message>Talord over hundrede skrives i flere ord: <suggestion><match no="1" regexp_match="(?iu)(en|et|to|tre|fire|fem|seks|syv|otte|ni|ti|elleve|tolv|tretten|fjorten|femten|seksten|sytten|atten|nitten|tyve|tredive|tredve|fyrre|halvtreds|tres|halvfjers|firs|halvfems|(hundred|tusind|million|milliard)(er|e|))((hundred|tusind|million|milliard)(er|e|))" regexp_replace="$1 $4"/></suggestion>.</message>
         <url>https://wiki.documentfoundation.org/DA/LanguageTool/Regler#Talord</url>
@@ -614,7 +612,7 @@ $Id$
     <rulegroup id="besøgstid_besøgelsestid" name="kende besøgstid→besøgelsestid">
       <rule>
         <pattern>
-          <token regexp="yes">kend(|e|er|te)</token>
+          <token regexp="yes">kend(er?|te)?</token>
           <token/>
           <marker>
             <token>besøgstid</token>
@@ -643,7 +641,7 @@ $Id$
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">kend(|e|er|te)</token>
+          <token regexp="yes">kend(er?|te)?</token>
           <token regexp="yes">ikke|aldrig</token>
           <token/>
           <marker>

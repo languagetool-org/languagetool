@@ -295,16 +295,23 @@ public final class StringTools {
 
   /**
    * Filters any whitespace characters. Useful for trimming the contents of
-   * token elements that cannot possibly contain any spaces.
+   * token elements that cannot possibly contain any spaces, with the exception
+   * for a single space in a word (for example, if the language supports numbers
+   * formatted with spaces as single tokens, as Catalan in LanguageTool).
    * 
-   * @param str String to be filtered.
+   * @param string String to be filtered.
    * @return Filtered string.
    */
-  public static String trimWhitespace(final String str) {
+  public static String trimWhitespace(final String string) {
     final StringBuilder filter = new StringBuilder();
+    String str = string.trim();
     for (int i = 0; i < str.length(); i++) {
+      while (str.charAt(i) <= ' ' && i < str.length() &&
+          (str.charAt(i + 1) <= ' ' || i > 1 && str.charAt(i - 1) <= ' ')) {
+        i++;
+      }
       final char c = str.charAt(i);
-      if (c != '\n' && c != ' ' && c != '\t' && c != '\r') {
+      if (c != '\n' && c != '\t' && c != '\r') {
         filter.append(c);
       }
     }

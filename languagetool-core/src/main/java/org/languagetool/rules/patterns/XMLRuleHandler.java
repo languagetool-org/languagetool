@@ -415,15 +415,14 @@ public class XMLRuleHandler extends DefaultHandler {
   protected void finalizeExceptions() {
     inException = false;
     if (!exceptionSet) {
-      tokenElement = new Element(StringTools.trimWhitespace(elements
-          .toString()), caseSensitive, regExpression, tokenInflected);
+      tokenElement = new Element(elements
+          .toString(), caseSensitive, regExpression, tokenInflected);
       exceptionSet = true;
     }
     tokenElement.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-      tokenElement.setStringPosException(StringTools.trimWhitespace(exceptions
-          .toString()), exceptionStringRegExp, exceptionStringInflected,
-          exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+      tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
+          exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
           exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
       exceptionPosToken = null;
     }
@@ -516,12 +515,12 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected void finalizeTokens() throws SAXException {
     if (!exceptionSet || tokenElement == null) {
-      tokenElement = new Element(StringTools.trimWhitespace(elements
-          .toString()), caseSensitive, regExpression, tokenInflected);
+      tokenElement = new Element(elements.toString(),
+          caseSensitive, regExpression, tokenInflected);
       tokenElement.setNegation(tokenNegated);
     } else {
-      tokenElement.setStringElement(StringTools.trimWhitespace(elements
-          .toString()));
+      tokenElement.setStringElement(elements
+          .toString());
     }
 
     if (skipPos != 0) {

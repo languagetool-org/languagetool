@@ -348,7 +348,11 @@ public class Element implements Cloneable {
   }
 
   public final void setStringElement(final String token) {
-    stringToken = token;
+    if (token != null) {
+      stringToken = StringTools.trimWhitespace(token);
+    } else {
+      stringToken = null;
+    }
     testString = !StringTools.isEmpty(stringToken);
     if (testString && stringRegExp) {
       String regToken = stringToken;
