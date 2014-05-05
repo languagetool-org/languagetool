@@ -268,7 +268,7 @@ $Id$
                 <marker>
                     <token regexp="yes">тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|просп|пр|пос|кв|Тел|исп|Исп</token>
                 </marker>
-                <token negate="yes" regexp="yes">.|/</token>
+                <token negate="yes" regexp="yes">[./]</token>
             </pattern>
             <message>Точка должна стоять после сокращений: <suggestion>\1.</suggestion></message>
             <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D1%8F</url>
@@ -282,7 +282,7 @@ $Id$
                 <marker>
                     <token regexp="yes">млн|млрд</token>
                 </marker>
-                <token negate="yes" regexp="yes">.|/</token>
+                <token negate="yes" regexp="yes">[./]</token>
             </pattern>
             <message>Точка должна стоять после сокращений: <suggestion>\1.</suggestion></message>
             <short>Точка после сокращений.</short>
@@ -601,7 +601,7 @@ $Id$
                     <token postag="SENT_START"></token>
                     <token regexp="yes">Видишь|Понимаешь</token>
                     <token>ли</token>
-                    <token negate="yes" regexp="yes">,|.</token>
+                    <token negate="yes" regexp="yes">[.,]</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -1173,7 +1173,7 @@ $Id$
                         <token postag="ADJ:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*"></exception></token>
                         <token postag="NN:(.*):(.*):.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="next" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2"></match> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:Nom"></match></suggestion>
@@ -1192,7 +1192,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:R" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:R" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1212,7 +1212,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:D" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1232,7 +1232,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*"></exception></token>
                         <token postag="NN:.*:.*:V" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:V" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1251,7 +1251,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:T" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1270,7 +1270,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:P" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1292,7 +1292,7 @@ $Id$
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Masc:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.
@@ -1311,7 +1311,7 @@ $Id$
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Fem:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.
@@ -1330,7 +1330,7 @@ $Id$
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Neut:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.
@@ -1351,7 +1351,7 @@ $Id$
                         <token postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по числу.</message>
@@ -1368,7 +1368,7 @@ $Id$
                         <token postag="ADJ:.*:(.*)" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:(.*)" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по числу.
@@ -1466,7 +1466,7 @@ $Id$
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Masc"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception> <exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -1487,7 +1487,7 @@ $Id$
                         <token postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Fem"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception><exception scope="next" postag="NN:Masc:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -1508,7 +1508,7 @@ $Id$
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Neut"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Masc:Sin:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -1548,7 +1548,7 @@ $Id$
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1568,7 +1568,7 @@ $Id$
                         <token postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1590,7 +1590,7 @@ $Id$
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
