@@ -24092,7 +24092,7 @@ $Id$
                 <token>que</token>
                 <token inflected="yes" regexp="yes">portar|dur</token>
                 <token>de</token>
-                <token regexp="yes">temporada|mes|setmana|trimestre|quadrimestre|curs</token>
+                <token regexp="yes">temporada|mes|setmana|trimestre|quadrimestre|curs|legislatura|gener|febrer|març|maig|juny|juliol|setembre|novembre|desembre</token>
             </pattern>
             <message>Val més usar una altra expressió.</message>
             <suggestion><match no="6" postag="NC(.).*" postag_regexp="yes" postag_replace="DD0$1S0">aquest</match> <match no="6"/></suggestion>
@@ -24101,6 +24101,22 @@ $Id$
             <short>Expressió preferible</short>
             <example type="incorrect" correction="aquest curs|des de principi de curs"><marker>en el que portem de curs</marker></example>
             <example type="correct">aquest curs</example>
+        </rule>
+        <rule id="EN_EL_QUE_PORTEM_D_AGOST" name="en el que portem d'aogst">
+            <pattern>
+                <token>en</token>
+                <token>el</token>
+                <token>que</token>
+                <token inflected="yes" regexp="yes">portar|dur</token>
+                <token>d'</token>
+                <token regexp="yes">abril|agost|octubre</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>des de principi d'\6</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2178</url>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="des de principi d'agost"><marker>en el que portem d'agost</marker></example>
+            <example type="correct">aquest any</example>
         </rule>
         <rule id="EN_EL_QUE_PORTEM_D_ANY" name="en el que portem d'any">
             <pattern>
@@ -24113,7 +24129,7 @@ $Id$
             </pattern>
             <message>Val més usar una altra expressió.</message>
             <suggestion>enguany</suggestion>
-            <suggestion>des de principi d'any</suggestion>
+            <suggestion>des de principi d'\6</suggestion>
             <url>http://esadir.cat/entrades/fitxa/id/2178</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="enguany|des de principi d'any"><marker>en el que portem d'any</marker></example>
