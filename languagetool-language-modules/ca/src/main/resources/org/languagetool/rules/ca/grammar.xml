@@ -3434,7 +3434,7 @@ $Id$
                     </marker>
                     <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit<exception scope="previous">a</exception></token>
                 </pattern>
-                <message>Cal dir: <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
+                <message>Cal dir: <suggestion><match no="1" postag="(V.*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
                 <example type="incorrect" correction="Feia"><marker>Donava</marker> molts petons</example>
                 <example type="incorrect" correction="fer">Va <marker>donar</marker>-li molts petons</example>
@@ -24889,6 +24889,20 @@ $Id$
             <example type="correct">àlter ego</example>
         </rule>
         <rulegroup id="COLOR" name="amor, color, sabor... (normalment en masculí)">
+            <antipattern>
+                <marker>
+                    <token>pel·lícula</token>
+                    <token>de</token>
+                    <token>terror</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>legió</token>
+                    <token>d'</token>
+                    <token>honor</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -24932,7 +24946,8 @@ $Id$
                 <example type="correct">N'hi havia de tres colors.</example>
                 <example type="correct">de la Dolors Umbridge</example>
                 <example type="correct">Cançons d'amor trobadoresques</example>
-                <!-- la Legió d'Honor francesa -->
+                <example type="correct">la pel·lícula de terror titulada Rec 2</example>
+                <example type="correct">la Legió d'Honor francesa</example>
             </rule>
             <rule>
                 <pattern>
