@@ -48,7 +48,7 @@ LanguageTool Change Log
     -The public field Language.DEMO has been removed. It is now only available 
      internally for tests, together with the demo language itself and DemoChunker.
     -JLanguageTool.printIfVerbose() has been changed from protected to private,
-     as it was not used anywhere and it's not really useful to extend JLanguageTool
+     as it was not used anywhere and it's not really useful to extend JLanguageTool.
     -StringTools.isAlphabetic() has been removed as it was a workaround for Java 6
      which is not supported anymore
 
@@ -56,8 +56,15 @@ LanguageTool Change Log
     -Improved configuration dialog
     -Allow the user to change the font of the main editing area
 
+Rule syntax:
+    -It is now possible to specify case sensitivity of individual exceptions
+     and tokens in a pattern (both in grammar and disambiguation XML rules).
+     Simply use case_sensitive="yes" or case_sensitive="no".
+
 -Internals:
     -Fixed bug with longer complex strings of tokens to be unified
+    -Fixed bug in a disambiguator where tokens with min="0" were mislocated
+
 
 2.5 (2014-03-31)
 

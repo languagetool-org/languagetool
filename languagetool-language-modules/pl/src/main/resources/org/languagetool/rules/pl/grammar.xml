@@ -679,7 +679,7 @@ $Id$
 										<token inflected="yes" regexp="yes" spacebefore="yes">a|ale|lecz|który|jaki|zwłaszcza|szczególnie|że|przynajmniej|nawet|więc|to</token>
 										<marker>
 												<token>,</token>
-												<token inflected="yes" regexp="yes">(?iu)jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
+												<token inflected="yes" regexp="yes" case_sensitive="no">jeśli|jeżeli|gdyby|jeżeliby|jeśliby</token>
 										</marker>
 								</pattern>
 								<message>Spójników złożonych nie rozdziela się: <suggestion>\2 \4</suggestion>. Wyjątkiem mogą być tutaj wtrącenia.</message>
@@ -2015,7 +2015,7 @@ $Id$
 										<token skip="-1"><exception scope="next">i</exception><exception scope="current">i</exception></token>
 										<marker>
 												<token>,<exception scope="previous" regexp="yes">(?iu)aha|ot?|owszem|tak|no</exception></token>
-												<token>i<exception regexp="yes">(?-iu)I</exception></token>
+												<token>i<exception case_sensitive="yes">I</exception></token>
 										</marker>
 										<token><exception regexp="yes">tak|to|kwita|już|owszem|koniec|tyle</exception></token>
 								</pattern>
@@ -8674,11 +8674,11 @@ $Id$
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token regexp="yes">(?iu)na</token>
-												<token regexp="yes">(?iu)początku|końcu</token>
+												<token case_sensitive="no">na</token>
+												<token regexp="yes" case_sensitive="no">początku|końcu</token>
 												<token regexp="yes">[XVI]{1,4}</token>
 										</marker>
-										<token negate="yes" regexp="yes">(?iu)stulecia|wieku|w</token>
+										<token negate="yes" regexp="yes" case_sensitive="no">stulecia|wieku|w</token>
 								</pattern>
 								<message>Prawdopodobnie w tym wyrażeniu brakuje wyrazu „wieku”: <suggestion>\1 \2 \3 wieku</suggestion>.</message>
 								<short>Zjedzony wyraz</short>
@@ -8690,10 +8690,10 @@ $Id$
 								<pattern case_sensitive="yes">
 										<marker>
 												<token regexp="yes">[Uu]</token>
-												<token regexp="yes">(?iu)schyłku|końca|zarania</token>
+												<token regexp="yes" case_sensitive="no">schyłku|końca|zarania</token>
 												<token regexp="yes">[XVI]{1,4}</token>
 										</marker>
-										<token negate="yes" regexp="yes">(?iu)stulecia|wieku|w</token>
+										<token negate="yes" regexp="yes" case_sensitive="no">stulecia|wieku|w</token>
 								</pattern>
 								<message>Prawdopodobnie w tym wyrażeniu brakuje wyrazu „wieku”: <suggestion>\1 \2 \3 wieku</suggestion>.</message>
 								<short>Zjedzony wyraz</short>
@@ -9369,7 +9369,7 @@ $Id$
 								<token><exception postag="SENT_START"></exception></token>
 								<marker>
 										<and>
-												<token inflected="yes" regexp="yes">(?iu)jezuita|benedyktyn|dominikanin|franciszkanin|cysters|albertyn|bazylianin|kameduła|karmelita|marianin|michalita|minimita|norbertanin|pasjonista|paulin|pijar|redemptorysta|salezjanin|bonifrater|trapista|werbista|dolorysta|barnabita|bartolomita|kamilianin|salwatorianin<exception inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+												<token inflected="yes" regexp="yes" case_sensitive="no">jezuita|benedyktyn|dominikanin|franciszkanin|cysters|albertyn|bazylianin|kameduła|karmelita|marianin|michalita|minimita|norbertanin|pasjonista|paulin|pijar|redemptorysta|salezjanin|bonifrater|trapista|werbista|dolorysta|barnabita|bartolomita|kamilianin|salwatorianin<exception inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
 												<token regexp="yes">[A-Z][\p{Ll}]+</token>
 										</and>
 								</marker>
@@ -10779,7 +10779,7 @@ $Id$
                     </rule>
                     <rule>
                         <pattern>
-                            <token regexp='yes'>.*\p{Ll}+y<exception regexp='yes'>(?-iu)Shy</exception></token>
+                            <token regexp='yes'>.*\p{Ll}+y<exception case_sensitive='yes'>Shy</exception></token>
                             <token regexp='yes' spacebefore='no'>&apost;</token>
                             <token>m</token>
                         </pattern>
@@ -11413,7 +11413,7 @@ $Id$
                                     <marker>
                                     <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
                                     </marker>
-                                    <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                                    <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(?-iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
                                 </antipattern>
 								<pattern case_sensitive="yes">
 										<token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
@@ -11433,7 +11433,7 @@ $Id$
                         <rule>
                         <pattern case_sensitive="yes">
                             <token regexp="yes">\d+-?(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|(?:sto)?krotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
-                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(?-iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
                         </pattern>
                         <message>W datach nie używamy końcówek przypadków: <suggestion><match no="1" regexp_match="(\d+)-?(.*)" regexp_replace="$1"></match> <match no="2"/></suggestion>.</message>
                         <short>Błąd ortograficzny</short>
@@ -11448,7 +11448,7 @@ $Id$
                                 <token spacebefore="no" regexp="yes">[–—]</token>
                                 <token spacebefore="no" regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
                             </marker>
-                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(?-iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
                         </antipattern>
                         <pattern case_sensitive="yes">
                             <token regexp="yes">\d+</token>
@@ -11472,7 +11472,7 @@ $Id$
                             <token regexp="yes">\d+</token>
                             <token spacebefore="no" regexp="yes">[–—]</token>
                             <token spacebefore="no" regexp="yes">(?:[mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tym|tymi|c[ihe]|a|ci[eamu]|ciej|cioletnią|ego|ej|g[ao]|gi|gi[em]|im|ki|stokrotnie|które.*|m[ae]|miu|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|to|[mt]*[i]*oletni.*|[mt]*[uąe]|[mt]*ych)</token>
-                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(-?iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
+                            <token regexp="yes">stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia|(?-iu)I{1,3}|I?V|VI{1,3}|I?X|XI{1,2}</token>
                         </pattern>
                         <message>W datach nie używamy końcówek przypadków:: <suggestion><match no="1"/> <match no="4"/></suggestion>.</message>
                         <url>http://poradnia.pwn.pl/lista.php?id=11203</url>
@@ -11853,7 +11853,7 @@ $Id$
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token>nie<exception regexp="yes" scope="previous">(?iu)bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
+												<token>nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż</exception></token>
 												<token postag=".*:aff.*|ger:.*" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token postag="SENT_END"><exception>,</exception></token>
@@ -11878,7 +11878,7 @@ $Id$
 						<rule>
 								<pattern case_sensitive="yes">
 										<marker>
-												<token>nie<exception regexp="yes" scope="previous">(?iu)bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|przecież</exception></token>
+												<token>nie<exception regexp="yes" scope="previous" case_sensitive="no">bynajmniej|przez|na|ale|lecz|a|raczej|wcale|jak|jeśli|gdyby|choć|chociaż|przecież</exception></token>
 												<token postag=".*:aff.*|ger:.*" postag_regexp="yes"><exception postag="verb.*|pred" postag_regexp="yes"></exception><exception regexp="yes">\p{Lu}.*</exception></token>
 										</marker>
 										<token negate="yes">,</token>
@@ -12194,7 +12194,7 @@ $Id$
                                 <token>min</token>
                                 <token>.<exception postag="SENT_END"/></token>
                             </marker>
-                            <token><exception regexp="yes">(?-iu)\p{Lu}\p{Ll}+|\d+</exception></token>
+                            <token><exception regexp="yes">\p{Lu}\p{Ll}+|\d+</exception></token>
                         </pattern>
                         <message>Prawdopodobnie literówka. Czy chodziło o skrót <suggestion>m.in.</suggestion>?</message>
                         <short>Zbędna kropka</short>
@@ -12265,7 +12265,7 @@ $Id$
 						</rule>
 						<rule>
 							<pattern case_sensitive="yes">
-				            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception><exception>I</exception><exception scope="previous" regexp="yes">(?iu)nr|typu</exception><exception scope="previous" inflected="yes">wiek</exception><exception scope="previous" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</exception></token>
+				            <token regexp="yes">((X{0,2})(V?I{0,3}|I[VX]))(-(X{0,2})(V?I{0,3}|I[VX]))?<exception postag="SENT_START"/><exception>-</exception><exception>I</exception><exception scope="previous" regexp="yes" case_sensitive="no">nr|typu</exception><exception scope="previous" inflected="yes">wiek</exception><exception scope="previous" regexp="yes" inflected="yes">\p{Lu}\p{Ll}+</exception></token>
 				            <marker><token>w</token></marker>
 				            <token><exception>.</exception><exception regexp="yes">\d{0,4}</exception></token>
 			                 </pattern>
@@ -14331,7 +14331,7 @@ $Id$
 						</rule>
 						<rule>
 								<pattern>
-										<token>sowich<exception scope="previous" regexp="yes">(?iu)Gór</exception></token>
+										<token>sowich<exception scope="previous" case_sensitive="yes">Gór</exception></token>
 								</pattern>
 								<message>Prawdopodobna literówka (rzadka forma przymiotnika „sowi”). Czy chodziło o <suggestion>swoich</suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
@@ -14487,7 +14487,7 @@ $Id$
 						<pattern>
 								<token regexp="yes">pastwo|pastwie|pastwa</token>
 						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(?iu)([Pp]a)(stw.*)" regexp_replace="$1ń$2"></match></suggestion>?</message>
+						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(?iu)(pa)(stw.*)" regexp_replace="$1ń$2"></match></suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
 						<example correction="Państwo" type="incorrect">Szanowni <marker>Pastwo</marker>!</example>
 						<example type="correct">W państwie duńskim źle się dzieje.</example>

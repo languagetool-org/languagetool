@@ -86,6 +86,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean tokenNegated;
   protected boolean tokenInflected;
 
+  protected boolean tokenLevelCaseSensitive;
+  protected boolean tokenLevelCaseSet;
+
   protected String exceptionPosToken;
   protected boolean exceptionStringRegExp;
   protected boolean exceptionStringNegation;
@@ -97,6 +100,9 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean exceptionSet;
   protected boolean exceptionSpaceBefore;
   protected boolean exceptionSpaceBeforeSet;
+
+  protected boolean exceptionLevelCaseSensitive;
+  protected boolean exceptionLevelCaseSet;
 
   /** List of elements as specified by tokens. **/
   protected List<Element> elementList;
@@ -410,20 +416,37 @@ public class XMLRuleHandler extends DefaultHandler {
       exceptionSpaceBefore = YES.equals(attrs.getValue(SPACEBEFORE));
       exceptionSpaceBeforeSet = !IGNORE.equals(attrs.getValue(SPACEBEFORE));
     }
+
+    if (attrs.getValue(CASE_SENSITIVE) != null) {
+      exceptionLevelCaseSet = true;
+      exceptionLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
+    } else {
+      exceptionLevelCaseSet = false;
+    }
   }
 
   protected void finalizeExceptions() {
     inException = false;
     if (!exceptionSet) {
+      boolean tokenCase = caseSensitive;
+      if (tokenLevelCaseSet) {
+        tokenCase = tokenLevelCaseSensitive;
+      }
       tokenElement = new Element(elements
-          .toString(), caseSensitive, regExpression, tokenInflected);
+          .toString(), tokenCase, regExpression, tokenInflected);
       exceptionSet = true;
     }
     tokenElement.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-      tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
-          exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-          exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
+      if (exceptionLevelCaseSet) {
+        tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
+            exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
+      } else {
+        tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
+            exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
+      }
       exceptionPosToken = null;
     }
     if (exceptionSpaceBeforeSet) {
@@ -471,6 +494,13 @@ public class XMLRuleHandler extends DefaultHandler {
     if (!inAndGroup && !inOrGroup) {
       tokenCounter++;
     }
+
+    if (attrs.getValue(CASE_SENSITIVE) != null) {
+      tokenLevelCaseSet = true;
+      tokenLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
+    } else {
+      tokenLevelCaseSet = false;
+    }
   }
 
   /**
@@ -515,8 +545,12 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected void finalizeTokens() throws SAXException {
     if (!exceptionSet || tokenElement == null) {
+      boolean tokenCase = caseSensitive;
+      if (tokenLevelCaseSet) {
+        tokenCase = tokenLevelCaseSensitive;
+      }
       tokenElement = new Element(elements.toString(),
-          caseSensitive, regExpression, tokenInflected);
+          tokenCase, regExpression, tokenInflected);
       tokenElement.setNegation(tokenNegated);
     } else {
       tokenElement.setStringElement(elements

@@ -101,7 +101,8 @@ public class PatternTestTools {
                 && element.isInflected()   == false 
                 && exception.getNegation() == false
                 && exception.isInflected() == false
-                && element.getSkipNext() == 0) {
+                && element.getSkipNext() == 0
+                && element.isCaseSensitive() == exception.isCaseSensitive()) {
 
                 if (exception.isRegularExpression()) {
                   if (element.isRegularExpression()) {
