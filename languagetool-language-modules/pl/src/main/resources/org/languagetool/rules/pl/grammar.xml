@@ -107,7 +107,7 @@ $Id$
 						<token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;|tyle|i|lub|albo|ani|oraz|bądź|czy|a</exception></token>
 				</phrase>
 				<phrase id="NIE_SPOJNIK_PRZECINKOWY_OLD">
-                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
+                    <token><exception postag="subst.*voc.*|pcon.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">acz|aczkolwiek|albowiem|ale|aleć|aliści|azali|bo|byleby|choć|chociaż|czyliż?|dopóki|gdzie|gdyż|gdyżby|ilekolwiek|ilekroć|lecz|którędy|dopóty|póki|dlaczego|ponieważ|zanim|który|jaki|co|kto|że|iż|jak|nawiasem|a|jeśli|jeżeli|gdyby|gdy|kiedy|jeśliby|jeżeliby|żeby|aby|ażeby|iżby|wraz|zamiast|zarówno|szczególnie|zwłaszcza|następnie|aż|czy|(?:po)?mimo|skąd</exception><exception postag="prep:.*" postag_regexp="yes"></exception></token>
 				</phrase>
 				<phrase id="ACC_NOM_1">
 						<token postag=".*acc.*|.*nom.*" postag_regexp="yes"><exception postag=".*inst.*|.*loc.*" postag_regexp="yes"></exception></token>
@@ -9505,10 +9505,11 @@ $Id$
 						<rule>
 								<pattern case_sensitive="yes">
 										<token>al</token>
-										<token>.</token>
+										<token spacebefore="no">.</token>
 										<token postag="adj.*" postag_regexp="yes" regexp="yes"><exception regexp="yes">.*(go|ej)</exception>\p{Lu}\p{Ll}.*</token>
 								</pattern>
 								<message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"></match>. <match no="3"></match></suggestion>.</message>
+                            <url>http://so.pwn.pl/zasady.php?id=629401</url>
 								<short>Błąd pisowni wielką i małą literą</short>
 								<example type="correct">Mieszkam przy al. Świerczewskiego.</example>
 								<example correction="Al. Ujazdowskie" type="incorrect">Kancelaria mieści się w Warszawie, pod adresem <marker>al. Ujazdowskie</marker> 123412.</example>
@@ -9525,11 +9526,28 @@ $Id$
 										</unify>
 								</pattern>
 								<message>W wypadku takich adresów pierwszy wyraz również piszemy wielką literą. Poprawnie: <suggestion><match case_conversion="startupper" no="1"></match> <match no="2"></match></suggestion>.</message>
+                                <url>http://so.pwn.pl/zasady.php?id=629401</url>
 								<short>Błąd pisowni wielką i małą literą</short>
 								<example correction="Aleje Jerozolimskie" type="incorrect">Jedną z piękniejszych ulic w Warszawie są <marker>aleje Jerozolimskie</marker>.</example>
 								<example type="correct">Mieszkam przy Alejach Świerczewskiego.</example>
 								<example type="correct">Przy Alejach Jerozolimskich jest piękna, sztuczna palma.</example>
 						</rule>
+                        <rule>
+                            <pattern case_sensitive="yes">
+                                <token>Al</token>
+                                <token spacebefore="no">.</token>
+                                <token regexp="yes">\p{Lu}\p{Ll}+<exception postag="adj:pl.*" postag_regexp="yes"/></token>
+                            </pattern>
+                            <message>W takich adresach pierwszy człon piszemy małą literą: <suggestion><match no="1" case_conversion="alllower"/><match no="2"/> <match
+                                    no="3"/></suggestion>.</message>
+                            <url>http://so.pwn.pl/zasady.php?id=629401</url>
+                            <short>Błąd pisowni wielką i małą literą</short>
+                            <example type="correct">Mieszkał wraz z rodziną w Sopocie przy al. Niepodległości.</example>
+                            <example type="incorrect" correction="al. Niepodległości">Mieszkał wraz z rodziną w Sopocie przy <marker>Al. Niepodległości</marker>.</example>
+                            <example type="correct">Kancelaria mieści się w Warszawie, pod adresem Al. Ujazdowskie 12133.</example>
+                            <example type="correct">Mieszkam przy al. Świerczewskiego.</example>
+                            <example type="incorrect" correction="al. Świerczewskiego">Mieszkam przy <marker>Al. Świerczewskiego</marker>.</example>
+                        </rule>
 				</rulegroup>
 				<rulegroup id="REPREZENTANT_POLSKI" name="„reprezentant polski” (reprezentant Polski)">
 						<rule>
@@ -10702,12 +10720,13 @@ $Id$
 						<pattern>
 								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|[GMT]Hz|MKOl|PKOl|UWr|REDakcj.*|KPCh|VBScript|GUŁag|HCl|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
 						</pattern>
-						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
+						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{1}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
 						<example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
 						<example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
                         <example type="correct">Cytokina TNFα</example>
+                        <example type="incorrect" correction="WiN-u">Był to działacz <marker>WiNu</marker>.</example>
 				</rule>
 				<rule id="SKROTOWCE_Z_APOSTROFEM" name="Skrótowce z apostrofem w przypadkach zależnych">
 						<pattern>

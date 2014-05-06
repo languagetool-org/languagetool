@@ -1750,6 +1750,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="niewielki[niewielki/adj:sg:nom.voc:m1.m2.m3:pos]">Był to <marker>niewielki</marker> elektromagnes.</example>
     </rule>
 
+    <rule name="przeciw byli" id="przeciw_byli">
+        <pattern>
+            <token>przeciw</token>
+            <marker><token regexp="yes">była|byli</token></marker>
+        </pattern>
+        <disambig action="filter" postag="verb:praet.*"/>
+        <example type="ambiguous" inputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl,były/adj:pl:nom.voc:m1.p1:pos,były/subst:pl:nom:m1,były/subst:pl:voc:m1]"
+                 outputform="byli[być/verb:praet:pl:m1.p1:ter:imperf:nonrefl]">Przeciw <marker>byli</marker> Schmid i Leuwerik.</example>
+    </rule>
+
     <rule name="głosować przeciw" id="glosowac_przeciw">
     	<pattern>
     		<token regexp="yes" inflected="yes">głosować|wystąpić</token>
@@ -6307,7 +6317,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="immunize"/>
     </rule>
-    
+
+    <rule name="al." id="al_brev">
+        <pattern>
+            <marker><token>al</token></marker>
+            <token spacebefore="no">.</token>
+        </pattern>
+        <disambig postag="brev:pun"/>
+    </rule>
+
     <rule name="m.in." id="M_IN">
     	<pattern case_sensitive="yes">
     		<marker><token>m</token></marker>    	
