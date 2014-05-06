@@ -109,21 +109,18 @@ public class PatternRuleHandler extends XMLRuleHandler {
         suggestionsOutMsg = new StringBuilder();
         url = new StringBuilder();
         id = attrs.getValue(ID);
+        name = attrs.getValue(NAME);
         if (inRuleGroup) {
           subId++;
-        }
-        if (!(inRuleGroup && defaultOff)) {
-          defaultOff = "off".equals(attrs.getValue(DEFAULT));
-        }
-        if (!(inRuleGroup && defaultOn)) {
-          defaultOn = "on".equals(attrs.getValue(DEFAULT));
-        }
-        if (inRuleGroup && id == null) {
-          id = ruleGroupId;
-        }
-        name = attrs.getValue(NAME);
-        if (inRuleGroup && name == null) {
-          name = ruleGroupDescription;
+          if (id == null) {
+            id = ruleGroupId;
+          }
+          if (name == null) {
+            name = ruleGroupDescription;
+          }
+        } else {
+            defaultOff = "off".equals(attrs.getValue(DEFAULT));
+            defaultOn = "on".equals(attrs.getValue(DEFAULT));
         }
         correctExamples = new ArrayList<>();
         incorrectExamples = new ArrayList<>();
@@ -335,8 +332,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
         tokenCounter = 0;
         break;
       case ANTIPATTERN:
+        String antiId = id;
+        if (inRuleGroup) {
+          id = ruleGroupId;
+        }
         final DisambiguationPatternRule rule = new DisambiguationPatternRule(
-            id + "_antipattern:" + antiPatternCounter,
+            antiId + "_antipattern:" + antiPatternCounter,
             "antipattern", language, elementList, null, null,
             DisambiguationPatternRule.DisambiguatorAction.IMMUNIZE);
         if (startPos != -1 && endPos != -1) {
