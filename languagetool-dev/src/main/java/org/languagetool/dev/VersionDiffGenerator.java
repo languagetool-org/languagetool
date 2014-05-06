@@ -17,7 +17,7 @@
  * USA
  */
 
-package tools.ltdiff;
+package org.languagetool.dev;
 
 import java.io.BufferedWriter;
 import java.io.FileReader;
