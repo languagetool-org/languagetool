@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev;
+package org.languagetool.dev.eval;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class RealWordCorpusEvaluatorTest {
   @Test
   public void testCheck() throws IOException {
     RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator();
-    URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/");
+    URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
     evaluator.run(new File(errors.getFile()));
     assertThat(evaluator.getSentencesChecked(), is(2));
     assertThat(evaluator.getRealErrorsFound(), is(1));

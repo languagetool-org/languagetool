@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev;
+package org.languagetool.dev.eval;
 
 import org.apache.tika.io.IOUtils;
 import org.languagetool.JLanguageTool;
