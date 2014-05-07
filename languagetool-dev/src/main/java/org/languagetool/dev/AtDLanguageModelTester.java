@@ -26,7 +26,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 /**
- * Try the AtD language model.
+ * Try the AtD  language model.
+ * atd/lib/spellutils.jar and  atd/lib/sleep.jar
  */
 class AtDLanguageModelTester {
 
