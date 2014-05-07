@@ -127,17 +127,10 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         }
       }
 
-      //System.out.println("? matchingTokens:" + matchingTokens + ", patternSize: "+ patternSize + ", minOccurSkip:" +minOccurSkip);
       if (allElementsMatch && tokenPositions.size() == patternSize) {
         //System.out.println("YES");
-        final int[] tokenPos = new int[tokens.length + 1 + minOccurSkip];
-        int x = 0;
-        for (Integer j : tokenPositions) {
-          tokenPos[x] = j;
-          x++;
-        }
-        final RuleMatch ruleMatch = createRuleMatch(tokenPos, tokens,
-            firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
+        final RuleMatch ruleMatch = createRuleMatch(tokenPositions,
+            tokens, firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
         if (ruleMatch != null) {
           ruleMatches.add(ruleMatch);
         }
@@ -147,7 +140,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
   }
 
-  private RuleMatch createRuleMatch(final int[] tokenPositions,
+  private RuleMatch createRuleMatch(final List<Integer> tokenPositions,
       final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
       final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {
     final PatternRule rule = (PatternRule) this.rule;
@@ -159,8 +152,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
     int correctedStPos = 0;
     if (rule.startPositionCorrection > 0) {
-      for (int l = 0; l <= rule.startPositionCorrection; l++) {
-        correctedStPos += tokenPositions[l];
+      for (int l = 0; l <= Math.min(rule.startPositionCorrection, tokenPositions.size() - 1); l++) {
+        correctedStPos += tokenPositions.get(l);
       }
       correctedStPos--;
     }
@@ -254,7 +247,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
    * @return String Formatted message.
    */
   private String formatMatches(final AnalyzedTokenReadings[] tokenReadings,
-      final int[] positions, final int firstMatchTok, final String errorMsg,
+      final List<Integer> positions, final int firstMatchTok, final String errorMsg,
       final List<Match> suggestionMatches) throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
@@ -279,11 +272,11 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
             + numLen)) - 1;
         int repTokenPos = 0;
         int nextTokenPos = 0;
-        for (int l = 0; l <= j; l++) {
-          repTokenPos += positions[l];
+        for (int l = 0; l <= Math.min(j, positions.size() - 1); l++) {
+          repTokenPos += positions.get(l);
         }
-        if (j <= positions.length) {
-          nextTokenPos = firstMatchTok + repTokenPos + positions[j + 1];
+        if (j + 1 < positions.size()) {
+          nextTokenPos = firstMatchTok + repTokenPos + positions.get(j + 1);
         }
         //final List<Match> suggestionMatches = rule.getSuggestionMatches();
         if (suggestionMatches != null) {
