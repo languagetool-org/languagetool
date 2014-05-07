@@ -35,7 +35,7 @@ import org.languagetool.tools.StringTools;
 
 /**
  * Command line tool to list activity for grammar files. Requires a typical developer setup,
- * i.e. a local "svn" command and the sources checked out from SVN. 
+ * i.e. a local "git" command and the sources cloned from git. 
  * 
  * @author Daniel Naber
  */
