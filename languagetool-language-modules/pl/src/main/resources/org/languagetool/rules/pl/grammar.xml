@@ -1732,7 +1732,7 @@ $Id$
 				<rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
-								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*m3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
+								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*[pm]3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
 								<marker>
 										<token><exception regexp="yes" scope="current">[,-–—!\.]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
 								</marker>
@@ -5020,8 +5020,16 @@ $Id$
                                 <token>temu</token>
                             </antipattern>
                             <antipattern>
-                                <token regexp="yes">[234]</token>
+                                <token regexp="yes">(?:\d+-)?\d*[234]</token>
                                 <token>miliony</token>
+                                <marker>
+                                    <token>lat</token>
+                                </marker>
+                                <token>temu</token>
+                            </antipattern>
+                            <antipattern>
+                                <token regexp="yes">(?:\d+-)?\d*[5-90]</token>
+                                <token>milionów</token>
                                 <marker>
                                     <token>lat</token>
                                 </marker>
@@ -5055,6 +5063,7 @@ $Id$
                                 <example type="correct">To zwierzę pojawia się 2–3,8 miliona lat temu.</example>
                                 <example type="correct">2 miliony lat temu zjadłem kanapkę.</example>
                                 <example type="correct">Ok. 1 mld lat temu powstały złoża kanapek.</example>
+                                <example type="correct">To znalezisko jest datowane na około 409 milionów lat temu, a może 250-200 milionów	lat temu.</example>
 						</rule>
                         <rule>
                             <antipattern>
