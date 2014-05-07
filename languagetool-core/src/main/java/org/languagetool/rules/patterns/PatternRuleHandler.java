@@ -118,10 +118,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
           if (name == null) {
             name = ruleGroupDescription;
           }
-        } else {
-            defaultOff = "off".equals(attrs.getValue(DEFAULT));
-            defaultOn = "on".equals(attrs.getValue(DEFAULT));
         }
+
+        if (!(inRuleGroup && defaultOff)) {
+          defaultOff = "off".equals(attrs.getValue(DEFAULT));
+        }
+        if (!(inRuleGroup && defaultOn)) {
+          defaultOn = "on".equals(attrs.getValue(DEFAULT));
+        }
+
         correctExamples = new ArrayList<>();
         incorrectExamples = new ArrayList<>();
         if (suggestionMatches != null) {
