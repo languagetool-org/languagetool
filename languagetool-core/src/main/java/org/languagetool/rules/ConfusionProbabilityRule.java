@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.dashnine.preditor.LanguageModel;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import sleep.runtime.Scalar;
 
 import java.io.*;
@@ -30,30 +31,33 @@ import java.util.*;
  * WORK IN PROGRESS. LanguageTool's version of After the Deadline's homophone confusion check.
  */
 public class ConfusionProbabilityRule extends Rule {
+
+  private static final String HOMOPHONES = "homophonedb.txt";
   
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
 
   public ConfusionProbabilityRule(ResourceBundle messages) throws IOException {
-    this("/data/corpus/after_the_deadline/homophonedb.txt");  // TODO
+    this(HOMOPHONES, messages);
   }
   
-  public ConfusionProbabilityRule(String path) throws IOException {
+  public ConfusionProbabilityRule(String path, ResourceBundle messages) throws IOException {
+    super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-    wordToSet = confusionSetLoader.loadConfusionSet(path);
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
     System.out.println("Loading large language model...");
-    String file = "/prg/atd/models/model.bin";  // TODO: use morfologik instead
+    String file = "/prg/atd/models/model.bin";  // TODO: use morfologik or berkeleyLM instead
     try(FileInputStream fis = new FileInputStream(file)) {
       ObjectInputStream oos = new ObjectInputStream(fis);
-      Object c = null;
       try {
-        c = oos.readObject();
+        Object c = oos.readObject();
+        Scalar s = (Scalar)c;
+        languageModel = (LanguageModel) s.objectValue();
+        System.out.println("Language model loaded.");
       } catch (ClassNotFoundException e) {
         throw new RuntimeException("Could not deserialize data in " + file, e);
       }
-      Scalar s = (Scalar)c;
-      languageModel = (LanguageModel) s.objectValue();
-      System.out.println("Language model loaded.");
     }
   }
 

@@ -29,6 +29,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
@@ -49,7 +50,8 @@ class RealWordFalseAlarmEvaluator {
 
   RealWordFalseAlarmEvaluator() throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
-    confusionSet = confusionSetLoader.loadConfusionSet("/data/corpus/after_the_deadline/homophonedb.txt");//TODO
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
+    confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
     List<Rule> rules = langTool.getAllActiveRules();

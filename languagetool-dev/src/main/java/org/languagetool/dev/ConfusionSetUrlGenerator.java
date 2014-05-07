@@ -18,10 +18,12 @@
  */
 package org.languagetool.dev;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -33,8 +35,8 @@ final class ConfusionSetUrlGenerator {
 
   public static void main(String[] args) throws FileNotFoundException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = 
-            confusionSetLoader.loadConfusionSet("/data/corpus/after_the_deadline/homophonedb.txt");//TODO
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
+    Map<String,ConfusionProbabilityRule.ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);
     String url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20120701-<XX>.gz";
     Set<String> nameSet = new HashSet<>();
     for (String s : map.keySet()) {

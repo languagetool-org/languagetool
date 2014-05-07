@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.TestTools;
 
 import java.io.IOException;
 
@@ -31,7 +32,7 @@ public class ConfusionProbabilityRuleTest {
   
   @Test
   public void testRule() throws IOException, ClassNotFoundException {
-    ConfusionProbabilityRule rule = new ConfusionProbabilityRule("/data/corpus/after_the_deadline/homophonedb.txt");
+    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(TestTools.getEnglishMessages());
     ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet("portrait", "portray");
     AnalyzedTokenReadings[] tokens = {
             reading("A"),
