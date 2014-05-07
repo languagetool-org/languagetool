@@ -268,9 +268,10 @@ $Id$
                 <marker>
                     <token regexp="yes">тыс|зам|коп|руб|наб|нач|пер|шт|ед|экз|просп|пр|пос|кв|Тел|исп|Исп</token>
                 </marker>
-                <token negate="yes" regexp="yes">.|/</token>
+                <token negate="yes" regexp="yes">[./]</token>
             </pattern>
             <message>Точка должна стоять после сокращений: <suggestion>\1.</suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%BA%D1%80%D0%B0%D1%89%D0%B5%D0%BD%D0%B8%D1%8F</url>
             <short>Точка после сокращений.</short>
             <example type="correct">Стоимость работ составила 10 тыс. рублей.</example>
             <example type="incorrect">Стоимость работ составила 10 <marker>тыс</marker> рублей.</example>
@@ -281,7 +282,7 @@ $Id$
                 <marker>
                     <token regexp="yes">млн|млрд</token>
                 </marker>
-                <token negate="yes" regexp="yes">.|/</token>
+                <token negate="yes" regexp="yes">[./]</token>
             </pattern>
             <message>Точка должна стоять после сокращений: <suggestion>\1.</suggestion></message>
             <short>Точка после сокращений.</short>
@@ -296,8 +297,9 @@ $Id$
                     <token>пожалуйста</token>
                     <token regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\1, \2\3</suggestion></message>
-                <short>Нет запятой.</short>
+                <message>Пропущена запятая: <suggestion>\1, \2\3</suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Закройте дверь, <marker>пожалуйста.</marker></example>
                 <example type="incorrect">Закройте <marker>дверь пожалуйста.</marker></example>
             </rule>
@@ -309,9 +311,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\1, \2,</suggestion></message>
+                <message>Пропущена запятая: <suggestion>\1, \2,</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Виталий, <marker>пожалуйста</marker>, закройте дверь!</example>
                 <example type="incorrect"><marker>Виталий пожалуйста</marker> закройте дверь!</example>
             </rule>
@@ -321,9 +323,9 @@ $Id$
                     <token>Пожалуйста</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\2, \3</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct"><marker>Пожалуйста, закройте</marker> дверь.</example>
                 <example type="incorrect"><marker>Пожалуйста закройте</marker> дверь.</example>
             </rule>
@@ -338,9 +340,9 @@ $Id$
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\1, \2 \3, \4</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct"><marker>Мы, как правило, ходим</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило, ходим"><marker>Мы как правило ходим</marker> в походы летом.</example>
             </rule>
@@ -353,9 +355,9 @@ $Id$
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     <token>,</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\1, \2 \3\4</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\1, \2 \3\4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct"><marker>Мы, как правило,</marker> ходим в походы летом.</example>
                 <example type="incorrect" correction="Мы, как правило,"><marker>Мы как правило,</marker> ходим в походы летом.</example>
             </rule>
@@ -369,9 +371,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\2 \3,</suggestion></message>
+                <message>Пропущена запятая: <suggestion>\2 \3,</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Мы, <marker>как правило,</marker> ходим в походы летом.</example>
                 <example type="incorrect">Мы, <marker>как правило</marker> ходим в походы летом.</example>
             </rule>
@@ -383,9 +385,9 @@ $Id$
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Нет запятой: <suggestion>\2 \3, \4</suggestion>.</message>
+                <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct"><marker>Как правило,</marker> мы ходим в походы летом.</example>
                 <example type="incorrect" correction="Как правило, мы"><marker>Как правило мы</marker> ходим в походы летом.</example>
             </rule>
@@ -402,6 +404,7 @@ $Id$
                     <token>.</token>
                 </pattern>
                 <message>Оборот &quot;как и&quot; выделяется запятыми: <suggestion>\1, \2 \3</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D0%BE%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%BE</url>
                 <short>Оборот &quot;как и&quot; выделяется запятыми.</short>
                 <example type="correct">Мы<marker>, как и</marker> наши товарищи, любим заниматься спортом.</example>
                 <example type="correct">Они подготовили реферат <marker>как и</marker> на бумажном носителе, так и в электронном виде.</example>
@@ -418,9 +421,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|\)</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">И растёт ребёнок там не по дням, а по часам.</example>
                 <example type="incorrect">И растёт ребёнок там не по <marker>дням а</marker> по часам.</example>
             </rule>
@@ -429,9 +432,9 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|…|«<exception postag="SENT_START"></exception></token>
                     <token>но</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Она говорила мало, но толково.</example>
                 <example type="incorrect">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
@@ -445,9 +448,9 @@ $Id$
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Это показалось ему, по-видимому, странным.</example>
                 <example type="incorrect" correction="ему, по-видимому, странным">Это показалось <marker>ему по-видимому странным</marker>.</example>
             </rule>
@@ -460,9 +463,9 @@ $Id$
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     <token>,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2\3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Это показалось <marker>ему, по-видимому,</marker> странным.</example>
                 <example type="incorrect" correction="ему, по-видимому,">Это показалось <marker>ему по-видимому,</marker> странным.</example>
             </rule>
@@ -474,9 +477,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Это показалось ему, <marker>по-видимому,</marker> странным.</example>
                 <example type="incorrect">Это показалось ему, <marker>по-видимому</marker> странным.</example>
             </rule>
@@ -486,9 +489,9 @@ $Id$
                     <token regexp="yes">По-видимому|По-моему|По-твоему|Впрочем</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">По-видимому, это странное явление.</example>
                 <example type="incorrect" correction="По-видимому, это"><marker>По-видимому это</marker> странное явление.</example>
             </rule>
@@ -499,9 +502,9 @@ $Id$
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, во-первых, представляет огромную научную ценность.</example>
                 <example type="correct">Эта работа была выполнена полностью, <marker>а следовательно,</marker> должна быть рассмотрена в первую очередь.</example>
                 <example type="incorrect" correction="работа, во-первых, представляет">Эта <marker>работа во-первых представляет</marker> огромную научную ценность.</example>
@@ -513,9 +516,9 @@ $Id$
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
                     <token>,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2\3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта <marker>работа, во-первых,</marker> представляет огромную научную ценность.</example>
                 <example type="correct">Эта работа была выполнена полностью, <marker>а следовательно,</marker> должна быть рассмотрена в первую очередь.</example>
                 <example type="incorrect" correction="работа, во-первых,">Эта <marker>работа во-первых,</marker> представляет огромную научную ценность.</example>
@@ -528,10 +531,10 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2,</suggestion>.</message>
                 
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, <marker>во-первых,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect">Эта работа, <marker>во-первых</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -541,10 +544,10 @@ $Id$
                     <token regexp="yes">Итак|Следовательно|Во-первых|Во-вторых|В-третьих|В-четвертых|В-пятых</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Во-первых, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Во-первых, эта"><marker>Во-первых эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
@@ -556,9 +559,9 @@ $Id$
                     <token>ли</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3, \4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 
                 <example type="correct">Эта работа, видишь ли, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, видишь ли, представляет">Эта <marker>работа видишь ли представляет</marker> огромную научную ценность.</example>
@@ -572,9 +575,9 @@ $Id$
                     <token>ли</token>
                     <token>,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3\4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3\4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта <marker>работа, видишь ли,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, видишь ли,">Эта <marker>работа видишь ли,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -587,9 +590,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2 \3,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, <marker>видишь ли,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect">Эта работа, <marker>видишь ли</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -598,11 +601,11 @@ $Id$
                     <token postag="SENT_START"></token>
                     <token regexp="yes">Видишь|Понимаешь</token>
                     <token>ли</token>
-                    <token negate="yes" regexp="yes">,|.</token>
+                    <token negate="yes" regexp="yes">[.,]</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2 \3, \4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Видишь ли, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Видишь ли, эта"><marker>Видишь ли эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
@@ -616,9 +619,9 @@ $Id$
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Мы, к сожалению, не успели на поезд.</example>
                 <example type="incorrect" correction="Мы, к сожалению,"><marker>Мы к сожалению не</marker> успели на поезд.</example>
             </rule>
@@ -631,9 +634,9 @@ $Id$
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token>,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3\4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3\4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Мы, к сожалению, не успели на поезд.</example>
                 <example type="incorrect" correction="Мы, к сожалению,"><marker>Мы к сожалению,</marker> не успели на поезд.</example>
             </rule>
@@ -646,9 +649,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2 \3,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Мы, <marker>к сожалению,</marker> не успели на поезд.</example>
                 <example type="incorrect">Мы, <marker>к сожалению</marker> не успели на поезд.</example>
             </rule>
@@ -659,9 +662,9 @@ $Id$
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2 \3, \4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">К сожалению, мы не успели на поезд.</example>
                 <example type="incorrect" correction="К сожалению, мы"><marker>К сожалению мы</marker> не успели на поезд.</example>
             </rule>
@@ -676,9 +679,9 @@ $Id$
                         <token postag_regexp="yes" postag="VB:.*"></token> 
                     </and>            
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2, \3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, несомненно, представляет огромную научную ценность.</example>
                 <example type="correct">Звук кажется выше на октаву.</example>
                 <example type="correct">Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
@@ -691,9 +694,9 @@ $Id$
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|однако</token>
                     <token>,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2\3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2\3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, несомненно, представляет огромную научную ценность.</example>
                 <example type="correct">Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>
                 <example type="incorrect" correction="работа, несомненно,">Эта <marker>работа несомненно,</marker> представляет огромную научную ценность.</example>
@@ -706,9 +709,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes"><exception>если</exception>[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, <marker>конечно,</marker> представляет огромную научную ценность.</example>
                 <example type="correct">Я поеду в город, однако если будут пробки, то я заночую в мотеле.</example>    
                 <!--  todo: "однако если" не требует запятой
@@ -721,9 +724,9 @@ $Id$
                     <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Однако</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2, \3</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Несомненно, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Несомненно, эта"><marker>Несомненно эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
@@ -735,9 +738,9 @@ $Id$
                     <token>словом</token>
                     <token negate="yes">,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, одним словом, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, одним словом,">Эта <marker>работа одним словом представляет</marker> огромную научную ценность.</example>
             </rule>
@@ -749,9 +752,9 @@ $Id$
                     <token>словом</token>
                     <token>,</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3\4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3\4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, одним словом, представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="работа, одним словом,">Эта <marker>работа одним словом,</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -764,9 +767,9 @@ $Id$
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2 \3,</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Эта работа, <marker>одним словом,</marker> представляет огромную научную ценность.</example>
                 <example type="incorrect">Эта работа, <marker>одним словом</marker> представляет огромную научную ценность.</example>
             </rule>
@@ -777,9 +780,9 @@ $Id$
                     <token>словом</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\2 \3, \4</suggestion>.</message>
+                <message>Пропущена запятая:<suggestion>\2 \3, \4</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
-                <short>Нет запятой.</short>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Одним словом, эта работа представляет огромную научную ценность.</example>
                 <example type="incorrect" correction="Одним словом, эта"><marker>Одним словом эта</marker> работа представляет огромную научную ценность.</example>
             </rule>
@@ -797,8 +800,9 @@ $Id$
                     <token regexp="yes">иной|иное</token>
                     <token>как</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1 \2 \3, \4</suggestion>.</message>
-                <short>Нет запятой.</short>
+                <message>Пропущена запятая:<suggestion>\1 \2 \3, \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Был это не кто иной, как наш мастер.</example>
                 <example type="incorrect">Был это <marker>не кто иной как</marker> наш мастер.</example>
             </rule>
@@ -816,8 +820,9 @@ $Id$
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—|бы<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2</suggestion>.</message>
-                <short>Нет запятой.</short>
+                <message>Пропущена запятая:<suggestion>\1, \2</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
+                <short>Пропущена запятая.</short>
                 <example type="correct">Около костра, кроме Ивана, грелось ещё пять человек.</example>
                 <example type="incorrect">Около <marker>костра кроме</marker> Ивана грелось ещё пять человек.</example>
             </rule>
@@ -827,8 +832,9 @@ $Id$
                     <token>за</token>
                     <token>исключением</token>
                 </pattern>
-                <message>Запятая пропущена здесь:<suggestion>\1, \2 \3</suggestion>.</message>
-                <short>Нет запятой.</short>
+                <message>Пропущена запятая:<suggestion>\1, \2 \3</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
+                <short>Пропущена запятая.</short>
                 <example type="correct">В поход, за исключением Ивана, пошло ещё пять человек.</example>
                 <example type="incorrect" correction="поход, за исключением">В <marker>поход за исключением</marker> Ивана пошло ещё пять человек.</example>
             </rule>
@@ -840,8 +846,9 @@ $Id$
                 <token>том</token>
                 <token>числе</token>
             </pattern>
-            <message>Запятая пропущена здесь:<suggestion>\1, \2 \3 \4</suggestion>.</message>
-            <short>Нет запятой.</short>
+            <message>Пропущена запятая:<suggestion>\1, \2 \3 \4</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%BF%D1%8F%D1%82%D0%B0%D1%8F</url>
+            <short>Пропущена запятая.</short>
             <example type="correct">В тайге ещё сохранились редкие хищники, в том числе дальневосточный леопард.</example>
             <example type="incorrect">В тайге ещё сохранились редкие <marker>хищники в том числе</marker> дальневосточный леопард.</example>
         </rule>
@@ -852,6 +859,7 @@ $Id$
                 <token>,</token>
             </pattern>
             <message>Запятая должна стоять перед тире: <suggestion>\2 \1</suggestion></message>
+            <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
             <short>Запятая - перед тире.</short>
             <example type="correct">Здорово живешь, соседка, - поздоровался Иван.</example>
             <example type="incorrect">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
@@ -876,6 +884,7 @@ $Id$
                     <token spacebefore="yes" regexp="yes">[а-яё][а-яё].*</token>
                 </pattern>
                 <message>После дефиса не должно быть пробела: <suggestion>\1\2</suggestion></message>
+                <url>http://ru.wikipedia.org/wiki/%D0%94%D0%B5%D1%84%D0%B8%D1%81</url>
                 <short>Лишний пробел.</short>
                 <example type="correct">Кое-кто пошёл в магазин.</example>
                 <example type="incorrect"><marker>Кое- кто</marker> пошёл в магазин.</example>
@@ -1071,6 +1080,9 @@ $Id$
                 <message>Запятая не нужна:<suggestion>\1 \3 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example type="correct">Он не нашёлся что ответить.</example>
+                <example type="correct">Я найду куда обратиться.</example>
+                <example type="correct">Ему есть чем заняться.</example>
+                <example type="correct">Я не нахожу что сказать.</example>
                 <example type="incorrect">Он не <marker>нашёлся, что ответить</marker>.</example>
             </rule>
             <rule>
@@ -1161,7 +1173,7 @@ $Id$
                         <token postag="ADJ:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*"></exception></token>
                         <token postag="NN:(.*):(.*):.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="next" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 <message>Прилагательное не согласуется с существительным по падежу.
                     <suggestion><match no="2"></match> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:Nom"></match></suggestion>
@@ -1180,7 +1192,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:R" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:R" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:R" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1200,7 +1212,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:D" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:D" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1220,7 +1232,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag_regexp="yes" postag="NN:.*"></exception></token>
                         <token postag="NN:.*:.*:V" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:V" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1239,7 +1251,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:T" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:T" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1258,7 +1270,7 @@ $Id$
                         <token postag="ADJ:(.*):.*" postag_regexp="yes"><exception postag="ADJ:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:(.*):.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:.*:.*:P" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception negate_pos="yes" scope="next" postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по падежу.
@@ -1280,7 +1292,7 @@ $Id$
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Masc:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.
@@ -1299,7 +1311,7 @@ $Id$
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Fem:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.
@@ -1318,7 +1330,7 @@ $Id$
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
                         <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Neut:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по роду.
@@ -1339,7 +1351,7 @@ $Id$
                         <token postag="ADJ:PL:.*" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:PL:.*" postag_regexp="yes"></exception> <exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception>  </token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:PL:.*" postag_regexp="yes"></exception><exception postag="NN:.*:PL:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по числу.</message>
@@ -1356,7 +1368,7 @@ $Id$
                         <token postag="ADJ:.*:(.*)" postag_regexp="yes"><exception negate_pos="yes" postag="ADJ:.*:(.*)" postag_regexp="yes"></exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="previous">и|или|но|да</exception></token>
                         <token postag="NN:.*:.*:.*" skip="-1" postag_regexp="yes"><exception postag="NN:.*:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="next" regexp="yes">и|[\p{Punct}]</exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Прилагательное не согласуется с существительным по числу.
@@ -1454,7 +1466,7 @@ $Id$
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Masc"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception> <exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -1475,7 +1487,7 @@ $Id$
                         <token postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Fem"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception><exception scope="next" postag="NN:Masc:Sin:Nom"></exception><exception scope="next" postag="NN:Neut:Sin:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -1496,7 +1508,7 @@ $Id$
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
                         <token postag="VB:Past:.*" postag_regexp="yes" skip="-1"><exception postag="VB:Past:Neut"></exception><exception postag="VB:Past:PL"></exception><exception negate_pos="yes" postag_regexp="yes" postag="VB:Past:.*"></exception><exception scope="next" postag="NN:Fem:Sin:Nom"></exception><exception scope="next" postag="NN:Masc:Sin:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по роду.
@@ -1536,7 +1548,7 @@ $Id$
                         <token postag="NN:Masc:Sin:Nom"><exception negate_pos="yes" postag="NN:Masc:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1556,7 +1568,7 @@ $Id$
                         <token postag="NN:Fem:Sin:Nom"><exception negate_pos="yes" postag="NN:Fem:Sin:Nom"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1578,7 +1590,7 @@ $Id$
                         <token postag="NN:Neut:Sin:Nom"><exception negate_pos="yes" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception><exception scope="previous" regexp="yes">и|,</exception></token>
                         <token postag="VB:Past:PL" skip="-1"><exception negate_pos="yes" postag="VB:Past:PL"></exception><exception scope="next" postag_regexp="yes" postag="NN:.*:PL:Nom"></exception></token>
                     </marker>
-                    <token regexp="yes">.|;</token>
+                    <token regexp="yes">[.;]</token>
                 </pattern>
                 
                 <message>Существительное не согласуется с глаголом по числу.
@@ -1730,7 +1742,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>пара</token>
-                    <token>брюк</token>
+                    <token regexp="yes">брюк|колготок|ножниц|ворот|кусачек|тисков|клещей|щипцов</token>
                 </pattern>
                 <message>Числительное пара не употребляется с существительными, существующими только в форме множественного числа: <suggestion>двое <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
@@ -1768,6 +1780,19 @@ $Id$
                 <example type="correct">По обеим сторонам.</example>
                 <example type="incorrect">По <marker>обоим сторонам</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>у</token>
+                    <token>обоих</token>
+                    <token regexp="yes">ворот|часов</token>
+                </pattern>
+                <message>Числительное оба (обоих) не может употребляется с существительными, имеющими только форму множественного числа: <suggestion>у тех и у других <match no="3"></match></suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
+                <short>Грамматическая ошибка.</short>
+                <example type="correct">Стража стояла у тех и у других ворот.</example>
+                <example type="incorrect">Стража стояла <marker>у обоих ворот</marker>.</example>
+            </rule>
+            
             
             <rule>
                 <pattern>
@@ -1872,15 +1897,73 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов «наверху», «внизу» ...">
-            <!-- To Do
-вместо
-вне
-заместо
-навстречу
-насчёт
-ниже
-посередине
--->
+    
+
+            <rule>
+                <!-- вместо вне   -->
+                <pattern case_sensitive="no">
+                    <token>в</token>
+                    <token>место</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Это новое оборудование можно  использовать <marker>вместо</marker> старого.</example>
+                <example type="incorrect">Это новое оборудование можно  использовать <marker>в место</marker> старого.</example>
+            </rule>
+            <rule>
+                <!-- заместо    -->
+                <pattern case_sensitive="no">
+                    <token>за</token>
+                    <token>место</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Это новое оборудование можно  использовать <marker>заместо</marker> старого.</example>
+                <example type="incorrect">Это новое оборудование можно  использовать <marker>за место</marker> старого.</example>
+            </rule>
+
+
+            <rule>
+                <!-- навстречу насчёт   -->
+                <pattern case_sensitive="no">
+                    <token>на</token>
+                    <token regexp="yes">встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Они шли <marker>навстречу</marker> друг другу.</example>
+             <!--   <example type="correct">Деньги переведены <marker>на счёт</marker> в банке.</example>  -->
+                <example type="correct">Тебе следует быть осторожным <marker>насчёт</marker> того, чтобы пойти в поход.</example>
+                <example type="incorrect">Они шли <marker>на встречу</marker> друг другу.</example>
+                <example type="incorrect">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
+            </rule>
+            <rule>
+                <!-- ниже    -->
+                <pattern case_sensitive="no">
+                    <token>ни</token>
+                    <token>же</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Эта игрушка висит <marker>ниже</marker> на другой ветке ёлки.</example>
+                <example type="incorrect">Эта игрушка висит <marker>ни же</marker> на другой ветке ёлки.</example>
+            </rule>
+            <rule>
+      <!-- посередине    -->
+                <pattern case_sensitive="no">
+                    <token>по</token>
+                    <token>середине</token>
+                </pattern>
+                <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
+                <short>Пишется слитно.</short>
+                <example type="correct">Эта игрушка висит <marker>посередине</marker> между двумя шарами.</example>
+                <example type="incorrect">Эта игрушка висит <marker>по середине</marker> между двумя шарами.</example>
+            </rule>
+
+
+
+
+
             <rule>
                 <!-- накануне, наподобие, напротив               
   -->
@@ -2010,7 +2093,9 @@ $Id$
                 <message>Слово пишется слитно: <suggestion>\1\2 \3</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example type="correct">Премия в этом году состоялась <marker>невзирая на</marker> кризис.</example>
+                <example type="correct">Премия в этом году состоялась <marker>несмотря на</marker> кризис.</example>
                 <example type="incorrect">Премия в этом году состоялась <marker>не смотря на</marker> кризис.</example>
+                <example type="incorrect">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Vo_chto_by_to_ni_stalo" name="«Во что бы то ни стало»">
@@ -2474,8 +2559,8 @@ $Id$
             <example type="incorrect">Он <marker>в пошёл</marker> лес.</example>
         </rule>
         
-        <rule default="on" id="PREP_and_PNN" name="Предлог и местоимения">
-            
+        <rulegroup default="on" id="PREP_and_PNN" name="Предлог и местоимения">
+            <rule>
             <pattern>
                 <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )   -->
                 <marker>
@@ -2491,7 +2576,7 @@ $Id$
                         <token regexp="yes" negate="yes">[н].*</token>
                     </and>
                 </marker>
-                <token postag="SENT_END"></token>
+           <!--     <token postag="SENT_END"></token>  -->
             </pattern>
             <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
@@ -2500,6 +2585,35 @@ $Id$
             <example type="correct">Дело удалось благодаря его усилиям.</example>
             <example type="incorrect">Он подошёл <marker>к ему</marker>.</example>
         </rule>
+      
+        <rule>
+            <pattern>
+                <!--            без ней, для ней, до ней, от ней -> без неё, для неё, до неё, от неё  -->
+                <token regexp="yes">без|для|до|от</token>
+                <token >ней</token>
+            </pattern>
+            <message>Нормативная форма - неё: <suggestion>\1 неё</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Нормативная форма - неё</short>
+            <example type="correct">Всё было сделано без неё</example>
+
+            <example type="incorrect">Всё было сделано <marker>без ней</marker>.</example>
+        </rule>
+        
+        <rule>
+            <pattern>
+                <!--           у ней  -> у неё  -->
+                <token>у</token>
+                <token>ней</token>
+            </pattern>
+            <message>Форма "у ней" придаёт высказыванию разговорный характер. Нормативная форма: <suggestion>\1 неё</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Разговорная форма.</short>
+            <example type="correct">У неё на окошке герань.</example>
+            <example type="incorrect"><marker>У ней</marker> занавески в разводах.</example>
+        </rule>
+        
+        </rulegroup>
         <rule default="on" id="PREP_K_and_Noun" name="Предлог «к» и существительное">
             <pattern case_sensitive="yes">
                 <!--              PREP к, ко -> NN:.*:D   -->

@@ -16,10 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
-/*
- * Created on 06.05.2007
- */
 package org.languagetool.dev;
 
 import java.io.File;

@@ -85,10 +85,10 @@ public class PatternRuleXmlCreator {
           }
         }
       } catch (Exception e) {
-        throw new RuntimeException("Could not turn rule " + ruleId + " for language " + language + " into a string", e);
+        throw new RuntimeException("Could not turn rule '" + ruleId + "' for language " + language + " into a string", e);
       }
     }
-    throw new RuntimeException("Could not find rule " + ruleId + " for language " + language + " in files: " + filenames);
+    throw new RuntimeException("Could not find rule '" + ruleId + "' for language " + language + " in files: " + filenames);
   }
 
   private Document getDocument(InputStream is) throws ParserConfigurationException, SAXException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {

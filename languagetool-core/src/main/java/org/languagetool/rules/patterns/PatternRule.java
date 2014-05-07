@@ -225,6 +225,13 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   /**
+   * For testing only.
+   */
+  public final List<DisambiguationPatternRule> getAntiPatterns() {
+    return antiPatterns;
+  }
+
+  /**
    * A fast check whether this rule can be ignored for the given sentence
    * because it can never match. Used internally for performance optimization.
    * @since 2.4

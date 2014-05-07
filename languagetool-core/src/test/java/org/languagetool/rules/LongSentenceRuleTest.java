@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
+import java.io.IOException;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -29,17 +31,30 @@ public class LongSentenceRuleTest {
 
   @Test
   public void testMatch() throws Exception {
-    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages());
     JLanguageTool languageTool = new JLanguageTool(TestTools.getDemoLanguage());
-    assertThat(rule.match(languageTool.getAnalyzedSentence("This is a rather short text.")).length, is(0));
-    assertThat(rule.match(languageTool.getAnalyzedSentence("Now this is not " +
+    
+    LongSentenceRule rule = new LongSentenceRule(TestTools.getEnglishMessages());
+    assertNoMatch(" is a rather short text.", rule, languageTool);
+    assertMatch("Now this is not " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
             "a a a a a a a a a a a " +
-            "rather that short text.")).length, is(1));
+            "rather that short text.", rule, languageTool);
+    
     LongSentenceRule shortRule = new LongSentenceRule(TestTools.getEnglishMessages(), 6);
-    assertThat(shortRule.match(languageTool.getAnalyzedSentence("This is a rather short text.")).length, is(0));
-    assertThat(shortRule.match(languageTool.getAnalyzedSentence("This is also a rather short text.")).length, is(1));
-    assertThat(shortRule.match(languageTool.getAnalyzedSentence("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.")).length, is(0));
+    assertNoMatch("This is a rather short text.", shortRule, languageTool);
+    assertMatch("This is also a rather short text.", shortRule, languageTool);
+    assertNoMatch("These ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ don't count.", shortRule, languageTool);
+    assertNoMatch("one two three four five six.", shortRule, languageTool);
+    assertNoMatch("one two three (four) five six.", shortRule, languageTool);
+    assertMatch("one two three four five six seven.", shortRule, languageTool);
+  }
+
+  private void assertNoMatch(String input, LongSentenceRule rule, JLanguageTool languageTool) throws IOException {
+    assertThat(rule.match(languageTool.getAnalyzedSentence(input)).length, is(0));
+  }
+
+  private void assertMatch(String input, LongSentenceRule rule, JLanguageTool languageTool) throws IOException {
+    assertThat(rule.match(languageTool.getAnalyzedSentence(input)).length, is(1));
   }
 }

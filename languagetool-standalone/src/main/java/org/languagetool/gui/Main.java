@@ -94,6 +94,7 @@ public final class Main {
   private UndoRedoSupport undoRedo;
   private long startTime;
   private final JLabel statusLabel = new JLabel(" ", null, SwingConstants.RIGHT);
+  private FontChooser fontChooserDialog;
 
   private Main() {
     LanguageIdentifierTools.addLtProfiles();
@@ -167,13 +168,6 @@ public final class Main {
     final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
     configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
     Configuration config = ltSupport.getConfig();
-    config.setDisabledRuleIds(configDialog.getDisabledRuleIds());
-    config.setEnabledRuleIds(configDialog.getEnabledRuleIds());
-    config.setDisabledCategoryNames(configDialog.getDisabledCategoryNames());
-    config.setMotherTongue(configDialog.getMotherTongue());
-    config.setRunServer(configDialog.getRunServer());
-    config.setUseGUIConfig(configDialog.getUseGUIConfig());
-    config.setServerPort(configDialog.getServerPort());
     try { //save config - needed for the server
       config.saveConfiguration(langTool.getLanguage());
     } catch (IOException e) {
@@ -182,6 +176,27 @@ public final class Main {
     // Stop server, start new server if requested:
     stopServer();
     maybeStartServer();
+  }
+
+  private void showSelectFontDialog() {
+    Configuration config = ltSupport.getConfig();
+    if (fontChooserDialog == null) {
+      fontChooserDialog = new FontChooser(frame, true);
+      Tools.centerDialog(fontChooserDialog);
+    }
+    fontChooserDialog.setSelectedFont(this.textArea.getFont());
+    fontChooserDialog.setVisible(true);
+    if (fontChooserDialog.getSelectedFont() != null) {
+      this.textArea.setFont(fontChooserDialog.getSelectedFont());
+      config.setFontName(fontChooserDialog.getSelectedFont().getFamily());
+      config.setFontStyle(fontChooserDialog.getSelectedFont().getStyle());
+      config.setFontSize(fontChooserDialog.getSelectedFont().getSize());
+      try { //save config - needed for the server
+        config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+      } catch (IOException e) {
+        Tools.showError(e);
+      }
+    }
   }
 
   private Component getFrame() {
@@ -374,6 +389,22 @@ public final class Main {
     });
     ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguageTool().getLanguage());
     textArea.setText(textLanguageMessageBundle.getString("guiDemoText"));
+
+    Configuration config = ltSupport.getConfig();
+    if (config.getFontName() != null
+            || config.getFontStyle() != Configuration.FONT_STYLE_INVALID
+            || config.getFontSize() != Configuration.FONT_SIZE_INVALID) {
+      String fontName = config.getFontName();
+      if(fontName == null)
+        fontName = textArea.getFont().getFamily();
+      int fontSize = config.getFontSize();
+      if (fontSize == Configuration.FONT_SIZE_INVALID) {
+        fontSize = textArea.getFont().getSize();
+      }
+      Font font = new Font(fontName, config.getFontStyle(), fontSize);
+      textArea.setFont(font);
+    }
+
     frame.pack();
     frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     frame.setLocationByPlatform(true);
@@ -418,6 +449,7 @@ public final class Main {
     grammarMenu.add(new TagTextAction());
     grammarMenu.add(new AddRulesAction());
     grammarMenu.add(new OptionsAction());
+    grammarMenu.add(new SelectFontAction());
     
     helpMenu.add(new AboutAction());
 
@@ -822,7 +854,6 @@ public final class Main {
     @Override
     public void itemStateChanged(ItemEvent e) {
       try {
-        final ConfigurationDialog configDialog = ltSupport.getCurrentConfigDialog();
         final Configuration config = ltSupport.getConfig();
         if (e.getStateChange() == ItemEvent.SELECTED) {
           config.setRunServer(true);
@@ -830,15 +861,9 @@ public final class Main {
           enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
           config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
-          if (configDialog != null) {
-            configDialog.setRunServer(true);
-          }
         } else if (e.getStateChange() == ItemEvent.DESELECTED) {
           config.setRunServer(false);
           config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
-          if (configDialog != null) {
-            configDialog.setRunServer(false);
-          }
           stopServer();
         }
       } catch (IOException ex) {
@@ -1042,6 +1067,18 @@ public final class Main {
     @Override
     public void actionPerformed(ActionEvent e) {
       showOptions();
+    }
+  }
+  
+  class SelectFontAction extends AbstractAction {
+
+    public SelectFontAction() {
+      super(getLabel("guiSelectFont"));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      showSelectFontDialog();
     }
   }
 

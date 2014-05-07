@@ -340,7 +340,11 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
         break;
       case TOKEN:
         if (!exceptionSet || tokenElement == null) {
-          tokenElement = new Element(elements.toString(), caseSensitive,
+          boolean tokenCase = caseSensitive;
+          if (tokenLevelCaseSet) {
+            tokenCase = tokenLevelCaseSensitive;
+          }
+          tokenElement = new Element(elements.toString(), tokenCase,
               regExpression, tokenInflected);
           tokenElement.setNegation(tokenNegated);
         } else {

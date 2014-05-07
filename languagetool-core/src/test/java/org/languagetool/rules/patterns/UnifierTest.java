@@ -329,6 +329,31 @@ public class UnifierTest extends TestCase {
     assertTrue(uni.isUnified(case2e, equiv, true));
     assertEquals("[xx[xx/abc:sg:f*,xx/cde:pl:f*], yy[yy/abc:pl:f*,yy/abc:sg:f*]]",
         Arrays.toString(uni.getFinalUnified()));
+
+    uni.reset();
+
+    AnalyzedToken tokenComplex1_1 = new AnalyzedToken("xx", "abc:sg:f", "xx1");
+    AnalyzedToken tokenComplex1_2 = new AnalyzedToken("xx", "cde:pl:f", "xx2");
+
+    AnalyzedToken tokenComplex2_1 = new AnalyzedToken("yy", "abc:sg:f", "yy1");
+    AnalyzedToken tokenComplex2_2 = new AnalyzedToken("yy", "cde:pl:f", "yy2");
+
+    AnalyzedToken tokenComplex3 = new AnalyzedToken("zz", "cde:sg:f", "zz");
+
+    uni.isUnified(tokenComplex1_1, equiv, false);
+    uni.isUnified(tokenComplex1_2, equiv, true);
+
+    uni.isUnified(tokenComplex2_1, equiv, false);
+    uni.isUnified(tokenComplex2_2, equiv, true);
+
+    //both readings of tokenComplex1 and tokenComplex2 should be here:
+    assertEquals("[xx[xx1/abc:sg:f*,xx2/cde:pl:f*], yy[yy1/abc:sg:f*,yy2/cde:pl:f*]]", Arrays.toString(uni.getFinalUnified()));
+
+    assertTrue(uni.isUnified(tokenComplex3, equiv, true));
+
+    //only one reading of tokenComplex1 and tokenComplex2 - as only one agrees with tokenComplex3
+    assertEquals("[xx[xx1/abc:sg:f*], yy[yy1/abc:sg:f*], zz[zz/cde:sg:f*]]", Arrays.toString(uni.getFinalUnified()));
+
   }
 
 

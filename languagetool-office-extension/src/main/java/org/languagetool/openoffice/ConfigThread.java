@@ -45,28 +45,21 @@ class ConfigThread extends Thread {
     this.docLanguage = docLanguage;
     this.config = config;
     mainThread = main; 
-    cfgDialog = new ConfigurationDialog(null, true);
-    cfgDialog.setDisabledRules(config.getDisabledRuleIds());
-    cfgDialog.setEnabledRules(config.getEnabledRuleIds());
-    cfgDialog.setDisabledCategories(config.getDisabledCategoryNames());
-    cfgDialog.setMotherTongue(config.getMotherTongue());    
+    cfgDialog = new ConfigurationDialog(null, true, config);
   }
-    
+
+  @Deprecated
   public Set<String> getDisabledRuleIds() {
-    return cfgDialog.getDisabledRuleIds();
+    return config.getDisabledRuleIds();
   }  
 
   @Override
   public void run() {    
     try {
-      final JLanguageTool langTool = new JLanguageTool(docLanguage, cfgDialog.getMotherTongue());
+      final JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       cfgDialog.show(langTool.getAllRules());
-      config.setDisabledRuleIds(cfgDialog.getDisabledRuleIds());
-      config.setEnabledRuleIds(cfgDialog.getEnabledRuleIds());
-      config.setDisabledCategoryNames(cfgDialog.getDisabledCategoryNames());
-      config.setMotherTongue(cfgDialog.getMotherTongue());
       config.saveConfiguration(docLanguage);
       if (mainThread != null) {
         mainThread.resetDocument();

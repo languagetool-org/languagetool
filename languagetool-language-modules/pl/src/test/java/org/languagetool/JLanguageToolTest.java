@@ -49,6 +49,8 @@ public class JLanguageToolTest extends TestCase {
     //but it should get a match with word repetitions:
     assertEquals(1, tool.check("Jurek wygląda wypisz wypisz wymaluj babcia.").size());
     assertEquals(1, tool.check("Jurek wygląda wypisz wymaluj wymaluj babcia.").size());
+    //check for a weird unification bug:
+    assertEquals(0, tool.check("Zawarł w niej, oprócz swojej twórczości, wybrane epigramaty czterdziestu ośmiu innych greckich poetów i poetek.").size());
     //checking on pattern rules now...
     tool.activateDefaultPatternRules();
     //now this should be immunized:
@@ -108,13 +110,13 @@ public class JLanguageToolTest extends TestCase {
         "PREP_SUBST:8 pogody[pogoda/subst:pl:acc:f,pogoda/subst:pl:nom:f,pogoda/subst:pl:voc:f,pogoda/subst:sg:gen:f] -> pogody[pogoda/subst:sg:gen:f]\n" +
         "\n" +
         "WIELKI_SWOJ_ADJ:1 dobre[dobre/subst:pl:acc:n2,dobre/subst:pl:nom:n2,dobre/subst:pl:voc:n2,dobre/subst:sg:acc:n2,dobre/subst:sg:nom:n2,dobre/subst:sg:voc:n2,dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos,dobry/depr:pl:nom:m2,dobry/depr:pl:voc:m2,dobry/subst:pl:acc:m3,dobry/subst:pl:nom:m3,dobry/subst:pl:voc:m3] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos]\n" +
-        "unify_adj_subst:1 dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos] -> dobre[dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n" +
-        "\n" +
-        "SUBST_NOM_VOC_VERB:3 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f,buta/subst:sg:gen:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
-            "unify_adj_subst:1 buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
+        "unify_adj_subst:2 dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:sg:acc:n1.n2:pos,dobry/adj:sg:nom.voc:n1.n2:pos] -> dobre[dobry/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,dobry/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos]\n" +
+            "\n" +
+            "unify_adj_subst:2 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f,buta/subst:sg:gen:f] -> buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f]\n" +
+            "SUBST_NOM_VOC_VERB:5 buty[but/subst:pl:acc:m2,but/subst:pl:acc:m3,but/subst:pl:nom:m2,but/subst:pl:nom:m3,but/subst:pl:voc:m2,but/subst:pl:voc:m3,buta/subst:pl:acc:f,buta/subst:pl:nom:f,buta/subst:pl:voc:f] -> buty[but/subst:pl:nom:m2,but/subst:pl:nom:m3,buta/subst:pl:nom:f]\n" +
             "\n" +
             "ppas_jest:1 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
-            "SUBST_NOM_VOC_VERB:3 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
+            "SUBST_NOM_VOC_VERB:5 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
             "BYC_ADJ_ACC_NOM:1 są[być/verb:fin:pl:ter:imperf:nonrefl] -> są[być/verb:fin:pl:ter:imperf:nonrefl]\n" +
             "\n" +
             "ppas_jest:1 wskazane[wskazany/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,wskazany/adj:sg:acc:n1.n2:pos,wskazany/adj:sg:nom.voc:n1.n2:pos,wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff,wskazać/ppas:sg:nom.acc.voc:n1.n2:perf:aff] -> wskazane[wskazać/ppas:pl:nom.acc.voc:m2.m3.f.n1.n2.p2.p3:perf:aff]\n" +

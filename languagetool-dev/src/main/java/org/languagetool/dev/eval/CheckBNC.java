@@ -17,7 +17,7 @@
  * USA
  */
 
-package org.languagetool.dev;
+package org.languagetool.dev.eval;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,7 +40,7 @@ public final class CheckBNC {
   private JLanguageTool langTool = null;
   private final BNCTextFilter textFilter = new BNCTextFilter();
 
-  static final boolean CHECK_BY_SENTENCE = true;
+  private static final boolean CHECK_BY_SENTENCE = true;
 
   public static void main(String[] args) throws Exception {
     if (args.length != 1) {

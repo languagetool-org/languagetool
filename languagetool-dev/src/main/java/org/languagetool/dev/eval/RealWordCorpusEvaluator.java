@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev;
+package org.languagetool.dev.eval;
 
 import org.apache.tika.io.IOUtils;
 import org.languagetool.JLanguageTool;
@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * <pre>
  * 673 lines checked.
  * 132 errors found that are marked as errors in the corpus (this does not count whether LanguageTool's correction was perfect)
- * => 19,61% recall
+ * => 19,91% recall
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even

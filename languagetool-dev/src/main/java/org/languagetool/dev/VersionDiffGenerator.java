@@ -17,7 +17,7 @@
  * USA
  */
 
-package tools.ltdiff;
+package org.languagetool.dev;
 
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -42,9 +42,9 @@ class VersionDiffGenerator {
   
   private void makeDiff(String lang) throws IOException {
     
-    final List<Rule> oldRules = new ArrayList<Rule>(); // rules in old grammar.xml
-    final List<Rule> newRules = new ArrayList<Rule>(); // rules in new grammar.xml
-    final List<Rule> modifiedRules = new ArrayList<Rule>();
+    final List<Rule> oldRules = new ArrayList<>(); // rules in old grammar.xml
+    final List<Rule> newRules = new ArrayList<>(); // rules in new grammar.xml
+    final List<Rule> modifiedRules = new ArrayList<>();
     
     for (int i = 0; i < 2; i++) {
 
@@ -200,8 +200,8 @@ class VersionDiffGenerator {
 
   class Rule implements Comparable<Rule> {
 
-    private final List<String> correct = new ArrayList<String>();
-    private final List<String> incorrect = new ArrayList<String>();
+    private final List<String> correct = new ArrayList<>();
+    private final List<String> incorrect = new ArrayList<>();
 
     private String name = "";
     private String id;

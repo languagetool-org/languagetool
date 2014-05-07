@@ -19,7 +19,6 @@
 package org.languagetool.dev;
 
 import org.languagetool.Language;
-import org.languagetool.databroker.ResourceDataBroker;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;

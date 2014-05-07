@@ -208,7 +208,7 @@ public class RuleCoverage {
         for (String example : examples) {
           sb.append(example + " ");
         }
-        String s = sb.toString().replaceAll("\\ \\.\\ ", ".").trim();  // to fix the period problem 
+        String s = sb.toString().replaceAll("\\ \\.\\ ", "").trim();  // to fix the period problem 
         return s;
     }
     
@@ -682,7 +682,7 @@ public class RuleCoverage {
     // try several ways to open the dictionary file
     private void setupDictionaryFiles() {
        try {
-         filename = "." +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
+         filename = "" +  JLanguageTool.getDataBroker().getResourceDir() + "/" + 
                language.getShortName() + "/" + language.getName().toLowerCase() + ".dict";
          dictFile = new File(filename);
           dictLookup = (DictionaryLookup) loadDictionary();

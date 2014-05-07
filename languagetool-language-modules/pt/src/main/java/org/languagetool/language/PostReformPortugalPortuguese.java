@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.pt.PortugueseCompoundRule;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class PostReformPortugalPortuguese extends PortugalPortuguese {
   @Override
   public List<Class<? extends Rule>> getRelevantRules() {
     final List<Class<? extends Rule>> rules = new ArrayList<>(super.getRelevantRules());
+    rules.remove(PortugueseCompoundRule.class);
     rules.add(PostReformPortugueseCompoundRule.class);
     return rules;
   }

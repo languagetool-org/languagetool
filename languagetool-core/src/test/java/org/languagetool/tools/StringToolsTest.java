@@ -161,6 +161,9 @@ public class StringToolsTest extends TestCase {
     assertEquals("XXY", StringTools.trimWhitespace(" \nXX\t Y"));
     assertEquals("XXY", StringTools.trimWhitespace(" \r\nXX\t Y"));
     assertEquals("word", StringTools.trimWhitespace("word"));
+    //only one space in the middle of the word is significant:
+    assertEquals("1 234,56", StringTools.trimWhitespace("1 234,56"));
+    assertEquals("1234,56", StringTools.trimWhitespace("1  234,56"));
   }
 
   public void testAddSpace() {

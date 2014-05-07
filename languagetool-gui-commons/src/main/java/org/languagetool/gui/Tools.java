@@ -20,12 +20,25 @@ package org.languagetool.gui;
 
 import java.awt.*;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
-
+import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
+import org.apache.commons.lang.StringUtils;
+import org.languagetool.JLanguageTool;
+import org.languagetool.rules.IncorrectExample;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.FalseFriendPatternRule;
 
 /**
  * GUI-related tools.
@@ -167,4 +180,96 @@ public class Tools {
     return label.charAt(mnemonicPos + 1);
   }
 
+  /**
+   * Set dialog location to the center of the screen
+   *
+   * @param dialog the dialog which will be centered
+   * @since 2.6
+   */
+  public static void centerDialog(JDialog dialog) {
+    final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final Dimension frameSize = dialog.getSize();
+    dialog.setLocation(screenSize.width / 2 - frameSize.width / 2,
+            screenSize.height / 2 - frameSize.height / 2);
+    dialog.setLocationByPlatform(true);
+  }
+
+  static void showRuleInfoDialog(Component parent, String title, String message, Rule rule, ResourceBundle messages, String lang) {
+    int dialogWidth = 320;
+    JTextPane textPane = new JTextPane();
+    textPane.setEditable(false);
+    textPane.setContentType("text/html");
+    textPane.setBorder(BorderFactory.createEmptyBorder());
+    textPane.setOpaque(false);
+    textPane.setBackground(new Color(0, 0, 0, 0));
+    textPane.addHyperlinkListener(new HyperlinkListener() {
+      @Override
+      public void hyperlinkUpdate(HyperlinkEvent e) {
+        if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+          if (Desktop.isDesktopSupported()) {
+            try {
+              Desktop.getDesktop().browse(e.getURL().toURI());
+            } catch (Exception ex) {
+              Tools.showError(ex);
+            }
+          }
+        }
+      }
+    });
+    textPane.setSize(dialogWidth, Short.MAX_VALUE);
+    String messageWithBold = message.replaceAll("<suggestion>", "<b>").replaceAll("</suggestion>", "</b>");
+    String exampleSentences = getExampleSentences(rule, messages);
+    String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
+            + "?lang=" + lang + "&amp;ref=standalone-gui";
+    String ruleDetailLink = rule instanceof FalseFriendPatternRule ? "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
+    textPane.setText("<html>"
+            + messageWithBold + exampleSentences + formatURL(rule.getUrl())
+            + "<br><br>"
+            + ruleDetailLink
+            + "</html>");
+    JScrollPane scrollPane = new JScrollPane(textPane);
+    scrollPane.setPreferredSize(
+            new Dimension(dialogWidth, textPane.getPreferredSize().height));
+    scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+    String cleanTitle = title.replace("<suggestion>", "'").replace("</suggestion>", "'");
+    JOptionPane.showMessageDialog(parent, scrollPane, cleanTitle,
+            JOptionPane.INFORMATION_MESSAGE);
+  }
+
+  private static String encodeUrl(Rule rule) {
+    try {
+      return URLEncoder.encode(rule.getId(), "utf-8");
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static String getExampleSentences(Rule rule,  ResourceBundle messages) {
+    StringBuilder examples = new StringBuilder(200);
+    java.util.List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
+    if (incorrectExamples.size() > 0) {
+      String incorrectExample = incorrectExamples.iterator().next().getExample();
+      String sentence = incorrectExample.replace("<marker>", "<span style='background-color:#ff8080'>").replace("</marker>", "</span>");
+      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:red;font-style:italic;font-weight:bold'>x</span>");
+    }
+    java.util.List<String> correctExamples = rule.getCorrectExamples();
+    if (correctExamples.size() > 0) {
+      String correctExample = correctExamples.iterator().next();
+      String sentence = correctExample.replace("<marker>", "<span style='background-color:#80ff80'>").replace("</marker>", "</span>");
+      examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
+    }
+    if (examples.length() > 0) {
+      examples.insert(0, "<br/><br/>" + messages.getString("guiExamples"));
+    }
+    return examples.toString();
+  }
+
+  private static String formatURL(URL url) {
+    if (url == null) {
+      return "";
+    }
+    return String.format("<br/><br/><a href=\"%s\">%s</a>",
+            url.toExternalForm(), StringUtils.abbreviate(url.toString(), 50));
+  }
 }

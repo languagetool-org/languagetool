@@ -552,7 +552,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!--  paraules comunes que no solen ser adjectiu gairebé mai -->
         <pattern>
             <marker>
-                <token regexp="yes">les|música|músiques</token>
+                <token regexp="yes">les|música|músiques|refés</token>
             </marker>
         </pattern>
         <disambig>
@@ -2387,6 +2387,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token regexp="yes">correus?</token>
                 <marker>
                     <token>brossa</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0CN0" />
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">factor|efecte|convidat|convidada|invitat|invitada|festa|celebració|atac</token>
+                <marker>
+                    <token>sorpresa</token>
                 </marker>
             </pattern>
             <disambig action="replace" postag="AQ0CN0" />
@@ -9057,8 +9066,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="_GN_FS">força<exception postag="_GV_"/>
-                    </token>
+                    <token postag="_GN_FS">força<exception postag="_GV_"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
@@ -9066,8 +9074,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="_GV_">força<exception postag="_GN_FS"/>
-                    </token>
+                    <token postag="_GV_">força<exception postag="_GN_FS"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.*|_GV_"></disambig>

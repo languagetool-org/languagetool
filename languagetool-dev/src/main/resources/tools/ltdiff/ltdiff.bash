@@ -54,12 +54,13 @@ if [[ $response == "404" || $response == "500" ]]; then
   fi
 fi
 
-javac VersionDiffGenerator.java
-
+cd ../../../../..
+mvn compile
 if [ ! $? -eq 0 ]; then
-  echo -e "\033[40;1;31m ERROR \033[0m javac failed"
+  echo -e "\033[40;1;31m ERROR \033[0m 'mvn compile' failed"
   exit 1
 fi
+cd -
 
 oldv=`echo $1 | sed "s/_/./g" | sed "s/V.//" | sed "s/v//" | sed "s/languagetool-//g" | sed "s/parent-//g"`
 newv=`echo $2 | sed "s/_/./g" | sed "s/V.//" | sed "s/v//" | sed "s/languagetool-//g" | sed "s/parent-//g"`
@@ -79,7 +80,7 @@ rm -r $folder~
 mv $folder $folder~
 mkdir $folder
 
-# find all currently supported languages if no lang paramter is given
+# find all currently supported languages if no lang parameter is given
 if [ $# -eq 2 ]; then
   langs=`ls -d ../../../../../../languagetool-language-modules/*/ -l | awk -F / '{print $(NF-1)}'`
   for l in $langs
@@ -117,7 +118,7 @@ do
   
   cd ../..
   
-  java tools.ltdiff.VersionDiffGenerator $l_variant
+  java -cp ../../../target/classes/ org.languagetool.dev.VersionDiffGenerator $l_variant
   
   if [ ! $? -eq 0 ]; then
     echo  "\033[40;1;31m ERROR \033[0m ltdiff failed"

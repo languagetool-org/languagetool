@@ -279,12 +279,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <pattern>
         <token regexp="yes">[aeu]r</token>
         <marker>
-          <token regexp="yes" postag="UNKNOWN">k.*</token>
+          <token regexp="yes" postag="UNKNOWN">k.*<exception regexp="yes">k[gm]|kPa|kHz</exception></token>
         </marker>
       </pattern>
       <message>Ne c’hall ket bezañ un anv a grog gant «k» goude ar ger-mell «\1». Ha fellout a rae deoc’h skrivañ <suggestion><match no="2" regexp_match="^." regexp_replace="c’h" case_conversion="preserve"/></suggestion> pe <suggestion><match no="2" regexp_match="^." regexp_replace="g" case_conversion="preserve"/></suggestion>?</message>
       <example type="incorrect">Brav eo ar <marker>Kab-Sizun</marker>.</example>
       <example type="correct">Brav eo ar <marker>C’hab-Sizun</marker>.</example>
+      <example type="correct">Ur km, ur kg.</example>
     </rule>
     <rulegroup id="KEMM_DRE_VLOTAAT_GER" name="kemmadur dre vlotaat goude gerioù zo.">
       <rule>
@@ -2778,7 +2779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="GER_KEMM" name="kemmadur ebet goude gerioù">
       <rule>
         <pattern>
-          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|drugarez|enep|hed|raok|us|walc’h|wechoù|wezhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|diwar-(benn|goust)|eget|ent|etrezek|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|get|kreiz|lerc’h|mesk|pad|ser|touez)|gant|goude|hag?|hep|hervez|hevelep|[kg]alz(ig)?|[kg]ement|kenetre|ke[nt]|krenn|lies|mard?|mell(ad)?(où)?|met|nemet|nompa[sz]|manier|memes|mui|na|nebeud(ig)?|nep|ouzh|ouzhpenn|panevet|pas|paourkaezh|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|pezh(iad)?|pezhi(ad)?où|pikol(ioù)?|rak|setu|seurt|war-(bouez|c’horre|dro|du|giz|lerc’h|nes|zu)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
+          <token regexp="yes">abaoe|ahont|amañ|arabat|aze|a-(benn|berzh|dal|dreñv|dreuz|drugarez|enep|hed|raok|us|walc’h|wechoù|wezhioù|ziwar)|bep|bet|betek|daoust|diouzh|dirak|diwar-(benn|goust)|eget|evel|ent|etre|etrezek|eus|[e’](vel|vit)(-se)?|e-(barzh|giz|keñver|kerz|kichen(ig)?|get|kreiz|lerc’h|mesk|pad|ser|touez)|gant|goude|hag?|hep|hervez|hevelep|[kg]alz(ig)?|[kg]ement|kenetre|ke[nt]|krenn|lies|mard?|mell(ad)?(où)?|met|nemet|nompa[sz]|manier|memes|mui|na|nebeud(ig)?|nep|ouzh|ouzhpenn|panevet|pas|paourkaezh|pep|pebezh|pegen|peotramant|pere|peseurt|pet|petore|petvet|pezh(iad)?|pezhi(ad)?où|pikol(ioù)?|rak|setu|seurt|war-(bouez|c’horre|dro|du|giz|lerc’h|nes|zu)<exception postag="L n">na</exception><exception postag="X KAOUT2">eus</exception></token>
           <marker>
             <token postag="[^M]*M:.*" postag_regexp="yes">
               <exception negate_pos="yes" postag="[^M]*M:.*" postag_regexp="yes"/>
@@ -4902,6 +4903,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rule id="A_DREUZ" name="a dreuz → a-dreuz (hag all)">
+      <antipattern>
+        <token>a</token>
+        <token>bouez</token>
+        <token regexp="yes">\d+|muioc’h|kalz</token>
+      </antipattern>
       <pattern>
         <token>a<exception scope="previous" regexp="yes">kement|meur|nag</exception></token>
         <token regexp="yes">barzh|beban|belec’h|benn(adoù|-kaer)?|bik|bil|blad|blaen|blom|boan|bouez(-penn)?|boullad|c’houde(vezh)?|c’hwenn|dal|dammoù|denn-askell|dizh|douez|doulladoù|drak|dreist|drek|dreñv|dreuz|drugarez|du|enep|feson|fet|feur|flav|fourch|fuilh|geñver|gevret|gleiz|grenn|hed(-all)?|herr|hervez|hevelep|istribilh|led|leizh|nevez|ouez|raok|ratozh|skouer|stlabez|viskoazh|vremañ|walc’h|wechoù|wezhioù|zehou|zevri|ziabarzh|ziabell|ziadreñv|ziagent|ziaraok|ziavaez|zindan(on|out|nañ|ni|nomp|noc’h|nor?)?|zioc’h|ziouzh|zivout|ziwar(non|nout|nañ|nezhañ|ni|nezhi|nomp|noc’h|nezho|nor?|-(c’horre|dro|laez|lerc’h))?|zoare</token>
@@ -4915,6 +4921,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="correct">A-du emaon.</example>
       <example type="correct">Kemer perzh enno e meur a du.</example>
       <example type="correct">Meur a zoare a zo da gemer perzh</example>
+      <example type="correct">An oto-mañ a bouez 900 kg.</example>
     </rule>
     <rulegroup id="MA_UNAN" name="ma unan → ma-unan (hag all)">
       <rule>
@@ -6404,11 +6411,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>hag</token>
           </marker>
-          <token regexp="yes">[bcdfgjklmnprstvwyz].*</token>
+          <token regexp="yes">[bcdfgjklmnprstvwyz].*<exception regexp="yes">(?-i)Yves</exception></token>
         </pattern>
         <message>Ar ger «\1» a zlefe bezañ <suggestion>ha</suggestion> dirak ur ger a grog gant ur gensonenn.</message>
         <example type="incorrect">Brav <marker>hag</marker> fin eo.</example>
         <example type="correct">Brav ha fin eo.</example>
+        <example type="correct">Naig hag Yves.</example>
       </rule>
     </rulegroup>
     <rule id="DAM" name="da + ma = da’m">
@@ -7062,6 +7070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token>evel</token>
           </marker>
+          <token><exception>boaz</exception></token>
         </pattern>
         <message>Ret eo implijout ar stagell <suggestion>eget</suggestion>.</message>
         <example type="incorrect">Brasoc’h eo <marker>evel</marker> ma breur.</example>
@@ -7069,6 +7078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">Pa vin brasoc’h e vin pomper evel tadig.</example>
         <example type="correct">Ha rannet eo ar bladenn etre tonioù pop nerzhus ha re all siouloc’h, <marker>evel</marker> m’eo bet graet gant ar strollad abaoe e grouidigezh.</example>
         <example type="correct">Gwelloc'h eo ober <marker>evel</marker> ma vefe erru gant ar bajenn-se.</example>
+        <example type="correct">Deuet int abretoc’h evel boaz.</example>
       </rule>
       <rule>
         <pattern>

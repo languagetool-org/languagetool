@@ -74,8 +74,8 @@ final class AtomFeedCheckerCmd {
           System.out.println("Sleeping " + sleepTimeMillis + "ms...");
           Thread.sleep(sleepTimeMillis);
         }
-      } catch (IOException e) {
-        // e.g. 50x HTTP errors
+      } catch (Exception e) {
+        // e.g. 50x HTTP errors, network problems
         e.printStackTrace();
         System.out.println("Sleeping " + sleepTimeMillis + "ms...");
         Thread.sleep(sleepTimeMillis);

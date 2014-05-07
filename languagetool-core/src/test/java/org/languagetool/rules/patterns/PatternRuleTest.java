@@ -32,6 +32,7 @@ import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 /**
  * @author Daniel Naber
@@ -158,8 +159,16 @@ public class PatternRuleTest extends TestCase {
       rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
     }
     for (PatternRule rule : rules) {
+        // Test the rule pattern.
         PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
                 rule.getId(), rule.getSubId(), lang);
+
+        // Test the rule antipatterns.
+        List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
+        for (DisambiguationPatternRule antiPattern : antiPatterns) {
+          PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getElements(),
+              antiPattern.getId(), antiPattern.getSubId(), lang);
+        }
     }
     testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     System.out.println(rules.size() + " rules tested.");

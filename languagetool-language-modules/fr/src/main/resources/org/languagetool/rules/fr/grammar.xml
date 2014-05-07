@@ -3596,7 +3596,7 @@ though, and has since been slightly modified)-->
           <token>Stroustrup</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">Bjarnes?</token>
+          <token regexp="yes">Bj?arne?s?</token>
           <token regexp="yes">St?ro?o??u?r?ss?t?tr?o?o?u?pp?</token>
         </pattern>
         <message>Écrivez <suggestion>Bjarne Stroustrup</suggestion> s’il s’agit de l’auteur du language c++.</message>
@@ -4852,7 +4852,7 @@ though, and has since been slightly modified)-->
     <rule id="ELISION" name="Élision de le, la…">
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|[IVXLCM]+e?</exception></token>
+        <token regexp="yes">[àâaéêèeiîou]\D.*|à<exception regexp="yes">onze|onzièmes?|une?|au?|oui|énième|o[ùu]|(?-i)[IVXLCM]+e?</exception></token>
       </pattern>
       <message>« \1 \2 » s’élide en <suggestion><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://66.46.185.79/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=1737</url>
@@ -4868,6 +4868,8 @@ though, and has since been slightly modified)-->
       <example type="correct">Le IIe siècle.</example>
       <example type="correct">Dépose-le au courrier.</example>
       <example type="correct">Dépose-la au courrier.</example>
+      <example type="incorrect" correction="qu’il">Je pense <marker>que il</marker> va bientôt arriver.</example>
+      <example type="correct">Je pense qu’il va bientôt arriver.</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
@@ -6625,6 +6627,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="AUX_AVOIR_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
       <rule>
+        <antipattern>
+          <token regexp="yes">bisphénols?</token>
+          <token regexp="yes">(?-i)A</token>
+        </antipattern>
         <pattern>
           <token postag="V avoir .*" postag_regexp="yes"/>
           <marker>
@@ -6648,6 +6654,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Nous avons compris ce qui se passe.</example>
         <example type="incorrect">J’ai <marker>manger</marker> de la soupe.</example>
         <example type="correct">J’ai <marker>mangé</marker> de la soupe.</example>
+        <example type="correct">L’exposition au bisphénol A entraine des malformations.</example>
       </rule>
       <rule>
         <pattern>
@@ -8026,18 +8033,21 @@ though, and has since been slightly modified)-->
           <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
           <token postag="N . p" postag_regexp="yes"><exception>fois</exception></token>
           <token regexp="yes" skip="2">que?</token>
+          <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
           <marker>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa.* s" postag_regexp="yes"/>
+            <token postag="V.* ppa.* s" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
-        <example type="correct">Les documents qu’ils <marker>ont achetés</marker>.</example>
-        <example type="incorrect">Les documents qu’ils <marker>ont acheté</marker>.</example>
-        <example type="correct">Les parties de poker qu’il <marker>a jouées</marker>.</example>
+        <example type="correct">Les documents qu’ils ont <marker>achetés</marker>.</example>
+        <example type="incorrect">Les documents qu’ils ont <marker>acheté</marker>.</example>
+        <example type="correct">Les parties de poker qu’il a <marker>jouées</marker>.</example>
         <example type="correct">Le sac à main que j’ai acheté.</example>
         <example type="correct">Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
         <example type="correct">Les lettres que j’ai voulu envoyer.</example>
+        <example type="correct">Les images qu’elle a envoyées ont montré une structure inattendue.</example>
+        <example type="incorrect">Les récompenses qu’elle a <marker>eue</marker>.</example>
+        <example type="correct">Les récompenses qu’elle a eues.</example>
       </rule>
       <rule>
         <pattern>
@@ -8048,7 +8058,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="2">que?</token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa.* p" postag_regexp="yes"/>
+            <token postag="V.* ppa.* p" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
@@ -8070,7 +8080,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="2">que?<exception scope="next" regexp="yes">quand|celles?</exception></token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa m .*" postag_regexp="yes"/>
+            <token postag="V.* ppa m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
@@ -8094,7 +8104,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="2">que?</token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
-            <token postag="V ppa f .*" postag_regexp="yes"/>
+            <token postag="V.* ppa f .*" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
@@ -16650,16 +16660,6 @@ though, and has since been slightly modified)-->
       <message>« Voteur » est un anglicisme (voter). Employez <suggestion>votant</suggestion>, <suggestion>électeur</suggestion>.</message>
       <example type="incorrect"><marker>voteur</marker></example>
       <example type="correct"><marker>votant</marker></example>
-    </rule>
-    <rule id="DIOXYDE_DE_SOUFRE" name="dioxyde de soufre">
-      <pattern>
-        <token regexp="yes">dioxydes?</token>
-        <token>de</token>
-        <token regexp="yes">souff?re</token>
-      </pattern>
-      <message>« Dioxyde de soufre » est un anglicisme (sulfur dioxide). Employez <suggestion>anhydride sulfureux</suggestion>.</message>
-      <example type="incorrect"><marker>dioxyde de soufre</marker></example>
-      <example type="correct"><marker>anhydride sulfureux</marker></example>
     </rule>
     <rule id="POINT_DE_DEMERITE" name="points de démérite">
       <pattern>
