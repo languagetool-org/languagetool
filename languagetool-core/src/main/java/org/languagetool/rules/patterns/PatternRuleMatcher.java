@@ -51,13 +51,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
     final int patternSize = elementMatchers.size();
-
-    /*for (ElementMatcher elementMatcher : elementMatchers) {
-      System.out.println(elementMatcher.getElement() + " > " +  elementMatcher.getElement().isInsideMarker() + " "
-              + elementMatcher.getElement().getMinOccurrence() + "->" + elementMatcher.getElement().getMaxOccurrence());
-    }
-    System.out.println("---------------");*/
-
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     ElementMatcher elem = null;
     int i = 0;
@@ -69,7 +62,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       int firstMarkerMatchToken = -1;
       int lastMatchToken = -1;
       int lastMarkerMatchToken = -1;
-      int matchingTokens = 0;
       int prevSkipNext = 0;
       if (rule.testUnification) {
         unifier.reset();
@@ -117,7 +109,6 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
             final int skipShift = lastMatchToken - nextPos;
             tokenPositions.add(skipShift + 1);
             prevSkipNext = translateElementNo(elem.getElement().getSkipNext());
-            matchingTokens++;
             skipShiftTotal += skipShift;
             if (firstMatchToken == -1) {
               firstMatchToken = lastMatchToken - skipForMax;
@@ -137,7 +128,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       }
 
       //System.out.println("? matchingTokens:" + matchingTokens + ", patternSize: "+ patternSize + ", minOccurSkip:" +minOccurSkip);
-      if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
+      if (allElementsMatch && tokenPositions.size() == patternSize) {
         //System.out.println("YES");
         final int[] tokenPos = new int[tokens.length + 1 + minOccurSkip];
         int x = 0;
