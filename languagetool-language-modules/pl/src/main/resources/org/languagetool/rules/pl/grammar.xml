@@ -2382,7 +2382,8 @@ $Id$
 						<example correction="tak, a nie" type="incorrect">Zrobiłem to <marker>tak a nie</marker> inaczej.</example>
 						<example correction="fascynujący, a to" type="incorrect">Był to spektakl <marker>fascynujący a to</marker> z powodu gry aktorów.</example>
 				</rule>
-                <rule id="BRAK_PRZECINKA_CZY" name="Brak przecinka przed „czy”">
+                <rulegroup id="BRAK_PRZECINKA_CZY" name="Brak przecinka przed „czy”">
+                    <rule>
                     <pattern>
                         <token inflected='yes' regexp='yes'>(:?za)?wahać|zastanawiać|zastanowić|upewnia?ć|dowiedzieć|przekonać|dopytywać|zorientować|obawiać|rozstrzygnąć|spierać|martwić|okazać</token>
                         <token>się</token>
@@ -2392,7 +2393,18 @@ $Id$
                     <short>Brak przecinka</short>
                     <example type='incorrect'><marker>Wahał się czy</marker> zostać żołnierzem.</example>
                     <example type='correct'>Wahał się, czy zostać żołnierzem.</example>
-                </rule>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić</token>
+                            <token>czy</token>
+                        </pattern>
+                        <message>Prawdopodobny brak przecinka. Poprawnie: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+                        <short>Brak przecinka</short>
+                        <example type='incorrect' correction="sprawdzić, czy">Musisz <marker>sprawdzić czy</marker> to prawda.</example>
+                        <example type='correct'>Musisz sprawdzić, czy to prawda.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
 						<pattern>
 								<marker>
