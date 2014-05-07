@@ -49,7 +49,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     final List<ElementMatcher> elementMatchers = createElementMatchers();
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    final int[] tokenPositions = new int[tokens.length + 1];
+    List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
     final int patternSize = elementMatchers.size();
 
     /*for (ElementMatcher elementMatcher : elementMatchers) {
@@ -74,6 +74,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       if (rule.testUnification) {
         unifier.reset();
       }
+      tokenPositions.clear();
       int minOccurSkip = 0;
       //System.out.println("===================================");
       for (int k = 0; k < patternSize; k++) {
@@ -99,6 +100,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
               // this element doesn't match, but it's optional so accept this and continue
               allElementsMatch = true;
               minOccurSkip++;
+              tokenPositions.add(0);
               break;
             }
           }
@@ -113,7 +115,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
             System.out.println("skipForMax: " + skipForMax);
             System.out.println("");*/
             final int skipShift = lastMatchToken - nextPos;
-            tokenPositions[matchingTokens] = skipShift + 1;
+            tokenPositions.add(skipShift + 1);
             prevSkipNext = translateElementNo(elem.getElement().getSkipNext());
             matchingTokens++;
             skipShiftTotal += skipShift;
@@ -137,7 +139,13 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       //System.out.println("? matchingTokens:" + matchingTokens + ", patternSize: "+ patternSize + ", minOccurSkip:" +minOccurSkip);
       if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
         //System.out.println("YES");
-        final RuleMatch ruleMatch = createRuleMatch(tokenPositions, tokens,
+        final int[] tokenPos = new int[tokens.length + 1 + minOccurSkip];
+        int x = 0;
+        for (Integer j : tokenPositions) {
+          tokenPos[x] = j;
+          x++;
+        }
+        final RuleMatch ruleMatch = createRuleMatch(tokenPos, tokens,
             firstMatchToken, lastMatchToken, firstMarkerMatchToken, lastMarkerMatchToken);
         if (ruleMatch != null) {
           ruleMatches.add(ruleMatch);
