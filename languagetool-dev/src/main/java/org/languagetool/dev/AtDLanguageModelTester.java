@@ -18,8 +18,8 @@
  */
 package org.languagetool.dev;
 
-import org.dashnine.preditor.LanguageModel;
-import sleep.runtime.Scalar;
+//import org.dashnine.preditor.LanguageModel;
+//import sleep.runtime.Scalar;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,11 +27,13 @@ import java.io.ObjectInputStream;
 
 /**
  * Try the AtD  language model.
- * atd/lib/spellutils.jar and  atd/lib/sleep.jar
+ *
+ * Code commented out as it needs atd/lib/spellutils.jar and  atd/lib/sleep.jar,
+ * which are not available in Maven Central.
  */
 class AtDLanguageModelTester {
 
-  private void run() throws IOException, ClassNotFoundException {
+  /*private void run() throws IOException, ClassNotFoundException {
     String file = "/prg/atd/models/model.bin";   // After the Deadline's language model file
     System.out.println("Loading language model (may take some time)...");
     try(FileInputStream fis = new FileInputStream(file)) {
@@ -52,5 +54,5 @@ class AtDLanguageModelTester {
   public static void main(String[] args) throws Exception {
     AtDLanguageModelTester importer = new AtDLanguageModelTester();
     importer.run();
-  }
+  }*/
 }
