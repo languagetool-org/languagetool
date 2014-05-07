@@ -55,6 +55,7 @@ class RealWordCorpusEvaluator {
   private final JLanguageTool langTool;
   
   private int sentenceCount;
+  private int perfectMatches;
   private int goodMatches;
 
   RealWordCorpusEvaluator() throws IOException {
@@ -70,7 +71,16 @@ class RealWordCorpusEvaluator {
     return goodMatches;
   }
 
+  int getRealErrorsFoundWithGoodSuggestion() {
+    return perfectMatches;
+  }
+
   void run(File dir) throws IOException {
+    System.out.println("Output explanation:");
+    System.out.println("    [  ] = this is not an expected error");
+    System.out.println("    [+ ] = this is an expected error");
+    System.out.println("    [++] = this is an expected error and the first suggestion is correct");
+    System.out.println("");
     File[] files = dir.listFiles();
     if (files == null) {
       throw new RuntimeException("Directory not found: " + dir);
@@ -88,11 +98,15 @@ class RealWordCorpusEvaluator {
   }
 
   private void printResults() {
+    System.out.println("");
     System.out.println(sentenceCount + " lines checked.");
     System.out.println(goodMatches + " errors found that are marked as errors in the corpus " +
-                       "(this does not count whether LanguageTool's correction was perfect)");
-    float recall = (float)goodMatches / sentenceCount * 100;
-    System.out.printf(" => %.2f%% recall\n", recall);
+                       "(not counting whether LanguageTool's correction was useful)");
+    float goodRecall = (float)goodMatches / sentenceCount * 100;
+    System.out.printf(" => %.2f%% recall\n", goodRecall);
+    float perfectRecall = (float)perfectMatches / sentenceCount * 100;
+    System.out.println(perfectMatches + " errors found where the first suggestion was the correct one");
+    System.out.printf(" => %.2f%% recall\n", perfectRecall);
   }
 
   private void checkLines(List<String> lines) throws IOException {
@@ -106,16 +120,22 @@ class RealWordCorpusEvaluator {
       sentenceCount++;
       System.out.println(sentence.markupText + " => " + matches.size());
       //System.out.println("###"+sentence.annotatedText.toString().replaceAll("<.*?>", ""));
+      boolean hasPerfectMatch = false;
       boolean hasGoodMatch = false;
       for (RuleMatch match : matches) {
-        if (sentence.hasErrorCoveredByMatch(match)) {
+        if (sentence.hasErrorCoveredByMatchAndGoodFirstSuggestion(match)) {
           hasGoodMatch = true;
-          System.out.println("    [+] " + match + ": " + match.getSuggestedReplacements());
+          hasPerfectMatch = true;
+          System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
+        } else if (sentence.hasErrorCoveredByMatch(match)) {
+          hasGoodMatch = true;
+          System.out.println("    [+ ] " + match + ": " + match.getSuggestedReplacements());
         } else {
-          System.out.println("    [ ] " + match + ": " + match.getSuggestedReplacements());
+          System.out.println("    [  ] " + match + ": " + match.getSuggestedReplacements());
         }
       }
       goodMatches += hasGoodMatch ? 1 : 0;
+      perfectMatches += hasPerfectMatch ? 1 : 0;
     }
   }
 
@@ -127,7 +147,9 @@ class RealWordCorpusEvaluator {
       int startTagStart = normalized.indexOf("<ERR targ=", startPos);
       int startTagEnd = normalized.indexOf(">", startTagStart);
       int endTagStart = normalized.indexOf("</ERR>", startTagStart);
-      errors.add(new Error(startTagEnd + 1, endTagStart));
+      int correctionEnd = normalized.indexOf(">", startTagStart);
+      String correction = normalized.substring(startTagStart + "<ERR targ=".length(), correctionEnd);
+      errors.add(new Error(startTagEnd + 1, endTagStart, correction));
       startPos = startTagStart + 1;
     }
     return new ErrorSentence(normalized, makeAnnotatedText(normalized), errors);
@@ -176,6 +198,21 @@ class RealWordCorpusEvaluator {
       this.errors = errors;
     }
 
+    boolean hasErrorCoveredByMatchAndGoodFirstSuggestion(RuleMatch match) {
+      if (hasErrorCoveredByMatch(match)) {
+        List<String> suggestion = match.getSuggestedReplacements();
+        if (suggestion.size() > 0) {
+          String firstSuggestion = suggestion.get(0);
+          for (Error error : errors) {
+            if (error.correction.equals(firstSuggestion)) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+    
     boolean hasErrorCoveredByMatch(RuleMatch match) {
       for (Error error : errors) {
         if (match.getFromPos() <= error.startPos && match.getToPos() >= error.endPos) {
@@ -189,10 +226,12 @@ class RealWordCorpusEvaluator {
   class Error {
     private final int startPos;
     private final int endPos;
+    private final String correction;
 
-    Error(int startPos, int endPos) {
+    Error(int startPos, int endPos, String correction) {
       this.startPos = startPos;
       this.endPos = endPos;
+      this.correction = correction;
     }
   }
 }

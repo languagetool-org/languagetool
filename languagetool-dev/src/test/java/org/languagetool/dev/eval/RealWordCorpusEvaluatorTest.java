@@ -38,6 +38,7 @@ public class RealWordCorpusEvaluatorTest {
     evaluator.run(new File(errors.getFile()));
     assertThat(evaluator.getSentencesChecked(), is(2));
     assertThat(evaluator.getRealErrorsFound(), is(1));
+    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(1));
   }
 
 }
