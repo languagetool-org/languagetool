@@ -1389,7 +1389,7 @@ $Id$
                                     <feature id="case"></feature>
                                     <marker>
                                         <token postag="prep.*" postag_regexp="yes"/>
-                                        <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag="(?:comp|interp):comma|SENT_END"/></token>
+                                        <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag_regexp="yes" postag="(?:comp|interp):comma|SENT_END"/></token>
                                     </marker>
                                     </unify>
                                     <token postag="verb:inf.*" postag_regexp="yes"></token>
@@ -10718,15 +10718,17 @@ $Id$
 				</rulegroup>
 				<rule id="SKROTOWCE_BEZ_DYWIZU" name="Skrótowce bez dywizu w przypadkach zależnych">
 						<pattern>
-								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|[GMT]Hz|MKOl|PKOl|UWr|REDakcj.*|KPCh|VBScript|GUŁag|HCl|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
+								<token regexp="yes">\p{Lu}{1,2}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|CSSp|MKOl|PKOl|REDakcj.*|KPCh|VBScript|GUŁag|\p{Lu}{2}[^aeiuyąę]|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
 						</pattern>
-						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{1}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
+						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{1,2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
 						<example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
 						<example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
                         <example type="correct">Cytokina TNFα</example>
                         <example type="incorrect" correction="WiN-u">Był to działacz <marker>WiNu</marker>.</example>
+                        <example type="incorrect" correction="IFiS-ie">Pracuję w <marker>IFiSie</marker>.</example>
+                        <example type="correct">Uwaga, wyrób zawiera HCl!</example>
 				</rule>
 				<rule id="SKROTOWCE_Z_APOSTROFEM" name="Skrótowce z apostrofem w przypadkach zależnych">
 						<pattern>
