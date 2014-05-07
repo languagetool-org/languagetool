@@ -72,7 +72,9 @@ class RealWordCorpusEvaluator {
 
   void run(File dir) throws IOException {
     File[] files = dir.listFiles();
-    //noinspection ConstantConditions
+    if (files == null) {
+      throw new RuntimeException("Directory not found: " + dir);
+    }
     for (File file : files) {
       if (!file.getName().endsWith(".txt")) {
         System.out.println("Ignoring " + file + ", does not match *.txt");
