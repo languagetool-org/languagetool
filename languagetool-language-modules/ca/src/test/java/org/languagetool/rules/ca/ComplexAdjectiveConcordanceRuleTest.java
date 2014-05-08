@@ -93,7 +93,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("La part superior esquerra");
     assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
     assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
-    assertCorrect("té una manera de jugar aquestes gires tan femenina");
+    //assertCorrect("té una manera de jugar aquestes gires tan femenina");
     assertCorrect("des de la tradicional divisió en dos regnes establida per Linnaeus");
     assertCorrect("aquestes activitats avui residuals donada ja la manca de territori");
     assertCorrect("instruments de càlcul basats en boles anomenats yupana.");
@@ -155,6 +155,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    assertIncorrect("La petició de tramitar el cas per lesions dolosa.");
     // policia i justícia són més usualment femenins, encara que poden ser masculins
     assertIncorrect("Especialment en matèria de policia i justícia autonòmics");
     assertIncorrect("amb rigor i honor barrejades.");
