@@ -119,7 +119,6 @@ class LanguageToolSupport {
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
   private Configuration config;
-  private Language currentLanguage;
   private boolean mustDetectLanguage = false;
 
   /**
@@ -164,27 +163,8 @@ class LanguageToolSupport {
     return this.ruleMatches;
   }
 
-  private Language getDefaultLanguage() {
-    if (config.getLanguage() != null) {
-      return config.getLanguage();
-    } else {
-      return Language.getLanguageForLocale(Locale.getDefault());
-    }
-  }
-
-  /**
-   * Warm-up: we have a lot of lazy init in LT, which causes the first check to
-   * be very slow (several seconds) for languages with a lot of data and a lot of
-   * rules. We just assume that the default language is the language that the user
-   * often uses and init the LT object for that now, not just when it's first used.
-   * This makes the first check feel much faster:
-   */
-  private void warmUpChecker() {
-    getCurrentLanguageTool();
-  }
-
   ConfigurationDialog getCurrentConfigDialog() {
-    Language language = this.currentLanguage;
+    Language language = this.languageTool.getLanguage();
     final ConfigurationDialog configDialog;
     this.config.setLanguage(language);
     if (configDialogs.containsKey(language)) {
@@ -196,45 +176,64 @@ class LanguageToolSupport {
     return configDialog;
   }
 
-  private void getCurrentLanguageTool() {
+  private void reloadConfiguration() {
+    final Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules != null) {
+      for (final String ruleId : disabledRules) {
+        languageTool.disableRule(ruleId);
+      }
+    }
+    final Set<String> disabledCategories = config.getDisabledCategoryNames();
+    if (disabledCategories != null) {
+      for (final String categoryName : disabledCategories) {
+        languageTool.disableCategory(categoryName);
+      }
+    }
+    final Set<String> enabledRules = config.getEnabledRuleIds();
+    if (enabledRules != null) {
+      for (String ruleName : enabledRules) {
+        languageTool.enableDefaultOffRule(ruleName);
+        languageTool.enableRule(ruleName);
+      }
+    }
+  }
+
+  private void reloadLanguageTool(Language language) {
     try {
-      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
-      languageTool = new MultiThreadedJLanguageTool(currentLanguage, config.getMotherTongue());
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, language);
+      languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       languageTool.activateDefaultPatternRules();
       languageTool.activateDefaultFalseFriendRules();
-      final Set<String> disabledRules = config.getDisabledRuleIds();
-      if (disabledRules != null) {
-        for (final String ruleId : disabledRules) {
-          languageTool.disableRule(ruleId);
-        }
-      }
-      final Set<String> disabledCategories = config.getDisabledCategoryNames();
-      if (disabledCategories != null) {
-        for (final String categoryName : disabledCategories) {
-          languageTool.disableCategory(categoryName);
-        }
-      }
-      final Set<String> enabledRules = config.getEnabledRuleIds();
-      if (enabledRules != null) {
-        for (String ruleName : enabledRules) {
-          languageTool.enableDefaultOffRule(ruleName);
-          languageTool.enableRule(ruleName);
-        }
-      }
+      reloadConfiguration();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
   private void init() {
+    //load language autodetection profiles
     LanguageIdentifierTools.addLtProfiles();
+
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     } catch (IOException ex) {
       throw new RuntimeException("Could not load configuration", ex);
     }
-    currentLanguage = getDefaultLanguage();
-    warmUpChecker();
+
+    Language defaultLanguage = config.getLanguage();
+    if(defaultLanguage == null) {
+        defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
+    }
+    
+    /**
+     * Warm-up: we have a lot of lazy init in LT, which causes the first check to
+     * be very slow (several seconds) for languages with a lot of data and a lot of
+     * rules. We just assume that the default language is the language that the user
+     * often uses and init the LT object for that now, not just when it's first used.
+     * This makes the first check feel much faster:
+     */    
+    reloadLanguageTool(defaultLanguage);
+
     redPainter = new HighlightPainter(Color.red);
     bluePainter = new HighlightPainter(Color.blue);
 
@@ -365,11 +364,14 @@ class LanguageToolSupport {
   }
 
   public void setLanguage(Language language) {
-    this.currentLanguage = language;
-    getCurrentLanguageTool();
+    reloadLanguageTool(language);
     if (backgroundCheckEnabled) {
       checkImmediately(null);
     }
+  }
+
+  Language getLanguage() {
+      return this.languageTool.getLanguage();
   }
 
   public Configuration getConfig() {
@@ -642,9 +644,8 @@ class LanguageToolSupport {
       mustDetectLanguage = false;
       if (!this.textComponent.getText().isEmpty()) {
         Language detectedLanguage = autoDetectLanguage(this.textComponent.getText());
-        if (!detectedLanguage.equals(this.currentLanguage)) {
-          this.currentLanguage = detectedLanguage;
-          getCurrentLanguageTool();
+        if (!detectedLanguage.equals(this.languageTool.getLanguage())) {
+          reloadLanguageTool(detectedLanguage);
           if (SwingUtilities.isEventDispatchThread()) {
             fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller);
           } else {
@@ -816,7 +817,7 @@ class LanguageToolSupport {
     private static final BasicStroke OO_STROKE3 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{3.0f, 5.0f}, 6);
     private static final BasicStroke ZIGZAG_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 0);
 
-    public HighlightPainter(Color color) {
+    private HighlightPainter(Color color) {
       super(color);
     }
 
@@ -926,7 +927,7 @@ class LanguageToolSupport {
 
     private final Object caller;
 
-    public RunnableImpl(Object caller) {
+    private RunnableImpl(Object caller) {
       this.caller = caller;
     }
 

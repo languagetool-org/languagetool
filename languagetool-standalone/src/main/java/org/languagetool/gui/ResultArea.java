@@ -73,7 +73,7 @@ class ResultArea {
       @Override
       public void languageToolEventOccurred(LanguageToolEvent event) {
         if (event.getType() == LanguageToolEvent.Type.CHECKING_STARTED) {
-          final Language lang = ltSupport.getLanguageTool().getLanguage();
+          final Language lang = ltSupport.getLanguage();
           final String langName;
           if (lang.isExternal()) {
             langName = lang.getTranslatedName(messages) + Main.EXTERNAL_LANGUAGE_SUFFIX;
@@ -245,7 +245,7 @@ class ResultArea {
       } else {
         ltSupport.enableRule(ruleId);
       }
-      ltSupport.getConfig().saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+      ltSupport.getConfig().saveConfiguration(ltSupport.getLanguage());
       ltSupport.checkImmediately(marker);
     }
 
