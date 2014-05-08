@@ -2844,7 +2844,7 @@ $Id$
                                 <example type="correct">To jest przykład—błędny—ale jest.</example>
 						</rule>
 				</rulegroup>
-				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym">
+				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym (cudzysłów, nawias)">
 						<pattern>
 								<token regexp="yes">[„\[]</token>
 								<token spacebefore="yes"></token>
@@ -2854,6 +2854,16 @@ $Id$
 						<example correction="„przykład" type="incorrect">To jest <marker>„ przykład</marker>”.</example>
 						<example type="correct">To jest „przykład”.</example>
 				</rule>
+                <rule id="ZBEDNA_SPACJA_PRZED" type="whitespace" name="Zbędna spacja przed znakiem interpunkcyjnym (średnik, dwukropek)">
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">[;:]</token>
+                </pattern>
+                <message>Zbędna spacja. Powinno być: <suggestion>\1\2</suggestion>.</message>
+                <short>Zbędna spacja</short>
+                <example correction="zdanie;" type="incorrect">To jest <marker>zdanie ;</marker> a to drugie.</example>
+                <example type="correct">To jest zdanie; a to drugie.</example>
+                </rule>
 				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
                     <rule>
                         <pattern case_sensitive="yes">
