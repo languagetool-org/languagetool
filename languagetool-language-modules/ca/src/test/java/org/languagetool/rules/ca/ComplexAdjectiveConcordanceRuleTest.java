@@ -58,6 +58,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("En l'eix esquerra-dreta.");
     assertCorrect("podrien també esdevenir correlacionades"); 
     assertCorrect("Cada polinomi en forma expandida");
     assertCorrect("El 1967 una partida de liberals rebel al govern");

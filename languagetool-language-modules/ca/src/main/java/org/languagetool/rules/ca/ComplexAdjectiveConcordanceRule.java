@@ -157,6 +157,13 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         if (prevPrevToken.equals("per") && prevToken.equals("molt")) {
           break;
         }
+        // esquerra-dreta
+        if (i < tokens.length - 2
+            && token.equalsIgnoreCase("esquerra")  
+            && (nextToken.equals("-") || nextToken.equals("/"))
+            && tokens[i + 2].getToken().equalsIgnoreCase("dreta")) {
+          break;
+        }
 
         // Counts nouns and determiners before the adjectives.
         // Takes care of acceptable combinations.
