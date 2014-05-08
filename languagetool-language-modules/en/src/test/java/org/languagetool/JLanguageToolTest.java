@@ -101,7 +101,7 @@ public class JLanguageToolTest extends TestCase {
     tool.disableRule("MORE_A_JJ");
     assertEquals(0, tool.check("I can give you more a detailed description.").size());
     assertEquals(1, tool.check("I've go to go.").size());
-    tool.disableCategory("Possible Typos");
+    tool.disableCategory("Possible Typo");
     assertEquals(0, tool.check("I've go to go.").size());
   }
 
