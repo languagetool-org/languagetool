@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -48,7 +49,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -69,7 +69,6 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
@@ -166,7 +165,6 @@ class LanguageToolSupport {
   ConfigurationDialog getCurrentConfigDialog() {
     Language language = this.languageTool.getLanguage();
     final ConfigurationDialog configDialog;
-    this.config.setLanguage(language);
     if (configDialogs.containsKey(language)) {
       configDialog = configDialogs.get(language);
     } else {
@@ -176,7 +174,75 @@ class LanguageToolSupport {
     return configDialog;
   }
 
-  private void reloadConfiguration() {
+  void reloadConfig() {
+    //FIXME
+    //if mother tongue changes then create new JLanguageTool instance
+
+    boolean update = false;
+  
+    Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules == null) {
+      disabledRules = Collections.EMPTY_SET;
+    }
+
+    Set<String> common = new HashSet<String>(disabledRules);
+    common.retainAll(languageTool.getDisabledRules());
+    Set<String> toDisable = new HashSet<String>(disabledRules);
+    toDisable.removeAll(common);
+    Set<String> toEnable = new HashSet<String>(languageTool.getDisabledRules());
+    toEnable.removeAll(common);
+    
+    for (final String ruleId : toDisable) {
+      languageTool.disableRule(ruleId);
+      update = true;
+    }
+    for (final String ruleId : toEnable) {
+      languageTool.enableRule(ruleId);
+      update = true;
+    }
+
+    Set<String> disabledCategories = config.getDisabledCategoryNames();
+    if (disabledCategories == null) {
+      disabledCategories = Collections.EMPTY_SET;
+    }
+    common = new HashSet<String>(disabledCategories);
+    common.retainAll(languageTool.getDisabledCategories());
+    toDisable = new HashSet<String>(disabledCategories);
+    toDisable.removeAll(common);
+    toEnable = new HashSet<String>(languageTool.getDisabledCategories());
+    toEnable.removeAll(common);
+
+    if(!toDisable.isEmpty()) {
+      languageTool.getDisabledCategories().addAll(toDisable);
+      // ugly hack to trigger reInitSpellCheckIgnoreWords()
+      languageTool.disableRules(new ArrayList());
+      update = true;
+    }
+    if(!toEnable.isEmpty()) {
+      languageTool.getDisabledCategories().removeAll(toEnable);
+      // ugly hack to trigger reInitSpellCheckIgnoreWords()
+      languageTool.disableRules(new ArrayList());
+      update = true;
+    }
+
+    Set<String> enabledRules = config.getEnabledRuleIds();
+    if (enabledRules == null) {
+      enabledRules = Collections.EMPTY_SET;
+    }
+    for (String ruleName : enabledRules) {
+        languageTool.enableDefaultOffRule(ruleName);
+        languageTool.enableRule(ruleName);
+    }
+
+    if(update) {
+      //FIXME
+      //we could skip a full check if the user disabled but didn't enable rules
+      checkImmediately(null);
+      fireEvent(LanguageToolEvent.Type.RULE_ENABLED, null);
+    }
+  }
+
+  private void loadConfig() {
     final Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules != null) {
       for (final String ruleId : disabledRules) {
@@ -200,11 +266,15 @@ class LanguageToolSupport {
 
   private void reloadLanguageTool(Language language) {
     try {
+      //FIXME
+      //no need to read again the file
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, language);
+      //config still contains old language, update it
+      this.config.setLanguage(language);
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       languageTool.activateDefaultPatternRules();
       languageTool.activateDefaultFalseFriendRules();
-      reloadConfiguration();
+      loadConfig();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
@@ -224,7 +294,7 @@ class LanguageToolSupport {
     if(defaultLanguage == null) {
         defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
     }
-    
+
     /**
      * Warm-up: we have a lot of lazy init in LT, which causes the first check to
      * be very slow (several seconds) for languages with a lot of data and a lot of
@@ -378,20 +448,42 @@ class LanguageToolSupport {
     return config;
   }
 
-  public JLanguageTool getLanguageTool() {
+  // called from Main.showOptions() and Main.tagTextAndDisplayResults()
+  JLanguageTool getLanguageTool() {
     return languageTool;
   }
 
-  void disableRule(String rule) {
-    config.getDisabledRuleIds().add(rule);
-    languageTool.disableRule(rule);
-    updateHighlights(rule);
+  void disableRule(String ruleId) {
+    Rule rule = this.getRuleForId(ruleId);
+    if(rule == null) {
+      //System.err.println("No rule with id: <"+ruleId+">");
+      return;
+    }
+    if(rule.isDefaultOff()) {
+      config.getEnabledRuleIds().remove(ruleId);
+    }
+    else {
+      config.getDisabledRuleIds().add(ruleId);
+    }
+    languageTool.disableRule(ruleId);
+    updateHighlights(ruleId);
     fireEvent(LanguageToolEvent.Type.RULE_DISABLED, null);
   }
 
-  void enableRule(String rule) {
-    config.getDisabledRuleIds().remove(rule);
-    languageTool.enableRule(rule);
+  void enableRule(String ruleId) {
+    Rule rule = this.getRuleForId(ruleId);
+    if(rule == null) {
+      //System.err.println("No rule with id: <"+ruleId+">");
+      return;
+    }
+    if(rule.isDefaultOff()) {
+      config.getEnabledRuleIds().add(ruleId);
+      languageTool.enableDefaultOffRule(ruleId);
+    }
+    else {
+      config.getDisabledRuleIds().remove(ruleId);
+    }
+    languageTool.enableRule(ruleId);
     fireEvent(LanguageToolEvent.Type.RULE_ENABLED, null);
     checkImmediately(null);
   }

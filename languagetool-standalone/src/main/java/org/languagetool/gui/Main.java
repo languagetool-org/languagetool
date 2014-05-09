@@ -173,6 +173,7 @@ public final class Main {
     } catch (IOException e) {
       Tools.showError(e);
     }
+    ltSupport.reloadConfig();
     // Stop server, start new server if requested:
     stopServer();
     maybeStartServer();
