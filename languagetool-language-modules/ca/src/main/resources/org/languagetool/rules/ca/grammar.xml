@@ -10718,6 +10718,18 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token>centre</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">dreta|esquerra</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>centre<match no="3"/></suggestion>
+                <example type="incorrect" correction="centredreta">El <marker>centre-dreta</marker>.</example>
+                <example type="incorrect" correction="centreesquerra">El <marker>centre esquerra</marker>.</example>
+                <example type="correct">El centredreta.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>vice</token>
                     <token min="0">-</token>
                     <token>versa</token>
@@ -10762,6 +10774,20 @@ $Id$
                 <example type="incorrect" correction="superherois">Tres <marker>súper herois</marker>.</example>
                 <example type="incorrect" correction="superherois">Tres <marker>súper-herois</marker>.</example>
                 <example type="correct">El superheroi</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>político</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">militar|administratiu|econòmic|social|religiós|territorial|jurídic|ideològic|financer|cultural</token>
+                </pattern>
+                <message>Normalment s'escriu sense guionet.</message>
+                <suggestion>politico<match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="politicomilitar">ETA <marker>político-militar</marker>.</example>
+                <example type="incorrect" correction="politicoadministrativa">L'organització <marker>político-administrativa</marker>.</example>
+                <example type="correct">ETA politicomilitar.</example>
             </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
