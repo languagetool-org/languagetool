@@ -14737,12 +14737,21 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+(ena|enes)</token>
+                    <token regexp="yes">\d+[eè]n(a|es)</token>
                 </pattern>
-                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)en(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
+                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)[eè]n(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="25a">En la posició <marker>25ena</marker>.</example>
                 <example type="incorrect" correction="25es"><marker>25enes</marker>.</example>
+                <example type="correct">En la 14a posició.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+[eè]ns</token>
+                </pattern>
+                <message> Per a indicar ordinals (masc. pl.), useu <suggestion><match no="1" regexp_match="(.*)[eè]ns" regexp_replace="$1ns"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="25ns">Els <marker>25ens</marker> classificats.</example>
                 <example type="correct">En la 14a posició.</example>
             </rule>
         </rulegroup>
@@ -15260,6 +15269,60 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="DARA_EN_ENDAVANT" name="d'ara en endavant">
+            <rule>
+                <pattern>
+                    <token><exception>des</exception></token>
+                    <marker>
+                        <token regexp="yes">d'|de</token>
+                        <token regexp="yes">ara|avui|hui</token>
+                        <token>en</token>
+                        <token>endavant</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>d'ara endavant</suggestion>
+                <suggestion>d'avui endavant</suggestion>
+                <suggestion>en endavant</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/daraenendavant</url>
+                <example type="incorrect"><marker>d'ara en endavant</marker></example>
+                <example type="correct">d'ara endavant</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>des</token>
+                        <token regexp="yes">d'|de</token>
+                        <token regexp="yes">ara|avui|hui</token>
+                        <token>en</token>
+                        <token>endavant</token>
+                    </marker>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>d'ara endavant</suggestion>
+                <suggestion>d'avui endavant</suggestion>
+                <suggestion>en endavant</suggestion>
+                <suggestion>des d'ara</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/daraenendavant</url>
+                <example type="incorrect"><marker>des d'ara en endavant</marker></example>
+                <example type="correct">d'ara endavant</example>
+            </rule>
+         </rulegroup>
+        <rule id="ENCERTAR_A" name="encertar a">
+            <pattern>
+                <marker>
+                    <token inflected="yes">encertar</token>
+                    <token>a</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">aconseguir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">arribar</match> a</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/1848</url>
+            <example type="incorrect" correction="aconseguiren|arribaren a">No <marker>encertaren a</marker> fer-ho</example>
+            <example type="correct">No va aconseguir fer-ho</example>
+        </rule>
         <rulegroup id="A_MITJAN_DE" name="*a mitjan de/a mitjan/a mitjans de">
             <rule>
                 <pattern>
