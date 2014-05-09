@@ -10777,17 +10777,31 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>político</token>
+                    <token regexp="yes">pol[íi]tico</token>
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes">militar|administratiu|econòmic|social|religiós|territorial|jurídic|ideològic|financer|cultural</token>
                 </pattern>
-                <message>Normalment s'escriu sense guionet.</message>
+                <message>Normalment s'escriu junt sense guionet.</message>
                 <suggestion>politico<match no="3"/></suggestion>
                 <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
                 <short>Sense guionet</short>
                 <example type="incorrect" correction="politicomilitar">ETA <marker>político-militar</marker>.</example>
                 <example type="incorrect" correction="politicoadministrativa">L'organització <marker>político-administrativa</marker>.</example>
                 <example type="correct">ETA politicomilitar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">s[òo]cio</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">laboral|polític|econòmic|religiós|territorial|jurídic|ideològic|financer|cultural|militar|històric</token>
+                </pattern>
+                <message>Normalment s'escriu junt sense guionet.</message>
+                <suggestion>socio<match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="sociopolític">El clima <marker>sòcio-polític</marker>.</example>
+                <example type="incorrect" correction="socioeconòmica">L'organització <marker>sòcio econòmica</marker>.</example>
+                <example type="correct">La situació socioeconòmica.</example>
             </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
@@ -21698,7 +21712,7 @@ $Id$
                     <marker>
                         <token>caire</token>
                     </marker>
-                    <token postag="AQ.[MC][SN]." postag_regexp="yes"/>
+                    <!-- <token postag="AQ.[MC][SN]." postag_regexp="yes"/> -->
                 </pattern>
                 <message>¿Volíeu dir <suggestion>caràcter</suggestion> en lloc de "caire" (=aspecte)?</message>
                 <example type="incorrect" correction="caràcter">Prengué una decisió de <marker>caire</marker> polític.</example>
