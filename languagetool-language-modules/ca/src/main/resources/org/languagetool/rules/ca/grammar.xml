@@ -6362,7 +6362,7 @@ $Id$
         </rule>
         <rule id="CONSISTIR_EN_QUE" name="consistir *en què">
             <pattern>
-                <token inflected="yes" regexp="yes">consistir|basar|insistir</token>
+                <token inflected="yes" regexp="yes">consistir|basar|insistir|fonamentar</token>
                 <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*" postag_regexp="yes"/>
                 <marker>
                     <token>en</token>
@@ -9405,6 +9405,19 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
+                        <token>respecte</token>
+                    </marker>
+                    <token postag="NP.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>respecte a</suggestion>?</message>
+                <suggestion>respecte de</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect">La política del Financial Times <marker>respecte</marker> Espanya.</example>
+                <example type="correct">La política del Financial Times respecte a Espanya.</example>                
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token postag="N.*" postag_regexp="yes">respecte</token>
                     </marker>
                     <token postag="PD0NS000"></token>
@@ -10911,6 +10924,21 @@ $Id$
             <message>¿Volíeu dir <suggestion>com</suggestion>? S'accentua "cóm" quan és sinònim de "obi".</message>
             <example type="incorrect" correction="Com"><marker>Cóm</marker>?</example>
             <example type="correct">com</example>
+        </rule>
+        <rule id="QUE_BO" name="que_bo">
+            <pattern>
+                <token><exception postag="SPS00"/></token>
+                <marker>
+                    <token>què</token>
+                </marker>
+                <token postag="AQ.*|RG|V.P.*|.*LOC_ADV.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Com a ponderatiu de quantitat, s'escriu sense accent.</message>
+            <suggestion>que</suggestion>
+            <example type="incorrect" correction="Que"><marker>Què</marker> bo!</example>
+            <example type="incorrect" correction="Que"><marker>Què</marker> lluny!</example>
+            <example type="incorrect" correction="Que"><marker>Què</marker> de pressa!</example>
+            <example type="correct">les fases en què tradicionalment se subdivideix</example>
         </rule>
     	<rulegroup id="QUE_QUE" name="què/que">
     		<rule>
@@ -15269,6 +15297,45 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+            <rule id="AMB_LA_QUE_ESTA_CAIENT" name="amb la que està caient">
+            <pattern>
+                <token>amb</token>
+                <token>la</token>
+                <token>que</token>
+                <token>està</token>
+                <token>caient</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>tal com va tot</suggestion>
+            <suggestion>tal com va la cosa</suggestion>
+            <suggestion>tal com estan les coses</suggestion>
+            <suggestion>tal com està la situació</suggestion>
+            <suggestion>amb el panorama que tenim</suggestion>
+            <suggestion>en la situació actual</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/amb_la_que_esta_caient</url>
+            <example type="incorrect"><marker>amb la que està caient</marker></example>
+            <example type="correct">tal com va tot</example>
+        </rule>
+        <rule id="NO_HI_HA_DE_QUE" name="no hi ha de què">
+            <pattern>
+                <marker>
+                    <token>no</token>
+                    <token>hi</token>
+                    <token>ha</token>
+                    <token>de</token>
+                    <token>què</token>
+                </marker>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>de res</suggestion>
+            <suggestion>no es mereixen</suggestion>
+            <suggestion>només faltaria</suggestion>
+            <suggestion>no faltaria més</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/nohihadeque</url>
+            <example type="incorrect"><marker>No hi ha de què</marker>!</example>
+            <example type="correct">no hi ha de què preocupar-se</example>
+        </rule>
         <rulegroup id="DARA_EN_ENDAVANT" name="d'ara en endavant">
             <rule>
                 <pattern>
@@ -18171,22 +18238,6 @@ $Id$
             <example type="incorrect">La <marker>ciència ficció</marker>.</example>
             <example type="correct">La ciència-ficció.</example>
         </rule>
-        <rule id="COM_A_MOLT" name="com a molt">
-            <pattern>
-            	<marker>
-	                <token>com</token>
-	                <token>a</token>
-	                <token>molt</token>
-                </marker>
-                <token><exception postag="AQ.*|RG" postag_regexp="yes" /></token>
-            </pattern>
-            <message>Expressió incorrecta si vol dir <suggestion>com a màxim</suggestion>.</message>
-            <suggestion>a tot estirar</suggestion>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect"><marker>com a molt</marker> te'n donaré tres</example>
-            <example type="correct">És vist com a molt greu.</example>
-            <example type="correct">Com a molt lluny arribareu al poble.</example>
-        </rule>
         <rule id="COBRAMENT_REVERTIT" name="cobrament revertit">
             <pattern>
                 <token>cobrament</token>
@@ -20195,7 +20246,26 @@ $Id$
         </rulegroup>        
     </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
-    <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justifiada -->
+    <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
+        <rule id="COM_A_MOLT" name="com a molt"> <!-- acceptat pel DIEC 2007 -->
+            <pattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>molt</token>
+                </marker>
+                <token><exception postag="AQ.*|RG" postag_regexp="yes" /></token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>com a màxim</suggestion>
+            <suggestion>a tot estirar</suggestion>
+            <suggestion>pel cap alt</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/comamolt</url>
+            <short>Expressió preferible.</short>
+            <example type="incorrect"><marker>com a molt</marker> te'n donaré tres</example>
+            <example type="correct">És vist com a molt greu.</example>
+            <example type="correct">Com a molt lluny arribareu al poble.</example>
+        </rule>
         <rulegroup id="ESTAR_DE_MES" name="*estar de més">
             <rule>
                 <pattern>
@@ -24167,7 +24237,7 @@ $Id$
                 <token>en</token>
                 <token>el</token>
                 <token>que</token>
-                <token inflected="yes" regexp="yes">portar|dur</token>
+                <token inflected="yes" regexp="yes">portar|dur|anar</token>
                 <token>de</token>
                 <token regexp="yes">temporada|mes|setmana|trimestre|quadrimestre|curs|legislatura|gener|febrer|març|maig|juny|juliol|setembre|novembre|desembre</token>
             </pattern>
@@ -24177,6 +24247,7 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/id/2178</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="aquest curs|des de principi de curs"><marker>en el que portem de curs</marker></example>
+            <example type="incorrect" correction="aquesta legislatura|des de principi de legislatura"><marker>en el que va de legislatura</marker></example>
             <example type="correct">aquest curs</example>
         </rule>
         <rule id="EN_EL_QUE_PORTEM_D_AGOST" name="en el que portem d'aogst">
@@ -24184,7 +24255,7 @@ $Id$
                 <token>en</token>
                 <token>el</token>
                 <token>que</token>
-                <token inflected="yes" regexp="yes">portar|dur</token>
+                <token inflected="yes" regexp="yes">portar|dur|anar</token>
                 <token>d'</token>
                 <token regexp="yes">abril|agost|octubre</token>
             </pattern>
@@ -25472,6 +25543,17 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="FLIPAR" name="flipar">
+            <pattern>
+                <token inflected="yes">flipar</token>
+            </pattern>
+            <message>Llenguatge col·loquial.</message>
+            <suggestion>(passar-s'ho bé)</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/flipar</url>
+            <short>Llenguatge col·loquial</short>
+            <example type="incorrect">Vaig <marker>flipar</marker>?</example>
+            <example type="correct">M'vaig passar molt bé.</example>
+        </rule>
         <rule id="PATXORRA" name="patxorra">
             <pattern>
                 <token inflected="yes">patxorra</token>
@@ -25527,7 +25609,6 @@ $Id$
             <example type="incorrect" correction="exxicota|expromesa"><marker>exnóvia</marker></example>
             <example type="correct">xicot</example>
         </rule> -->
-        
         <rule id="NOVIO" name="nòvio">
             <pattern>
                 <token regexp="yes">(ex)?n[òó]vio</token>
