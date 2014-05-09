@@ -108,9 +108,8 @@ public class PatternRuleMatcherTest {
     // regex syntax: a? b c? d e
     final PatternRuleMatcher matcher = getMatcher(elementA, makeElement("b"), elementC, makeElement("d"), makeElement("e"));
     final RuleMatch[] matches = getMatches("a b c d e", matcher);
-    assertThat(matches.length, is(2));  // not sure if this is correct, it's not a longest match...
+    assertThat(matches.length, is(1));  // just the longest match...
     assertPosition(matches[0], 0, 9);
-    assertPosition(matches[1], 2, 9);
   }
 
   @Test
@@ -342,19 +341,16 @@ public class PatternRuleMatcherTest {
     assertNoMatch("a a", matcher);
     assertNoMatch("a x b b b", matcher);
     final RuleMatch[] matches2 = getMatches("a a b", matcher);
-    assertThat(matches2.length , is(2));
+    assertThat(matches2.length , is(1)); // just the longest match
     assertPosition(matches2[0], 0, 5);
-    assertPosition(matches2[1], 2, 5);
 
     final RuleMatch[] matches3 = getMatches("a a b b", matcher);
-    assertThat(matches3.length , is(2));
-    assertPosition(matches3[0], 0, 7);
-    assertPosition(matches3[1], 2, 7);
+    assertThat(matches3.length , is(1));
+    assertPosition(matches3[0], 0, 7); // again, only the longest match
 
     final RuleMatch[] matches4 = getMatches("a a b b b", matcher);
-    assertThat(matches4.length , is(2));
+    assertThat(matches4.length , is(1));
     assertPosition(matches4[0], 0, 9);
-    assertPosition(matches4[1], 2, 9);
   }
 
   @Test
@@ -398,9 +394,8 @@ public class PatternRuleMatcherTest {
     assertPosition(matches[1], 12, 19);
 
     final RuleMatch[] matches2 = getMatches("xx a b x x x b a", matcher);
-    assertThat(matches2.length , is(2));
+    assertThat(matches2.length , is(1));
     assertPosition(matches2[0], 3, 16);
-    assertPosition(matches2[1], 5, 14);
   }
 
   private RuleMatch[] getMatches(String input, PatternRuleMatcher matcher) throws IOException {

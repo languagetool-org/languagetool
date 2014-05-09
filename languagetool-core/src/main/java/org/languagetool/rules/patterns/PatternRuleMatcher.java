@@ -22,6 +22,8 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.RuleMatchFilter;
+import org.languagetool.rules.RuleWithMaxFilter;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -137,7 +139,9 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       }
       i++;
     }
-    return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
+    RuleMatchFilter maxFilter = new RuleWithMaxFilter();
+    List<RuleMatch> filteredMatches = maxFilter.filter(ruleMatches);
+    return filteredMatches.toArray(new RuleMatch[filteredMatches.size()]);
   }
 
   private RuleMatch createRuleMatch(final List<Integer> tokenPositions,

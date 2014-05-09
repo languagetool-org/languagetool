@@ -43,7 +43,7 @@ public class MultiThreadedJLanguageToolTest {
     
     tool = new MultiThreadedJLanguageTool(new Demo());
     final List<String> ruleMatchIds1 = getRuleMatchIds(tool);
-    assertTrue(ruleMatchIds1.size() >= 10);
+    assertTrue(ruleMatchIds1.size() == 10);
     Assert.assertEquals(4, tool.getSentenceCount());
     
     tool = new JLanguageTool(new Demo());
