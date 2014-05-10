@@ -1643,12 +1643,17 @@ though, and has since been slightly modified)-->
           <marker>
             <token>se</token>
           </marker>
-          <token postag="N m s|J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+          <or>
+            <token regexp="yes">que?</token>
+            <token postag="N m s|J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+          </or>
         </pattern>
         <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
         <example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
         <example type="correct">Ce programme se base sur la participation des femmes.</example>
         <example type="correct"><marker>Ce</marker> test montre que ça fonctionne.</example>
+        <example type="incorrect">Tout <marker>se</marker> que je sais.</example>
+        <example type="correct">Tout ce que je sais.</example>
       </rule>
       <rule>
         <pattern>
