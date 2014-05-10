@@ -42,6 +42,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+    
+    //amb la mirada de cadascun dels homes clavada en la de l'adversari
+    //de fer una torre o fortificació bo i al·legant que això
+    // a confondre en un mateix amor amics i enemics
     // es van posar en camí proveïts de presents
     /* d'una banda tossut i, de l'altra, del tot inepte
      * principis mascle i femella de la foscor//els elements reproductors mascle
@@ -58,6 +62,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("a confondre en un mateix amor amics i enemics");
     assertCorrect("En l'eix esquerra-dreta.");
     assertCorrect("podrien també esdevenir correlacionades"); 
     assertCorrect("Cada polinomi en forma expandida");

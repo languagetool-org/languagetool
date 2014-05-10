@@ -10779,7 +10779,8 @@ $Id$
                 <pattern>
                     <token regexp="yes">pol[íi]tico</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">militar|administratiu|econòmic|social|religiós|territorial|jurídic|ideològic|financer|cultural</token>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                    <!-- <token regexp="yes" inflected="yes">militar|administratiu|econòmic|social|religiós|territorial|jurídic|ideològic|financer|cultural</token> -->
                 </pattern>
                 <message>Normalment s'escriu junt sense guionet.</message>
                 <suggestion>politico<match no="3"/></suggestion>
@@ -10793,7 +10794,8 @@ $Id$
                 <pattern>
                     <token regexp="yes">s[òo]cio</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">psicològic|professional|laboral|polític|econòmic|religiós|territorial|jurídic|ideològic|financer|cultural|militar|històric</token>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                    <!-- <token regexp="yes" inflected="yes">filosòfic|psicològic|professional|laboral|polític|econòmic|religiós|territorial|jurídic|ideològic|financer|cultural|militar|històric</token> -->
                 </pattern>
                 <message>Normalment s'escriu junt sense guionet.</message>
                 <suggestion>socio<match no="3"/></suggestion>
@@ -10802,6 +10804,20 @@ $Id$
                 <example type="incorrect" correction="sociopolític">El clima <marker>sòcio-polític</marker>.</example>
                 <example type="incorrect" correction="socioeconòmica">L'organització <marker>sòcio econòmica</marker>.</example>
                 <example type="correct">La situació socioeconòmica.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tardo</token>
+                    <token min="0">-</token>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Normalment s'escriu junt sense guionet.</message>
+                <suggestion>tardo<match no="3"/></suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <short>Sense guionet</short>
+                <example type="incorrect" correction="tardoromànic">L'estil <marker>tardo-romànic</marker>.</example>
+                <example type="incorrect" correction="tardoromànic">L'estil <marker>tardo romànic</marker>.</example>
+                <example type="correct">L'estil tardoromànic.</example>
             </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
@@ -10971,7 +10987,7 @@ $Id$
                 <marker>
                     <token>què</token>
                 </marker>
-                <token postag="AQ.*|RG|V.P.*|.*LOC_ADV.*" postag_regexp="yes"><exception>tal</exception></token>
+                <token postag="AQ.*|RG|V.P.*|.*LOC_ADV.*" postag_regexp="yes"><exception regexp="yes">tal|més|interrogatiu</exception></token>
             </pattern>
             <message>Com a ponderatiu de quantitat, s'escriu sense accent.</message>
             <suggestion>que</suggestion>
