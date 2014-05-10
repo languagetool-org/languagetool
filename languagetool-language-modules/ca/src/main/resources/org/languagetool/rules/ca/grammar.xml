@@ -3450,8 +3450,8 @@ $Id$
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.M.*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
-                <example type="incorrect" correction="Fes|Fé"><marker>Dóna</marker>-li molts petons</example>
-                <example type="incorrect" correction="Fes|Fé"><marker>Dóna</marker>'m molts petons</example>
+                <example type="incorrect" correction="Fes"><marker>Dóna</marker>-li molts petons</example>
+                <example type="incorrect" correction="Fes"><marker>Dóna</marker>'m molts petons</example>
                 <example type="correct">Donava molts petons</example>
                 <example type="correct">Ha donat tema a goigs.</example>
             </rule>
@@ -25601,6 +25601,29 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="ALFOMBRA" name="alfombra">
+            <pattern>
+                <token inflected="yes">alfombra</token>
+            </pattern>
+            <message>Paraula col·loquial</message> 
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NC.$1">catifa</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NC.$1">estora</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/1554</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="catifes|estores">Les <marker>alfombres</marker>.</example>
+            <example type="correct">catifes</example>
+        </rule>
+        <rule id="CARINYOS" name="carinyós">
+            <pattern>
+                <token inflected="yes">carinyós</token>
+            </pattern>
+            <message>Paraula col·loquial, només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">afectuós</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/carinyos</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="afectuoses">Eren molt <marker>carinyoses</marker>.</example>
+            <example type="correct">Afectuoses</example>
+        </rule>
         <rule id="FLIPAR" name="flipar">
             <pattern>
                 <token inflected="yes">flipar</token>
@@ -25674,6 +25697,7 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicot</suggestion>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promès</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2073</url>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect" correction="exxicot|expromès"><marker>exnòvio</marker>!</example>
             <example type="correct">xicot</example>
@@ -25685,6 +25709,7 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicots</suggestion>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promesos</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2073</url>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvios</marker>!</example>
             <example type="correct">xicots</example>
@@ -25696,6 +25721,7 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicota</suggestion>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promesa</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2073</url>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvia</marker>!</example>
             <example type="correct">xicota</example>
@@ -25707,6 +25733,7 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>xicotes</suggestion>
             <suggestion><match no="1" regexp_match="(ex)?.*" regexp_replace="$1"/>promeses</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/2073</url>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect"><marker>nòvies</marker>!</example>
             <example type="correct">xicotes</example>
@@ -25958,6 +25985,37 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="RELAX" name="relax">
+            <pattern>
+                <token inflected="yes">relax</token>
+            </pattern>
+            <message>Anglicisme admès només per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCM$1">relaxament</match></suggestion>
+            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">relaxació</match></suggestion>
+            <example type="incorrect" correction="relaxaments|relaxacions">els <marker>relaxos</marker></example>
+            <example type="correct">relaxament</example>
+        </rule>
+        <rule id="BARCO" name="barco">
+            <pattern>
+                <token inflected="yes">barco</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCM$1">vaixell</match></suggestion>
+            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">embarcació</match></suggestion>
+            <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">nau</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/1613</url>
+            <example type="incorrect" correction="vaixells|embarcacions|naus"><marker>barcos</marker></example>
+            <example type="correct">barques</example>
+        </rule>
+        <rule id="MENTIROS" name="mentirós">
+            <pattern>
+                <token inflected="yes">mentirós</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">mentider</match></suggestion>
+            <example type="incorrect" correction="mentideres">Eren molt <marker>mentiroses</marker>.</example>
+            <example type="correct">mentideres</example>
+        </rule>
         <rule id="TACANYERIA" name="tacanyeria">
             <pattern>
                 <token inflected="yes">tacanyeria</token>
