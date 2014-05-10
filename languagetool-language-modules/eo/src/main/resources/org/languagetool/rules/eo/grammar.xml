@@ -4109,6 +4109,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="incorrect" correction="komplikas">Tio <marker>komplikigas</marker> la aferon.</example>
       <example type="correct">Tio komplikas la aferon.</example>
     </rule>
+    <rulegroup id="HALO_HA_LO" name="halo! → ha lo!">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <marker><token>halo</token></marker>
+          <token regexp="yes">[!?.]</token>
+        </pattern>
+        <message>Oni uzas du vorton <suggestion>ha lo</suggestion> por la ekkria vorto en telefonado.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/ekkrioj_sonimitoj/elparolado_skribado.html</url>
+        <example type="incorrect"><marker>Halo</marker>!</example>
+        <example type="correct">Ha lo!</example>
+        <example type="correct">Granda halo de hotelo.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">halo</token>
+          <token regexp="yes" spacebefore="no">[’']</token>
+        </pattern>
+        <message>Oni uzas du vorton <suggestion>ha lo</suggestion> sen apostrofo por la ekkria vorto en telefonado.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/ekkrioj_sonimitoj/elparolado_skribado.html</url>
+        <example type="incorrect"><marker>Halo’</marker></example>
+        <example type="correct">Ha lo</example>
+        <example type="correct">Granda halo de hotelo.</example>
+      </rule>
+    </rulegroup>
+    <rule id="okej" name="okej → o kej">
+      <pattern>
+        <token>okej</token>
+      </pattern>
+      <message>Oni devas skribi <suggestion>o kej</suggestion>.</message>
+      <url>http://bertilow.com/pmeg/gramatiko/ekkrioj_sonimitoj/elparolado_skribado.html</url>
+      <example type="incorrect"><marker>Okej</marker>!</example>
+      <example type="correct">O kej!</example>
+    </rule>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
