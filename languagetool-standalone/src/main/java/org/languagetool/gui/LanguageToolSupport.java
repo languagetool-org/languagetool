@@ -102,14 +102,12 @@ class LanguageToolSupport {
   private final EventListenerList listenerList = new EventListenerList();
   private final ResourceBundle messages;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
-
-  private JLanguageTool languageTool;
-  // a red color highlight painter for marking spelling errors
-  private HighlightPainter redPainter;
-  // a blue color highlight painter for marking grammar errors
-  private HighlightPainter bluePainter;
   private final List<RuleMatch> ruleMatches;
   private final List<Span> documentSpans;
+
+  private JLanguageTool languageTool;
+  private HighlightPainter redPainter;  // a red color highlight painter for marking spelling errors  
+  private HighlightPainter bluePainter;  // a blue color highlight painter for marking grammar errors
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
@@ -182,14 +180,14 @@ class LanguageToolSupport {
   
     Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules == null) {
-      disabledRules = Collections.EMPTY_SET;
+      disabledRules = Collections.emptySet();
     }
 
-    Set<String> common = new HashSet<String>(disabledRules);
+    Set<String> common = new HashSet<>(disabledRules);
     common.retainAll(languageTool.getDisabledRules());
-    Set<String> toDisable = new HashSet<String>(disabledRules);
+    Set<String> toDisable = new HashSet<>(disabledRules);
     toDisable.removeAll(common);
-    Set<String> toEnable = new HashSet<String>(languageTool.getDisabledRules());
+    Set<String> toEnable = new HashSet<>(languageTool.getDisabledRules());
     toEnable.removeAll(common);
     
     for (final String ruleId : toDisable) {
@@ -203,35 +201,35 @@ class LanguageToolSupport {
 
     Set<String> disabledCategories = config.getDisabledCategoryNames();
     if (disabledCategories == null) {
-      disabledCategories = Collections.EMPTY_SET;
+      disabledCategories = Collections.emptySet();
     }
-    common = new HashSet<String>(disabledCategories);
+    common = new HashSet<>(disabledCategories);
     common.retainAll(languageTool.getDisabledCategories());
-    toDisable = new HashSet<String>(disabledCategories);
+    toDisable = new HashSet<>(disabledCategories);
     toDisable.removeAll(common);
-    toEnable = new HashSet<String>(languageTool.getDisabledCategories());
+    toEnable = new HashSet<>(languageTool.getDisabledCategories());
     toEnable.removeAll(common);
 
     if(!toDisable.isEmpty()) {
       languageTool.getDisabledCategories().addAll(toDisable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList());
+      languageTool.disableRules(new ArrayList<String>());
       update = true;
     }
     if(!toEnable.isEmpty()) {
       languageTool.getDisabledCategories().removeAll(toEnable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
-      languageTool.disableRules(new ArrayList());
+      languageTool.disableRules(new ArrayList<String>());
       update = true;
     }
 
     Set<String> enabledRules = config.getEnabledRuleIds();
     if (enabledRules == null) {
-      enabledRules = Collections.EMPTY_SET;
+      enabledRules = Collections.emptySet();
     }
     for (String ruleName : enabledRules) {
-        languageTool.enableDefaultOffRule(ruleName);
-        languageTool.enableRule(ruleName);
+      languageTool.enableDefaultOffRule(ruleName);
+      languageTool.enableRule(ruleName);
     }
 
     if(update) {
@@ -354,7 +352,7 @@ class LanguageToolSupport {
       }
     });
 
-    this.textComponent.addMouseListener(mouseListener = new MouseListener() {
+    mouseListener = new MouseListener() {
       @Override
       public void mouseClicked(MouseEvent me) {
       }
@@ -377,7 +375,8 @@ class LanguageToolSupport {
       public void mouseEntered(MouseEvent me) {}
       @Override
       public void mouseExited(MouseEvent me) {}
-    });
+    };
+    this.textComponent.addMouseListener(mouseListener);
 
     actionListener = new ActionListener() {
       @Override
@@ -600,7 +599,7 @@ class LanguageToolSupport {
       return;
     }
 
-    TreeMap<String, ArrayList<Rule>> categories = new TreeMap<String, ArrayList<Rule>>();
+    TreeMap<String, ArrayList<Rule>> categories = new TreeMap<>();
     for (Rule rule : disabledRules) {
       if (!categories.containsKey(rule.getCategory().getName())) {
         categories.put(rule.getCategory().getName(), new ArrayList<Rule>());
