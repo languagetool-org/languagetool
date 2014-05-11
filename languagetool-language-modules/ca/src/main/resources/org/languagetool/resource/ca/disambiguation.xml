@@ -6793,6 +6793,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- no són adj si no han concordat amb determinants. Mogut per "ens ensenya"-->
         <rule>
             <pattern>
+                <token><exception postag="RG_anteposat"/></token> <!-- tan amic -->
                 <marker>
                     <and>
                         <token postag="A.*" postag_regexp="yes" regexp="yes">amics?|amiga|amigues|pega|muntà|corredors?|sabeu|xiquets?|muntés|accepta|envolta|tornés|seré|escolta<exception postag="_GN.*" postag_regexp="yes" /></token>
@@ -6800,7 +6801,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="[^A].*"></disambig>
+            <disambig action="remove" postag="A.*"></disambig>
         </rule>
         <rule>
             <pattern>
