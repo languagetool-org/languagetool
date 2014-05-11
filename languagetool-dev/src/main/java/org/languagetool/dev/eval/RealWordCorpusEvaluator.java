@@ -36,11 +36,13 @@ import java.util.StringTokenizer;
  * Runs LanguageTool on Jenny Pedler's Real-word Error Corpus, available at
  * http://www.dcs.bbk.ac.uk/~jenny/resources.html.
  * 
- * Results as of 2014-04-19:
+ * Results as of 2014-05-10:
  * <pre>
- * 673 lines checked.
- * 132 errors found that are marked as errors in the corpus (this does not count whether LanguageTool's correction was perfect)
- * => 19,91% recall
+ * 673 lines checked with 834 errors.
+ * 144 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
+ * => 17,27% recall
+ * 103 errors found where the first suggestion was the correct one
+ * => 12,35% recall
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
@@ -55,6 +57,7 @@ class RealWordCorpusEvaluator {
   private final JLanguageTool langTool;
   
   private int sentenceCount;
+  private int errorsInCorpusCount;
   private int perfectMatches;
   private int goodMatches;
 
@@ -65,6 +68,10 @@ class RealWordCorpusEvaluator {
 
   int getSentencesChecked() {
     return sentenceCount;
+  }
+
+  int getErrorsChecked() {
+    return errorsInCorpusCount;
   }
 
   int getRealErrorsFound() {
@@ -99,12 +106,12 @@ class RealWordCorpusEvaluator {
 
   private void printResults() {
     System.out.println("");
-    System.out.println(sentenceCount + " lines checked.");
+    System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
     System.out.println(goodMatches + " errors found that are marked as errors in the corpus " +
                        "(not counting whether LanguageTool's correction was useful)");
-    float goodRecall = (float)goodMatches / sentenceCount * 100;
+    float goodRecall = (float)goodMatches / errorsInCorpusCount * 100;
     System.out.printf(" => %.2f%% recall\n", goodRecall);
-    float perfectRecall = (float)perfectMatches / sentenceCount * 100;
+    float perfectRecall = (float)perfectMatches / errorsInCorpusCount * 100;
     System.out.println(perfectMatches + " errors found where the first suggestion was the correct one");
     System.out.printf(" => %.2f%% recall\n", perfectRecall);
   }
@@ -118,25 +125,36 @@ class RealWordCorpusEvaluator {
       ErrorSentence sentence = getIncorrectSentence(line);
       List<RuleMatch> matches = langTool.check(sentence.annotatedText);
       sentenceCount++;
+      errorsInCorpusCount += sentence.errors.size();
       System.out.println(sentence.markupText + " => " + matches.size());
       //System.out.println("###"+sentence.annotatedText.toString().replaceAll("<.*?>", ""));
-      boolean hasPerfectMatch = false;
-      boolean hasGoodMatch = false;
+      List<Span> detectedErrorPositions = new ArrayList<>();
       for (RuleMatch match : matches) {
-        if (sentence.hasErrorCoveredByMatchAndGoodFirstSuggestion(match)) {
-          hasGoodMatch = true;
-          hasPerfectMatch = true;
+        boolean alreadyCounted = errorAlreadyCounted(match, detectedErrorPositions);
+        if (!alreadyCounted && sentence.hasErrorCoveredByMatchAndGoodFirstSuggestion(match)) {
+          //TODO: it depends on the order of matches whether [++] comes before [ +] (it should!)
+          goodMatches++;
+          perfectMatches++;
           System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
-        } else if (sentence.hasErrorCoveredByMatch(match)) {
-          hasGoodMatch = true;
+        } else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
+          goodMatches++;
           System.out.println("    [+ ] " + match + ": " + match.getSuggestedReplacements());
         } else {
           System.out.println("    [  ] " + match + ": " + match.getSuggestedReplacements());
         }
+        detectedErrorPositions.add(new Span(match.getFromPos(), match.getToPos()));
       }
-      goodMatches += hasGoodMatch ? 1 : 0;
-      perfectMatches += hasPerfectMatch ? 1 : 0;
     }
+  }
+
+  private boolean errorAlreadyCounted(RuleMatch match, List<Span> detectedErrorPositions) {
+    for (Span span : detectedErrorPositions) {
+      Span matchSpan = new Span(match.getFromPos(), match.getToPos());
+      if (span.covers(matchSpan) || matchSpan.covers(span)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private ErrorSentence getIncorrectSentence(String line) {
@@ -232,6 +250,20 @@ class RealWordCorpusEvaluator {
       this.startPos = startPos;
       this.endPos = endPos;
       this.correction = correction;
+    }
+  }
+  
+  class Span {
+    private final int startPos;
+    private final int endPos;
+
+    Span(int startPos, int endPos) {
+      this.startPos = startPos;
+      this.endPos = endPos;
+    }
+
+    boolean covers(Span other) {
+      return startPos <= other.startPos && endPos >= other.endPos;
     }
   }
 }
