@@ -30,7 +30,10 @@ import java.util.*;
 /**
  * WORK IN PROGRESS. LanguageTool's version of After the Deadline's homophone confusion check.
  */
-public class ConfusionProbabilityRule extends Rule {
+public abstract class ConfusionProbabilityRule extends Rule {
+
+  @Override
+  public abstract String getDescription();
 
   private static final String HOMOPHONES = "homophonedb.txt";
   
@@ -72,11 +75,6 @@ public class ConfusionProbabilityRule extends Rule {
   @Override
   public String getId() {
     return "CONFUSION_RULE";
-  }
-
-  @Override
-  public String getDescription() {
-    return "Statistically detect wrong use of words that are easily confused";
   }
 
   @Override

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev;
+package org.languagetool.dev.eval;
 
 import org.apache.tika.io.IOUtils;
 import org.languagetool.JLanguageTool;
@@ -25,6 +25,7 @@ import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,7 +59,7 @@ class RealWordFalseAlarmEvaluator {
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
     }
-    confusionRule = new ConfusionProbabilityRule(JLanguageTool.getMessageBundle());
+    confusionRule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle());
     langTool.addRule(confusionRule);
   }
 

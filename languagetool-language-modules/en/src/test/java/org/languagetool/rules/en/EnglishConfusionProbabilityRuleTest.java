@@ -16,37 +16,31 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.rules.en;
 
 import org.junit.Test;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.language.English;
+import org.languagetool.rules.ConfusionProbabilityRule;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ConfusionProbabilityRuleTest {
-  
+public class EnglishConfusionProbabilityRuleTest {
+
   @Test
   public void testRule() throws IOException, ClassNotFoundException {
-    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(TestTools.getEnglishMessages()) {
-      @Override public String getDescription() { return null; }
-    };
-    ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet("portrait", "portray");
-    AnalyzedTokenReadings[] tokens = {
-            reading("A"),
-            reading("portray"),
-            reading("of"),
-            reading("me")
-    };
-    String alternative = rule.getBetterAlternativeOrNull(tokens, 1, confusionSet);
-    assertThat(alternative, is("portrait"));
+    JLanguageTool langTool = new JLanguageTool(new English());
+    ConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(TestTools.getEnglishMessages());
+    langTool.addRule(rule);
+    List<RuleMatch> matches = langTool.check("A portray of me");
+    assertThat(matches.size(), is(1));
+    assertThat(matches.get(0).getSuggestedReplacements().get(0), is("portrait"));
   }
 
-  private AnalyzedTokenReadings reading(String token) {
-    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), 0);
-  }
 }

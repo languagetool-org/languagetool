@@ -64,6 +64,7 @@ class RealWordCorpusEvaluator {
   RealWordCorpusEvaluator() throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
+    //langTool.addRule(new ConfusionProbabilityRule(JLanguageTool.getMessageBundle()));
   }
 
   int getSentencesChecked() {
