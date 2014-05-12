@@ -1643,12 +1643,17 @@ though, and has since been slightly modified)-->
           <marker>
             <token>se</token>
           </marker>
-          <token postag="N m s|J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+          <or>
+            <token regexp="yes">que?</token>
+            <token postag="N m s|J.*" postag_regexp="yes"><exception postag="V.*" postag_regexp="yes"/></token>
+          </or>
         </pattern>
         <message>Voulez-vous écrire <suggestion>ce</suggestion> ?</message>
         <example type="incorrect"><marker>Se</marker> test montre que ça fonctionne.</example>
         <example type="correct">Ce programme se base sur la participation des femmes.</example>
         <example type="correct"><marker>Ce</marker> test montre que ça fonctionne.</example>
+        <example type="incorrect">Tout <marker>se</marker> que je sais.</example>
+        <example type="correct">Tout ce que je sais.</example>
       </rule>
       <rule>
         <pattern>
@@ -4824,6 +4829,88 @@ though, and has since been slightly modified)-->
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2025</url>
         <example type="incorrect" correction="croassements">Les <marker>coassements</marker> inquiétants des corbeaux.</example>
         <example type="correct">Les croassements inquiétants des <marker>corbeaux</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="LIEUX_LIEUS_LIEUES" name="lieux / lieus / lieues">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">être|trouver|situer|rester</token>
+          <token>à</token>
+          <token regexp="yes">mille|des</token>
+          <marker><token regexp="yes">lieu[sx]?</token></marker>
+          <token regexp="yes">de?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>lieues</suggestion> ?</message>
+        <example type="incorrect">J’étais à mille <marker>lieux</marker> d’imaginer que c’était lui.</example>
+        <example type="incorrect">J’étais à mille <marker>lieus</marker> d’imaginer que c’était lui.</example>
+        <example type="correct">J’étais à mille lieues d’imaginer que c’était lui.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">20,?000|vingt</token>
+          <token min="0" max="1">mille</token>
+          <token regexp="yes">lieu[sx]?</token>
+          <token>sous</token>
+          <token regexp="yes">les|la</token>
+          <token regexp="yes">mers?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>\1 \2 lieues sous les mers</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Vingt_mille_lieues_sous_les_mers</url>
+        <example type="incorrect">As-tu lu <marker>20000 lieux sous les mers</marker> ?</example>
+        <example type="incorrect">As-tu lu <marker>vingt mille lieux sous les mers</marker> ?</example>
+        <example type="correct">As-tu lu 20000 lieues sous les mers ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">lieux|lieues</token></marker>
+          <token inflected="yes" regexp="yes">jaune|noir|mordre</token>
+        </pattern>
+        <message>Le pluriel de lieu est <suggestion>lieus</suggestion> quand il s’agit du poisson (colin).</message>
+        <url>https://fr.wiktionary.org/wiki/lieus_jaunes</url>
+        <example type="incorrect">Les <marker>lieux</marker> mordent à notre leurre.</example>
+        <example type="correct">Les lieus mordent à notre leurre.</example>
+        <example type="incorrect">Techniques de traîne pour les <marker>lieux</marker> jaunes.</example>
+        <example type="correct">Techniques de traîne pour les lieus jaunes.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">pêcher?|chair</token>
+          <token regexp="yes">des|aux</token>
+          <marker><token regexp="yes">lieux|lieues</token></marker>
+        </pattern>
+        <message>Le pluriel de lieu est <suggestion>lieus</suggestion> quand il s’agit du poisson (colin).</message>
+        <url>https://fr.wiktionary.org/wiki/lieus_jaunes</url>
+        <example type="incorrect">Ils pêchent des <marker>lieux</marker>.</example>
+        <example type="correct">Ils pêchent des lieus.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">assurances?|[ée]tats?|visites?|ma[îi]tres?|seigneur|magie|chefs?|responsables?|respect|entretien|propreté|propriétaires?|tranquilité|dans|vers|plans?</token>
+          <token>des</token>
+          <marker><token regexp="yes">lieue?s</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>lieux</suggestion> et « lieus » (poissons).</message>
+        <example type="incorrect">Faire un état des <marker>lieus</marker>.</example>
+        <example type="correct">Faire un état des lieux.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">lieue?s</token></marker>
+          <token>de</token>
+          <token regexp="yes">communication|concerts|contemplation|culte|chasse|détente|détention|départ|méditation|prière|sorties|sépulture|repos|refuge|stockage|travail|vacances?|spectacle|conférence|rassemblements?|stationnement|rencontres?|villégiature</token>
+        </pattern>
+        <message>Confusion probable entre <suggestion>lieux</suggestion> et « lieus » (poissons).</message>
+        <example type="incorrect">Les <marker>lieus</marker> de prière.</example>
+        <example type="correct">Les lieux de prière.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">lieue?s</token></marker>
+          <token regexp="yes">aménagés|acceuillants|insolites|accessibles|inaccessible|inexplorés|éloignés|lointains|louches|réservés|proches|touristiques|saints|sacrés|connus|inconnus|méconnus|privilégiés|mytiques|publics|privés|prestigieux|stratégiques|historiques|où|humides|secs</token>
+        </pattern>
+        <message>Confusion probable entre <suggestion>lieux</suggestion> et « lieus » (poissons).</message>
+        <example type="incorrect">Des <marker>lieus</marker> historiques.</example>
+        <example type="correct">Les lieux historiques.</example>
       </rule>
     </rulegroup>
   </category>
@@ -8213,7 +8300,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Dominique <marker>peux</marker> venir.</example>
         <example type="correct">Dominique peut venir.</example>
         <example type="incorrect">Dominique ne <marker>peux</marker> pas venir.</example>
@@ -10008,6 +10095,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Ses derniers cris.</example>
       </rule>
     </rulegroup>
+    <rule id="POINT_DE_VUE" name="points de vues → points de vue">
+      <pattern>
+        <token regexp="yes">points?</token>
+        <token>de</token>
+        <token>vues</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>\1 \2 vue</suggestion> ?</message>
+      <url>https://fr.wiktionary.org/wiki/point_de_vue</url>
+      <example type="incorrect" correction="points de vue">Des <marker>points de vues</marker>.</example>
+      <example type="correct">Des points de vue.</example>
+    </rule>
   </category>
   <category default="off" name="Régionalismes">
     <!--The following rules were created by Hugo Voisard-->

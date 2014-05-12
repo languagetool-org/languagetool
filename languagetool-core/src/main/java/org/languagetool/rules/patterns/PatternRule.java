@@ -227,7 +227,7 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * For testing only.
    */
-  public final List<DisambiguationPatternRule> getAntiPatterns() {
+  final List<DisambiguationPatternRule> getAntiPatterns() {
     return antiPatterns;
   }
 

@@ -33,7 +33,7 @@ USA
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
-    <category name="Possible Typos" type="misspelling">
+    <category name="Possible Typo" type="misspelling">
         <rule id="AN_THEN" name="an then (and then)">
           <pattern>
             <token>an<exception postag='NNP'/></token>
@@ -6743,7 +6743,8 @@ USA
             <example type="correct">But he insisted that it be housed in a special museum.</example>
             <example type="correct">Many other components beside it determine how much cooling you'll get.</example>
         </rule>
-        <rule id="DID_PAST" name="'did' with past tense verb">
+        <rulegroup id="DID_PAST" name="'did' with past tense verb">
+            <rule>
             <pattern>
                 <token>did</token>
                 <!-- TODO: use chunks
@@ -6768,6 +6769,23 @@ USA
             <example type="correct">Did your new applications work?</example>
             <example type="correct">If it were not that I knew who it was I could have mistaken it for my Aunt so well did her clothes fit him.</example>
         </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" postag="WRB|WP" postag_regexp="yes"/>
+                    <token>did</token>
+                    <token regexp="yes">I|you|he|she|we|they</token>
+                    <marker>
+                        <token postag="VBD"><exception postag="VB"/></token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="5" postag="VBP" postag_regexp="yes"/></suggestion>?</message>
+                <short>Possible grammatical error</short>
+                <example type="incorrect" correction="forget">Did you <marker>forgot</marker> it?</example>
+                <example type="correct">Did you forget it?</example>
+                <example type="incorrect" correction="forget">Why did you <marker>forgot</marker> it?</example>
+            </rule>
+        </rulegroup>
 
         <rulegroup id="ADVERB_WORD_ORDER" name="Word order: Wrong position of adverb, e.g. 'Always I am happy. (I am always happy.)'">
             <rule>
@@ -9746,20 +9764,6 @@ USA
             <example type="correct">They need to do this.</example>
             </rule>
         </rulegroup>
-        <rule id="DID_VBD" name="Agreement error: did with past tense verb">
-          <pattern>
-            <token postag="SENT_START"/>
-            <token>Did</token>
-            <token regexp="yes">I|you|he|she|we|they</token>
-            <marker>
-              <token postag="VBD"><exception postag="VB"/></token>
-            </marker>
-          </pattern>
-          <message>Did you mean <suggestion><match no="4" postag="VBP" postag_regexp="yes"/></suggestion>?</message>
-          <short>Possible grammatical error</short>
-          <example type="incorrect" correction="forget">Did you <marker>forgot</marker> it?</example>
-          <example type="correct">Did you forget it?</example>
-        </rule>
         <rule id="EQUALLY_AS" name="equally+as (equally)">
             <pattern>
                 <token>equally</token>
@@ -10125,7 +10129,7 @@ USA
                         <token chunk="E-NP-singular"><exception postag="NNPS"/></token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion><match no="4" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
+                <message>Did you mean <suggestion><match no="5" postag="NNS|NNPS" postag_regexp="yes"></match></suggestion>?</message>
                 <short>Possible agreement error</short>
                 <example correction="problems" type="incorrect">There're <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example type="correct">There're problems in Iraq.</example>
@@ -11284,7 +11288,15 @@ USA
             </antipattern>
             <antipattern>
                 <marker><token>also</token></marker>
-                <token>in</token>
+                <token regexp="yes">in|since</token>
+            </antipattern>
+            <antipattern>
+                <marker><token regexp="yes">thus|still</token></marker>
+                <token postag="VB." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <marker><token>however</token></marker>
+                <token postag="JJ"/>
             </antipattern>
             <pattern>
                 <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
@@ -11307,6 +11319,8 @@ USA
             <example type="correct">Besides the power analysis, there are less formal methods...</example>
             <example type="incorrect" correction="Besides,"><marker>Besides</marker> I promised her we would come.</example>
             <example type="correct">Also in 1875, the legislature passed the Blaine Amendment.</example>
+            <example type="correct">Thus began the infamous "prison ships" system.</example>
+            <example type="correct">However fast you may walk, you can't catch up with him.</example>
         </rule>
     </category>
     <category name="Commonly Confused Words" type="misspelling">

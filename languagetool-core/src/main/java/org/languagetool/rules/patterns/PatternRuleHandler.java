@@ -339,7 +339,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case ANTIPATTERN:
         String antiId = id;
         if (inRuleGroup) {
-          id = ruleGroupId;
+          if (subId > 0) {
+            antiId = ruleGroupId + "[" + subId + "]";
+          } else {
+            antiId = ruleGroupId;
+          }
         }
         final DisambiguationPatternRule rule = new DisambiguationPatternRule(
             antiId + "_antipattern:" + antiPatternCounter,

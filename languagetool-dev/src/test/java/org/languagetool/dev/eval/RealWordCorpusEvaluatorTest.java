@@ -36,8 +36,10 @@ public class RealWordCorpusEvaluatorTest {
     RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator();
     URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
     evaluator.run(new File(errors.getFile()));
-    assertThat(evaluator.getSentencesChecked(), is(2));
-    assertThat(evaluator.getRealErrorsFound(), is(1));
+    assertThat(evaluator.getSentencesChecked(), is(3));
+    assertThat(evaluator.getErrorsChecked(), is(5));
+    assertThat(evaluator.getRealErrorsFound(), is(3));
+    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
   }
 
 }

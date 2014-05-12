@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -48,7 +49,6 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -69,7 +69,6 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
@@ -103,14 +102,12 @@ class LanguageToolSupport {
   private final EventListenerList listenerList = new EventListenerList();
   private final ResourceBundle messages;
   private final Map<Language, ConfigurationDialog> configDialogs = new HashMap<>();
-
-  private JLanguageTool languageTool;
-  // a red color highlight painter for marking spelling errors
-  private HighlightPainter redPainter;
-  // a blue color highlight painter for marking grammar errors
-  private HighlightPainter bluePainter;
   private final List<RuleMatch> ruleMatches;
   private final List<Span> documentSpans;
+
+  private JLanguageTool languageTool;
+  private HighlightPainter redPainter;  // a red color highlight painter for marking spelling errors  
+  private HighlightPainter bluePainter;  // a blue color highlight painter for marking grammar errors
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
@@ -119,7 +116,6 @@ class LanguageToolSupport {
   private boolean popupMenuEnabled = true;
   private boolean backgroundCheckEnabled = true;
   private Configuration config;
-  private Language currentLanguage;
   private boolean mustDetectLanguage = false;
 
   /**
@@ -164,29 +160,9 @@ class LanguageToolSupport {
     return this.ruleMatches;
   }
 
-  private Language getDefaultLanguage() {
-    if (config.getLanguage() != null) {
-      return config.getLanguage();
-    } else {
-      return Language.getLanguageForLocale(Locale.getDefault());
-    }
-  }
-
-  /**
-   * Warm-up: we have a lot of lazy init in LT, which causes the first check to
-   * be very slow (several seconds) for languages with a lot of data and a lot of
-   * rules. We just assume that the default language is the language that the user
-   * often uses and init the LT object for that now, not just when it's first used.
-   * This makes the first check feel much faster:
-   */
-  private void warmUpChecker() {
-    getCurrentLanguageTool();
-  }
-
   ConfigurationDialog getCurrentConfigDialog() {
-    Language language = this.currentLanguage;
+    Language language = this.languageTool.getLanguage();
     final ConfigurationDialog configDialog;
-    this.config.setLanguage(language);
     if (configDialogs.containsKey(language)) {
       configDialog = configDialogs.get(language);
     } else {
@@ -196,45 +172,136 @@ class LanguageToolSupport {
     return configDialog;
   }
 
-  private void getCurrentLanguageTool() {
+  void reloadConfig() {
+    //FIXME
+    //if mother tongue changes then create new JLanguageTool instance
+
+    boolean update = false;
+  
+    Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules == null) {
+      disabledRules = Collections.emptySet();
+    }
+
+    Set<String> common = new HashSet<>(disabledRules);
+    common.retainAll(languageTool.getDisabledRules());
+    Set<String> toDisable = new HashSet<>(disabledRules);
+    toDisable.removeAll(common);
+    Set<String> toEnable = new HashSet<>(languageTool.getDisabledRules());
+    toEnable.removeAll(common);
+    
+    for (final String ruleId : toDisable) {
+      languageTool.disableRule(ruleId);
+      update = true;
+    }
+    for (final String ruleId : toEnable) {
+      languageTool.enableRule(ruleId);
+      update = true;
+    }
+
+    Set<String> disabledCategories = config.getDisabledCategoryNames();
+    if (disabledCategories == null) {
+      disabledCategories = Collections.emptySet();
+    }
+    common = new HashSet<>(disabledCategories);
+    common.retainAll(languageTool.getDisabledCategories());
+    toDisable = new HashSet<>(disabledCategories);
+    toDisable.removeAll(common);
+    toEnable = new HashSet<>(languageTool.getDisabledCategories());
+    toEnable.removeAll(common);
+
+    if(!toDisable.isEmpty()) {
+      languageTool.getDisabledCategories().addAll(toDisable);
+      // ugly hack to trigger reInitSpellCheckIgnoreWords()
+      languageTool.disableRules(new ArrayList<String>());
+      update = true;
+    }
+    if(!toEnable.isEmpty()) {
+      languageTool.getDisabledCategories().removeAll(toEnable);
+      // ugly hack to trigger reInitSpellCheckIgnoreWords()
+      languageTool.disableRules(new ArrayList<String>());
+      update = true;
+    }
+
+    Set<String> enabledRules = config.getEnabledRuleIds();
+    if (enabledRules == null) {
+      enabledRules = Collections.emptySet();
+    }
+    for (String ruleName : enabledRules) {
+      languageTool.enableDefaultOffRule(ruleName);
+      languageTool.enableRule(ruleName);
+    }
+
+    if(update) {
+      //FIXME
+      //we could skip a full check if the user disabled but didn't enable rules
+      checkImmediately(null);
+      fireEvent(LanguageToolEvent.Type.RULE_ENABLED, null);
+    }
+  }
+
+  private void loadConfig() {
+    final Set<String> disabledRules = config.getDisabledRuleIds();
+    if (disabledRules != null) {
+      for (final String ruleId : disabledRules) {
+        languageTool.disableRule(ruleId);
+      }
+    }
+    final Set<String> disabledCategories = config.getDisabledCategoryNames();
+    if (disabledCategories != null) {
+      for (final String categoryName : disabledCategories) {
+        languageTool.disableCategory(categoryName);
+      }
+    }
+    final Set<String> enabledRules = config.getEnabledRuleIds();
+    if (enabledRules != null) {
+      for (String ruleName : enabledRules) {
+        languageTool.enableDefaultOffRule(ruleName);
+        languageTool.enableRule(ruleName);
+      }
+    }
+  }
+
+  private void reloadLanguageTool(Language language) {
     try {
-      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, currentLanguage);
-      languageTool = new MultiThreadedJLanguageTool(currentLanguage, config.getMotherTongue());
+      //FIXME
+      //no need to read again the file
+      config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, language);
+      //config still contains old language, update it
+      this.config.setLanguage(language);
+      languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
       languageTool.activateDefaultPatternRules();
       languageTool.activateDefaultFalseFriendRules();
-      final Set<String> disabledRules = config.getDisabledRuleIds();
-      if (disabledRules != null) {
-        for (final String ruleId : disabledRules) {
-          languageTool.disableRule(ruleId);
-        }
-      }
-      final Set<String> disabledCategories = config.getDisabledCategoryNames();
-      if (disabledCategories != null) {
-        for (final String categoryName : disabledCategories) {
-          languageTool.disableCategory(categoryName);
-        }
-      }
-      final Set<String> enabledRules = config.getEnabledRuleIds();
-      if (enabledRules != null) {
-        for (String ruleName : enabledRules) {
-          languageTool.enableDefaultOffRule(ruleName);
-          languageTool.enableRule(ruleName);
-        }
-      }
+      loadConfig();
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
   private void init() {
+    //load language autodetection profiles
     LanguageIdentifierTools.addLtProfiles();
+
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     } catch (IOException ex) {
       throw new RuntimeException("Could not load configuration", ex);
     }
-    currentLanguage = getDefaultLanguage();
-    warmUpChecker();
+
+    Language defaultLanguage = config.getLanguage();
+    if(defaultLanguage == null) {
+        defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
+    }
+
+    /**
+     * Warm-up: we have a lot of lazy init in LT, which causes the first check to
+     * be very slow (several seconds) for languages with a lot of data and a lot of
+     * rules. We just assume that the default language is the language that the user
+     * often uses and init the LT object for that now, not just when it's first used.
+     * This makes the first check feel much faster:
+     */    
+    reloadLanguageTool(defaultLanguage);
+
     redPainter = new HighlightPainter(Color.red);
     bluePainter = new HighlightPainter(Color.blue);
 
@@ -285,7 +352,7 @@ class LanguageToolSupport {
       }
     });
 
-    this.textComponent.addMouseListener(mouseListener = new MouseListener() {
+    mouseListener = new MouseListener() {
       @Override
       public void mouseClicked(MouseEvent me) {
       }
@@ -308,7 +375,8 @@ class LanguageToolSupport {
       public void mouseEntered(MouseEvent me) {}
       @Override
       public void mouseExited(MouseEvent me) {}
-    });
+    };
+    this.textComponent.addMouseListener(mouseListener);
 
     actionListener = new ActionListener() {
       @Override
@@ -365,31 +433,56 @@ class LanguageToolSupport {
   }
 
   public void setLanguage(Language language) {
-    this.currentLanguage = language;
-    getCurrentLanguageTool();
+    reloadLanguageTool(language);
     if (backgroundCheckEnabled) {
       checkImmediately(null);
     }
+  }
+
+  Language getLanguage() {
+      return this.languageTool.getLanguage();
   }
 
   public Configuration getConfig() {
     return config;
   }
 
-  public JLanguageTool getLanguageTool() {
+  // called from Main.showOptions() and Main.tagTextAndDisplayResults()
+  JLanguageTool getLanguageTool() {
     return languageTool;
   }
 
-  void disableRule(String rule) {
-    config.getDisabledRuleIds().add(rule);
-    languageTool.disableRule(rule);
-    updateHighlights(rule);
+  void disableRule(String ruleId) {
+    Rule rule = this.getRuleForId(ruleId);
+    if(rule == null) {
+      //System.err.println("No rule with id: <"+ruleId+">");
+      return;
+    }
+    if(rule.isDefaultOff()) {
+      config.getEnabledRuleIds().remove(ruleId);
+    }
+    else {
+      config.getDisabledRuleIds().add(ruleId);
+    }
+    languageTool.disableRule(ruleId);
+    updateHighlights(ruleId);
     fireEvent(LanguageToolEvent.Type.RULE_DISABLED, null);
   }
 
-  void enableRule(String rule) {
-    config.getDisabledRuleIds().remove(rule);
-    languageTool.enableRule(rule);
+  void enableRule(String ruleId) {
+    Rule rule = this.getRuleForId(ruleId);
+    if(rule == null) {
+      //System.err.println("No rule with id: <"+ruleId+">");
+      return;
+    }
+    if(rule.isDefaultOff()) {
+      config.getEnabledRuleIds().add(ruleId);
+      languageTool.enableDefaultOffRule(ruleId);
+    }
+    else {
+      config.getDisabledRuleIds().remove(ruleId);
+    }
+    languageTool.enableRule(ruleId);
     fireEvent(LanguageToolEvent.Type.RULE_ENABLED, null);
     checkImmediately(null);
   }
@@ -506,7 +599,7 @@ class LanguageToolSupport {
       return;
     }
 
-    TreeMap<String, ArrayList<Rule>> categories = new TreeMap<String, ArrayList<Rule>>();
+    TreeMap<String, ArrayList<Rule>> categories = new TreeMap<>();
     for (Rule rule : disabledRules) {
       if (!categories.containsKey(rule.getCategory().getName())) {
         categories.put(rule.getCategory().getName(), new ArrayList<Rule>());
@@ -642,9 +735,8 @@ class LanguageToolSupport {
       mustDetectLanguage = false;
       if (!this.textComponent.getText().isEmpty()) {
         Language detectedLanguage = autoDetectLanguage(this.textComponent.getText());
-        if (!detectedLanguage.equals(this.currentLanguage)) {
-          this.currentLanguage = detectedLanguage;
-          getCurrentLanguageTool();
+        if (!detectedLanguage.equals(this.languageTool.getLanguage())) {
+          reloadLanguageTool(detectedLanguage);
           if (SwingUtilities.isEventDispatchThread()) {
             fireEvent(LanguageToolEvent.Type.LANGUAGE_CHANGED, caller);
           } else {
@@ -816,7 +908,7 @@ class LanguageToolSupport {
     private static final BasicStroke OO_STROKE3 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{3.0f, 5.0f}, 6);
     private static final BasicStroke ZIGZAG_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 0);
 
-    public HighlightPainter(Color color) {
+    private HighlightPainter(Color color) {
       super(color);
     }
 
@@ -926,7 +1018,7 @@ class LanguageToolSupport {
 
     private final Object caller;
 
-    public RunnableImpl(Object caller) {
+    private RunnableImpl(Object caller) {
       this.caller = caller;
     }
 

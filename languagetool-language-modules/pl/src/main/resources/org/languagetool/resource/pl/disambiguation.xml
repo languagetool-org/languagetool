@@ -2771,13 +2771,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token>nie</token>
             <marker>
-                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">ma</token>
-                <token postag=".*gen.*" postag_regexp="yes"/>
+                <token inflected="yes" postag="verb.*" postag_regexp="yes">mieć</token>
+                <token postag=".*gen.*" postag_regexp="yes"><exception postag="verb:inf.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="braterstwa[braterstwo/subst:pl:acc:n2,braterstwo/subst:pl:acc:p1,braterstwo/subst:pl:gen:p1,braterstwo/subst:pl:nom:n2,braterstwo/subst:pl:voc:n2,braterstwo/subst:sg:gen:n2]"
                  outputform="braterstwa[braterstwo/subst:pl:gen:p1,braterstwo/subst:sg:gen:n2]">Nie ma <marker>braterstwa</marker>.</example>
+        <example type="untouched">Nic nie jest skrytego, co by nie miało być objawiono.</example>
     </rule>
 
     <rule id="ADV_COM_NIZ" name="niż po przysłówku w stopniu wyższym">
@@ -3185,6 +3186,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>pasterzy</token>
         </pattern>
         <disambig action="remove"><wd lemma="pasterzyć"/></disambig>
+    </rule>
+
+    <rule id="PATRZY" name="patrzy to nie pater">
+        <pattern>
+            <token>patrzy</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="pater"/></disambig>
     </rule>
 
     <rule id="PLOMIENI" name="płomieni to nie płomienić">
@@ -5240,6 +5248,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">To, co <marker>stanowi</marker> treść ich wyobraźni ma charakter intersubiektywny i postrzegalny także przez innych.</example>
             <example type="ambiguous" inputform="on[on/adj:sg:acc:m3:pos,on/adj:sg:nom.voc:m1.m2.m3:pos,on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]"
                      outputform="on[on/ppron3:sg:nom:m1.m2.m3:ter:akc.nakc:praep.npraep]">Nie lubię sposobu, w jaki <marker>on</marker> mówi.</example>
+            <example type="untouched">A to był kostur pastuszy.</example>
+            <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
+            <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <unify>
+                        <feature id="number"/>
+                        <token postag="adj:.*nom.*" postag_regexp="yes" inflected="yes" regexp="yes">jaki|który</token>
+                        <token postag="verb:fin:.*ter.*" postag_regexp="yes"><exception>je</exception><exception>mnie</exception><exception>nasza</exception><exception regexp="yes">\p{Lu}\p{Ll}+</exception></token>
+                    </unify>
+                </marker>
+                <token><exception postag="verb:(?:praet|pot|fin|bedzie|imp.|pred|winien).*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="stanowi[stan/subst:sg:dat:m3,stanowić/verb:fin:sg:ter:imperf:refl.nonrefl,stanowy/adj:pl:nom.voc:m1.p1:pos]" outputform="stanowi[stanowić/verb:fin:sg:ter:imperf:refl.nonrefl]">Cel, jaki <marker>stanowi</marker> treść ich wyobraźni, ma charakter intersubiektywny.</example>
+            <example type="ambiguous" inputform="który[który/adj:sg:acc:m3:pos,który/adj:sg:nom.voc:m1.m2.m3:pos,który/comp:comma]"
+                     outputform="który[który/adj:sg:nom.voc:m1.m2.m3:pos]">To człowiek, <marker>który</marker> mówi.</example>
             <example type="untouched">A to był kostur pastuszy.</example>
             <example type="untouched">Trzeba było odbyć tak zwaną straż broni.</example>
             <example type="untouched">Ukazało się w r. 1670 to pierwsze wydanie Myśli, tzw.* wydanie Port-Royalu*.</example>

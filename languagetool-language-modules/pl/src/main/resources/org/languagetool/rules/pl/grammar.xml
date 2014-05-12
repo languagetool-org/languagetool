@@ -23,7 +23,7 @@ $Id$
 -->
 
 <!DOCTYPE rules [
-    <!ENTITY interp "[\p{Punct}\-–−—―„«»…’]+">
+    <!ENTITY interp "[\p{Punct}\-–−—―„«»…’&amp;&amp;[^\)]]+">
     <!ENTITY conj "bądź|czy|ani|lub|albo|oraz|i">
     <!ENTITY interp_conj "&interp;|&conj;">
     <!ENTITY nbsp " ">
@@ -1070,6 +1070,7 @@ $Id$
                                 <pattern>
 										<token inflected="yes" regexp="yes" skip="-1" postag="comp">(?:a?by|a?żeby|iżby)
                                             <exception scope="previous" postag_regexp="yes" postag="verb:winien.*|verb:imps.*"/>
+                                            <exception scope="previous">co</exception>
                                             <exception postag_regexp="yes" postag="(?:comp|interp):comma" scope="next"/>
                                             <exception scope="next" postag="pred"/>
                                             <exception scope="next" inflected="yes" postag_regexp="yes" postag="verb:.*" regexp="yes">móc|musieć|potrafić|pozwalać|zdołać|umieć|ośmielić|woleć</exception>
@@ -1105,6 +1106,7 @@ $Id$
                                 <example type="correct">Rozważał w duszy, co by mu czynić należało.</example>
                                 <example type="correct">Nie sądzę wszakże, ażeby nią gardzić należało.</example>
                                 <example type="incorrect"><marker>Aby uniknąć powstawania amin wyższego rzędu należy</marker> użyć nadmiaru amoniaku.</example>
+                                <example type="correct">Nic nie jest skrytego, co by nie miało być objawione.</example>
 						</rule>
 				</rulegroup>
 				<rulegroup id="BRAK_PRZECINKA_ZAMIAST" name="Brak przecinka przed „zamiast”">
@@ -1389,7 +1391,7 @@ $Id$
                                     <feature id="case"></feature>
                                     <marker>
                                         <token postag="prep.*" postag_regexp="yes"/>
-                                        <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag="(?:comp|interp):comma|SENT_END"/></token>
+                                        <token skip="-1" inflected="yes" postag="subst.*" postag_regexp="yes">co<exception scope="next" postag_regexp="yes" postag="(?:comp|interp):comma|SENT_END"/></token>
                                     </marker>
                                     </unify>
                                     <token postag="verb:inf.*" postag_regexp="yes"></token>
@@ -1732,7 +1734,7 @@ $Id$
 				<rule id="WOLACZ_BEZ_PRZECINKA" name="Brak przecinka po wołaczu na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
-								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*m3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
+								<token postag=".*voc.*" postag_regexp="yes" skip="-1"><exception postag=".*nom.*|conj|comp|pred|verb.*|adv.*|.*[pm]3" postag_regexp="yes" scope="current"></exception><exception regexp="yes">kogo|coście|Tacie</exception><exception regexp="yes" scope="next">[,-–—!\.]|mi</exception></token>
 								<marker>
 										<token><exception regexp="yes" scope="current">[,-–—!\.]</exception><exception postag=".*voc.*" postag_regexp="yes"/></token>
 								</marker>
@@ -2382,7 +2384,8 @@ $Id$
 						<example correction="tak, a nie" type="incorrect">Zrobiłem to <marker>tak a nie</marker> inaczej.</example>
 						<example correction="fascynujący, a to" type="incorrect">Był to spektakl <marker>fascynujący a to</marker> z powodu gry aktorów.</example>
 				</rule>
-                <rule id="BRAK_PRZECINKA_CZY" name="Brak przecinka przed „czy”">
+                <rulegroup id="BRAK_PRZECINKA_CZY" name="Brak przecinka przed „czy”">
+                    <rule>
                     <pattern>
                         <token inflected='yes' regexp='yes'>(:?za)?wahać|zastanawiać|zastanowić|upewnia?ć|dowiedzieć|przekonać|dopytywać|zorientować|obawiać|rozstrzygnąć|spierać|martwić|okazać</token>
                         <token>się</token>
@@ -2392,7 +2395,18 @@ $Id$
                     <short>Brak przecinka</short>
                     <example type='incorrect'><marker>Wahał się czy</marker> zostać żołnierzem.</example>
                     <example type='correct'>Wahał się, czy zostać żołnierzem.</example>
-                </rule>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token inflected='yes' regexp='yes'>sprawdz[ia]ć|wiedzieć|(?:za|s)?pytać|(?:wy|za)?pytywać|z?wątpić|napisać|mówić|orzec|ustalić</token>
+                            <token>czy</token>
+                        </pattern>
+                        <message>Prawdopodobny brak przecinka. Poprawnie: <suggestion><match no="1"/>, <match no="2"/></suggestion>.</message>
+                        <short>Brak przecinka</short>
+                        <example type='incorrect' correction="sprawdzić, czy">Musisz <marker>sprawdzić czy</marker> to prawda.</example>
+                        <example type='correct'>Musisz sprawdzić, czy to prawda.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="PRZECINEK_OTOZ" name="Zbędny przecinek po „otóż”">
 						<pattern>
 								<marker>
@@ -2832,7 +2846,7 @@ $Id$
                                 <example type="correct">To jest przykład—błędny—ale jest.</example>
 						</rule>
 				</rulegroup>
-				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym">
+				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym (cudzysłów, nawias)">
 						<pattern>
 								<token regexp="yes">[„\[]</token>
 								<token spacebefore="yes"></token>
@@ -2842,6 +2856,16 @@ $Id$
 						<example correction="„przykład" type="incorrect">To jest <marker>„ przykład</marker>”.</example>
 						<example type="correct">To jest „przykład”.</example>
 				</rule>
+                <rule id="ZBEDNA_SPACJA_PRZED" type="whitespace" name="Zbędna spacja przed znakiem interpunkcyjnym (średnik, dwukropek)">
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes" regexp="yes">[;:]</token>
+                </pattern>
+                <message>Zbędna spacja. Powinno być: <suggestion>\1\2</suggestion>.</message>
+                <short>Zbędna spacja</short>
+                <example correction="zdanie;" type="incorrect">To jest <marker>zdanie ;</marker> a to drugie.</example>
+                <example type="correct">To jest zdanie; a to drugie.</example>
+                </rule>
 				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
                     <rule>
                         <pattern case_sensitive="yes">
@@ -5020,8 +5044,16 @@ $Id$
                                 <token>temu</token>
                             </antipattern>
                             <antipattern>
-                                <token regexp="yes">[234]</token>
+                                <token regexp="yes">(?:\d+-)?\d*[234]</token>
                                 <token>miliony</token>
+                                <marker>
+                                    <token>lat</token>
+                                </marker>
+                                <token>temu</token>
+                            </antipattern>
+                            <antipattern>
+                                <token regexp="yes">(?:\d+-)?\d*[5-90]</token>
+                                <token>milionów</token>
                                 <marker>
                                     <token>lat</token>
                                 </marker>
@@ -5055,6 +5087,7 @@ $Id$
                                 <example type="correct">To zwierzę pojawia się 2–3,8 miliona lat temu.</example>
                                 <example type="correct">2 miliony lat temu zjadłem kanapkę.</example>
                                 <example type="correct">Ok. 1 mld lat temu powstały złoża kanapek.</example>
+                                <example type="correct">To znalezisko jest datowane na około 409 milionów lat temu, a może 250-200 milionów	lat temu.</example>
 						</rule>
                         <rule>
                             <antipattern>
@@ -10718,15 +10751,17 @@ $Id$
 				</rulegroup>
 				<rule id="SKROTOWCE_BEZ_DYWIZU" name="Skrótowce bez dywizu w przypadkach zależnych">
 						<pattern>
-								<token regexp="yes">\p{Lu}{1}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|BCh|COr|CSSp|[GMT]Hz|MKOl|PKOl|UWr|REDakcj.*|KPCh|VBScript|GUŁag|HCl|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
+								<token regexp="yes">\p{Lu}{1,2}+[i]*\p{Lu}+[a-ząćęłńóśźż&amp;&amp;[^\p{Lu}]]+<exception regexp="yes">GKKFicie|JCMości|JCMością|JCWysokości|JCWysokością|JKMości|JKMością|JKWysokości|JKWysokością|PZKol|PZMocie|PZMot|SJPDor|WPan|WPani|WPaństwo|CSSp|MKOl|PKOl|REDakcj.*|KPCh|VBScript|GUŁag|\p{Lu}{2}[^aeiuyąę]|((XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))([mt]*y|[w]*sz[ey]|[w]*szym[i]*|[w]*si|tymi?|a|c[ieh]|ci[aemou]|ciej|cioletnią|ego|ej|g[aio]|gi[em]|[yi]m|ki|któregoś|m[aeo]|miu|o|[tr]o|stoletniego|stu|sza|[tm]*a|[tm]*ego|[mt]*ej|tk[ai]|[mt]*[i]*oletni.*|[mt]*[ueą]|[mt]*ych)</exception></token>
 						</pattern>
-						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{1}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
+						<message>Prawdopodobny błąd zapisu odmiany; skrótowce odmieniamy z dywizem:<suggestion><match no="1" regexp_match="^(\p{Lu}{1,2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)" regexp_replace="$1-$2"></match></suggestion>.</message>
 						<short>Błąd ortograficzny</short>
 						<example type="correct">Ludwik dostał kilkaset SMS-ów z pogróżkami od Przemysława.</example>
 						<example correction="SMS-ów" type="incorrect">Ludwik dostał kilkaset <marker>SMSów</marker> z pogróżkami od Przemysława.</example>
 						<example type="correct">Nasze radio nadaje na częstotliwości 102 MHz.</example>
                         <example type="correct">Cytokina TNFα</example>
                         <example type="incorrect" correction="WiN-u">Był to działacz <marker>WiNu</marker>.</example>
+                        <example type="incorrect" correction="IFiS-ie">Pracuję w <marker>IFiSie</marker>.</example>
+                        <example type="correct">Uwaga, wyrób zawiera HCl!</example>
 				</rule>
 				<rule id="SKROTOWCE_Z_APOSTROFEM" name="Skrótowce z apostrofem w przypadkach zależnych">
 						<pattern>

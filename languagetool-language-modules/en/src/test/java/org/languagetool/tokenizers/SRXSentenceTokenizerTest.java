@@ -82,6 +82,8 @@ public class SRXSentenceTokenizerTest extends TestCase {
     testSplit("They met at 5 p.m. on Thursday.");
     testSplit("They met at 5 p.m. ", "It was Thursday.");
     testSplit("This is it: a test.");
+    testSplit("12) Make sure that the lamp is on. ", "12) Make sure that the lamp is on. ");
+    testSplit("He also offers a conversion table (see Cohen, 1988, p. 123). ");
     // one/two returns = paragraph = new sentence:
     TestTools.testSplit(new String[] { "He won't\n\n", "Really." }, stokenizer2);
     TestTools.testSplit(new String[] { "He won't\n", "Really." }, stokenizer);

@@ -42,6 +42,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+    
+    //amb la mirada de cadascun dels homes clavada en la de l'adversari
+    //de fer una torre o fortificació bo i al·legant que això
+    // a confondre en un mateix amor amics i enemics
     // es van posar en camí proveïts de presents
     /* d'una banda tossut i, de l'altra, del tot inepte
      * principis mascle i femella de la foscor//els elements reproductors mascle
@@ -58,6 +62,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("a confondre en un mateix amor amics i enemics");
+    assertCorrect("En l'eix esquerra-dreta.");
     assertCorrect("podrien també esdevenir correlacionades"); 
     assertCorrect("Cada polinomi en forma expandida");
     assertCorrect("El 1967 una partida de liberals rebel al govern");
@@ -92,7 +98,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("La part superior esquerra");
     assertCorrect("I sí, la crisi serà llarga, molt llarga, potser eterna.");
     assertCorrect("El rei ha trobat l'excusa i l'explicació adequada.");
-    assertCorrect("té una manera de jugar aquestes gires tan femenina");
+    //assertCorrect("té una manera de jugar aquestes gires tan femenina");
     assertCorrect("des de la tradicional divisió en dos regnes establida per Linnaeus");
     assertCorrect("aquestes activitats avui residuals donada ja la manca de territori");
     assertCorrect("instruments de càlcul basats en boles anomenats yupana.");
@@ -154,6 +160,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    assertIncorrect("La petició de tramitar el cas per lesions dolosa.");
     // policia i justícia són més usualment femenins, encara que poden ser masculins
     assertIncorrect("Especialment en matèria de policia i justícia autonòmics");
     assertIncorrect("amb rigor i honor barrejades.");

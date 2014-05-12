@@ -159,7 +159,7 @@ public final class Main {
       Tools.showErrorMessage(e, frame);
     }
     languageBox.populateLanguageBox();
-    languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
+    languageBox.selectLanguage(ltSupport.getLanguage());
   }
 
   private void showOptions() {
@@ -173,6 +173,7 @@ public final class Main {
     } catch (IOException e) {
       Tools.showError(e);
     }
+    ltSupport.reloadConfig();
     // Stop server, start new server if requested:
     stopServer();
     maybeStartServer();
@@ -191,8 +192,8 @@ public final class Main {
       config.setFontName(fontChooserDialog.getSelectedFont().getFamily());
       config.setFontStyle(fontChooserDialog.getSelectedFont().getStyle());
       config.setFontSize(fontChooserDialog.getSelectedFont().getSize());
-      try { //save config - needed for the server
-        config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+      try {
+        config.saveConfiguration(ltSupport.getLanguage());
       } catch (IOException e) {
         Tools.showError(e);
       }
@@ -333,7 +334,7 @@ public final class Main {
 
     ltSupport = new LanguageToolSupport(this.frame, this.textArea);
     resultAreaHelper = new ResultArea(messages, ltSupport, resultArea);
-    languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
+    languageBox.selectLanguage(ltSupport.getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
     autoDetectBox.setSelected(ltSupport.getConfig().getAutoDetect());
 
@@ -383,11 +384,11 @@ public final class Main {
           }
         }
         else if (event.getType() == LanguageToolEvent.Type.LANGUAGE_CHANGED) {
-          languageBox.selectLanguage(ltSupport.getLanguageTool().getLanguage());
+          languageBox.selectLanguage(ltSupport.getLanguage());
         }
       }
     });
-    ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguageTool().getLanguage());
+    ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguage());
     textArea.setText(textLanguageMessageBundle.getString("guiDemoText"));
 
     Configuration config = ltSupport.getConfig();
@@ -591,8 +592,8 @@ public final class Main {
     stopServer();
     try {
       Configuration config = ltSupport.getConfig();
-      config.setLanguage(ltSupport.getLanguageTool().getLanguage());
-      config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+      config.setLanguage(ltSupport.getLanguage());
+      config.saveConfiguration(ltSupport.getLanguage());
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -860,10 +861,10 @@ public final class Main {
           final boolean serverStarted = maybeStartServer();
           enableHttpServerItem.setState(serverStarted);
           config.setRunServer(serverStarted);
-          config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+          config.saveConfiguration(ltSupport.getLanguage());
         } else if (e.getStateChange() == ItemEvent.DESELECTED) {
           config.setRunServer(false);
-          config.saveConfiguration(ltSupport.getLanguageTool().getLanguage());
+          config.saveConfiguration(ltSupport.getLanguage());
           stopServer();
         }
       } catch (IOException ex) {
