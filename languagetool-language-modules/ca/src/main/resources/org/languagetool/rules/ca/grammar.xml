@@ -1663,44 +1663,9 @@ $Id$
                 <example type="correct">La cama esquerra.</example>
                 <example type="correct">El llum esquerre.</example>
             </rule>
-            <rule id="LA_PENDENT" name="*la/el pendent, *la/el corrent"> 
-            <!-- Cal un tractament especial perquè pendent és nom i adjectiu. ¿Passa igual amb altres paraules? -->
-                <pattern>
-                    <token><exception postag="NC[FC].000|AQ.F.*|AQ.CN." postag_regexp="yes"/><exception regexp="yes">i|els?|ls?</exception><exception regexp="yes" inflected="yes">quedar|restar</exception></token>
-                    <marker>
-                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">pendents?|corrents?</token>
-                    </marker>
-                    <token><exception>avall</exception></token>
-                </pattern>
-                <message>Error de concordança: '<match no="2"/>' és un nom masculí. Correcte si és un adjectiu.</message>
-                <short>És nom masculí</short>
-                <example type="incorrect">la <marker>corrent</marker> llavors anava a 125 V</example>
-                <example type="correct">La reforma pendent.</example>
-                <example type="correct">Hi ha un fort pendent.</example>
-                <example type="correct">Són reptes pendents.</example>
-                <example type="correct">anava corrent</example>
-                <example type="correct">és una persona corrent</example>
-                <example type="correct">és una dona normal i corrent</example>
-                <example type="correct">Si el corrent passa a través d'un aparell elèctric</example>
-                <example type="correct">als corrents iconoclastes existents</example>
-                <example type="correct">portaveu del nou corrent localista</example>
-                <example type="correct">quedaren pendents qüestions com la divisió</example>
-                <example type="correct">la notació algèbrica corrent</example>
-                <example type="correct">la fusta enviada corrent avall</example>
-                <example type="correct">És el "model corrent".</example>
-            </rule>
-            <rule id="LA_PENDENT2" name="*la/el pendent, *la/el corrent">
-                <pattern>
-                    <token postag="AQ.F.*" postag_regexp="yes"><exception postag="ignore_concordance"/></token>
-                    <marker>
-                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">pendents?|corrents?</token>
-                    </marker>
-                </pattern>
-                <message>Error de concordança. Com a nom, '<match no="2"/>' és masculí. Correcte si és un adjectiu.</message>
-                <short>És nom masculí</short>
-                <example type="incorrect">Hi ha una forta <marker>pendent</marker>.</example>
-                <example type="correct">la notació algèbrica corrent</example>
-            </rule>         
+            
+            
+            
             <rule id="ALTRE_ALTRA_PART" name="altre/altra part">
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">embaràs|embarassos|dolors?|cesàri.*|pors?|avort.+|llevador.*|hospitals?|nen.+|infants?|nadó|nadons|bessó|bessons|trigèmins?|naixements?|clínic.*|vagina.*</exception></token>
@@ -1821,6 +1786,87 @@ $Id$
                 <example type="correct">Voltor comú.</example>
                 <!-- provenen d'un lloc de naixença comú 
                 per un ideal d'emancipació comú-->
+            </rule>
+        </rulegroup>
+        <!-- <rule id="LA_PENDENT" name="*la/el pendent, *la/el corrent"> 
+            Cal un tractament especial perquè pendent és nom i adjectiu. ¿Passa igual amb altres paraules?
+                <pattern>
+                    <token><exception postag="NC[FC].000|AQ.F.*|AQ.CN." postag_regexp="yes"/><exception regexp="yes">i|els?|ls?</exception><exception regexp="yes" inflected="yes">quedar|restar</exception></token>
+                    <marker>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">pendents?|corrents?</token>
+                    </marker>
+                    <token><exception>avall</exception></token>
+                </pattern>
+                <message>Error de concordança: '<match no="2"/>' és un nom masculí. Correcte si és un adjectiu.</message>
+                <short>És nom masculí</short>
+                <example type="incorrect">la <marker>corrent</marker> llavors anava a 125 V</example>
+                <example type="correct">La reforma pendent.</example>
+                <example type="correct">Hi ha un fort pendent.</example>
+                <example type="correct">Són reptes pendents.</example>
+                <example type="correct">anava corrent</example>
+                <example type="correct">és una persona corrent</example>
+                <example type="correct">és una dona normal i corrent</example>
+                <example type="correct">Si el corrent passa a través d'un aparell elèctric</example>
+                <example type="correct">als corrents iconoclastes existents</example>
+                <example type="correct">portaveu del nou corrent localista</example>
+                <example type="correct">quedaren pendents qüestions com la divisió</example>
+                <example type="correct">la notació algèbrica corrent</example>
+                <example type="correct">la fusta enviada corrent avall</example>
+                <example type="correct">És el "model corrent".</example>
+            </rule>
+            <rule id="LA_PENDENT2" name="*la/el pendent, *la/el corrent">
+                <pattern>
+                    <token postag="AQ.F.*|V.P...F." postag_regexp="yes"><exception postag="ignore_concordance"/></token>
+                    <marker>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">pendents?|corrents?</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança. Com a nom, '<match no="2"/>' és masculí. Correcte si és un adjectiu.</message>
+                <short>És nom masculí</short>
+                <example type="incorrect">Hi ha una forta <marker>pendent</marker>.</example>
+                <example type="correct">la notació algèbrica corrent</example>
+            </rule>         --> 
+        <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="D[^R].F.*" postag_regexp="yes"/>
+                    </marker>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <token regexp="yes">pendents?|corrents?</token>
+                </pattern>
+                <message>Error de concordança. És un nom masculí.</message>
+                <suggestion><match no="1" postag="(D[^R].)F(.*)" postag_regexp="yes" postag_replace="$1M$2" /></suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="el">Per a <marker>la</marker> pendent sud.</example>
+                <example type="incorrect" correction="aquells"> Per <marker>aquelles</marker> pendents.</example>
+                <example type="correct">El vessant nord.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">pendents?|corrents?</token>
+                    </marker>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <token postag="A..F.*|V.P...F.|PX.F.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordança. És un nom masculí.</message>
+                <short>Error de concordança</short>
+                <example type="incorrect">Eren <marker>pendents</marker> boniques</example>
+                <example type="correct">Pendents salvatges.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="A..F.*|V.P...F.|PX.F.*" postag_regexp="yes"/>
+                    <token min="0" max="2" postag="A..C.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">pendents?|corrents?<exception postag="NP.*" postag_regexp="yes" /></token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança. És un nom masculí.</message>
+                <short>Error de concordança</short>
+                <example type="incorrect">L'ampla <marker>corrent</marker>.</example>
+                <example type="correct">L'ample pendent</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ADJECTIUS_NEUTRES" name="concordances amb adjectius neutres">
