@@ -122,7 +122,11 @@ public abstract class SpellingCheckRule extends Rule {
    * Returns true iff the token at the given position should be ignored by the spell checker.
    */
   protected boolean ignoreToken(AnalyzedTokenReadings[] tokens, int idx) throws IOException {
-    return ignoreWord(tokens[idx].getToken());
+    List<String> words = new ArrayList<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      words.add(token.getToken());
+    }
+    return ignoreWord(words, idx);
   }
 
   /**
@@ -140,6 +144,15 @@ public abstract class SpellingCheckRule extends Rule {
     return (wordsToBeIgnored.contains(word)
         || (convertsCase &&
         wordsToBeIgnored.contains(word.toLowerCase(language.getLocale()))));
+  }
+
+  /**
+   * Returns true iff the word at the given position should be ignored by the spell checker.
+   * If possible, use {@link #ignoreToken(org.languagetool.AnalyzedTokenReadings[], int)} instead.
+   * @since 2.6
+   */
+  protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    return ignoreWord(words.get(idx));
   }
 
   /**

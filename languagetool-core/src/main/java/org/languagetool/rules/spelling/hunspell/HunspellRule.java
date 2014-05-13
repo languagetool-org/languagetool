@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
@@ -87,8 +88,9 @@ public class HunspellRule extends SpellingCheckRule {
 
     // starting with the first token to skip the zero-length START_SENT
     int len = sentence.getTokens()[1].getStartPos();
-    for (final String word : tokens) {
-      if (ignoreWord(word)) {
+    for (int i = 0; i< tokens.length; i++) {
+      String word = tokens[i];
+      if (ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) {
         len += word.length() + 1;
         continue;
       }

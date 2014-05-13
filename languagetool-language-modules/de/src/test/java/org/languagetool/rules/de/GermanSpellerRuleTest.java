@@ -49,12 +49,22 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
-  public void testDash() throws Exception {
+  public void testDashAndHyphen() throws Exception {
     final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), GERMAN_DE);
     final JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
-    commonGermanAsserts(rule, langTool);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ist doch - gut")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ist doch -- gut")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Stil- und Grammatikprüfung gut")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung gut")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Stil-, Text- und Grammatikprüfung")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Stil-, Text- oder Grammatikprüfung")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Miet- und Zinseinkünfte")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Haupt- und Nebensatz")).length);
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Miet und Zinseinkünfte")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Stil- und Grammatik gut")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
+    //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Haupt- und Neben")).length);  // hunspell accepts this :-(
   }
 
   // note: copied from HunspellRuleTest
