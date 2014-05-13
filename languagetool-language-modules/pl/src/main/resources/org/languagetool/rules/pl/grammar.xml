@@ -5612,6 +5612,17 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy leksykalne" type="style">
+            <rule id="ZA_POMOCA_M1" name="„Za pomocą wujka” (przy pomocy wujka)">
+                <pattern>
+                    <token>za</token>
+                    <token>pomocą</token>
+                    <token postag='(?:subst|depr|ger):sg:gen:(m1|n1)' postag_regexp='yes'><exception postag='subst:.*:gen:m3' postag_regexp='yes'></exception></token>
+                </pattern>
+                <message>Wyrażenia „za pomocą” nie używa się w odniesieniu do ludzi. Poprawnie: <suggestion>przy pomocy <match no="3"/></suggestion>.</message>
+                <short>Błąd leksykalny</short>
+                <example type='incorrect'>To można wykonać <marker>za pomocą wujka</marker>.</example>
+                <example type='correct'>To można wykonać przy pomocy wujka.</example>
+            </rule>
             <rule id="LOGARYTM_ALGORYTM" name="„logarytm” (algorytm)">
                 <pattern>
                     <token>logarytm<exception inflected='yes' regexp='yes' scope='previous'>naturalny|ujemny|dziesiętny</exception></token>
