@@ -407,6 +407,18 @@ $Id$
             <example type="incorrect">Begründe, weshalb solche Zustände des Elektrons die gleichen wie <marker>bei beim</marker> Hg-Atom sind.</example>
             <example type="correct">Begründe, weshalb solche Zustände des Elektrons die gleichen wie <marker>beim</marker> Hg-Atom sind.</example>
         </rule>
+        <rule id="DIREKTER_DIREKTOR" name="'der Direkter (Direktor) des Instituts'">
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>[dD]er</token>
+                    <marker>
+                        <token>Direkter</token>
+                    </marker>
+                <token>des</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Direktor</suggestion>?</message>
+            <example type='incorrect' correction="Direktor">Der <marker>Direkter</marker> des Instituts hat das gesagt.</example>
+            <example type='correct'>Der Direktor des Instituts hat das gesagt.</example>
+        </rule>
         <rulegroup id="WALTER_WALZER" name="Möglicher Tippfehler: 'Walter (Walzer)'">
             <rule>
                 <pattern>
