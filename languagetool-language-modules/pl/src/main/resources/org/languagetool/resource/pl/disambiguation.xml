@@ -6368,7 +6368,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="brev:pun"/>
     </rule>
-
+    <rule name="art deco" id="art_brev">
+        <pattern>
+            <marker><token>art</token></marker>
+            <token regexp="yes">d[eé]co</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="art" pos="ign"/></disambig>
+    </rule>
     <rule name="m.in." id="M_IN">
     	<pattern case_sensitive="yes">
     		<marker><token>m</token></marker>    	
