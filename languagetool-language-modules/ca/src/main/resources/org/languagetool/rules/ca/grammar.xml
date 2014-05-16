@@ -25629,6 +25629,27 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="PASSOTISME" name="passotisme">
+            <pattern>
+                <token inflected="yes">passotisme</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">menfotisme</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="menfotisme"><marker>passotisme</marker>!</example>
+            <example type="correct">menfotisme</example>
+        </rule>
+        <rule id="PASSOTA" name="passota">
+            <pattern>
+                <token inflected="yes">passota</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">menfot</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">menfotista</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="menfots|menfotistes">Són uns <marker>passotes</marker>!</example>
+            <example type="correct">menfot</example>
+        </rule>
         <rule id="ALFOMBRA" name="alfombra">
             <pattern>
                 <token inflected="yes">alfombra</token>
