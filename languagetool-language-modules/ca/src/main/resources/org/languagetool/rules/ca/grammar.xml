@@ -19964,6 +19964,13 @@ $Id$
         <rulegroup id="ALS_TRES_MESOS" name="*als tres mesos/al cap de tres mesos"> 
         <!-- Falta el singular :a l'hora de discurs 
         i sense article: a dos mesos de -->
+            <antipattern>
+                <marker>
+                    <token regexp="yes">anys|segons|minuts|dies|mesos</token>
+                    <token regexp="yes">de|d'</token>
+                    <token>edat</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception regexp="yes" inflected="yes">&exceptions_ALS_TRES_MESOS;</exception><exception postag=".*LOC_PREP.*|DN.*" postag_regexp="yes"/></token>
@@ -19971,7 +19978,7 @@ $Id$
                         <token>a</token>
                         <token spacebefore="no">ls</token>
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
-                        <token regexp="yes">segons|minuts|dies|mesos</token>
+                        <token regexp="yes">segons|minuts|dies|mesos|setmanes|dècades</token>
                     </marker>
                     <token><exception>que</exception></token>
                     <!-- eliminat: anys -->
@@ -20030,9 +20037,6 @@ $Id$
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
                         <token>anys</token>
                     </marker>
-                    <token regexp="yes">de|d'</token>
-                    <token><exception>edat</exception></token>
-                    <!-- eliminat: anys -->
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion>.</message>
                 <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>
