@@ -5175,6 +5175,60 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
+            <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
+                <pattern>
+                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar</token>
+                    <marker>
+                        <token>per</token>
+                    </marker>
+                    <token postag='V.N.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Cal usar la preposició <suggestion>per a</suggestion>.</message>
+                <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
+                <short>Preposicions</short>
+                <example type='incorrect' correction="per a">Els ganivets serveixen <marker>per</marker> tallar</example>
+                <example type='correct'>Serveixen per a tallar.</example>
+                <example type='correct'>Són usats per l'aristocràcia.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PER_PER_A_DETERMINANT" name="per/per a davant de determinant">
+            <rule>
+                <pattern>
+                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token inflected="yes">per</token>
+                    </marker>
+                    <token postag='D.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Probablement cal usar la preposició <suggestion>per a</suggestion>.</message>
+                <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
+                <short>Preposicions</short>
+                <example type='incorrect' correction="per a">Serveixen <marker>per</marker> la investigació.</example>
+                <example type='incorrect' correction="per a">S'usen <marker>per</marker> la investigació.</example>
+                <example type='correct'>Foren preparats pels investigadors.</example>
+                <example type='correct'>Són usats per l'aristocràcia.</example>
+                <example type='correct'>Han estat usats per l'aristocràcia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">haver</token>
+                    <token inflected='yes' regexp='yes' postag="V.P.*" postag_regexp="yes">servir|usar|emprar|aprofitar|preparar</token>
+                    <marker>
+                        <token inflected="yes">per</token>
+                    </marker>
+                    <token postag='D.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Probablement cal usar la preposició <suggestion>per a</suggestion>.</message>
+                <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
+                <short>Preposicions</short>
+                <example type='incorrect' correction="per a">Han servit <marker>per</marker> la investigació.</example>
+                <example type='incorrect' correction="per a">S'han usat <marker>per</marker> la investigació.</example>
+                <example type='correct'>Foren preparats pels investigadors.</example>
+                <example type='correct'>Són usats per l'aristocràcia.</example>
+                <example type='correct'>Han estat usats per l'aristocràcia.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUALIFICAR_COM_A_DE" name="qualificar *com a/de">
             <rule>
                 <pattern>
