@@ -13778,14 +13778,16 @@ $Id$
                     <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aei]</token>
                     <marker>
                         <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">'.*<exception regexp="yes">'ns|'ls</exception></token>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</token>
                     </marker>
-                    <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">['-].+</token>
-                    <token><exception postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes"/></token>
+                    <!-- <token><exception postag="V.[^NGP].*|P0.*|PP.*" postag_regexp="yes"/></token> -->
                 </pattern>
                 <message>Combinació incorrecta d'apòstrofs i guionets.</message>
                 <short>Combinació incorrecta d'apòstrofs i guionets</short>
-                <example type="incorrect">Emporta<marker>'t</marker>-el.</example>
+                <example type="incorrect">Emporta<marker>'t-el</marker>.</example>
+                <example type="incorrect">Prendre<marker>'s-ho</marker>.</example>
                 <example type="correct">Emporta-te'l.</example>
+                <example type="correct">Prendre'ls-ho tot.</example>
                 <example type="correct">el temor d'ofendre'l s'imposa sobre l'egoisme</example>
             </rule>
             <rule>
