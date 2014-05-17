@@ -20037,12 +20037,15 @@ $Id$
                         <token postag="DN.*|DI.*" postag_regexp="yes"/>
                         <token>anys</token>
                     </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token><exception>edat</exception></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>al cap de <match no="4"></match> <match no="5"></match></suggestion>.</message>
                 <suggestion><match no="4"></match> <match no="5"></match> després</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect" correction="Al cap de tres anys|Tres anys després"><marker>Als tres anys</marker> d'arribar</example>
                 <example type="correct">Ho va fer als tres anys d'edat.</example>
+                <example type="correct">Ho va fer als tres anys.</example>
             </rule>
         </rulegroup>
         <rule id="AL_POC_TEMPS" name="al poc temps">
@@ -25633,6 +25636,17 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="PASACARRER" name="passacarrer">
+            <pattern>
+                <token inflected="yes">passacarrer</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cercavila</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/cercavila</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="cercaviles"><marker>passacarrers</marker></example>
+            <example type="correct">cercavila</example>
+        </rule>
         <rule id="PASSOTISME" name="passotisme">
             <pattern>
                 <token inflected="yes">passotisme</token>
