@@ -13550,6 +13550,63 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="NOGA_BYC" name="„nogą być” (mogą być)">
+                <pattern>
+                    <marker>
+                        <token>nogą<exception postag='adj:sg:inst:f:.*' postag_regexp='yes' scope='previous'></exception></token>
+                    </marker>
+                    <token>być</token>
+                    <token><exception>może</exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>mogą</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Te słowa nie <marker>nogą</marker> być inaczej rozumiane.</example>
+                <example type='correct'>Te słowa nie mogą być inaczej rozumiane.</example>
+                <example type='correct'>Niestety muszą Państwo być przygotowani na to, iż noga być może nigdy się nie zrośnie.</example>
+                <example type='correct'>Taką nogą być – on chyba żartuje!</example>
+            </rule>
+            <rule id="W_TYM_SAMYM_CZACIE" name="„w tym samym czacie” (w tym samym czasie)">
+                <pattern>
+                    <token>w</token>
+                    <token>tym</token>
+                    <token>samym</token>
+                    <token>czacie</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>w tym samym czasie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Wtedy też będzie możliwe ustalenie, czy mamy do czynienia z asteroidą typu C, powstałą <marker>w tym samym czacie</marker> co cały Układ Słoneczny.</example>
+                <example type='correct'>Wtedy też będzie możliwe ustalenie, czy mamy do czynienia z asteroidą typu C, powstałą w tym samym czasie co cały Układ Słoneczny.</example>
+            </rule>
+            <rule id="ZACZYNIA_SIE" name="„zaczynia się” (zaczyna się)">
+                <pattern>
+                    <token postag='SENT_START' skip='-1'><exception regexp='yes' scope='next'>ciasto|chleb</exception></token>
+                    <marker>
+                        <token>zaczynia</token>
+                        <token skip='-1'>się<exception regexp='yes' scope='next'>ciasto|chleb</exception></token>
+                    </marker>
+                    <token postag='SENT_END'></token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>zaczyna <match no="3"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Etyka <marker>zaczynia się</marker> psuć.</example>
+                <example type='correct'>Etyka zaczyna się psuć.</example>
+                <example type='correct'>Dziś lukier wciąż nanosi się ręcznie, ciasto zaczynia się naturalnym zakwasem chlebowym.</example>
+                <example type='correct'>Ziarna muszą być zmielone, potem zaczynia się ciasto i wreszcie wypieka się chleb.</example>
+                <example type='correct'>Wtedy zrozumieli, iż kazał im strzec się nie tego kwasu, którym zaczynia się chleb, lecz że przestrzegał ich przed nauką faryzeuszów i saduceuszów.</example>
+            </rule>
+            <rule id="NIE_DZIWNEGO" name="„nie dziwnego” (nic dziwnego)">
+                <pattern>
+                    <marker>
+                        <token>nie</token>
+                    </marker>
+                    <token postag='adj:sg:gen:m1.m2.m3.n1.n2:pos'></token>
+                    <token><exception postag='subst:sg:gen:m.*' postag_regexp='yes'></exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>nic</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'><marker>Nie</marker> dostrzegalnego na ziemi nie odpowiada temu.</example>
+                <example type='correct'>Nic dostrzegalnego na ziemi nie odpowiada temu.</example>
+            </rule>
             <rule id="MLODU" name="„młodu” (za młodu)">
                 <pattern>
                     <token>młodu<exception regexp='yes' scope='previous'>za?</exception></token>
@@ -14643,7 +14700,7 @@ $Id$
 						<pattern>
 								<token regexp="yes">odjecie|ujecie|pojecie|przejecie|przyjecie|wyjecie</token>
 						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(.*)jecie" regexp_replace="$1jęcie"></match></suggestion></message>
+						<message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(.*)jecie" regexp_replace="$1jęcie"></match></suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
 						<example correction="pojęcie" type="incorrect">Mam o tym zaledwie blade <marker>pojecie</marker>.</example>
 						<example type="correct">Nie mam pojęcia.</example>
