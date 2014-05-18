@@ -5193,6 +5193,13 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PER_PER_A_DETERMINANT" name="per/per a davant de determinant">
+            <antipattern>
+                <marker>
+                    <token postag="V.P.*" postag_regexp="yes" inflected="yes">fer</token>
+                    <token>servir</token>
+                    <token inflected="yes">per</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar<exception postag="V.P.*" postag_regexp="yes"/></token>
@@ -5209,6 +5216,7 @@ $Id$
                 <example type='correct'>Foren preparats pels investigadors.</example>
                 <example type='correct'>Són usats per l'aristocràcia.</example>
                 <example type='correct'>Han estat usats per l'aristocràcia.</example>
+                <example type="correct">Una eina feta servir pels mecànics.</example>
             </rule>
             <rule>
                 <pattern>
@@ -20795,6 +20803,40 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="LACRA" name="lacra">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag='D..FS.' postag_regexp='yes'></token>
+                        <token>lacra</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1 plaga</suggestion>? Correcte si és del verb "lacrar"".</message>
+                <suggestion><match no="1" postag="(D..)FS." postag_regexp="yes" postag_replace="$1MS."/> flagell</suggestion>
+                <suggestion><match no="1" postag="(D..)FS." postag_regexp="yes" postag_replace="$1MS."/> mal</suggestion>
+                <suggestion>\1 calamitat</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/lacra</url>
+                <short>Possible confusió</short>
+                <example type='incorrect' correction="Aquesta plaga|Aquest flagell|Aquest mal|Aquesta calamitat"><marker>Aquesta lacra</marker></example>
+                <example type='correct'>La plaga</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>la</token>
+                        <token>lacra</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1 plaga</suggestion>? Correcte si és del verb "lacrar".</message>
+                <suggestion>el flagell</suggestion>
+                <suggestion>el mal</suggestion>
+                <suggestion>\1 calamitat</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/lacra</url>
+                <short>Possible confusió</short>
+                <example type='incorrect' correction='La plaga|El flagell|El mal|La calamitat'><marker>La lacra</marker></example>
+                <example type='correct'>La plaga</example>
+            </rule>
+        </rulegroup>
         <rule id="CAREJAR" name="carejar / acarar">
             <pattern>
                 <token inflected="yes">carejar</token>
