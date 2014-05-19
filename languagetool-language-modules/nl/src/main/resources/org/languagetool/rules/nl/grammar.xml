@@ -2564,6 +2564,26 @@ $Id$
 </rule>
 </category>
 <category name="Stijlkwesties">
+
+    <rule id="ER_MIST" name="Er mist -> Er ontbreekt">
+        <pattern>
+            <marker>
+                <token>Er</token>
+                <token regexp='yes'>mist|miste|missen|misten</token>
+            </marker>
+            <token><exception postag='VBi'/></token>
+        </pattern>
+        <message>Gebruik <match no="2"/> niet in de betekenis van ontbreken.</message>
+        <url>http://taaladvies.net/taal/advies/vraag/552/</url>
+        <short>Gebruik 'missen' niet in de betekenis van 'ontbreken'</short>
+        <example type='incorrect'><marker>Er mist</marker> een moertje.</example>
+        <example type='correct'>Er ontbreekt een moertje.</example>
+        <example type='incorrect'><marker>Er miste</marker> een moertje.</example>
+        <example type='correct'>Er ontbrak een moertje.</example>
+        <example type='incorrect'><marker>Er misten</marker> zes pannen.</example>
+        <example type='correct'>Er ontbraken zes pannen.</example>
+    </rule>
+    
 <rule id="nr706" name="vage taal" default="off">
 <pattern>
 <token regexp="yes">dingen|alles|ergens|ooit|wellicht|misschien</token>
