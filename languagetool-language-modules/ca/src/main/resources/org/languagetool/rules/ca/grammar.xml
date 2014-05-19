@@ -1926,6 +1926,23 @@ $Id$
                 <example type="correct">Les anàlisis són correctes.</example>
             </rule>
         </rulegroup>
+        <rule id="CONCORDANCES_QUAL" name="Concordances determinant + qual">
+            <pattern>
+                <unify negate="yes">
+                    <feature id="nombre" />
+                    <feature id="genere" />
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="DR.*" postag_regexp="yes"/>
+                </unify>
+            </pattern>
+            <message>Error de concordança.</message>
+            <suggestion><match no="1" postag="(DA..).." postag_regexp="yes" postag_replace="$1S."/> qual</suggestion>
+            <suggestion><match no="1" postag="(DA..).." postag_regexp="yes" postag_replace="$1P."/> quals</suggestion>
+            <short>Error de concordança</short>
+            <example type="incorrect" correction="El qual|Els quals"><marker>El quals</marker>.</example>
+            <example type="incorrect" correction="el qual|els quals">de<marker>l quals</marker>.</example>
+            <example type="correct">dels quals parla</example>
+        </rule>
     </category>
     <category name="Z) Concordances entre subjecte, verb i complements">
         <rulegroup id="CONCORD_SUBJECTE_VERB" name="concordança subjecte verb.">
