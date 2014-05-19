@@ -2162,7 +2162,7 @@ $Id$
         <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
             <rule>
                 <pattern>
-                    <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/><exception inflected="yes">fer</exception></token> 
+                    <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/><exception inflected="yes">fer</exception><exception>tan</exception></token> 
                     <marker>
                         <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/><exception regexp="yes">seus?|nostr(e|a)</exception></token>
                     </marker>
@@ -2179,7 +2179,8 @@ $Id$
                 <example type="correct">com a seu oficial dels Jocs</example>
                 <example type="correct">ha desposseït davant vostre nacions grans i poderoses</example>
                 <example type="correct">Jo m'he fet meu Abraham</example>
-                <example type="correct">Puc dir que és meu perquè jo el vaig fer</example> 
+                <example type="correct">Puc dir que és meu perquè jo el vaig fer</example>
+                <example type="correct">Aquesta necessitat tan seva.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6884,6 +6885,27 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="MISTER" name="mister/míster">
+            <pattern>
+                <token regexp="yes">misters?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(.+)i(.+)" regexp_replace="$1í$2"/></suggestion>? "Mister" és el fabricant o venedor de mistos.</message>
+            <example type="incorrect" correction="míster">El <marker>mister</marker></example>
+            <example type="correct">Els místers</example>
+        </rule>
+        <rule id="HO_O_CREU" name="cara *ho creu">
+            <pattern>
+                <token>cara</token>
+                <marker>
+                    <token regexp="yes">ho|oh</token>
+                </marker>
+                <token>creu</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>o</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="o">A cara <marker>ho</marker> creu.</example>
+            <example type="correct">A cara o creu.</example>
+        </rule>
         <rule id="RESOLVENT_RESOLENT" name="resolvent/resolent">
             <pattern>
                 <token><exception postag="D.*" postag_regexp="yes"/><exception regexp="yes">conjunt|matriu|reflector|operador|funció</exception></token>
@@ -17142,6 +17164,13 @@ $Id$
             <example type="correct">S'ha de pagar un tant.</example>
         </rule>
         <rule id="EN_BROMA" name="en broma">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>broma</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token regexp="yes">en|a</token>
                 <token>broma</token>
@@ -18021,10 +18050,11 @@ $Id$
                 <token>a</token>
                 <token>l'</token>
                 <token>igual</token>
-                <token>que</token>
+                <token regexp="yes">que|com</token>
             </pattern>
-            <message>Cal dir <suggestion>igual que</suggestion>.</message>
+            <message>Cal dir <suggestion>igual \4</suggestion>.</message>
             <suggestion>com també</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/id/1510</url>
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>a l'igual que</marker> tu ho fas, ho faré jo també</example>
             <example type="correct"><marker>igual que</marker> tu ho fas, ho faré jo també</example>
@@ -20803,6 +20833,27 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DERRAMAR" name="derramar / vessar,escampar">
+            <pattern>
+                <token inflected="yes">derramar</token>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">vessar</match></suggestion>. Correcte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">escampar</match></suggestion>
+            <example type="incorrect" correction="Vessaren|Escamparen"><marker>Derramaren</marker> molta sang.</example>
+            <example type="correct">Vessaren.</example>
+        </rule>
+        <rule id="TATXAR" name="tatxar / passar ratllar">
+            <pattern>
+                <token inflected="yes">tatxar</token>
+            </pattern>
+            <message>Incorrecte en el sentit de <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">passar</match> ratlla a</suggestion>. Correcte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">ratllar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">esborrar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">guixar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">titllar</match></suggestion>
+            <example type="incorrect" correction="Passa ratlla a|Ratlla|Esborra|Guixa|Titlla"><marker>Tatxa</marker> tots els noms.</example>
+            <example type="correct">Ratlla tots els noms.</example>
+        </rule>
         <rulegroup id="LACRA" name="lacra">
             <rule>
                 <pattern>
@@ -25762,6 +25813,15 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="BACALLAR" name="bacallar/bacallà">
+            <pattern>
+                <token inflected="yes">bacallar</token>
+            </pattern>
+            <message>Com a nom de peix, val més dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">bacallà</match></suggestion>. "Bacallar" existeix en altres sentits.</message> 
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="bacallans">Els <marker>bacallars</marker>.</example>
+            <example type="correct">El bacallà.</example>
+        </rule>
         <rule id="PASACARRER" name="passacarrer">
             <pattern>
                 <token inflected="yes">passacarrer</token>
