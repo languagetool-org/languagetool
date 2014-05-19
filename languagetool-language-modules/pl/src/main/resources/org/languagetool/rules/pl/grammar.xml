@@ -13550,6 +13550,63 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rulegroup id="TEPO_PRACY" name="„tępo pracy” (tempo pracy)">
+                <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tęp[ao]</token>
+                    </marker>
+                    <token postag='(?:subst|ger):sg:gen.*' postag_regexp='yes'></token>
+                </pattern>
+                <message>Czy chodziło o <suggestion><match no="1" regexp_match="tęp" regexp_replace="temp"/></suggestion> (=prędkość)?</message>
+                <url>http://jaksiepisze.lav.pl/tepo_czy_tempo_46.html</url>
+                <short>Prawdopodobny błąd ortograficzny</short>
+                <example type='incorrect' correction="tempo">Zwiększyć <marker>tępo</marker> marszu!</example>
+                <example type='correct'>Zwiększyć tempo marszu.</example>
+                <example type='correct'>Patrzyła na niego tępo.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag='adj:sg:acc:n1.n2:.*' postag_regexp='yes'></token>
+                        <marker>
+                            <token>tępo</token>
+                        </marker>
+                    </pattern>
+                    <message>Czy chodziło o <suggestion>tempo</suggestion> (=prędkość)?</message>
+                    <url>http://jaksiepisze.lav.pl/tepo_czy_tempo_46.html</url>
+                    <short>Prawdopodobny błąd ortograficzny</short>
+                    <example type='incorrect' correction="tempo">Często narzekamy na jego zbyt szybkie lub wolne <marker>tępo</marker>.</example>
+                    <example type='correct'>Często narzekamy na jego zbyt szybkie lub wolne tempo.</example>
+                    <example type='correct'>Patrzyła na niego tępo.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token postag='adj:sg:gen:m1.m2.m3.n1.n2:.*' postag_regexp='yes'></token>
+                        <marker>
+                            <token>tępa</token>
+                        </marker>
+                    </pattern>
+                    <message>Czy chodziło o <suggestion>tempa</suggestion> (=prędkości)?</message>
+                    <url>http://jaksiepisze.lav.pl/tepo_czy_tempo_46.html</url>
+                    <short>Prawdopodobny błąd ortograficzny</short>
+                    <example type='incorrect'>Bardzo miło się słucha także &quot;Crucified&quot;, który pomimo swojego wolnego <marker>tępa</marker> wręcz przytłacza tajemniczością.</example>
+                    <example type='correct'>Bardzo miło się słucha także "Crucified", który pomimo swojego wolnego tempa wręcz przytłacza tajemniczością.</example>
+                    <example type='correct'>Patrzyła na niego tępo.</example>
+                </rule>
+                <rule>
+                <pattern>
+                    <token regexp='yes'>patrzyła?</token>
+                    <marker>
+                        <token>tempo</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>tępo</suggestion> (=otępiale)?</message>
+                <url>http://jaksiepisze.lav.pl/tepo_czy_tempo_46.html</url>
+                <short>Prawdopodobny błąd ortograficzny</short>
+                <example type='incorrect'>Patrzył <marker>tempo</marker> w płomienie w kominku.</example>
+                <example type='correct'>Patrzył tępo w płomienie w kominku.</example>
+            </rule>
+            </rulegroup>
             <rule id="NOGA_BYC" name="„nogą być” (mogą być)">
                 <pattern>
                     <marker>
