@@ -34,6 +34,19 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="TOOL_LONG" name="tool long (too long)">
+            <pattern>
+                <marker>
+                    <token>tool</token>
+                    <token>long</token>
+                </marker>
+                <token negate="yes">ago</token>
+            </pattern>
+            <message>Did you mean <suggestion>too long</suggestion>?</message>
+            <example type='incorrect'>I was away for <marker>tool long</marker>.</example>
+            <example type='correct'>I was away for too long.</example>
+            <example type='correct'>They opened their tool long ago.</example>
+        </rule>
         <rule id="AN_THEN" name="an then (and then)">
           <pattern>
             <token>an<exception postag='NNP'/></token>
