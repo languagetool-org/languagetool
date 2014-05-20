@@ -8883,7 +8883,7 @@ $Id$
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="SUB:.+:NEU" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|Veilchen|München</exception>
+                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -16196,6 +16196,12 @@ $Id$
           Großgeschrieben werden ferner Sprachbezeichnungen nach einer Präposition
           http://www.duden.de/sprachwissen/sprachratgeber/gross-und-kleinschreibung-1 -->
         <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
+            <antipattern>
+                <token regexp="yes">[iI]n|[aA]uf</token>
+                <token regexp="yes">&sprachadj1;</token>
+                <token postag_regexp="yes" postag="PA2:.*"/>
+                <token postag_regexp="yes" postag="SUB:.*"/>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token regexp="yes">[iI]n|[aA]uf</token>
                 <marker>
@@ -16206,6 +16212,8 @@ $Id$
             <url>http://www.duden.de/sprachwissen/sprachratgeber/gross-und-kleinschreibung-1</url>
             <example type="incorrect" correction="Englisch">Er schreibt den Text auf <marker>englisch</marker>.</example>
             <example type="correct">Er schreibt den Text auf <marker>Englisch</marker>.</example>
+            <example type="correct">Er schreibt den Text auf <marker>englischem</marker> Boden.</example>
+            <example type="correct">Nach einem erfolgreichen Angriff auf <marker>türkisch</marker> besetztes Territorium.</example>
         </rule>
         <rulegroup id="KANN_ENGLISCH" name="Groß-/Kleinschreibung: 'ich kann kein englisch (Englisch)'">
             <rule>
