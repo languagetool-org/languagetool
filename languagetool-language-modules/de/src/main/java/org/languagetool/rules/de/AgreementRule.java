@@ -257,11 +257,9 @@ public class AgreementRule extends GermanRule {
 
   private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
-      if (reading instanceof AnalyzedGermanToken) {
-        final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
-        if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
-          return true;
-        }
+      AnalyzedGermanToken germanReading = new AnalyzedGermanToken(reading);
+      if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
+        return true;
       }
     }
     return false;
@@ -269,11 +267,9 @@ public class AgreementRule extends GermanRule {
 
   private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
-      if (reading instanceof AnalyzedGermanToken) {
-        final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
-        if (germanReading.getType() == POSType.PARTIZIP) {
-          return true;
-        }
+      AnalyzedGermanToken germanReading = new AnalyzedGermanToken(reading);
+      if (germanReading.getType() == POSType.PARTIZIP) {
+        return true;
       }
     }
     return false;
@@ -311,9 +307,9 @@ public class AgreementRule extends GermanRule {
             // tagging in Morphy for cities is not coherent:
             (GermanHelper.hasReadingOfType(nextATR, POSType.PROPER_NOUN) || GermanHelper.hasReadingOfType(nextATR, POSType.NOMEN) &&
             nextNextATR != null && GermanHelper.hasReadingOfType(nextNextATR, POSType.NOMEN)))) {
-          final AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
+          final AnalyzedToken[] adjReadings = new AnalyzedToken[ADJ_READINGS.length];
           for (int j = 0; j < ADJ_READINGS.length; j++) {
-            adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], null);
+            adjReadings[j] = new AnalyzedToken(nextTerm, ADJ_READINGS[j], null);
           }
           nextToken = new AnalyzedTokenReadings(adjReadings, nextToken.getStartPos());
         }

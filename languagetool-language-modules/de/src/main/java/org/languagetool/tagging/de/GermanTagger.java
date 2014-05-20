@@ -106,7 +106,7 @@ public class GermanTagger implements Tagger {
     final IStemmer morfologik = new DictionaryLookup(dictionary);
 
     for (String word: sentenceTokens) {
-      final List<AnalyzedGermanToken> l = new ArrayList<>();
+      final List<AnalyzedToken> l = new ArrayList<>();
       taggerTokens = lexiconLookup(word, morfologik);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = lexiconLookup(word.toLowerCase(), morfologik);
@@ -119,7 +119,7 @@ public class GermanTagger implements Tagger {
         if (!StringTools.isEmpty(word.trim())) {
           final List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {
-            l.add(new AnalyzedGermanToken(word, null, null));
+            l.add(new AnalyzedToken(word, null, null));
           } else {
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size()-1);
@@ -130,21 +130,21 @@ public class GermanTagger implements Tagger {
             if (taggerTokens != null) {
               tagWord(taggerTokens, word, l, compoundParts);
             } else {
-              l.add(new AnalyzedGermanToken(word, null, null));
+              l.add(new AnalyzedToken(word, null, null));
             }
           }
         } else {
-          l.add(new AnalyzedGermanToken(word, null, null));
+          l.add(new AnalyzedToken(word, null, null));
         }
       }
 
-      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedGermanToken[l.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(l.toArray(new AnalyzedToken[l.size()]), pos));
       pos += word.length();
     }
     return tokenReadings;
   }
 
-  private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l) {
+  private void tagWord(String[] taggerTokens, String word, List<AnalyzedToken> l) {
     tagWord(taggerTokens, word, l, null);
   }
 
@@ -152,7 +152,7 @@ public class GermanTagger implements Tagger {
    * @param compoundParts all compound parts of the complete word or <code>null</code>,
    *   if the original input is not a compound
    */
-  private void tagWord(String[] taggerTokens, String word, List<AnalyzedGermanToken> l,
+  private void tagWord(String[] taggerTokens, String word, List<AnalyzedToken> l,
           List<String> compoundParts) {
     int i = 0;
     while (i < taggerTokens.length) {
@@ -163,9 +163,9 @@ public class GermanTagger implements Tagger {
         final List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
         final String lemma = StringTools.listToString(allButLastPart, "")
             + StringTools.lowercaseFirstChar(taggerTokens[i]);
-        l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], lemma));
+        l.add(new AnalyzedToken(word, taggerTokens[i + 1], lemma));
       } else {
-        l.add(new AnalyzedGermanToken(word, taggerTokens[i + 1], taggerTokens[i]));
+        l.add(new AnalyzedToken(word, taggerTokens[i + 1], taggerTokens[i]));
       }
       i = i + 2;
     }
@@ -204,12 +204,12 @@ public class GermanTagger implements Tagger {
 
   @Override
   public final AnalyzedTokenReadings createNullToken(final String token, final int startPos) {
-    return new AnalyzedTokenReadings(new AnalyzedGermanToken(token, null, null), startPos);
+    return new AnalyzedTokenReadings(new AnalyzedToken(token, null, null), startPos);
   }
 
   @Override
   public AnalyzedToken createToken(String token, String posTag) {
-    return new AnalyzedGermanToken(token, posTag);
+    return new AnalyzedToken(token, posTag, null);
   }
 
   /**
