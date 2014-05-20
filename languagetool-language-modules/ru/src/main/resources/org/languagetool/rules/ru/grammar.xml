@@ -2563,12 +2563,13 @@ $Id$
         <rulegroup default="on" id="PREP_and_PNN" name="Предлог и местоимения">
             <rule>
             <pattern>
-                <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )   -->
+                <!--              PREP (его, ему, ей... ) -> PREP (него, нему, ней... )                 -->
                 <marker>
-                    <token postag="PREP">
+                    <token regexp="yes">без|для|до|от|в|за|из|к|на|но|о|по|под|перед|при|про|с|у|через|возле|вокруг|впереди|мимо|напротив|около|после|посереди|сзади</token>
+                <!--    <token postag="PREP">
                         <exception negate_pos="yes" postag="PREP"></exception>
                         <exception regexp="yes">по|в|благодаря|за|наперекор|вопреки|согласно|навстречу</exception>
-                    </token>
+                    </token> -->
                     <and>
                         <token postag="PNN:.*:P3" postag_regexp="yes">
                             <exception postag="PNN:.*:Nom:P3" postag_regexp="yes"></exception>
@@ -2601,6 +2602,37 @@ $Id$
             <example type="incorrect">Всё было сделано <marker>без ней</marker>.</example>
         </rule>
         
+  <!--       <rule>
+            <pattern>   -->
+                <!--       
+без него(неё),  в (), для(), до(), за(), из(), к(), на(), но(), о(), от(), по(), под(), перед(), при(), про(), с(), у(), через() 
+наречные предлоги: возле, вокруг, впереди, мимо, напротив, около, после, посереди, сзади него.
+                -->
+<!--                <token regexp="yes">без|для|до|от|в|за|из|к|на|но|о|по|под|перед|при|про|с|у|через|возле|вокруг|впереди|мимо|напротив|около|после|посереди|сзади</token>
+                <token>его</token>
+            </pattern>
+            <message>Нормативная форма - него: <suggestion>\1 него</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Нормативная форма - неё</short>
+            <example type="correct">Всё было сделано без него</example>
+            <example type="incorrect">Всё было сделано <marker>без его</marker>.</example>
+        </rule>  -->
+   <!--      <rule>
+            <pattern>  -->
+                <!--       
+без него(неё),  в (), для(), до(), за(), из(), к(), на(), но(), о(), от(), по(), под(), перед(), при(), про(), с(), у(), через() 
+наречные предлоги: возле, вокруг, впереди, мимо, напротив, около, после, посереди, сзади него.
+                -->
+   <!--             <token regexp="yes">без|для|до|от|в|за|из|к|на|но|о|по|под|перед|при|про|с|у|через|возле|вокруг|впереди|мимо|напротив|около|после|посереди|сзади</token>
+                <token regexp="yes">е[её]</token>
+            </pattern>
+            <message>Нормативная форма - него: <suggestion>\1 него</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Нормативная форма - неё</short>
+            <example type="correct">Всё было сделано без неё</example>
+            <example type="incorrect">Всё было сделано <marker>без её</marker>.</example>
+        </rule>        
+        -->
         <rule>
             <pattern>
                 <!--           у ней  -> у неё  -->

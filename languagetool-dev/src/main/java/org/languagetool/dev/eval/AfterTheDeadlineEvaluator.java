@@ -116,8 +116,8 @@ class AfterTheDeadlineEvaluator {
     return sentence.replace("<marker>", "").replace("</marker>", "");
   }
 
-  private String getContent(URL wikipediaUrl) throws IOException {
-    final InputStream contentStream = (InputStream) wikipediaUrl.getContent();
+  private String getContent(URL url) throws IOException {
+    final InputStream contentStream = (InputStream) url.getContent();
     return StringTools.streamToString(contentStream, "UTF-8");
   }
 

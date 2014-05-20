@@ -26,6 +26,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
+import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 
 import java.io.IOException;
 import java.util.*;
@@ -71,11 +72,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     REPL.add(new Replacement("F", "Ph"));
     REPL.add(new Replacement("Ph", "F"));
   }
+  
+  private GermanCompoundTokenizer compoundTokenizer;
 
-  public GermanSpellerRule(ResourceBundle messages, Language language) {
+  public GermanSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language, getCompoundSplitter(), getSpeller(language));
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
+    compoundTokenizer = new GermanCompoundTokenizer();
   }
 
   @Override
@@ -123,6 +127,35 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     List<String> sorted1 = sortByReplacements(misspelling, suggestions);
     List<String> sorted2 = sortByCase(misspelling, sorted1);
     return sorted2;
+  }
+
+  @Override
+  protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    boolean ignore = super.ignoreWord(words, idx);
+    boolean ignoreByHyphen = !ignore && words.get(idx).endsWith("-") && ignoreByHangingHyphen(words, idx);
+    return ignore || ignoreByHyphen;
+  }
+
+  private boolean ignoreByHangingHyphen(List<String> words, int idx) {
+    String word = words.get(idx);
+    String nextWord = getWordAfterEnumerationOrNull(words, idx);
+    boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
+    if (isCompound) {
+      return !dictionary.misspelled(word.replaceFirst("-$", ""));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
+    }
+    return false;
+  }
+
+  // for "Stil- und Grammatikprüfung", get "Grammatikprüfung" when at position of "Stil-"
+  private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
+    for (int i = idx; i < words.size(); i++) {
+      String word = words.get(i);
+      boolean inEnumeration = ",".equals(word) || "und".equals(word) || "oder".equals(word) || word.trim().isEmpty() || word.endsWith("-");
+      if (!inEnumeration) {
+        return word;
+      }
+    }
+    return null;
   }
 
   private List<String> sortByReplacements(String misspelling, List<String> suggestions) {

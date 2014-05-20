@@ -2675,6 +2675,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
+    <rule id="ZA_POMOCA_M3_NIE_M1" name="za pomocą z rzeczownikiem nieożywionym">
+        <pattern>
+            <token>za</token>
+            <token>pomocą</token>
+            <marker>
+                <and><token postag="subst:sg:gen:m[12]" postag_regexp="yes"></token>
+                     <token postag="subst:sg:gen:m3"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:m3"/>
+        <example type="ambiguous" inputform="edytora[edytor/subst:sg:gen:m1,edytor/subst:sg:gen:m3]"
+                 outputform="edytora[edytor/subst:sg:gen:m3]">Redaguję tekst za pomocą <marker>edytora</marker> tekstów.</example>
+    </rule>
+
     <rule id="PREP_CD_ROKU_GEN" name="W xxx + 'roku' -> unify">
         <pattern>
             <marker>
@@ -6353,7 +6368,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="brev:pun"/>
     </rule>
-
+    <rule name="art deco" id="art_brev">
+        <pattern>
+            <marker><token>art</token></marker>
+            <token regexp="yes">d[eé]co</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="art" pos="ign"/></disambig>
+    </rule>
     <rule name="m.in." id="M_IN">
     	<pattern case_sensitive="yes">
     		<marker><token>m</token></marker>    	
