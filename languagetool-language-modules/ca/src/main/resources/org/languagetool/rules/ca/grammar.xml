@@ -1926,23 +1926,43 @@ $Id$
                 <example type="correct">Les anàlisis són correctes.</example>
             </rule>
         </rulegroup>
-        <rule id="CONCORDANCES_QUAL" name="Concordances determinant + qual">
-            <pattern>
-                <unify negate="yes">
-                    <feature id="nombre" />
-                    <feature id="genere" />
-                    <token postag="DA.*" postag_regexp="yes"/>
-                    <token postag="DR.*" postag_regexp="yes"/>
-                </unify>
-            </pattern>
-            <message>Error de concordança.</message>
-            <suggestion><match no="1" postag="(DA..).." postag_regexp="yes" postag_replace="$1S."/> qual</suggestion>
-            <suggestion><match no="1" postag="(DA..).." postag_regexp="yes" postag_replace="$1P."/> quals</suggestion>
-            <short>Error de concordança</short>
-            <example type="incorrect" correction="El qual|Els quals"><marker>El quals</marker>.</example>
-            <example type="incorrect" correction="el qual|els quals">de<marker>l quals</marker>.</example>
-            <example type="correct">dels quals parla</example>
-        </rule>
+        <rulegroup id="CONCORDANCES_QUAL" name="Concordances determinant + qual">
+            <rule>
+                <pattern>
+                    <marker>
+                    <unify negate="yes">
+                        <feature id="nombre" />
+                        <feature id="genere" />
+                        <token postag="DA.*" postag_regexp="yes"><exception regexp="yes">ls?</exception></token>
+                        <token postag="DR.*" postag_regexp="yes"/>
+                    </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="1" postag="(DA..).." postag_regexp="yes" postag_replace="$1S."/> qual</suggestion>
+                <suggestion><match no="1" postag="(DA..).." postag_regexp="yes" postag_replace="$1P."/> quals</suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="El qual|Els quals"><marker>El quals</marker>.</example>
+                <example type="correct">dels quals parla</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <unify negate="yes">
+                        <feature id="nombre" />
+                        <feature id="genere" />
+                        <token postag="DA.M.*" postag_regexp="yes" spacebefore="no"/>
+                        <token postag="DR.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>\1l qual</suggestion>
+                <suggestion>\1ls quals</suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="del qual|dels quals"><marker>del quals</marker>.</example>
+                <example type="correct">Dels quals parla</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Z) Concordances entre subjecte, verb i complements">
         <rulegroup id="CONCORD_SUBJECTE_VERB" name="concordança subjecte verb.">
@@ -21700,7 +21720,7 @@ $Id$
                     <marker>
                         <token regexp="yes">full(a|es)</token>
                     </marker>
-                    <token regexp="yes">dominicals?|volants?|blastod.*|electrònic.*</token>
+                    <token regexp="yes">dominicals?|volants?|blastod.*|electròni.*|parroquials?</token>
                 </pattern>
                 <message>En aquest sentit, cal dir <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">full</match></suggestion> (nom masculí).</message>
                 <short>Gènere incorrecte</short>
