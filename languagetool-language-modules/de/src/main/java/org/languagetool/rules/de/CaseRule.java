@@ -258,7 +258,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Achte");
     exceptions.add("Neunte");
 
-    // TODO: alle Sprachen + flektierte Formen
+    // TODO: alle Sprachen
     exceptions.add("Afrikanisch");
     exceptions.add("Altarabisch");
     exceptions.add("Altchinesisch");
@@ -434,7 +434,7 @@ public class CaseRule extends GermanRule {
         }
         continue;
       }
-      if (i > 0 && (tokens[i-1].getToken().equals("Herr") || tokens[i-1].getToken().equals("Herrn") || tokens[i-1].getToken().equals("Frau")) ) {   // "Frau Stieg" could be a name, ignore
+      if (i > 0 && isSalutation(tokens[i-1].getToken())) {   // e.g. "Frau Stieg" could be a name, ignore
         continue;
       }
       final AnalyzedTokenReadings analyzedToken = tokens[i];
@@ -481,6 +481,10 @@ public class CaseRule extends GermanRule {
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isSalutation(String token) {
+    return token.equals("Herr") || token.equals("Herrn") || token.equals("Frau");
   }
 
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {

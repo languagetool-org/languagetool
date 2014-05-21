@@ -41,6 +41,7 @@ public class CaseRuleTest extends TestCase {
     JLanguageTool langTool = new JLanguageTool(new German());
 
     // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Heute spricht Frau Stieg.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ein einfacher Satz zum Testen.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Laufen fällt mir leicht.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Winseln stört.")).length);
