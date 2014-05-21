@@ -23,7 +23,6 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.language.German;
 
 /**
@@ -41,6 +40,7 @@ public class CaseRuleTest extends TestCase {
     JLanguageTool langTool = new JLanguageTool(new German());
 
     // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Dem Hund Futter geben")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Heute spricht Frau Stieg.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ein einfacher Satz zum Testen.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das Laufen fällt mir leicht.")).length);
@@ -88,6 +88,9 @@ public class CaseRuleTest extends TestCase {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das ist es: Kein Satz.")).length);
 
     // incorrect sentences:
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die Schöne Tür")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Blaue Auto.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Der Grüne Baum.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ein Einfacher Satz zum Testen.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Winseln Stört.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Sein verhalten war okay.")).length);
@@ -138,6 +141,8 @@ public class CaseRuleTest extends TestCase {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das laufen ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das essen ist einfach.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Denn das gehen ist einfach.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das Große Auto wurde gewaschen.")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ich habe ein Neues Fahrrad.")).length);
     // TODO: detect all the cases not preceded with 'das'
   }
 

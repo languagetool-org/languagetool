@@ -148,8 +148,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Genüge");
     exceptions.add("Gläubiger");
     exceptions.add("Goldener");    // Goldener Schnitt
-    exceptions.add("Große");    // Alexander der Große, der Große Bär
-    exceptions.add("Großen");
     exceptions.add("Guten");    // das Kap der Guten Hoffnung
     exceptions.add("Hechte");
     exceptions.add("Herzöge");
@@ -195,7 +193,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Nähte");
     exceptions.add("Nähten");
     exceptions.add("Neuem");
-    exceptions.add("Neues");   // nichts Neues
     exceptions.add("Nr");
     exceptions.add("Nutze");   // zu Nutze
     exceptions.add("Obdachloser");
@@ -334,6 +331,9 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("ohne Wenn und Aber");
     myExceptionPhrases.add("Große Koalition");
     myExceptionPhrases.add("Großen Koalition");
+    myExceptionPhrases.add("Alexander der Große");
+    myExceptionPhrases.add("Großer Bär");  // Sternbild
+    myExceptionPhrases.add("Große Bär");  // Sternbild
     myExceptionPhrases.add("im Großen und Ganzen");
     myExceptionPhrases.add("Im Großen und Ganzen");
     myExceptionPhrases.add("im Guten wie im Schlechten");
@@ -364,6 +364,11 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Römische Reich Deutscher Nation");
     myExceptionPhrases.add("ein absolutes Muss");
     myExceptionPhrases.add("ein Muss");
+    myExceptionPhrases.add("nichts Neues");
+    myExceptionPhrases.add("etwas Neues");
+    myExceptionPhrases.add("kaum Neues");
+    myExceptionPhrases.add("wenig Neues");
+    myExceptionPhrases.add("viel Neues");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
@@ -464,8 +469,7 @@ public class CaseRule extends GermanRule {
       if (readings == null) {
         continue;
       }
-      final boolean hasNounReading = GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.NOMEN);
-      if (hasNounReading) {  // it's the spell checker's task to check that nouns are uppercase
+      if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
         continue;
       }
       // TODO: this lookup should only happen once:
@@ -485,6 +489,11 @@ public class CaseRule extends GermanRule {
 
   private boolean isSalutation(String token) {
     return token.equals("Herr") || token.equals("Herrn") || token.equals("Frau");
+  }
+
+  private boolean hasNounReading(AnalyzedTokenReadings readings) {
+    // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
+    return readings.hasPartialPosTag("SUB:") && !readings.hasPartialPosTag(":ADJ");
   }
 
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
