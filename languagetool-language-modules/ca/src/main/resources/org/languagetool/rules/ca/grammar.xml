@@ -1947,7 +1947,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">a|de</token>
+                    <token regexp="yes">a|de|pe</token>
                     <unify negate="yes">
                         <feature id="nombre" />
                         <feature id="genere" />
@@ -4834,14 +4834,17 @@ $Id$
         <rule id="SI_QUE" name="*sí m'agrada/sí que m'agrada">
             <pattern>
                 <marker>
-                    <token skip="3">sí<exception postag="_GN_MS"/><exception postag="PP.*|P0.*|V.*|_GV_|_perfet|_obligacio|SENT_END" scope="next" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token>sí<exception postag="_GN_MS"/></token>
                 </marker>
+                <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                 <token postag="V.[MIS].*" postag_regexp="yes"/>
             </pattern>
             <message>Cal dir: <suggestion>sí que</suggestion>.</message>
             <example type="incorrect">Tu <marker>sí</marker> hauries respost bé.</example>
             <example type="incorrect">Tu <marker>sí</marker> li hauries respost bé.</example>
             <example type="incorrect"><marker>Sí</marker> haurà de ser obligat.</example>
+            <example type="incorrect"><marker>Sí</marker> es pot fer.</example>
+            <example type="incorrect"><marker>Sí</marker> se li'n pot donar un.</example>
             <example type="correct">Tu sí que hauries respost bé.</example>
             <example type="correct">El sí va acompanyat de dubtes.</example>
         </rule>
@@ -16906,7 +16909,7 @@ $Id$
 	                    <token skip="2" inflected="yes">fer</token>
 	                    <token skip="7">amb<exception scope="next" regexp="yes">,|cap</exception></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -16917,6 +16920,7 @@ $Id$
                 <suggestion>(controlar)</suggestion>
                 <suggestion>(arreplegar)</suggestion>
                 <suggestion>(prendre)</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1913</url>
                 <example type="incorrect"><marker>Es va fer amb</marker> el poder.</example>
                 <example type="incorrect"><marker>Ens vam fer amb</marker> el poder.</example>
                 <example type="correct">Prengueren el poder.</example>
@@ -16928,7 +16932,7 @@ $Id$
 	                    <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
 	                    <token skip="7">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token regexp="yes" inflected="yes">copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -16937,7 +16941,8 @@ $Id$
                 <suggestion>(emparar-se de)</suggestion>
                 <suggestion>(controlar)</suggestion>
                 <suggestion>(arreplegar)</suggestion>
-                <suggestion>(prendre)</suggestion> 
+                <suggestion>(prendre)</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/1913</url>
                 <example type="incorrect">Va <marker>fer-se amb</marker> el govern.</example>
                 <example type="correct">Va apoderar-se del govern.</example>
             </rule>
