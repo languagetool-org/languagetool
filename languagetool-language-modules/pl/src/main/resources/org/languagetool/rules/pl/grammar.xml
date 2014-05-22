@@ -13649,6 +13649,21 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="JEST_OT" name="„jest ot” (jest to)">
+                <pattern>
+                    <token>jest</token>
+                    <marker>
+                        <token>ot</token>
+                    </marker>
+                    <token><exception inflected='yes' regexp='yes'>taki?</exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>to</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Jest <marker>ot</marker> możliwe.</example>
+                <example type='correct'>Jest to możliwe.</example>
+                <example type='correct'>Ot co!</example>
+                <example type='correct'>To nie jest ot taki sobie normalny obywatel.</example>
+            </rule>
             <rule id="NOGA_BYC" name="„nogą być” (mogą być)">
                 <pattern>
                     <marker>
