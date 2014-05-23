@@ -72,6 +72,11 @@ public class CaseRuleTest extends TestCase {
     assertGood("Schon Le Monde schrieb das.");
     // unknown word:
     assertGood("In Blubberdorf macht man das so.");
+    
+    assertGood("Sie werden im Allgemeinen gefasst.");
+    assertGood("Sie werden im allgemeinen Fall gefasst.");
+    //assertBad("Sie werden im allgemeinen gefasst.");
+    assertBad("Sie werden im Allgemeinen Fall gefasst.");
 
     // sentences that used to trigger an error because of incorrect compound tokenization:
     assertGood("Das sind Euroscheine.");
@@ -80,7 +85,19 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das ist die neue Dienerin hier.");
     assertGood("Das ist die neue Geigerin hier.");
     assertGood("Die ersten Gespanne erreichen Köln.");
+
+    assertGood("Das ist das Dümmste, was ich je gesagt habe.");
+    assertBad("Das ist das Dümmste Kind.");
     
+    assertGood("Man sagt, Liebe mache blind.");
+    assertGood("Die Deutschen sind sehr listig.");
+    assertGood("Der Lesestoff bestimmt die Leseweise.");
+    assertGood("Ich habe nicht viel von einem Reisenden.");
+    assertGood("Die Vereinigten Staaten");
+    //TODO:
+    //assertGood("Der Satz vom ausgeschlossenen Dritten.");
+    //assertGood("Die Ausgewählten werden gut betreut.");
+
     // used to trigger error because of wrong POS tagging:
     assertGood("Die Schlinge zieht sich zu.");
     assertGood("Die Schlingen ziehen sich zu.");
@@ -95,7 +112,7 @@ public class CaseRuleTest extends TestCase {
     // incorrect sentences:
     assertBad("Die Schöne Tür");
     assertBad("Das Blaue Auto.");
-    assertBad("Der Grüne Baum.");
+    //assertBad("Der Grüne Baum.");
     assertBad("Ein Einfacher Satz zum Testen.");
     assertBad("Das Winseln Stört.");
     assertBad("Sein verhalten war okay.");

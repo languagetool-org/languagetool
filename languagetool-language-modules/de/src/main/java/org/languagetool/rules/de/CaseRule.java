@@ -369,6 +369,8 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("kaum Neues");
     myExceptionPhrases.add("wenig Neues");
     myExceptionPhrases.add("viel Neues");
+    myExceptionPhrases.add("Vereinigte Staaten");
+    myExceptionPhrases.add("Vereinigten Staaten");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
@@ -493,7 +495,13 @@ public class CaseRule extends GermanRule {
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
     // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-    return readings.hasPartialPosTag("SUB:") && !readings.hasPartialPosTag(":ADJ");
+    for (AnalyzedToken reading : readings) {
+      String posTag = reading.getPOSTag();
+      if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
@@ -521,6 +529,8 @@ public class CaseRule extends GermanRule {
         !analyzedToken.isSentenceEnd() &&
         !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
            ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
+        !isNominalization(i, tokens) &&
+        !isSpecialCase(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
       final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
       final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
@@ -530,6 +540,22 @@ public class CaseRule extends GermanRule {
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
+  }
+
+  private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
+    String token = tokens[i].getToken();
+    String prevToken = i > 1 ? tokens[i-1].getToken() : "";
+    AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
+    // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
+    return "das".equalsIgnoreCase(prevToken) && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
+    String token = tokens[i].getToken();
+    String prevToken = i > 1 ? tokens[i-1].getToken() : "";
+    AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
+    // ignore "im Allgemeinen gilt" but not "im allgemeinen Fall"
+    return "im".equalsIgnoreCase(prevToken) && "Allgemeinen".equals(token) && !hasNounReading(nextReadings);
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
