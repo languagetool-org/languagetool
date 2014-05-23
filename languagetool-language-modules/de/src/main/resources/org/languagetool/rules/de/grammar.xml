@@ -75,7 +75,7 @@ $Id$
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
     <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -2335,7 +2335,7 @@ $Id$
             <rule>
                 <pattern>
                     <token negate="yes">zu</token>
-                    <token inflected="yes" skip="5">nehmen<exception regexp="yes" scope="next">,|:|;|&klam;</exception></token>
+                    <token inflected="yes" skip="5">nehmen<exception regexp="yes" scope="next">worden|,|:|;|&klam;</exception></token>
                     <marker>
                         <token>war</token>
                     </marker>
@@ -2351,6 +2351,7 @@ $Id$
                 <example type="correct">Das irakische Fernsehen nahm seinen Sendebetrieb auf und <marker>war</marker> somit eine der ältesten Fernsehanstalten.</example>
                 <example type="correct">Es wurde wieder in Betrieb genommen und <marker>war</marker> noch bis 2012 in Dienst.</example>
                 <example type="correct">Sklaven konnten während der Kriege genommen werden und Sklavenhandel <marker>war</marker> üblich.</example>
+                <example type="correct">Als er in Betrieb genommen worden <marker>war</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DAS_AMEN" name="Möglicher Tippfehler: 'das Armen (Amen)'">
@@ -6506,6 +6507,7 @@ $Id$
                     <token postag_regexp="yes" postag="VER:.*">
                         <exception inflected="yes">sein</exception>
                         <exception inflected="yes">abfälschen</exception>
+                        <exception inflected="yes">einen</exception>
                     </token>
                 </marker>
             </pattern>
@@ -18432,7 +18434,7 @@ $Id$
                     <marker>
                         <token>wegen</token>
                     </marker>
-                    <token postag="SENT_END"/>
+                    <token postag="SENT_END"><exception postag_regexp="yes" postag="SUB.*"></exception></token>
                 </pattern>
                 <message>&subanfang;<suggestion>Wegen</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -18440,6 +18442,7 @@ $Id$
                 <example type="correct">Viel Glück und viel Segen auf all deinen <marker>Wegen</marker>.</example>
                 <example type="correct">Sie tat es des Geldes <marker>wegen</marker>.</example>
                 <example type="correct">Tut mir leid <marker>wegen</marker> gestern</example>
+                <example type="correct">Schmerzensgeld <marker>wegen</marker> Beleidigung</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUF_SCHRITT_UND_TRITT" name="Groß-/Kleinschreibung: 'auf Schritt und Tritt'">
@@ -22206,7 +22209,7 @@ $Id$
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
-                            <exception regexp="yes" scope="current">öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
+                            <exception regexp="yes" scope="current">ehelichen|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -23613,7 +23616,7 @@ $Id$
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
                         <token regexp="yes">[Ddsm]?ein|euer|Euer|ihr|Ihr|unser</token>
-                        <token postag="SUB:DAT:SIN:MAS"><exception>Abkommen</exception><exception regexp="yes">Gehalt|.+gehalt</exception><exception>Messer</exception></token>
+                        <token postag="SUB:DAT:SIN:MAS"><exception>Abkommen</exception><exception>Band</exception><exception regexp="yes">Gehalt|.+gehalt</exception><exception>Messer</exception></token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
