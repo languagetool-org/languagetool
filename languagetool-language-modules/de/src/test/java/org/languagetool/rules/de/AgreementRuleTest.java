@@ -80,6 +80,17 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Dach meines großen Autos.");
     assertGood("Das Dach meiner großen Autos.");
 
+    assertGood("Dann schlug er so kräftig wie er konnte mit den Schwingen.");
+    assertGood("Also wenn wir Glück haben, ...");
+    assertGood("Wenn wir Pech haben, ...");
+    assertGood("Ledorn öffnete eines der an ihr vorhandenen Fächer.");
+    assertGood("Auf der einen Seite endlose Dünen");
+    assertGood("In seinem Maul hielt er einen blutigen Fleischklumpen.");
+    assertGood("Gleichzeitig dachte er intensiv an Nebelschwaden, aus denen Wolken ja bestanden.");
+    assertGood("Warum stellte der bloß immer wieder dieselben Fragen?");
+    assertGood("Bei der Hinreise.");
+    assertGood("Schließlich tauchten in einem Waldstück unter ihnen Schienen auf.");
+
     assertGood("Das Wahlrecht, das Frauen damals zugesprochen bekamen.");
     assertGood("Es war Karl, dessen Leiche Donnerstag gefunden wurde.");
 
