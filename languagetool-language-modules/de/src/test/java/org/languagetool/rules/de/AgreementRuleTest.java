@@ -211,16 +211,21 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Dem riesigen Tisch fehlt was.");
     assertGood("Die riesigen Tische sind groß.");
     assertGood("Der riesigen Tische wegen.");
-    // TODO: incorrectly detected as incorrect:
-    // Dann hat das natürlich Nachteile.
+    assertGood("An der roten Ampel.");
+    assertGood("Dann hat das natürlich Nachteile.");
     
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
     assertBad("Als die riesigen Tischs kamen.");
     assertBad("Als die riesigen Tisches kamen.");
+    assertBad("Der riesigen Tisch und so.");
+    assertBad("An der roter Ampel.");
+    assertBad("An der rote Ampel.");
+    assertBad("An der rotes Ampel.");
+    assertBad("An der rotem Ampel.");
     // TODO: not yet detected:
-    //assertBad("Der riesigen Tisch und so.");
+    //assertBad("An der rot Ampel.");
   }
 
   private void assertGood(String s) throws IOException {

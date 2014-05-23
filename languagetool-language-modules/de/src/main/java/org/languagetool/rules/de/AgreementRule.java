@@ -453,11 +453,15 @@ public class AgreementRule extends GermanRule {
     return getAgreementCategories(aToken, new HashSet<GrammarCategory>());
   }
   
-  /** Return Kasus, Numerus, Genus. */
+  /** Return Kasus, Numerus, Genus of those forms with a determiner. */
   private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit) {
     final Set<String> set = new HashSet<>();
     final List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
+      if (tmpReading.getPOSTag().endsWith(":SOL")) {
+        // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
+        continue;
+      }
       final AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null) {
