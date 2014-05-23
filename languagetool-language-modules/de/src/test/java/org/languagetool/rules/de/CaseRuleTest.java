@@ -114,6 +114,11 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das ist es: kein Satz.");
     assertGood("Das ist es: Kein Satz.");
 
+    assertGood("Das wirklich Wichtige ist dies:");
+    assertGood("Das wirklich wichtige Verfahren ist dies:");
+    //assertBad("Das wirklich wichtige ist dies:");
+    assertBad("Das wirklich Wichtige Verfahren ist dies:");
+
     // incorrect sentences:
     assertBad("Die Schöne Tür");
     assertBad("Das Blaue Auto.");

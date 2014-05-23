@@ -524,6 +524,7 @@ public class CaseRule extends GermanRule {
         !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
         !isNominalization(i, tokens) &&
+        !isAdverbAndNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
@@ -543,16 +544,26 @@ public class CaseRule extends GermanRule {
   }
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
-    String token = tokens[i].getToken();
     String prevToken = i > 0 ? tokens[i-1].getToken() : "";
+    String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
     return "das".equalsIgnoreCase(prevToken) && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
   }
 
-  private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
+  private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
+    String prevPrevToken = i > 1 ? tokens[i-2].getToken() : "";
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     String token = tokens[i].getToken();
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    // ignore "das wirklich Wichtige":
+    return "das".equalsIgnoreCase(prevPrevToken) && prevToken != null && prevToken.hasPartialPosTag("ADV:")
+            && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
     String prevToken = i > 1 ? tokens[i-1].getToken() : "";
+    String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // ignore "im Allgemeinen gilt" but not "im Allgemeinen Fall":
     return "im".equalsIgnoreCase(prevToken) && "Allgemeinen".equals(token) && !hasNounReading(nextReadings);
