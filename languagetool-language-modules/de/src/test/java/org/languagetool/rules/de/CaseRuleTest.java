@@ -85,6 +85,8 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das ist die neue Dienerin hier.");
     assertGood("Das ist die neue Geigerin hier.");
     assertGood("Die ersten Gespanne erreichen Köln.");
+    assertGood("Er beschrieb den Angeklagten wie einen Schuldigen");
+    assertGood("Er beschrieb den Angeklagten wie einen Schuldigen.");
 
     assertGood("Das ist das Dümmste, was ich je gesagt habe.");
     assertBad("Das ist das Dümmste Kind.");
@@ -96,7 +98,10 @@ public class CaseRuleTest extends TestCase {
     assertGood("Die Vereinigten Staaten");
     //TODO:
     //assertGood("Der Satz vom ausgeschlossenen Dritten.");
-    //assertGood("Die Ausgewählten werden gut betreut.");
+    assertGood("Die Ausgewählten werden gut betreut.");
+    assertGood("Die ausgewählten Leute werden gut betreut.");
+    //assertBad("Die ausgewählten werden gut betreut.");
+    assertBad("Die Ausgewählten Leute werden gut betreut.");
 
     // used to trigger error because of wrong POS tagging:
     assertGood("Die Schlinge zieht sich zu.");

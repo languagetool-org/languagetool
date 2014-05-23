@@ -531,6 +531,7 @@ public class CaseRule extends GermanRule {
            ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
         !isNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
+        !isAdjectiveAsNoun(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
       final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
       final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
@@ -554,8 +555,22 @@ public class CaseRule extends GermanRule {
     String token = tokens[i].getToken();
     String prevToken = i > 1 ? tokens[i-1].getToken() : "";
     AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
-    // ignore "im Allgemeinen gilt" but not "im allgemeinen Fall"
+    // ignore "im Allgemeinen gilt" but not "im Allgemeinen Fall":
     return "im".equalsIgnoreCase(prevToken) && "Allgemeinen".equals(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
+    AnalyzedTokenReadings prevToken = i > 1 ? tokens[i-1] : null;
+    boolean isPrevDeterminer = prevToken != null && prevToken.hasPartialPosTag("ART"); 
+    AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
+    for (AnalyzedToken reading : tokens[i].getReadings()) {
+      String posTag = reading.getPOSTag();
+      // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
+      if (isPrevDeterminer && posTag != null && posTag.contains(":ADJ") && !hasNounReading(nextReadings)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
