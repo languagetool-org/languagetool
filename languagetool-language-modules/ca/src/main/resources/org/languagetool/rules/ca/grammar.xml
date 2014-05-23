@@ -26540,16 +26540,14 @@ $Id$
         </rule>
         <rule id="EXITOS" name="exitós">
             <pattern>
-                <token regexp="yes">exitós|exitosa|exitosos|exitoses</token>
+                <token inflected="yes">exitós</token>
             </pattern>
             <message>Paraula no recollida pels diccionaris, acceptable per a alguns.</message>
             <suggestion>d'èxit</suggestion>
             <suggestion>que té èxit</suggestion>
-            <suggestion>reeixit</suggestion>
-            <suggestion>reeixida</suggestion>
-            <suggestion>reeixits</suggestion>
-            <suggestion>reeixides</suggestion>
-            <example type="incorrect">Una pel·lícula <marker>exitosa</marker></example>
+            <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">reeixir</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/exitos</url>
+            <example type="incorrect" correction="d'èxit|que té èxit|reeixida">Una pel·lícula <marker>exitosa</marker></example>
             <example type="correct">Una pel·lícula d'èxit.</example>
         </rule>
         <rule id="SUBOFICIAL" name="suboficial">
