@@ -901,7 +901,8 @@ public class JLanguageTool {
     // to keep the state information if we're checking a continuous text.    
     for (final Rule rule : rules) {
       rule.reset();
-      if (!disabledRules.contains(rule.getId())) {
+      boolean isDisabled = disabledRules.contains(rule.getId()) || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()));
+      if (!isDisabled) {
         rulesActive.add(rule);
       }
     }    
