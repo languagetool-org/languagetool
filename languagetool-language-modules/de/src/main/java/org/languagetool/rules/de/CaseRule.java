@@ -545,8 +545,8 @@ public class CaseRule extends GermanRule {
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
     String token = tokens[i].getToken();
-    String prevToken = i > 1 ? tokens[i-1].getToken() : "";
-    AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
+    String prevToken = i > 0 ? tokens[i-1].getToken() : "";
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
     return "das".equalsIgnoreCase(prevToken) && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
   }
@@ -554,15 +554,15 @@ public class CaseRule extends GermanRule {
   private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
     String token = tokens[i].getToken();
     String prevToken = i > 1 ? tokens[i-1].getToken() : "";
-    AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // ignore "im Allgemeinen gilt" but not "im Allgemeinen Fall":
     return "im".equalsIgnoreCase(prevToken) && "Allgemeinen".equals(token) && !hasNounReading(nextReadings);
   }
 
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
-    AnalyzedTokenReadings prevToken = i > 1 ? tokens[i-1] : null;
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     boolean isPrevDeterminer = prevToken != null && prevToken.hasPartialPosTag("ART"); 
-    AnalyzedTokenReadings nextReadings = i < tokens.length -1 ? tokens[i+1] : null;
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
       // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
