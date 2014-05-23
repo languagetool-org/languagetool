@@ -447,18 +447,14 @@ public class CaseRule extends GermanRule {
       final AnalyzedTokenReadings analyzedToken = tokens[i];
       final String token = analyzedToken.getToken();
       List<AnalyzedToken> readings = analyzedToken.getReadings();
-      AnalyzedTokenReadings analyzedGermanToken2;
       
-      boolean isBaseform = false;
-      if (analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token)) {
-        isBaseform = true;
-      }
+      boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
       if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
-        analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-        if (analyzedGermanToken2 != null) {
-          readings = analyzedGermanToken2.getReadings();
+        AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
+        if (lowercaseReadings != null) {
+          readings = lowercaseReadings.getReadings();
         }
         boolean nextTokenIsPersonalPronoun = false;
         if (i < tokens.length - 1) {
@@ -475,14 +471,13 @@ public class CaseRule extends GermanRule {
         continue;
       }
       // TODO: this lookup should only happen once:
-      analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
+      AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
+      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
         continue;
       }
-      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 != null
-          && analyzedGermanToken2.getAnalyzedToken(0).getPOSTag() == null) {
-        // unknown word, probably a name etc
-        continue;
+      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings != null
+          && lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null) {
+        continue;  // unknown word, probably a name etc
       }
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
@@ -527,8 +522,7 @@ public class CaseRule extends GermanRule {
         !exceptions.contains(token) &&
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
-        !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
-           ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
+        !isEllipsis(i, tokens) &&
         !isNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens) &&
@@ -541,6 +535,11 @@ public class CaseRule extends GermanRule {
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
+  }
+
+  private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
+    return ( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
+       ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) );
   }
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
