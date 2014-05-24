@@ -5864,12 +5864,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="genere"/>
                         <marker>
                             <token postag="N.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes" /></token>
-                            <token postag="A.*|V.P.*" postag_regexp="yes"></token>
+                            <token postag="A.*|V.P.*" postag_regexp="yes"><exception postag="AO0CN0"/></token>
                             <token postag="A.*|V.P.*" postag_regexp="yes"><exception>fer</exception></token>
                         </marker>
                   </unify>      
             </pattern>
             <disambig action="filterall"/>
+            <example type="untouched">si es pren vi acompanyat</example>
         </rule>
         <rule>
             <pattern>
@@ -6832,7 +6833,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <marker>
                     <and>
-                        <token postag="A.*" postag_regexp="yes" regexp="yes">amics?|amiga|amigues|pega|muntà|corredors?|sabeu|xiquets?|muntés|accepta|envolta|tornés|seré|escolta<exception postag="_GN.*" postag_regexp="yes" /></token>
+                        <token postag="A.*" postag_regexp="yes" regexp="yes">donant|amics?|amiga|amigues|pega|muntà|corredors?|sabeu|xiquets?|muntés|accepta|envolta|tornés|seré|escolta<exception postag="_GN.*" postag_regexp="yes" /></token>
                         <token postag="[NV].*" postag_regexp="yes"/>
                     </and>
                 </marker>
@@ -7470,12 +7471,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">pega|mostra|mostres|conserva|conserves<exception postag="_GN.*" postag_regexp="yes" /></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">pega|mostra|mostres|conserva|conserves|donant<exception postag="_GN.*" postag_regexp="yes" /></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="[^N].*"></disambig>
+        <disambig action="remove" postag="N.*"></disambig>
     </rule>
     <rulegroup id="NomAdj" name="nom + adj">
         <!-- falta participi+nom: requereix tractament especial -->
@@ -8527,7 +8528,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rule id="VerbNom" name="verb i nom que no ha concordat"> <!-- Això fou estrany -->
         <pattern>
-            <token><exception postag="V.[MSI].*|_GV_|R[GN]|.*LOC_ADV.*|C.*|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
+            <token><exception postag="V.[MSING].*|_GV_|R[GN]|.*LOC_ADV.*|C.*|_PUNCT.*" postag_regexp="yes"/><exception regexp="yes">["“«'‘(]</exception><exception inflected="yes" regexp="yes">mot|paraula|terme|expressió|vocable|nom|tipus</exception></token>
             <marker>
                 <and>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception regexp="yes">força|coma|cap|noms?|nous?|deu|viu</exception></token>

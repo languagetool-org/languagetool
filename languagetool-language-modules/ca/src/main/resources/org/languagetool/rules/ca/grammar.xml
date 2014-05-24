@@ -6405,7 +6405,7 @@ $Id$
         <rule id="A_PESAR_DE_QUE" name="a pesar de què">
             <pattern>
                 <token>a</token>
-                <token regexp="yes">part|pesar|més|causa</token>
+                <token regexp="yes">part|pesar|més|causa|fi</token>
                 <marker>
                     <token>de</token>
                     <token>què</token>
@@ -20876,6 +20876,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="REVELAR_REBELLAR" name="revelar/rebel·lar">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>revelar</token>
+                </marker>
+                <token min="0" max="1" postag="P.*|RG" postag_regexp="yes"></token>
+                <token>contra</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">rebel·lar</match></suggestion> (=refusar l'obediència)?</message>
+            <short>Possible confusió</short>
+            <example type='incorrect' correction="rebel·lar">Es va <marker>revelar</marker> contra el rei.</example>
+            <example type='incorrect' correction="rebel·lar">Va <marker>revelar</marker>-se contra el rei.</example>
+            <example type='incorrect' correction="rebel·lar">Vam <marker>revelar</marker>-nos contra el rei.</example>
+            <example type='incorrect' correction="rebel·là">Es <marker>revelà</marker> contra el rei</example>
+            <example type='correct'>Es va rebel·lar contra el rei</example>
+        </rule>
         <rule id="DERRAMAR" name="derramar / vessar,escampar">
             <pattern>
                 <token inflected="yes">derramar</token>
@@ -24446,6 +24462,17 @@ $Id$
             <example type="incorrect" correction="carabassegéssim"><marker>carbassegéssim</marker></example>
             <example type="correct">carabassa</example>
         </rule>
+<!--         <rule id="MOTLLO" name="motllo / motlle">
+            <pattern>
+                <token inflected="yes">motllo</token>
+            </pattern>
+            <message>Forma secundària.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">motlle</match></suggestion>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">motle</match></suggestion>
+            <short>Forma secundària</short>
+            <example type="incorrect" correction="motlles|motles">Els <marker>motllos</marker></example>
+            <example type="correct">motlle</example>
+        </rule> -->
         <rule id="CARTRO" name="cartró / cartó">
             <pattern>
                 <token inflected="yes">cartró</token>
