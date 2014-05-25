@@ -2560,6 +2560,39 @@ $Id$
             <example type="incorrect">Он <marker>в пошёл</marker> лес.</example>
         </rule>
         
+        
+<rulegroup default="on" id="PREP_and_PNN1" name="Предлог и местоимения без «н»">
+         <rule>
+            <pattern>
+                <!--                           -->
+                <marker>
+                    <token regexp="yes">вопреки|наперекор|согласно|вслед|навстречу|подобно|соответственно|благодаря</token>
+                    <token regexp="yes">нему|ней|ним</token>
+                </marker>
+            </pattern>
+            <message>Лишняя начальная буква «н»: <suggestion><match no="1"></match> <match no="2" regexp_match="([н])(.*)" regexp_replace="$2"></match></suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Лишняя начальная буква «н»</short>
+            <example type="correct">Это было сделано благодаря ему.</example>
+            <example type="incorrect">Это было сделано <marker>благодаря нему</marker>.</example>
+        </rule>
+        
+        <rule>
+            <pattern>
+                <!--        старше его, выше её,  лучше их                   -->
+                <marker>
+                    <token regexp="yes">старше|выше|лучше</token>
+                    <token regexp="yes">него|неё|них</token>
+                </marker>
+            </pattern>
+            <message>Лишняя начальная буква «н»: <suggestion><match no="1"></match> <match no="2" regexp_match="([н])(.*)" regexp_replace="$2"></match></suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Лишняя начальная буква «н»</short>
+            <example type="correct">Он прыгнул лучше их.</example>
+            <example type="incorrect">Он прыгнул <marker>лучше них</marker>.</example>
+        </rule>
+</rulegroup>   
+        
         <rulegroup default="on" id="PREP_and_PNN" name="Предлог и местоимения">
             <rule>
             <pattern>
