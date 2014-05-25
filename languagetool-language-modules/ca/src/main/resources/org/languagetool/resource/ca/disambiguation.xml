@@ -3243,20 +3243,29 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token inflected="yes">fer</token>
-                <marker>
+                <marker>    
                     <token>falta</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="_GV_"></wd></disambig>
+            <disambig action="filter" postag="[^V].*"/>
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes">donar</token>
                 <marker>
+                    <token inflected="yes">fer</token>
+                    <token>falta</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_GV_"/><wd pos="_GV_"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">donar</token>
                     <token inflected="yes">origen</token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="_GV_"></wd></disambig>
+            <disambig action="add"><wd pos="_GV_"/><wd pos="_GV_"/></disambig>
         </rule>
         <rule>
             <pattern>
