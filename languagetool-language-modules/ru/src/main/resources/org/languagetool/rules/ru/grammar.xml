@@ -2591,6 +2591,40 @@ $Id$
             <example type="correct">Он прыгнул лучше их.</example>
             <example type="incorrect">Он прыгнул <marker>лучше них</marker>.</example>
         </rule>
+        
+      <!-- в отношении его, при помощи её, не в пример им, в противовес им, по поводу её, за исключением их,
+           со стороны её, по причине его,  наподобие его, насчёт их   -->
+  
+         <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">в|при|по|за|со</token>
+                    <token regexp="yes">отношении|помощи|пример|противовес|поводу|исключением|стороны|причине</token>
+                    <token regexp="yes">него|неё|них</token>
+                </marker>
+            </pattern>
+            <message>Лишняя начальная буква «н»: <suggestion><match no="1"></match> <match no="2"></match> <match no="3" regexp_match="([н])(.*)" regexp_replace="$2"></match></suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Лишняя начальная буква «н»</short>
+            <example type="correct">Был выполнен возврат товара по причине его несоответствия требованиям.</example>
+            <example type="incorrect">Был выполнен возврат товара <marker>по причине него</marker> несоответствия требованиям.</example>
+        </rule> 
+        
+        <rule>
+            <pattern>
+
+                <marker>
+                    <token regexp="yes">наподобие|насчёт|насчет</token>
+                    <token regexp="yes">него|неё|них</token>
+                </marker>
+            </pattern>
+            <message>Лишняя начальная буква «н»: <suggestion><match no="1"></match> <match no="2" regexp_match="([н])(.*)" regexp_replace="$2"></match></suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
+            <short>Лишняя начальная буква «н»</short>
+            <example type="correct">насчёт их</example>
+            <example type="incorrect"><marker>насчёт них</marker></example>
+        </rule> 
+        
 </rulegroup>   
         
         <rulegroup default="on" id="PREP_and_PNN" name="Предлог и местоимения">
