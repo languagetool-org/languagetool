@@ -4445,7 +4445,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">du|[dc]es?|[eu]n|[nv]otre|[nv]os|[mts]on|leurs?|bons?|mauvais</token>
           <marker><token regexp="yes">diagnostiques?|pronostiques?</token></marker>
         </pattern>
-        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <message>« \2 » est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostic">Quel est votre <marker>diagnostique</marker> ?</example>
         <example type="correct">Quel est votre diagnostic ?</example>
         <example type="correct">On le diagnostique tôt.</example>
@@ -4457,7 +4457,7 @@ though, and has since been slightly modified)-->
           <token>le<exception scope="previous" postag="[NJZR].*" postag_regexp="yes"/></token>
           <marker><token regexp="yes">diagnostique|pronostique</token></marker>
         </pattern>
-        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <message>« \2 » est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostic">Le <marker>diagnostique</marker> prénatal.</example>
         <example type="correct">Le diagnostic prénatal.</example>
         <example type="correct">On le diagnostique facilement.</example>
@@ -4471,7 +4471,7 @@ though, and has since been slightly modified)-->
           <token>les<exception scope="previous">tu</exception></token>
           <marker><token regexp="yes">diagnostiques|pronostiques</token></marker>
         </pattern>
-        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <message>« \2 » est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostics">Les <marker>diagnostiques</marker> sont fiables.</example>
         <example type="correct">Les <marker>diagnostics</marker> sont fiables.</example>
         <example type="correct">Tu les <marker>diagnostiques</marker> facilement.</example>
@@ -5801,7 +5801,7 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
         <example type="incorrect">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
         <example type="correct">J’étudie des parties d’échecs afin de gagner.</example>
       </rule>
@@ -5814,7 +5814,7 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
         <example type="incorrect">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
         <example type="correct">Je luis en parle avant d’annuler le voyage.</example>
       </rule>
@@ -5898,7 +5898,7 @@ though, and has since been slightly modified)-->
         <marker><token>parce</token></marker>
         <token><exception regexp="yes">que?</exception></token>
       </pattern>
-      <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
+      <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
       <example type="incorrect">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
       <example type="correct">Je suis en retard parce que j’ai raté mon bus.</example>
     </rule>
@@ -25490,7 +25490,7 @@ though, and has since been slightly modified)-->
         <marker><token regexp="yes">échapp?ée?s?<exception>échappé</exception></token></marker>
         <token>belle</token>
       </pattern>
-      <message>Dans l’expression « avoir échappé belle » le participe passé <suggestion>échappé</suggestion> reste invariable.</message>
+      <message>Dans l’expression « avoir échappé belle » le participe passé <suggestion>échappé</suggestion> reste invariable.</message>
       <url>http://www.langue-fr.net/spip.php?article275</url>
       <example type="incorrect">Elle l’a <marker>échappée</marker> belle.</example>
       <example type="correct">Elle l’a <marker>échappé</marker> belle.</example>
@@ -26054,7 +26054,7 @@ though, and has since been slightly modified)-->
         <token>tant</token>
         <token>pire</token>
       </pattern>
-      <message>« tant pire » est une expression fautive. Employez <suggestion>tant pis</suggestion>.</message>
+      <message>« tant pire » est une expression fautive. Employez <suggestion>tant pis</suggestion>.</message>
       <url>http://www.académie-française.fr/pire-employe-comme-adverbe</url>
       <example type="incorrect"><marker>Tant pire</marker> si je perds.</example>
       <example type="correct">Tant pis si je perds.</example>
@@ -26689,6 +26689,29 @@ though, and has since been slightly modified)-->
         <example type="incorrect" correction="kWh|kW·h">L’appareil a consomé 5 <marker>KWh</marker>.</example>
         <example type="correct">L’appareil a consomé 5 kW·h.</example>
         <example type="correct">L’appareil a consomé 5 kWh.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KELVIN" name="degré Kelvin → Kelvin">
+      <rule>
+        <pattern>
+          <token regexp="yes">degrés?|° </token>
+          <token regexp="yes">kelvin|K</token>
+        </pattern>
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
+        <suggestion>kelvin</suggestion>
+        <url>https://fr.wikipedia.org/wiki/Kelvin</url>
+        <example type="incorrect">Une température de 3 <marker>degrés kelvin</marker>.</example>
+        <example type="correct">Une température de 3 kelvin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>°K</token>
+        </pattern>
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
+        <suggestion>K</suggestion>
+        <url>https://fr.wikipedia.org/wiki/Kelvin</url>
+        <example type="incorrect">Une température de 3 <marker>°K</marker>.</example>
+        <example type="correct">Une température de 3 <marker>K</marker>.</example>
       </rule>
     </rulegroup>
   </category>
