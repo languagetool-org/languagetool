@@ -94,6 +94,16 @@ public class AgreementRule extends GermanRule {
     "Rinder"
   ));
   
+  private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "viele",
+    "vieler",
+    "wenige",
+    "weniger",
+    "einige",
+    "einiger",
+    "mehrerer"
+  ));
+  
   private static final Set<String> REL_PRONOUN = new HashSet<>();
   static {
     REL_PRONOUN.add("der");
@@ -407,11 +417,11 @@ public class AgreementRule extends GermanRule {
     } else {
       categoryToRelaxSet = Collections.emptySet();
     }
-    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
+    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return true;  // word not known, assume it's correct
     }
-    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
+    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, true);
     if (set2 == null) {
       return true;      
     }
@@ -428,37 +438,34 @@ public class AgreementRule extends GermanRule {
     } else {
       categoryToRelaxSet = Collections.emptySet();
     }
-    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
+    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return null;  // word not known, assume it's correct
     }
-    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
+    final boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     if (set2 == null) {
       return null;
     }
-    final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet);
+    final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet, true);
     if (set3 == null) {
       return null;
     }
-    /*System.err.println(token1.getToken()+"#"+set1);
-    System.err.println(token2.getToken()+"#"+set2);
-    System.err.println(token3.getToken()+"#"+set3);
-    System.err.println("");*/
     set1.retainAll(set2);
     set1.retainAll(set3);
     return set1;
   }
 
   private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken) {
-    return getAgreementCategories(aToken, new HashSet<GrammarCategory>());
+    return getAgreementCategories(aToken, new HashSet<GrammarCategory>(), false);
   }
   
   /** Return Kasus, Numerus, Genus of those forms with a determiner. */
-  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit) {
+  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit, boolean skipSol) {
     final Set<String> set = new HashSet<>();
     final List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
-      if (tmpReading.getPOSTag().endsWith(":SOL")) {
+      if (skipSol && tmpReading.getPOSTag().endsWith(":SOL")) {
         // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
         continue;
       }

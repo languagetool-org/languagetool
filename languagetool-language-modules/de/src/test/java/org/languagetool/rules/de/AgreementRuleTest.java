@@ -191,6 +191,20 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Es sind der Frau.");
   }
 
+  public void testVieleWenige() throws IOException {
+    assertGood("Zusammenschluss mehrerer dörflicher Siedlungen an einer Furt");
+    assertGood("Für einige markante Szenen");
+    assertGood("Für einige markante Szenen baute Hitchcock ein Schloss.");
+    assertGood("Haben Sie viele glückliche Erfahrungen in Ihrer Kindheit gemacht?");
+    assertGood("Es gibt viele gute Sachen auf der Welt.");
+    assertGood("Viele englische Wörter haben lateinischen Ursprung");
+    assertGood("Ein Bericht über Fruchtsaft, einige ähnliche Erzeugnisse und Fruchtnektar");
+    assertGood("Der Typ, der seit einiger Zeit immer wieder hierher kommt.");
+    assertGood("Jede Schnittmenge abzählbar vieler offener Mengen");
+    assertGood("Es kam zur Fusion der genannten und noch einiger weiterer Unternehmen.");
+    assertGood("Zu dieser Fragestellung gibt es viele unterschiedliche Meinungen.");
+  }
+  
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
     assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
@@ -240,7 +254,8 @@ public class AgreementRuleTest extends TestCase {
   }
 
   private void assertGood(String s) throws IOException {
-    assertEquals("Found unexpected match in sentence '" + s + "'", 0, rule.match(langTool.getAnalyzedSentence(s)).length);
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
   }
 
   private void assertBad(String s, String... expectedSuggestions) throws IOException {
