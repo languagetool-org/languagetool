@@ -375,11 +375,18 @@ public class AgreementRule extends GermanRule {
       final AgreementSuggestor suggestor = new AgreementSuggestor(german.getSynthesizer(), token1, token2);
       final List<String> suggestions = suggestor.getSuggestions();
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
-      ruleMatch = new RuleMatch(this, token1.getStartPos(), 
-          token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
-      ruleMatch.setSuggestedReplacements(suggestions);
+      if (!isException(token1, token2)) {
+        ruleMatch = new RuleMatch(this, token1.getStartPos(),
+                token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
+        ruleMatch.setSuggestedReplacements(suggestions);
+      }
     }
     return ruleMatch;
+  }
+
+  private boolean isException(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+    String phrase = token1.getToken() + " " + token2.getToken();
+    return "allen Grund".equals(phrase); 
   }
 
   private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
