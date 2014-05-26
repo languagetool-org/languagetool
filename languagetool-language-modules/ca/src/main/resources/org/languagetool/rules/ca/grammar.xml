@@ -6216,6 +6216,7 @@ $Id$
                         <token spacebefore="no">l</token>
                         <token regexp="yes">[12]\d{3}</token>
                     </marker>
+                    <token><exception>correspon</exception></token>
                 </pattern>
                 <message>Els anys s'escriuen sense la preposició 'a'.</message>
                 <suggestion>el <match no="4"/></suggestion>
@@ -6232,6 +6233,7 @@ $Id$
                 <example type="correct">dels anys vuitanta al 1992</example>
                 <example type="correct">D'aquí al 2030</example>
                 <example type="correct">De cara al 2015</example>
+                <example type="correct">Al 1908 correspon el primer cas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -10724,7 +10726,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">arxi|bes|plus|per|post|pre|pro|pseudo|quasi|semi|sobre|sots|sub|ultra|vice|auto|greco</token>
                     <token>-</token>
-                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                    <token postag="[NA].*|V.P.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception><exception inflected="yes">iugoslau</exception></token>
                 </pattern>
                 <message>Normalment s'escriu sense guionet.</message>
                 <suggestion><match no="1"/><match no="3"/></suggestion>
@@ -10766,6 +10768,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
+            <rule>
+                <pattern>
+                    <token regexp="yes">r[àa]dio</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">televisi(ó|ons)</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>radio<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="Radiotelevisió"><marker>Ràdio-televisió</marker> Valenciana.</example>
+                <example type="correct">Radiotelevisió</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>en</token>
@@ -15509,6 +15523,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="DE_CARRER" name="de carrer">
+            <pattern>
+                <token inflected="yes" skip="2" regexp="yes">guanyar|vèncer|superar|emportar|endur</token>
+                <token>de</token>
+                <token>carrer</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>(donar cent voltes a)</suggestion>
+            <suggestion>(donar mil voltes a)</suggestion>
+            <suggestion><match no="1" include_skipped="all"/> còmodament</suggestion>
+            <suggestion><match no="1" include_skipped="all"/> amb diferència</suggestion>
+            <example type="incorrect">Va <marker>guanyar de carrer</marker>.</example>
+            <example type="correct">Va guanyar còmodament</example>
+        </rule>
         <rule id="SENYER" name="figura *senyera/cabdal">
             <pattern>
                 <token postag='NC.*' postag_regexp='yes'></token>
@@ -18318,7 +18346,7 @@ $Id$
         </rulegroup>    
         <rule id="AL_TEMPS_QUE" name="al temps que">
             <pattern>
-                <token><exception regexp="yes">fins|per</exception></token>
+                <token><exception regexp="yes" inflected="yes">cap|fins|per|quant|superior|inferior|gràcies|proporcional|referència|igual|corresponent|referir|correspondre|equivaler</exception></token>
                 <marker>
                     <token>a</token>
                     <token spacebefore="no">l</token>
@@ -18333,6 +18361,7 @@ $Id$
             <example type="incorrect"><marker>al temps que</marker> cuino podem xerrar</example>
             <example type="correct"><marker>alhora que</marker> cuino podem xerrar</example>
             <example type="correct">fins al temps que</example>
+            <example type="correct">Equival al temps que tarda.</example>
         </rule>
         <rulegroup id="ARREL_DE" name="arrel de">
             <antipattern>
