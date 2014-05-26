@@ -5190,7 +5190,7 @@ $Id$
                 <example type="incorrect">Preguntem-li <marker>sinó</marker> al president.</example>
                 <example type="incorrect">Mirem, <marker>sinó</marker>, la reacció que hi ha hagut.</example>
                 <example type="correct">Preguntem si no al president.</example>
-                <example type="correct">cap de les dues entitats pot existir com aïllada, sinó en relació amb Un altre</example>
+                <example type="correct">cap de les dues entitats pot existir com aïllada, sinó en relació amb un altre</example>
                 <example type="correct">sense ser un regne sinó una agrupació de comtats</example>
                 <example type="correct">ni l'una ni l'altra sinó una ciutat equidistant</example>
                 <example type="correct">ni tan sols això sinó que es negocia</example>  
@@ -15509,7 +15509,30 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
-            <rule id="AMB_LA_QUE_ESTA_CAIENT" name="amb la que està caient">
+        <rule id="SENYER" name="figura *senyera/cabdal">
+            <pattern>
+                <token postag='NC.*' postag_regexp='yes'></token>
+                <marker>
+                    <token regexp='yes'>senyer(a|s|es)?</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ..$2.">cabdal</match></suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ..$2.">rellevant</match></suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="V.P..$2$1.">assenyalar</match></suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ.$1$2.">capdavanter</match></suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ..$2.">preeminent</match></suggestion>
+            <suggestion>sense parió</suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ..$2.">singular</match></suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ..$2.">incomparable</match></suggestion>
+            <suggestion><match no="1" postag="NC(.)(.).*" postag_regexp="yes" postag_replace="AQ.$1$2.">únic</match></suggestion>
+            <suggestion>insígnia</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/senyer</url>
+            <short>Expressió incorrecta</short>
+            <example type='incorrect' correction='cabdals|rellevants|assenyalades|capdavanteres|preeminents|sense parió|singulars|incomparables|úniques|insígnia'>Figures <marker>senyeres</marker></example>
+            <example type='correct'>Figura cabdal</example>
+        </rule>
+        <rule id="AMB_LA_QUE_ESTA_CAIENT" name="amb la que està caient">
             <pattern>
                 <token>amb</token>
                 <token>la</token>
@@ -20476,6 +20499,7 @@ $Id$
     </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
+        <!-- També: en/amb referència a -->
         <rule id="COM_A_MOLT" name="com a molt"> <!-- acceptat pel DIEC 2007 -->
             <pattern>
                 <marker>
