@@ -110,6 +110,15 @@ $Id$
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
             <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
         </rule>-->
+        <rule id="SEIN_MONATEN" name="Möglicher Tippfehler: sein (seit) Jahren etc.">
+            <pattern>
+                <token>sein</token>
+                <token regexp='yes'>(Sekunden|Minuten|Stunden|Tagen|Wochen|Monaten|Jahren|Jahrzehnten|Jahrhunderten)</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>seit \2</suggestion>?</message>
+            <example type='incorrect' correction="Seit Monaten"><marker>Sein Monaten</marker> nervt er mich.</example>
+            <example type='correct'><marker>Seit Monaten</marker> nervt er mich.</example>
+        </rule>
         <rule id="ZUR_STANDE" name="Möglicher Tippfehler: zur Stande (zustande, zu Stande)">
             <pattern>
                 <token>zur</token>
