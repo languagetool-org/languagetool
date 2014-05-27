@@ -6463,6 +6463,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="adv_geradj_nom" name="adverbi + gerundi/adjectiu + nom">
         <pattern>
             <token postag="RG.*" postag_regexp="yes"/>
+            <unify>
+            <feature id="nombre"/>
+            <feature id="genere"/>
             <marker>
                 <and>
                     <token postag="V.G.*" postag_regexp="yes"></token>
@@ -6470,6 +6473,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </and>
             </marker>
             <token postag="N.*" postag_regexp="yes"></token>
+            </unify>
         </pattern>
         <disambig action="filter" postag="A.*"></disambig>
     </rule>

@@ -5219,7 +5219,7 @@ $Id$
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
             <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
                 <pattern>
-                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar</token>
+                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar|necessari|suficient</token>
                     <marker>
                         <token>per</token>
                     </marker>
@@ -5243,7 +5243,7 @@ $Id$
             </antipattern>
             <rule>
                 <pattern>
-                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar|necessari|suficient<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">per</token>
                     </marker>
@@ -14303,7 +14303,7 @@ $Id$
                     <marker>
                         <token>hi</token>
                     </marker>
-                    <token><exception inflected="yes">haver</exception></token>
+                    <token><exception inflected="yes" regexp="yes">haver|ser</exception></token>
                     <token><exception inflected="yes">haver</exception></token>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
@@ -14312,6 +14312,7 @@ $Id$
                 <example type="correct">on hi havia</example>
                 <example type="correct">on no hi pot haver material</example>
                 <example type="correct">al lloc on era, altres hi arrelen</example>
+                <example type="correct">on l’independentisme no hi era fins ara</example>
             </rule>
             <rule>
                 <pattern>
@@ -16958,7 +16959,7 @@ $Id$
                 <pattern>
                 	<marker>
 	                    <token postag="P0.0.*" postag_regexp="yes" skip="1"/>
-	                    <token skip="2" inflected="yes">fer</token>
+	                    <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*" postag_regexp="yes"/></token>
 	                    <token skip="7">amb<exception scope="next" regexp="yes">,|cap</exception></token>
                     </marker>
                     <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
@@ -16975,7 +16976,7 @@ $Id$
                 <url>http://esadir.cat/entrades/fitxa/id/1913</url>
                 <example type="incorrect"><marker>Es va fer amb</marker> el poder.</example>
                 <example type="incorrect"><marker>Ens vam fer amb</marker> el poder.</example>
-                <example type="correct">Prengueren el poder.</example>
+                <example type="correct">Es va fer extensiva amb plans d'acció territorial.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18826,44 +18827,44 @@ $Id$
         diferent a la banda de Tramuntana-->
             <rule>
                 <pattern>
-                    <token>diferent</token>
+                    <token regexp="yes">diferents?</token>
                     <token>a</token>
                     <token spacebefore="no">l</token>
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>diferent del</suggestion>.</message>
+                <message>Incorrecte si equival a <suggestion>\1 del</suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent al</marker> d'abans</example>
                 <example type="correct">un resultat <marker>diferent del</marker> d'abans</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>diferent</token>
+                    <token regexp="yes">diferents?</token>
                     <token>a</token>
                     <token spacebefore="no">ls</token>
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>diferent dels</suggestion>.</message>
+                <message>Incorrecte si equival a <suggestion>\1 dels</suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent als</marker> d'abans</example>
                 <example type="correct">un resultat <marker>diferent dels</marker> d'abans</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>diferent</token>
+                    <token regexp="yes">diferents?</token>
                     <token>a</token>
                     <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception></token>
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>diferent de <match no="3"></match></suggestion>.</message>
+                <message>Incorrecte si equival a <suggestion>\1 de <match no="3"></match></suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent a mi</marker></example>
                 <example type="correct">Un de diferent a cada lloc</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>diferent</token>
+                    <token regexp="yes">diferents?</token>
                     <token>a</token>
                     <token regexp="yes">[aeiouhàéèíòóú].*</token>
                 </pattern>
-                <message>Incorrecte si equival a <suggestion>diferent d'<match no="3"></match></suggestion>.</message>
+                <message>Incorrecte si equival a <suggestion>\1 d'<match no="3"></match></suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent a aquest</marker></example>
                 <example type="correct">un resultat <marker>diferent d'aquest</marker></example>
