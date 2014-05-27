@@ -14391,9 +14391,9 @@ though, and has since been slightly modified)-->
         <token>temps</token>
         <token regexp="yes">doubles?</token>
       </pattern>
-      <message>« Temps double » est un anglicisme. Employez <suggestion>salaire majoré à 100 %</suggestion>.</message>
+      <message>« Temps double » est un anglicisme. Employez <suggestion>salaire majoré à 100 %</suggestion>.</message>
       <example type="incorrect"><marker>temps double</marker></example>
-      <example type="correct"><marker>salaire majoré à 100 %</marker></example>
+      <example type="correct"><marker>salaire majoré à 100 %</marker></example>
     </rule>
     <rule id="TEMPS_SIMPLE" name="temps simple">
       <pattern>
@@ -14419,9 +14419,9 @@ though, and has since been slightly modified)-->
         <token>et</token>
         <token regexp="yes">demie?</token>
       </pattern>
-      <message>« Temps et demi » est un anglicisme. Employez <suggestion>salaire majoré à 50 %</suggestion>.</message>
+      <message>« Temps et demi » est un anglicisme. Employez <suggestion>salaire majoré à 50 %</suggestion>.</message>
       <example type="incorrect"><marker>temps et demie</marker></example>
-      <example type="correct"><marker>salaire majoré à 50 %</marker></example>
+      <example type="correct"><marker>salaire majoré à 50 %</marker></example>
     </rule>
     <rule id="TERMES_ET_CONDITIONS" name="termes et conditions">
       <pattern>
@@ -18521,9 +18521,9 @@ though, and has since been slightly modified)-->
           <token>pleine</token>
           <token>capacité</token>
         </pattern>
-        <message>« À pleine capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
+        <message>« À pleine capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
         <example type="incorrect">Le moteur fonctionne <marker>à pleine capacité</marker>.</example>
-        <example type="correct">Le moteur fonctionne <marker>à 100 % de sa capacité</marker>.</example>
+        <example type="correct">Le moteur fonctionne <marker>à 100 % de sa capacité</marker>.</example>
         <example type="correct">Il a la capacité de le faire.</example>
         <example type="correct">On les juge à leur capacité de résoudre les problèmes.</example>
       </rule>
@@ -26691,16 +26691,16 @@ though, and has since been slightly modified)-->
         <example type="correct">L’appareil a consomé 5 kWh.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="KELVIN" name="degré Kelvin → Kelvin">
+    <rulegroup id="KELVIN" name="degré kelvin → kelvin">
       <rule>
         <pattern>
-          <token regexp="yes">degrés?|° </token>
-          <token regexp="yes">kelvin|K</token>
+          <token regexp="yes">degrés?</token>
+          <token>kelvin</token>
         </pattern>
         <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
-        <suggestion>kelvin</suggestion>
+        <suggestion><match no="2" case_conversion="alllower"/></suggestion>
         <url>https://fr.wikipedia.org/wiki/Kelvin</url>
-        <example type="incorrect">Une température de 3 <marker>degrés kelvin</marker>.</example>
+        <example type="incorrect" correction="kelvin">Une température de 3 <marker>degrés kelvin</marker>.</example>
         <example type="correct">Une température de 3 kelvin.</example>
       </rule>
       <rule>
