@@ -15146,9 +15146,9 @@ $Id$
                     <token><exception regexp="yes">\d.*</exception></token>
                 </pattern>
                 <message>Possible error de puntuació</message>
-                <suggestion><match no="2"/></suggestion>
+                <suggestion> <match no="2"/></suggestion>
                 <short>Error de puntuació</short>
-                <example type="incorrect" correction="—">Vine<marker>, —</marker>va dir Joan.</example>
+                <example type="incorrect" correction=" —">Vine<marker>, —</marker>va dir Joan.</example>
                 <example type="correct">Vine, digué.</example>
                 <example type="correct">indiqueu els punts A(-2, -6)</example>
             </rule>
@@ -16245,24 +16245,26 @@ $Id$
             <rule>
                 <pattern>
                     <token>a</token>
-                    <token>contrarellotge</token>
+                    <token>contra</token>
+                    <token>rellotge</token>
                 </pattern>
-                <message>Com a loc. adverbial cal dir <suggestion>contra rellotge</suggestion>.</message>
+                <message>Cal escriure <suggestion>contra rellotge</suggestion> o <suggestion>a contrarellotge</suggestion>.</message>
                 <url>http://esadir.cat/entrades/fitxa/node/contra_rellotge</url>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect">Treballen <marker>a contrarellotge</marker></example>
+                <example type="incorrect">Treballen <marker>a contra rellotge</marker>.</example>
                 <example type="correct">Treballen contra rellotge</example>
             </rule>
             <rule>
                 <pattern>
-                    <token>a</token>
-                    <token>contra</token>
-                    <token>rellotge</token>
+                    <token postag="V.[MSI].*|_GV_" postag_regexp="yes"/>
+                    <marker>
+                    <token>contrarellotge</token>
+                    </marker>
                 </pattern>
-                <message>Com a loc. adverbial cal dir <suggestion>contra rellotge</suggestion>.</message>
+                <message>Cal escriure <suggestion>contra rellotge</suggestion> o <suggestion>a contrarellotge</suggestion>.</message>
                 <url>http://esadir.cat/entrades/fitxa/node/contra_rellotge</url>
                 <short>Expressió incorrecta</short>
-                <example type="incorrect">Treballen <marker>a contra rellotge</marker>.</example>
+                <example type="incorrect">Treballaven <marker>contrarellotge</marker>.</example>
                 <example type="correct">Treballen contra rellotge</example>
             </rule>
         </rulegroup>
@@ -19054,6 +19056,20 @@ $Id$
             <example type="correct">no t'aturis enlloc d'Egipte</example>
             <example type="correct">i enlloc dels camps no es veu l'asfòdel</example>
             <example type="correct">No es parla enlloc d'esllavissades.</example>
+        </rule>
+        <rule id="EN_LLOC" name="*en lloc/enlloc">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>lloc</token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>enlloc</suggestion> (= en cap lloc)?</message>
+            <suggestion>en lloc de</suggestion>
+            <example type="incorrect">No ho trobo <marker>en lloc</marker>.</example>
+            <example type="incorrect"><marker>En lloc</marker> venir, se'n va.</example>
+            <example type="correct">No ho veig enlloc.</example>
         </rule>
         <rule id="EN_MOTIU_DE" name="*en motiu de/amb motiu de">
             <pattern>
