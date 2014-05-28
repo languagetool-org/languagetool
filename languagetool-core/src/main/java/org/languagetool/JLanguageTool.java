@@ -40,6 +40,7 @@ import java.util.jar.Manifest;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
@@ -994,27 +995,32 @@ public class JLanguageTool {
       int i = 0;
       for (final AnalyzedSentence analyzedSentence : analyzedSentences) {
         final String sentence = sentences.get(i++);
-        final List<RuleMatch> sentenceMatches =
-                checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
-                        columnCount, sentence, analyzedSentence, annotatedText);
+        try {
+          final List<RuleMatch> sentenceMatches =
+                  checkAnalyzedSentence(paraMode, rules, charCount, lineCount,
+                          columnCount, sentence, analyzedSentence, annotatedText);
 
-        ruleMatches.addAll(sentenceMatches);
-        charCount += sentence.length();
-        lineCount += countLineBreaks(sentence);
+          ruleMatches.addAll(sentenceMatches);
+          charCount += sentence.length();
+          lineCount += countLineBreaks(sentence);
 
-        // calculate matching column:
-        final int lineBreakPos = sentence.lastIndexOf('\n');
-        if (lineBreakPos == -1) {
-          columnCount += sentence.length();
-        } else {
-          if (lineBreakPos == 0) {
-            columnCount = sentence.length();
-            if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
-              columnCount--;
-            }
+          // calculate matching column:
+          final int lineBreakPos = sentence.lastIndexOf('\n');
+          if (lineBreakPos == -1) {
+            columnCount += sentence.length();
           } else {
-            columnCount = sentence.length() - lineBreakPos;
+            if (lineBreakPos == 0) {
+              columnCount = sentence.length();
+              if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+                columnCount--;
+              }
+            } else {
+              columnCount = sentence.length() - lineBreakPos;
+            }
           }
+        } catch (Exception e) {
+          throw new RuntimeException("Could not check sentence: '"
+                  + StringUtils.abbreviate(analyzedSentence.toTextString(), 200) + "'", e);
         }
       }
       return ruleMatches;

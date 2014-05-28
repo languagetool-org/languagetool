@@ -140,6 +140,18 @@ public class AnalyzedSentence {
   }
 
   /**
+   * Return string representation without any analysis information, just the original text.
+   * @since 2.6
+   */
+  final String toTextString() {
+    StringBuilder sb = new StringBuilder();
+    for (final AnalyzedTokenReadings element : tokens) {
+      sb.append(element.getToken());
+    }
+    return sb.toString();
+  }
+
+  /**
    * Return string representation with chunk information.
    */
   public final String toString(String readingDelimiter) {
