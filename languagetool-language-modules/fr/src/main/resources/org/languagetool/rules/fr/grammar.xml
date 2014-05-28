@@ -4810,7 +4810,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">corbeau|corneille</token>
-          <marker>><token inflected="yes">coasser</token></marker>
+          <marker><token inflected="yes">coasser</token></marker>
         </pattern>
         <message>La grenouille ou le crapaud coassent, mais le corbeau ou la corneille croassent.</message>
         <suggestion><match no="2" regexp_match="^(.)" regexp_replace="$1r"/></suggestion>
@@ -4911,6 +4911,49 @@ though, and has since been slightly modified)-->
         <message>Confusion probable entre <suggestion>lieux</suggestion> et « lieus » (poissons).</message>
         <example type="incorrect">Des <marker>lieus</marker> historiques.</example>
         <example type="correct">Les lieux historiques.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="QUELQUEFOIS_QUELQUES_FOIS" name="quelquefois et quelques fois">
+      <rule>
+        <pattern>
+          <token>quelque</token>
+          <token>fois</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>quelques fois</suggestion> ou <suggestion>quelquefois</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4334</url>
+        <example type="incorrect">J’étais <marker>quelque fois</marker> absent.</example>
+        <example type="correct">J’étais quelques fois absent.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>les</token>
+          <marker><token>quelquefois</token></marker>
+          <token regexp="yes">où|que?</token>
+        </pattern>
+        <message>Confusion probable entre l’adverbe « quelquefois » et l’expression <suggestion>quelques fois</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4334</url>
+        <example type="incorrect">Les <marker>quelquefois</marker> où je l’ai croisé.</example>
+        <example type="correct">Les quelques fois où je l’ai croisé.</example>
+        <example type="incorrect">Les <marker>quelquefois</marker> que nous nous sommes rencontrés.</example>
+        <example type="correct">Les quelques fois que nous nous sommes rencontrés.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">être</token>
+          <marker>
+            <token>quelques</token>
+            <token>fois</token>
+          </marker>
+          <token min="0" max="1" postag="A"/>
+          <token postag="J .*" postag_regexp="yes"/>
+          <token regexp="yes">de?</token>
+        </pattern>
+        <message>Confusion probable entre l’adverbe <suggestion>quelquefois</suggestion> et l’expression « quelques fois ».</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4334</url>
+        <example type="incorrect">C’est <marker>quelques fois</marker> pénible de surveiller les enfants.</example>
+        <example type="correct">C’est quelquefois pénible de surveiller les enfants.</example>
+        <example type="incorrect">C’est <marker>quelques fois</marker> assez pénible de surveiller les enfants.</example>
+        <example type="correct">C’est quelquefois assez pénible de surveiller les enfants.</example>
       </rule>
     </rulegroup>
   </category>
