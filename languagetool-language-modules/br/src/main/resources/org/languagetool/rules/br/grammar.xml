@@ -3200,6 +3200,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct"><marker>Nevez-vet</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="NA_J" name="Na glañv on! → Na klañ on!">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>Na</token>
+          <marker><token postag="J M.*" postag_regexp="yes"><exception postag="J"/></token></marker>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2». (CHALM G2)</message>
+        <example type="incorrect">Na <marker>c’hlañv</marker> on!</example>
+        <example type="incorrect">Na <marker>glañv</marker> on!</example>
+        <example type="correct">Na klañv on!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>Na</token>
+          <marker><token postag="J M.*" postag_regexp="yes"><exception postag="J"/></token></marker>
+          <token>e</token>
+          <token postag="V.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2». (CHALM G2)</message>
+        <example type="incorrect">Na <marker>c’hlañv</marker> e oan!</example>
+        <example type="incorrect">Na <marker>glañv</marker> e oan!</example>
+        <example type="correct">Na klañv e oan!</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Ger-mell">
