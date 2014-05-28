@@ -3532,6 +3532,19 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="WEHREND" name="wehrend (während)">
+            <pattern>
+                <marker>
+                    <token>wehrend</token>
+                </marker>
+                <token postag='PRO:.*' postag_regexp='yes'/>
+            </pattern>
+            <message>Meinten Sie <suggestion>während</suggestion> (dabei, währenddessen)?</message>
+            <example type='incorrect'>Hätte es sowas <marker>wehrend</marker> meiner Schulzeit gegeben!</example>
+            <example type='correct'>Hätte es sowas <marker>während</marker> meiner Schulzeit gegeben!</example>
+            <example type='correct'>Sich <marker>wehrend</marker> bis zuletzt, fielen die Arven.</example>
+            <example type='incorrect'>Hätte es sowas <marker>wehrend</marker> der Schulzeit gegeben!</example>
+        </rule>
         <rule id="KEIM_NOMEN" name="Mögliche Wortverwechslung: Keim (Kein) Mensch etc.">
             <pattern>
                 <marker>
