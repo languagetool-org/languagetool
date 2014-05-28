@@ -398,7 +398,7 @@ public class PatternRuleTest extends TestCase {
         // enable indentation use
         goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
         goodSentence = cleanXML(goodSentence);
-        assertTrue(goodSentence.trim().length() > 0);        
+        assertTrue(lang + ": Empty correct example in rule "+rule.getId(), goodSentence.trim().length() > 0);
         boolean isMatched = false;
         // necessary for XML Pattern rules containing <or>
         for (Rule auxRule : rules) {
