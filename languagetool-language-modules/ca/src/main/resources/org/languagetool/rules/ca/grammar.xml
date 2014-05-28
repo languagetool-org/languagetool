@@ -5219,7 +5219,7 @@ $Id$
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
             <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
                 <pattern>
-                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar|necessari|suficient</token>
+                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou</token>
                     <marker>
                         <token>per</token>
                     </marker>
@@ -5241,9 +5241,16 @@ $Id$
                     <token inflected="yes">per</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>per</token>
+                    <token>tal</token>
+                    <token regexp="yes">de|que|què</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token inflected='yes' regexp='yes'>servir|usar|emprar|aprofitar|preparar|necessari|suficient<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">per</token>
                     </marker>
@@ -5276,6 +5283,40 @@ $Id$
                 <example type='correct'>Foren preparats pels investigadors.</example>
                 <example type='correct'>Són usats per l'aristocràcia.</example>
                 <example type='correct'>Han estat usats per l'aristocràcia.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PER_TAL_DE_PER_A" name="Ús inadequat de 'per tal de/que'">
+            <rule>
+                <pattern>
+                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>per</token>
+                        <token>tal</token>
+                        <token regexp="yes">de|d'</token>
+                        <token/>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar la preposició "per a".</message>
+                <suggestion>per a \5</suggestion>
+                <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
+                <short>Preposicions</short>
+                <example type='incorrect' correction="per a canviar">Serveixen <marker>per tal de canviar</marker> la investigació.</example>
+                <example type="correct">Una eina feta servir pels mecànics.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token inflected="yes">per</token>
+                        <token>tal</token>
+                        <token regexp="yes">que|què</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal usar la conjunció <suggestion>perquè</suggestion>.</message>
+                <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
+                <short>Conjunció</short>
+                <example type='incorrect' correction="perquè">Són necessaris <marker>per tal que</marker> canviï tot.</example>
+                <example type="correct">Són necessaries perquè canviï tot.</example>
             </rule>
         </rulegroup>
         <rulegroup id="QUALIFICAR_COM_A_DE" name="qualificar *com a/de">
@@ -11172,7 +11213,7 @@ $Id$
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí</token>
+                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí|tal</token>
 				        <token>què</token>
 			        </marker>
 			        <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
@@ -13092,7 +13133,7 @@ $Id$
                     <marker>
                         <token regexp="yes">dona|dones</token>
                     </marker>
-                    <token regexp="yes">llum|vida|fum|menjar|beure</token>
+                    <token regexp="yes">llum|vida|fum|menjar|beure|valor</token>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion><match no="1" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>
@@ -18821,10 +18862,20 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="DIFERENT_A" name="diferent a">
-        <!-- Caldria descartar els complements posteriors que siguin de lloc -->
-        <!-- calia ensenyar el rus de manera diferent als pobles que parlen llengües indoeuropees 
-        diferent al nord i al sud del Loira
-        diferent a la banda de Tramuntana-->
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?</token>
+                    <token skip="4">a</token>
+                    <token regexp="yes" inflected="yes">territori|nord|sud|banda|lloc|part|si</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token regexp="yes">manera|forma</token>
+                    <token>diferent</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
@@ -18834,7 +18885,7 @@ $Id$
                 <message>Incorrecte si equival a <suggestion>\1 del</suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent al</marker> d'abans</example>
-                <example type="correct">un resultat <marker>diferent del</marker> d'abans</example>
+                <example type="correct">És diferent al nord i al sud del Loira.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18845,24 +18896,26 @@ $Id$
                 <message>Incorrecte si equival a <suggestion>\1 dels</suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent als</marker> d'abans</example>
-                <example type="correct">un resultat <marker>diferent dels</marker> d'abans</example>
+                <example type="correct">Calia ensenyar el rus de manera diferent als pobles que parlen llengües indoeuropees.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
                     <token>a</token>
-                    <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception></token>
+                    <token regexp="yes">[^aeiouhàéèíòóú].*<exception>cada</exception><exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 de <match no="3"></match></suggestion>.</message>
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent a mi</marker></example>
                 <example type="correct">Un de diferent a cada lloc</example>
+                <example type="correct">Hi ha més de 200 espècies diferents a Cuba.</example>
+                <example type="correct">diferent a la banda de Tramuntana</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">diferents?</token>
                     <token>a</token>
-                    <token regexp="yes">[aeiouhàéèíòóú].*</token>
+                    <token regexp="yes">[aeiouhàéèíòóú].*<exception postag="NP..G..|V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Incorrecte si equival a <suggestion>\1 d'<match no="3"></match></suggestion>.</message>
                 <short>Possible error</short>
@@ -20930,6 +20983,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="SORTEJAR" name="sortejar/esquivar">
+            <pattern>
+                <marker>
+                <token inflected="yes" skip="2">sortejar</token>
+                </marker>
+                <token regexp="yes" inflected="yes">obstacle|barrera|porter|defensa|problema|contratemps|dificultat</token>
+            </pattern>
+            <message>Ús incorrecte.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">eludir</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">evitar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">superar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/sortejar</url>
+            <example type="incorrect" correction="Esquivaren|Eludiren|Evitaren|Superaren"><marker>Sortejaren</marker> tots els obstacles.</example>
+            <example type="correct">Esquivaren els problemes</example>
+        </rule>
         <rule id="REVELAR_REBELLAR" name="revelar/rebel·lar">
             <pattern>
                 <marker>
@@ -24590,14 +24659,14 @@ $Id$
             </pattern>
             <message>Val més usar una altra expressió.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valorar</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> valer</suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">fer</match> valdre</suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">afavorir</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">treure</match> profit</suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">remarcar</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">realçar</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reivindicar</match></suggestion>
             <short>Expressió preferible</short>
-            <example type="incorrect" correction="Valorarem|Farem valer|Afavorirem|Traurem profit|Remarcarem|Realçarem|Reivindicarem"><marker>Posarem en valor</marker> el museu.</example>
+            <example type="incorrect" correction="Valorarem|Farem valdre|Afavorirem|Traurem profit|Remarcarem|Realçarem|Reivindicarem"><marker>Posarem en valor</marker> el museu.</example>
             <example type="correct">Valorarem.</example>
         </rule>
         <rule id="EL_SUFICIENTMENT" name="el suficientment">
@@ -26542,6 +26611,13 @@ $Id$
             <example type="correct">Menyspreu.</example>
         </rule>
         <rule id="APRETAR" name="apretar">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" skip="2">apretar</token>
+                    <token>a</token>
+                    <token>córrer</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes">apretar</token>
             </pattern>
