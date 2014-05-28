@@ -6501,6 +6501,17 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
+    <rule id="A_COMPETE" name="a compete/complete">
+        <pattern>
+            <token regexp='yes'>a|an|the</token>
+            <token postag='VB|VBP' postag_regexp='yes'><exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception></token>
+        </pattern>
+        <message>Probably a bad construction: a/the + infinitive</message>
+        <example type='incorrect'><marker>a compete</marker> catastrophe.</example>
+        <example type='incorrect'><marker>a compete</marker></example>
+        <example type='correct'>a complete catastrophe</example>
+        <example type='correct'>a show</example>
+    </rule>
     <rule id="VERY_THANKS_THANKS_A_LOT" name="very thanks (thanks a lot)">
     <pattern>
         <token>very</token>
