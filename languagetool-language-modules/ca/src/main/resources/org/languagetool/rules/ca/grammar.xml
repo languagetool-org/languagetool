@@ -2516,6 +2516,17 @@ $Id$
                 <example type="incorrect">No vaig <marker>telefonar-lo</marker></example>
                 <example type="correct">No vaig <marker>telefonar-li</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ranejar</token>
+                    <token postag="D.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Aquest verb és intransitiu.</message>
+                <suggestion>\1 a \2</suggestion>
+                <short>Verb intransitiu</short>
+                <example type="incorrect" correction="Ranejava a la"><marker>Ranejava la</marker> indecència</example>
+                <example type="correct">Raneja a la ridiculesa.</example>
+            </rule>
             <!-- <rule>
                 <pattern>
                 <token skip="1">què</token>
@@ -15579,6 +15590,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PRENDRE_FOC" name="prendre foc">
+            <pattern>
+                <token inflected='yes'>prendre</token>
+                <token>foc</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">calar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">botar</match></suggestion>
+            <short>Expressió incorrecta</short>
+            <example type='incorrect' correction="Calaren|Botaren"><marker>Prengueren foc</marker></example>
+            <example type='correct'>calar foc</example>
+        </rule>
         <rule id="DE_CARRER" name="de carrer">
             <pattern>
                 <token inflected="yes" skip="2" regexp="yes">guanyar|vèncer|superar|emportar|endur</token>
