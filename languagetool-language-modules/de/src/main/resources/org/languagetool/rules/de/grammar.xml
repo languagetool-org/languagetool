@@ -21556,20 +21556,23 @@ $Id$
             <example type="incorrect">Die binäre <marker>suche</marker> sollte jeder Informatiker verstehen.</example>
         </rule>
         <rule id="DES_WEITEREN" name="Groß-/Kleinschreibung: 'des weiteren (Weiteren)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[Dd]es</token>
+            <pattern>
+                <token regexp="yes">des|im</token>
                 <marker>
-                    <token>weiteren</token>
+                    <token case_sensitive="yes">weiteren</token>
                 </marker>
                 <token postag="VER:.*" postag_regexp="yes"/>
             </pattern>
-            <message>&inwend;'des Weiteren' wird <suggestion>Weiteren</suggestion> großgeschrieben.</message>
+            <message>&inwend;'\1 Weiteren' wird <suggestion>Weiteren</suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
             <example type="correct">Des <marker>Weiteren</marker> sind alle Katzen blau.</example>
+            <example type="correct">Im <marker>Weiteren</marker> soll es genau darum gehen.</example>
+            <example type="correct">Im <marker>weiteren</marker> Text soll es genau darum gehen.</example>
             <example type="correct">Und des <marker>Weiteren</marker> waren alle Katzen blau.</example>
             <example type="correct">Die Rechtsvorschrift zur Sicherung des <marker>weiteren</marker> Aufenthaltsrechtes.</example>
             <example type="incorrect">Des <marker>weiteren</marker> sind alle Katzen blau.</example>
             <example type="incorrect">Und des <marker>weiteren</marker> waren alle Katzen blau.</example>
+            <example type="incorrect">Und im <marker>weiteren</marker> soll es genau darum gehen.</example>
         </rule>
         <rule id="DES_NACHTS" name="Groß-/Kleinschreibung: 'des nachts (Nachts), eines nachts (Nachts)'">
             <pattern case_sensitive="yes">

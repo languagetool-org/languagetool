@@ -371,6 +371,8 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("viel Neues");
     myExceptionPhrases.add("Vereinigte Staaten");
     myExceptionPhrases.add("Vereinigten Staaten");
+    myExceptionPhrases.add("im Weiteren");
+    myExceptionPhrases.add("Im Weiteren");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
