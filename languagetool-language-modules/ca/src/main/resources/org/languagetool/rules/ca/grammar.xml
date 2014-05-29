@@ -9938,7 +9938,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SPS00" regexp="yes">a|per|Per</token> 
-                    <token postag="SPS00" regexp="yes">amb|per?|des|de</token>
+                    <token postag="SPS00" regexp="yes">amb|per?|des|de<exception postag="&lt;?NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinació impossible de preposicions.</message>
                 <suggestion><match no="2"/></suggestion>
@@ -9985,7 +9985,7 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">de|d'</token>
-                    <token regexp="yes">(?-i)de|d'|a</token>
+                    <token regexp="yes">(?-i)de|d'|a<exception postag="&lt;?NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinació incorrecta de preposicions.</message>
                 <suggestion><match no="1"/></suggestion>
@@ -9994,6 +9994,7 @@ $Id$
                 <example type="incorrect" correction="de|d'">Una altra manera <marker>de d'</marker>analitzar .</example>
                 <example type="correct">No volia res més que mirar i mirar i mirar.</example>
                 <example type="correct">la política nacionalista de De Gaulle</example>
+                <example type="correct">la política nacionalista de de Gaulle</example>
             </rule>
              <rule>
                 <pattern>
