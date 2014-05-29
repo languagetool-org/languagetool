@@ -6522,14 +6522,11 @@ $Id$
             <example type="correct">Ausbildungsabbruch ist <marker>beileibe</marker> kein Beinbruch</example>
         </rule>
         <rule id="VORBEI_VERB" name="Zusammen-/Getrenntschreibung: vorbei reden etc. (vorbeireden)">
-            <!-- TODO: An der Yenidze vorbei führt die Bahnstrecke zwischen Hauptbahnhof und... -->
             <pattern>
                 <marker>
                     <token>vorbei</token>
                     <token postag_regexp="yes" postag="VER:.*">
-                        <exception inflected="yes">sein</exception>
-                        <exception inflected="yes">abfälschen</exception>
-                        <exception inflected="yes">einen</exception>
+                        <exception inflected="yes" regexp="yes">sein|abfälschen|führen|einen|werden</exception>
                     </token>
                 </marker>
             </pattern>
@@ -6538,6 +6535,7 @@ $Id$
             <example type="incorrect" correction="vorbeireden">Die werden mal wieder aneinander <marker>vorbei reden</marker>.</example>
             <example type="correct">Die werden mal wieder aneinander <marker>vorbeireden</marker>.</example>
             <example type="correct">Und erst als der Zug <marker>vorbei war</marker>, kamen wir am Bahnhof an.</example>
+            <example type="correct">An der Yenidze <marker>vorbei führt</marker> die Bahnstrecke zwischen Hauptbahnhof und Zentrum.</example>
         </rule>
         <rule id="ZU_MAL" name="Zusammen-/Getrenntschreibung: zu mal (zumal)">
             <pattern>
