@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    LEXIQUE FRANÇAIS, LISTE DES FORMES FLÉCHIES
-   version 4.12
+   version 5.1
    
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte: http://www.dicollecte.org/
@@ -26,7 +26,5 @@ _______________________________________________________________________________
    À propos de la réforme orthographique de 1990 :
    http://www.renouvo.org/regles.php
    http://www.orthographe-recommandee.info/
-   
-   L’archive contient également un outil de conversion du lexique pour le
-   correcteur grammatical LanguageTool.
+
 _______________________________________________________________________________

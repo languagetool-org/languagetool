@@ -8353,7 +8353,6 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
           </token>
-          <token min="0" max="1" regexp="yes">l[ea]</token>
           <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
           <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|lui|en|y</token>
           <marker>
@@ -8363,14 +8362,10 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Dominique <marker>peux</marker> venir.</example>
         <example type="correct">Dominique peut venir.</example>
         <example type="incorrect">Dominique ne <marker>peux</marker> pas venir.</example>
-        <example type="incorrect">La Corée <marker>peux</marker> gagner.</example>
-        <example type="correct">La Corée <marker>peut</marker> gagner.</example>
-        <example type="incorrect">La Corée ne <marker>peux</marker> pas gagner.</example>
-        <example type="correct">La Corée ne <marker>peut</marker> pas gagner.</example>
         <example type="correct">Antonio <marker>Banderas</marker> est un acteur espagnol.</example>
       </rule>
       <rule name="sujet singulier + verbe 3e personne singulier">
@@ -8407,6 +8402,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
         <example type="correct">Un petit sourire.</example>
         <example type="correct">Un seul <marker>être</marker> vous manque.</example>
+        <example type="incorrect">La Corée <marker>peux</marker> gagner.</example>
+        <example type="correct">La Corée <marker>peut</marker> gagner.</example>
       </rule>
       <rule name="sujet singulier + 1 token + verbe 3e personne singulier">
         <pattern>
@@ -8428,6 +8425,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Mon enfant ne peut pas aller à l’école.</example>
         <example type="correct">Ce matin nous avons froid.</example>
         <example type="correct">Cette chaise en bois est lourde.</example>
+        <example type="incorrect">La Corée ne <marker>peux</marker> pas gagner.</example>
+        <example type="correct">La Corée ne <marker>peut</marker> pas gagner.</example>
       </rule>
       <rule name="sujet singulier + 2 tokens + verbe pluriel">
         <pattern>

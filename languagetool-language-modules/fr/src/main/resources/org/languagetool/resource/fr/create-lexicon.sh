@@ -13,7 +13,7 @@
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 #
 
-INPUT=lexique-dicollecte-fr-v5.0.2
+INPUT=lexique-dicollecte-fr-v5.1
 
 if [ ! -f $INPUT.txt ]; then
   wget http://www.dicollecte.org/download/fr/$INPUT.zip
