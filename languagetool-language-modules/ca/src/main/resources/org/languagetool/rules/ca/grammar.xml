@@ -5218,6 +5218,12 @@ $Id$
         </rule> -->
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
             <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
+                <antipattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes" skip="2">vetllar|vetlar|esforçar</token>
+                        <token inflected="yes">per</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou</token>
                     <marker>
@@ -5238,6 +5244,12 @@ $Id$
                 <marker>
                     <token postag="V.P.*" postag_regexp="yes" inflected="yes">fer</token>
                     <token>servir</token>
+                    <token inflected="yes">per</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" skip="2">vetllar|vetlar|esforçar</token>
                     <token inflected="yes">per</token>
                 </marker>
             </antipattern>
@@ -5265,6 +5277,7 @@ $Id$
                 <example type='correct'>Són usats per l'aristocràcia.</example>
                 <example type='correct'>Han estat usats per l'aristocràcia.</example>
                 <example type="correct">Una eina feta servir pels mecànics.</example>
+                <example type="correct">no vetllo prou pels meus alumnes</example>
             </rule>
             <rule>
                 <pattern>
@@ -18867,8 +18880,14 @@ $Id$
             <antipattern>
                 <marker>
                     <token regexp="yes">diferents?</token>
+                    <token postag=".*LOC_.*" postag_regexp="yes">a</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">diferents?</token>
                     <token skip="4">a</token>
-                    <token regexp="yes" inflected="yes">territori|nord|sud|banda|lloc|part|si</token>
+                    <token regexp="yes" inflected="yes">territori|nord|sud|banda|lloc|si|país</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -18888,6 +18907,7 @@ $Id$
                 <short>Possible error</short>
                 <example type="incorrect">un resultat <marker>diferent al</marker> d'abans</example>
                 <example type="correct">És diferent al nord i al sud del Loira.</example>
+                <example type="correct">la llum viatja a velocitats diferents al llarg d’una mateixa direcció</example>
             </rule>
             <rule>
                 <pattern>
@@ -19058,18 +19078,28 @@ $Id$
             <example type="correct">No es parla enlloc d'esllavissades.</example>
         </rule>
         <rule id="EN_LLOC" name="*en lloc/enlloc">
+            <antipattern>
+                <marker>
+                    <token>lloc</token>
+                    <token postag="RG_anteposat"/>
+                    <token postag="AQ.[MC]S.|V.P..SM." postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>en</token>
                     <token>lloc</token>
                 </marker>
-                <token><exception regexp="yes">de|d'</exception></token>
+                <token><exception regexp="yes">de|d'|seu</exception><exception postag="AQ.[MC]S.|V.P..SM." postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>enlloc</suggestion> (= en cap lloc)?</message>
             <suggestion>en lloc de</suggestion>
             <example type="incorrect">No ho trobo <marker>en lloc</marker>.</example>
             <example type="incorrect"><marker>En lloc</marker> venir, se'n va.</example>
             <example type="correct">No ho veig enlloc.</example>
+            <example type="correct">Estaven en lloc segur.</example>
+            <example type="correct">Estaven en lloc molt segur.</example>
+            <example type="correct">Estaven en lloc tancat.</example>
         </rule>
         <rule id="EN_MOTIU_DE" name="*en motiu de/amb motiu de">
             <pattern>
