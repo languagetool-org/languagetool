@@ -15605,14 +15605,17 @@ $Id$
     <category name="Expressions incorrectes" type="grammar">
         <rule id="PRENDRE_FOC" name="prendre foc">
             <pattern>
-                <token inflected='yes'>prendre</token>
+                <marker>
+                    <token inflected='yes' skip="1">prendre</token>
+                </marker>
                 <token>foc</token>
             </pattern>
             <message>Expressió incorrecta</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">calar</match></suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">botar</match></suggestion>
             <short>Expressió incorrecta</short>
-            <example type='incorrect' correction="Calaren|Botaren"><marker>Prengueren foc</marker></example>
+            <example type='incorrect' correction="Calaren|Botaren"><marker>Prengueren</marker> foc.</example>
+            <example type='incorrect' correction="calar|botar">Van <marker>prendre</marker>-hi foc.</example>
             <example type='correct'>calar foc</example>
         </rule>
         <rule id="DE_CARRER" name="de carrer">
