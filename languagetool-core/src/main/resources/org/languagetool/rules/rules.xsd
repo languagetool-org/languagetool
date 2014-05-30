@@ -182,7 +182,7 @@
 				<xs:element ref="and" />
 				<xs:element ref="or" />
 				<xs:element ref="unify" />
-				<xs:element ref="marker" />
+				<xs:element ref="marker" maxOccurs="1"/>
 			</xs:choice>
 			<xs:attribute name="case_sensitive" type="binaryYesNo"
 				use="optional" />
@@ -264,7 +264,13 @@
 	<xs:element name="example" xml:space="preserve">
     <xs:complexType mixed="true">
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element ref="marker" />
+        <xs:element name="marker" >
+            <xs:complexType>
+                <xs:simpleContent>
+                    <xs:extension base="xs:string"/>
+                </xs:simpleContent>
+            </xs:complexType>
+        </xs:element>
       </xs:choice>
       <xs:attribute name="correction" type="xs:string"
 		use="optional" />
