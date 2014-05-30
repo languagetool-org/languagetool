@@ -6273,11 +6273,15 @@ $Id$
             <example type="correct">Esperarem a l'endemà.</example>
         </rule>
         <rulegroup id="AL_1996" name="*al 1996/el 1996">
+        <!-- del segle VIII al 1140
+        ubicat al 1445 de Broadway
+        situat al 1300  
+        equivalent al 1456-->
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
                     <marker>
-                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+|aC|dC</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
+                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+|aC|dC|superiors?|inferiors?|(proper|pròxim)(a|s|es)?</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
                         <token spacebefore="no">l</token>
                         <token regexp="yes">[12]\d{3}</token>
                     </marker>
@@ -6304,7 +6308,7 @@ $Id$
                 <pattern>
                     <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
                     <marker>
-                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+|aC|dC</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
+                        <token>a<exception scope="previous" regexp="yes">ací|aquí|quant|fins|per|cap|respecte|\d+|aC|dC|superiors?|inferiors?|(proper|pròxim)(a|s|es)?</exception><exception scope="previous" postag="DN.*|.*LOC_PREP.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir</exception></token>
                         <token spacebefore="no">l</token>
                         <token regexp="yes">[12]\d{3}</token>
                     </marker>
@@ -21053,12 +21057,21 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TURMENTOS" name="turmentós/tempestuós">
+            <pattern>
+                <token inflected="yes">turmentós</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">tempestuós</match></suggestion>? Turmentós és correcte en el sentit de 'que turmenta'.</message>           
+            <short>Error de context</short>
+            <example type="incorrect" correction="tempestuosa">Situació <marker>turmentosa</marker></example>
+            <example type="correct">situació tempestuosa</example>
+        </rule>
         <rule id="SORTEJAR" name="sortejar/esquivar">
             <pattern>
                 <marker>
-                <token inflected="yes" skip="2">sortejar</token>
+                <token inflected="yes" skip="4">sortejar</token>
                 </marker>
-                <token regexp="yes" inflected="yes">obstacle|barrera|porter|defensa|problema|contratemps|dificultat</token>
+                <token regexp="yes" inflected="yes">obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig</token>
             </pattern>
             <message>Ús incorrecte.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
