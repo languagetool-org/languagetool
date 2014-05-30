@@ -38,5 +38,6 @@ public class FrenchTagger extends BaseTagger {
   public FrenchTagger() {
     super();
     setLocale(Locale.FRENCH);
+    dontTagLowercaseWithUppercase();
   }
 }
