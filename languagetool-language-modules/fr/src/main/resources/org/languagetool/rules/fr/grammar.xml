@@ -8229,7 +8229,9 @@ though, and has since been slightly modified)-->
           </token>
           <token regexp="yes" skip="2">que?<exception scope="next" regexp="yes">quand|celles?</exception></token>
           <marker>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
+            <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
+              <exception scope="next">été</exception>
+            </token>
             <token postag="V.* ppa m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
@@ -8246,6 +8248,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
         <example type="correct">De la même nature que celles qui ont été saisies.</example>
         <example type="correct">La lettre que j’ai voulu envoyer.</example>
+        <example type="correct">Certains y voient la preuve qu'il a finalement été lâché par son soutien.</example>
       </rule>
       <rule>
         <pattern>
