@@ -11311,7 +11311,8 @@ USA
             <example type="incorrect"><marker>By default</marker> this setting is enabled.</example>
             <example type="correct">By default, this setting is enabled.</example>
         </rule>
-        <rule id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
+        <rulegroup id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
+            <rule>
             <antipattern>
                 <marker><token>instead</token></marker>
                 <token>of</token>
@@ -11335,12 +11336,16 @@ USA
                 <marker><token>however</token></marker>
                 <token postag="JJ"/>
             </antipattern>
+            <antipattern>
+                <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
+                <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"></exception></token>
+            </antipattern>
             <pattern>
                 <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                 <token postag="SENT_START"/>
                 <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
                 <marker>
-                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|in addition|in comparision|in contrast|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similiarly|still|subsequently|thereafter|therefore|thus|typically
+                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
                         <exception negate_pos="yes" postag="RB">further</exception>
                     </token>
                 </marker>
@@ -11350,15 +11355,34 @@ USA
             <suggestion>\2,</suggestion>
             <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
             <short>Punctuation error</short>
-            <example type="incorrect" correction="Nonetheless,"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
-            <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
-            <example type="correct">Further Spanish attacks were harsh.</example>
-            <example type="correct">Besides the power analysis, there are less formal methods...</example>
-            <example type="incorrect" correction="Besides,"><marker>Besides</marker> I promised her we would come.</example>
-            <example type="correct">Also in 1875, the legislature passed the Blaine Amendment.</example>
-            <example type="correct">Thus began the infamous "prison ships" system.</example>
-            <example type="correct">However fast you may walk, you can't catch up with him.</example>
+                <example type="incorrect" correction="Nonetheless,"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
+                <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
+                <example type="correct">Further Spanish attacks were harsh.</example>
+                <example type="correct">Besides the power analysis, there are less formal methods...</example>
+                <example type="incorrect" correction="Besides,"><marker>Besides</marker> I promised her we would come.</example>
+                <example type="correct">Also in 1875, the legislature passed the Blaine Amendment.</example>
+                <example type="correct">Thus began the infamous "prison ships" system.</example>
+                <example type="correct">However fast you may walk, you can't catch up with him.</example>
+                <example type="correct">Also specify your gender.</example>
         </rule>
+            <rule>
+                <pattern>
+                    <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
+                    <token postag="SENT_START"/>
+                    <token>in</token>
+                    <marker>
+                        <token regexp="yes">addition|contrast|comparison</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Did you forget a comma after a conjunctive/linking adverb?</message>
+                <suggestion>\3,</suggestion>
+                <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
+                <short>Punctuation error</short>
+                <example type="correct">In addition, he created a great rule for LanguageTool.</example>
+                <example type="incorrect">In <marker>addition</marker> he created a great rule for LanguageTool.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
         <rule id="WITCH_IS_WRONG" name="witch (which) is wrong">
