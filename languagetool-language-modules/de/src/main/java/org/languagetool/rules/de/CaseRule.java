@@ -81,6 +81,8 @@ public class CaseRule extends GermanRule {
      * solution is to add all those to our Morphy data, but as a simple
      * workaround to avoid false alarms, these words can be added here.
      */
+    exceptions.add("Bekannter");
+    exceptions.add("Bekannte");
     exceptions.add("Tel");  // Tel. = Telefon
     exceptions.add("Unschuldiger");
     exceptions.add("Vorgesetzter");
@@ -342,9 +344,11 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Tel Aviv");
     myExceptionPhrases.add("Erster Weltkrieg");
     myExceptionPhrases.add("Ersten Weltkriegs");
+    myExceptionPhrases.add("Ersten Weltkrieg");
     myExceptionPhrases.add("Ersten Weltkrieges");
     myExceptionPhrases.add("Erstem Weltkrieg");
     myExceptionPhrases.add("Zweiter Weltkrieg");
+    myExceptionPhrases.add("Zweiten Weltkrieg");
     myExceptionPhrases.add("Zweiten Weltkriegs");
     myExceptionPhrases.add("Zweiten Weltkrieges");
     myExceptionPhrases.add("Zweitem Weltkrieg");
