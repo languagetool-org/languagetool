@@ -1935,6 +1935,18 @@ $Id$
 						<example correction="Tak czy siak" type="incorrect"><marker>Tak, czy siak</marker>, nie ma to sensu.</example>
                         <example type="correct">— Czy tak, czy owak, z opowieścią biegaj.</example>
 				</rule>
+                <rule id="OTO_CO" name="Zbędny przecinek po „oto”">
+                    <pattern>
+                        <token>oto</token>
+                        <token>,</token>
+                        <token regexp='yes'>jak|dlaczego|co</token>
+                    </pattern>
+                    <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
+                    <url>http://poradnia.pwn.pl/lista.php?id=14326</url>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type='incorrect' correction="Oto jak"><marker>Oto, jak</marker> profesor robi naleśniki.</example>
+                    <example type='correct'>Oto jak profesor robi naleśniki.</example>
+                </rule>
                 <rule id="WYPISZ_WYMALUJ" name="Zbędny przecinek w „wypisz wymaluj”">
                 <pattern>
                     <token>wypisz</token>
@@ -13659,6 +13671,18 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="BRAK_GEN" name="„Brak szacunki” (brak szacunku)">
+                <pattern>
+                    <token>brak</token>
+                    <marker>
+                        <token regexp='yes'>.*i<exception postag='.*[\.:](gen|dat)[\.:].*|UNKNOWN' postag_regexp='yes'></exception></token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion><match no="2" postag_regexp="yes" postag="^.*$" postag_replace=".*gen.*"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>To koszmarny brak <marker>szacunki</marker>!</example>
+                <example type='correct'>To koszmarny brak szacunku!</example>
+            </rule>
             <rule id="AT_HOC" name="„at hoc” (ad hoc)">
                 <pattern>
                     <token>at</token>
