@@ -4075,6 +4075,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="filter" postag="N.*"></disambig>            
         </rule>
+        <rule> 
+            <pattern>
+                <marker>
+                    <token postag="PI.*" postag_regexp="yes">cap</token>
+                </marker>
+                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="PI.*"></disambig>
+        </rule>
     </rulegroup>  
     <rule id="llavors" name="llavors">
         <pattern>
@@ -7813,7 +7822,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
             <token><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="filter" postag="SP.*|RG.*|_obligacio"></disambig>
+        <disambig action="filter" postag="SP.*|RG.*|CS|_obligacio"></disambig>
     </rule>
     <rule id="PARTICIPI_PREPOSICIO" name="verb compost (participi) + preposició">
         <pattern>
