@@ -6395,6 +6395,21 @@ $Id$
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category name="Zusammen-/Getrenntschreibung">
+        <rule id="WOHL_GEMERKT" name="wohl gemerkt vs. wohlgemerkt">
+            <pattern case_sensitive='yes'>
+                <marker>
+                    <token>wohl</token>
+                    <token>gemerkt</token>
+                </marker>
+                <token><exception>,</exception><exception inflected='yes'>haben</exception></token>
+            </pattern>
+            <message>Meinten Sie <suggestion>wohlgemerkt</suggestion> (notabene, übrigens)?</message>
+            <example type='incorrect'>Ich spreche hier <marker>wohl gemerkt</marker> von Dir!</example>
+            <example type='correct'>Ich spreche hier wohlgemerkt von Dir!</example>
+            <example type='correct'>Ich habe sehr wohl gemerkt, dass Du hier bist.</example>
+            <example type='correct'>Das hast du wohl gemerkt, denn du lachst.</example>
+            <example type='correct'>Wohlgemerkt habe ich das bestätigt.</example>
+        </rule>
         <rule id="ZU_ALLERERST" name="zu allererst (zuallererst)">
             <pattern>
                 <token>zu</token>
