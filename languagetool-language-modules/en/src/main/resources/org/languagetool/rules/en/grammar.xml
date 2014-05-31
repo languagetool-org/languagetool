@@ -7831,7 +7831,21 @@ USA
                     <token postag="SENT_START"></token>
                     <token>I</token>
                     <marker>
-                        <token regexp="yes">is|be|are|were|has</token>
+                        <token regexp="yes">is|be</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>am</suggestion>?</message>
+                <short>Grammatical problem</short>
+                <example type="correct">I <marker>ate</marker> at the restaurant.</example>
+                <example type="correct">I <marker>am</marker> at the restaurant.</example>
+                <example type="incorrect" correction="am">I <marker>is</marker> at the restaurant.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <token>I</token>
+                    <marker>
+                        <token>are</token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>am</suggestion> or <suggestion>ate</suggestion>?</message>
@@ -7843,9 +7857,23 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
+                    <token>I</token>
+                    <marker>
+                        <token>were</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>was</suggestion>?</message>
+                <short>Grammatical problem</short>
+                <example type="correct">I <marker>ate</marker> at the restaurant.</example>
+                <example type="correct">I <marker>am</marker> at the restaurant.</example>
+                <example type="incorrect" correction="was">I <marker>were</marker> at the restaurant.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
                     <token>You</token>
                     <marker>
-                        <token regexp="yes">am|is|was|has</token>
+                        <token regexp="yes">am|is|was</token>
                     </marker>
                 </pattern>
                 <message>Use second person verb with 'you': <suggestion>are</suggestion> or <suggestion>were</suggestion>.</message>
@@ -7856,9 +7884,9 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">He|She</token>
+                    <token regexp="yes">s?he</token>
                     <marker>
-                        <token regexp="yes">were|have|be|am|are</token>
+                        <token regexp="yes">were|be|am|are</token>
                     </marker>
                 </pattern>
                 <message>Use third-person verb with '<match no="2"></match>': <suggestion><match no="3" postag="VBZ"></match></suggestion> or <suggestion>was</suggestion>.</message>
@@ -7872,7 +7900,7 @@ USA
                     <token postag="SENT_START"></token>
                     <token>We</token>
                     <marker>
-                        <token regexp="yes">am|is|was|has</token>
+                        <token regexp="yes">am|is|was</token>
                     </marker>
                 </pattern>
                 <message>Use first person plural verb with 'we': <suggestion>are</suggestion>, <suggestion>were</suggestion>.</message>
@@ -7885,7 +7913,7 @@ USA
                     <token postag="SENT_START"></token>
                     <token>They</token>
                     <marker>
-                        <token regexp="yes">am|is|was|has</token>
+                        <token regexp="yes">am|is|was</token>
                     </marker>
                 </pattern>
                 <message>Use third-person plural verb with 'they': <suggestion>are</suggestion>, <suggestion>were</suggestion>.</message>
@@ -9418,7 +9446,7 @@ USA
                 <pattern>
                     <token skip="1">I<exception scope="previous" regexp="yes">Phase|Am</exception></token>
                     <marker>
-                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/></token>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/><exception>is</exception></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
