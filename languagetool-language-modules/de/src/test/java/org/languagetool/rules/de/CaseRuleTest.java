@@ -61,6 +61,9 @@ public class CaseRuleTest extends TestCase {
     assertGood("Hier ein Satz. »Ein Zitat.«");
     assertGood("Hier ein Satz. (Noch einer.)");
     assertGood("Hier geht es nach Tel Aviv.");
+    assertGood("Unser Jüngster ist da.");
+    assertGood("Alles Erfundene ist wahr.");
+    assertGood("Sie hat immer ihr Bestes getan.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:
@@ -131,6 +134,8 @@ public class CaseRuleTest extends TestCase {
 
     assertEquals(0, langTool.check("Karten werden vom Auswahlstapel gezogen. […] Der Auswahlstapel gehört zum Inhalt.").size());
     //assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
+    //TODO: error not found:
+    //assertBad("So schwer, dass selbst Er ihn nicht hochheben kann.");
   }
 
   private void assertGood(String input) throws IOException {

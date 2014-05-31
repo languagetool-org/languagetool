@@ -341,6 +341,9 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("im Guten wie im Schlechten");
     myExceptionPhrases.add("Im Guten wie im Schlechten");
     myExceptionPhrases.add("Russisches Reich");
+    myExceptionPhrases.add("Russischen Reich");
+    myExceptionPhrases.add("Russischen Reichs");
+    myExceptionPhrases.add("Russischen Reiches");
     myExceptionPhrases.add("Tel Aviv");
     myExceptionPhrases.add("Erster Weltkrieg");
     myExceptionPhrases.add("Ersten Weltkriegs");
@@ -550,11 +553,12 @@ public class CaseRule extends GermanRule {
   }
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
-    String prevToken = i > 0 ? tokens[i-1].getToken() : "";
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    // TODO: "vor Schlimmerem", "Er hatte Schlimmes zu befürchten"
     // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
-    return "das".equalsIgnoreCase(prevToken) && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+    return prevToken != null && prevToken.hasPartialPosTag("PRO") && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
