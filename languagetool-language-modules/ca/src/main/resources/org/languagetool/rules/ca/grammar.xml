@@ -5502,7 +5502,7 @@ $Id$
         				<token>sobre</token>
         			</marker>
         			<token postag="DN.*" postag_regexp="yes" skip="2"><exception regexp="yes">zero|dos|dues|tres</exception></token>
-        			<token regexp="yes">pessetes|habitatges|euros|vivendes|habitants|dòlars|assistents|manifestants</token>
+        			<token regexp="yes">pessetes|habitatges|euros|vivendes|habitants|dòlars|assistents|manifestants|hores|h</token>
         		</pattern>
         		<message>Incorrecte amb valor aproximatiu.</message>
         		<suggestion>al voltant de</suggestion>
@@ -5536,6 +5536,24 @@ $Id$
         		<example type="correct">sobre les dues més antigues</example>
                 <example type="correct">Que es pronuncie sobre les quatre primeres qüestions.</example>
         	</rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sobre</token>
+                    </marker>
+                    <token regexp="yes">la|les</token>
+                    <token postag="DN.*" postag_regexp="yes"></token>
+                    <token regexp="yes">hores|h|hrs</token>
+                </pattern>
+                <message>Incorrecte amb valor aproximatiu. Correcte en altres sentits.</message>
+                <suggestion>al voltant de</suggestion>
+                <suggestion>cap a</suggestion>
+                <suggestion>vora</suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="al voltant de|cap a|vora"><marker>sobre</marker> les 10.30 hores.</example>
+                <example type="incorrect" correction="al voltant de|cap a|vora"><marker>sobre</marker> les 10,30 hores.</example>
+                <example type="correct">sobre les tres cadires</example>
+            </rule>
         </rulegroup>
         <rule id="A_LINREVES_DE_AL_REVES_DE" name="*a l'inrevés de/al revés de">
             <pattern>
