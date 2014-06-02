@@ -16239,15 +16239,15 @@ $Id$
           http://www.duden.de/sprachwissen/sprachratgeber/gross-und-kleinschreibung-1 -->
         <rule id="AUF_ENGLISCH" name="Groß-/Kleinschreibung: 'auf englisch (Englisch)'">
             <antipattern>
-                <token regexp="yes">[iI]n|[aA]uf</token>
-                <token regexp="yes">&sprachadj1;</token>
+                <token regexp="yes">in|auf</token>
+                <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                 <token postag_regexp="yes" postag="PA2:.*"/>
                 <token postag_regexp="yes" postag="SUB:.*"/>
             </antipattern>
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[iI]n|[aA]uf</token>
+            <pattern>
+                <token regexp="yes">in|auf</token>
                 <marker>
-                    <token regexp="yes">&sprachadj1;</token>
+                    <token regexp="yes" case_sensitive="yes">&sprachadj1;</token>
                 </marker>
             </pattern>
             <message>Meinten Sie \1 <suggestion><match no="2" case_conversion="startupper"/></suggestion> (im Sinne von 'in \2er Sprache')? Nach einer Präposition werden Sprachbezeichnungen großgeschrieben.</message>
