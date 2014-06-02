@@ -4008,7 +4008,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         cap capar VMIP1S0-->
         <rule> <!-- cap home, cap dona, cap cosa -->
             <pattern>
-            		<token><exception postag="D[^R].*" postag_regexp="yes"/></token>
+                <token><exception postag="D[^R].*" postag_regexp="yes"/></token>
                 <marker>
                     <token>cap</token>
                 </marker>
@@ -4078,6 +4078,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule> 
             <pattern>
+                <token><exception postag="D.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="PI.*" postag_regexp="yes">cap</token>
                 </marker>
@@ -7846,7 +7847,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="SPS00"/>
                 </and>
             </marker>
-            <token postag="D.*" postag_regexp="yes"/>
+            <token postag="D.*" postag_regexp="yes"><exception inflected="yes">es</exception></token>
             <token postag="[AN].*|V.P.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="S.*" />
