@@ -91,6 +91,16 @@ class Main {
     Tools.selectRules(lt, disabledRules, enabledRules);
   }
 
+  boolean isSpellCheckingActive() {
+    List<Rule> rules = lt.getAllActiveRules();
+    for (Rule rule : rules) {
+      if (rule.isDictionaryBasedSpellingRule()) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
   JLanguageTool getJLanguageTool() {
     return lt;
   }
@@ -103,7 +113,6 @@ class Main {
     JLanguageTool.removeTemporaryFiles();
   }
   
-
   private void setProfilingMode() {
     profileRules = true;
   }
@@ -489,13 +498,14 @@ class Main {
       options.setFilename("-");
     }
 
+    String languageHint = null;
     if (options.getLanguage() == null) {
       if (!options.isApiFormat() && !options.isAutoDetect()) {
         System.err.println("No language specified, using English");
       }
       options.setLanguage(new English());
     } else if (!options.isApiFormat() && !options.isApplySuggestions()) {
-      System.out.println("Expected text language: " + options.getLanguage().getName());
+      languageHint = "Expected text language: " + options.getLanguage().getName();
     }
 
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
@@ -503,6 +513,10 @@ class Main {
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
             options.getDisabledRules(), options.getEnabledRules(), options.isApiFormat(), options.isApplySuggestions(),
             options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
+    if (languageHint != null) {
+      String spellHint = prg.isSpellCheckingActive() ? "" : " (no spell checking active, specify a language variant if available)";
+      System.out.println(languageHint + spellHint);
+    }
     prg.setListUnknownWords(options.isListUnknown());
     if (options.isProfile()) {
       prg.setProfilingMode();
