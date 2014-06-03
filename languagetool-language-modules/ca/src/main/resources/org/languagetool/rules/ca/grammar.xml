@@ -8314,7 +8314,7 @@ $Id$
                 <token>les</token>
                 <token>hores</token>
                 </marker>
-                <token><exception>petites</exception></token>
+                <token><exception regexp="yes">petites|prèvies|anteriors|posteriors</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>fins aleshores</suggestion>?</message>
             <short>Possible confusió</short>
@@ -11269,7 +11269,7 @@ $Id$
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí|tal</token>
+                        <token regexp="yes">ja|fins|més|els|mentre|tant|sense|malgrat|sinó|sí|tal|fets?</token>
 				        <token>què</token>
 			        </marker>
 			        <token><exception postag="V.N.*" postag_regexp="yes"/><exception>?</exception></token>
@@ -12081,7 +12081,7 @@ $Id$
         <rulegroup id="SI" name="si/sí">
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">entre|sobre|de|amb</exception></token>
+                    <token><exception regexp="yes">entre|en|de|amb|per|sobre</exception></token>
                     <marker>
                         <token>si<exception postag="_GN_MS"/></token>
                     </marker>
@@ -12110,7 +12110,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">entre|en|de|amb|per</token>
+                    <token regexp="yes">entre|en|de|amb|per|sobre</token>
                     <marker>
                         <token>sí</token>
                     </marker>
@@ -12155,7 +12155,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">entre|en|de|amb|per</exception></token>
+                    <token><exception regexp="yes">entre|en|de|amb|per|sobre</exception></token>
                     <marker>
                         <token>si<exception postag="_GN_MS"/></token>
                     </marker>
@@ -16497,6 +16497,13 @@ $Id$
             <example type="correct">Pagaràs la festa.</example>
         </rule>
         <rule id="MEREIXER_LA_PENA" name="merèixer la pena">
+            <antipattern>
+                <marker>
+                    <token>pena</token>
+                    <token>de</token>
+                    <token>mort</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">merèixer</token>
@@ -16509,9 +16516,16 @@ $Id$
             <suggestion>s'ho <match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">valer</match></suggestion>
             <example type="incorrect" correction="val la pena|s'ho val">No <marker>mereix la pena</marker>.</example>
             <example type="incorrect" correction="valdrà la pena|s'ho valdrà">No <marker>mereixerà la pena</marker>.</example>
-            <example type="correct">Fa menys mal</example>
+            <example type="correct">Van merèxier la pena de mort.</example>
         </rule>
         <rule id="MENYS_MAL" name="menys mal">
+            <antipattern>
+                <marker>
+                    <token>més</token>
+                    <token>o</token>
+                    <token>menys</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token><exception inflected="yes">fer</exception></token>
                 <marker>
@@ -17689,6 +17703,8 @@ $Id$
                 <token><exception postag="_GN_FP"/></token>
             </pattern>
             <message>Expressió incorrecta.</message>
+            <suggestion>sense més ni més</suggestion>
+            <suggestion>de cop i volta</suggestion>
             <suggestion>a les bones</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect">¿Ho faràs <marker>per les bones</marker> o no?</example>
@@ -25523,14 +25539,17 @@ $Id$
         </rule>
         <rule id="DICTAR_TESTAMENT" name="dictar (*el) testament">
             <pattern>
-                <token inflected="yes" skip="3">dictar</token>
-                <token>el</token>
-                <token>testament</token>
+                <marker>
+                    <token inflected="yes" skip="3">dictar</token>
+                    <token>el</token>
+                    <token>testament</token>
+                </marker>
+                <token><exception inflected="yes">de</exception></token>
             </pattern>
             <message>Val més dir: <suggestion><match no="1" include_skipped="all"/> testament</suggestion>.</message>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="dictà testament">De seguida <marker>dictà el testament</marker>.</example>
-            <example type="correct">no va voler dictar testament</example>
+            <example type="correct">Segons el que dicta el testament de Nobel</example>
         </rule>
         <rule id="FER_LA_GUARDIA" name="fer (*la) guàrdia">
             <pattern>
