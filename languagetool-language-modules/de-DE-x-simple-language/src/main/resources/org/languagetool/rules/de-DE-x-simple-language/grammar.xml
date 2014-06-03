@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print"?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet"?>
-
 <!--
 German Easy-to-Read rules ("Leichte Sprache") for LanguageTool.
 See resource/de/tagset.txt in German module for the meaning of the POS tags.
@@ -22,9 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id$
 -->
-
 <!DOCTYPE rules [
         <!ENTITY anfauf "„|»|›|‚">
         <!ENTITY anfzu "‘|“|‹|«">
@@ -68,7 +65,7 @@ $Id$
                 <token regexp="yes">\p{L}{14,}</token>
             </pattern>
             <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
-            <example type="correct">Die Schiffahrt auf der Donau ist beliebt.</example>
+            <example type="correct">Die Schifffahrt auf der Donau ist beliebt.</example>
             <example type="incorrect">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
         </rule>
 
@@ -161,6 +158,7 @@ $Id$
                 <!-- Vorschlag: Verwenden Sie statt dessen den Dativ. -->
             </rule>
         </rulegroup>
+        
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
@@ -331,7 +329,7 @@ $Id$
                     <token />
                     <marker>
                         <token skip="-1"/>
-                        <token postag="SENT_END"></token>
+                        <token postag="SENT_END"/>
                     </marker>
                 </pattern>
                 <message>Langer Satz gefunden: Dieser Satz hat mehr als 12 Wörter.</message>
