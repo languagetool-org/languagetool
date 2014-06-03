@@ -109,7 +109,6 @@ public class AnalyzedTokenReadingsTest extends TestCase {
               new AnalyzedToken("word2", null, null)), 0);
     int i = 0;
     for (AnalyzedToken tokenReading : tokenReadings) {
-      System.out.println(tokenReading);
       if (i == 0) {
         assertThat(tokenReading.getToken(), is("word1"));
       } else if (i == 1) {
