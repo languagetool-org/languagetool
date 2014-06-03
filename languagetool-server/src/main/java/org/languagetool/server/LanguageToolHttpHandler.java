@@ -186,6 +186,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       throw new IllegalArgumentException("Text is " + text.length() + " characters long, exceeding maximum length of " + maxTextLength);
     }
     final String langParam = parameters.get("language");
+    //print("Check start: " + text.length() + " chars, " + langParam);
     final String autodetectParam = parameters.get("autodetect");
     if (langParam == null && (autodetectParam == null || !autodetectParam.equals("1"))) {
       throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use autodetect=1 for auto-detecting the language of the input text.");
