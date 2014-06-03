@@ -18,6 +18,11 @@
  */
 package org.languagetool.server;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * @since 2.0
  */
@@ -32,6 +37,7 @@ public class HTTPServerConfig {
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
+  protected int maxTextLength = Integer.MAX_VALUE;
 
   public HTTPServerConfig() {
     this.port = DEFAULT_PORT;
@@ -55,6 +61,9 @@ public class HTTPServerConfig {
   HTTPServerConfig(String[] args) {
     for (int i = 0; i < args.length; i++) {
       switch (args[i]) {
+        case "--config":
+          parseConfigFile(new File(args[++i]));
+          break;
         case "-p":
         case "--port":
           port = Integer.parseInt(args[++i]);
@@ -70,6 +79,18 @@ public class HTTPServerConfig {
           allowOriginUrl = args[++i];
           break;
       }
+    }
+  }
+
+  private void parseConfigFile(File file) {
+    try {
+      final Properties props = new Properties();
+      try (FileInputStream fis = new FileInputStream(file)) {
+        props.load(fis);
+        maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+      }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not load properties from '" + file + "'", e);
     }
   }
 
@@ -93,6 +114,34 @@ public class HTTPServerConfig {
    */
   public String getAllowOriginUrl() {
     return allowOriginUrl;
+  }
+
+  /**
+   * @param maxTextLength the maximum text length allowed (in number of characters), texts that are longer
+   *                      will cause an exception when being checked
+   */
+  public void setMaxTextLength(int maxTextLength) {
+    this.maxTextLength = maxTextLength;
+  }
+
+  int getMaxTextLength() {
+    return maxTextLength;
+  }
+
+  protected String getProperty(Properties props, String propertyName, File config) {
+    final String propertyValue = (String)props.get(propertyName);
+    if (propertyValue == null || propertyValue.trim().isEmpty()) {
+      throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
+    }
+    return propertyValue;
+  }
+
+  protected String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
+    final String propertyValue = (String)props.get(propertyName);
+    if (propertyValue == null) {
+      return defaultValue;
+    }
+    return propertyValue;
   }
 
 }

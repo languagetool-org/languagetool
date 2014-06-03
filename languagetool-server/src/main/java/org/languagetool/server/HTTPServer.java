@@ -99,6 +99,7 @@ public class HTTPServer extends Server {
         server = HttpServer.create(new InetSocketAddress(host, port), 0);
       }
       final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
+      httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       server.createContext("/", httpHandler);
       executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
@@ -119,7 +120,7 @@ public class HTTPServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 3 || usageRequested(args)) {
+    if (args.length > 5 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--port|-p port] [--public]");
       printCommonOptions();
       System.exit(1);

@@ -33,7 +33,6 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   
   private int requestLimit;
   private int requestLimitPeriodInSeconds;
-  private int maxTextLength = Integer.MAX_VALUE;
 
   /**
    * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
@@ -101,18 +100,6 @@ public class HTTPSServerConfig extends HTTPServerConfig {
     }
   }
 
-  /**
-   * @param maxTextLength the maximum text length allowed (in number of characters), texts that are longer
-   *                      will cause an exception when being checked
-   */
-  public void setMaxTextLength(int maxTextLength) {
-    this.maxTextLength = maxTextLength;
-  }
-
-  int getMaxTextLength() {
-    return maxTextLength;
-  }
-
   File getKeystore() {
     return keystore;
   }
@@ -129,19 +116,4 @@ public class HTTPSServerConfig extends HTTPServerConfig {
     return requestLimitPeriodInSeconds;
   }
 
-  private String getProperty(Properties props, String propertyName, File config) {
-    final String propertyValue = (String)props.get(propertyName);
-    if (propertyValue == null || propertyValue.trim().isEmpty()) {
-      throw new IllegalConfigurationException("Property '" + propertyName + "' must be set in " + config);
-    }
-    return propertyValue;
-  }
-
-  private String getOptionalProperty(Properties props, String propertyName, String defaultValue) {
-    final String propertyValue = (String)props.get(propertyName);
-    if (propertyValue == null) {
-      return defaultValue;
-    }
-    return propertyValue;
-  }
 }
