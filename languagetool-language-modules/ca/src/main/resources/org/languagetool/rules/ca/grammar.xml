@@ -8035,6 +8035,12 @@ $Id$
             <example type="correct">Ara que van mal dades</example>
         </rule>
         <rule id="MILER_MILERS" name="miler/milers">
+            <antipattern>
+                <token>centenar</token>
+                <token>de</token>
+                <token>la</token>
+                <token>ploma</token>
+            </antipattern>
             <pattern>
                 <token><exception regexp="yes">per|un|una|1|½|el|la</exception></token>
                 <marker>
@@ -20603,6 +20609,13 @@ $Id$
             <example type="correct">al màxim</example>
         </rule>
         <rule id="A_TOT_AIXO" name="*A tot això,">
+            <antipattern>
+                <marker>
+                    <token>això</token>
+                    <token skip="1">,</token>
+                    <token inflected="yes">afegir</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
@@ -20622,6 +20635,8 @@ $Id$
             <suggestion>amb totes aquestes</suggestion>
             <example type="incorrect"><marker>A tot això</marker>, King tingué temps d'entrevistar-se amb l'ara president Lyndon B.</example>
             <example type="correct">A més a més, tingué temps.</example>
+            <example type="correct">A tot això, cal afegir una altra cosa.</example>
+            <example type="correct">A tot això, hi afegirem una altra cosa.</example>
         </rule>    
         <rule id="TREBALLAR_DUR" name="treballar *dur/de valent/intensament">
             <pattern>
@@ -26128,13 +26143,15 @@ $Id$
         <rule id="TOT_INCLOENT" name="tot incloent">
             <pattern>
                 <token>,</token>
-                <token>tot</token>
-                <token>incloent</token>
+                <marker>
+                    <token>tot</token>
+                    <token>incloent</token>
+                </marker>
             </pattern>
             <message>"Tot" és redundant si no remarquem la simultaneïtat o l'oposició.</message>
             <suggestion>incloent</suggestion>
             <short>Redundància</short>
-            <example type="incorrect">sense desmerèixer els anteriors<marker>, tot incloent</marker>-hi el muntatge de la Fura dels Baus</example>
+            <example type="incorrect">sense desmerèixer els anteriors, <marker>tot incloent</marker>-hi el muntatge de la Fura dels Baus</example>
             <example type="correct">sense desmerèixer els anteriors, incloent-hi el muntatge de la Fura dels Baus</example>
         </rule>
     </category>      
