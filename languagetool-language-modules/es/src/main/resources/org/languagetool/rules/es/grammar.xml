@@ -1923,7 +1923,7 @@ $Id$
     <!-- EN_RELACION_A: La forma preferida es: en relación con o con relación a-->
 
     <rule id="EN_RELACION_A" name="en relación a">
-      <pattern>
+      <pattern case_sensitive="no">
         <marker><token>en</token> <token>relación</token> <token regexp="yes">a|al</token></marker>
       </pattern>
 
@@ -1940,130 +1940,32 @@ $Id$
 
     <!-- RELACIONADO_A: La forma preferida es: RELACIONADO CON-->
 
-    <rule id="RELACIONADO_A" name="relacionado a">
+    <rule id="RELACIONADAOS_A" name="relacionada/o/s a">
       <pattern>
-        <marker><token regexp="no" skip="-1">relacionado<exception scope="current"/></token> <token>a</token></marker>
+        <marker><token regexp="yes">relacionad[oa]s{0,1}<exception scope="current"/></token> <token>a</token></marker>
       </pattern>
 
-      <message>En español, la expresión «relacionado a» no existe. Puede cambiarse por <suggestion>relacionado con</suggestion>.</message>
+      <message>En español, la expresión «\1 \2» no existe. Puede cambiarse por <suggestion>\1 con</suggestion>.</message>
 
-      <short>En español, la expresión «relacionado a» no esiste.</short>
+      <short>En español, la expresión «\1 \2» no existe.</short>
 
-      <example correction="relacionado con" type="incorrect">Él está <marker>relacionado a</marker> la mafia.</example>
+      <example correction="relacionada con" type="incorrect">Esa canción está <marker>relacionada a</marker> los Beatles.</example>
 
-      <example type="correct">Él está relacionado con la mafia.</example>
+      <example type="correct">Esca canción está relacionada con los Beatles.</example>
     </rule>
 
-    <!-- RELACIONADA_A: La forma preferida es: RELACIONADA CON-->
-
-    <rule id="RELACIONADA_A" name="relacionada a">
+    <rule id="RELACIONADAOS_AL" name="relacionada/o/s al">
       <pattern>
-        <marker><token regexp="no" skip="-1">relacionada<exception scope="current"/></token> <token>a</token></marker>
+        <marker><token regexp="yes">relacionad[oa]s{0,1}<exception scope="current"/></token> <token>al</token></marker>
       </pattern>
 
-      <message>En español, la expresión «relacionada a» no existe. Puede cambiarse por <suggestion>relacionada con</suggestion>.</message>
+      <message>En español, la expresión «\1 \2» no existe. Puede cambiarse por <suggestion>\1 con el</suggestion>.</message>
 
-      <short>En español, la expresión «relacionada a» no esiste.</short>
+      <short>En español, la expresión «\1 \2» no existe.</short>
 
-      <example correction="relacionada con" type="incorrect">Ella está <marker>relacionada a</marker> la mafia.</example>
+      <example correction="relacionada con el" type="incorrect">Esa canción está <marker>relacionada al</marker> amor.</example>
 
-      <example type="correct">Ella está relacionada con la mafia.</example>
-    </rule>
-
-    <!-- RELACIONADO_AL: La forma preferida es: RELACIONADO CON-->
-
-    <rule id="RELACIONADO_AL" name="relacionado al">
-      <pattern>
-        <marker><token regexp="no" skip="-1">relacionado<exception scope="current"/></token> <token>al</token></marker>
-      </pattern>
-
-      <message>En español, la expresión «relacionado al» no existe. Puede cambiarse por <suggestion>relacionado con</suggestion>.</message>
-
-      <short>En español, la expresión «relacionado al» no esiste.</short>
-
-      <example type="incorrect">Ese escrito está <marker>relacionado al</marker> antiguo Egipto.</example>
-
-      <example type="correct">Ese escrito está relacionado con el antiguo Egipto.</example>
-    </rule>
-
-    <!-- RELACIONADA_AL: La forma preferida es: RELACIONADO CON-->
-
-    <rule id="RELACIONADA_AL" name="relacionada al">
-      <pattern>
-        <marker><token regexp="no" skip="-1">relacionada<exception scope="current"/></token> <token>al</token></marker>
-      </pattern>
-
-      <message>En español, la expresión «relacionada al» no existe. Puede cambiarse por <suggestion>relacionada con</suggestion>.</message>
-
-      <short>En español, la expresión «relacionada al» no esiste.</short>
-
-      <example type="incorrect">Esa inscripción está <marker>relacionada al</marker> antiguo Egipto.</example>
-
-      <example type="correct">Esa inscripción está relacionada con el antiguo Egipto.</example>
-    </rule>
-
-    <!-- RELACIONADOS_A: La forma preferida es: RELACIONADOS CON-->
-
-    <rule id="RELACIONADOS_A" name="relacionados a">
-      <pattern>
-        <marker><token regexp="no" skip="-1">relacionados<exception scope="current"/></token> <token>a</token></marker>
-      </pattern>
-
-      <message>En español, la expresión «relacionados a» no existe. Puede cambiarse por <suggestion>relacionados con</suggestion>.</message>
-
-      <short>En español, la expresión «relacionados a» no esiste.</short>
-
-      <example type="incorrect">Esos símbolos están <marker>relacionados a</marker> otras civilizaciones.</example>
-
-      <example type="correct">Esos símbolos están relacionados con otras civilizaciones.</example>
-    </rule>
-
-    <!-- RELACIONADAS_A: La forma preferida es: RELACIONADAS CON-->
-
-    <rule id="RELACIONADAS_A" name="relacionadas a">
-      <pattern>
-        <marker><token regexp="no" skip="-1">relacionadas<exception scope="current"/></token> <token>a</token></marker>
-      </pattern>
-
-      <message>En español, la expresión «relacionadas a» no existe. Puede cambiarse por <suggestion>relacionadas con</suggestion>.</message>
-
-      <short>En español, la expresión «relacionadas a» no esiste.</short>
-
-      <example type="incorrect">Esas construcciones están <marker>relacionadas a</marker> otras civilizaciones.</example>
-
-      <example type="correct">Esas construcciones están relacionadas con otras civilizaciones.</example>
-    </rule>
-
-    <!-- RELACIONADOS_AL: La forma preferida es: RELACIONADOS CON-->
-
-    <rule id="RELACIONADOS_AL" name="relacionados al">
-      <pattern>
-        <marker><token regexp="no" skip="-1">relacionados<exception scope="current"/></token> <token>al</token></marker>
-      </pattern>
-
-      <message>En español, la expresión «relacionados al» no existe. Puede cambiarse por <suggestion>relacionados con</suggestion>.</message>
-
-      <short>En español, la expresión «relacionados al» no esiste.</short>
-
-      <example type="incorrect">Los institutos están <marker>relacionados al</marker> Ministerio de Educación.</example>
-
-      <example type="correct">Los institutos están relacionados con el Ministerio de Educación.</example>
-    </rule>
-
-    <!-- RELACIONADAS_AL: La forma preferida es: RELACIONADAS CON-->
-
-    <rule id="RELACIONADAS_AL" name="relacionadas al">
-      <pattern>
-        <marker><token regexp="no" skip="-1">relacionadas<exception scope="current"/></token> <token>al</token></marker>
-      </pattern>
-
-      <message>En español, la expresión «relacionadas al» no existe. Puede cambiarse por <suggestion>relacionadas con</suggestion>.</message>
-
-      <short>En español, la expresión «relacionadas al» no esiste.</short>
-
-      <example type="incorrect">Son instituciones <marker>relacionadas al</marker> sistema financiero.</example>
-
-      <example type="correct">Son instituciones relacionadas con el sistema financiero.</example>
+      <example type="correct">Esca canción está relacionada con el amor.</example>
     </rule>
   </category>
 </rules>
