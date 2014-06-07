@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Matches a pattern rule against plain text.
+ * Matches a pattern rule against text.
  */
 class PatternRuleMatcher extends AbstractPatternRulePerformer {
 
