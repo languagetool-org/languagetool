@@ -101,7 +101,9 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
-    handleCount++;
+    synchronized (this) {
+      handleCount++;
+    }
     String text = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
@@ -145,7 +147,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
       sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, response);
     } finally {
-      handleCount--;
+      synchronized (this) {
+        handleCount--;
+      }
       httpExchange.close();
     }
   }
