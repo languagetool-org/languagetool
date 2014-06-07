@@ -121,7 +121,9 @@ public class HTTPServer extends Server {
 
   public static void main(String[] args) {
     if (args.length > 5 || usageRequested(args)) {
-      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--port|-p port] [--public]");
+      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
+      System.out.println("  --config file  a Java property file with values for:");
+      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
       printCommonOptions();
       System.exit(1);
     }
