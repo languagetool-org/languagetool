@@ -340,7 +340,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   /**
-   * Find or create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
+   * Create a JLanguageTool instance for a specific language, mother tongue, and rule configuration.
    *
    * @param lang the language to be used.
    * @param motherTongue the user's mother tongue or {@code null}

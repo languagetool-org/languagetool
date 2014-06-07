@@ -93,11 +93,8 @@ public class HTTPServer extends Server {
     this.port = config.getPort();
     this.host = host;
     try {
-      if (host == null) {
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-      } else {
-        server = HttpServer.create(new InetSocketAddress(host, port), 0);
-      }
+      InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
+      server = HttpServer.create(address, 0);
       httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
