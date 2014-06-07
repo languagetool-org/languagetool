@@ -7187,7 +7187,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>bo</token>
-                    <token postag="NCMS000"/>
+                    <token postag="NCMS000"><exception regexp="yes">mobiliari|ser|ésser|convertible|cupó|però</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>bon <match no="2"/></suggestion>?</message>
                 <example type="incorrect" correction="bon home">És un <marker>bo home</marker></example>
@@ -18608,12 +18608,13 @@ $Id$
         </rule>
         <rule id="BUSCA_I_CAPTURA" name="busca i captura">
             <pattern>
-                <token regexp="yes">busca|cerca|recerca</token>
+                <token regexp="yes">busca</token>
                 <token>i</token>
                 <token>captura</token>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>crida i cerca</suggestion>
+            <suggestion>recerca i captura</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect">el criminal està en <marker>busca i captura</marker></example>
             <example type="correct">el criminal està en <marker>crida i cerca</marker></example>
@@ -21672,7 +21673,7 @@ $Id$
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
                 <marker>
-                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
+                    <token skip="-1" inflected="yes">cloaca<exception scope="next" regexp="yes" inflected="yes">maxima|màxima|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar</exception></token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
