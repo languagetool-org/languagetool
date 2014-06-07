@@ -121,6 +121,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (verbose) {
         print("Exception was caused by this text: " + text, System.err);
       }
+      //noinspection CallToPrintStackTrace
       e.printStackTrace();
       final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
       sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, response);
@@ -201,21 +202,12 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     
     final String motherTongueParam = parameters.get("motherTongue");
-    Language motherTongue = null;
-    if (motherTongueParam != null) {
-      motherTongue = Language.getLanguageForShortName(motherTongueParam);
-    }
-
+    final Language motherTongue = motherTongueParam != null ? Language.getLanguageForShortName(motherTongueParam) : null;
+    final boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
     final String enabledParam = parameters.get("enabled");
     final List<String> enabledRules = new ArrayList<>();
     if (enabledParam != null) {
       enabledRules.addAll(Arrays.asList(enabledParam.split(",")));
-    }
-    
-    boolean useEnabledOnly = false;
-    final String enabledOnlyParam = parameters.get("enabledOnly");
-    if (enabledOnlyParam != null) {
-      useEnabledOnly = enabledOnlyParam.equals("yes");
     }
     
     final String disabledParam = parameters.get("disabled");
@@ -231,23 +223,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0;
     final QueryParams params = new QueryParams(enabledRules, disabledRules, useEnabledOnly, useQuerySettings);
     
-    final List<RuleMatch> matches;
-    final String sourceText = parameters.get("srctext");
-    if (sourceText == null) {
-      final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
-      matches = lt.check(text);
-    } else {
-      if (motherTongueParam == null) {
-        throw new IllegalArgumentException("Missing 'motherTongue' for bilingual checks");
-      }
-      print("Checking bilingual text, with source length " + sourceText.length() +
-          " and target length " + text.length() + " (characters), source language " +
-          motherTongue + " and target language " + langParam);
-      final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
-      final JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
-      final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
-      matches = Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
-    }
+    final List<RuleMatch> matches = getRuleMatches(text, parameters, lang, motherTongue, params);
     setCommonHeaders(httpExchange);
     final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
     final String xmlResponse = serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
@@ -258,11 +234,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     try {
       httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
-
       if (motherTongue != null) {
         languageMessage += " (mother tongue: " + motherTongue.getShortNameWithCountryAndVariant() + ")";
       }
-
     } catch (IOException exception) {
       // the client is disconnected
       messageSent = "notSent: " + exception.getMessage();
@@ -270,6 +244,26 @@ class LanguageToolHttpHandler implements HttpHandler {
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
             + "handlers:" + handleCount + ", " + matches.size() + " matches, " + (System.currentTimeMillis() - timeStart) + "ms"
             + ", " + messageSent);
+  }
+
+  private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
+                                         Language motherTongue, QueryParams params) throws Exception {
+    final String sourceText = parameters.get("srctext");
+    if (sourceText == null) {
+      final JLanguageTool lt = getLanguageToolInstance(lang, motherTongue, params);
+      return lt.check(text);
+    } else {
+      if (parameters.get("motherTongue") == null) {
+        throw new IllegalArgumentException("Missing 'motherTongue' parameter for bilingual checks");
+      }
+      print("Checking bilingual text, with source length " + sourceText.length() +
+          " and target length " + text.length() + " (characters), source language " +
+          motherTongue + " and target language " + lang.getShortNameWithCountryAndVariant());
+      final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
+      final JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
+      final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
+      return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
+    }
   }
 
   private Map<String, String> parseQuery(String query) throws UnsupportedEncodingException {
