@@ -24,10 +24,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.XMLValidator;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
-import org.languagetool.language.Polish;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
@@ -154,6 +151,23 @@ public class HTTPServerTest {
             english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
     assertTrue(result4.contains("EN_A_VS_AN"));
     assertFalse(result4.contains("BERATE"));
+  }
+
+  @Test
+  public void testTimeout() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig();
+    config.setMaxCheckTimeMillis(1);
+    final HTTPServer server = new HTTPServer(config, false);
+    try {
+      server.run();
+      try {
+        System.out.println("Testing timeout now, please ignore the exception");
+        check(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
+        fail("Check was expected to be stopped because it took too long");
+      } catch (IOException expected) {}
+    } finally {
+      server.stop();
+    }
   }
 
   @Test

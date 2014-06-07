@@ -71,6 +71,10 @@ LanguageTool Change Log
     -The HTTP server now also accepts a --config option so that the maximum request size
      can be limited with the 'maxTextLength' parameter (this used to be working only
      for the HTTPS server)
+    -The HTTP and HTTPS servers now accept a new option 'maxCheckTimeMillis' in the
+     property configuration file to specify a maximum duration of a single check.
+     Checks that take longer (e.g. because generating spell corrections is slow for
+     some languages) will stop with an exception.
 
 -GUI:
     -Improved configuration dialog

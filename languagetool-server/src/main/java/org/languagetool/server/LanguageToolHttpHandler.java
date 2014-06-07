@@ -24,6 +24,7 @@ import java.net.URI;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.*;
 
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
@@ -49,13 +50,16 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final boolean verbose;
   private final boolean internalServer;
   private final RequestLimiter requestLimiter;
+  private final ExecutorService executorService;
 
+  private long maxCheckTimeMillis = -1;
   private int maxTextLength = Integer.MAX_VALUE;
   private String allowOriginUrl;
   
   private static int handleCount = 0;
 
   /**
+   * Create an instance. Call {@link #shutdown()} when done.
    * @param verbose print the input text in case of exceptions
    * @param allowedIps set of IPs that may connect or <tt>null</tt> to allow any IP
    * @param requestLimiter may be null
@@ -65,10 +69,25 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.allowedIps = allowedIps;
     this.internalServer = internal;
     this.requestLimiter = requestLimiter;
+    this.executorService = Executors.newCachedThreadPool();
+  }
+
+  /** @since 2.6 */
+  void shutdown() {
+    executorService.shutdownNow();
   }
 
   void setMaxTextLength(int maxTextLength) {
     this.maxTextLength = maxTextLength;
+  }
+
+  /**
+   * Maximum time allowed per check in milliseconds. If the checking takes longer, it will stop with
+   * an exception. Use {@code -1} for no limit.
+   * @since 2.6
+   */
+  void setMaxCheckTimeMillis(long maxCheckTimeMillis) {
+    this.maxCheckTimeMillis = maxCheckTimeMillis;
   }
 
   /**
@@ -181,7 +200,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     return lang;
   }
 
-  private void checkText(String text, HttpExchange httpExchange, Map<String, String> parameters) throws Exception {
+  private void checkText(final String text, final HttpExchange httpExchange, final Map<String, String> parameters) throws Exception {
     final long timeStart = System.currentTimeMillis();
     if (text.length() > maxTextLength) {
       throw new IllegalArgumentException("Text is " + text.length() + " characters long, exceeding maximum length of " + maxTextLength);
@@ -223,7 +242,23 @@ class LanguageToolHttpHandler implements HttpHandler {
     final boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0;
     final QueryParams params = new QueryParams(enabledRules, disabledRules, useEnabledOnly, useQuerySettings);
     
-    final List<RuleMatch> matches = getRuleMatches(text, parameters, lang, motherTongue, params);
+    final Future<List<RuleMatch>> future = executorService.submit(new Callable<List<RuleMatch>>() {
+      @Override
+      public List<RuleMatch> call() throws Exception {
+        return getRuleMatches(text, parameters, lang, motherTongue, params);
+      }
+    });
+    final List<RuleMatch> matches;
+    if (maxCheckTimeMillis < 0) {
+      matches = future.get();
+    } else {
+      try {
+        matches = future.get(maxCheckTimeMillis, TimeUnit.MILLISECONDS);
+      } catch (TimeoutException e) {
+        throw new RuntimeException("Text checking took longer than allowed maximum of " + maxCheckTimeMillis + " milliseconds", e);
+      }
+    }
+    
     setCommonHeaders(httpExchange);
     final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
     final String xmlResponse = serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);

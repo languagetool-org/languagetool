@@ -38,6 +38,7 @@ public class HTTPServerConfig {
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
+  protected long maxCheckTimeMillis = -1;
 
   public HTTPServerConfig() {
     this.port = DEFAULT_PORT;
@@ -88,6 +89,7 @@ public class HTTPServerConfig {
       try (FileInputStream fis = new FileInputStream(file)) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
+        maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -126,6 +128,20 @@ public class HTTPServerConfig {
 
   int getMaxTextLength() {
     return maxTextLength;
+  }
+
+  /**
+   * @param maxCheckTimeMillis The maximum duration allowed for a single check in milliseconds, checks that take longer
+   *                      will stop with an exception. Use {@code -1} for no limit.
+   * @since 2.6
+   */
+  void setMaxCheckTimeMillis(int maxCheckTimeMillis) {
+    this.maxCheckTimeMillis = maxCheckTimeMillis;
+  }
+
+  /** @since 2.6 */
+  long getMaxCheckTimeMillis() {
+    return maxCheckTimeMillis;
   }
 
   protected String getProperty(Properties props, String propertyName, File config) {

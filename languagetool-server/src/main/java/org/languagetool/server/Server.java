@@ -46,6 +46,7 @@ abstract class Server {
   protected int port;
   protected String host;
   protected HttpServer server;
+  protected LanguageToolHttpHandler httpHandler;
 
   private boolean isRunning;
 
@@ -65,6 +66,9 @@ abstract class Server {
    * Stop the server. Once stopped, a server cannot be used again.
    */
   public void stop() {
+    if (httpHandler != null) {
+      httpHandler.shutdown();
+    }
     if (server != null) {
       System.out.println("Stopping server");
       server.stop(0);
