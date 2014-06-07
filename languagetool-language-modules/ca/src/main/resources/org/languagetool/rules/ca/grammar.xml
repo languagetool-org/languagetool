@@ -5911,8 +5911,9 @@ $Id$
                     <token regexp="yes">ls?</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>sota e<match no="4"/></suggestion>?</message>
+            <message>¿Volíeu dir <suggestion><match no="2"/> e<match no="4"/></suggestion>?</message>
             <example type="incorrect" correction="sota el"><marker>sota al</marker> pont</example>
+            <example type="incorrect" correction="sobre el"><marker>sobre al</marker> pont</example>
             <example type="correct">sota el pont</example>
             <example type="correct">donar una ullada per sobre als diaris</example>
         </rule>
@@ -20259,16 +20260,18 @@ $Id$
         <rule id="SEMBLA_SER" name="*sembla/pareix ser">
             <pattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">semblar|parèixer</token>
-                    <token>ser</token>
+                    <token regexp="yes">sembla|semblava|pareix|pareixia</token>
+                    <token regexp="yes">ser|esser|ésser</token>
+                    <token>que</token>
                 </marker>
-                <token regexp="yes">que|,</token>
             </pattern>
             <message>Expressió redundant.</message>
-            <suggestion><match no="1"></match></suggestion>
+            <suggestion><match no="1"/> que</suggestion>
+            <suggestion>Segons <match no="1" case_conversion="alllower"/>,</suggestion>
             <short>Expressió redundant</short>
-            <example type="incorrect"><marker>sembla ser</marker> que no arribarem a temps</example>
-            <example type="correct"><marker>sembla</marker> que no arribarem a temps</example>
+            <example type="incorrect" correction="Sembla que|Segons sembla,"><marker>Sembla ser que</marker> no arribarem a temps</example>
+            <example type="incorrect" correction="Pareixia que|Segons pareixia,"><marker>Pareixia ser que</marker> ho era.</example>
+            <example type="correct">Sembla ser, certament, l'adequat.</example>
         </rule>
         <rule id="DE_SOCAREL" name="de soca-rel">
             <pattern>
@@ -20537,6 +20540,13 @@ $Id$
             <example type="correct">això no té retorn</example>
         </rule>
         <rulegroup id="A_TENOR_DE" name="*a tenor de">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">com|per</token>
+                    <token>a</token>
+                    <token>tenor</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>a</token>
