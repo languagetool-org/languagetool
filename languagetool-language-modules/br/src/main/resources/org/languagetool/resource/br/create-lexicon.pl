@@ -14,7 +14,7 @@
 # How to use this script:
 #
 # 1) Download the Apertium Breton dictionary:
-#    $ svn co https://apertium.svn.sourceforge.net/svnroot/apertium/trunk/apertium-br-fr
+#    $ svn co https://svn.code.sf.net/p/apertium/svn/trunk/apertium-br-fr/
 #    $ cd apertium-br-fr/
 # 2) Install Apertium tools:
 #    $ sudo apt-get install lttoolbox
