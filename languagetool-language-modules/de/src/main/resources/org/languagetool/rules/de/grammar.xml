@@ -8412,6 +8412,64 @@ $Id$
     <category name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
+        <rulegroup id="GESTERN_MIT_PRAESENS" name="Zeitform: 'gestern' etc. mit Präsens">
+            <rule>
+                <pattern>
+					<marker>
+						<token postag="SENT_START" skip="-1">
+							<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+							<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+						</token>
+						<token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
+						<token postag="VER:.*:PRÄ.*" postag_regexp="yes">
+							<exception inflected="yes">haben</exception>
+							<exception inflected="yes">sein</exception>
+							<exception regexp="yes">eine|einen</exception>
+						</token>
+					</marker>
+                    <token>
+						<exception inflected="yes">haben</exception>
+						<exception inflected="yes">sein</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect" correction="Gestern schneite|Gestern schneitet"><marker>Gestern schneit</marker> es ein wenig.</example>
+                <example type="correct"><marker>Gestern schneite</marker> es ein wenig.</example>
+                <example type="correct">Ich habe mein Rad <marker>gestern</marker> repariert.</example>
+                <example type="correct">Rate mal, wer mich <marker>gestern besucht</marker> hat.</example>
+                <example type="correct">Yoko ging <marker>gestern einkaufen</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+					<marker>
+						<token postag="SENT_START" skip="-1">
+							<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+							<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+						</token>
+						<token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
+						<token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+						<token postag="VER:.*:PRÄ.*" postag_regexp="yes">
+							<exception inflected="yes">haben</exception>
+							<exception inflected="yes">sein</exception>
+							<exception regexp="yes">eine|einen</exception>
+						</token>
+                    </marker>
+                    <token>
+						<exception inflected="yes">haben</exception>
+						<exception inflected="yes">sein</exception>
+                    </token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect" correction="Letzten Montag schneite|Letzten Montag schneitet"><marker>Letzten Montag schneit</marker> es ein wenig.</example>
+                <example type="correct"><marker>Letzten Montag schneite</marker> es ein wenig.</example>
+                <example type="correct">Ich habe mein Rad <marker>letzte Woche</marker> repariert.</example>
+                <example type="correct">Ich musste mein Rad <marker>letztes Wochenende</marker> reparieren.</example>
+                <example type="correct">Rate mal, wer mich <marker>letzten Mittwoch besucht</marker> hat.</example>
+                <example type="correct">Yoko ging <marker>vorletzte Woche einkaufen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HUMANEXPERIMENT" name="Mehrdeutigkeit: menschliche Experimente (Humanexperimente)">
             <rule>
                 <pattern>
