@@ -21210,6 +21210,14 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TARJA" name="tarja/targeta">
+            <pattern>
+                <token inflected="yes">tarja</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">targeta</match></suggestion>? "Tarja" és correcte en altres sentits.</message>
+            <example type="incorrect" correction="targetes">Les <marker>targes</marker> de crèdit.</example>
+            <example type="correct">Les targetes</example>
+        </rule>
         <rule id="TURMENTOS" name="turmentós/tempestuós">
             <pattern>
                 <token inflected="yes">turmentós</token>
