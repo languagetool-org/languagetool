@@ -40,7 +40,7 @@ import java.util.StringTokenizer;
  * <pre>
  * 673 lines checked with 834 errors.
  * 144 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
- * => 17,27% recall
+ * => 17,75% recall
  * 103 errors found where the first suggestion was the correct one
  * => 12,35% recall
  * </pre>
