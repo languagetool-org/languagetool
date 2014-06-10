@@ -24,6 +24,7 @@ import org.languagetool.language.BritishEnglish;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,10 +62,12 @@ class RealWordCorpusEvaluator {
   private int perfectMatches;
   private int goodMatches;
 
-  RealWordCorpusEvaluator() throws IOException {
+  RealWordCorpusEvaluator(File languageModel) throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
-    //langTool.addRule(new ConfusionProbabilityRule(JLanguageTool.getMessageBundle()));
+    if (languageModel != null) {
+      langTool.addRule(new EnglishConfusionProbabilityRule(languageModel, JLanguageTool.getMessageBundle()));
+    }
   }
 
   int getSentencesChecked() {
@@ -198,12 +201,21 @@ class RealWordCorpusEvaluator {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + RealWordCorpusEvaluator.class.getSimpleName() + " <corpusDirectory>");
+    if (args.length != 1 && args.length != 2) {
+      System.out.println("Usage: " + RealWordCorpusEvaluator.class.getSimpleName() + " <corpusDirectory> [languageModel]");
+      System.out.println("   [languageModel] is a morfologik file with ngram frequency information (optional)");
       System.exit(1);
     }
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator();
-    evaluator.run(new File(args[0]));
+    if (args.length == 1) {
+      System.out.println("Running without language model");
+      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(null);
+      evaluator.run(new File(args[0]));
+    } else {
+      File languageModel = new File(args[1]);
+      System.out.println("Running with language model from " + languageModel);
+      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(languageModel);
+      evaluator.run(new File(args[0]));
+    }
   }
 
   class ErrorSentence {

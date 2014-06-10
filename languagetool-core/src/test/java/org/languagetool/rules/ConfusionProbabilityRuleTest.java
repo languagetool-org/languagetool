@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
 
+import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -32,18 +33,20 @@ public class ConfusionProbabilityRuleTest {
   
   @Test
   public void testRule() throws IOException, ClassNotFoundException {
-    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(TestTools.getEnglishMessages()) {
+    File languageModelFile = new File("src/test/resources/org/languagetool/languagemodel/frequency.dict");
+    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(languageModelFile, TestTools.getEnglishMessages()) {
       @Override public String getDescription() { return null; }
     };
-    ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet("portrait", "portray");
+    ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet("a", "an");
     AnalyzedTokenReadings[] tokens = {
-            reading("A"),
-            reading("portray"),
-            reading("of"),
-            reading("me")
+            reading("is"),
+            reading("an"),
+            reading("café"),
+            reading("in"),
+            reading("Berlin")
     };
     String alternative = rule.getBetterAlternativeOrNull(tokens, 1, confusionSet);
-    assertThat(alternative, is("portrait"));
+    assertThat(alternative, is("a"));
   }
 
   private AnalyzedTokenReadings reading(String token) {

@@ -18,11 +18,10 @@
  */
 package org.languagetool.rules;
 
-import org.dashnine.preditor.LanguageModel;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import sleep.runtime.Scalar;
+import org.languagetool.languagemodel.LanguageModel;
 
 import java.io.*;
 import java.util.*;
@@ -40,28 +39,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
 
-  public ConfusionProbabilityRule(ResourceBundle messages) throws IOException {
-    this(HOMOPHONES, messages);
-  }
-  
-  public ConfusionProbabilityRule(String path, ResourceBundle messages) throws IOException {
+  public ConfusionProbabilityRule(File languageModelFile, ResourceBundle messages) throws IOException {
     super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
     wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
-    System.out.println("Loading large language model...");
-    String file = "/prg/atd/models/model.bin";  // TODO: use morfologik or berkeleyLM instead
-    try(FileInputStream fis = new FileInputStream(file)) {
-      ObjectInputStream oos = new ObjectInputStream(fis);
-      try {
-        Object c = oos.readObject();
-        Scalar s = (Scalar)c;
-        languageModel = (LanguageModel) s.objectValue();
-        System.out.println("Language model loaded.");
-      } catch (ClassNotFoundException e) {
-        throw new RuntimeException("Could not deserialize data in " + file, e);
-      }
-    }
+    languageModel = new LanguageModel(languageModelFile);
   }
 
   /** @deprecated used only for tests */
@@ -151,25 +134,15 @@ public abstract class ConfusionProbabilityRule extends Rule {
     */
     //System.out.println("---------------------------");
     //System.out.println(option + ", next " + next + ", prev: " + prev);
-    
-    double pref = languageModel.Pbigram1(prev, option);
-    //System.out.println(prev + " " + option + " => " + pref);
-    double postf = languageModel.Pbigram2(option, next);
-    //System.out.println(option + " " + next + " => " + postf);
-    
-    double trigram = languageModel.Ptrigram(prev2, prev, option);
-    //System.out.println(prev2 + " " + prev + " " + option + " => " + trigram);
-    double trigram2 = languageModel.Ptrigram2(option, next, next2);
-    //System.out.println(option + " " + next + " " + next2 + " => " + trigram2);
-    
-    double wordProbability = languageModel.Pword(option);
 
-    // TODO: AtD seems to use the probabilities as input for a neural network for weighting,
-    // see http://blog.afterthedeadline.com/2009/09/25/statistical-grammar-correction-or-not/
-    double score = wordProbability + pref + postf + trigram + trigram2;
-    //System.out.println(option + " -> " + score + " (" + wordProbability + "+" + pref + "+" + postf + "+" + trigram + "+" + trigram2 + ")");
-
-    return score;
+    long ngram1 = languageModel.getCount(prev, option);
+    long ngram2 = languageModel.getCount(option, next);
+    //System.out.println(prev + " " + option + " -> " + ngram1);
+    //System.out.println(option + " " + next + " -> " + ngram2);
+    
+    // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account
+    
+    return ngram1 + ngram2;
   }
 
   @Override

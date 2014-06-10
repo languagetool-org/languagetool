@@ -49,7 +49,7 @@ class RealWordFalseAlarmEvaluator {
   private int globalSentenceCount;
   private int globalRuleMatches;
 
-  RealWordFalseAlarmEvaluator() throws IOException {
+  RealWordFalseAlarmEvaluator(File languageModel) throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
     confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
@@ -59,7 +59,7 @@ class RealWordFalseAlarmEvaluator {
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
     }
-    confusionRule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle());
+    confusionRule = new EnglishConfusionProbabilityRule(languageModel, JLanguageTool.getMessageBundle());
     langTool.addRule(confusionRule);
   }
 
@@ -108,12 +108,13 @@ class RealWordFalseAlarmEvaluator {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + RealWordFalseAlarmEvaluator.class.getSimpleName() + " <sentenceDirectory>");
+    if (args.length != 2) {
+      System.out.println("Usage: " + RealWordFalseAlarmEvaluator.class.getSimpleName() + " <languageModel> <sentenceDirectory>");
+      System.out.println("   <languageModel> is a morfologik file with ngram frequency information");
       System.exit(1);
     }
-    RealWordFalseAlarmEvaluator evaluator = new RealWordFalseAlarmEvaluator();
-    evaluator.run(new File(args[0]));
+    RealWordFalseAlarmEvaluator evaluator = new RealWordFalseAlarmEvaluator(new File(args[0]));
+    evaluator.run(new File(args[1]));
   }
 
 }

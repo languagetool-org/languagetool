@@ -16,23 +16,18 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en;
+package org.languagetool.dev;
 
-import org.languagetool.rules.ConfusionProbabilityRule;
+import org.junit.Ignore;
+import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ResourceBundle;
-
-public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
-
-  public EnglishConfusionProbabilityRule(File modelFile, ResourceBundle messages) throws IOException {
-    super(modelFile, messages);
+public class FrequencyDictionaryBuilderTest {
+  
+  @Test
+  @Ignore("no assertions")
+  public void testBuild() throws Exception {
+    String path = "src/test/resources/org/languagetool/dev/";
+    FrequencyDictionaryBuilder.main(new String[]{path + "frequency.txt",
+                                                 path + "frequency.info"});
   }
-
-  @Override
-  public String getDescription() {
-    return "Statistically detect wrong use of words that are easily confused";
-  }
-
 }
