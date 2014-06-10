@@ -66,7 +66,7 @@ class RealWordCorpusEvaluator {
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
     if (languageModel != null) {
-      langTool.addRule(new EnglishConfusionProbabilityRule(languageModel, JLanguageTool.getMessageBundle()));
+      langTool.addRule(new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel));
     }
   }
 

@@ -311,6 +311,20 @@ public class JLanguageTool {
     return false;
   }
 
+  private boolean addNewlyConstructedLanguageModelRules(File languageModel, ResourceBundle messages, List<Rule> rules, Constructor[] constructors) 
+          throws InstantiationException, IllegalAccessException, InvocationTargetException {
+    for (Constructor constructor : constructors) {
+      final Class[] paramTypes = constructor.getParameterTypes();
+      if (paramTypes.length == 2
+              && paramTypes[0].equals(ResourceBundle.class)
+              && paramTypes[1].equals(File.class)) {
+        rules.add((Rule) constructor.newInstance(messages, languageModel));
+        return true;
+      }
+    }
+    return false;
+  }
+
   /**
    * Set a PrintStream that will receive verbose output. Set to
    * {@code null} (which is the default) to disable verbose output.
@@ -358,6 +372,31 @@ public class JLanguageTool {
     } else {
       return ruleLoader.getRules(is, language, motherTongue);
     }
+  }
+
+  /**
+   * @since 2.6
+   */
+  public void activateLanguageModelRules(File languageModel) throws IOException {
+    ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
+    List<Rule> rules = new ArrayList<>();
+    for (Class<? extends Rule> ruleClass : language.getRelevantLanguageModelRules()) {
+      final Constructor[] constructors = ruleClass.getConstructors();
+      try {
+        if (constructors.length > 0) {
+          boolean constructorFound = addNewlyConstructedLanguageModelRules(languageModel, messages, rules, constructors);
+          if (!constructorFound) {
+            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName()
+                    + " - add at least a constructor with a ResourceBundle parameter and a File (for the language model)");
+          }
+        } else {
+          throw new RuntimeException("No public constructor for rule class: " + ruleClass.getName());
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Failed to load built-in Java rules for language " + language, e);
+      }
+    }
+    userRules.addAll(rules);
   }
 
   /**

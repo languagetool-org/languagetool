@@ -34,7 +34,7 @@ public class ConfusionProbabilityRuleTest {
   @Test
   public void testRule() throws IOException, ClassNotFoundException {
     File languageModelFile = new File("src/test/resources/org/languagetool/languagemodel/frequency.dict");
-    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(languageModelFile, TestTools.getEnglishMessages()) {
+    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(TestTools.getEnglishMessages(), languageModelFile) {
       @Override public String getDescription() { return null; }
     };
     ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet("a", "an");

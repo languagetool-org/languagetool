@@ -70,7 +70,7 @@ class Main {
       final Language language, final Language motherTongue,
       final String[] disabledRules, final String[] enabledRules,
       final boolean apiFormat, boolean applySuggestions, 
-      boolean autoDetect, boolean singleLineBreakMarksParagraph) throws IOException,
+      boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModel) throws IOException,
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
@@ -88,6 +88,9 @@ class Main {
     lt = new MultiThreadedJLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
+    if (languageModel != null) {
+      lt.activateLanguageModelRules(languageModel);
+    }
     Tools.selectRules(lt, disabledRules, enabledRules);
   }
 
@@ -512,7 +515,7 @@ class Main {
             options.isSingleLineBreakMarksParagraph());
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
             options.getDisabledRules(), options.getEnabledRules(), options.isApiFormat(), options.isApplySuggestions(),
-            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
+            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ? "" : " (no spell checking active, specify a language variant if available)";
       System.out.println(languageHint + spellHint);

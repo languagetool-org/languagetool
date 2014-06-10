@@ -59,7 +59,7 @@ class RealWordFalseAlarmEvaluator {
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
     }
-    confusionRule = new EnglishConfusionProbabilityRule(languageModel, JLanguageTool.getMessageBundle());
+    confusionRule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
     langTool.addRule(confusionRule);
   }
 

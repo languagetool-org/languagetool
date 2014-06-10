@@ -216,6 +216,13 @@ public abstract class Language {
   // -------------------------------------------------------------------------
 
   /**
+   * @since 2.6
+   */
+  public List<Class<? extends Rule>> getRelevantLanguageModelRules() {
+    return Collections.emptyList();
+  }
+
+  /**
    * Get this language's Java locale, not considering the country code.
    */
   public Locale getLocale() {

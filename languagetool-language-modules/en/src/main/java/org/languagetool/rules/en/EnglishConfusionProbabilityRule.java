@@ -26,8 +26,8 @@ import java.util.ResourceBundle;
 
 public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  public EnglishConfusionProbabilityRule(File modelFile, ResourceBundle messages) throws IOException {
-    super(modelFile, messages);
+  public EnglishConfusionProbabilityRule(ResourceBundle messages, File modelFile) throws IOException {
+    super(messages, modelFile);
   }
 
   @Override

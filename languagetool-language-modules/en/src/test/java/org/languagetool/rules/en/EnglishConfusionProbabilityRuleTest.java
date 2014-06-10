@@ -38,7 +38,7 @@ public class EnglishConfusionProbabilityRuleTest {
   public void testRule() throws IOException, ClassNotFoundException {
     JLanguageTool langTool = new JLanguageTool(new English());
     File languageModelFile = new File("src/test/resources/org/languagetool/languagemodel/frequency.dict");
-    ConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(languageModelFile, TestTools.getEnglishMessages());
+    ConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(TestTools.getEnglishMessages(), languageModelFile);
     langTool.addRule(rule);
     List<RuleMatch> matches = langTool.check("A portray of me");
     assertThat(matches.size(), is(1));

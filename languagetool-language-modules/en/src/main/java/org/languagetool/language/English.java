@@ -25,12 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.rules.*;
-import org.languagetool.rules.en.AvsAnRule;
-import org.languagetool.rules.en.CompoundRule;
-import org.languagetool.rules.en.ContractionSpellingRule;
-import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
-import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
-import org.languagetool.rules.en.EnglishWordRepeatRule;
+import org.languagetool.rules.en.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -156,6 +151,13 @@ public class English extends Language {
         EnglishWordRepeatBeginningRule.class,
         CompoundRule.class,
         ContractionSpellingRule.class
+    );
+  }
+
+  @Override
+  public List<Class<? extends Rule>> getRelevantLanguageModelRules() {
+    return Arrays.<Class<? extends Rule>>asList(
+        EnglishConfusionProbabilityRule.class
     );
   }
 

@@ -39,7 +39,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
 
-  public ConfusionProbabilityRule(File languageModelFile, ResourceBundle messages) throws IOException {
+  public ConfusionProbabilityRule(ResourceBundle messages, File languageModelFile) throws IOException {
     super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
@@ -142,7 +142,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
     
     // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account
     
-    return ngram1 + ngram2;
+    //return ngram1 + ngram2;
+    return ngram1 * ngram2;
   }
 
   @Override

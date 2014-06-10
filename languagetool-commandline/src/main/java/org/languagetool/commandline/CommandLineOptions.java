@@ -20,6 +20,8 @@ package org.languagetool.commandline;
 
 import org.languagetool.Language;
 
+import java.io.File;
+
 /**
  * Options that can be set via command line arguments.
  */
@@ -41,6 +43,7 @@ public class CommandLineOptions {
   private boolean xmlFiltering = false;
   private Language language = null;
   private Language motherTongue = null;
+  private File languageModel = null;
   private String encoding = null;
   private String filename = null;
   private String[] disabledRules = new String[0];
@@ -156,6 +159,20 @@ public class CommandLineOptions {
 
   public void setMotherTongue(Language motherTongue) {
     this.motherTongue = motherTongue;
+  }
+
+  /**
+   * @since 2.6
+   */
+  public File getLanguageModel() {
+    return languageModel;
+  }
+
+  /**
+   * @since 2.6
+   */
+  public void setLanguageModel(File languageModel) {
+    this.languageModel = languageModel;
   }
 
   public String getEncoding() {
