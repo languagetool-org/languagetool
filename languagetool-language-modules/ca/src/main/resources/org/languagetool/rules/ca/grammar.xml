@@ -5918,6 +5918,22 @@ $Id$
             <example type="correct">donar una ullada per sobre als diaris</example>
         </rule>
         <rulegroup id="CAP_ELS_CAP_ALS" name="*cap el/cap al">
+        <!-- Tingué com a cap el rei d'Espanya.
+         El seu cap el va enviar.
+          Lung s'encaminà cap el forat.
+           i 2 el PSOE, i cap el PP.
+            Un tret al cap el 14 d'abril,
+             va marcar de cap el 4-0.
+              Amb el seu cap el Tinent Newhouse, 
+              les serps del seu cap el va mossegar.
+              el va fer de cap el 10 de juny.
+              El cap el 2006 era.
+              la resta pel seu cap el peshwa maratha. 
+               a la seva Província del Cap el 1971.
+               en el nostre cap els dos fets
+               En el cos i el cap els mascles aconsegueixen 
+               de cara al 2005-->
+        
         	<rule>
 	            <pattern>
 	                <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
@@ -5929,12 +5945,12 @@ $Id$
 	            <message>¿Volíeu dir <suggestion>cap <match no="3" regexp_match="e(ls?)" regexp_replace="a$1"/></suggestion>?</message>
 	            <example type="incorrect" correction="cap als">la confiança <marker>cap els</marker> partits</example>
 	            <example type="incorrect" correction="Cap al"><marker>Cap el</marker> 1984 va passar això.</example>
+                <example type="incorrect" correction="cap al">la confiança <marker>cap el</marker> partit</example>
+                <example type="incorrect" correction="cap al">un sistema electoral orientat <marker>cap el</marker> ciutadà</example>
                 <example type="correct">la confiança cap als partits</example>
 	            <example type="correct">que portaren a cap els comtes</example>
 	            <example type="correct">on fan cap els comtes</example>
 	            <example type="correct">tocar amb el cap els esquís de la gent</example>
-	            <example type="incorrect" correction="cap al">la confiança <marker>cap el</marker> partit</example>
-	            <example type="incorrect" correction="cap al">un sistema electoral orientat <marker>cap el</marker> ciutadà</example>
 	            <example type="correct">la confiança cap al partit</example>
 	            <example type="correct">que tingué com a cap el Comte d'Espanya</example>
 	            <example type="correct">on fa cap el Comte</example>
@@ -6294,8 +6310,25 @@ $Id$
         <rulegroup id="AL_1996" name="*al 1996/el 1996">
         <!-- del segle VIII al 1140
         ubicat al 1445 de Broadway
-        situat al 1300  
-        equivalent al 1456-->
+        situat/ada... al 1300  
+        situada cronològicament al 1986 ????
+        equivalent al 1456
+        equival al 1344
+        som al 2014
+        referir al 1340
+        es referirien no al 1618 sinó al 1613,
+        cal referir-la al 2014
+        referents al 2013
+        entorno al 1600
+        en torn al 1600
+        va del [[1050]] o el [[1075]] al [[1170]]
+        són al 1950 (dubtós)
+        previ al 1951
+        època prèvia al 1800
+        al ''1221 Avenue of the Americas''
+         del [[segle XIII]] al [[1900]].
+          (Bass ''et al'' 1986).
+        -->
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
@@ -6343,6 +6376,16 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="A_L_ANY_1996" name="*al 1996/el 1996">
+        <!-- de cara al 1996
+        en remuntava l'origen a l'any [[1096]]
+        arribant-se a l'any
+        fins a l'any
+        en relació a l'any
+        amb relació a l'any
+        ens portarien a l'any 2012
+        equivalent a l'any
+        anterior(s), posteriors ...
+        se situa entre el 1000 aC a l'any 500  -->
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
@@ -7015,6 +7058,28 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="TORNES" name="tornès / tornés">
+            <pattern>
+                <marker>
+                    <token>tornès</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>tornés</suggestion> (del v. tornar)? "Tornès" existeix com a nom i adjeciu.</message>
+            <example type="incorrect" correction="tornés">Em va dir que em trucaria quan <marker>tornès</marker>.</example>
+            <example type="correct">Quan tornés.</example>
+        </rule>
+        <rule id="TERROS" name="terrós / terròs">
+            <pattern>
+                <marker>
+                    <token>terrós</token>
+                </marker>
+                <token>de</token>
+                <token regexp="yes">sucre|gel|glaç</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>terròs</suggestion> (= tros petit)?</message>
+            <example type="incorrect">Un <marker>terrós</marker> de sucre.</example>
+            <example type="correct">Un terròs de sucre.</example>
+        </rule>
         <rule id="MISTER" name="mister/míster">
             <pattern>
                 <token regexp="yes">misters?</token>
@@ -20030,6 +20095,8 @@ $Id$
             <example type="correct">Va dir a poc a poc que sí.</example>
         </rule>
         <rulegroup id="A_POC_DE" name="*a poc de">
+        <!-- a pocs minuts del centre 
+            situat a pocs minuts de-->
         	<rule>
 	            <pattern>
 	                <token>a<exception postag="LOC_ADV"/></token>
@@ -21143,6 +21210,14 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TARJA" name="tarja/targeta">
+            <pattern>
+                <token inflected="yes">tarja</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCF$1">targeta</match></suggestion>? "Tarja" és correcte en altres sentits.</message>
+            <example type="incorrect" correction="targetes">Les <marker>targes</marker> de crèdit.</example>
+            <example type="correct">Les targetes</example>
+        </rule>
         <rule id="TURMENTOS" name="turmentós/tempestuós">
             <pattern>
                 <token inflected="yes">turmentós</token>
@@ -28055,24 +28130,26 @@ $Id$
                 <example type="correct">no hi ha res millor en aquesta vida que menjar, beure i estar content</example> 
             </rule>
         </rulegroup>
-        <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="off">
+        <rulegroup id="ANAR_A_INFINITIU" name="anar a + infintiu" default="on">
         <!--  false alarms?? -->
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.IP.*" postag_regexp="yes" inflected="yes">anar</token>
+                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token>
                         <token>a</token>    
-                        <token postag="V.N.*" postag_regexp="yes"/>
+                        <token regexp="yes">ser|ésser|esser|dir|veure|mirar|tenir|tindre</token>
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta si no indica moviment.</message>
+                <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar.</message>
                     <!-- Cal el postag del primer i el lema del segon 
                     <suggestion><match no="1" postag="V.IP(..)0" postag_regexp="yes" postag_replace="yes"></match> </suggestion> -->
                 <url>http://esadir.cat/entrades/fitxa/id/1564</url>
                 <example type="incorrect">Li <marker>vaig a dir</marker> que no pot ser.</example>    
+                <example type="incorrect">Crec que <marker>va a ésser</marker> molt difícil.</example>
+                <example type="incorrect">Ara <marker>anem a veure</marker> què passa.</example>
                 <example type="correct">Li diré que no pot ser.</example>
             </rule>
-            <rule>
+            <!-- <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
@@ -28088,7 +28165,7 @@ $Id$
                 <example type="incorrect"><marker>Com anava a tenir</marker> raó?</example>    
                 <example type="incorrect"><marker>Qui m'anava a dir</marker> que acabaria així?</example>
                 <example type="correct">Com vols que tingui raó?</example>
-            </rule>
+            </rule> -->
         </rulegroup>
         <rulegroup id="SUBSTANTIUS_JUNTS" name="Dos noms comuns junts">
             <rule>
