@@ -93,13 +93,12 @@ public class HTTPServer extends Server {
     this.port = config.getPort();
     this.host = host;
     try {
-      if (host == null) {
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-      } else {
-        server = HttpServer.create(new InetSocketAddress(host, port), 0);
-      }
-      final LanguageToolHttpHandler httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
+      InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
+      server = HttpServer.create(address, 0);
+      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
+      httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
+      httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
       server.createContext("/", httpHandler);
       executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
       server.setExecutor(executorService);
@@ -115,12 +114,15 @@ public class HTTPServer extends Server {
     super.stop();
     if (executorService != null) {
       executorService.shutdownNow();
-    }    
+    }
   }
 
   public static void main(String[] args) {
-    if (args.length > 3 || usageRequested(args)) {
-      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--port|-p port] [--public]");
+    if (args.length > 5 || usageRequested(args)) {
+      System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
+      System.out.println("  --config file  a Java property file with values for:");
+      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
       printCommonOptions();
       System.exit(1);
     }

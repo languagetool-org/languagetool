@@ -81,6 +81,8 @@ public class CaseRule extends GermanRule {
      * solution is to add all those to our Morphy data, but as a simple
      * workaround to avoid false alarms, these words can be added here.
      */
+    exceptions.add("Bekannter");
+    exceptions.add("Bekannte");
     exceptions.add("Tel");  // Tel. = Telefon
     exceptions.add("Unschuldiger");
     exceptions.add("Vorgesetzter");
@@ -148,8 +150,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Genüge");
     exceptions.add("Gläubiger");
     exceptions.add("Goldener");    // Goldener Schnitt
-    exceptions.add("Große");    // Alexander der Große, der Große Bär
-    exceptions.add("Großen");
     exceptions.add("Guten");    // das Kap der Guten Hoffnung
     exceptions.add("Hechte");
     exceptions.add("Herzöge");
@@ -195,7 +195,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Nähte");
     exceptions.add("Nähten");
     exceptions.add("Neuem");
-    exceptions.add("Neues");   // nichts Neues
     exceptions.add("Nr");
     exceptions.add("Nutze");   // zu Nutze
     exceptions.add("Obdachloser");
@@ -258,7 +257,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Achte");
     exceptions.add("Neunte");
 
-    // TODO: alle Sprachen + flektierte Formen
+    // TODO: alle Sprachen
     exceptions.add("Afrikanisch");
     exceptions.add("Altarabisch");
     exceptions.add("Altchinesisch");
@@ -334,17 +333,25 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("ohne Wenn und Aber");
     myExceptionPhrases.add("Große Koalition");
     myExceptionPhrases.add("Großen Koalition");
+    myExceptionPhrases.add("Alexander der Große");
+    myExceptionPhrases.add("Großer Bär");  // Sternbild
+    myExceptionPhrases.add("Große Bär");  // Sternbild
     myExceptionPhrases.add("im Großen und Ganzen");
     myExceptionPhrases.add("Im Großen und Ganzen");
     myExceptionPhrases.add("im Guten wie im Schlechten");
     myExceptionPhrases.add("Im Guten wie im Schlechten");
     myExceptionPhrases.add("Russisches Reich");
+    myExceptionPhrases.add("Russischen Reich");
+    myExceptionPhrases.add("Russischen Reichs");
+    myExceptionPhrases.add("Russischen Reiches");
     myExceptionPhrases.add("Tel Aviv");
     myExceptionPhrases.add("Erster Weltkrieg");
     myExceptionPhrases.add("Ersten Weltkriegs");
+    myExceptionPhrases.add("Ersten Weltkrieg");
     myExceptionPhrases.add("Ersten Weltkrieges");
     myExceptionPhrases.add("Erstem Weltkrieg");
     myExceptionPhrases.add("Zweiter Weltkrieg");
+    myExceptionPhrases.add("Zweiten Weltkrieg");
     myExceptionPhrases.add("Zweiten Weltkriegs");
     myExceptionPhrases.add("Zweiten Weltkrieges");
     myExceptionPhrases.add("Zweitem Weltkrieg");
@@ -364,6 +371,15 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Römische Reich Deutscher Nation");
     myExceptionPhrases.add("ein absolutes Muss");
     myExceptionPhrases.add("ein Muss");
+    myExceptionPhrases.add("nichts Neues");
+    myExceptionPhrases.add("etwas Neues");
+    myExceptionPhrases.add("kaum Neues");
+    myExceptionPhrases.add("wenig Neues");
+    myExceptionPhrases.add("viel Neues");
+    myExceptionPhrases.add("Vereinigte Staaten");
+    myExceptionPhrases.add("Vereinigten Staaten");
+    myExceptionPhrases.add("im Weiteren");
+    myExceptionPhrases.add("Im Weiteren");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
@@ -434,24 +450,20 @@ public class CaseRule extends GermanRule {
         }
         continue;
       }
-      if (i > 0 && (tokens[i-1].getToken().equals("Herr") || tokens[i-1].getToken().equals("Herrn") || tokens[i-1].getToken().equals("Frau")) ) {   // "Frau Stieg" could be a name, ignore
+      if (i > 0 && isSalutation(tokens[i-1].getToken())) {   // e.g. "Frau Stieg" could be a name, ignore
         continue;
       }
       final AnalyzedTokenReadings analyzedToken = tokens[i];
       final String token = analyzedToken.getToken();
       List<AnalyzedToken> readings = analyzedToken.getReadings();
-      AnalyzedTokenReadings analyzedGermanToken2;
       
-      boolean isBaseform = false;
-      if (analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token)) {
-        isBaseform = true;
-      }
+      boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
       if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
         // no match, e.g. for "Groß": try if there's a match for the lowercased word:
-        analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-        if (analyzedGermanToken2 != null) {
-          readings = analyzedGermanToken2.getReadings();
+        AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
+        if (lowercaseReadings != null) {
+          readings = lowercaseReadings.getReadings();
         }
         boolean nextTokenIsPersonalPronoun = false;
         if (i < tokens.length - 1) {
@@ -464,23 +476,36 @@ public class CaseRule extends GermanRule {
       if (readings == null) {
         continue;
       }
-      final boolean hasNounReading = GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.NOMEN);
-      if (hasNounReading) {  // it's the spell checker's task to check that nouns are uppercase
+      if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
         continue;
       }
       // TODO: this lookup should only happen once:
-      analyzedGermanToken2 = tagger.lookup(token.toLowerCase());
-      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 == null) {
+      AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
+      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
         continue;
       }
-      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && analyzedGermanToken2 != null
-          && analyzedGermanToken2.getAnalyzedToken(0).getPOSTag() == null) {
-        // unknown word, probably a name etc
-        continue;
+      if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings != null
+          && lowercaseReadings.getAnalyzedToken(0).getPOSTag() == null) {
+        continue;  // unknown word, probably a name etc
       }
       potentiallyAddUppercaseMatch(ruleMatches, tokens, i, analyzedToken, token);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isSalutation(String token) {
+    return token.equals("Herr") || token.equals("Herrn") || token.equals("Frau");
+  }
+
+  private boolean hasNounReading(AnalyzedTokenReadings readings) {
+    // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
+    for (AnalyzedToken reading : readings) {
+      String posTag = reading.getPOSTag();
+      if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
@@ -506,8 +531,11 @@ public class CaseRule extends GermanRule {
         !exceptions.contains(token) &&
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
-        !( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
-           ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) ) &&
+        !isEllipsis(i, tokens) &&
+        !isNominalization(i, tokens) &&
+        !isAdverbAndNominalization(i, tokens) &&
+        !isSpecialCase(i, tokens) &&
+        !isAdjectiveAsNoun(i, tokens) &&
         !isExceptionPhrase(i, tokens)) {
       final String msg = "Außer am Satzanfang werden nur Nomen und Eigennamen großgeschrieben";
       final RuleMatch ruleMatch = new RuleMatch(this, tokens[i].getStartPos(),
@@ -517,6 +545,52 @@ public class CaseRule extends GermanRule {
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
+  }
+
+  private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
+    return ( (tokens[i-1].getToken().equals("]") || tokens[i-1].getToken().equals(")")) && // sentence starts with […]
+       ( (i == 4 && tokens[i-2].getToken().equals("…")) || (i == 6 && tokens[i-2].getToken().equals(".")) ) );
+  }
+
+  private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+    String token = tokens[i].getToken();
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    // TODO: "vor Schlimmerem", "Er hatte Schlimmes zu befürchten"
+    // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
+    return prevToken != null && prevToken.hasPartialPosTag("PRO") && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
+    String prevPrevToken = i > 1 ? tokens[i-2].getToken() : "";
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+    String token = tokens[i].getToken();
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    // ignore "das wirklich Wichtige":
+    return "das".equalsIgnoreCase(prevPrevToken) && prevToken != null && prevToken.hasPartialPosTag("ADV:")
+            && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
+    String prevToken = i > 1 ? tokens[i-1].getToken() : "";
+    String token = tokens[i].getToken();
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    // ignore "im Allgemeinen gilt" but not "im Allgemeinen Fall":
+    return "im".equalsIgnoreCase(prevToken) && "Allgemeinen".equals(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+    boolean isPrevDeterminer = prevToken != null && prevToken.hasPartialPosTag("ART"); 
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    for (AnalyzedToken reading : tokens[i].getReadings()) {
+      String posTag = reading.getPOSTag();
+      // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
+      if (isPrevDeterminer && posTag != null && posTag.contains(":ADJ") && !hasNounReading(nextReadings)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {

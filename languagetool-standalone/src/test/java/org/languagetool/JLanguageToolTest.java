@@ -20,21 +20,50 @@ package org.languagetool;
 
 import org.junit.Test;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.language.Demo;
 import org.languagetool.language.English;
 import org.languagetool.language.German;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 
 public class JLanguageToolTest {
+
+  @Test
+  public void testGetAllActiveRules() throws Exception {
+    JLanguageTool langTool = new JLanguageTool(new Demo());
+    langTool.activateDefaultPatternRules();
+    List<String> ruleIds = getActiveRuleIds(langTool);
+    assertTrue(ruleIds.contains("DEMO_RULE"));
+    assertFalse(ruleIds.contains("DEMO_RULE_OFF"));
+    for (Rule rule : langTool.getAllRules()) {
+      if (rule.getId().equals("DEMO_RULE_OFF")) {
+        rule.setDefaultOn();
+      }
+    }
+    List<String> ruleIds2 = getActiveRuleIds(langTool);
+    assertTrue(ruleIds2.contains("DEMO_RULE_OFF"));
+  }
+
+  private List<String> getActiveRuleIds(JLanguageTool langTool) {
+    List<String> ruleIds = new ArrayList<>();
+    for (Rule rule : langTool.getAllActiveRules()) {
+      ruleIds.add(rule.getId());
+    }
+    return ruleIds;
+  }
 
   @Test
   public void testGetMessageBundle() throws Exception {

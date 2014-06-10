@@ -19,9 +19,9 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.German;
-import org.languagetool.tagging.de.AnalyzedGermanToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class AgreementSuggestorTest {
       String token = parts[0];
       String lemma = parts[1];
       String posTag = parts[2];
-      tokenReadings.add(new AnalyzedTokenReadings(new AnalyzedGermanToken(token, posTag, lemma), pos++));
+      tokenReadings.add(new AnalyzedTokenReadings(new AnalyzedToken(token, posTag, lemma), pos++));
     }
     if (tokenReadings.size() != 2) {
       throw new RuntimeException("Size of input not yet supported: " + tokenReadings.size());

@@ -26,6 +26,8 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tools.StringTools;
 
+import static org.languagetool.tools.StringTools.isEmpty;
+
 /**
  * A rule that matches commas and closing parenthesis preceded by whitespace and
  * opening parenthesis followed by whitespace.
@@ -127,6 +129,9 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   static boolean isNumberOrDot(final String str) {
+    if (isEmpty(str)) {
+      return false;
+    }
     final char c = str.charAt(0);
     return c == '.' || Character.isDigit(c);
   }

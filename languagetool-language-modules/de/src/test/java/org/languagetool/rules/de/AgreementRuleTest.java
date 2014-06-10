@@ -80,6 +80,17 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Das Dach meines großen Autos.");
     assertGood("Das Dach meiner großen Autos.");
 
+    assertGood("Dann schlug er so kräftig wie er konnte mit den Schwingen.");
+    assertGood("Also wenn wir Glück haben, ...");
+    assertGood("Wenn wir Pech haben, ...");
+    assertGood("Ledorn öffnete eines der an ihr vorhandenen Fächer.");
+    assertGood("Auf der einen Seite endlose Dünen");
+    assertGood("In seinem Maul hielt er einen blutigen Fleischklumpen.");
+    assertGood("Gleichzeitig dachte er intensiv an Nebelschwaden, aus denen Wolken ja bestanden.");
+    assertGood("Warum stellte der bloß immer wieder dieselben Fragen?");
+    assertGood("Bei der Hinreise.");
+    assertGood("Schließlich tauchten in einem Waldstück unter ihnen Schienen auf.");
+
     assertGood("Das Wahlrecht, das Frauen damals zugesprochen bekamen.");
     assertGood("Es war Karl, dessen Leiche Donnerstag gefunden wurde.");
 
@@ -180,6 +191,20 @@ public class AgreementRuleTest extends TestCase {
     //assertBad("Es sind der Frau.");
   }
 
+  public void testVieleWenige() throws IOException {
+    assertGood("Zusammenschluss mehrerer dörflicher Siedlungen an einer Furt");
+    assertGood("Für einige markante Szenen");
+    assertGood("Für einige markante Szenen baute Hitchcock ein Schloss.");
+    assertGood("Haben Sie viele glückliche Erfahrungen in Ihrer Kindheit gemacht?");
+    assertGood("Es gibt viele gute Sachen auf der Welt.");
+    assertGood("Viele englische Wörter haben lateinischen Ursprung");
+    assertGood("Ein Bericht über Fruchtsaft, einige ähnliche Erzeugnisse und Fruchtnektar");
+    assertGood("Der Typ, der seit einiger Zeit immer wieder hierher kommt.");
+    assertGood("Jede Schnittmenge abzählbar vieler offener Mengen");
+    assertGood("Es kam zur Fusion der genannten und noch einiger weiterer Unternehmen.");
+    assertGood("Zu dieser Fragestellung gibt es viele unterschiedliche Meinungen.");
+  }
+  
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
     assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
@@ -211,20 +236,26 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Dem riesigen Tisch fehlt was.");
     assertGood("Die riesigen Tische sind groß.");
     assertGood("Der riesigen Tische wegen.");
-    // TODO: incorrectly detected as incorrect:
-    // Dann hat das natürlich Nachteile.
+    assertGood("An der roten Ampel.");
+    assertGood("Dann hat das natürlich Nachteile.");
     
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
     //assertBad("Dort, die riesigen Tischs!");    // TODO: error not detected because of comma
     assertBad("Als die riesigen Tischs kamen.");
     assertBad("Als die riesigen Tisches kamen.");
+    assertBad("Der riesigen Tisch und so.");
+    assertBad("An der roter Ampel.");
+    assertBad("An der rote Ampel.");
+    assertBad("An der rotes Ampel.");
+    assertBad("An der rotem Ampel.");
     // TODO: not yet detected:
-    //assertBad("Der riesigen Tisch und so.");
+    //assertBad("An der rot Ampel.");
   }
 
   private void assertGood(String s) throws IOException {
-    assertEquals("Found unexpected match in sentence '" + s + "'", 0, rule.match(langTool.getAnalyzedSentence(s)).length);
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(s));
+    assertEquals("Found unexpected match in sentence '" + s + "': " + Arrays.toString(matches), 0, matches.length);
   }
 
   private void assertBad(String s, String... expectedSuggestions) throws IOException {

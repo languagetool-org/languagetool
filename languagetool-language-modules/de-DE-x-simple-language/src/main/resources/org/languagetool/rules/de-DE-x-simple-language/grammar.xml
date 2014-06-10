@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print"?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet"?>
-
 <!--
 German Easy-to-Read rules ("Leichte Sprache") for LanguageTool.
 See resource/de/tagset.txt in German module for the meaning of the POS tags.
@@ -22,9 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id$
 -->
-
 <!DOCTYPE rules [
         <!ENTITY anfauf "„|»|›|‚">
         <!ENTITY anfzu "‘|“|‹|«">
@@ -39,12 +36,55 @@ $Id$
 
     <category name="Leichte Sprache">
 
+        <rule id="PRAETERITUM" name="Leichte Sprache: Perfekt vs. Präteritum">
+            <pattern>
+                <token postag='VER:.*PRT.*' postag_regexp='yes'/>
+            </pattern>
+            <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit. Verwenden Sie das Perfekt.</message>
+            <short>1. Vergangenheit vermeiden</short>
+            <example type='incorrect'>Ich <marker>ging</marker> einkaufen.</example>
+            <example type='correct'>Ich bin einkaufen gegangen.</example>
+        </rule>
+
+        <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
+            <pattern>
+                <token inflected='yes' regexp='yes'>Bärendienst|Kurschatten|Mauerblümchen|Erdbeermund|Gänsehaut|Lampenfieber|Pustekuchen|Gardinenpredigt|Orangenhaut|Gipfeltreffen|Rabeneltern|Stimmungskanone|Hausdrache|Gaumenschmeichler|Glückspilz|Baumkrone|Sternstunde|Warteschlange|Menschenschlange|Strohfeuer|Wüstenschiff|Zahlenfriedhof|Kaderschmiede|Zwickmühle</token>
+            </pattern>
+            <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
+            <short>Metaphern vermeiden</short>
+            <example type='correct'>Sie haben ihm damit geschadet.</example>
+            <example type='incorrect'>Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
+            <example type='incorrect'>Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
+        </rule>
+        
+        <rule id="FUSSNOTE" name="Leichte Sprache: Fußnote">
+            <pattern>
+                <token regexp='yes'>.*[¹²³]</token>
+            </pattern>
+            <message>Benutzen Sie keine Fußnoten. Erklären Sie alles gleich im Text.</message>
+            <short>Fußnoten vermeiden.</short>
+            <example type='incorrect'><marker>Hallo¹</marker></example>
+            <example type='correct'>Hallo, hier steht mehr</example>
+        </rule>
+
+        <rule id="VERNEINUNG" name="Leichte Sprache: Verneinungen">
+            <pattern>
+                <token>nicht</token>
+                <token/>
+                <token/>
+            </pattern>
+            <message>Wenn möglich, keine Verneinungen benutzen.</message>
+            <short>Verneinungen vermeiden.</short>
+            <example type='incorrect'>Peter will <marker>nicht länger bleiben</marker>.</example>
+            <example type='correct'>Peter will gehen.</example>
+        </rule>
+        
         <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
             <pattern>
                 <token regexp="yes">\p{L}{14,}</token>
             </pattern>
             <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
-            <example type="correct">Die Schiffahrt auf der Donau ist beliebt.</example>
+            <example type="correct">Die Schifffahrt auf der Donau ist beliebt.</example>
             <example type="incorrect">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
         </rule>
 
@@ -137,6 +177,7 @@ $Id$
                 <!-- Vorschlag: Verwenden Sie statt dessen den Dativ. -->
             </rule>
         </rulegroup>
+        
         <rulegroup id="INDIREKTE_REDE" name="Leichte Sprache: Indirekte Rede">
             <rule>
                 <pattern>
@@ -307,7 +348,7 @@ $Id$
                     <token />
                     <marker>
                         <token skip="-1"/>
-                        <token postag="SENT_END"></token>
+                        <token postag="SENT_END"/>
                     </marker>
                 </pattern>
                 <message>Langer Satz gefunden: Dieser Satz hat mehr als 12 Wörter.</message>

@@ -559,7 +559,7 @@ though, and has since been slightly modified)-->
   <category name="Confusion d’homonymes et paronymes">
     <rule id="GENTE_GENT" name="gente → gent">
       <pattern>
-        <marker>la</marker>
+        <token>la</token>
         <marker><token>gente</token></marker>
         <token postag="J [fe].*|V ppa [fe].*" postag_regexp="yes"/>
       </pattern>
@@ -879,6 +879,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peut être</suggestion> ?</message>
+        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
         <example type="incorrect">Il <marker>peut-être</marker> têtu.</example>
         <example type="correct">Il peut être têtu.</example>
       </rule>
@@ -893,11 +894,27 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
+        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
         <example type="incorrect">Il partira <marker>peut être</marker> demain.</example>
         <example type="correct">Il partira peut-être demain.</example>
         <example type="correct">Cela peut être vrai.</example>
         <example type="correct">L’Écosse peut être très chaude.</example>
         <example type="correct">L’alcool au volant peut être dangereux.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">il|elle|on
+            <exception scope="previous" regexp="yes">à|pour|['´‘’′]</exception>
+            <exception scope="previous" inflected="yes">être</exception>
+          </token>
+          <marker><token regexp="yes">peut[-‑‐]être</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>peut être</suggestion> ?</message>
+        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
+        <example type="incorrect">Elle <marker>peut-être</marker> ennuyeuse.</example>
+        <example type="correct">Elle peut être ennuyeuse.</example>
+        <example type="correct">La lettre est à elle peut-être.</example>
+        <example type="correct">C’est elle peut-être.</example>
       </rule>
       <rule>
         <pattern>
@@ -908,6 +925,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
+        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
         <example type="incorrect"><marker>Peut être</marker> viendra-t-il ?</example>
         <example type="correct">Peut-être viendra-t-il ?</example>
       </rule>
@@ -1096,7 +1114,7 @@ though, and has since been slightly modified)-->
             <token>forcément</token>
           </marker>
         </pattern>
-        <message>« \1 » est un adverbe. Voulez-vous utiliser le nom <suggestion>forcement</suggestion> ?</message>
+        <message>« \2 » est un adverbe. Voulez-vous utiliser le nom <suggestion>forcement</suggestion> ?</message>
         <example type="incorrect">Le <marker>forcément</marker> d’un coffre.</example>
         <example type="correct">Le forcement d’un coffre.</example>
       </rule>
@@ -1109,7 +1127,7 @@ though, and has since been slightly modified)-->
             <token>forcement</token>
           </marker>
         </pattern>
-        <message>« \1 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
+        <message>« \2 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
         <example type="incorrect">Vous avez <marker>forcement</marker> raison.</example>
         <example type="correct">Vous avez forcément raison.</example>
         <example type="incorrect">La notation a un aspect <marker>forcement</marker> aléatoire.</example>
@@ -1122,7 +1140,7 @@ though, and has since been slightly modified)-->
             <token>forcement</token>
           </marker>
         </pattern>
-        <message>« \1 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
+        <message>« \2 » est un nom. Voulez-vous utiliser l’adverbe <suggestion>forcément</suggestion> ?</message>
         <example type="incorrect">Vous n’avez pas <marker>forcement</marker> raison.</example>
         <example type="correct">Vous n’avez pas forcément raison.</example>
         <example type="incorrect">Est-ce <marker>forcement</marker> grave ?</example>
@@ -4445,7 +4463,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">du|[dc]es?|[eu]n|[nv]otre|[nv]os|[mts]on|leurs?|bons?|mauvais</token>
           <marker><token regexp="yes">diagnostiques?|pronostiques?</token></marker>
         </pattern>
-        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <message>« \2 » est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostic">Quel est votre <marker>diagnostique</marker> ?</example>
         <example type="correct">Quel est votre diagnostic ?</example>
         <example type="correct">On le diagnostique tôt.</example>
@@ -4457,7 +4475,7 @@ though, and has since been slightly modified)-->
           <token>le<exception scope="previous" postag="[NJZR].*" postag_regexp="yes"/></token>
           <marker><token regexp="yes">diagnostique|pronostique</token></marker>
         </pattern>
-        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <message>« \2 » est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostic">Le <marker>diagnostique</marker> prénatal.</example>
         <example type="correct">Le diagnostic prénatal.</example>
         <example type="correct">On le diagnostique facilement.</example>
@@ -4471,7 +4489,7 @@ though, and has since been slightly modified)-->
           <token>les<exception scope="previous">tu</exception></token>
           <marker><token regexp="yes">diagnostiques|pronostiques</token></marker>
         </pattern>
-        <message>«\2» est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
+        <message>« \2 » est un adjectif ou un verbe. Voulez-vous employer le nom <suggestion><match no="2" regexp_match="que" regexp_replace="c"/></suggestion> ?</message>
         <example type="incorrect" correction="diagnostics">Les <marker>diagnostiques</marker> sont fiables.</example>
         <example type="correct">Les <marker>diagnostics</marker> sont fiables.</example>
         <example type="correct">Tu les <marker>diagnostiques</marker> facilement.</example>
@@ -4810,7 +4828,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">corbeau|corneille</token>
-          <marker>><token inflected="yes">coasser</token></marker>
+          <marker><token inflected="yes">coasser</token></marker>
         </pattern>
         <message>La grenouille ou le crapaud coassent, mais le corbeau ou la corneille croassent.</message>
         <suggestion><match no="2" regexp_match="^(.)" regexp_replace="$1r"/></suggestion>
@@ -4911,6 +4929,49 @@ though, and has since been slightly modified)-->
         <message>Confusion probable entre <suggestion>lieux</suggestion> et « lieus » (poissons).</message>
         <example type="incorrect">Des <marker>lieus</marker> historiques.</example>
         <example type="correct">Les lieux historiques.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="QUELQUEFOIS_QUELQUES_FOIS" name="quelquefois et quelques fois">
+      <rule>
+        <pattern>
+          <token>quelque</token>
+          <token>fois</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>quelques fois</suggestion> ou <suggestion>quelquefois</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4334</url>
+        <example type="incorrect">J’étais <marker>quelque fois</marker> absent.</example>
+        <example type="correct">J’étais quelques fois absent.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>les</token>
+          <marker><token>quelquefois</token></marker>
+          <token regexp="yes">où|que?</token>
+        </pattern>
+        <message>Confusion probable entre l’adverbe « quelquefois » et l’expression <suggestion>quelques fois</suggestion>.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4334</url>
+        <example type="incorrect">Les <marker>quelquefois</marker> où je l’ai croisé.</example>
+        <example type="correct">Les quelques fois où je l’ai croisé.</example>
+        <example type="incorrect">Les <marker>quelquefois</marker> que nous nous sommes rencontrés.</example>
+        <example type="correct">Les quelques fois que nous nous sommes rencontrés.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">être</token>
+          <marker>
+            <token>quelques</token>
+            <token>fois</token>
+          </marker>
+          <token min="0" max="1" postag="A"/>
+          <token postag="J .*" postag_regexp="yes"/>
+          <token regexp="yes">de?</token>
+        </pattern>
+        <message>Confusion probable entre l’adverbe <suggestion>quelquefois</suggestion> et l’expression « quelques fois ».</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4334</url>
+        <example type="incorrect">C’est <marker>quelques fois</marker> pénible de surveiller les enfants.</example>
+        <example type="correct">C’est quelquefois pénible de surveiller les enfants.</example>
+        <example type="incorrect">C’est <marker>quelques fois</marker> assez pénible de surveiller les enfants.</example>
+        <example type="correct">C’est quelquefois assez pénible de surveiller les enfants.</example>
       </rule>
     </rulegroup>
   </category>
@@ -5359,6 +5420,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L’<marker>Inde indépendante</marker>.</example>
         <example type="correct">Voir la déclaration sur l’<marker>honneur ci-jointe</marker>.</example>
         <example type="correct">Une mise à jour gratuite.</example>
+        <!-- <example type="correct">L’étoile à neutrons peut <marker>même être</marker> remplacée par un trou noir.</example> -->
       </rule>
       <rule name="féminin suivi du masculin">
         <pattern>
@@ -5484,7 +5546,7 @@ though, and has since been slightly modified)-->
           <token postag="N . p" postag_regexp="yes"/>
           <marker><token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token></marker>
         </pattern>
-        <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
+        <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur, car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
         <example type="incorrect" correction="marron">Des yeux <marker>marrons</marker>.</example>
         <example type="correct">Des yeux <marker>marron</marker>.</example>
         <example type="correct">Des créatures <marker>marines</marker>.</example>
@@ -5536,6 +5598,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token postag="N m.*" postag_regexp="yes">
               <exception postag="N [fe].*" postag_regexp="yes"/>
+              <exception>au-delà</exception>
             </token>
             <token postag="P"/>
             <token regexp="yes">laquelle|lesquelles</token>
@@ -5545,6 +5608,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">L’<marker>homme avec laquelle</marker> tu parles</example>
         <example type="correct">La <marker>femme avec laquelle</marker> tu parles</example>
         <example type="correct">La faux avec laquelle on fauche.</example>
+        <example type="correct">Une distance au-delà de laquelle il devient difficile de voir.</example>
       </rule>
       <rule>
         <pattern>
@@ -5801,7 +5865,7 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
         <example type="incorrect">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
         <example type="correct">J’étudie des parties d’échecs afin de gagner.</example>
       </rule>
@@ -5814,7 +5878,7 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
+        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
         <example type="incorrect">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
         <example type="correct">Je luis en parle avant d’annuler le voyage.</example>
       </rule>
@@ -5898,7 +5962,7 @@ though, and has since been slightly modified)-->
         <marker><token>parce</token></marker>
         <token><exception regexp="yes">que?</exception></token>
       </pattern>
-      <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
+      <message>Il manque « que » ou « qu’ » après le mot « parce ».</message>
       <example type="incorrect">Je suis en retard <marker>parce</marker> j’ai raté mon bus.</example>
       <example type="correct">Je suis en retard parce que j’ai raté mon bus.</example>
     </rule>
@@ -8166,7 +8230,9 @@ though, and has since been slightly modified)-->
           </token>
           <token regexp="yes" skip="2">que?<exception scope="next" regexp="yes">quand|celles?</exception></token>
           <marker>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
+            <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
+              <exception scope="next">été</exception>
+            </token>
             <token postag="V.* ppa m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
@@ -8183,6 +8249,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
         <example type="correct">De la même nature que celles qui ont été saisies.</example>
         <example type="correct">La lettre que j’ai voulu envoyer.</example>
+        <example type="correct">Certains y voient la preuve qu'il a finalement été lâché par son soutien.</example>
       </rule>
       <rule>
         <pattern>
@@ -8290,7 +8357,6 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
           </token>
-          <token min="0" max="1" regexp="yes">l[ea]</token>
           <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
           <token regexp="yes" min="0" max="1">[lmnt]e|la|les|leur|lui|en|y</token>
           <marker>
@@ -8300,14 +8366,10 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
         <example type="incorrect">Dominique <marker>peux</marker> venir.</example>
         <example type="correct">Dominique peut venir.</example>
         <example type="incorrect">Dominique ne <marker>peux</marker> pas venir.</example>
-        <example type="incorrect">La Corée <marker>peux</marker> gagner.</example>
-        <example type="correct">La Corée <marker>peut</marker> gagner.</example>
-        <example type="incorrect">La Corée ne <marker>peux</marker> pas gagner.</example>
-        <example type="correct">La Corée ne <marker>peut</marker> pas gagner.</example>
         <example type="correct">Antonio <marker>Banderas</marker> est un acteur espagnol.</example>
       </rule>
       <rule name="sujet singulier + verbe 3e personne singulier">
@@ -8344,6 +8406,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Ni la Terre, ni son orbite ne sont parfaitement circulaires.</example>
         <example type="correct">Un petit sourire.</example>
         <example type="correct">Un seul <marker>être</marker> vous manque.</example>
+        <example type="incorrect">La Corée <marker>peux</marker> gagner.</example>
+        <example type="correct">La Corée <marker>peut</marker> gagner.</example>
       </rule>
       <rule name="sujet singulier + 1 token + verbe 3e personne singulier">
         <pattern>
@@ -8365,6 +8429,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Mon enfant ne peut pas aller à l’école.</example>
         <example type="correct">Ce matin nous avons froid.</example>
         <example type="correct">Cette chaise en bois est lourde.</example>
+        <example type="incorrect">La Corée ne <marker>peux</marker> pas gagner.</example>
+        <example type="correct">La Corée ne <marker>peut</marker> pas gagner.</example>
       </rule>
       <rule name="sujet singulier + 2 tokens + verbe pluriel">
         <pattern>
@@ -8576,7 +8642,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" skip="1">sentir</token>
           <marker><token regexp="yes">bonnes?|bons</token></marker>
         </pattern>
-        <message>Le mot <suggestion>bas</suggestion> est invariable après le verbe « \1 » car, il est alors un adverbe.</message>
+        <message>Le mot <suggestion>bon</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
         <example type="incorrect">Ces fleurs ne sentent pas <marker>bonnes</marker>.</example>
         <example type="correct">Ces fleurs ne sentent pas <marker>bon</marker>.</example>
       </rule>
@@ -8603,7 +8669,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" skip="1">marcher</token>
           <marker><token regexp="yes">droites?|droits</token></marker>
         </pattern>
-        <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 » car il est alors un adverbe.</message>
+        <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
         <example type="incorrect">Ils ne marchent plus <marker>droits</marker>.</example>
         <example type="correct">Ils ne marchent plus <marker>droit</marker>.</example>
       </rule>
@@ -8612,7 +8678,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" skip="1">chanter</token>
           <marker><token regexp="yes">fausse?</token></marker>
         </pattern>
-        <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 » car il est alors un adverbe.</message>
+        <message>Le mot <suggestion>faux</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
         <example type="incorrect">Elle chante <marker>fausse</marker>.</example>
         <example type="correct">Elle chante <marker>faux</marker>.</example>
       </rule>
@@ -8621,7 +8687,7 @@ though, and has since been slightly modified)-->
           <token inflected="yes" skip="1">parler</token>
           <marker><token regexp="yes">franches?|francs</token></marker>
         </pattern>
-        <message>Le mot <suggestion>droit</suggestion> est invariable après le verbe « \1 » car il est alors un adverbe.</message>
+        <message>Le mot <suggestion>franc</suggestion> est invariable après le verbe « \1 », car il est alors un adverbe.</message>
         <example type="incorrect">Ils parlent <marker>francs</marker>.</example>
         <example type="correct">Ils parlent <marker>franc</marker>.</example>
       </rule>
@@ -14391,9 +14457,9 @@ though, and has since been slightly modified)-->
         <token>temps</token>
         <token regexp="yes">doubles?</token>
       </pattern>
-      <message>« Temps double » est un anglicisme. Employez <suggestion>salaire majoré à 100 %</suggestion>.</message>
+      <message>« Temps double » est un anglicisme. Employez <suggestion>salaire majoré à 100 %</suggestion>.</message>
       <example type="incorrect"><marker>temps double</marker></example>
-      <example type="correct"><marker>salaire majoré à 100 %</marker></example>
+      <example type="correct"><marker>salaire majoré à 100 %</marker></example>
     </rule>
     <rule id="TEMPS_SIMPLE" name="temps simple">
       <pattern>
@@ -14419,9 +14485,9 @@ though, and has since been slightly modified)-->
         <token>et</token>
         <token regexp="yes">demie?</token>
       </pattern>
-      <message>« Temps et demi » est un anglicisme. Employez <suggestion>salaire majoré à 50 %</suggestion>.</message>
+      <message>« Temps et demi » est un anglicisme. Employez <suggestion>salaire majoré à 50 %</suggestion>.</message>
       <example type="incorrect"><marker>temps et demie</marker></example>
-      <example type="correct"><marker>salaire majoré à 50 %</marker></example>
+      <example type="correct"><marker>salaire majoré à 50 %</marker></example>
     </rule>
     <rule id="TERMES_ET_CONDITIONS" name="termes et conditions">
       <pattern>
@@ -18521,9 +18587,9 @@ though, and has since been slightly modified)-->
           <token>pleine</token>
           <token>capacité</token>
         </pattern>
-        <message>« À pleine capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
+        <message>« À pleine capacité » est un anglicisme (to capacity). Employez <suggestion>à 100 % de sa capacité</suggestion>, <suggestion>au maximum de sa capacité</suggestion>, <suggestion>bondé</suggestion> (de gens), <suggestion>complet</suggestion> (hôtel, avion).</message>
         <example type="incorrect">Le moteur fonctionne <marker>à pleine capacité</marker>.</example>
-        <example type="correct">Le moteur fonctionne <marker>à 100 % de sa capacité</marker>.</example>
+        <example type="correct">Le moteur fonctionne <marker>à 100 % de sa capacité</marker>.</example>
         <example type="correct">Il a la capacité de le faire.</example>
         <example type="correct">On les juge à leur capacité de résoudre les problèmes.</example>
       </rule>
@@ -23734,7 +23800,7 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">trois[-‑‐]quarts</token></marker>
           <token regexp="yes">du|des</token>
         </pattern>
-        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="2" regexp_match="-" regexp_replace=" "/></suggestion> s’il s’agit d’une fraction.</message>
+        <message>« \2 » est une faute de typographie. Employez <suggestion><match no="2" regexp_match="-" regexp_replace=" "/></suggestion> s’il s’agit d’une fraction.</message>
         <example type="incorrect" correction="trois quarts">Les <marker>trois-quarts</marker> du temps, il ne fait rien.</example>
         <example type="correct">Les <marker>trois quarts</marker> du temps, il ne fait rien.</example>
         <example type="correct">Un <marker>trois-quarts</marker> de rugby.</example>
@@ -23745,7 +23811,7 @@ though, and has since been slightly modified)-->
           <token>aux</token>
           <marker><token regexp="yes">trois[-‑‐]quarts</token></marker>
         </pattern>
-        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="2" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
+        <message>« \2 » est une faute de typographie. Employez <suggestion><match no="2" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
         <example type="incorrect" correction="trois quarts">La bouteille est aux <marker>trois-quarts</marker> pleine.</example>
         <example type="correct">La bouteille est aux trois quarts pleine.</example>
         <example type="correct">Un <marker>trois-quarts</marker> de rugby.</example>
@@ -25147,7 +25213,7 @@ though, and has since been slightly modified)-->
           <token>affaire</token>
         </marker>
       </pattern>
-      <message>Employez <suggestion>\1 \2\3\4s</suggestion> car il s’agit du chiffre des affaires.</message>
+      <message>Employez <suggestion>\1 \2\3\4s</suggestion>, car il s’agit du chiffre des affaires.</message>
       <example type="incorrect" correction="chiffre d’affaires">Le <marker>chiffre d’affaire</marker> de l’entreprise.</example>
       <example type="correct">Le chiffre d’affaires de l’entreprise.</example>
     </rule>
@@ -25490,7 +25556,7 @@ though, and has since been slightly modified)-->
         <marker><token regexp="yes">échapp?ée?s?<exception>échappé</exception></token></marker>
         <token>belle</token>
       </pattern>
-      <message>Dans l’expression « avoir échappé belle » le participe passé <suggestion>échappé</suggestion> reste invariable.</message>
+      <message>Dans l’expression « avoir échappé belle » le participe passé <suggestion>échappé</suggestion> reste invariable.</message>
       <url>http://www.langue-fr.net/spip.php?article275</url>
       <example type="incorrect">Elle l’a <marker>échappée</marker> belle.</example>
       <example type="correct">Elle l’a <marker>échappé</marker> belle.</example>
@@ -26054,7 +26120,7 @@ though, and has since been slightly modified)-->
         <token>tant</token>
         <token>pire</token>
       </pattern>
-      <message>« tant pire » est une expression fautive. Employez <suggestion>tant pis</suggestion>.</message>
+      <message>« tant pire » est une expression fautive. Employez <suggestion>tant pis</suggestion>.</message>
       <url>http://www.académie-française.fr/pire-employe-comme-adverbe</url>
       <example type="incorrect"><marker>Tant pire</marker> si je perds.</example>
       <example type="correct">Tant pis si je perds.</example>
@@ -26306,7 +26372,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">fermetures?</token>
           <token regexp="yes">(?-i)éclair|velcro</token>
         </pattern>
-        <message>Utilisez une majuscule à <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion> car le terme dérive d’un nom propre.</message>
+        <message>Utilisez une majuscule à <suggestion>\1 <match no="2" case_conversion="startupper"/></suggestion>, car le terme dérive d’un nom propre.</message>
         <example type="incorrect" correction="fermeture Éclair">J’ai cassé ma <marker>fermeture éclair</marker>.</example>
         <example type="correct">J’ai cassé ma fermeture Éclair.</example>
       </rule>
@@ -26689,6 +26755,29 @@ though, and has since been slightly modified)-->
         <example type="incorrect" correction="kWh|kW·h">L’appareil a consomé 5 <marker>KWh</marker>.</example>
         <example type="correct">L’appareil a consomé 5 kW·h.</example>
         <example type="correct">L’appareil a consomé 5 kWh.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="KELVIN" name="degré kelvin → kelvin">
+      <rule>
+        <pattern>
+          <token regexp="yes">degrés?</token>
+          <token>kelvin</token>
+        </pattern>
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
+        <suggestion><match no="2" case_conversion="alllower"/></suggestion>
+        <url>https://fr.wikipedia.org/wiki/Kelvin</url>
+        <example type="incorrect" correction="kelvin">Une température de 3 <marker>degrés kelvin</marker>.</example>
+        <example type="correct">Une température de 3 kelvin.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>°K</token>
+        </pattern>
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
+        <suggestion>K</suggestion>
+        <url>https://fr.wikipedia.org/wiki/Kelvin</url>
+        <example type="incorrect">Une température de 3 <marker>°K</marker>.</example>
+        <example type="correct">Une température de 3 <marker>K</marker>.</example>
       </rule>
     </rulegroup>
   </category>

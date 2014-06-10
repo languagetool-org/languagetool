@@ -94,6 +94,16 @@ public class AgreementRule extends GermanRule {
     "Rinder"
   ));
   
+  private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "viele",
+    "vieler",
+    "wenige",
+    "weniger",
+    "einige",
+    "einiger",
+    "mehrerer"
+  ));
+  
   private static final Set<String> REL_PRONOUN = new HashSet<>();
   static {
     REL_PRONOUN.add("der");
@@ -257,11 +267,9 @@ public class AgreementRule extends GermanRule {
 
   private boolean isNonPredicativeAdjective(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
-      if (reading instanceof AnalyzedGermanToken) {
-        final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
-        if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
-          return true;
-        }
+      AnalyzedGermanToken germanReading = new AnalyzedGermanToken(reading);
+      if (germanReading.getType() == POSType.ADJEKTIV && !germanReading.getPOSTag().contains("PRD")) {
+        return true;
       }
     }
     return false;
@@ -269,11 +277,9 @@ public class AgreementRule extends GermanRule {
 
   private boolean isParticiple(AnalyzedTokenReadings tokensReadings) {
     for (AnalyzedToken reading : tokensReadings.getReadings()) {
-      if (reading instanceof AnalyzedGermanToken) {
-        final AnalyzedGermanToken germanReading = (AnalyzedGermanToken) reading;
-        if (germanReading.getType() == POSType.PARTIZIP) {
-          return true;
-        }
+      AnalyzedGermanToken germanReading = new AnalyzedGermanToken(reading);
+      if (germanReading.getType() == POSType.PARTIZIP) {
+        return true;
       }
     }
     return false;
@@ -311,9 +317,9 @@ public class AgreementRule extends GermanRule {
             // tagging in Morphy for cities is not coherent:
             (GermanHelper.hasReadingOfType(nextATR, POSType.PROPER_NOUN) || GermanHelper.hasReadingOfType(nextATR, POSType.NOMEN) &&
             nextNextATR != null && GermanHelper.hasReadingOfType(nextNextATR, POSType.NOMEN)))) {
-          final AnalyzedGermanToken[] adjReadings = new AnalyzedGermanToken[ADJ_READINGS.length];
+          final AnalyzedToken[] adjReadings = new AnalyzedToken[ADJ_READINGS.length];
           for (int j = 0; j < ADJ_READINGS.length; j++) {
-            adjReadings[j] = new AnalyzedGermanToken(nextTerm, ADJ_READINGS[j], null);
+            adjReadings[j] = new AnalyzedToken(nextTerm, ADJ_READINGS[j], null);
           }
           nextToken = new AnalyzedTokenReadings(adjReadings, nextToken.getStartPos());
         }
@@ -369,11 +375,18 @@ public class AgreementRule extends GermanRule {
       final AgreementSuggestor suggestor = new AgreementSuggestor(german.getSynthesizer(), token1, token2);
       final List<String> suggestions = suggestor.getSuggestions();
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
-      ruleMatch = new RuleMatch(this, token1.getStartPos(), 
-          token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
-      ruleMatch.setSuggestedReplacements(suggestions);
+      if (!isException(token1, token2)) {
+        ruleMatch = new RuleMatch(this, token1.getStartPos(),
+                token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
+        ruleMatch.setSuggestedReplacements(suggestions);
+      }
     }
     return ruleMatch;
+  }
+
+  private boolean isException(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
+    String phrase = token1.getToken() + " " + token2.getToken();
+    return "allen Grund".equals(phrase); 
   }
 
   private List<String> getCategoriesCausingError(AnalyzedTokenReadings token1, AnalyzedTokenReadings token2) {
@@ -411,11 +424,11 @@ public class AgreementRule extends GermanRule {
     } else {
       categoryToRelaxSet = Collections.emptySet();
     }
-    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
+    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return true;  // word not known, assume it's correct
     }
-    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
+    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, true);
     if (set2 == null) {
       return true;      
     }
@@ -432,36 +445,37 @@ public class AgreementRule extends GermanRule {
     } else {
       categoryToRelaxSet = Collections.emptySet();
     }
-    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet);
+    final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return null;  // word not known, assume it's correct
     }
-    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet);
+    final boolean skipSol = !VIELE_WENIGE_LOWERCASE.contains(token1.getToken().toLowerCase());
+    final Set<String> set2 = getAgreementCategories(token2, categoryToRelaxSet, skipSol);
     if (set2 == null) {
       return null;
     }
-    final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet);
+    final Set<String> set3 = getAgreementCategories(token3, categoryToRelaxSet, true);
     if (set3 == null) {
       return null;
     }
-    /*System.err.println(token1.getToken()+"#"+set1);
-    System.err.println(token2.getToken()+"#"+set2);
-    System.err.println(token3.getToken()+"#"+set3);
-    System.err.println("");*/
     set1.retainAll(set2);
     set1.retainAll(set3);
     return set1;
   }
 
   private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken) {
-    return getAgreementCategories(aToken, new HashSet<GrammarCategory>());
+    return getAgreementCategories(aToken, new HashSet<GrammarCategory>(), false);
   }
   
-  /** Return Kasus, Numerus, Genus. */
-  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit) {
+  /** Return Kasus, Numerus, Genus of those forms with a determiner. */
+  private Set<String> getAgreementCategories(final AnalyzedTokenReadings aToken, Set<GrammarCategory> omit, boolean skipSol) {
     final Set<String> set = new HashSet<>();
     final List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
+      if (skipSol && tmpReading.getPOSTag().endsWith(":SOL")) {
+        // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
+        continue;
+      }
       final AnalyzedGermanToken reading = new AnalyzedGermanToken(tmpReading);
       if (reading.getCasus() == null && reading.getNumerus() == null &&
           reading.getGenus() == null) {

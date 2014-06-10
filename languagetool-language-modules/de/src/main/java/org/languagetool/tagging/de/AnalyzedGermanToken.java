@@ -43,11 +43,13 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     init();
   }
 
+  /** @deprecated use {@link #AnalyzedGermanToken(AnalyzedToken)} instead (deprecated since 2.6) */
   public AnalyzedGermanToken(String token, String posTag) {
     super(token, posTag, null);
     init();
   }
 
+  /** @deprecated use {@link #AnalyzedGermanToken(AnalyzedToken)} instead (deprecated since 2.6) */
   public AnalyzedGermanToken(String token, String posTag, String lemma) {
     super(token, posTag, lemma);
     init();
@@ -121,11 +123,6 @@ public class AnalyzedGermanToken extends AnalyzedToken {
 
   public Genus getGenus() {
     return genus; 
-  }
-
-  @Override
-  public String toString() {
-    return getLemma() + "/" + getPOSTag();
   }
   
 }

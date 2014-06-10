@@ -129,9 +129,11 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
-    final List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
-    for (WordData wd : wordForms) {
-      results.add(determiner + wd.getStem().toString());
+    synchronized (this) { // the stemmer is not thread-safe
+      final List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
+      for (WordData wd : wordForms) {
+        results.add(determiner + wd.getStem().toString());
+      }
     }
   }
 

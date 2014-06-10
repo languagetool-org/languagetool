@@ -443,16 +443,26 @@ $Id$
                                 <example type="correct">Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
 						</rule>
 				</rulegroup>
-				<rule id="MULTISPOJNIKI" name="Brak przecinka przed „a więc”, „a mianowicie”...">
-						<pattern>
-								<phraseref idref="NIE_INTERPUNKCJA"></phraseref>
-								<token>a</token>
-								<token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak(:?że)?|choć|chociaż|ponieważ|także|również|następnie|jeśli|jeżeli|gdyby|gdy|kiedy|zarazem|raczej|potem|nawet|przynajmniej|jednocześnie|zwłaszcza|raz</token>
-						</pattern>
-						<message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
-						<short>Błąd interpunkcyjny</short>
-						<example type="correct">Minister miał coś do zakomunikowania, a mianowicie, że nic nie wie.</example>
-						<example correction="zakomunikowania, a mianowicie" type="incorrect">Minister miał coś do <marker>zakomunikowania a mianowicie</marker>, że nic nie wie.</example>
+                <rule id="BEZOKOLICZNIKI" name="Dwa bezokoliczniki bez przecinka">
+                    <pattern>
+                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|przestać|zacząć|nauczyć|pomóc|iść|musieć|pozwolić|próbować|przestawać|dać</exception></token>
+                        <token postag='verb:inf.*' postag_regexp='yes'></token>
+                    </pattern>
+                    <message>Dwa bezokoliczniki nierozdzielone przecinkiem. Czy chodziło o <suggestion><match no="1"/>, <match no="2"/></suggestion>?</message>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type='incorrect'><marker>Zrobić wywiercić</marker> dziurę.</example>
+                    <example type='correct'>Zrobić, wywiercić dziurę.</example>
+                </rule>
+                <rule id="MULTISPOJNIKI" name="Brak przecinka przed „a więc”, „a mianowicie”...">
+                    <pattern>
+                            <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
+                            <token>a</token>
+                            <token inflected="yes" regexp="yes">więc|mianowicie|przeto|zatem|jednak(:?że)?|choć|chociaż|ponieważ|także|również|następnie|jeśli|jeżeli|gdyby|gdy|kiedy|zarazem|raczej|potem|nawet|przynajmniej|jednocześnie|zwłaszcza|raz</token>
+                    </pattern>
+                    <message>W tym miejscu stawia się przecinek: <suggestion>\1, \2 \3</suggestion></message>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type="correct">Minister miał coś do zakomunikowania, a mianowicie, że nic nie wie.</example>
+                    <example correction="zakomunikowania, a mianowicie" type="incorrect">Minister miał coś do <marker>zakomunikowania a mianowicie</marker>, że nic nie wie.</example>
 				</rule>
 				<rulegroup id="DWUZNACZNOSC_W_COFANIU" name="Brak przecinka w zbiegu dwóch spójników">
 						<rule>
@@ -1925,6 +1935,18 @@ $Id$
 						<example correction="Tak czy siak" type="incorrect"><marker>Tak, czy siak</marker>, nie ma to sensu.</example>
                         <example type="correct">— Czy tak, czy owak, z opowieścią biegaj.</example>
 				</rule>
+                <rule id="OTO_CO" name="Zbędny przecinek po „oto”">
+                    <pattern>
+                        <token>oto</token>
+                        <token>,</token>
+                        <token regexp='yes'>jak|dlaczego|co</token>
+                    </pattern>
+                    <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion><match no="1"/> <match no="3"/></suggestion>.</message>
+                    <url>http://poradnia.pwn.pl/lista.php?id=14326</url>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type='incorrect' correction="Oto jak"><marker>Oto, jak</marker> profesor robi naleśniki.</example>
+                    <example type='correct'>Oto jak profesor robi naleśniki.</example>
+                </rule>
                 <rule id="WYPISZ_WYMALUJ" name="Zbędny przecinek w „wypisz wymaluj”">
                 <pattern>
                     <token>wypisz</token>
@@ -13649,6 +13671,44 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="BRAK_GEN" name="„Brak szacunki” (brak szacunku)">
+                <pattern>
+                    <token>brak</token>
+                    <marker>
+                        <token regexp='yes'>.*i<exception postag='.*[\.:](gen|dat)[\.:].*|UNKNOWN' postag_regexp='yes'></exception></token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion><match no="2" postag_regexp="yes" postag="^.*$" postag_replace=".*gen.*"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>To koszmarny brak <marker>szacunki</marker>!</example>
+                <example type='correct'>To koszmarny brak szacunku!</example>
+            </rule>
+            <rule id="AT_HOC" name="„at hoc” (ad hoc)">
+                <pattern>
+                    <token>at</token>
+                    <token>hoc</token>
+                </pattern>
+                <message>Czy chodziło o <suggestion>ad hoc</suggestion> (z łaciny)?</message>
+                <url>http://so.pwn.pl/lista.php?co=ad+hoc</url>
+                <short>Literówka</short>
+                <example type='incorrect'>To było <marker>at hoc</marker>.</example>
+                <example type='correct'>To było ad hoc.</example>
+            </rule>
+            <rule id="JEST_OT" name="„jest ot” (jest to)">
+                <pattern>
+                    <token>jest</token>
+                    <marker>
+                        <token>ot</token>
+                    </marker>
+                    <token><exception inflected='yes' regexp='yes'>taki?</exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>to</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Jest <marker>ot</marker> możliwe.</example>
+                <example type='correct'>Jest to możliwe.</example>
+                <example type='correct'>Ot co!</example>
+                <example type='correct'>To nie jest ot taki sobie normalny obywatel.</example>
+            </rule>
             <rule id="NOGA_BYC" name="„nogą być” (mogą być)">
                 <pattern>
                     <marker>

@@ -14,7 +14,7 @@
 # How to use this script:
 #
 # 1) Download the Apertium Breton dictionary:
-#    $ svn co https://apertium.svn.sourceforge.net/svnroot/apertium/trunk/apertium-br-fr
+#    $ svn co https://svn.code.sf.net/p/apertium/svn/trunk/apertium-br-fr/
 #    $ cd apertium-br-fr/
 # 2) Install Apertium tools:
 #    $ sudo apt-get install lttoolbox
@@ -2432,6 +2432,7 @@ while (<LT_EXPAND>) {
       ($lemma eq 'peskerezh' and $word =~ /^[bfp]eskerezh$/)           or
       ($lemma eq 'prosesion' and $word =~ /^[bfp]rosesion(où)?$/)      or
       ($lemma eq 'siminal'   and $word =~ /^siminal(ioù)?$/)           or
+      ($lemma eq 'tavañjer'  and $word =~ /^tavañjer(ioù)?$/)          or
       ($lemma eq 'trubuilh'  and $word =~ /^[tdz]rubuilh(où)?$/)) {
     $tag =~ s/^N [fm]/N e/;
   }

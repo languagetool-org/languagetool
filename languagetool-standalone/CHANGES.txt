@@ -4,21 +4,25 @@ LanguageTool Change Log
 
 -Breton:
     -updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.12
+    -updated POS dictionary from Apertium (svn r53329)
     -improved several rules
     
 -English:
     -The spelling rule now accepts words with hyphens if the parts are valid words.
      For example, "web-based" is accepted now. This avoids a lot of false alarms.
+    -Fixed a thread-safety problem in the synthesizer
 
 -Esperanto:
     -added several rules
 
 -French:
+    -updated POS tag dictionary and Hunspell dictionary to Dicollecte-5.1
     -added/improved several rules
 
 -German:
     -fixed false alarm for words like "Stil-" in phrases like "Stil- und 
      Grammatikprüfung" (issue #93)
+    -detect wrong uppercase spelling in sentences like "Die Blaue Tür"
 
 -Polish:
     -added/improved many rules
@@ -27,7 +31,7 @@ LanguageTool Change Log
     
 -Portuguese:
     -added/improved several rules
-    -added around 54 compound words
+    -a total of 3507 compound words
     
 -Russian:
     - added big wordlist to spellcheck dictionary. Thanks for wordlist to Dmitri Gabinski
@@ -57,8 +61,20 @@ LanguageTool Change Log
      internally for tests, together with the demo language itself and DemoChunker.
     -JLanguageTool.printIfVerbose() has been changed from protected to private,
      as it was not used anywhere and it's not really useful to extend JLanguageTool.
+    -JLanguageTool.getAllActiveRules() has been fixed to not return rules that have
+     the default="off" attribute (unless they have been enabled explicitly)
     -StringTools.isAlphabetic() has been removed as it was a workaround for Java 6
      which is not supported anymore
+    -ContractionSpellingRule.isDictionaryBasedSpellingRule() now returns false
+
+-embedded server:
+    -The HTTP server now also accepts a --config option so that the maximum request size
+     can be limited with the 'maxTextLength' parameter (this used to be working only
+     for the HTTPS server)
+    -The HTTP and HTTPS servers now accept a new option 'maxCheckTimeMillis' in the
+     property configuration file to specify a maximum duration of a single check.
+     Checks that take longer (e.g. because generating spell corrections is slow for
+     some languages) will stop with an exception.
 
 -GUI:
     -Improved configuration dialog

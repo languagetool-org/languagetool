@@ -147,12 +147,8 @@ public class GermanTaggerTest extends TestCase {
     final List<String> upperCaseWord = new ArrayList<>();
     upperCaseWord.add("Das");
 
-    List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord);
-    assertEquals("[Das[der/ART:DEF:AKK:SIN:NEU*,der/ART:DEF:NOM:SIN:NEU*," +
-        "der/PRO:DEM:AKK:SIN:NEU*,der/PRO:DEM:NOM:SIN:NEU*,der/PRO:PER:AKK:SIN:NEU*,der/PRO:PER:NOM:SIN:NEU*]]", readings.toString());
-    
-    readings = tagger.tag(upperCaseWord, false);
-    assertEquals("[Das[null/null*]]", readings.toString());
+    List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord, false);
+    assertEquals("[Das[Das/null*]]", readings.toString());
   }
 
   public void testTagWithManualDictExtension() throws IOException {

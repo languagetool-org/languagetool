@@ -24,10 +24,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.XMLValidator;
-import org.languagetool.language.English;
-import org.languagetool.language.German;
-import org.languagetool.language.Polish;
-import org.languagetool.language.Romanian;
+import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
@@ -43,7 +40,7 @@ import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 public class HTTPServerTest {
 
-  @Ignore("already gets tested by HTTPServerLoadTest")
+  @Ignore("already gets tested by sub class HTTPServerLoadTest")
   @Test
   public void testHTTPServer() throws Exception {
     final HTTPServer server = new HTTPServer();
@@ -115,13 +112,12 @@ public class HTTPServerTest {
     assertTrue(!bitextCheck(polish, english, "This is something else.", "To jest frywolne.").contains("FRIVOLOUS"));
     
     //test for no changed if no options set
-    final String[] nothing = new String[0];
+    final String[] nothing = {};
     assertEquals(check(english, german, "We will berate you"), 
         checkWithOptions(english, german, "We will berate you", nothing, nothing, false));
     
     //disabling
-    final String[] disableAvsAn = new String[1];
-    disableAvsAn[0] = "EN_A_VS_AN";
+    final String[] disableAvsAn = {"EN_A_VS_AN"};
     assertTrue(!checkWithOptions(
             english, german, "This is an test", nothing, disableAvsAn, false).contains("an test"));
 
@@ -137,32 +133,41 @@ public class HTTPServerTest {
     
     
     //test if two rules get enabled as well
-    
-    final String[] twoRules = new String[2];
-    twoRules[0] ="EN_A_VS_AN";
-    twoRules[1] = "BERATE";
+    final String[] twoRules = {"EN_A_VS_AN", "BERATE"};
     
     String resultEn = checkWithOptions(
             english, german, "This is an test. We will berate you.", twoRules, nothing, false);
-    
     assertTrue(resultEn.contains("EN_A_VS_AN"));
     assertTrue(resultEn.contains("BERATE"));
 
     //check two disabled options
-    resultEn = checkWithOptions(
+    String result3 = checkWithOptions(
             english, german, "This is an test. We will berate you.", nothing, twoRules, false);
-    
-    assertTrue(!resultEn.contains("EN_A_VS_AN"));
-    assertTrue(!resultEn.contains("BERATE"));
+    assertFalse(result3.contains("EN_A_VS_AN"));
+    assertFalse(result3.contains("BERATE"));
     
     //two disabled, one enabled, so enabled wins
-    
-    resultEn = checkWithOptions(
+    String result4 = checkWithOptions(
             english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
+    assertTrue(result4.contains("EN_A_VS_AN"));
+    assertFalse(result4.contains("BERATE"));
+  }
 
-    assertTrue(resultEn.contains("EN_A_VS_AN"));
-    assertTrue(!resultEn.contains("BERATE"));
-    
+  @Test
+  public void testTimeout() throws Exception {
+    HTTPServerConfig config = new HTTPServerConfig();
+    config.setMaxCheckTimeMillis(1);
+    final HTTPServer server = new HTTPServer(config, false);
+    try {
+      server.run();
+      try {
+        System.out.println("Testing timeout now, please ignore the exception");
+        check(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
+        fail("Check was expected to be stopped because it took too long");
+      } catch (IOException expected) {}
+    } finally {
+      server.stop();
+    }
   }
 
   @Test
@@ -216,8 +221,8 @@ public class HTTPServerTest {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    if (null != motherTongue) {
-      urlOptions += "&motherTongue="+motherTongue.getShortName();
+    if (motherTongue != null) {
+      urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
     return HTTPTools.checkAtUrl(url);
@@ -230,7 +235,7 @@ public class HTTPServerTest {
   private String check(Language lang, Language motherTongue, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    if (null != motherTongue) {
+    if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
@@ -241,10 +246,9 @@ public class HTTPServerTest {
                                   String[] enabledRules, String[] disabledRules, boolean useEnabledOnly) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    if (null != motherTongue) {
+    if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
-
     if (disabledRules.length > 0) {
       urlOptions += "&disabled=" + StringUtils.join(disabledRules, ",");
     }
@@ -254,7 +258,6 @@ public class HTTPServerTest {
     if (useEnabledOnly) {
       urlOptions += "&enabledOnly=yes";
     }
-
     final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
@@ -263,7 +266,7 @@ public class HTTPServerTest {
    * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
    */
   private String checkByPOST(Language lang, String text) throws IOException {
-    final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     final URL url = new URL("http://localhost:" + DEFAULT_PORT);
     return HTTPTools.checkAtUrlByPost(url, postData);
   }

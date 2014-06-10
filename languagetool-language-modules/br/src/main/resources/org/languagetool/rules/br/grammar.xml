@@ -3200,6 +3200,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct"><marker>Nevez-vet</marker>.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="NA_J" name="Na glañv on! → Na klañv on!">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>Na</token>
+          <marker><token postag="J M.*" postag_regexp="yes"><exception postag="J"/></token></marker>
+          <token regexp="yes">on|out|eo|omp|oc’h|int|eur</token>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2». (CHALM G2)</message>
+        <example type="incorrect">Na <marker>c’hlañv</marker> on!</example>
+        <example type="incorrect">Na <marker>glañv</marker> on!</example>
+        <example type="correct">Na klañv on!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token>Na</token>
+          <marker><token postag="J M.*" postag_regexp="yes"><exception postag="J"/></token></marker>
+          <token>e</token>
+          <token postag="V.*" postag_regexp="yes"/>
+        </pattern>
+        <message>Ne zlefe ket bezañ ur c’hemmadur er ger «\2». (CHALM G2)</message>
+        <example type="incorrect">Na <marker>c’hlañv</marker> e oan!</example>
+        <example type="incorrect">Na <marker>glañv</marker> e oan!</example>
+        <example type="correct">Na klañv e oan!</example>
+      </rule>
+    </rulegroup>
   </category>
 
   <category name="Ger-mell">
@@ -3343,7 +3370,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <marker>
             <token>peogwir</token>
-            <token negate="yes">e<exception inflected="yes" regexp="yes">bezañ|ne</exception></token>
+            <token negate="yes" regexp="yes">ez?<exception inflected="yes" regexp="yes">bezañ|ne</exception></token>
           </marker>
           <token negate="yes" inflected="yes" regexp="yes">bezañ|kaout
             <exception regexp="yes">[pd]?eus|[bpd](oa|eze?|efe|ije)</exception>
@@ -3356,6 +3383,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">Peogwir en deus labour.</example>
         <example type="correct">Peogwir out trist.</example>
         <example type="correct">Peogwir n’hon eus ket arc’hant.</example>
+        <example type="correct">Peogwir ez ae an dud war-raok.</example>
       </rule>
       <rule>
         <pattern>
@@ -5596,9 +5624,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="ALL" name="en tu-all → en tu all (hag all)">
       <pattern>
-        <!-- Exception avoids double error in *a hend-all* already
+        <!-- Exception "hend-all" avoids double error in *a hend-all* already
              detected by rule A_HEND_ALL -->
-        <token regexp="yes" postag="UNKNOWN">.*-(all|bennak(et)?)<exception>hend-all</exception></token>
+        <token regexp="yes">.*-(all|bennak(et)?)<exception regexp="yes">([kg]emend|c’hemend|a-hend|hend|mod)-all</exception></token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="(.*)-([^-]*)" regexp_replace="$1 $2"/></suggestion>.</message>
       <example type="incorrect" correction="tu all">En <marker>tu-all</marker></example>
@@ -6934,7 +6962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">bloaz|miz</token>
           <token>zo</token>
         </pattern>
-        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\3» da ziskouez pad un amzer aet hebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\2 \3</suggestion>?</message>
+        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\3» da ziskouez pad un amzer aet hebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\2 \3</suggestion>? (CHALM L7)</message>
         <example type="incorrect" correction="Miz zo"><marker>Ur miz zo</marker> e oa aet kuit.</example>
         <example type="correct">Miz zo e oa aet kuit.</example>
       </rule>
@@ -6945,7 +6973,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token inflected="yes">a</token>
           <token>zo</token>
         </pattern>
-        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\4» da ziskouez pad un amzer aet hebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\4</suggestion>?</message>
+        <message>Ger-mell ebet dirak «\2» pa vez lakaet dirak «\4» da ziskouez pad un amzer aet hebiou. Ha fellout a rae deoc’h skrivañ <suggestion>\4</suggestion>? (CHALM L7)</message>
         <example type="incorrect"><marker>Ur miz ’zo</marker> e oa aet kuit.</example>
         <example type="correct">Miz zo e oa aet kuit.</example>
       </rule>
@@ -6974,7 +7002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="N.*" postag_regexp="yes"><exception regexp="yes">gwech|mann|tamm</exception></token>
           <token>ebet</token>
         </pattern>
-        <message>Ne vez ket implijet «ket» gant «ebet».</message>
+        <message>Ne vez ket implijet «ket» gant «ebet». (CHALM E4.1)</message>
         <example type="incorrect">Ne welan <marker>ket</marker> den ebet.</example>
         <example type="correct">Ne welan den ebet.</example>
         <example type="incorrect">N’eus <marker>ket</marker> boued ebet.</example>
@@ -6992,7 +7020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Ret eo implijout <suggestion>banne \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
         <example type="incorrect" correction="banne avel ebet">N’eus <marker>avel ebet</marker>.</example>
-        <example type="correct">N’eus banne avel ebet.</example>
+        <example type="correct">N’eus banne avel ebet. (CHALM R1.7.1)</example>
       </rule>
       <rule>
         <pattern>
@@ -7005,7 +7033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <message>Ret eo implijout <suggestion>tamm \3 \4</suggestion> gant ur ger hollek «\3» a-raok ar ger «\4».</message>
         <example type="incorrect" correction="tamm frouezh ebet">Ne zebran <marker>frouezh ebet</marker>.</example>
-        <example type="correct">Ne zebran tamm frouezh ebet.</example>
+        <example type="correct">Ne zebran tamm frouezh ebet. (CHALM R1.7.1)</example>
       </rule>
     </rulegroup>
     <rulegroup id="KET_NEMEUR" name="ket + nemeur">
@@ -7016,7 +7044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>nemeur</token>
           <token>a</token>
         </pattern>
-        <message>Ret eo implijout «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1\2 ket \3 \4</suggestion>?</message>
+        <message>Ret eo implijout «ket» gant «nemeur». Ha fellout a rae deoc’h skrivañ <suggestion>\1\2 ket \3 \4</suggestion>? (CHALM E4.4)</message>
         <example type="incorrect" correction="N’eus ket nemeur a"><marker>N’eus nemeur a</marker> girri.</example>
         <example type="correct">N’eus ket nemeur a girri.</example>
       </rule>
@@ -7732,7 +7760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rule>
     <rule id="PA" name="pa + verb diouzhtu">
       <pattern>
-        <token regexp="yes">pa|mar</token>
+        <token>pa</token>
         <token>
           <exception postag="V.*|X KAOUT1|X EN_EM|UNKNOWN" postag_regexp="yes"/>
           <exception regexp="yes">n?[e’]</exception>
@@ -7746,6 +7774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="correct">Mar en deus unan bennak divskouarn da glevout.</example>
       <example type="correct">Pa ho pefe</example>
       <example type="correct">Pa en em gavent gant ar merc’hed.</example>
+      <example type="correct">Hep mar ebet.</example>
     </rule>
 
     <rulegroup id="HEMAN_HOUMAN" name="hemañ ha houmañ">
