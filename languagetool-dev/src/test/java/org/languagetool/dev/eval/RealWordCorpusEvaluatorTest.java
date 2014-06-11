@@ -30,10 +30,11 @@ import static org.junit.Assert.assertThat;
 
 public class RealWordCorpusEvaluatorTest {
 
-  @Ignore
+  @Ignore("requires local language model file")
   @Test
   public void testCheck() throws IOException {
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator();
+    File model = new File("../languagetool-core/src/test/resources/org/languagetool/languagemodel/frequency.dict");
+    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(model);
     URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
     evaluator.run(new File(errors.getFile()));
     assertThat(evaluator.getSentencesChecked(), is(3));
