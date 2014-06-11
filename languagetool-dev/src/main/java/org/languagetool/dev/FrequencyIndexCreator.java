@@ -20,38 +20,51 @@ package org.languagetool.dev;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.LongField;
+import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.store.RAMDirectory;
 import org.apache.lucene.util.Version;
 
 import java.io.*;
 import java.text.NumberFormat;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
 import java.util.zip.GZIPInputStream;
 
 /**
+ * Index *.gz files from Google's ngram corpus into a Lucene index.
  */
 public class FrequencyIndexCreator {
 
   private static final int MIN_YEAR = 1910;
 
-  private void run(String inputFile) throws IOException {
+  private void run(File inputDir, File indexDir) throws IOException {
     Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_48);
-      Directory directory = FSDirectory.open(new File("/media/Data/google-ngram/3gram/lucene-index"));
+    Directory directory = FSDirectory.open(indexDir);
     IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_48, analyzer);
     try (IndexWriter writer = new IndexWriter(directory, config)) {
-      //indexLines(writer);
-      indexLinesFromGoogleFile(writer, inputFile);
+      List<File> files = Arrays.asList(inputDir.listFiles());
+      Collections.sort(files);
+      for (File file : files) {
+        String name = file.getName();
+        if (name.contains("_")) {
+          System.out.println("Skipping " + name);
+          continue;
+        }
+        if (name.startsWith("googlebooks-") && name.endsWith(".gz")) {
+          indexLinesFromGoogleFile(writer, file);
+        }
+      }
     }
   }
 
-  private void indexLinesFromGoogleFile(IndexWriter writer, String file) throws IOException {
-    InputStream fileStream = new FileInputStream(file);
+  private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile) throws IOException {
+    System.out.println("==== Working on " + inputFile + " ====");
+    InputStream fileStream = new FileInputStream(inputFile);
     InputStream gzipStream = new GZIPInputStream(fileStream);
     Reader decoder = new InputStreamReader(gzipStream, "utf-8");
     BufferedReader buffered = new BufferedReader(decoder);
@@ -92,22 +105,6 @@ public class FrequencyIndexCreator {
     }
   }
 
-  private void indexLinesFromAggregatedTextFile(IndexWriter writer) throws IOException {
-    Scanner scanner = new Scanner(new File("/media/Data/google-ngram/2gram-filtered/all-for-morfologik"));
-    int i = 0;
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      String[] parts = line.split("\t");
-      String text = parts[0];
-      String count = parts[1];
-      addDoc(writer, text, count);
-      if (i % 10_000 == 0) {
-        System.out.println(i + "...");
-      }
-      i++;
-    }
-  }
-
   private void addDoc(IndexWriter writer, String text, String count) throws IOException {
     Document doc = new Document();
     doc.add(new Field("ngram", text, StringField.TYPE_STORED));
@@ -117,6 +114,7 @@ public class FrequencyIndexCreator {
 
   public static void main(String[] args) throws IOException {
     FrequencyIndexCreator creator = new FrequencyIndexCreator();
-    creator.run("/media/Data/google-ngram/3gram/googlebooks-eng-all-3gram-20120701-an.gz");
+    creator.run(new File("/media/Data/google-ngram/2gram/"),
+                new File("/media/Data/google-ngram/2gram/lucene-index"));
   }
 }
