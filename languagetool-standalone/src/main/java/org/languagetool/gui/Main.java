@@ -451,6 +451,12 @@ public final class Main {
     grammarMenu.add(new AddRulesAction());
     grammarMenu.add(new OptionsAction());
     grammarMenu.add(new SelectFontAction());
+    JMenu lafMenu = new JMenu(messages.getString("guiLookAndFeelMenu"));
+    UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
+    for(UIManager.LookAndFeelInfo laf: lafInfo) {
+      lafMenu.add(new JMenuItem(new SelectLFAction(laf)));
+    }
+    grammarMenu.add(lafMenu);
     
     helpMenu.add(new AboutAction());
 
@@ -496,15 +502,31 @@ public final class Main {
   }
   
   private void setLookAndFeel() {
+    String lookAndFeelName = null;
+    String className = null;
     try {
-      for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-          UIManager.setLookAndFeel(info.getClassName());
-          break;
-        }
+      Configuration config = new Configuration(new File(System.getProperty("user.home")), LanguageToolSupport.CONFIG_FILE, null);
+      if(config.getLookAndFeelName() != null) {
+        lookAndFeelName = config.getLookAndFeelName();
       }
-    } catch (Exception ignored) {
-      // Well, what can we do...
+    } catch (IOException ex) {
+        // ignore
+    }
+    if(lookAndFeelName == null) {
+      lookAndFeelName = "Nimbus";
+    }
+    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        if (lookAndFeelName.equals(info.getName())) {
+            className = info.getClassName();
+            break;
+        }
+    }
+    if(className != null) {
+      try {
+        UIManager.setLookAndFeel(className);
+      } catch (Exception ignored) {
+        // Well, what can we do...
+      }
     }
   }
 
@@ -1080,6 +1102,31 @@ public final class Main {
     @Override
     public void actionPerformed(ActionEvent e) {
       showSelectFontDialog();
+    }
+  }
+
+  class SelectLFAction extends AbstractAction {
+
+    private UIManager.LookAndFeelInfo lf;
+    public SelectLFAction(UIManager.LookAndFeelInfo lf) {
+      super(lf.getName());
+      this.lf = lf;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        UIManager.setLookAndFeel(lf.getClassName());
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+        ltSupport.getConfig().setLookAndFeelName(lf.getName());
+      } catch (ClassNotFoundException ex) {
+      } catch (InstantiationException ex) {
+      } catch (IllegalAccessException ex) {
+      } catch (UnsupportedLookAndFeelException ex) {
+        //TODO
+        //should we inform user?
+      }
     }
   }
 

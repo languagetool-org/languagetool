@@ -50,6 +50,7 @@ public class Configuration {
   private static final String FONT_NAME_CONFIG_KEY = "font.name";
   private static final String FONT_STYLE_CONFIG_KEY = "font.style";
   private static final String FONT_SIZE_CONFIG_KEY = "font.size";
+  private static final String LF_NAME_CONFIG_KEY = "lookAndFeelName";
 
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
@@ -70,6 +71,7 @@ public class Configuration {
   private int fontSize;
   private int serverPort = DEFAULT_SERVER_PORT;
   private String externalRuleDirectory;
+  private String lookAndFeelName;
 
   /**
    * Uses the configuration file from the default location.
@@ -130,6 +132,7 @@ public class Configuration {
     this.fontStyle = configuration.fontStyle;
     this.fontSize = configuration.fontSize;    
     this.serverPort = configuration.serverPort;
+    this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -247,6 +250,14 @@ public class Configuration {
     this.fontSize = fontSize;
   }
 
+  public String getLookAndFeelName() {
+    return this.lookAndFeelName;
+  }
+
+  public void setLookAndFeelName(String lookAndFeelName) {
+    this.lookAndFeelName = lookAndFeelName;
+  }
+
   private void loadConfiguration(final Language lang) throws IOException {
 
     final String qualifier = getQualifier(lang);
@@ -288,6 +299,7 @@ public class Configuration {
           // Ignore
         }
       }
+      lookAndFeelName = (String) props.get(LF_NAME_CONFIG_KEY);
 
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
@@ -367,6 +379,9 @@ public class Configuration {
     if(fontSize != FONT_SIZE_INVALID) {
       props.setProperty(FONT_SIZE_CONFIG_KEY, Integer.toString(fontSize));
     }
+    if(null != this.lookAndFeelName) {
+      props.setProperty(LF_NAME_CONFIG_KEY, lookAndFeelName);
+    }    
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }
