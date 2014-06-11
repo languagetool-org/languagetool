@@ -285,14 +285,14 @@ public class Configuration {
       runServer = "true".equals(props.get(SERVER_RUN_CONFIG_KEY));
 
       fontName = (String) props.get(FONT_NAME_CONFIG_KEY);
-      if(props.get(FONT_STYLE_CONFIG_KEY) != null) {
+      if (props.get(FONT_STYLE_CONFIG_KEY) != null) {
         try {
           fontStyle = Integer.parseInt((String) props.get(FONT_STYLE_CONFIG_KEY));
         } catch (NumberFormatException e) {
           // Ignore
         }
       }
-      if(props.get(FONT_SIZE_CONFIG_KEY) != null) {
+      if (props.get(FONT_SIZE_CONFIG_KEY) != null) {
         try {
           fontSize = Integer.parseInt((String) props.get(FONT_SIZE_CONFIG_KEY));
         } catch (NumberFormatException e) {
@@ -370,16 +370,16 @@ public class Configuration {
     props.setProperty(USE_GUI_CONFIG_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.toString(serverPort));
-    if(null != fontName) {
+    if (fontName != null) {
       props.setProperty(FONT_NAME_CONFIG_KEY, fontName);
     }
-    if(fontStyle != FONT_STYLE_INVALID) {
+    if (fontStyle != FONT_STYLE_INVALID) {
       props.setProperty(FONT_STYLE_CONFIG_KEY, Integer.toString(fontStyle));
     }
-    if(fontSize != FONT_SIZE_INVALID) {
+    if (fontSize != FONT_SIZE_INVALID) {
       props.setProperty(FONT_SIZE_CONFIG_KEY, Integer.toString(fontSize));
     }
-    if(null != this.lookAndFeelName) {
+    if (this.lookAndFeelName != null) {
       props.setProperty(LF_NAME_CONFIG_KEY, lookAndFeelName);
     }    
     if (externalRuleDirectory != null) {

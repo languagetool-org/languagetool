@@ -396,8 +396,9 @@ public final class Main {
             || config.getFontStyle() != Configuration.FONT_STYLE_INVALID
             || config.getFontSize() != Configuration.FONT_SIZE_INVALID) {
       String fontName = config.getFontName();
-      if(fontName == null)
+      if (fontName == null) {
         fontName = textArea.getFont().getFamily();
+      }
       int fontSize = config.getFontSize();
       if (fontSize == Configuration.FONT_SIZE_INVALID) {
         fontSize = textArea.getFont().getSize();
@@ -506,22 +507,22 @@ public final class Main {
     String className = null;
     try {
       Configuration config = new Configuration(new File(System.getProperty("user.home")), LanguageToolSupport.CONFIG_FILE, null);
-      if(config.getLookAndFeelName() != null) {
+      if (config.getLookAndFeelName() != null) {
         lookAndFeelName = config.getLookAndFeelName();
       }
     } catch (IOException ex) {
-        // ignore
+      // ignore
     }
-    if(lookAndFeelName == null) {
+    if (lookAndFeelName == null) {
       lookAndFeelName = "Nimbus";
     }
     for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if (lookAndFeelName.equals(info.getName())) {
-            className = info.getClassName();
-            break;
-        }
+      if (lookAndFeelName.equals(info.getName())) {
+        className = info.getClassName();
+        break;
+      }
     }
-    if(className != null) {
+    if (className != null) {
       try {
         UIManager.setLookAndFeel(className);
       } catch (Exception ignored) {
@@ -1107,7 +1108,8 @@ public final class Main {
 
   class SelectLFAction extends AbstractAction {
 
-    private UIManager.LookAndFeelInfo lf;
+    private final UIManager.LookAndFeelInfo lf;
+    
     public SelectLFAction(UIManager.LookAndFeelInfo lf) {
       super(lf.getName());
       this.lf = lf;
