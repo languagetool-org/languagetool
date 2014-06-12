@@ -237,6 +237,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Zeche");
     exceptions.add("Zusage");
     exceptions.add("Zwinge");
+    exceptions.add("Tertiär");  // geologischer Zeitabschnitt
 
     exceptions.add("Erster");   // "er wurde Erster im Langlauf"
     exceptions.add("Zweiter");
@@ -380,10 +381,17 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Vereinigten Staaten");
     myExceptionPhrases.add("im Weiteren");
     myExceptionPhrases.add("Im Weiteren");
+    myExceptionPhrases.add("Roter Riese");
+    myExceptionPhrases.add("Roten Riesen");
+    myExceptionPhrases.add("als Erstes");  // aber: als erstes Kind...
+    myExceptionPhrases.add("Als Erstes");
   }
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
+    substVerbenExceptions.add("passiert");  // "Das passiert..."
+    substVerbenExceptions.add("beschränkt");  // "Das beschränkt sich..."
+    substVerbenExceptions.add("wiederholt");
     substVerbenExceptions.add("scheinen");
     substVerbenExceptions.add("klar");
     substVerbenExceptions.add("heißen");
