@@ -38,7 +38,7 @@ $Id$
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
-    <!ENTITY precedits_per_TAN "savi|espectacular|alt|ample|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer">
+    <!ENTITY precedits_per_TAN "prompte|savi|espectacular|alt|ample|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
@@ -4725,7 +4725,7 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="RG" skip="10"><exception regexp="yes">bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception></token>
+                    <token postag="RG" skip="10"><exception regexp="yes">prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception></token>
                     <token>com</token>
                     <token postag="RG"><exception regexp="yes">sempre|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
                 </pattern>
@@ -17176,7 +17176,7 @@ $Id$
 	                    <token skip="2" inflected="yes">fer<exception scope="next" postag="AQ.*" postag_regexp="yes"/></token>
 	                    <token skip="7">amb<exception scope="next" regexp="yes">,|cap</exception></token>
                     </marker>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes" inflected="yes">nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -17199,7 +17199,7 @@ $Id$
 	                    <token postag="P0.0.*" postag_regexp="yes" skip="2"/>
 	                    <token skip="7">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
+                    <token regexp="yes" inflected="yes">nombre|quantitat|copa|lliga|campionat|trofeu|torneig|control|banc|acció|escó|vot|poder|govern|terra|recurs|diner|fortuna|herència|pilota|partit<exception scope="previous">a</exception></token>
                 </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>(apoderar-se de)</suggestion>
@@ -22705,8 +22705,23 @@ $Id$
                 <token>el</token>
                 <token>son</token>
             </pattern>
-            <message>Cal dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">agafar</match></suggestion> en comptes de "<match no="1"/>".</message>
+            <message>Expressió incorecta</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">agafar</match></suggestion>
             <example type="incorrect" correction="agafà"><marker>concilià</marker> amb dificultat el son</example>
+            <example type="correct">agafar el son</example>
+        </rule>
+        <rule id="AGAFAR_LA_SON" name="agafar *la son">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="4" regexp="yes">conciliar|agafar</token>
+                    <token>la</token>
+                    <token>son</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorecta</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1" include_skipped="all">agafar</match> el son</suggestion>
+            <example type="incorrect" correction="Agafà amb dificultat el son"><marker>Concilià amb dificultat la son</marker></example>
+            <example type="incorrect" correction="Agafà amb dificultat el son"><marker>Agafà amb dificultat la son</marker></example>
             <example type="correct">agafar el son</example>
         </rule>
         <rule id="COMPOSAR" name="Revisa «composar/compondre»">
@@ -25001,13 +25016,13 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
                     <marker>
-                        <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception></token>
+                        <token postag="V.[IN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
                         <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
                         <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
                     </marker>
                 </pattern>
                 <message>Val més usar una altra expressió.</message>
-                <suggestion><match no="2" postag="(V.[SIN])(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3" include_skipped="all"/> <match no="4"/> (que ...)</suggestion>
+                <suggestion><match no="2" postag="(V.[IN])(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3" include_skipped="all"/> <match no="4"/> (que ...)</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/2178</url>
                 <short>Expressió preferible</short>
                 <example type="incorrect" correction="Fa una hora (que ...)"><marker>Porta una hora</marker> dient-ho</example>
@@ -25015,6 +25030,54 @@ $Id$
                 <example type="incorrect" correction="Feia molt de temps (que ...)"><marker>Portava molt de temps</marker> així.</example>
                 <example type="incorrect" correction="fa moltíssims anys (que ...)">alguna d'elles <marker>porta moltíssims anys</marker> d'existència</example>
                 <example type="incorrect" correction="fer moltíssims anys (que ...)">Deu <marker>portar moltíssims anys</marker> d'existència</example>
+                <example type="incorrect" correction="feia tants anys (que ...)">I que <marker>portaven tants anys</marker> d'existència</example>
+                <example type="correct">Això ens portarà molts anys.</example>
+                <example type="correct">Aquella amistat durà vint anys.</example>
+                <example type="correct">només li portava un mes d'avantatge</example>
+                <example type="correct">Ho havia de portar cada dia.</example>
+                <example type="correct">Dura dos dies.</example>
+                <example type="correct">tots els anomenats portaven una segona vida</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <marker>
+                        <token postag="V.[IN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+                    </marker>
+                    <token><exception postag="AQ..[CP]." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion><match no="2" postag="(V.[IN])(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3"/> (que ...)</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2178</url>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Fa hores (que ...)"><marker>Porta hores</marker> dient-ho</example>
+                <example type="incorrect" correction="Fa anys (que ...)"><marker>Porta anys</marker> de gira.</example>
+                <example type="incorrect" correction="Feia temps (que ...)"><marker>Portava temps</marker> així.</example>
+                <example type="incorrect" correction="fa anys (que ...)">alguna d'elles <marker>porta anys</marker> d'existència</example>
+                <example type="incorrect" correction="fer anys (que ...)">Deu <marker>portar anys</marker> d'existència</example>
+                <example type="incorrect" correction="fa anys (que ...)">I que <marker>porten anys</marker> d'existència</example>
+                <example type="correct">Això ens portarà anys.</example>
+                <example type="correct">Aquella amistat durà anys.</example>
+                <example type="correct">només li portava mesos d'avantatge</example>
+                <example type="correct">Ho havia de portar cada dia.</example>
+                <example type="correct">Dura dos dies.</example>
+                <example type="correct">tots els anomenats portaven una segona vida</example>
+                <example type="correct">La primavera porta dies càlids i flors que fan goig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.I[IP].*" postag_regexp="yes"/></token>
+                        <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+                    </marker>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion><match no="2" postag="(V.S)(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3" include_skipped="all"/> <match no="4"/> (que ...)</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2178</url>
+                <short>Expressió preferible</short>
                 <example type="incorrect" correction="fes tants anys (que ...)">I que <marker>portés tants anys</marker> d'existència</example>
                 <example type="incorrect" correction="fera tants anys (que ...)">I que <marker>portàrem tants anys</marker> d'existència</example>
                 <example type="correct">Això ens portarà molts anys.</example>
@@ -25028,20 +25091,15 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
                     <marker>
-                        <token postag="V.[SIN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception></token>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.I[IP].*" postag_regexp="yes"/></token>
                         <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
                     </marker>
                     <token><exception postag="AQ..[CP]." postag_regexp="yes"/></token>
                 </pattern>
                 <message>Val més usar una altra expressió.</message>
-                <suggestion><match no="2" postag="(V.[SIN])(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3"/> (que ...)</suggestion>
+                <suggestion><match no="2" postag="(V.S)(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> <match no="3"/> (que ...)</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/id/2178</url>
                 <short>Expressió preferible</short>
-                <example type="incorrect" correction="Fa hores (que ...)"><marker>Porta hores</marker> dient-ho</example>
-                <example type="incorrect" correction="Fa anys (que ...)"><marker>Porta anys</marker> de gira.</example>
-                <example type="incorrect" correction="Feia temps (que ...)"><marker>Portava temps</marker> així.</example>
-                <example type="incorrect" correction="fa anys (que ...)">alguna d'elles <marker>porta anys</marker> d'existència</example>
-                <example type="incorrect" correction="fer anys (que ...)">Deu <marker>portar anys</marker> d'existència</example>
                 <example type="incorrect" correction="fes anys (que ...)">I que <marker>portés anys</marker> d'existència</example>
                 <example type="incorrect" correction="fera anys (que ...)">I que <marker>portàrem anys</marker> d'existència</example>
                 <example type="correct">Això ens portarà anys.</example>
