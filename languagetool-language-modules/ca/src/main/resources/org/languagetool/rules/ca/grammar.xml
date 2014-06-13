@@ -5575,7 +5575,7 @@ $Id$
                     <token>a</token>
                     <token postag="D[AID].*|NC.P.*" postag_regexp="yes"><exception regexp="yes">parts|instàncies|inicis?|principis?|finals?|començaments?</exception></token>
                 </marker>
-                <token><exception regexp="yes">edat|zona|\d+|inicis?|principis?|finals?|començaments?</exception></token>
+                <token><exception regexp="yes">edat|zona|\d+|inicis?|principis?|finals?|començaments?</exception><exception postag="V.N.*|NP..G.*" postag_regexp="yes"/></token>
             </pattern> 
             <message>El verb "participar" regeix normalment la preposició "en".</message>
             <suggestion>en <match no="3" postag="(D.*|NC.P.*)" postag_regexp="yes" postag_replace="$1"/></suggestion>
@@ -5584,7 +5584,7 @@ $Id$
             <example type="incorrect" correction="en reunions">Mai no participà <marker>a reunions</marker> clandestines.</example>
             <example type="incorrect" correction="en la">Després de participar <marker>a la</marker> Volta.</example>
             <example type="correct">Ell no hi participà a Barcelona.</example>
-            <!-- <example type="correct">participà a l'Iraq en la campanya decisiva </example> -->
+            <example type="correct">participà a l'Iraq en la campanya decisiva </example>
             <example type="correct">participen a parts iguals</example>
             <example type="correct">va participar a finals del 38 en el debat</example>
             <example type="correct">Hi va participar a l'edat de 30 anys</example>
@@ -24769,7 +24769,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>quasi</token>
-                    <token>bé</token>
+                    <token regexp="yes">bé|be</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>quasi</suggestion>?</message>
                 <suggestion>gairebé</suggestion>
@@ -24780,7 +24780,7 @@ $Id$
                 <pattern>
                     <token>quasi</token>
                     <token>-</token>
-                    <token>bé</token>
+                    <token regexp="yes">bé|be</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>quasi</suggestion>?</message>
                 <suggestion>gairebé</suggestion>
