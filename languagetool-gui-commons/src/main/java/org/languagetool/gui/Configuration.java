@@ -226,34 +226,106 @@ public class Configuration {
     externalRuleDirectory = path;
   }
 
+  /**
+   *
+   * Returns the name of the GUI's editing textarea font.
+   *
+   * @return the name of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getFamily()
+   */
   public String getFontName() {
     return fontName;
   }
 
+  /**
+   *
+   * Sets the name of the GUI's editing textarea font.
+   *
+   * @param fontName the name of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getFamily()
+   */
   public void setFontName(String fontName) {
     this.fontName = fontName;
   }
 
+  /**
+   *
+   * Returns the style of the GUI's editing textarea font.
+   *
+   * @return the style of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getStyle()
+   */
   public int getFontStyle() {
     return fontStyle;
   }
 
+  /**
+   *
+   * Sets the style of the GUI's editing textarea font.
+   *
+   * @param fontStyle the style of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getStyle()
+   */
   public void setFontStyle(int fontStyle) {
     this.fontStyle = fontStyle;
   }
 
+  /**
+   *
+   * Returns the size of the GUI's editing textarea font.
+   *
+   * @return the size of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getSize()
+   */
   public int getFontSize() {
     return fontSize;
   }
 
+  /**
+   *
+   * Sets the size of the GUI's editing textarea font.
+   *
+   * @param fontSize the size of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getSize()
+   */
   public void setFontSize(int fontSize) {
     this.fontSize = fontSize;
   }
 
+  /**
+   *
+   * Returns the name of the GUI's LaF.
+   *
+   * @return the name of the LaF.
+   * @since 2.6
+   * 
+   * @see javax.swing.UIManager.LookAndFeelInfo#getName()
+   */
   public String getLookAndFeelName() {
     return this.lookAndFeelName;
   }
 
+  /**
+   *
+   * Sets the name of the GUI's LaF.
+   *
+   * @param lookAndFeelName the name of the LaF.
+   * @since 2.6 @see
+   * 
+   * @see javax.swing.UIManager.LookAndFeelInfo#getName()
+   */
   public void setLookAndFeelName(String lookAndFeelName) {
     this.lookAndFeelName = lookAndFeelName;
   }
