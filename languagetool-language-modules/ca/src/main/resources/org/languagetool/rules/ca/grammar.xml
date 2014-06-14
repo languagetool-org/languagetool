@@ -7058,6 +7058,30 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="REAL_REIAL" name="real/reial">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">casa|corona|família</token>
+                    <marker>
+                        <token inflected="yes">real</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(A.*)" postag_regexp="yes" postag_replace="$1">reial</match></suggestion> (= referent al rei)?</message>
+                <example type="incorrect" correction="reials">A les cases <marker>reals</marker>.</example>
+                <example type="correct">A la casa reial</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">real</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">monestir|acadèmia</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(A.*)" postag_regexp="yes" postag_replace="$1">reial</match></suggestion> (= referent al rei)?</message>
+                <example type="incorrect" correction="reial">Al <marker>real</marker> monestir.</example>
+                <example type="correct">A la casa reial</example>
+            </rule>
+        </rulegroup>
         <rule id="TORNES" name="tornès / tornés">
             <pattern>
                 <marker>
@@ -28069,6 +28093,7 @@ $Id$
         </rulegroup>
         <rule id="JA_QUE" name="'ja que' va precedit de coma">
             <pattern>
+                <token><exception postag="SENT_START"/></token>
                 <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
                 <marker>
                     <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
@@ -28077,8 +28102,8 @@ $Id$
                 </marker>
             </pattern>
             <message>Falta una coma davant de "ja que".</message>
-            <suggestion><match no="2"/>, ja que</suggestion>
-            <suggestion><match no="2"/> perquè</suggestion>
+            <suggestion><match no="3"/>, ja que</suggestion>
+            <suggestion><match no="3"/> perquè</suggestion>
             <url>http://www.ara.cat/premium/opinio/Ja-que-vol-dir-perque_0_675532448.html</url>
             <short>Falta una coma</short>
             <example type="incorrect" correction="ell, ja que|ell perquè">No és <marker>ell ja que</marker> no vol.</example>
@@ -28087,6 +28112,7 @@ $Id$
             <example type="correct">No és ell —ja que no vol.</example>
             <example type="correct">Però ja que venia ho aprofitava.</example>
             <example type="correct">són un angle recte (ja que l'angle central és de 180 graus)</example>
+            <example type="correct">-I ja que parlem d'això, aclarim-ho.</example>
         </rule>
         <rule id="MI" name="mi/m'hi">
             <pattern case_sensitive="yes">
@@ -28193,18 +28219,19 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token>
+                        <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>    
-                        <token regexp="yes">ser|ésser|esser|dir|veure|mirar|tenir|tindre</token>
+                        <token regexp="yes">ser|ésser|esser|dir|mirar|tenir|tindre|passar|resoldre</token> <!-- veure -->
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar.</message>
                     <!-- Cal el postag del primer i el lema del segon 
                     <suggestion><match no="1" postag="V.IP(..)0" postag_regexp="yes" postag_replace="yes"></match> </suggestion> -->
                 <url>http://esadir.cat/entrades/fitxa/id/1564</url>
-                <example type="incorrect">Li <marker>vaig a dir</marker> que no pot ser.</example>    
+                <example type="incorrect">Li <marker>vaig a dir</marker> que no pot ser.</example>
+                <example type="incorrect">Què creus que <marker>va a passar</marker>.</example> 
                 <example type="incorrect">Crec que <marker>va a ésser</marker> molt difícil.</example>
-                <example type="incorrect">Ara <marker>anem a veure</marker> què passa.</example>
+                <!-- <example type="incorrect">Ara <marker>anem a veure</marker> què passa.</example> -->
                 <example type="correct">Li diré que no pot ser.</example>
             </rule>
             <!-- <rule>
