@@ -4291,6 +4291,14 @@ $Id$
                 <example type="correct">tan bon punt va arribar</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token>tant</token>
+                        <token postag="RG" regexp="yes">.*ment</token>
+                        <token>com</token>
+                        <token postag="AQ.[CF]S." postag_regexp="yes"/>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">per|un</exception></token>
                     <marker>
@@ -4311,6 +4319,8 @@ $Id$
                 <example type="correct">No fa pas tant no ho haurien fet.</example>
                 <example type="incorrect" correction="tan">Això és <marker>tant</marker> a la llarga.</example>
                 <example type="correct">Tant a la llarga com a la curta.</example>
+                <example type="correct">Tant econòmicament com social.</example>
+                <example type="correct">Tant econòmicament com financera.</example>
                 <!--No es pot resoldre: <example type="correct">Ja no s'encomana tant socialment.</example> -->
             </rule>
             <rule> 
@@ -5343,6 +5353,18 @@ $Id$
                 <example type="correct">Són necessaries perquè canviï tot.</example>
             </rule>
         </rulegroup>
+        <rule id="PER_PER_A_PIANO" name="per/per a piano">
+            <pattern>
+                <marker>
+                    <token>per<exception scope="previous" inflected="yes" regexp="yes">formar|produir|acompanyar</exception></token>
+                </marker>
+                <token regexp="yes" inflected="yes">orgue|clavicèmbal|clave|clavicordi|instrument|piano|veu|violí|soprano|mezzosoprano|oboè|guitarra|violoncel|cello|timbales|percussió|vent|corda|tenor|baríton|contralt|flauta|clarinet|trompeta|trombó|tuba|bombardí|arpa|trompa</token>
+            </pattern>
+            <message>Probablement cal dir <suggestion>per a</suggestion>.</message>
+            <example type="incorrect">Música <marker>per</marker> oboè.</example>
+            <example type="correct">Un grup format per piano, violí i viola.</example>
+            <example type="correct">Sons produïts per veus humanes.</example>
+        </rule>
         <rulegroup id="QUALIFICAR_COM_A_DE" name="qualificar *com a/de">
             <rule>
                 <pattern>
@@ -21258,6 +21280,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CORDURA" name="cordura/seny">
+            <pattern>
+                <token>cordura</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>seny</suggestion>? "Cordura" existeix com a adjectiu (femení de "cordur").</message>
+            <suggestion>trellat</suggestion>
+            <example type="incorrect"><marker>cordura</marker></example>
+            <example type="correct">seny</example>
+        </rule>
         <rule id="TARJA" name="tarja/targeta">
             <pattern>
                 <token inflected="yes">tarja</token>
