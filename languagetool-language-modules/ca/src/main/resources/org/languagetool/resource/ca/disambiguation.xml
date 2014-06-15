@@ -6231,6 +6231,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="N.*|_GN_.*"></disambig>
     </rule>
     <rulegroup id="nom_adv_adj" name="nom + adverbi + adjectiu que concorden">
+    <!-- antipattern: tens que -->
         <rule id="aa2" name="aa1: Era la feina més dura ">
             <pattern>
                 <unify>
@@ -8807,7 +8808,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="RG_anteposat"/></token>
+                <token><exception postag="RG_anteposat"/><exception>com</exception></token>
                 <marker>
                 <and> <!--dret-->
                     <token postag="A.*" postag_regexp="yes" regexp="yes" inflected="yes">titular|redactor|directiu|carreter|mural|promotor|director|estranger|missatger|motiu|part|restaurant|parella<exception postag="_GN_.*" postag_regexp="yes"/></token>
