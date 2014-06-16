@@ -50,6 +50,7 @@ public class Configuration {
   private static final String FONT_NAME_CONFIG_KEY = "font.name";
   private static final String FONT_STYLE_CONFIG_KEY = "font.style";
   private static final String FONT_SIZE_CONFIG_KEY = "font.size";
+  private static final String LF_NAME_CONFIG_KEY = "lookAndFeelName";
 
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
@@ -70,6 +71,7 @@ public class Configuration {
   private int fontSize;
   private int serverPort = DEFAULT_SERVER_PORT;
   private String externalRuleDirectory;
+  private String lookAndFeelName;
 
   /**
    * Uses the configuration file from the default location.
@@ -130,6 +132,7 @@ public class Configuration {
     this.fontStyle = configuration.fontStyle;
     this.fontSize = configuration.fontSize;    
     this.serverPort = configuration.serverPort;
+    this.lookAndFeelName = configuration.lookAndFeelName;
     this.externalRuleDirectory = configuration.externalRuleDirectory;
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -223,28 +226,108 @@ public class Configuration {
     externalRuleDirectory = path;
   }
 
+  /**
+   *
+   * Returns the name of the GUI's editing textarea font.
+   *
+   * @return the name of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getFamily()
+   */
   public String getFontName() {
     return fontName;
   }
 
+  /**
+   *
+   * Sets the name of the GUI's editing textarea font.
+   *
+   * @param fontName the name of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getFamily()
+   */
   public void setFontName(String fontName) {
     this.fontName = fontName;
   }
 
+  /**
+   *
+   * Returns the style of the GUI's editing textarea font.
+   *
+   * @return the style of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getStyle()
+   */
   public int getFontStyle() {
     return fontStyle;
   }
 
+  /**
+   *
+   * Sets the style of the GUI's editing textarea font.
+   *
+   * @param fontStyle the style of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getStyle()
+   */
   public void setFontStyle(int fontStyle) {
     this.fontStyle = fontStyle;
   }
 
+  /**
+   *
+   * Returns the size of the GUI's editing textarea font.
+   *
+   * @return the size of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getSize()
+   */
   public int getFontSize() {
     return fontSize;
   }
 
+  /**
+   *
+   * Sets the size of the GUI's editing textarea font.
+   *
+   * @param fontSize the size of the font.
+   * @since 2.6
+   * 
+   * @see java.awt.Font#getSize()
+   */
   public void setFontSize(int fontSize) {
     this.fontSize = fontSize;
+  }
+
+  /**
+   *
+   * Returns the name of the GUI's LaF.
+   *
+   * @return the name of the LaF.
+   * @since 2.6
+   * 
+   * @see javax.swing.UIManager.LookAndFeelInfo#getName()
+   */
+  public String getLookAndFeelName() {
+    return this.lookAndFeelName;
+  }
+
+  /**
+   *
+   * Sets the name of the GUI's LaF.
+   *
+   * @param lookAndFeelName the name of the LaF.
+   * @since 2.6 @see
+   * 
+   * @see javax.swing.UIManager.LookAndFeelInfo#getName()
+   */
+  public void setLookAndFeelName(String lookAndFeelName) {
+    this.lookAndFeelName = lookAndFeelName;
   }
 
   private void loadConfiguration(final Language lang) throws IOException {
@@ -274,20 +357,21 @@ public class Configuration {
       runServer = "true".equals(props.get(SERVER_RUN_CONFIG_KEY));
 
       fontName = (String) props.get(FONT_NAME_CONFIG_KEY);
-      if(props.get(FONT_STYLE_CONFIG_KEY) != null) {
+      if (props.get(FONT_STYLE_CONFIG_KEY) != null) {
         try {
           fontStyle = Integer.parseInt((String) props.get(FONT_STYLE_CONFIG_KEY));
         } catch (NumberFormatException e) {
           // Ignore
         }
       }
-      if(props.get(FONT_SIZE_CONFIG_KEY) != null) {
+      if (props.get(FONT_SIZE_CONFIG_KEY) != null) {
         try {
           fontSize = Integer.parseInt((String) props.get(FONT_SIZE_CONFIG_KEY));
         } catch (NumberFormatException e) {
           // Ignore
         }
       }
+      lookAndFeelName = (String) props.get(LF_NAME_CONFIG_KEY);
 
       final String serverPortString = (String) props.get(SERVER_PORT_CONFIG_KEY);
       if (serverPortString != null) {
@@ -358,15 +442,18 @@ public class Configuration {
     props.setProperty(USE_GUI_CONFIG_KEY, Boolean.toString(guiConfig));
     props.setProperty(SERVER_RUN_CONFIG_KEY, Boolean.toString(runServer));
     props.setProperty(SERVER_PORT_CONFIG_KEY, Integer.toString(serverPort));
-    if(null != fontName) {
+    if (fontName != null) {
       props.setProperty(FONT_NAME_CONFIG_KEY, fontName);
     }
-    if(fontStyle != FONT_STYLE_INVALID) {
+    if (fontStyle != FONT_STYLE_INVALID) {
       props.setProperty(FONT_STYLE_CONFIG_KEY, Integer.toString(fontStyle));
     }
-    if(fontSize != FONT_SIZE_INVALID) {
+    if (fontSize != FONT_SIZE_INVALID) {
       props.setProperty(FONT_SIZE_CONFIG_KEY, Integer.toString(fontSize));
     }
+    if (this.lookAndFeelName != null) {
+      props.setProperty(LF_NAME_CONFIG_KEY, lookAndFeelName);
+    }    
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }

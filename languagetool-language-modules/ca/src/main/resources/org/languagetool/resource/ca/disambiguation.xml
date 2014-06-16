@@ -3137,6 +3137,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="NCMS.*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="la_volta" name="la Volta">
+        <pattern>
+            <token>la</token>
+            <marker>
+                <token>Volta</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="NPMS.*"></disambig>
+    </rule>
     <rule id="tornes" name="tornés: verb o adjectiu">
     	<pattern> <!-- exceptions? -->
     		<marker>
@@ -10645,7 +10654,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="uns__despres" name="uns ... després">
         <pattern>
             <marker>
-                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/></token>
+                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
             </marker>
             <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
             <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])<exception scope="previous" postag="C.*" postag_regexp="yes"/></token>
@@ -10655,7 +10664,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="uns__mestard" name="uns ... més tard">
         <pattern>
             <marker>
-                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/></token>
+                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
             </marker>
             <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
             <token>més</token>

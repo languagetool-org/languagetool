@@ -50,6 +50,28 @@ Japanese Grammar and Typo Rules file for LanguageTool
 			<example type="correct"><marker>違った</marker>問題</example>
 			<example type="incorrect"><marker>違かった</marker>問題</example>
 		</rule>
+		<rule id="UTAWASETE" name="歌わせて">
+			<pattern case_sensitive="no">
+				<token>歌わさ</token>
+				<token>せ</token>
+				<token>て</token>
+			</pattern>
+			<message>歌わせて</message>
+			<example type="correct"><marker>歌わせて</marker>いただきます</example>
+			<example type="incorrect"><marker>歌わさせて</marker>いただきます</example>
+		</rule>
+		<rule id="OBOTSUKANAI" name="おぼつかない">
+			<pattern case_sensitive="no">
+				<token>お</token>
+				<token>ぼつ</token>
+				<token>き</token>
+				<token>ませ</token>
+				<token>ん</token>
+			</pattern>
+			<message>おぼつかないです</message>
+			<example type="correct"><marker>おぼつかないです</marker></example>
+			<example type="incorrect"><marker>おぼつきません</marker></example>
+		</rule>
 	</category>
 	<!-- ============================== -->
 	<!-- 誤字 -->
@@ -294,6 +316,65 @@ Japanese Grammar and Typo Rules file for LanguageTool
 			<example type="correct"><marker>胸三寸</marker>に納める</example>
 			<example type="incorrect"><marker>胸先三寸</marker>に納める</example>
 		</rule>
+		<rule id="BANJIKYUUSU" name="万事休す">
+			<pattern case_sensitive="no">
+				<token>万事</token>
+				<token>窮</token>
+				<token>す</token>
+			</pattern>
+			<message>万事休す</message>
+			<example type="correct"><marker>万事休す</marker></example>
+			<example type="incorrect"><marker>万事窮す</marker></example>
+		</rule>
+		<rule id="TANTOUCHOKUNYUU" name="単刀直入">
+			<pattern case_sensitive="no">
+				<token>短刀</token>
+				<token>直入</token>
+			</pattern>
+			<message>単刀直入</message>
+			<example type="correct"><marker>単刀直入</marker></example>
+			<example type="incorrect"><marker>短刀直入</marker></example>
+		</rule>
+		<rule id="ISHINDENSHIN" name="以心伝心">
+			<pattern case_sensitive="no">
+				<token>意</token>
+				<token>心</token>
+				<token>伝</token>
+				<token>心</token>
+			</pattern>
+			<message>以心伝心</message>
+			<example type="correct"><marker>以心伝心</marker></example>
+			<example type="incorrect"><marker>意心伝心</marker></example>
+		</rule>
+		<rule id="KUHUUWONAMERU" name="苦汁を舐める">
+			<pattern case_sensitive="no">
+				<token>苦渋</token>
+				<token>を</token>
+				<token>舐める</token>
+			</pattern>
+			<message>苦汁を舐める</message>
+			<example type="correct"><marker>苦汁を舐める</marker></example>
+			<example type="incorrect"><marker>苦渋を舐める</marker></example>
+		</rule>
+		<rule id="SHINFUKOU" name="親不孝">
+			<pattern case_sensitive="no">
+				<token>親</token>
+				<token>不幸</token>
+			</pattern>
+			<message>親不孝</message>
+			<example type="correct"><marker>親不孝</marker></example>
+			<example type="incorrect"><marker>親不幸</marker></example>
+		</rule>
+		<rule id="RINKUWOHARU" name="リンクを張る">
+			<pattern case_sensitive="no">
+				<token>リンク</token>
+				<token>を</token>
+				<token>貼る</token>
+			</pattern>
+			<message>リンクを張る</message>
+			<example type="correct"><marker>リンクを張る</marker></example>
+			<example type="incorrect"><marker>リンクを貼る</marker></example>
+		</rule>
 	</category>
 	<!-- ============================== -->
 	<!-- コロケーション -->
@@ -336,6 +417,41 @@ Japanese Grammar and Typo Rules file for LanguageTool
 			<example type="incorrect">
 				<marker>一矢を返す</marker>
 			</example>
+		</rule>
+		<rule id="MIKKANIAGEZU" name="三日に上げず">
+			<pattern case_sensitive="no">
+				<token>三</token>
+				<token>日</token>
+				<token regexp="yes">と|も|を</token>
+				<token>上げ</token>
+				<token>ず</token>
+			</pattern>
+			<message>三日に上げず</message>
+			<example type="correct"><marker>三日に上げず</marker></example>
+			<example type="incorrect"><marker>三日と上げず</marker></example>
+		</rule>
+		<rule id="SAIHAIWOFURU" name="采配を振る">
+			<pattern case_sensitive="no">
+				<token>采配</token>
+				<token>を</token>
+				<token>振るう</token>
+			</pattern>
+			<message>采配を振る</message>
+			<example type="correct"><marker>采配を振る</marker></example>
+			<example type="incorrect"><marker>采配を振るう</marker></example>
+		</rule>
+		<rule id="KENRYOKUNIOMONETTE" name="権力におもねって">
+			<pattern case_sensitive="no">
+				<token>権力</token>
+				<token>に</token>
+				<token>お</token>
+				<token>も</token>
+				<token>ね</token>
+				<token>て</token>
+			</pattern>
+			<message>権力におもねって</message>
+			<example type="correct"><marker>権力におもねって</marker></example>
+			<example type="incorrect"><marker>権力におもねて</marker></example>
 		</rule>
 	</category>
 </rules>

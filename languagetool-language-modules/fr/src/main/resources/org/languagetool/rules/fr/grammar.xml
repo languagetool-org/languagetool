@@ -1869,7 +1869,7 @@ though, and has since been slightly modified)-->
         </marker>
         <token postag="V.*" postag_regexp="yes">
           <exception postag="V.* ppa .*" postag_regexp="yes"/>
-          <exception regexp="yes">envie|confiance|cours|force|hâte|recours</exception>
+          <exception regexp="yes">affaire|envie|confiance|cours|force|hâte|recours</exception>
         </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
@@ -1880,6 +1880,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Les enfants ont recours au suicide.</example>
       <example type="correct">Les méthodes qui ont cours.</example>
       <example type="correct">Ils ont hâte de vous voir.</example>
+      <example type="correct">Ils comprennent qu’ils ont affaire à un épisode tragique.</example>
     </rule>
     <rule id="SEPTIQUE" name="septique au lieu de sceptique">
       <pattern>
@@ -9214,7 +9215,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker>
-            <token>tout<exception scope="previous" regexp="yes">avant|en|du</exception></token>
+            <token>tout<exception scope="previous" regexp="yes">avant|en|du|malgré</exception></token>
           </marker>
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
@@ -9234,7 +9235,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token>tout<exception scope="previous" regexp="yes">avant|en|du</exception></token></marker>
+          <marker><token>tout<exception scope="previous" regexp="yes">avant|en|du|malgré</exception></token></marker>
           <token>ceux</token>
         </pattern>
         <message>Écrivez <suggestion>tous</suggestion>.</message>
@@ -9305,7 +9306,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker>
-            <token>tout<exception regexp="yes" scope="previous">avant|après|du|en</exception></token>
+            <token>tout<exception regexp="yes" scope="previous">avant|après|du|en|malgré</exception></token>
           </marker>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="[ANZ] f .*" postag_regexp="yes">
@@ -26341,7 +26342,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="LANGUES" name="langues">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="5">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode<exception scope="next" regexp="yes">que?</exception></token>
+          <token inflected="yes" regexp="yes" skip="5">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode<exception scope="next" regexp="yes">que?|aux?</exception></token>
           <marker>
             <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kikongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|une?</exception>
             </token>
@@ -26352,6 +26353,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Mon professeur d’anglais est Irlandais.</example>
         <example type="correct">Je parle anglais mais je ne suis pas Anglais.</example>
         <example type="correct">Il est surpris d’apprendre que le Japonais est incapable de le comprendre.</example>
+        <example type="correct">Les Bretons parlent aux Français.</example>
       </rule>
       <rule>
         <pattern>

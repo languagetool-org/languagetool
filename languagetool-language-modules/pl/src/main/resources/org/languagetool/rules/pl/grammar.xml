@@ -6807,8 +6807,8 @@ $Id$
 				<rulegroup id="PELNIC_ROLE" name="„pełnić rolę” (odgrywać rolę)">
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
-										<token regexp="yes">rolę|role</token>
+										<token inflected="yes" regexp="yes">s?pełnia?ć</token>
+										<token regexp="yes">rol[ęe]</token>
 								</pattern>
 								<message>Mówimy <suggestion><match no="1"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match></suggestion>, a nie „<match no="1"/> rolę”.</message>
 								<short>Błąd leksykalny</short>
@@ -6816,11 +6816,24 @@ $Id$
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
 								<example correction="pełniący funkcję|odgrywający rolę" type="incorrect">To element <marker>pełniący rolę</marker> w robieniu wody z mózgu.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <unify><feature id="number"/><feature id="person"/>
+                                <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                                <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                                </unify>
+                                <token regexp="yes">rol[ęe]</token>
+                            </pattern>
+                            <message>Mówimy <suggestion><match no="1"/> <match no="2"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"/> <match no="3"/></suggestion>, a nie „<match no="1"/> rolę”.</message>
+                            <short>Błąd leksykalny</short>
+                            <example correction="Pełni ona funkcję|Odgrywa ona rolę" type="incorrect"><marker>Pełni ona rolę</marker> w żegludze różnych typów statków.</example>
+                            <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+                        </rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
+										<token inflected="yes" regexp="yes">s?pełnia?ć</token>
 										<token postag="(adj|ppas|pact):.*acc.*:f.*" postag_regexp="yes"/>
-										<token regexp="yes">rolę|role</token>
+										<token regexp="yes">rol[ęe]</token>
 								</pattern>
 								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"></match></suggestion>, a nie „pełnić rolę”.</message>
 								<short>Błąd leksykalny</short>
@@ -6828,18 +6841,47 @@ $Id$
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
                                 <example type="incorrect" correction="spełniając swoją funkcję|odgrywając swoją rolę">Nadal <marker>spełniając swoją rolę</marker>, stali się zależni od Chin.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <unify><feature id="number"/><feature id="person"/>
+                                    <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                                    <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                                </unify>
+                                <token postag="(adj|ppas|pact):.*acc.*:f.*" postag_regexp="yes"/>
+                                <token regexp="yes">rol[ęe]</token>
+                            </pattern>
+                            <message>Mówimy <suggestion><match no="1"/> <match no="2"/> <match no="3"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>, a nie „pełnić rolę”.</message>
+                            <short>Błąd leksykalny</short>
+                            <example correction="Pełni ona istotną funkcję|Odgrywa ona istotną rolę" type="incorrect"><marker>Pełni ona istotną rolę</marker> w żegludze różnych typów statków.</example>
+                            <example type="correct"><marker>Odgrywa ona istotną rolę</marker> w żegludze różnych typów statków.</example>
+                        </rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
+										<token inflected="yes" regexp="yes">s?pełnia?ć</token>
 										<token postag="adv.*" postag_regexp="yes"></token>
 										<token postag="(adj|pact|ppas):.*acc.*:f.*" postag_regexp="yes"></token>
-										<token regexp="yes">rolę|role</token>
+										<token regexp="yes">rol[ęe]</token>
 								</pattern>
 								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"></match> <match no="4"></match></suggestion>, a nie „pełnić rolę”.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="Pełni naprawdę istotną funkcję|Odgrywa naprawdę istotną rolę" type="incorrect"><marker>Pełni naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <unify><feature id="number"/><feature id="person"/>
+                                    <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                                    <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                                </unify>
+                                <token postag="adv.*" postag_regexp="yes"></token>
+                                <token postag="(adj|pact|ppas):.*acc.*:f.*" postag_regexp="yes"></token>
+                                <token regexp="yes">rol[ęe]</token>
+                            </pattern>
+                            <message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> <match no="3"/> <match no="4"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"/> <match no="4"/> <match no="5"/></suggestion>, a nie „pełnić rolę”.</message>
+                            <short>Błąd leksykalny</short>
+                            <example correction="Pełni ona naprawdę istotną funkcję|Odgrywa ona naprawdę istotną rolę" type="incorrect"><marker>Pełni ona naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
+                            <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+                        </rule>
 				</rulegroup>
 				<rule id="PRZEDKLADAC_WNIOSEK" name="„przedkładać wniosek” (przedstawiać wniosek)">
 						<pattern>
@@ -13671,6 +13713,19 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="ZA_ZDANIE" name="„mieć za zdanie/zadnie” (za zadanie)">
+                <pattern>
+                    <token skip="1" inflected='yes'>mieć</token>
+                    <token>za</token>
+                    <marker>
+                        <token regexp='yes'>z[da][da]nie</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>zadanie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Opony do jazdy górskiej mają za <marker>zdanie</marker> poradzić sobie z każdym rodzajem wymagającego terenu.</example>
+                <example type='correct'>Opony do jazdy górskiej mają za zadanie poradzić sobie z każdym rodzajem wymagającego terenu.</example>
+            </rule>
             <rule id="BRAK_GEN" name="„Brak szacunki” (brak szacunku)">
                 <pattern>
                     <token>brak</token>

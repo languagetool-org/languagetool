@@ -87,7 +87,7 @@ import org.languagetool.tools.LanguageIdentifierTools;
  */
 class LanguageToolSupport {
 
-  private static final String CONFIG_FILE = ".languagetool.cfg";
+  static final String CONFIG_FILE = ".languagetool.cfg";
   //maximum entries in the activate rule menu.
   //If entries' number is bigger, create per category submenus
   //can set to 0 to always create category submenus

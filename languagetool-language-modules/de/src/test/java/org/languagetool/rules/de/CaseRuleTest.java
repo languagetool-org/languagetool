@@ -162,6 +162,7 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das haben wir schon.");
     assertGood("Das lesen sie doch sicher in einer Minute durch.");
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
+    assertGood("Formationswasser, das oxidiert war.");
 
     // Source of the following examples: http://www.canoo.net/services/GermanSpelling/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");
