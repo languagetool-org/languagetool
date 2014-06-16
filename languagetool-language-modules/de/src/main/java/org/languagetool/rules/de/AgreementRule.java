@@ -101,7 +101,8 @@ public class AgreementRule extends GermanRule {
     "weniger",
     "einige",
     "einiger",
-    "mehrerer"
+    "mehrerer",
+    "mehrere"
   ));
   
   private static final Set<String> REL_PRONOUN = new HashSet<>();
@@ -143,6 +144,7 @@ public class AgreementRule extends GermanRule {
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
+    "dir",
     "du",
     "er", "sie", "es",
     "wir",
