@@ -419,6 +419,7 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("bestätigte");
     substVerbenExceptions.add("bestätigten");
     substVerbenExceptions.add("bekommen");
+    substVerbenExceptions.add("sauer");
   }
   
   public CaseRule(final ResourceBundle messages, final German german) {
