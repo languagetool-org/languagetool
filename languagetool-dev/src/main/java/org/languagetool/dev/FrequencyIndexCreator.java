@@ -41,23 +41,32 @@ import java.util.zip.GZIPInputStream;
 public class FrequencyIndexCreator {
 
   private static final int MIN_YEAR = 1910;
+  private static final String NAME_REGEX = "googlebooks-eng-all-2gram-20120701-(.*?).gz";
 
-  private void run(File inputDir, File indexDir) throws IOException {
-    Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_48);
-    Directory directory = FSDirectory.open(indexDir);
-    IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_48, analyzer);
-    try (IndexWriter writer = new IndexWriter(directory, config)) {
-      List<File> files = Arrays.asList(inputDir.listFiles());
-      Collections.sort(files);
-      for (File file : files) {
-        String name = file.getName();
-        if (name.contains("_")) {
-          System.out.println("Skipping " + name);
-          continue;
-        }
-        if (name.startsWith("googlebooks-") && name.endsWith(".gz")) {
-          indexLinesFromGoogleFile(writer, file);
-        }
+  private void run(File inputDir, File indexBaseDir) throws IOException {
+    List<File> files = Arrays.asList(inputDir.listFiles());
+    for (File file : files) {
+      String name = file.getName();
+      if (name.contains("_")) {
+        System.out.println("Skipping " + name + " contains underscore");
+        continue;
+      }
+      if (!name.startsWith("googlebooks-") && name.endsWith(".gz")) {
+        System.out.println("Skipping " + name + " - unexpected file name");
+        continue;
+      }
+      if (!name.matches(NAME_REGEX)) {
+        System.out.println("Skipping " + name + " doesn't match regex " + NAME_REGEX);
+        continue;
+      }
+      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_48);
+      File indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX, "$1"));
+      System.out.println("Index dir: " + indexDir);
+      Directory directory = FSDirectory.open(indexDir);
+      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+      try (IndexWriter writer = new IndexWriter(directory, config)) {
+        Collections.sort(files);
+        indexLinesFromGoogleFile(writer, file);
       }
     }
   }
