@@ -5356,10 +5356,14 @@ $Id$
         </rulegroup>
         <rule id="PER_PER_A_PIANO" name="per/per a piano">
             <pattern>
+                <or>
+                    <token skip="7" regexp="yes" inflected="yes">composició|obra|música|concert|sonata|partita|fuga|preludi|tocata</token>
+                    <token skip="7" regexp="yes">concertos?</token>
+                </or>
                 <marker>
                     <token>per<exception scope="previous" inflected="yes" regexp="yes">formar|produir|acompanyar</exception></token>
                 </marker>
-                <token regexp="yes" inflected="yes">orgue|clavicèmbal|clave|clavicordi|instrument|piano|veu|violí|soprano|mezzosoprano|oboè|guitarra|violoncel|cello|timbales|percussió|vent|corda|tenor|baríton|contralt|flauta|clarinet|trompeta|trombó|tuba|bombardí|arpa|trompa</token>
+                <token regexp="yes" inflected="yes">orgue|clavicèmbal|clave|clavicordi|instrument|piano|veu|violí|soprano|mezzosoprano|oboè|guitarra|violoncel|cello|timbales|percussió|vent|corda|metall|tenor|baríton|contralt|flauta|clarinet|trompeta|trombó|tuba|bombardí|arpa|trompa</token>
             </pattern>
             <message>Probablement cal dir <suggestion>per a</suggestion>.</message>
             <example type="incorrect">Música <marker>per</marker> oboè.</example>
@@ -7081,11 +7085,22 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="SAGRAMENTAL" name="sagramental/sacramental">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"/>
+                <marker>
+                    <token inflected="yes">sagramental</token>
+                </marker>
+            </pattern>
+            <message>Si és adjectiu, cal dir <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">sacramental</match></suggestion>.</message>
+            <example type="incorrect" correction="sacramentals">En els llibres <marker>sagramentals</marker>.</example>
+            <example type="correct">En els llibres sacramentals</example>
+        </rule>
         <rulegroup id="BASSADA" name="bassada/basada">
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="1">bassada</token>
+                        <token skip="5">bassada</token>
                     </marker>
                     <token>en</token>
                 </pattern>
@@ -7096,7 +7111,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token skip="1">bassades</token>
+                        <token skip="5">bassades</token>
                     </marker>
                     <token>en</token>
                 </pattern>
@@ -15778,6 +15793,21 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="DONAR_LA_VOLTA_MITJO" name="donar la volta/girar el mitjó ">
+            <pattern>
+                <marker>
+                    <token inflected="yes">donar</token>
+                    <token>la</token>
+                    <token skip="3">volta</token>
+                </marker>
+                <token regexp="yes" inflected="yes">mitjó|calcetí</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
+            <example type="incorrect" correction="girar">Li van <marker>donar la volta</marker> com un mitjó.</example>
+            <example type="incorrect" correction="Giraren"><marker>Donaren la volta</marker> a tots els calcetins.</example>
+            <example type="correct">Cal girar el mitjó.</example>
+        </rule>
         <rule id="PRENDRE_FOC" name="prendre foc">
             <pattern>
                 <marker>
@@ -15997,6 +16027,22 @@ $Id$
                 <suggestion>(fugar-se)</suggestion>
                 <example type="incorrect">Es <marker>va donar a la fuga</marker></example>
                 <example type="incorrect">S'<marker>ha donat a la fuga</marker></example>
+                <example type="correct">Bach va donar a la fuga un caràcter alegre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>donar</token>
+                    <token>-se</token>
+                    <token>a</token>
+                    <token>la</token>
+                    <token>fuga</token>
+                </pattern>
+                <message>Expressió incorrecta</message>
+                <suggestion>fugir</suggestion>
+                <suggestion>escapar-se</suggestion>
+                <suggestion>evadir-se</suggestion>
+                <suggestion>fugar-se</suggestion>
+                <example type="incorrect">Multat per <marker>donar-se a la fuga</marker></example>
                 <example type="correct">Bach va donar a la fuga un caràcter alegre.</example>
             </rule>
         </rulegroup>
@@ -28278,10 +28324,10 @@ $Id$
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>    
-                        <token regexp="yes">ser|ésser|esser|dir|mirar|tenir|tindre|passar|resoldre</token> <!-- veure -->
+                        <token regexp="yes">tractar|ser|ésser|esser|dir|mirar|tenir|tindre|passar|resoldre</token> <!-- veure -->
                     </marker>
                 </pattern>
-                <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar.</message>
+                <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i usueu el present o el futur.</message>
                     <!-- Cal el postag del primer i el lema del segon 
                     <suggestion><match no="1" postag="V.IP(..)0" postag_regexp="yes" postag_replace="yes"></match> </suggestion> -->
                 <url>http://esadir.cat/entrades/fitxa/id/1564</url>
@@ -28959,7 +29005,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé|Agnés|Moisés</token> <!-- atés que: loc_conj en disambiguation -->
+                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé|Agnés|Moisés|Rubén</token> <!-- atés que: loc_conj en disambiguation -->
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
