@@ -155,6 +155,7 @@ public class AgreementRule extends GermanRule {
     "ihn",
     "dessen",
     "deren",
+    "denen",
     "sich",
     "unser",
     "aller",

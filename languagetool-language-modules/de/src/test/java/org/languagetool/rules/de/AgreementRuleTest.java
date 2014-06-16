@@ -72,6 +72,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Die erwähnte Konferenz ist am Samstag.");
     assertGood("Sie erreichten 5 Prozent.");
     assertGood("Sie erreichten mehrere Prozent Zustimmung.");
+    assertGood("Die Bestandteile, aus denen Schwefel besteht.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
