@@ -45,10 +45,11 @@ public class FrequencyIndexCreator {
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
     List<File> files = Arrays.asList(inputDir.listFiles());
+    Collections.sort(files);
     for (File file : files) {
       String name = file.getName();
       if (name.contains("_")) {
-        System.out.println("Skipping " + name + " contains underscore");
+        System.out.println("Skipping " + name + " - contains underscore");
         continue;
       }
       if (!name.startsWith("googlebooks-") && name.endsWith(".gz")) {
@@ -56,16 +57,19 @@ public class FrequencyIndexCreator {
         continue;
       }
       if (!name.matches(NAME_REGEX)) {
-        System.out.println("Skipping " + name + " doesn't match regex " + NAME_REGEX);
+        System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX);
         continue;
       }
       Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_48);
       File indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX, "$1"));
+      if (indexDir.exists() && indexDir.isDirectory()) {
+        System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists");
+        continue;
+      }
       System.out.println("Index dir: " + indexDir);
       Directory directory = FSDirectory.open(indexDir);
       IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_48, analyzer);
       try (IndexWriter writer = new IndexWriter(directory, config)) {
-        Collections.sort(files);
         indexLinesFromGoogleFile(writer, file);
       }
     }
