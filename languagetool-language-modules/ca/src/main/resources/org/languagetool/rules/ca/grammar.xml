@@ -5238,6 +5238,21 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rule id="ACOSTUMAR_A" name="acostumar *(a)">
+            <pattern>
+                <token inflected='yes' skip="3">acostumar<exception scope="next" regexp="yes">a|de|d'</exception></token>
+                <marker>
+                    <token postag='V.N.*' postag_regexp='yes'></token>
+                </marker>
+            </pattern>
+            <message>Falta una preposició.</message>
+            <suggestion>a \2</suggestion>
+            <example type='incorrect' correction="a venir">Acostumen <marker>venir</marker> tard.</example>
+            <example type='incorrect' correction="a venir">Acostumen no <marker>venir</marker> tard.</example>
+            <example type='incorrect' correction="a venir">Està acostumat <marker>venir</marker> tard.</example>
+            <example type='correct'>acostumen a no tenir gaires ancoratges</example>
+            <example type='correct'>acostumen a venir tard</example>
+        </rule>
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
             <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
                 <antipattern>
