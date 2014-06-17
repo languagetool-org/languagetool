@@ -15828,6 +15828,35 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="MAJUSCULES" name="Majúscules i minúscules">
+            <rule id="PENINSULA_IBERICA1" name="*península ibèrica/península Ibèrica">
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token>península</token>
+                        <token regexp="yes">(?-i)ibèrica|itàlica</token>
+                    </marker>
+                </pattern>
+                <message>Ús incorrecte de majúscules i minúscules.</message>
+                <suggestion><match no="2" case_conversion="alllower"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <short>Majúscules i minúsucles</short>
+                <example type="incorrect" correction="península Ibèrica">A la <marker>Península ibèrica</marker>.</example>
+                <example type="correct">A la península Itàlica</example>
+            </rule>
+            <rule id="PENINSULA_IBERICA2" name="*Península ibèrica/península Ibèrica">
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token regexp="yes">(?-i)Península</token>
+                        <token regexp="yes">ibèrica|itàlica</token>
+                    </marker>
+                </pattern>
+                <message>Ús incorrecte de majúscules i minúscules.</message>
+                <suggestion><match no="2" case_conversion="alllower"/> <match no="3" case_conversion="startupper"/></suggestion>
+                <short>Majúscules i minúsucles</short>
+                <example type="incorrect" correction="península Ibèrica">A la <marker>Península ibèrica</marker>.</example>
+                <example type="incorrect" correction="península Ibèrica">A la <marker>Península Ibèrica</marker>.</example>
+                <example type="correct">A la península Itàlica</example>
+            </rule>
             <rule id="NORD_AMERICA" name="*Nord-Amèrica / Nord-amèrica">
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Nn]ord|[Ss]ud</token>
@@ -15887,6 +15916,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PRECISAR_DE" name="*precisar de/requerir">
+            <pattern>
+                <marker>
+                    <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception></token>
+                    <token inflected="yes">de</token>
+                    <token><exception>manera</exception></token>
+                </marker>
+            </pattern>
+            <message>Ús probablement incorrecte.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">requerir</match> \3</suggestion>
+            <example type="incorrect" correction="requeria ajuda">No <marker>precisava d'ajuda</marker>.</example>
+            <example type="correct">Són les més precises de què disposem.</example>
+            <example type="correct">Precisa de manera clara els requisits.</example>
+        </rule>
         <rule id="DONAR_LA_VOLTA_MITJO" name="donar la volta/girar el mitjó ">
             <pattern>
                 <marker>
@@ -20732,6 +20775,24 @@ $Id$
             <example type="correct">ho va atribuir al poc temps amb què ho prepararen</example>
             <example type="correct">Fou degut al poc temps de preparació</example>
         </rule>
+        <rule id="AL_POC" name="al poc/al cap de poc">
+            <pattern>
+                <token><exception inflected="yes" regexp="yes">deure|atribuir</exception></token>
+                    <marker>
+                        <token>a</token>
+                        <token>l</token>
+                        <token>poc</token>
+                    </marker>
+                    <token postag="P.*|V.[^P].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>al cap de poc</suggestion>
+            <suggestion>al cap de poc temps</suggestion>
+            <suggestion>poc temps després</suggestion>
+            <example type="incorrect">i <marker>al poc</marker> ixen al carrer</example>
+            <example type="correct">ho va atribuir al poc temps amb què ho prepararen</example>
+            <example type="correct">Fou degut al poc temps de preparació</example>
+        </rule>
         <rule id="DONAR_LABAST" name="*donar a l'abast/donar l'abast">
             <pattern>
                 <token inflected="yes">donar</token>
@@ -23045,7 +23106,7 @@ $Id$
 	                <marker>
 	                    <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
 	                </marker>
-	                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">pla|causa|origen|veritat|jo|secret|misteri</token>
+	                <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">nom|pla|causa|origen|veritat|jo|secret|misteri</token>
 	            </pattern>
 	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= treure la son, suscitar)?</message>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>

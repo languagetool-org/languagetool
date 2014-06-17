@@ -85,6 +85,9 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("De positiva influencia en ell.");
+//    assertIncorrect("com la nostra pròpia desgracia");
+//  assertIncorrect("la seva influencia");
     assertIncorrect("Cal una nova formula que substitueixi el caduc Estat del benestar.");
     assertIncorrect("Porta-la i nosaltres fem la copia i la compulsem.");
     assertIncorrect("Carrega d'arxius.");
