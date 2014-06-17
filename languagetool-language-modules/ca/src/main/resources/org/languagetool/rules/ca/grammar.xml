@@ -1567,6 +1567,16 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_CASOS_PARTICULARS" name="casos particulars de concordances: esquerre/a, altre/a part, pendent, corrent...">
+            <rule id="TERMES_FIXES" name="termes fixes/fixos">
+                <pattern>
+                    <token>termes</token>
+                    <token>fixes</token>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion>termes fixos</suggestion>
+                <example type="incorrect">Són <marker>termes fixes</marker>.</example>
+                <example type="correct">Són termes fixos.</example>
+            </rule>
         	<rule id="ELL_MATEIX" name="ell mateix">
                 <pattern>
                     <unify negate="yes">
@@ -11653,13 +11663,15 @@ $Id$
                     <marker>
                         <token>son<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D.*|AQ.*|N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar.</message>
                 <suggestion>són</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="són">El que és interessant <marker>son</marker> les novetats.</example>
+                <example type="incorrect" correction="són">Les del dia a dia <marker>son</marker> simple morralla.</example>
                 <example type="correct">Aquesta son m'esgota.</example>
+                <example type="correct">Li ho va dir a son pare.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PEL_PELS" name="pel/pèl">
@@ -12219,6 +12231,20 @@ $Id$
                 <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect" correction="néta">És <marker>neta</marker> de Nyfdufer.</example>
+                <example type="correct">És net de sabó.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">fill</token>
+                    <token regexp="yes">i|o|ni</token>
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <short>S'accentua quan és nom</short>
+                <example type="incorrect" correction="néts">Eren tots fills i <marker>nets</marker>.</example>
                 <example type="correct">És net de sabó.</example>
             </rule>
         </rulegroup>
@@ -21482,6 +21508,18 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CAMI_TRILLAT" name="*trillat/fressat/gastat">
+            <pattern>
+                <token inflected="yes" regexp="yes">camí|idea</token>
+                <token postag="V.P.*" postag_regexp="yes" inflected="yes">trillar</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fressar</match></suggestion>
+            <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">gastar</match></suggestion>
+            <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">suar</match></suggestion>
+            <example type="incorrect" correction="camins fressats|camins gastats|camins suats">Són <marker>camins trillats</marker>.</example>
+            <example type="correct">Són camins fressats.</example>
+        </rule>
         <rule id="CORDURA" name="cordura/seny">
             <pattern>
                 <token>cordura</token>
