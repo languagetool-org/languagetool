@@ -44,5 +44,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   public String getId() {
     return "MORFOLOGIK_RULE_CA_ES";
   }
+  
+  @Override
+  // We don't use Hunspell dictionary for spelling but the same dictionary used in tagging
+  public boolean isDictionaryBasedSpellingRule() {
+    return false;
+  }
 
 }
