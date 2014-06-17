@@ -7187,6 +7187,30 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="L" name="*l/el/la">
+            <pattern case_sensitive="yes">
+                <token spacebefore="yes">l<exception scope="previous" regexp="yes">.*\d</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>la</suggestion>?</message>
+            <suggestion>el</suggestion>
+            <short>Possible confusió</short>
+            <example type="incorrect">De <marker>l</marker> catedral.</example>
+            <example type="correct">Vull 100 l de llet.</example>
+            <example type="correct">Abans del dia 20.</example>
+            <example type="correct">La L representa la inductància.</example>
+        </rule>
+        <rule id="AVARCA" name="*avarca/abraça/comprèn">
+            <pattern>
+                <token>avarca<exception postag="_GN_FS"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>abraça</suggestion>? "Avarca" és un tipus de calçat.</message>
+            <suggestion>engloba</suggestion>
+            <suggestion>comprèn</suggestion>
+            <suggestion>comprén</suggestion>
+            <example type="incorrect" correction="abraça|engloba|comprèn|comprén">El llibre <marker>avarca</marker> massa coses.</example>
+            <example type="correct">El llibre abraça massa coses.</example>
+            <example type="correct">Una avarca pintada de vermell.</example>
+        </rule>
         <rule id="SAGRAMENTAL" name="sagramental/sacramental">
             <pattern>
                 <token postag="N.*" postag_regexp="yes"/>
