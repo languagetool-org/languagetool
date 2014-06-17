@@ -71,6 +71,20 @@ public class PatternRuleLoaderTest extends TestCase {
     assertEquals(2, elements.size());
     assertEquals(null, elements.get(1).getPOStag());
     assertEquals(new ChunkTag("B-NP-singular"), elements.get(1).getChunkTag());
+
+    final List<Rule> orRules = getRulesById("GROUP_WITH_URL", rules);
+    assertEquals(3, orRules.size());
+    assertEquals("http://fake-server.org/rule-group-url", orRules.get(0).getUrl().toString());
+    assertEquals("http://fake-server.org/rule-group-url-overwrite", orRules.get(1).getUrl().toString());
+    assertEquals("http://fake-server.org/rule-group-url", orRules.get(2).getUrl().toString());
+    
+    // make sure URLs don't leak to the next rule:
+    final List<Rule> orRules2 = getRulesById("OR_GROUPS", rules);
+    for (Rule rule : orRules2) {
+      assertNull("http://fake-server.org/rule-group-url", rule.getUrl());
+    }
+    final Rule nextRule = getRuleById("DEMO_CHUNK_RULE", rules);
+    assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
   }
 
   private Set<String> getCategoryNames(List<PatternRule> rules) {

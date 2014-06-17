@@ -130,6 +130,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">This is <marker>foo different</marker>.</example>
             <example type="incorrect">This is <marker>foosomething</marker>.</example>
         </rule>
+        <rulegroup id="GROUP_WITH_URL" name="rule group with url">
+            <url>http://fake-server.org/rule-group-url</url>
+            <rule>
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg1</message>
+                <example type="incorrect"><marker>fake1</marker></example>
+                <example type="correct">fake2</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg2</message>
+                <url>http://fake-server.org/rule-group-url-overwrite</url>
+                <example type="incorrect"><marker>fake1</marker></example>
+                <example type="correct">fake2</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>fake1</token>
+                </pattern>
+                <message>msg3</message>
+                <example type="incorrect"><marker>fake1</marker></example>
+                <example type="correct">fake2</example>
+            </rule>
+        </rulegroup>        
         <rulegroup id="OR_GROUPS" name="OR groups">
             <rule>
                 <pattern>

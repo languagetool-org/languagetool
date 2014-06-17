@@ -144,8 +144,10 @@ public class XMLRuleHandler extends DefaultHandler {
 
   protected StringBuilder shortMessage = new StringBuilder();
   protected StringBuilder url = new StringBuilder();
+  protected StringBuilder urlForRuleGroup = new StringBuilder();
   protected boolean inShortMessage;
   protected boolean inUrl;
+  protected boolean inUrlForRuleGroup;
 
   protected boolean inUnification;
   protected boolean inMarker;
