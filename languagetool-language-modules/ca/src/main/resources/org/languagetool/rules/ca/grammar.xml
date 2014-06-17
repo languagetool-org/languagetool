@@ -4003,6 +4003,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Adverbis" type="grammar">
+        <rule id="MASSES" name="massa (adj., adv. invariable)">
+            <pattern>
+                <token>masses</token>
+                <token postag="NC.[NP].*" postag_regexp="yes"><exception postag="AQ..[NP]." postag_regexp="yes"/></token>
+            </pattern>
+            <message>"Massa" és invariable com a adverbi i adjectiu.</message>
+            <suggestion>massa \2</suggestion>
+            <example type="incorrect" correction="Massa coses"><marker>Masses coses</marker>.</example>
+            <example type="correct">Són de masses semblants.</example>
+            <example type="correct">En unitats de masses solars.</example>
+        </rule>
         <rule id="NO_MAI" name="no mai">
             <pattern>
                 <marker>
@@ -27762,8 +27773,8 @@ $Id$
                 </pattern>
                 <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en".</message>
                 <suggestion>en</suggestion>
-                <short>Preposició preferible</short>
                 <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
+                <short>Preposició preferible</short>
                 <example type="incorrect" correction="en"><marker>al</marker> pensar en ell</example>
                 <example type="correct">contrària al pensar generalitzat</example>
                 <example type="correct">anem al pedregar</example>
@@ -27780,8 +27791,8 @@ $Id$
                 </pattern>
                 <message>Davant d'infinitiu, com a subordinada temporal, en llenguatge formal és preferible usar "en".</message> 
                 <suggestion>en <match no="3"/></suggestion>
-                <short>Preposició preferible</short>
                 <url>http://esadir.cat/gramatica/sintaxi/enalinf</url>
+                <short>Preposició preferible</short>
                 <example type="incorrect" correction="en observar"><marker>a l'observar</marker>-ho</example>
                 <example type="correct">Va ser candidat a l'Oscar.</example>
             </rule>
