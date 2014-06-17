@@ -3824,6 +3824,71 @@ $Id$
     </rulegroup>    
     </category>
     <category name="Determinants" type="grammar">
+        <rulegroup id="ARTICLE_EN_PAISOS" name="països que solen dur article">
+            <!-- <antipattern>
+                <marker>
+                    <token>(</token>
+                    <token>Perú|Senegal|Japó|EUA|Equador</token>
+                    <token>)</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token>Perú|Senegal|Japó|EUA|Equador|Estats</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">dòlars?</token>
+                    <token>EUA</token>
+                </marker>
+            </antipattern> -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SPS00"/><!-- <exception postag="SENT_START"/></token> -->
+                    <marker>
+                        <token regexp="yes">Perú|Senegal|Japó|EUA<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Aquest país sol dur article.</message>
+                <suggestion><match no="2" postag="NP.(.).*" postag_regexp="yes" postag_replace="DA.M$1." case_conversion="alllower">el</match> \2</suggestion>
+                <example type="incorrect" correction="el Perú">Són a <marker>Perú</marker>.</example>
+                <example type="incorrect" correction="els EUA">Són a <marker>EUA</marker>.</example>
+                <example type="correct">Perú</example>
+                <example type="correct">Són als EUA</example>
+                <example type="correct">uns 500 km a l'W de Dakar, Senegal</example>
+                <example type="correct">a l'illa de Honshū, Japó.</example>
+                <example type="correct">a l'illa de Honshū (Japó).</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SPS00"/><!-- <exception postag="SENT_START"/></token> -->
+                    <marker>
+                        <token>Equador<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Aquest país sol dur article.</message>
+                <suggestion><match no="2" postag="NP.(.).*" postag_regexp="yes" postag_replace="DA.CS." case_conversion="alllower">el</match>\2</suggestion>
+                <example type="incorrect" correction="l'Equador">Són a <marker>Equador</marker>.</example>
+                <example type="correct">Equador</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token><exception regexp="yes">[(,;:]</exception></token> <!-- <exception postag="SENT_START"/> -->
+                    <marker>
+                        <token>Estats<exception scope="previous" postag="DA.*" postag_regexp="yes"/></token>
+                        <token>Units</token>
+                    </marker>
+                </pattern>
+                <message>Aquest país sol dur article.</message>
+                <example type="incorrect">Són a <marker>Estats Units</marker>.</example>
+                <example type="incorrect"><marker>Estats Units</marker>.</example>
+                <example type="correct">Michigan, Estats Units</example>
+                <example type="correct">Als Estats Units</example>
+            </rule>
+        </rulegroup>
         <rule id="CALS" name="Comprova: cals + nom">
             <pattern>
                 <marker>
@@ -12746,6 +12811,19 @@ $Id$
                 <short>Sobra l'accent diacrític</short>                
                 <example type="incorrect" correction="mes">El <marker>més</marker> que ve.</example>
                 <example type="correct">El més gran dedicat a sant Llorenç</example>    
+            </rule>
+            <rule id="UN_MES_ABANS" name="un *més/mes abans">
+                <pattern>
+                    <token>un</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token regexp="yes">abans|després</token>
+                </pattern>
+                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
+                <short>Sobra l'accent diacrític</short>   
+                <example type='incorrect' correction="mes">Un <marker>més</marker> abans.</example>
+                <example type='correct'>Un mes abans</example>
             </rule>
         </rulegroup>
         <rulegroup id="RES" name="res/rés">
@@ -28339,7 +28417,7 @@ $Id$
                     <marker>
                         <token regexp="yes">vaig|vas|va|anem|aneu|van</token> <!-- potser és més probable amb uns que amb altres -->
                         <token>a</token>    
-                        <token regexp="yes">tractar|ser|ésser|esser|dir|mirar|tenir|tindre|passar|resoldre</token> <!-- veure -->
+                        <token regexp="yes">tractar|ser|ésser|esser|dir|tenir|tindre|passar|resoldre</token> <!-- veure, mirar -->
                     </marker>
                 </pattern>
                 <message>Expressió incorrecta si no indica moviment. Elimineu el verb anar i usueu el present o el futur.</message>
