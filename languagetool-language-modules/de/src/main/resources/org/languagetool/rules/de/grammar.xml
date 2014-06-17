@@ -26574,6 +26574,27 @@ $Id$
                 <example type="incorrect" correction="Dr.&nbsp;rer.&nbsp;pol."><marker>Dr.rer.pol.</marker> Hans Müller</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PARAGRAF_LEERZEICHEN" name="Fehlendes geschütztes Leerzeichen nach '§'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">§\d+[a-z]?</token>
+                </pattern>
+                <message>Nach dem Paragrafenzeichen sollte ein geschütztes Leerzeichen stehen</message>
+                <suggestion><match no="1" regexp_match="§" regexp_replace="§&nbsp;"/></suggestion>
+                <example type="correct">An dieser Kreuzung gilt §&nbsp;20.</example>
+                <example type="incorrect" correction="§&nbsp;20">An dieser Kreuzung gilt <marker>§20</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>§</token>
+                    <token regexp="yes">\d+[a-z]?</token>
+                </pattern>
+                <message>Nach dem Paragrafenzeichen sollte ein geschütztes Leerzeichen stehen</message>
+                <suggestion>\1&nbsp;\2</suggestion>
+                <example type="correct">An dieser Kreuzung gilt §&nbsp;20.</example>
+                <example type="incorrect" correction="§&nbsp;20">An dieser Kreuzung gilt <marker>§ 20</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
