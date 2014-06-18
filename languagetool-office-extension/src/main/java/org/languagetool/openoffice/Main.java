@@ -362,6 +362,9 @@ public class Main extends WeakBase implements XJobExecutor,
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
         }
+        if (rule.useInOffice()) {
+          langTool.enableRule(rule.getId());
+        }
       }
       recheck = false;
     } catch (final Throwable t) {

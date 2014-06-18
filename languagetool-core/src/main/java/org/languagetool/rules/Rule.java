@@ -118,6 +118,16 @@ public abstract class Rule {
   public boolean isDictionaryBasedSpellingRule() {
     return false;
   }
+  
+  /**
+   * Whether this rule should be forced to be used in LO/OO extension.
+   * Rules that return {@code true} will be enabled always in LO/OO extension
+   * regardless of other options like isDictionaryBasedSpellingRule().
+   * @since 2.6
+   */
+  public boolean useInOffice() {
+    return false;
+  }
 
   /**
    * Set the examples that are correct and thus do not trigger the rule.

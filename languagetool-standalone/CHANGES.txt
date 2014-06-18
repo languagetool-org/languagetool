@@ -6,7 +6,14 @@ LanguageTool Change Log
     -updated FSA spelling dictionary from An Drouizig Breton Spellchecker 0.12
     -updated POS dictionary from Apertium (svn r53329)
     -improved several rules
-    
+
+-Catalan:
+    - fixed false alarms
+    - added and improved rules
+    - updated tagger dictionary
+    - Morfologik spellchecking rule is enabled for use in LO/OO extension. The Hunspell
+    spellchecker should be manually disabled in LO/OO for the results to be visible.
+        
 -English:
     -The spelling rule now accepts words with hyphens if the parts are valid words.
      For example, "web-based" is accepted now. This avoids a lot of false alarms.
@@ -69,6 +76,8 @@ LanguageTool Change Log
     -StringTools.isAlphabetic() has been removed as it was a workaround for Java 6
      which is not supported anymore
     -ContractionSpellingRule.isDictionaryBasedSpellingRule() now returns false
+    -Specific rules can be enabled for use in Office extension with useInOffice() method.
+     This is done, for example, for enabling Catalan Morfologik spelling rule.
 
 -embedded server:
     -The HTTP server now also accepts a --config option so that the maximum request size
