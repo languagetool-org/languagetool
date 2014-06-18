@@ -42,6 +42,7 @@ public class AccentuationCheckRuleTest extends TestCase {
   public void testRule() throws IOException {
 
     // correct sentences:
+    //assertCorrect("A ponent continua la serra de Fontpobra");
     assertCorrect("M'espero qualsevol cosa.");
     assertCorrect("Carrega de nou l'arxiu.");
     assertCorrect("Espero d'ell moltes coses");
@@ -86,6 +87,7 @@ public class AccentuationCheckRuleTest extends TestCase {
 
     // errors:
     assertIncorrect("De positiva influencia en ell.");
+    assertIncorrect("tren de llarga distancia");
 //    assertIncorrect("com la nostra pròpia desgracia");
 //  assertIncorrect("la seva influencia");
     assertIncorrect("Cal una nova formula que substitueixi el caduc Estat del benestar.");

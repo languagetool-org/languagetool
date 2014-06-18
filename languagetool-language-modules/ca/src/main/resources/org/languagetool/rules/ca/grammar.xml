@@ -7187,18 +7187,40 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
-        <rule id="L" name="*l/el/la">
-            <pattern case_sensitive="yes">
-                <token spacebefore="yes">l<exception scope="previous" regexp="yes">.*\d</exception></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>la</suggestion>?</message>
-            <suggestion>el</suggestion>
-            <short>Possible confusió</short>
-            <example type="incorrect">De <marker>l</marker> catedral.</example>
-            <example type="correct">Vull 100 l de llet.</example>
-            <example type="correct">Abans del dia 20.</example>
-            <example type="correct">La L representa la inductància.</example>
-        </rule>
+        <rulegroup id="L" name="*l/el/la/l'">
+            <antipattern>
+                <marker>
+                    <token>l</token>
+                    <token>'</token>
+                    <token regexp="yes">["‘“«]</token>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">l<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">.*\d</exception></token>
+                    <token/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="3" postag="DT" /></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="la catedral|les catedrals">De <marker>l catedral</marker>.</example>
+                <example type="correct">Vull 100 l de llet.</example>
+                <example type="correct">Abans del dia 20.</example>
+                <example type="correct">El va incloure en l'"eix".</example>
+                <example type="correct">La L representa la inductància.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>l</token>
+                    <token/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="3" postag="DT" /></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="L'església|Les esglésies"><marker>L església</marker>.</example>
+                <example type="correct">L'"eix".</example>
+                <example type="correct">La L representa la inductància.</example>
+            </rule>
+         </rulegroup>
         <rule id="AVARCA" name="*avarca/abraça/comprèn">
             <pattern>
                 <token>avarca<exception postag="_GN_FS"/></token>
@@ -11698,7 +11720,7 @@ $Id$
                     <marker>
                         <token>son<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token postag="D.*|AQ.*|N.*" postag_regexp="yes"/>
+                    <token postag="D.*|AQ.*|N.*" postag_regexp="yes"><exception postag="NC[MC][SN].*" postag_regexp="yes"/><exception>hivernal</exception></token>
                 </pattern>
                 <message>Si és del verb 'ser', cal accentuar.</message>
                 <suggestion>són</suggestion>
@@ -11707,6 +11729,9 @@ $Id$
                 <example type="incorrect" correction="són">Les del dia a dia <marker>son</marker> simple morralla.</example>
                 <example type="correct">Aquesta son m'esgota.</example>
                 <example type="correct">Li ho va dir a son pare.</example>
+                <example type="correct">Però son pare el va tractar d'heretge.</example>
+                <example type="correct">La possessió de Son Torrella.</example>
+                <!-- destaquen son Vivot, son Bordils i son Ramis d'Inca.  -->
             </rule>
         </rulegroup>
         <rulegroup id="PEL_PELS" name="pel/pèl">
@@ -15978,11 +16003,18 @@ $Id$
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="PRECISAR_DE" name="*precisar de/requerir">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">difícil|fàcil|complex|complicar</token>
+                    <token>de</token>
+                    <token>precisar</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">precisar<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous">més</exception></token>
                     <token inflected="yes">de</token>
-                    <token><exception>manera</exception></token>
+                    <token><exception inflected="yes" regexp="yes">manera|quin</exception></token>
                 </marker>
             </pattern>
             <message>Ús probablement incorrecte.</message>
@@ -15990,6 +16022,7 @@ $Id$
             <example type="incorrect" correction="requeria ajuda">No <marker>precisava d'ajuda</marker>.</example>
             <example type="correct">Són les més precises de què disposem.</example>
             <example type="correct">Precisa de manera clara els requisits.</example>
+            <example type="correct">Sense precisar de quina manera ho faria.</example>
         </rule>
         <rule id="DONAR_LA_VOLTA_MITJO" name="donar la volta/girar el mitjó ">
             <pattern>
@@ -29224,7 +29257,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NC.*" postag_regexp="yes" regexp="yes">.+é(n|s)?<exception regexp="yes">abecé|abecés|abkhazoadigué|abkhazoadigués|abonaré|abonarés|abscés|accés|aiguavés|almagasén|aprés|aualé|avancé|avés|azobé|azobés|balancé|balancés|bamileké|bamilekés|bé|beté|betés|brillanté|brillantés|bulé|bulés|cabriolé|cabriolés|calcés|calé|calés|canalé|canalés|carés|cartoné|cartonés|catipén|claqué|claqués|clixé|clixés|combés|confés|congrés|consomé|consomés|crudité|crudités|decés|dublé|dublés|excés|exprés|framiré|framirés|fricassé|fricassés|frivolité|frivolités|galzés|garrés|giroflé|giroflés|glacé|glacés|granité|granités|il·lipé|il·lipés|ingrés|inrevés|insuccés|jaqué|jaqués|karité|karités|koiné|koinés|kotibé|kotibés|lamé|lamés|macoré|macorés|macramé|macramés|mandé|mandés|matiné|matinés|melé|melés|més|micvé|moaré|moarés|multiaccés|multiprocés|negligé|negligés|obsés|ocumé|ocumés|otopamé|otopamés|pagaré|pagarés|pamé|pamés|passapuré|passapurés|paté|patén|patés|perlé|perlés|peroné|peronés|piqué|piqués|plaqué|plaqués|possés|praliné|pralinés|procés|profés|progrés|puré|purés|quinqué|quinqués|recés|regrés|reingrés|relé|relés|rés|retrocés|revés|sargé|sargés|sergé|sergés|succés|suflé|suflés|tacaé|tacaés|teleprocés|tereré|tererés|tigré|tigrés|través|vaivé|xarmés|ximpanzé|ximpanzés|xiné|xinés</exception></token>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">.+é(n|s)?<exception regexp="yes">abecé|abecés|abkhazoadigué|abkhazoadigués|abonaré|abonarés|abscés|accés|aiguavés|almagasén|aprés|aualé|avancé|avés|azobé|azobés|balancé|balancés|bamileké|bamilekés|bé|beté|betés|brillanté|brillantés|bulé|bulés|cabriolé|cabriolés|calcés|calé|calés|canalé|canalés|carés|cartoné|cartonés|catipén|claqué|claqués|clixé|clixés|combés|confés|congrés|consomé|consomés|crudité|crudités|decés|dublé|dublés|excés|exprés|framiré|framirés|fricassé|fricassés|frivolité|frivolités|galzés|garrés|giroflé|giroflés|glacé|glacés|granité|granités|il·lipé|il·lipés|ingrés|inrevés|insuccés|jaqué|jaqués|karité|karités|koiné|koinés|kotibé|kotibés|lamé|lamés|macoré|macorés|macramé|macramés|mandé|mandés|matiné|matinés|melé|melés|més|micvé|moaré|moarés|multiaccés|multiprocés|negligé|negligés|obsés|ocumé|ocumés|otopamé|otopamés|pagaré|pagarés|pamé|pamés|passapuré|passapurés|paté|patén|patés|perlé|perlés|peroné|peronés|piqué|piqués|plaqué|plaqués|possés|praliné|pralinés|procés|profés|progrés|puré|purés|quinqué|quinqués|recés|regrés|reingrés|relé|relés|rés|retrocés|revés|sargé|sargés|sergé|sergés|succés|suflé|suflés|tacaé|tacaés|teleprocés|tereré|tererés|tigré|tigrés|través|vaivé|xarmés|ximpanzé|ximpanzés|xiné|xinés|varietés</exception></token>
                 </pattern>
                 <!-- abecés?|abkhazoadigués?|abonarés?|abscés|accés|aiguavés|aprés|avés|azobé|balancés?|bamilekés?|bé|betés?|brillantés?|bulés?|cabriolés?|calcés|calés?|canalés?|carés|cartonés?|catipén|claqué|clixés?|combés|confés|congrés|consomés?|decés|dublés?|Efrén|elapés?|excés|exprés|fricassés?|frivolités?|galzés|giroflés?|glacés?|granité|ingrés|inrevés|insuccés|jaqués?|karités?|koinés?|macoré|macramés?|Mamés|mandés?|matinés?|melés?|més|moarés?|multiaccés|negligés?|obsés|ocumé|otopamés?|pagarés?|pamés?|patén|patés?|perlés?|peronés?|piqué|plaqué|possés|praliné|procés|profés|progrés|purés?|quinqués?|recés|regrés|reingrés|relés?|rés|retrocés|revés|Rubén|Salomés?|sargés?|Senén|sergés?|succés|suflés?|tacaé|teleprocés|tigrés?|través|vaivé|ximpanzés?|xiné|xinés| -->
                 <message>Useu accentuació general.</message>
