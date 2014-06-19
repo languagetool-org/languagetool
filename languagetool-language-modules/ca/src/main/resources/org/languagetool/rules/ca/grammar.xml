@@ -7219,6 +7219,31 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="DIRECCIO_ADRECA" name="direcció/adreça">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">direcció</token>
+                    </marker>
+                    <token regexp="yes">IP|electròni(ca|ques)|virtuals?</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">adreça</match></suggestion>?</message>
+                <example type="incorrect" correction="adreces">Les <marker>direccions</marker> electròniques.</example>
+                <example type="correct">Les adreces IP.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">direcció</token>
+                    </marker>
+                    <token skip="1" regexp="yes">de|d'</token>
+                    <token regexp="yes">IP|internet|correu|xarxa|subxarxa|memòria|bits</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">adreça</match></suggestion>?</message>
+                <example type="incorrect" correction="adreça">Una <marker>direcció</marker> de 32 bits.</example>
+                <example type="correct">Les adreces IP.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="L" name="*l/el/la/l'">
 <!--             <antipattern>
                 <marker>
@@ -13753,14 +13778,15 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">hi</token>
+                    <token inflected="yes" regexp="yes">hi|en</token>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <token postag="V.N.*" postag_regexp="yes"/>
                     <token postag="V.[NG].*" postag_regexp="yes"/>
-                    <token regexp="yes">[-']hi</token>
+                    <token regexp="yes">[-']hi|-ne|'n</token>
                 </pattern>
                 <message>Pronom feble duplicat.</message>
-                <example type="incorrect"><marker>Hi va anar cantant-hi</marker> un error.</example>
+                <example type="incorrect"><marker>Hi va poder trobar-hi</marker> un error.</example>
+                <example type="incorrect"><marker>En va poder prendre'n</marker> un.</example>
                 <example type="correct">Hi podria haver un error</example>
             </rule>
             <rule>
