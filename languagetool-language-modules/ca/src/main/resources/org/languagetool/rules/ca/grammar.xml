@@ -13737,6 +13737,46 @@ $Id$
         </rulegroup>
     </category>
     <category name="Pronoms febles" type="grammar">
+        <rulegroup id="PRONOMS_FEBLES_DUPLICATS" name="pronoms febles duplicats">
+            <rule>
+                <pattern>
+                    <token inflected="yes">hi</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token regexp="yes">[-']hi</token>
+                </pattern>
+                <message>Pronom feble duplicat.</message>
+                <suggestion>\1 \2 \3</suggestion>
+                <suggestion>\2 \3\4</suggestion>
+                <example type="incorrect" correction="Hi podria haver|Podria haver-hi"><marker>Hi podria haver-hi</marker> un error.</example>
+                <example type="correct">Hi podria haver un error</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">hi</token>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token regexp="yes">[-']hi</token>
+                </pattern>
+                <message>Pronom feble duplicat.</message>
+                <example type="incorrect"><marker>Hi va anar cantant-hi</marker> un error.</example>
+                <example type="correct">Hi podria haver un error</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">en</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token regexp="yes">-ne|'n</token>
+                </pattern>
+                <message>Pronom feble duplicat.</message>
+                <suggestion>\1 \2 \3</suggestion>
+                <suggestion>\2 \3\4</suggestion>
+                <example type="incorrect" correction="En vaig portar|Vaig portar-ne"><marker>En vaig portar-ne</marker> quatre.</example>
+                <example type="correct">En vaig portar quatre</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
             <rule>
