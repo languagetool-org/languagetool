@@ -10707,6 +10707,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule> 
 	<rulegroup id="allowed_repetitions" name="repeticions permeses">
 	<!-- girar el cap cap a l’altra persona -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token>cada</token>
+                    <token regexp="yes">una?</token>
+                </marker>
+                <token><match no="1"/></token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
 		<rule>
 			<pattern>
 				<marker>
@@ -10752,13 +10762,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
 					<token>I</token>
 				    <token>i</token>
 				</marker>
-				<token regexp="yes">[A-Z]|(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+				<!-- <token regexp="yes">[A-Z]|(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token> -->
 			</pattern>
 			<disambig action="immunize"/>
 		</rule>
 		<rule>
 			<pattern case_sensitive="yes">
-				<token regexp="yes">[A-Z]|(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+				<!-- <token regexp="yes">[A-Z]|(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token> -->
 				<marker>
 					<token>i</token>
 				    <token>I</token>
@@ -10766,16 +10776,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
 			</pattern>
 			<disambig action="immunize"/>
 		</rule>
-        <rule> <!-- Maximilià I i Joan II.  -->
+        <!-- <rule> Maximilià I i Joan II. 
             <pattern case_sensitive="yes">
                 <token postag="NP..SP." postag_regexp="yes"/>
+                <token regexp="yes">segle|\p{Lu}.+</token>
                 <token>I</token>
                 <marker>
                     <token>i</token>
                 </marker>
             </pattern>
             <disambig action="immunize"/>
-        </rule>
+        </rule> -->
         <rule>
             <pattern>
                 <token>de</token>
