@@ -3089,24 +3089,56 @@ $Id$
                 <example type="correct">on hi ha, dominant el poble,</example>      
             </rule>
         </rulegroup>
-        <rule id="HAVER_HI_IMPERSONAL_SINGULAR" name="Exigeix 'haver-hi' impersonal en singular">
-            <pattern>
-                <marker>
-                    <token>hi</token>
-                    <token postag="VA..3P..?" postag_regexp="yes" inflected="yes">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
-                </marker>
-                <token><exception postag="V.[NG].*" postag_regexp="yes"/><exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
-            </pattern>
-            <message>En llenguatge formal, és preferible conjugar l'impersonal "haver-hi" en singular.</message>
-            <suggestion>hi <match no="2" postag="(VA..3)P(..?)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect">No <marker>hi han</marker> bananes</example>
-            <example type="correct">No hi ha bananes</example>
-            <example type="correct">S'hi han de fer millores.</example>
-            <example type="correct">Hi han descaradament contribuït.</example>
-            <example type="correct">Hi han clarament d'obeir</example>
-            <example type="correct">s'hi han hagut de construir feixes</example>
-        </rule>
+        <rulegroup id="HAVER_HI_IMPERSONAL_SINGULAR" name="Exigeix 'haver-hi' impersonal en singular">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hi</token>
+                        <token postag="VA..3P..?" postag_regexp="yes" inflected="yes">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception postag="V.[NG].*" postag_regexp="yes"/><exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                </pattern>
+                <message>En llenguatge formal, és preferible conjugar l'impersonal "haver-hi" en singular.</message>
+                <suggestion>hi <match no="2" postag="(VA..3)P(..?)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">No <marker>hi han</marker> bananes</example>
+                <example type="correct">No hi ha bananes</example>
+                <example type="correct">S'hi han de fer millores.</example>
+                <example type="correct">Hi han descaradament contribuït.</example>
+                <example type="correct">Hi han clarament d'obeir</example>
+                <example type="correct">s'hi han hagut de construir feixes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hi</token>
+                        <token>van</token>
+                        <token>haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>En llenguatge formal, és preferible conjugar l'impersonal "haver-hi" en singular.</message>
+                <suggestion>hi va haver</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">No <marker>hi van haver</marker> bananes</example>
+                <example type="correct">Hi van haver d'anar.</example>
+                <example type="correct">Quan hi van haver fet cap.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>van</token>
+                        <token>haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                        <token>-hi</token>
+                    </marker>
+                </pattern>
+                <message>En llenguatge formal, és preferible conjugar l'impersonal "haver-hi" en singular.</message>
+                <suggestion>va haver-hi</suggestion>
+                <short>Expressió incorrecta</short>
+                <example type="incorrect">No <marker>van haver-hi</marker> bananes</example>
+                <example type="correct">Van haver-hi d'anar.</example>
+                <example type="correct">Quan van haver-hi fet cap.</example>
+            </rule>
+        </rulegroup>    
         <rule id="FORMES_HEURE" name="Evita les formes 'haguem/hagueu fet' en comptes de 'hàgim/hàgiu fet'" type="misspelling">
             <pattern>
                 <marker>
