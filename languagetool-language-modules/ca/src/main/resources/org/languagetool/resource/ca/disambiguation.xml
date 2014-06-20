@@ -4451,7 +4451,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio|_perfet" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
@@ -4459,7 +4459,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio|_perfet" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
@@ -4469,7 +4469,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio|_perfet" postag_regexp="yes" negate_pos="yes"/></token>
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
@@ -4477,7 +4477,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VA.*" postag_regexp="yes" inflected="yes" skip="5">anar<exception scope="next" postag="_GV_|_PUNCT_CONT|R.*|.*LOC_ADV.*|V.N.*|SENT_END|[NA].*|complement|_obligacio|_perfet" postag_regexp="yes" negate_pos="yes"/></token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"></token>
                 </marker>
@@ -10709,32 +10709,32 @@ Copyright (C) 2012 Jaume Ortolà i Font
 	<!-- girar el cap cap a l’altra persona -->
         <rule>
             <pattern>
-                <marker>
-                    <token>cada</token>
+                <token>cada</token>
+                <marker>    
                     <token regexp="yes">una?</token>
                 </marker>
                 <token><match no="1"/></token>
             </pattern>
-            <disambig action="immunize"/>
+            <disambig action="add"><wd pos="_allow_repeat"/></disambig>
         </rule>
 		<rule>
 			<pattern>
 				<marker>
 					<token regexp="yes">parlant|r[eo]dolant|adés|així|ai|Bío</token>
-				    <token><match no="0"/></token>
-				</marker>
+                </marker>
+				<token><match no="0"/></token>
 			</pattern>
-			<disambig action="immunize"/>
+			<disambig action="add"><wd pos="_allow_repeat"/></disambig>
 		</rule>
         <rule>
             <pattern>
                 <token>de</token>
                 <marker>
                     <token>totes</token>
-                    <token>totes</token>
                 </marker>
+                <token>totes</token>
             </pattern>
-            <disambig action="immunize"/>
+            <disambig action="add"><wd pos="_allow_repeat"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -10744,37 +10744,37 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token regexp="yes">\p{Lu}.+</token>
             </pattern>
-            <disambig action="immunize"/>
+            <disambig action="add"><wd pos="_allow_repeat"/></disambig>
         </rule>
 		<rule>
 			<pattern>
 				<marker>
 					<token>els</token>
-				    <token>els</token>
 				</marker>
+                <token>els</token>
 				<token postag="V.[IS].*" postag_regexp="yes"/>
 			</pattern>
-			<disambig action="immunize"/>
+			<disambig action="add"><wd pos="_allow_repeat"/></disambig>
 		</rule>
 		<rule>
 			<pattern case_sensitive="yes">
 				<marker>
 					<token>I</token>
-				    <token>i</token>
 				</marker>
+                <token>i</token>
 				<!-- <token regexp="yes">[A-Z]|(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token> -->
 			</pattern>
-			<disambig action="immunize"/>
+			<disambig action="add"><wd pos="_allow_repeat"/></disambig>
 		</rule>
 		<rule>
 			<pattern case_sensitive="yes">
 				<!-- <token regexp="yes">[A-Z]|(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token> -->
 				<marker>
 					<token>i</token>
-				    <token>I</token>
 				</marker>
+                <token>I</token>
 			</pattern>
-			<disambig action="immunize"/>
+			<disambig action="add"><wd pos="_allow_repeat"/></disambig>
 		</rule>
         <!-- <rule> Maximilià I i Joan II. 
             <pattern case_sensitive="yes">
@@ -10793,11 +10793,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>la</token>
                 <marker>
                     <token>a</token>
-                    <token>a</token>
                 </marker>
+                <token>a</token>
                 <token>la</token>
             </pattern>
-            <disambig action="immunize"/>
+            <disambig action="add"><wd pos="_allow_repeat"/></disambig>
         </rule>
 	</rulegroup>   
 </rules>

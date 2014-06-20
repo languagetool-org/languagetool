@@ -40,7 +40,7 @@ public class CatalanWordRepeatRule extends WordRepeatRule {
 
   @Override
   public boolean ignore(AnalyzedTokenReadings[] tokens, int position) {
-    if (position > 0 && (tokens[position].isImmunized() || tokens[position-1].isImmunized())) {
+    if (position > 0 && (tokens[position].hasPosTag("_allow_repeat") || tokens[position-1].hasPosTag("_allow_repeat"))) {
       return true;
     }
     return false;
