@@ -5428,9 +5428,16 @@ $Id$
                     <token regexp="yes">de|que|què</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes">per</token>
+                    <token inflected="yes" skip="1">el</token>
+                    <token inflected="yes" regexp="yes">efecte|cost|fet</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token inflected='yes' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">per</token>
                     </marker>
@@ -5446,11 +5453,14 @@ $Id$
                 <example type='correct'>Han estat usats per l'aristocràcia.</example>
                 <example type="correct">Una eina feta servir pels mecànics.</example>
                 <example type="correct">no vetllo prou pels meus alumnes</example>
+                <example type="correct">S'usa pels seus efectes terapèutics.</example>
+                <example type="correct">No s'utilitza pel fet que és car.</example>
+                <example type="correct">No s'utilitza pel que fa a la qualitat.</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">haver</token>
-                    <token inflected='yes' regexp='yes' postag="V.P.*" postag_regexp="yes">servir|usar|emprar|aprofitar|preparar</token>
+                    <token inflected='yes' regexp='yes' postag="V.P.*" postag_regexp="yes">servir|usar|utilitzar|emprar|aprofitar|preparar</token>
                     <marker>
                         <token inflected="yes">per</token>
                     </marker>
@@ -5465,11 +5475,29 @@ $Id$
                 <example type='correct'>Són usats per l'aristocràcia.</example>
                 <example type='correct'>Han estat usats per l'aristocràcia.</example>
             </rule>
+            <!-- <rule id="S_USA_PER" name="s'usa per/per a">
+                <pattern>
+                    <marker>
+                        <token skip="1" regexp="yes">s'|es</token>
+                        <token regexp="yes" inflected="yes">usar|utilitzar|emprar</token>
+                        <token inflected="yes">per</token>
+                        <token postag="DA.M.." postag_regexp="yes"/>
+                    </marker>
+                    <token><exception regexp="yes" inflected="yes">que|seu</exception></token>
+                </pattern>
+                <message>Construcció probablement incorrecta</message>
+                <suggestion>\1\2 per a\4</suggestion>
+                <suggestion><match no="2" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> <match no="2" postag="V....(.).." postag_regexp="yes" postag_replace="V.P..$1.."/> \3\4</suggestion>
+                <example type="incorrect" correction="S'usa per al|És usada pel|És usat pel"><marker>S'usa pel</marker> transport.</example>
+                <example type="incorrect" correction="S'usa per al|És usada pel|És usat pel"><marker>S'ha usat pel</marker> transport.</example>
+                <example type="correct">S'usa pel seu efecte terapèutic.</example>
+                <example type="correct">S'usa per la seva qualitat.</example>
+            </rule> -->
         </rulegroup>
         <rulegroup id="PER_TAL_DE_PER_A" name="Ús inadequat de 'per tal de/que'">
             <rule>
                 <pattern>
-                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>per</token>
                         <token>tal</token>
@@ -5486,7 +5514,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
+                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|utilitzar|emprar|aprofitar|preparar|necessari|suficient|prou<exception postag="V.P.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">per</token>
                         <token>tal</token>
@@ -10387,7 +10415,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SPS00" regexp="yes">a|per|Per</token> 
-                    <token postag="SPS00" regexp="yes">amb|per?|des|de<exception postag="&lt;?NP.*" postag_regexp="yes"/></token>
+                    <token postag="SPS00|.*LOC_.*" postag_regexp="yes" regexp="yes">amb|per?|des|de<exception postag="&lt;?NP.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Combinació impossible de preposicions.</message>
                 <suggestion><match no="2"/></suggestion>
