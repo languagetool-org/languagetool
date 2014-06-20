@@ -2288,6 +2288,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Verbs" type="grammar">
+        <rule id="ESTAR_CAUSAT" name="*estar/ser causat per">
+            <pattern>
+                <token inflected="yes">estar<exception inflected="yes">ser</exception></token>
+                <token postag="V.P.*" postag_regexp="yes" regexp="yes" inflected="yes">causar|provocar|finançar|gestionar|originar|dirigir|elegir|triar|escollir</token>
+            </pattern>
+            <message>Probablement cal usar el verb "ser".</message>
+            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> \2</suggestion>
+            <short>Verb inadequat</short>
+            <example type="incorrect" correction="Són causats"><marker>Estan causats</marker> per elements estranys.</example>
+            <example type="incorrect" correction="Foren provocades"><marker>Estigueren provocades</marker> per elements estranys.</example>
+            <example type="correct">Els danys han estat causats pel terratrèmol.</example>
+        </rule>
         <rulegroup id="VERBS_NO_INCOATIUS" name="verbs no incoatius: ajupir, admetre..." type="misspelling">
             <rule><!-- ajupir, consentir, bullir, collir, escopir, munyir, esmunyir, grunyir, abatre, batre -->
                 <pattern>
