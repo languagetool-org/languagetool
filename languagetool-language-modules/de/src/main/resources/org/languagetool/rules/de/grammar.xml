@@ -6389,18 +6389,30 @@ $Id$
             <example type='incorrect'><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
             <example type='correct'>Zuallererst mal in Ruhe nachdenken.</example>
         </rule>
-        <rule id="XJAEHRIG" name="Xjährig (X-jährig)">
-            <pattern>
-                <token regexp='yes'>\d+jährige[rsn]?</token>
-            </pattern>
-            <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
+        <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
             <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
-            <short>Fehlender Bindestrich</short>
-            <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
-            <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
-            <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
-            <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+jährige[rsn]?</token>
+                </pattern>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
+                <short>Fehlender Bindestrich</short>
+                <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
+                <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+</token>
+                    <token regexp='yes' spacebefore="yes">jährige[rsn]?</token>
+                </pattern>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
+                <short>Fehlender Bindestrich</short>
+                <example type='incorrect' correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+            </rule>
+        </rulegroup>
         <rule id="NIEDER_SCHLAGEN" name="nieder schlagen (niederschlagen)">
             <pattern>
                 <token>nieder</token>
@@ -23938,7 +23950,7 @@ $Id$
                 <token regexp="yes">eine(r)?</token>
                 <token>Millionen</token>
             </pattern>
-            <message>Meinten Sie <suggestion>eine Million</suggestion>? 'Millionen' ist der Plural von 'Million'.</message>
+            <message>Meinten Sie <suggestion>\1 Million</suggestion>? 'Millionen' ist der Plural von 'Million'.</message>
             <example type="incorrect" correction="eine Million">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
             <example type="correct">Sie verdient <marker>eine Million</marker> Euro im Jahr.</example>
         </rule>
