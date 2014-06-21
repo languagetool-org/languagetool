@@ -493,6 +493,7 @@ $Id$
             </rule>
             <rule id="DOS_O_TRES" name="dos/dues o tres coses">
                 <pattern>
+                    <token><exception>ells</exception></token>
                     <marker>
                         <token>dos</token>
                     </marker>
@@ -508,6 +509,7 @@ $Id$
                 <example type="incorrect"><marker>dos</marker> o tres coses</example>
                 <example type="correct">dos o tres homes</example>
                 <example type="correct">dos o tres mascles</example>
+                <example type="correct">Ells dos i cinquanta persones més</example>
                 <example type="correct">són dos, les bengales i les rodes</example>
             </rule>
             <rule id="UN_O_MES" name="un o més *llibre/llibres">
@@ -6651,7 +6653,7 @@ $Id$
                 <pattern>
                 	  <token><exception postag="P[0P].*" postag_regexp="yes">en</exception></token>
                     <marker>
-                        <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.*|NC.*|[DP].*|.*LOC.*|V.N.*" postag_regexp="yes"/><exception scope="next" regexp="yes">més|menys</exception></token>
+                        <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.*|NC.*|[DP].*|.*LOC.*|V.N.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" regexp="yes">més|menys</exception></token>
                         <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>    
                     <token><exception regexp="yes">manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
@@ -6684,9 +6686,9 @@ $Id$
                 <example type="correct">No hi havia necessitat de fer el que has fet</example>
                 <example type="correct">En necessitaràs de nova</example>
                 <example type="correct">no en necessitem, de llana</example>
+                <example type="correct">que necessiten, d'una banda,</example>
                 <!-- requeria del Consell executiu la presentació d'un projecte
                 que hom requereix dels alumnes
-                requereix, de part de la societat en què viuen, modalitats especials d'assistència 
                 necessita molt de l'agricultura intensiva. -->
             </rule>
         </rulegroup>
@@ -18831,16 +18833,19 @@ $Id$
             <example type="incorrect">Això ho sap <marker>a ciència certa</marker>.</example>
             <example type="correct">Això ho sap <marker>de ciència certa</marker></example>
         </rule>
-        <rule id="A_DIARI" name="a diari">
+        <rule id="A_DIARI" name="a diari"> <!-- per a diari? -->
             <pattern>
-                <token>a</token>
-                <token>diari</token>
+                <token><exception regexp="yes">com|per</exception></token>
+                <marker>
+                    <token>a</token>
+                    <token>diari</token>
+                </marker>
             </pattern>
             <message>Expressió incorrecta.</message>
             <suggestion>cada dia</suggestion>
             <suggestion>diàriament</suggestion>
             <example type="incorrect">em llevo d'hora <marker>a diari</marker>.</example>
-            <example type="correct">em llevo d'hora <marker>cada dia</marker></example>
+            <example type="correct">Va funcionar sempre com a diari de notícies.</example>
         </rule>
         <rulegroup id="ESQUENES" name="a esquenes de">
             <rule>
