@@ -3725,11 +3725,17 @@ $Id$
             <example type="correct">Ha estat a punt de fer-ho</example>
         </rule>
         <rule id="SER_EN_JOC" name="*ser/estar en joc">
+            <antipattern>
+                <marker>
+                    <token>ordre</token>
+                    <token regexp="yes">creixent|decreixent</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">ser<exception>estat</exception></token>
                     <token>en</token>
-                    <token regexp="yes">contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú</token>
+                    <token regexp="yes">contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú<exception postag="_possible_nompropi"/></token>
                 </marker>
             </pattern>
             <message>Val més usar el verb 'estar'.</message>
@@ -24209,11 +24215,12 @@ $Id$
         <rulegroup id="DESCONTENT" name="descontent (adj. no subst.)"> <!-- Però: el descontent = la persona descontenta -->
             <rule>
                 <pattern>
-                    <token><exception postag="N.*|RG|V.[MSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
+                    <token postag="D..[MC]S.|SPS00|PX3MS0C0" postag_regexp="yes"/>
+                    <!-- <exception postag="N.*|RG|V.[NMSI].*|_GV_|C[CS]|SENT_START|_PUNCT.*|PR.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|únic</exception> -->
                     <marker>
                         <token>descontent</token>
                     </marker>
-                    <token><exception postag="N.*" postag_regexp="yes"/></token>
+                    <token><exception postag="N.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
                 </pattern>
                 <message>'Descontent' sols pot ser adjectiu.</message>
                 <suggestion>descontentament</suggestion>
@@ -24222,6 +24229,8 @@ $Id$
                 <suggestion>malestar</suggestion>
                 <example type="incorrect">el <marker>descontent</marker> de la població</example>
                 <example type="incorrect">el <marker>descontent</marker> amb Mussolini era tal </example>
+                <example type="incorrect">En una situació de <marker>descontent</marker>.</example>
+                <example type="incorrect">Van mostrar el seu <marker>descontent</marker>.</example>
                 <example type="correct">Era un home descontent.</example>  
                 <example type="correct">Es trobava molt descontent.</example>
                 <example type="correct">Se sentia descontent.</example>
@@ -24233,22 +24242,10 @@ $Id$
                 <example type="correct">intel·ligent i erudit encara que descontent;</example>
                 <example type="correct">El descontent Teodosi</example>
                 <example type="correct">Va quedar descontent per la tria.</example>
+                <example type="correct">Tot i quedar descontent amb el resultat.</example>
+                <example type="correct">el descontent Hou Cheng</example>
+                <example type="correct">Ell no era l'únic descontent.</example>
                 <!-- <example type="correct">després del <marker>descontent</marker> general.</example> INDECIDIBLE -->
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>descontent</token>
-                    </marker>
-                    <token postag="AQ.[MC][SN].|V.P.*SM.?" postag_regexp="yes"/>
-                </pattern>
-                <message>'Descontent' sols pot ser adjectiu.</message>
-                <suggestion>descontentament</suggestion>
-                <suggestion>insatisfacció</suggestion>
-                <suggestion>disgust</suggestion>
-                <suggestion>malestar</suggestion>
-                <example type="incorrect">el <marker>descontent</marker> generalitzat de la població</example>
-                <example type="correct">Era un general descontent.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24268,7 +24265,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">total|ple|general</token>
+                    <token regexp="yes">total|ple|general|gran|major</token>
                     <marker>
                         <token>descontent</token>
                     </marker>
