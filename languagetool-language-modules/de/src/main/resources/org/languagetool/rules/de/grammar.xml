@@ -1565,7 +1565,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token>für</token>
-                    <token regexp="yes">[dDm]ich|[sS]ie|ihn|[eE]uch</token>
+                    <token regexp="yes" case_sensitive="no">[dm]ich|sie|ihn|euch</token>
                     <marker>
                         <token>gebettet</token>
                     </marker>
@@ -1579,7 +1579,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token>für</token>
-                    <token regexp="yes">[dDm]ich|[sS]ie|ihn|[eE]uch</token>
+                    <token regexp="yes" case_sensitive="no">[dm]ich|sie|ihn|euch</token>
                     <marker>
                         <token regexp="yes">bette[nt]?</token>
                     </marker>
@@ -2101,7 +2101,7 @@ $Id$
         </rule>
         <rule id="AUF_DER_JAGT" name="Möglicher Tippfehler: 'auf der Jagt (Jagd)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[aA]uf|[bB]ei|[vV]on</token>
+                <token regexp="yes" case_sensitive="no">auf|bei|von</token>
                 <token>der</token>
                 <marker>
                     <token>Jagt</token>
@@ -7052,7 +7052,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">([nN]ach|[sS]eit|[tT]rotz|[aA]ußer|[iI]n)dem</token>
+                        <token regexp="yes" case_sensitive="no">(nach|seit|trotz|außer|in)dem</token>
                     </marker>
                     <token postag="SUB:DAT:SIN:(MAS|NEU)" postag_regexp="yes"/>
                     <!-- token>Essen</token -->
@@ -7508,11 +7508,11 @@ $Id$
                 <example type="incorrect" correction="Beispiel">Nimm zum <marker>bei Spiel</marker> Dirk: Er ist einfach langweilig.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Haare</token>
-                        <token regexp="yes">[sS]chneiden|[wW]aschen|[fF]ärben</token>
+                        <token case_sensitive="yes">Haare</token>
+                        <token regexp="yes">schneiden|waschen|färben</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7521,11 +7521,11 @@ $Id$
                 <example type="incorrect" correction="Haareschneiden">Beim <marker>Haare schneiden</marker> kommen mir die besten Einfälle.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Korrektur</token>
-                        <token regexp="yes">[lL]esen</token>
+                        <token case_sensitive="yes">Korrektur</token>
+                        <token regexp="yes">lesen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>?</message>
@@ -7534,11 +7534,11 @@ $Id$
                 <example type="incorrect" correction="Korrekturlesen">Beim <marker>Korrektur lesen</marker> kommen mir die besten Einfälle.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Auto</token>
-                        <token regexp="yes">[fF]ahren</token>
+                        <token case_sensitive="yes">Auto</token>
+                        <token regexp="yes">fahren</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7547,11 +7547,11 @@ $Id$
                 <example type="incorrect" correction="Autofahren">Beim <marker>Auto fahren</marker> kommen mir die besten Einfälle.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Briefe</token>
-                        <token regexp="yes">[sS]chreiben</token>
+                        <token case_sensitive="yes">Briefe</token>
+                        <token regexp="yes">schreiben</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7560,11 +7560,11 @@ $Id$
                 <example type="incorrect" correction="Briefeschreiben">Beim <marker>Briefe schreiben</marker> kommen mir die besten Einfälle.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Blumen</token>
-                        <token regexp="yes">[gG]ießen</token>
+                        <token case_sensitive="yes">Blumen</token>
+                        <token regexp="yes">gießen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7573,11 +7573,11 @@ $Id$
                 <example type="incorrect" correction="Blumengießen">Beim <marker>Blumen gießen</marker> kommen mir die besten Einfälle.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Zähne</token>
-                        <token regexp="yes">[pP]utzen</token>
+                        <token case_sensitive="yes">Zähne</token>
+                        <token regexp="yes">putzen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7586,11 +7586,11 @@ $Id$
                 <example type="incorrect" correction="Zähneputzen">Beim <marker>Zähne putzen</marker> kommen mir die besten Einfälle.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token>Hände</token>
-                        <token regexp="yes">[wW]aschen</token>
+                        <token case_sensitive="yes">Hände</token>
+                        <token regexp="yes">waschen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7599,11 +7599,11 @@ $Id$
                 <example type="incorrect" correction="Händewaschen">Beim <marker>Hände waschen</marker> sollte man Seife verwenden.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[zZ]um|[bB]eim</token>
+                <pattern>
+                    <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token regexp="yes">[sS]elber</token>
-                        <token regexp="yes">[mM]achen</token>
+                        <token regexp="yes">selber</token>
+                        <token regexp="yes">machen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -9049,9 +9049,9 @@ $Id$
         </rulegroup>
         <rulegroup id="RUNDE_KUGEL" name="Verdoppelung: 'runde Kugel' u.ä. (nur für wenige Fälle)">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">([fF]inanzielle|[mM]onetäre)[mnrs]?</token>
-                    <token regexp="yes">Geld.*</token>
+                <pattern>
+                    <token regexp="yes">(finanzielle|monetäre)[mnrs]?</token>
+                    <token regexp="yes" case_sensitive="yes">Geld.*</token>
                 </pattern>
                 <message>Die Bedeutung des Substantivs \2 beinhaltet bereits das durch das Adjektiv \1 ausgedrückte Merkmal. In vielen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschlag: <suggestion>\2</suggestion>, oder weichen Sie auf ein anderes Adjektiv aus.</message>
                 <short>&redundanz;</short>
@@ -11049,7 +11049,7 @@ $Id$
                 <marker>
                     <token>Kraft</token>
                 </marker>
-                <token regexp="yes">meines|[Dd]eines|seines|[Ii]hres|unseres|[Ee]ures</token>
+                <token regexp="yes" case_sensitive="no">meines|deines|seines|ihres|unseres|eures</token>
                 <token regexp="yes">Amtes|Amts</token>
             </pattern>
             <message>&inwend;'kraft meines Amtes' wird <suggestion><match no="2" case_conversion="startlower"/></suggestion> kleingeschrieben.</message>
@@ -11158,11 +11158,11 @@ $Id$
                 <example type="correct">Im <marker>klaren</marker> Wasser ist nichts zu sehen.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes" skip="1">[Ss]ich|[Mm]ir|[Dd]ir|[Uu]ns|[Ee]uch</token>
+                <pattern>
+                    <token regexp="yes" skip="1">sich|mir|dir|uns|euch</token>
                     <token>im</token>
                     <marker>
-                        <token skip="1">klaren</token>
+                        <token skip="1" case_sensitive="yes">klaren</token>
                     </marker>
                     <token inflected="yes" postag="VER.*" postag_regexp="yes">sein</token>
                 </pattern>
@@ -11211,7 +11211,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[Mm]it|[Nn]ach|[Vv]on</token>
+                    <token regexp="yes" case_sensitive="no">mit|nach|von</token>
                     <marker>
                         <token>Links</token>
                     </marker>
@@ -11260,7 +11260,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes">Blick</token>
-                    <token regexp="yes">[Gg]egen|[Hh]alb|[Mm]it|[Nn]ach</token>
+                    <token regexp="yes" case_sensitive="no">gegen|halb|mit|nach</token>
                     <marker>
                         <token>Rechts</token>
                     </marker>
@@ -11475,7 +11475,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">[bB]ei|[iI]n|[zZ]u</token>
+                    <token regexp="yes" case_sensitive="no">bei|in|zu</token>
                     <token regexp="yes">(&meindein;)er|jemandes|der</token>
                     <marker>
                         <token>ehre</token>
@@ -12004,7 +12004,7 @@ $Id$
         </rulegroup>
         <rule id="ANGRIFF_SUBST" name="Groß-/Kleinschreibung: 'zum angriff (Angriff)'">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[zZ]um|[bB]eim|[iI][mn]</token>
+                <token regexp="yes" case_sensitive="no">zum|beim|i[mn]</token>
                 <marker>
                     <token>angriff</token>
                 </marker>
@@ -12101,7 +12101,7 @@ $Id$
         </rulegroup>
         <rule id="MASS_SUBST" name="Groß-/Kleinschreibung: 'das maß (Maß) aller Dinge' etc.">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[dD]as|[zZ]um|[aA]ls</token>
+                <token regexp="yes" case_sensitive="no">das|zum|als</token>
                 <marker>
                     <token>maß</token>
                 </marker>
@@ -24248,7 +24248,7 @@ $Id$
         </rulegroup>
         <rule id="AN_HERR" name="Grammatik: Präposition/Kasus – 'an/für Herr (Herrn)' etc.">
             <pattern case_sensitive="yes">
-                <token regexp="yes">[Aa]n|[Zz]u|[Ff]ür|[Dd]es|[Vv]on</token>
+                <token regexp="yes" case_sensitive="no">an|zu|für|des|von</token>
                 <marker>
                     <token>Herr</token>
                 </marker>
@@ -24600,12 +24600,12 @@ $Id$
         </rulegroup>
         <rulegroup id="RAT_UND_TAT" name="Redewendung: 'mit Rad (Rat) und tat (Tat)'">
             <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[mM]it</token>
+                <pattern>
+                    <token regexp="yes">mit</token>
                     <marker>
-                        <token regexp="yes">[rR]a[dt]</token>
+                        <token regexp="yes">ra[dt]</token>
                         <token>und</token>
-                        <token>tat</token>
+                        <token case_sensitive="yes">tat</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie die Redewendung 'mit <suggestion>Rat und Tat</suggestion>'?</message>
