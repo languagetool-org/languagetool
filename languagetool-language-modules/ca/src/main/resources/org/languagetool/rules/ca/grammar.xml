@@ -15577,7 +15577,7 @@ $Id$
                     <marker>
                         <token regexp="yes">.*º<exception>nº</exception></token>
                     </marker>
-                    <token><exception regexp="yes">[CFKNSEW]</exception></token>
+                    <token><exception regexp="yes">[CFNSEW]</exception></token>
                 </pattern>
                 <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1è"/></suggestion> (sing.) <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1ns"/></suggestion> (pl.).</message>
                 <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1é"/></suggestion>
@@ -15590,7 +15590,7 @@ $Id$
                     <marker>
                         <token regexp="yes">.*º<exception>nº</exception></token>
                     </marker>
-                    <token regexp="yes">[CFKNSEW]</token>
+                    <token regexp="yes">[CFNSEW]</token>
                 </pattern>
                 <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
@@ -15600,7 +15600,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token regexp="yes">.*º[CFKNSEW]</token>
+                        <token regexp="yes">.*º[CFNSEW]</token>
                     </marker>
                 </pattern>
                 <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º(.*)" regexp_replace="$1°$2"/></suggestion>.</message>
@@ -15635,6 +15635,40 @@ $Id$
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="25ns">Els <marker>25ens</marker> classificats.</example>
                 <example type="correct">En la 14a posició.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="KELVIN" name="kelvin (no graus)">
+            <url>https://ca.wikipedia.org/wiki/Kelvin</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[º°]K</token>
+                </pattern>
+                <message>Els kelvin no són graus.</message>
+                <suggestion>K</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="K">A 30 <marker>ºK</marker>.</example>
+                <example type="correct">A una temperatura de 30 K.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.+[º°]K</token>
+                </pattern>
+                <message>Els kelvin no són graus.</message>
+                <suggestion><match no="1" regexp_match="(.+)[º°]K" regexp_replace="$1 K"/></suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="30 K">A <marker>30ºK</marker>.</example>
+                <example type="correct">A una temperatura de 30 K.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[º°]</token>
+                    <token>K</token>
+                </pattern>
+                <message>Els kelvin no són graus.</message>
+                <suggestion>K</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="K">A 30 <marker>º K</marker>.</example>
+                <example type="correct">A una temperatura de 30 K.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
