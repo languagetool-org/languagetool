@@ -1757,21 +1757,35 @@ $Id$
                 <example type="correct">Darf man per <marker>E-Mail</marker> Adressen verschicken?</example>
             </rule>
         </rulegroup>
-        <rule id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
-            <!-- please note that 'siebt' (verb) and 'acht' are intentionally omitted -->
-            <pattern>
-                <token><exception regexp="yes">zu|und|oder|,|bis</exception></token>
-                <marker>
-                    <token regexp="yes">zweit|dritt|viert|fünft|sechst|neunt|zehnt|elft|zwölft</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>\2e</suggestion>, <suggestion>zu \2</suggestion> oder eine andere Form?</message>
-            <short>Möglicher Tippfehler</short>
-            <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
-            <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
-            <example type="correct">Selten treten die Blütenteile zu fünft bis <marker>neunt</marker> auf.</example>
-            <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
-        </rule>
+        <rulegroup id="ZWEIT" name="Möglicher Tippfehler: 'zweit (zweite)' etc.">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|aus|zu|zur</token>
+                    <token>der</token>
+                    <marker>
+                        <token regexp="yes">Zweit</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Zeit</suggestion>?</message>
+                <example type="correct">Sie datiert aus der <marker>Zeit</marker> um 1500.</example>
+                <example type="incorrect" correction="Zeit">Sie datiert aus der <marker>Zweit</marker> um 1500.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">zu|und|oder|,|bis</exception></token>
+                    <marker>
+                        <!-- please note that 'siebt' (verb) and 'acht' are intentionally omitted -->
+                        <token regexp="yes">zweit|dritt|viert|fünft|sechst|neunt|zehnt|elft|zwölft</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>\2e</suggestion>, <suggestion>zu \2</suggestion> oder eine andere Form?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
+                <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
+                <example type="correct">Selten treten die Blütenteile zu fünft bis <marker>neunt</marker> auf.</example>
+                <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
+            </rule>
+        </rulegroup>
         <rule id="ZWEITER" name="Möglicher Tippfehler: 'zweiter (zweier)'">
             <pattern>
                 <token regexp="yes">(addi|berechn|divi|multipli|quotient|subtra|summ).*|Differenz</token>
@@ -2767,6 +2781,7 @@ $Id$
                 </pattern>
                 <message>Meinten Sie <suggestion>wahr</suggestion> (=wahrhaftig, authentisch) statt 'war' (Vergangenheit von 'sein') &odkomma;?</message>
                 <suggestion>\1, \2</suggestion>
+                <suggestion>\2</suggestion>
                 <example type="correct">Seine Träume <marker>wurden wahr</marker>.</example>
                 <example type="incorrect">Seine Träume <marker>wurden war</marker>.</example>
                 <example type="correct">Als ich vor 30 Jahren geboren <marker>wurde, war</marker> ich noch sehr jung.</example>
