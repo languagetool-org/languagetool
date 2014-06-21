@@ -58,6 +58,7 @@ import java.io.IOException;
 public class VerbAgreementRule extends GermanRule {
   
   private static final Set<String> BIN_IGNORE = new HashSet<>(Arrays.asList(
+    "Hussein",
     "Abdul",
     "Abdulla",
     "Abdullah",
