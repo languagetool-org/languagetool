@@ -7581,6 +7581,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="EN_VES" name="en ves/en comptes/envers">
+            <pattern>
+                <token>en</token>
+                <token>ves</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en comptes</suggestion>?</message>
+            <suggestion>envers</suggestion>
+            <example type="incorrect" correction="En comptes|Envers"><marker>En ves</marker> d'això, allò.</example>
+            <example type="correct">En comptes d'això.</example>
+        </rule>
         <rulegroup id="DIRECCIO_ADRECA" name="direcció/adreça">
             <rule>
                 <pattern>
@@ -8400,7 +8410,7 @@ $Id$
         </rulegroup>
         <rule id="GERUNDI_PERD_T" name="gerundis que perden la t: fen/fent, coneixen/coneixent">
             <pattern>
-                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">estar|anar|acabar|continuar|seguir|prosseguir</token>
+                <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">estar|anar|acabar|continuar|seguir|prosseguir<exception postag="V.P..P..|V.P..SF." postag_regexp="yes"/></token>
                 <marker> <!-- Eliminats de la llista: |pareixen|poden -->
                     <token regexp="yes">abastin|abaten|abonin|abrasin|absolen|acampan|acastellan|acollin|acollonin|acolorin|acorren|acreixen|acudin|adien|admeten|adolorin|adormin|aflaquin|agarbin|agitan|aiguabaten|ajupin|alabaten|alleugerin|aluman|amansin|amaran|amarrin|amoixin|amollin|amortin|apareixen|aparroquian|apeixin|aperceben|apoquin|aprehenen|aprenen|argentan|arrasin|arremeten|arrupin|asseien|assentin|assolin|atenen|atenyen|aterrin|autodissolen|avortin|barbullin|bastin|baten|benveien|borin|boten|botin|braman|brandin|brumin|brunzin|bullin|caben|calen|campin|capin|captan|carvenen|cernen|cian|clapin|cobrin|colen|collin|colltorcen|coman|combaten|cometen|compareixen|complanyen|componen|comprenen|comprometen|conceben|concorren|condolen|condormin|coneixen|confonen|confugin|consentin|constrenyen|consumin|contenen|contorcen|contrabaten|convencen|corferin|corfonen|corprenen|corren|corresponen|corrompen|couran|creen|creien|creixen|cruixin|dan|debaten|deceben|decorren|decreixen|defenen|defugin|deixondin|deliran|demeten|depenen|deprenen|desan|desapareixen|desaparroquian|desaprenen|desatenen|desbastin|descolorin|descomponen|descomprometen|desconeixen|descorren|descreen|descreien|desembalbin|desembotin|desencarin|desentenebrin|desentenen|desentortin|desflorin|desmentin|desmereixen|desomplin|despenen|desponen|desprenen|destorcen|destrenyen|difonen|discorren|dissolen|distenen|distorcen|dolen|dormin|duen|duran|eixorbin|embalbin|emblanquin|embotin|embrutin|emeten|emmalurin|empenyen|emprenen|enasprin|encallin|encarin|encendran|encenen|encertin|encoixin|encollin|encorren|endoblin|enduen|enduran|endurin|enfeltrin|enfondran|enfonen|enfosquin|enfredorin|enfugin|engallin|engolin|engruixin|enlluentin|enorgullin|enrederin|enrogin|ensutzin|entenebrin|entenen|entortin|entovin|entrebaten|entreferin|entremeten|entreobrin|entresentin|entreveien|entristin|entronquin|equiparan|equivalen|esbaten|escapolin|escaran|escatin|esclafin|escollaran|escollin|escometen|escorren|escruixin|esmunyin|espellin|espenyen|espoltrin|espremen|espunyin|establin|estampin|estan|estenen|estorcen|estrenyen|estufin|expenen|exsolen|fallin|fen|fenen|fenyen|ferin|fideïcometen|finin|flectin|fonen|foten|fotocomponen|fugin|fumen|funyin|furan|ganyin|gemin|grunyin|incorren|indican|infonen|interrompen|iran|ireixen|irrompen|junyen|junyin|maldormin|malentenen|malferin|malmeten|malparin|malprenen|malveien|malvenen|malvolen|mamprenen|manumeten|marfonen|mentin|menyscreien|mereixen|meten|molen|morin|munyin|naixen|neulin|nomen|obrin|ocorren|ofenen|olen|ometen|omplin|pairan|paixen|parin|pellobrin|penedin|perbullin|perceben|percudin|perden|perfonen|permeten|pernabaten|pertanyen|piran|planyen|ponen|preconceben|premen|premorin|prenen|pressentin|presumin|pretenen|prevalen|preveien|prometen|prorrompen|pudin|punyin|radian|radiodifonen|rapin|reabsolen|readmeten|reapareixen|rebaten|reben|reblin|reboten|rebotin|rebullin|recobrin|recomponen|reconeixen|recorren|recreixen|refonen|regan|regiran|rellentin|remeten|remolen|renaixen|renyin|reobrin|reomplin|reprenen|resolen|responen|resseguin|resseien|ressentin|ressequin|restrenyen|resumin|reten|retonen|retorcen|retransmeten|retrovenen|retrunyin|reveien|revencen|revenen|revivin|revolen|romanen|rompen|rostin|saben|salprenen|salsin|sedan|seguin|seien|sen|sentin|servin|sobaten|sobrecreixen|sobreentenen|sobrenaixen|sobreprenen|sobreseien|sobrevalen|socorren|sofrin|solen|sorprenen|sotbaten|sotmeten|sumin|suspenen|temen|terratremen|tolen|tonen|torcen|tossin|trairan|trameten|transcorren|transfonen|transmeten|trasponen|tremen|tremin|trepan|trescan|ullprenen|urpin|valen|veien|vencen|venen|volen|xaman</token>
                 </marker>
@@ -8410,6 +8420,7 @@ $Id$
             <example type="incorrect" correction="prenent">Creu que estan <marker>prenen</marker> mesures.</example>
             <example type="correct">per poc elaborats que estiguin poden donar uns mínims resultats</example>
             <example type="correct">Fen l'aire.</example>
+            <example type="correct">A aquests estats correspon l'elecció.</example>
         </rule>
         <rulegroup id="GALA_GALLA" name="gala/gal·la">
             <antipattern>
@@ -12565,10 +12576,11 @@ $Id$
         <rulegroup id="VES" name="ves/vés">       
              <rule>
                 <pattern>
+                    <token><exception regexp="yes">dues|en</exception></token>
                     <marker>
-                        <token>ves</token>
+                        <token>ves<exception postag="_possible_nompropi"/></token>
                     </marker>
-                    <token><exception regexp="yes">per|si|que|qui(n|na|ns|nes)?|com|què</exception></token>
+                    <token><exception regexp="yes">seguides|per|si|que|qui(n|na|ns|nes)?|com|què</exception></token>
                 </pattern>
                 <message>S'accentua quan és del verb anar.</message>
                 <suggestion>vés</suggestion>
@@ -12580,6 +12592,8 @@ $Id$
                 <example type="correct">Ves com m'ho paga</example>
                 <example type="correct">Ves què havia de fer!</example>
                 <example type="correct">Ves quina sort!</example>
+                <example type="correct">Escriu dues ves.</example>
+                <example type="correct">Hi havia dues ves seguides.</example>
                 <!-- però és medieval, ves! -->
             </rule>
             <rule>
