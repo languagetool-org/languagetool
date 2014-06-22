@@ -7089,14 +7089,14 @@ $Id$
         </rule>
         <rule id="MALGRAT_DE_QUE" name="malgrat de què">
             <pattern>
-                <token regexp="yes">malgrat|risc|fet|possibilitat|condició</token>
+                <token regexp="yes">idea|malgrat|risc|fet|possibilitat|condició</token>
                 <token min="0" postag="AQ..S." postag_regexp="yes"></token>
                 <marker>
                     <token>de</token>
                     <token regexp="yes">què|que</token>
                 </marker>
             </pattern>
-            <message>Construcció incorrecta</message>
+            <message>Construcció probablement incorrecta</message>
             <suggestion>que</suggestion>
             <example type="incorrect">Malgrat <marker>de què</marker></example>
             <example type="incorrect">Amb la condició addicional <marker>de què</marker> vingui.</example>
@@ -16162,12 +16162,31 @@ $Id$
                 <example type="correct">A una temperatura de 30 K.</example>
             </rule>
         </rulegroup>
+        <rule id="ORDINALS_SENSE_PUNT" name="ordinals sense punt: *5è./5è">
+            <pattern>
+                <marker>
+                    <token regexp="yes">\d+(r|n|t|è|é|ns|es)</token>
+                    <token spacebefore="no">.</token>
+                </marker>
+                <or>
+                    <token regexp="yes">\p{Ll}.*</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </or>
+            </pattern>
+            <message>Les abreviatures d'ordinals no porten punt.</message>
+            <suggestion>\1</suggestion>
+            <example type="incorrect" correction="4t">Va ser el <marker>4t.</marker> classificat.</example>
+            <example type="incorrect" correction="5è">(Va ser el <marker>5è.</marker>).</example>
+            <example type="incorrect" correction="5è">Va ser el <marker>5è.</marker> i l'altre el 6è.</example>
+            <example type="correct">Va ser el 5è.</example>
+            <example type="correct">Va ser el 5è. I l'altre el 6è.</example>
+        </rule>
         <rulegroup id="ANYS_SENSE_PUNT" name="anys sense punt: *1.950">
             <rule>
                 <pattern>
                     <token regexp="yes">anys?|mitjan</token>
                     <marker>
-                        <token regexp="yes">[12]\.\d{3}</token>
+                        <token regexp="yes">\d\.\d{3}</token>
                     </marker>
                 </pattern>
                 <message>Els anys s'escriuen sense punt.</message>
