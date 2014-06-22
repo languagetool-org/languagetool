@@ -22187,6 +22187,24 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="EMPENYARSE" name="*empenyar-se">
+            <pattern>
+                <marker>
+                <and>
+                    <token inflected="yes">empènyer</token>
+                    <token postag="_reflexiu"/>
+                    <token regexp="yes">empeny(en|in|a|i)</token>
+                </and>
+                </marker>
+                <token regexp="yes">a|en</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">obstinar</match></suggestion>?</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">entestar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">encabotar</match></suggestion>
+            <short>Possible castellanisme</short>
+            <example type="incorrect" correction="obstinin|entestin|encabotin">Encara que s'<marker>empenyin</marker> a fer-ho així.</example>
+            <example type="correct">S'entesten a fer-ho així.</example>
+        </rule>
         <rule id="CAMI_TRILLAT" name="*trillat/fressat/gastat">
             <pattern>
                 <token inflected="yes" regexp="yes">camí|idea</token>
