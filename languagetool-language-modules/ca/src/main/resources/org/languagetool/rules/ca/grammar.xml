@@ -7088,6 +7088,12 @@ $Id$
             <example type="correct">Gràcies a què?</example>
         </rule>
         <rule id="MALGRAT_DE_QUE" name="malgrat de què">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">ni|una|menor</token>
+                    <token>idea</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token regexp="yes">idea|malgrat|risc|fet|possibilitat|condició</token>
                 <token min="0" postag="AQ..S." postag_regexp="yes"></token>
@@ -7101,7 +7107,7 @@ $Id$
             <example type="incorrect">Malgrat <marker>de què</marker></example>
             <example type="incorrect">Amb la condició addicional <marker>de què</marker> vingui.</example>
             <example type="incorrect">Amb la possibilitat concreta <marker>de què</marker> vingui.</example>
-            <example type="correct">Malgrat que</example>
+            <example type="correct">No tenia ni idea de què significava allò.</example>
         </rule>
         <rule id="D_ENCA" name="d'ençà *(de|que)">
             <pattern>
