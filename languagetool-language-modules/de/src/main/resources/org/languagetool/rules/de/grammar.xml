@@ -75,7 +75,7 @@ $Id$
     <!ENTITY seitewoerter ".*Buchs?|.*Lektüre|umblätter\w\w?|umgeblättert|umzublättern|(ge)?lesen|las(en)?|geschrieben|schreiben?">
     <!ENTITY saitewoerter "aufziehen|.*ontrabass(es)?|.*Bratsche|.*Cellos?|.*Harfen?|.*Geigen?|.*Gitarren?|.*Violas?|.*Violinen?|Klavier">
     <!ENTITY leidwoerter "Angst|Armut|Bevölkerung|Blut(vergießens?)?|Einsamkeit|Elend|Entbehrung(en)?|Entsagung|Flüchtling(en?)?|Gewalt|Krankheit(en?)?|Mitleid|Not|Ohnmacht|Qual(en?)?|Schadens?|Schrecken|Unterdrückung|Vertreibung|Verzweiflung|Zerstörung(en?)?|Zivilbevölkerung|bitteres|endloses|ertragen|geschieht|geteiltes|psychisches|unendliches|unermessliches|unerträgliches|ungeheures|unsagbares|unsägliches|unvorstellbares|vermeidbares|verursacht|zugefügt">
-    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich">
+    <!ENTITY meinkleinhausausnahmen "ausreichend|erst|ganz|genau|laut|maximal|reichlich|täglich|traditionell|ursprünglich|weltweit|wenig|zusätzlich|gewöhnlich|voraussichtlich|gleichzeitig">
     <!ENTITY anfauf "„|&quot;|»|›|‚|'">
     <!ENTITY anfzu "‘|“|‹|«|&quot;|'">
     <!ENTITY anf "&anfauf;|‘|“|‹|«">
@@ -1763,7 +1763,7 @@ $Id$
                     <token regexp="yes">in|aus|zu|zur</token>
                     <token>der</token>
                     <marker>
-                        <token regexp="yes">Zweit</token>
+                        <token>Zweit</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>Zeit</suggestion>?</message>
@@ -7537,7 +7537,7 @@ $Id$
                     <token regexp="yes">zum|beim</token>
                     <marker>
                         <token case_sensitive="yes">Korrektur</token>
-                        <token regexp="yes">lesen</token>
+                        <token>lesen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>?</message>
@@ -7550,7 +7550,7 @@ $Id$
                     <token regexp="yes">zum|beim</token>
                     <marker>
                         <token case_sensitive="yes">Auto</token>
-                        <token regexp="yes">fahren</token>
+                        <token>fahren</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7563,7 +7563,7 @@ $Id$
                     <token regexp="yes">zum|beim</token>
                     <marker>
                         <token case_sensitive="yes">Briefe</token>
-                        <token regexp="yes">schreiben</token>
+                        <token>schreiben</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7576,7 +7576,7 @@ $Id$
                     <token regexp="yes">zum|beim</token>
                     <marker>
                         <token case_sensitive="yes">Blumen</token>
-                        <token regexp="yes">gießen</token>
+                        <token>gießen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7589,7 +7589,7 @@ $Id$
                     <token regexp="yes">zum|beim</token>
                     <marker>
                         <token case_sensitive="yes">Zähne</token>
-                        <token regexp="yes">putzen</token>
+                        <token>putzen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7602,7 +7602,7 @@ $Id$
                     <token regexp="yes">zum|beim</token>
                     <marker>
                         <token case_sensitive="yes">Hände</token>
-                        <token regexp="yes">waschen</token>
+                        <token>waschen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -7614,8 +7614,8 @@ $Id$
                 <pattern>
                     <token regexp="yes">zum|beim</token>
                     <marker>
-                        <token regexp="yes">selber</token>
-                        <token regexp="yes">machen</token>
+                        <token>selber</token>
+                        <token>machen</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" case_conversion="startupper"/><match case_conversion="startlower" no="3"/></suggestion>? Sie können alternativ auch eine Genitivkonstruktion ('zum Schneiden der Haare') o.ä. verwenden.</message>
@@ -24406,7 +24406,7 @@ $Id$
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
@@ -24425,7 +24425,7 @@ $Id$
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
@@ -24613,7 +24613,7 @@ $Id$
         <rulegroup id="RAT_UND_TAT" name="Redewendung: 'mit Rad (Rat) und tat (Tat)'">
             <rule>
                 <pattern>
-                    <token regexp="yes">mit</token>
+                    <token>mit</token>
                     <marker>
                         <token regexp="yes">ra[dt]</token>
                         <token>und</token>
