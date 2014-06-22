@@ -5377,6 +5377,32 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rule id="PER_BAIX_DE" name="per *baix/sota/davall de">
+            <pattern>
+                <token>per</token>
+                <marker>
+                    <token>baix</token>
+                </marker>
+                <token inflected="yes">de</token>
+            </pattern>
+            <message>Probablement cal usar una altra preposició.</message>
+            <suggestion>sota</suggestion>
+            <suggestion>davall</suggestion>
+            <short>Preposició inadequada</short>
+            <example type="incorrect" correction="sota|davall">Per <marker>baix</marker> del nivell del mar.</example>
+            <example type="correct">Per sota del seu nivell.</example>
+        </rule>
+        <rule id="BAIX_SOTA" name="*baix/sota la direcció">
+            <pattern>
+                <token>baix</token>
+                <token postag="DA.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol</token>
+            </pattern>
+            <message>Preposició inadequada</message>
+            <suggestion>sota \2 \3</suggestion>
+            <example type="incorrect" correction="sota la direcció">Tocaren <marker>baix la direcció</marker> del mestre.</example>
+            <example type="correct">Sota la direcció del mestre.</example>
+        </rule>
         <rule id="ACOSTUMAR_A" name="acostumar *(a)">
             <pattern>
                 <token inflected='yes' skip="3">acostumar<exception scope="next" regexp="yes">a|de|d'</exception></token>
@@ -5440,7 +5466,7 @@ $Id$
                 <marker>
                     <token inflected="yes">per</token>
                     <token inflected="yes" skip="1">el</token>
-                    <token inflected="yes" regexp="yes">efecte|cost|fet</token>
+                    <token inflected="yes" regexp="yes">efecte|cost|fet|efectivitat|elegància</token>
                 </marker>
             </antipattern>
             <rule>
@@ -22403,6 +22429,7 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/id/1276</url>
             <short>Preferència</short>
             <example type="incorrect" correction="rodalia">Per la ciutat i les seves <marker>rodalies</marker>.</example>
+            <example type="incorrect" correction="rodalia">Per Girona i <marker>rodalies</marker>.</example>
             <example type="correct">El servei de rodalies de Renfe.</example>
         </rule>
         <rule id="PUES_DONCS" name="*pues/doncs">
