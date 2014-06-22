@@ -16240,6 +16240,42 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rulegroup id="ENTRE_FINS_A" name="*entre... fins a/des de... fins a/entre... i">
+            <rule>
+                <pattern>
+                    <token>entre</token>
+                    <token><exception>si</exception></token>
+                    <token>fins</token>
+                    <token>a</token>
+                    <token></token>
+                </pattern>
+                <message>Construcció probablement incoherent.</message>
+                <suggestion>des de \2 fins a \5</suggestion>
+                <suggestion>entre \2 i \5</suggestion>
+                <short>Construcció incoherent</short>
+                <example type="incorrect" correction="Des de 1900 fins a 1920|Entre 1900 i 1920"><marker>Entre 1900 fins a 1920</marker>.</example>
+                <example type="correct">Entre 1900 i 1920.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>entre</token>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <token></token>
+                        <token>fins</token>
+                        <token>a</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <token></token>
+                </pattern>
+                <message>Construcció probablement incoherent.</message>
+                <suggestion>des de \2 \3 fins a</suggestion>
+                <suggestion>entre \2 \3 i</suggestion>
+                <short>Construcció incoherent</short>
+                <example type="incorrect" correction="Des de el 1900 fins a|Entre el 1900 i"><marker>Entre el 1900 fins a</marker>l segle XXI.</example>
+                <example type="correct">Entre el 1900 i el 1920.</example>
+            </rule>
+        </rulegroup>
         <rule id="PRECISAR_DE" name="*precisar de/requerir">
             <antipattern>
                 <marker>
@@ -25450,6 +25486,19 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="SEGUT" name="segut/sigut">
+            <pattern>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token>segut</token>
+                </marker>
+            </pattern>
+            <message>Si és del verb "ser", val més dir <suggestion>sigut</suggestion>.</message>
+            <suggestion>estat</suggestion>
+            <short>Forma preferible.</short>
+            <example type="incorrect" correction="sigut|estat">Havien <marker>segut</marker> molt bons.</example>
+            <example type="correct">Havien sigut bons.</example>
+        </rule>
         <rule id="MILLORIA" name="milloria/millora">
             <pattern>
                 <marker>
