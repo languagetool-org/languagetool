@@ -248,9 +248,7 @@ public class GenericUnpairedBracketsRule extends Rule {
   public final void reset() {
     ruleMatchStack.clear();
     symbolStack.clear();
-    if (!endOfParagraph) {
-      clearMatches();
-    }
+    clearMatches();
     endOfParagraph = false;
   }
 

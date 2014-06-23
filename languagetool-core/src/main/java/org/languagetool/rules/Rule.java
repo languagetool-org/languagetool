@@ -215,6 +215,9 @@ public abstract class Rule {
     if (previousMatches != null) {
       previousMatches.clear();
     }
+    if (removedMatches != null) {
+      removedMatches.clear();
+    }
   }
 
   public final int getMatchesIndex() {
