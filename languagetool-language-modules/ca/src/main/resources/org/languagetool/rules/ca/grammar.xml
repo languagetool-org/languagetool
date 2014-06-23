@@ -2262,6 +2262,18 @@ $Id$
                 <example type="incorrect" correction="del qual|dels quals"><marker>del quals</marker>.</example>
                 <example type="correct">Dels quals parla</example>
             </rule>
+            <rule id="LA_MES_COMU" name="la més *comú/comuna">
+            <pattern>
+                <token postag="DA.F.." postag_regexp="yes"/>
+                <token>més</token>
+                <token postag="AQ.M.." postag_regexp="yes"/>
+            </pattern>
+            <message>Error de concordança</message>
+            <suggestion>\1 \2 <match no="3" postag="AQ.M(.)." postag_regexp="yes" postag_replace="AQ.F$1."/></suggestion>
+            <example type="incorrect" correction="La més comuna"><marker>La més comú</marker>.</example>
+            <example type="incorrect" correction="Les més boniques"><marker>Les més bonics</marker>.</example>
+            <example type="correct">La més comuna</example>
+        </rule>
         </rulegroup>
     </category>
     <category name="Z) Concordances entre subjecte, verb i complements">
@@ -16578,10 +16590,10 @@ $Id$
             <rule>
                 <pattern>
                     <token>entre</token>
-                    <token><exception>si</exception></token>
+                    <token regexp="yes">\d+</token>
                     <token>fins</token>
                     <token>a</token>
-                    <token></token>
+                    <token regexp="yes">\d+</token>
                 </pattern>
                 <message>Construcció probablement incoherent.</message>
                 <suggestion>des de \2 fins a \5</suggestion>
@@ -16594,13 +16606,13 @@ $Id$
                 <pattern>
                     <marker>
                         <token>entre</token>
-                        <token postag="D.*" postag_regexp="yes"/>
-                        <token></token>
+                        <token skip="1" postag="D.*" postag_regexp="yes"/>
+                        <token regexp="yes">\d+|[XICV]+</token>
                         <token>fins</token>
                         <token>a</token>
                     </marker>
                     <token postag="D.*" postag_regexp="yes"/>
-                    <token></token>
+                    <token regexp="yes">\d+|[XICV]+|segle|any</token>
                 </pattern>
                 <message>Construcció probablement incoherent.</message>
                 <suggestion>des de \2 \3 fins a</suggestion>
@@ -22248,7 +22260,7 @@ $Id$
                 <marker>
                 <token inflected="yes" skip="4">sortejar</token>
                 </marker>
-                <token regexp="yes" inflected="yes">obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig</token>
+                <token regexp="yes" inflected="yes">oposició|obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig</token>
             </pattern>
             <message>Ús incorrecte.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
