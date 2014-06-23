@@ -55,7 +55,6 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   private boolean endOfParagraph;
   private int ruleMatchIndex;
-  private List<RuleMatch> ruleMatches;
   private Map<String,Boolean> uniqueMap;
 
   public GenericUnpairedBracketsRule(final ResourceBundle messages,
@@ -70,7 +69,6 @@ public class GenericUnpairedBracketsRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Typographical);
   }
 
-  
   @Override
   public String getId() {
     return "UNPAIRED_BRACKETS";
@@ -118,7 +116,7 @@ public class GenericUnpairedBracketsRule extends Rule {
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence sentence) {
-    ruleMatches = new ArrayList<>();
+    final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     if (endOfParagraph) {
@@ -132,19 +130,8 @@ public class GenericUnpairedBracketsRule extends Rule {
 
         final String token = tokens[i].getToken();
         if (token.equals(startSymbols[j]) || token.equals(endSymbols[j])) {
-          boolean precededByWhitespace = true;
-          if (startSymbols[j].equals(endSymbols[j])) {
-            precededByWhitespace = tokens[i - 1].isSentenceStart()
-                || tokens[i].isWhitespaceBefore()
-                || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
-          }
-
-          boolean followedByWhitespace = true;
-          if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
-            followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
-                || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
-          }
-
+          boolean precededByWhitespace = getPrecededByWhitespace(tokens, i, j);
+          boolean followedByWhitespace = getFollowedByWhitespace(tokens, i, j);
           final boolean noException = isNoException(token, tokens, i, j,
                   precededByWhitespace, followedByWhitespace);
 
@@ -184,7 +171,7 @@ public class GenericUnpairedBracketsRule extends Rule {
       }
     }
     for (final SymbolLocator sLoc : symbolStack) {
-      final RuleMatch rMatch = createMatch(tokens[sLoc.index].getStartPos(), sLoc.symbol);
+      final RuleMatch rMatch = createMatch(ruleMatches, tokens[sLoc.index].getStartPos(), sLoc.symbol);
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
@@ -197,11 +184,30 @@ public class GenericUnpairedBracketsRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  private boolean getPrecededByWhitespace(AnalyzedTokenReadings[] tokens, int i, int j) {
+    boolean precededByWhitespace = true;
+    if (startSymbols[j].equals(endSymbols[j])) {
+      precededByWhitespace = tokens[i - 1].isSentenceStart()
+          || tokens[i].isWhitespaceBefore()
+          || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
+    }
+    return precededByWhitespace;
+  }
+
+  private boolean getFollowedByWhitespace(AnalyzedTokenReadings[] tokens, int i, int j) {
+    boolean followedByWhitespace = true;
+    if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
+      followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
+              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
+    }
+    return followedByWhitespace;
+  }
+
   private boolean isEndSymbolUnique(final String str) {
     return uniqueMap.get(str);
   }
   
-  private RuleMatch createMatch(final int startPos, final String symbol) {
+  private RuleMatch createMatch(List<RuleMatch> ruleMatches, final int startPos, final String symbol) {
     if (!ruleMatchStack.empty()) {
       final int index = findSymbolNum(symbol);
       if (index >= 0) {
@@ -248,13 +254,13 @@ public class GenericUnpairedBracketsRule extends Rule {
     endOfParagraph = false;
   }
 
-}
+  class RuleMatchLocator extends SymbolLocator {
+    int myIndex;
 
-class RuleMatchLocator extends SymbolLocator {
-  int myIndex;
-
-  RuleMatchLocator(final String symbol, final int index, final int myIndex) {
-    super(symbol, index);
-    this.myIndex = myIndex;
+    RuleMatchLocator(final String symbol, final int index, final int myIndex) {
+      super(symbol, index);
+      this.myIndex = myIndex;
+    }
   }
+
 }
