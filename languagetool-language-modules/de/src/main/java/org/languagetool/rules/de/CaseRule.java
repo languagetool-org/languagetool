@@ -569,7 +569,7 @@ public class CaseRule extends GermanRule {
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings)) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings)) {
       // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
       AnalyzedTokenReadings prevPrevToken = i > 1 ? tokens[i-2] : null;
@@ -577,6 +577,15 @@ public class CaseRule extends GermanRule {
              (hasPartialTag(prevPrevToken, "PRO") && hasPartialTag(prevToken, "ADJ", "ADV")); // z.B. "etwas schön Verrücktes"
     }
     return false;
+  }
+
+  private boolean isNumber(String token) {
+    try {
+      AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
+      return lookup != null && lookup.hasPosTag("ZAL");
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
