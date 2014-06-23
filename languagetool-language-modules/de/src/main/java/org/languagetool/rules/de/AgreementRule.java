@@ -172,7 +172,8 @@ public class AgreementRule extends GermanRule {
     "was",
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
-    "diejenigen"
+    "diejenigen",
+    "niemand"
   ));
   
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
