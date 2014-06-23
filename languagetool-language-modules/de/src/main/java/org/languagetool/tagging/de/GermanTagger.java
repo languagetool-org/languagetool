@@ -98,16 +98,15 @@ public class GermanTagger implements Tagger {
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens, final boolean ignoreCase) throws IOException {
     initializeIfRequired();
 
-    String[] taggerTokens;
     boolean firstWord = true;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
 
     final IStemmer morfologik = new DictionaryLookup(dictionary);
 
-    for (String word: sentenceTokens) {
+    for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
-      taggerTokens = lexiconLookup(word, morfologik);
+      String[] taggerTokens = lexiconLookup(word, morfologik);
       if (firstWord && taggerTokens == null && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
         taggerTokens = lexiconLookup(word.toLowerCase(), morfologik);
         firstWord = false;
@@ -211,17 +210,5 @@ public class GermanTagger implements Tagger {
   public AnalyzedToken createToken(String token, String posTag) {
     return new AnalyzedToken(token, posTag, null);
   }
-
-  /**
-   * Test only
-   *
-  public static void main(final String[] args) throws IOException {
-    final GermanTagger gt = new GermanTagger();
-    final List<String> l = new ArrayList<>();
-    l.add("Einfacher");
-    //System.err.println(gt.lookup("Treffen", 0));
-    final List<AnalyzedTokenReadings> res = gt.tag(l);
-    System.err.println(res);
-  }*/
 
 }
