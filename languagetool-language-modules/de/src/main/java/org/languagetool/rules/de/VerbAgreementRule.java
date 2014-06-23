@@ -203,7 +203,8 @@ public class VerbAgreementRule extends GermanRule {
     
     if (posEr > 0 && !isNear(posPossibleVer3Sin, posEr) && !isQuotationMark(tokens[posEr-1])) {
       final int plus1 = ((posEr + 1) == tokens.length) ? 0 : +1;
-      if (!verbDoesMatchPersonAndNumber(tokens[posEr-1], tokens[posEr+plus1], "3", "SIN") && !nextButOneIsModal(tokens, posEr)) {
+      if (!verbDoesMatchPersonAndNumber(tokens[posEr-1], tokens[posEr+plus1], "3", "SIN") 
+              && !nextButOneIsModal(tokens, posEr) && !"äußerst".equals(finiteVerb.getToken())) {
         ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posEr], finiteVerb, "3:SIN"));
       }
     }

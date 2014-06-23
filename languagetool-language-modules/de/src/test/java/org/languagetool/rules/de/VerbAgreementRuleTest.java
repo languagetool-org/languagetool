@@ -46,6 +46,8 @@ public class VerbAgreementRuleTest extends TestCase {
   
   public void testWrongVerb() throws IOException {
     // correct sentences:
+    assertGood("Wobei er äußerst selten darüber spricht.");
+    assertGood("Wobei er äußerst selten über seine erste Frau spricht.");
     assertGood("Das Wort „schreibst“ ist schön.");
     assertGood("Die Jagd nach bin Laden.");
     assertGood("Die Unterlagen solltet ihr gründlich durcharbeiten.");
