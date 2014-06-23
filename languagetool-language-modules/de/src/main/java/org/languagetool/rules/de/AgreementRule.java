@@ -173,6 +173,7 @@ public class AgreementRule extends GermanRule {
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
     "diejenigen",
+    "jemand",
     "niemand"
   ));
   

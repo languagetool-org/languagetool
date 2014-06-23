@@ -389,6 +389,7 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
+    substVerbenExceptions.add("haben");  // "Das haben schon viele versucht."
     substVerbenExceptions.add("passiert");  // "Das passiert..."
     substVerbenExceptions.add("beschränkt");  // "Das beschränkt sich..."
     substVerbenExceptions.add("wiederholt");
