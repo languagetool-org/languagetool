@@ -2263,15 +2263,24 @@ $Id$
                 <example type="correct">Dels quals parla</example>
             </rule>
             <rule id="LA_MES_COMU" name="la més *comú/comuna">
-            <pattern>
-                <token postag="DA.F.." postag_regexp="yes"/>
-                <token>més</token>
-                <token postag="AQ.M.." postag_regexp="yes"/>
-            </pattern>
+                <pattern>
+                    <unify negate="yes">
+                        <feature id="nombre" />
+                        <feature id="genere" />
+                            <token postag="DA.*" postag_regexp="yes"/>
+                            <unify-ignore>
+                                <token>més</token>
+                            </unify-ignore>
+                            <token postag="AQ.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
             <message>Error de concordança</message>
-            <suggestion>\1 \2 <match no="3" postag="AQ.M(.)." postag_regexp="yes" postag_replace="AQ.F$1."/></suggestion>
-            <example type="incorrect" correction="La més comuna"><marker>La més comú</marker>.</example>
-            <example type="incorrect" correction="Les més boniques"><marker>Les més bonics</marker>.</example>
+            <suggestion>la més <match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[FC]S."/></suggestion>
+            <suggestion>el més <match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[MC]S."/></suggestion>
+            <suggestion>les més <match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[FC]P."/></suggestion>
+            <suggestion>els més <match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[MC]P."/></suggestion>
+            <example type="incorrect" correction="La més comuna|El més comú|Les més comunes|Els més comuns"><marker>La més comú</marker>.</example>
+            <example type="incorrect" correction="La més comuna|El més comú|Les més comunes|Els més comuns"><marker>Els més comú</marker>.</example>
             <example type="correct">La més comuna</example>
         </rule>
         </rulegroup>
