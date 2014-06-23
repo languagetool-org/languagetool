@@ -563,12 +563,20 @@ public class CaseRule extends GermanRule {
   }
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
-    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // TODO: "vor Schlimmerem", "Er hatte Schlimmes zu befürchten"
-    // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
-    return prevToken != null && prevToken.hasPartialPosTag("PRO") && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+    // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
+    // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
+    // eine Abfrage machen, ob der erste Buchstabe groß ist.
+    if (StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings)) {
+      // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
+      AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+      AnalyzedTokenReadings prevPrevToken = i > 1 ? tokens[i-2] : null;
+      return hasPartialTag(prevToken, "PRO") ||  // z.B. "etwas Verrücktes"
+             (hasPartialTag(prevPrevToken, "PRO") && hasPartialTag(prevToken, "ADJ", "ADV")); // z.B. "etwas schön Verrücktes"
+    }
+    return false;
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
@@ -577,8 +585,19 @@ public class CaseRule extends GermanRule {
     String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // ignore "das wirklich Wichtige":
-    return "das".equalsIgnoreCase(prevPrevToken) && prevToken != null && prevToken.hasPartialPosTag("ADV:")
+    return "das".equalsIgnoreCase(prevPrevToken) && hasPartialTag(prevToken, "ADV")
             && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean hasPartialTag(AnalyzedTokenReadings token, String... posTags) {
+    if (token != null) {
+      for (String posTag : posTags) {
+        if (token.hasPartialPosTag(posTag)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {
