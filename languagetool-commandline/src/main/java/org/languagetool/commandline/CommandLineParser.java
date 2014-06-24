@@ -157,7 +157,7 @@ public class CommandLineParser {
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
             + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT\n"
-            + "  --languagemodel          a morfologik n-gram frequency file, activates the confusion rule\n"
+            + "  --languagemodel FILE     a morfologik n-gram frequency file, activates the confusion rule\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)");
   }
 

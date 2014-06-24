@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.MorfologikLanguageModel;
 
 import java.io.*;
 import java.util.*;
@@ -44,7 +45,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
     wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
-    languageModel = new LanguageModel(languageModelFile);
+    languageModel = new MorfologikLanguageModel(languageModelFile);
   }
 
   /** @deprecated used only for tests */

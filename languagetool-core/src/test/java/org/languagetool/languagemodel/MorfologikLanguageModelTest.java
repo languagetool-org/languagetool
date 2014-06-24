@@ -30,11 +30,11 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class LanguageModelTest {
+public class MorfologikLanguageModelTest {
 
   @Test
   public void testGetCount() throws Exception {
-    LanguageModel model = new LanguageModel(new File("src/test/resources/org/languagetool/languagemodel/frequency.dict"));
+    LanguageModel model = new MorfologikLanguageModel(new File("src/test/resources/org/languagetool/languagemodel/frequency.dict"));
     assertThat(model.getCount("one", "two"), is(10L));
     assertThat(model.getCount("two", "three"), is(20L));
     assertThat(model.getCount("a", "café"), is(1000L));
@@ -44,7 +44,7 @@ public class LanguageModelTest {
   @Test
   @Ignore("for interactive use only")
   public void testPerformance() throws Exception {
-    LanguageModel model = new LanguageModel(new File("/lt/en-homophones.dict"));
+    LanguageModel model = new MorfologikLanguageModel(new File("/lt/en-homophones.dict"));
     try (FileInputStream fis = new FileInputStream("/lt/performance-test/en.txt")) {
       String content = StringTools.readStream(fis, "UTF-8");
       WordTokenizer wordTokenizer = new WordTokenizer();

@@ -18,52 +18,11 @@
  */
 package org.languagetool.languagemodel;
 
-import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 /**
- * Information about ngram occurrences, taken from a Morfologik file.
+ * Information about ngram occurrences.
  */
-public class LanguageModel {
+public interface LanguageModel {
 
-  private final File file;
-  
-  private volatile Dictionary dictionary;
-  
-  public LanguageModel(File file) {
-    this.file = file;
-  }
+  public long getCount(String token1, String token2);
 
-  protected Dictionary getDictionary() {
-    Dictionary dict = dictionary;
-    if (dict == null) {
-      synchronized (this) {
-        dict = dictionary;
-        if (dict == null) {
-          try {
-            dictionary = dict = Dictionary.read(file);
-          } catch (IOException e) {
-            throw new RuntimeException("Could not load frequency dict file: " + file, e);
-          }
-        }
-      }
-    }
-    return dict;
-  }
-
-  public long getCount(String token1, String token2) {
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
-    List<WordData> data = dictLookup.lookup(token1 + " " + token2);
-    long count = 0;
-    for (WordData wordData : data) {
-      count += Long.parseLong(wordData.getStem().toString());   //we use the 'stem' field for the frequency value...
-    }
-    return count;
-  }
 }
