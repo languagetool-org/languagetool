@@ -22,7 +22,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.MorfologikLanguageModel;
 
 import java.io.*;
 import java.util.*;
@@ -40,12 +39,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
 
-  public ConfusionProbabilityRule(ResourceBundle messages, File languageModelFile) throws IOException {
+  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
     wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
-    languageModel = new MorfologikLanguageModel(languageModelFile);
+    this.languageModel = languageModel;
   }
 
   /** @deprecated used only for tests */
@@ -102,6 +101,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
         continue;
       }
       double alternativeScore = score(alternative, next, next2, prev, prev2);
+      //System.out.println(alternative + " ===> " + alternativeScore);
       if (alternativeScore > bestScore) {
         betterAlternative = alternative;
         bestScore = alternativeScore;
@@ -144,7 +144,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account
     
     //return ngram1 + ngram2;
-    return ngram1 * ngram2;
+    return Math.max(1, ngram1) * Math.max(1, ngram2);
   }
 
   @Override

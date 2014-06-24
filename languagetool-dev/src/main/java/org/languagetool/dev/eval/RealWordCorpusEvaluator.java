@@ -21,6 +21,9 @@ package org.languagetool.dev.eval;
 import org.apache.tika.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.BritishEnglish;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.languagemodel.MorfologikLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
@@ -37,13 +40,22 @@ import java.util.StringTokenizer;
  * Runs LanguageTool on Jenny Pedler's Real-word Error Corpus, available at
  * http://www.dcs.bbk.ac.uk/~jenny/resources.html.
  * 
- * Results as of 2014-05-10:
+ * Results as of 2014-05-10 (pure LT without corpus data):
  * <pre>
  * 673 lines checked with 834 errors.
  * 144 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
  * => 17,75% recall
  * 103 errors found where the first suggestion was the correct one
  * => 12,35% recall
+ * </pre>
+ * 
+ * Results as of 2014-06-24 (LT with 2grams from Google ngram index, in form of a Lucene index):
+ * <pre>
+ * 673 lines checked with 834 errors.
+ * 269 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
+ * => 32,25% recall
+ * 216 errors found where the first suggestion was the correct one
+ * => 25,90% recall
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
@@ -62,11 +74,21 @@ class RealWordCorpusEvaluator {
   private int perfectMatches;
   private int goodMatches;
 
-  RealWordCorpusEvaluator(File languageModel) throws IOException {
+  RealWordCorpusEvaluator(File languageModelFileOrDir) throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
-    if (languageModel != null) {
-      langTool.addRule(new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel));
+    if (languageModelFileOrDir != null) {
+      LanguageModel languageModel;
+      if (languageModelFileOrDir.isDirectory()) {
+        System.out.println("Using Lucene language model from " + languageModelFileOrDir);
+        languageModel = new LuceneLanguageModel(languageModelFileOrDir);
+      } else {
+        System.out.println("Using Morfologik language model from " + languageModelFileOrDir);
+        languageModel = new MorfologikLanguageModel(languageModelFileOrDir);
+      }
+      EnglishConfusionProbabilityRule probabilityRule = 
+              new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
+      langTool.addRule(probabilityRule);
     }
   }
 
@@ -203,7 +225,7 @@ class RealWordCorpusEvaluator {
   public static void main(String[] args) throws IOException {
     if (args.length != 1 && args.length != 2) {
       System.out.println("Usage: " + RealWordCorpusEvaluator.class.getSimpleName() + " <corpusDirectory> [languageModel]");
-      System.out.println("   [languageModel] is a morfologik file with ngram frequency information (optional)");
+      System.out.println("   [languageModel] is a morfologik file or Lucene index directory with ngram frequency information (optional)");
       System.exit(1);
     }
     if (args.length == 1) {

@@ -18,10 +18,12 @@
  */
 package org.languagetool.rules.en;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
+import org.languagetool.languagemodel.MorfologikLanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.RuleMatch;
 
@@ -34,11 +36,13 @@ import static org.junit.Assert.assertThat;
 
 public class EnglishConfusionProbabilityRuleTest {
 
+  @Ignore("Interactive use only")
   @Test
   public void testRule() throws IOException, ClassNotFoundException {
     JLanguageTool langTool = new JLanguageTool(new English());
     File languageModelFile = new File("src/test/resources/org/languagetool/languagemodel/frequency.dict");
-    ConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(TestTools.getEnglishMessages(), languageModelFile);
+    MorfologikLanguageModel languageModel = new MorfologikLanguageModel(languageModelFile);
+    ConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(TestTools.getEnglishMessages(), languageModel);
     langTool.addRule(rule);
     List<RuleMatch> matches = langTool.check("A portray of me");
     assertThat(matches.size(), is(1));

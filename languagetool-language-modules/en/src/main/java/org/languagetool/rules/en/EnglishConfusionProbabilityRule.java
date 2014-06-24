@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-  public EnglishConfusionProbabilityRule(ResourceBundle messages, File modelFile) throws IOException {
-    super(messages, modelFile);
+  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    super(messages, languageModel);
   }
 
   @Override

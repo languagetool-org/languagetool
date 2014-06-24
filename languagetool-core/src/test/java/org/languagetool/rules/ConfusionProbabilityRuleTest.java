@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.MorfologikLanguageModel;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +36,8 @@ public class ConfusionProbabilityRuleTest {
   @Test
   public void testRule() throws IOException, ClassNotFoundException {
     File languageModelFile = new File("src/test/resources/org/languagetool/languagemodel/frequency.dict");
-    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(TestTools.getEnglishMessages(), languageModelFile) {
+    LanguageModel languageModel = new MorfologikLanguageModel(languageModelFile);
+    ConfusionProbabilityRule rule = new ConfusionProbabilityRule(TestTools.getEnglishMessages(), languageModel) {
       @Override public String getDescription() { return null; }
     };
     ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet("a", "an");
