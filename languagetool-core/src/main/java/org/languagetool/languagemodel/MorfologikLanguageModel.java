@@ -40,7 +40,22 @@ public class MorfologikLanguageModel implements LanguageModel {
     this.file = file;
   }
 
-  protected Dictionary getDictionary() {
+  @Override
+  public long getCount(String token1, String token2) {
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
+    List<WordData> data = dictLookup.lookup(token1 + " " + token2);
+    long count = 0;
+    for (WordData wordData : data) {
+      count += Long.parseLong(wordData.getStem().toString());   //we use the 'stem' field for the frequency value...
+    }
+    return count;
+  }
+
+  @Override
+  public void close() {
+  }
+
+  private Dictionary getDictionary() {
     Dictionary dict = dictionary;
     if (dict == null) {
       synchronized (this) {
@@ -55,16 +70,5 @@ public class MorfologikLanguageModel implements LanguageModel {
       }
     }
     return dict;
-  }
-
-  @Override
-  public long getCount(String token1, String token2) {
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
-    List<WordData> data = dictLookup.lookup(token1 + " " + token2);
-    long count = 0;
-    for (WordData wordData : data) {
-      count += Long.parseLong(wordData.getStem().toString());   //we use the 'stem' field for the frequency value...
-    }
-    return count;
   }
 }

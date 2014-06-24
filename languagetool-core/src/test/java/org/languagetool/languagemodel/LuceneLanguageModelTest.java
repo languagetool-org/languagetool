@@ -23,24 +23,18 @@ import org.junit.Test;
 
 import java.io.File;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+public class LuceneLanguageModelTest extends LanguageModelTest {
 
-public class MorfologikLanguageModelTest extends LanguageModelTest {
-
-  @Test
-  public void testGetCount() throws Exception {
-    LanguageModel model = new MorfologikLanguageModel(new File("src/test/resources/org/languagetool/languagemodel/frequency.dict"));
-    assertThat(model.getCount("one", "two"), is(10L));
-    assertThat(model.getCount("two", "three"), is(20L));
-    assertThat(model.getCount("a", "café"), is(1000L));
-    assertThat(model.getCount("an", "café"), is(2L));
-  }
-  
+  /**
+   * Some values for average time per lookup on 2grams on a 3.7GB Lucene 4.8.1 index with 118,941,740 docs:
+   * -no data in OS cache, index on external USB disk: 17626µs = 17ms
+   * -no data in OS cache, index on SSD: 739µs = 0ms
+   * -all data in OS cache (by running the test more than once): average 163µs = 0ms
+   */
   @Test
   @Ignore("for interactive use only")
   public void testPerformance() throws Exception {
-    LanguageModel model = new MorfologikLanguageModel(new File("/lt/en-homophones.dict"));
+    LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/2gram/lucene-index/merged/"));
     super.testPerformance(model);
   }
   

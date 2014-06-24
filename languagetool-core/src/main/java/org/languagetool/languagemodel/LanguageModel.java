@@ -24,5 +24,7 @@ package org.languagetool.languagemodel;
 public interface LanguageModel {
 
   public long getCount(String token1, String token2);
+  
+  public void close();
 
 }
