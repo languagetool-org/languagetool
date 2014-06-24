@@ -24,10 +24,11 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
 
 import java.io.*;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
- * WORK IN PROGRESS. LanguageTool's version of After the Deadline's homophone confusion check.
+ * LanguageTool's version of After the Deadline's homophone confusion check.
  */
 public abstract class ConfusionProbabilityRule extends Rule {
 
@@ -38,6 +39,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
   
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
+  
+  private boolean debug;
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     super(messages);
@@ -94,18 +97,32 @@ public abstract class ConfusionProbabilityRule extends Rule {
     double textScore = score(token.getToken(), next, next2, prev, prev2);
     double bestScore = textScore;
     String betterAlternative = null;
-    //System.out.println("CF " + confusionSet.set + ", textScore:" + textScore);
+    NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
+    format.setMinimumIntegerDigits(16);
+    format.setMinimumFractionDigits(0);
+    format.setGroupingUsed(false);
+    if (debug) {
+      System.out.println();
+    }
     for (String alternative : confusionSet.set) {
       if (alternative.equalsIgnoreCase(token.getToken())) {
         // this is the text variant, calculated above already...
+        if (debug) {
+          System.out.println("  " + format.format(textScore) + ": " + alternative + " [input]");
+        }
         continue;
       }
       double alternativeScore = score(alternative, next, next2, prev, prev2);
-      //System.out.println(alternative + " ===> " + alternativeScore);
+      if (debug) {
+        System.out.println("  " + format.format(alternativeScore) + ": " + alternative);
+      }
       if (alternativeScore > bestScore) {
         betterAlternative = alternative;
         bestScore = alternativeScore;
       }
+    }
+    if (debug) {
+      System.out.println("  Result => " + betterAlternative);
     }
     return betterAlternative;
   }
@@ -149,6 +166,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   @Override
   public void reset() {
+  }
+
+  protected void setDebug(boolean debug) {
+    this.debug = debug;
   }
 
   public static class ConfusionSet {

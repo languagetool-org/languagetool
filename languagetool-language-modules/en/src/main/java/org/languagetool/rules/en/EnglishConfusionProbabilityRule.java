@@ -18,9 +18,14 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -33,6 +38,27 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   @Override
   public String getDescription() {
     return "Statistically detect wrong use of words that are easily confused";
+  }
+  
+  private void setDebug() {
+    super.setDebug(true);
+  }
+
+  /**
+   * For internal testing only.
+   */
+  public static void main(String[] args) throws IOException {
+    if (args.length != 1) {
+      System.out.println("Usage: " + EnglishConfusionProbabilityRule.class.getSimpleName() + " <sentence>");
+      System.exit(1);
+    }
+    LanguageModel languageModel = new LuceneLanguageModel(new File("/data/google-2gram-index/"));
+    EnglishConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
+    rule.setDebug();
+    JLanguageTool languageTool = new JLanguageTool(new English());
+    AnalyzedSentence sentence = languageTool.getAnalyzedSentence(args[0]);
+    System.out.println("Input: " + args[0]);
+    rule.match(sentence);  // we only want to see the debugging output
   }
 
 }
