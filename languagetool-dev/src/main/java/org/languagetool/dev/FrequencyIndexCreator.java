@@ -20,10 +20,7 @@ package org.languagetool.dev;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-import org.apache.lucene.document.LongField;
-import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.*;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
@@ -73,6 +70,8 @@ public class FrequencyIndexCreator {
       System.out.println("Index dir: " + indexDir);
       Directory directory = FSDirectory.open(indexDir);
       IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+      config.setUseCompoundFile(false);  // ~10% speedup
+      //config.setRAMBufferSizeMB(1000);
       try (IndexWriter writer = new IndexWriter(directory, config)) {
         indexLinesFromGoogleFile(writer, file);
       }
@@ -123,15 +122,18 @@ public class FrequencyIndexCreator {
     long microsNow = System.nanoTime()/1000;
     float millisPerDoc = (microsNow-startTimeMicros)/i;
     NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
-    System.out.printf("doc:%s line:%s ngram:%s occ:%s (%.2fµs/doc)\n",
+    System.out.printf("doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n",
             format.format(i), format.format(lineCount),
             prevText, format.format(docCount), millisPerDoc);
   }
 
   private void addDoc(IndexWriter writer, String text, String count) throws IOException {
     Document doc = new Document();
-    doc.add(new Field("ngram", text, StringField.TYPE_STORED));
-    doc.add(new LongField("count", Long.parseLong(count), Field.Store.YES));
+    doc.add(new Field("ngram", text, StringField.TYPE_NOT_STORED));
+    FieldType fieldType = new FieldType();
+    fieldType.setStored(true);
+    Field countField = new Field("count", count, fieldType);
+    doc.add(countField);
     writer.addDocument(doc);
   }
 
