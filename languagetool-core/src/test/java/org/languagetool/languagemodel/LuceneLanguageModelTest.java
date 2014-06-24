@@ -28,8 +28,8 @@ public class LuceneLanguageModelTest extends LanguageModelTest {
   /**
    * Some values for average time per lookup on 2grams on a 3.7GB Lucene 4.8.1 index with 118,941,740 docs:
    * -no data in OS cache, index on external USB disk: 17626µs = 17ms
-   * -no data in OS cache, index on SSD: 739µs = 0ms
-   * -all data in OS cache (by running the test more than once): average 163µs = 0ms
+   * -no data in OS cache, index on SSD: 739µs = <0ms
+   * -all data in OS cache (by running the test more than once): 163µs = <0ms
    */
   @Test
   @Ignore("for interactive use only")
