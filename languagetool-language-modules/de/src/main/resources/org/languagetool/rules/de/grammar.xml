@@ -21959,7 +21959,7 @@ $Id$
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">etwas|nichts</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:NEU:GRU:IND" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                        <token postag="ADJ:NOM:SIN:NEU:(GRU|KOM):IND" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
                     <token><exception postag="SUB:NOM:SIN:NEU"/></token>
                 </pattern>
@@ -21972,6 +21972,7 @@ $Id$
                 <example type="correct">Beiträge, die etwas <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
                 <example type="incorrect" correction="Wichtiges">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
                 <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
+                <example type="incorrect" correction="Besseres">Ich habe etwas <marker>besseres</marker> zu tun.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
