@@ -37,6 +37,10 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * Index *.gz files from Google's ngram corpus into a Lucene index.
+ * 
+ * Some numbers for index times (1 doc = 1 ngram and its count):
+ * - 325µs/doc on an external USB hard disk
+ * - 310µs/doc on an SSD
  */
 public class FrequencyIndexCreator {
 
@@ -86,6 +90,7 @@ public class FrequencyIndexCreator {
     long docCount = 0;
     long lineCount = 0;
     String prevText = null;
+    long startTime = System.nanoTime()/1000;
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       lineCount++;
@@ -104,18 +109,23 @@ public class FrequencyIndexCreator {
       } else {
         //System.out.println(">"+ prevText + ": " + count);
         addDoc(writer, prevText, docCount + "");
-        if (i % 1_000 == 0) {
-          System.out.printf("doc:%s line:%s ngram:%s occ:%s\n",
-                  NumberFormat.getNumberInstance(Locale.US).format(i),
-                  NumberFormat.getNumberInstance(Locale.US).format(lineCount),
-                  prevText,
-                  NumberFormat.getNumberInstance(Locale.US).format(docCount));
+        if (++i % 1_000 == 0) {
+          printStats(i, docCount, lineCount, prevText, startTime);
         }
         docCount = Long.parseLong(parts[2]);
-        i++;
       }
       prevText = text;
     }
+    printStats(i, docCount, lineCount, prevText, startTime);
+  }
+
+  private void printStats(int i, long docCount, long lineCount, String prevText, long startTimeMicros) {
+    long microsNow = System.nanoTime()/1000;
+    float millisPerDoc = (microsNow-startTimeMicros)/i;
+    NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
+    System.out.printf("doc:%s line:%s ngram:%s occ:%s (%.2fµs/doc)\n",
+            format.format(i), format.format(lineCount),
+            prevText, format.format(docCount), millisPerDoc);
   }
 
   private void addDoc(IndexWriter writer, String text, String count) throws IOException {
