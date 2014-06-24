@@ -90,7 +90,12 @@ class RealWordFalseAlarmEvaluator {
   }
 
   private void checkLines(List<String> lines, String name) throws IOException {
-    confusionRule.setConfusionSet(confusionSet.get(name));
+    ConfusionProbabilityRule.ConfusionSet subConfusionSet = confusionSet.get(name);
+    if (subConfusionSet == null) {
+      throw new RuntimeException("No confusion set found for '" + name 
+              + "' - please make sure file names in sentence directory are like 'their.txt' and 'there.txt'");
+    }
+    confusionRule.setConfusionSet(subConfusionSet);
     int sentenceCount = 0;
     int ruleMatches = 0;
     for (String line : lines) {
@@ -120,10 +125,15 @@ class RealWordFalseAlarmEvaluator {
     if (args.length != 2) {
       System.out.println("Usage: " + RealWordFalseAlarmEvaluator.class.getSimpleName() + " <languageModel> <sentenceDirectory>");
       System.out.println("   <languageModel> is a morfologik file or Lucene directory with ngram frequency information");
+      System.out.println("   <sentenceDirectory> is a directory with filenames like 'xx.txt' where 'xx' is the homophone");
       System.exit(1);
     }
     RealWordFalseAlarmEvaluator evaluator = new RealWordFalseAlarmEvaluator(new File(args[0]));
-    evaluator.run(new File(args[1]));
+    File dir = new File(args[1]);
+    if (!dir.isDirectory()) {
+      throw new RuntimeException("Not a directory: " + dir);
+    }
+    evaluator.run(dir);
   }
 
 }
