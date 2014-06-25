@@ -4377,13 +4377,13 @@ $Id$
         </rulegroup>
         <rulegroup id="UHRZEIT_URZEIT" name="Mögliche Wortverwechslung: Uhrzeit/Urzeit">
             <rule>
-                <pattern case_sensitive="yes">
+                <pattern>
                     <token regexp="yes">vor|seit</token>
                     <marker>
-                        <token>Uhrzeiten</token>
+                        <token case_sensitive="yes">Uhrzeiten</token>
                     </marker>
                 </pattern>
-                <message>&verw;Meinten Sie <suggestion>Urzeiten</suggestion>?</message>
+                <message>&verw;Meinten Sie <suggestion>Urzeiten</suggestion> (vor sehr langer Zeit)?</message>
                 <short>Mögliche Wortverwechslung</short>
                 <example type="incorrect" correction="Urzeiten">Schon vor <marker>Uhrzeiten</marker> habe ich diesen Rechner gekauft.</example>
                 <example type="correct">Das ist schon seit <marker>Urzeiten</marker> so.</example>
