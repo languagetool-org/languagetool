@@ -6462,28 +6462,14 @@ $Id$
             <example type="correct">donar una ullada per sobre als diaris</example>
         </rule>
         <rulegroup id="CAP_ELS_CAP_ALS" name="*cap el/cap al">
-        <!-- Tingué com a cap el rei d'Espanya.
-         El seu cap el va enviar.
-          Lung s'encaminà cap el forat.
-           i 2 el PSOE, i cap el PP.
-            Un tret al cap el 14 d'abril,
-             va marcar de cap el 4-0.
-              Amb el seu cap el Tinent Newhouse, 
-              les serps del seu cap el va mossegar.
-              el va fer de cap el 10 de juny.
-              El cap el 2006 era.
-              la resta pel seu cap el peshwa maratha. 
-               a la seva Província del Cap el 1971.
-               en el nostre cap els dos fets
-               En el cos i el cap els mascles aconsegueixen 
-               de cara al 2005-->
-        
+        <!-- 
+           i 2 el PSOE, i cap el PP.-->
         	<rule>
 	            <pattern>
 	                <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
-	                    <token regexp="yes">els?</token>
+	                    <token regexp="yes">els?<exception postag="_GV_"/></token>
 	                </marker>
 	            </pattern>
 	            <message>¿Volíeu dir <suggestion>cap <match no="3" regexp_match="e(ls?)" regexp_replace="a$1"/></suggestion>?</message>
@@ -6503,6 +6489,7 @@ $Id$
                 <example type="correct">Va marcar de cap el 2-0</example>
                 <example type="correct">van prendre per cap un burgès molt popular</example>
                 <example type="correct">Porta de cap els seus servents</example>
+                <example type="correct">El seu cap el va enviar allà.</example>
 	        </rule>
             <!--  
             2 el [[PSOE]], i cap el [[PP]]
@@ -6513,7 +6500,7 @@ $Id$
 	                <token><exception regexp="yes">a|hi|els|en|amb|de|per</exception><exception postag="V.*" postag_regexp="yes" inflected="yes">fer</exception><exception postag=".*LOC_PREP.*" postag_regexp="yes"/></token>
 	                <marker>
 	                    <token>cap<exception postag="_GN_.*" postag_regexp="yes"/></token>
-	                    <token regexp="yes">la|les</token>
+	                    <token regexp="yes">la|les<exception postag="_GV_"/></token>
 	                </marker>
 	            </pattern>
 	            <message>¿Volíeu dir <suggestion>cap a <match no="3"/></suggestion>?</message>
@@ -6536,6 +6523,13 @@ $Id$
 	            <!-- <example type="correct">Ací cap un bou?</example> -->
 	        </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">marcar|gol|fer</token>
+                        <token>de</token>
+                        <token>cap</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>de</token>
                     <marker>
@@ -6551,6 +6545,7 @@ $Id$
                 <example type="incorrect" correction="cap al">Era de <marker>cap el</marker> XVIII</example>
                 <example type="correct">la confiança cap als partits</example>
                 <example type="correct">la Colònia del Cap el 1788</example>
+                <example type="correct">Va marcar de cap el 4-0</example>
             </rule>
 	    </rulegroup>    
         <rulegroup id="DACI_A" name="d'ací a">
@@ -12702,6 +12697,12 @@ $Id$
                 <example type="correct">La primera néta.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token inflected="yes">castell</token>
+                    <token inflected="yes">de</token>
+                    <token postag="DN.*" postag_regexp="yes" />
+                    <token inflected="yes">net</token>
+                </antipattern>
                 <pattern>
                     <unify>
                     <feature id="nombre"/>
@@ -12747,13 +12748,16 @@ $Id$
                             <token inflected="yes">net</token>
                         </marker>
                     </unify>
+                    <token inflected="yes" regexp="yes">de|seu|meu|teu|nostre|vostre|llur</token>
                 </pattern>
                 <message>S'accentua quan és nom.</message>
-                <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
+                <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
                 <example type="incorrect" correction="nét">Un <marker>net</marker> meu.</example>
                 <example type="incorrect" correction="nétes">Algunes <marker>netes</marker> seves.</example>
                 <example type="correct">Un de net.</example>
+                <example type="correct">Un net contrast amb l'altre.</example>
+                <example type="correct">Una neta diferència amb allò.</example>
             </rule>
             <rule>
                 <pattern>
@@ -16616,7 +16620,7 @@ $Id$
                     <marker>
                         <token>entre</token>
                         <token skip="1" postag="D.*" postag_regexp="yes"/>
-                        <token regexp="yes">\d+|[XICV]+</token>
+                        <token regexp="yes">\d+|[XICV]+|m|cm|km|metres|centímetres|quilòmetres|hores</token>
                         <token>fins</token>
                         <token>a</token>
                     </marker>
