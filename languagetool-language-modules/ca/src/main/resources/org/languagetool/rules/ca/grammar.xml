@@ -9970,6 +9970,18 @@ $Id$
         </rule>
         </rulegroup>    
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">.*\d|/|cada|per</token>
+                    <token>mol</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">.*\d|/</token>
+                    <token>mols</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -16839,21 +16851,48 @@ $Id$
                 <example type='correct'>A mitjan de la dècada</example>
             </rule>
             <rule>
-            <pattern>
-                <marker>
-                    <token>a</token>
-                    <token>mitjan</token>
-                    <token regexp='yes'>de|d'</token>
-                </marker>
-                <token postag='D.*' postag_regexp='yes'/>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>mitjan</token>
+                        <token regexp='yes'>de|d'</token>
+                    </marker>
+                    <token postag='D.*' postag_regexp='yes'/>
+                    </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>a mitjans \3</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
+                <short>Expressió incorrecta</short>
+                <example type='incorrect' correction="A mitjans de"><marker>A mitjan de</marker> la dècada</example>
+                <example type='correct'>A mitjan segle V</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MITJAN" name="mitjan/a mitjan">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">a|de|\(</exception></token>
+                    <marker>
+                        <token>mitjan</token>
+                    </marker>
                 </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>a mitjans \3</suggestion>
-            <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
-            <short>Expressió incorrecta</short>
-            <example type='incorrect' correction="A mitjans de"><marker>A mitjan de</marker> la dècada</example>
-            <example type='correct'>A mitjan segle V</example>
-        </rule>
+                <message>Construcció incompleta</message>
+                <suggestion>a mitjan</suggestion>
+                <suggestion>de mitjan</suggestion>
+                <example type="incorrect" correction="a mitjan|de mitjan">És <marker>mitjan</marker> segle.</example>
+                <example type="correct">A mitjan segle.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>fins</token>
+                        <token>mitjans</token>
+                    </marker>
+                </pattern>
+                <message>Construcció incompleta</message>
+                <suggestion>fins a mitjans</suggestion>
+                <example type="incorrect" correction="Fins a mitjans"><marker>Fins mitjans</marker> del segle.</example>
+                <example type="correct">Fins a mitjans del segle.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="DONARSE_A_LA_FUGA" name="donar-se a la fuga">
             <rule>
