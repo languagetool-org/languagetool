@@ -22324,7 +22324,7 @@ $Id$
             <example type="incorrect" correction="Esquivaren|Eludiren|Evitaren|Superaren"><marker>Sortejaren</marker> tots els obstacles.</example>
             <example type="correct">Esquivaren els problemes</example>
         </rule>
-        <rule id="REVELAR_REBELLAR" name="revelar/rebel·lar">
+        <rule id="REVELAR_REBELLAR" name="*revelar/rebel·lar">
             <pattern>
                 <marker>
                     <token inflected='yes'>revelar</token>
@@ -22339,6 +22339,21 @@ $Id$
             <example type='incorrect' correction="rebel·lar">Vam <marker>revelar</marker>-nos contra el rei.</example>
             <example type='incorrect' correction="rebel·là">Es <marker>revelà</marker> contra el rei</example>
             <example type='correct'>Es va rebel·lar contra el rei</example>
+        </rule>
+        <rule id="REBELLAR_REVELAR" name="*rebel·lar/revelar">
+            <pattern>
+                <marker>
+                    <token inflected='yes'>rebel·lar</token>
+                </marker>
+                <token min="0" max="1" postag="P.*|RG" postag_regexp="yes"></token>
+                <token>que</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion> (=fer conèixer, mostrar)?</message>
+            <short>Possible confusió</short>
+            <example type='incorrect' correction="revelar">Es va <marker>rebel·lar</marker> que era mentida.</example>
+            <example type='incorrect' correction="revelar">Va <marker>rebel·lar</marker>-se que era mentida.</example>
+            <example type='incorrect' correction="revelà">Es <marker>rebel·là</marker> que era mentida</example>
+            <example type='correct'>Es va revelar que era mentida.</example>
         </rule>
         <rule id="DERRAMAR" name="derramar / vessar,escampar">
             <pattern>
