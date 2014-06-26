@@ -11044,6 +11044,18 @@ $Id$
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rule id="ZUM_EINEN" name="zum Einen (einen)">
+            <!-- Wird von DE_CASE wg. Ausnahme nicht erkannt -->
+            <pattern>
+                <token>zum</token>
+                <marker>
+                    <token case_sensitive='yes'>Einen</token>
+                </marker>
+            </pattern>
+            <message>Auch in der Wendung 'zum einen..., zum anderen' wird <suggestion><match case_conversion="startlower" no="2"/></suggestion> kleingeschrieben.</message>
+            <example type='incorrect' correction="einen">Zum <marker>Einen</marker> ja, zum anderen nein.</example>
+            <example type='correct'>Zum <marker>einen</marker> ja, zum anderen nein.</example>
+        </rule>
         <rule id="DES_OEFTEREN" name="des öfteren (Öfteren)">
             <pattern case_sensitive="yes">
                 <token>des</token>
