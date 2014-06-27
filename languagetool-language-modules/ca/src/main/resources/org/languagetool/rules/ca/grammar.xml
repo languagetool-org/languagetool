@@ -1863,12 +1863,14 @@ $Id$
             <rule id="BAIX_RELLEUS" name="*baix relleus/baixos relleus">
                 <pattern>
                     <token regexp="yes">baix|mig|alt</token>
+                    <token min="0">-</token>
                     <token>relleus</token>
                 </pattern>
                 <message>Error de concordança</message>
                 <suggestion><match no="1" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.MP."/> relleus</suggestion>
                 <example type="incorrect" correction="baixos relleus">Els <marker>baix relleus</marker>.</example>
-                <example type="incorrect" correction="mitjos relleus|migs relleus">Els <marker>mig relleus</marker>.</example>
+                <example type="incorrect" correction="migs relleus|mitjos relleus">Els <marker>mig relleus</marker>.</example>
+                <example type="incorrect" correction="migs relleus|mitjos relleus">Els <marker>mig-relleus</marker>.</example>
                 <example type="correct">Els baixos relleus</example>
             </rule>
             <rule id="TERMES_FIXES" name="termes fixes/fixos">
