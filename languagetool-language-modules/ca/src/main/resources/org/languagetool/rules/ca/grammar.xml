@@ -16626,6 +16626,20 @@ $Id$
 
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="TREURE_LA_SON" name="*treure la son/fer perdre la son">
+            <pattern>
+                <token inflected="yes">treure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token regexp="yes">la|el</token>
+                <token regexp="yes">son|vida</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> perdre la \3</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">llevar</match> la \3</suggestion>
+            <example type="incorrect" correction="fa perdre la son|lleva la son">Això no em <marker>trau el son</marker>.</example>
+            <example type="incorrect" correction="fer perdre la son|llevar la son">Això no li va <marker>traure la son</marker>.</example>
+            <example type="correct">No em lleva la son.</example>
+            <example type="correct">Va explicar a grans trets la vida de Tesla.</example>
+        </rule>
         <rulegroup id="ENTRE_FINS_A" name="*entre... fins a/des de... fins a/entre... i">
             <rule>
                 <pattern>
@@ -26084,6 +26098,38 @@ $Id$
             <example type='incorrect'><marker>cap a dalt</marker></example>
             <example type='correct'>cap amunt</example>
         </rule> -->
+        <rule id="TREURE_LLEVAR" name="treure/llevar/prendre">
+            <pattern>
+                <marker>
+                    <token skip="2" inflected="yes">treure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token inflected="yes" regexp="yes">dret|cartera|diner</token>
+            </pattern>
+            <message>Probablement val més usar un altre verb</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">llevar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">prendre</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">furtar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> perdre</suggestion>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="llevar|prendre|furtar|fer perdre">Em van <marker>treure</marker> la cartera.</example>
+            <example type="incorrect" correction="llevaren|prengueren|furtaren|feren perdre">Ens <marker>tragueren</marker> molts drets.</example>
+            <example type="correct">Ens llevaren tots els drets.</example>
+        </rule>
+        <rule id="NO_TREU_QUE" name="no treu que">
+            <pattern>
+                <token>no</token>
+                <token postag="V.I.*" postag_regexp="yes" inflected="yes" regexp="yes">treure|llevar</token>
+                <token>que</token>
+            </pattern>
+            <message>Val més usar una altra expressió</message>
+            <suggestion>no <match no="2" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">impedir</match> que</suggestion>
+            <suggestion>no <match no="2" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">obstar</match> perquè</suggestion>
+            <suggestion>no <match no="2" postag="V.(I.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> obstacle perquè</suggestion>
+            <short>Expressió preferible</short>
+            <example type="incorrect" correction="no impedeix que|no obsta perquè|no és obstacle perquè">Això <marker>no treu que</marker> sigui així.</example>
+            <example type="incorrect" correction="no impedia que|no obstava perquè|no era obstacle perquè">Això <marker>no treia que</marker>.</example>
+            <example type="correct">No impedeix que a mi m'agradi.</example>
+        </rule>
         <rule id="POSAR_EN_VALOR" name="sublevar">
             <pattern>
                 <token inflected="yes">posar</token>
