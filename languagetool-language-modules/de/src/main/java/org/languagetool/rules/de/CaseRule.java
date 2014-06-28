@@ -521,7 +521,8 @@ public class CaseRule extends GermanRule {
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
     if (prevTokenIsDas && !nextTokenIsPersonalPronoun) {
       // e.g. essen -> Essen
-      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")) {
+      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
+              && !tokenReadings.isIgnoredBySpeller()) {
         final String msg = "Substantivierte Verben werden großgeschrieben.";
         final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(),
             tokenReadings.getStartPos() + token.length(), msg);
@@ -536,6 +537,7 @@ public class CaseRule extends GermanRule {
   private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token) {
     if (Character.isUpperCase(token.charAt(0)) &&
         token.length() > 1 &&     // length limit = ignore abbreviations
+        !tokens[i].isIgnoredBySpeller() &&
         !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
         !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
