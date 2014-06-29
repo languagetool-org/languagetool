@@ -132,18 +132,9 @@ public class ConfigurationDialog implements ActionListener {
       ret = false;
     }
 
-    if (rule.isDefaultOff()) {
-      if (rule.getCategory().isDefaultOff()) {
-        if (!config.getEnabledRuleIds().contains(rule.getId())) {
-          config.getDisabledCategoryNames().add(rule.getCategory().getName());
-        }
-      }
-    } else {
-      if (rule.getCategory().isDefaultOff()) {
-        if (!config.getEnabledRuleIds().contains(rule.getId())) {
-          config.getDisabledCategoryNames().remove(rule.getCategory().getName());
-        }
-      }
+    if (rule.isDefaultOff() && rule.getCategory().isDefaultOff()
+            && config.getEnabledRuleIds().contains(rule.getId())) {
+      config.getDisabledCategoryNames().remove(rule.getCategory().getName());
     }
     return ret;
   }
