@@ -1122,12 +1122,9 @@ public final class Main {
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
         ltSupport.getConfig().setLookAndFeelName(lf.getName());
-      } catch (ClassNotFoundException ex) {
-      } catch (InstantiationException ex) {
-      } catch (IllegalAccessException ex) {
-      } catch (UnsupportedLookAndFeelException ex) {
-        //TODO
-        //should we inform user?
+      } catch (ClassNotFoundException | InstantiationException
+              |IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        Tools.showError(ex);
       }
     }
   }
