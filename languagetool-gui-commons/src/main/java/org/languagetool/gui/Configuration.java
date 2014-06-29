@@ -418,7 +418,7 @@ public class Configuration {
   private Collection<? extends String> getListFromProperties(final Properties props, final String key) {
     final String value = (String) props.get(key);
     final List<String> list = new ArrayList<>();
-    if (value != null) {
+    if (value != null && !value.isEmpty()) {
       final String[] names = value.split(DELIMITER);
       list.addAll(Arrays.asList(names));
     }
