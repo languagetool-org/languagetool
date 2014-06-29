@@ -134,11 +134,15 @@ public class ConfigurationDialog implements ActionListener {
 
     if (rule.isDefaultOff()) {
       if (rule.getCategory().isDefaultOff()) {
-        config.getDisabledCategoryNames().add(rule.getCategory().getName());
+        if (!config.getEnabledRuleIds().contains(rule.getId())) {
+          config.getDisabledCategoryNames().add(rule.getCategory().getName());
+        }
       }
     } else {
       if (rule.getCategory().isDefaultOff()) {
-        config.getDisabledCategoryNames().remove(rule.getCategory().getName());
+        if (!config.getEnabledRuleIds().contains(rule.getId())) {
+          config.getDisabledCategoryNames().remove(rule.getCategory().getName());
+        }
       }
     }
     return ret;
