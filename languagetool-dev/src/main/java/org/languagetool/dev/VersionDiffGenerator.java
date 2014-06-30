@@ -19,10 +19,7 @@
 
 package org.languagetool.dev;
 
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,72 +39,9 @@ class VersionDiffGenerator {
   
   private void makeDiff(String lang) throws IOException {
     
-    final List<Rule> oldRules = new ArrayList<>(); // rules in old grammar.xml
-    final List<Rule> newRules = new ArrayList<>(); // rules in new grammar.xml
+    final List<Rule> oldRules = getRules(new File("tools/ltdiff/old"));
+    final List<Rule> newRules = getRules(new File("tools/ltdiff/new"));
     final List<Rule> modifiedRules = new ArrayList<>();
-    
-    for (int i = 0; i < 2; i++) {
-
-      final List<Rule> rules;
-      if (i == 0) {
-        rules = oldRules;
-      } else {
-        rules = newRules;
-      }
-    
-      final Scanner scanner = new Scanner(new FileReader(i == 0 ? "tools/ltdiff/old" : "tools/ltdiff/new"));
-
-      Rule r = new Rule();
-      
-      // loop through all lines
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-      
-        if (line.contains("id=\"") && line.contains("rule")) {
-          
-          if (!line.contains("name=\"")) { // merge with the following line if the name is there (e.g. sk)
-            line += scanner.nextLine();
-          }
-          
-          if (r.numberOfExamples() > 0) {
-            rules.add(r);
-            r = new Rule();
-          }
-          
-          r.id = line;
-          r.name = line;
-          
-          r.id = r.id.replaceAll(".*id=\"","").replaceAll("\".*","");
-          r.name = r.name.replaceAll(".*name=\"","").replaceAll("\".*","");
-          
-          for (Rule rule : rules) { // ensure that the name is unique
-            if (r.name.equals(rule.name)) {
-              r.name += " ";
-            }
-          }
-          
-        } else if (line.contains("type=\"correct\"")) {
-          
-          while (!line.contains("</example>")) { // merge with the following line(s) if the example continues there
-            line += scanner.nextLine();
-          }
-          r.correct.add(line.replaceAll("marker","b").replaceAll(".*<example.*?>","").replaceAll("</example>.*",""));
-          
-        } else if (line.contains("type=\"incorrect\"")) {
-        
-          while (!line.contains("</example>")) {
-            line += scanner.nextLine();
-          }
-          r.incorrect.add(line.replaceAll("marker","b").replaceAll(".*<example.*?>","").replaceAll("</example>.*",""));
-          
-        }
-        
-      } // while(readLine)
-      
-      scanner.close();
-      
-    }
-      
     // sort rules by name
     Collections.sort(oldRules);
     Collections.sort(newRules);
@@ -198,6 +132,61 @@ class VersionDiffGenerator {
     out.close();
   }
 
+  private List<Rule> getRules(File file) throws IOException {
+    final List<Rule> rules = new ArrayList<>(); // rules in old grammar.xml
+    final Scanner scanner = new Scanner(file);
+
+    Rule r = new Rule();
+
+    // loop through all lines
+    while (scanner.hasNextLine()) {
+      String line = scanner.nextLine();
+
+      if (line.contains("id=\"") && line.contains("rule")) {
+
+        if (!line.contains("name=\"")) { // merge with the following line if the name is there (e.g. sk)
+          line += scanner.nextLine();
+        }
+
+        if (r.numberOfExamples() > 0) {
+          rules.add(r);
+          r = new Rule();
+        }
+
+        r.id = line;
+        r.name = line;
+
+        r.id = r.id.replaceAll(".*id=\"","").replaceAll("\".*","");
+        r.name = r.name.replaceAll(".*name=\"","").replaceAll("\".*","");
+
+        for (Rule rule : rules) { // ensure that the name is unique
+          if (r.name.equals(rule.name)) {
+            r.name += " ";
+          }
+        }
+
+      } else if (line.contains("type=\"correct\"") || line.contains("type='correct'")) {
+
+        while (!line.contains("</example>")) { // merge with the following line(s) if the example continues there
+          line += scanner.nextLine();
+        }
+        r.correct.add(line.replaceAll("marker", "b").replaceAll(".*<example.*?>", "").replaceAll("</example>.*", ""));
+
+      } else if (line.contains("type=\"incorrect\"") || line.contains("type='incorrect'")) {
+
+        while (!line.contains("</example>")) {
+          line += scanner.nextLine();
+        }
+        r.incorrect.add(line.replaceAll("marker", "b").replaceAll(".*<example.*?>", "").replaceAll("</example>.*", ""));
+
+      }
+
+    } // while(readLine)
+
+    scanner.close();
+    return rules;
+  }
+
   class Rule implements Comparable<Rule> {
 
     private final List<String> correct = new ArrayList<>();
@@ -211,49 +200,36 @@ class VersionDiffGenerator {
     }
     
     String getExamples(boolean all) {
-      
       String s = "<div>";
-
       for (String anIncorrect : incorrect) {
         s += "<span>7FINDERR</span>" + anIncorrect + "<br/>";
       }
-      
       if (all) {
         for (String aCorrect : correct) {
           s += "<span>8FINDNOTERR</span>" + aCorrect + "<br/>";
         }
       }
-      
       s = s.substring(0, s.length() - 5) + "</div>";
-          
       return s;
-      
     }
     
     /**
      * removes correct examples for which an incorrect example which only differs in the part between &lt;b&gt;&lt;/b&gt; exists
      */
     public void removeCorrectExamplesWithRelatedIncorrectExample() {
-      
-      for(int i = 0; i < correct.size(); i++) {
-        
+      for (int i = 0; i < correct.size(); i++) {
         boolean found = false;
-        
-        for(int j = 0; j < incorrect.size() && !found; j++) {
-          
-          if(correct.get(i).startsWith(incorrect.get(j).substring(0, incorrect.get(j).indexOf("<b>")+3))
-          && correct.get(i).endsWith(incorrect.get(j).substring(incorrect.get(j).indexOf("</b>")))) {
-            
+        for (int j = 0; j < incorrect.size() && !found; j++) {
+          String correctExample = correct.get(i);
+          String incorrectExample = incorrect.get(j);
+          if (correctExample.startsWith(incorrectExample.substring(0, incorrectExample.indexOf("<b>") + 3)) &&
+             correctExample.endsWith(incorrectExample.substring(incorrectExample.indexOf("</b>")))) {
             correct.remove(i);
             i--;
             found=true;
-            
           }
-          
         }
-        
       }
-      
     }
     
     @Override
