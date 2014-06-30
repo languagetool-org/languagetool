@@ -7618,6 +7618,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="MIA" name="mia">
+            <pattern>
+                <token inflected="yes">mia<exception postag="_possible_nompropi"/></token>
+            </pattern>
+            <message>Arcaisme o possible error.</message> 
+            <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="PX..$1.*">meu</match></suggestion>
+            <suggestion>mai</suggestion>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="meu|meua|meva|mai">Això no passarà <marker>mia</marker>!</example>
+            <example type="incorrect" correction="meues|meus|meves|mai">Les <marker>mies</marker> coses.</example>
+            <example type="correct">Ànima meva.</example>
+        </rule>
         <rule id="CASSOS" name="cassos/casos">
             <pattern>
                 <token>cassos</token>
