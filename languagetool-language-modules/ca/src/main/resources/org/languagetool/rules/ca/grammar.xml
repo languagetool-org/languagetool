@@ -7618,6 +7618,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="QUEST" name="quest/aquest">
+            <pattern>
+                <token inflected="yes" regexp="yes">questa|quest<exception postag="_possible_nompropi"/></token>
+            </pattern>
+            <message>"\1" és una paraula d'ús poc habitual. ¿Volíeu dir <suggestion>a\1</suggestion>?</message> 
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="aquestes">A <marker>questes</marker> coses!</example>
+            <example type="incorrect" correction="aquests">A <marker>quests</marker> homes!</example>
+            <example type="incorrect" correction="aquestos">A <marker>questos</marker> homes!</example>
+            <example type="correct">Aquestes coses.</example>
+        </rule>
         <rule id="MIA" name="mia">
             <pattern>
                 <token inflected="yes">mia<exception postag="_possible_nompropi"/></token>
