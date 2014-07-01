@@ -121,8 +121,8 @@ public class FrequencyIndexCreator {
 
   private boolean isRealPosTag(String text) {
     return text.contains("_") &&
-           !text.equals(LanguageModel.GOOGLE_SENTENCE_START) &&
-           !text.equals(LanguageModel.GOOGLE_SENTENCE_END);
+           !text.contains(LanguageModel.GOOGLE_SENTENCE_START) &&
+           !text.contains(LanguageModel.GOOGLE_SENTENCE_END);
   }
 
   private void printStats(int i, long docCount, long lineCount, String prevText, long startTimeMicros) {
