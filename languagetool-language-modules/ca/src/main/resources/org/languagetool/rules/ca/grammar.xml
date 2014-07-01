@@ -7636,6 +7636,21 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="COMTE" name="*compte/*conte/comte d'Urgell">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">conte|compte</token>
+                </marker>
+                <token inflected="yes">de</token>
+                <token postag="NP..[SG].*" postag_regexp="yes"><exception regexp="yes">Canterbury|Calders</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">comte</match></suggestion> (=títol nobiliari)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="comtes">Els <marker>comptes</marker> d'Urgell.</example>
+            <example type="incorrect" correction="comtes">Els <marker>comptes</marker> de Barcelona.</example>
+            <example type="correct">Els contes de Canterbury.</example>
+            <example type="correct">Un dels millors contes de Calders (Pere).</example>
+        </rule>
         <rule id="QUEST" name="quest/aquest">
             <pattern>
                 <token inflected="yes" regexp="yes">questa|quest<exception postag="_possible_nompropi"/></token>
@@ -7922,19 +7937,6 @@ $Id$
             <short>Possible confusió</short>
             <example type="incorrect"><marker>rapit</marker></example>
             <example type="correct">ràpid</example>
-        </rule>
-        <rule id="TENIR_EN_COMTE_CONTE_COMPTE" name="tenir en comte/conte/compte">
-            <pattern>
-                <token inflected="yes" skip="1">tenir</token>
-                <marker>
-                    <token regexp="yes">en|amb</token>
-                    <token regexp="yes">co[mn]te</token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>en compte</suggestion>?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect" correction="en compte">tenir sempre <marker>amb comte</marker></example>
-            <example type="correct">tenir en compte</example>
         </rule>
         <rule id="TANTS_SOLS" name="tants sols / tan sols">
             <pattern>
@@ -8759,7 +8761,7 @@ $Id$
     	<rule id="DES_DE" name="des de/que">
             <pattern>
                 <marker>
-                    <token>des<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                    <token>des<exception postag="(&lt;)?NP.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
                 <token><exception regexp="yes">d'|de|que</exception></token>
             </pattern>
@@ -17930,7 +17932,7 @@ $Id$
                 <token inflected="yes" skip="1">tenir</token>
                 <marker>
                     <token>amb</token>
-                    <token>compte</token>
+                    <token regexp="yes">compte|conte|comte</token>
                 </marker>
             </pattern>
             <message>Cal dir <suggestion>en compte</suggestion>.</message>
@@ -17943,7 +17945,7 @@ $Id$
                 <token postag="VM.*" postag_regexp="yes" inflected="yes" skip="1">anar</token>
                 <marker>
                     <token>en<exception scope="previous" inflected="yes">tenir</exception></token>
-                    <token>compte</token>
+                    <token regexp="yes">compte|conte|comte</token>
                 </marker>
             </pattern>
             <message>Cal dir <suggestion>amb compte</suggestion>.</message>
@@ -17951,7 +17953,33 @@ $Id$
             <example type="incorrect" correction="amb compte">Sempre anaven <marker>en compte</marker></example>
             <example type="correct">No van tenir en compte aquell cas.</example>
             <example type="correct">Es van tenint en compte aquell cas.</example>
-        </rule>  
+        </rule>
+        <rule id="TENIR_EN_COMTE_CONTE" name="tenir en comte/conte/compte">
+            <pattern>
+                <token inflected="yes" skip="1">tenir</token>
+                <marker>
+                    <token>en</token>
+                    <token regexp="yes">co[mn]te</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en compte</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="en compte">tenir sempre <marker>en comte</marker></example>
+            <example type="correct">tenir en compte</example>
+        </rule>
+        <rule id="ANAR_AMB_COMTE_CONTE" name="anar amb comte/conte/compte">
+            <pattern>
+                <token inflected="yes" skip="1">anar</token>
+                <marker>
+                    <token>amb<exception scope="previous" inflected="yes">tenir</exception></token>
+                    <token regexp="yes">co[mn]te</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>amb compte</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="amb compte">Cal anar sempre <marker>amb comte</marker></example>
+            <example type="correct">Cal anar amb compte</example>
+        </rule>
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
                 <marker>
@@ -29389,6 +29417,22 @@ $Id$
             <example type="correct">Lluny de mi</example>
             <example type="correct">Gràcies a mi</example>
             <example type="correct">“A mi ningú em dóna lliçons”.</example>
+        </rule>
+        <rule id="SI_SHI" name="no si/no s'hi">
+            <pattern>
+                <token><exception regexp="yes">més|i|o|ni|però</exception></token>
+                <token>no</token>
+                <marker>
+                    <token>si</token>
+                </marker>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>s'hi</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Ells no <marker>si</marker> posen.</example>
+            <example type="correct">Ells no s'hi posen.</example>
+            <example type="correct">, si més no si vénen tard</example>
+            <example type="correct">però no si vénen tard</example>
         </rule>
         <rulegroup id="COSES_QUE_FER" name="coses *que/a fer">
             <rule>
