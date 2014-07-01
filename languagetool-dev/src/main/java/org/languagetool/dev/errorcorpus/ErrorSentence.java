@@ -73,4 +73,9 @@ public class ErrorSentence {
   public List<Error> getErrors() {
     return errors;
   }
+
+  @Override
+  public String toString() {
+    return markupText;
+  }
 }

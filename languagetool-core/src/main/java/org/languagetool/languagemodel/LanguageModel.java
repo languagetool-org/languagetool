@@ -20,8 +20,12 @@ package org.languagetool.languagemodel;
 
 /**
  * Information about ngram occurrences.
+ * @since 2.7
  */
 public interface LanguageModel {
+  
+  public static final String GOOGLE_SENTENCE_START = "_START_";
+  public static final String GOOGLE_SENTENCE_END = "_END_";
 
   public long getCount(String token1, String token2);
   

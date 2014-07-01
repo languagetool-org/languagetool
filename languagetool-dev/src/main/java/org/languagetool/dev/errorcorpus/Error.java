@@ -22,7 +22,7 @@ package org.languagetool.dev.errorcorpus;
  * An error from an error corpus.
  * @since 2.7
  */
-class Error {
+public class Error {
   
   private final int startPos;
   private final int endPos;
@@ -34,15 +34,20 @@ class Error {
     this.correction = correction;
   }
 
-  int getStartPos() {
+  public int getStartPos() {
     return startPos;
   }
 
-  int getEndPos() {
+  public int getEndPos() {
     return endPos;
   }
 
-  String getCorrection() {
+  public String getCorrection() {
     return correction;
+  }
+
+  @Override
+  public String toString() {
+    return startPos + "-" + endPos + ":" + correction;
   }
 }
