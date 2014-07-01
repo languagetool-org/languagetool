@@ -118,6 +118,16 @@ public abstract class Rule {
   public boolean isDictionaryBasedSpellingRule() {
     return false;
   }
+  
+  /**
+   * Whether this rule should be forced to be used in LO/OO extension.
+   * Rules that return {@code true} will be enabled always in LO/OO extension
+   * regardless of other options like isDictionaryBasedSpellingRule().
+   * @since 2.6
+   */
+  public boolean useInOffice() {
+    return false;
+  }
 
   /**
    * Set the examples that are correct and thus do not trigger the rule.
@@ -182,6 +192,7 @@ public abstract class Rule {
   /**
    * Deletes (or disables) previously matched rule.
    * @param index Index of the rule that should be deleted.
+   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
    */
   public final void setAsDeleted(final int index) {
     if (removedMatches == null) {
@@ -201,12 +212,21 @@ public abstract class Rule {
     return previousMatches.size() > index && previousMatches.get(index) != null;
   }
 
+  /**
+   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
+   */
   public final void clearMatches() {
     if (previousMatches != null) {
       previousMatches.clear();
     }
+    if (removedMatches != null) {
+      removedMatches.clear();
+    }
   }
 
+  /**
+   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
+   */
   public final int getMatchesIndex() {
     if (previousMatches == null) {
       return 0;

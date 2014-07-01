@@ -34,9 +34,9 @@ public class CompoundRule extends AbstractCompoundRule {
 
   public CompoundRule(final ResourceBundle messages) throws IOException {
     super(messages, FILE_NAME,
-            "Dessa ord skrivs samman med bindesträck.",
+            "Dessa ord skrivs samman med bindestreck.",
             "Dessa ord skrivs samman.",
-            "Dessa ord skrivs samman med eller utan bindesträck.");
+            "Dessa ord skrivs samman med eller utan bindestreck.");
   }
 
   @Override

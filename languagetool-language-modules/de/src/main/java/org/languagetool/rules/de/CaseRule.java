@@ -120,6 +120,7 @@ public class CaseRule extends GermanRule {
     exceptions.add("Abends");
     exceptions.add("Abgeordneter");
     exceptions.add("Angestellter");
+    exceptions.add("Liberaler");
     exceptions.add("Abriss");
     exceptions.add("Ahne");
     exceptions.add("Ähnlichem");
@@ -258,56 +259,6 @@ public class CaseRule extends GermanRule {
     exceptions.add("Achte");
     exceptions.add("Neunte");
 
-    // TODO: alle Sprachen
-    exceptions.add("Afrikanisch");
-    exceptions.add("Altarabisch");
-    exceptions.add("Altchinesisch");
-    exceptions.add("Altgriechisch");
-    exceptions.add("Althochdeutsch");
-    exceptions.add("Altpersisch");
-    exceptions.add("Amerikanisch");
-    exceptions.add("Arabisch");
-    exceptions.add("Chinesisch");
-    exceptions.add("Dänisch");
-    exceptions.add("Deutsch");
-    exceptions.add("Englisch");
-    exceptions.add("Finnisch");
-    exceptions.add("Französisch");
-    exceptions.add("Frühneuhochdeutsch");
-    exceptions.add("Germanisch");
-    exceptions.add("Griechisch");
-    exceptions.add("Hocharabisch");
-    exceptions.add("Hochchinesisch");
-    exceptions.add("Hochdeutsch");
-    exceptions.add("Holländisch");
-    exceptions.add("Italienisch");
-    exceptions.add("Japanisch");
-    exceptions.add("Jiddisch");
-    exceptions.add("Jugoslawisch");
-    exceptions.add("Koreanisch");
-    exceptions.add("Kroatisch");
-    exceptions.add("Lateinisch");
-    exceptions.add("Luxemburgisch");
-    exceptions.add("Mittelhochdeutsch");
-    exceptions.add("Neuhochdeutsch");
-    exceptions.add("Niederländisch");
-    exceptions.add("Norwegisch");
-    exceptions.add("Persisch");
-    exceptions.add("Polnisch");
-    exceptions.add("Portugiesisch");
-    exceptions.add("Russisch");
-    exceptions.add("Schwedisch");
-    exceptions.add("Schweizerisch");
-    exceptions.add("Serbisch");
-    exceptions.add("Serbokroatisch");
-    exceptions.add("Slawisch");
-    exceptions.add("Spanisch");
-    exceptions.add("Tschechisch");
-    exceptions.add("Türkisch");
-    exceptions.add("Ukrainisch");
-    exceptions.add("Ungarisch");
-    exceptions.add("Weißrussisch");
-
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
     exceptions.add("Dein");
     exceptions.add("Deine");
@@ -324,6 +275,59 @@ public class CaseRule extends GermanRule {
     exceptions.add("Eurem");
     exceptions.add("Euren");
     exceptions.add("Eures");
+  }
+  
+  private static final Set<String> languages = new HashSet<>();
+    static {
+    // TODO: alle Sprachen
+    languages.add("Afrikanisch");
+    languages.add("Altarabisch");
+    languages.add("Altchinesisch");
+    languages.add("Altgriechisch");
+    languages.add("Althochdeutsch");
+    languages.add("Altpersisch");
+    languages.add("Amerikanisch");
+    languages.add("Arabisch");
+    languages.add("Chinesisch");
+    languages.add("Dänisch");
+    languages.add("Deutsch");
+    languages.add("Englisch");
+    languages.add("Finnisch");
+    languages.add("Französisch");
+    languages.add("Frühneuhochdeutsch");
+    languages.add("Germanisch");
+    languages.add("Griechisch");
+    languages.add("Hocharabisch");
+    languages.add("Hochchinesisch");
+    languages.add("Hochdeutsch");
+    languages.add("Holländisch");
+    languages.add("Italienisch");
+    languages.add("Japanisch");
+    languages.add("Jiddisch");
+    languages.add("Jugoslawisch");
+    languages.add("Koreanisch");
+    languages.add("Kroatisch");
+    languages.add("Lateinisch");
+    languages.add("Luxemburgisch");
+    languages.add("Mittelhochdeutsch");
+    languages.add("Neuhochdeutsch");
+    languages.add("Niederländisch");
+    languages.add("Norwegisch");
+    languages.add("Persisch");
+    languages.add("Polnisch");
+    languages.add("Portugiesisch");
+    languages.add("Russisch");
+    languages.add("Schwedisch");
+    languages.add("Schweizerisch");
+    languages.add("Serbisch");
+    languages.add("Serbokroatisch");
+    languages.add("Slawisch");
+    languages.add("Spanisch");
+    languages.add("Tschechisch");
+    languages.add("Türkisch");
+    languages.add("Ukrainisch");
+    languages.add("Ungarisch");
+    languages.add("Weißrussisch");
   }
   
   private static final Set<String> myExceptionPhrases = new HashSet<>();
@@ -379,6 +383,7 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("viel Neues");
     myExceptionPhrases.add("Vereinigte Staaten");
     myExceptionPhrases.add("Vereinigten Staaten");
+    myExceptionPhrases.add("Vereinten Nationen");
     myExceptionPhrases.add("im Weiteren");
     myExceptionPhrases.add("Im Weiteren");
     myExceptionPhrases.add("Roter Riese");
@@ -389,6 +394,9 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
+    substVerbenExceptions.add("passieren");  // "das Schlimmste, das passieren könnte"
+    substVerbenExceptions.add("machen");  // "Du kannst das machen."
+    substVerbenExceptions.add("haben");  // "Das haben schon viele versucht."
     substVerbenExceptions.add("passiert");  // "Das passiert..."
     substVerbenExceptions.add("beschränkt");  // "Das beschränkt sich..."
     substVerbenExceptions.add("wiederholt");
@@ -520,7 +528,8 @@ public class CaseRule extends GermanRule {
   private void potentiallyAddLowercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings tokenReadings, boolean prevTokenIsDas, String token, boolean nextTokenIsPersonalPronoun) {
     if (prevTokenIsDas && !nextTokenIsPersonalPronoun) {
       // e.g. essen -> Essen
-      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")) {
+      if (Character.isLowerCase(token.charAt(0)) && !substVerbenExceptions.contains(token) && tokenReadings.hasPartialPosTag("VER:INF")
+              && !tokenReadings.isIgnoredBySpeller()) {
         final String msg = "Substantivierte Verben werden großgeschrieben.";
         final RuleMatch ruleMatch = new RuleMatch(this, tokenReadings.getStartPos(),
             tokenReadings.getStartPos() + token.length(), msg);
@@ -535,9 +544,12 @@ public class CaseRule extends GermanRule {
   private void potentiallyAddUppercaseMatch(List<RuleMatch> ruleMatches, AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings analyzedToken, String token) {
     if (Character.isUpperCase(token.charAt(0)) &&
         token.length() > 1 &&     // length limit = ignore abbreviations
+        !tokens[i].isIgnoredBySpeller() &&
         !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
         !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
+        !languages.contains(token) &&
+        !languages.contains(token.replaceFirst("e$", "")) &&  // z.B. "ins Japanische übersetzt"
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
@@ -562,12 +574,29 @@ public class CaseRule extends GermanRule {
   }
 
   private boolean isNominalization(int i, AnalyzedTokenReadings[] tokens) {
-    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // TODO: "vor Schlimmerem", "Er hatte Schlimmes zu befürchten"
-    // ignore "das Dümmste, was je..." but not "das Dümmste Kind"
-    return prevToken != null && prevToken.hasPartialPosTag("PRO") && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+    // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
+    // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
+    // eine Abfrage machen, ob der erste Buchstabe groß ist.
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings)) {
+      // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
+      AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
+      AnalyzedTokenReadings prevPrevToken = i > 1 ? tokens[i-2] : null;
+      return (prevToken != null && "aufs".equals(prevToken.getToken())) || hasPartialTag(prevToken, "PRO") ||  // z.B. "etwas Verrücktes"
+             (hasPartialTag(prevPrevToken, "PRO") && hasPartialTag(prevToken, "ADJ", "ADV")); // z.B. "etwas schön Verrücktes"
+    }
+    return false;
+  }
+
+  private boolean isNumber(String token) {
+    try {
+      AnalyzedTokenReadings lookup = tagger.lookup(StringTools.lowercaseFirstChar(token));
+      return lookup != null && lookup.hasPosTag("ZAL");
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   private boolean isAdverbAndNominalization(int i, AnalyzedTokenReadings[] tokens) {
@@ -576,8 +605,19 @@ public class CaseRule extends GermanRule {
     String token = tokens[i].getToken();
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     // ignore "das wirklich Wichtige":
-    return "das".equalsIgnoreCase(prevPrevToken) && prevToken != null && prevToken.hasPartialPosTag("ADV:")
+    return "das".equalsIgnoreCase(prevPrevToken) && hasPartialTag(prevToken, "ADV")
             && StringTools.startsWithUppercase(token) && !hasNounReading(nextReadings);
+  }
+
+  private boolean hasPartialTag(AnalyzedTokenReadings token, String... posTags) {
+    if (token != null) {
+      for (String posTag : posTags) {
+        if (token.hasPartialPosTag(posTag)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private boolean isSpecialCase(int i, AnalyzedTokenReadings[] tokens) {

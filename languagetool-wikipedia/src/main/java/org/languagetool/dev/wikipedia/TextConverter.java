@@ -209,7 +209,7 @@ public class TextConverter extends Visitor {
   public void visit(XmlEntityRef er) {
     addMapping(er);
     if ("nbsp".equals(er.getName())) {
-      write(' ');
+      write('\u00A0');  // non-breaking space
     } else {
       String ch = StringEscapeUtils.unescapeHtml("&" + er.getName() + ";");
       write(ch);

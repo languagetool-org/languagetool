@@ -273,7 +273,7 @@ public class AccentuationCheckRule extends CatalanRule {
             || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FP))) {
           replacement = relevantWords.get(token).getToken();
         }
-     // una nova formula que (fórmula)
+        //una nova formula que (fórmula)
         else if (nextToken.equals("que") && i>2
             && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && tokens[i - 1].hasPosTag("_GN_MS")
                 && matchPostagRegexp(tokens[i - 2], DETERMINANT_MS))
@@ -291,6 +291,15 @@ public class AccentuationCheckRule extends CatalanRule {
                 || (mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token), NOM_FS))
                 || (mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token), NOM_MP)) 
                 || (mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token), NOM_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
+        // de positiva influencia
+        if (i>2 
+            && tokens[i - 2].hasPosTag("SPS00") && !tokens[i - 2].hasPosTag("RG")           
+            && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MS))
+                || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FS))
+                || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MP)) 
+                || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FP)))) {
           replacement = relevantWords.get(token).getToken();
         }
       }

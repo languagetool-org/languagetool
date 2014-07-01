@@ -49,7 +49,7 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Validate XML files with a given DTD.
+ * Validate XML files with a given DTD or XML Schema (XSD).
  * 
  * @author Daniel Naber
  */

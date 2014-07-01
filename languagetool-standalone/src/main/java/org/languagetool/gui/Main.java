@@ -454,9 +454,19 @@ public final class Main {
     grammarMenu.add(new SelectFontAction());
     JMenu lafMenu = new JMenu(messages.getString("guiLookAndFeelMenu"));
     UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
-    for(UIManager.LookAndFeelInfo laf: lafInfo) {
-      lafMenu.add(new JMenuItem(new SelectLFAction(laf)));
+    ButtonGroup buttonGroup = new ButtonGroup();
+    for(UIManager.LookAndFeelInfo laf : lafInfo) {
+      if(!"Nimbus".equals(laf.getName())) {
+        continue;
+      }
+      addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
     }
+    for(UIManager.LookAndFeelInfo laf : lafInfo) {
+      if("Nimbus".equals(laf.getName())) {
+        continue;
+      }
+      addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
+    }    
     grammarMenu.add(lafMenu);
     
     helpMenu.add(new AboutAction());
@@ -501,7 +511,18 @@ public final class Main {
     menuBar.add(helpMenu);
     return menuBar;
   }
-  
+
+  private void addLookAndFeelMenuItem(JMenu lafMenu, 
+        UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)  
+  {
+    JRadioButtonMenuItem lfItem = new JRadioButtonMenuItem(new SelectLFAction(laf));
+    lafMenu.add(lfItem);
+    buttonGroup.add(lfItem);
+    if(laf.getName().equals(UIManager.getLookAndFeel().getName())) {
+      buttonGroup.setSelected(lfItem.getModel(), true);
+    }
+  }
+
   private void setLookAndFeel() {
     String lookAndFeelName = null;
     String className = null;
@@ -1122,12 +1143,9 @@ public final class Main {
         SwingUtilities.updateComponentTreeUI(frame);
         frame.pack();
         ltSupport.getConfig().setLookAndFeelName(lf.getName());
-      } catch (ClassNotFoundException ex) {
-      } catch (InstantiationException ex) {
-      } catch (IllegalAccessException ex) {
-      } catch (UnsupportedLookAndFeelException ex) {
-        //TODO
-        //should we inform user?
+      } catch (ClassNotFoundException | InstantiationException
+              | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        Tools.showError(ex);
       }
     }
   }

@@ -48,6 +48,17 @@ public class CatalanWordRepeatRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("Entre I i II."));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("fills de Sigebert I i Brunegilda"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("del segle I i del segle II"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("entre el capítol I i el II"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("cada una una casa"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("cada un un llibre"));
+    assertEquals(0, matches.length);
+        
     //incorrect
     matches = rule.match(langTool.getAnalyzedSentence("Tots els els homes són iguals."));
     assertEquals(1, matches.length);

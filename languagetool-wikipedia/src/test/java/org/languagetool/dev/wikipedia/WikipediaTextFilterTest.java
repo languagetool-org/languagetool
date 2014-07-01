@@ -43,7 +43,7 @@ public class WikipediaTextFilterTest extends TestCase {
   }
 
   public void testEntity() throws Exception {
-    assertExtract("rund 20&nbsp;Kilometer südlich", "rund 20 Kilometer südlich");
+    assertExtract("rund 20&nbsp;Kilometer südlich", "rund 20\u00A0Kilometer südlich");
     assertExtract("one&lt;br/&gt;two", "one<br/>two");
     assertExtract("one &ndash; two", "one – two");
     assertExtract("one &mdash; two", "one — two");
