@@ -608,7 +608,6 @@ $Id$
                 <example type="incorrect" correction="dues">amb <marker>dos</marker> maletes gegantines.</example>
                 <example type="incorrect" correction="Dues"><marker>Dos</marker> empreses.</example>
                 <example type="correct">Trenta-dues xiquetes.</example>
-                
             </rule>
             <rule>
                 <pattern>
@@ -867,6 +866,25 @@ $Id$
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="dits">Dos <marker>dit</marker> de front</example>
                 <example type="correct">No té ni un dit de front</example>
+            </rule>
+            <rule id="NUMERAL_NOM_MAJ" name="concordança numeral + nom en majúscula">
+                <pattern>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">\d+</exception></token>
+                    <marker>
+                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*|V.[^P].*|AO.*" postag_regexp="yes" /><exception regexp="yes">&mesos_any;</exception><exception regexp="yes">(?-i)CE</exception></token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="2" postag="N..P.*" /></suggestion>
+                <!-- <suggestion><match no="2" postag="N..P.*" /></suggestion> -->
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="Misereres">Va escriure dos <marker>Miserere</marker>.</example>
+                <example type="correct">Trenta-dos homes.</example>
+                <example type="correct">El 2 d'agost de 1644 Lleida</example>
+                <example type="correct">la 35 Divisió Internacional</example>
+                <example type="correct">En l'article 151 CE.</example>
+                <example type="correct">1 concert per a violí</example>
+                <example type="correct">1/24 part d'unitat</example>
             </rule>
         </rulegroup>  
         <rulegroup id="CONCORDANCES_PRONOM_NEUTRE" name="concordances amb pronom neutre">
