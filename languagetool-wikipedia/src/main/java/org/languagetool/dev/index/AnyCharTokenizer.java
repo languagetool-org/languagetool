@@ -34,10 +34,8 @@ public final class AnyCharTokenizer extends CharTokenizer {
   /**
    * Construct a new AnyCharTokenizer.
    * 
-   * @param matchVersion
-   *          Lucene version to match See {@link <a href="#version">above</a>}
-   * @param in
-   *          the input to split up into tokens
+   * @param matchVersion Lucene version to match
+   * @param in the input to split up into tokens
    */
   public AnyCharTokenizer(Version matchVersion, Reader in) {
     super(matchVersion, in);
@@ -47,12 +45,9 @@ public final class AnyCharTokenizer extends CharTokenizer {
    * Construct a new AnyCharTokenizer using a given
    * {@link org.apache.lucene.util.AttributeFactory}.
    * 
-   * @param matchVersion
-   *          Lucene version to match See {@link <a href="#version">above</a>}
-   * @param factory
-   *          the attribute factory to use for this {@link org.apache.lucene.analysis.Tokenizer}
-   * @param in
-   *          the input to split up into tokens
+   * @param matchVersion Lucene version to match
+   * @param factory the attribute factory to use for this {@link org.apache.lucene.analysis.Tokenizer}
+   * @param in the input to split up into tokens
    */
   public AnyCharTokenizer(Version matchVersion, AttributeFactory factory, Reader in) {
     super(matchVersion, factory, in);
