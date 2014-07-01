@@ -21,10 +21,16 @@ package org.languagetool.dev.errorcorpus;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
+import org.neuroph.core.NeuralNetwork;
+import org.neuroph.core.learning.DataSet;
+import org.neuroph.core.learning.DataSetRow;
+import org.neuroph.nnet.Hopfield;
+import org.neuroph.nnet.Perceptron;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,8 +56,17 @@ import java.util.List;
  */
 class TrainingDataGenerator {
 
+  private static final String NEURAL_NETWORK_OUTPUT = "/tmp/languagetool_perceptron.nnet";
+  private static final int MAX_SENTENCES = Integer.MAX_VALUE;
+  
   private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer();
   private final LanguageModel languageModel;
+
+  //private final NeuralNetwork neuralNetwork = new Perceptron(2, 1);  // seems to take forever for some training inputs
+  private final NeuralNetwork neuralNetwork = new Hopfield(2);
+  private final DataSet trainingSet = new DataSet(2, 1);
+
+  private double maxCount = 0;
 
   TrainingDataGenerator(LanguageModel languageModel) {
     this.languageModel = languageModel;
@@ -59,6 +74,7 @@ class TrainingDataGenerator {
 
   private void run(File corpusDir) throws IOException {
     int problemCount = 0;
+    int dataCount = 0;
     ErrorCorpus corpus = new PedlerCorpus(corpusDir);
     for (ErrorSentence sentence : corpus) {
       List<Error> errors = sentence.getErrors();
@@ -68,13 +84,26 @@ class TrainingDataGenerator {
           writeTrainingData(errorContext, false);
           List<String> correctedContext = get2gramContext(sentence, error, true);
           writeTrainingData(correctedContext, true);
+          dataCount++;
         } catch (AmbiguousErrorPositionException e) {
           System.err.println("Ignoring sentence due to limited algorithm: " + e.getMessage());
           problemCount++;
         }
+        if (dataCount > MAX_SENTENCES) {
+          break;
+        }
+      }
+      if (dataCount > MAX_SENTENCES) {
+        System.err.println("Maximum number of sentences (" + MAX_SENTENCES + ") reached, stopping");
+        break;
       }
     }
     System.err.println("Sentences ignored due to limited algorithm (TODO): " + problemCount);
+    System.out.println("Max count: " + maxCount);
+    System.out.println("Learning neural network (" + new Date() + ")...");
+    neuralNetwork.learn(trainingSet);
+    System.out.println("Saving neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
+    neuralNetwork.save(NEURAL_NETWORK_OUTPUT);
   }
 
   private List<String> get2gramContext(ErrorSentence sentence, Error error, boolean useCorrection) {
@@ -118,6 +147,20 @@ class TrainingDataGenerator {
     // the final part is just for debugging:
     int targetValue = isCorrected ? 1 : 0;
     System.out.println(leftCount + "\t" + rightCount + "\t" + targetValue + "\t" + context);
+    double max = 3.385103919E9;  // TODO: find this value automatically
+    double leftCountNorm = leftCount / max * 0.8 + 0.1;
+    double rightCountNorm = rightCount / max * 0.8 + 0.1;
+    System.out.println(leftCountNorm + ", " + rightCountNorm);
+    if (leftCountNorm > 1.0 || rightCountNorm > 1.0) {
+      throw new RuntimeException();
+    }
+    if (leftCount > maxCount) {
+      maxCount = leftCount;
+    }
+    if (rightCount > maxCount) {
+      maxCount = rightCount;
+    }
+    trainingSet.addRow(new DataSetRow(new double[]{leftCountNorm, rightCountNorm}, new double[]{targetValue}));
   }
 
   private List<String> removeWhitespaceTokens(List<String> tokens) {
@@ -138,12 +181,6 @@ class TrainingDataGenerator {
     File corpusDir = new File(args[0]);
     File indexDir = new File(args[1]);
     LanguageModel languageModel = new LuceneLanguageModel(indexDir);
-    //TODO:
-    /*System.out.println(languageModel.getCount("_START_", "I"));
-    System.out.println(languageModel.getCount("walked", "_END_"));
-    System.out.println(languageModel.getCount(".", "_END_"));
-    System.out.println(languageModel.getCount("walked", "."));
-    System.exit(1);*/
     TrainingDataGenerator generator = new TrainingDataGenerator(languageModel);
     generator.run(corpusDir);
   }
