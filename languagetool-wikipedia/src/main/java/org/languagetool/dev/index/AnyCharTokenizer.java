@@ -21,6 +21,7 @@ package org.languagetool.dev.index;
 import java.io.Reader;
 
 import org.apache.lucene.analysis.util.CharTokenizer;
+import org.apache.lucene.util.AttributeFactory;
 import org.apache.lucene.util.Version;
 
 /**
@@ -44,7 +45,7 @@ public final class AnyCharTokenizer extends CharTokenizer {
 
   /**
    * Construct a new AnyCharTokenizer using a given
-   * {@link org.apache.lucene.util.AttributeSource.AttributeFactory}.
+   * {@link org.apache.lucene.util.AttributeFactory}.
    * 
    * @param matchVersion
    *          Lucene version to match See {@link <a href="#version">above</a>}
