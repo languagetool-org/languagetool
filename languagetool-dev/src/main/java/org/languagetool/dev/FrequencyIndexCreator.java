@@ -26,6 +26,7 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
+import org.languagetool.languagemodel.LanguageModel;
 
 import java.io.*;
 import java.text.NumberFormat;
@@ -95,7 +96,7 @@ public class FrequencyIndexCreator {
       lineCount++;
       String[] parts = line.split("\t");
       String text = parts[0];
-      if (text.contains("_")) { // ignore POS tags
+      if (isRealPosTag(text)) {
         continue;
       }
       int year = Integer.parseInt(parts[1]);
@@ -116,6 +117,12 @@ public class FrequencyIndexCreator {
       prevText = text;
     }
     printStats(i, docCount, lineCount, prevText, startTime);
+  }
+
+  private boolean isRealPosTag(String text) {
+    return text.contains("_") &&
+           !text.equals(LanguageModel.GOOGLE_SENTENCE_START) &&
+           !text.equals(LanguageModel.GOOGLE_SENTENCE_END);
   }
 
   private void printStats(int i, long docCount, long lineCount, String prevText, long startTimeMicros) {
