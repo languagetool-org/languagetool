@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Takes a gold-standard corpus and creates training data
  * for it by looking up the available ngram numbers and the expected result
- * (1 = error, 1 = no error). For example, these inputs
+ * (0 = error, 1 = no error). For example, these inputs
  * 
  * <pre>"This is there report."
  *   is there = 0.2
@@ -143,11 +143,11 @@ class TrainingDataGenerator {
     int targetValue = isCorrected ? 1 : 0;
     System.out.println(leftCount + "\t" + rightCount + "\t" + targetValue + "\t" + context);
     double max = 3.385103919E9;  // TODO: find this value automatically
-    double leftCountNorm = leftCount / max * 0.8 + 0.1;
-    double rightCountNorm = rightCount / max * 0.8 + 0.1;
-    System.out.println(leftCountNorm + ", " + rightCountNorm);
+    double leftCountNorm = leftCount / max * 0.9 + 0.1;
+    double rightCountNorm = rightCount / max * 0.9 + 0.1;
+    //System.out.println(leftCountNorm + ", " + rightCountNorm);
     if (leftCountNorm > 1.0 || rightCountNorm > 1.0) {
-      throw new RuntimeException();
+      throw new RuntimeException("Values not normalized to 0-1: " + leftCountNorm + ", " + rightCountNorm);
     }
     if (leftCount > maxCount) {
       maxCount = leftCount;

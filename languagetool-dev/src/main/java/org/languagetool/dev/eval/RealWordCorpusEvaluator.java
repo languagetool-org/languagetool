@@ -84,6 +84,7 @@ class RealWordCorpusEvaluator {
       }
       EnglishConfusionProbabilityRule probabilityRule = 
               new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
+              //new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new File("/tmp/languagetool_network.net"));
       langTool.addRule(probabilityRule);
     }
   }

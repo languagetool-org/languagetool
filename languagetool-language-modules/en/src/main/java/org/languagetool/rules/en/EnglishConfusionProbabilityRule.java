@@ -35,6 +35,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
     super(messages, languageModel);
   }
 
+  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, File networkFile) throws IOException {
+    super(messages, languageModel, networkFile);
+  }
+
   @Override
   public String getDescription() {
     return "Statistically detect wrong use of words that are easily confused";

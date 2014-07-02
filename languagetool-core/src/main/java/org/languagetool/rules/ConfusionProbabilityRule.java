@@ -18,6 +18,10 @@
  */
 package org.languagetool.rules;
 
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.neural.networks.BasicNetwork;
+import org.encog.neural.networks.PersistBasicNetwork;
+import org.encog.persist.EncogPersistor;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -39,15 +43,29 @@ public abstract class ConfusionProbabilityRule extends Rule {
   
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
+  private final BasicNetwork network;
   
   private boolean debug;
 
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    this(messages, languageModel, null);
+  }
+  
+  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, File networkFile) throws IOException {
     super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
     wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
     this.languageModel = languageModel;
+    network = networkFile != null ? load(networkFile) : null;
+  }
+
+  private BasicNetwork load(File inputFile) throws IOException {
+    EncogPersistor persistor = new PersistBasicNetwork();
+    try (FileInputStream inputStream = new FileInputStream(inputFile)) {
+      Object read = persistor.read(inputStream);
+      return (BasicNetwork)read;
+    }
   }
 
   /** @deprecated used only for tests */
@@ -163,8 +181,28 @@ public abstract class ConfusionProbabilityRule extends Rule {
     
     // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account
     
-    //return ngram1 + ngram2;
-    return Math.max(1, ngram1) * Math.max(1, ngram2);
+    if (network != null) {
+      double value = network.compute(new BasicMLData(new double[]{ngram1, ngram2})).getData(0);
+      //System.out.println("***" + ngram1 + " - " + ngram2 + " => " + network.compute(new BasicMLData(new double[]{ngram1, ngram2})));
+      //return value > 0.5 ? 1 : 0;
+      return value;
+    } else {
+      // return 0.0*ngram1 + ngram2;  // 31,18% recall
+      //return 0.2*ngram1 + ngram2;  // 31,41%
+      //return 0.6*ngram1 + ngram2;  // 31,77%
+      //return 1.0*ngram1 + ngram2;  // 31,89%
+      //return 1.4*ngram1 + ngram2;  // 32,13%
+      //return 5*ngram1 + ngram2;  // 32,25%
+      //return 10*ngram1 + ngram2;  // 32,49%
+      //return 20*ngram1 + ngram2;  // 32,61%
+      //return 100*ngram1 + ngram2;  // 32,73%
+      //return 500*ngram1 + ngram2;  // 32,97%
+      //return 1000*ngram1 + ngram2;  // 33,09% <==
+      //return 2000*ngram1 + ngram2;  // 32,97%
+      //return 5000*ngram1 + ngram2;  // 32,85%
+      //return ngram1;  // 30,70%
+      return Math.max(1, ngram1) * Math.max(1, ngram2);  // 32,25%
+    }
   }
 
   @Override
