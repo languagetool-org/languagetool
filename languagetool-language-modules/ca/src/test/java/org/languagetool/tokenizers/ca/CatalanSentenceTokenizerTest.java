@@ -61,6 +61,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("convidar el seu heroi –del ram que sigui–… a prendre cafè.");
 
     // Abbreviations
+    testSplit("No Mr. Spock sinó un altre.");
     testSplit("Vegeu el cap. 24 del llibre.");
     testSplit("Vegeu el cap. IX del llibre.");
     testSplit("Viu al núm. 24 del carrer de l'Hort.");

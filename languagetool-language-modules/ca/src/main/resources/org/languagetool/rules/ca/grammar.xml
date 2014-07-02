@@ -31,6 +31,7 @@ $Id$
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
+    <!ENTITY mesos_any_maj "Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
@@ -53,6 +54,7 @@ $Id$
     <!ENTITY adverbis_temps_lloc "entra(t|ts|da|des)|passa(t|ts|da|des)|tocad(a|es)|arran|enfront|per|durant|llavors|tard|aviat|pròximament|properament|prompte|avui|abans|després|hui|ara|demà|ahir|despús-ahir|despús-demà|aquí|ací|allí|allà|ahí|aleshores|recentment|posteriorment">
     <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
+    <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|kg|Hz|[kM]Hz|°[FC]|K">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -869,9 +871,9 @@ $Id$
             </rule>
             <rule id="NUMERAL_NOM_MAJ" name="concordança numeral + nom en majúscula">
                 <pattern>
-                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">\d+</exception></token>
+                    <token postag="DN..P.*" postag_regexp="yes"><exception postag="A...S.*|.*LOC_ADV.*|AO.*" postag_regexp="yes" /><exception regexp="yes">(\d[\d.]+)?\d+</exception></token>
                     <marker>
-                        <token postag="NC.S.*" postag_regexp="yes"><exception postag="NC.[PN].*|V.[^P].*|AO.*" postag_regexp="yes" /><exception regexp="yes">&mesos_any;</exception><exception regexp="yes">(?-i)CE</exception></token>
+                        <token postag="NC.S.*" postag_regexp="yes" regexp="yes">\p{Lu}.+<exception postag="NC.[PN].*|V.[^P].*|AO.*" postag_regexp="yes" /><exception regexp="yes">&mesos_any_maj;</exception><exception regexp="yes">(?-i)CE</exception></token>
                     </marker>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -7637,18 +7639,25 @@ $Id$
     </category>
     <category name="Z) Confusions" type="grammar">
         <rule id="COMTE" name="*compte/*conte/comte d'Urgell">
+            <antipattern>
+                <marker>
+                    <token>per</token>
+                    <token regexp="yes">comptes?</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes" regexp="yes">conte|compte</token>
                 </marker>
                 <token inflected="yes">de</token>
-                <token postag="NP..[SG].*" postag_regexp="yes"><exception regexp="yes">Canterbury|Calders</exception></token>
+                <token postag="NP..G.*|NPCNS.*" postag_regexp="yes"><exception regexp="yes">Canterbury|Calders|Pere|Quim|Rosa|Grimm|Riba|Andersen|Carner</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">comte</match></suggestion> (=títol nobiliari)?</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="comtes">Els <marker>comptes</marker> d'Urgell.</example>
             <example type="incorrect" correction="comtes">Els <marker>comptes</marker> de Barcelona.</example>
             <example type="correct">Els contes de Canterbury.</example>
+            <example type="correct">Els contes de Pere Calders.</example>
             <example type="correct">Un dels millors contes de Calders (Pere).</example>
         </rule>
         <rule id="QUEST" name="quest/aquest">
@@ -16674,7 +16683,64 @@ $Id$
                 <example type="correct">4º 5' N</example>
             </rule>
         </rulegroup>
-
+        <rule id="ESPAI_EN_UNITATS" name="espai en unitats">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">ls|els|anys</token>
+                    <token regexp="yes">\d*0s</token>
+                </marker>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">(\d[\d.,]+)?\d+(&unitats;)</token>
+            </pattern>
+            <message>Falta un espai</message>
+            <suggestion><match no="1" regexp_match="((\d[\d.,]+)?\d+)(&unitats;)" regexp_replace="$1&#160;$3"/></suggestion>
+            <example type="incorrect" correction="33,4&#160;km">Hi ha <marker>33,4km</marker>.</example>
+            <example type="correct">De l'11M.</example>
+            <example type="correct">És dels anys 50s.</example>
+        </rule>
+        <rulegroup id="DECADES" name="els anys *80s/*vuitantes/80">
+            <url>http://esadir.cat/entrades/fitxa/node/decades</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ls|els|anys</token>
+                    <marker>
+                        <token regexp="yes">\d*0s</token>
+                    </marker>
+                </pattern>
+                <message>La 's' és innecessària.</message>
+                <suggestion><match no="2" regexp_match="(\d+)s" regexp_replace="$1"/></suggestion>
+                <example type="incorrect" correction="1950">És dels anys <marker>1950s</marker>.</example>
+                <example type="correct">És dels anys 50.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ls|els|anys</token>
+                    <marker>
+                        <token regexp="yes">\d*0</token>
+                        <token>'</token>
+                        <token>s</token>
+                    </marker>
+                </pattern>
+                <message>La 's' és innecessària.</message>
+                <suggestion>\2</suggestion>
+                <example type="incorrect" correction="1950">És dels anys <marker>1950's</marker>.</example>
+                <example type="correct">És dels anys 50.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ls|els|anys</token>
+                    <marker>
+                        <token regexp="yes">trentes|quarantes|cinquantes|seixantes|setantes|vuitantes|huitantes|norantes</token>
+                    </marker>
+                </pattern>
+                <message>Referit a una dècada usem el singular.</message>
+                <suggestion><match no="2" regexp_match="(.*)es" regexp_replace="$1a"/></suggestion>
+                <short>Error de concordança</short>
+                <example type="incorrect" correction="cinquanta">És dels anys <marker>cinquantes</marker>.</example>
+                <example type="correct">És dels anys cinquanta.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="TREURE_LA_SON" name="*treure la son/fer perdre la son">
