@@ -21,11 +21,6 @@ package org.languagetool.dev.errorcorpus;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.core.learning.DataSet;
-import org.neuroph.core.learning.DataSetRow;
-import org.neuroph.nnet.Hopfield;
-import org.neuroph.nnet.Perceptron;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,15 +51,12 @@ import java.util.List;
  */
 class TrainingDataGenerator {
 
-  private static final String NEURAL_NETWORK_OUTPUT = "/tmp/languagetool_perceptron.nnet";
+  private static final String NEURAL_NETWORK_OUTPUT = "/tmp/languagetool_network.net";
   private static final int MAX_SENTENCES = Integer.MAX_VALUE;
   
   private final EnglishWordTokenizer tokenizer = new EnglishWordTokenizer();
   private final LanguageModel languageModel;
-
-  //private final NeuralNetwork neuralNetwork = new Perceptron(2, 1);  // seems to take forever for some training inputs
-  private final NeuralNetwork neuralNetwork = new Hopfield(2);
-  private final DataSet trainingSet = new DataSet(2, 1);
+  private final MachineLearning machineLearning = new MachineLearning();
 
   private double maxCount = 0;
 
@@ -73,37 +65,40 @@ class TrainingDataGenerator {
   }
 
   private void run(File corpusDir) throws IOException {
-    int problemCount = 0;
-    int dataCount = 0;
-    ErrorCorpus corpus = new PedlerCorpus(corpusDir);
-    for (ErrorSentence sentence : corpus) {
-      List<Error> errors = sentence.getErrors();
-      for (Error error : errors) {
-        try {
-          List<String> errorContext = get2gramContext(sentence, error, false);
-          writeTrainingData(errorContext, false);
-          List<String> correctedContext = get2gramContext(sentence, error, true);
-          writeTrainingData(correctedContext, true);
-          dataCount++;
-        } catch (AmbiguousErrorPositionException e) {
-          System.err.println("Ignoring sentence due to limited algorithm: " + e.getMessage());
-          problemCount++;
+    try {
+      int problemCount = 0;
+      int dataCount = 0;
+      ErrorCorpus corpus = new PedlerCorpus(corpusDir);
+      for (ErrorSentence sentence : corpus) {
+        List<Error> errors = sentence.getErrors();
+        for (Error error : errors) {
+          try {
+            List<String> errorContext = get2gramContext(sentence, error, false);
+            writeTrainingData(errorContext, false);
+            List<String> correctedContext = get2gramContext(sentence, error, true);
+            writeTrainingData(correctedContext, true);
+            dataCount++;
+          } catch (AmbiguousErrorPositionException e) {
+            System.err.println("Ignoring sentence due to limited algorithm: " + e.getMessage());
+            problemCount++;
+          }
+          if (dataCount > MAX_SENTENCES) {
+            break;
+          }
         }
         if (dataCount > MAX_SENTENCES) {
+          System.err.println("Maximum number of sentences (" + MAX_SENTENCES + ") reached, stopping");
           break;
         }
       }
-      if (dataCount > MAX_SENTENCES) {
-        System.err.println("Maximum number of sentences (" + MAX_SENTENCES + ") reached, stopping");
-        break;
-      }
+      System.err.println("Sentences ignored due to limited algorithm (TODO): " + problemCount);
+      System.out.println("Max count: " + maxCount);
+      System.out.println("Learning neural network (" + new Date() + ")...");
+      machineLearning.train(new File(NEURAL_NETWORK_OUTPUT));
+      System.out.println("Saved neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
+    } finally {
+      machineLearning.close();
     }
-    System.err.println("Sentences ignored due to limited algorithm (TODO): " + problemCount);
-    System.out.println("Max count: " + maxCount);
-    System.out.println("Learning neural network (" + new Date() + ")...");
-    neuralNetwork.learn(trainingSet);
-    System.out.println("Saving neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
-    neuralNetwork.save(NEURAL_NETWORK_OUTPUT);
   }
 
   private List<String> get2gramContext(ErrorSentence sentence, Error error, boolean useCorrection) {
@@ -160,7 +155,7 @@ class TrainingDataGenerator {
     if (rightCount > maxCount) {
       maxCount = rightCount;
     }
-    trainingSet.addRow(new DataSetRow(new double[]{leftCountNorm, rightCountNorm}, new double[]{targetValue}));
+    machineLearning.addData(targetValue, leftCount, rightCount);
   }
 
   private List<String> removeWhitespaceTokens(List<String> tokens) {
