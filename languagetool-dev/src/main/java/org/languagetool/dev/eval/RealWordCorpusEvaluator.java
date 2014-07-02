@@ -56,8 +56,8 @@ import java.util.List;
  * => 26,26% recall
  * </pre>
  * 
- * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
- * considering only correct suggestions (by comparing the first suggestion to the expected correction).</p>
+ * <p>After the Deadline has a recall of 27.1% and a precision of 89.4% ("The Design of a Proofreading Software Service",
+ * Raphael Mudge, 2010). The recall is calculated by comparing only the first suggestion to the expected correction.</p>
  * 
  * @since 2.6
  */
@@ -69,10 +69,16 @@ class RealWordCorpusEvaluator {
   private int errorsInCorpusCount;
   private int perfectMatches;
   private int goodMatches;
+  private int matchCount;
 
   RealWordCorpusEvaluator(File languageModelFileOrDir) throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
+    // The Pedler corpus has some real errors that have no error markup, so we disable
+    // some rules that typically match those:
+    langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    langTool.disableRule("ALL_OF_THE");
+    langTool.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
     if (languageModelFileOrDir != null) {
       LanguageModel languageModel;
       if (languageModelFileOrDir.isDirectory()) {
@@ -110,6 +116,7 @@ class RealWordCorpusEvaluator {
     System.out.println("    [  ] = this is not an expected error");
     System.out.println("    [+ ] = this is an expected error");
     System.out.println("    [++] = this is an expected error and the first suggestion is correct");
+    System.out.println("    [//]  = not counted because already matches by a different rule");
     System.out.println("");
     ErrorCorpus corpus = new PedlerCorpus(dir);
     checkLines(corpus);
@@ -130,12 +137,17 @@ class RealWordCorpusEvaluator {
           //TODO: it depends on the order of matches whether [++] comes before [ +] (it should!)
           goodMatches++;
           perfectMatches++;
+          matchCount++;
           System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
         } else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
           goodMatches++;
+          matchCount++;
           System.out.println("    [+ ] " + match + ": " + match.getSuggestedReplacements());
+        } else if (alreadyCounted) {
+          System.out.println("    [//]  " + match + ": " + match.getSuggestedReplacements());
         } else {
           System.out.println("    [  ] " + match + ": " + match.getSuggestedReplacements());
+          matchCount++;
         }
         detectedErrorPositions.add(new Span(match.getFromPos(), match.getToPos()));
       }
@@ -145,13 +157,25 @@ class RealWordCorpusEvaluator {
   private void printResults() {
     System.out.println("");
     System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
+
     System.out.println(goodMatches + " errors found that are marked as errors in the corpus " +
             "(not counting whether LanguageTool's correction was useful)");
     float goodRecall = (float)goodMatches / errorsInCorpusCount * 100;
     System.out.printf(" => %.2f%% recall\n", goodRecall);
+
     float perfectRecall = (float)perfectMatches / errorsInCorpusCount * 100;
     System.out.println(perfectMatches + " errors found where the first suggestion was the correct one");
     System.out.printf(" => %.2f%% recall\n", perfectRecall);
+
+    System.out.println(goodMatches + " out of " + matchCount + " matches where real errors");
+    float precision = (float)goodMatches / matchCount * 100;
+    System.out.printf(" => %.2f%% precision\n", precision);
+
+    System.out.println(perfectMatches + " out of " + matchCount + " matches where real errors (only " +
+            "counting matches with a perfect suggestion)");
+    float perfectPrecision = (float)perfectMatches / matchCount * 100;
+    System.out.printf(" => %.2f%% precision\n", perfectPrecision);
+    System.out.println("Warning: corpus may contain errors without markup, giving invalid precision numbers");
   }
 
   private boolean errorAlreadyCounted(RuleMatch match, List<Span> detectedErrorPositions) {
