@@ -7638,6 +7638,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="CONSTAR_COSTAR" name="constar/costar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">constar</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">costar</match></suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="costava">A mi em <marker>constava</marker> veure-ho.</example>
+            <example type="correct">Em costava veure-ho.</example>
+        </rule>
         <rule id="COMTE" name="*compte/*conte/comte d'Urgell">
             <antipattern>
                 <marker>
