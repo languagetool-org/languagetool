@@ -50,8 +50,8 @@ public class FrequencyIndexCreator {
     Collections.sort(files);
     for (File file : files) {
       String name = file.getName();
-      if (name.contains("_")) {
-        System.out.println("Skipping " + name + " - contains underscore");
+      if (name.matches(".*_[A-Z]+_.*")) {
+        System.out.println("Skipping POS tag file " + name);
         continue;
       }
       if (!name.startsWith("googlebooks-") && name.endsWith(".gz")) {
