@@ -47,13 +47,13 @@ import java.util.List;
  * => 12,35% recall
  * </pre>
  * 
- * Results as of 2014-06-24 (LT with 2grams from Google ngram index, in form of a Lucene index):
+ * Results as of 2014-07-02 (LT with 2grams from Google ngram index, in form of a Lucene index):
  * <pre>
  * 673 lines checked with 834 errors.
  * 269 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
- * => 32,25% recall
+ * => 32,73% recall
  * 216 errors found where the first suggestion was the correct one
- * => 25,90% recall
+ * => 26,26% recall
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
