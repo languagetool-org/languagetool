@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.learning.DataSet;
 import org.neuroph.core.learning.DataSetRow;
-import org.neuroph.nnet.Hopfield;
 import org.neuroph.nnet.Perceptron;
 
 import java.util.Arrays;
@@ -32,7 +31,7 @@ public class TrainingDataGeneratorTest {
   
   @Test
   @Ignore("Interactive use only")
-  public void testNeuroph() {
+  public void testCreateNetworkWithNeuroph() {
     NeuralNetwork neuralNetwork = new Perceptron(2, 1);
     DataSet trainingSet = new DataSet(2, 1);
     trainingSet.addRow(new DataSetRow(new double[]{0, 0}, new double[]{0}));
@@ -41,28 +40,17 @@ public class TrainingDataGeneratorTest {
     trainingSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{1}));
     neuralNetwork.learn(trainingSet);
     neuralNetwork.save("/tmp/or_perceptron.nnet");
-
-    NeuralNetwork neuralNetwork2 = NeuralNetwork.load("/tmp/or_perceptron.nnet");
-    //neuralNetwork2.setInput(1, 1); // 1.0
-    //neuralNetwork2.setInput(0, 0); // 0.0
-    neuralNetwork2.setInput(1, 0); // 1.0 
-    neuralNetwork2.calculate();
-    double[] networkOutput = neuralNetwork2.getOutput();
-    System.out.println(Arrays.toString(networkOutput));
   }
 
   @Test
   @Ignore("Interactive use only")
-  public void testNeuroph2() {
-    NeuralNetwork neuralNetwork = new Perceptron(2, 1);
-    //NeuralNetwork neuralNetwork = new Hopfield(2);
-    DataSet trainingSet = new DataSet(2, 1);
-    float max = 4546;
-    trainingSet.addRow(new DataSetRow(new double[]{235/max, 0}, new double[]{0}));
-    trainingSet.addRow(new DataSetRow(new double[]{4546/max, 263/max}, new double[]{1}));
-    //trainingSet.addRow(new DataSetRow(new double[]{1, 0}, new double[]{1}));
-    //trainingSet.addRow(new DataSetRow(new double[]{1, 1}, new double[]{1}));
-    neuralNetwork.learn(trainingSet);
-    neuralNetwork.save("/tmp/or_perceptron.nnet");
+  public void testUseNeurophNetwork() {
+    NeuralNetwork neuralNetwork = NeuralNetwork.load("/tmp/or_perceptron.nnet");
+    //neuralNetwork2.setInput(1, 1); // 1.0
+    //neuralNetwork2.setInput(0, 0); // 0.0
+    neuralNetwork.setInput(1, 0); // 1.0 
+    neuralNetwork.calculate();
+    double[] networkOutput = neuralNetwork.getOutput();
+    System.out.println(Arrays.toString(networkOutput));
   }
 }
