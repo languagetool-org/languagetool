@@ -89,6 +89,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
   // non-private for tests
   String getBetterAlternativeOrNull(AnalyzedTokenReadings[] tokens, int pos, ConfusionSet confusionSet) {
     AnalyzedTokenReadings token = tokens[pos];
+    //
+    // TODO: LT's tokenization is different to the Google one. E.g. Google "don't" vs LT "don ' t"
+    //
     String next = get(tokens, pos+1);
     String next2 = get(tokens, pos+2);
     String prev = get(tokens, pos-1);
@@ -129,9 +132,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private String get(AnalyzedTokenReadings[] tokens, int i) {
     if (i == -1) {
-      return "0BEGIN.0";  // TODO: this is the AtD marker
+      return LanguageModel.GOOGLE_SENTENCE_START;
     } else if (i >= tokens.length) {
-      return "0END.0";    // TODO: this is the AtD marker
+      return LanguageModel.GOOGLE_SENTENCE_END;
     } else if (i >= 0 && i < tokens.length) {
       return tokens[i].getToken();
     }
