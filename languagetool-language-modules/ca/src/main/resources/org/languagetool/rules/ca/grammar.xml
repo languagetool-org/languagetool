@@ -17061,17 +17061,21 @@ $Id$
             <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
             <rule>
                 <pattern>
+                    <token><exception>com</exception></token>
                     <marker>
-                        <token>a</token>
+                        <token regexp="yes">a|de</token>
                         <token>mitjans</token>
                     </marker>
-                    <token><exception inflected="yes">de</exception></token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <!-- <token><exception inflected="yes">de</exception><exception postag="A..[MC][PN].|V.P..PM." postag_regexp="yes"/></token> -->
                 </pattern>
-                <message>Construcció incompleta</message>
-                <suggestion>a mitjans de</suggestion>
-                <suggestion>a mitjan</suggestion>
+                <message>Construcció incompleta.</message>
+                <suggestion>\2 mitjans de</suggestion>
+                <suggestion>\2 mitjan</suggestion>
                 <example type="incorrect" correction="A mitjans de|A mitjan"><marker>A mitjans</marker> anys 90.</example>
-                <example type="correct">A mitjans dels anys 90..</example>
+                <example type="correct">A mitjans dels anys 90.</example>
+                <example type="correct">Es va dirigir a mitjans especialitzats.</example>
+                <example type="correct">Es va dirigir a mitjans especials.</example>
             </rule>
             <rule>
                 <pattern>
