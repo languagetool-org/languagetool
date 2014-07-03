@@ -22,19 +22,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 // 181 +
 //import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.it.ItalianWordRepeatRule;
 // 181 -
 import org.languagetool.rules.it.MorfologikItalianSpellerRule;
 // 3607406 +
-import org.languagetool.rules.WhitespaceBeforePunctuationRule;
 // 3607406 -
 
 import org.languagetool.tagging.Tagger;
@@ -115,7 +109,7 @@ public class Italian extends Language {
 //            WordRepeatRule.class,
             ItalianWordRepeatRule.class,
 // 181 -
-            WhitespaceRule.class
+            MultipleWhitespaceRule.class
     );
   }
 

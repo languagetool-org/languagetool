@@ -22,11 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.be.MorfologikBelarusianSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
@@ -93,7 +89,7 @@ public class Belarusian extends Language {
               DoublePunctuationRule.class,
               MorfologikBelarusianSpellerRule.class,
               UppercaseSentenceStartRule.class,
-              WhitespaceRule.class
+              MultipleWhitespaceRule.class
       );
     }
 
