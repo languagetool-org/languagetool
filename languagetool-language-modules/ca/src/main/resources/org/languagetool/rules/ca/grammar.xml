@@ -15620,6 +15620,38 @@ $Id$
                 <example type="correct">Porta-l'hi</example>
             </rule>
         </rulegroup>
+        <rulegroup id="LA_HI_HA" name="la hi ha/n'hi ha">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">la|l'|les|els</token>
+                        <token>hi</token>
+                        <token inflected="yes">haver<exception postag="_perfet"/></token>
+                    </marker>
+                </pattern>
+                <message>Pronom feble inadequat.</message>
+                <suggestion>n'hi \3</suggestion>
+                <short>Error de sintaxi</short>
+                <example type="incorrect" correction="n'hi ha">Sempre <marker>la hi ha</marker>.</example>
+                <example type="correct">Sempre la hi ha duta ell.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">la|l'|les|els</token>
+                        <token>hi</token>
+                        <token inflected="yes">haver</token>
+                    </marker>
+                   <token postag="V.P.*" postag_regexp="yes" inflected="yes">haver</token>
+                   <token><exception inflected="yes">de</exception></token>
+                </pattern>
+                <message>Pronom feble inadequat.</message>
+                <suggestion>n'hi \3</suggestion>
+                <short>Error de sintaxi</short>
+                <example type="incorrect" correction="n'hi ha">Sempre <marker>la hi ha</marker> hagut.</example>
+                <example type="correct">Sempre la hi ha hagut de portar ell.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="«lo» neutre" type="grammar">
         <!-- es podria fer una llista molt més completa de solucions-->
