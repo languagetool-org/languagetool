@@ -7638,6 +7638,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="FER_SERVIT" name="fer *servit/servir">
+            <pattern>
+                <marker>
+                    <token inflected="yes">fer</token>
+                    <token>servit</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>\1 servir</suggestion>?</message>
+            <example type="incorrect" correction="fent servir">Sempre <marker>fent servit</marker> les eines adequades.</example>
+            <example type="correct">Fent servir les eines adequades.</example>
+        </rule>
         <rule id="CONSTAR_COSTAR" name="constar/costar">
             <pattern>
                 <marker>
@@ -16988,6 +16999,7 @@ $Id$
             <example type="correct">No va aconseguir fer-ho</example>
         </rule>
         <rulegroup id="A_MITJAN_DE" name="*a mitjan de/a mitjan/a mitjans de">
+            <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
             <rule>
                 <pattern>
                     <marker>
@@ -17000,7 +17012,6 @@ $Id$
                 <message>Expressió incorrecta</message>
                 <suggestion>a mitjan</suggestion>
                 <suggestion>a mitjans \3</suggestion>
-                <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
                 <short>Expressió incorrecta</short>
                 <example type='incorrect' correction="A mitjan|A mitjans de"><marker>A mitjan de</marker> segle V</example>
                 <example type='incorrect' correction="A mitjan|A mitjans d'"><marker>A mitjan d'</marker>abril</example>
@@ -17018,13 +17029,13 @@ $Id$
                     </pattern>
                 <message>Expressió incorrecta.</message>
                 <suggestion>a mitjans \3</suggestion>
-                <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
                 <short>Expressió incorrecta</short>
                 <example type='incorrect' correction="A mitjans de"><marker>A mitjan de</marker> la dècada</example>
                 <example type='correct'>A mitjan segle V</example>
             </rule>
         </rulegroup>
         <rulegroup id="MITJAN" name="mitjan/a mitjan">
+            <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
             <rule>
                 <antipattern>
                     <marker>
@@ -17044,6 +17055,23 @@ $Id$
                 <suggestion>de mitjan</suggestion>
                 <example type="incorrect" correction="a mitjan|de mitjan">És <marker>mitjan</marker> segle.</example>
                 <example type="correct">Entre 1710 i mitjan segle.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="A_MITJANS" name="*a mitjans/a mitjans de">
+            <url>http://esadir.cat/gramatica/sintaxi/mitjans</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>a</token>
+                        <token>mitjans</token>
+                    </marker>
+                    <token><exception inflected="yes">de</exception></token>
+                </pattern>
+                <message>Construcció incompleta</message>
+                <suggestion>a mitjans de</suggestion>
+                <suggestion>a mitjan</suggestion>
+                <example type="incorrect" correction="A mitjans de|A mitjan"><marker>A mitjans</marker> anys 90.</example>
+                <example type="correct">A mitjans dels anys 90..</example>
             </rule>
             <rule>
                 <pattern>
@@ -26789,8 +26817,17 @@ $Id$
             
         </rule>
         <rule id="POSSESIU_CARREC_FAVOR_PARER" name="possessiu + càrrec/favor/parer">
+            <antipattern>
+                <marker>
+                    <token skip="4" inflected="yes" regexp="yes">.*tornar|.*integrar|renunciar|romandre</token>
+                    <token>a</token>
+                    <token spacebefore="no">l</token>
+                    <token postag="PX.*" postag_regexp="yes"></token>
+                    <token regexp="yes">càrrec|favor|parer</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception inflected="yes" regexp="yes">.*tornar|.*integrar|renunciar</exception><exception regexp="yes">gràcies|respecte|relatius?</exception></token>
+                <token><exception regexp="yes">gràcies|respecte|relatius?</exception></token>
                 <marker>
                     <token>a</token>
                     <token spacebefore="no">l</token>
@@ -26804,6 +26841,7 @@ $Id$
             <example type="correct">el sopar va <marker>a càrrec meu</marker></example>
             <example type="correct">i llavors tornà al seu càrrec</example>
             <example type="correct">gràcies al meu favor</example>
+            <example type="correct">i que romanga impune al seu càrrec</example>
         </rule>
         <rulegroup id="PER_COMPTES_DE" name="per comptes de" >
             <rule>
