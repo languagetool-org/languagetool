@@ -11155,6 +11155,21 @@ USA
         </rulegroup>
     </category>
     <category name="Punctuation Errors" type="typographical">
+        <rule id="STATE_OF_THE_ART" name="state of the art (state-of-the-art)">
+            <pattern>
+                <marker>
+                    <token>state</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>art</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>state-of-the-art</suggestion>?</message>
+            <example type='incorrect' correction="state-of-the-art">We present our <marker>state of the art</marker> solution.</example>
+            <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
+            <example type='correct'>We compare our results to <marker>state of the art</marker>.</example>
+        </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>
                 <pattern>
