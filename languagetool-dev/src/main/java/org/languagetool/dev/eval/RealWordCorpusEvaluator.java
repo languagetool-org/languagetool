@@ -53,8 +53,8 @@ import java.util.List;
  * 673 lines checked with 832 errors.
  * 272 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful) => 32,69% recall
  * 219 errors found where the first suggestion was the correct one => 26,32% recall
- * 272 out of 352 matches where real errors => 77,27% precision
- * 219 out of 352 matches where real errors (only counting matches with a perfect suggestion) => 62,22% precision
+ * 272 out of 352 matches are real errors => 77,27% precision
+ * 219 out of 352 matches are real errors (only counting matches with a perfect suggestion) => 62,22% precision
  * Warning: corpus may contain errors without markup, giving invalid precision numbers
  * </pre>
  * 
@@ -178,11 +178,11 @@ class RealWordCorpusEvaluator {
     System.out.print(perfectMatches + " errors found where the first suggestion was the correct one");
     System.out.printf(" => %.2f%% recall\n", perfectRecall);
 
-    System.out.print(goodMatches + " out of " + matchCount + " matches where real errors");
+    System.out.print(goodMatches + " out of " + matchCount + " matches are real errors");
     float precision = (float)goodMatches / matchCount * 100;
     System.out.printf(" => %.2f%% precision\n", precision);
 
-    System.out.print(perfectMatches + " out of " + matchCount + " matches where real errors (only " +
+    System.out.print(perfectMatches + " out of " + matchCount + " matches are real errors (only " +
             "counting matches with a perfect suggestion)");
     float perfectPrecision = (float)perfectMatches / matchCount * 100;
     System.out.printf(" => %.2f%% precision\n", perfectPrecision);
