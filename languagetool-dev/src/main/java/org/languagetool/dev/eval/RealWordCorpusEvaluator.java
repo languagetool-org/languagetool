@@ -72,6 +72,9 @@ class RealWordCorpusEvaluator {
   private int perfectMatches;
   private int goodMatches;
   private int matchCount;
+  private int perfectConfusionMatches;
+  private int goodConfusionMatches;
+  private int badConfusionMatches;
 
   RealWordCorpusEvaluator(File languageModelFileOrDir) throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
@@ -149,20 +152,33 @@ class RealWordCorpusEvaluator {
           goodMatches++;
           perfectMatches++;
           matchCount++;
+          if (isConfusionRule(match)) {
+            perfectConfusionMatches++;
+          }
           System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
         } else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
           goodMatches++;
           matchCount++;
+          if (isConfusionRule(match)) {
+            goodConfusionMatches++;
+          }
           System.out.println("    [+ ] " + match + ": " + match.getSuggestedReplacements());
         } else if (alreadyCounted) {
           System.out.println("    [//]  " + match + ": " + match.getSuggestedReplacements());
         } else {
           System.out.println("    [  ] " + match + ": " + match.getSuggestedReplacements());
           matchCount++;
+          if (isConfusionRule(match)) {
+            badConfusionMatches++;
+          }
         }
         detectedErrorPositions.add(new Span(match.getFromPos(), match.getToPos()));
       }
     }
+  }
+
+  private boolean isConfusionRule(RuleMatch match) {
+    return match.getRule().getId().equals("CONFUSION_RULE");
   }
 
   private void printResults() {
@@ -186,7 +202,9 @@ class RealWordCorpusEvaluator {
             "counting matches with a perfect suggestion)");
     float perfectPrecision = (float)perfectMatches / matchCount * 100;
     System.out.printf(" => %.2f%% precision\n", perfectPrecision);
-    System.out.println("Warning: corpus may contain errors without markup, giving invalid precision numbers");
+    
+    System.out.println("Confusion rule matches: " + perfectConfusionMatches+ " perfect, "
+            + goodConfusionMatches + " good, " + badConfusionMatches + " bad");
   }
 
   private boolean errorAlreadyCounted(RuleMatch match, List<Span> detectedErrorPositions) {
