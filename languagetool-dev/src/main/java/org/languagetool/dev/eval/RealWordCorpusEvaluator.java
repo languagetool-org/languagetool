@@ -47,13 +47,14 @@ import java.util.List;
  * => 12,35% recall
  * </pre>
  * 
- * Results as of 2014-07-02 (LT with 2grams from Google ngram index, in form of a Lucene index):
+ * Results as of 2014-07-04 (LT with 2grams from Google ngram index, in form of a Lucene index):
  * <pre>
- * 673 lines checked with 834 errors.
- * 269 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
- * => 32,73% recall
- * 216 errors found where the first suggestion was the correct one
- * => 26,26% recall
+ * 675 lines checked with 834 errors.
+ * 273 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful) => 32,73% recall
+ * 219 errors found where the first suggestion was the correct one => 26,26% recall
+ * 273 out of 484 matches where real errors => 56,40% precision
+ * 219 out of 484 matches where real errors (only counting matches with a perfect suggestion) => 45,25% precision
+ * Warning: corpus may contain errors without markup, giving invalid precision numbers
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% and a precision of 89.4% ("The Design of a Proofreading Software Service",
@@ -158,20 +159,20 @@ class RealWordCorpusEvaluator {
     System.out.println("");
     System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
 
-    System.out.println(goodMatches + " errors found that are marked as errors in the corpus " +
+    System.out.print(goodMatches + " errors found that are marked as errors in the corpus " +
             "(not counting whether LanguageTool's correction was useful)");
     float goodRecall = (float)goodMatches / errorsInCorpusCount * 100;
     System.out.printf(" => %.2f%% recall\n", goodRecall);
 
     float perfectRecall = (float)perfectMatches / errorsInCorpusCount * 100;
-    System.out.println(perfectMatches + " errors found where the first suggestion was the correct one");
+    System.out.print(perfectMatches + " errors found where the first suggestion was the correct one");
     System.out.printf(" => %.2f%% recall\n", perfectRecall);
 
-    System.out.println(goodMatches + " out of " + matchCount + " matches where real errors");
+    System.out.print(goodMatches + " out of " + matchCount + " matches where real errors");
     float precision = (float)goodMatches / matchCount * 100;
     System.out.printf(" => %.2f%% precision\n", precision);
 
-    System.out.println(perfectMatches + " out of " + matchCount + " matches where real errors (only " +
+    System.out.print(perfectMatches + " out of " + matchCount + " matches where real errors (only " +
             "counting matches with a perfect suggestion)");
     float perfectPrecision = (float)perfectMatches / matchCount * 100;
     System.out.printf(" => %.2f%% precision\n", perfectPrecision);
