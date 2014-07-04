@@ -47,13 +47,14 @@ import java.util.List;
  * => 12,35% recall
  * </pre>
  * 
- * Results as of 2014-07-04 (LT with 2grams from Google ngram index, in form of a Lucene index):
+ * Results as of 2014-07-04 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
- * 675 lines checked with 834 errors.
- * 273 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful) => 32,73% recall
- * 219 errors found where the first suggestion was the correct one => 26,26% recall
- * 273 out of 484 matches where real errors => 56,40% precision
- * 219 out of 484 matches where real errors (only counting matches with a perfect suggestion) => 45,25% precision
+ * 673 lines checked with 832 errors.
+ * 272 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful) => 32,69% recall
+ * 219 errors found where the first suggestion was the correct one => 26,32% recall
+ * 272 out of 352 matches where real errors => 77,27% precision
+ * 219 out of 352 matches where real errors (only counting matches with a perfect suggestion) => 62,22% precision
  * Warning: corpus may contain errors without markup, giving invalid precision numbers
  * </pre>
  * 
@@ -78,8 +79,17 @@ class RealWordCorpusEvaluator {
     // The Pedler corpus has some real errors that have no error markup, so we disable
     // some rules that typically match those:
     langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
-    langTool.disableRule("ALL_OF_THE");
     langTool.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
+    langTool.disableRule("EN_QUOTES");
+    langTool.disableRule("I_LOWERCASE");
+    // turn off style rules:
+    langTool.disableRule("LITTLE_BIT");
+    langTool.disableRule("ALL_OF_THE");
+    langTool.disableRule("SOME_OF_THE");
+    // British English vs. American English - not clear whether the corpus contains only BE:
+    langTool.disableRule("EN_GB_SIMPLE_REPLACE");
+    langTool.disableRule("APARTMENT-FLAT");
+
     if (languageModelFileOrDir != null) {
       LanguageModel languageModel;
       if (languageModelFileOrDir.isDirectory()) {
