@@ -92,7 +92,6 @@ public class WhitespaceBeforePunctuationRule extends Rule {
       if (msg != null) {
         final int fromPos = tokens[i - 1].getStartPos();
         final int toPos = tokens[i - 1].getStartPos() + 1 + prevLen;
-        // TODO: add some good short comment here
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);

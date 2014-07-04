@@ -29,7 +29,7 @@ import org.languagetool.tools.StringTools;
 import static org.languagetool.tools.StringTools.isEmpty;
 
 /**
- * A rule that matches commas and closing parenthesis preceded by whitespace and
+ * A rule that matches periods, commas and closing parenthesis preceded by whitespace and
  * opening parenthesis followed by whitespace.
  * 
  * @author Daniel Naber
@@ -99,21 +99,20 @@ public class CommaWhitespaceRule extends Rule {
       }
       if (msg != null) {
         final int fromPos = tokens[i - 1].getStartPos();
-        //final int toPos = tokens[i - 1].getStartPos() + fixLen + prevLen;
         final int toPos = tokens[i].getStartPos() + tokens[i].getToken().length();
-        // TODO: add some good short comment here
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, toPos, msg);
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
       prevPrevToken = prevToken;
       prevToken = token;
-      prevWhite = isWhitespace && !tokens[i].isFieldCode(); //OOo code before comma/dot
+      prevWhite = isWhitespace && !tokens[i].isFieldCode(); // LO/OO code before comma/dot
     }
 
     return toRuleMatchArray(ruleMatches);
   }
 
+  /** @deprecated will be made private (deprecated since 2.7) */
   static boolean isNotQuoteOrHyphen(final String str) {
     if (str.length() == 1) {
       final char c = str.charAt(0);
@@ -128,6 +127,7 @@ public class CommaWhitespaceRule extends Rule {
     return true;
   }
 
+  /** @deprecated will be made private (deprecated since 2.7) */
   static boolean isNumberOrDot(final String str) {
     if (isEmpty(str)) {
       return false;
@@ -136,6 +136,7 @@ public class CommaWhitespaceRule extends Rule {
     return c == '.' || Character.isDigit(c);
   }
 
+  /** @deprecated will be made private (deprecated since 2.7) */ 
   static boolean isLeftBracket(final String str) {
     if (str.length() == 0) {
       return false;
@@ -144,6 +145,7 @@ public class CommaWhitespaceRule extends Rule {
     return c == '(' || c == '[' || c == '{';
   }
 
+  /** @deprecated will be made private (deprecated since 2.7) */
   static boolean isRightBracket(final String str) {
     if (str.length() == 0) {
       return false;
@@ -152,6 +154,7 @@ public class CommaWhitespaceRule extends Rule {
     return c == ')' || c == ']' || c == '}';
   }
 
+  /** @deprecated will be made private (deprecated since 2.7) */
   static boolean containsNoNumber(final String str) {
     for (int i = 0; i < str.length(); i++) {
       if (Character.isDigit(str.charAt(i))) {
