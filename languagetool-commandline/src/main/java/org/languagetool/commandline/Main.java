@@ -70,7 +70,7 @@ class Main {
       final Language language, final Language motherTongue,
       final String[] disabledRules, final String[] enabledRules,
       final boolean apiFormat, boolean applySuggestions, 
-      boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModel) throws IOException,
+      boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModelIndexDir) throws IOException,
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
@@ -88,8 +88,8 @@ class Main {
     lt = new MultiThreadedJLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
-    if (languageModel != null) {
-      lt.activateLanguageModelRules(languageModel);
+    if (languageModelIndexDir != null) {
+      lt.activateLanguageModelRules(languageModelIndexDir);
     }
     Tools.selectRules(lt, disabledRules, enabledRules);
   }

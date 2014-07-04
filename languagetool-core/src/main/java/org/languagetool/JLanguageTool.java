@@ -44,6 +44,8 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Category;
@@ -311,14 +313,14 @@ public class JLanguageTool {
     return false;
   }
 
-  private boolean addNewlyConstructedLanguageModelRules(File languageModel, ResourceBundle messages, List<Rule> rules, Constructor[] constructors) 
-          throws InstantiationException, IllegalAccessException, InvocationTargetException {
+  private boolean addNewlyConstructedLanguageModelRules(File indexDir, ResourceBundle messages, List<Rule> rules, Constructor[] constructors)
+          throws InstantiationException, IllegalAccessException, InvocationTargetException, IOException {
     for (Constructor constructor : constructors) {
       final Class[] paramTypes = constructor.getParameterTypes();
       if (paramTypes.length == 2
               && paramTypes[0].equals(ResourceBundle.class)
-              && paramTypes[1].equals(File.class)) {
-        rules.add((Rule) constructor.newInstance(messages, languageModel));
+              && paramTypes[1].equals(LanguageModel.class)) {
+        rules.add((Rule) constructor.newInstance(messages, new LuceneLanguageModel(indexDir)));
         return true;
       }
     }
@@ -377,14 +379,14 @@ public class JLanguageTool {
   /**
    * @since 2.6
    */
-  public void activateLanguageModelRules(File languageModel) throws IOException {
+  public void activateLanguageModelRules(File indexDir) throws IOException {
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     List<Rule> rules = new ArrayList<>();
     for (Class<? extends Rule> ruleClass : language.getRelevantLanguageModelRules()) {
       final Constructor[] constructors = ruleClass.getConstructors();
       try {
         if (constructors.length > 0) {
-          boolean constructorFound = addNewlyConstructedLanguageModelRules(languageModel, messages, rules, constructors);
+          boolean constructorFound = addNewlyConstructedLanguageModelRules(indexDir, messages, rules, constructors);
           if (!constructorFound) {
             throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName()
                     + " - add at least a constructor with a ResourceBundle parameter and a File (for the language model)");
