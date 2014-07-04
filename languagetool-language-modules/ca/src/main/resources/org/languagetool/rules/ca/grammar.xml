@@ -14674,7 +14674,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">[stm]'</token>
-                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">(hi|ho)</exception></token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes"><exception regexp="yes">(hi|ho|us)</exception></token>
                 </pattern>
                 <message>Apostrofació incorrecta.</message>
                 <suggestion><match no="1" regexp_match="([stmSTM])'" regexp_replace="$1e"/>'<match no="2" regexp_match="e(.+)" regexp_replace="$1"/></suggestion>
@@ -14826,6 +14826,17 @@ $Id$
                 <example type="incorrect" correction="Li'n"><marker>Li en</marker> compraré quatre.</example>
                 <example type="incorrect" correction="Li'ls"><marker>Li els</marker> portaré demà.</example>
                 <example type="correct">Li'n dec una.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P0.*|PP.*" postag_regexp="yes">s'</token>
+                    <token postag="P0.*|PP.*" postag_regexp="yes">us</token>
+                </pattern>
+                <message>Apostrofació incorrecta.</message>
+                <suggestion>se us</suggestion>
+                <short>Apostrofació incorrecta</short>
+                <example type="incorrect" correction="Se us"><marker>S'us</marker> diu.</example>
+                <example type="correct">Se us va dir</example>
             </rule>
             <!-- darrere del verb-->
         </rulegroup>
@@ -15635,6 +15646,7 @@ $Id$
                 <example type="incorrect" correction="n'hi ha">Sempre <marker>la hi ha</marker>.</example>
                 <example type="correct">Sempre la hi ha duta ell.</example>
                 <example type="correct">Els hi hem d'aplicar.</example>
+                <example type="correct">que els hi havia deixats.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26335,7 +26347,7 @@ $Id$
         <rule id="TREURE_LLEVAR" name="treure/llevar/prendre">
             <pattern>
                 <marker>
-                    <token skip="2" inflected="yes">treure<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token skip="2" inflected="yes">treure<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="next" inflected="yes">de</exception></token>
                 </marker>
                 <token inflected="yes" regexp="yes">dret|cartera|gana|vida</token>
             </pattern>
@@ -26349,6 +26361,7 @@ $Id$
             <example type="incorrect" correction="llevaren|prengueren|furtaren|feren perdre">Ens <marker>tragueren</marker> molts drets.</example>
             <example type="correct">Ens llevaren tots els drets.</example>
             <example type="correct">No es podien traure diners del caixer.</example>
+            <example type="correct">sempre senzills i trets de la vida</example>
         </rule>
         <rule id="NO_TREU_QUE" name="no treu que">
             <pattern>
