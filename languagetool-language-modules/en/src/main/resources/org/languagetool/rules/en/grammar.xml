@@ -11239,6 +11239,16 @@ USA
                 <example type="incorrect">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
             </rule>
         </rulegroup>
+        <rule id="NO_SPACE_CLOSING_QUOTE" name="Missing space after closing quote">
+            <pattern>
+                <token>”</token>
+                <token regexp='yes' spacebefore='no'>\w+</token>
+            </pattern>
+            <message>There should be a space after a closing quote.</message>
+            <suggestion>\1 \2</suggestion>
+            <example type='incorrect' correction="” said">“Good morning, Frank,<marker>”said</marker> Hal.</example>
+            <example type='correct'>“Good morning, Frank,” said Hal.</example>
+        </rule>
         <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
             <rule>
                 <pattern case_sensitive="yes">
