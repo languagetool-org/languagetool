@@ -115,7 +115,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
     String prev = get(tokens, pos-1);
     String prev2 = get(tokens, pos-2);
     @SuppressWarnings("UnnecessaryLocalVariable")
-    double textScore = score(token.getToken(), next, next2, prev, prev2);
+    //double textScore = score(token.getToken(), next, next2, prev, prev2) - 10_000;  // 47,66 f 0.5 measure 
+    double textScore = score(token.getToken(), next, next2, prev, prev2) + 0;  // 48.97
+    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 25_000;  // 49,15
+    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 1_000_000;  // 48,82
+    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 10_000_000;  // 48,53
+    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 100_000_000;  // 48,01
+    //double textScore = Double.MAX_VALUE; // 30,15
     double bestScore = textScore;
     String betterAlternative = null;
     NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
