@@ -7639,6 +7639,63 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="REPRESENTAT_REPRESENTANT" name="representat/representant">
+            <antipattern>
+                <marker>
+                    <token skip="4" regexp="yes">representats?</token>
+                </marker>
+                <token regexp="yes" inflected="yes">forma|manera|color|cos|perfil</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">representats?<exception postag="_GV_"/><exception scope="previous" regexp="yes">molt|ben</exception><exception scope="previous" regexp="yes" inflected="yes">trobar|aparèixer|ser|estar|quedar</exception></token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+t(s?)" regexp_replace="representant$1"/></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="representant">És el <marker>representat</marker> d'Andorra a les Nacions Unides.</example>
+                <example type="incorrect" correction="representant">És l'últim <marker>representat</marker> del romanticisme.</example>
+                <example type="incorrect" correction="representants">Són els <marker>representats</marker> d'aquella generació.</example>
+                <example type="correct">És el nostre representant.</example>
+                <example type="correct">és representat de color groc o taronja</example>
+                <example type="correct">Està representat de mig cos,</example>
+                <example type="correct">s'ha representat de blau cyan</example>
+                <example type="correct">sempre representat de manera excepcional</example>
+                <example type="correct">ha acabat essent representat de formes molt diverses</example>
+                <example type="correct">El més ben representat de la col·lecció</example>
+                <example type="correct">representat de perfil</example>
+                <example type="correct">pot ser representat de la següent manera</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">representats?<exception scope="previous" regexp="yes">molt|ben</exception></token>
+                    </marker>
+                    <token inflected="yes" skip="2">de</token>
+                    <token regexp="yes">comerç|santa|economia|cultura</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+t(s?)" regexp_replace="representant$1"/></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="representant">Era <marker>representat</marker> de comerç.</example>
+                <example type="incorrect" correction="representant">Era <marker>representat</marker> de la Santa Seu.</example>
+                <example type="correct">És el nostre representant.</example>
+             </rule>
+             <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">representats?<exception scope="previous" regexp="yes">molt|ben</exception></token>
+                    </marker>
+                    <token inflected="yes" skip="2">de</token>
+                    <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".+t(s?)" regexp_replace="representant$1"/></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="representant">Era <marker>representat</marker> d'Andorra a les Nacions Unides.</example>
+                <example type="correct">És el nostre representant.</example>
+             </rule>
+        </rulegroup>
         <rule id="FER_SERVIT" name="fer *servit/servir">
             <pattern>
                 <marker>
