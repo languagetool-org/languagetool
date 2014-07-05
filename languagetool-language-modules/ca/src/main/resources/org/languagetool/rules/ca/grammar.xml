@@ -11625,6 +11625,14 @@ $Id$
                 <example type="correct">la schola cantorum</example>
             </rule>
             <rule id="DE_SCHOLA" name="Exigeix: de schola">
+                <antipattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[Dd]'</token>
+                        <token>R</token>
+                        <token>+</token>
+                        <token>D</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>d'</token>
                     <token regexp="yes">[qwrtypsdfgjklñzxcvbnmç].*<exception regexp="yes">(?-i)Y[^aeiou].+|W|\p{Lu}[\p{Lu}\d\-]+</exception></token>
@@ -11639,6 +11647,7 @@ $Id$
                 <example type="correct">Una molècula d'RNA.</example>
                 <example type="correct">Una molècula d'M7.</example>
                 <example type="correct">l'altitud augmenta d'W a E</example>
+                <example type="correct">Propostes d'R+D+I.</example>
             </rule>
         </rulegroup>
     </category>
