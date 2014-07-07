@@ -4803,7 +4803,9 @@ $Id$
                 <example type="correct">Tant econòmicament com financera.</example>
                 <example type="correct">Tant nacionals com estrangers.</example>
                 <example type="correct">Feia temps que no gaudia tant davant la pantalla.</example>
-                <!--No es pot resoldre: <example type="correct">Ja no s'encomana tant socialment.</example> -->
+                <!--No es pot resoldre: 
+                Ja no s'encomana tant socialment.
+                no l'escanyin tant econòmicament -->
             </rule>
             <rule> 
             <!-- mots que probablement són adjectius, 
@@ -6034,7 +6036,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -16890,6 +16892,18 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="A_TOTHORA" name="*a tothora/a tota hora/tothora">
+            <pattern>
+                <token>a</token>
+                <token>tothora</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>a tota hora</suggestion>
+            <suggestion>a totes hores</suggestion>
+            <suggestion>tothora</suggestion>
+            <example type="incorrect" correction="A tota hora|A totes hores|Tothora"><marker>A tothora</marker>.</example>
+            <example type="correct">A tota hora.</example>
+        </rule>
         <rule id="TREURE_LA_SON" name="*treure la son/fer perdre la son">
             <pattern>
                 <token inflected="yes">treure<exception postag="_GN_.*" postag_regexp="yes"/></token>
