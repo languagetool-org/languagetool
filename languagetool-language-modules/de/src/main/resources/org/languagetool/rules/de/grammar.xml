@@ -97,19 +97,21 @@ $Id$
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
         
-       <!-- <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'"> TODO
+       <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
             <pattern>
                 <marker>
                     <token>im</token>
                 </marker>
-                <token postag="VER:[123]:.*" postag_regexp="yes"><exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/></token>
+                <token postag="VER:[123]:.*" postag_regexp="yes">
+                    <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
+                    <exception regexp="yes">siebten|achten</exception></token>
             </pattern>
             <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
             <short>Möglicher Tippfehler</short>
             <example type="incorrect"><marker>Im</marker> folgt Merkel.</example>
             <example type="correct"><marker>Ihm</marker> folgt Merkel.</example>
-            <example type="correct"><marker>Im<marker> gleichen T-Shirt sah er besser aus.</example>
-        </rule>-->
+            <example type="correct"><marker>Im</marker> gleichen T-Shirt sah er besser aus.</example>
+        </rule>
         <rule id="SEIN_MONATEN" name="Möglicher Tippfehler: sein (seit) Jahren etc.">
             <pattern>
                 <token>sein</token>
@@ -12298,7 +12300,7 @@ $Id$
                 <example type="incorrect" correction="Schulden">Weil ich zu viele <marker>schulden</marker> hatte, wurde ich nicht bedient.</example>
                 <example type="incorrect" correction="Schulden">Du wirst nur Erfolg haben, wenn du keine <marker>schulden</marker> machst.</example>
                 <!-- <example type="incorrect" correction="Schulden">Du wirst hier erst wieder bedient, wenn du deine <marker>schulden</marker> bezahlst.</example> -->
-                <!-- TODO: 'bezahlen' nicht im dic? -->
+                <!-- TODO: 'bezahlen' nicht im dic? doch, aber mit Lemma "[be]zahlen" -->
             </rule>
         </rulegroup>
         <rulegroup id="FILME_SUBST" name="Groß-/Kleinschreibung: 'ich zeige filme (Filme)' etc.">
