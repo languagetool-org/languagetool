@@ -24,11 +24,12 @@ import org.languagetool.Language;
 public class SRXSentenceTokenizerTest extends TestCase {
 
   public void testOfficeFootnoteTokenize() {
+    int count = 0;
     for (Language language : Language.REAL_LANGUAGES) {
       if (language.getSentenceTokenizer().getClass() != SRXSentenceTokenizer.class) {
         continue;
       }
-      if (language.getShortName().equals("km") || language.getShortName().equals("ml") || language.getShortName().equals("pt")) {
+      if (language.getShortName().equals("km") || language.getShortName().equals("ml")) {
         // TODO: I don't know about these...
         continue;
       }
@@ -36,6 +37,10 @@ public class SRXSentenceTokenizerTest extends TestCase {
       final SentenceTokenizer tokenizer = new SRXSentenceTokenizer(language);
       assertEquals("Sentence not split correctly for " + language + ": '" + input + "'",
               "[A sentence.\u0002 , And another one.]", tokenizer.tokenize(input).toString());
+      count++;
+    }
+    if (count == 0) {
+      fail("No languages found for testing");
     }
   }
 
