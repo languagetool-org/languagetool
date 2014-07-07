@@ -202,7 +202,6 @@ $Id$
                 <example type="correct">Ich habe von Groß- und <marker>Kleinschreibung</marker> keine Ahnung.</example>
             </rule>
         </rulegroup>
-        <!-- TODO merge with KLEINSCHREIBEN_UNG ? -->
         <rulegroup id="ZUWEISEN_UNG" name="Möglicher Tippfehler: 'zuweisen (Zuweisung)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -1063,7 +1062,6 @@ $Id$
                 <example type="correct">Wann mein Wunsch erfüllt <marker>sein wird</marker>, weiß ich nicht.</example>
             </rule>
         </rulegroup>
-        <!-- TODO merge with ADJ_PRAEDIKATIV? -->
         <rule id="FLEKTIERTES_ADJEKTIV_AM_SATZENDE" name="Möglicher Tippfehler: 'Er ist schnelle (schnell).' etc.">
             <pattern>
                 <token regexp="yes">ist|sind|war(st|t|en)?|bin|bist|seid</token>
@@ -2076,7 +2074,6 @@ $Id$
             <example type="correct">Das wollte ich auch <marker>gerade</marker> sagen.</example>
         </rule>
         <rule id="ERSTEN_MAIN" name="Möglicher Tippfehler: '1. Main (Mai)'">
-            <!-- TODO: Intended text is matched only in the OOo plug-in, it seems. -->
             <pattern>
                 <token regexp="yes">am|den</token>
                 <token regexp="yes">\d+</token>
@@ -3359,7 +3356,6 @@ $Id$
                 <example type="incorrect">Das gilt nach <marker>wir</marker> vor.</example>
             </rule>
         </rulegroup>
-        <!-- TODO: "NOUN wir" außer "welches/was für ein NOUN wir" -->
         <rule id="OHNE_GEWEHR" name="Möglicher Tippfehler: 'ohne Gewehr (Gewähr)'">
             <pattern>
                 <token>ohne</token>
@@ -3506,7 +3502,6 @@ $Id$
             <example type="correct">Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
             <example type="correct"><marker>Die</marker> ersten beiden Zuweisungen sind korrekt.</example>
             <example type="correct">Zum großen Teil waren <marker>dies</marker> Krebsvorstufen.</example>
-            <!-- TODO warum ist "beiden" nicht als ADJ:SFT getagged? -->
             <example type="incorrect" correction="Die"><marker>Dies</marker> ersten beiden Zuweisungen sind korrekt.</example>
         </rule>
         <rule id="ZU_NEIGE" name="zu Neige (zur Neige)">
@@ -7818,7 +7813,11 @@ $Id$
             <example type="incorrect">Wo das Rad <marker>bis her</marker> stand.</example>
         </rule>
         <rule id="STATTFINDEN" name="Zusammen-/Getrenntschreibung: 'statt finden (stattfinden)'">
-            <!-- Jan: TODO: Don't match 'suchen statt finden' -->
+            <antipattern>
+                <token>suchen</token>
+                <token>statt</token>
+                <token>finden</token>
+            </antipattern>
             <pattern>
                 <token>statt</token>
                 <token regexp="yes">finden|findet|fand|fanden|gefunden</token>
@@ -9654,7 +9653,6 @@ $Id$
     <!-- ====================================================================== -->
     <!-- Stil/Sprachebene -->
     <!-- ====================================================================== -->
-    <!-- TODO split category? (Umgangssprache + Stil) -->
     <category name="Stil, Umgangssprache">
         <!-- TODO Make one Java-rule for context-independent, colloquial expressions and maintain a list -->
 
@@ -10487,18 +10485,21 @@ $Id$
         <rulegroup id="ZWISCHEN_SEIT_BIS" name="Stil: 'Zwischen ... bis ...'">
             <rule>
                 <pattern>
-                    <token regexp="yes">seit|zwischen</token>
-                    <token regexp="yes">[0-9]{1,4}</token>
-                    <token>bis</token>
-                    <token regexp="yes">[0-9]{1,4}</token>
+                    <marker>
+                        <token regexp="yes">seit|zwischen</token>
+                        <token regexp="yes">[0-9]{1,4}</token>
+                        <token>bis</token>
+                        <token regexp="yes">[0-9]{1,4}</token>
+                    </marker>
+                    <token negate="yes">Jahren</token>
                 </pattern>
                 <message>'Zwischen' steht mit 'und', nicht mit 'bis': <suggestion>zwischen \2 und \4</suggestion>, <suggestion>von \2 bis \4</suggestion>.</message>
                 <short>'Zwischen' steht mit 'und', nicht mit 'bis'.</short>
                 <example type="correct"><marker>Zwischen 10 und 11</marker> Uhr.</example>
                 <example type="correct"><marker>Von 9 bis 10</marker> Uhr.</example>
+                <example type="correct"><marker>Seit 3000 bis 4000</marker> Jahren gibt es Häuser.</example>
                 <example type="incorrect" correction="Zwischen 10 und 11|Von 10 bis 11"><marker>Zwischen 10 bis 11</marker> Uhr.</example>
                 <example type="incorrect" correction="Zwischen 10 und 11|Von 10 bis 11"><marker>Seit 10 bis 11</marker> Uhr.</example>
-                <!-- TODO: "Seit 3000 bis 4000 Jahren" - das gibt einen Fehlalarm, denke ich -->
             </rule>
             <rule>
                 <pattern>
@@ -16380,7 +16381,6 @@ $Id$
         <rulegroup id="GROSSSCHREIBUNG_MEHRTEILIGE_NAMEN" name="Groß-/Kleinschreibung: Mehrteilige Namen 'französische (Französische) Revolution etc.'">
             <!-- http://www.duden.de/sprachwissen/rechtschreibregeln/namen#K150
                  Alle zu einem mehrteiligen Namen gehörenden Adjektive, Partizipien, Pronomen und Zahlwörter schreibt man groß <§ 60>. -->
-            <!-- TODO Maybe we should make a Java rule for this and maintain a list -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">roten?</token>
@@ -21324,15 +21324,14 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="SCHWAECHE_SUBST" name="Groß-/Kleinschreibung: 'eine schwäche (Schwäche) haben' etc.">
-            <!-- TODO: Dasselbe für 'Stärke' -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes" skip="1">[tT]rotz</token>
                     <marker>
-                        <token>schwächen</token>
+                        <token regexp="yes">schwächen|stärken</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Schwächen</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Trotz gewisser <marker>Schwächen</marker> funktioniert das System.</example>
                 <example type="incorrect" correction="Schwächen">Trotz gewisser <marker>schwächen</marker> funktioniert das System.</example>
@@ -21341,10 +21340,10 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token inflected="yes" skip="1">haben</token>
                     <marker>
-                        <token>schwächen</token>
+                        <token regexp="yes">schwächen|stärken</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Schwächen</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Es hat gewisse <marker>Schwächen</marker>.</example>
                 <example type="incorrect" correction="Schwächen">Es hat gewisse <marker>schwächen</marker>.</example>
@@ -21354,10 +21353,10 @@ $Id$
                     <token inflected="yes">haben</token>
                     <token skip="1">eine</token>
                     <marker>
-                        <token>schwäche</token>
+                        <token regexp="yes">schwäche|stärke</token>
                     </marker>
                 </pattern>
-                <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="3" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Es hat eine große <marker>Schwäche</marker>.</example>
                 <example type="incorrect" correction="Schwäche">Es hat eine große <marker>schwäche</marker>.</example>
@@ -21366,11 +21365,11 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes" skip="1">[eE]ine</token>
                     <marker>
-                        <token>schwäche</token>
+                        <token regexp="yes">schwäche|stärke</token>
                     </marker>
                     <token inflected="yes">haben</token>
                 </pattern>
-                <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Eine <marker>Schwäche</marker> hat das System freilich: Es funktioniert nicht.</example>
                 <example type="incorrect" correction="Schwäche">Eine kleine <marker>schwäche</marker> hat das System freilich: Es funktioniert nicht.</example>
@@ -21379,12 +21378,12 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes" skip="1">[eE]ine</token>
                     <marker>
-                        <token>schwäche</token>
+                        <token regexp="yes">schwäche|stärke</token>
                     </marker>
                     <token>zu</token>
                     <token>haben</token>
                 </pattern>
-                <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Es scheint eine <marker>Schwäche</marker> zu haben: Es funktioniert nicht.</example>
                 <example type="incorrect" correction="Schwäche">Es scheint eine kleine <marker>schwäche</marker> zu haben: Es funktioniert nicht.</example>
@@ -21393,12 +21392,12 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token regexp="yes" skip="1">[eE]ine</token>
                     <marker>
-                        <token>schwäche</token>
+                        <token regexp="yes">schwäche|stärke</token>
                     </marker>
                     <token skip="3">für</token>
                     <token inflected="yes">haben</token>
                 </pattern>
-                <message>&subanfang;<suggestion>Schwäche</suggestion>&subende;</message>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
                 <short>&prgk;.</short>
                 <example type="correct">Er scheint eine <marker>Schwäche</marker> für das Glücksspiel zu haben.</example>
                 <example type="incorrect" correction="Schwäche">Er scheint eine <marker>schwäche</marker> für das Glücksspiel zu haben.</example>
@@ -22472,8 +22471,6 @@ $Id$
             </rule>
         </rulegroup>
         <rule id="AUSSER_BETRIEB" name="Groß-/Kleinschreibung: 'außer betrieb (Betrieb)'">
-            <!-- TODO: could this be covered by excepting nouns after "außer"? -->
-            <!-- Jan: no, 'außer wenn' -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">außer|in</token>
                 <marker>
@@ -22487,7 +22484,6 @@ $Id$
             <example type="incorrect" correction="Betrieb">Der Fahrstuhl ist nicht in <marker>betrieb</marker>.</example>
         </rule>
         <rule id="ZUR_FOLGE" name="Groß-/Kleinschreibung: 'zur folge (Folge)'">
-            <!-- TODO: could this be covered by excepting nouns after "zur"? -->
             <pattern case_sensitive="yes">
                 <token regexp="yes">[zZ]ur</token>
                 <marker>
