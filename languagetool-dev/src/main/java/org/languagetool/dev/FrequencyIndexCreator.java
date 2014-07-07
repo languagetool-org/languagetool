@@ -120,9 +120,20 @@ public class FrequencyIndexCreator {
   }
 
   private boolean isRealPosTag(String text) {
-    return text.contains("_") &&
-           !text.contains(LanguageModel.GOOGLE_SENTENCE_START) &&
-           !text.contains(LanguageModel.GOOGLE_SENTENCE_END);
+    int idx = text.indexOf('_');
+    if (idx == -1) {
+      return false;
+    } else {
+      String tag = idx + 7 <= text.length() ? text.substring(idx, idx + 7) : ""; // _START_
+      if (tag.equals(LanguageModel.GOOGLE_SENTENCE_START)) {
+        return false;
+      }
+      String tag2 = idx + 5 <= text.length() ? text.substring(idx, idx + 5) : ""; // _END_
+      if (tag2.equals(LanguageModel.GOOGLE_SENTENCE_END)) {
+        return false;
+      }
+      return true;
+    }
   }
 
   private void printStats(int i, long docCount, long lineCount, String prevText, long startTimeMicros) {
