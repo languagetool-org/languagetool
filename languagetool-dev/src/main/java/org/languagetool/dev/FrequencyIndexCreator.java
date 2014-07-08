@@ -80,42 +80,45 @@ public class FrequencyIndexCreator {
 
   private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile) throws IOException {
     System.out.println("==== Working on " + inputFile + " ====");
-    InputStream fileStream = new FileInputStream(inputFile);
-    InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
-    Reader decoder = new InputStreamReader(gzipStream, "utf-8");
-    BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE);
-    int i = 0;
-    long docCount = 0;
-    long lineCount = 0;
-    String prevText = null;
-    long startTime = System.nanoTime()/1000;
-    String line;
-    //noinspection NestedAssignment
-    while ((line = buffered.readLine()) != null) {
-      lineCount++;
-      String[] parts = line.split("\t");
-      String text = parts[0];
-      if (isRealPosTag(text)) {
-        continue;
-      }
-      int year = Integer.parseInt(parts[1]);
-      if (year < MIN_YEAR) {
-        continue;
-      }
-      if (prevText == null || prevText.equals(text)) {
-        // aggregate years
-        docCount += Long.parseLong(parts[2]);
-      } else {
-        //System.out.println(">"+ prevText + ": " + count);
-        addDoc(writer, prevText, docCount + "");
-        if (++i % 1_000 == 0) {
-          printStats(i, docCount, lineCount, prevText, startTime);
+    try (
+      InputStream fileStream = new FileInputStream(inputFile);
+      InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
+      Reader decoder = new InputStreamReader(gzipStream, "utf-8");
+      BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE)
+    ) {
+      int i = 0;
+      long docCount = 0;
+      long lineCount = 0;
+      String prevText = null;
+      long startTime = System.nanoTime()/1000;
+      String line;
+      //noinspection NestedAssignment
+      while ((line = buffered.readLine()) != null) {
+        lineCount++;
+        String[] parts = line.split("\t");
+        String text = parts[0];
+        if (isRealPosTag(text)) {
+          continue;
         }
-        docCount = Long.parseLong(parts[2]);
+        int year = Integer.parseInt(parts[1]);
+        if (year < MIN_YEAR) {
+          continue;
+        }
+        if (prevText == null || prevText.equals(text)) {
+          // aggregate years
+          docCount += Long.parseLong(parts[2]);
+        } else {
+          //System.out.println(">"+ prevText + ": " + count);
+          addDoc(writer, prevText, docCount + "");
+          if (++i % 1_000 == 0) {
+            printStats(i, docCount, lineCount, prevText, startTime);
+          }
+          docCount = Long.parseLong(parts[2]);
+        }
+        prevText = text;
       }
-      prevText = text;
+      printStats(i, docCount, lineCount, prevText, startTime);
     }
-    printStats(i, docCount, lineCount, prevText, startTime);
   }
 
   private boolean isRealPosTag(String text) {
