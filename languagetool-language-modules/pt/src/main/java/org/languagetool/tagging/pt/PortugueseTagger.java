@@ -22,7 +22,7 @@ import java.util.Locale;
 
 import org.languagetool.tagging.BaseTagger;
 
-/** Galician Part-of-speech tagger.
+/** Portuguese Part-of-speech tagger.
  * Based on English tagger.
  *
  * @author Marcin Milkowski
