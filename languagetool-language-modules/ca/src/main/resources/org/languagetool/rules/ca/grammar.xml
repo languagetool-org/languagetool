@@ -25214,9 +25214,11 @@ $Id$
             <pattern>
                 <token regexp="yes">burd(a|es)</token>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="burd(.+)" regexp_replace="groller$1"></match></suggestion> (adj.) en lloc de "<match no="1"/>" (subst. terme marítim)</message>
-            <example type="incorrect" correction="grollera">una manipulació molt <marker>burda</marker> </example>
-            <example type="incorrect" correction="grolleres">unes idees <marker>burdes</marker> </example>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ0F$10">groller</match></suggestion> (adj.) en lloc de "<match no="1"/>" (subst., terme marítim)</message>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ0F$10">bast</match></suggestion>
+            <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="AQ0F$10">tosc</match></suggestion>
+            <example type="incorrect" correction="grollera|basta|tosca">una manipulació molt <marker>burda</marker> </example>
+            <example type="incorrect" correction="grolleres|bastes|tosques">unes idees <marker>burdes</marker> </example>
             <example type="correct">pensament barroer</example>
         </rule>
         <rule id="FONDO" name="fondo (adj. no subst.)">
