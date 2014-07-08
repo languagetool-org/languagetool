@@ -62,7 +62,7 @@ public class FrequencyIndexCreator {
         System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX);
         continue;
       }
-      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_48);
+      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_9);
       File indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX, "$1"));
       if (indexDir.exists() && indexDir.isDirectory()) {
         System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists");
@@ -70,7 +70,7 @@ public class FrequencyIndexCreator {
       }
       System.out.println("Index dir: " + indexDir);
       Directory directory = FSDirectory.open(indexDir);
-      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_48, analyzer);
+      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_9, analyzer);
       config.setUseCompoundFile(false);  // ~10% speedup
       //config.setRAMBufferSizeMB(1000);
       try (IndexWriter writer = new IndexWriter(directory, config)) {
