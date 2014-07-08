@@ -373,6 +373,8 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("aus dem Nichts");
     myExceptionPhrases.add("Kleiner Bär");   // das Sternbild
     myExceptionPhrases.add("Zehn Gebote");
+    myExceptionPhrases.add("Heiliges Römisches Reich");
+    myExceptionPhrases.add("Heilige Römische Reich");
     myExceptionPhrases.add("Römische Reich Deutscher Nation");
     myExceptionPhrases.add("ein absolutes Muss");
     myExceptionPhrases.add("ein Muss");
