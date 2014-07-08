@@ -22,13 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.SentenceWhitespaceRule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.fr.QuestionWhitespaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
@@ -121,7 +115,7 @@ public class French extends Language {
             GenericUnpairedBracketsRule.class,
             HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
-            WhitespaceRule.class,
+            MultipleWhitespaceRule.class,
             SentenceWhitespaceRule.class,
             // specific to French:
             QuestionWhitespaceRule.class

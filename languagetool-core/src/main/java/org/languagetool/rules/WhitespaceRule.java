@@ -19,78 +19,28 @@
 
 package org.languagetool.rules;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.tools.StringTools;
+
+import java.util.ResourceBundle;
 
 /**
  * Check if there is duplicated whitespace in a sentence.
  * Considers two spaces as incorrect, and proposes a single space instead.
  * 
  * @author Marcin Miłkowski
+ * @deprecated this has been renamed to {@link MultipleWhitespaceRule} (deprecated since 2.7)
  */
-public class WhitespaceRule extends Rule {
+public class WhitespaceRule extends MultipleWhitespaceRule {
 
   public WhitespaceRule(final ResourceBundle messages, final Language language) {
-    super(messages);
+    super(messages, language);
     super.setCategory(new Category(messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
 
   @Override
   public final String getId() {
-    return "WHITESPACE_RULE";
-  }
-
-  @Override
-  public final String getDescription() {
-    return messages.getString("desc_whitespacerepetition");
-  }
-
-  @Override
-  public RuleMatch[] match(final AnalyzedSentence sentence) {
-    final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
-    boolean prevWhite = false;
-    int prevLen = 0;
-    int prevPos = 0;
-    //note: we start from token 1
-    //token no. 0 is guaranteed to be SENT_START
-    int i = 1;
-    while (i < tokens.length) {
-      final boolean tokenIsTab = tokens[i].getToken().equals("\t");
-      final boolean prevTokenIsLinebreak = tokens[i -1].isLinebreak();
-      if ((tokens[i].isWhitespace() ||
-          StringTools.isNonBreakingWhitespace(tokens[i].getToken())) && prevWhite && !tokenIsTab && !prevTokenIsLinebreak) {
-        final int pos = tokens[i -1].getStartPos();
-        while (i < tokens.length && (tokens[i].isWhitespace() ||
-            StringTools.isNonBreakingWhitespace(tokens[i].getToken()))) {
-          prevLen += tokens[i].getToken().length();
-          i++;
-        }
-        final String message = messages.getString("whitespace_repetition");
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
-        ruleMatch.setSuggestedReplacement(" ");
-        ruleMatches.add(ruleMatch);
-      }
-      if (i < tokens.length) {
-        prevWhite = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(tokens[i].getToken());
-        prevLen = tokens[i].getToken().length();
-        prevPos = tokens[i].getStartPos();
-        i++;
-      }
-    }
-    return toRuleMatchArray(ruleMatches);
-  }
-
-  @Override
-  public void reset() {
-    // nothing
+    return "OLD_WHITESPACE_RULE";
   }
 
 }

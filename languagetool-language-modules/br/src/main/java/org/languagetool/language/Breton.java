@@ -23,12 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.SentenceWhitespaceRule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.br.TopoReplaceRule;
 import org.languagetool.rules.br.MorfologikBretonSpellerRule;
 import org.languagetool.tagging.Tagger;
@@ -118,7 +113,7 @@ public class Breton extends Language {
             DoublePunctuationRule.class,
             MorfologikBretonSpellerRule.class,
             UppercaseSentenceStartRule.class,
-            WhitespaceRule.class,
+            MultipleWhitespaceRule.class,
             SentenceWhitespaceRule.class,
             TopoReplaceRule.class
     );

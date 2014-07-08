@@ -22,14 +22,15 @@ import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
+import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.WhitespaceRule;
 
 import java.io.IOException;
 
-public class WhitespaceRuleTest extends TestCase {
+public class MultipleWhitespaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), new Polish());
+    final MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), new Polish());
     final JLanguageTool langTool = new JLanguageTool(new Polish());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("To jest test.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("To jest   test.")).length);

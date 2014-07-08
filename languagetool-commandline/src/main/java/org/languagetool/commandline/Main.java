@@ -181,7 +181,6 @@ class Main {
 
   private void runOnFileInOneGo(String filename, String encoding, boolean listUnknownWords, boolean xmlFiltering) throws IOException {
     if (bitextMode) {
-      //TODO: add parameter to set different readers
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (applySuggestions) {
         CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
@@ -550,7 +549,6 @@ class Main {
   }
 
   // for language auto detect
-  // TODO: alter tika's language profiles so they are in line with LT's supported languages
   private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
     final String text = StringTools.readStream(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);

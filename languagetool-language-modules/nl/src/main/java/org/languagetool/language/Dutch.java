@@ -22,12 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.nl.CompoundRule;
 import org.languagetool.rules.nl.DutchSpellerRule;
 import org.languagetool.rules.nl.DutchWrongWordInContextRule;
@@ -136,7 +131,7 @@ public class Dutch extends Language {
             GenericUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
             DutchSpellerRule.class,
-            WhitespaceRule.class,
+            MultipleWhitespaceRule.class,
             CompoundRule.class,
             DutchWrongWordInContextRule.class
     );

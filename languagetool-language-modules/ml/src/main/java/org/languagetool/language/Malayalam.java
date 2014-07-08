@@ -96,7 +96,7 @@ public class Malayalam extends Language {
             MorfologikMalayalamSpellerRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
-            WhitespaceRule.class
+            MultipleWhitespaceRule.class
     );
   }
 

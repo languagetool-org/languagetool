@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 
@@ -213,4 +214,15 @@ public class CaseRuleTest extends TestCase {
     //assertBad("Das gilt ohne wenn und aber.");
   }
   
+  public void testCompareLists() throws IOException {
+    AnalyzedSentence sentence1 = langTool.getAnalyzedSentence("Hier ein Test");
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new String[]{"", "Hier", "ein"}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new String[]{"Hier", "ein"}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new String[]{"", "Hier", "ein", "Test"}));
+    assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "Hier", "ein", "Test"}));
+
+    AnalyzedSentence sentence2 = langTool.getAnalyzedSentence("das Heilige Römische Reich");
+    assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
+    assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
+  }
 }

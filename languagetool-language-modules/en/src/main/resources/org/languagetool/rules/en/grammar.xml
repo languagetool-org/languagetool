@@ -11155,6 +11155,21 @@ USA
         </rulegroup>
     </category>
     <category name="Punctuation Errors" type="typographical">
+        <rule id="STATE_OF_THE_ART" name="state of the art (state-of-the-art)">
+            <pattern>
+                <marker>
+                    <token>state</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>art</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>state-of-the-art</suggestion>?</message>
+            <example type='incorrect' correction="state-of-the-art">We present our <marker>state of the art</marker> solution.</example>
+            <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
+            <example type='correct'>We compare our results to <marker>state of the art</marker>.</example>
+        </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>
                 <pattern>
@@ -11239,6 +11254,16 @@ USA
                 <example type="incorrect">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
             </rule>
         </rulegroup>
+        <rule id="NO_SPACE_CLOSING_QUOTE" name="Missing space after closing quote">
+            <pattern>
+                <token>”</token>
+                <token regexp='yes' spacebefore='no'>\w+</token>
+            </pattern>
+            <message>There should be a space after a closing quote.</message>
+            <suggestion>\1 \2</suggestion>
+            <example type='incorrect' correction="” said">“Good morning, Frank,<marker>”said</marker> Hal.</example>
+            <example type='correct'>“Good morning, Frank,” said Hal.</example>
+        </rule>
         <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
             <rule>
                 <pattern case_sensitive="yes">
@@ -11423,6 +11448,15 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="ON_BEHAVE" name="on behave (on behalf)">
+            <pattern>
+                <token>on</token>
+                <token>behave</token>
+            </pattern>
+            <message>Did you mean <suggestion>on behalf</suggestion> (in the name of, as a representative of)?</message>
+            <example type='incorrect' correction="on behalf">They act <marker>on behave</marker> of a user.</example>
+            <example type='correct'>They act <marker>on behalf</marker> of a user.</example>
+        </rule>
         <rule id="WITCH_IS_WRONG" name="witch (which) is wrong">
             <pattern>
                 <marker>

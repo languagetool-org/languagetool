@@ -30,10 +30,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.language.Demo;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 
 public class MultiThreadedJLanguageToolTest {
 
@@ -100,7 +97,7 @@ public class MultiThreadedJLanguageToolTest {
         // less rules than processors (depending on the machine), should at least not crash
         return Arrays.asList(
                 UppercaseSentenceStartRule.class,
-                WhitespaceRule.class
+                MultipleWhitespaceRule.class
         );
       }
     });

@@ -22,12 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.LongSentenceRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.ca.AccentuationCheckRule;
 import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
 import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
@@ -98,7 +93,7 @@ public class Catalan extends Language {
             DoublePunctuationRule.class,
             CatalanUnpairedBracketsRule.class,
             UppercaseSentenceStartRule.class,
-            WhitespaceRule.class,            
+            MultipleWhitespaceRule.class,            
             LongSentenceRule.class,
             // specific to Catalan:
             CatalanWordRepeatRule.class,

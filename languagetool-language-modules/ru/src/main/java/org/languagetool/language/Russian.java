@@ -22,12 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.ru.RussianCompoundRule;
 import org.languagetool.rules.ru.RussianSimpleReplaceRule;
 import org.languagetool.rules.ru.RussianUnpairedBracketsRule;
@@ -119,7 +114,7 @@ public class Russian extends Language {
   //          HunspellNoSuggestionRule.class,
             MorfologikRussianSpellerRule.class,
             WordRepeatRule.class,
-            WhitespaceRule.class,
+            MultipleWhitespaceRule.class,
             // specific to Russian :
             RussianUnpairedBracketsRule.class,
             RussianCompoundRule.class,

@@ -93,7 +93,7 @@ public class Portuguese extends Language {
             HunspellNoSuggestionRule.class,
             UppercaseSentenceStartRule.class,
             WordRepeatRule.class,
-            WhitespaceRule.class,
+            MultipleWhitespaceRule.class,
             SentenceWhitespaceRule.class,
             //Specific to Portuguese
             PortugueseCompoundRule.class

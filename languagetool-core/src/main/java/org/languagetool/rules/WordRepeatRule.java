@@ -90,7 +90,9 @@ public class WordRepeatRule extends Rule {
   // avoid "..." etc. to be matched:
   private boolean isWord(String token) {
     boolean isWord = true;
-    if (token.length() == 1) {
+    if (token.length() == 0) {
+      isWord = false;
+    } else if (token.length() == 1) {
       final char c = token.charAt(0);
       if (!Character.isLetter(c)) {
         isWord = false;

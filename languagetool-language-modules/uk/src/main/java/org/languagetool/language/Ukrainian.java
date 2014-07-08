@@ -26,8 +26,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
@@ -42,8 +42,8 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
-
 public class Ukrainian extends Language {
+
   private static final List<String> RULE_FILES = Arrays.asList(
       "grammar-spelling.xml",
       "grammar-grammar.xml",
@@ -146,13 +146,13 @@ public class Ukrainian extends Language {
   public List<Class<? extends Rule>> getRelevantRules() {
     return Arrays.asList(
         CommaWhitespaceRule.class,
-        // TODO: does not handle !.. and ?..            
+        // TODO: does not handle !.. and ?..
         //            DoublePunctuationRule.class,
         MorfologikUkrainianSpellerRule.class,
         MixedAlphabetsRule.class,
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
         //            UppercaseSentenceStartRule.class,
-        WhitespaceRule.class,
+        MultipleWhitespaceRule.class,
         // specific to Ukrainian:
         SimpleReplaceRule.class,
         TokenAgreementRule.class
@@ -167,7 +167,7 @@ public class Ukrainian extends Language {
 
     for(String ruleFile: RULE_FILES) {
       ruleFileNames.add(dirBase + ruleFile);
-    } 
+    }
 
     return ruleFileNames;
   }

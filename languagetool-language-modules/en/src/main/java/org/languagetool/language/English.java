@@ -140,7 +140,7 @@ public class English extends Language {
         CommaWhitespaceRule.class,
         DoublePunctuationRule.class,
         UppercaseSentenceStartRule.class,
-        WhitespaceRule.class,
+        MultipleWhitespaceRule.class,
         LongSentenceRule.class,
         SentenceWhitespaceRule.class,
         // specific to English:

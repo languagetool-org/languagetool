@@ -216,7 +216,7 @@ public class AgreementRuleTest extends TestCase {
     assertBadWithMessage("Die Tischen sind ecking.", "bezüglich Kasus");
     assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
     //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellte werden.", "bezüglich Kasus, Genus oder Numerus.");
+    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
   }
   
   public void testRegression() throws IOException {

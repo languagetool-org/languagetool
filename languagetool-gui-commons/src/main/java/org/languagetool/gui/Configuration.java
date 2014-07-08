@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class Configuration {
   
-  static final int DEFAULT_SERVER_PORT = 8081;  // TODO: should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
+  static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
 

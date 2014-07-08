@@ -79,10 +79,6 @@ public class WordCoherencyRule extends GermanRule {
     final AnalyzedTokenReadings[] tokens = sentence.getTokens();
     int pos = 0;
     for (AnalyzedTokenReadings tmpToken : tokens) {
-      //TODO: definitely should be changed
-      //if the general lemmatizer is working
-      //defaulting to the first element because the
-      //general German lemmatizer is not (yet) there
       String token = tmpToken.getToken();
       if (!tmpToken.isWhitespace()) {
         final String origToken = token;
