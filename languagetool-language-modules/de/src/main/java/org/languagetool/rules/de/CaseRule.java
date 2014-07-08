@@ -657,13 +657,14 @@ public class CaseRule extends GermanRule {
     return false;
   }
 
-  private boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, String[] parts) {
+  // non-private for tests
+  boolean compareLists(AnalyzedTokenReadings[] tokens, int startIndex, int endIndex, String[] parts) {
     if (startIndex < 0) {
       return false;
     }
     int i = 0;
     for (int j = startIndex; j <= endIndex; j++) {
-      if (i >= parts.length) {
+      if (i >= parts.length || j >= tokens.length) {
         return false;
       }
       if (!tokens[j].getToken().equals(parts[i])) {
