@@ -35,15 +35,14 @@ import java.util.zip.GZIPInputStream;
 
 /**
  * Index *.gz files from Google's ngram corpus into a Lucene index.
- * 
- * Some numbers for index times (1 doc = 1 ngram and its count):
- * - 325µs/doc on an external USB hard disk
- * - 310µs/doc on an SSD
+ * Index time (1 doc = 1 ngram and its count, years are aggregated into one number):
+ * 130µs/doc (both on an external USB hard disk or on an internal SSD) = about 7700 docs/sec
  */
 public class FrequencyIndexCreator {
 
   private static final int MIN_YEAR = 1910;
   private static final String NAME_REGEX = "googlebooks-eng-all-2gram-20120701-(.*?).gz";
+  private static final int BUFFER_SIZE = 16384;
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
     List<File> files = Arrays.asList(inputDir.listFiles());
@@ -82,17 +81,17 @@ public class FrequencyIndexCreator {
   private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile) throws IOException {
     System.out.println("==== Working on " + inputFile + " ====");
     InputStream fileStream = new FileInputStream(inputFile);
-    InputStream gzipStream = new GZIPInputStream(fileStream);
+    InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
     Reader decoder = new InputStreamReader(gzipStream, "utf-8");
-    BufferedReader buffered = new BufferedReader(decoder);
-    Scanner scanner = new Scanner(buffered);
+    BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE);
     int i = 0;
     long docCount = 0;
     long lineCount = 0;
     String prevText = null;
     long startTime = System.nanoTime()/1000;
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine();
+    String line;
+    //noinspection NestedAssignment
+    while ((line = buffered.readLine()) != null) {
       lineCount++;
       String[] parts = line.split("\t");
       String text = parts[0];
