@@ -41,6 +41,8 @@ import static org.junit.Assert.assertThat;
 
 public class JLanguageToolTest {
 
+  private static final English english = new English();
+
   @Test
   public void testGetAllActiveRules() throws Exception {
     JLanguageTool langTool = new JLanguageTool(new Demo());
@@ -70,7 +72,7 @@ public class JLanguageToolTest {
     final ResourceBundle bundle1 = JLanguageTool.getMessageBundle(new German());
     assertThat(bundle1.getString("de"), is("Deutsch"));
 
-    final ResourceBundle bundle2 = JLanguageTool.getMessageBundle(new English());
+    final ResourceBundle bundle2 = JLanguageTool.getMessageBundle(english);
     assertThat(bundle2.getString("de"), is("German"));
 
     final ResourceBundle bundle3 = JLanguageTool.getMessageBundle(new AmericanEnglish());
@@ -87,7 +89,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testSentenceTokenize() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(new English());
+    JLanguageTool languageTool = new JLanguageTool(english);
     List<String> sentences = languageTool.sentenceTokenize("This is a sentence! This is another one.");
     assertEquals(2, sentences.size());
     assertEquals("This is a sentence! ", sentences.get(0));
@@ -96,7 +98,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheck() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(new English());
+    JLanguageTool languageTool = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addMarkup("<b>")
             .addText("here")
@@ -111,7 +113,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheckMultipleSentences() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(new English());
+    JLanguageTool languageTool = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addMarkup("<b>")
             .addText("here")
@@ -132,7 +134,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheckMultipleSentences2() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(new English());
+    JLanguageTool languageTool = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("here")
             .addText(" is an error. And ")
@@ -153,13 +155,20 @@ public class JLanguageToolTest {
 
   @Test
   public void testAnnotateTextCheckPlainText() throws IOException {
-    JLanguageTool languageTool = new JLanguageTool(new English());
+    JLanguageTool languageTool = new JLanguageTool(english);
     AnnotatedText annotatedText = new AnnotatedTextBuilder()
             .addText("A good sentence. But here's a error.").build();
     List<RuleMatch> matches = languageTool.check(annotatedText);
     assertThat(matches.size(), is(1));
     assertThat(matches.get(0).getFromPos(), is(28));
     assertThat(matches.get(0).getToPos(), is(29));
+  }
+
+  @Test
+  public void testStrangeInput() throws IOException {
+    JLanguageTool languageTool = new JLanguageTool(english);
+    List<RuleMatch> matches = languageTool.check("­");  // used to be a bug (it's not a normal dash)
+    assertThat(matches.size(), is(0));
   }
 
 }
