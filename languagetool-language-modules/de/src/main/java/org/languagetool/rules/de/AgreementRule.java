@@ -486,7 +486,7 @@ public class AgreementRule extends GermanRule {
     final Set<String> set = new HashSet<>();
     final List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
-      if (skipSol && tmpReading.getPOSTag().endsWith(":SOL")) {
+      if (skipSol && tmpReading.getPOSTag() != null && tmpReading.getPOSTag().endsWith(":SOL")) {
         // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
         continue;
       }
