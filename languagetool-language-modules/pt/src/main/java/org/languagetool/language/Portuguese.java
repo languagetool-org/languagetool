@@ -26,7 +26,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PortugueseCompoundRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.xx.DemoTagger;
+import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -71,7 +71,7 @@ public class Portuguese extends Language {
   @Override
   public Tagger getTagger() {
     if (tagger == null) {
-      tagger = new DemoTagger();
+      tagger = new PortugueseTagger();
     }
     return tagger;
   }
