@@ -27,9 +27,9 @@ import java.util.List;
 /**
  * Source of sentences to be checked/indexed. Sub classes provide access to XML files
  * or plain text sources.
- * @since 2.4
+ * @since 2.4 (public since 2.7)
  */
-abstract class SentenceSource implements Iterator<Sentence> {
+public abstract class SentenceSource implements Iterator<Sentence> {
 
   private static final int MIN_SENTENCE_SIZE = 10;
   private static final int MIN_SENTENCE_TOKEN_COUNT = 4;

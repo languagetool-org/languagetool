@@ -63,7 +63,7 @@ class MachineLearning implements AutoCloseable {
     int epoch = 1;
     do {
       train.iteration();
-      if (epoch % 100 == 0) {
+      if (epoch % 1000 == 0) {
         System.out.println("Epoch #" + epoch + " Error:" + train.getError());
       }
       epoch++;
@@ -72,6 +72,7 @@ class MachineLearning implements AutoCloseable {
         break;
       }
     } while (train.getError() > MAX_ERROR);
+    System.out.println("Epoch #" + epoch + " Error:" + train.getError());
     train.finishTraining();
 
     EncogPersistor persistor = new PersistBasicNetwork();

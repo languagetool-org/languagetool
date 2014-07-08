@@ -28,9 +28,9 @@ import java.util.*;
 
 /**
  * Alternately returns sentences from different sentence sources.
- * @since 2.4
+ * @since 2.4 (public since 2.7)
  */
-class MixingSentenceSource extends SentenceSource {
+public class MixingSentenceSource extends SentenceSource {
 
   private final List<SentenceSource> sources;
   private final Map<String, Integer> sourceDistribution = new HashMap<>();

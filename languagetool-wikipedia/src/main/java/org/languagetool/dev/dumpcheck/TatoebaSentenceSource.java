@@ -29,9 +29,9 @@ import java.util.Scanner;
 /**
  * Provides access to the sentences of a Tatoeba (http://tatoeba.org) text
  * file that has already been filtered to contain only one language,
- * @since 2.4
+ * @since 2.4 (public since 2.7)
  */
-class TatoebaSentenceSource extends SentenceSource {
+public class TatoebaSentenceSource extends SentenceSource {
 
   private final List<String> sentences;
   private final Scanner scanner;
@@ -39,7 +39,7 @@ class TatoebaSentenceSource extends SentenceSource {
   // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
   private int articleCount = 0;
   
-  TatoebaSentenceSource(InputStream textInput, Language language) {
+  public TatoebaSentenceSource(InputStream textInput, Language language) {
     super(language);
     scanner = new Scanner(textInput);
     sentences = new ArrayList<>();

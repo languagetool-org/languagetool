@@ -40,9 +40,9 @@ import java.util.NoSuchElementException;
  * To get an XML dump, download {@code pages-articles.xml.bz2} from
  * <a href="http://download.wikimedia.org/backup-index.html">http://download.wikimedia.org/backup-index.html</a>, e.g.
  * {@code http://download.wikimedia.org/dewiki/latest/dewiki-latest-pages-articles.xml.bz2}.
- * @since 2.4
+ * @since 2.4 (public since 2.7)
  */
-class WikipediaSentenceSource extends SentenceSource {
+public class WikipediaSentenceSource extends SentenceSource {
 
   private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
   private final XMLEventReader reader;
@@ -52,7 +52,7 @@ class WikipediaSentenceSource extends SentenceSource {
 
   private int articleCount = 0;
 
-  WikipediaSentenceSource(InputStream xmlInput, Language language) {
+  public WikipediaSentenceSource(InputStream xmlInput, Language language) {
     super(language);
     try {
       XMLInputFactory factory = XMLInputFactory.newInstance();
