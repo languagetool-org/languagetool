@@ -1981,6 +1981,18 @@ $Id$
                         <token>,</token>
                         <token regexp="yes">że|iż</token>
                     </antipattern>
+                    <antipattern>
+                        <marker><token>podczas</token></marker>
+                        <token>,</token>
+                        <token>gdy</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>nic</token>
+                        <marker>
+                            <token>przeciwko</token>
+                            <token>,</token>
+                        </marker>
+                    </antipattern>
                     <pattern>
                         <token postag='prep.*' postag_regexp='yes'><exception postag='adv'/><exception regexp="yes">temu|wyjąwszy</exception></token>
                         <token>,</token>
@@ -1989,6 +2001,7 @@ $Id$
                     <short>Błąd interpunkcyjny</short>
                     <example type='incorrect'><marker>Do,</marker> czego to prowadzi!</example>
                     <example type='correct'>Do czego to prowadzi!</example>
+                    <example type="correct">Jeśli nie masz nic przeciwko, to ja też nie.</example>
                 </rule>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
@@ -3978,7 +3991,6 @@ $Id$
 										<marker>
 												<token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
 										</marker>
-										<token regexp="yes">\d+</token>
 								</pattern>
 								<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag="subst:sg:gen:m3"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
@@ -4003,13 +4015,24 @@ $Id$
 												<token>.</token>
 												<token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
 										</marker>
-										<token regexp="yes">\d+</token>
 								</pattern>
 								<message>Nazwy miesięcy w datach podajemy w dopełniaczu, a dni bez kropki: <suggestion><match no="1"></match> <match no="3" postag="subst:sg:(acc\.)?gen[\.:]m.*" postag_regexp="yes"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
 								<example type="correct">1 stycznia 1999</example>
 								<example correction="1 stycznia" type="incorrect"><marker>1. styczeń</marker> 2000</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                    <token regexp="yes">pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty</token>
+                                <marker>
+                                    <token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+                                </marker>
+                            </pattern>
+                            <message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag="subst:sg:gen:m3"></match></suggestion>.</message>
+                            <short>Błąd odmiany</short>
+                            <example type="correct">Pierwszy stycznia 1999</example>
+                            <example correction="stycznia" type="incorrect">Pierwszy <marker>styczeń</marker> 2000</example>
+                        </rule>
 				</rulegroup>
 				<rulegroup id="BRUNO_HUGO" name="Brak odmiany imienia „Bruno”, „Hugo”, „Pablo”">
 						<rule>
@@ -7764,8 +7787,50 @@ $Id$
 						<example correction="miał atak" type="incorrect">Ludwik <marker>doznał ataku</marker> padaczki.</example>
 						<example type="correct">Ludwik miał atak padaczki.</example>
 				</rule>
+                <rule id="ZLA_RENOMA" name="„zła renoma” (zła sława)">
+                    <pattern>
+                        <unify>
+                            <feature id="number"></feature>
+                            <feature id="gender"></feature>
+                            <feature id="case"></feature>
+                            <token inflected="yes">zły</token>
+                            <token inflected="yes">renoma</token>
+                        </unify>
+                    </pattern>
+                    <message>Błąd leksykalny. Renoma jest zawsze dobra. Lepiej: <suggestion><match no="1"/> <match no="2" postag="subst.*" postag_regexp="yes">sława</match></suggestion>.</message>
+                    <short>Błąd leksykalny</short>
+                    <example type="correct">Nadszarpnięta została renoma saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+                    <example type="incorrect" correction="złą sławą">On cieszy się <marker>złą renomą</marker>.</example>
+                </rule>
+                <rule id="MIEC_FACH_W_RECE" name="„mieć fach w ręce” (w ręku)">
+                    <pattern>
+                        <token inflected="yes" skip="3">mieć</token>
+                        <token>fach</token>
+                        <token>w</token>
+                        <marker><token>ręce</token></marker>
+                    </pattern>
+                    <message>Błąd leksykalny. Poprawnie: <suggestion>ręku</suggestion>.</message>
+                    <short>Błąd leksykalny</short>
+                    <example type="correct">On ma jakiś fach w ręku.</example>
+                    <example type="incorrect" correction="ręku">On ma jakiś fach w <marker>ręce</marker>.</example>
+                </rule>
 		</category>
 		<category name="Pleonazmy" type="style">
+                <rule id="DOBRA_RENOMA" name="„dobra renoma” (renoma)">
+                    <pattern>
+                        <unify>
+                            <feature id="number"></feature>
+                            <feature id="gender"></feature>
+                            <feature id="case"></feature>
+                            <token inflected="yes">dobry</token>
+                            <token inflected="yes">renoma</token>
+                        </unify>
+                    </pattern>
+                    <message>To pleonazm. Renoma jest zawsze dobra. Wystarczy: <suggestion>\2</suggestion>.</message>
+                    <short>Pleonazm</short>
+                    <example type="correct">Nadszarpnięta została renoma saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+                    <example type="incorrect" correction="renoma">Nadszarpnięta została <marker>dobra renoma</marker> saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+                </rule>
 				<rule id="EFEKT_KONCOWY" name="„efekt końcowy” (efekt)">
 						<pattern>
 								<unify>
@@ -7903,6 +7968,17 @@ $Id$
 						<example correction="autopsji" type="incorrect">Znam to z <marker>własnej autopsji</marker>.</example>
 						<example type="correct">Znam to z autopsji.</example>
 				</rule>
+                <rule id="SPADAC_W_DOL" name="„spadać w dół” (spadać)">
+                    <pattern>
+                        <token inflected="yes" regexp="yes">spaść|spadać</token>
+                        <token>w</token>
+                        <token>dół</token>
+                    </pattern>
+                    <message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+                    <short>Pleonazm</short>
+                    <example type="correct">Ceny spadały.</example>
+                    <example type="incorrect" correction="spadały">Ceny <marker>spadały w dół</marker>.</example>
+                </rule>
 				<rulegroup id="COFAC_SIE_DO_TYLU" name="„cofać się do tyłu” (cofać się)">
 						<rule>
 								<pattern>

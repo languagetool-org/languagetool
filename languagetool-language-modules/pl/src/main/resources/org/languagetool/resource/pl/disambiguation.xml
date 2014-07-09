@@ -513,6 +513,41 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="indonezyjsko[indonezyjski/adja]">Słownik polsko-<marker>indonezyjsko</marker>-polinezyjski</example>
     </rule>
 
+    <rule id="OD_A_DO_Z_1" name="od a do z">
+        <pattern>
+            <token>od</token>
+            <marker>
+                <token>a</token>
+            </marker>
+            <token>do</token>
+            <token>z</token>
+        </pattern>
+        <disambig action="replace"><wd pos="subst:sg:gen:n2"/></disambig>
+    </rule>
+
+    <rule id="OD_A_DO_Z_2" name="od a do z">
+        <pattern>
+            <token>od</token>
+            <token>a</token>
+            <token>do</token>
+            <marker>
+                <token>z</token>
+            </marker>
+        </pattern>
+        <disambig action="replace"><wd pos="subst:sg:gen:n2"/></disambig>
+    </rule>
+
+    <rule id="PREP_LITERA_SUBST" name="jednoliterowe wyrazy oznaczające litery w wyliczeniu">
+        <pattern>
+            <token regexp="yes">\p{L}{1,2}</token>
+            <token>,</token>
+            <marker><token postag="prep.*" postag_regexp="yes" regexp="yes">\p{L}</token></marker>
+            <token>,</token>
+            <token regexp="yes">\p{L}{1,2}</token>
+        </pattern>
+        <disambig action="replace"><wd pos="subst:sg:nom:n2"/></disambig>
+    </rule>
+
     <rule id="A_NUZ" name="a nuż">
         <pattern>
             <marker>
