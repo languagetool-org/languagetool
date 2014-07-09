@@ -7704,6 +7704,7 @@ $Id$
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion>què</suggestion>?</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="què">Aniré a veure <marker>que</marker> hi passa.</example>
             <example type="correct">Vaig començar a veure que hi havia massa gent.</example>
         </rule>
@@ -26491,6 +26492,47 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="DONAR_LA_CASUALITAT" name="donar la casualitat">
+            <rule>
+                <pattern>
+                    <token regexp="yes">dóna|donava</token>
+                    <token>la</token>
+                    <token>casualitat</token>
+                    <token>que</token>
+                </pattern>
+                <message>Val més usar una altra expressió</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">resultar</match> que</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ocórrer</match> que</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">succeir</match> que</suggestion>
+                <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> una casualitat que</suggestion>
+                <suggestion>per casualitat</suggestion>
+                <suggestion>casualment</suggestion>
+                <suggestion>per atzar</suggestion>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Resultava que|Ocorria que|Succeïa que|Era una casualitat que|Per casualitat|Casualment|Per atzar"><marker>Donava la casualitat que</marker> sí.</example>
+                <example type="correct">Resulta que sí.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <token regexp="yes">donar|donat</token>
+                    <token>la</token>
+                    <token>casualitat</token>
+                    <token>que</token>
+                </pattern>
+                <message>Val més usar una altra expressió</message>
+                <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">resultar</match> que</suggestion>
+                <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ocórrer</match> que</suggestion>
+                <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">succeir</match> que</suggestion>
+                <suggestion>\1 <match no="2" postag="V.(.*)" postag_regexp="yes" postag_replace="VS$1">ser</match> una casualitat que</suggestion>
+                <suggestion>per casualitat</suggestion>
+                <suggestion>casualment</suggestion>
+                <suggestion>per atzar</suggestion>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Ha resultat que|Ha ocorregut que|Ha succeït que|Ha estat una casualitat que|Ha sigut una casualitat que|Per casualitat|Casualment|Per atzar"><marker>Ha donat la casualitat que</marker> sí.</example>
+                <example type="correct">Ha resultat que sí.</example>
+            </rule>
+        </rulegroup>
         <!-- <rule id="CAP_A_BAIX" name="cap a baix/cap avall">
             <pattern>
                 <token>cap</token>
