@@ -22615,6 +22615,20 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CAMERA_CAMBRA" name="*càmera/cambra de diputats">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">càmera</token>
+                </marker>
+                <token inflected="yes" regexp="yes">legislatiu|representatiu|diputat|representant</token>
+            </pattern>
+            <message>Paraula incorrecta en aquest context.</message>
+            <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
+            <short>Mot fora de context</short>
+            <example type="incorrect" correction="Cambra"><marker>Càmera</marker> legislativa.</example>
+            <example type="incorrect" correction="Cambres"><marker>Càmeres</marker> representatives.</example>
+            <example type="correct">A la cambra de representants.</example>
+        </rule>
         <rule id="COLINA" name="colina/turó">
             <pattern>
                 <token inflected="yes">colina</token>
