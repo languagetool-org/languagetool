@@ -3061,63 +3061,51 @@ though, and has since been slightly modified)-->
         <example type="correct">Will Ferrell est né en 1967.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Jimmy</token>
+          <token>Page</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Jimm?[iy]</token>
-          <token>Paige</token>
+          <token regexp="yes">Pai?ge</token>
         </pattern>
         <message>Écrivez <suggestion>Jimmy Page</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
+        <url>https://fr.wikipedia.org/wiki/Jimmy_page</url>
         <example type="incorrect"><marker>Jimmy Paige</marker> est le guitariste de Led Zeppelin.</example>
-        <example type="correct">Jimmy Page est le guitariste de Led Zeppelin.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">Jimm?[iy]<exception>Jimmy</exception></token>
-          <token>Page</token>
-        </pattern>
-        <message>Écrivez <suggestion>Jimmy Page</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
-        <url>https://fr.wikipedia.org/wiki/Jimmy_Page</url>
         <example type="incorrect"><marker>Jimmi Page</marker> est le guitariste de Led Zeppelin.</example>
         <example type="correct">Jimmy Page est le guitariste de Led Zeppelin.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Guns</token>
+          <token>N</token>
+          <token regexp="yes" spacebefore="no">[’']</token>
+          <token>Roses</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Guns?</token>
-          <token>And</token>
+          <token regexp="yes">And|N</token>
+          <token min="0" max="1" regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">Roses?</token>
         </pattern>
         <message>Écrivez <suggestion>Guns N’ Roses</suggestion> s’il s’agit du groupe de hard rock américain.</message>
         <url>https://fr.wikipedia.org/wiki/Guns_N'_Roses</url>
         <example type="incorrect"><marker>Guns And Roses</marker> est un groupe de hard rock américain.</example>
-        <example type="correct"><marker>Guns N’ Roses</marker> est un groupe de hard rock américain.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Gun</token>
-          <token skip="1" regexp="yes">And|N</token>
-          <token regexp="yes">Roses?</token>
-        </pattern>
-        <message>Écrivez <suggestion>Guns N’ Roses</suggestion> s’il s’agit du groupe de hard rock américain.</message>
-        <url>https://fr.wikipedia.org/wiki/Guns_N'_Roses</url>
         <example type="incorrect"><marker>Gun N’ Roses</marker> est un groupe de hard rock américain.</example>
         <example type="correct"><marker>Guns N’ Roses</marker> est un groupe de hard rock américain.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Axl</token>
+          <token>Rose</token>
+        </antipattern>
         <pattern>
-          <token>Axle</token>
+          <token regexp="yes">Axle?</token>
           <token regexp="yes">Roses?</token>
         </pattern>
         <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Guns N' Roses.</message>
         <url>https://fr.wikipedia.org/wiki/Axl_Rose</url>
         <example type="incorrect"><marker>Axle Rose</marker> est né en 1962.</example>
-        <example type="correct">Axl Rose est né en 1962.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Axl</token>
-          <token>Roses</token>
-        </pattern>
-        <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Guns N' Roses.</message>
-        <url>https://fr.wikipedia.org/wiki/Axl_Rose</url>
         <example type="incorrect"><marker>Axl Roses</marker> est né en 1962.</example>
         <example type="correct">Axl Rose est né en 1962.</example>
       </rule>
@@ -3171,23 +3159,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Connais-tu Eddie Rabbitt ?</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Billie</token>
+          <token>Holiday</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Bill?y|Bill?ie?<exception>Billie</exception></token>
-          <token regexp="yes">Holl?idays?</token>
+          <token regexp="yes">Bill?[iy]e?</token>
+          <token regexp="yes">H[ao]ll?idays?</token>
         </pattern>
         <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Billie_Holiday</url>
         <example type="incorrect">Connais-tu <marker>Billy Holiday</marker> ?</example>
-        <example type="correct">Connais-tu Billie Holiday ?</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Billie</token>
-          <token regexp="yes">Holl?idays?<exception>Holiday</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Billie_Holiday</url>
-        <example type="incorrect">Connais-tu <marker>Billie Holidays</marker> ?</example>
         <example type="correct">Connais-tu Billie Holiday ?</example>
       </rule>
       <rule>
@@ -3229,22 +3211,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Sid Vicious est né en 1957.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Donna</token>
+          <token>Summer</token>
+        </antipattern>
         <pattern>
-          <token>Dona</token>
+          <token regexp="yes">Donn?a</token>
           <token regexp="yes">S[uo]mmers?</token>
         </pattern>
         <message>Écrivez <suggestion>Donna Summer</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Donna_Summer</url>
         <example type="incorrect"><marker>Dona Summer</marker></example>
-        <example type="correct">Donna Summer</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Donna</token>
-          <token regexp="yes">S[uo]mmers?<exception>Summer</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Donna Summer</suggestion> s’il s’agit de la chanteuse américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Donna_Summer</url>
         <example type="incorrect"><marker>Donna Summers</marker></example>
         <example type="correct">Donna Summer</example>
       </rule>
@@ -3258,42 +3235,32 @@ though, and has since been slightly modified)-->
         <example type="correct">J’aime beaucoup Megadeth.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Led</token>
-          <token regexp="yes">Zepp?e?ll?inn?e?<exception>Zeppelin</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Led Zeppelin</suggestion> s’il s’agit du groupe rock.</message>
-        <url>https://fr.wikipedia.org/wiki/Led_Zeppelin</url>
-        <example type="incorrect">Un disque de <marker>Led Zepelin</marker>.</example>
-        <example type="correct">Un disque de Led Zeppelin.</example>
-      </rule>
-      <rule>
+          <token>Zeppelin</token>
+        </antipattern>
         <pattern>
-          <token>Lead</token>
+          <token regexp="yes">Lea?d</token>
           <token regexp="yes">Zepp?e?ll?inn?e?</token>
         </pattern>
         <message>Écrivez <suggestion>Led Zeppelin</suggestion> s’il s’agit du groupe rock.</message>
         <url>https://fr.wikipedia.org/wiki/Led_Zeppelin</url>
+        <example type="incorrect">Un disque de <marker>Led Zepelin</marker>.</example>
         <example type="incorrect">Un disque de <marker>Lead Zeppelin</marker>.</example>
         <example type="correct">Un disque de Led Zeppelin.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Def</token>
+          <token>Leppard</token>
+        </antipattern>
         <pattern>
-          <token>Deaf</token>
+          <token regexp="yes">Dea?f</token>
           <token regexp="yes">Leo?pp?ard</token>
         </pattern>
         <message>Écrivez <suggestion>Def Leppard</suggestion> s’il s’agit du groupe rock.</message>
         <url>https://fr.wikipedia.org/wiki/Def_Leppard</url>
         <example type="incorrect">Un disque de <marker>Deaf Leppard</marker>.</example>
-        <example type="correct">Un disque de Def Leppard.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Def</token>
-          <token regexp="yes">Leo?pp?ard<exception>Leppard</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Def Leppard</suggestion> s’il s’agit du groupe rock.</message>
-        <url>https://fr.wikipedia.org/wiki/Def_Leppard</url>
         <example type="incorrect">Un disque de <marker>Def Leopard</marker>.</example>
         <example type="correct">Un disque de Def Leppard.</example>
       </rule>
@@ -3479,41 +3446,31 @@ though, and has since been slightly modified)-->
         <example type="correct">Jane Austen</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Jimmy</token>
-          <token regexp="yes">Buff?et|Bufett</token>
+          <token>Buffett</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Jimm?[iy]</token>
+          <token regexp="yes">Buff?ett?</token>
         </pattern>
         <message>Écrivez <suggestion>Jimmy Buffett</suggestion> s’il s’agit du chanteur américain.</message>
         <example type="incorrect"><marker>Jimmy Buffet</marker> est né en 1946.</example>
-        <example type="correct">Jimmy Buffett est né en 1946.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">Jimm?i|Jimy</token>
-          <token>Buffett</token>
-        </pattern>
-        <message>Écrivez <suggestion>Jimmy Buffett</suggestion> s’il s’agit du chanteur américain.</message>
-        <url>https://fr.wikipedia.org/wiki/Jimmy_Buffett</url>
         <example type="incorrect"><marker>Jimi Buffett</marker> est né en 1946.</example>
         <example type="correct">Jimmy Buffett est né en 1946.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Warren</token>
-          <token regexp="yes">Buff?et|Bufett</token>
-        </pattern>
-        <message>Écrivez <suggestion>Warren Buffett</suggestion> s’il s’agit de l’homme d’affaires américain.</message>
-        <url>https://fr.wikipedia.org/wiki/Warren_Buffett</url>
-        <example type="incorrect"><marker>Warren Buffet</marker> est né en 1930.</example>
-        <example type="correct">Warren Buffett est né en 1930.</example>
-      </rule>
-      <rule>
+          <token>Buffett</token>
+        </antipattern>
         <pattern>
-          <token>Waren</token>
+          <token regexp="yes">Warr?en?</token>
           <token regexp="yes">Buff?ett?</token>
         </pattern>
         <message>Écrivez <suggestion>Warren Buffett</suggestion> s’il s’agit de l’homme d’affaires américain.</message>
         <url>https://fr.wikipedia.org/wiki/Warren_Buffett</url>
+        <example type="incorrect"><marker>Warren Buffet</marker> est né en 1930.</example>
         <example type="incorrect"><marker>Waren Buffett</marker> est né en 1930.</example>
         <example type="correct">Warren Buffett est né en 1930.</example>
       </rule>
@@ -3556,42 +3513,32 @@ though, and has since been slightly modified)-->
         <example type="correct">Gandhi</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Barack</token>
-          <token regexp="yes">Obb?amm?a<exception>Obama</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Barack Obama</suggestion> s’il s’agit du président des États-Unis.</message>
-        <url>https://fr.wikipedia.org/wiki/Barack_Obama</url>
-        <example type="incorrect"><marker>Barack Obbama</marker></example>
-        <example type="correct">Barack Obama</example>
-      </rule>
-      <rule>
+          <token>Obama</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Barr?a[ck]</token>
+          <token regexp="yes">Barr?ac?[ck]</token>
           <token regexp="yes">Obb?amm?a</token>
         </pattern>
         <message>Écrivez <suggestion>Barack Obama</suggestion> s’il s’agit du président des États-Unis.</message>
         <url>https://fr.wikipedia.org/wiki/Barack_Obama</url>
         <example type="incorrect"><marker>Barak Obama</marker></example>
+        <example type="incorrect"><marker>Barack Obbama</marker></example>
         <example type="correct">Barack Obama</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Salma</token>
+          <token>Hayek</token>
+        </antipattern>
         <pattern>
-          <token>Selma</token>
+          <token regexp="yes">S[ae]lma</token>
           <token regexp="yes">Ha[yj][ae]c?k</token>
         </pattern>
         <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Salma_Hayek</url>
         <example type="incorrect"><marker>Selma Hayek</marker></example>
-        <example type="correct">Salma Hayek</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Salma</token>
-          <token regexp="yes">Ha[yj][ae]c?k<exception>Hayek</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Salma_Hayek</url>
         <example type="incorrect"><marker>Salma Hayeck</marker></example>
         <example type="correct">Salma Hayek</example>
       </rule>
@@ -3631,22 +3578,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Bjarne Stroustrup est l’auteur du c++.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Linus</token>
+          <token>Torvalds</token>
+        </antipattern>
         <pattern>
-          <token>Linux</token>
+          <token regexp="yes">Linu[xs]</token>
           <token regexp="yes">Th?orvald?s?</token>
         </pattern>
         <message>Écrivez <suggestion>Linus Torvalds</suggestion> s’il s’agit du créateur de Linux.</message>
         <url>https://fr.wikipedia.org/wiki/Linus_Torvalds</url>
         <example type="incorrect"><marker>Linux Torvalds</marker></example>
-        <example type="correct">Linus Torvalds</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Linus</token>
-          <token regexp="yes">Th?orvald?s?<exception>Torvalds</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Linus Torvalds</suggestion> s’il s’agit du créateur de Linux.</message>
-        <url>https://fr.wikipedia.org/wiki/Linus_Torvalds</url>
         <example type="incorrect"><marker>Linus Thorvalds</marker></example>
         <example type="correct">Linus Torvalds</example>
       </rule>
@@ -3693,9 +3635,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Valéry Giscard d’Estaing</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>François</token>
+          <token>Mitterrand</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Fran[cç]ois</token>
-          <token regexp="yes">Miterrand|Mitterand</token>
+          <token regexp="yes">Mit?terr?and</token>
         </pattern>
         <message>Écrivez <suggestion>François Mitterrand</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Mitterrand</url>
@@ -3713,13 +3659,18 @@ though, and has since been slightly modified)-->
         <example type="correct">Nicolas Sarkozy</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>François</token>
+          <token>Hollande</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Fran[cç]ois</token>
-          <token>Holland</token>
+          <token regexp="yes">Holl?ande?</token>
         </pattern>
         <message>Écrivez <suggestion>François Hollande</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande</url>
         <example type="incorrect"><marker>François Holland</marker></example>
+        <example type="incorrect"><marker>Francois Hollande</marker></example>
         <example type="correct">François Hollande</example>
       </rule>
       <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
