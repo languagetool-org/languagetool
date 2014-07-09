@@ -7357,6 +7357,59 @@ $Id$
             <example type="correct">Vull portar-ho <marker>perquè</marker> ho veigs.</example>
             <example type="correct"><marker>Per a què</marker> ho fan?</example>
         </rule>
+        <rulegroup id="PER_A_QUE_PERQUE" name="per a què/per què">
+            <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+            <antipattern>
+                <token skip="-1">¿</token>
+                <marker>
+                    <token>per</token>
+                    <token>a</token>
+                    <token>què</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>per</token>
+                    <token>a</token>
+                    <token skip="-1">què</token>
+                </marker>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>per</token>
+                    <token>a</token>
+                    <token skip="-1">què<exception scope="next" postag="V.S.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="V.I.*" postag_regexp="yes"><exception postag="V.S.*" postag_regexp="yes"/></token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">el|de|sobre|segons</exception></token>
+                    <marker>
+                        <token>per</token>
+                        <token>a</token>
+                        <token skip="-1">què</token>
+                    </marker>
+                    <token postag="V.S.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si és conjunció final (seguida de subjuntiu), cal escriure <suggestion>perquè</suggestion>.</message>
+                <short>Conjunció final</short>
+                <example type="incorrect" correction="perquè">Ens ho van explicar <marker>per a què</marker> ho sabéssim.</example>
+                <example type="incorrect" correction="perquè">Volia que ho sabéssim <marker>per a què</marker> servís d'ajuda.</example>
+                <example type="incorrect" correction="Perquè"><marker>Per a què</marker> hi haja solució, cal saber totes les raons.</example>
+                <example type="incorrect" correction="Perquè"><marker>Per a què</marker> ho expliquen</example> <!-- només es subjuntiu en valencià -->
+                <example type="incorrect" correction="perquè">Els pressionà <marker>per a què</marker> inclogueren els seus projectes.</example>
+                <example type="correct">¿Per a què ho expliquen?</example>
+                <example type="correct">Per a què serveix</example>
+                <example type="correct">No ens va explicar per a què el volien.</example>
+                <example type="correct">No se sap per a què servia.</example>
+                <example type="correct">No se sap per a què el volien.</example>
+                <example type="correct">I per a què el volien?</example>
+                <example type="correct">Cal saber per a què pretén que usin el model.</example>
+                <example type="correct">Pot variar segons per a què s'usi.</example>
+            </rule>
+        </rulegroup>
         <rule id="DES_DE_QUE" name="des de que">
             <pattern>
                 <token>des</token>
@@ -7641,6 +7694,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="A_VEURE_QUE" name="a veure *que/què">
+            <pattern>
+                <token><exception inflected="yes" regexp="yes">arribar|començar|res|fins|per</exception></token>
+                <token>a</token>
+                <token>veure</token>
+                <marker>
+                    <token>que</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>què</suggestion>?</message>
+            <example type="incorrect" correction="què">Aniré a veure <marker>que</marker> hi passa.</example>
+            <example type="correct">Vaig començar a veure que hi havia massa gent.</example>
+        </rule>
         <rulegroup id="REPRESENTAT_REPRESENTANT" name="representat/representant">
             <antipattern>
                 <marker>
