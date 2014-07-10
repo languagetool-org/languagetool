@@ -18476,6 +18476,21 @@ $Id$
 	    		<example type="incorrect" correction="escàndol|sagramental|canyaret">Van organitzar un bon <marker>pollastre</marker>.</example>
 	    		<example type="correct">Li van moure un sagramental.</example>
 	    	</rule>
+            <rule>
+                <pattern>
+                    <token skip="1" postag="D[^R].MS.*" postag_regexp="yes"/>
+                    <marker>
+                        <token skip="3">pollastre</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">armar|organitzar|moure|muntar</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>escàndol</suggestion>
+                <suggestion>sagramental</suggestion>
+                <suggestion>canyaret</suggestion>
+                <example type="incorrect" correction="escàndol|sagramental|canyaret">El <marker>pollastre</marker> s'ha muntat ara.</example>
+                <example type="correct">Li van moure un sagramental.</example>
+            </rule>
 	    </rulegroup> 	
     	<rule id="AL_SOCAIRE_DE" name="al socaire de">
 		    <pattern>
