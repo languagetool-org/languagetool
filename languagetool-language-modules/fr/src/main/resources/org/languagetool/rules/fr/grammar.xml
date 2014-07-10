@@ -2911,42 +2911,32 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="NOM_MAL_EPELE" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
       <rule>
+        <antipattern>
+          <token>Jimi</token>
+          <token>Hendrix</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Jimm?y|Jimmi</token>
+          <token regexp="yes">Jimm?[yi]</token>
           <token regexp="yes">Hendrix|Hendric?ks</token>
         </pattern>
         <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
         <url>https://fr.wikipedia.org/wiki/Jimi_Hendrix</url>
+        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> est né à Seattle.</example>
         <example type="incorrect" correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker> est né à Seattle.</example>
         <example type="correct">Jimi Hendrix est né à Seattle.</example>
       </rule>
       <rule>
-        <pattern>
-          <token>Jimi</token>
-          <token regexp="yes">Hendric?ks</token>
-        </pattern>
-        <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
-        <url>https://fr.wikipedia.org/wiki/Jimi_Hendrix</url>
-        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> est né à Seattle.</example>
-        <example type="correct">Jimi Hendrix est né à Seattle.</example>
-      </rule>
-      <rule>
-        <pattern>
+        <antipattern>
           <token>Barbara</token>
-          <token regexp="yes">Hendrix|Hendric?ks?<exception>Hendricks</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Barbara Hendricks</suggestion> s’il s’agit de la cantatrice.</message>
-        <url>https://fr.wikipedia.org/wiki/Barbara_Hendricks</url>
-        <example type="incorrect" correction="Barbara Hendricks"><marker>Barbara Hendrix</marker> est une cantatrice soprano.</example>
-        <example type="correct">Barbara Hendricks est une cantatrice soprano.</example>
-      </rule>
-      <rule>
+          <token>Hendricks</token>
+        </antipattern>
         <pattern>
-          <token>Barbra</token>
+          <token regexp="yes">Barba?ra</token>
           <token regexp="yes">Hendrix|Hendric?ks?</token>
         </pattern>
         <message>Écrivez <suggestion>Barbara Hendricks</suggestion> s’il s’agit de la cantatrice.</message>
         <url>https://fr.wikipedia.org/wiki/Barbara_Hendricks</url>
+        <example type="incorrect" correction="Barbara Hendricks"><marker>Barbara Hendrix</marker> est une cantatrice soprano.</example>
         <example type="incorrect" correction="Barbara Hendricks"><marker>Barbra Hendricks</marker> est une cantatrice soprano.</example>
         <example type="correct">Barbara Hendricks est une cantatrice soprano.</example>
       </rule>
@@ -2971,9 +2961,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Un film des Marx Brothers.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Karl</token>
+          <token>Marx</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[CK]arl</token>
-          <token>Max</token>
+          <token regexp="yes">Mar?x</token>
         </pattern>
         <message>Écrivez <suggestion>Karl Marx</suggestion> s’il s’agit du philosophe/économiste allemand.</message>
         <url>https://fr.wikipedia.org/wiki/Karl_Marx</url>
@@ -3031,8 +3025,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Keira Knightley est une actrice britannique.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Debra</token>
+          <token>Winger</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">D[eé]bb?o?rr?h?ah?<exception>Debra</exception></token>
+          <token regexp="yes">D[eé]bb?o?rr?h?ah?</token>
           <token regexp="yes">Wingg?er</token>
         </pattern>
         <message>Écrivez <suggestion>Debra Winger</suggestion> s’il s’agit de l’actrice américaine.</message>
@@ -3110,9 +3108,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Axl Rose est né en 1962.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Ozzy</token>
+          <token>Osbourne</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Ozz?(y|ie?)</token>
-          <token regexp="yes">Osbou?rne?s?<exception>Osbourne</exception></token>
+          <token regexp="yes">Osbou?rne?s?</token>
         </pattern>
         <message>Écrivez <suggestion>Ozzy Osbourne</suggestion> s’il s’agit du chanteur de Black Sabbath.</message>
         <url>https://fr.wikipedia.org/wiki/Ozzy_Osbourne</url>
@@ -3120,9 +3122,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Connais-tu Ozzy Osbourne ?</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Randy</token>
-          <token regexp="yes">Rh?oa?de?s?<exception>Rhoads</exception></token>
+          <token>Rhoads</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Rand[yi]e?</token>
+          <token regexp="yes">Rh?oa?de?s?</token>
         </pattern>
         <message>Écrivez <suggestion>Randy Rhoads</suggestion> s’il s’agit du guitariste américain.</message>
         <url>https://fr.wikipedia.org/wiki/Randy_Rhoads</url>
@@ -3150,9 +3156,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Lionel Richie est né en 1949.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Eddie</token>
-          <token regexp="yes">Rabb?itt?<exception>Rabbitt</exception></token>
+          <token>Rabbitt</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Edd[iy]e?</token>
+          <token regexp="yes">Rabb?itt?</token>
         </pattern>
         <message>Écrivez <suggestion>Eddie Rabbitt</suggestion> s’il s’agit du chanteur américain.</message>
         <example type="incorrect">Connais-tu <marker>Eddie Rabbit</marker> ?</example>
@@ -3649,9 +3659,13 @@ though, and has since been slightly modified)-->
         <example type="correct">François Mitterrand</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Nicolas</token>
+          <token>Sarkozy</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Nich?olas?</token>
-          <token regexp="yes">Sar[kc]o[sz][yi]e?<exception>Sarkozy</exception></token>
+          <token regexp="yes">Sar[kc]o[sz][yi]e?</token>
         </pattern>
         <message>Écrivez <suggestion>Nicolas Sarkozy</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Nicolas_Sarkozy</url>
@@ -3676,44 +3690,34 @@ though, and has since been slightly modified)-->
       <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
            to see how LanguageTool can be useful. -->
       <rule>
-        <pattern>
+        <antipattern>
           <token>Liliane</token>
-          <token regexp="yes">Bett?[ae]ncc?our[ts]?<exception>Bettencourt</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Liliane Bettencourt</suggestion> s’il s’agit de la femme d’affaires française.</message>
-        <url>https://fr.wikipedia.org/wiki/Liliane_Bettencourt</url>
-        <example type="incorrect"><marker>Liliane Betencourt</marker> est née en 1922.</example>
-        <example type="correct">Liliane Bettencourt est née en 1922.</example>
-      </rule>
-      <rule>
+          <token>Bettencourt</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Lill?iann?e<exception>Liliane</exception></token>
+          <token regexp="yes">Lill?iann?e</token>
           <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
         </pattern>
         <message>Écrivez <suggestion>Liliane Bettencourt</suggestion> s’il s’agit de la femme d’affaires française.</message>
         <url>https://fr.wikipedia.org/wiki/Liliane_Bettencourt</url>
         <example type="incorrect"><marker>Lilianne Bettencourt</marker> est née en 1922.</example>
+        <example type="incorrect"><marker>Liliane Betencourt</marker> est née en 1922.</example>
         <example type="correct">Liliane Bettencourt est née en 1922.</example>
       </rule>
       <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
            to see how LanguageTool can be useful. -->
       <rule>
-        <pattern>
+        <antipattern>
           <token>Ingrid</token>
-          <token regexp="yes">Bett?[ae]ncc?our[ts]?<exception>Betancourt</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Ingrid Betancourt</suggestion> s’il s’agit de la femme politique franco-colombienne.</message>
-        <url>https://fr.wikipedia.org/wiki/%C3%8Dngrid_Betancourt</url>
-        <example type="incorrect"><marker>Ingrid Bettencourt</marker> est née en 1961.</example>
-        <example type="correct">Ingrid Betancourt est née en 1961.</example>
-      </rule>
-      <rule>
+          <token>Betancourt</token>
+        </antipattern>
         <pattern>
-          <token>Ingride</token>
+          <token regexp="yes">Ingride?</token>
           <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
         </pattern>
         <message>Écrivez <suggestion>Ingrid Betancourt</suggestion> s’il s’agit de la femme politique franco-colombienne.</message>
         <url>https://fr.wikipedia.org/wiki/%C3%8Dngrid_Betancourt</url>
+        <example type="incorrect"><marker>Ingrid Bettencourt</marker> est née en 1961.</example>
         <example type="incorrect"><marker>Ingride Betancourt</marker> est née en 1961.</example>
         <example type="correct">Ingrid Betancourt est née en 1961.</example>
       </rule>
@@ -3738,8 +3742,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Ringo Starr</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Sophia</token>
+          <token>Loren</token>
+        </antipattern>
         <pattern>
-          <token>Sofia</token>
+          <token regexp="yes">Sofia|Sophia</token>
           <token regexp="yes">Lorr?enn?e?</token>
         </pattern>
         <message>Écrivez <suggestion>Sophia Loren</suggestion> s’il s’agit l’actrice italienne.</message>
@@ -3789,8 +3797,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Dark Vador est un personnage de Star Wars.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Dark</token>
+          <token>Vador</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Darth|Darke</token>
+          <token regexp="yes">Darthe?|Darke?</token>
           <token regexp="yes">Vadore?|Vatere?|Vadere|Va[dt]re</token>
         </pattern>
         <message>Écrivez <suggestion>Dark Vador</suggestion> (<suggestion>Darth Vader</suggestion> en anglais) s’il s’agit du personnage de Star Wars.</message>
@@ -3800,9 +3812,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Dark Vador est un personnage de Star Wars.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Freddy</token>
+          <token>Krueger</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Fredd?[iy]e?</token>
-          <token regexp="yes">Kr[uü]gg?er</token>
+          <token regexp="yes">Kr[uü]e?gg?er</token>
         </pattern>
         <message>Écrivez <suggestion>Freddy Krueger</suggestion> s’il s’agit du personnage de fiction.</message>
         <url>https://fr.wikipedia.org/wiki/Freddy_Krueger</url>
@@ -3820,8 +3836,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Forrest Gump</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Whoopi</token>
+          <token>Goldberg</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Whoo?pie?<exception>Whoopi</exception></token>
+          <token regexp="yes">Whoo?pie?</token>
           <token regexp="yes">Gold?berg</token>
         </pattern>
         <message>Écrivez <suggestion>Whoopi Goldberg</suggestion> s’il s’agit de l’actrice américaine.</message>
@@ -3850,22 +3870,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Courteney Cox</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Alyssa</token>
+          <token>Milano</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">All?[iy]ss?a<exception>Alyssa</exception></token>
+          <token regexp="yes">All?[iy]ss?a</token>
           <token regexp="yes">Mill?ann?o</token>
         </pattern>
         <message>Écrivez <suggestion>Alyssa Milano</suggestion> s’il s’agit de l’actrice américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Alyssa_Milano</url>
         <example type="incorrect"><marker>Alissa Milano</marker></example>
-        <example type="correct">Alyssa Milano</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Alyssa</token>
-          <token regexp="yes">Mill?ann?o<exception>Milano</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Alyssa Milano</suggestion> s’il s’agit de l’actrice américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Alyssa_Milano</url>
         <example type="incorrect"><marker>Alyssa Milanno</marker></example>
         <example type="correct">Alyssa Milano</example>
       </rule>
@@ -3900,22 +3915,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Jodie Foster</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Alan</token>
+          <token>Stivell</token>
+        </antipattern>
         <pattern>
-          <token>Allan</token>
+          <token regexp="yes">All?an</token>
           <token regexp="yes">Stivell?</token>
         </pattern>
         <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
         <url>https://fr.wikipedia.org/wiki/Alan_Stivell</url>
         <example type="incorrect"><marker>Allan Stivell</marker></example>
-        <example type="correct">Alan Stivell</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Alan</token>
-          <token>Stivel</token>
-        </pattern>
-        <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
-        <url>https://fr.wikipedia.org/wiki/Alan_Stivell</url>
         <example type="incorrect"><marker>Alan Stivel</marker></example>
         <example type="correct">Alan Stivell</example>
       </rule>
@@ -3949,42 +3959,32 @@ though, and has since been slightly modified)-->
         <example type="correct">Bernez Tangi est un poète en langue bretonne.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Britney</token>
-          <token>Spear</token>
-        </pattern>
-        <message>Écrivez <suggestion>Britney Spears</suggestion> s’il s’agit de la chanteuse américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Britney_Spears</url>
-        <example type="incorrect"><marker>Britney Spear</marker></example>
-        <example type="correct">Britney Spears</example>
-      </rule>
-      <rule>
+          <token>Spears</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Britt?a?nn?(y|ie?)|Brittne?y</token>
+          <token regexp="yes">Britt?a?nn?(y|ie?)|Britt?ne?y</token>
           <token regexp="yes">Spears?</token>
         </pattern>
         <message>Écrivez <suggestion>Britney Spears</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Britney_Spears</url>
         <example type="incorrect"><marker>Brittany Spears</marker></example>
+        <example type="incorrect"><marker>Britney Spear</marker></example>
         <example type="correct">Britney Spears</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Karl</token>
+          <token>Lagerfeld</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[KC]arl</token>
-          <token regexp="yes">Lag[ae]rfi?eld<exception>Lagerfeld</exception></token>
+          <token regexp="yes">Lag[ae]rfi?eld</token>
         </pattern>
         <message>Écrivez <suggestion>Karl Lagerfeld</suggestion> s’il s’agit du couturier allemand.</message>
         <url>https://fr.wikipedia.org/wiki/Karl_Lagerfeld</url>
         <example type="incorrect"><marker>Karl Lagerfield</marker></example>
-        <example type="correct">Karl Lagerfeld</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Carl</token>
-          <token>Lagerfeld</token>
-        </pattern>
-        <message>Écrivez <suggestion>Karl Lagerfeld</suggestion> s’il s’agit du couturier allemand.</message>
-        <url>https://fr.wikipedia.org/wiki/Karl_Lagerfeld</url>
         <example type="incorrect"><marker>Carl Lagerfeld</marker></example>
         <example type="correct">Karl Lagerfeld</example>
       </rule>
@@ -4009,13 +4009,18 @@ though, and has since been slightly modified)-->
         <example type="correct">Meryl Streep</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Cyndi</token>
+          <token>Lauper</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">C[iy]nd[yi]e?<exception>Cyndi</exception></token>
+          <token regexp="yes">C[iy]nd[yi]e?</token>
           <token regexp="yes">Laupers?</token>
         </pattern>
         <message>Écrivez <suggestion>Cyndi Lauper</suggestion> s’il s’agit de l’actrice américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Cyndi_Lauper</url>
         <example type="incorrect"><marker>Cyndie Lauper</marker></example>
+        <example type="incorrect"><marker>Cyndi Laupers</marker></example>
         <example type="correct">Cyndi Lauper</example>
       </rule>
       <rule>
