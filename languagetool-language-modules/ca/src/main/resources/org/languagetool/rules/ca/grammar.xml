@@ -7699,14 +7699,19 @@ $Id$
                 <token><exception inflected="yes" regexp="yes">arribar|començar|res|fins|per</exception></token>
                 <token>a</token>
                 <token>veure</token>
+                <token min="0" max="1" postag="RG"/>
                 <marker>
                     <token>que</token>
                 </marker>
+                <token min="0" max="1" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                <token postag="V.I.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>què</suggestion>?</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="què">Aniré a veure <marker>que</marker> hi passa.</example>
+            <example type="incorrect" correction="què">Aniré a veure realment <marker>que</marker> fan.</example>
             <example type="correct">Vaig començar a veure que hi havia massa gent.</example>
+            <example type="correct">si mai tornes a veure que ell se'n va corrent.</example>
         </rule>
         <rulegroup id="REPRESENTAT_REPRESENTANT" name="representat/representant">
             <antipattern>
@@ -17531,9 +17536,9 @@ $Id$
                 <token min="0" inflected="yes">quant</token>
                 <token regexp="yes" inflected="yes">temps|dia|setmana|mes|any|dècada</token>
                 <marker>
-                <token>a</token>
-                <token>aquesta</token>
-                <token>part</token>
+                    <token>a</token>
+                    <token>aquesta</token>
+                    <token>part</token>
                 </marker>
             </pattern>
             <message>Expressió incorrecta</message>
@@ -26495,7 +26500,7 @@ $Id$
         <rulegroup id="DONAR_LA_CASUALITAT" name="donar la casualitat">
             <rule>
                 <pattern>
-                    <token regexp="yes">dóna|donava</token>
+                    <token postag="VM..3S.." postag_regexp="yes" inflected="yes">donar</token>
                     <token>la</token>
                     <token>casualitat</token>
                     <token>que</token>
@@ -26515,7 +26520,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="VA.*" postag_regexp="yes"/>
-                    <token regexp="yes">donar|donat</token>
+                    <token postag="V.[NP].*" postag_regexp="yes" inflected="yes">donar</token>
                     <token>la</token>
                     <token>casualitat</token>
                     <token>que</token>
