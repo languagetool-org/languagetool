@@ -3298,7 +3298,7 @@ $Id$
                 <message>Incorrecte com a perífrasi d'obligació.</message>
                 <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
                 <!-- This doesn't keep several postags-->
-                <short>Incorrecte quan perífrasi d'obligació</short>
+                <short>Castellanisme</short>
                 <example type="incorrect" correction="hem de">No <marker>tenim que</marker> fer res</example>
                 <example type="incorrect" correction="hagut de">No ha <marker>tingut que</marker> fer res</example>
                 <example type="correct">No hem de fer res</example>
@@ -3313,7 +3313,7 @@ $Id$
                 </pattern>
                 <message>Incorrecte com a perífrasi d'obligació.</message>
                 <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> d'<match no="3"/></suggestion>
-                <short>Incorrecte quan perífrasi d'obligació</short>
+                <short>Castellanisme</short>
                 <example type="incorrect" correction="hem d'ensenyar">No <marker>tenim que ensenyar</marker> res</example>
                 <example type="correct">No hem de fer res</example>
             </rule>
@@ -6281,7 +6281,7 @@ $Id$
             una tarda, en sortir de classe-->
             <rule> 
                 <pattern>
-                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
+                    <token inflected="yes" regexp="yes" skip="3">primer|encaparrar|obcec.+|estar|raure|afany|afanyar|basar|centrar|complaença|complaure|confiar|convertir|creença|creure|delit|delitar|entestar|entossudir|entretenir|equivocar|esforçar|especialitzar|especialista|excel·lir|exercitar|incórrer|influir|influència|insistir|insistència|interessar|interès|invertir|obsessi.+|obstinar|part|participació|participant|participar|pensar|tardança|tardar|tossud.*|treballar|trigança|trigar|vacil·lació|vacil·lar<exception scope="next" postag="V.P.*|C.*|AQ.*|V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">divisió|lloc|podi|victòria|premi|títol|cop|volta|vegada|de|d'|per|pe|a|-hi|[:;(,]</exception><exception regexp="yes">\d.*</exception><exception postag="_possible_nompropi"/><exception scope="next" postag="_C_TEMPS|V.[IS].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>en</token>
                     </marker>
@@ -6305,6 +6305,7 @@ $Id$
                 <example type="correct">va estar en poder de l'enemic</example>
                 <example type="correct">convertir-se en ésser humà</example>
                 <example type="correct">Les primeres presenten efervescència en tirar-hi un àcid.</example>
+                <example type="correct">Fou campió de Primera Divisió en guanyar tots els partits.</example>
                 <!-- ¿quin tipus de menú ens pot interessar en dissenyar un sistema automàtic? 
                 va cometre una greu equivocació en voler alterar les pràctiques
                 convertir-se en militar/titular
@@ -28044,6 +28045,21 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="TENIR_DE" name="Informal: «tenir de» + infinitiu">
+            <pattern>
+                <marker>
+                    <token inflected="yes">tenir</token>
+                    <token inflected="yes">de</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Llenguatge informal</message>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
+            <short></short>
+            <example type="incorrect" correction="hem de">No <marker>tenim de</marker> fer res</example>
+            <example type="incorrect" correction="hagut de">No ha <marker>tingut d'</marker>anar enlloc</example>
+            <example type="correct">No hem de fer res</example>
+        </rule>
         <rule id="BACALLAR" name="bacallar/bacallà">
             <pattern>
                 <token inflected="yes">bacallar</token>
