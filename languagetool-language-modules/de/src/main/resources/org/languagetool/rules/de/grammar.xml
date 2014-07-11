@@ -23770,6 +23770,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">der|die|das|des|dem|den|im</token>
                     <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes"><exception scope="current" postag="ADJ:.*:DEF" postag_regexp="yes"/><exception scope="current" postag="ADJ:PRD.*" postag_regexp="yes"/><exception scope="current" postag="ADV.*|ZUS.*" postag_regexp="yes"/></token>
                 </antipattern>
+                <antipattern>
+                    <token postag="ADJ:.*" postag_regexp="yes"/>
+                    <token>als</token>
+                    <token regexp="yes">der|die|das</token>
+                    <token>anderer</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">,</token>
                     <marker>
@@ -23793,6 +23799,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Die Fragen <marker>der unterschiedlichem</marker> Glauben angehörigen Menschen sind schwer.</example>
                 <example type="correct">Sie sind von der <marker>früher verbreiteten</marker> Vorstellung abgekommen.</example>
                 <example type="correct">Es ist der Planet, auf <marker>dem flüssiges</marker> Wasser zu finden ist.</example>
+                <example type="correct">Es ist weniger farbenprächtig als <marker>das anderer</marker> Papageien.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Grammatik: Starke, schwache oder gemischte Adjektiv-Flexion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
