@@ -12311,12 +12311,13 @@ $Id$
 				<rule id="W_OKOL" name="„w okół” (wokół)">
 						<pattern>
 								<token>w</token>
-								<token>okół</token>
+								<token regexp="yes">ok(?:ół|oło)</token>
 						</pattern>
-						<message>Prawdopodobny błąd: przyimek <suggestion>wokół</suggestion> piszemy łącznie.</message>
+						<message>Prawdopodobny błąd: przyimek <suggestion>\1\2</suggestion> piszemy łącznie.</message>
 						<short>Błąd ortograficzny</short>
 						<example type="correct">Wokół Przemysława gromadziło się wielu podejrzanych typów.</example>
 						<example correction="Wokół" type="incorrect"><marker>W okół</marker> Przemysława gromadziło się wielu podejrzanych typów.</example>
+                        <example type="incorrect" correction="wokoło">am jest cywilizacja, prawo i demokracja, a <marker>w około</marker> jest reżim.</example>
 				</rule>
 				<rule id="ZA_RAZ" name="„za raz” (zaraz)">
 						<pattern>
