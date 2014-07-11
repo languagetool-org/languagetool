@@ -13805,6 +13805,22 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="PPRON3_PPAS_NON_UNIFIED" name="Niezgodność końcówek rodzaju zaimka i imiesłowu">
+                <pattern>
+                    <token regexp="yes">jest|było|będzie|być|został[oa]?|zostaje</token>
+                    <marker>
+                    <unify negate="yes">
+                        <feature id="gender"></feature>
+                        <token postag_regexp="yes" postag="ppron3:sg:nom.*"/>
+                        <token postag_regexp="yes" postag="ppas:sg:nom.*"/>
+                    </unify>
+                    </marker>
+                </pattern>
+                <message>Niezgodność rodzaju zaimka osobowego i imiesłowu.</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Nie jest ono wykorzystywane do pracy.</example>
+                <example type="incorrect">Nie jest <marker>ono wykorzystywana</marker> do pracy.</example>
+            </rule>
             <rule id="ZA_ZDANIE" name="„mieć za zdanie/zadnie” (za zadanie)">
                 <pattern>
                     <token skip="1" inflected='yes'>mieć</token>
