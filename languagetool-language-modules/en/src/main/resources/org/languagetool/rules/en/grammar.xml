@@ -820,6 +820,19 @@ USA
             <example type="correct">At the beginning, I was afraid.</example>
             <example type="correct">But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
         </rule>
+        <rule id="THE_HOW" name="the how/why (how/why)">
+            <pattern case_sensitive='yes'>
+                <marker>
+                    <token>the</token>
+                    <token regexp='yes'>how|why</token>
+                </marker>
+                <token><exception regexp='yes'>and|of|[,\.;']</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2"/></suggestion>?</message>
+            <short>Probable typo</short>
+            <example type='incorrect' correction="how">These are also examples of <marker>the how</marker> a woman's perspective can contribute to science.</example>
+            <example type='correct'>These are also examples of how a woman's perspective can contribute to science.</example>
+        </rule>
         <rulegroup id="I_LOWERCASE" name="i'm (I'm)">
         <rule>
           <pattern case_sensitive="yes">
