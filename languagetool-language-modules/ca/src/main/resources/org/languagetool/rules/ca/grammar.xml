@@ -2046,7 +2046,7 @@ $Id$
                 <example type="correct">a un altre jove</example>
                 <example type="correct">escrigué un altre final</example>
             </rule>
-            <rule id="CONCORDANCES_MIG" name="concordança mig/mitja">
+            <rule id="CONCORDANCA_MIG_GENERE" name="concordança mig/mitja">
                 <pattern>
                     <marker>
                         <token>mig<exception postag="_allow_mig"/></token>
@@ -2062,6 +2062,25 @@ $Id$
                 <example type="correct">la barca, mig enfonsada pel gruix de la multitud</example>
                 <example type="correct">L'ampolla estava mig plena</example>
                 <example type="correct">És mig figa mig raïm.</example>
+            </rule>
+            <rule id="CONCORDANCA_MIG_NOMBRE" name="concordança de nombre: mig ">
+               <antipattern>
+                    <marker>
+                        <token postag="D[NI].*" postag_regexp="yes"/>
+                        <token>i</token>
+                        <token>mig</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token>mig<exception postag="_allow_mig"/></token>
+                    <token postag="N..P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion>mig <match no="2" postag="(N..)P.*" postag_regexp="yes" postag_replace="$1S.*"/></suggestion>
+                <example type="incorrect" correction="mig any">Va passar <marker>mig anys</marker> després.</example>
+                <example type="correct">Dos i mig anys després.</example>
+                <example type="correct">54 i mig anys després.</example>
+                <example type="correct">Un i mig anys després.</example>
             </rule>
             <rule id="ANTIPODES" name="als antípodes">
                 <pattern>
@@ -3545,7 +3564,7 @@ $Id$
             <rule>
                 <!-- excepcions no controlades: a/ha dit, a/ha deixat-->
                 <pattern>
-                    <token><exception regexp="yes">com|per|fins|de</exception><exception inflected="yes" regexp="yes">degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació</exception></token>
+                    <token><exception regexp="yes">com|per|fins|de|olor</exception><exception inflected="yes" regexp="yes">degradar|sentenciar|accés|accedir|exposar|desafiar|arribar|pertànyer|correspondre|condemnar|jugar|tocar|condemnació</exception></token>
                     <marker>
                         <token>a<exception postag=".*LOC_PREP.*|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
@@ -3581,6 +3600,7 @@ $Id$
                 <example type="correct">Per a accedir a contingut multimèdia.</example>
                 <example type="correct">una lluita a mort contra Napoleó</example>
                 <example type="correct">un automòbil del segment A produït pel fabricant</example>
+                <example type="correct">Feia olor a resclosit</example> <!-- activa regla GUST_A -->
             </rule>
             <rule>
                 <pattern>
@@ -5764,15 +5784,9 @@ $Id$
             <example type='correct'>acostumen a venir tard</example>
         </rule>
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
-            <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
-                <antipattern>
-                    <marker>
-                        <token regexp="yes" inflected="yes" skip="2">vetllar|vetlar|esforçar</token>
-                        <token inflected="yes">per</token>
-                    </marker>
-                </antipattern>
+            <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a" default="off">
                 <pattern>
-                    <token inflected='yes' skip='1' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou</token>
+                    <token inflected='yes' skip='3' regexp='yes'>caldre|servir|usar|emprar|aprofitar|preparar|necessari|suficient|prou</token>
                     <marker>
                         <token>per</token>
                     </marker>
@@ -5782,6 +5796,7 @@ $Id$
                 <url>http://www.cece.gva.es/polin/docs/webhelp/Gramatica/Morfologia/Preposicions/per_a.html</url>
                 <short>Preposicions</short>
                 <example type='incorrect' correction="per a">Els ganivets serveixen <marker>per</marker> tallar</example>
+                <example type='incorrect' correction="per a">Aprofitem l'avinentesa <marker>per</marker> desitjar-vos bon estiu.</example>
                 <example type='correct'>Serveixen per a tallar.</example>
                 <example type='correct'>Són usats per l'aristocràcia.</example>
             </rule>
@@ -21132,7 +21147,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                	  <token><exception inflected="yes">trobar</exception><exception regexp="yes">-li|-hi</exception></token>
+                	<token><exception inflected="yes">trobar</exception><exception regexp="yes">-li|-hi</exception></token>
                     <token postag="D[^R].*|C.*|_PUNCT.*" postag_regexp="yes"/>
                     <marker>
                         <token regexp="yes">(re)?gust|olor|pudor|flaire</token>
