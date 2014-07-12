@@ -9592,6 +9592,18 @@ $Id$
                 <example type="incorrect"><marker>el per què</marker></example>
                 <example type="correct">el perquè</example>
             </rule>
+            <rule id="DEL_PER_QUE" name="del per què">
+                <pattern>
+                    <token regexp="yes">a|de</token>
+                    <token spacebefore="no">l</token>
+                    <token>per</token>
+                    <token>què</token>
+                </pattern>
+                <message>Cal escriure <suggestion>\1l perquè</suggestion> o bé <suggestion>\1 per què</suggestion>.</message>
+                <url>http://esadir.cat/gramatica/sintaxi/conjperque</url>
+                <example type="incorrect" correction="del perquè|de per què">No sabem res <marker>del per què</marker></example>
+                <example type="correct">Del perquè</example>
+            </rule>
         </rulegroup>
         <rule id="ALA_A_LA" name="*ala ciutat/a la ciutat">
             <pattern>
@@ -18708,7 +18720,7 @@ $Id$
                         <token skip="2" inflected="yes">acabar</token>
                         <token skip="4">amb</token>
                     </marker>
-                    <token regexp="yes" inflected="yes">abús|frau|plaga|pesta|infecció|situació|vida</token>
+                    <token regexp="yes" inflected="yes">discriminació|abús|frau|plaga|pesta|infecció|situació|vida</token>
                 </pattern>
                 <message>Expressió incorrecta si vol dir <suggestion>(posar fi a)</suggestion></message>
                 <suggestion>(eliminar)</suggestion>
@@ -26676,7 +26688,7 @@ $Id$
         </rule>
         <rule id="EN_EL_QUE_PORTEM_DE_CURS" name="en el que portem de curs">
             <pattern>
-                <token>en</token>
+                <token regexp="yes">en|durant</token>
                 <token>el</token>
                 <token>que</token>
                 <token inflected="yes" regexp="yes">portar|dur|anar</token>
@@ -26694,7 +26706,7 @@ $Id$
         </rule>
         <rule id="EN_EL_QUE_PORTEM_D_AGOST" name="en el que portem d'aogst">
             <pattern>
-                <token>en</token>
+                <token regexp="yes">en|durant</token>
                 <token>el</token>
                 <token>que</token>
                 <token inflected="yes" regexp="yes">portar|dur|anar</token>
@@ -26710,7 +26722,7 @@ $Id$
         </rule>
         <rule id="EN_EL_QUE_PORTEM_D_ANY" name="en el que portem d'any">
             <pattern>
-                <token>en</token>
+                <token regexp="yes">en|durant</token>
                 <token>el</token>
                 <token>que</token>
                 <token inflected="yes" regexp="yes">portar|dur</token>
@@ -26723,6 +26735,7 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/id/2178</url>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="enguany|des de principi d'any"><marker>en el que portem d'any</marker></example>
+            <example type="incorrect" correction="Enguany|Des de principi d'any"><marker>Durant el que portem d'any</marker></example>
             <example type="correct">aquest any</example>
         </rule>
         <rulegroup id="PORTA_UNA_HORA" name="porta una hora/fa una hora">
@@ -28053,12 +28066,13 @@ $Id$
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Llenguatge informal</message>
-            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
-            <short></short>
+            <message>si és perífrasi d'obligació, val més usar una altra expressó.</message>
+            <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> \2</suggestion>
+            <short>Llenguatge informal</short>
             <example type="incorrect" correction="hem de">No <marker>tenim de</marker> fer res</example>
-            <example type="incorrect" correction="hagut de">No ha <marker>tingut d'</marker>anar enlloc</example>
+            <example type="incorrect" correction="hagut d'">No ha <marker>tingut d'</marker>anar enlloc</example>
             <example type="correct">No hem de fer res</example>
+            <!--<example type="correct">la capacitat que tenim de percebre-la</example>-->
         </rule>
         <rule id="BACALLAR" name="bacallar/bacallà">
             <pattern>
