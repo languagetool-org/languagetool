@@ -12309,6 +12309,13 @@ $Id$
 						<example correction="spod" type="incorrect">Ten minister przypomina głupka <marker>z pod</marker> budki z piwem.</example>
 				</rule>
 				<rule id="W_OKOL" name="„w okół” (wokół)">
+                        <antipattern>
+                            <marker>
+                                <token>w</token>
+                                <token>około</token>
+                            </marker>
+                            <token regexp="yes">\d+%?</token>
+                        </antipattern>
 						<pattern>
 								<token>w</token>
 								<token regexp="yes">ok(?:ół|oło)</token>
@@ -12318,6 +12325,7 @@ $Id$
 						<example type="correct">Wokół Przemysława gromadziło się wielu podejrzanych typów.</example>
 						<example correction="Wokół" type="incorrect"><marker>W okół</marker> Przemysława gromadziło się wielu podejrzanych typów.</example>
                         <example type="incorrect" correction="wokoło">am jest cywilizacja, prawo i demokracja, a <marker>w około</marker> jest reżim.</example>
+                        <example type="correct">Alergiczne podłoże tych reakcji udaje się wykazać w około 50% przypadków.</example>
 				</rule>
 				<rule id="ZA_RAZ" name="„za raz” (zaraz)">
 						<pattern>
