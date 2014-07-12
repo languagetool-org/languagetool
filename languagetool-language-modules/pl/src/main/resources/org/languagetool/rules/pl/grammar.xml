@@ -13813,6 +13813,18 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="JESLI_JEDNAKI" name="„jeśli jednaki” (jeśli jednak)">
+                <pattern>
+                    <token>jeśli</token>
+                    <marker>
+                        <token>jednaki</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>jednak</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Jeśli <marker>jednaki</marker> przegra z Adrią, jej rywalem w ćwierćfinale będzie Tricycles.</example>
+                <example type='correct'>Jeśli jednak przegra z Adrią, jej rywalem w ćwierćfinale będzie Tricycles.</example>
+            </rule>
             <rule id="PPRON3_PPAS_NON_UNIFIED" name="Niezgodność końcówek rodzaju zaimka i imiesłowu">
                 <pattern>
                     <token regexp="yes">jest|było|będzie|być|został[oa]?|zostaje</token>
