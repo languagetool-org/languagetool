@@ -18,6 +18,7 @@
  */
 package org.languagetool;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
@@ -474,12 +475,13 @@ public abstract class Language {
   public static Language getLanguageForShortName(final String langCode) {
     final Language language = getLanguageForShortNameOrNull(langCode);
     if (language == null) {
-      final StringBuilder sb = new StringBuilder();
+      final List<String> codes = new ArrayList<>();
       for (Language realLanguage : LANGUAGES) {
-        sb.append(' ').append(realLanguage.getShortNameWithCountryAndVariant());
+        codes.add(realLanguage.getShortNameWithCountryAndVariant());
       }
+      Collections.sort(codes);
       throw new IllegalArgumentException("'" + langCode + "' is not a language code known to LanguageTool." +
-              " Supported language codes are:" + sb.toString() + ". The list of languages is read from " + PROPERTIES_PATH +
+              " Supported language codes are: " + StringUtils.join(codes, ", ") + ". The list of languages is read from " + PROPERTIES_PATH +
               " in the Java classpath. See http://wiki.languagetool.org/java-api for details.");
     }
     return language;
