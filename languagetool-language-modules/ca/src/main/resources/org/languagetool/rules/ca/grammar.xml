@@ -2081,6 +2081,8 @@ $Id$
                 <example type="correct">Dos i mig anys després.</example>
                 <example type="correct">54 i mig anys després.</example>
                 <example type="correct">Un i mig anys després.</example>
+                <example type="correct">mig blanques i mig rosades</example>
+                <example type="correct">mig blanques mig rosades</example>
             </rule>
             <rule id="ANTIPODES" name="als antípodes">
                 <pattern>
@@ -28073,6 +28075,14 @@ $Id$
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
         <rule id="TENIR_DE" name="Informal: «tenir de» + infinitiu">
+            <antipattern>
+                <marker>
+                    <!--  necessitat|sort|avinentesa|deure|fama|capacitat|mania|costum|gana|desig|manera|esperança|oportunitat|possibilitat|alegria -->
+                    <token postag="NC.*" postag_regexp="yes" skip="3"><exception scope="next" postag="V.[IS].*" postag_regexp="yes"/></token>
+                    <token skip="3">que</token>
+                    <token inflected="yes">tenir</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">tenir</token>
@@ -28085,8 +28095,10 @@ $Id$
             <short>Llenguatge informal</short>
             <example type="incorrect" correction="hem de">No <marker>tenim de</marker> fer res</example>
             <example type="incorrect" correction="hagut d'">No ha <marker>tingut d'</marker>anar enlloc</example>
+            <example type="incorrect" correction="han de">Els treballadors saben que <marker>tenen de</marker> fer-ho</example>
             <example type="correct">No hem de fer res</example>
-            <!--<example type="correct">la capacitat que tenim de percebre-la</example>-->
+            <example type="correct">les poques possibilitats que els artistes tingueren de representar la figura</example>
+            <example type="correct">la capacitat que tenim de percebre-la</example>
         </rule>
         <rule id="BACALLAR" name="bacallar/bacallà">
             <pattern>
