@@ -10098,7 +10098,7 @@ $Id$
         </rule>
         <rule id="ES_ADIR" name="és *adir / a dir">
             <pattern>
-                <token>és</token>
+                <token regexp="yes">és|es</token>
                 <token>adir</token>
             </pattern>
             <message>¿Volíeu dir <suggestion>és a dir</suggestion>?</message>
@@ -14155,6 +14155,20 @@ $Id$
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="és">Comprova si l'entrada de correu <marker>es</marker> brossa.</example>
                 <example type="correct">No és brossa.</example>
+            </rule>
+            <rule id="ES_COMPOSTA" name="*es/és composta">
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                    </marker>
+                    <token regexp="yes" skip="3">composta?</token>
+                    <token regexp="yes">de|d'|per|pe</token>
+                </pattern>
+                <message>S'accentua quan és del verb "ser".</message>
+                <suggestion>és</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="És"><marker>Es</marker> composta per tres membres electes.</example>
+                <example type="correct">La fulla es composta al dipòsit.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DONA" name="dona/dóna">
