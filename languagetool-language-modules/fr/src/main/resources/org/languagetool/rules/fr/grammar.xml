@@ -5696,8 +5696,9 @@ though, and has since been slightly modified)-->
         <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
       </pattern>
       <message>Le verbe « \3 » devrait être à l’infinitif après le verbe modal « ne plus ».</message>
-      <example type="incorrect">Pour ne plus <marker>travaillé</marker>.</example>
-      <example type="incorrect">Pour ne plus <marker>travaillez</marker>.</example>
+      <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example type="incorrect" correction="travailler">Pour ne plus <marker>travaillé</marker>.</example>
+      <example type="incorrect" correction="travailler">Pour ne plus <marker>travaillez</marker>.</example>
       <example type="correct">Pour ne plus travailler.</example>
     </rule>
     <rulegroup id="FAIRE_VPPA" name="Comment + verbe ppa">
@@ -5711,7 +5712,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
-        <example type="incorrect">J’aimerais <marker>changé</marker> de travail.</example>
+        <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="changer">J’aimerais <marker>changé</marker> de travail.</example>
         <example type="correct">J’aimerais changer de travail.</example>
         <example type="correct">Je l’ai tout à fait oublié.</example>
         <example type="correct">Puis assigné à résidence.</example>
@@ -5726,8 +5728,9 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \2 ».</message>
-        <example type="incorrect">Je ne veux pas <marker>changé</marker> d’école.</example>
+        <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \2 ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="changer">Je ne veux pas <marker>changé</marker> d’école.</example>
         <example type="correct">Je ne veux pas <marker>changer</marker> d’école.</example>
       </rule>
       <rule>
@@ -5740,8 +5743,9 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
-        <example type="incorrect">Je n’aime pas <marker>changé</marker> d’école.</example>
+        <message>Le verbe « \5 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
+        <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
         <example type="correct">Je n’aime pas <marker>changer</marker> d’école.</example>
       </rule>
     </rulegroup>
@@ -5754,8 +5758,9 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Il a refusé de <marker>mangé</marker> avec nous.</example>
+        <message>Le verbe « \3 » devrait être à l’infinitif.</message>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="manger">Il a refusé de <marker>mangé</marker> avec nous.</example>
         <example type="correct">Il a refusé de manger avec nous.</example>
       </rule>
       <rule>
@@ -5768,7 +5773,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \4 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Il a refusé d’<marker>arrivé</marker> plus tôt.</example>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="arriver">Il a refusé d’<marker>arrivé</marker> plus tôt.</example>
         <example type="correct">Il a refusé d’arriver plus tôt.</example>
       </rule>
       <rule>
@@ -5782,7 +5788,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \5 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Il a décidé de ne plus <marker>mangé</marker> avec nous.</example>
+        <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="manger">Il a décidé de ne plus <marker>mangé</marker> avec nous.</example>
         <example type="correct">Il a décidé de ne plus manger avec nous.</example>
       </rule>
     </rulegroup>
@@ -5796,10 +5803,11 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="débuter">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
         <example type="correct">Pour débuter, il faut acheter une grammaire.</example>
         <example type="correct">J’ai de la peine pour René.</example>
-        <example type="incorrect">Comment bien <marker>étudié</marker></example>
+        <example type="incorrect" correction="étudier">Comment bien <marker>étudié</marker></example>
         <example type="correct">Comment bien étudier</example>
         <example type="correct">Il m’a sans cesse répété de me taire.</example>
         <example type="correct">Il est sans doute arrivé.</example>
@@ -5812,7 +5820,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
-        <example type="incorrect">Je veux te <marker>préparé</marker></example>
+        <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="préparer">Je veux te <marker>préparé</marker></example>
         <example type="correct">Je veux te préparer</example>
       </rule>
       <rule>
@@ -5824,7 +5833,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
-        <example type="incorrect">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="gagner">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
         <example type="correct">J’étudie des parties d’échecs afin de gagner.</example>
       </rule>
       <rule>
@@ -5836,8 +5846,9 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
-        <example type="incorrect">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
+        <message>Le verbe « \4 » devrait être à l’infinitif après « afin de ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="annuler">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
         <example type="correct">Je luis en parle avant d’annuler le voyage.</example>
       </rule>
     </rulegroup>
@@ -6825,7 +6836,8 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Le verbe « \3 » devrait être à l’infinitif.</message>
-      <example type="incorrect">J’ai dû <marker>mangé</marker> cela.</example>
+      <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example type="incorrect" correction="manger">J’ai dû <marker>mangé</marker> cela.</example>
       <example type="correct">J’ai dû <marker>manger</marker> cela.</example>
       <example type="correct">Ils avaient voulu cela.</example>
     </rule>
