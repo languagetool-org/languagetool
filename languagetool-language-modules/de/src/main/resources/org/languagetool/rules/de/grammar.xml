@@ -4499,11 +4499,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">ökologische|ökologisches|ökologischer|ökologischen|ökologischem|ökonomische|ökonomischen|ökonomischer</token>
+                        <token inflected="yes">ökonomisch</token>
                     </marker>
                     <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>ökumenisch</suggestion> (ökologisch = die Ökologie betreffend, ökonomisch = auf die Wirtschaft bezogen)?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="ökonomisch" regexp_replace="ökumenisch"/></suggestion>? (Ökonomie = Wirtschaft, Ökumene = Zusammenarbeit christlicher Kirchen)</message>
                 <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
                 <example type="correct">Was sind <marker>ökumenische</marker> Gottesdienste?</example>
                 <example type="incorrect">Was ist ein <marker>ökonomischer</marker> Gottesdienst?</example>
@@ -4511,6 +4511,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gedenkgottesdienstes?</example>
                 <example type="incorrect">Was ist das Merkmal eines <marker>ökonomischen</marker> Gottesdienstes?</example>
                 <example type="incorrect">Was ist das Merkmal von <marker>ökonomischen</marker> Gottesdiensten?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">ökologisch</token>
+                    </marker>
+                    <token regexp="yes">.*Gottesdienst.*|Kirche|Kirchen|Trauung|Trauungen|Taufe|Taufen|Kirchentag|Kirchentage|Kirchentags|Kirchentages|Abendmahl|Abendmahls</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="ökologisch" regexp_replace="ökumenisch"/></suggestion>? (Ökologie = Umwelt, Ökumene = Zusammenarbeit christlicher Kirchen)</message>
+                <example type="correct">Was ist ein <marker>ökumenischer</marker> Gottesdienst?</example>
+                <example type="correct">Was sind <marker>ökumenische</marker> Gottesdienste?</example>
                 <example type="incorrect">Was ist ein <marker>ökologischer</marker> Gottesdienst?</example>
                 <example type="incorrect">Was ist ein <marker>ökologischer</marker> Wortgottesdienst?</example>
                 <example type="incorrect">Was ist das Merkmal eines <marker>ökologischen</marker> Gedenkgottesdienstes?</example>
