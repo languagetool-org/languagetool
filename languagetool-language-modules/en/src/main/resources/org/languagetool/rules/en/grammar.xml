@@ -11213,7 +11213,22 @@ USA
             <message>Did you mean <suggestion>state-of-the-art</suggestion>?</message>
             <example type='incorrect' correction="state-of-the-art">We present our <marker>state of the art</marker> solution.</example>
             <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
-            <example type='correct'>We compare our results to <marker>state of the art</marker>.</example>
+            <example type='correct'>We compare our results to the <marker>state of the art</marker>.</example>
+        </rule>
+        <rule id="OUT_OF_PLACE" name="out of place (out-of-place)">
+            <pattern>
+                <marker>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>place</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>out-of-place</suggestion>?</message>
+            <example type='correct'>This word is <marker>out of place</marker>.</example>
+            <!--<example type='incorrect'>This word is <marker>out-of-place</marker>.</example>-->
+            <example type='correct'>This is an <marker>out-of-place</marker> word.</example>
+            <example type='incorrect'>This is an <marker>out of place</marker> word.</example>
         </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>
