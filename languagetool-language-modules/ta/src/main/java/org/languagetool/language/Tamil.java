@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 import java.util.Arrays;
@@ -50,13 +51,13 @@ public class Tamil extends Language {
     return new String[]{"IN"};
   }
   
-  /*@Override
+  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
-  }*/
+  }
 
   @Override
   public final Contributor[] getMaintainers() {
