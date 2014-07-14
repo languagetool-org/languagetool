@@ -26439,6 +26439,18 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="ESCOLLIR_INCOATIU" name="escollir (conjugació incoativa)">
+                <pattern>
+                   <token regexp="yes">(escoll)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
+                </pattern>
+                <message>La forma incoativa és secundària, i no recollida per tots els diccionaris.</message>
+                <suggestion><match no="1" regexp_match="([Ee])scoll([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1scull$3$4"/></suggestion>
+                <short>Forma secundària</short>
+                <example type="incorrect" correction="Escullo"><marker>Escolleixo</marker></example>
+                <example type="incorrect" correction="escullen"><marker>escollisquen</marker></example>
+                <example type="incorrect" correction="escullin"><marker>escollesquin</marker></example>
+                <example type="correct">escullin</example>
+            </rule>
         <rulegroup id="EVITA_ARTICLE_SALAT" name="Evita article salat: es moix, es plats" default="on">
         <!-- Normalment hi ha altres regles que detecten error: pronom feble solt... -->
             <rule>
@@ -28090,7 +28102,7 @@ $Id$
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
-            <message>si és perífrasi d'obligació, val més usar una altra expressó.</message>
+            <message>Si és perífrasi d'obligació, val més usar una altra expressó.</message>
             <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> \2</suggestion>
             <short>Llenguatge informal</short>
             <example type="incorrect" correction="hem de">No <marker>tenim de</marker> fer res</example>
