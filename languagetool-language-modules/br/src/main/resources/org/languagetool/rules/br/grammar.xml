@@ -5234,7 +5234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </rulegroup>
     <rule id="MARCH_HOUARN" name="marc’h houarn → marc’h-houarn">
       <pattern>
-        <token regexp="yes">[vm]arc’h</token>
+        <token regexp="yes">[vm]arc’h(ig)?</token>
         <token regexp="yes">avel|blein|dibr|dor|dre-tan|gevier|houarn|kañv|koad|mor|plouz|raden|red|samm|tan|treut</token>
       </pattern>
       <message>Implijit <suggestion>\1-\2</suggestion>.</message>
@@ -5647,15 +5647,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="incorrect" correction="dre-gant">Daou <marker>dre gant</marker>.</example>
       <example type="correct">Daou dre-gant.</example>
     </rule>
-    <rule id="DIOUZH_TU" name="diouzh tu">
-      <pattern>
-        <token>diouzh</token>
-        <token>tu</token>
-      </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
-      <example type="incorrect" correction="Diouzh-tu"><marker>Diouzh tu</marker>!</example>
-      <example type="correct">Diouzh-tu!</example>
-    </rule>
+    <rulegroup id="DIOUZHTU" name="diouzh-tu → diouzhtu">
+      <rule>
+        <pattern>
+          <token>diouzh-tu</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>diouzhtu</suggestion>?</message>
+        <example type="incorrect"><marker>Diouzh-tu</marker>!</example>
+        <example type="correct">Diouzhtu!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>diouzh</token>
+          <token>tu</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>diouzhtu</suggestion>?</message>
+        <example type="incorrect"><marker>Diouzh tu</marker>!</example>
+        <example type="correct">Diouzhtu!</example>
+      </rule>
+    </rulegroup>
     <rule id="ABER_ACH" name="Aber Ac’h → Aber-Ac’h">
       <pattern>
         <token>Aber</token>
@@ -5664,7 +5674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Ha fellout a rae deoc’h skrivañ <suggestion>Aber-Ac’h</suggestion>?</message>
       <url>https://br.wikipedia.org/wiki/Aber-Ac’h</url>
       <example type="incorrect" correction="Aber-Ac’h">An <marker>Aber Ac’h</marker> a zo ur stêr.</example>
-      <example type="correct">An Aber-Ildud a zo ur stêr.</example>
+      <example type="correct">An Aber-Ac’h a zo ur stêr.</example>
     </rule>
     <rule id="ABER_ILDUD" name="Aber Ildud → Aber-Ildud">
       <pattern>
