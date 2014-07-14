@@ -5666,6 +5666,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">Diouzhtu!</example>
       </rule>
     </rulegroup>
+    <rulegroup id="OUZHPENN" name="ouzh-penn → ouzhpenn">
+      <rule>
+        <pattern>
+          <token regexp="yes">ouzh-penn(-se)?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="h-" regexp_replace="h"/></suggestion>?</message>
+        <example type="incorrect" correction="Ouzhpenn"><marker>Ouzh-penn</marker> 300 den a oa bet o vanifestiñ disadorn.</example>
+        <example type="correct">Ouzhpenn 300 den a oa bet o vanifestiñ disadorn.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>ouzh<exception scope="previous">penn</exception></token>
+          <token regexp="yes">penn(-se)?</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1\2</suggestion>?</message>
+        <example type="incorrect" correction="Ouzhpenn"><marker>Ouzh penn</marker> 300 den a oa bet o vanifestiñ disadorn.</example>
+        <example type="correct">Ouzhpenn 300 den a oa bet o vanifestiñ disadorn.</example>
+      </rule>
+    </rulegroup>
     <rule id="ABER_ACH" name="Aber Ac’h → Aber-Ac’h">
       <pattern>
         <token>Aber</token>
