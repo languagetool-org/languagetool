@@ -41,7 +41,7 @@ public class HTTPSServerTest {
   @Test
   public void runRequestLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
-    final HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPServerConfig.DEFAULT_PORT, false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 30);
+    final HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPServerConfig.DEFAULT_PORT, false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
     final HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
