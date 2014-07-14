@@ -48,9 +48,9 @@ public class HTTPSServerTest {
       check(new German(), "foo");
       check(new German(), "foo");
       try {
-        System.out.println("Testing too many requests now, please ignore the exception");
-        check(new German(), "foo");
-        fail();
+        System.out.println("=== Testing too many requests now, please ignore the following error ===");
+        String result = check(new German(), "foo");
+        fail("Expected exception not thrown, got this result instead: '" + result + "'");
       } catch (IOException expected) {}
     } finally {
       server.stop();
@@ -101,7 +101,7 @@ public class HTTPSServerTest {
 
     final String overlyLongText = longText.toString() + " and some more to get over the limit of 500";
     try {
-      System.out.println("Now checking text that is too long, please ignore the following error...");
+      System.out.println("=== Now checking text that is too long, please ignore the following exception ===");
       HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(overlyLongText) + "&language=en"));
       fail();
     } catch (IOException expected) {}
