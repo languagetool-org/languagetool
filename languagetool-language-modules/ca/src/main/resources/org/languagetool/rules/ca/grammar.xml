@@ -26439,18 +26439,32 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
-        <rule id="ESCOLLIR_INCOATIU" name="escollir (conjugació incoativa)">
+        <rulegroup id="ESCOLLIR_INCOATIU" name="escollir (conjugació incoativa)">
+            <rule>
                 <pattern>
-                   <token regexp="yes">(escoll)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)</token>
+                   <token regexp="yes">(escoll)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)<exception>escolleixes</exception></token>
                 </pattern>
-                <message>La forma incoativa és secundària, i no recollida per tots els diccionaris.</message>
-                <suggestion><match no="1" regexp_match="([Ee])scoll([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)" regexp_replace="$1scull$3$4"/></suggestion>
+                <message>La forma incoativa és secundària, i no és recollida per tots els diccionaris.</message>
+                <suggestion><match no="1" regexp_match="([Ee])scoll([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ioae]?)([ns]?)" regexp_replace="$1scull$3$4"/></suggestion>
                 <short>Forma secundària</short>
                 <example type="incorrect" correction="Escullo"><marker>Escolleixo</marker></example>
                 <example type="incorrect" correction="escullen"><marker>escollisquen</marker></example>
                 <example type="incorrect" correction="escullin"><marker>escollesquin</marker></example>
+                <example type="incorrect" correction="escullen"><marker>escolleixen</marker></example>
                 <example type="correct">escullin</example>
             </rule>
+            <rule>
+                <pattern>
+                   <token>escolleixes</token>
+                </pattern>
+                <message>La forma incoativa és secundària, i no és recollida per tots els diccionaris.</message>
+                <suggestion>esculls</suggestion>
+                <suggestion>esculles</suggestion> <!-- subjuntiu valencià -->
+                <short>Forma secundària</short>
+                <example type="incorrect" correction="esculls|esculles"><marker>escolleixes</marker></example>
+                <example type="correct">esculls</example>
+            </rule>
+        </rulegroup> 
         <rulegroup id="EVITA_ARTICLE_SALAT" name="Evita article salat: es moix, es plats" default="on">
         <!-- Normalment hi ha altres regles que detecten error: pronom feble solt... -->
             <rule>
