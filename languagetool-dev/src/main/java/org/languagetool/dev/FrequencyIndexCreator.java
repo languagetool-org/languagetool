@@ -41,7 +41,7 @@ import java.util.zip.GZIPInputStream;
 public class FrequencyIndexCreator {
 
   private static final int MIN_YEAR = 1910;
-  private static final String NAME_REGEX = "googlebooks-eng-all-2gram-20120701-(.*?).gz";
+  private static final String NAME_REGEX = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
   private static final int BUFFER_SIZE = 16384;
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
@@ -110,7 +110,7 @@ public class FrequencyIndexCreator {
         } else {
           //System.out.println(">"+ prevText + ": " + count);
           addDoc(writer, prevText, docCount + "");
-          if (++i % 1_000 == 0) {
+          if (++i % 5_000 == 0) {
             printStats(i, docCount, lineCount, prevText, startTime);
           }
           docCount = Long.parseLong(parts[2]);
@@ -159,7 +159,7 @@ public class FrequencyIndexCreator {
 
   public static void main(String[] args) throws IOException {
     FrequencyIndexCreator creator = new FrequencyIndexCreator();
-    creator.run(new File("/media/Data/google-ngram/2gram/"),
-                new File("/media/Data/google-ngram/2gram/lucene-index"));
+    creator.run(new File("/media/Data/google-ngram/3gram/"),
+                new File("/media/Data/google-ngram/3gram/lucene-index"));
   }
 }
