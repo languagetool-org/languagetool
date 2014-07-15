@@ -18,8 +18,10 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
@@ -78,16 +80,16 @@ public class Swedish extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
-            UppercaseSentenceStartRule.class,
-            WordRepeatRule.class,
-            MultipleWhitespaceRule.class,
-            CompoundRule.class
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),
+            new HunspellRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new WordRepeatRule(messages, this),
+            new MultipleWhitespaceRule(messages, this),
+            new CompoundRule(messages)
     );
   }
 

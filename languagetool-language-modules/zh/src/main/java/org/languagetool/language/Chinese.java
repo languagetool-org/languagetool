@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.DoublePunctuationRule;
@@ -65,10 +66,10 @@ public class Chinese extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList(
-            DoublePunctuationRule.class,
-            MultipleWhitespaceRule.class
+            new DoublePunctuationRule(messages),
+            new MultipleWhitespaceRule(messages, this)
     );
   }
 

@@ -18,9 +18,11 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -143,20 +145,20 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-        CommaWhitespaceRule.class,
+        new CommaWhitespaceRule(messages),
         // TODO: does not handle !.. and ?..
-        //            DoublePunctuationRule.class,
-        MorfologikUkrainianSpellerRule.class,
-        MixedAlphabetsRule.class,
+        //            new DoublePunctuationRule(messages),
+        new MorfologikUkrainianSpellerRule(messages, this),
+        new MixedAlphabetsRule(messages),
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..          
-        //            UppercaseSentenceStartRule.class,
-        MultipleWhitespaceRule.class,
+        //            new UppercaseSentenceStartRule(messages),
+        new MultipleWhitespaceRule(messages, this),
         // specific to Ukrainian:
-        SimpleReplaceRule.class,
-        TokenAgreementRule.class
-        );
+        new SimpleReplaceRule(messages),
+        new TokenAgreementRule(messages)
+    );
   }
 
   @Override

@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -93,11 +94,11 @@ public class MultiThreadedJLanguageToolTest {
   public void testTwoRulesOnly() throws IOException {
     MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new FakeLanguage() {
       @Override
-      public List<Class<? extends Rule>> getRelevantRules() {
+      public List<Rule> getRelevantRules(ResourceBundle messages) {
         // less rules than processors (depending on the machine), should at least not crash
         return Arrays.asList(
-                UppercaseSentenceStartRule.class,
-                MultipleWhitespaceRule.class
+                new UppercaseSentenceStartRule(messages, this),
+                new MultipleWhitespaceRule(messages, this)
         );
       }
     });

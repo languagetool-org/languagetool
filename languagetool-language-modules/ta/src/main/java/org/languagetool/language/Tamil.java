@@ -25,6 +25,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class Tamil extends Language {
 
@@ -65,7 +66,7 @@ public class Tamil extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList();
   }
 

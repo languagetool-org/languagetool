@@ -18,8 +18,10 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -103,14 +105,14 @@ public class Khmer extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-      HunspellRule.class,
+      new HunspellRule(messages, this),
       // specific to Khmer:
-      KhmerSimpleReplaceRule.class,
-      KhmerWordRepeatRule.class,
-      KhmerUnpairedBracketsRule.class,
-      KhmerSpaceBeforeRule.class
+      new KhmerSimpleReplaceRule(messages),
+      new KhmerWordRepeatRule(messages, this),
+      new KhmerUnpairedBracketsRule(messages, this),
+      new KhmerSpaceBeforeRule(messages, this)
     );
   }
 

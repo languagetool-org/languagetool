@@ -22,8 +22,10 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.pt.PortugueseCompoundRule;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Post-spelling-reform Portuguese.
@@ -43,11 +45,15 @@ public class PostReformPortugalPortuguese extends PortugalPortuguese {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<>(super.getRelevantRules());
-    rules.remove(PortugueseCompoundRule.class);
-    rules.add(PostReformPortugueseCompoundRule.class);
-    return rules;
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    final List<Rule> filteredRules = new ArrayList<>();
+    for (Rule rule : super.getRelevantRules(messages)) {
+      if (rule.getClass() != PortugueseCompoundRule.class) {
+        filteredRules.add(rule);
+      }
+    }
+    filteredRules.add(new PostReformPortugueseCompoundRule(messages));
+    return filteredRules;
   }
 
 }

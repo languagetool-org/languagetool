@@ -23,6 +23,7 @@ import org.languagetool.language.Contributor;
 import org.languagetool.rules.Rule;
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * A very simple sentence tokenizer that splits on {@code [.!?…]} followed by whitespace
@@ -49,7 +50,7 @@ public class SimpleSentenceTokenizer extends LocalSRXSentenceTokenizer {
     @Override public Contributor[] getMaintainers() {
       return new Contributor[0];
     }
-    @Override public List<Class<? extends Rule>> getRelevantRules() {
+    @Override public List<Rule> getRelevantRules(ResourceBundle messages) {
       return null;
     }
   }

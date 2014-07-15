@@ -18,8 +18,10 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
@@ -124,16 +126,16 @@ public class Dutch extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            UppercaseSentenceStartRule.class,
-            DutchSpellerRule.class,
-            MultipleWhitespaceRule.class,
-            CompoundRule.class,
-            DutchWrongWordInContextRule.class
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new DutchSpellerRule(messages, this),
+            new MultipleWhitespaceRule(messages, this),
+            new CompoundRule(messages),
+            new DutchWrongWordInContextRule(messages)
     );
   }
 

@@ -18,39 +18,13 @@
  */
 package org.languagetool;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.JarURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.jar.Manifest;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.RuleMatchFilter;
-import org.languagetool.rules.SameRuleGroupFilter;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
@@ -60,6 +34,17 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.Tokenizer;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import java.net.JarURLConnection;
+import java.net.URL;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.jar.Manifest;
 
 /**
  * The main class used for checking text against different rules:
@@ -197,9 +182,9 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     final Rule[] allBuiltinRules = getAllBuiltinRules(language, messages);
-    for (final Rule element : allBuiltinRules) {
-      if (element.supportsLanguage(language)) {
-        builtinRules.add(element);
+    for (final Rule rule : allBuiltinRules) {
+      if (rule.supportsLanguage(language)) {
+        builtinRules.add(rule);
       }
     }
     disambiguator = language.getDisambiguator();
@@ -271,44 +256,14 @@ public class JLanguageTool {
     return ResourceBundleTools.getMessageBundle(lang);
   }
   
-  private Rule[] getAllBuiltinRules(final Language language, final ResourceBundle messages) {
+  private Rule[] getAllBuiltinRules(final Language language, ResourceBundle messages) {
     final List<Rule> rules = new ArrayList<>();
-    final List<Class<? extends Rule>> languageRules = language.getRelevantRules();
-    for (Class<? extends Rule> ruleClass : languageRules) {
-      final Constructor[] constructors = ruleClass.getConstructors();
-      try {
-        if (constructors.length > 0) {
-          boolean constructorFound = addNewlyConstructedRules(language, messages, rules, constructors);
-          if (!constructorFound) {
-            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName()
-                    + " - add at least a constructor with a ResourceBundle parameter");
-          }
-        } else {
-          throw new RuntimeException("No public constructor for rule class: " + ruleClass.getName());
-        }
-      } catch (Exception e) {
-        throw new RuntimeException("Failed to load built-in Java rules for language " + language, e);
-      }
+    try {
+      rules.addAll(language.getRelevantRules(messages));
+    } catch (IOException e) {
+      throw new RuntimeException("Could not get rules of language " + language, e);
     }
     return rules.toArray(new Rule[rules.size()]);
-  }
-
-  private boolean addNewlyConstructedRules(Language language, ResourceBundle messages, List<Rule> rules, Constructor[] constructors) 
-          throws InstantiationException, IllegalAccessException, InvocationTargetException {
-    for (Constructor constructor : constructors) {
-      final Class[] paramTypes = constructor.getParameterTypes();
-      if (paramTypes.length == 1
-              && paramTypes[0].equals(ResourceBundle.class)) {
-        rules.add((Rule) constructor.newInstance(messages));
-        return true;
-      } else if (paramTypes.length == 2
-              && paramTypes[0].equals(ResourceBundle.class)
-              && (paramTypes[1].equals(Language.class) || Language.class.isAssignableFrom(paramTypes[1]))) {
-        rules.add((Rule) constructor.newInstance(messages, language));
-        return true;
-      }
-    }
-    return false;
   }
 
   /**

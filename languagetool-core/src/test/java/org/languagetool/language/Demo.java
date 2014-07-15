@@ -21,6 +21,7 @@ package org.languagetool.language;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
@@ -91,7 +92,7 @@ public class Demo extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Collections.emptyList();
   }
 
