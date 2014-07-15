@@ -16391,6 +16391,41 @@ $Id$
         </rule>
     </category>    
     <category name="Z) Errors de tipograifa i puntuació" type="typographical">
+        <rulegroup id="AC_DC" name="format preferible: aC, dC">
+            <url>http://esadir.cat/convencions/tipografia/abreviacions/llistaabreviacions</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="DN.*|_C_TEMPS|AO.*" postag_regexp="yes"/>
+                        <token regexp="yes">[da]</token>
+                        <token>.</token>
+                        <token>C</token>
+                        <token>.<exception postag="SENT_END"/></token>
+                    </marker>
+                    <token><exception regexp="yes">\p{Lu}.*</exception></token>
+                </pattern>
+                <message>Format preferible</message>
+                <suggestion>\1 <match no="2" case_conversion="alllower"/>C</suggestion>
+                <example type="incorrect" correction="1256 aC">Va ser l'any <marker>1256 a. C.</marker> quan va passar</example>
+                <example type="incorrect" correction="XIX dC">Va ser el segle <marker>XIX d.C.</marker> quan arribà</example>
+                <example type="correct">L'any 928 d.C.</example>
+                <example type="correct">L'any 928 d.C. Però no el 929 d.C.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DN.*|_C_TEMPS|AO.*" postag_regexp="yes"/>
+                    <token regexp="yes">[da]</token>
+                    <token>.</token>
+                    <token>C</token>
+                </pattern>
+                <message>Format preferible</message>
+                <suggestion>\1 <match no="2" case_conversion="alllower"/>C</suggestion>
+                <example type="incorrect" correction="1256 aC">Va ser l'any <marker>1256 a.C</marker>.</example>
+                <example type="incorrect" correction="XIX dC">Va ser el segle <marker>XIX d.C</marker>.</example>
+                <example type="incorrect" correction="XIX dC">Va ser el segle <marker>XIX d. C</marker> quan arribà</example>
+                <example type="correct">L'any 928 dC.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GRAUS_MINUTS_SEGONS" name="tipografia de graus, minuts i segons: 50° 45′ 20″">
             <rule>
                 <pattern>
@@ -28103,9 +28138,20 @@ $Id$
         <rule id="TENIR_DE" name="Informal: «tenir de» + infinitiu">
             <antipattern>
                 <marker>
-                    <!--  necessitat|sort|avinentesa|deure|fama|capacitat|mania|costum|gana|desig|manera|esperança|oportunitat|possibilitat|alegria -->
                     <token postag="NC.*" postag_regexp="yes" skip="3"><exception scope="next" postag="V.[IS].*" postag_regexp="yes"/></token>
-                    <token skip="3">que</token>
+                    <token skip="4">que</token>
+                    <token inflected="yes">tenir</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes">necessitat|sort|avinentesa|deure|fama|capacitat|mania|costum|gana|desig|manera|esperança|oportunitat|possibilitat|alegria</token>
+                    <token inflected="yes">tenir</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">necessitats?</token>
                     <token inflected="yes">tenir</token>
                 </marker>
             </antipattern>
@@ -28116,7 +28162,7 @@ $Id$
                 </marker>
                 <token postag="V.N.*" postag_regexp="yes"></token>
             </pattern>
-            <message>Si és perífrasi d'obligació, val més usar una altra expressó.</message>
+            <message>Si és perífrasi d'obligació, val més usar una altra expressió.</message>
             <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> \2</suggestion>
             <short>Llenguatge informal</short>
             <example type="incorrect" correction="hem de">No <marker>tenim de</marker> fer res</example>
@@ -28125,6 +28171,9 @@ $Id$
             <example type="correct">No hem de fer res</example>
             <example type="correct">les poques possibilitats que els artistes tingueren de representar la figura</example>
             <example type="correct">la capacitat que tenim de percebre-la</example>
+            <example type="correct">menys necessitat tindrà de fer-se l'important</example> 
+            <example type="correct">¿Quines possibilitats tenies de sortir-te'n?</example>
+            <example type="correct">més poques ganes tenia d'anar-hi.</example>
         </rule>
         <rule id="BACALLAR" name="bacallar/bacallà">
             <pattern>
