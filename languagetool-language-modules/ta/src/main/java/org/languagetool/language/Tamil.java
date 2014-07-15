@@ -19,7 +19,7 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.*;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -67,7 +67,13 @@ public class Tamil extends Language {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) {
-    return Arrays.asList();
+    return Arrays.asList(
+        new CommaWhitespaceRule(messages),
+        new DoublePunctuationRule(messages),
+        new MultipleWhitespaceRule(messages, this),
+        new LongSentenceRule(messages),
+        new SentenceWhitespaceRule(messages)
+    );
   }
 
 }
