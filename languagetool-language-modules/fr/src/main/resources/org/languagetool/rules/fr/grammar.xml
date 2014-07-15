@@ -4939,6 +4939,41 @@ though, and has since been slightly modified)-->
         <example type="correct">C’est quelquefois assez pénible de surveiller les enfants.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="GEAI_JAIS" name="geai ou jais">
+      <url>http://www.academie-francaise.fr/geai-pour-jais</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">noir|cheveu|chevelure|bracelet|collier|perle|briller|ornement</token>
+          <token regexp="yes" min="0" max="1">comme|de</token>
+          <marker><token>geai</token></marker>
+        </pattern>
+        <message>Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+        <suggestion>jais</suggestion>
+        <example type="incorrect">Noir comme <marker>geai</marker>.</example>
+        <example type="correct">Noir comme jais.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">cris?|fable</token>
+          <token regexp="yes">d[eu]</token>
+          <marker><token>jais</token></marker>
+        </pattern>
+        <message>Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+        <suggestion>geai</suggestion>
+        <example type="incorrect">Le cri du <marker>jais</marker>.</example>
+        <example type="correct">Le cri du <marker>geais</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>jais</token></marker>
+          <token regexp="yes" inflected="yes">bleu|garruler|apprivoisé</token>
+        </pattern>
+        <message>Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+        <suggestion>geai</suggestion>
+        <example type="incorrect">Un <marker>jais</marker> bleu.</example>
+        <example type="correct">Un <marker>geai</marker> bleu.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -25846,16 +25881,6 @@ though, and has since been slightly modified)-->
       <message>« Rabattre les oreilles » est une expression fautive. Employez <suggestion>rebattre les oreilles</suggestion> « Rabattre » désigne l’action d’abaisser et « rebattre » désigne au figuré l’action de répéter inutilement de manière ennuyeuse.</message>
       <example type="incorrect"><marker>rabattre les oreilles</marker></example>
       <example type="correct"><marker>rebattre les oreilles</marker></example>
-    </rule>
-    <rule id="NOIR_COMME_GEAI" name="noir comme (le) geai">
-      <pattern>
-        <token regexp="yes">noirs?</token>
-        <token skip="1">comme</token>
-        <token>geai</token>
-      </pattern>
-      <message>« Noir comme (le) geai » est une expression fautive. Employez <suggestion>noir comme jais</suggestion>. Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
-      <example type="incorrect"><marker>noir comme geai</marker></example>
-      <example type="correct"><marker>noir comme jais</marker></example>
     </rule>
     <rulegroup id="SANS_DESSUS_DESSOUS" name="sans dessus dessous">
       <rule>
