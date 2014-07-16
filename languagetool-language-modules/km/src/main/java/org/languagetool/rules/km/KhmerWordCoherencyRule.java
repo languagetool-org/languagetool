@@ -41,6 +41,7 @@ import org.languagetool.tools.StringTools;
  * <code>rules/km/coherency.txt</code>, where km is a code of the language.
  * 
  * @author Andriy Rysin
+ * @deprecated use {@link KhmerSimpleReplaceRule} instead (deprecated since 2.7)
  */
 public abstract class KhmerWordCoherencyRule extends KhmerRule {
 
