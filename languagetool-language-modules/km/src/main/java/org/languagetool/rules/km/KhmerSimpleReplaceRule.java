@@ -142,13 +142,11 @@ public class KhmerSimpleReplaceRule extends Rule {
   private List<Map<String, String>> loadWords(final InputStream stream)
           throws IOException {
     final List<Map<String, String>> list = new ArrayList<>();
-    InputStreamReader isr = null;
-    BufferedReader br = null;
-    try {
-      isr = new InputStreamReader(stream, getEncoding());
-      br = new BufferedReader(isr);
+    try (
+      InputStreamReader isr = new InputStreamReader(stream, getEncoding());
+      BufferedReader br = new BufferedReader(isr)) 
+    {
       String line;
-
       while ((line = br.readLine()) != null) {
         line = line.trim();
         if (line.length() < 1 || line.charAt(0) == '#') { // ignore comments
@@ -178,14 +176,6 @@ public class KhmerSimpleReplaceRule extends Rule {
           }
           list.get(wordCount - 1).put(wrongForm, parts[1]);
         }
-      }
-
-    } finally {
-      if (br != null) {
-        br.close();
-      }
-      if (isr != null) {
-        isr.close();
       }
     }
     // seal the result (prevent modification from outside this class)
