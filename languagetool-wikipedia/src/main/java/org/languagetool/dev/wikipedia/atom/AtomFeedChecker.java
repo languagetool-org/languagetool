@@ -46,7 +46,7 @@ import java.util.*;
 class AtomFeedChecker {
 
   private static final int CONTEXT_SIZE = 60;
-  private static final String USER_AGENT = "http://community.languagetool.org bot, contact: naber[@]danielnaber.de";
+  private static final String USER_AGENT = "http://tools.wmflabs.org/languagetool/ bot, contact: naber[@]danielnaber.de";
   
   private final JLanguageTool langTool;
   private final Language language;
