@@ -110,9 +110,9 @@ public class WordCoherencyRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private Map<String, String> loadWords(InputStream file) throws IOException {
+  private Map<String, String> loadWords(InputStream stream) throws IOException {
     final Map<String, String> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(file, FILE_ENCODING)) {
+    try (Scanner scanner = new Scanner(stream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {

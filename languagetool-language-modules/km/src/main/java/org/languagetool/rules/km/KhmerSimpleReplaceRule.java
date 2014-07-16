@@ -135,17 +135,17 @@ public class KhmerSimpleReplaceRule extends Rule {
   /**
    * Load the list of words. <br/>
    * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
-   * @param file the file to load.
+   * @param stream the stream to load.
    * @return the list of maps containing the error-corrections pairs. <br/>The n-th map contains key strings of (n+1) words.
    * @see #getWordTokenizer
    */
-  private List<Map<String, String>> loadWords(final InputStream file)
+  private List<Map<String, String>> loadWords(final InputStream stream)
           throws IOException {
     final List<Map<String, String>> list = new ArrayList<>();
     InputStreamReader isr = null;
     BufferedReader br = null;
     try {
-      isr = new InputStreamReader(file, getEncoding());
+      isr = new InputStreamReader(stream, getEncoding());
       br = new BufferedReader(isr);
       String line;
 

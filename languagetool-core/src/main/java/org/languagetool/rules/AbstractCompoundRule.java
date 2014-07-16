@@ -220,9 +220,9 @@ public abstract class AbstractCompoundRule extends Rule {
     }
   }
 
-  private void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
+  private void loadCompoundFile(final InputStream stream, final String encoding) throws IOException {
     try (
-      InputStreamReader reader = new InputStreamReader(file, encoding);
+      InputStreamReader reader = new InputStreamReader(stream, encoding);
       BufferedReader br = new BufferedReader(reader)
     ) {
       String line;

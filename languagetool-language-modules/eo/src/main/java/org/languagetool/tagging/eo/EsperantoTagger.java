@@ -75,12 +75,12 @@ public class EsperantoTagger implements Tagger {
   /**
    * Load list of words from UTF-8 file (one word per line).
    */
-  private Set<String> loadWords(final InputStream file) throws IOException {
+  private Set<String> loadWords(final InputStream stream) throws IOException {
     InputStreamReader isr = null;
     BufferedReader br = null;
     final Set<String> words = new HashSet<>();
     try {
-      isr = new InputStreamReader(file, "UTF-8");
+      isr = new InputStreamReader(stream, "UTF-8");
       br = new BufferedReader(isr);
       String line;
 
