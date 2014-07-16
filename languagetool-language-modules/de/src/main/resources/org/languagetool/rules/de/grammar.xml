@@ -6,7 +6,7 @@
 German grammar and typo rules for LanguageTool.
 See resource/de/tagset.txt for the meaning of the POS tags.
 
-Copyright © 2001–2013 Markus Brenneis, Daniel Naber, Jan Schreiber
+Copyright © 2001–2014 Markus Brenneis, Daniel Naber, Jan Schreiber
 http://www.languagetool.org
 
 This library is free software; you can redistribute it and/or
@@ -86,6 +86,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY odkomma "oder fehlt vielleicht ein Komma">
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
+    <!ENTITY fragewoerter "inwiefern|wann|warum|was|wem|wen|wer|weshalb|weswegen|wie|wieso|wo|wodurch|woher|wohin|wonach|woran|worauf|woraus|worüber|worunter|wozu">
 ]>
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -94,7 +95,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
-        
+
        <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
            <antipattern>
                <token>im</token>
@@ -16247,7 +16248,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example type="incorrect" correction="Stand">Die Software ist auf dem <marker>stand</marker> von 2001.</example>
                 <example type="correct">Die Software ist auf dem <marker>Stand</marker> von 2001.</example>
-            </rule>            
+            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[aA]uf</token>
@@ -25008,7 +25009,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">„Die Fenster sind“, behauptet er, „geschlossen.“</example>
                 <example type="correct">Einer Zeitschrift, der Zeitschrift „News“, sagte er: „Es ist wahr.“</example>
 <!--                 <example type="incorrect" correction="“, behauptet er, „">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example> -->
-<!--             TODO    <example type="incorrect">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example> 
+<!--             TODO    <example type="incorrect">„Die Fenster sind<marker>“ behauptet er „</marker>geschlossen.“</example>
 "Es regnet," sagte er.-->
             </rule>
             <rule>
@@ -25090,7 +25091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>z.&nbsp;B.</suggestion>?</message>
-                 <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example> 
+                 <example type="incorrect" correction="z.&nbsp;B.">Sie erkennt <marker>z B.</marker> den Fehler in diesem Satz.</example>
                 <example type="correct">Sie erkennt <marker>z. B.</marker> den Fehler in diesem Satz.</example>
             </rule>
         </rulegroup>
@@ -25112,6 +25113,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
+            <url>http://www.korrekturen.de/zeichensetzung04.shtml</url>
+			<rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">&fragewoerter;</token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
+                    <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht</token>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception>?</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt i.d.R. auch für rhetorische Fragen; bei diesen kann aber auch ein Ausrufezeichen passend sein. Vorschlag:
+                    <suggestion>?</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example type="correct">Wer bremst, verliert<marker>.</marker></example>
+                <example type="correct">Wer bremst denn eigentlich<marker>?</marker></example>
+                <example type="incorrect" correction="?">Wer bist du denn eigentlich<marker>.</marker></example>
+                <example type="incorrect" correction="?">Wann kommst du denn endlich<marker>.</marker></example>
+                <example type="incorrect" correction="?">Was willst du denn überhaupt<marker>.</marker></example>
+                <example type="incorrect" correction="?">Was soll das denn<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>Wie</token>
+                    <token regexp="yes">lange?|oft|häufig|viel</token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
+                    <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht</token>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception>?</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt i.d.R. auch für rhetorische Fragen; bei diesen kann aber auch ein Ausrufezeichen passend sein. Vorschlag:
+                    <suggestion>?</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example type="correct">Wie lange das noch dauert, weiß Gott allein<marker>.</marker></example>
+                <example type="correct">Wie lange dauert das eigentlich noch<marker>?</marker></example>
+                <example type="incorrect" correction="?">Wie lange dauert das eigentlich noch<marker>!</marker></example>
+                <example type="incorrect" correction="?">Wie lange dauert das denn noch<marker>.</marker></example>
+                <example type="incorrect" correction="?">Wie oft passierte das<marker>.</marker></example>
+                <example type="incorrect" correction="?">Wie viel kostet das<marker>.</marker></example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -25129,7 +25180,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </message>
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example type="correct">Bist du blöd<marker>?</marker></example>
-                <example type="incorrect">Bist du blöd<marker>.</marker></example>
+                <example type="incorrect" correction="?">Bist du blöd<marker>.</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -25148,8 +25199,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </message>
                 <short>Möglicherweise falsches Satzzeichen</short>
                 <example type="correct">Ist er blöd<marker>?</marker></example>
-                <example type="incorrect">Ist er blöd<marker>.</marker></example>
-                <example type="incorrect">Ist Peter blöd<marker>.</marker></example>
+                <example type="incorrect" correction="?">Ist er blöd<marker>.</marker></example>
+                <example type="incorrect" correction="?">Ist Peter blöd<marker>.</marker></example>
             </rule>
         </rulegroup>
         <rulegroup id="ROCK_N_ROLL" name="Zeichensetzung: Apostroph in 'Rock 'n' Roll'">
