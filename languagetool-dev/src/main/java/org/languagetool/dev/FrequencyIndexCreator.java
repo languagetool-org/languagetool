@@ -37,6 +37,10 @@ import java.util.zip.GZIPInputStream;
  * Index *.gz files from Google's ngram corpus into a Lucene index.
  * Index time (1 doc = 1 ngram and its count, years are aggregated into one number):
  * 130µs/doc (both on an external USB hard disk or on an internal SSD) = about 7700 docs/sec
+ * 
+ * The reason this isn't faster is not Lucene but the aggregation work we do or simply
+ * the large amount of data. Indexing every line takes 3µs/doc, i.e. Lucene can 
+ * index about 333,000 docs/s.
  */
 public class FrequencyIndexCreator {
 
@@ -111,10 +115,10 @@ public class FrequencyIndexCreator {
           //System.out.println(">"+ prevText + ": " + count);
           addDoc(writer, prevText, docCount + "");
           if (++i % 5_000 == 0) {
-            printStats(i, docCount, lineCount, prevText, startTime);
-          }
-          docCount = Long.parseLong(parts[2]);
+          printStats(i, docCount, lineCount, prevText, startTime);
         }
+          docCount = Long.parseLong(parts[2]);
+      }
         prevText = text;
       }
       printStats(i, docCount, lineCount, prevText, startTime);
