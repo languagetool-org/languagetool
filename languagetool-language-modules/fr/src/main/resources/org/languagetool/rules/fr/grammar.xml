@@ -4975,6 +4975,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="POINT_POING" name="point et poing">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2220</url>
       <rule>
         <pattern>
           <token regexp="yes">coups?</token>
@@ -4985,6 +4986,18 @@ though, and has since been slightly modified)-->
         <suggestion>poing</suggestion>
         <example type="incorrect">Il m’a donné un coup de <marker>point</marker>.</example>
         <example type="correct">Il m’a donné un coup de poing.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">taper|fermer|ouvrir|blesser|serrer|desserrer|oiseau|arme</token>
+          <token regexp="yes">[dl]es?|du</token>
+          <marker><token regexp="yes">points?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « point » et <suggestion><match no="3" regexp_match="t" regexp_replace="g"/></suggestion>.</message>
+        <example type="incorrect" correction="poing">Il a tapé du <marker>point</marker> sur la table.</example>
+        <example type="correct">Il a tapé du <marker>poing</marker> sur la table.</example>
+        <example type="incorrect" correction="poings">Il desserra les <marker>points</marker>.</example>
+        <example type="correct">Il desserra les <marker>poings</marker>.</example>
       </rule>
     </rulegroup>
   </category>
