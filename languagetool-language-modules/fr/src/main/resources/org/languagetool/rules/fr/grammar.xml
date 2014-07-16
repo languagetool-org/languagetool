@@ -4985,6 +4985,38 @@ though, and has since been slightly modified)-->
         <example type="correct">Il desserra les <marker>poings</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="CONTREPARTIE" name="contre partie → contrepartie">
+      <pattern>
+        <token>contre</token>
+        <token regexp="yes">partie?s?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>contre<match no="2" case_conversion="startlower" regexp_match="^.*?(s?)$" regexp_replace="partie$1"/></suggestion> ou <suggestion>contre-<match no="2" case_conversion="startlower" regexp_match="^.*?(s?)$" regexp_replace="partie$1"/></suggestion> ?</message>
+      <example type="incorrect" correction="contrepartie|contre-partie">Il a été libéré sans <marker>contre partie</marker>.</example>
+      <example type="correct">Il a été libéré sans contrepartie.</example>
+      <example type="correct">Il a été libéré sans contre-partie.</example>
+      <example type="incorrect" correction="contreparties|contre-parties">Quelles sont les <marker>contre parties</marker> ?</example>
+      <example type="correct">Quelles sont les contreparties ?</example>
+    </rule>
+    <rulegroup id="HUIS_HUIT" name="huis ou huit">
+      <rule>
+        <pattern>
+          <marker><token>huis</token></marker>
+          <token regexp="yes">ans?|mois|heures?|cents?|mille|dollars?|euros?|€|francs?|centimes?|janvier|février|mars|avril|mai|juin|juillet|ao[ûu]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|divisé|multiplié|plus|moins|dixièmes?|centièmes?|millièmes?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>huit</suggestion> ?</message>
+        <example type="incorrect">Il ne me me reste que <marker>huis</marker> centimes.</example>
+        <example type="correct">Il ne me me reste que huit centimes.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>huit</token></marker>
+          <token>clos</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>huis</suggestion> ?</message>
+        <example type="incorrect">Un procès à <marker>huit</marker> clos.</example>
+        <example type="correct">Un procès à huis clos.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -5191,7 +5223,7 @@ though, and has since been slightly modified)-->
             <exception scope="previous">numéro</exception>
           </token>
           <token postag="[JN] . s" postag_regexp="yes">
-            <exception regexp="yes">neuf|été|janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille|divisé|multiplié</exception>
+            <exception regexp="yes">neuf|été|janvier|février|avril|mai|juin|juillet|ao[ûu]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille|divisé|multiplié</exception>
             <exception postag="N . s?p" postag_regexp="yes"/>
           </token>
         </pattern>
