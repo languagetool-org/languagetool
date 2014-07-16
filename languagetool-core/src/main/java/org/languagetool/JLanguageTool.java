@@ -113,7 +113,7 @@ public class JLanguageTool {
   
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
 
-  private final List<Rule> builtinRules = new ArrayList<>();
+  private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
   private final Set<String> disabledRules = new HashSet<>();
   private final Set<String> enabledRules = new HashSet<>();
@@ -181,12 +181,7 @@ public class JLanguageTool {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
     final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    final Rule[] allBuiltinRules = getAllBuiltinRules(language, messages);
-    for (final Rule rule : allBuiltinRules) {
-      if (rule.supportsLanguage(language)) {
-        builtinRules.add(rule);
-      }
-    }
+    builtinRules = getAllBuiltinRules(language, messages);
     disambiguator = language.getDisambiguator();
     tagger = language.getTagger();
     sentenceTokenizer = language.getSentenceTokenizer();
@@ -256,14 +251,12 @@ public class JLanguageTool {
     return ResourceBundleTools.getMessageBundle(lang);
   }
   
-  private Rule[] getAllBuiltinRules(final Language language, ResourceBundle messages) {
-    final List<Rule> rules = new ArrayList<>();
+  private List<Rule> getAllBuiltinRules(final Language language, ResourceBundle messages) {
     try {
-      rules.addAll(language.getRelevantRules(messages));
+      return language.getRelevantRules(messages);
     } catch (IOException e) {
       throw new RuntimeException("Could not get rules of language " + language, e);
     }
-    return rules.toArray(new Rule[rules.size()]);
   }
 
   /**
