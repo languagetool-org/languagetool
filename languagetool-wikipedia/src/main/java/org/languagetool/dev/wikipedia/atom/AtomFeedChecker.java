@@ -68,9 +68,9 @@ class AtomFeedChecker {
     langTool.disableRule("EN_QUOTES");
     langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
     langTool.disableRule("UPPERCASE_SENTENCE_START");
-    langTool.disableRule("HUNSPELL_NO_SUGGEST_RULE");  // fr
     langTool.disableRule("FRENCH_WHITESPACE");  // fr
     activateCategory("Wikipedia", langTool);
+    disableSpellingRules(langTool);
     if (dbConfig != null) {
       matchDatabase = new MatchDatabase(dbConfig.getUrl(), dbConfig.getUser(), dbConfig.getPassword());
     } else {
@@ -87,6 +87,15 @@ class AtomFeedChecker {
       if (rule.getCategory().getName().equals(categoryName)) {
         System.out.println("Activating " + rule.getId() + " in category " + categoryName);
         langTool.enableDefaultOffRule(rule.getId());
+      }
+    }
+  }
+
+  private void disableSpellingRules(JLanguageTool langTool) {
+    for (Rule rule : langTool.getAllActiveRules()) {
+      if (rule.isDictionaryBasedSpellingRule()) {
+        langTool.disableRule(rule.getId());
+        System.out.println("Disabled spelling rule: " + rule.getId());
       }
     }
   }
