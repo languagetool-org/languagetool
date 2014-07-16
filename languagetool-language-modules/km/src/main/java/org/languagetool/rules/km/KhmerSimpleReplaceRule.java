@@ -46,8 +46,6 @@ import java.util.concurrent.ArrayBlockingQueue;
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  *
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.9 2010/10/03 13:21:16 archeus Exp $
- *
  */
 public class KhmerSimpleReplaceRule extends Rule {
 
@@ -57,11 +55,11 @@ public class KhmerSimpleReplaceRule extends Rule {
   private static final String FILE_ENCODING = "utf-8";
   private static final Locale KM_LOCALE = new Locale("km");  // locale used on case-conversion
   
-  private final Khmer kmher = new Khmer();
-
   // list of maps containing error-corrections pairs.
   // the n-th map contains key strings of (n+1) words 
   private final List<Map<String, String>> wrongWords;
+
+  private final Khmer kmher = new Khmer();
 
   public final String getFileName() {
     return FILE_NAME;
@@ -179,7 +177,7 @@ public class KhmerSimpleReplaceRule extends Rule {
       }
     }
     // seal the result (prevent modification from outside this class)
-    List<Map<String,String>> result = new ArrayList<>();
+    final List<Map<String,String>> result = new ArrayList<>();
     for (Map<String, String> map : list) {
       result.add(Collections.unmodifiableMap(map));
     }

@@ -55,8 +55,6 @@ import org.languagetool.tools.StringTools;
  * Note: Merge this into {@link AbstractSimpleReplaceRule} eventually and simply extend from AbstractSimpleReplaceRule.<br/>
  *
  * @author Ionuț Păduraru
- * @version $Id: SimpleReplaceRule.java,v 1.9 2010-10-03 13:21:16 archeus Exp $
- *
  */
 public class SimpleReplaceRule extends Rule {
 
@@ -64,8 +62,7 @@ public class SimpleReplaceRule extends Rule {
 
   private static final String FILE_NAME = "/ro/replace.txt";
   private static final String FILE_ENCODING = "utf-8";
-  // locale used on case-conversion
-  private static final Locale RO_LOCALE = new Locale("ro");
+  private static final Locale RO_LOCALE = new Locale("ro");  // locale used on case-conversion
 
   // list of maps containing error-corrections pairs.
   // the n-th map contains key strings of (n+1) words 
@@ -145,7 +142,7 @@ public class SimpleReplaceRule extends Rule {
   /**
    * Load the list of words. <br/>
    * Same as {@link AbstractSimpleReplaceRule#loadWords} but allows multiple words.   
-   * @param stream the file to load.
+   * @param stream the stream to load.
    * @return the list of maps containing the error-corrections pairs. <br/>The n-th map contains key strings of (n+1) words.
    * @see #getWordTokenizer
    */
@@ -162,13 +159,16 @@ public class SimpleReplaceRule extends Rule {
         if (line.length() < 1 || line.charAt(0) == '#') { // ignore comments
           continue;
         }
+
         final String[] parts = line.split("=");
         if (parts.length != 2) {
           throw new IOException("Format error in file "
                   + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName())
                   + ", line: " + line);
+
         }
-        final String[] wrongForms = parts[0].split("\\|"); // multiple incorect forms
+
+        final String[] wrongForms = parts[0].split("\\|"); // multiple incorrect forms
         for (String wrongForm : wrongForms) {
           int wordCount = 0;
           final List<String> tokens = getWordTokenizer().tokenize(wrongForm);
@@ -205,8 +205,7 @@ public class SimpleReplaceRule extends Rule {
   @Override
   public RuleMatch[] match(final AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence
-            .getTokensWithoutWhitespace();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
     final Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
 
