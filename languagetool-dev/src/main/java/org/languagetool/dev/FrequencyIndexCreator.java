@@ -45,7 +45,8 @@ import java.util.zip.GZIPInputStream;
 public class FrequencyIndexCreator {
 
   private static final int MIN_YEAR = 1910;
-  private static final String NAME_REGEX = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
+  private static final String NAME_REGEX1 = "googlebooks-eng-all-[1-5]gram-20120701-(.*?).gz";
+  private static final String NAME_REGEX2 = "[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+_(.*?).gz";  // Hive result
   private static final int BUFFER_SIZE = 16384;
 
   private void run(File inputDir, File indexBaseDir) throws IOException {
@@ -57,32 +58,37 @@ public class FrequencyIndexCreator {
         System.out.println("Skipping POS tag file " + name);
         continue;
       }
-      if (!name.startsWith("googlebooks-") && name.endsWith(".gz")) {
-        System.out.println("Skipping " + name + " - unexpected file name");
+      File indexDir;
+      boolean hiveMode;
+      if (name.matches(NAME_REGEX1)) {
+        indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX1, "$1"));
+        hiveMode = false;
+        System.out.println("Running in corpus mode (i.e. aggregation of years)");
+      } else if (name.matches(NAME_REGEX2)) {
+        indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX2, "$1"));
+        hiveMode = true;
+        System.out.println("Running in Hive mode (i.e. no aggregation of years)");
+      } else {
+        System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX1 + " or " + NAME_REGEX2);
         continue;
       }
-      if (!name.matches(NAME_REGEX)) {
-        System.out.println("Skipping " + name + " - doesn't match regex " + NAME_REGEX);
-        continue;
-      }
-      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_9);
-      File indexDir = new File(indexBaseDir, name.replaceAll(NAME_REGEX, "$1"));
       if (indexDir.exists() && indexDir.isDirectory()) {
         System.out.println("Skipping " + name + " - index dir '" + indexDir + "' already exists");
         continue;
       }
       System.out.println("Index dir: " + indexDir);
       Directory directory = FSDirectory.open(indexDir);
+      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_9);
       IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_9, analyzer);
       config.setUseCompoundFile(false);  // ~10% speedup
       //config.setRAMBufferSizeMB(1000);
       try (IndexWriter writer = new IndexWriter(directory, config)) {
-        indexLinesFromGoogleFile(writer, file);
+        indexLinesFromGoogleFile(writer, file, hiveMode);
       }
     }
   }
 
-  private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile) throws IOException {
+  private void indexLinesFromGoogleFile(IndexWriter writer, File inputFile, boolean hiveMode) throws IOException {
     System.out.println("==== Working on " + inputFile + " ====");
     try (
       InputStream fileStream = new FileInputStream(inputFile);
@@ -104,21 +110,29 @@ public class FrequencyIndexCreator {
         if (isRealPosTag(text)) {
           continue;
         }
-        int year = Integer.parseInt(parts[1]);
-        if (year < MIN_YEAR) {
-          continue;
-        }
-        if (prevText == null || prevText.equals(text)) {
-          // aggregate years
-          docCount += Long.parseLong(parts[2]);
+        if (hiveMode) {
+          docCount = Long.parseLong(parts[1]);
+          addDoc(writer, text, docCount + "");
+          if (++i % 500_000 == 0) {
+            printStats(i, docCount, lineCount, text, startTime);
+          }
         } else {
-          //System.out.println(">"+ prevText + ": " + count);
-          addDoc(writer, prevText, docCount + "");
-          if (++i % 5_000 == 0) {
-          printStats(i, docCount, lineCount, prevText, startTime);
+          int year = Integer.parseInt(parts[1]);
+          if (year < MIN_YEAR) {
+            continue;
+          }
+          if (prevText == null || prevText.equals(text)) {
+            // aggregate years
+            docCount += Long.parseLong(parts[2]);
+          } else {
+            //System.out.println(">"+ prevText + ": " + count);
+            addDoc(writer, prevText, docCount + "");
+            if (++i % 5_000 == 0) {
+              printStats(i, docCount, lineCount, prevText, startTime);
+            }
+            docCount = Long.parseLong(parts[2]);
+          }
         }
-          docCount = Long.parseLong(parts[2]);
-      }
         prevText = text;
       }
       printStats(i, docCount, lineCount, prevText, startTime);
@@ -163,7 +177,8 @@ public class FrequencyIndexCreator {
 
   public static void main(String[] args) throws IOException {
     FrequencyIndexCreator creator = new FrequencyIndexCreator();
-    creator.run(new File("/media/Data/google-ngram/3gram/"),
+    //creator.run(new File("/media/Data/google-ngram/3gram/"),
+    creator.run(new File("/media/Data/google-ngram/3gram/aggregated/result"),
                 new File("/media/Data/google-ngram/3gram/lucene-index"));
   }
 }
