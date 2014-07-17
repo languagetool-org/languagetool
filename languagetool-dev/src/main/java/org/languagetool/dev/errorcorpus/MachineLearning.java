@@ -45,7 +45,6 @@ class MachineLearning implements AutoCloseable {
 
   private final MLDataSet trainingSet = new BasicMLDataSet();
   
-
   void addData(double idealValue, double... input) {
     BasicMLData idealData = new BasicMLData(new double[] {idealValue});
     trainingSet.add(new BasicMLData(input), idealData);

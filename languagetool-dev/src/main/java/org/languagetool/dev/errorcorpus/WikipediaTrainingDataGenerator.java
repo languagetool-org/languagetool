@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.errorcorpus;
 
+import org.encog.ml.data.basic.BasicMLData;
+import org.encog.neural.networks.BasicNetwork;
 import org.languagetool.Language;
 import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.dev.dumpcheck.WikipediaSentenceSource;
@@ -30,6 +32,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -67,31 +70,88 @@ class WikipediaTrainingDataGenerator {
     this.languageModel = languageModel;
   }
 
-  private void run(File corpusFile, String token) throws IOException {
-    int testSetSize = (int)(MAX_SENTENCES*TEST_SET_FACTOR);
-    System.out.println("testSetSize: " + testSetSize);
-    int maxSentences = MAX_SENTENCES + testSetSize;
-    System.out.println("Loading " + maxSentences + " sentences from " + corpusFile + "...");
-    List<Sentence> allSentences = getRelevantSentences(corpusFile, token, maxSentences);
-    List<Sentence> sentences = allSentences.subList(0, MAX_SENTENCES);
-    List<Sentence> testSentences = sentences.subList(MAX_SENTENCES, sentences.size());
-    List<Sentence> homophoneSentences = getRelevantSentences(corpusFile, TOKEN_HOMOPHONE, MAX_SENTENCES);
-    System.out.println("Found " + sentences.size() + " training sentences with '" + token + "'");
-    System.out.println("Found " + homophoneSentences.size() + " training sentences with '" + TOKEN_HOMOPHONE + "'");
-    System.out.println("Found " + testSentences.size() + " with '" + TOKEN_HOMOPHONE + "'");  // TODO: also from homophones...
+  private void run(File corpusFile, String token, String homophoneToken) throws IOException {
+
+    List<Sentence> allSentences = getRelevantSentences(corpusFile, token, MAX_SENTENCES);
+    ListSplit<Sentence> split = split(allSentences, TEST_SET_FACTOR);
+    List<Sentence> trainingSentences = split.trainingList;
+    List<Sentence> testSentences = split.testList;
+    System.out.println("Found " + trainingSentences.size() + " training sentences with '" + token + "'");
+    System.out.println("Found " + testSentences.size() + " with '" + token + "'");
+
+    // Load the sentences with a homophone to 'token' and later replace it with 'token' so we get error sentences:
+    List<Sentence> allHomophoneSentences = getRelevantSentences(corpusFile, homophoneToken, MAX_SENTENCES);
+    ListSplit<Sentence> homophoneSplit = split(allHomophoneSentences, TEST_SET_FACTOR);
+    List<Sentence> homophoneTrainingSentences = homophoneSplit.trainingList;
+    List<Sentence> homophoneTestSentences = homophoneSplit.testList;    
+    System.out.println("Found " + homophoneTrainingSentences.size() + " training sentences with '" + homophoneToken + "' (will be turned into errors)");
+    System.out.println("Found " + homophoneTestSentences.size() + " with '" + homophoneToken + "'");
+    
     for (int i = 0; i < ITERATIONS; i++) {
+      System.out.println("===== Iteration " + i + " ===========================================================");
       //Collections.shuffle(sentences);  // TODO: shuffle all...
       try (MachineLearning machineLearning = new MachineLearning()) {
-        trainSentences(token, token, sentences, machineLearning, 1);  // correct sentences
-        trainSentences(TOKEN_HOMOPHONE, token, homophoneSentences, machineLearning, 0); // incorrect sentences
+        trainSentences(token, token, trainingSentences, machineLearning, 1);  // correct sentences
+        trainSentences(homophoneToken, token, homophoneTrainingSentences, machineLearning, 0); // incorrect sentences
         System.out.println("Training neural network (" + new Date() + ")...");
         machineLearning.train(new File(NEURAL_NETWORK_OUTPUT));
         System.out.println("Saved neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
-        //
-        // TODO: cross validation
-        //
+        List<ValidationSentence> validationSentences = new ArrayList<>();
+        validationSentences.addAll(getValidationSentences(testSentences, true, token));
+        validationSentences.addAll(getValidationSentences(homophoneTestSentences, false, homophoneToken));
+        crossValidate(validationSentences, token, homophoneToken);
       }
     }
+  }
+
+  private ListSplit<Sentence> split(List<Sentence> all, float testSetFactor) {
+    int boundary = (int) (all.size() * testSetFactor);
+    List<Sentence> trainingList = all.subList(boundary, all.size());
+    List<Sentence> testList = all.subList(0, boundary);
+    return new ListSplit<>(trainingList, testList);
+  }
+
+  private List<ValidationSentence> getValidationSentences(List<Sentence> sentences, boolean isCorrect, String token) {
+    List<ValidationSentence> validationSentences = new ArrayList<>();
+    for (Sentence sentence : sentences) {
+      validationSentences.add(new ValidationSentence(sentence, isCorrect));
+    }
+    return validationSentences;
+  }
+
+  @SuppressWarnings("ConstantConditions")
+  private void crossValidate(List<ValidationSentence> sentences, String token, String homophoneToken) throws IOException {
+    System.out.println("Starting cross validation on " + sentences.size() + " sentences");
+    int truePositives = 0;
+    int falsePositives = 0;
+    int falseNegatives = 0;
+    try (MachineLearning machineLearning = new MachineLearning()) {
+      BasicNetwork loadedNet = (BasicNetwork) machineLearning.load(new File(NEURAL_NETWORK_OUTPUT));
+      for (ValidationSentence sentence : sentences) {
+        boolean expectCorrect = sentence.isCorrect;
+        String textToken = expectCorrect ? token : homophoneToken;
+        List<String> context = getContext(sentence.sentence, textToken, token);
+        double[] features = getFeatures(context);
+        BasicMLData data = new BasicMLData(features);
+        boolean consideredCorrect = loadedNet.compute(data).getData(0) > 0.5f;
+        System.out.println("cross val: " + consideredCorrect + ", expected: "  + expectCorrect + ": " 
+                + sentence.sentence.toString().replaceFirst(textToken, "**" + token + "**"));
+        if (consideredCorrect && expectCorrect) {
+          truePositives++;
+        } else if (!consideredCorrect && expectCorrect) {
+          falseNegatives++;
+        } else if (consideredCorrect && !expectCorrect) {
+          falsePositives++;
+        }
+      }
+    }
+    float precision = (float)truePositives / (truePositives + falsePositives);
+    System.out.printf("Cross validation precision: %.2f\n", precision);
+    float recall = (float)truePositives / (truePositives + falseNegatives);
+    System.out.printf("Cross validation recall: %.2f\n", recall);
+    //
+    // TODO: f-measure
+    //
   }
 
   private List<Sentence> getRelevantSentences(File corpusFile, String token, int maxSentences) throws IOException {
@@ -102,8 +162,8 @@ class WikipediaTrainingDataGenerator {
         Sentence sentence = source.next();
         if (sentence.getText().matches(".*\\b" + token + "\\b.*")) { // TODO: use real tokenizer?
           sentences.add(sentence);
-          if (sentences.size() % 10 == 0) {
-            System.out.println(sentences.size());
+          if (sentences.size() % 25 == 0) {
+            System.out.println("Loaded sentence " + sentences.size() + " with '" + token + "' from " + corpusFile.getName());
           }
           if (sentences.size() >= maxSentences) {
             break;
@@ -117,17 +177,9 @@ class WikipediaTrainingDataGenerator {
   private void trainSentences(String token, String newToken, List<Sentence> sentences, MachineLearning machineLearning, float targetValue) {
     for (Sentence sentence : sentences) {
       List<String> context = getContext(sentence, token, newToken);
-      long ngram2Left = languageModel.getCount(context.get(0), context.get(1));
-      long ngram2Right = languageModel.getCount(context.get(1), context.get(2));
-      double ngram2LeftNorm = (double)ngram2Left / 123200814;
-      double ngram2RightNorm = (double)ngram2Right / 123200814;
-      
-      long ngram3 = languageModel.getCount(context.get(0), context.get(1), context.get(2));
-      double ngram3Norm = (double)ngram3 / 123200814;
-      
-      machineLearning.addData(targetValue, ngram2LeftNorm, ngram2RightNorm, ngram3Norm);
-      System.out.printf(targetValue + " l:%.4f r:%.4f 3g:%.7f " + StringTools.listToString(context, " ") + "\n",
-              ngram2LeftNorm, ngram2RightNorm, ngram3Norm);
+      double[] features = getFeatures(context);
+      machineLearning.addData(targetValue, features);
+      System.out.printf(targetValue + " %s " + StringTools.listToString(context, " ") + "\n", Arrays.toString(features));
     }
   }
 
@@ -161,6 +213,17 @@ class WikipediaTrainingDataGenerator {
     return contextTokens;
   }
 
+  private double[] getFeatures(List<String> context) {
+    long maxVal = 123200814; // TODO: find this automatically
+    long ngram2Left = languageModel.getCount(context.get(0), context.get(1));
+    long ngram2Right = languageModel.getCount(context.get(1), context.get(2));
+    double ngram2LeftNorm = (double)ngram2Left / maxVal;
+    double ngram2RightNorm = (double)ngram2Right / maxVal;
+    long ngram3 = languageModel.getCount(context.get(0), context.get(1), context.get(2));
+    double ngram3Norm = (double)ngram3 / maxVal;
+    return new double[] {ngram2LeftNorm, ngram2RightNorm, ngram3Norm};
+  }
+
   private List<String> removeWhitespaceTokens(List<String> tokens) {
     List<String> result = new ArrayList<>();
     for (String token : tokens) {
@@ -169,6 +232,24 @@ class WikipediaTrainingDataGenerator {
       }
     }
     return result;
+  }
+  
+  class ValidationSentence {
+    final Sentence sentence;
+    final boolean isCorrect;
+    ValidationSentence(Sentence sentence, boolean correct) {
+      this.sentence = sentence;
+      isCorrect = correct;
+    }
+  }
+  
+  class ListSplit<T> {
+    final List<T> trainingList;
+    final List<T> testList;
+    ListSplit(List<T> trainingList, List<T> testList) {
+      this.trainingList = trainingList;
+      this.testList = testList;
+    }
   }
 
   public static void main(String[] args) throws IOException {
@@ -183,7 +264,7 @@ class WikipediaTrainingDataGenerator {
     File indexDir3gram = new File(args[3]);
     LanguageModel languageModel = new LuceneLanguageModel(indexDir2gram, indexDir3gram);
     WikipediaTrainingDataGenerator generator = new WikipediaTrainingDataGenerator(lang, languageModel);
-    generator.run(wikipediaFile, TOKEN);
+    generator.run(wikipediaFile, TOKEN, TOKEN_HOMOPHONE);
   }
   
 }
