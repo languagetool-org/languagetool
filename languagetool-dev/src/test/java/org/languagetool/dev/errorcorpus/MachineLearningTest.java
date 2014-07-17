@@ -34,10 +34,10 @@ public class MachineLearningTest {
   public void test() throws IOException {
     MachineLearning ml = new MachineLearning();
     // XOR:
-    ml.addData(0, 0, 0);
-    ml.addData(1, 1, 0);
-    ml.addData(1, 0, 1);
-    ml.addData(0, 1, 1);
+    ml.addData(0, 0, 0, 0);
+    ml.addData(1, 1, 0, 0);
+    ml.addData(1, 0, 1, 0);
+    ml.addData(0, 1, 1, 0);
     File tempFile = File.createTempFile(MachineLearningTest.class.getSimpleName(), ".tmp");
     try {
       ml.train(tempFile);
@@ -54,6 +54,6 @@ public class MachineLearningTest {
   }
 
   private MLData compute(BasicNetwork loadedNet, double val1, double val2) {
-    return loadedNet.compute(new BasicMLData(new double[]{val1, val2}));
+    return loadedNet.compute(new BasicMLData(new double[]{val1, val2, 0}));
   }
 }
