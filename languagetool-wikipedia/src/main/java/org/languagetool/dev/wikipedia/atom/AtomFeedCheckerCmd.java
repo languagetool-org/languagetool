@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.IOException;
@@ -54,6 +55,7 @@ final class AtomFeedCheckerCmd {
     System.out.println("Language code: " + langCode);
     int sleepTimeMillis = Integer.parseInt(args[1]);
     System.out.println("Sleep time: " + sleepTimeMillis + "ms (-1 = don't loop)");
+    System.out.println("LanguageTool version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
     DatabaseConfig databaseConfig = null;
     if (args.length == 3) {
       String propFile = args[2];

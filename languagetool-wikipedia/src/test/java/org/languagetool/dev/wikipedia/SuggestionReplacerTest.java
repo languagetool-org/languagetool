@@ -51,13 +51,13 @@ public class SuggestionReplacerTest extends TestCase {
     applySuggestion(langTool, filter, "Der [[Abschied]].\n\n==Überschrift==\n\nEin Ab schied.",
                                       "Der [[Abschied]].\n\n==Überschrift==\n\nEin <s>Abschied.</s>");
     applySuggestion(langTool, filter, "Ein ökonomischer Gottesdienst.",
-                                      "Ein <s>ökumenisch</s> Gottesdienst.");  // known problem: does not inflect
+                                      "Ein <s>ökumenischer</s> Gottesdienst.");
     applySuggestion(langTool, filter, "Ein ökonomischer Gottesdienst mit ökonomischer Planung.",
-                                      "Ein <s>ökumenisch</s> Gottesdienst mit ökonomischer Planung.");
+                                      "Ein <s>ökumenischer</s> Gottesdienst mit ökonomischer Planung.");
     applySuggestion(langTool, filter, "\nEin ökonomischer Gottesdienst.\n",
-                                      "\nEin <s>ökumenisch</s> Gottesdienst.\n");
+                                      "\nEin <s>ökumenischer</s> Gottesdienst.\n");
     applySuggestion(langTool, filter, "\n\nEin ökonomischer Gottesdienst.\n",
-                                      "\n\nEin <s>ökumenisch</s> Gottesdienst.\n");
+                                      "\n\nEin <s>ökumenischer</s> Gottesdienst.\n");
   }
 
   public void testNestedTemplates() throws Exception {
@@ -65,7 +65,7 @@ public class SuggestionReplacerTest extends TestCase {
             "  {{FNZ|1|1979 und 1984}}\n" +
             "  {{FNZ|2|[[Rundungsfehler]]}}\n" +
             "}}\n\nEin ökonomischer Gottesdienst.\n";
-    applySuggestion(langTool, filter, markup, markup.replace("ökonomischer", "<s>ökumenisch</s>"));
+    applySuggestion(langTool, filter, markup, markup.replace("ökonomischer", "<s>ökumenischer</s>"));
   }
 
   public void testReference1() throws Exception {

@@ -217,9 +217,9 @@ public class AvsAnRule extends EnglishRule {
   /**
    * Load words, normalized to lowercase unless starting with '*'.
    */
-  private Set<String> loadWords(final InputStream file) throws IOException {
+  private Set<String> loadWords(final InputStream stream) throws IOException {
     final Set<String> set = new TreeSet<>();
-    try (Scanner scanner = new Scanner(file, "utf-8")) {
+    try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {

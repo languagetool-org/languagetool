@@ -26,6 +26,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 /**
@@ -104,8 +105,16 @@ public abstract class Rule {
    * (before, it used to always return {@code false} for those).
    */
   public boolean supportsLanguage(final Language language) {
-    final List<Class<? extends Rule>> relevantRuleClasses = language.getRelevantRules();
-    return relevantRuleClasses != null && relevantRuleClasses.contains(this.getClass());
+    try {
+      List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
+      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
+      for (Rule relevantRule : relevantRules) {
+        relevantRuleClasses.add(relevantRule.getClass());
+      }
+      return relevantRuleClasses.contains(this.getClass());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**

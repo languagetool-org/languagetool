@@ -18,8 +18,10 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
@@ -135,29 +137,28 @@ public class English extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-        CommaWhitespaceRule.class,
-        DoublePunctuationRule.class,
-        UppercaseSentenceStartRule.class,
-        MultipleWhitespaceRule.class,
-        LongSentenceRule.class,
-        SentenceWhitespaceRule.class,
+        new CommaWhitespaceRule(messages),
+        new DoublePunctuationRule(messages),
+        new UppercaseSentenceStartRule(messages, this),
+        new MultipleWhitespaceRule(messages, this),
+        new LongSentenceRule(messages),
+        new SentenceWhitespaceRule(messages),
         // specific to English:
-        //EnglishConfusionProbabilityRule.class,
-        EnglishUnpairedBracketsRule.class,
-        EnglishWordRepeatRule.class,
-        AvsAnRule.class,
-        EnglishWordRepeatBeginningRule.class,
-        CompoundRule.class,
-        ContractionSpellingRule.class
+        new EnglishUnpairedBracketsRule(messages, this),
+        new EnglishWordRepeatRule(messages, this),
+        new AvsAnRule(messages),
+        new EnglishWordRepeatBeginningRule(messages, this),
+        new CompoundRule(messages),
+        new ContractionSpellingRule(messages)
     );
   }
 
   @Override
   public List<Class<? extends Rule>> getRelevantLanguageModelRules() {
     return Arrays.<Class<? extends Rule>>asList(
-        EnglishConfusionProbabilityRule.class
+            EnglishConfusionProbabilityRule.class
     );
   }
 

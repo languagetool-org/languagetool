@@ -23,6 +23,7 @@ import org.languagetool.rules.Rule;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class FakeLanguage extends Language {
 
@@ -68,7 +69,7 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Collections.emptyList();
   }
 }

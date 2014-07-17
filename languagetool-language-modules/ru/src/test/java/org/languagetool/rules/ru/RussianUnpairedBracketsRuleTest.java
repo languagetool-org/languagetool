@@ -29,7 +29,7 @@ import java.io.IOException;
 
 public class RussianUnpairedBracketsRuleTest extends TestCase {
 
-  public void testRulePolish() throws IOException {
+  public void testRuleRussian() throws IOException {
     RussianUnpairedBracketsRule rule = new RussianUnpairedBracketsRule(TestTools
         .getEnglishMessages(), new Russian());
     RuleMatch[] matches;
@@ -49,7 +49,7 @@ public class RussianUnpairedBracketsRuleTest extends TestCase {
     assertEquals(0, matches.length);
     // incorrect sentences:
     matches = rule.match(langTool
-        .getAnalyzedSentence("В таком ключе был начат в мае 1823 в Кишинёве роман в стихах «Евгений Онегин."));
+        .getAnalyzedSentence("В таком ключе был начат в мае 1823 в Кишинёве роман в стихах 'Евгений Онегин."));
     assertEquals(1, matches.length);
   }
   

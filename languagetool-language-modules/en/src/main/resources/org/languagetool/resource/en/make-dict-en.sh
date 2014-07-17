@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "This script is deprecated - please see http://wiki.languagetool.org/developing-a-tagger-dictionary instead. Stopping."
+exit
+
 LANG=POSIX
 TMP_OUTPUT=eng1.txt
 TMP_GET_UNC=english.txt

@@ -28,8 +28,10 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ml.MalayalamWordTokenizer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class Malayalam extends Language {
 
@@ -88,15 +90,15 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            MorfologikMalayalamSpellerRule.class,
-            UppercaseSentenceStartRule.class,
-            WordRepeatRule.class,
-            MultipleWhitespaceRule.class
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),
+            new MorfologikMalayalamSpellerRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new WordRepeatRule(messages, this),
+            new MultipleWhitespaceRule(messages, this)
     );
   }
 

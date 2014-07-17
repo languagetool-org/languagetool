@@ -49,12 +49,12 @@ public class DisambiguationRuleLoader extends DefaultHandler {
     super();
   }
 
-  public final List<DisambiguationPatternRule> getRules(final InputStream file)
+  public final List<DisambiguationPatternRule> getRules(final InputStream stream)
       throws ParserConfigurationException, SAXException, IOException {
     final DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
-    saxParser.parse(file, handler);
+    saxParser.parse(stream, handler);
     return handler.getDisambRules();
   }
 

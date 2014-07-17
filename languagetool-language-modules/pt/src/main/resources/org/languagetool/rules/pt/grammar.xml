@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.088 2014-07-03 21:54:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.090 2014-07-11 13:23:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -33,35 +33,6 @@ $Id: grammar.xml,v 1.088 2014-07-03 21:54:00 marcoagpinto Exp $
 -->
 
 <category name="Gramática">
-
-    <!-- CONCORDANCE O-OS using "o" when it should use "os" -->
-    <rule id="CORCORDANCE_O_OS" name="concordance_o_os">
-      <pattern case_sensitive="no">
-		 <marker>
-            <token>o</token>
-         </marker>
-         <token regexp="yes">.*s<exception regexp="yes">Góis|Marcos|Camões|Magalhães|Deus|Satanás</exception></token>       
-      </pattern>
-      <message>Erro de concordância. Usar: <suggestion>os</suggestion>.</message>
-      <example type="incorrect"><marker>O</marker> amigos vão nadar.</example>
-      <example type="correct"><marker>Os</marker> amigos vão nadar.</example>
-    </rule>
-
-
-
-    <!-- CONCORDANCE OS-O using "os" when it should use "o" -->
-    <rule id="CORCORDANCE_OS_O" name="concordance_os_o">
-      <pattern case_sensitive="no">
-		 <marker>
-            <token>os</token>
-         </marker>
-         <token regexp="yes" negate="yes">.*s</token>
-      </pattern>
-      <message>Erro de concordância. Usar: <suggestion>o</suggestion>.</message>
-      <example type="incorrect"><marker>Os</marker> amigo vai nadar.</example>
-      <example type="correct"><marker>O</marker> amigo vai nadar.</example>
-    </rule>
-
 
 
     <!-- DET_FEM_MAS words that use "o" instead of "a" -->
@@ -443,6 +414,22 @@ $Id: grammar.xml,v 1.088 2014-07-03 21:54:00 marcoagpinto Exp $
       <message>Substituir «abandonar o leito» por <suggestion>deixar a cama</suggestion>.</message>
       <example type="incorrect">Vou <marker>abandonar o leito</marker>.</example>
       <example type="correct">Vou <marker>deixar a cama</marker>.</example>
+    </rule>
+
+
+
+    <!-- ADESÃO aderência -->
+    <rule id="ADESÃO" name="aderência">
+      <pattern case_sensitive="no">
+		 <marker>
+            <token>adesão</token>
+         </marker>
+         <token regexp="yes">das?|dos?</token>
+         <token regexp="yes">rodas?|pneus?</token>
+      </pattern>
+      <message>Substituir «adesão» por <suggestion>aderência</suggestion>.</message>
+      <example type="incorrect">A <marker>adesão</marker> do pneu é boa.</example>
+      <example type="correct">A <marker>aderência</marker> do pneu é boa.</example>
     </rule>
 
 
@@ -1000,6 +987,32 @@ $Id: grammar.xml,v 1.088 2014-07-03 21:54:00 marcoagpinto Exp $
       <message>Substituir «decreto de lei» por <suggestion>decreto-lei</suggestion>.</message>
       <example type="incorrect">Saiu um novo <marker>decreto de lei</marker>.</example>
       <example type="correct">Saiu um novo <marker>decreto-lei</marker>.</example>
+    </rule>
+
+
+
+    <!-- DÊS DO desde o -->
+    <rule id="DÊS_DO" name="desde o">
+      <pattern>
+        <token>dês</token>
+        <token>do</token>        
+      </pattern>
+      <message>Substituir «dês do» por <suggestion>desde o</suggestion>.</message>
+      <example type="incorrect">Isto acontece <marker>dês do</marker> mês passado.</example>
+      <example type="correct">Isto acontece <marker>desde o</marker> mês passado.</example>
+    </rule>
+
+
+
+    <!-- DÊS DOS desde os -->
+    <rule id="DÊS_DOS" name="desde os">
+      <pattern>
+        <token>dês</token>
+        <token>dos</token>        
+      </pattern>
+      <message>Substituir «dês dos» por <suggestion>desde os</suggestion>.</message>
+      <example type="incorrect">Isto acontece <marker>dês dos</marker> tempos da minha avó.</example>
+      <example type="correct">Isto acontece <marker>desde os</marker> tempos da minha avó.</example>
     </rule>
 
 

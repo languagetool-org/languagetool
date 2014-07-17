@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
@@ -98,15 +99,15 @@ public class Danish extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,  // correction for genitive apostrophes eg. "Lis' hund" made in UnpairedQuotesBracketsRule
-            HunspellNoSuggestionRule.class,
-            UppercaseSentenceStartRule.class,  // abbreviation exceptions, done in DanishSentenceTokenizer
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),  // correction for genitive apostrophes eg. "Lis' hund" made in UnpairedQuotesBracketsRule
+            new HunspellNoSuggestionRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),  // abbreviation exceptions, done in DanishSentenceTokenizer
             // "WORD_REPEAT_RULE" implemented in grammar.xml
-            MultipleWhitespaceRule.class
+            new MultipleWhitespaceRule(messages, this)
     );
   }
 

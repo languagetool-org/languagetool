@@ -18,24 +18,18 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.ResourceBundle;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.concurrent.ArrayBlockingQueue;
-
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -226,10 +220,13 @@ public abstract class AbstractCompoundRule extends Rule {
     }
   }
 
-  private void loadCompoundFile(final InputStream file, final String encoding) throws IOException {
-    try (Scanner scanner = new Scanner(file, encoding)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
+  private void loadCompoundFile(final InputStream stream, final String encoding) throws IOException {
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, encoding);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
         if (line.length() < 1 || line.charAt(0) == '#') {
           continue;     // ignore comments
         }

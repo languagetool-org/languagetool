@@ -820,6 +820,19 @@ USA
             <example type="correct">At the beginning, I was afraid.</example>
             <example type="correct">But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
         </rule>
+        <rule id="THE_HOW" name="the how/why (how/why)">
+            <pattern case_sensitive='yes'>
+                <marker>
+                    <token>the</token>
+                    <token regexp='yes'>how|why</token>
+                </marker>
+                <token><exception regexp='yes'>and|of|[,\.;']</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2"/></suggestion>?</message>
+            <short>Probable typo</short>
+            <example type='incorrect' correction="how">These are also examples of <marker>the how</marker> a woman's perspective can contribute to science.</example>
+            <example type='correct'>These are also examples of how a woman's perspective can contribute to science.</example>
+        </rule>
         <rulegroup id="I_LOWERCASE" name="i'm (I'm)">
         <rule>
           <pattern case_sensitive="yes">
@@ -6513,7 +6526,10 @@ USA
     <rule id="A_COMPETE" name="a compete/complete">
         <pattern>
             <token regexp='yes'>a|an|the</token>
-            <token postag='VB|VBP' postag_regexp='yes'><exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception></token>
+            <token postag='VB|VBP' postag_regexp='yes'>
+                <exception>commit</exception>
+                <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception>
+            </token>
         </pattern>
         <message>Probably a wrong construction: a/the + infinitive</message>
         <example type='incorrect'><marker>a compete</marker> catastrophe.</example>
@@ -8114,6 +8130,7 @@ USA
         </rulegroup>
         <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
             <pattern>
+
                 <token regexp="yes">most|some</token>
                 <token>of</token>
                 <token postag="NNS" regexp="yes">\p{Lower}+<exception postag="PRP$"></exception></token>
@@ -10637,6 +10654,34 @@ USA
                 <example type="incorrect" correction="anything">I didn't notice <marker>nothing</marker> wrong.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TIP_AND_TRICK" name="misspelled tips and tricks">
+            <rule>
+                <pattern>
+                    <token>tips</token>
+                    <token>and</token>
+                    <marker>
+                        <token>trick</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3"/>s</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type='incorrect' correction="tricks">tips and <marker>trick</marker></example>
+                <example type='correct'>tips and tricks</example>
+             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tip</token>
+                    </marker>
+                    <token>and</token>
+                    <token>tricks</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1"/>s</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type='incorrect' correction="tips"><marker>tip</marker> and tricks</example>
+                <example type='correct'>tips and tricks</example>
+             </rule>
+        </rulegroup>
     </category>
     <category name="Collocations" type="grammar">
       <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
@@ -11168,7 +11213,22 @@ USA
             <message>Did you mean <suggestion>state-of-the-art</suggestion>?</message>
             <example type='incorrect' correction="state-of-the-art">We present our <marker>state of the art</marker> solution.</example>
             <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
-            <example type='correct'>We compare our results to <marker>state of the art</marker>.</example>
+            <example type='correct'>We compare our results to the <marker>state of the art</marker>.</example>
+        </rule>
+        <rule id="OUT_OF_PLACE" name="out of place (out-of-place)">
+            <pattern>
+                <marker>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>place</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>out-of-place</suggestion>?</message>
+            <example type='correct'>This word is <marker>out of place</marker>.</example>
+            <!--<example type='incorrect'>This word is <marker>out-of-place</marker>.</example>-->
+            <example type='correct'>This is an <marker>out-of-place</marker> word.</example>
+            <example type='incorrect'>This is an <marker>out of place</marker> word.</example>
         </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>

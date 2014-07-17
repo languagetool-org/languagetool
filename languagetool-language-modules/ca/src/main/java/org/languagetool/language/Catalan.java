@@ -18,8 +18,10 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
@@ -87,27 +89,27 @@ public class Catalan extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            CatalanUnpairedBracketsRule.class,
-            UppercaseSentenceStartRule.class,
-            MultipleWhitespaceRule.class,            
-            LongSentenceRule.class,
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new CatalanUnpairedBracketsRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new MultipleWhitespaceRule(messages, this),
+            new LongSentenceRule(messages),
             // specific to Catalan:
-            CatalanWordRepeatRule.class,
-            MorfologikCatalanSpellerRule.class,
-            CatalanUnpairedQuestionMarksRule.class,
-            CatalanUnpairedExclamationMarksRule.class,
-            AccentuationCheckRule.class,
-            ComplexAdjectiveConcordanceRule.class,
-            CatalanWrongWordInContextRule.class,
-            ReflexiveVerbsRule.class,
-            SimpleReplaceVerbsRule.class,
-            SimpleReplaceRule.class
-            //CastellanismesReplaceRule.class,
-            //AccentuacioReplaceRule.class
+            new CatalanWordRepeatRule(messages, this),
+            new MorfologikCatalanSpellerRule(messages, this),
+            new CatalanUnpairedQuestionMarksRule(messages, this),
+            new CatalanUnpairedExclamationMarksRule(messages, this),
+            new AccentuationCheckRule(messages),
+            new ComplexAdjectiveConcordanceRule(messages),
+            new CatalanWrongWordInContextRule(messages),
+            new ReflexiveVerbsRule(messages),
+            new SimpleReplaceVerbsRule(messages),
+            new SimpleReplaceRule(messages)
+            //new CastellanismesReplaceRule(messages),
+            //new AccentuacioReplaceRule(messages)
     );
   }
 

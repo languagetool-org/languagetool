@@ -26,8 +26,8 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-    private static final String[] RU_START_SYMBOLS = {"(", "{", "„", "«", "\"", "'"};
-    private static final String[] RU_END_SYMBOLS = {")", "}", "“", "»", "\"", "'"};
+    private static final String[] RU_START_SYMBOLS = {"(", "{", "„",  "\"", "'"};
+    private static final String[] RU_END_SYMBOLS = {")", "}", "“", "\"", "'"};
     private static final Pattern NUMERALS_RU = Pattern.compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]|(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
     public RussianUnpairedBracketsRule(final ResourceBundle messages,

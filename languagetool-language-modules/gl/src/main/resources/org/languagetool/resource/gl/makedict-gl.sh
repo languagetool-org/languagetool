@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "This script is deprecated - please see http://wiki.languagetool.org/developing-a-tagger-dictionary instead. Stopping."
+exit
+
 JAVA_OPTS="-Xmx2048m"
 LANG=POSIX
 LOCALE=POSIX

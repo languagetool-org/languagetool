@@ -257,6 +257,12 @@ public class AgreementRule extends GermanRule {
           if (GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
+            if (i >= 2 && GermanHelper.hasReadingOfType(tokens[i-2], POSType.ADJEKTIV)
+                       && "als".equals(tokens[i-1].getToken())
+                       && "das".equals(tokens[i].getToken())) {
+              // avoid false alarm for e.g. "weniger farbenprächtig als das anderer Papageien"
+              continue;
+            }
             final RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
                 nextToken, tokens[i+2]);
             if (ruleMatch != null) {

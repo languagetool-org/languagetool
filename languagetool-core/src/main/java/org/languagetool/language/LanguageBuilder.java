@@ -105,7 +105,7 @@ public final class LanguageBuilder {
         }
 
         @Override
-        public List<Class<? extends Rule>> getRelevantRules() {
+        public List<Rule> getRelevantRules(ResourceBundle messages) {
           return Collections.emptyList();
         }
 

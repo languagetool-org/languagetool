@@ -19,8 +19,10 @@
 
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikNewZealandSpellerRule;
@@ -39,12 +41,12 @@ public class NewZealandEnglish extends English {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules());    
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    final List<Rule> rules = new ArrayList<>();
+    rules.addAll(super.getRelevantRules(messages));
     // New Zealand English speller...
-    rules.add(MorfologikNewZealandSpellerRule.class);
-    rules.add(NewZealandReplaceRule.class);
+    rules.add(new MorfologikNewZealandSpellerRule(messages, this));
+    rules.add(new NewZealandReplaceRule(messages));
     return rules;
   }
 

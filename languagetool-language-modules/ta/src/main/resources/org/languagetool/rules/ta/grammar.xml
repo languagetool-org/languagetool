@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
+        title="Easy editing stylesheet" ?>
+<!--
+Tamil Rules for LanguageTool
+Copyright (C) 2014 Elanjelian Venugopal
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+USA
+-->
+
+<!--suppress CheckTagEmptyBody -->
+<rules lang="ta" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <!-- ====================================================================== -->
+    <!-- சொற்களைச் சேர்த்தும் இடம்விட்டும் எழுதுதல் -->
+    <!-- ====================================================================== -->
+    <category name="இலக்கண அமைப்பில் சொற்கள்">
+    <rulegroup id="பெயர்_பெயர்" name="1.1 பெயர் + பெயர்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>க[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>முதல் பெயர்ச்சொல் ஓரெழுத்தாகவும் அடுத்தது வல்லெழுத்தில் தொடங்குமானால் அந்த வல்லெழுத்து மிகும். இவ்விரு சொற்களும் சேர்த்து எழுதப்படுகின்றன. <suggestion>\1க்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=36#head1</url>
+		<short>ஓரெழுத்து விதி</short>
+		<example type='incorrect'>புது <marker>மா கோலம்</marker> போடு மயிலே.</example>
+		<example type='correct'>புது <marker>மாக்கோலம்</marker> போடு மயிலே.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>ச[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>முதல் பெயர்ச்சொல் ஓரெழுத்தாகவும் அடுத்தது வல்லெழுத்தில் தொடங்குமானால் அந்த வல்லெழுத்து மிகும். இவ்விரு சொற்களும் சேர்த்து எழுதப்படுகின்றன. <suggestion>\1ச்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=36#head1</url>
+		<short>ஓரெழுத்து விதி</short>
+		<example type='incorrect'>ஒலிம்பிக் <marker>தீ சுடர்</marker>.</example>
+		<example type='correct'>ஒலிம்பிக் <marker>தீச்சுடர்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>த[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>முதல் பெயர்ச்சொல் ஓரெழுத்தாகவும் அடுத்தது வல்லெழுத்தில் தொடங்குமானால் அந்த வல்லெழுத்து மிகும். இவ்விரு சொற்களும் சேர்த்து எழுதப்படுகின்றன. <suggestion>\1த்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=36#head1</url>
+		<short>ஓரெழுத்து விதி</short>
+		<example type='incorrect'><marker>தை திங்கள்</marker> மலரட்டும்.</example>
+		<example type='correct'><marker>தைத்திங்கள்</marker> மலரட்டும்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>ப[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>முதல் பெயர்ச்சொல் ஓரெழுத்தாகவும் அடுத்தது வல்லெழுத்தில் தொடங்குமானால் அந்த வல்லெழுத்து மிகும். இவ்விரு சொற்களும் சேர்த்து எழுதப்படுகின்றன. <suggestion>\1ப்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=36#head1</url>
+		<short>ஓரெழுத்து விதி</short>
+		<example type='incorrect'>அவர்கள் <marker>தீ பந்தங்களோடு</marker> வந்தனர்.</example>
+		<example type='correct'>அவர்கள் <marker>தீப்பந்தங்களோடு</marker> வந்தனர்.</example>
+	  </rule>
+	</rulegroup>
+    </category>
+    <!-- ====================================================================== -->
+    <!-- சொற்களைச் சேர்த்தும் இடம்விட்டும் எழுதுதல் -->
+    <!-- ====================================================================== -->
+    <category name="சந்தி">
+    <rulegroup id="இறுதி_அ" name="முதல் சொல்லின் இறுதி எழுத்து அ">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அந்த|இந்த|எந்த</token>
+			<token regexp='yes'>க[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>'அந்த', 'இந்த' முதலிய சுட்டுப்பெயரடைகளின் பின்பும் 'எந்த' என்ற வினாப் பெயரடையின் பின்பும் ஒற்று மிகும். <suggestion>\1க்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+		<short>அ-வில் முடியும் சொல்பின்</short>
+		<example type='incorrect'>அவர் <marker>அந்த காலத்து</marker> மனிதர்.</example>
+		<example type='correct'>அவர் <marker>அந்தக் காலத்து</marker> மனிதர்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அந்த|இந்த|எந்த</token>
+			<token regexp='yes'>ச[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>'அந்த', 'இந்த' முதலிய சுட்டுப்பெயரடைகளின் பின்பும் 'எந்த' என்ற வினாப் பெயரடையின் பின்பும் ஒற்று மிகும். <suggestion>\1ச்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+		<short>அ-வில் முடியும் சொல்பின்</short>
+		<example type='incorrect'>அவர் <marker>அந்த சாலையைக்</marker> கடப்பதற்குப் பெரும்பாடு பட்டார்.</example>
+		<example type='correct'>அவர் <marker>அந்தச் சாலையைக்</marker> கடப்பதற்குப் பெரும்பாடு பட்டார்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அந்த|இந்த|எந்த</token>
+			<token regexp='yes'>த[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>'அந்த', 'இந்த' முதலிய சுட்டுப்பெயரடைகளின் பின்பும் 'எந்த' என்ற வினாப் பெயரடையின் பின்பும் ஒற்று மிகும். <suggestion>\1த்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+		<short>அ-வில் முடியும் சொல்பின்</short>
+		<example type='incorrect'><marker>இந்த தேர்தலில்</marker> காங்கிரஸ் படுதோல்வி அடையும்.</example>
+		<example type='correct'><marker>இந்தத் தேர்தலில்</marker> காங்கிரஸ் படுதோல்வி அடையும்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அந்த|இந்த|எந்த</token>
+			<token regexp='yes'>ப[ா-ௌ]?\S+</token>
+		</pattern>
+		<message>'அந்த', 'இந்த' முதலிய சுட்டுப்பெயரடைகளின் பின்பும் 'எந்த' என்ற வினாப் பெயரடையின் பின்பும் ஒற்று மிகும். <suggestion>\1ப்\2</suggestion> என்பதே சரி.</message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+		<short>அ-வில் முடியும் சொல்பின்</short>
+		<example type='incorrect'><marker>எந்த பக்கம்</marker> பார்த்தாலும் ஒரே மக்கள் கூட்டம்.</example>
+		<example type='correct'><marker>எந்தப் பக்கம்</marker> பார்த்தாலும் ஒரே மக்கள் கூட்டம்.</example>
+	  </rule>
+	</rulegroup>
+    </category>
+
+</rules>

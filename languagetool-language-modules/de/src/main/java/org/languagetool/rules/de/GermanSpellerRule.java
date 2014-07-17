@@ -73,7 +73,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     REPL.add(new Replacement("Ph", "F"));
   }
   
-  private GermanCompoundTokenizer compoundTokenizer;
+  private final GermanCompoundTokenizer compoundTokenizer;
 
   public GermanSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language, getCompoundSplitter(), getSpeller(language));

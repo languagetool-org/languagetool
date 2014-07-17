@@ -294,7 +294,8 @@ public final class RuleOverview {
     public boolean accept(final File f) {
       final String filename = f.getName();
       final boolean isAbstractTopClass = filename.endsWith(langName + "Rule.java");
-      return filename.endsWith(".java") && !isAbstractTopClass;
+      final boolean isSpellerClass = filename.endsWith("SpellerRule.java");
+      return filename.endsWith(".java") && !isAbstractTopClass && !isSpellerClass;
     }
 
   }

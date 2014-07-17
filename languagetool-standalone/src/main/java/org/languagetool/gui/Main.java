@@ -103,17 +103,14 @@ public final class Main {
 
   private void loadFile() {
     final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
-    if (file == null) {
-      // user clicked cancel
+    if (file == null) {  // user clicked cancel
       return;
     }
-    try {
-      try (FileInputStream inputStream = new FileInputStream(file)) {
-        final String fileContents = StringTools.readStream(inputStream, null);
-        textArea.setText(fileContents);
-        currentFile = file;
-        updateTitle();
-      }
+    try (FileInputStream inputStream = new FileInputStream(file)) {
+      final String fileContents = StringTools.readStream(inputStream, null);
+      textArea.setText(fileContents);
+      currentFile = file;
+      updateTitle();
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -126,27 +123,16 @@ public final class Main {
       jfc.showSaveDialog(frame);
 
       File file = jfc.getSelectedFile();
-      if (file == null) {
-        // user clicked cancel
+      if (file == null) {  // user clicked cancel
         return;
       }
       currentFile = file;
       updateTitle();
     }
-    BufferedWriter writer = null;
-    try {
-      writer = new BufferedWriter(new FileWriter(currentFile));
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
       writer.write(textArea.getText());
     } catch (IOException ex) {
       Tools.showError(ex);
-    } finally {
-      if (writer != null) {
-        try {
-          writer.close();
-        } catch (IOException ex) {
-          Tools.showError(ex);
-        }
-      }
     }
   }
 
@@ -1093,10 +1079,8 @@ public final class Main {
     public void actionPerformed(ActionEvent e) {
       try {
         addLanguage();
-      } catch (InstantiationException e1) {
-        throw new RuntimeException(e1);
-      } catch (IllegalAccessException e1) {
-        throw new RuntimeException(e1);
+      } catch (InstantiationException | IllegalAccessException ex) {
+        throw new RuntimeException(ex);
       }
     }
   }

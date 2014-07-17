@@ -20,11 +20,14 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.QuestionWhitespaceRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.FrenchSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
@@ -35,6 +38,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 public class French extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
+  private Synthesizer synthesizer;
   private Tagger tagger;
   private Disambiguator disambiguator;
   private String name = "French";
@@ -89,6 +93,14 @@ public class French extends Language {
   }
 
   @Override
+  public final Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new FrenchSynthesizer();
+    }
+    return synthesizer;
+  }
+
+  @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new FrenchHybridDisambiguator();
@@ -108,17 +120,17 @@ public class French extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            HunspellNoSuggestionRule.class,
-            UppercaseSentenceStartRule.class,
-            MultipleWhitespaceRule.class,
-            SentenceWhitespaceRule.class,
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),
+            new HunspellNoSuggestionRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new MultipleWhitespaceRule(messages, this),
+            new SentenceWhitespaceRule(messages),
             // specific to French:
-            QuestionWhitespaceRule.class
+            new QuestionWhitespaceRule(messages)
     );
   }
 
