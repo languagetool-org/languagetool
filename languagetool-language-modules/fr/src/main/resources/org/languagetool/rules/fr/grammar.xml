@@ -5019,6 +5019,40 @@ though, and has since been slightly modified)-->
         <example type="correct">Un procès à huis clos.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="MOI_MOIS" name="moi et mois">
+      <rule>
+        <pattern>
+          <token postag="[KY]" postag_regexp="yes"/>
+          <marker><token>moi</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+        <example type="incorrect">Elle est enceinte de trois <marker>moi</marker>.</example>
+        <example type="correct">Elle est enceinte de trois mois.</example>
+        <example type="incorrect">Elle est enceinte de 3 <marker>moi</marker>.</example>
+        <example type="correct">Elle est enceinte de 3 mois.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>moi</token></marker>
+          <token>de</token>
+          <token regexp="yes">janvier|février|mars|avril|mai|juin|juillet|septembre|novembre|décembre</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+        <example type="incorrect">Le <marker>moi</marker> de mai a été froid.</example>
+        <example type="correct">Le mois de mai a été froid.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>moi</token></marker>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">avril|ao[ûu]t|octobre</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+        <example type="incorrect">Le <marker>moi</marker> d’avril a été froid.</example>
+        <example type="correct">Le mois d’avril a été froid.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
