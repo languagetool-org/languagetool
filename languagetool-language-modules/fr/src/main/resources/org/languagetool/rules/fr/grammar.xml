@@ -2823,7 +2823,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">tâches?</token></marker>
           <token regexp="yes" skip="1">de?</token>
-          <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|br[uû]lure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo([-‑‐]bille|feutre)?|suie|sueur|terre|transpiration|tipp[-‑‐]ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
+          <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|br[uû]lure|café|cerises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo([-‑‐]bille|feutre)?|suie|sueur|terre|transpiration|tipp[-‑‐]ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
         <example type="incorrect" correction="tache">Une <marker>tâche</marker> de ketchup sur la chemise.</example>
@@ -4069,7 +4069,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">aller|courrir|course|face|mener</token>
+          <token inflected="yes" regexp="yes">aller|courir|course|face|mener</token>
           <token>à</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>
@@ -4696,7 +4696,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Il va <marker>sans</marker> dire que le prix est hors taxe.</example>
       <example type="incorrect">Ça va <marker>s’en</marker> dire !</example>
       <example type="correct">Ça sans dire !</example>
-      <example type="incorrect">Çela ira <marker>s’en</marker> dire !</example>
+      <example type="incorrect">Cela ira <marker>s’en</marker> dire !</example>
       <example type="correct">Cela ira <marker>sans</marker> dire !</example>
     </rule>
     <rulegroup id="DETONER_DETONNER" name="détoner et détonner">
@@ -6059,7 +6059,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
         <pattern>
-          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cettes?|celles?|quelque|avec|dans|chez</token>
+          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
@@ -10234,7 +10234,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="N.*" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">derniere?s?<exception>dernier</exception></token>
+            <token regexp="yes">derni[eè]re?s?<exception>dernier</exception></token>
             <token regexp="yes">crie?s?</token>
           </marker>
         </pattern>
@@ -10248,7 +10248,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="N.*" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">derniere?s?</token>
+            <token regexp="yes">derni[eè]re?s?</token>
             <token regexp="yes">crie?s?<exception>cri</exception></token>
           </marker>
         </pattern>
@@ -25003,7 +25003,7 @@ though, and has since been slightly modified)-->
     <rule id="A_CAUSE_QUE" name="à cause que">
       <pattern>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">causee?</token>
+        <token>cause</token>
         <token regexp="yes">que?</token>
       </pattern>
       <message>« À cause que » est un archaïsme populaire et un régionalisme (Québec). Pour être bien compris de tous, Employez <suggestion>parce que</suggestion>, <suggestion>vu que</suggestion>, <suggestion>pour la raison que</suggestion>.</message>
@@ -26493,7 +26493,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">beaucoup|énomément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|vôtes?|\d+%|%</token>
+          <token regexp="yes">beaucoup|énormément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|vôtes?|\d+%|%</token>
           <token regexp="yes">des?</token>
           <marker>
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes)|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud[-‑‐]africain|toulousain|tuvaluan)e?s|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s|bahreïni|émirati|formosans|grec(que)?s|kazakhs|sothos|ouzbeks|qatariotes|swazi|tadjiks|turcs|turques|vanuatuans)</token>
