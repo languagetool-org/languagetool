@@ -4641,6 +4641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="Mögliche Wortverwechslung: dass/das">
+            <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
             <rule>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
@@ -4652,9 +4653,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie das Relativpronomen <suggestion>das</suggestion>?</message>
-                <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
                 <example type="correct">Das Kind, <marker>das</marker> dort spielt.</example>
                 <example type="incorrect">Das Kind, <marker>dass</marker> dort spielt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>Das</token>
+                    </marker>
+                    <token regexp="yes">man|er|sie|es|du</token>
+                </pattern>
+                <message>Meinten Sie die Konjunktion <suggestion>dass</suggestion>?</message>
+                <example type="correct"><marker>Dass</marker> es zu dieser Jahreszeit schneit, ist ungewöhnlich.</example>
+                <example type="incorrect" correction="Dass"><marker>Das</marker> es zu dieser Jahreszeit schneit, ist ungewöhnlich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DASS_MIT_VERB" name="Mögliche Wortverwechslung: 'dass (das) ist' etc.">
