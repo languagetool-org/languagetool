@@ -24,12 +24,12 @@ import org.languagetool.dev.dumpcheck.WikipediaSentenceSource;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -116,23 +116,22 @@ class WikipediaTrainingDataGenerator {
 
   private void trainSentences(String token, String newToken, List<Sentence> sentences, MachineLearning machineLearning, float targetValue) {
     for (Sentence sentence : sentences) {
-      List<String> context = get2gramContext(sentence, token, newToken);
-      long ngramLeft = languageModel.getCount(context.get(0), context.get(1));
-      long ngramRight = languageModel.getCount(context.get(1), context.get(2));
-      //double leftNorm = 0.9*((double)ngramLeft / 123200814) + 0.1;
-      //double rightNorm = 0.9*((double)ngramRight / 123200814) + 0.1;
-      double leftNorm = (double)ngramLeft / 123200814;
-      double rightNorm = (double)ngramRight / 123200814;
-      //machineLearning.addData(targetValue, ngramLeft, ngramRight);
-      machineLearning.addData(targetValue, leftNorm, rightNorm);
-      //System.out.println(targetValue + " " + ngramLeft + " " + ngramRight + " " + context);
-      //System.out.println(targetValue + " " + ngramLeft + " " + ngramRight + " " + context + " for: " + sentence.getText());
-      //System.out.println(targetValue + " " + leftNorm + " " + rightNorm + " " + context + " for: " + sentence.getText());
-      System.out.println(targetValue + " " + leftNorm + " " + rightNorm + " " + context);
+      List<String> context = getContext(sentence, token, newToken);
+      long ngram2Left = languageModel.getCount(context.get(0), context.get(1));
+      long ngram2Right = languageModel.getCount(context.get(1), context.get(2));
+      double ngram2LeftNorm = (double)ngram2Left / 123200814;
+      double ngram2RightNorm = (double)ngram2Right / 123200814;
+      
+      long ngram3 = languageModel.getCount(context.get(0), context.get(1), context.get(2));
+      double ngram3Norm = (double)ngram3 / 123200814;
+      
+      machineLearning.addData(targetValue, ngram2LeftNorm, ngram2RightNorm, ngram3Norm);
+      System.out.printf(targetValue + " l:%.4f r:%.4f 3g:%.7f " + StringTools.listToString(context, " ") + "\n",
+              ngram2LeftNorm, ngram2RightNorm, ngram3Norm);
     }
   }
 
-  private List<String> get2gramContext(Sentence sentence, String token, String newToken) {
+  private List<String> getContext(Sentence sentence, String token, String newToken) {
     String plainText = sentence.getText();
     List<String> tokens = removeWhitespaceTokens(tokenizer.tokenize(plainText));
     int i = 0;
@@ -173,14 +172,16 @@ class WikipediaTrainingDataGenerator {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 3) {
-      System.err.println("Usage: " + WikipediaTrainingDataGenerator.class.getSimpleName() + " <langCode> <wikipediaXml> <languageModelDir>");
+    if (args.length != 4) {
+      System.err.println("Usage: " + WikipediaTrainingDataGenerator.class.getSimpleName()
+              + " <langCode> <wikipediaXml> <languageModel2GramDir> <languageModel3GramDir>");
       System.exit(1);
     }
     Language lang = Language.getLanguageForShortName(args[0]);
     File wikipediaFile = new File(args[1]);
-    File indexDir = new File(args[2]);
-    LanguageModel languageModel = new LuceneLanguageModel(indexDir);
+    File indexDir2gram = new File(args[2]);
+    File indexDir3gram = new File(args[3]);
+    LanguageModel languageModel = new LuceneLanguageModel(indexDir2gram, indexDir3gram);
     WikipediaTrainingDataGenerator generator = new WikipediaTrainingDataGenerator(lang, languageModel);
     generator.run(wikipediaFile, TOKEN);
   }

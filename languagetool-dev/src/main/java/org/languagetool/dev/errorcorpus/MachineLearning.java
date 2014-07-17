@@ -53,8 +53,8 @@ class MachineLearning implements AutoCloseable {
   
   void train(File outputFile) throws IOException {
     BasicNetwork network = new BasicNetwork();
-    network.addLayer(new BasicLayer(null, true, 2));
-    network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 3));
+    network.addLayer(new BasicLayer(null, true, 3));
+    network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 4));
     network.addLayer(new BasicLayer(new ActivationSigmoid(), false, 1));
     network.getStructure().finalizeStructure();
     network.reset();

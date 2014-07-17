@@ -28,40 +28,53 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Information about ngram occurrences, taken from a Lucene index.
  */
 public class LuceneLanguageModel implements LanguageModel {
 
-  private final FSDirectory directory;
-  private final IndexReader reader;
-  private final IndexSearcher searcher;
+  private final Map<Integer,LuceneSearcher> luceneSearcherMap = new HashMap<>();
   
-  public LuceneLanguageModel(File indexDir) throws IOException {
-    directory = FSDirectory.open(indexDir);
-    reader = DirectoryReader.open(directory);
-    searcher = new IndexSearcher(reader);
+  public LuceneLanguageModel(File indexDir2grams) throws IOException {
+    luceneSearcherMap.put(2, new LuceneSearcher(indexDir2grams));
+  }
+  
+  public LuceneLanguageModel(File indexDir2grams, File indexDir3grams) throws IOException {
+    luceneSearcherMap.put(2, new LuceneSearcher(indexDir2grams));
+    luceneSearcherMap.put(3, new LuceneSearcher(indexDir3grams));
   }
   
   @Override
   public long getCount(String token1, String token2) {
     Term term = new Term("ngram", token1 + " " + token2);
-    return getCount(term);
+    LuceneSearcher luceneSearcher = getLuceneSearcher(2);
+    return getCount(term, luceneSearcher);
   }
 
   @Override
   public long getCount(String token1, String token2, String token3) {
     Term term = new Term("ngram", token1 + " " + token2 + " " + token3);
-    return getCount(term);
+    LuceneSearcher luceneSearcher = getLuceneSearcher(3);
+    return getCount(term, luceneSearcher);
   }
 
-  private long getCount(Term term) {
+  private LuceneSearcher getLuceneSearcher(int ngramSize) {
+    LuceneSearcher luceneSearcher = luceneSearcherMap.get(ngramSize);
+    if (luceneSearcher == null) {
+      throw new RuntimeException("No " + ngramSize + "grams index found, use the appropriate constructor to specify one");
+    }
+    return luceneSearcher;
+  }
+
+  private long getCount(Term term, LuceneSearcher luceneSearcher) {
     try {
-      TopDocs docs = searcher.search(new TermQuery(term), 1);
+      TopDocs docs = luceneSearcher.searcher.search(new TermQuery(term), 1);
       if (docs.totalHits > 0) {
         int docId = docs.scoreDocs[0].doc;
-        return Long.parseLong(reader.document(docId).get("count"));
+        return Long.parseLong(luceneSearcher.reader.document(docId).get("count"));
       } else {
         return 0;
       }
@@ -72,12 +85,24 @@ public class LuceneLanguageModel implements LanguageModel {
 
   @Override
   public void close() {
-    try {
-      if (reader != null) reader.close();
-      if (directory != null) directory.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+    for (LuceneSearcher searcher : luceneSearcherMap.values()) {
+      try {
+        searcher.reader.close();
+        searcher.directory.close();
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 
+  private class LuceneSearcher {
+    final FSDirectory directory;
+    final IndexReader reader;
+    final IndexSearcher searcher;
+    private LuceneSearcher(File indexDir) throws IOException {
+      this.directory = FSDirectory.open(indexDir);
+      this.reader = DirectoryReader.open(directory);
+      this.searcher = new IndexSearcher(reader);
+    }
+  }
 }
