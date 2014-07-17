@@ -34,6 +34,7 @@ import org.languagetool.tokenizers.*;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -217,9 +218,9 @@ public abstract class Language {
   // -------------------------------------------------------------------------
 
   /**
-   * @since 2.6
+   * @since 2.7
    */
-  public List<Class<? extends Rule>> getRelevantLanguageModelRules() {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, File indexDir) throws IOException {
     return Collections.emptyList();
   }
 

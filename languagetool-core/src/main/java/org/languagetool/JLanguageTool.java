@@ -22,8 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -42,8 +40,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -263,20 +259,6 @@ public class JLanguageTool {
     }
   }
 
-  private boolean addNewlyConstructedLanguageModelRules(File indexDir, ResourceBundle messages, List<Rule> rules, Constructor[] constructors)
-          throws InvocationTargetException, IOException, IllegalAccessException, InstantiationException {
-    for (Constructor constructor : constructors) {
-      final Class[] paramTypes = constructor.getParameterTypes();
-      if (paramTypes.length == 2
-              && paramTypes[0].equals(ResourceBundle.class)
-              && paramTypes[1].equals(LanguageModel.class)) {
-        rules.add((Rule) constructor.newInstance(messages, new LuceneLanguageModel(indexDir)));
-        return true;
-      }
-    }
-    return false;
-  }
-
   /**
    * Set a PrintStream that will receive verbose output. Set to
    * {@code null} (which is the default) to disable verbose output.
@@ -327,27 +309,11 @@ public class JLanguageTool {
   }
 
   /**
-   * @since 2.6
+   * @since 2.7
    */
   public void activateLanguageModelRules(File indexDir) throws IOException {
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    List<Rule> rules = new ArrayList<>();
-    for (Class<? extends Rule> ruleClass : language.getRelevantLanguageModelRules()) {
-      final Constructor[] constructors = ruleClass.getConstructors();
-      try {
-        if (constructors.length > 0) {
-          boolean constructorFound = addNewlyConstructedLanguageModelRules(indexDir, messages, rules, constructors);
-          if (!constructorFound) {
-            throw new RuntimeException("No matching constructor found for rule class: " + ruleClass.getName()
-                    + " - add at least a constructor with a ResourceBundle parameter and a File (for the language model)");
-          }
-        } else {
-          throw new RuntimeException("No public constructor for rule class: " + ruleClass.getName());
-        }
-      } catch (Exception e) {
-        throw new RuntimeException("Failed to load built-in Java rules for language " + language, e);
-      }
-    }
+    List<Rule> rules = language.getRelevantLanguageModelRules(messages, indexDir);
     userRules.addAll(rules);
   }
 

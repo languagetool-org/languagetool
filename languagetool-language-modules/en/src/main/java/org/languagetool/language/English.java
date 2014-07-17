@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -156,9 +158,9 @@ public class English extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantLanguageModelRules() {
-    return Arrays.<Class<? extends Rule>>asList(
-            EnglishConfusionProbabilityRule.class
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, File indexDir) throws IOException {
+    return Arrays.<Rule>asList(
+            new EnglishConfusionProbabilityRule(messages, new LuceneLanguageModel(indexDir))
     );
   }
 
