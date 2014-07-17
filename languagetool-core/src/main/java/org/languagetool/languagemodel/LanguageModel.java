@@ -29,6 +29,8 @@ public interface LanguageModel {
 
   public long getCount(String token1, String token2);
   
+  public long getCount(String token1, String token2, String token3);
+  
   public void close();
 
 }

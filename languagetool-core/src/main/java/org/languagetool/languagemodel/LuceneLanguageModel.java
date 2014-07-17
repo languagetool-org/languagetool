@@ -46,8 +46,18 @@ public class LuceneLanguageModel implements LanguageModel {
   
   @Override
   public long getCount(String token1, String token2) {
+    Term term = new Term("ngram", token1 + " " + token2);
+    return getCount(term);
+  }
+
+  @Override
+  public long getCount(String token1, String token2, String token3) {
+    Term term = new Term("ngram", token1 + " " + token2 + " " + token3);
+    return getCount(term);
+  }
+
+  private long getCount(Term term) {
     try {
-      Term term = new Term("ngram", token1 + " " + token2);
       TopDocs docs = searcher.search(new TermQuery(term), 1);
       if (docs.totalHits > 0) {
         int docId = docs.scoreDocs[0].doc;

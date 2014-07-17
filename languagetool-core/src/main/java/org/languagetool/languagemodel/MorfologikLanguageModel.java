@@ -52,6 +52,11 @@ public class MorfologikLanguageModel implements LanguageModel {
   }
 
   @Override
+  public long getCount(String token1, String token2, String token3) {
+    throw new RuntimeException("Not implemented for MorfologikLanguageModel");
+  }
+
+  @Override
   public void close() {
   }
 

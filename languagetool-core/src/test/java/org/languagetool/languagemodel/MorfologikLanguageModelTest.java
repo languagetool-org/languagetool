@@ -41,7 +41,7 @@ public class MorfologikLanguageModelTest extends LanguageModelTest {
   @Ignore("for interactive use only")
   public void testPerformance() throws Exception {
     LanguageModel model = new MorfologikLanguageModel(new File("/lt/en-homophones.dict"));
-    super.testPerformance(model);
+    super.testPerformance(model, 2);
   }
   
 }

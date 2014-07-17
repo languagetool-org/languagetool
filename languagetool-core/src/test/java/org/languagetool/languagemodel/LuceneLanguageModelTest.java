@@ -30,12 +30,24 @@ public class LuceneLanguageModelTest extends LanguageModelTest {
    * -no data in OS cache, index on external USB disk: 17626µs = 17ms
    * -no data in OS cache, index on SSD: 739µs = <0ms
    * -all data in OS cache (by running the test more than once): 163µs = <0ms
+   * 
+   * Some values for average time per lookup on 3grams on a 7.0GB Lucene 4.9 index:
+   * -no data in OS cache, index on external USB disk: 13256µs = 13ms
+   * -no data in OS cache, index on SSD: 791µs = <0ms
+   * -all(?) data in OS cache (by running the test more than once): 162µs = <0ms
+   * 
+   * The tests have been performed on a Dell XSP13 (i7-3537U CPU) under Ubuntu 12.04, with Java 1.7.
    */
   @Test
   @Ignore("for interactive use only")
   public void testPerformance() throws Exception {
-    LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/2gram/lucene-index/merged/"));
-    super.testPerformance(model);
+    // 2grams:
+    //LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/2gram/lucene-index/merged/"));
+    //super.testPerformance(model, 2);
+    // 3grams:
+    //LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/3gram/aggregated/lucene-index/merged/"));
+    LanguageModel model = new LuceneLanguageModel(new File("/data/google-3gram-index/"));
+    super.testPerformance(model, 3);
   }
   
 }

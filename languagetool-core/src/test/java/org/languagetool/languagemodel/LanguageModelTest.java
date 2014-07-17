@@ -28,11 +28,12 @@ public class LanguageModelTest {
 
   private static final int SKIP_FIRST_ITEMS = 5;
 
-  protected void testPerformance(LanguageModel model) throws Exception {
+  protected void testPerformance(LanguageModel model, int ngramLength) throws Exception {
     try (FileInputStream fis = new FileInputStream("/lt/performance-test/en.txt")) {
       String content = StringTools.readStream(fis, "UTF-8");
       WordTokenizer wordTokenizer = new WordTokenizer();
       List<String> words = wordTokenizer.tokenize(content);
+      String prevPrevWord = null;
       String prevWord = null;
       int i = 0;
       long totalMicros = 0;
@@ -42,11 +43,21 @@ public class LanguageModelTest {
         }
         if (prevWord != null) {
           long t1 = System.nanoTime()/1000;
-          long count = model.getCount(prevWord, word);
-          long t2 = System.nanoTime()/1000;
-          long timeMicros = t2-t1;
+          long count;
+          if (ngramLength == 2) {
+            count = model.getCount(prevWord, word);
+          } else if (ngramLength == 3) {
+            count = model.getCount(prevPrevWord, prevWord, word);
+          } else {
+            throw new IllegalArgumentException("ngram length not supported: " + ngramLength);
+          }
+          long timeMicros = (System.nanoTime()/1000) - t1;
           long timeMillis = timeMicros/1000;
-          System.out.println(count + "\t\t" + prevWord + " " + word + ": " + timeMicros + "µs = " + timeMillis + "ms");
+          if (ngramLength == 2) {
+            System.out.println(count + "\t\t" + prevWord + " " + word + ": " + timeMicros + "µs = " + timeMillis + "ms");
+          } else if (ngramLength == 3) {
+            System.out.println(count + "\t\t" + prevPrevWord + " " + prevWord + " " + word + ": " + timeMicros + "µs = " + timeMillis + "ms");
+          }
           if (i > SKIP_FIRST_ITEMS) {
             totalMicros += timeMicros;
           }
@@ -54,6 +65,7 @@ public class LanguageModelTest {
             printStats(i, totalMicros);
           }
         }
+        prevPrevWord = prevWord;
         prevWord = word;
       }
       printStats(i, totalMicros);
