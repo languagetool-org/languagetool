@@ -6717,16 +6717,19 @@ though, and has since been slightly modified)-->
         <example type="correct">Il nous a donné du pain.</example>
       </rule>
     </rulegroup>
-    <!-- <rule id="VU_DE_MES_YEUX_VU" name="vu de mes yeux vu">
+    <rule id="VU_DE_MES_YEUX_VU" name="vu de mes yeux vu">
       <pattern>
         <token inflected="yes">avoir</token>
         <marker>
           <token regexp="yes">vue?s?</token>
           <token min="0" max="1">,</token>
           <token>de</token>
-          <token>mes</token>
+          <token regexp="yes">[mts]es|[nv]os|leurs</token>
           <token>yeux</token>
-          <token regexp="yes">vue?s?<exception>\2</exception></token>
+          <and>
+            <token regexp="yes">vue?s?</token>
+            <token negate="yes"><match no="1"/></token>
+          </and>
         </marker>
       </pattern>
       <message>Le second mot « \2 » répété doit suivre ici le même accord que le premier mot <suggestion>\2</suggestion>.</message>
@@ -6742,7 +6745,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Je suis sûr de les avoir <marker>vus de mes yeux vu</marker>.</example>
       <example type="correct">Je suis sûr de les avoir vus, de mes yeux <marker>vus</marker>.</example>
       <example type="correct">Je suis sûr de les avoir vus de mes yeux <marker>vus</marker>.</example>
-    </rule> -->
+    </rule>
     <rulegroup id="PEUT_ETRE_VPPA_OU_ADJ" name="peut être + participe présent">
       <rule>
         <pattern>
