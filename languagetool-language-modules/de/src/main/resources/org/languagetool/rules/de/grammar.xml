@@ -335,6 +335,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AUF_AUS" name="Möglicher Tippfehler: 'auf (aus) einer Liste entfernen'">
             <antipattern>
+                <token>vom</token>
+                <token postag="SUB:.*" postag_regexp="yes"></token>
+                <token>entfernten</token>
+            </antipattern>
+            <antipattern>
+                <token>weit</token>
+                <token>entfernt</token>
+            </antipattern>
+            <antipattern>
                 <token>auf</token>
                 <token>Höhe</token>
                 <token regexp="yes">des|der</token>
@@ -358,6 +367,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Ich gucke <marker>auf</marker> Bilder entfernter Städte.</example>
             <example type="correct">Der Text wurde <marker>aus</marker> der Aufgabenstellung auf dem Blatt entfernt.</example>
             <example type="correct">Es wird <marker>auf</marker> diesen entfernten Block zugegriffen.</example>
+            <example type="correct">Beide standen aber <marker>auf</marker> der Bühne zu weit entfernt.</example>
+            <example type="correct">Es steht etwa 750 Meter <marker>auf</marker> dem vom Ufer entfernten Direktweg.</example>
         </rule>
         <rule id="WAS_WAR" name="Möglicher Tippfehler: 'ich was (war) ein' etc.">
             <pattern>
@@ -7756,17 +7767,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>statten</token>
                     <token inflected="yes">gehen</token>
                 </pattern>
-                <message>&getrennt;: Meinten Sie <suggestion>\1\2\3</suggestion>?</message>
+                <message>&getrennt;: Meinten Sie <suggestion>\1<match no="2" case_conversion="alllower"/><match no="3" case_conversion="alllower"/></suggestion>?</message>
                 <example type="correct">Das wird recht langsam <marker>vonstattengehen</marker>.</example>
                 <example type="incorrect">Das wird recht langsam <marker>von statten gehen</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="VON_STATTEN" name="Zusammen-/Getrenntschreibung: 'von statten (vonstatten)'">
+            <antipattern>
+                <token>von</token>
+                <token>statten</token>
+                <token inflected="yes">gehen</token>
+            </antipattern>
             <pattern>
                 <token>von</token>
                 <token>statten</token>
             </pattern>
-            <message>&getrennt;: Meinten Sie <suggestion>\1\2</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie <suggestion>\1<match no="2" case_conversion="alllower"/></suggestion>?</message>
             <example type="correct">Das ging recht langsam <marker>vonstatten</marker>.</example>
             <example type="incorrect">Das ging recht langsam <marker>von statten</marker>.</example>
         </rule>
@@ -8107,7 +8123,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">tätigen|installieren|beschießen|schaffen|verfolgen|erobern</token>
+                <token regexp="yes">sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern</token>
             </antipattern>
             <antipattern>
                 <!-- 'gibt es nach wie vor zu kaufen' -->
@@ -10495,12 +10511,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct"><marker>Die meisten der</marker> damaligen Hollywoodfilme spielten in den USA.</example>
         </rule>
         <rule id="MAENNER_VS_LEUTE" name="Stil: 'Kaufleute' usw. statt 'Kaufmänner'">
+            <antipattern>
+                <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
+                <token>und</token>
+                <token>-frauen</token>
+            </antipattern>
             <pattern case_sensitive="no">
                 <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion>?</message>
             <example type="correct">Es waren viele <marker>Feuerwehrleute</marker> im Einsatz.</example>
             <example type="incorrect" correction="Feuerwehrleute">Es waren viele <marker>Feuerwehrmänner</marker> im Einsatz.</example>
+            <example type="correct">Es waren viele <marker>Feuerwehrmänner</marker> und -frauen im Einsatz.</example>
             <example type="incorrect" correction="Industriekaufleute">Es werden viele <marker>Industriekaufmänner</marker> gesucht.</example>
         </rule>
         <rulegroup id="ZWISCHEN_SEIT_BIS" name="Stil: 'Zwischen ... bis ...'">
@@ -22860,6 +22882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="namens">Eine Familie <marker>Namens</marker> Meier</example>
             <example type="incorrect" correction="namens">Ein HTML-Backend <marker>Namens</marker> Broadway.</example>
             <example type="correct">Beim Hören des <marker>Namens</marker> Anna dachte er an sie.</example>
+            <example type="triggers_error">Eine Variante des kornischen <marker>Namens</marker> Moeshayle.</example>
             <example type="triggers_error">Dingsbums ist eine Kurzform des biblischen <marker>Namens</marker> Matthias</example>
         </rule>
         <rulegroup id="GOTT_SCHUETZE" name="Groß-/Kleinschreibung: 'Schütze (schütze)'">
@@ -23798,12 +23821,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception postag="ADJ:.*" postag_regexp="yes"/><exception postag="UNKNOWN"/></token> <!-- TODO must match 2nd token in KNG -->
                 </pattern>
                 <message>Nach einem Artikel steht in der Regel kein stark oder gemischt flektiertes Adjektiv (Beispiel: 'im heißem Ofen' statt 'im heißen Ofen').</message>
-                <suggestion>\2 <match no="3" postag_regexp="yes" postag="(.*)(SOL|IND)(.*)" postag_replace="$1DEF$3"/></suggestion>
+                <suggestion>\2 <match no="3" postag_regexp="yes" postag="ADJ:(NOM|AKK|DAT|GEN):(.*):(.*):(.*):(SOL|IND)(.*)" postag_replace="ADJ:.*:$2:$3:$4:DEF$6"/></suggestion>
                 <url>http://www.canoo.net/services/OnlineGrammar/Wort/Adjektiv/Deklinationstyp/index.html?MenuId=Word313#Anchor-Deklinationstypen-35882</url>
-                <example type="incorrect" correction="Im mentalen"><marker>Im mentalem</marker> Lexikon ist viel gespeichert.</example>
-                <example type="incorrect" correction="dem heißen">In <marker>dem heißem</marker> Ofen ist heiße Luft.</example>
-                <example type="incorrect" correction="im beruflichen">Die Regel gilt auch <marker>im beruflichem</marker> Umfeld.</example>
-                <example type="incorrect" correction="das duale">Meiner Meinung nach war <marker>das duales</marker> Studium eine gute Wahl</example>
+                <example type="incorrect" correction="Im mentale|Im mentalen"><marker>Im mentalem</marker> Lexikon ist viel gespeichert.</example>
+                <example type="incorrect" correction="dem heiße|dem heißen">In <marker>dem heißem</marker> Ofen ist heiße Luft.</example>
+                <example type="incorrect" correction="im berufliche|im beruflichen">Die Regel gilt auch <marker>im beruflichem</marker> Umfeld.</example>
+                <example type="incorrect" correction="das duale|das dualen">Meiner Meinung nach war <marker>das duales</marker> Studium eine gute Wahl</example>
+                <example type="incorrect" correction="des heiße|des heißen">Das ist der Name <marker>des heißes</marker> Ortes.</example>
                 <example type="correct"><marker>Im mentalen</marker> Lexikon ist viel gespeichert.</example>
                 <example type="correct">Meiner Meinung nach war <marker>das duale</marker> Studium eine gute Wahl</example>
                 <example type="correct">In <marker>dem heißen</marker> Ofen ist heiße Luft.</example>
@@ -23819,7 +23843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mdsMDS]ich</token>
                     <marker>
-                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">einig.*|andere.*</exception></token>
+                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">teilweise|einig.*|andere.*</exception></token>
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag_regexp="yes" postag="ADJ:.*"/></token>
                 </pattern>
@@ -23831,6 +23855,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Was passiert, wenn ich mich <marker>schlechter</marker> verhalte?</example>
                 <example type="correct">Es finden sich <marker>gegenteilige</marker> Annahmen.</example>
                 <example type="correct">Daraus entwickelten sich <marker>lebenslange</marker> enge Freundschaften.</example>
+                <example type="correct">Dinge, die sich <marker>teilweise</marker> überlappen.</example>
             </rule>
         </rulegroup>
         <rule id="SATZ_OHNE_PRAED" name="Grammatik: Satz ohne Prädikat" default="off">
@@ -24490,7 +24515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="SUB:AKK:SIN:MAS"/>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold</exception>
+                            <exception regexp="yes">Bier|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?</exception>
                         </token>
                     </marker>
                     <token>
