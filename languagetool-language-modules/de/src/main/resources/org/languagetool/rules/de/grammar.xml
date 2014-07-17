@@ -2995,7 +2995,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token skip="1">Seit</token>
+                        <token skip="1">Seit<exception scope="next" regexp="yes">wann|gestern</exception></token>
                     </marker>
                     <token postag="ADJ:PRD:.*|PA2:PRD:.*|ADV:MOD" postag_regexp="yes"/>
                     <token postag="SENT_END"/>
@@ -3007,6 +3007,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Seid" type="incorrect"><marker>Seit</marker> nicht dumm!</example>
                 <example correction="Seid" type="incorrect"><marker>Seit</marker> bitte leise!</example>
                 <example type="correct"><marker>Seid</marker> nicht dumm!</example>
+                <example type="correct"><marker>Seit</marker> wann eigentlich?</example>
+                <example type="correct"><marker>Seit</marker> gestern gut!</example>
             </rule>
             <rule>
                 <pattern>
