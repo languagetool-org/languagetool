@@ -42,6 +42,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -262,7 +264,7 @@ public class JLanguageTool {
   }
 
   private boolean addNewlyConstructedLanguageModelRules(File indexDir, ResourceBundle messages, List<Rule> rules, Constructor[] constructors)
-          throws InstantiationException, IllegalAccessException, InvocationTargetException, IOException {
+          throws InvocationTargetException, IOException, IllegalAccessException, InstantiationException {
     for (Constructor constructor : constructors) {
       final Class[] paramTypes = constructor.getParameterTypes();
       if (paramTypes.length == 2
