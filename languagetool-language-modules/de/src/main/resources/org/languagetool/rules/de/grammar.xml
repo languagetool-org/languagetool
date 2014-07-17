@@ -25014,6 +25014,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token negate="yes">?</token>
+                    <marker>
+                        <token regexp="yes">&anfzu;</token>
+                    </marker>
+                    <token>,</token>
+                    <token inflected="yes">fragen</token>
+                    <token postag="(PRO|EIG).*" postag_regexp="yes"/>
+                    <token min="0" max="2"/>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Fragen in wörtlicher Rede werden mit einem Fragezeichen abgeschlossen. Vorschlag: <suggestion>?\2</suggestion></message>
+                <url>http://www.canoo.net/services/GermanSpelling/Amtlich/Interpunktion/pgf89-95.html</url>
+                <example type="correct">„Was willst du?“, fragte er ungehalten.</example>
+                <example type="incorrect" correction="?“">„Was willst du<marker>“</marker>, fragte er ungehalten.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token regexp="yes">&anfzu;</token>
                         <token>,</token>
@@ -25112,15 +25129,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="!|.">Berechnen Sie den Glanzwinkel<marker>?</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="off">
+        <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="on">
             <url>http://www.korrekturen.de/zeichensetzung04.shtml</url>
 			<rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
+                    <token regexp="yes">&fragewoerter;</token>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|nicht|nur|bloß</token>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception>?</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt i.d.R. auch für rhetorische Fragen; bei diesen kann aber auch ein Ausrufezeichen passend sein. Vorschlag:
+                    <suggestion>?</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example type="correct">Wer bremst, verliert<marker>.</marker></example>
+                <example type="correct">Warum eigentlich nicht<marker>?</marker></example>
+                <example type="incorrect" correction="?">Warum eigentlich nicht<marker>.</marker></example>
+                <example type="incorrect" correction="?">Wann denn endlich<marker>.</marker></example>
+                <example type="incorrect" correction="?">Wohin denn überhaupt<marker>.</marker></example>
+            </rule>
+			<rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes" min="0" max="1">Und|Aber</token>
                     <token regexp="yes">&fragewoerter;</token>
                     <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
                     <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
-                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht</token>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß</token>
                     <marker>
                         <token postag="SENT_END">
                             <exception>?</exception>
@@ -25137,6 +25177,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="?">Wann kommst du denn endlich<marker>.</marker></example>
                 <example type="incorrect" correction="?">Was willst du denn überhaupt<marker>.</marker></example>
                 <example type="incorrect" correction="?">Was soll das denn<marker>.</marker></example>
+                <example type="incorrect" correction="?">Und wer ist das<marker>.</marker></example>
+            </rule>
+			<rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
+                    <token regexp="yes">welche[nmrs]|wessen</token>
+                    <token postag="SUB:.*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
+                    <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht|nur|bloß</token>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception>?</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt i.d.R. auch für rhetorische Fragen; bei diesen kann aber auch ein Ausrufezeichen passend sein. Vorschlag:
+                    <suggestion>?</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example type="correct">Mit wessen Auto fuhr sie<marker>?</marker></example>
+                <example type="incorrect" correction="?">Mit wessen Auto fuhr sie<marker>.</marker></example>
+                <example type="incorrect" correction="?">Wessen Auto ist das<marker>.</marker></example>
+                <example type="incorrect" correction="?">An welchem Tag starb Cäsar<marker>.</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -25162,6 +25227,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="?">Wie lange dauert das denn noch<marker>.</marker></example>
                 <example type="incorrect" correction="?">Wie oft passierte das<marker>.</marker></example>
                 <example type="incorrect" correction="?">Wie viel kostet das<marker>.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">Bis|Seit|Ab|Von</token>
+                    <token>wann</token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3).+" postag_regexp="yes"/>
+                    <token postag="(SUB|PRO|EIG).*" postag_regexp="yes"/>
+                    <token min="0" max="2" regexp="yes">denn|eigentlich|endlich|noch|überhaupt|schon|auch|nicht</token>
+                    <marker>
+                        <token postag="SENT_END">
+                            <exception>?</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Wenn dieser Satz eine Frage ist, verwenden Sie bitte ein Fragezeichen. Das gilt i.d.R. auch für rhetorische Fragen; bei diesen kann aber auch ein Ausrufezeichen passend sein. Vorschlag:
+                    <suggestion>?</suggestion>
+                </message>
+                <short>Möglicherweise falsches Satzzeichen</short>
+                <example type="correct">Ab wann das gilt, weiß ich nicht<marker>.</marker></example>
+                <example type="correct">Ab wann gilt das denn<marker>?</marker></example>
+                <example type="incorrect" correction="?">Ab wann gilt das<marker>!</marker></example>
+                <example type="incorrect" correction="?">Bis wann schläft er<marker>.</marker></example>
             </rule>
             <rule>
                 <pattern>
