@@ -111,10 +111,10 @@ public class FrequencyIndexCreator {
           continue;
         }
         if (hiveMode) {
-          docCount = Long.parseLong(parts[1]);
-          addDoc(writer, text, docCount + "");
+          String docCountStr = parts[1];
+          addDoc(writer, text, docCountStr);
           if (++i % 500_000 == 0) {
-            printStats(i, docCount, lineCount, text, startTime);
+            printStats(i, Long.parseLong(docCountStr), lineCount, text, startTime);
           }
         } else {
           int year = Integer.parseInt(parts[1]);
