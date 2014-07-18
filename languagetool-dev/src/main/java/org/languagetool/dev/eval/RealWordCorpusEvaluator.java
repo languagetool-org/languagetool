@@ -25,7 +25,6 @@ import org.languagetool.dev.errorcorpus.PedlerCorpus;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.languagemodel.MorfologikLanguageModel;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 
@@ -55,13 +54,13 @@ import java.util.List;
  * 673 lines checked with 832 errors.
  * Confusion rule matches: 116 perfect, 9 good, 12 bad
  *
- * Counting matches, no matter whether the suggestion is correct:
- * 272 out of 351 matches are real errors => 77,49% precision, 32,69% recall
- * => 60,82 F(0.5) measure
+ * Counting matches, no matter whether the first suggestion is correct:
+ * 272 out of 351 matches are real errors => 0,77 precision, 0,33 recall
+ * => 0,6082 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 219 out of 351 matches are real errors => 62,39% precision, 26,32% recall
- * => 48,97 F(0.5) measure
+ * 219 out of 351 matches are real errors => 0,62 precision, 0,26 recall
+ * => 0,4897 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a recall of 27.1% and a precision of 89.4% ("The Design of a Proofreading Software Service",
@@ -82,7 +81,7 @@ class RealWordCorpusEvaluator {
   private int goodConfusionMatches;
   private int badConfusionMatches;
 
-  RealWordCorpusEvaluator(File languageModelFileOrDir) throws IOException {
+  RealWordCorpusEvaluator(File indexTopDir) throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
     langTool.activateDefaultPatternRules();
     // The Pedler corpus has some real errors that have no error markup, so we disable
@@ -99,19 +98,17 @@ class RealWordCorpusEvaluator {
     langTool.disableRule("EN_GB_SIMPLE_REPLACE");
     langTool.disableRule("APARTMENT-FLAT");
 
-    if (languageModelFileOrDir != null) {
-      LanguageModel languageModel;
-      if (languageModelFileOrDir.isDirectory()) {
-        System.out.println("Using Lucene language model from " + languageModelFileOrDir);
-        languageModel = new LuceneLanguageModel(languageModelFileOrDir);
+    if (indexTopDir != null) {
+      if (indexTopDir.isDirectory()) {
+        LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
+        System.out.println("Using Lucene language model from " + languageModel);
+        EnglishConfusionProbabilityRule probabilityRule =
+                new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
+        //new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new File("/tmp/languagetool_network.net"));
+        langTool.addRule(probabilityRule);
       } else {
-        System.out.println("Using Morfologik language model from " + languageModelFileOrDir);
-        languageModel = new MorfologikLanguageModel(languageModelFileOrDir);
+        throw new RuntimeException("Does not exist or not a directory: " + indexTopDir);
       }
-      EnglishConfusionProbabilityRule probabilityRule = 
-              new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
-              //new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new File("/tmp/languagetool_network.net"));
-      langTool.addRule(probabilityRule);
     }
   }
 
@@ -196,21 +193,21 @@ class RealWordCorpusEvaluator {
     System.out.println("\nCounting matches, no matter whether the first suggestion is correct:");
     
     System.out.print("  " + goodMatches + " out of " + matchCount + " matches are real errors");
-    float goodPrecision = (float)goodMatches / matchCount * 100;
-    float goodRecall = (float)goodMatches / errorsInCorpusCount * 100;
-    System.out.printf(" => %.2f%% precision, %.2f%% recall\n", goodPrecision, goodRecall);
+    float goodPrecision = (float)goodMatches / matchCount;
+    float goodRecall = (float)goodMatches / errorsInCorpusCount;
+    System.out.printf(" => %.2f precision, %.2f recall\n", goodPrecision, goodRecall);
 
-    System.out.printf("  => %.2f F(0.5) measure\n",
+    System.out.printf("  => %.4f F(0.5) measure\n",
             FMeasure.getFMeasure(goodPrecision, goodRecall));
     
     System.out.println("\nCounting only matches with a perfect first suggestion:");
 
     System.out.print("  " + perfectMatches + " out of " + matchCount + " matches are real errors");
-    float perfectPrecision = (float)perfectMatches / matchCount * 100;
-    float perfectRecall = (float)perfectMatches / errorsInCorpusCount * 100;
-    System.out.printf(" => %.2f%% precision, %.2f%% recall\n", perfectPrecision, perfectRecall);
+    float perfectPrecision = (float)perfectMatches / matchCount;
+    float perfectRecall = (float)perfectMatches / errorsInCorpusCount;
+    System.out.printf(" => %.2f precision, %.2f recall\n", perfectPrecision, perfectRecall);
 
-    System.out.printf("  => %.2f F(0.5) measure\n",
+    System.out.printf("  => %.4f F(0.5) measure\n",
             FMeasure.getFMeasure(perfectPrecision, perfectRecall));
   }
 
@@ -235,9 +232,9 @@ class RealWordCorpusEvaluator {
       RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(null);
       evaluator.run(new File(args[0]));
     } else {
-      File languageModel = new File(args[1]);
-      System.out.println("Running with language model from " + languageModel);
-      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(languageModel);
+      File languageModelTopDir = new File(args[1]);
+      System.out.println("Running with language model from " + languageModelTopDir);
+      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(languageModelTopDir);
       evaluator.run(new File(args[0]));
     }
   }

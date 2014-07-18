@@ -182,8 +182,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
     long ngram1 = languageModel.getCount(prev, option);
     long ngram2 = languageModel.getCount(option, next);
-    //System.out.println(prev + " " + option + " -> " + ngram1);
-    //System.out.println(option + " " + next + " -> " + ngram2);
+    long ngram3 = languageModel.getCount(prev, option, next);
+    //long ngram3 = 1;
     
     // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account
     
@@ -207,7 +207,24 @@ public abstract class ConfusionProbabilityRule extends Rule {
       //return 2000*ngram1 + ngram2;  // 32,97%
       //return 5000*ngram1 + ngram2;  // 32,85%
       //return ngram1;  // 30,70%
-      return Math.max(1, ngram1) * Math.max(1, ngram2);  // 32,25%
+
+      // baseline:
+      //double val = 1.0;  // f-measure: 0.305 (perfect suggestions only)
+      
+      // 2grams only:
+      double val = Math.max(1, ngram1) * Math.max(1, ngram2);  // f-measure: 0.490 (perfect suggestions only)
+
+      // 2grams and 3grams:
+      //double val1 = Math.log(Math.max(1, ngram1));  // use Math.log to avoid huge number causing overflows
+      //double val2 = Math.log(Math.max(1, ngram2));
+      //double val3 = Math.log(Math.max(1, ngram3));
+      //double val = val1 * val2 * val3;  // f-measure: 0.468 (perfect suggestions only)
+
+      // 3grams only:
+      //double val = Math.max(1, ngram3);  // f-measure: 0.473 (perfect suggestions only)
+
+      //System.out.printf(option + ": %f %f %f => %f\n", val1, val2, val3, val);
+      return val;
     }
   }
 

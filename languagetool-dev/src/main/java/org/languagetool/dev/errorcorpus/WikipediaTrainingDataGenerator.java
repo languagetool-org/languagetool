@@ -245,16 +245,16 @@ class WikipediaTrainingDataGenerator {
   }
 
   public static void main(String[] args) throws IOException {
-    if (args.length != 4) {
+    if (args.length != 3) {
       System.err.println("Usage: " + WikipediaTrainingDataGenerator.class.getSimpleName()
-              + " <langCode> <wikipediaXml> <languageModel2GramDir> <languageModel3GramDir>");
+              + " <langCode> <wikipediaXml> <languageModelTopDir>");
+      System.err.println("   <languageModelTopDir> is a directory with sub-directories '2grams' and/or '3grams' with Lucene indexes");
       System.exit(1);
     }
     Language lang = Language.getLanguageForShortName(args[0]);
     File wikipediaFile = new File(args[1]);
-    File indexDir2gram = new File(args[2]);
-    File indexDir3gram = new File(args[3]);
-    LanguageModel languageModel = new LuceneLanguageModel(indexDir2gram, indexDir3gram);
+    File indexTopDir = new File(args[2]);
+    LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
     WikipediaTrainingDataGenerator generator = new WikipediaTrainingDataGenerator(lang, languageModel);
     generator.run(wikipediaFile, TOKEN, TOKEN_HOMOPHONE);
   }

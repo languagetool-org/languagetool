@@ -28,7 +28,9 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -36,17 +38,25 @@ import java.util.Map;
  */
 public class LuceneLanguageModel implements LanguageModel {
 
+  private final List<File> indexes = new ArrayList<>();
   private final Map<Integer,LuceneSearcher> luceneSearcherMap = new HashMap<>();
   
-  public LuceneLanguageModel(File indexDir2grams) throws IOException {
-    luceneSearcherMap.put(2, new LuceneSearcher(indexDir2grams));
+  public LuceneLanguageModel(File topIndexDir) throws IOException {
+    addIndex(topIndexDir, 2);
+    addIndex(topIndexDir, 3);
+    if (luceneSearcherMap.size() == 0) {
+      throw new RuntimeException("No directories '2grams' and/or '3grams' found in " + topIndexDir);
+    }
   }
-  
-  public LuceneLanguageModel(File indexDir2grams, File indexDir3grams) throws IOException {
-    luceneSearcherMap.put(2, new LuceneSearcher(indexDir2grams));
-    luceneSearcherMap.put(3, new LuceneSearcher(indexDir3grams));
+
+  private void addIndex(File topIndexDir, int ngramSize) throws IOException {
+    File indexDir = new File(topIndexDir, ngramSize + "grams");
+    if (indexDir.exists() && indexDir.isDirectory()) {
+      luceneSearcherMap.put(ngramSize, new LuceneSearcher(indexDir));
+      indexes.add(indexDir);
+    }
   }
-  
+
   @Override
   public long getCount(String token1, String token2) {
     Term term = new Term("ngram", token1 + " " + token2);
@@ -93,6 +103,11 @@ public class LuceneLanguageModel implements LanguageModel {
         throw new RuntimeException(e);
       }
     }
+  }
+
+  @Override
+  public String toString() {
+    return indexes.toString();
   }
 
   private class LuceneSearcher {
