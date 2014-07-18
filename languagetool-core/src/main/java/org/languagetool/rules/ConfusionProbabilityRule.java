@@ -183,6 +183,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     long ngram1 = languageModel.getCount(prev, option);
     long ngram2 = languageModel.getCount(option, next);
     long ngram3 = languageModel.getCount(prev, option, next);
+    //System.out.printf("l:%d r:%d 3gram:%d (%s)\n", ngram1, ngram2, ngram3, prev + " " + option + " " + next);
     //long ngram3 = 1;
     
     // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account

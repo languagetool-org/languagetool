@@ -63,7 +63,7 @@ import java.util.List;
  * => 0,4897 F(0.5) measure
  * </pre>
  * 
- * <p>After the Deadline has a recall of 27.1% and a precision of 89.4% ("The Design of a Proofreading Software Service",
+ * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
  * Raphael Mudge, 2010). The recall is calculated by comparing only the first suggestion to the expected correction.</p>
  * 
  * @since 2.7
@@ -71,6 +71,7 @@ import java.util.List;
 class RealWordCorpusEvaluator {
 
   private final JLanguageTool langTool;
+  private final List<String> badConfusionMatchWords = new ArrayList<>();
   
   private int sentenceCount;
   private int errorsInCorpusCount;
@@ -90,6 +91,7 @@ class RealWordCorpusEvaluator {
     langTool.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
     langTool.disableRule("EN_QUOTES");
     langTool.disableRule("I_LOWERCASE");
+    //langTool.disableRule("MORFOLOGIK_RULE_EN_GB");  // disabling spell rule improves precision 0.77 -> 0.88 (as of 2014-07-18)
     // turn off style rules:
     langTool.disableRule("LITTLE_BIT");
     langTool.disableRule("ALL_OF_THE");
@@ -173,6 +175,7 @@ class RealWordCorpusEvaluator {
           matchCount++;
           if (isConfusionRule(match)) {
             badConfusionMatches++;
+            badConfusionMatchWords.add(sentence.getMarkupText().substring(match.getFromPos(), match.getToPos()));
           }
         }
         detectedErrorPositions.add(new Span(match.getFromPos(), match.getToPos()));
@@ -188,7 +191,7 @@ class RealWordCorpusEvaluator {
     System.out.println("");
     System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
     System.out.println("Confusion rule matches: " + perfectConfusionMatches+ " perfect, "
-            + goodConfusionMatches + " good, " + badConfusionMatches + " bad");
+            + goodConfusionMatches + " good, " + badConfusionMatches + " bad (" + badConfusionMatchWords + ")");
 
     System.out.println("\nCounting matches, no matter whether the first suggestion is correct:");
     
