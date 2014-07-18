@@ -1,0 +1,80 @@
+/* LanguageTool, a natural language style checker 
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
+ * 
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.dev.eval;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.BritishEnglish;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Wrapper around LanguageTool for easier use from the evaluation scripts.
+ * @since 2.7
+ */
+class LanguageToolEvalChecker implements EvalChecker {
+
+  private final JLanguageTool langTool;
+
+  LanguageToolEvalChecker(File indexTopDir) throws IOException {
+    langTool = new JLanguageTool(new BritishEnglish());
+    langTool.activateDefaultPatternRules();
+    disableRules();
+    if (indexTopDir != null) {
+      if (indexTopDir.isDirectory()) {
+        LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
+        System.out.println("Using Lucene language model from " + languageModel);
+        EnglishConfusionProbabilityRule probabilityRule =
+                new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
+        //new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new File("/tmp/languagetool_network.net"));
+        langTool.addRule(probabilityRule);
+      } else {
+        throw new RuntimeException("Does not exist or not a directory: " + indexTopDir);
+      }
+    }
+  }
+
+  private void disableRules() {
+    // The Pedler corpus has some real errors that have no error markup, so we disable
+    // some rules that typically match those:
+    langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
+    langTool.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
+    langTool.disableRule("EN_QUOTES");
+    langTool.disableRule("I_LOWERCASE");
+    //langTool.disableRule("MORFOLOGIK_RULE_EN_GB");  // disabling spell rule improves precision 0.77 -> 0.88 (as of 2014-07-18)
+    // turn off style rules:
+    langTool.disableRule("LITTLE_BIT");
+    langTool.disableRule("ALL_OF_THE");
+    langTool.disableRule("SOME_OF_THE");
+    // British English vs. American English - not clear whether the corpus contains only BE:
+    langTool.disableRule("EN_GB_SIMPLE_REPLACE");
+    langTool.disableRule("APARTMENT-FLAT");
+  }
+
+  @Override
+  public List<RuleMatch> check(AnnotatedText annotatedText) throws IOException {
+    return langTool.check(annotatedText);
+  }
+}

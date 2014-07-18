@@ -18,15 +18,10 @@
  */
 package org.languagetool.dev.eval;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.dev.errorcorpus.ErrorCorpus;
 import org.languagetool.dev.errorcorpus.ErrorSentence;
 import org.languagetool.dev.errorcorpus.PedlerCorpus;
-import org.languagetool.language.BritishEnglish;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,7 +65,7 @@ import java.util.List;
  */
 class RealWordCorpusEvaluator {
 
-  private final JLanguageTool langTool;
+  private final LanguageToolEvalChecker checker;
   private final List<String> badConfusionMatchWords = new ArrayList<>();
   
   private int sentenceCount;
@@ -83,35 +78,7 @@ class RealWordCorpusEvaluator {
   private int badConfusionMatches;
 
   RealWordCorpusEvaluator(File indexTopDir) throws IOException {
-    langTool = new JLanguageTool(new BritishEnglish());
-    langTool.activateDefaultPatternRules();
-    // The Pedler corpus has some real errors that have no error markup, so we disable
-    // some rules that typically match those:
-    langTool.disableRule("COMMA_PARENTHESIS_WHITESPACE");
-    langTool.disableRule("SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA");
-    langTool.disableRule("EN_QUOTES");
-    langTool.disableRule("I_LOWERCASE");
-    //langTool.disableRule("MORFOLOGIK_RULE_EN_GB");  // disabling spell rule improves precision 0.77 -> 0.88 (as of 2014-07-18)
-    // turn off style rules:
-    langTool.disableRule("LITTLE_BIT");
-    langTool.disableRule("ALL_OF_THE");
-    langTool.disableRule("SOME_OF_THE");
-    // British English vs. American English - not clear whether the corpus contains only BE:
-    langTool.disableRule("EN_GB_SIMPLE_REPLACE");
-    langTool.disableRule("APARTMENT-FLAT");
-
-    if (indexTopDir != null) {
-      if (indexTopDir.isDirectory()) {
-        LanguageModel languageModel = new LuceneLanguageModel(indexTopDir);
-        System.out.println("Using Lucene language model from " + languageModel);
-        EnglishConfusionProbabilityRule probabilityRule =
-                new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
-        //new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new File("/tmp/languagetool_network.net"));
-        langTool.addRule(probabilityRule);
-      } else {
-        throw new RuntimeException("Does not exist or not a directory: " + indexTopDir);
-      }
-    }
+    checker = new LanguageToolEvalChecker(indexTopDir);
   }
 
   int getSentencesChecked() {
@@ -144,7 +111,7 @@ class RealWordCorpusEvaluator {
 
   private void checkLines(ErrorCorpus corpus) throws IOException {
     for (ErrorSentence sentence : corpus) {
-      List<RuleMatch> matches = langTool.check(sentence.getAnnotatedText());
+      List<RuleMatch> matches = checker.check(sentence.getAnnotatedText());
       sentenceCount++;
       errorsInCorpusCount += sentence.getErrors().size();
       System.out.println(sentence.getMarkupText() + " => " + matches.size());
