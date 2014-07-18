@@ -29,7 +29,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 
 /**
- * A rule that warns on long sentences.
+ * A rule that warns on long sentences. Note that this rule is off by default.
  */
 public class LongSentenceRule extends Rule {
 
