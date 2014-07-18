@@ -43,19 +43,19 @@ import java.util.List;
  * => 30,51 F(0.5) measure
  * </pre>
  * 
- * Results as of 2014-07-05 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * Results as of 2014-07-18 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.
  * Confusion rule matches: 116 perfect, 9 good, 12 bad
  *
  * Counting matches, no matter whether the first suggestion is correct:
- * 272 out of 351 matches are real errors => 0,77 precision, 0,33 recall
- * => 0,6082 F(0.5) measure
+ * 272 out of 347 matches are real errors => 0,78 precision, 0,33 recall
+ * => 0,6126 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 219 out of 351 matches are real errors => 0,62 precision, 0,26 recall
- * => 0,4897 F(0.5) measure
+ * 219 out of 347 matches are real errors => 0,63 precision, 0,26 recall
+ * => 0,4932 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
@@ -65,7 +65,7 @@ import java.util.List;
  */
 class RealWordCorpusEvaluator {
 
-  private final LanguageToolEvalChecker checker;
+  private final EvalChecker checker;
   private final List<String> badConfusionMatchWords = new ArrayList<>();
   
   private int sentenceCount;
@@ -79,6 +79,8 @@ class RealWordCorpusEvaluator {
 
   RealWordCorpusEvaluator(File indexTopDir) throws IOException {
     checker = new LanguageToolEvalChecker(indexTopDir);
+    // use this to run AtD as the backend, so results can easily be compared to LT:
+    //checker = new AtDEvalChecker("http://en.service.afterthedeadline.com/checkDocument?key=test&data=");
   }
 
   int getSentencesChecked() {
