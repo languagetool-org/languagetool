@@ -7712,6 +7712,25 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="ESTAR_TANCAR" name="estar *tancar/tancat">
+            <antipattern>
+                <marker>
+                    <token skip="1" regexp="yes">mal|bé</token>
+                    <token postag="VM[IS].3S.." postag_regexp="yes" inflected="yes">estar</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token inflected="yes" regexp="yes">estar|continuar|seguir<exception>estat</exception></token>
+                <marker>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes" postag_replace="V.P..SM."/></suggestion>?</message>
+            <example type="incorrect" correction="tancat">Estava <marker>tancar</marker>.</example>
+            <example type="correct">L'objectiu ha estat fer-ho bé.</example>
+            <example type="correct">Mal m'estava dir-ho.</example>
+        </rule>
         <rule id="A_VEURE_QUE" name="a veure *que/què">
             <pattern>
                 <token><exception inflected="yes" regexp="yes">arribar|començar|res|fins|per</exception></token>
