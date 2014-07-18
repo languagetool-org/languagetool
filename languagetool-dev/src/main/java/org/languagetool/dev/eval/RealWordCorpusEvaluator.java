@@ -67,7 +67,7 @@ import java.util.List;
  * <p>After the Deadline has a recall of 27.1% and a precision of 89.4% ("The Design of a Proofreading Software Service",
  * Raphael Mudge, 2010). The recall is calculated by comparing only the first suggestion to the expected correction.</p>
  * 
- * @since 2.6
+ * @since 2.7
  */
 class RealWordCorpusEvaluator {
 
@@ -200,9 +200,8 @@ class RealWordCorpusEvaluator {
     float goodRecall = (float)goodMatches / errorsInCorpusCount * 100;
     System.out.printf(" => %.2f%% precision, %.2f%% recall\n", goodPrecision, goodRecall);
 
-    // F0.5 puts more emphasis on precision than recall:
     System.out.printf("  => %.2f F(0.5) measure\n",
-            getFMeasure(goodPrecision, goodRecall, 0.5f));
+            FMeasure.getFMeasure(goodPrecision, goodRecall));
     
     System.out.println("\nCounting only matches with a perfect first suggestion:");
 
@@ -212,12 +211,7 @@ class RealWordCorpusEvaluator {
     System.out.printf(" => %.2f%% precision, %.2f%% recall\n", perfectPrecision, perfectRecall);
 
     System.out.printf("  => %.2f F(0.5) measure\n",
-            getFMeasure(perfectPrecision, perfectRecall, 0.5f));
-  }
-
-  private double getFMeasure(float precision, float recall, float beta) {
-    double betaSquared = Math.pow(beta, 2);
-    return (1 + betaSquared) * (precision * recall) / ((betaSquared * precision) + recall);
+            FMeasure.getFMeasure(perfectPrecision, perfectRecall));
   }
 
   private boolean errorAlreadyCounted(RuleMatch match, List<Span> detectedErrorPositions) {

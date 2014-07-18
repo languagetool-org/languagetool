@@ -23,6 +23,7 @@ import org.encog.neural.networks.BasicNetwork;
 import org.languagetool.Language;
 import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.dev.dumpcheck.WikipediaSentenceSource;
+import org.languagetool.dev.eval.FMeasure;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
@@ -37,18 +38,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- input: en-there.txt, 'there', 'their'
- n Sätze suchen mit 'there' -> Training als 1
- n Sätze suche mit 'their' und ersetzen -> Training als 0
- (genau so viele?!)
- loop mit immer anderen sätzen (shuffle):
- trainieren des networks mit n sätzen und target = 1
- trainieren des networks mit n sätzen, wort durch homophon ersetzt, und target = 0
- cross-validation ab Satz n bis Satz n + 20%
- cross-validation heißt:
- korrekter satz als eingabe
- gefaket falscher satz als eingabe
- => precision + recall + f-measure ermitteln
+ * Loads sentences with a homophone (e.g. 'there') from Wikipedia and uses them for training, 
+ * assuming they are correct. Loads sentences with a confusable homophone (e.g. 'their')
+ * from Wikipedia, replacing them with the other homophone, assuming their are now wrong
+ * and uses them for training, too. Finally, it runs a cross-validation.
  * @since 2.7
  * @author Daniel Naber 
  */
@@ -97,8 +90,8 @@ class WikipediaTrainingDataGenerator {
         machineLearning.train(new File(NEURAL_NETWORK_OUTPUT));
         System.out.println("Saved neural network to " + NEURAL_NETWORK_OUTPUT + " (" + new Date() + ")");
         List<ValidationSentence> validationSentences = new ArrayList<>();
-        validationSentences.addAll(getValidationSentences(testSentences, true, token));
-        validationSentences.addAll(getValidationSentences(homophoneTestSentences, false, homophoneToken));
+        validationSentences.addAll(getValidationSentences(testSentences, true));
+        validationSentences.addAll(getValidationSentences(homophoneTestSentences, false));
         crossValidate(validationSentences, token, homophoneToken);
       }
     }
@@ -111,7 +104,7 @@ class WikipediaTrainingDataGenerator {
     return new ListSplit<>(trainingList, testList);
   }
 
-  private List<ValidationSentence> getValidationSentences(List<Sentence> sentences, boolean isCorrect, String token) {
+  private List<ValidationSentence> getValidationSentences(List<Sentence> sentences, boolean isCorrect) {
     List<ValidationSentence> validationSentences = new ArrayList<>();
     for (Sentence sentence : sentences) {
       validationSentences.add(new ValidationSentence(sentence, isCorrect));
@@ -146,12 +139,11 @@ class WikipediaTrainingDataGenerator {
       }
     }
     float precision = (float)truePositives / (truePositives + falsePositives);
-    System.out.printf("Cross validation precision: %.2f\n", precision);
+    System.out.println("Cross validation results:");
+    System.out.printf("  Precision: %.3f\n", precision);
     float recall = (float)truePositives / (truePositives + falseNegatives);
-    System.out.printf("Cross validation recall: %.2f\n", recall);
-    //
-    // TODO: f-measure
-    //
+    System.out.printf("  Recall: %.3f\n", recall);
+    System.out.printf("  F-measure(beta=0.5): %.3f\n", FMeasure.getFMeasure(precision, recall));
   }
 
   private List<Sentence> getRelevantSentences(File corpusFile, String token, int maxSentences) throws IOException {
