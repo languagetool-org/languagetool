@@ -596,11 +596,11 @@ public class JLanguageTool {
    * @since 2.3
    */
   public List<RuleMatch> checkAnalyzedSentence(final ParagraphHandling paraMode,
-      final List<Rule> allRules, int charCount, int lineCount,
+      final List<Rule> rules, int charCount, int lineCount,
       int columnCount, final String sentence, final AnalyzedSentence analyzedSentence, final AnnotatedText annotatedText)
         throws IOException {
     final List<RuleMatch> sentenceMatches = new ArrayList<>();
-    for (final Rule rule : allRules) {
+    for (final Rule rule : rules) {
       if (disabledRules.contains(rule.getId())
           || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()))) {
         continue;
