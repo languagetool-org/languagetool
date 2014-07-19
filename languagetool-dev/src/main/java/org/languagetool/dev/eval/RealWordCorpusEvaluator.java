@@ -43,19 +43,19 @@ import java.util.List;
  * => 30,51 F(0.5) measure
  * </pre>
  * 
- * Results as of 2014-07-18 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * Results as of 2014-07-19 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.
- * Confusion rule matches: 116 perfect, 9 good, 12 bad
+ * Confusion rule matches: 116 perfect, 9 good, 12 bad ([piece, hear, led, tale, feel, buy, I, now, haul, write, hi, know])
  *
  * Counting matches, no matter whether the first suggestion is correct:
- * 272 out of 347 matches are real errors => 0,78 precision, 0,33 recall
- * => 0,6126 F(0.5) measure
+ * 272 out of 346 matches are real errors => 0,79 precision, 0,33 recall
+ * => 0,6137 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 219 out of 347 matches are real errors => 0,63 precision, 0,26 recall
- * => 0,4932 F(0.5) measure
+ * 230 out of 346 matches are real errors => 0,66 precision, 0,28 recall
+ * => 0,5190 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",

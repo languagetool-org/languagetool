@@ -46,6 +46,11 @@ public class Error {
     return correction;
   }
 
+  public String getAppliedCorrection(String markupText) {
+    String correctionApplied = markupText.substring(0, startPos) + correction + markupText.substring(endPos);
+    return correctionApplied.replaceAll("<.*?>", "");
+  }
+
   @Override
   public String toString() {
     return startPos + "-" + endPos + ":" + correction;

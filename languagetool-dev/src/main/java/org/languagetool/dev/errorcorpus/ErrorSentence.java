@@ -44,6 +44,16 @@ public class ErrorSentence {
       if (suggestion.size() > 0) {
         String firstSuggestion = suggestion.get(0);
         for (Error error : errors) {
+          // The correction from AtD might be "an hour", whereas the error might just span the wrong "a",
+          // so we just apply the suggestion and see if what we get is the perfect result as specified
+          // by the corpus:
+          String correctedByCorpus = error.getAppliedCorrection(markupText);
+          String correctedByRuleMarkup = markupText.substring(0, match.getFromPos()) +
+                  match.getSuggestedReplacements().get(0) + markupText.substring(match.getToPos());
+          String correctedByRule = correctedByRuleMarkup.replaceAll("<.*?>", "");
+          if (correctedByRule.equals(correctedByCorpus)) {
+            return true;
+          }
           if (error.getCorrection().equals(firstSuggestion)) {
             return true;
           }
