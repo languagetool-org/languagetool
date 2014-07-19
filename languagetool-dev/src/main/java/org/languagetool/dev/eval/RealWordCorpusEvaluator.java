@@ -59,8 +59,9 @@ import java.util.List;
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
- * Raphael Mudge, 2010). The recall is calculated by comparing only the first suggestion to the expected correction.</p>
- * 
+ * Raphael Mudge, 2010). The recall is calculated by comparing only the first suggestion to the expected correction.
+ * Also see the constructor of this class where you can comment in AtDEvalChecker to run a direct comparison.
+ * </p>
  * @since 2.7
  */
 class RealWordCorpusEvaluator {
