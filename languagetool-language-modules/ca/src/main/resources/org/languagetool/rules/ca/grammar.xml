@@ -11516,6 +11516,14 @@ $Id$
                 <example type="correct">l'IEC</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes">[DdLl]'</token>
+                        <token>R</token>
+                        <token>+</token>
+                        <token>D</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">[ld]'</token>
                     <token regexp="yes">[qwrtpdfgjklñzxcvbnmç].*|sh?[aeiouàéèíóòú].*<exception regexp="yes">(?-i)[A-Z][A-Z\d]+|W</exception><exception>ftalat</exception></token> 
@@ -11533,6 +11541,7 @@ $Id$
                 <example type="correct">l’ftalat</example>
                 <example type="correct">De l'L1</example>
                 <example type="correct">A l'W del cap municipal</example>
+                <example type="correct">Inversions d'R+D.</example>
             </rule>
         </rulegroup>
         <rulegroup id="L_D_NOM_LLETRA" name="apostrofació: no davant de nom de lletra">                        
@@ -19444,6 +19453,8 @@ $Id$
                 </marker>
             </pattern>
             <message>¿Volíeu dir <suggestion>a totes</suggestion>?</message>
+            <url>http://esadir.cat/entrades/fitxa/node/anarapertotes</url>
+            <short>Expressió incorrecta</short>
             <example type="incorrect">anàvem <marker>a per totes</marker></example>
             <example type="correct">anàvem a totes</example>
         </rule>
@@ -19454,6 +19465,7 @@ $Id$
                     <token>a</token>
                     <token>per</token>
                 </marker>
+                <token><exception>totes</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>per</suggestion>?</message>
             <suggestion>darrere</suggestion>
