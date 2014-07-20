@@ -8908,36 +8908,41 @@ USA
                 <example correction="to stay" type="incorrect">He advised us not <marker>staying</marker> calm.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">couldn|can</token>
+                    <token regexp="yes">['’]</token>
+                    <token>t</token>
+                    <token>help</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern>
+                    <token>cannot</token>
+                    <token>help</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern>
+                    <token>could</token>
+                    <token>not</token>
+                    <token>help</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">couldn|can</exception></token>
-                    <token><exception regexp="yes">'|could</exception></token>
-                    <token><exception regexp="yes">t|cannot|not</exception></token>
                     <token inflected="yes">help</token>
                     <marker>
-                        <token postag="VBG"></token>
+                        <token postag="VBG"><exception postag='NN:U'/></token>
                     </marker>
                 </pattern>
-                <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"></match></suggestion> or <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
+                <message>The verb 'help' is used with infinitive: <suggestion>to <match no="2" postag="VB"></match></suggestion> or <suggestion><match no="2" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">All he did was to help to carry the bags.</example>
                 <example type="correct">But she could not help thinking there must be more to come.</example>
+                <example type="correct">Also because when you're interested in something then it helps learning because you're familiar with it.</example>
                 <example correction="to carry|carry" type="incorrect">All he did was to help <marker>carrying</marker> the bags.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <token><exception>cannot</exception></token>
-                    <token inflected="yes">help</token>
-                    <marker>
-                        <token postag="VBG"></token>
-                    </marker>
-                </pattern>
-                <message>The verb 'help' is used with infinitive: <suggestion>to <match no="4" postag="VB"></match></suggestion> or <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
-                <short>Grammatical problem</short>
                 <example type="correct">He helped to carry the bags.</example>
                 <example correction="to carry|carry" type="incorrect">He helped <marker>carrying</marker> the bags.</example>
             </rule>
             <rule>
+                <!-- FIXME: 'cannot help but not like' is one negation too many -->
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token><exception>cannot</exception></token>
@@ -9855,7 +9860,7 @@ USA
             <example type="correct">They need to do this.</example>
             </rule>
         </rulegroup>
-        <rule id="EQUALLY_AS" name="equally+as (equally)">
+        <rule id="EQUALLY_AS" name="equally as (equally)">
             <pattern>
                 <token>equally</token>
                 <token>as</token>
@@ -9866,19 +9871,20 @@ USA
             <example type="correct">This model is equally effective.</example>
             <example type="correct">My new grammar checker is just as slow as the old one.</example>
         </rule>
-        <rulegroup id="CANT_HELP_BUT" name="can't help but (can't help+gerund)">
+        <rulegroup default="off" id="CANT_HELP_BUT" name="can't help but (can't help + gerund)">
             <rule>
                 <pattern>
                     <token>cannot</token>
                     <token>help</token>
-                    <token>but</token>
                     <marker>
+                        <token>but</token>
                         <token postag="VB"></token>
                     </marker>
                 </pattern>
-                <message>This is a nonstandard phrase. Use <suggestion><match no="4" postag="VBG"></match></suggestion>.</message>
+                <message>This is sometimes considered a nonstandard phrase. Use <suggestion><match no="4" postag="VBG"></match></suggestion>.</message>
+                <url>http://english.stackexchange.com/questions/69212/cannot-help-but-think-vs-cannot-but-think-vs-cannot-help-thinking</url>
                 <short>Grammatical problem</short>
-                <example correction="falling" type="incorrect">I cannot help but <marker>fall</marker> in love with you.</example>
+                <example correction="falling" type="incorrect">I cannot help <marker>but fall</marker> in love with you.</example>
                 <example type="correct">I cannot help <marker>falling</marker> in love with you.</example>
             </rule>
             <rule>
@@ -9887,14 +9893,15 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>t</token>
                     <token>help</token>
-                    <token>but</token>
                     <marker>
+                        <token>but</token>
                         <token postag="VB"></token>
                     </marker>
                 </pattern>
-                <message>This is a nonstandard phrase. Use <suggestion><match no="6" postag="VBG"></match></suggestion>.</message>
+                <message>This is sometimes considered a nonstandard phrase. Use <suggestion><match no="6" postag="VBG"></match></suggestion>.</message>
+                <url>http://english.stackexchange.com/questions/69212/cannot-help-but-think-vs-cannot-but-think-vs-cannot-help-thinking</url>
                 <short>Grammatical problem</short>
-                <example correction="falling" type="incorrect">I can't help but <marker>fall</marker> in love with you.</example>
+                <example correction="falling" type="incorrect">I can't help <marker>but fall</marker> in love with you.</example>
                 <example type="correct">I <marker>can't help falling</marker> in love with you.</example>
             </rule>
         </rulegroup>
