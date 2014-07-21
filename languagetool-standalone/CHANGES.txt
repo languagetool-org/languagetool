@@ -23,6 +23,21 @@ LanguageTool Change Log
      still exists but has been deprecated)
     -Deprecated some methods whose visibility will be decreased (e.g. from public
      to protected)
+     
+-New feature: Use of language models
+    LanguageTool can now make use of ngram data. ngram data is information about
+    how often phrases occur in a language. Currently, this uses phrases of length 3.
+    The data is used by an English rule to find homophone errors, like mixing up
+    coarse/course or flair/flare. LanguageTool had some rules of this kind before, but
+    the new rule now supports about 900 of such word pairs/sets.
+    The data needed for this is huge (7GB for English) and thus not part or LanguageTool.
+    ### TODO: document where to get the data ###
+    The data is currently only used for English. Using it makes LanguageTool slightly
+    slower when the data is stored on an SSD: checking a sentence takes 13ms on average 
+    with a language model compared to 11ms on average without (on English text). If not
+    stored on an SSD, the performance might drastically decrease.
+    Use the new --languagemodel option with the command line client to activate the rule
+    that uses the data.
 
 
 2.6 (2014-06-30)
