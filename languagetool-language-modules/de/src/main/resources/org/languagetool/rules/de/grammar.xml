@@ -344,6 +344,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>entfernt</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes">.*meter</token>
+            </antipattern>
+            <antipattern>
                 <token>auf</token>
                 <token>Höhe</token>
                 <token regexp="yes">des|der</token>
@@ -369,6 +372,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Es wird <marker>auf</marker> diesen entfernten Block zugegriffen.</example>
             <example type="correct">Beide standen aber <marker>auf</marker> der Bühne zu weit entfernt.</example>
             <example type="correct">Es steht etwa 750 Meter <marker>auf</marker> dem vom Ufer entfernten Direktweg.</example>
+            <example type="correct"><marker>Auf</marker> der zwei Kilometer entfernten Weg steht eine Bank.</example>
         </rule>
         <rule id="WAS_WAR" name="Möglicher Tippfehler: 'ich was (war) ein' etc.">
             <pattern>
@@ -8154,6 +8158,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>außer</token>
                 <token>zu</token>
                 <token>heulen</token>
+            </antipattern>
+            <antipattern>
+                <token>zugunsten</token>
+                <token>zu</token>
+                <token>bekämpfen</token>
+            </antipattern>
+            <antipattern>
+                <token>mit</token>
+                <token>zu</token>
+                <token>übernehmen</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -23868,7 +23882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[mdsMDS]ich</token>
                     <marker>
-                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">teilweise|einig.*|andere.*</exception></token>
+                        <token postag="ADJ:.*:(SOL|DEF|IND)" postag_regexp="yes"><exception postag="ADJ:PRD:.*" postag_regexp="yes"/><exception postag="ADJ:.*" negate_pos="yes" postag_regexp="yes"/><exception regexp="yes">teilweise|einig.*|andere.*|diverse</exception></token>
                     </marker>
                     <token postag="VER:[123]:.*" postag_regexp="yes" regexp="yes">[a-zäöü].*<exception postag_regexp="yes" postag="ADJ:.*"/></token>
                 </pattern>
@@ -23881,6 +23895,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Es finden sich <marker>gegenteilige</marker> Annahmen.</example>
                 <example type="correct">Daraus entwickelten sich <marker>lebenslange</marker> enge Freundschaften.</example>
                 <example type="correct">Dinge, die sich <marker>teilweise</marker> überlappen.</example>
+                <example type="correct">Es finden sich <marker>diverse</marker> bedrohte Tierarten im Park.</example>
             </rule>
         </rulegroup>
         <rule id="SATZ_OHNE_PRAED" name="Grammatik: Satz ohne Prädikat" default="off">
