@@ -148,6 +148,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
         bestScore = alternativeScore;
       }
     }
+    //if (bestScore == 0) {
+    //  System.out.println("!!! all alternatives zero @ " + token.getToken());
+    //}
     if (debug) {
       System.out.println("  Result => " + betterAlternative);
     }
@@ -180,16 +183,19 @@ public abstract class ConfusionProbabilityRule extends Rule {
     //System.out.println("---------------------------");
     //System.out.println(option + ", next " + next + ", prev: " + prev);
 
-    long ngram1 = languageModel.getCount(prev, option);
-    long ngram2 = languageModel.getCount(option, next);
+    long ngram2left = languageModel.getCount(prev, option);
+    long ngram2right = languageModel.getCount(option, next);
+    // TODO: the v1 of the Google ngram corpus contains no commas, so we should not try to look them up:
     long ngram3 = languageModel.getCount(prev, option, next);
+    long ngram3left = languageModel.getCount(prev2, prev, option);
+    long ngram3right = languageModel.getCount(option, next, next2);
     //System.out.printf("l:%d r:%d 3gram:%d (%s)\n", ngram1, ngram2, ngram3, prev + " " + option + " " + next);
     //long ngram3 = 1;
     
-    // TODO: add a proper algorithm here that takes 1ngrams, 2grams and 3grams into account
+    // TODO: decide on an algorithm here that takes 1ngrams, 2grams and 3grams into account
     
     if (network != null) {
-      double value = network.compute(new BasicMLData(new double[]{ngram1, ngram2})).getData(0);
+      double value = network.compute(new BasicMLData(new double[]{ngram2left, ngram2right})).getData(0);
       //System.out.println("***" + ngram1 + " - " + ngram2 + " => " + network.compute(new BasicMLData(new double[]{ngram1, ngram2})));
       //return value > 0.5 ? 1 : 0;
       return value;
@@ -213,19 +219,24 @@ public abstract class ConfusionProbabilityRule extends Rule {
       //double val = 1.0;  // f-measure: 0.305 (perfect suggestions only)
       
       // 2grams only:
-      double val = Math.max(1, ngram1) * Math.max(1, ngram2);  // f-measure: 0.5190 (perfect suggestions only)
+      //double val = Math.max(1, ngram1) * Math.max(1, ngram2);  // f-measure: 0.5190 (perfect suggestions only)
       //double val = Math.log(Math.max(1, ngram1)) * Math.log(Math.max(1, ngram2));  // f-measure: 0.5115 (perfect suggestions only)
       //double val = ngram1 + ngram2;  // f-measure: 0.5026 (perfect suggestions only)
       //double val = Math.log(ngram1) + Math.log(ngram2);  // f-measure: 0.5168 (perfect suggestions only)
 
       // 2grams and 3grams:
-      //double val1 = Math.log(Math.max(1, ngram1));  // use Math.log to avoid huge number causing overflows
-      //double val2 = Math.log(Math.max(1, ngram2));
-      //double val3 = Math.log(Math.max(1, ngram3));
-      //double val = val1 * val2 * val3;  // f-measure: 0.468 (perfect suggestions only)
+      double val1 = Math.log(Math.max(1, ngram2left));
+      double val2 = Math.log(Math.max(1, ngram2right));
+      double val3 = Math.log(Math.max(1, ngram3));
+      double val4 = Math.log(Math.max(1, ngram3left));
+      double val5 = Math.log(Math.max(1, ngram3right));
+      //double val = val1 * val2 * val3;  // f-measure: 0.4986 (perfect suggestions only)
+      //double val = val1 + val2 + val3;  // f-measure: 0.5203 (perfect suggestions only)
+      //double val = val1 + val2 + val3 + val4 + val5;  // f-measure: 0.5212 (perfect suggestions only)
 
       // 3grams only:
-      //double val = Math.max(1, ngram3);  // f-measure: 0.473 (perfect suggestions only)
+      //double val = Math.max(1, ngram3);  // f-measure: 0.5038 (perfect suggestions only)
+      double val = val3 + val4 + val5;  // f-measure: 0.5292 (perfect suggestions only)
 
       //System.out.printf(option + ": %f %f %f => %f\n", val1, val2, val3, val);
       return val;
