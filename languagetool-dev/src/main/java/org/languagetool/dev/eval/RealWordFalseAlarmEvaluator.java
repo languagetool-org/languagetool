@@ -23,7 +23,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.languagemodel.MorfologikLanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.rules.Rule;
@@ -52,7 +51,7 @@ class RealWordFalseAlarmEvaluator {
   private int globalSentenceCount;
   private int globalRuleMatches;
 
-  RealWordFalseAlarmEvaluator(File languageModelFileOrDir) throws IOException {
+  RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
     confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
@@ -62,12 +61,7 @@ class RealWordFalseAlarmEvaluator {
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
     }
-    LanguageModel languageModel;
-    if (languageModelFileOrDir.isDirectory()) {
-      languageModel = new LuceneLanguageModel(languageModelFileOrDir);
-    } else {
-      languageModel = new MorfologikLanguageModel(languageModelFileOrDir);
-    }
+    LanguageModel languageModel = new LuceneLanguageModel(languageModelIndexDir);
     confusionRule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
     langTool.addRule(confusionRule);
   }
@@ -124,7 +118,7 @@ class RealWordFalseAlarmEvaluator {
   public static void main(String[] args) throws IOException {
     if (args.length != 2) {
       System.out.println("Usage: " + RealWordFalseAlarmEvaluator.class.getSimpleName() + " <languageModel> <sentenceDirectory>");
-      System.out.println("   <languageModel> is a morfologik file or Lucene directory with ngram frequency information");
+      System.out.println("   <languageModel> is a Lucene index with ngram frequency information");
       System.out.println("   <sentenceDirectory> is a directory with filenames like 'xx.txt' where 'xx' is the homophone");
       System.exit(1);
     }

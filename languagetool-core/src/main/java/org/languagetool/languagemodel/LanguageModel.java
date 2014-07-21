@@ -24,7 +24,9 @@ package org.languagetool.languagemodel;
  */
 public interface LanguageModel {
   
+  /** ngram sentence start marker - note: this is not in the v1 data from Google */
   public static final String GOOGLE_SENTENCE_START = "_START_";
+  /** ngram sentence end marker - note: this is not in the v1 data from Google */
   public static final String GOOGLE_SENTENCE_END = "_END_";
 
   public long getCount(String token1, String token2);

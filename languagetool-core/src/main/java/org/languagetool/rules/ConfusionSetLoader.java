@@ -26,7 +26,7 @@ import java.util.Scanner;
 /**
  * Loads a confusion set from a plain text file. Expects a file
  * where there is one confusion set per line, words separated by commas.
- * @since 2.6
+ * @since 2.7
  */
 public class ConfusionSetLoader {
 

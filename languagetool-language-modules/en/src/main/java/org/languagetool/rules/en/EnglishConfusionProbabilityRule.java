@@ -35,19 +35,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
     super(messages, languageModel);
   }
 
-  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, File networkFile) throws IOException {
-    super(messages, languageModel, networkFile);
-  }
-
   @Override
   public String getDescription() {
     return "Statistically detect wrong use of words that are easily confused";
   }
   
-  private void setDebug() {
-    super.setDebug(true);
-  }
-
   /**
    * For internal testing only.
    */
@@ -58,7 +50,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
     }
     LanguageModel languageModel = new LuceneLanguageModel(new File("/data/google-2gram-index/"));
     EnglishConfusionProbabilityRule rule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel);
-    rule.setDebug();
     JLanguageTool languageTool = new JLanguageTool(new English());
     AnalyzedSentence sentence = languageTool.getAnalyzedSentence(args[0]);
     System.out.println("Input: " + args[0]);

@@ -18,58 +18,41 @@
  */
 package org.languagetool.rules;
 
-import org.encog.ml.data.basic.BasicMLData;
-import org.encog.neural.networks.BasicNetwork;
-import org.encog.neural.networks.PersistBasicNetwork;
-import org.encog.persist.EncogPersistor;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.languagemodel.LanguageModel;
 
-import java.io.*;
-import java.text.NumberFormat;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
- * LanguageTool's version of After the Deadline's homophone confusion check.
+ * LanguageTool's homophone confusion check that uses ngram lookups
+ * to decide which word in a confusion set suits best.
+ * Inspired by After the Deadline.
+ * 
+ * @since 2.7
  */
 public abstract class ConfusionProbabilityRule extends Rule {
-
-  // This might be used to boost the trust in the original text so that alternatives
-  // only get selected when they are clearly higher:
-  private static final double TEXT_SCORE_ADVANTAGE = 0.0;
 
   @Override
   public abstract String getDescription();
 
+  // This might be used to boost the trust in the original text so that alternatives
+  // only get selected when they are clearly higher:
+  private static final double TEXT_SCORE_ADVANTAGE = 0.0;
   private static final String HOMOPHONES = "homophonedb.txt";
   
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
-  private final BasicNetwork network;
   
-  private boolean debug;
-
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
-    this(messages, languageModel, null);
-  }
-  
-  public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, File networkFile) throws IOException {
     super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
-    wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
+    this.wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
     this.languageModel = languageModel;
-    network = networkFile != null ? load(networkFile) : null;
-  }
-
-  private BasicNetwork load(File inputFile) throws IOException {
-    EncogPersistor persistor = new PersistBasicNetwork();
-    try (FileInputStream inputStream = new FileInputStream(inputFile)) {
-      Object read = persistor.read(inputStream);
-      return (BasicNetwork)read;
-    }
   }
 
   /** @deprecated used only for tests */
@@ -94,7 +77,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
       ConfusionSet confusionSet = wordToSet.get(token.getToken());
       boolean isEasilyConfused = confusionSet != null;
       if (isEasilyConfused) {
-        //System.out.println("*** isEasilyConfused:" + token.getToken());
         String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
         if (betterAlternative != null) {
           int endPos = token.getStartPos() + token.getToken().length();
@@ -114,48 +96,34 @@ public abstract class ConfusionProbabilityRule extends Rule {
     //
     // TODO: LT's tokenization is different to the Google one. E.g. Google "don't" vs LT "don ' t"
     //
-    String next = get(tokens, pos+1);
-    String next2 = get(tokens, pos+2);
-    String prev = get(tokens, pos-1);
-    String prev2 = get(tokens, pos-2);
+    String next = getStringAtOrNull(tokens, pos + 1);
+    String next2 = getStringAtOrNull(tokens, pos + 2);
+    String prev = getStringAtOrNull(tokens, pos - 1);
+    String prev2 = getStringAtOrNull(tokens, pos - 2);
     @SuppressWarnings("UnnecessaryLocalVariable")
     double textScore = score(token.getToken(), next, next2, prev, prev2) + TEXT_SCORE_ADVANTAGE;
     double bestScore = textScore;
     String betterAlternative = null;
-    NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
-    format.setMinimumIntegerDigits(16);
-    format.setMinimumFractionDigits(0);
-    format.setGroupingUsed(false);
-    if (debug) {
-      System.out.println();
-    }
     for (String alternative : confusionSet.set) {
       if (alternative.equalsIgnoreCase(token.getToken())) {
         // this is the text variant, calculated above already...
-        if (debug) {
-          System.out.println("  " + format.format(textScore) + ": " + alternative + " [input]");
-        }
         continue;
       }
       double alternativeScore = score(alternative, next, next2, prev, prev2);
-      if (debug) {
-        System.out.println("  " + format.format(alternativeScore) + ": " + alternative);
-      }
       if (alternativeScore > bestScore) {
         betterAlternative = alternative;
         bestScore = alternativeScore;
       }
     }
-    if (debug) {
-      System.out.println("  Result => " + betterAlternative);
-    }
     return betterAlternative;
   }
 
-  private String get(AnalyzedTokenReadings[] tokens, int i) {
+  private String getStringAtOrNull(AnalyzedTokenReadings[] tokens, int i) {
     if (i == -1) {
+      // Note: this is not in the v1 data from Google:
       return LanguageModel.GOOGLE_SENTENCE_START;
     } else if (i >= tokens.length) {
+      // Note: this is not in the v1 data from Google:
       return LanguageModel.GOOGLE_SENTENCE_END;
     } else if (i >= 0 && i < tokens.length) {
       return tokens[i].getToken();
@@ -163,81 +131,61 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return null;
   }
 
-  private double score(String option, String next, String next2, String prev, String prev2) {
-    // See misuseFeatures in AtD's lib/spellcheck.sl:
-    //misuseFeatures($current, $option, $options, $pre, $next, $tags, $pre2, $next2)]
-    //..................1........2.........3.......4......5......6......7......8
-    /*
-      postf       => Pbigram2($option, $next), Pbigram2(“word”, “next”): This method calculates P(word|next) or the probability of the specified word given the next word
-      pref        => Pbigram1($pre, $option), Pbigram1(“previous”, “word”): This method calculates P(word|previous) or the probability of the specified word given the previous word.
-      probability => Pword($option),
-      trigram     => Ptrigram($pre2, $pre, $option),
-      trigram2    => Ptrigram2($option, $next, $next2)
-      also see http://blog.afterthedeadline.com/2010/03/04/all-about-language-models/
-    */
-    //System.out.println("---------------------------");
-    //System.out.println(option + ", next " + next + ", prev: " + prev);
-
-    long ngram2left = languageModel.getCount(prev, option);
-    long ngram2right = languageModel.getCount(option, next);
+  /**
+   * Using only 3grams is the result of trying different variants with the Pedler corpus. It leads
+   * to slightly better results compared to using 2grams and 3grams combined, and it has the advantage
+   * of requiring less lookups.
+   * 
+   * This is the place to add a machine learning algorithm. However, according to 
+   * "Web-Scale N-gram Models for Lexical Disambiguation" (Bergsma, Lin, Goebel; 2009) this
+   * might improve the results only a little bit.
+   * 
+   * @param option the word in question
+   * @param next1 the next word
+   * @param next2 the word after the next word
+   */
+  private double score(String option, String next1, String next2, String prev1, String prev2) {
+    //long ngram2left = languageModel.getCount(prev, option);
+    //long ngram2right = languageModel.getCount(option, next);
     // TODO: the v1 of the Google ngram corpus contains no commas, so we should not try to look them up:
-    long ngram3 = languageModel.getCount(prev, option, next);
-    long ngram3left = languageModel.getCount(prev2, prev, option);
-    long ngram3right = languageModel.getCount(option, next, next2);
-    //System.out.printf("l:%d r:%d 3gram:%d (%s)\n", ngram1, ngram2, ngram3, prev + " " + option + " " + next);
-    //long ngram3 = 1;
+    long ngram3 = languageModel.getCount(prev1, option, next1);
+    long ngram3left = languageModel.getCount(prev2, prev1, option);
+    long ngram3right = languageModel.getCount(option, next1, next2);
+
+    //double val1 = Math.log(Math.max(1, ngram2left));
+    //double val2 = Math.log(Math.max(1, ngram2right));
+    double val3 = Math.log(Math.max(1, ngram3));
+    double val4 = Math.log(Math.max(1, ngram3left));
+    double val5 = Math.log(Math.max(1, ngram3right));
+
+    // baseline:
+    //double val = 1.0;  // f-measure: 0.3417 (perfect suggestions only)
     
-    // TODO: decide on an algorithm here that takes 1ngrams, 2grams and 3grams into account
-    
-    if (network != null) {
-      double value = network.compute(new BasicMLData(new double[]{ngram2left, ngram2right})).getData(0);
-      //System.out.println("***" + ngram1 + " - " + ngram2 + " => " + network.compute(new BasicMLData(new double[]{ngram1, ngram2})));
-      //return value > 0.5 ? 1 : 0;
-      return value;
-    } else {
-      // baseline:
-      //double val = 1.0;  // f-measure: 0.305 (perfect suggestions only)
-      
-      // 2grams only:
-      //double val = Math.max(1, ngram1) * Math.max(1, ngram2);  // f-measure: 0.5190 (perfect suggestions only)
-      //double val = Math.log(Math.max(1, ngram1)) * Math.log(Math.max(1, ngram2));  // f-measure: 0.5115 (perfect suggestions only)
-      //double val = ngram1 + ngram2;  // f-measure: 0.5026 (perfect suggestions only)
-      //double val = Math.log(ngram1) + Math.log(ngram2);  // f-measure: 0.5168 (perfect suggestions only)
+    // 2grams only:
+    //double val = val1 * val2;  // f-measure: 0.5115 (perfect suggestions only)
+    //double val = val1 + val2;  // f-measure: 0.5168 (perfect suggestions only)
 
-      // 2grams and 3grams:
-      double val1 = Math.log(Math.max(1, ngram2left));
-      double val2 = Math.log(Math.max(1, ngram2right));
-      double val3 = Math.log(Math.max(1, ngram3));
-      double val4 = Math.log(Math.max(1, ngram3left));
-      double val5 = Math.log(Math.max(1, ngram3right));
-      //double val = val1 * val2 * val3;  // f-measure: 0.4986 (perfect suggestions only)
-      //double val = val1 + val2 + val3;  // f-measure: 0.5203 (perfect suggestions only)
-      //double val = val1 + val2 + val3 + val4 + val5;  // f-measure: 0.5212 (perfect suggestions only)
+    // 2grams and 3grams:
+    //double val = val1 * val2 * val3;  // f-measure: 0.4986 (perfect suggestions only)
+    //double val = val1 + val2 + val3;  // f-measure: 0.5203 (perfect suggestions only)
+    //double val = val1 + val2 + val3 + val4 + val5;  // f-measure: 0.5212 (perfect suggestions only)
 
-      // 3grams only:
-      //double val = Math.max(1, ngram3);  // f-measure: 0.5038 (perfect suggestions only)
-      double val = val3 + val4 + val5;  // f-measure: 0.5292 (perfect suggestions only)
+    // 3grams only:
+    //double val = Math.max(1, ngram3);  // f-measure: 0.5038 (perfect suggestions only)
+    double val = val3 + val4 + val5;  // f-measure: 0.5292 (perfect suggestions only)
 
-      //System.out.printf(option + ": %f %f %f => %f\n", val1, val2, val3, val);
-      return val;
-    }
+    return val;
   }
 
   @Override
   public void reset() {
   }
 
-  protected void setDebug(boolean debug) {
-    this.debug = debug;
-  }
-
   public static class ConfusionSet {
-    Set<String> set = new HashSet<>();
-
+    private final Set<String> set = new HashSet<>();
     ConfusionSet(String... words) {
       Collections.addAll(this.set, words);
     }
-    
     public Set<String> getSet() {
       return set;
     }

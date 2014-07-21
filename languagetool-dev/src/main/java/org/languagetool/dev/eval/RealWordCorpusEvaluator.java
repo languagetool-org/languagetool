@@ -32,7 +32,7 @@ import java.util.List;
  * Runs LanguageTool on Jenny Pedler's Real-word Error Corpus, available at
  * http://www.dcs.bbk.ac.uk/~jenny/resources.html.
  * 
- * Results as of 2014-07-05 (pure LT without corpus data, i.e. without confusion rule):
+ * Results as of 2014-07-21 (pure LT without corpus data, i.e. without confusion rule):
  * <pre>
  * Counting matches, no matter whether the first suggestion is correct:
  * 147 out of 209 matches are real errors => 0,70 precision, 0,18 recall
@@ -43,7 +43,7 @@ import java.util.List;
  * => 0,3417 F(0.5) measure
  * </pre>
  * 
- * Results as of 2014-07-19 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * Results as of 2014-07-21 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.

@@ -35,6 +35,7 @@ import java.util.Map;
 
 /**
  * Information about ngram occurrences, taken from a Lucene index.
+ * @since 2.7
  */
 public class LuceneLanguageModel implements LanguageModel {
 
