@@ -35,27 +35,27 @@ import java.util.List;
  * Results as of 2014-07-05 (pure LT without corpus data, i.e. without confusion rule):
  * <pre>
  * Counting matches, no matter whether the first suggestion is correct:
- * 147 out of 214 matches are real errors => 68,69% precision, 17,67% recall
- * => 43,54 F(0.5) measure
+ * 147 out of 209 matches are real errors => 0,70 precision, 0,18 recall
+ * => 0,4406 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 103 out of 214 matches are real errors => 48,13% precision, 12,38% recall
- * => 30,51 F(0.5) measure
+ * 114 out of 209 matches are real errors => 0,55 precision, 0,14 recall
+ * => 0,3417 F(0.5) measure
  * </pre>
  * 
  * Results as of 2014-07-19 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.
- * Confusion rule matches: 116 perfect, 9 good, 12 bad ([piece, hear, led, tale, feel, buy, I, now, haul, write, hi, know])
+ * Confusion rule matches: 154 perfect, 8 good, 5 bad ([form, now, feel, now, very])
  *
  * Counting matches, no matter whether the first suggestion is correct:
- * 272 out of 346 matches are real errors => 0,79 precision, 0,33 recall
- * => 0,6137 F(0.5) measure
+ * 309 out of 376 matches are real errors => 0,82 precision, 0,37 recall
+ * => 0,6614 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 230 out of 346 matches are real errors => 0,66 precision, 0,28 recall
- * => 0,5190 F(0.5) measure
+ * 268 out of 376 matches are real errors => 0,71 precision, 0,32 recall
+ * => 0,5736 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
