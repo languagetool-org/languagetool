@@ -98,16 +98,16 @@ public class ManualTagger {
     return map;
   }
 
-}
+  private class LookedUpTerm {
 
-class LookedUpTerm {
+    final String baseform;
+    final String posTags;
 
-  String baseform;
-  String posTags;
+    LookedUpTerm(String baseform, String posTags) {
+      this.baseform = baseform;
+      this.posTags = posTags;
+    }
 
-  LookedUpTerm(final String baseform, final String posTags) {
-    this.baseform = baseform;
-    this.posTags = posTags;
   }
 
 }
