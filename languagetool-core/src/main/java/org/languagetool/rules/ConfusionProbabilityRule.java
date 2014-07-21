@@ -36,6 +36,10 @@ import java.util.*;
  */
 public abstract class ConfusionProbabilityRule extends Rule {
 
+  // This might be used to boost the trust in the original text so that alternatives
+  // only get selected when they are clearly higher:
+  private static final double TEXT_SCORE_ADVANTAGE = 0.0;
+
   @Override
   public abstract String getDescription();
 
@@ -115,13 +119,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     String prev = get(tokens, pos-1);
     String prev2 = get(tokens, pos-2);
     @SuppressWarnings("UnnecessaryLocalVariable")
-    //double textScore = score(token.getToken(), next, next2, prev, prev2) - 10_000;  // 47,66 f 0.5 measure 
-    double textScore = score(token.getToken(), next, next2, prev, prev2) + 0;  // 48.97
-    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 25_000;  // 49,15
-    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 1_000_000;  // 48,82
-    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 10_000_000;  // 48,53
-    //double textScore = score(token.getToken(), next, next2, prev, prev2) + 100_000_000;  // 48,01
-    //double textScore = Double.MAX_VALUE; // 30,15
+    double textScore = score(token.getToken(), next, next2, prev, prev2) + TEXT_SCORE_ADVANTAGE;
     double bestScore = textScore;
     String betterAlternative = null;
     NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
@@ -148,9 +146,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
         bestScore = alternativeScore;
       }
     }
-    //if (bestScore == 0) {
-    //  System.out.println("!!! all alternatives zero @ " + token.getToken());
-    //}
     if (debug) {
       System.out.println("  Result => " + betterAlternative);
     }
@@ -200,21 +195,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
       //return value > 0.5 ? 1 : 0;
       return value;
     } else {
-      // return 0.0*ngram1 + ngram2;  // 31,18% recall
-      //return 0.2*ngram1 + ngram2;  // 31,41%
-      //return 0.6*ngram1 + ngram2;  // 31,77%
-      //return 1.0*ngram1 + ngram2;  // 31,89%
-      //return 1.4*ngram1 + ngram2;  // 32,13%
-      //return 5*ngram1 + ngram2;  // 32,25%
-      //return 10*ngram1 + ngram2;  // 32,49%
-      //return 20*ngram1 + ngram2;  // 32,61%
-      //return 100*ngram1 + ngram2;  // 32,73%
-      //return 500*ngram1 + ngram2;  // 32,97%
-      //return 1000*ngram1 + ngram2;  // 33,09% <==
-      //return 2000*ngram1 + ngram2;  // 32,97%
-      //return 5000*ngram1 + ngram2;  // 32,85%
-      //return ngram1;  // 30,70%
-
       // baseline:
       //double val = 1.0;  // f-measure: 0.305 (perfect suggestions only)
       
