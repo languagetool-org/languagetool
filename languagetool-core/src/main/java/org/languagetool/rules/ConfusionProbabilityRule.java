@@ -213,7 +213,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
       //double val = 1.0;  // f-measure: 0.305 (perfect suggestions only)
       
       // 2grams only:
-      double val = Math.max(1, ngram1) * Math.max(1, ngram2);  // f-measure: 0.490 (perfect suggestions only)
+      double val = Math.max(1, ngram1) * Math.max(1, ngram2);  // f-measure: 0.5190 (perfect suggestions only)
+      //double val = Math.log(Math.max(1, ngram1)) * Math.log(Math.max(1, ngram2));  // f-measure: 0.5115 (perfect suggestions only)
+      //double val = ngram1 + ngram2;  // f-measure: 0.5026 (perfect suggestions only)
+      //double val = Math.log(ngram1) + Math.log(ngram2);  // f-measure: 0.5168 (perfect suggestions only)
 
       // 2grams and 3grams:
       //double val1 = Math.log(Math.max(1, ngram1));  // use Math.log to avoid huge number causing overflows
