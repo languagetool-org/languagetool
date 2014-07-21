@@ -162,7 +162,8 @@ public class CommandLineOptions {
   }
 
   /**
-   * @since 2.6
+   * @since 2.7
+   * @return a directory with Lucene index sub directories like ({@code 3grams}) or {@code null}
    */
   public File getLanguageModel() {
     return languageModel;

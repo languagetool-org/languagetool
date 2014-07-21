@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.en.*;
@@ -55,6 +56,7 @@ public class English extends Language {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
   private WordTokenizer wordTokenizer;
+  private LuceneLanguageModel languageModel;
   private String name = "English";
 
   @Override
@@ -134,6 +136,14 @@ public class English extends Language {
   }
 
   @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(indexDir);
+    }
+    return languageModel;
+  }
+
+  @Override
   public final Contributor[] getMaintainers() {
     return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
@@ -158,9 +168,9 @@ public class English extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, File indexDir) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
-            new EnglishConfusionProbabilityRule(messages, new LuceneLanguageModel(indexDir))
+        new EnglishConfusionProbabilityRule(messages, languageModel)
     );
   }
 

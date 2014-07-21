@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -309,12 +310,17 @@ public class JLanguageTool {
   }
 
   /**
+   * Activate rules that depend on a language model. The language model is a Lucene
+   * index with ngram occurrence counts.
    * @since 2.7
    */
   public void activateLanguageModelRules(File indexDir) throws IOException {
     ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
-    List<Rule> rules = language.getRelevantLanguageModelRules(messages, indexDir);
-    userRules.addAll(rules);
+    LanguageModel languageModel = language.getLanguageModel(indexDir);
+    if (languageModel != null) {
+      List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
+      userRules.addAll(rules);
+    }
   }
 
   /**

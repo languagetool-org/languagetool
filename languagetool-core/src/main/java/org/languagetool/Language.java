@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
@@ -218,9 +219,18 @@ public abstract class Language {
   // -------------------------------------------------------------------------
 
   /**
+   * @param indexDir directory with a '3grams' sub directory which contains a Lucene index with 3gram occurrence counts
+   * @return a LanguageModel or {@code null} if this language doesn't support one
    * @since 2.7
    */
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, File indexDir) throws IOException {
+  public LanguageModel getLanguageModel(File indexDir) throws IOException {
+    return null;
+  }
+
+  /**
+   * @since 2.7
+   */
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Collections.emptyList();
   }
 

@@ -18,14 +18,9 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ConfusionProbabilityRule;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -42,7 +37,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
   
   /**
    * For internal testing only.
-   */
+   *
   public static void main(String[] args) throws IOException {
     if (args.length != 1) {
       System.out.println("Usage: " + EnglishConfusionProbabilityRule.class.getSimpleName() + " <sentence>");
@@ -54,6 +49,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
     AnalyzedSentence sentence = languageTool.getAnalyzedSentence(args[0]);
     System.out.println("Input: " + args[0]);
     rule.match(sentence);  // we only want to see the debugging output
-  }
+  }*/
 
 }
