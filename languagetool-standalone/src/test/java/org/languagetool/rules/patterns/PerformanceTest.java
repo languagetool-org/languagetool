@@ -39,6 +39,7 @@ final class PerformanceTest {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     int sentenceCount = langTool.sentenceTokenize(text).size();
     langTool.activateDefaultPatternRules();
+    //langTool.activateLanguageModelRules(new File("/data/google-gram-index/"));
     System.out.println("Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
 
     System.out.println("Warmup...");
@@ -51,6 +52,11 @@ final class PerformanceTest {
     System.out.println("Checking text...");
     long startTime2 = System.currentTimeMillis();
     langTool.check(text);
+    //List<RuleMatch> matches = langTool.check(text);
+    //for (RuleMatch match : matches) {
+    //  System.out.println(match);
+    //}
+    System.out.println();
     long runTime2 = System.currentTimeMillis() - startTime2;
     float timePerSentence2 = (float)runTime2 / sentenceCount;
     System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
