@@ -43,19 +43,19 @@ import java.util.List;
  * => 0,3417 F(0.5) measure
  * </pre>
  * 
- * Results as of 2014-07-21 (LT with 2grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * Results as of 2014-07-22 (LT with 3grams from Google ngram index, in form of a Lucene index), with a cleaned
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.
  * Confusion rule matches: 167 perfect, 8 good, 8 bad ([form, now, to, feel, now, too, too, very])
  *
  * Counting matches, no matter whether the first suggestion is correct:
- * 322 out of 392 matches are real errors => 0,82 precision, 0,39 recall
- * => 0,6708 F(0.5) measure
+ * 322 out of 390 matches are real errors => 0,83 precision, 0,39 recall
+ * => 0,6731 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 281 out of 392 matches are real errors => 0,72 precision, 0,34 recall
- * => 0,5854 F(0.5) measure
+ * 281 out of 390 matches are real errors => 0,72 precision, 0,34 recall
+ * => 0,5874 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
