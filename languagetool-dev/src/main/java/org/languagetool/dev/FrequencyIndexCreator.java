@@ -158,7 +158,7 @@ public class FrequencyIndexCreator {
 
   private void printStats(int i, long docCount, long lineCount, String prevText, long startTimeMicros) {
     long microsNow = System.nanoTime()/1000;
-    float millisPerDoc = (microsNow-startTimeMicros)/i;
+    float millisPerDoc = (microsNow-startTimeMicros)/Math.max(1, i);
     NumberFormat format = NumberFormat.getNumberInstance(Locale.US);
     System.out.printf("doc:%s line:%s ngram:%s occ:%s (%.0fµs/doc)\n",
             format.format(i), format.format(lineCount),
