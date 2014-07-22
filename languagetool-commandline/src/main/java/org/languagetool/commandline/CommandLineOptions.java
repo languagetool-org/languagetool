@@ -191,10 +191,12 @@ public class CommandLineOptions {
     this.enabledRules = enabledRules;
   }
 
+  /** @since 2.7 */
   public boolean getUseEnabledOnly() {
     return useEnabledOnly;
   }
-  
+
+  /** @since 2.7 */
   public void setUseEnabledOnly() {
     this.useEnabledOnly = true;
   }
