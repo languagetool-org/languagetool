@@ -54,8 +54,8 @@ import java.util.List;
  * => 0,6644 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 271 out of 379 matches are real errors => 0,72 precision, 0,33 recall
- * => 0,5771 F(0.5) measure
+ * 275 out of 379 matches are real errors => 0,73 precision, 0,33 recall
+ * => 0,5856 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",

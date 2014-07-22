@@ -54,7 +54,7 @@ public class ErrorSentence {
           if (correctedByRule.equals(correctedByCorpus)) {
             return true;
           }
-          if (error.getCorrection().equals(firstSuggestion)) {
+          if (error.getCorrection().equalsIgnoreCase(firstSuggestion)) {
             return true;
           }
         }
