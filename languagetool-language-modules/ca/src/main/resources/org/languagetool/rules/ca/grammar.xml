@@ -11785,6 +11785,28 @@ $Id$
         </rulegroup>
     </category>
     <category name="Errors ortogràfics" type="misspelling">
+        <rule id="PRET_A_PORTER" name="prêt-à-porter">
+            <antipattern>
+                <token>prêt</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">à</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">porter</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">pr[éèêe]t</token>
+                <token min="0">-</token>
+                <token regexp="yes">[áàâa]</token>
+                <token min="0">-</token>
+                <token regexp="yes">p[oòóô]rt[eèéê]r?</token>
+            </pattern>
+            <message>Error ortogràfic.</message>
+            <suggestion>prêt-à-porter</suggestion>
+            <example type="incorrect" correction="prêt-à-porter"><marker>pret-a porter</marker>.</example>
+            <example type="incorrect" correction="prêt-à-porter"><marker>prèt a porté</marker>.</example>
+            <example type="incorrect" correction="prêt-à-porter"><marker>prêt- à-porter</marker>.</example>
+            <example type="correct">prêt-à-porter</example>
+        </rule>
         <rule id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
             <pattern>
                 <and>
