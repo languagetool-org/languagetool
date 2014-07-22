@@ -28,10 +28,7 @@ import org.apache.lucene.store.FSDirectory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Information about ngram occurrences, taken from a Lucene index.
@@ -67,6 +64,9 @@ public class LuceneLanguageModel implements LanguageModel {
 
   @Override
   public long getCount(String token1, String token2, String token3) {
+    Objects.requireNonNull(token1);
+    Objects.requireNonNull(token2);
+    Objects.requireNonNull(token3);
     Term term = new Term("ngram", token1 + " " + token2 + " " + token3);
     LuceneSearcher luceneSearcher = getLuceneSearcher(3);
     return getCount(term, luceneSearcher);

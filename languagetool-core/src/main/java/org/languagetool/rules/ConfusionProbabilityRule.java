@@ -132,11 +132,11 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   private String getStringAtOrNull(AnalyzedTokenReadings[] tokens, int i) {
     if (i == -1) {
-      // Note: this is not in the v1 data from Google:
-      return LanguageModel.GOOGLE_SENTENCE_START;
+      // Note: we should use LanguageModel.GOOGLE_SENTENCE_START, but this is not in the v1 data from Google:
+      return null;
     } else if (i >= tokens.length) {
-      // Note: this is not in the v1 data from Google:
-      return LanguageModel.GOOGLE_SENTENCE_END;
+      // Note: we should use LanguageModel.GOOGLE_SENTENCE_END, but this is not in the v1 data from Google:
+      return null;
     } else if (i >= 0 && i < tokens.length) {
       return tokens[i].getToken();
     }
@@ -157,12 +157,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
    * @param next2 the word after the next word
    */
   private double score(String option, String next1, String next2, String prev1, String prev2) {
+    Objects.requireNonNull(option);
     //long ngram2left = languageModel.getCount(prev, option);
     //long ngram2right = languageModel.getCount(option, next);
-    // TODO: the v1 of the Google ngram corpus contains no commas, so we should not try to look them up:
-    long ngram3 = languageModel.getCount(prev1, option, next1);
-    long ngram3left = languageModel.getCount(prev2, prev1, option);
-    long ngram3right = languageModel.getCount(option, next1, next2);
+    // the values may be null, see getStringAtOrNull():
+    long ngram3      = (prev1 != null && next1 != null) ? languageModel.getCount(prev1, option, next1) : 0;
+    long ngram3left  = (prev2 != null && prev1 != null) ? languageModel.getCount(prev2, prev1, option) : 0;
+    long ngram3right = (next1 != null && next2 != null) ? languageModel.getCount(option, next1, next2) : 0;
 
     //double val1 = Math.log(Math.max(1, ngram2left));
     //double val2 = Math.log(Math.max(1, ngram2right));
