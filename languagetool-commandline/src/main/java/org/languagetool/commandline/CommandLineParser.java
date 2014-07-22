@@ -67,16 +67,10 @@ public class CommandLineParser {
         if (options.getUseEnabledOnly()) {
           throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
         }
-        //if (options.getEnabledRules().length > 0) {
-        //  throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
-        //}
         checkArguments("-d/--disable", i, args);
         final String rules = args[++i];
         options.setDisabledRules(rules.split(","));
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
-        //if (options.getDisabledRules().length > 0) {
-        //  throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
-        //}
         checkArguments("-e/--enable", i, args);
         final String rules = args[++i];
         options.setEnabledRules(rules.split(","));
