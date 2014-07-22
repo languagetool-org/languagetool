@@ -6775,6 +6775,12 @@ USA
             <example type="correct">Does memory usage <marker>grow</marker> during processing?</example>
         </rule>
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
+            <antipattern>
+                <token>it</token>
+                <token min="0" max="1" postag="RB"/>
+                <token>second</token>
+                <token>hand</token>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
