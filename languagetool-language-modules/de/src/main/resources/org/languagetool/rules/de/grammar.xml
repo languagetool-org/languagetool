@@ -8139,6 +8139,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/sprachwissen/sprachratgeber/infinitiv-mit-zu</url>
             <!-- Siehe auch die Regel ZU_ZUMUTEN. -->
             <antipattern>
+                <token inflected="yes" skip="2">hören</token>
+                <token>auf</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">hör</token>
+                <token>auf</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>ab</token>
+                <token>zu</token>
+                <token regexp="yes">bewegen|lernen|kommen</token>
+            </antipattern>
+            <antipattern>
                 <token>aus</token>
                 <token>zu</token>
                 <token regexp="yes">sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
@@ -8147,7 +8162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- 'gibt es nach wie vor zu kaufen' -->
                 <token>vor</token>
                 <token>zu</token>
-                <token>kaufen</token>
+                <token regexp="yes">kaufen|tun|speisen|heiraten|bleiben|betrachten|beginnen|diskutieren</token>
             </antipattern>
             <antipattern>
                 <token>zugunsten</token>
@@ -8192,6 +8207,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>außer</exception>
                         <exception>zufolge</exception>
                         <exception>seitlich</exception>
+                        <exception>wegen</exception>
+                        <exception>für</exception>
                     </token>
                     <token>zu</token>
                     <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes">einigen|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten|beeinflussen|erreichen</exception></token>
