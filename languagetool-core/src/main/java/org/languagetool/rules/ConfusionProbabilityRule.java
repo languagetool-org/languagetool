@@ -71,13 +71,14 @@ public abstract class ConfusionProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+    AnalyzedTokenReadings[] noCommaTokens = filterCommas(tokens);  // NOTE: only valid for Google ngram v1!
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
-    for (AnalyzedTokenReadings token : tokens) {
+    for (AnalyzedTokenReadings token : noCommaTokens) {
       ConfusionSet confusionSet = wordToSet.get(token.getToken());
       boolean isEasilyConfused = confusionSet != null;
       if (isEasilyConfused) {
-        String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
+        String betterAlternative = getBetterAlternativeOrNull(noCommaTokens, pos, confusionSet);
         if (betterAlternative != null) {
           int endPos = token.getStartPos() + token.getToken().length();
           RuleMatch match = new RuleMatch(this, token.getStartPos(), endPos, "Did you maybe mean '" + betterAlternative + "'?");
@@ -88,6 +89,17 @@ public abstract class ConfusionProbabilityRule extends Rule {
       pos++;
     }
     return matches.toArray(new RuleMatch[matches.size()]);
+  }
+
+  // Google ngram v1 doesn't contain commas
+  private AnalyzedTokenReadings[] filterCommas(AnalyzedTokenReadings[] tokens) {
+    List<AnalyzedTokenReadings> result = new ArrayList<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      if (!",".equals(token.getToken())) {
+        result.add(token);
+      }
+    }
+    return result.toArray(new AnalyzedTokenReadings[result.size()]);
   }
 
   // non-private for tests
