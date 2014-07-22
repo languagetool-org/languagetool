@@ -40,6 +40,9 @@ public class LuceneLanguageModel implements LanguageModel {
   private final Map<Integer,LuceneSearcher> luceneSearcherMap = new HashMap<>();
   
   public LuceneLanguageModel(File topIndexDir) throws IOException {
+    if (!topIndexDir.exists() || !topIndexDir.isDirectory()) {
+      throw new RuntimeException("Not found or is not a directory: " + topIndexDir);
+    }
     addIndex(topIndexDir, 2);
     addIndex(topIndexDir, 3);
     if (luceneSearcherMap.size() == 0) {
