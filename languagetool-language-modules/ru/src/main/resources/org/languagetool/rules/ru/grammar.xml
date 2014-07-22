@@ -1102,8 +1102,9 @@ $Id$
         </rulegroup>
     </category>
     <category name="Типографика">
-           <rule default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
-            <pattern>
+        <rulegroup default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
+            <rule>
+               <pattern>
                 <token>«</token>
                 <token>«</token>
             </pattern>
@@ -1112,7 +1113,19 @@ $Id$
             <short>Кавычки одного рисунка рядом не повторяются.</short>
             <example type="correct">«Цыганы» мои не продаются вовсе», — сетовал Пушкин.</example>
             <example type="incorrect"><marker>««</marker>Цыганы» мои не продаются вовсе», — сетовал Пушкин.</example>
-        </rule>
+           </rule>
+           <rule>
+               <pattern>
+                <token>»</token>
+                <token>»</token>
+            </pattern>
+            <message>Кавычки не соответствуют нормам типографики. Кавычки одного рисунка рядом не повторяются: <suggestion>»</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9A%D0%B0%D0%B2%D1%8B%D1%87%D0%BA%D0%B8</url>
+            <short>Кавычки одного рисунка рядом не повторяются.</short>
+            <example type="correct">«Цыганы» мои не продаются вовсе», — сетовал Пушкин.</example>
+            <example type="incorrect">«Цыганы<marker>»»</marker> мои не продаются вовсе», — сетовал Пушкин.</example>
+           </rule>
+        </rulegroup>
         <rule default="off" id="KAVITCHKI" name="„ → ”">
             <pattern>
                 <token>“</token>
