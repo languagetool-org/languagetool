@@ -96,7 +96,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
 
-       <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
+        <rule id="GEBRAUCHTSPUREN" name="Gebrauchtspuren (Gebrauchsspuren)">
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>Gebrauchtspur.*</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="Gebrauchtspur" regexp_replace="Gebrauchsspur"/></suggestion>?</message>
+            <example type='incorrect' correction="Gebrauchsspuren">Die Ware hat deutliche <marker>Gebrauchtspuren</marker>.</example>
+            <example type='correct'>Die Ware hat deutliche <marker>Gebrauchsspuren</marker>.</example>
+        </rule>
+        <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
            <antipattern>
                <token>im</token>
                <token>sog</token>
