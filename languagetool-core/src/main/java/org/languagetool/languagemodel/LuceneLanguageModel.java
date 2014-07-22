@@ -72,7 +72,9 @@ public class LuceneLanguageModel implements LanguageModel {
     Objects.requireNonNull(token3);
     Term term = new Term("ngram", token1 + " " + token2 + " " + token3);
     LuceneSearcher luceneSearcher = getLuceneSearcher(3);
-    return getCount(term, luceneSearcher);
+    long count = getCount(term, luceneSearcher);
+    //System.out.println("Lookup: " + token1 + " " + token2 + " " + token3 + " => " + count);
+    return count;
   }
 
   private LuceneSearcher getLuceneSearcher(int ngramSize) {

@@ -41,7 +41,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
 
   // This might be used to boost the trust in the original text so that alternatives
   // only get selected when they are clearly higher (a test as of 2014-07-22 did not
-  // show any effect towards a better precision when setting this to > 0.0):
+  // show any effect towards a better precision when setting this to > 0.0 on the Pedler
+  // corpus, but setting e.g. 5.0 improves precision for Wikipedia texts):
   private static final double TEXT_SCORE_ADVANTAGE = 0.0;
   private static final String HOMOPHONES = "homophonedb.txt";
   
@@ -72,14 +73,13 @@ public abstract class ConfusionProbabilityRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    AnalyzedTokenReadings[] noCommaTokens = filterCommas(tokens);  // NOTE: only valid for Google ngram v1!
     List<RuleMatch> matches = new ArrayList<>();
     int pos = 0;
-    for (AnalyzedTokenReadings token : noCommaTokens) {
+    for (AnalyzedTokenReadings token : tokens) {
       ConfusionSet confusionSet = wordToSet.get(token.getToken());
       boolean isEasilyConfused = confusionSet != null;
       if (isEasilyConfused) {
-        String betterAlternative = getBetterAlternativeOrNull(noCommaTokens, pos, confusionSet);
+        String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
         if (betterAlternative != null) {
           int endPos = token.getStartPos() + token.getToken().length();
           RuleMatch match = new RuleMatch(this, token.getStartPos(), endPos, "Did you maybe mean '" + betterAlternative + "'?");
@@ -92,17 +92,6 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return matches.toArray(new RuleMatch[matches.size()]);
   }
 
-  // Google ngram v1 doesn't contain commas
-  private AnalyzedTokenReadings[] filterCommas(AnalyzedTokenReadings[] tokens) {
-    List<AnalyzedTokenReadings> result = new ArrayList<>();
-    for (AnalyzedTokenReadings token : tokens) {
-      if (!",".equals(token.getToken())) {
-        result.add(token);
-      }
-    }
-    return result.toArray(new AnalyzedTokenReadings[result.size()]);
-  }
-
   // non-private for tests
   String getBetterAlternativeOrNull(AnalyzedTokenReadings[] tokens, int pos, ConfusionSet confusionSet) {
     AnalyzedTokenReadings token = tokens[pos];
@@ -113,6 +102,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
     String next2 = getStringAtOrNull(tokens, pos + 2);
     String prev = getStringAtOrNull(tokens, pos - 1);
     String prev2 = getStringAtOrNull(tokens, pos - 2);
+    if ((next + next2 + prev + prev2).contains(",")) {
+      // v1 of Google ngram corpus doesn't contain commas, so we better stop instead of getting confused:
+      return null;
+    }
     @SuppressWarnings("UnnecessaryLocalVariable")
     double textScore = score(token.getToken(), next, next2, prev, prev2) + TEXT_SCORE_ADVANTAGE;
     double bestScore = textScore;
@@ -187,6 +180,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     // 3grams only:
     //double val = Math.max(1, ngram3);  // f-measure: 0.5038 (perfect suggestions only)
     double val = val3 + val4 + val5;  // f-measure: 0.5292 (perfect suggestions only)
+    //System.out.println("=> " + option + ": " + val3 + ", " + val4 + ", " + val5 + " = " + val);
 
     return val;
   }
