@@ -40,7 +40,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
   public abstract String getDescription();
 
   // This might be used to boost the trust in the original text so that alternatives
-  // only get selected when they are clearly higher:
+  // only get selected when they are clearly higher (a test as of 2014-07-22 did not
+  // show any effect towards a better precision when setting this to > 0.0):
   private static final double TEXT_SCORE_ADVANTAGE = 0.0;
   private static final String HOMOPHONES = "homophonedb.txt";
   
