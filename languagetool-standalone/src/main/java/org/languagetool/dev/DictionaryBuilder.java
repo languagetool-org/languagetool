@@ -152,11 +152,11 @@ class DictionaryBuilder {
       }
       br.close();
     } catch (IOException e) {
-      System.out.println("Cannot read file: " + freqListFile.getAbsolutePath());
+      throw new RuntimeException("Cannot read file: " + freqListFile.getAbsolutePath());
     }
   }
   
-  protected File addFreqData(File dictFile) throws Exception {
+  protected File addFreqData(File dictFile) throws IOException {
     if (!isOptionTrue("fsa.dict.frequency-included")) {
       throw new IOException("In order to use frequency data add the line 'fsa.dict.frequency-included=true' to the dictionary info file.");
     }
@@ -192,7 +192,7 @@ class DictionaryBuilder {
       bw.close();
       System.out.println(freqList.size() + " frequency values applied in " + freqValuesApplied + " word forms.");
     } catch (IOException e) {
-      System.out.println("Cannot read file: " + dictFile.getAbsolutePath());
+      throw new RuntimeException("Cannot read file: " + dictFile.getAbsolutePath());
     }
     tempFile.deleteOnExit();
     return tempFile;
