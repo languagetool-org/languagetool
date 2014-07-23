@@ -130,7 +130,7 @@ class DictionaryBuilder {
     return props.getProperty(option).trim();
   }
 
-  private boolean hasOption(String option) {
+  protected boolean hasOption(String option) {
     return props.getProperty(option) != null; 
   }
   
