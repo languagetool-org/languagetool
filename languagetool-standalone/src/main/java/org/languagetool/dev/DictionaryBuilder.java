@@ -139,10 +139,11 @@ class DictionaryBuilder {
   }
   
   protected void readFreqList(File freqListFile) {
-    try {
-      BufferedReader br = new BufferedReader(new InputStreamReader(
-          new FileInputStream(freqListFile.getAbsoluteFile()),
-          "utf-8"));
+    try (
+      FileInputStream fis = new FileInputStream(freqListFile.getAbsoluteFile());
+      InputStreamReader reader = new InputStreamReader(fis, "utf-8");
+      BufferedReader br = new BufferedReader(reader)
+    ) {
       String line;
       while ((line = br.readLine()) != null) {
         Matcher m = pFreqEntry.matcher(line);
@@ -150,7 +151,6 @@ class DictionaryBuilder {
           freqList.put(m.group(3), Integer.parseInt(m.group(1)));
         }
       }
-      br.close();
     } catch (IOException e) {
       throw new RuntimeException("Cannot read file: " + freqListFile.getAbsolutePath());
     }
