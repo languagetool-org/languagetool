@@ -125,7 +125,7 @@ USA
 		<example type='correct'><marker>எந்தப் பக்கம்</marker> பார்த்தாலும் ஒரே மக்கள் கூட்டம்.</example>
 	  </rule>
 	</rulegroup>
-    <rulegroup id="End_in_A_2" name="முதல் சொல்லின் இறுதி எழுத்து அ (2)">
+    <rulegroup id="Ends_in_A_2" name="முதல் சொல்லின் இறுதி எழுத்து அ (2)">
         <rule>
             <pattern>
                 <token postag='VAN'><exception regexp='yes'>(([ஃ-ஹ][ா-்]?)+)[ா-்]</exception></token>
@@ -171,8 +171,7 @@ USA
             <example type='correct'>அவனை அவர் எப்படியாவது <marker>பழிவாங்கப் பார்த்தார்</marker>.</example>
         </rule>
     </rulegroup>
-
-    <rulegroup id="End_in_A_3" name="முதல் சொல்லின் இறுதி எழுத்து அ (3)">
+    <rulegroup id="Ends_in_A_3" name="முதல் சொல்லின் இறுதி எழுத்து அ (3)">
         <rule>
             <pattern>
                 <token regexp='yes'>சரிவர|கூட|மிக|விட|போல</token>
@@ -217,6 +216,53 @@ USA
             <example type='incorrect'>அவனது சொந்த தாய் <marker>கூட பயந்து</marker> கொண்டு அவனைப் பார்க்க வருவதில்லை.</example>
             <example type='correct'>அவனது சொந்த தாய் <marker>கூடப் பயந்து</marker> கொண்டு அவனைப் பார்க்க வருவதில்லை.</example>
         </rule>
+    </rulegroup>
+
+	<rulegroup id="Ends_in_A_4" name="முதல் சொல்லின் இறுதி எழுத்து அ (4)">
+		<rule>
+            <pattern>
+                <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)+)([கசடதபறணமனயரலவழள]ாக))</token>
+                <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
+            </pattern>
+            <message>'ஆக' என்ற வினையடை விகுதியின் பின் ஒற்று மிகும். <suggestion>\1க் \2</suggestion> என்பதே சரி.</message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <short>அ-வில் முடியும் சொல்பின்</short>
+            <example type='incorrect'><marker>அவனாக கற்க</marker> முன்வந்தால்தான் ஆச்சு.</example>
+            <example type='correct'><marker>அவனாகக் கற்க</marker> முன்வந்தால்தான் ஆச்சு.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)+)([கசடதபறணமனயரலவழள]ாக))</token>
+                <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
+            </pattern>
+            <message>'ஆக' என்ற வினையடை விகுதியின் பின் ஒற்று மிகும். <suggestion>\1ச் \2</suggestion> என்பதே சரி.</message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <short>அ-வில் முடியும் சொல்பின்</short>
+            <example type='incorrect'>அவர் <marker>காரமாக சமையலைச்</marker> செய்தார்.</example>
+            <example type='correct'>அவர் <marker>காரமாகச் சமையலைச்</marker> செய்தார்.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)+)([கசடதபறணமனயரலவழள]ாக))</token>
+                <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
+            </pattern>
+            <message>'ஆக' என்ற வினையடை விகுதியின் பின் ஒற்று மிகும். <suggestion>\1த் \2</suggestion> என்பதே சரி.</message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <short>அ-வில் முடியும் சொல்பின்</short>
+            <example type='incorrect'><marker>தானாக தோன்ற</marker> நீ என்ன கடவுளா?</example>
+            <example type='correct'><marker>தானாகத் தோன்ற</marker> நீ என்ன கடவுளா?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)+)([கசடதபறணமனயரலவழள]ாக))</token>
+                <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
+            </pattern>
+            <message>'ஆக' என்ற வினையடை விகுதியின் பின் ஒற்று மிகும். <suggestion>\1ப் \2</suggestion> என்பதே சரி.</message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <short>அ-வில் முடியும் சொல்பின்</short>
+            <example type='incorrect'>காரியத்தை <marker>அழகாக பேசி</marker> சாதிக்கச் சொன்னார்.</example>
+            <example type='correct'>காரியத்தை <marker>அழகாகப் பேசி</marker> சாதிக்கச் சொன்னார்.</example>
+        </rule> 
     </rulegroup>
 	
     </category>
