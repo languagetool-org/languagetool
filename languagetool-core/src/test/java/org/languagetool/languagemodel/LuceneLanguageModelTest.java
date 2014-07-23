@@ -46,7 +46,7 @@ public class LuceneLanguageModelTest extends LanguageModelTest {
     //super.testPerformance(model, 2);
     // 3grams:
     //LanguageModel model = new LuceneLanguageModel(new File("/media/Data/google-ngram/3gram/aggregated/lucene-index/merged/"));
-    LanguageModel model = new LuceneLanguageModel(new File("/data/google-3gram-index/"));
+    LanguageModel model = new LuceneLanguageModel(new File("/data/google-gram-index/"));
     super.testPerformance(model, 3);
   }
   

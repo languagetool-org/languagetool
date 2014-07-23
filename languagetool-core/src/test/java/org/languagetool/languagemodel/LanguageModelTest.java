@@ -43,11 +43,13 @@ public class LanguageModelTest {
         }
         if (prevWord != null) {
           long t1 = System.nanoTime()/1000;
-          long count;
+          long count = 0;
           if (ngramLength == 2) {
             count = model.getCount(prevWord, word);
           } else if (ngramLength == 3) {
-            count = model.getCount(prevPrevWord, prevWord, word);
+            if (prevPrevWord != null) {
+              count = model.getCount(prevPrevWord, prevWord, word);
+            }
           } else {
             throw new IllegalArgumentException("ngram length not supported: " + ngramLength);
           }
