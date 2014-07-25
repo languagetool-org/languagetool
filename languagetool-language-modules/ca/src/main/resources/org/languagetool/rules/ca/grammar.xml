@@ -14128,7 +14128,7 @@ $Id$
                     <marker>
                         <token>es<exception postag="DA0MN0|.*LOC_ADV.*|(&lt;)?NP.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception postag="V.[^NPG].3.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">['"‘“«]|mig|ben</exception></token>
+                    <token><exception postag="V.[^NPG].3.*|_possible_nompropi" postag_regexp="yes"/><exception regexp="yes">['"‘“«]|mig|ben|dona</exception></token>
                 </pattern>
                 <message>S'accentua quan és del verb "ser".</message>
                 <suggestion>és</suggestion>
@@ -14159,6 +14159,20 @@ $Id$
                 <example type="correct">es "carrega"</example>
                 <example type="correct">es ben mereixeria</example>
                 <example type="correct">es mig situava</example>
+            </rule>
+            <rule id="ES_DONA" name="*es dona/es dóna/és dona">
+                <pattern>
+                    <marker>
+                        <token>es</token>
+                        <token>dona</token>
+                    </marker>
+                </pattern>
+                <message>Si és del verb donar, s'accentua "dóna". Si "dona" és nom, s'accentua "és".</message>
+                <suggestion>es dóna</suggestion>
+                <suggestion>és dona</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="Es dóna|És dona"><marker>Es dona</marker> el cas que sí.</example>
+                <example type="correct">Es dóna rares vegades.</example>
             </rule>
             <rule id="ES_VEU_QUE" name="es veu que">
                 <pattern>
