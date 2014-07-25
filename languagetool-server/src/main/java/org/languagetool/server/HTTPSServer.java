@@ -74,6 +74,7 @@ public class HTTPSServer extends Server {
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
+      httpHandler.setLanguageModel(config.getLanguageModelDir());
       server.createContext("/", httpHandler);
       executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
       server.setExecutor(executorService);
@@ -134,16 +135,15 @@ public class HTTPSServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 7 || usageRequested(args)) {
+    if (args.length == 0 || args.length > 7 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file with values for:");
       System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
       System.out.println("                 'password' - the keystore's password");
-      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
-      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
       System.out.println("                 'requestLimit' - maximum number of requests (optional)");
       System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
+      printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
     }

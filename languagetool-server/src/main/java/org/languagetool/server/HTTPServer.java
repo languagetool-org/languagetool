@@ -99,6 +99,7 @@ public class HTTPServer extends Server {
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
+      httpHandler.setLanguageModel(config.getLanguageModelDir());
       server.createContext("/", httpHandler);
       executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
       server.setExecutor(executorService);
@@ -121,8 +122,7 @@ public class HTTPServer extends Server {
     if (args.length > 5 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file with values for:");
-      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
-      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
+      printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
     }

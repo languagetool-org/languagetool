@@ -46,6 +46,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private static final int CONTEXT_SIZE = 40; // characters
   private static final int MIN_LENGTH_FOR_AUTO_DETECTION = 60;  // characters
 
+  private static int handleCount = 0;
+
   private final Set<String> allowedIps;  
   private final boolean verbose;
   private final boolean internalServer;
@@ -55,9 +57,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private long maxCheckTimeMillis = -1;
   private int maxTextLength = Integer.MAX_VALUE;
   private String allowOriginUrl;
+  private File languageModelDir;
   
-  private static int handleCount = 0;
-
   /**
    * Create an instance. Call {@link #shutdown()} when done.
    * @param verbose print the input text in case of exceptions
@@ -97,6 +98,11 @@ class LanguageToolHttpHandler implements HttpHandler {
    */
   void setAllowOriginUrl(String allowOriginUrl) {
     this.allowOriginUrl = allowOriginUrl;
+  }
+
+  /** @since 2.7 */
+  public void setLanguageModel(File languageModelDir) {
+    this.languageModelDir = languageModelDir;
   }
 
   @Override
@@ -351,6 +357,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
+    if (languageModelDir != null) {
+      newLanguageTool.activateLanguageModelRules(languageModelDir);
+    }
     final Configuration config = new Configuration(lang);
     if (!params.useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
       configureGUI(newLanguageTool, config);

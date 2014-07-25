@@ -39,6 +39,7 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected long maxCheckTimeMillis = -1;
+  protected File languageModelDir = null;
 
   public HTTPServerConfig() {
     this.port = DEFAULT_PORT;
@@ -90,6 +91,13 @@ public class HTTPServerConfig {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        String langModel = getOptionalProperty(props, "languageModel", null);
+        if (langModel != null) {
+          languageModelDir = new File(langModel);
+          if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
+            throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
+          }
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -142,6 +150,11 @@ public class HTTPServerConfig {
   /** @since 2.6 */
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
+  }
+
+  /** @since 2.7 */
+  File getLanguageModelDir() {
+    return languageModelDir;
   }
 
   protected String getProperty(Properties props, String propertyName, File config) {

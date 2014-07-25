@@ -89,6 +89,13 @@ abstract class Server {
     return args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
   }
 
+  protected static void printCommonConfigFileOptions() {
+    System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+    System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
+    System.out.println("                 'languageModel' - a directory with a '3grams' sub directory with a Lucene index that");
+    System.out.println("                  contains ngram occurrence counts; activates the confusion rule if supported (optional)");
+  }
+  
   protected static void printCommonOptions() {
     System.out.println("  --port, -p     port to bind to, defaults to " + DEFAULT_PORT + " if not specified");
     System.out.println("  --public       allow this server process to be connected from anywhere; if not set,");
