@@ -30,7 +30,7 @@ import org.languagetool.tools.LanguageIdentifierTools;
 public class CommandLineParser {
 
   public CommandLineOptions parseOptions(String[] args) {
-    if (args.length < 1 || args.length > 10) {
+    if (args.length < 1 || args.length > 12) {
       throw new WrongParameterNumberException();
     }
     final CommandLineOptions options = new CommandLineOptions();
@@ -59,17 +59,19 @@ public class CommandLineParser {
         options.setRecursive(true);
       } else if (args[i].equals("-b2") || args[i].equals("--bitext")) {
         options.setBitext(true);
+      } else if (args[i].equals("-eo") || args[i].equals("--enabledonly")) {
+        if (options.getDisabledRules().length > 0) {
+          throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
+        }
+        options.setUseEnabledOnly();
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
-        if (options.getEnabledRules().length > 0) {
-          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
+        if (options.getUseEnabledOnly()) {
+          throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
         }
         checkArguments("-d/--disable", i, args);
         final String rules = args[++i];
         options.setDisabledRules(rules.split(","));
       } else if (args[i].equals("-e") || args[i].equals("--enable")) {
-        if (options.getDisabledRules().length > 0) {
-          throw new IllegalArgumentException("You cannot specify both enabled and disabled rules");
-        }
         checkArguments("-e/--enable", i, args);
         final String rules = args[++i];
         options.setEnabledRules(rules.split(","));
@@ -148,6 +150,7 @@ public class CommandLineParser {
             + "  -m, --mothertongue LANG  the language code of your first language, used to activate false-friend checking\n"
             + "  -d, --disable RULES      a comma-separated list of rule ids to be disabled (use no spaces between ids)\n"
             + "  -e, --enable RULES       a comma-separated list of rule ids to be enabled (use no spaces between ids)\n"
+            + "  -eo, --enabledonly       disable all rules except those enabled explicitly in -e\n"
             + "  -t, --taggeronly         don't check, but only print text analysis (sentences, part-of-speech tags)\n"
             + "  -u, --list-unknown       also print a summary of words from the input that LanguageTool doesn't know\n"
             + "  -b2, --bitext            check bilingual texts with a tab-separated input file,\n"

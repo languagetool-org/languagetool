@@ -19,7 +19,9 @@
 package org.languagetool.language;
 
 import org.languagetool.Language;
+import org.languagetool.language.tagging.TamilTagger;
 import org.languagetool.rules.*;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -30,6 +32,7 @@ import java.util.ResourceBundle;
 public class Tamil extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
+  private Tagger tagger;
   private String name = "Tamil";
 
   @Override
@@ -58,6 +61,14 @@ public class Tamil extends Language {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
+  }
+
+  @Override
+  public final Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new TamilTagger();
+    }
+    return tagger;
   }
 
   @Override

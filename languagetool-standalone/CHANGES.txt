@@ -2,6 +2,12 @@ LanguageTool Change Log
 
 2.7-SNAPSHOT (release planned for 2014-09-29)
 
+-English:
+    -All English dictionaries have been extended to contain word frequency classes
+     to improve the spell checker suggestions (the frequency data is taken from
+     https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries,
+     as for other languages that already use this feature).
+
 -French:
     -added a synthesizer - the agreement rule can now make suggestions
      for some errors.
@@ -10,6 +16,14 @@ LanguageTool Change Log
 -German:
     -Fixed a rare NullPointerException and an ArrayIndexOutOfBoundsException
     -Fixed several false alarms
+    
+-Portuguese:
+    -added/improved several rules
+    -added many dozens of compound words
+
+-Russian
+    -added new rules    
+    -fix sf feature request #38
      
 -Tamil:
     -Added initial support for Tamil. If the font for Tamil is not properly
@@ -23,6 +37,10 @@ LanguageTool Change Log
      still exists but has been deprecated)
     -Deprecated some methods whose visibility will be decreased (e.g. from public
      to protected)
+    -Command line: enabling and disabling specific rules at the same time is now allowed.
+     In order to test only some rules (disabling all the rest), which previously was done
+     with "--enable LIST_OF_RULES", now use "--enabledonly --enable LIST_OF_RULES" 
+     (or "-eo -e LIST_OF_RULES").
      
 -New feature: Use of language models
     LanguageTool can now make use of ngram data. ngram data is information about

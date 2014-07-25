@@ -48,6 +48,7 @@ public class CommandLineOptions {
   private String filename = null;
   private String[] disabledRules = new String[0];
   private String[] enabledRules = new String[0];
+  private boolean useEnabledOnly = false;
 
   public boolean isPrintUsage() {
     return printUsage;
@@ -206,6 +207,16 @@ public class CommandLineOptions {
 
   public void setEnabledRules(String[] enabledRules) {
     this.enabledRules = enabledRules;
+  }
+
+  /** @since 2.7 */
+  public boolean getUseEnabledOnly() {
+    return useEnabledOnly;
+  }
+
+  /** @since 2.7 */
+  public void setUseEnabledOnly() {
+    this.useEnabledOnly = true;
   }
 
   public boolean isXmlFiltering() {

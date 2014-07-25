@@ -96,7 +96,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
 
-       <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
+        <rule id="GEBRAUCHTSPUREN" name="Gebrauchtspuren (Gebrauchsspuren)">
+            <pattern case_sensitive='yes'>
+                <token regexp='yes'>Gebrauchtspur.*</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="Gebrauchtspur" regexp_replace="Gebrauchsspur"/></suggestion>?</message>
+            <example type='incorrect' correction="Gebrauchsspuren">Die Ware hat deutliche <marker>Gebrauchtspuren</marker>.</example>
+            <example type='correct'>Die Ware hat deutliche <marker>Gebrauchsspuren</marker>.</example>
+        </rule>
+        <rule id="IM_IHM" name="Möglicher Tippfehler: 'im (ihm)'">
            <antipattern>
                <token>im</token>
                <token>sog</token>
@@ -4794,18 +4802,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das war das Ende vom <marker>Lied</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="ETHISCH_ETHNISCH" name="Mögliche Wortverwechslung: ethisch/ethnisch">
-            <pattern>
-                <marker>
-                    <token regexp="yes">ethische|ethischer|ethischen</token>
-                </marker>
-                <token regexp="yes">Minderheit|Minderheiten|Säuberung|Säuberungen|Herkunft|Konflikt|Konflikte</token>
-            </pattern>
-            <message>&verw;Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
-            <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
-            <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
-            <example type="incorrect"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
-        </rule>
+        <rulegroup id="ETHISCH_ETHNISCH" name="Mögliche Wortverwechslung: ethisch/ethnisch">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">ethische|ethischer|ethischen</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">Säuberung|Minderheit|Minorität|Gruppe|Untergruppe|Bevölkerungsgruppe|Gruppierung|Gemeinschaft|Zugehörigkeit|Zuordnung|Herkunft|Abstammung|Homogenität|Zusammensetzung|Proporz|Identifikation|Selbstidentifikation</token>
+                </pattern>
+                <message>&verw;Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
+                <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
+                <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
+                <example type="incorrect"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected='yes'>ethnisch</token>
+                    </marker>
+                    <token inflected='yes' regexp='yes'>Bedenken|Forderung|Haltung</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="ethni" regexp_replace="ethi"/></suggestion>?</message>
+                <example type='incorrect'>Dagegen bestehen <marker>ethnische</marker> Bedenken.</example>
+                <example type='correct'>Dagegen bestehen <marker>ethische</marker> Bedenken.</example>
+            </rule>
+        </rulegroup>
         <rule id="AUFS_TRAPEZ_BRINGEN" name="Mögliche Wortverwechslung: Trapez/Tapet">
             <pattern>
                 <token>aufs</token>
@@ -8139,6 +8160,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/sprachwissen/sprachratgeber/infinitiv-mit-zu</url>
             <!-- Siehe auch die Regel ZU_ZUMUTEN. -->
             <antipattern>
+                <token inflected="yes" skip="2">hören</token>
+                <token>auf</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">hör</token>
+                <token>auf</token>
+                <token>zu</token>
+            </antipattern>
+            <antipattern>
+                <token>ab</token>
+                <token>zu</token>
+                <token regexp="yes">bewegen|lernen|kommen</token>
+            </antipattern>
+            <antipattern>
                 <token>aus</token>
                 <token>zu</token>
                 <token regexp="yes">sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
@@ -8147,7 +8183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- 'gibt es nach wie vor zu kaufen' -->
                 <token>vor</token>
                 <token>zu</token>
-                <token>kaufen</token>
+                <token regexp="yes">kaufen|tun|speisen|heiraten|bleiben|betrachten|beginnen|diskutieren</token>
             </antipattern>
             <antipattern>
                 <token>zugunsten</token>
@@ -8192,6 +8228,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>außer</exception>
                         <exception>zufolge</exception>
                         <exception>seitlich</exception>
+                        <exception>wegen</exception>
+                        <exception>für</exception>
                     </token>
                     <token>zu</token>
                     <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes">einigen|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten|beeinflussen|erreichen</exception></token>

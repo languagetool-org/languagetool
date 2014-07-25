@@ -39,30 +39,34 @@ public class MorfologikSpeller {
 
   private final Dictionary dictionary;
   private final Speller speller;
-  private final Locale conversionLocale;
 
   /**
    * Creates a speller with the given maximum edit distance.
    * @param filename path in classpath to morfologik dictionary
-   * @param conversionLocale used when transforming the word to lowercase
    */
-  public MorfologikSpeller(String filename, Locale conversionLocale, int maxEditDistance) throws IOException {
+  public MorfologikSpeller(String filename, int maxEditDistance) throws IOException {
     if (maxEditDistance <= 0) {
       throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
     }
     final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
     dictionary = Dictionary.read(url);
     speller = new Speller(dictionary, maxEditDistance);
-    this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
   }
 
   /**
-   * Creates a speller with a maximum edit distance of one.
-   * @param filename path in classpath to morfologik dictionary
-   * @param conversionLocale used when transforming the word to lowercase
+   * @deprecated use {@link #MorfologikSpeller(String, int)} instead (deprecated since 2.7)
+   * @param conversionLocale not used
+   */
+  public MorfologikSpeller(String filename, Locale conversionLocale, int maxEditDistance) throws IOException {
+    this(filename, maxEditDistance);
+  }
+
+  /**
+   * @deprecated use {@link #MorfologikSpeller(String)} instead (deprecated since 2.7)
+   * @param conversionLocale not used
    */
   public MorfologikSpeller(String filename, Locale conversionLocale) throws IOException {
-    this(filename, conversionLocale, 1);
+    this(filename, 1);
   }
 
   /**
@@ -70,7 +74,7 @@ public class MorfologikSpeller {
    * @param filename path in classpath to morfologik dictionary
    */
   public MorfologikSpeller(String filename) throws IOException {
-    this(filename, null);
+    this(filename, 1);
   }
 
   public boolean isMisspelled(String word) {

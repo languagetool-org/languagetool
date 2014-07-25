@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.090 2014-07-11 13:23:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.092 2014-07-22 14:20:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1725,6 +1725,21 @@ $Id: grammar.xml,v 1.090 2014-07-11 13:23:00 marcoagpinto Exp $
 
 
 
+    <!-- O MESMO DO QUE o mesmo que -->
+    <rule id="O_MESMO_DO_QUE" name="o mesmo que">
+      <pattern>
+        <token>o</token>
+        <token>mesmo</token>
+        <token>do</token>
+        <token>que</token>        
+      </pattern>
+      <message>Substituir «o mesmo do que» por <suggestion>o mesmo que</suggestion>.</message>
+      <example type="incorrect">Beber não é <marker>o mesmo do que</marker> comer.</example>
+      <example type="correct">Beber não é <marker>o mesmo que</marker> comer.</example>
+    </rule>
+
+
+
     <!-- PARA DE pára de -->
     <rule id="PARA_DE" name="pára de">
       <pattern>
@@ -2105,6 +2120,104 @@ $Id: grammar.xml,v 1.090 2014-07-11 13:23:00 marcoagpinto Exp $
 <!-- *************************** -->
 <!-- RULES TU/TI -> EU/MIM *END* -->
 
+
+
+<!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****START**** -->
+<!-- ************************************************************* -->
+    <!-- XEQUE AVULSO CARECA CRUZADO VISADO cheque avulso careca cruzado visado -->
+	<rule id="XEQUE_AVULSO_CARECA_CRUZADO_VISADO" name="cheque avulso careca cruzado visado">
+	  <pattern case_sensitive="no">
+	    <marker>
+          <token>xeque</token>         
+        </marker>
+        <token regexp="yes">avulso|careca|cruzado|visado</token>
+      </pattern>        
+      <message>Substituir «xeque» por <suggestion>cheque</suggestion>.</message>
+      <example type="incorrect">É um <marker>xeque</marker> cruzado.</example>
+	  <example type="correct">É um <marker>cheque</marker> cruzado.</example>
+	</rule>
+
+
+
+    <!-- XEQUES_AVULSO CARECAS CRUZADOS VISADOS cheques avulso carecas cruzados visados -->
+	<rule id="XEQUES_AVULSO_CARECAS_CRUZADOS_VISADOS" name="cheques avulso carecas cruzados visados">
+	  <pattern case_sensitive="no">
+	    <marker>
+          <token>xeques</token>         
+        </marker>
+        <token regexp="yes">avulso|carecas|cruzados|visados</token>
+      </pattern>        
+      <message>Substituir «xeques» por <suggestion>cheques</suggestion>.</message>
+      <example type="incorrect">São <marker>xeques</marker> visados.</example>
+	  <example type="correct">São <marker>cheques</marker> visados.</example>
+	</rule>
+
+
+
+    <!-- XEQUE SEM COBERTURA cheque sem cobertura -->
+	<rule id="XEQUE_SEM_COBERTURA" name="cheque sem cobertura">
+	  <pattern case_sensitive="no">
+	    <marker>
+          <token>xeque</token>            
+        </marker>
+        <token>sem</token>         
+	    <token>cobertura</token>
+ 	  </pattern>           
+      <message>Substituir «xeque» por <suggestion>cheque</suggestion>.</message>
+      <example type="incorrect">É um <marker>xeque</marker> sem cobertura.</example>
+	  <example type="correct">É um <marker>cheque</marker> sem cobertura.</example>
+	</rule>
+
+
+
+    <!-- XEQUES SEM COBERTURA cheques sem cobertura -->
+	<rule id="XEQUES_SEM_COBERTURA" name="cheques sem cobertura">
+	  <pattern case_sensitive="no">
+	    <marker>
+          <token>xeques</token>         
+        </marker>  
+	  <token>sem</token>         
+	  <token>cobertura</token>         
+	  </pattern> 	  
+      <message>Substituir «xeques» por <suggestion>cheques</suggestion>.</message>
+      <example type="incorrect">São <marker>xeques</marker> sem cobertura.</example>
+	  <example type="correct">São <marker>cheques</marker> sem cobertura.</example>
+	</rule>
+
+
+
+    <!-- XEQUE EM BRANCO cheque em branco -->
+	<rule id="XEQUE_EM_BRANCO" name="cheque em branco">
+	  <pattern case_sensitive="no">
+	    <marker>
+          <token>xeque</token>         
+  	    </marker>
+	  <token>em</token>         
+	  <token>branco</token>         
+	  </pattern> 
+      <message>Substituir «xeque» por <suggestion>cheque</suggestion>.</message>
+      <example type="incorrect">É um <marker>xeque</marker> em branco.</example>
+	  <example type="correct">É um <marker>cheque</marker> em branco.</example>
+	</rule>
+
+
+
+    <!-- XEQUES EM BRANCO cheques em branco -->
+	<rule id="XEQUES_EM_BRANCO" name="cheques em branco">
+	  <pattern case_sensitive="no">
+  	    <marker>	  
+          <token>xeques</token>         
+  	    </marker>          
+	  <token>em</token>         
+	  <token>branco</token>         
+	  </pattern>   
+      <message>Substituir «xeques» por <suggestion>cheques</suggestion>.</message>
+      <example type="incorrect">São <marker>xeques</marker> em branco.</example>
+	  <example type="correct">São <marker>cheques</marker> em branco.</example>
+	</rule>
+
+<!-- XEQUE/CHEQUE - POSSIBLE REPLACEMENT SUGGESTIONS ****END**** -->
+<!-- *********************************************************** -->
 
 
 

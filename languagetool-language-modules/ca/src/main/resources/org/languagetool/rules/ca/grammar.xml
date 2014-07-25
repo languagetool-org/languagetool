@@ -1785,13 +1785,14 @@ $Id$
                         <token postag="D[IN].M.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes">molt|tant|poc</exception></token>
                     </marker>
                     <token postag="SPS00" inflected="yes">de</token>
-                    <token postag="D[AD].FP.*" postag_regexp="yes"></token>
+                    <token postag="D[AD].FP.*|PP3FP000" postag_regexp="yes"></token>
                 </pattern>
                 <message>Possible falta de concordança.</message>
                 <suggestion><match no="1" postag="D[IN].F.*" postag_regexp="yes"></match></suggestion>
                 <short>Concordança dubtosa</short>
                 <example type="incorrect" correction="Una|Unes"><marker>Un</marker> de les seves cases.</example>
                 <example type="incorrect" correction="Dues"><marker>Dos</marker> de les seves anàlisis.</example>
+                <example type="incorrect" correction="Dues"><marker>Dos</marker> d'elles.</example>
                 <example type="correct">Tres de les seves cases.</example>
                 <example type="correct">Una de les seves cases.</example>
                 <example type="correct">tant de les institucions com de la ciutadania</example>
@@ -8113,6 +8114,18 @@ $Id$
             <example type="correct">Una funció resolvent</example>
             <example type="correct">per a un resolvent de Galois</example>
         </rule>
+        <rule id="ESCRIVENT_ESCRIVINT" name="resolvent/resolent">
+            <pattern>
+                <token inflected="yes" regexp="yes">estar|seguir|continuar|anar</token>
+                <marker>
+                    <token>escrivent</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>escrivint</suggestion> (gerundi) en comptes de "escrivent" (nom)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Estic <marker>escrivent</marker> una carta.</example>
+            <example type="correct">Era escrivent del rei.</example>
+        </rule>
         <rule id="A_MENA_DE" name="a mena de">
             <antipattern>
                 <marker>
@@ -11785,6 +11798,28 @@ $Id$
         </rulegroup>
     </category>
     <category name="Errors ortogràfics" type="misspelling">
+        <rule id="PRET_A_PORTER" name="prêt-à-porter">
+            <antipattern>
+                <token>prêt</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">à</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">porter</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">pr[éèêe]t</token>
+                <token min="0">-</token>
+                <token regexp="yes">[áàâa]</token>
+                <token min="0">-</token>
+                <token regexp="yes">p[oòóô]rt[eèéê]r?</token>
+            </pattern>
+            <message>Error ortogràfic.</message>
+            <suggestion>prêt-à-porter</suggestion>
+            <example type="incorrect" correction="prêt-à-porter"><marker>pret-a porter</marker>.</example>
+            <example type="incorrect" correction="prêt-à-porter"><marker>prèt a porté</marker>.</example>
+            <example type="incorrect" correction="prêt-à-porter"><marker>prêt- à-porter</marker>.</example>
+            <example type="correct">prêt-à-porter</example>
+        </rule>
         <rule id="VERBS_NOMSPROPIS" name="verbs / noms propis: Barbara, Macàs, Adoram">
             <pattern>
                 <and>
@@ -12268,7 +12303,7 @@ $Id$
         		<pattern>
         			<token regexp="yes">culés?</token>
         		</pattern>
-        		<message>Referit als seguidos del FC Barcelona, cal escriure: <suggestion><match no="1" regexp_match="culé(.*)" regexp_replace="culer$1"/></suggestion>. 'Culés' pot ser del verb 'cular'.</message>
+        		<message>Referit als seguidors del FC Barcelona, cal escriure: <suggestion><match no="1" regexp_match="culé(.*)" regexp_replace="culer$1"/></suggestion>. 'Culés' pot ser del verb 'cular'.</message>
         		<short>Error ortogràfic</short>
                 <example type="incorrect" correction="culers">Són seguidors <marker>culés</marker>.</example>
                 <example type="correct">Un seguidor culer.</example>

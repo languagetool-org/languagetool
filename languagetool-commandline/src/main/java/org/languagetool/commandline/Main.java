@@ -68,7 +68,8 @@ class Main {
 
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
-      final String[] disabledRules, final String[] enabledRules,
+      final String[] disabledRules, final String[] enabledRules, 
+      final boolean enabledOnly,
       final boolean apiFormat, boolean applySuggestions, 
       boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModelIndexDir) throws IOException,
       SAXException, ParserConfigurationException {
@@ -91,7 +92,7 @@ class Main {
     if (languageModelIndexDir != null) {
       lt.activateLanguageModelRules(languageModelIndexDir);
     }
-    Tools.selectRules(lt, disabledRules, enabledRules);
+    Tools.selectRules(lt, disabledRules, enabledRules, enabledOnly);
   }
 
   boolean isSpellCheckingActive() {
@@ -513,7 +514,7 @@ class Main {
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
-            options.getDisabledRules(), options.getEnabledRules(), options.isApiFormat(), options.isApplySuggestions(),
+            options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
             options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ? "" : " (no spell checking active, specify a language variant if available)";

@@ -130,7 +130,7 @@ class DictionaryBuilder {
     return props.getProperty(option).trim();
   }
 
-  private boolean hasOption(String option) {
+  protected boolean hasOption(String option) {
     return props.getProperty(option) != null; 
   }
   
@@ -139,10 +139,11 @@ class DictionaryBuilder {
   }
   
   protected void readFreqList(File freqListFile) {
-    try {
-      BufferedReader br = new BufferedReader(new InputStreamReader(
-          new FileInputStream(freqListFile.getAbsoluteFile()),
-          "utf-8"));
+    try (
+      FileInputStream fis = new FileInputStream(freqListFile.getAbsoluteFile());
+      InputStreamReader reader = new InputStreamReader(fis, "utf-8");
+      BufferedReader br = new BufferedReader(reader)
+    ) {
       String line;
       while ((line = br.readLine()) != null) {
         Matcher m = pFreqEntry.matcher(line);
@@ -150,13 +151,12 @@ class DictionaryBuilder {
           freqList.put(m.group(3), Integer.parseInt(m.group(1)));
         }
       }
-      br.close();
     } catch (IOException e) {
-      System.out.println("Cannot read file: " + freqListFile.getAbsolutePath());
+      throw new RuntimeException("Cannot read file: " + freqListFile.getAbsolutePath());
     }
   }
   
-  protected File addFreqData(File dictFile) throws Exception {
+  protected File addFreqData(File dictFile) throws IOException {
     if (!isOptionTrue("fsa.dict.frequency-included")) {
       throw new IOException("In order to use frequency data add the line 'fsa.dict.frequency-included=true' to the dictionary info file.");
     }
@@ -192,7 +192,7 @@ class DictionaryBuilder {
       bw.close();
       System.out.println(freqList.size() + " frequency values applied in " + freqValuesApplied + " word forms.");
     } catch (IOException e) {
-      System.out.println("Cannot read file: " + dictFile.getAbsolutePath());
+      throw new RuntimeException("Cannot read file: " + dictFile.getAbsolutePath());
     }
     tempFile.deleteOnExit();
     return tempFile;
