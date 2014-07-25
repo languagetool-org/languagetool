@@ -196,7 +196,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|போல</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|போல|என</token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -267,14 +267,14 @@ USA
 <!--	<rulegroup id="Ends_in_A_5" name="முதல் சொல்லின் இறுதி எழுத்து அ (5)">
 		<rule>
             <pattern>
-                <token postag='ADJ'><exception regexp='yes'>(([ஃ-ஹ][ா-்]?)+)[ா-்]</exception></token>
+                <marker><token postag='ADJ|RP|RPN' postag_regexp='yes' regexp='yes'>.*க்</token></marker>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
             </pattern>
-            <message>'நல்ல', 'படித்த' போன்ற பெயரடைகளின், பெயரெச்சங்களின் பின் ஒற்று மிகாது: <suggestion>\1க் \2</suggestion></message>
-            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <message>'நல்ல', 'படித்த' போன்ற பெயரடைகளின், பெயரெச்சங்களின் பின் ஒற்று மிகாது: <suggestion><match no="1" regexp_match=".*க்" regexp_replace="" /> <match no="2" /></suggestion></message>
+			<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
             <short>ஒற்றுப் பிழை</short>
-            <example type='incorrect'><marker>நல்ல கதைகளைக்</marker> கேட்க அவனுக்கு ஆசை.</example>
-            <example type='correct'><marker>நல்லக் கதைகளைக்</marker> கேட்க அவனுக்கு ஆசை.</example>
+            <example type='incorrect'><marker>நல்லக் கதைகளைக்</marker> கேட்க அவனுக்கு ஆசை.</example>
+            <example type='correct'><marker>நல்ல கதைகளைக்</marker> கேட்க அவனுக்கு ஆசை.</example>
         </rule>
 		<rule>
             <pattern>
@@ -309,7 +309,7 @@ USA
             <example type='incorrect'>நாகேஷ் <marker>நடிக்காதப் படங்கள்</marker> இல்லை.</example>
             <example type='correct'>நாகேஷ் <marker>நடிக்காதப் படங்கள்</marker> இல்லை.</example>
         </rule>
-    </rulegroup> -->
+    </rulegroup>-->
 
     </category>
 </rules>
