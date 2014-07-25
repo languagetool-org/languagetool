@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
+  
   protected MorfologikSpeller speller;
   protected Locale conversionLocale;
 
@@ -81,7 +82,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     //lazy init
     if (speller == null) {
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-        speller = new MorfologikSpeller(getFileName(), conversionLocale);
+        speller = new MorfologikSpeller(getFileName());
         setConvertsCase(speller.convertsCase());
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
