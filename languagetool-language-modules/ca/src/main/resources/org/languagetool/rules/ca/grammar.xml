@@ -14303,6 +14303,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="PP.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token min="0" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                     <marker>
                         <token>dona<exception postag="_possible_nompropi"/></token>
                     </marker>
@@ -14313,6 +14314,7 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect">Ho <marker>dona</marker> al barquer.</example>
                 <example type="correct">Ho <marker>dóna</marker> al barquer.</example>
+                <example type="incorrect">Me'n <marker>dona</marker> tres.</example>
                 <example type="correct">La dona del barquer</example>
                 <example type="correct">et dona nobis pacem</example>
                 <example type="correct">D'elegir-la Dona de l'Any.</example>
@@ -14336,6 +14338,7 @@ $Id$
             <rule>
                 <pattern>
                     <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
+                    <token min="0" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                     <marker>
                         <token>dones</token>
                     </marker>
@@ -14346,6 +14349,7 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect">Ho <marker>dones</marker> al barquer.</example>
                 <example type="correct">Ho <marker>dónes</marker> al barquer.</example>
+                <example type="incorrect">Li'n <marker>dones</marker> una.</example>
                 <example type="correct">Les dones joves i solteres.</example>
                 <example type="correct">podeu entrar-hi dones, nens i gent menuda</example>
                 <example type="correct">Vuit d'ells dones</example>
@@ -14603,7 +14607,7 @@ $Id$
                     <marker>
                         <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es|us</exception><exception regexp="yes">(?-i)SE</exception></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]</exception></token>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">["‘“«]|dona|dones</exception></token>
                 </pattern>
                 <message>Pronom feble solt.</message>
                 <short>Pronom feble solt</short>
@@ -14644,7 +14648,7 @@ $Id$
                         <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></token>
                         <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"><exception postag="_GV_"/></token>
                     </marker>
-                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/></token>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|V.[SI].*" postag_regexp="yes"/><exception regexp="yes">dona|dones</exception></token>
                 </pattern>
                 <message>Pronoms febles solts.</message>
                 <short>Pronoms febles solts</short>
