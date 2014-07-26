@@ -22862,6 +22862,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="PROVABLE" name="provable/probable">
+            <pattern>
+                <token inflected="yes">provable</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">probable</match></suggestion>? "Provable" vol dir "que pot ser provat, demostrat".</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="probable">És molt <marker>provable</marker>.</example>
+            <example type="correct">No és probable</example>
+        </rule>
         <rule id="CAMERA_CAMBRA" name="*càmera/cambra de diputats">
             <pattern>
                 <marker>
