@@ -346,7 +346,6 @@ USA
 		<example type='correct'>அவனோ <marker>சின்னப் பையன்</marker>.</example>
 	  </rule>
 	</rulegroup>
-
     <rulegroup id="Ends_in_Ai_1" name="முதல் சொல்லின் இறுதி எழுத்து ஐ (1)">
         <rule>
             <pattern>
@@ -393,52 +392,53 @@ USA
             <example type='correct'>என் <marker>கையைப் பிடித்து</marker> இழுக்காதே.</example>
         </rule>
     </rulegroup>
-<!--	<rulegroup id="Ends_in_Ai_1" name="முதல் சொல்லின் இறுதி எழுத்து ஐ">
+	
+	<rulegroup id="Ends_in_Ai_2" name="முதல் சொல்லின் இறுதி எழுத்து ஐ (2)">
 		<rule>
             <pattern>
-                <marker><token postag='SV' postag_regexp='yes' regexp='yes'>.*க்</token></marker>
+                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S' postag_regexp='yes'></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
             </pattern>
-            <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion><match no="1" regexp_match=".*க்" regexp_replace="" /> <match no="2" /></suggestion></message>
+            <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
 			<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=87#head</url>
             <short>ஒற்றுப் பிழை</short>
-            <example type='incorrect'><marker>பழத்தை கடித்துச்</marker> சுவை பார்த்தேன்.</example>
-            <example type='correct'><marker>பழத்தைக் கடித்துச்</marker> சுவை பார்த்தேன்.</example>
+            <example type='incorrect'><marker>பழங்களை கடித்துச்</marker> சுவை பார்த்தேன்.</example>
+            <example type='correct'><marker>பழங்களைக் கடித்துச்</marker> சுவை பார்த்தேன்.</example>
         </rule>
 		<rule>
             <pattern>
-                <token postag='ADJ|RP|RPN'>ச்</token>
+                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S' postag_regexp='yes'></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
             </pattern>
-            <message>'நல்ல', 'படித்த' போன்ற பெயரடைகளின், பெயரெச்சங்களின் பின் ஒற்று மிகாது: <suggestion>\1 \2</suggestion></message>
-            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=87#head</url>
             <short>ஒற்றுப் பிழை</short>
-            <example type='incorrect'><marker>இன்றையச் செய்திகளைக்</marker> கேற்பதற்காக அவள் காத்திருந்தாள்.</example>
-            <example type='correct'><marker>இன்றைய செய்திகளைக்</marker> கேற்பதற்காக அவள் காத்திருந்தாள்.</example>
+            <example type='incorrect'><marker>மாடுகளை சாட்டையால்</marker> அடிக்காதே!</example>
+            <example type='correct'><marker>மாடுகளைச் சாட்டையால்</marker> அடிக்காதே!</example>
         </rule>
 		<rule>
             <pattern>
-                <token postag='ADJ|RP|RPN'>த்</token>
+                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S' postag_regexp='yes'></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
             </pattern>
-            <message>'நல்ல', 'படித்த' போன்ற பெயரடைகளின், பெயரெச்சங்களின் பின் ஒற்று மிகாது: <suggestion>\1 \2</suggestion></message>
-            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=87#head</url>
             <short>ஒற்றுப் பிழை</short>
-            <example type='incorrect'><marker>திறமையானத் தொழிலாளர்களை</marker> உருவாக்குவது எப்படி?</example>
-            <example type='correct'>திறமையானத் தொழிலாளர்களை</marker> உருவாக்குவது எப்படி?</example>
+            <example type='incorrect'>தனது <marker>நண்பர்களை தேடிக்கொண்டு</marker> அவன் இங்கு வந்தான்.</example>
+            <example type='correct'>தனது <marker>நண்பர்களைத் தேடிக்கொண்டு</marker> அவன் இங்கு வந்தான்.</example>
         </rule>
 		<rule>
             <pattern>
-                <token postag='ADJ|RP|RPN'>ப்</token>
+                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S' postag_regexp='yes'></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)+)?</token>
             </pattern>
-            <message>'நல்ல', 'படித்த' போன்ற பெயரடைகளின், பெயரெச்சங்களின் பின் ஒற்று மிகாது: <suggestion>\1 \2</suggestion></message>
-            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=77#head</url>
+            <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=87#head</url>
             <short>ஒற்றுப் பிழை</short>
-            <example type='incorrect'>நாகேஷ் <marker>நடிக்காதப் படங்கள்</marker> இல்லை.</example>
-            <example type='correct'>நாகேஷ் <marker>நடிக்காதப் படங்கள்</marker> இல்லை.</example>
+            <example type='incorrect'>ஆசிரியர் <marker>மாணவர்களை பார்த்து</marker> அவர்களுடன் உரையாடிக்கொண்டிருந்தார்.</example>
+            <example type='correct'>ஆசிரியர் <marker>மாணவர்களைப் பார்த்து</marker> அவர்களுடன் உரையாடிக்கொண்டிருந்தார்.</example>
         </rule>
-    </rulegroup>-->
+    </rulegroup>
 	
     <rulegroup id="Ends_in_Ku_1" name="முதல் சொல்லின் இறுதி எழுத்து கு (1)">
         <rule>
