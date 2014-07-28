@@ -39,6 +39,8 @@ import org.languagetool.tools.Tools;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
+
 class LanguageToolHttpHandler implements HttpHandler {
 
   private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
@@ -55,6 +57,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private long maxCheckTimeMillis = -1;
   private int maxTextLength = Integer.MAX_VALUE;
   private String allowOriginUrl;
+  private boolean afterTheDeadlineMode;
+  private Language afterTheDeadlineLanguage;
   
   private static int handleCount = 0;
 
@@ -99,6 +103,13 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.allowOriginUrl = allowOriginUrl;
   }
 
+  /** @since 2.7 */
+  void setAfterTheDeadlineMode(Language defaultLanguage) {
+    System.out.println("Running in After the Deadline mode, default language: " + defaultLanguage);
+    this.afterTheDeadlineMode = true;
+    this.afterTheDeadlineLanguage = defaultLanguage;
+  }
+
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     synchronized (this) {
@@ -126,9 +137,17 @@ class LanguageToolHttpHandler implements HttpHandler {
           printListOfLanguages(httpExchange);
         } else {
           // request type: text checking
-          text = parameters.get("text");
-          if (text == null) {
-            throw new IllegalArgumentException("Missing 'text' parameter");
+          if (afterTheDeadlineMode) {
+            text = parameters.get("data");
+            if (text == null) {
+              throw new IllegalArgumentException("Missing 'data' parameter");
+            }
+            text = text.replaceAll("</p>", "\n\n").replaceAll("<.*?>", "");  // clean up HTML, position changes don't matter for AtD
+          } else {
+            text = parameters.get("text");
+            if (text == null) {
+              throw new IllegalArgumentException("Missing 'text' parameter");
+            }
           }
           checkText(text, httpExchange, parameters);
         }
@@ -155,8 +174,14 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
-    httpExchange.sendResponseHeaders(returnCode, response.getBytes(ENCODING).length);
-    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    if (afterTheDeadlineMode) {
+      String xmlResponse = "<results><message>" + escapeXml(response) + "</message></results>";
+      httpExchange.sendResponseHeaders(returnCode, xmlResponse.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
+    } else {
+      httpExchange.sendResponseHeaders(returnCode, response.getBytes(ENCODING).length);
+      httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    }
   }
 
   private Map<String, String> getRequestQuery(HttpExchange httpExchange, URI requestedUri) throws IOException {
@@ -209,21 +234,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (text.length() > maxTextLength) {
       throw new IllegalArgumentException("Text is " + text.length() + " characters long, exceeding maximum length of " + maxTextLength);
     }
-    final String langParam = parameters.get("language");
     //print("Check start: " + text.length() + " chars, " + langParam);
-    final String autodetectParam = parameters.get("autodetect");
-    if (langParam == null && (autodetectParam == null || !autodetectParam.equals("1"))) {
-      throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use autodetect=1 for auto-detecting the language of the input text.");
-    }
-    
-    final Language lang;
-    if (autodetectParam != null && autodetectParam.equals("1")) {
-      lang = detectLanguageOfString(text, langParam);
-      print("Auto-detected language: " + lang.getShortNameWithCountryAndVariant());
-    } else {
-      lang = Language.getLanguageForShortName(langParam);
-    }
-    
+    final boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
+    final Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage);
     final String motherTongueParam = parameters.get("motherTongue");
     final Language motherTongue = motherTongueParam != null ? Language.getLanguageForShortName(motherTongueParam) : null;
     final boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
@@ -266,9 +279,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     
     setCommonHeaders(httpExchange);
-    final RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
-    final String xmlResponse = serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
-    
+    String xmlResponse = getXmlResponse(text, lang, motherTongue, matches);
     String messageSent = "sent";
     String languageMessage = lang.getShortNameWithCountryAndVariant();
     final String referrer = httpExchange.getRequestHeaders().getFirst("Referer");
@@ -285,6 +296,33 @@ class LanguageToolHttpHandler implements HttpHandler {
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
             + "handlers:" + handleCount + ", " + matches.size() + " matches, " + (System.currentTimeMillis() - timeStart) + "ms"
             + ", " + messageSent);
+  }
+
+  private boolean getLanguageAutoDetect(Map<String, String> parameters) {
+    if (afterTheDeadlineMode) {
+      return "true".equals(parameters.get("guess"));
+    } else {
+      boolean autoDetect = "1".equals(parameters.get("autodetect"));
+      if (parameters.get("language") == null && !autoDetect) {
+        throw new IllegalArgumentException("Missing 'language' parameter. Specify language or use autodetect=1 for auto-detecting the language of the input text.");
+      }
+      return autoDetect;
+    }
+  }
+
+  private Language getLanguage(String text, String langParam, boolean autoDetect) {
+    final Language lang;
+    if (autoDetect) {
+      lang = detectLanguageOfString(text, langParam);
+      print("Auto-detected language: " + lang.getShortNameWithCountryAndVariant());
+    } else {
+      if (afterTheDeadlineMode) {
+        lang = afterTheDeadlineLanguage;
+      } else {
+        lang = Language.getLanguageForShortName(langParam);
+      }
+    }
+    return lang;
   }
 
   private List<RuleMatch> getRuleMatches(String text, Map<String, String> parameters, Language lang,
@@ -304,6 +342,16 @@ class LanguageToolHttpHandler implements HttpHandler {
       final JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
       final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
       return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
+    }
+  }
+
+  private String getXmlResponse(String text, Language lang, Language motherTongue, List<RuleMatch> matches) {
+    if (afterTheDeadlineMode) {
+      AtDXmlSerializer serializer = new AtDXmlSerializer();
+      return serializer.ruleMatchesToXml(matches, text);
+    } else {
+      RuleAsXmlSerializer serializer = new RuleAsXmlSerializer();
+      return serializer.ruleMatchesToXml(matches, text, CONTEXT_SIZE, lang, motherTongue);
     }
   }
 
