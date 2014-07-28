@@ -270,8 +270,8 @@ public abstract class Rule {
   }
   
   /**
-   * An URL describing the rule match in more detail. Typically points to a dictionary or grammar website
-   * with explanations and examples.
+   * An optional URL describing the rule match in more detail. Typically points to a dictionary or grammar website
+   * with explanations and examples. Will return {@code null} for rules that have no URL.
    * @since 1.8
    */
   public URL getUrl() {
