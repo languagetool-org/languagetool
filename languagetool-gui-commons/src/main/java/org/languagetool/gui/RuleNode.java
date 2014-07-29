@@ -22,7 +22,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import org.languagetool.rules.Rule;
 
 /**
- *
  * @author Panagiotis Minos
  * @since 2.6
  */
@@ -31,37 +30,20 @@ class RuleNode extends DefaultMutableTreeNode {
   private final Rule rule;
   private boolean enabled;
 
-  /**
-   *
-   * @param rule
-   * @param enabled
-   */
   RuleNode(Rule rule, boolean enabled) {
     super(rule);
     this.rule = rule;
     this.enabled = enabled;
   }
 
-  /**
-   *
-   * @return
-   */
   Rule getRule() {
     return rule;
   }
 
-  /**
-   *
-   * @return
-   */
   boolean isEnabled() {
     return enabled;
   }
 
-  /**
-   *
-   * @param enabled
-   */
   void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }

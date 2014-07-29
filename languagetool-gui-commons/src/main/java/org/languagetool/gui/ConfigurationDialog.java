@@ -58,38 +58,33 @@ public class ConfigurationDialog implements ActionListener {
 
   private static final String NO_MOTHER_TONGUE = "---";
 
+  private final ResourceBundle messages;
+  private final Configuration original;
+  private final Configuration config;
+  private final Frame owner;
+  private final boolean insideOffice;
+
   private JButton okButton;
   private JButton cancelButton;
-
-  private final ResourceBundle messages;
   private JDialog dialog;
-
   private JComboBox motherTongueBox;
-  
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
   private JTree configTree;
-  
-  private final Configuration original;
-  private final Configuration config;
-
-  private final Frame owner;
-  private final boolean insideOOo;
-  
   private JCheckBox serverSettingsCheckbox;
 
-  @Deprecated
-  public ConfigurationDialog(Frame owner, boolean insideOOo) {
+  @Deprecated  // deprecated since 2.6
+  public ConfigurationDialog(Frame owner, boolean insideOffice) {
     this.owner = owner;
-    this.insideOOo = insideOOo;
+    this.insideOffice = insideOffice;
     this.original = null;
     this.config = new Configuration();
     messages = JLanguageTool.getMessageBundle();
   }
 
-  public ConfigurationDialog(Frame owner, boolean insideOOo, Configuration config) {
+  public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
-    this.insideOOo = insideOOo;
+    this.insideOffice = insideOffice;
     this.original = config;
     this.config = original.copy(original);
     messages = JLanguageTool.getMessageBundle();
@@ -97,11 +92,10 @@ public class ConfigurationDialog implements ActionListener {
 
   private DefaultMutableTreeNode createTree(List<Rule> rules) {
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("Rules");
-    String lastRule = null;
+    String lastRuleId = null;
     TreeMap<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (final Rule rule : rules) {
       if (!parents.containsKey(rule.getCategory().getName())) {
-
         boolean enabled = true;
         if (config.getDisabledCategoryNames() != null && config.getDisabledCategoryNames().contains(rule.getCategory().getName())) {
           enabled = false;
@@ -110,11 +104,11 @@ public class ConfigurationDialog implements ActionListener {
         root.add(categoryNode);
         parents.put(rule.getCategory().getName(), categoryNode);
       }
-      if (!rule.getId().equals(lastRule)) {
+      if (!rule.getId().equals(lastRuleId)) {
         RuleNode ruleNode = new RuleNode(rule, getState(rule));
         parents.get(rule.getCategory().getName()).add(ruleNode);
       }
-      lastRule = rule.getId();
+      lastRuleId = rule.getId();
     }
     return root;
   }
@@ -131,7 +125,6 @@ public class ConfigurationDialog implements ActionListener {
     if (rule.isDefaultOff() && !config.getEnabledRuleIds().contains(rule.getId())) {
       ret = false;
     }
-
     if (rule.isDefaultOff() && rule.getCategory().isDefaultOff()
             && config.getEnabledRuleIds().contains(rule.getId())) {
       config.getDisabledCategoryNames().remove(rule.getCategory().getName());
@@ -140,8 +133,9 @@ public class ConfigurationDialog implements ActionListener {
   }
 
   public void show(List<Rule> rules) {
-    if(original != null)
+    if (original != null) {
       config.restoreState(original);
+    }
     dialog = new JDialog(owner, true);
     dialog.setTitle(messages.getString("guiConfigWindowTitle"));
 
@@ -306,9 +300,9 @@ public class ConfigurationDialog implements ActionListener {
 
     cons.gridx = 1;
     cons.gridy = 0;
-    final JButton collapseAllbutton = new JButton(messages.getString("guiCollapseAll"));
-    treeButtonPanel.add(collapseAllbutton, cons);
-    collapseAllbutton.addActionListener(new ActionListener() {
+    final JButton collapseAllButton = new JButton(messages.getString("guiCollapseAll"));
+    treeButtonPanel.add(collapseAllButton, cons);
+    collapseAllButton.addActionListener(new ActionListener() {
 
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -347,7 +341,6 @@ public class ConfigurationDialog implements ActionListener {
     
     final JPanel portPanel = new JPanel();
     portPanel.setLayout(new GridBagLayout());
-    // TODO: why is this now left-aligned?!?!
     cons = new GridBagConstraints();
     cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
@@ -355,7 +348,7 @@ public class ConfigurationDialog implements ActionListener {
     cons.anchor = GridBagConstraints.WEST;
     cons.fill = GridBagConstraints.NONE;
     cons.weightx = 0.0f;
-    if (!insideOOo) {
+    if (!insideOffice) {
       serverCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiRunOnPort")));
       serverCheckbox.setMnemonic(Tools.getMnemonic(messages.getString("guiRunOnPort")));
       serverCheckbox.setSelected(config.getRunServer());
@@ -514,42 +507,42 @@ public class ConfigurationDialog implements ActionListener {
     }
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setDisabledRules(Set<String> ruleIDs) {
     config.setDisabledRuleIds(ruleIDs);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public Set<String> getDisabledRuleIds() {
     return config.getDisabledRuleIds();
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setEnabledRules(Set<String> ruleIDs) {
     config.setEnabledRuleIds(ruleIDs);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public Set<String> getEnabledRuleIds() {
     return config.getEnabledRuleIds();
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setDisabledCategories(Set<String> categoryNames) {
     config.setDisabledCategoryNames(categoryNames);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public Set<String> getDisabledCategoryNames() {
     return config.getDisabledCategoryNames();
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setMotherTongue(Language motherTongue) {
     config.setMotherTongue(motherTongue);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public Language getMotherTongue() {
     return config.getMotherTongue();
   }
@@ -571,32 +564,32 @@ public class ConfigurationDialog implements ActionListener {
     return null;
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setRunServer(boolean serverMode) {
     config.setRunServer(serverMode);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setUseGUIConfig(boolean useGUIConfig) {
     config.setUseGUIConfig(useGUIConfig);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public boolean getUseGUIConfig() {
     return config.getUseGUIConfig();
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public boolean getRunServer() {
     return config.getRunServer();
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public void setServerPort(int serverPort) {
     config.setServerPort(serverPort);
   }
 
-  @Deprecated
+  @Deprecated  // deprecated since 2.6
   public int getServerPort() {
     return config.getServerPort();
   }
