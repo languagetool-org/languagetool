@@ -11229,20 +11229,35 @@ USA
             <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
             <example type='correct'>We compare our results to the <marker>state of the art</marker>.</example>
         </rule>
-        <rule id="OUT_OF_PLACE" name="out of place (out-of-place)">
+        <rule id="OUT_OF_PLACE" name="out of place (out-of-place) etc.">
             <pattern>
                 <marker>
                     <token>out</token>
                     <token>of</token>
-                    <token>place</token>
+                    <token regexp="yes">place|door|doors|band|bounds|town|state|wedlock|pocket|order</token>
                 </marker>
                 <token postag='NN.*|NNS' postag_regexp='yes'></token>
             </pattern>
-            <message>Did you mean <suggestion>out-of-place</suggestion>?</message>
+            <message>Did you mean <suggestion>out-of-\3</suggestion>?</message>
             <example type='correct'>This word is <marker>out of place</marker>.</example>
             <!--<example type='incorrect'>This word is <marker>out-of-place</marker>.</example>-->
             <example type='correct'>This is an <marker>out-of-place</marker> word.</example>
-            <example type='incorrect'>This is an <marker>out of place</marker> word.</example>
+            <example type='incorrect' correction="out-of-place">This is an <marker>out of place</marker> word.</example>
+        </rule>
+        <rule id="OUT_OF_THE_WAY" name="out of the way (out-of-the-way) etc.">
+            <pattern>
+                <marker>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>way</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>out-of-the-way</suggestion>?</message>
+            <example type='correct'>They seem to be having five hindrances <marker>out of the way</marker>.</example>
+            <example type='correct'>An <marker>out-of-the-way</marker> place.</example>
+            <example type='incorrect' correction="out-of-the-way">An <marker>out of the way</marker> place.</example>
         </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>
