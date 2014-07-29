@@ -2654,6 +2654,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Verbs" type="grammar">
+        <rule id="SOLO_SOLC" name="*solo/solc fer">
+            <pattern>
+                <marker>
+                    <token>solo</token>
+                </marker>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Forma verbal incorrecta (del verb "soldre").</message>
+            <suggestion>solc</suggestion>
+            <short>Forma verbal incorrecta</short>
+            <example type="incorrect">Jo la <marker>solo</marker> reservar per a més endavant.</example>
+            <example type="correct">La solc reservar per a més endavant.</example>
+        </rule>
         <rule id="ESTAR_CAUSAT" name="*estar/ser causat per">
             <pattern>
                 <token inflected="yes">estar<exception inflected="yes">ser</exception></token>
@@ -15478,7 +15491,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">nota|tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token regexp="yes">[.;?!]</token>
@@ -15501,7 +15514,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">nota|tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token>,</token>
@@ -29055,7 +29068,7 @@ $Id$
             <pattern>
                 <token>mentres</token>
             </pattern>
-            <message>Paraula admesa en alguns diccionaris.</message>
+            <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion>mentre</suggestion>
             <example type="incorrect" correction="mentre"><marker>mentres</marker> cantava</example>
             <example type="correct">mentre cantava</example>
