@@ -106,6 +106,9 @@ public abstract class AbstractCompoundRule extends Rule {
         addToQueue(token, prevTokens);
         continue;
       }
+      if (token.isImmunized()) {
+        continue;
+      }
 
       final StringBuilder sb = new StringBuilder();
       int j = 0;
