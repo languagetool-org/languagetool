@@ -39,7 +39,11 @@ public class CompoundRule extends AbstractCompoundRule {
             "Cuvântul se scrie legat sau cu cratimă.");
     super.setShort("Problemă de scriere (cratimă, spațiu, etc.)");
     // there are words that should not be written with hyphen but as one word
-    setHyphenIgnored(false);
+  }
+
+  @Override
+  public boolean isHyphenIgnored() {
+    return false;
   }
 
   @Override
