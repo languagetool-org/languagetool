@@ -6904,13 +6904,14 @@ USA
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="VB.*|MD"/></token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes">be</token>
                     </marker>
-                    <token inflected="yes">be</token>
                 </pattern>
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
+                <suggestion>\3 \2</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">I am <marker>sometimes</marker> happy.</example>
-                <example type="incorrect">I <marker>sometimes</marker> am happy.</example>
+                <example type="correct">I <marker>am sometimes</marker> happy.</example>
+                <example type="incorrect">I <marker>sometimes am</marker> happy.</example>
                 <example type="correct">Although they can <marker>sometimes</marker> be found</example>
             </rule>
             <rule>
@@ -6918,89 +6919,95 @@ USA
                     <token postag="PRP"/>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes">be</token>
                     </marker>
-                    <token inflected="yes">be</token>
                 </pattern>
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
+                <suggestion>\3 \2</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">I am here and I am <marker>sometimes</marker> happy.</example>
-                <example type="incorrect">I am here and I <marker>sometimes</marker> am happy.</example>
+                <example type="correct">I am here and I <marker>am sometimes</marker> happy.</example>
+                <example type="incorrect">I am here and I <marker>sometimes am</marker> happy.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token inflected="yes">be</token>
-                    <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                     <marker>
+                        <token inflected="yes" regexp="yes">be|have|will</token>
+                        <token inflected="yes">be</token>
+                        <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token><exception postag="SENT_END"/></token>
                 </pattern>
                 <message>The adverb '\4' is usually put between '\1' and '\2'.</message>
+                <suggestion>\1 \4 \2 \3</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">They have <marker>often</marker> been seen together.</example>
-                <example type="incorrect">They have been seen <marker>often</marker> together.</example>
+                <example type="correct">They <marker>have often been seen</marker> together.</example>
+                <example type="incorrect">They <marker>have been seen often</marker> together.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes" regexp="yes">be|have|will</token>
+                        <token inflected="yes">be</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token inflected="yes">be</token>
                     <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\1' is usually put between '\2' and '\3'.</message>
+                <suggestion>\2 \1 \3</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">They have <marker>often</marker> been seen together.</example>
-                <example type="incorrect">They <marker>often</marker> have been seen together.</example>
+                <example type="correct">They have <marker>often been seen</marker> together.</example>
+                <example type="incorrect">They <marker>often have been</marker> seen together.</example>
 <!--                 <example type="incorrect">She <marker>often</marker> has been late.</example> TODO -->
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">be|have|will<exception postag="VBG"/></token>
-                    <token inflected="yes">be<exception>art</exception></token>
                     <marker>
+                        <token inflected="yes" regexp="yes">be|have|will<exception postag="VBG"/></token>
+                        <token inflected="yes">be<exception>art</exception></token>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\3' is usually put between '\1' and '\2'.</message>
+                <suggestion>\1 \3 \2</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">The human being is <marker>often</marker> regarded as</example>
-                <example type="correct">They have <marker>often</marker> been seen together.</example>
-                <example type="incorrect">They have been <marker>often</marker> seen together.</example>
+                <example type="correct">The human being <marker>is often</marker> regarded as</example>
+                <example type="correct">They <marker>have often</marker> been seen together.</example>
+                <example type="incorrect">They <marker>have been often</marker> seen together.</example>
 <!--                 <example type="incorrect">He has been <marker>often</marker> late.</example> TODO -->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
                     <marker>
+                        <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token><exception postag="VB.*|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\2' is usually put before the verb '\1'.</message>
+                <suggestion>\2 \1</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">I <marker>often</marker> go to bed before midnight.</example>
-                <example type="incorrect">I go <marker>often</marker> to bed before midnight.</example>
-                <example type="correct">I will <marker>always</marker> love you.</example>
-                <example type="incorrect">I will love <marker>always</marker> you.</example>
+                <example type="correct">I <marker>often go</marker> to bed before midnight.</example>
+                <example type="incorrect">I <marker>go often</marker> to bed before midnight.</example>
+                <example type="correct">I <marker>will always</marker> love you.</example>
+                <example type="incorrect">I will <marker>love always</marker> you.</example>
             </rule>
             <rule>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">have|be|will</exception></token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes" regexp="yes">be|have|will</token>
+                        <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\2' is usually put between '\3' and '\4'.</message>
+                <suggestion>\3 \2 \4</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">They <marker>usually</marker> have long hind limbs</example>
-                <example type="correct">I will <marker>always</marker> love you.</example>
-                <example type="incorrect">I <marker>always</marker> will love you.</example>
+                <example type="correct">They <marker>usually have</marker> long hind limbs</example>
+                <example type="correct">I <marker>will always love</marker> you.</example>
+                <example type="incorrect">I <marker>always will love</marker> you.</example>
             </rule>
         </rulegroup>
         <rule id="GOING_TO_VBD" name="Use of past form with 'going to ...'">
