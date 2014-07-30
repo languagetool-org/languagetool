@@ -8203,6 +8203,32 @@ USA
             <example type="incorrect" correction="for dinner">Ray and Helen went with us <marker>for a dinner</marker> in the hotel restaurant.</example>
           </rule>
         </rulegroup>
+        <rulegroup id="IN_1990s" name="Missing definite article in the date">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>in|during</token>
+                    <token regexp='yes'>(1[89]|20)\d0s</token>
+                </pattern>
+                <message>The article is probably missing here: <suggestion><match no="1"/> the <match no="2"/></suggestion>.</message>
+                <url>http://pl.talkenglish.com/Grammar/articles.aspx</url>
+                <short>Missing article</short>
+                <example type='incorrect' correction="in the 1990s">It happened <marker>in 1990s</marker>.</example>
+                <example type='correct'>It happened in the 1990s.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>in|during</token>
+                    <token regexp='yes'>(1[89]|20)\d0</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>The article is probably missing here: <suggestion><match no="1"/> the <match no="2"/><match no="3"/><match no="4"/></suggestion>.</message>
+                <url>http://pl.talkenglish.com/Grammar/articles.aspx</url>
+                <short>Missing article</short>
+                <example type='incorrect' correction="in the 1990's">It happened <marker>in 1990's</marker>.</example>
+                <example type='correct'>It happened in the 1990's.</example>
+            </rule>
+        </rulegroup>
         <!--  needs more and more tweaking;
   currently the last exception in all rules is a simplification,
   it should be more recursive, i.e., there one more rule for all current rules, structured like this:
