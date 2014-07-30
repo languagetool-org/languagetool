@@ -61,6 +61,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("convidar el seu heroi –del ram que sigui–… a prendre cafè.");
 
     // Abbreviations
+    testSplit("No Mr. Spock sinó un altre.");
     testSplit("Vegeu el cap. 24 del llibre.");
     testSplit("Vegeu el cap. IX del llibre.");
     testSplit("Viu al núm. 24 del carrer de l'Hort.");
@@ -68,6 +69,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("Distingit Sr. Joan,");
     testSplit("Molt Hble. Sr. President");
     testSplit("de Sant Nicolau (del s. XII; cor gòtic del s. XIV) i de Sant ");
+    testSplit("Va ser el 5è. classificat.");
+    testSplit("Va ser el 5è. ", "I l'altre el 4t.");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");

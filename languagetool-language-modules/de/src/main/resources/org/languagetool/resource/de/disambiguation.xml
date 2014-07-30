@@ -15,4 +15,42 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="add"><wd pos="PKT"/></disambig>
     </rule>
+    
+    <rule name="Open Source" id="OPEN_SOURCE">
+        <pattern>
+            <marker>
+                <token>Open</token>
+                <token>Source</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Open-Source-Software" id="OPEN_SOURCE_SOFTWARE">
+        <pattern>
+            <marker>
+                <token>Open-Source-Software</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="x-Jährige" id="x-JAEHRIGE">
+        <pattern>
+            <marker>
+                <!-- "Zeit seines Lebens hat der 76-Jährige keine Häuser gebaut." (aber: hat der 76-jährige Architekt...) -->
+                <token regexp="yes">\d+-Jährigen?</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="Ein und Alles" id="EIN_UND_ALLES">
+        <pattern>
+            <!-- http://canoo.net/blog/2008/11/14/zum-einen-zum-anderen/ -->
+            <marker>
+                <token>Ein</token>
+                <token>und</token>
+                <token>Alles</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

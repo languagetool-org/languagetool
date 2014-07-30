@@ -103,17 +103,14 @@ public final class Main {
 
   private void loadFile() {
     final File file = Tools.openFileDialog(frame, new PlainTextFileFilter());
-    if (file == null) {
-      // user clicked cancel
+    if (file == null) {  // user clicked cancel
       return;
     }
-    try {
-      try (FileInputStream inputStream = new FileInputStream(file)) {
-        final String fileContents = StringTools.readStream(inputStream, null);
-        textArea.setText(fileContents);
-        currentFile = file;
-        updateTitle();
-      }
+    try (FileInputStream inputStream = new FileInputStream(file)) {
+      final String fileContents = StringTools.readStream(inputStream, null);
+      textArea.setText(fileContents);
+      currentFile = file;
+      updateTitle();
     } catch (IOException e) {
       Tools.showError(e);
     }
@@ -126,27 +123,16 @@ public final class Main {
       jfc.showSaveDialog(frame);
 
       File file = jfc.getSelectedFile();
-      if (file == null) {
-        // user clicked cancel
+      if (file == null) {  // user clicked cancel
         return;
       }
       currentFile = file;
       updateTitle();
     }
-    BufferedWriter writer = null;
-    try {
-      writer = new BufferedWriter(new FileWriter(currentFile));
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(currentFile))) {
       writer.write(textArea.getText());
     } catch (IOException ex) {
       Tools.showError(ex);
-    } finally {
-      if (writer != null) {
-        try {
-          writer.close();
-        } catch (IOException ex) {
-          Tools.showError(ex);
-        }
-      }
     }
   }
 
@@ -396,8 +382,9 @@ public final class Main {
             || config.getFontStyle() != Configuration.FONT_STYLE_INVALID
             || config.getFontSize() != Configuration.FONT_SIZE_INVALID) {
       String fontName = config.getFontName();
-      if(fontName == null)
+      if (fontName == null) {
         fontName = textArea.getFont().getFamily();
+      }
       int fontSize = config.getFontSize();
       if (fontSize == Configuration.FONT_SIZE_INVALID) {
         fontSize = textArea.getFont().getSize();
@@ -451,6 +438,22 @@ public final class Main {
     grammarMenu.add(new AddRulesAction());
     grammarMenu.add(new OptionsAction());
     grammarMenu.add(new SelectFontAction());
+    JMenu lafMenu = new JMenu(messages.getString("guiLookAndFeelMenu"));
+    UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
+    ButtonGroup buttonGroup = new ButtonGroup();
+    for(UIManager.LookAndFeelInfo laf : lafInfo) {
+      if(!"Nimbus".equals(laf.getName())) {
+        continue;
+      }
+      addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
+    }
+    for(UIManager.LookAndFeelInfo laf : lafInfo) {
+      if("Nimbus".equals(laf.getName())) {
+        continue;
+      }
+      addLookAndFeelMenuItem(lafMenu, laf, buttonGroup);
+    }    
+    grammarMenu.add(lafMenu);
     
     helpMenu.add(new AboutAction());
 
@@ -494,17 +497,44 @@ public final class Main {
     menuBar.add(helpMenu);
     return menuBar;
   }
-  
+
+  private void addLookAndFeelMenuItem(JMenu lafMenu, 
+        UIManager.LookAndFeelInfo laf, ButtonGroup buttonGroup)  
+  {
+    JRadioButtonMenuItem lfItem = new JRadioButtonMenuItem(new SelectLFAction(laf));
+    lafMenu.add(lfItem);
+    buttonGroup.add(lfItem);
+    if(laf.getName().equals(UIManager.getLookAndFeel().getName())) {
+      buttonGroup.setSelected(lfItem.getModel(), true);
+    }
+  }
+
   private void setLookAndFeel() {
+    String lookAndFeelName = null;
+    String className = null;
     try {
-      for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-        if ("Nimbus".equals(info.getName())) {
-          UIManager.setLookAndFeel(info.getClassName());
-          break;
-        }
+      Configuration config = new Configuration(new File(System.getProperty("user.home")), LanguageToolSupport.CONFIG_FILE, null);
+      if (config.getLookAndFeelName() != null) {
+        lookAndFeelName = config.getLookAndFeelName();
       }
-    } catch (Exception ignored) {
-      // Well, what can we do...
+    } catch (IOException ex) {
+      // ignore
+    }
+    if (lookAndFeelName == null) {
+      lookAndFeelName = "Nimbus";
+    }
+    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+      if (lookAndFeelName.equals(info.getName())) {
+        className = info.getClassName();
+        break;
+      }
+    }
+    if (className != null) {
+      try {
+        UIManager.setLookAndFeel(className);
+      } catch (Exception ignored) {
+        // Well, what can we do...
+      }
     }
   }
 
@@ -1049,10 +1079,8 @@ public final class Main {
     public void actionPerformed(ActionEvent e) {
       try {
         addLanguage();
-      } catch (InstantiationException e1) {
-        throw new RuntimeException(e1);
-      } catch (IllegalAccessException e1) {
-        throw new RuntimeException(e1);
+      } catch (InstantiationException | IllegalAccessException ex) {
+        throw new RuntimeException(ex);
       }
     }
   }
@@ -1080,6 +1108,29 @@ public final class Main {
     @Override
     public void actionPerformed(ActionEvent e) {
       showSelectFontDialog();
+    }
+  }
+
+  class SelectLFAction extends AbstractAction {
+
+    private final UIManager.LookAndFeelInfo lf;
+    
+    public SelectLFAction(UIManager.LookAndFeelInfo lf) {
+      super(lf.getName());
+      this.lf = lf;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+      try {
+        UIManager.setLookAndFeel(lf.getClassName());
+        SwingUtilities.updateComponentTreeUI(frame);
+        frame.pack();
+        ltSupport.getConfig().setLookAndFeelName(lf.getName());
+      } catch (ClassNotFoundException | InstantiationException
+              | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+        Tools.showError(ex);
+      }
     }
   }
 

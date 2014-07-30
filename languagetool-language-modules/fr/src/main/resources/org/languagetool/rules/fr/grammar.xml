@@ -580,13 +580,14 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token>près<exception scope="previous">peu</exception></token></marker>
+          <marker><token>près<exception scope="previous" regexp="yes">peu|de</exception></token></marker>
           <token>à</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>prêt</suggestion> ?</message>
         <example type="incorrect">Il est <marker>près</marker> à tout.</example>
         <example type="correct">Il est prêt à tout.</example>
         <example type="correct">L’étoile se trouve à peu <marker>près</marker> à 50 années-lumière.</example>
+        <example type="correct">Il s’intéresse de près à l’environment.</example>
       </rule>
       <rule>
         <pattern>
@@ -849,13 +850,13 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="GENE" name="Gène et gêne">
+      <url>http://www.academie-francaise.fr/gene-et-gene</url>
       <rule>
         <pattern>
           <token regexp="yes">avec|sans|[mt]e|[nv]ous</token>
           <marker><token>gène</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gêne</suggestion> ?</message>
-        <url>http://www.academie-francaise.fr/gene-et-gene</url>
         <example type="incorrect">Il est sans <marker>gène</marker>.</example>
         <example type="correct">Il est sans gêne.</example>
       </rule>
@@ -865,7 +866,6 @@ though, and has since been slightly modified)-->
           <marker><token>gênes</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gènes</suggestion> ?</message>
-        <url>http://www.academie-francaise.fr/gene-et-gene</url>
         <example type="incorrect">Nos <marker>gênes</marker> déterminent ce que nous sommes.</example>
         <example type="correct">Nos <marker>gènes</marker> déterminent ce que nous sommes.</example>
       </rule>
@@ -885,6 +885,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="PEUTETRE" name="Peut être au lieu de peut-être">
+      <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
       <rule>
         <pattern>
           <token postag="V.*" postag_regexp="yes"><exception postag="V inf"/><exception>cela</exception></token>
@@ -894,7 +895,6 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peut-être</suggestion> ?</message>
-        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
         <example type="incorrect">Il partira <marker>peut être</marker> demain.</example>
         <example type="correct">Il partira peut-être demain.</example>
         <example type="correct">Cela peut être vrai.</example>
@@ -910,7 +910,6 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">peut[-‑‐]être</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peut être</suggestion> ?</message>
-        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
         <example type="incorrect">Elle <marker>peut-être</marker> ennuyeuse.</example>
         <example type="correct">Elle peut être ennuyeuse.</example>
         <example type="correct">La lettre est à elle peut-être.</example>
@@ -925,7 +924,6 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>Peut-être</suggestion> ?</message>
-        <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
         <example type="incorrect"><marker>Peut être</marker> viendra-t-il ?</example>
         <example type="correct">Peut-être viendra-t-il ?</example>
       </rule>
@@ -985,6 +983,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="GOLF_GOLFE" name="golf et golfe">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
       <rule>
         <pattern>
           <token regexp="yes">guerre|émirs?</token>
@@ -992,7 +991,6 @@ though, and has since been slightly modified)-->
           <marker><token>Golf</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>Golfe</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">Il a réalisé un documentaire sur la guerre du <marker>Golf</marker>.</example>
         <example type="correct">Il a réalisé un documentaire sur la guerre du <marker>Golfe</marker>.</example>
       </rule>
@@ -1004,7 +1002,6 @@ though, and has since been slightly modified)-->
           <marker><token>golfe</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>golf</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">Je joue au <marker>golfe</marker> depuis un an.</example>
         <example type="correct">Je joue au golf depuis un an.</example>
         <example type="incorrect">Je joue souvent au <marker>golfe</marker> le dimanche.</example>
@@ -1017,7 +1014,6 @@ though, and has since been slightly modified)-->
           <marker><token>golfe</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>golf</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">C’est un bon joueur de <marker>golfe</marker>.</example>
         <example type="correct">C’est un bon joueur de golf.</example>
       </rule>
@@ -1027,7 +1023,6 @@ though, and has since been slightly modified)-->
           <token>Persique</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">Le <marker>golf</marker> Persique est presque une mer fermée.</example>
         <example type="correct">Le golfe Persique est presque une mer fermée.</example>
       </rule>
@@ -1038,7 +1033,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Bengale|Botnie|Gascogne|Gabès|Guinée|Lion|Morbihan|Mexique|Porto|Saint[-‑‐]Laurent|Thaïlande|Tonkin|Tunis|Winam</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">J’ai fait de la voile dans le <marker>golf</marker> du Morbihan.</example>
         <example type="correct">J’ai fait de la voile dans le <marker>golfe</marker> du Morbihan.</example>
       </rule>
@@ -1050,7 +1044,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Aden|Ajaccio|Alaska|Hammamet</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>golfe</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2210</url>
         <example type="incorrect">Le <marker>golf</marker> d’Aden est la baie située entre la corne de l’Afrique et la péninsule Arabique.</example>
         <example type="correct">Le golfe d’Aden est la baie située entre la corne de l’Afrique et la péninsule Arabique.</example>
       </rule>
@@ -1150,6 +1143,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="AMENDE_AMANDE" name="Amende ou amande">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2045</url>
       <rule>
         <pattern>
           <token regexp="yes">en|aux<exception scope="previous">face</exception></token>
@@ -1193,6 +1187,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="COEUR_CHOEUR" name="cœur et chœur">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2055</url>
       <rule>
         <pattern>
           <token regexp="yes">enfants?|chefs?</token>
@@ -1590,6 +1585,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
       <rule>
         <pattern>
           <marker>
@@ -1598,7 +1594,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">que?|et|[!;:.»…]</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
         <example type="incorrect" correction="sûr">J’en suis <marker>sur</marker>.</example>
         <example type="correct">J’en suis sûr.</example>
         <example type="incorrect" correction="Sûr"><marker>Sur</marker> et certain.</example>
@@ -1616,7 +1611,6 @@ though, and has since been slightly modified)-->
           <token><exception postag_regexp="yes" postag="J .*p|V ppa .*p"/></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="(.).(.*)" regexp_replace="$1û$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
         <example type="incorrect" correction="sûr">Il est <marker>sur</marker> de lui.</example>
         <example type="correct">Il est <marker>sûr</marker> de lui.</example>
         <example type="incorrect" correction="sûrs">Nous nous sentions toujours <marker>surs</marker> de nous.</example>
@@ -1639,7 +1633,6 @@ though, and has since been slightly modified)-->
           <marker><token>sur</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.).(.)" regexp_replace="$1û$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
         <example type="incorrect" correction="sûr">Il réussira à coup <marker>sur</marker> son examen.</example>
         <example type="correct">Il réussira à coup sûr son examen.</example>
       </rule>
@@ -1650,7 +1643,6 @@ though, and has since been slightly modified)-->
           <marker><token>sur</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(.).(.)" regexp_replace="$1û$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
         <example type="incorrect" correction="sûr">Il a mis en lieu <marker>sur</marker> son butin.</example>
         <example type="correct">Il a mis en lieu <marker>sûr</marker> son butin.</example>
       </rule>
@@ -1869,7 +1861,7 @@ though, and has since been slightly modified)-->
         </marker>
         <token postag="V.*" postag_regexp="yes">
           <exception postag="V.* ppa .*" postag_regexp="yes"/>
-          <exception regexp="yes">envie|confiance|cours|force|hâte|recours</exception>
+          <exception regexp="yes">affaire|envie|confiance|cours|force|hâte|recours</exception>
         </token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>on</suggestion> ?</message>
@@ -1880,6 +1872,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Les enfants ont recours au suicide.</example>
       <example type="correct">Les méthodes qui ont cours.</example>
       <example type="correct">Ils ont hâte de vous voir.</example>
+      <example type="correct">Ils comprennent qu’ils ont affaire à un épisode tragique.</example>
     </rule>
     <rule id="SEPTIQUE" name="septique au lieu de sceptique">
       <pattern>
@@ -1954,6 +1947,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Il dépend du <marker>soutien</marker> de ses parents.</example>
     </rule>
     <rulegroup id="ENTRAIN" name="entrain ou en train">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?Th=2&amp;t1=&amp;id=2075</url>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">être|voyager|surprendre|venir|.*[-‑‐](je|tu|on|ils?|elles?|[nv]ous)</token>
@@ -2829,7 +2823,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">tâches?</token></marker>
           <token regexp="yes" skip="1">de?</token>
-          <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|br[uû]lure|café|ceurises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo([-‑‐]bille|feutre)?|suie|sueur|terre|transpiration|tipp[-‑‐]ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
+          <token regexp="yes">betteraves?|beurre|beauté|boissons?|boue|bougie|blanco|br[uû]lure|café|cerises?|cambouis|carottes?|chewing(-?gum)?|cire|colle|couleur|caca|chocolat|confiture|cirage|crayons?|cr[eê]mes?|curry|décoloration|dentifrice|encre|éosine|essence|excréments?|déodorant|fer|feutres?|fientes?|fluo|fruits?|fuel|goudron|gras|graisse|harissa|henné|herbe|huile|javel|ketchup|jus|lait|légumes?|léopard|maquillage|marqueur|mascara|massala|moisi|moisissure|matières?|mazout|mercurochrome|merde|moutarde|naissance|oeuf|œuf|orange|parfum|peinture|pipi|pollen|résine|rouelle|rouge|rousseur|roussi|sauce|sang|s[ée]bum|s[èe]ve|sperme|sombre|soupe|stabilo|stylo([-‑‐]bille|feutre)?|suie|sueur|terre|transpiration|tipp[-‑‐]ex|tomates?|teintures?|urine|vernis|vieillesse|vomit?|vomissure|vin</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="â" regexp_replace="a"/></suggestion> ?</message>
         <example type="incorrect" correction="tache">Une <marker>tâche</marker> de ketchup sur la chemise.</example>
@@ -2909,42 +2903,32 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="NOM_MAL_EPELE" name="Jimmy Hendrix → Jimi Hendrix (etc.)">
       <rule>
+        <antipattern>
+          <token>Jimi</token>
+          <token>Hendrix</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Jimm?y|Jimmi</token>
+          <token regexp="yes">Jimm?[yi]</token>
           <token regexp="yes">Hendrix|Hendric?ks</token>
         </pattern>
         <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
         <url>https://fr.wikipedia.org/wiki/Jimi_Hendrix</url>
+        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> est né à Seattle.</example>
         <example type="incorrect" correction="Jimi Hendrix"><marker>Jimmy Hendrix</marker> est né à Seattle.</example>
         <example type="correct">Jimi Hendrix est né à Seattle.</example>
       </rule>
       <rule>
-        <pattern>
-          <token>Jimi</token>
-          <token regexp="yes">Hendric?ks</token>
-        </pattern>
-        <message>Écrivez <suggestion>Jimi Hendrix</suggestion> s’il s’agit du guitariste.</message>
-        <url>https://fr.wikipedia.org/wiki/Jimi_Hendrix</url>
-        <example type="incorrect" correction="Jimi Hendrix"><marker>Jimi Hendricks</marker> est né à Seattle.</example>
-        <example type="correct">Jimi Hendrix est né à Seattle.</example>
-      </rule>
-      <rule>
-        <pattern>
+        <antipattern>
           <token>Barbara</token>
-          <token regexp="yes">Hendrix|Hendric?ks?<exception>Hendricks</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Barbara Hendricks</suggestion> s’il s’agit de la cantatrice.</message>
-        <url>https://fr.wikipedia.org/wiki/Barbara_Hendricks</url>
-        <example type="incorrect" correction="Barbara Hendricks"><marker>Barbara Hendrix</marker> est une cantatrice soprano.</example>
-        <example type="correct">Barbara Hendricks est une cantatrice soprano.</example>
-      </rule>
-      <rule>
+          <token>Hendricks</token>
+        </antipattern>
         <pattern>
-          <token>Barbra</token>
+          <token regexp="yes">Barba?ra</token>
           <token regexp="yes">Hendrix|Hendric?ks?</token>
         </pattern>
         <message>Écrivez <suggestion>Barbara Hendricks</suggestion> s’il s’agit de la cantatrice.</message>
         <url>https://fr.wikipedia.org/wiki/Barbara_Hendricks</url>
+        <example type="incorrect" correction="Barbara Hendricks"><marker>Barbara Hendrix</marker> est une cantatrice soprano.</example>
         <example type="incorrect" correction="Barbara Hendricks"><marker>Barbra Hendricks</marker> est une cantatrice soprano.</example>
         <example type="correct">Barbara Hendricks est une cantatrice soprano.</example>
       </rule>
@@ -2969,9 +2953,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Un film des Marx Brothers.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Karl</token>
+          <token>Marx</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[CK]arl</token>
-          <token>Max</token>
+          <token regexp="yes">Mar?x</token>
         </pattern>
         <message>Écrivez <suggestion>Karl Marx</suggestion> s’il s’agit du philosophe/économiste allemand.</message>
         <url>https://fr.wikipedia.org/wiki/Karl_Marx</url>
@@ -3029,8 +3017,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Keira Knightley est une actrice britannique.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Debra</token>
+          <token>Winger</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">D[eé]bb?o?rr?h?ah?<exception>Debra</exception></token>
+          <token regexp="yes">D[eé]bb?o?rr?h?ah?</token>
           <token regexp="yes">Wingg?er</token>
         </pattern>
         <message>Écrivez <suggestion>Debra Winger</suggestion> s’il s’agit de l’actrice américaine.</message>
@@ -3059,70 +3051,62 @@ though, and has since been slightly modified)-->
         <example type="correct">Will Ferrell est né en 1967.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Jimmy</token>
+          <token>Page</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Jimm?[iy]</token>
-          <token>Paige</token>
+          <token regexp="yes">Pai?ge</token>
         </pattern>
         <message>Écrivez <suggestion>Jimmy Page</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
+        <url>https://fr.wikipedia.org/wiki/Jimmy_page</url>
         <example type="incorrect"><marker>Jimmy Paige</marker> est le guitariste de Led Zeppelin.</example>
-        <example type="correct">Jimmy Page est le guitariste de Led Zeppelin.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">Jimm?[iy]<exception>Jimmy</exception></token>
-          <token>Page</token>
-        </pattern>
-        <message>Écrivez <suggestion>Jimmy Page</suggestion> s’il s’agit du guitariste de Led Zeppelin.</message>
-        <url>https://fr.wikipedia.org/wiki/Jimmy_Page</url>
         <example type="incorrect"><marker>Jimmi Page</marker> est le guitariste de Led Zeppelin.</example>
         <example type="correct">Jimmy Page est le guitariste de Led Zeppelin.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Guns</token>
+          <token>N</token>
+          <token regexp="yes" spacebefore="no">[’']</token>
+          <token>Roses</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Guns?</token>
-          <token>And</token>
+          <token regexp="yes">And|N</token>
+          <token min="0" max="1" regexp="yes">[’´'‛′‘]</token>
           <token regexp="yes">Roses?</token>
         </pattern>
         <message>Écrivez <suggestion>Guns N’ Roses</suggestion> s’il s’agit du groupe de hard rock américain.</message>
         <url>https://fr.wikipedia.org/wiki/Guns_N'_Roses</url>
         <example type="incorrect"><marker>Guns And Roses</marker> est un groupe de hard rock américain.</example>
-        <example type="correct"><marker>Guns N’ Roses</marker> est un groupe de hard rock américain.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Gun</token>
-          <token skip="1" regexp="yes">And|N</token>
-          <token regexp="yes">Roses?</token>
-        </pattern>
-        <message>Écrivez <suggestion>Guns N’ Roses</suggestion> s’il s’agit du groupe de hard rock américain.</message>
-        <url>https://fr.wikipedia.org/wiki/Guns_N'_Roses</url>
         <example type="incorrect"><marker>Gun N’ Roses</marker> est un groupe de hard rock américain.</example>
         <example type="correct"><marker>Guns N’ Roses</marker> est un groupe de hard rock américain.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Axl</token>
+          <token>Rose</token>
+        </antipattern>
         <pattern>
-          <token>Axle</token>
+          <token regexp="yes">Axle?</token>
           <token regexp="yes">Roses?</token>
         </pattern>
         <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Guns N' Roses.</message>
         <url>https://fr.wikipedia.org/wiki/Axl_Rose</url>
         <example type="incorrect"><marker>Axle Rose</marker> est né en 1962.</example>
-        <example type="correct">Axl Rose est né en 1962.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Axl</token>
-          <token>Roses</token>
-        </pattern>
-        <message>Écrivez <suggestion>Axl Rose</suggestion> s’il s’agit du chanteur de Guns N' Roses.</message>
-        <url>https://fr.wikipedia.org/wiki/Axl_Rose</url>
         <example type="incorrect"><marker>Axl Roses</marker> est né en 1962.</example>
         <example type="correct">Axl Rose est né en 1962.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Ozzy</token>
+          <token>Osbourne</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Ozz?(y|ie?)</token>
-          <token regexp="yes">Osbou?rne?s?<exception>Osbourne</exception></token>
+          <token regexp="yes">Osbou?rne?s?</token>
         </pattern>
         <message>Écrivez <suggestion>Ozzy Osbourne</suggestion> s’il s’agit du chanteur de Black Sabbath.</message>
         <url>https://fr.wikipedia.org/wiki/Ozzy_Osbourne</url>
@@ -3130,9 +3114,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Connais-tu Ozzy Osbourne ?</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Randy</token>
-          <token regexp="yes">Rh?oa?de?s?<exception>Rhoads</exception></token>
+          <token>Rhoads</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Rand[yi]e?</token>
+          <token regexp="yes">Rh?oa?de?s?</token>
         </pattern>
         <message>Écrivez <suggestion>Randy Rhoads</suggestion> s’il s’agit du guitariste américain.</message>
         <url>https://fr.wikipedia.org/wiki/Randy_Rhoads</url>
@@ -3160,32 +3148,30 @@ though, and has since been slightly modified)-->
         <example type="correct">Lionel Richie est né en 1949.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Eddie</token>
-          <token regexp="yes">Rabb?itt?<exception>Rabbitt</exception></token>
+          <token>Rabbitt</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Edd[iy]e?</token>
+          <token regexp="yes">Rabb?itt?</token>
         </pattern>
         <message>Écrivez <suggestion>Eddie Rabbitt</suggestion> s’il s’agit du chanteur américain.</message>
         <example type="incorrect">Connais-tu <marker>Eddie Rabbit</marker> ?</example>
         <example type="correct">Connais-tu Eddie Rabbitt ?</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Billie</token>
+          <token>Holiday</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Bill?y|Bill?ie?<exception>Billie</exception></token>
-          <token regexp="yes">Holl?idays?</token>
+          <token regexp="yes">Bill?[iy]e?</token>
+          <token regexp="yes">H[ao]ll?idays?</token>
         </pattern>
         <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Billie_Holiday</url>
         <example type="incorrect">Connais-tu <marker>Billy Holiday</marker> ?</example>
-        <example type="correct">Connais-tu Billie Holiday ?</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Billie</token>
-          <token regexp="yes">Holl?idays?<exception>Holiday</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Billie Holiday</suggestion> s’il s’agit de la chanteuse de jazz américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Billie_Holiday</url>
-        <example type="incorrect">Connais-tu <marker>Billie Holidays</marker> ?</example>
         <example type="correct">Connais-tu Billie Holiday ?</example>
       </rule>
       <rule>
@@ -3227,22 +3213,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Sid Vicious est né en 1957.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Donna</token>
+          <token>Summer</token>
+        </antipattern>
         <pattern>
-          <token>Dona</token>
+          <token regexp="yes">Donn?a</token>
           <token regexp="yes">S[uo]mmers?</token>
         </pattern>
         <message>Écrivez <suggestion>Donna Summer</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Donna_Summer</url>
         <example type="incorrect"><marker>Dona Summer</marker></example>
-        <example type="correct">Donna Summer</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Donna</token>
-          <token regexp="yes">S[uo]mmers?<exception>Summer</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Donna Summer</suggestion> s’il s’agit de la chanteuse américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Donna_Summer</url>
         <example type="incorrect"><marker>Donna Summers</marker></example>
         <example type="correct">Donna Summer</example>
       </rule>
@@ -3256,42 +3237,32 @@ though, and has since been slightly modified)-->
         <example type="correct">J’aime beaucoup Megadeth.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Led</token>
-          <token regexp="yes">Zepp?e?ll?inn?e?<exception>Zeppelin</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Led Zeppelin</suggestion> s’il s’agit du groupe rock.</message>
-        <url>https://fr.wikipedia.org/wiki/Led_Zeppelin</url>
-        <example type="incorrect">Un disque de <marker>Led Zepelin</marker>.</example>
-        <example type="correct">Un disque de Led Zeppelin.</example>
-      </rule>
-      <rule>
+          <token>Zeppelin</token>
+        </antipattern>
         <pattern>
-          <token>Lead</token>
+          <token regexp="yes">Lea?d</token>
           <token regexp="yes">Zepp?e?ll?inn?e?</token>
         </pattern>
         <message>Écrivez <suggestion>Led Zeppelin</suggestion> s’il s’agit du groupe rock.</message>
         <url>https://fr.wikipedia.org/wiki/Led_Zeppelin</url>
+        <example type="incorrect">Un disque de <marker>Led Zepelin</marker>.</example>
         <example type="incorrect">Un disque de <marker>Lead Zeppelin</marker>.</example>
         <example type="correct">Un disque de Led Zeppelin.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Def</token>
+          <token>Leppard</token>
+        </antipattern>
         <pattern>
-          <token>Deaf</token>
+          <token regexp="yes">Dea?f</token>
           <token regexp="yes">Leo?pp?ard</token>
         </pattern>
         <message>Écrivez <suggestion>Def Leppard</suggestion> s’il s’agit du groupe rock.</message>
         <url>https://fr.wikipedia.org/wiki/Def_Leppard</url>
         <example type="incorrect">Un disque de <marker>Deaf Leppard</marker>.</example>
-        <example type="correct">Un disque de Def Leppard.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Def</token>
-          <token regexp="yes">Leo?pp?ard<exception>Leppard</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Def Leppard</suggestion> s’il s’agit du groupe rock.</message>
-        <url>https://fr.wikipedia.org/wiki/Def_Leppard</url>
         <example type="incorrect">Un disque de <marker>Def Leopard</marker>.</example>
         <example type="correct">Un disque de Def Leppard.</example>
       </rule>
@@ -3477,41 +3448,31 @@ though, and has since been slightly modified)-->
         <example type="correct">Jane Austen</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Jimmy</token>
-          <token regexp="yes">Buff?et|Bufett</token>
+          <token>Buffett</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Jimm?[iy]</token>
+          <token regexp="yes">Buff?ett?</token>
         </pattern>
         <message>Écrivez <suggestion>Jimmy Buffett</suggestion> s’il s’agit du chanteur américain.</message>
         <example type="incorrect"><marker>Jimmy Buffet</marker> est né en 1946.</example>
-        <example type="correct">Jimmy Buffett est né en 1946.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">Jimm?i|Jimy</token>
-          <token>Buffett</token>
-        </pattern>
-        <message>Écrivez <suggestion>Jimmy Buffett</suggestion> s’il s’agit du chanteur américain.</message>
-        <url>https://fr.wikipedia.org/wiki/Jimmy_Buffett</url>
         <example type="incorrect"><marker>Jimi Buffett</marker> est né en 1946.</example>
         <example type="correct">Jimmy Buffett est né en 1946.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Warren</token>
-          <token regexp="yes">Buff?et|Bufett</token>
-        </pattern>
-        <message>Écrivez <suggestion>Warren Buffett</suggestion> s’il s’agit de l’homme d’affaires américain.</message>
-        <url>https://fr.wikipedia.org/wiki/Warren_Buffett</url>
-        <example type="incorrect"><marker>Warren Buffet</marker> est né en 1930.</example>
-        <example type="correct">Warren Buffett est né en 1930.</example>
-      </rule>
-      <rule>
+          <token>Buffett</token>
+        </antipattern>
         <pattern>
-          <token>Waren</token>
+          <token regexp="yes">Warr?en?</token>
           <token regexp="yes">Buff?ett?</token>
         </pattern>
         <message>Écrivez <suggestion>Warren Buffett</suggestion> s’il s’agit de l’homme d’affaires américain.</message>
         <url>https://fr.wikipedia.org/wiki/Warren_Buffett</url>
+        <example type="incorrect"><marker>Warren Buffet</marker> est né en 1930.</example>
         <example type="incorrect"><marker>Waren Buffett</marker> est né en 1930.</example>
         <example type="correct">Warren Buffett est né en 1930.</example>
       </rule>
@@ -3554,42 +3515,32 @@ though, and has since been slightly modified)-->
         <example type="correct">Gandhi</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Barack</token>
-          <token regexp="yes">Obb?amm?a<exception>Obama</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Barack Obama</suggestion> s’il s’agit du président des États-Unis.</message>
-        <url>https://fr.wikipedia.org/wiki/Barack_Obama</url>
-        <example type="incorrect"><marker>Barack Obbama</marker></example>
-        <example type="correct">Barack Obama</example>
-      </rule>
-      <rule>
+          <token>Obama</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Barr?a[ck]</token>
+          <token regexp="yes">Barr?ac?[ck]</token>
           <token regexp="yes">Obb?amm?a</token>
         </pattern>
         <message>Écrivez <suggestion>Barack Obama</suggestion> s’il s’agit du président des États-Unis.</message>
         <url>https://fr.wikipedia.org/wiki/Barack_Obama</url>
         <example type="incorrect"><marker>Barak Obama</marker></example>
+        <example type="incorrect"><marker>Barack Obbama</marker></example>
         <example type="correct">Barack Obama</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Salma</token>
+          <token>Hayek</token>
+        </antipattern>
         <pattern>
-          <token>Selma</token>
+          <token regexp="yes">S[ae]lma</token>
           <token regexp="yes">Ha[yj][ae]c?k</token>
         </pattern>
         <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Salma_Hayek</url>
         <example type="incorrect"><marker>Selma Hayek</marker></example>
-        <example type="correct">Salma Hayek</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Salma</token>
-          <token regexp="yes">Ha[yj][ae]c?k<exception>Hayek</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Salma Hayek</suggestion> de l’actrice mexico-américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Salma_Hayek</url>
         <example type="incorrect"><marker>Salma Hayeck</marker></example>
         <example type="correct">Salma Hayek</example>
       </rule>
@@ -3629,22 +3580,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Bjarne Stroustrup est l’auteur du c++.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Linus</token>
+          <token>Torvalds</token>
+        </antipattern>
         <pattern>
-          <token>Linux</token>
+          <token regexp="yes">Linu[xs]</token>
           <token regexp="yes">Th?orvald?s?</token>
         </pattern>
         <message>Écrivez <suggestion>Linus Torvalds</suggestion> s’il s’agit du créateur de Linux.</message>
         <url>https://fr.wikipedia.org/wiki/Linus_Torvalds</url>
         <example type="incorrect"><marker>Linux Torvalds</marker></example>
-        <example type="correct">Linus Torvalds</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Linus</token>
-          <token regexp="yes">Th?orvald?s?<exception>Torvalds</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Linus Torvalds</suggestion> s’il s’agit du créateur de Linux.</message>
-        <url>https://fr.wikipedia.org/wiki/Linus_Torvalds</url>
         <example type="incorrect"><marker>Linus Thorvalds</marker></example>
         <example type="correct">Linus Torvalds</example>
       </rule>
@@ -3691,9 +3637,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Valéry Giscard d’Estaing</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>François</token>
+          <token>Mitterrand</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Fran[cç]ois</token>
-          <token regexp="yes">Miterrand|Mitterand</token>
+          <token regexp="yes">Mit?terr?and</token>
         </pattern>
         <message>Écrivez <suggestion>François Mitterrand</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Mitterrand</url>
@@ -3701,9 +3651,13 @@ though, and has since been slightly modified)-->
         <example type="correct">François Mitterrand</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Nicolas</token>
+          <token>Sarkozy</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Nich?olas?</token>
-          <token regexp="yes">Sar[kc]o[sz][yi]e?<exception>Sarkozy</exception></token>
+          <token regexp="yes">Sar[kc]o[sz][yi]e?</token>
         </pattern>
         <message>Écrivez <suggestion>Nicolas Sarkozy</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Nicolas_Sarkozy</url>
@@ -3711,56 +3665,51 @@ though, and has since been slightly modified)-->
         <example type="correct">Nicolas Sarkozy</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>François</token>
+          <token>Hollande</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Fran[cç]ois</token>
-          <token>Holland</token>
+          <token regexp="yes">Holl?ande?</token>
         </pattern>
         <message>Écrivez <suggestion>François Hollande</suggestion> s’il s’agit du président de la république.</message>
         <url>https://fr.wikipedia.org/wiki/Fran%C3%A7ois_Hollande</url>
         <example type="incorrect"><marker>François Holland</marker></example>
+        <example type="incorrect"><marker>Francois Hollande</marker></example>
         <example type="correct">François Hollande</example>
       </rule>
       <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
            to see how LanguageTool can be useful. -->
       <rule>
-        <pattern>
+        <antipattern>
           <token>Liliane</token>
-          <token regexp="yes">Bett?[ae]ncc?our[ts]?<exception>Bettencourt</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Liliane Bettencourt</suggestion> s’il s’agit de la femme d’affaires française.</message>
-        <url>https://fr.wikipedia.org/wiki/Liliane_Bettencourt</url>
-        <example type="incorrect"><marker>Liliane Betencourt</marker> est née en 1922.</example>
-        <example type="correct">Liliane Bettencourt est née en 1922.</example>
-      </rule>
-      <rule>
+          <token>Bettencourt</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Lill?iann?e<exception>Liliane</exception></token>
+          <token regexp="yes">Lill?iann?e</token>
           <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
         </pattern>
         <message>Écrivez <suggestion>Liliane Bettencourt</suggestion> s’il s’agit de la femme d’affaires française.</message>
         <url>https://fr.wikipedia.org/wiki/Liliane_Bettencourt</url>
         <example type="incorrect"><marker>Lilianne Bettencourt</marker> est née en 1922.</example>
+        <example type="incorrect"><marker>Liliane Betencourt</marker> est née en 1922.</example>
         <example type="correct">Liliane Bettencourt est née en 1922.</example>
       </rule>
       <!-- See http://www.liberation.fr/societe/2012/11/23/sarkozy-les-juges-ont-ils-confondu-bettencourt-et-betancourt_862496
            to see how LanguageTool can be useful. -->
       <rule>
-        <pattern>
+        <antipattern>
           <token>Ingrid</token>
-          <token regexp="yes">Bett?[ae]ncc?our[ts]?<exception>Betancourt</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Ingrid Betancourt</suggestion> s’il s’agit de la femme politique franco-colombienne.</message>
-        <url>https://fr.wikipedia.org/wiki/%C3%8Dngrid_Betancourt</url>
-        <example type="incorrect"><marker>Ingrid Bettencourt</marker> est née en 1961.</example>
-        <example type="correct">Ingrid Betancourt est née en 1961.</example>
-      </rule>
-      <rule>
+          <token>Betancourt</token>
+        </antipattern>
         <pattern>
-          <token>Ingride</token>
+          <token regexp="yes">Ingride?</token>
           <token regexp="yes">Bett?[ae]ncc?our[ts]?</token>
         </pattern>
         <message>Écrivez <suggestion>Ingrid Betancourt</suggestion> s’il s’agit de la femme politique franco-colombienne.</message>
         <url>https://fr.wikipedia.org/wiki/%C3%8Dngrid_Betancourt</url>
+        <example type="incorrect"><marker>Ingrid Bettencourt</marker> est née en 1961.</example>
         <example type="incorrect"><marker>Ingride Betancourt</marker> est née en 1961.</example>
         <example type="correct">Ingrid Betancourt est née en 1961.</example>
       </rule>
@@ -3785,8 +3734,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Ringo Starr</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Sophia</token>
+          <token>Loren</token>
+        </antipattern>
         <pattern>
-          <token>Sofia</token>
+          <token regexp="yes">Sofia|Sophia</token>
           <token regexp="yes">Lorr?enn?e?</token>
         </pattern>
         <message>Écrivez <suggestion>Sophia Loren</suggestion> s’il s’agit l’actrice italienne.</message>
@@ -3836,8 +3789,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Dark Vador est un personnage de Star Wars.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Dark</token>
+          <token>Vador</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Darth|Darke</token>
+          <token regexp="yes">Darthe?|Darke?</token>
           <token regexp="yes">Vadore?|Vatere?|Vadere|Va[dt]re</token>
         </pattern>
         <message>Écrivez <suggestion>Dark Vador</suggestion> (<suggestion>Darth Vader</suggestion> en anglais) s’il s’agit du personnage de Star Wars.</message>
@@ -3847,9 +3804,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Dark Vador est un personnage de Star Wars.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Freddy</token>
+          <token>Krueger</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Fredd?[iy]e?</token>
-          <token regexp="yes">Kr[uü]gg?er</token>
+          <token regexp="yes">Kr[uü]e?gg?er</token>
         </pattern>
         <message>Écrivez <suggestion>Freddy Krueger</suggestion> s’il s’agit du personnage de fiction.</message>
         <url>https://fr.wikipedia.org/wiki/Freddy_Krueger</url>
@@ -3867,8 +3828,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Forrest Gump</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Whoopi</token>
+          <token>Goldberg</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Whoo?pie?<exception>Whoopi</exception></token>
+          <token regexp="yes">Whoo?pie?</token>
           <token regexp="yes">Gold?berg</token>
         </pattern>
         <message>Écrivez <suggestion>Whoopi Goldberg</suggestion> s’il s’agit de l’actrice américaine.</message>
@@ -3897,22 +3862,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Courteney Cox</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Alyssa</token>
+          <token>Milano</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">All?[iy]ss?a<exception>Alyssa</exception></token>
+          <token regexp="yes">All?[iy]ss?a</token>
           <token regexp="yes">Mill?ann?o</token>
         </pattern>
         <message>Écrivez <suggestion>Alyssa Milano</suggestion> s’il s’agit de l’actrice américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Alyssa_Milano</url>
         <example type="incorrect"><marker>Alissa Milano</marker></example>
-        <example type="correct">Alyssa Milano</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Alyssa</token>
-          <token regexp="yes">Mill?ann?o<exception>Milano</exception></token>
-        </pattern>
-        <message>Écrivez <suggestion>Alyssa Milano</suggestion> s’il s’agit de l’actrice américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Alyssa_Milano</url>
         <example type="incorrect"><marker>Alyssa Milanno</marker></example>
         <example type="correct">Alyssa Milano</example>
       </rule>
@@ -3947,22 +3907,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Jodie Foster</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Alan</token>
+          <token>Stivell</token>
+        </antipattern>
         <pattern>
-          <token>Allan</token>
+          <token regexp="yes">All?an</token>
           <token regexp="yes">Stivell?</token>
         </pattern>
         <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
         <url>https://fr.wikipedia.org/wiki/Alan_Stivell</url>
         <example type="incorrect"><marker>Allan Stivell</marker></example>
-        <example type="correct">Alan Stivell</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Alan</token>
-          <token>Stivel</token>
-        </pattern>
-        <message>Écrivez <suggestion>Alan Stivell</suggestion> s’il s’agit du musicien breton.</message>
-        <url>https://fr.wikipedia.org/wiki/Alan_Stivell</url>
         <example type="incorrect"><marker>Alan Stivel</marker></example>
         <example type="correct">Alan Stivell</example>
       </rule>
@@ -3996,42 +3951,32 @@ though, and has since been slightly modified)-->
         <example type="correct">Bernez Tangi est un poète en langue bretonne.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Britney</token>
-          <token>Spear</token>
-        </pattern>
-        <message>Écrivez <suggestion>Britney Spears</suggestion> s’il s’agit de la chanteuse américaine.</message>
-        <url>https://fr.wikipedia.org/wiki/Britney_Spears</url>
-        <example type="incorrect"><marker>Britney Spear</marker></example>
-        <example type="correct">Britney Spears</example>
-      </rule>
-      <rule>
+          <token>Spears</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">Britt?a?nn?(y|ie?)|Brittne?y</token>
+          <token regexp="yes">Britt?a?nn?(y|ie?)|Britt?ne?y</token>
           <token regexp="yes">Spears?</token>
         </pattern>
         <message>Écrivez <suggestion>Britney Spears</suggestion> s’il s’agit de la chanteuse américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Britney_Spears</url>
         <example type="incorrect"><marker>Brittany Spears</marker></example>
+        <example type="incorrect"><marker>Britney Spear</marker></example>
         <example type="correct">Britney Spears</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Karl</token>
+          <token>Lagerfeld</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">[KC]arl</token>
-          <token regexp="yes">Lag[ae]rfi?eld<exception>Lagerfeld</exception></token>
+          <token regexp="yes">Lag[ae]rfi?eld</token>
         </pattern>
         <message>Écrivez <suggestion>Karl Lagerfeld</suggestion> s’il s’agit du couturier allemand.</message>
         <url>https://fr.wikipedia.org/wiki/Karl_Lagerfeld</url>
         <example type="incorrect"><marker>Karl Lagerfield</marker></example>
-        <example type="correct">Karl Lagerfeld</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>Carl</token>
-          <token>Lagerfeld</token>
-        </pattern>
-        <message>Écrivez <suggestion>Karl Lagerfeld</suggestion> s’il s’agit du couturier allemand.</message>
-        <url>https://fr.wikipedia.org/wiki/Karl_Lagerfeld</url>
         <example type="incorrect"><marker>Carl Lagerfeld</marker></example>
         <example type="correct">Karl Lagerfeld</example>
       </rule>
@@ -4056,13 +4001,18 @@ though, and has since been slightly modified)-->
         <example type="correct">Meryl Streep</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Cyndi</token>
+          <token>Lauper</token>
+        </antipattern>
         <pattern>
-          <token regexp="yes">C[iy]nd[yi]e?<exception>Cyndi</exception></token>
+          <token regexp="yes">C[iy]nd[yi]e?</token>
           <token regexp="yes">Laupers?</token>
         </pattern>
         <message>Écrivez <suggestion>Cyndi Lauper</suggestion> s’il s’agit de l’actrice américaine.</message>
         <url>https://fr.wikipedia.org/wiki/Cyndi_Lauper</url>
         <example type="incorrect"><marker>Cyndie Lauper</marker></example>
+        <example type="incorrect"><marker>Cyndi Laupers</marker></example>
         <example type="correct">Cyndi Lauper</example>
       </rule>
       <rule>
@@ -4119,7 +4069,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">aller|courrir|course|face|mener</token>
+          <token inflected="yes" regexp="yes">aller|courir|course|face|mener</token>
           <token>à</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>
@@ -4321,7 +4271,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">bon|mal|plein|prôpre</token>
+          <token regexp="yes">bon|mal|plein|propre</token>
           <marker><token regexp="yes">gr[èé]s</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>gré</suggestion> ?</message>
@@ -4603,6 +4553,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="A_FAIRE_AFFAIRE" name="à faire, affaire">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4120</url>
       <rule>
         <pattern>
           <token inflected="yes">avoir</token>
@@ -4614,7 +4565,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[mt]oi|lui|[nv]ous|eux</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>affaire</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4120</url>
         <example type="incorrect">Tu auras <marker>à faire</marker> à moi.</example>
         <example type="correct">Tu auras affaire à moi.</example>
         <example type="correct">J’ai des courses à faire à cinq heures.</example>
@@ -4628,10 +4578,9 @@ though, and has since been slightly modified)-->
           </marker>
           <token>à</token>
           <token regexp="yes">une?|cet|cette|ce|la</token>
-          <token regexp="yes">homme|femme|personne|connaisseur|justice|police|cour|juridiction|colère|malhônneteté|violence|phénomène|genre|type|médecin|prétendu|dossier|bande|foule|fraude|équipe|majorité</token>
+          <token regexp="yes">homme|femme|personne|connaisseur|justice|police|cour|juridiction|colère|malhonnêteté|violence|phénomène|genre|type|médecin|prétendu|dossier|bande|foule|fraude|équipe|majorité</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>affaire</suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4120</url>
         <example type="incorrect">Tu auras <marker>à faire</marker> à la police.</example>
         <example type="correct">Tu auras affaire à la police.</example>
         <example type="correct">J’ai des courses à faire à la boutique.</example>
@@ -4648,13 +4597,13 @@ though, and has since been slightly modified)-->
       <example type="correct">Il a été construit à des fins militaires.</example>
     </rule>
     <rulegroup id="RODE_RODE" name="roder et rôder">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
       <rule>
         <pattern>
           <token>où</token>
           <marker><token inflected="yes">roder</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
         <example type="incorrect" correction="rôdent">Dans le cimetière où <marker>rodent</marker> les fantômes.</example>
         <example type="correct">Dans le cimetière où <marker>rôdent</marker> les fantômes.</example>
       </rule>
@@ -4665,7 +4614,6 @@ though, and has since been slightly modified)-->
           <token>but</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
         <example type="incorrect" correction="rôde">Il <marker>rode</marker> sans but.</example>
         <example type="correct">Il rôde sans but.</example>
       </rule>
@@ -4675,7 +4623,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">autour|près</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
         <example type="incorrect" correction="rôdent">Les malfaiteurs <marker>rodent</marker> autour de la maison.</example>
         <example type="correct" correction="rôdent">Les malfaiteurs rôdent autour de la maison.</example>
       </rule>
@@ -4686,7 +4633,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">qu[êe]te</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1ô$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
         <example type="incorrect" correction="rôdent">Ils <marker>rodent</marker> en quête de bagarre.</example>
         <example type="correct">Ils rôdent en quête de bagarre.</example>
       </rule>
@@ -4694,15 +4640,15 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token inflected="yes">rôder</token></marker>
           <token postag="D.*" postag_regexp="yes"/>
-          <token regexp="yes">(moteur|soupape|voiture|bouchon)s?</token>
+          <token regexp="yes">(moteur|soupape|voiture|bouchon|spectacle)s?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^(.).(.*)" regexp_replace="$1o$2"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2225</url>
         <example type="incorrect" correction="roder">Il faut <marker>rôder</marker> le moteur.</example>
         <example type="correct">Il faut roder le moteur.</example>
       </rule>
     </rulegroup>
     <rulegroup id="FILTRE_PHILTRE" name="filtre → philtre">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
       <rule>
         <pattern>
           <token inflected="yes">boire</token>
@@ -4710,7 +4656,6 @@ though, and has since been slightly modified)-->
           <marker><token regexp="yes">filtres?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
         <example type="incorrect" correction="philtre">Tristan et Iseult tombèrent amoureux en buvant un <marker>filtre</marker>.</example>
         <example type="correct">Tristan et Iseult tombèrent amoureux en buvant un philtre.</example>
       </rule>
@@ -4722,7 +4667,6 @@ though, and has since been slightly modified)-->
           <token>amour</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
         <example type="incorrect" correction="philtre">Il prépara un <marker>filtre</marker> d’amour.</example>
         <example type="correct">Il prépara un philtre d’amour.</example>
       </rule>
@@ -4732,7 +4676,6 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(aphrodisiaque|empoisonneur|guérisseur|léthargique|magique|narcotique)s?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^." regexp_replace="ph"/></suggestion> ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=3785</url>
         <example type="incorrect" correction="philtre">Il prépara un <marker>filtre</marker> aphrodisiaque.</example>
         <example type="correct">Il prépara un philtre aphrodisiaque.</example>
       </rule>
@@ -4753,7 +4696,7 @@ though, and has since been slightly modified)-->
       <example type="correct">Il va <marker>sans</marker> dire que le prix est hors taxe.</example>
       <example type="incorrect">Ça va <marker>s’en</marker> dire !</example>
       <example type="correct">Ça sans dire !</example>
-      <example type="incorrect">Çela ira <marker>s’en</marker> dire !</example>
+      <example type="incorrect">Cela ira <marker>s’en</marker> dire !</example>
       <example type="correct">Cela ira <marker>sans</marker> dire !</example>
     </rule>
     <rulegroup id="DETONER_DETONNER" name="détoner et détonner">
@@ -4974,6 +4917,142 @@ though, and has since been slightly modified)-->
         <example type="correct">C’est quelquefois assez pénible de surveiller les enfants.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="GEAI_JAIS" name="geai ou jais">
+      <url>http://www.academie-francaise.fr/geai-pour-jais</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" inflected="yes">noir|cheveu|chevelure|bracelet|collier|perle|briller|ornement</token>
+          <token regexp="yes" min="0" max="1">comme|de</token>
+          <marker><token>geai</token></marker>
+        </pattern>
+        <message>Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+        <suggestion>jais</suggestion>
+        <example type="incorrect">Noir comme <marker>geai</marker>.</example>
+        <example type="correct">Noir comme jais.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">cris?|fable</token>
+          <token regexp="yes">d[eu]</token>
+          <marker><token>jais</token></marker>
+        </pattern>
+        <message>Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+        <suggestion>geai</suggestion>
+        <example type="incorrect">Le cri du <marker>jais</marker>.</example>
+        <example type="correct">Le cri du <marker>geais</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>jais</token></marker>
+          <token regexp="yes" inflected="yes">bleu|garruler|apprivoisé</token>
+        </pattern>
+        <message>Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
+        <suggestion>geai</suggestion>
+        <example type="incorrect">Un <marker>jais</marker> bleu.</example>
+        <example type="correct">Un <marker>geai</marker> bleu.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="POINT_POING" name="point et poing">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2220</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">coups?</token>
+          <token>de</token>
+          <marker><token regexp="yes">points?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « point » et « poing ».</message>
+        <suggestion>poing</suggestion>
+        <example type="incorrect">Il m’a donné un coup de <marker>point</marker>.</example>
+        <example type="correct">Il m’a donné un coup de poing.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">taper|fermer|ouvrir|blesser|serrer|desserrer|oiseau|arme</token>
+          <token regexp="yes">[dl]es?|du</token>
+          <marker><token regexp="yes">points?</token></marker>
+        </pattern>
+        <message>Confusion probable entre « point » et <suggestion><match no="3" regexp_match="t" regexp_replace="g"/></suggestion>.</message>
+        <example type="incorrect" correction="poing">Il a tapé du <marker>point</marker> sur la table.</example>
+        <example type="correct">Il a tapé du <marker>poing</marker> sur la table.</example>
+        <example type="incorrect" correction="poings">Il desserra les <marker>points</marker>.</example>
+        <example type="correct">Il desserra les <marker>poings</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">points?</token></marker>
+          <token regexp="yes">américains?|serrés?|desserrés?|levés?|cassés?|liés?</token>
+        </pattern>
+        <message>Confusion probable entre « point » et <suggestion><match no="1" regexp_match="t" regexp_replace="g"/></suggestion>.</message>
+        <example type="incorrect" correction="poings">Les <marker>points</marker> serrés.</example>
+        <example type="correct">Les poings serrés.</example>
+      </rule>
+    </rulegroup>
+    <rule id="CONTREPARTIE" name="contre partie → contrepartie">
+      <pattern>
+        <token>contre</token>
+        <token regexp="yes">partie?s?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>contre<match no="2" case_conversion="startlower" regexp_match="^.*?(s?)$" regexp_replace="partie$1"/></suggestion> ou <suggestion>contre-<match no="2" case_conversion="startlower" regexp_match="^.*?(s?)$" regexp_replace="partie$1"/></suggestion> ?</message>
+      <example type="incorrect" correction="contrepartie|contre-partie">Il a été libéré sans <marker>contre partie</marker>.</example>
+      <example type="correct">Il a été libéré sans contrepartie.</example>
+      <example type="correct">Il a été libéré sans contre-partie.</example>
+      <example type="incorrect" correction="contreparties|contre-parties">Quelles sont les <marker>contre parties</marker> ?</example>
+      <example type="correct">Quelles sont les contreparties ?</example>
+    </rule>
+    <rulegroup id="HUIS_HUIT" name="huis ou huit">
+      <rule>
+        <pattern>
+          <marker><token>huis</token></marker>
+          <token regexp="yes">ans?|mois|heures?|cents?|mille|dollars?|euros?|€|francs?|centimes?|janvier|février|mars|avril|mai|juin|juillet|ao[ûu]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|divisé|multiplié|plus|moins|dixièmes?|centièmes?|millièmes?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>huit</suggestion> ?</message>
+        <example type="incorrect">Il ne me me reste que <marker>huis</marker> centimes.</example>
+        <example type="correct">Il ne me me reste que huit centimes.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>huit</token></marker>
+          <token>clos</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>huis</suggestion> ?</message>
+        <example type="incorrect">Un procès à <marker>huit</marker> clos.</example>
+        <example type="correct">Un procès à huis clos.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="MOI_MOIS" name="moi et mois">
+      <rule>
+        <pattern>
+          <token postag="[KY]" postag_regexp="yes"/>
+          <marker><token>moi</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+        <example type="incorrect">Elle est enceinte de trois <marker>moi</marker>.</example>
+        <example type="correct">Elle est enceinte de trois mois.</example>
+        <example type="incorrect">Elle est enceinte de 3 <marker>moi</marker>.</example>
+        <example type="correct">Elle est enceinte de 3 mois.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>moi</token></marker>
+          <token>de</token>
+          <token regexp="yes">janvier|février|mars|avril|mai|juin|juillet|septembre|novembre|décembre</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+        <example type="incorrect">Le <marker>moi</marker> de mai a été froid.</example>
+        <example type="correct">Le mois de mai a été froid.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>moi</token></marker>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">avril|ao[ûu]t|octobre</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
+        <example type="incorrect">Le <marker>moi</marker> d’avril a été froid.</example>
+        <example type="correct">Le mois d’avril a été froid.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
@@ -5180,7 +5259,7 @@ though, and has since been slightly modified)-->
             <exception scope="previous">numéro</exception>
           </token>
           <token postag="[JN] . s" postag_regexp="yes">
-            <exception regexp="yes">neuf|été|janvier|février|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille|divisé|multiplié</exception>
+            <exception regexp="yes">neuf|été|janvier|février|avril|mai|juin|juillet|ao[ûu]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille|divisé|multiplié</exception>
             <exception postag="N . s?p" postag_regexp="yes"/>
           </token>
         </pattern>
@@ -5468,7 +5547,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>La jaguar</marker> est un mammifère.</example>
         <example type="correct"><marker>Le jaguar</marker> est un mammifère.</example>
         <example type="correct"><marker>La Jaguar</marker> est une voiture.</example>
-        <example type="correct">L'histoire d’<marker>une enfant pas</marker> si sage.</example>
+        <example type="correct">L’histoire d’<marker>une enfant pas</marker> si sage.</example>
         <example type="correct">La <marker>partie ouest</marker> de la ville.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
@@ -5738,8 +5817,9 @@ though, and has since been slightly modified)-->
         <marker><token postag="V.*" postag_regexp="yes" regexp="yes">.*(?:ée?s?|ez)</token></marker>
       </pattern>
       <message>Le verbe « \3 » devrait être à l’infinitif après le verbe modal « ne plus ».</message>
-      <example type="incorrect">Pour ne plus <marker>travaillé</marker>.</example>
-      <example type="incorrect">Pour ne plus <marker>travaillez</marker>.</example>
+      <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example type="incorrect" correction="travailler">Pour ne plus <marker>travaillé</marker>.</example>
+      <example type="incorrect" correction="travailler">Pour ne plus <marker>travaillez</marker>.</example>
       <example type="correct">Pour ne plus travailler.</example>
     </rule>
     <rulegroup id="FAIRE_VPPA" name="Comment + verbe ppa">
@@ -5753,7 +5833,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \1 ».</message>
-        <example type="incorrect">J’aimerais <marker>changé</marker> de travail.</example>
+        <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="changer">J’aimerais <marker>changé</marker> de travail.</example>
         <example type="correct">J’aimerais changer de travail.</example>
         <example type="correct">Je l’ai tout à fait oublié.</example>
         <example type="correct">Puis assigné à résidence.</example>
@@ -5768,8 +5849,9 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \2 ».</message>
-        <example type="incorrect">Je ne veux pas <marker>changé</marker> d’école.</example>
+        <message>Le verbe « \4 » devrait être à l’infinitif après le verbe modal « \2 ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="changer">Je ne veux pas <marker>changé</marker> d’école.</example>
         <example type="correct">Je ne veux pas <marker>changer</marker> d’école.</example>
       </rule>
       <rule>
@@ -5782,8 +5864,9 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
-        <example type="incorrect">Je n’aime pas <marker>changé</marker> d’école.</example>
+        <message>Le verbe « \5 » devrait être à l’infinitif après le verbe modal « \3 ».</message>
+        <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="changer">Je n’aime pas <marker>changé</marker> d’école.</example>
         <example type="correct">Je n’aime pas <marker>changer</marker> d’école.</example>
       </rule>
     </rulegroup>
@@ -5796,8 +5879,9 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \2 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Il a refusé de <marker>mangé</marker> avec nous.</example>
+        <message>Le verbe « \3 » devrait être à l’infinitif.</message>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="manger">Il a refusé de <marker>mangé</marker> avec nous.</example>
         <example type="correct">Il a refusé de manger avec nous.</example>
       </rule>
       <rule>
@@ -5810,7 +5894,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \4 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Il a refusé d’<marker>arrivé</marker> plus tôt.</example>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="arriver">Il a refusé d’<marker>arrivé</marker> plus tôt.</example>
         <example type="correct">Il a refusé d’arriver plus tôt.</example>
       </rule>
       <rule>
@@ -5824,7 +5909,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \5 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Il a décidé de ne plus <marker>mangé</marker> avec nous.</example>
+        <suggestion><match no="5" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="manger">Il a décidé de ne plus <marker>mangé</marker> avec nous.</example>
         <example type="correct">Il a décidé de ne plus manger avec nous.</example>
       </rule>
     </rulegroup>
@@ -5838,10 +5924,11 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à l’infinitif.</message>
-        <example type="incorrect">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="débuter">Pour <marker>débuté</marker>, il faut acheter une grammaire.</example>
         <example type="correct">Pour débuter, il faut acheter une grammaire.</example>
         <example type="correct">J’ai de la peine pour René.</example>
-        <example type="incorrect">Comment bien <marker>étudié</marker></example>
+        <example type="incorrect" correction="étudier">Comment bien <marker>étudié</marker></example>
         <example type="correct">Comment bien étudier</example>
         <example type="correct">Il m’a sans cesse répété de me taire.</example>
         <example type="correct">Il est sans doute arrivé.</example>
@@ -5854,7 +5941,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif après « \1 ».</message>
-        <example type="incorrect">Je veux te <marker>préparé</marker></example>
+        <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="préparer">Je veux te <marker>préparé</marker></example>
         <example type="correct">Je veux te préparer</example>
       </rule>
       <rule>
@@ -5866,7 +5954,8 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
-        <example type="incorrect">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
+        <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="gagner">J’étudie des parties d’échecs afin de <marker>gagné</marker>.</example>
         <example type="correct">J’étudie des parties d’échecs afin de gagner.</example>
       </rule>
       <rule>
@@ -5878,8 +5967,9 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*ée?s?</token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’infinitif après « afin de ».</message>
-        <example type="incorrect">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
+        <message>Le verbe « \4 » devrait être à l’infinitif après « afin de ».</message>
+        <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="annuler">Je luis en parle avant d’<marker>annulé</marker> le voyage.</example>
         <example type="correct">Je luis en parle avant d’annuler le voyage.</example>
       </rule>
     </rulegroup>
@@ -5969,7 +6059,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
       <rule>
         <pattern>
-          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cettes?|celles?|quelque|avec|dans|chez</token>
+          <token regexp="yes">aux|[cdmts]es|du|[mt]on|[mts]a|[nv]otre|[nv]os|leurs|cette|celles?|quelque|avec|dans|chez</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
@@ -6612,7 +6702,7 @@ though, and has since been slightly modified)-->
             <token postag="V ppa . s" postag_regexp="yes" regexp="yes" inflected="yes">abandonner|absorber|r?accompagner|accueillir|accuser|aimer|amuser|apercevoir|arrêter|attendre|avertir|baiser|choquer|combattre|combler|condamner|connaître|contacter|contaminer|contraindre|contrarier|convaincre|craindre|défendre|dépasser|dépouiller|divertir|divorcer|éclabousser|écouter|éduquer|effrayer|élire|embarrasser|embêter|embrasser|emmener|enchanter|entendre|engueuler|entraîner|étonner|exciter|exterminer|féliciter|forcer|frôler|gâter|gêner|guider|guérir|héberger|informer|inviter|gronder|marier|nourrir|observer|offenser|offusquer|oublier|percuter|prévenir|protéger|priver|quitter|ranger|recevoir|(re)?conduire|regarder|rencontrer|remarquer|redouter|rejoindre|rescaper|renseigner|respecter|retarder|sauver|(pour)?suivre|surprendre|taquiner|torturer|trahir|transporter|tromper|tuer|vexer|visiter|voir</token>
           </marker>
         </pattern>
-        <message>Le participe passé employé avec l’auxiliaire « avoir » doit s’accorder avec le complément d’objet direct '\2' quand celui-ci est antéposé. Voulez-vous écrire <suggestion>\4s</suggestion> ?</message>
+        <message>Le participe passé employé avec l’auxiliaire « avoir » doit s’accorder avec le complément d’objet direct « \2 » quand celui-ci est antéposé. Voulez-vous écrire <suggestion>\4s</suggestion> ?</message>
         <example type="incorrect" correction="informés">Il nous a <marker>informé</marker>.</example>
         <example type="incorrect" correction="informées">Il nous a <marker>informée</marker>.</example>
         <example type="correct">Il nous a informés.</example>
@@ -6627,16 +6717,19 @@ though, and has since been slightly modified)-->
         <example type="correct">Il nous a donné du pain.</example>
       </rule>
     </rulegroup>
-    <!-- <rule id="VU_DE_MES_YEUX_VU" name="vu de mes yeux vu">
+    <rule id="VU_DE_MES_YEUX_VU" name="vu de mes yeux vu">
       <pattern>
         <token inflected="yes">avoir</token>
         <marker>
           <token regexp="yes">vue?s?</token>
           <token min="0" max="1">,</token>
           <token>de</token>
-          <token>mes</token>
+          <token regexp="yes">[mts]es|[nv]os|leurs</token>
           <token>yeux</token>
-          <token regexp="yes">vue?s?<exception>\2></exception></token>
+          <and>
+            <token regexp="yes">vue?s?</token>
+            <token negate="yes"><match no="1"/></token>
+          </and>
         </marker>
       </pattern>
       <message>Le second mot « \2 » répété doit suivre ici le même accord que le premier mot <suggestion>\2</suggestion>.</message>
@@ -6652,7 +6745,7 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Je suis sûr de les avoir <marker>vus de mes yeux vu</marker>.</example>
       <example type="correct">Je suis sûr de les avoir vus, de mes yeux <marker>vus</marker>.</example>
       <example type="correct">Je suis sûr de les avoir vus de mes yeux <marker>vus</marker>.</example>
-    </rule> -->
+    </rule>
     <rulegroup id="PEUT_ETRE_VPPA_OU_ADJ" name="peut être + participe présent">
       <rule>
         <pattern>
@@ -6867,7 +6960,8 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Le verbe « \3 » devrait être à l’infinitif.</message>
-      <example type="incorrect">J’ai dû <marker>mangé</marker> cela.</example>
+      <suggestion><match no="3" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example type="incorrect" correction="manger">J’ai dû <marker>mangé</marker> cela.</example>
       <example type="correct">J’ai dû <marker>manger</marker> cela.</example>
       <example type="correct">Ils avaient voulu cela.</example>
     </rule>
@@ -6881,7 +6975,8 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>L’infinitif est attendu après « \1 \2 \3 ».</message>
-      <example type="incorrect">Il est en train de <marker>joué</marker>.</example>
+      <suggestion><match no="4" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example type="incorrect" correction="jouer">Il est en train de <marker>joué</marker>.</example>
       <example type="correct">Il est en train de jouer.</example>
     </rule>
     <rulegroup id="COND_VS_FUTUR" name="probable futur avant bientôt, demain, etc.">
@@ -7405,8 +7500,9 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Le verbe « \2 » devrait être à l’infinitif.</message>
+        <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
+        <example type="incorrect" correction="trouver">Veuillez <marker>trouvez</marker> ci-joint.</example>
         <example type="correct">Veuillez <marker>trouver</marker> ci-joint.</example>
-        <example type="incorrect">Veuillez <marker>trouvez</marker> ci-joint.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NE_IMP_PAS" name="Ne + impératif + pas">
@@ -7704,7 +7800,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="-1"><exception regexp="yes" scope="next">d|du|des?|en</exception></token>
           <token postag="[NR].* p" postag_regexp="yes">
             <exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
-            <exception postag="N.* sp?" postag_regexp="yes"/>
+            <exception postag="[NZ].* sp?" postag_regexp="yes"/>
           </token>
           <token>qui</token>
           <marker>
@@ -7720,6 +7816,7 @@ though, and has since been slightly modified)-->
         <example type="correct">C’est le seul de mes amis qui a du talent.</example>
         <example type="correct">Un drapeau en lambeaux qui continue à flotter au vent.</example>
         <example type="correct">J’ai un fils qui est en secondaire.</example>
+        <example type="correct">Le grand Tours qui disparaît.</example>
       </rule>
       <rule>
         <pattern>
@@ -8249,7 +8346,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
         <example type="correct">De la même nature que celles qui ont été saisies.</example>
         <example type="correct">La lettre que j’ai voulu envoyer.</example>
-        <example type="correct">Certains y voient la preuve qu'il a finalement été lâché par son soutien.</example>
+        <example type="correct">Certains y voient la preuve qu’il a finalement été lâché par son soutien.</example>
       </rule>
       <rule>
         <pattern>
@@ -9141,7 +9238,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Il l’a trouvé là où je l’avais laissé.</example>
         <example type="incorrect">C’est <marker>la</marker> que je l’ai trouvé.</example>
         <example type="correct">C’est là que je l’ai trouvé.</example>
-        <example type="correct">Il a écrit l'article à la une aujourd'hui.</example>
+        <example type="correct">Il a écrit l’article à la une aujourd’hui.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LA" name="là sans trait d’union">
@@ -9214,7 +9311,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker>
-            <token>tout<exception scope="previous" regexp="yes">avant|en|du</exception></token>
+            <token>tout<exception scope="previous" regexp="yes">avant|en|du|malgré</exception></token>
           </marker>
           <token postag="D.*" postag_regexp="yes">
             <exception>des</exception>
@@ -9234,7 +9331,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token>tout<exception scope="previous" regexp="yes">avant|en|du</exception></token></marker>
+          <marker><token>tout<exception scope="previous" regexp="yes">avant|en|du|malgré</exception></token></marker>
           <token>ceux</token>
         </pattern>
         <message>Écrivez <suggestion>tous</suggestion>.</message>
@@ -9305,7 +9402,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker>
-            <token>tout<exception regexp="yes" scope="previous">avant|après|du|en</exception></token>
+            <token>tout<exception regexp="yes" scope="previous">avant|après|du|en|malgré</exception></token>
           </marker>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="[ANZ] f .*" postag_regexp="yes">
@@ -9835,18 +9932,19 @@ though, and has since been slightly modified)-->
     <rule id="PREP_V" name="verbe après préposition">
       <pattern>
         <token postag="P">
-          <exception regexp="yes">avant|côté|dehors|dedans|depuis|derrière|en|outre|par|passé|proche|suivant|voici</exception>
+          <exception regexp="yes">d|avant|côté|dehors|dedans|depuis|derrière|en|outre|par|passé|proche|suivant|voici</exception>
         </token>
         <marker>
           <token postag="V.*" postag_regexp="yes">
             <exception postag="V.* inf" postag_regexp="yes"/>
             <exception postag="[^V].*" postag_regexp="yes"/>
-            <exception regexp="yes">fait|hue|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée|(?-i)(Suez|Volta)</exception>
+            <exception regexp="yes">fait|hue|portée|sortie|musées?|pensées?|surprises?|points|vue|fumée|plongée|(?-i)\p{Lu}.*</exception>
           </token>
         </marker>
       </pattern>
       <message>Le verbe « \2 » devrait être à l’infinitif après la préposition « \1 »</message>
-      <example type="incorrect">Vous êtes privé de <marker>mangez</marker>.</example>
+      <suggestion><match no="2" postag="V.* inf" postag_regexp="yes"/></suggestion>
+      <example type="incorrect" correction="manger">Vous êtes privé de <marker>mangez</marker>.</example>
       <example type="correct">Vous êtes privé de <marker>manger</marker>.</example>
       <example type="correct">Il en profita.</example>
       <example type="correct">C’est tout à fait correct.</example>
@@ -9861,6 +9959,7 @@ though, and has since been slightly modified)-->
       <example type="correct">L’autour <marker>attrapa</marker> une souris.</example>
       <example type="correct">Voici <marker>venu</marker> le temps des vacances.</example>
       <example type="correct">Le participe passé a tout de suite été vu.</example>
+      <example type="correct">Il est né à <marker>Cabana</marker>.</example>
     </rule>
     <rule id="DOUBLE_NEG" name="Double négation">
       <pattern>
@@ -9886,6 +9985,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
       </pattern>
       <message>Le mot <suggestion>quelque</suggestion> est invariable devant un nombre et a une fonction d’adverbe signifiant « environ » ou « à peu près ».</message>
+      <url>http://parler-francais.eklablog.com/accord-de-quelque-a3711647</url>
       <example type="incorrect">Il y a <marker>quelques</marker> 10 ans.</example>
       <example type="correct">Il y a <marker>quelque</marker> 10 ans.</example>
       <example type="incorrect">Il y a <marker>quelques</marker> dix ans.</example>
@@ -10029,9 +10129,7 @@ though, and has since been slightly modified)-->
         <marker>
           <token>
             <exception postag="[JAM].*|V ppa.*|UNKNOWN" postag_regexp="yes"/>
-            <!-- A few words below can be removed when upgrading to the next
-                 version of Dicollecte (they were not marked as adjective -->
-            <exception regexp="yes">à|au|en|cosmopolite|économique|classe|envie|faim|limite|peur|près|proche|soif|sommeil|demandeur|dommage|tendance|Cloîtres</exception>
+            <exception regexp="yes">à|au|en|classe|envie|faim|limite|peur|près|proche|soif|sommeil|demandeur|dommage|tendance|Cloîtres</exception>
           </token>
         </marker>
       </pattern>
@@ -10136,7 +10234,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="N.*" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">derniere?s?<exception>dernier</exception></token>
+            <token regexp="yes">derni[eè]re?s?<exception>dernier</exception></token>
             <token regexp="yes">crie?s?</token>
           </marker>
         </pattern>
@@ -10150,7 +10248,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="N.*" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">derniere?s?</token>
+            <token regexp="yes">derni[eè]re?s?</token>
             <token regexp="yes">crie?s?<exception>cri</exception></token>
           </marker>
         </pattern>
@@ -24905,7 +25003,7 @@ though, and has since been slightly modified)-->
     <rule id="A_CAUSE_QUE" name="à cause que">
       <pattern>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">causee?</token>
+        <token>cause</token>
         <token regexp="yes">que?</token>
       </pattern>
       <message>« À cause que » est un archaïsme populaire et un régionalisme (Québec). Pour être bien compris de tous, Employez <suggestion>parce que</suggestion>, <suggestion>vu que</suggestion>, <suggestion>pour la raison que</suggestion>.</message>
@@ -24997,7 +25095,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token>
             <exception postag="V inf"/>
-            <exception regexp="yes">abord|eux|elles?</exception>
+            <exception regexp="yes">abord|ailleurs|eux|elles?</exception>
           </token>
         </pattern>
         <message>« Se rappelle de » est une impropriété. On se rappelle quelque chose, ou on se souvient de quelque chose. Employez <suggestion>\1</suggestion>.</message>
@@ -25006,6 +25104,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Je me souviens d’Anne.</example>
         <example type="correct">Il faut lui rappeler d’envoyer la lettre.</example>
         <example type="correct">Tu te rappelles d’eux ?</example>
+        <example type="correct">Il rappelle d’ailleurs que ce lieu peut être légendaire.</example>
       </rule>
       <rule>
         <pattern>
@@ -25865,16 +25964,6 @@ though, and has since been slightly modified)-->
       <example type="incorrect"><marker>rabattre les oreilles</marker></example>
       <example type="correct"><marker>rebattre les oreilles</marker></example>
     </rule>
-    <rule id="NOIR_COMME_GEAI" name="noir comme (le) geai">
-      <pattern>
-        <token regexp="yes">noirs?</token>
-        <token skip="1">comme</token>
-        <token>geai</token>
-      </pattern>
-      <message>« Noir comme (le) geai » est une expression fautive. Employez <suggestion>noir comme jais</suggestion>. Le « geai » est un oiseau gris et bleu et le « jais » est une pierre noire.</message>
-      <example type="incorrect"><marker>noir comme geai</marker></example>
-      <example type="correct"><marker>noir comme jais</marker></example>
-    </rule>
     <rulegroup id="SANS_DESSUS_DESSOUS" name="sans dessus dessous">
       <rule>
         <pattern>
@@ -26341,9 +26430,9 @@ though, and has since been slightly modified)-->
     <rulegroup id="LANGUES" name="langues">
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes" skip="5">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode<exception scope="next" regexp="yes">que?</exception></token>
+          <token inflected="yes" regexp="yes" skip="5">parler|cours|leçon|apprendre|étudier|traduire|enseigner|professeur|enseignant|dictionnaire|méthode<exception scope="next" regexp="yes">que?|aux?</exception></token>
           <marker>
-            <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kikongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|une?</exception>
+            <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Corse|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Eurolang|Europanto|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Francoprovencal|Franglais|Frison|Galicien|Gallois|Gaulois|Géorgien|Globish|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Jersiais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kikongo|Klingon|Khmer|Kurde|Ladino|Laotien|Lapon|Latin|Letton|Ligurien|Limbourgeois|Lituanien|Loglan|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Novlangue|Nynorsk|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Scots|Serbe|Sicilien|Signuno|Sindhi|Slovaque|Slovène|Slovianski|Soundanais|Spanglish|(Haut-|Bas-)?Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Uropi|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zilengo|Zoulou<exception scope="previous" inflected="yes">être</exception><exception scope="previous" regexp="yes">en|[dl]es|une?</exception>
             </token>
           </marker>
         </pattern>
@@ -26352,12 +26441,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Mon professeur d’anglais est Irlandais.</example>
         <example type="correct">Je parle anglais mais je ne suis pas Anglais.</example>
         <example type="correct">Il est surpris d’apprendre que le Japonais est incapable de le comprendre.</example>
+        <example type="correct">Les Bretons parlent aux Français.</example>
       </rule>
       <rule>
         <pattern>
           <token>en<exception scope="previous" inflected="yes" regexp="yes">aller|naitre</exception></token>
           <marker>
-            <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Français|Frison|Galicien|Gallois|Gaulois|Géorgien|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Latin|Ligurien|Limbourgeois|Lituanien|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Serbe|Sicilien|Sindhi|Slovaque|Slovène|Soundanais|Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zoulou</token>
+            <token regexp="yes">(?-i)Afrikaans|Albanais|Allemand|Alsacien|Anglais|Arabe|Aragonais|Aroumain|Arménien|Asturien|Awadhi|Basque|Bengali|Biélorusse|Birman|Bhojpuri|Bosniaque|Breton|Bulgare|Cantonais|Catalan|Chamorro|Cherokee|Chinois|Cornique|Coréen|Croate|Danois|Divehi|Écossais|Espagnol|Espéranto|Estonien|Eurolang|Europanto|Féroïen|Farsi|[FP]ilipino|Finnois|Flamand|Francoprovencal|Français|Franglais|Frison|Galicien|Gallois|Gaulois|Géorgien|Globish|Grec|Gujarati|Hakka|Haoussa|Hawaïen|Hébreu|Hindi|Hmong|Hollandais|Hongrois|Javanais|Jersiais|Ido|Indonésien|Interlingua|Islandais|Italien|Irlandais|Japonais|Jinyu|Kanna[dr]a|Kazakh|Kigongo|Klingon|Khmer|Kurde|Ladino|Laotien|Lapon|Latin|Letton|Ligurien|Limbourgeois|Lituanien|Loglan|Lojban|Lombard|Luxembourgeois|Macédonien|Maithili|Malais|Malayalam|Maldivien|Malgache|Maltais|Mandarin|Mannois|Maori|Marathi|Marwari|Moldave|Mongol|Mooré|Napolitain|Néerlandais|Norvégien|Novlangue|Nynorsk|Occitan|Oriya|Ourdou|Ouzbek|Persan|Peul|Piémontais|Polonais|Portugais|Provençal|Quechua|Romanche|Roumain|Russe|Sans[ck]rit|Sarde|Scots|Serbe|Sicilien|Signuno|Sindhi|Slovaque|Slovène|Slovianski|Soundanais|Spanglish|(Haut-|Bas-)?Sorabe|Suédois|Swahili|Tagalog|Tahitien|Tamoul|Tatar|Tchèque|Télogou|Thaï|Turc|Ukrainien|Uropi|Vénitien|Vietnamien|Volapük|Wallon|Wo?u|Yiddish|Xhosa|Xiang|Zilengo|Zoulou</token>
           </marker>
         </pattern>
         <message>Les noms de langues n’ont pas de majuscule en français. Voulez-vous écrire <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
@@ -26403,7 +26493,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">beaucoup|énomément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|vôtes?|\d+%|%</token>
+          <token regexp="yes">beaucoup|énormément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|vôtes?|\d+%|%</token>
           <token regexp="yes">des?</token>
           <marker>
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes)|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud[-‑‐]africain|toulousain|tuvaluan)e?s|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s|bahreïni|émirati|formosans|grec(que)?s|kazakhs|sothos|ouzbeks|qatariotes|swazi|tadjiks|turcs|turques|vanuatuans)</token>
@@ -26414,7 +26504,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect" correction="Suisses">Beaucoup de <marker>suisses</marker> partent en vacances à l’étranger.</example>
         <example type="correct">Beaucoup de <marker>Suisses</marker> partent en vacances à l’étranger.</example>
         <example type="correct">Une leçon de français.</example>
-        <example type="correct">J'ai appris un peu de français ici et là.</example>
+        <example type="correct">J’ai appris un peu de français ici et là.</example>
         <example type="correct">Une invasion de troupes <marker>soviétiques</marker>.</example>
       </rule>
       <rule>

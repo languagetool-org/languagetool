@@ -31,52 +31,35 @@ class CategoryNode extends DefaultMutableTreeNode {
   private final Category category;
   private boolean enabled;
 
-  /**
-   *
-   * @param category
-   * @param enabled
-   */
   CategoryNode(Category category, boolean enabled) {
     super(category);
     this.category = category;
     this.enabled = enabled;
   }
 
-  /**
-   *
-   * @return
-   */
   Category getCategory() {
     return category;
   }
 
-  /**
-   *
-   * @return
-   */
   boolean isEnabled() {
     return enabled;
   }
 
-  /**
-   *
-   * @param enabled
-   */
   void setEnabled(boolean enabled) {
     this.enabled = enabled;
   }
 
   @Override
   public String toString() {
-    int childs = this.getChildCount();
+    int children = this.getChildCount();
     int selected = 0;
-    for (int i = 0; i < childs; i++) {
+    for (int i = 0; i < children; i++) {
       RuleNode child = (RuleNode) this.getChildAt(i);
       if (child.isEnabled()) {
         selected++;
       }
     }
-    return String.format("%s (%d/%d)", category.getName(), selected, childs);
+    return String.format("%s (%d/%d)", category.getName(), selected, children);
   }
 
 }

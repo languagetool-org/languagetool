@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 
@@ -64,6 +65,11 @@ public class CaseRuleTest extends TestCase {
     assertGood("Unser Jüngster ist da.");
     assertGood("Alles Erfundene ist wahr.");
     assertGood("Sie hat immer ihr Bestes getan.");
+    assertGood("Er wird etwas Verrücktes träumen.");
+    assertGood("Er wird etwas schön Verrücktes träumen.");
+    assertGood("Er wird etwas so Verrücktes träumen.");
+    assertGood("Tom ist etwas über dreißig.");
+    assertBad("Tom ist etwas über Dreißig.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:
@@ -162,6 +168,7 @@ public class CaseRuleTest extends TestCase {
     assertGood("Das haben wir schon.");
     assertGood("Das lesen sie doch sicher in einer Minute durch.");
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
+    assertGood("Formationswasser, das oxidiert war.");
 
     // Source of the following examples: http://www.canoo.net/services/GermanSpelling/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");
@@ -207,4 +214,15 @@ public class CaseRuleTest extends TestCase {
     //assertBad("Das gilt ohne wenn und aber.");
   }
   
+  public void testCompareLists() throws IOException {
+    AnalyzedSentence sentence1 = langTool.getAnalyzedSentence("Hier ein Test");
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 2, new String[]{"", "Hier", "ein"}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 1, 2, new String[]{"Hier", "ein"}));
+    assertTrue(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 3, new String[]{"", "Hier", "ein", "Test"}));
+    assertFalse(rule.compareLists(sentence1.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "Hier", "ein", "Test"}));
+
+    AnalyzedSentence sentence2 = langTool.getAnalyzedSentence("das Heilige Römische Reich");
+    assertTrue(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 0, 4, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
+    assertFalse(rule.compareLists(sentence2.getTokensWithoutWhitespace(), 8, 11, new String[]{"", "das", "Heilige", "Römische", "Reich"}));
+  }
 }

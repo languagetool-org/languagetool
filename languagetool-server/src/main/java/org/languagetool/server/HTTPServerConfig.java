@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.Language;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,6 +29,8 @@ import java.util.Properties;
  * @since 2.0
  */
 public class HTTPServerConfig {
+
+  enum Mode { LanguageTool, AfterTheDeadline }
 
   public static final String DEFAULT_HOST = "localhost";
 
@@ -39,6 +43,8 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected long maxCheckTimeMillis = -1;
+  protected Mode mode;
+  protected Language atdLanguage;
 
   public HTTPServerConfig() {
     this.port = DEFAULT_PORT;
@@ -90,6 +96,10 @@ public class HTTPServerConfig {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
+        if (mode == Mode.AfterTheDeadline) {
+          atdLanguage = Language.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
+        }
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -144,6 +154,19 @@ public class HTTPServerConfig {
     return maxCheckTimeMillis;
   }
 
+  /** @since 2.7 */
+  Mode getMode() {
+    return mode;
+  }
+
+  /** @since 2.7 */
+  Language getAfterTheDeadlineLanguage() {
+    return atdLanguage;
+  }
+
+  /**
+   * @throws IllegalConfigurationException if property is not set 
+   */
   protected String getProperty(Properties props, String propertyName, File config) {
     final String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {

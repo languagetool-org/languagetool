@@ -20,7 +20,7 @@ SOURCE=downloaded.tmp
 
 # List of languages in the same order as on https://www.transifex.com/projects/p/languagetool/:
 # Do not list 'en', it's the source and taken from SVN. 
-for lang in ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk sv is lt km pt_PT pt_BR
+for lang in ast be br ca zh da nl eo fr gl de el_GR it pl ru sl es tl uk ro sk sv is lt km pt_PT pt_BR ta
 do
   shortCode=$(echo "$lang" | sed -e 's/_.*//')
   curl --user $USERNAME:$PASSWORD http://www.transifex.net/api/2/project/languagetool/resource/messagesbundleproperties/translation/$lang/?file >$SOURCE

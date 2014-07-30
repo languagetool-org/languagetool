@@ -159,16 +159,16 @@ public class PatternRuleTest extends TestCase {
       rules.addAll(languageTool.loadPatternRules(patternRuleFileName));
     }
     for (PatternRule rule : rules) {
-        // Test the rule pattern.
-        PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
-                rule.getId(), rule.getSubId(), lang);
+      // Test the rule pattern.
+      PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getElements(),
+              rule.getId(), rule.getSubId(), lang);
 
-        // Test the rule antipatterns.
-        List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
-        for (DisambiguationPatternRule antiPattern : antiPatterns) {
-          PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getElements(),
-              antiPattern.getId(), antiPattern.getSubId(), lang);
-        }
+      // Test the rule antipatterns.
+      List<DisambiguationPatternRule> antiPatterns = rule.getAntiPatterns();
+      for (DisambiguationPatternRule antiPattern : antiPatterns) {
+        PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getElements(),
+            antiPattern.getId(), antiPattern.getSubId(), lang);
+      }
     }
     testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     System.out.println(rules.size() + " rules tested.");
@@ -360,9 +360,9 @@ public class PatternRuleTest extends TestCase {
    */
   private boolean rangeIsOverlapping(int a, int b, int x, int y) {
     if (a < x) {
-      return x <= b ? true : false;
+      return x <= b;
     } else {
-      return a <= y ? true : false;
+      return a <= y;
     }
   }
 
@@ -391,38 +391,37 @@ public class PatternRuleTest extends TestCase {
 
   private void testCorrectSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool,
                                     Language lang, PatternRule rule) throws IOException {
-      final List<String> goodSentences = rule.getCorrectExamples();
+    final List<String> goodSentences = rule.getCorrectExamples();
+    // necessary for XML Pattern rules containing <or>
+    List<PatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
+    for (String goodSentence : goodSentences) {
+      // enable indentation use
+      goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
+      goodSentence = cleanXML(goodSentence);
+      assertTrue(lang + ": Empty correct example in rule "+rule.getId(), goodSentence.trim().length() > 0);
+      boolean isMatched = false;
       // necessary for XML Pattern rules containing <or>
-      List<PatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
-      for (String goodSentence : goodSentences) {
-        // enable indentation use
-        goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
-        goodSentence = cleanXML(goodSentence);
-        assertTrue(lang + ": Empty correct example in rule "+rule.getId(), goodSentence.trim().length() > 0);
-        boolean isMatched = false;
-        // necessary for XML Pattern rules containing <or>
-        for (Rule auxRule : rules) {
-          isMatched = isMatched || match(auxRule, goodSentence, languageTool);
-        }
-        assertFalse(lang + ": Did not expect error in: " + goodSentence
-             + " (Rule: " + rule + ")", isMatched);     
-        // avoid matches with all the *other* rules:
-        /*
-        final List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
-        for (RuleMatch match : matches) {
-          System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match "
-                  + rule.getId() + " but matched " + match.getRule().getId());
-        }
-        */
+      for (Rule auxRule : rules) {
+        isMatched = isMatched || match(auxRule, goodSentence, languageTool);
       }
+      assertFalse(lang + ": Did not expect error in: " + goodSentence
+              + " (Rule: " + rule + ")", isMatched);
+      // avoid matches with all the *other* rules:
+      /*
+      final List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);
+      for (RuleMatch match : matches) {
+        System.err.println("WARN: " + lang.getShortName() + ": '" + goodSentence + "' did not match "
+                + rule.getId() + " but matched " + match.getRule().getId());
+      }
+      */
+    }
   }
 
   protected String cleanXML(final String str) {
     return str.replaceAll("<([^<].*?)>", "");
   }
 
-  private boolean match(final Rule rule, final String sentence,
-      final JLanguageTool languageTool) throws IOException {
+  private boolean match(final Rule rule, final String sentence, final JLanguageTool languageTool) throws IOException {
     final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
     final RuleMatch[] matches = rule.match(analyzedSentence);
     return matches.length > 0;
@@ -454,8 +453,7 @@ public class PatternRuleTest extends TestCase {
     return Arrays.asList(matches);
   }
 
-  protected PatternRule makePatternRule(final String s,
-      final boolean caseSensitive, final boolean regex) {
+  protected PatternRule makePatternRule(final String s, final boolean caseSensitive, final boolean regex) {
     final List<Element> elements = new ArrayList<>();
     final String[] parts = s.split(" ");
     boolean pos = false;

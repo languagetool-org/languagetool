@@ -220,4 +220,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Γίνονται όλοι δεκτοί ανεξαρτήτως ηλικίας.</example>
         </rule>
     </category>
+    <category name="Punctuation" type="typographical">
+        <rule id="GREEK_PUNC_1" name="κόμμα μετά από μόριο στην αρχή της πρότασης">
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token regexp="yes">Ναι|Όχι</token>
+                </marker>
+                <token negate="yes">,</token>
+            </pattern>
+            <message>Συνήθως χρειάζεται κόμμα μετά από αρνητικό ή βεβαιωτικό μόριο στην αρχή πρότασης: <suggestion>\2,</suggestion></message>
+            <url>http://publications.europa.eu/code/el/el-4100102el.htm#fn3</url>
+            <short>Punctuation error</short>
+            <example type="incorrect"><marker>Ναι</marker> η Επιτροπή έλαβε υπόψη της το αίτημά σας.</example>
+            <example type="correct">Ναι, η Επιτροπή έλαβε υπόψη της το αίτημά σας.</example>
+            <example type="incorrect"><marker>Όχι</marker> το Κοινοβούλιο δεν μπορεί να εγκρίνει την τροποποίηση.</example>
+            <example type="correct">Όχι, το Κοινοβούλιο δεν μπορεί να εγκρίνει την τροποποίηση.</example>            
+        </rule>
+        <rulegroup id="GREEK_PUNC_2" name="κόμμα μετά από προτασιακό επίρρημα στην αρχή πρότασης">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">Αντίθετα|Αντιθέτως|Βέβαια|Βεβαίως|Δυστυχώς|Επομένως|Επιπλέον|Επίσης|Ευτυχώς|Ίσως|Λοιπόν|Μάλλον|Ομοίως|Πάντως|Πιθανόν|Πράγματι|Πραγματικά|Προφανώς|Συμπερασματικά|Συνεπώς|Τελικά|Τέλος|Φυσικά|Ωστόσο</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Συνήθως χρειάζεται κόμμα μετά από προτασιακό επίρρημα στην αρχή πρότασης: <suggestion>\2,</suggestion></message>
+                <url>http://publications.europa.eu/code/el/el-4100102el.htm#fn3</url>
+                <short>Ελέγξτε τη στίξη</short>
+                <example type="incorrect"><marker>Συνεπώς</marker> ο κανονισμός πρέπει να τροποποιηθεί ανάλογα.</example>
+                <example type="correct">Συνεπώς, ο κανονισμός πρέπει να τροποποιηθεί ανάλογα.</example>
+                <example type="incorrect"><marker>Αντίθετα</marker> η Επιτροπή δεν συμφώνησε με την πρόταση αυτή.</example>
+                <example type="correct">Αντίθετα, η Επιτροπή δεν συμφώνησε με την πρόταση αυτή.</example>            
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>Για</token>
+                        <token>παράδειγμα</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Συνήθως χρειάζεται κόμμα μετά από προτασιακό επίρρημα στην αρχή πρότασης: <suggestion>\2 \3,</suggestion></message>
+                <url>http://publications.europa.eu/code/el/el-4100102el.htm#fn3</url>
+                <short>Ελέγξτε τη στίξη</short>
+                <example type="incorrect"><marker>Για παράδειγμα</marker> ορισμένα μονόμετρα μεγέθη είναι η μάζα, ο χρόνος, η θερμοκρασία, το ηλεκτρικό φορτίο ενώ ορισμένα διανυσματικά είναι η ταχύτητα, η επιτάχυνση, η μετατόπιση.</example>
+                <example type="correct">Για παράδειγμα, ορισμένα μονόμετρα μεγέθη είναι η μάζα, ο χρόνος, η θερμοκρασία, το ηλεκτρικό φορτίο ενώ ορισμένα διανυσματικά είναι η ταχύτητα, η επιτάχυνση, η μετατόπιση.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">Και|Κι</token>
+                        <token>όμως</token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Συνήθως χρειάζεται κόμμα μετά από προτασιακό επίρρημα στην αρχή πρότασης: <suggestion>\2 \3,</suggestion></message>
+                <url>http://publications.europa.eu/code/el/el-4100102el.htm#fn3</url>
+                <short>Ελέγξτε τη στίξη</short>
+                <example type="incorrect"><marker>Κι όμως</marker> Κι όμως, κινείται!</example>
+                <example type="correct">Κι όμως, κινείται!</example>
+            </rule>        
+        </rulegroup>
+    </category>
 </rules>

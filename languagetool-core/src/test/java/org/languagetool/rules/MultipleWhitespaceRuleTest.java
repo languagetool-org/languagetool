@@ -26,13 +26,12 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 /**
- * 
  * @author Marcin Milkowski
  */
-public class WhitespaceRuleTest extends TestCase {
+public class MultipleWhitespaceRuleTest extends TestCase {
 
   public void testRule() throws IOException {
-    final WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    final MultipleWhitespaceRule rule = new MultipleWhitespaceRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
     RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(TestTools.getDemoLanguage());
 

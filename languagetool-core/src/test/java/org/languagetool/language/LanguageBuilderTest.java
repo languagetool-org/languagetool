@@ -22,6 +22,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 public class LanguageBuilderTest extends TestCase {
@@ -30,7 +31,7 @@ public class LanguageBuilderTest extends TestCase {
     final Language language = LanguageBuilder.makeAdditionalLanguage(new File("rules-xy-Fakelanguage.xml"));
     assertEquals("Fakelanguage", language.getName());
     assertEquals("xy", language.getShortName());
-    assertEquals(0, language.getRelevantRules().size());
+    assertEquals(0, language.getRelevantRules(JLanguageTool.getMessageBundle()).size());
     assertTrue(language.isExternal());
   }
 

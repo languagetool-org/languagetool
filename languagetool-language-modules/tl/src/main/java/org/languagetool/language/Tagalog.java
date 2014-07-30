@@ -21,14 +21,10 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.tl.TagalogTagger;
@@ -82,22 +78,22 @@ public class Tagalog extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor1 = new Contributor ("Nathaniel Oco");
-    final Contributor contributor2 = new Contributor ("Allan Borra");
+    final Contributor contributor1 = new Contributor("Nathaniel Oco");
     contributor1.setUrl("http://www.dlsu.edu.ph/research/centers/adric/nlp/");
+    final Contributor contributor2 = new Contributor("Allan Borra");
     contributor2.setUrl("http://www.dlsu.edu.ph/research/centers/adric/nlp/faculty/borra.asp");
     return new Contributor[] { contributor1, contributor2 };
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            HunspellRule.class,
-            UppercaseSentenceStartRule.class,
-            WhitespaceRule.class
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),
+            new HunspellRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
+            new MultipleWhitespaceRule(messages, this)
     );
   }
 

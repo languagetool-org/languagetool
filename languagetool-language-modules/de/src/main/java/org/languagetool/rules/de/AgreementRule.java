@@ -101,7 +101,8 @@ public class AgreementRule extends GermanRule {
     "weniger",
     "einige",
     "einiger",
-    "mehrerer"
+    "mehrerer",
+    "mehrere"
   ));
   
   private static final Set<String> REL_PRONOUN = new HashSet<>();
@@ -143,6 +144,7 @@ public class AgreementRule extends GermanRule {
 
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
+    "dir",
     "du",
     "er", "sie", "es",
     "wir",
@@ -155,6 +157,7 @@ public class AgreementRule extends GermanRule {
     "ihn",
     "dessen",
     "deren",
+    "denen",
     "sich",
     "unser",
     "aller",
@@ -169,7 +172,15 @@ public class AgreementRule extends GermanRule {
     "was",
     "wer",
     "jenen",      // "...und mit jenen anderer Arbeitsgruppen verwoben"
-    "diejenigen"
+    "diejenigen",
+    "jemand",
+    "niemand"
+  ));
+  
+  private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
+    "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
+    "Gramm",
+    "Kilogramm"
   ));
     
   public AgreementRule(final ResourceBundle messages) {
@@ -246,6 +257,12 @@ public class AgreementRule extends GermanRule {
           if (GermanHelper.hasReadingOfType(tokens[tokenPos], POSType.NOMEN)) {
             // TODO: add a case (checkAdjNounAgreement) for special cases like "deren",
             // e.g. "deren komisches Geschenke" isn't yet detected as incorrect
+            if (i >= 2 && GermanHelper.hasReadingOfType(tokens[i-2], POSType.ADJEKTIV)
+                       && "als".equals(tokens[i-1].getToken())
+                       && "das".equals(tokens[i].getToken())) {
+              // avoid false alarm for e.g. "weniger farbenprächtig als das anderer Papageien"
+              continue;
+            }
             final RuleMatch ruleMatch = checkDetAdjNounAgreement(tokens[i],
                 nextToken, tokens[i+2]);
             if (ruleMatch != null) {
@@ -357,7 +374,9 @@ public class AgreementRule extends GermanRule {
 
   private RuleMatch checkDetNounAgreement(final AnalyzedTokenReadings token1,
       final AnalyzedTokenReadings token2) {
-    RuleMatch ruleMatch = null;
+    if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
+      return null;
+    }
     final Set<String> set1 = getAgreementCategories(token1);
     if (set1 == null) {
       return null;  // word not known, assume it's correct
@@ -367,6 +386,7 @@ public class AgreementRule extends GermanRule {
       return null;
     }
     set1.retainAll(set2);
+    RuleMatch ruleMatch = null;
     if (set1.size() == 0) {
       final List<String> errorCategories = getCategoriesCausingError(token1, token2);
       final String errorDetails = errorCategories.size() > 0 ? StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
@@ -472,7 +492,7 @@ public class AgreementRule extends GermanRule {
     final Set<String> set = new HashSet<>();
     final List<AnalyzedToken> readings = aToken.getReadings();
     for (AnalyzedToken tmpReading : readings) {
-      if (skipSol && tmpReading.getPOSTag().endsWith(":SOL")) {
+      if (skipSol && tmpReading.getPOSTag() != null && tmpReading.getPOSTag().endsWith(":SOL")) {
         // SOL = alleinstehend - needs to be skipped so we find errors like "An der roter Ampel."
         continue;
       }

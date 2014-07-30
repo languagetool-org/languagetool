@@ -35,13 +35,12 @@ public class DemoTagger implements Tagger {
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens) {
-
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
       // a real tagger would need to assign a POS tag
       // in the next line instead of null:
-      l.add(new AnalyzedToken(word, null, null));      
+      l.add(new AnalyzedToken(word, null, null));
       tokenReadings.add(new AnalyzedTokenReadings(l, 0));
     }
     return tokenReadings;

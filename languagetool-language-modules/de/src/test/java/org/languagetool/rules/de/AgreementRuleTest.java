@@ -70,6 +70,9 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Und nach der Nummerierung kommt die Überschrift.");
     assertGood("Sie wiesen dieselben Verzierungen auf.");
     assertGood("Die erwähnte Konferenz ist am Samstag.");
+    assertGood("Sie erreichten 5 Prozent.");
+    assertGood("Sie erreichten mehrere Prozent Zustimmung.");
+    assertGood("Die Bestandteile, aus denen Schwefel besteht.");
 
     assertGood("Das Dach von meinem Auto.");
     assertGood("Das Dach von meinen Autos.");
@@ -213,7 +216,7 @@ public class AgreementRuleTest extends TestCase {
     assertBadWithMessage("Die Tischen sind ecking.", "bezüglich Kasus");
     assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
     //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellte werden.", "bezüglich Kasus, Genus oder Numerus.");
+    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
   }
   
   public void testRegression() throws IOException {

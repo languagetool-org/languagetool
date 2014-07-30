@@ -73,7 +73,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     REPL.add(new Replacement("Ph", "F"));
   }
   
-  private GermanCompoundTokenizer compoundTokenizer;
+  private final GermanCompoundTokenizer compoundTokenizer;
 
   public GermanSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language, getCompoundSplitter(), getSpeller(language));
@@ -111,7 +111,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context 
-        return new MorfologikSpeller(morfoFile, Locale.getDefault(), MAX_EDIT_DISTANCE);
+        return new MorfologikSpeller(morfoFile, MAX_EDIT_DISTANCE);
       } else {
         return null;
       }

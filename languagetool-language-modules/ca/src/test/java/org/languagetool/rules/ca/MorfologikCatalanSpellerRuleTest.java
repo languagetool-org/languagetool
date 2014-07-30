@@ -124,6 +124,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("col·laboració", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("colaboració"));
+        assertEquals(1, matches.length);
+        assertEquals("col·laboració", matches[0].getSuggestedReplacements().get(0));
+        
         matches = rule.match(langTool.getAnalyzedSentence("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"));
         assertEquals(1, matches.length);
         

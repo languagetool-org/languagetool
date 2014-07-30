@@ -65,7 +65,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
     }
   }
 
-  public final List<PatternRule> getRules(final InputStream file,
+  public final List<PatternRule> getRules(final InputStream stream,
       final Language textLanguage, final Language motherTongue)
       throws ParserConfigurationException, SAXException, IOException {
     final FalseFriendRuleHandler handler = new FalseFriendRuleHandler(
@@ -76,7 +76,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
         .setFeature(
             "http://apache.org/xml/features/nonvalidating/load-external-dtd",
             false);
-    saxParser.parse(file, handler);
+    saxParser.parse(stream, handler);
     final List<PatternRule> rules = handler.getRules();
     // Add suggestions to each rule:
     final ResourceBundle messages = ResourceBundle.getBundle(

@@ -79,10 +79,6 @@ public class WordCoherencyRule extends GermanRule {
     final AnalyzedTokenReadings[] tokens = sentence.getTokens();
     int pos = 0;
     for (AnalyzedTokenReadings tmpToken : tokens) {
-      //TODO: definitely should be changed
-      //if the general lemmatizer is working
-      //defaulting to the first element because the
-      //general German lemmatizer is not (yet) there
       String token = tmpToken.getToken();
       if (!tmpToken.isWhitespace()) {
         final String origToken = token;
@@ -114,9 +110,9 @@ public class WordCoherencyRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private Map<String, String> loadWords(InputStream file) throws IOException {
+  private Map<String, String> loadWords(InputStream stream) throws IOException {
     final Map<String, String> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(file, FILE_ENCODING)) {
+    try (Scanner scanner = new Scanner(stream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {

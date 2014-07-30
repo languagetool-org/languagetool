@@ -1975,6 +1975,34 @@ $Id$
                     <example type="correct">Nie mam pojęcia dlaczego.</example>
                     <example type="incorrect" correction="pojęcia dlaczego">Nie mam <marker>pojęcia, dlaczego</marker>.</example>
                 </rule>
+                <rule id="PRZECINEK_PREP" name="Przecinek po przyimku">
+                    <antipattern>
+                        <marker><token regexp="yes">(?:po)?mimo</token></marker>
+                        <token>,</token>
+                        <token regexp="yes">że|iż</token>
+                    </antipattern>
+                    <antipattern>
+                        <marker><token>podczas</token></marker>
+                        <token>,</token>
+                        <token>gdy</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>nic</token>
+                        <marker>
+                            <token>przeciwko</token>
+                            <token>,</token>
+                        </marker>
+                    </antipattern>
+                    <pattern>
+                        <token postag='prep.*' postag_regexp='yes'><exception postag='adv'/><exception regexp="yes">temu|wyjąwszy</exception></token>
+                        <token>,</token>
+                    </pattern>
+                    <message>Prawdopodobnie zbędny przecinek po przyimku: <suggestion><match no="1"/></suggestion>.</message>
+                    <short>Błąd interpunkcyjny</short>
+                    <example type='incorrect'><marker>Do,</marker> czego to prowadzi!</example>
+                    <example type='correct'>Do czego to prowadzi!</example>
+                    <example type="correct">Jeśli nie masz nic przeciwko, to ja też nie.</example>
+                </rule>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
                                 <antipattern>
@@ -3963,7 +3991,6 @@ $Id$
 										<marker>
 												<token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
 										</marker>
-										<token regexp="yes">\d+</token>
 								</pattern>
 								<message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag="subst:sg:gen:m3"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
@@ -3988,13 +4015,24 @@ $Id$
 												<token>.</token>
 												<token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
 										</marker>
-										<token regexp="yes">\d+</token>
 								</pattern>
 								<message>Nazwy miesięcy w datach podajemy w dopełniaczu, a dni bez kropki: <suggestion><match no="1"></match> <match no="3" postag="subst:sg:(acc\.)?gen[\.:]m.*" postag_regexp="yes"></match></suggestion>.</message>
 								<short>Błąd odmiany</short>
 								<example type="correct">1 stycznia 1999</example>
 								<example correction="1 stycznia" type="incorrect"><marker>1. styczeń</marker> 2000</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                    <token regexp="yes">pierwszy|drugi|trzeci|czwarty|piąty|szósty|siódmy|ósmy|dziewiąty|dziesiąty|jedenasty|dwunasty|trzynasty|czternasty|piętnasty|szesnasty|siedemnasty|osiemnasty|dziewiętnasty|dwudziesty|trzydziesty</token>
+                                <marker>
+                                    <token regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+                                </marker>
+                            </pattern>
+                            <message>Nazwy miesięcy w datach podajemy w dopełniaczu: <suggestion><match no="2" postag="subst:sg:gen:m3"></match></suggestion>.</message>
+                            <short>Błąd odmiany</short>
+                            <example type="correct">Pierwszy stycznia 1999</example>
+                            <example correction="stycznia" type="incorrect">Pierwszy <marker>styczeń</marker> 2000</example>
+                        </rule>
 				</rulegroup>
 				<rulegroup id="BRUNO_HUGO" name="Brak odmiany imienia „Bruno”, „Hugo”, „Pablo”">
 						<rule>
@@ -6807,8 +6845,8 @@ $Id$
 				<rulegroup id="PELNIC_ROLE" name="„pełnić rolę” (odgrywać rolę)">
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
-										<token regexp="yes">rolę|role</token>
+										<token inflected="yes" regexp="yes">s?pełnia?ć</token>
+										<token regexp="yes">rol[ęe]</token>
 								</pattern>
 								<message>Mówimy <suggestion><match no="1"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match></suggestion>, a nie „<match no="1"/> rolę”.</message>
 								<short>Błąd leksykalny</short>
@@ -6816,11 +6854,24 @@ $Id$
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
 								<example correction="pełniący funkcję|odgrywający rolę" type="incorrect">To element <marker>pełniący rolę</marker> w robieniu wody z mózgu.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <unify><feature id="number"/><feature id="person"/>
+                                <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                                <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                                </unify>
+                                <token regexp="yes">rol[ęe]</token>
+                            </pattern>
+                            <message>Mówimy <suggestion><match no="1"/> <match no="2"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"/> <match no="3"/></suggestion>, a nie „<match no="1"/> rolę”.</message>
+                            <short>Błąd leksykalny</short>
+                            <example correction="Pełni ona funkcję|Odgrywa ona rolę" type="incorrect"><marker>Pełni ona rolę</marker> w żegludze różnych typów statków.</example>
+                            <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+                        </rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
+										<token inflected="yes" regexp="yes">s?pełnia?ć</token>
 										<token postag="(adj|ppas|pact):.*acc.*:f.*" postag_regexp="yes"/>
-										<token regexp="yes">rolę|role</token>
+										<token regexp="yes">rol[ęe]</token>
 								</pattern>
 								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"></match></suggestion>, a nie „pełnić rolę”.</message>
 								<short>Błąd leksykalny</short>
@@ -6828,18 +6879,47 @@ $Id$
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
                                 <example type="incorrect" correction="spełniając swoją funkcję|odgrywając swoją rolę">Nadal <marker>spełniając swoją rolę</marker>, stali się zależni od Chin.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <unify><feature id="number"/><feature id="person"/>
+                                    <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                                    <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                                </unify>
+                                <token postag="(adj|ppas|pact):.*acc.*:f.*" postag_regexp="yes"/>
+                                <token regexp="yes">rol[ęe]</token>
+                            </pattern>
+                            <message>Mówimy <suggestion><match no="1"/> <match no="2"/> <match no="3"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"/> <match no="3"/> <match no="4"/></suggestion>, a nie „pełnić rolę”.</message>
+                            <short>Błąd leksykalny</short>
+                            <example correction="Pełni ona istotną funkcję|Odgrywa ona istotną rolę" type="incorrect"><marker>Pełni ona istotną rolę</marker> w żegludze różnych typów statków.</example>
+                            <example type="correct"><marker>Odgrywa ona istotną rolę</marker> w żegludze różnych typów statków.</example>
+                        </rule>
 						<rule>
 								<pattern>
-										<token inflected="yes" regexp="yes">pełnić|spełniać</token>
+										<token inflected="yes" regexp="yes">s?pełnia?ć</token>
 										<token postag="adv.*" postag_regexp="yes"></token>
 										<token postag="(adj|pact|ppas):.*acc.*:f.*" postag_regexp="yes"></token>
-										<token regexp="yes">rolę|role</token>
+										<token regexp="yes">rol[ęe]</token>
 								</pattern>
 								<message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"></match> <match no="4"></match></suggestion>, a nie „pełnić rolę”.</message>
 								<short>Błąd leksykalny</short>
 								<example correction="Pełni naprawdę istotną funkcję|Odgrywa naprawdę istotną rolę" type="incorrect"><marker>Pełni naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
 								<example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <unify><feature id="number"/><feature id="person"/>
+                                    <token inflected="yes" regexp="yes">s?pełnia?ć</token>
+                                    <token postag="ppron.*:nom.*" postag_regexp="yes"/>
+                                </unify>
+                                <token postag="adv.*" postag_regexp="yes"></token>
+                                <token postag="(adj|pact|ppas):.*acc.*:f.*" postag_regexp="yes"></token>
+                                <token regexp="yes">rol[ęe]</token>
+                            </pattern>
+                            <message>Mówimy <suggestion><match no="1"></match> <match no="2"></match> <match no="3"/> <match no="4"/> funkcję</suggestion> lub <suggestion><match no="1" postag="verb.*|pact.*|ppas.*|pcon.*">odgrywać</match> <match no="2"></match> <match no="3"/> <match no="4"/> <match no="5"/></suggestion>, a nie „pełnić rolę”.</message>
+                            <short>Błąd leksykalny</short>
+                            <example correction="Pełni ona naprawdę istotną funkcję|Odgrywa ona naprawdę istotną rolę" type="incorrect"><marker>Pełni ona naprawdę istotną rolę</marker> w żegludze różnych typów statków.</example>
+                            <example type="correct"><marker>Odgrywa istotną rolę</marker> w żegludze różnych typów statków.</example>
+                        </rule>
 				</rulegroup>
 				<rule id="PRZEDKLADAC_WNIOSEK" name="„przedkładać wniosek” (przedstawiać wniosek)">
 						<pattern>
@@ -7707,8 +7787,50 @@ $Id$
 						<example correction="miał atak" type="incorrect">Ludwik <marker>doznał ataku</marker> padaczki.</example>
 						<example type="correct">Ludwik miał atak padaczki.</example>
 				</rule>
+                <rule id="ZLA_RENOMA" name="„zła renoma” (zła sława)">
+                    <pattern>
+                        <unify>
+                            <feature id="number"></feature>
+                            <feature id="gender"></feature>
+                            <feature id="case"></feature>
+                            <token inflected="yes">zły</token>
+                            <token inflected="yes">renoma</token>
+                        </unify>
+                    </pattern>
+                    <message>Błąd leksykalny. Renoma jest zawsze dobra. Lepiej: <suggestion><match no="1"/> <match no="2" postag="subst.*" postag_regexp="yes">sława</match></suggestion>.</message>
+                    <short>Błąd leksykalny</short>
+                    <example type="correct">Nadszarpnięta została renoma saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+                    <example type="incorrect" correction="złą sławą">On cieszy się <marker>złą renomą</marker>.</example>
+                </rule>
+                <rule id="MIEC_FACH_W_RECE" name="„mieć fach w ręce” (w ręku)">
+                    <pattern>
+                        <token inflected="yes" skip="3">mieć</token>
+                        <token>fach</token>
+                        <token>w</token>
+                        <marker><token>ręce</token></marker>
+                    </pattern>
+                    <message>Błąd leksykalny. Poprawnie: <suggestion>ręku</suggestion>.</message>
+                    <short>Błąd leksykalny</short>
+                    <example type="correct">On ma jakiś fach w ręku.</example>
+                    <example type="incorrect" correction="ręku">On ma jakiś fach w <marker>ręce</marker>.</example>
+                </rule>
 		</category>
 		<category name="Pleonazmy" type="style">
+                <rule id="DOBRA_RENOMA" name="„dobra renoma” (renoma)">
+                    <pattern>
+                        <unify>
+                            <feature id="number"></feature>
+                            <feature id="gender"></feature>
+                            <feature id="case"></feature>
+                            <token inflected="yes">dobry</token>
+                            <token inflected="yes">renoma</token>
+                        </unify>
+                    </pattern>
+                    <message>To pleonazm. Renoma jest zawsze dobra. Wystarczy: <suggestion>\2</suggestion>.</message>
+                    <short>Pleonazm</short>
+                    <example type="correct">Nadszarpnięta została renoma saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+                    <example type="incorrect" correction="renoma">Nadszarpnięta została <marker>dobra renoma</marker> saabów jako wozów w pełni niezawodnych i bezpiecznych.</example>
+                </rule>
 				<rule id="EFEKT_KONCOWY" name="„efekt końcowy” (efekt)">
 						<pattern>
 								<unify>
@@ -7846,6 +7968,17 @@ $Id$
 						<example correction="autopsji" type="incorrect">Znam to z <marker>własnej autopsji</marker>.</example>
 						<example type="correct">Znam to z autopsji.</example>
 				</rule>
+                <rule id="SPADAC_W_DOL" name="„spadać w dół” (spadać)">
+                    <pattern>
+                        <token inflected="yes" regexp="yes">spaść|spadać</token>
+                        <token>w</token>
+                        <token>dół</token>
+                    </pattern>
+                    <message>To pleonazm. Wystarczy powiedzieć: <suggestion>\1</suggestion>.</message>
+                    <short>Pleonazm</short>
+                    <example type="correct">Ceny spadały.</example>
+                    <example type="incorrect" correction="spadały">Ceny <marker>spadały w dół</marker>.</example>
+                </rule>
 				<rulegroup id="COFAC_SIE_DO_TYLU" name="„cofać się do tyłu” (cofać się)">
 						<rule>
 								<pattern>
@@ -12176,14 +12309,23 @@ $Id$
 						<example correction="spod" type="incorrect">Ten minister przypomina głupka <marker>z pod</marker> budki z piwem.</example>
 				</rule>
 				<rule id="W_OKOL" name="„w okół” (wokół)">
+                        <antipattern>
+                            <marker>
+                                <token>w</token>
+                                <token>około</token>
+                            </marker>
+                            <token regexp="yes">\d+%?</token>
+                        </antipattern>
 						<pattern>
 								<token>w</token>
-								<token>okół</token>
+								<token regexp="yes">ok(?:ół|oło)</token>
 						</pattern>
-						<message>Prawdopodobny błąd: przyimek <suggestion>wokół</suggestion> piszemy łącznie.</message>
+						<message>Prawdopodobny błąd: przyimek <suggestion>\1\2</suggestion> piszemy łącznie.</message>
 						<short>Błąd ortograficzny</short>
 						<example type="correct">Wokół Przemysława gromadziło się wielu podejrzanych typów.</example>
 						<example correction="Wokół" type="incorrect"><marker>W okół</marker> Przemysława gromadziło się wielu podejrzanych typów.</example>
+                        <example type="incorrect" correction="wokoło">am jest cywilizacja, prawo i demokracja, a <marker>w około</marker> jest reżim.</example>
+                        <example type="correct">Alergiczne podłoże tych reakcji udaje się wykazać w około 50% przypadków.</example>
 				</rule>
 				<rule id="ZA_RAZ" name="„za raz” (zaraz)">
 						<pattern>
@@ -13671,6 +13813,47 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="JESLI_JEDNAKI" name="„jeśli jednaki” (jeśli jednak)">
+                <pattern>
+                    <token>jeśli</token>
+                    <marker>
+                        <token>jednaki</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>jednak</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Jeśli <marker>jednaki</marker> przegra z Adrią, jej rywalem w ćwierćfinale będzie Tricycles.</example>
+                <example type='correct'>Jeśli jednak przegra z Adrią, jej rywalem w ćwierćfinale będzie Tricycles.</example>
+            </rule>
+            <rule id="PPRON3_PPAS_NON_UNIFIED" name="Niezgodność końcówek rodzaju zaimka i imiesłowu">
+                <pattern>
+                    <token regexp="yes">jest|było|będzie|być|został[oa]?|zostaje</token>
+                    <marker>
+                    <unify negate="yes">
+                        <feature id="gender"></feature>
+                        <token postag_regexp="yes" postag="ppron3:sg:nom.*"/>
+                        <token postag_regexp="yes" postag="ppas:sg:nom.*"/>
+                    </unify>
+                    </marker>
+                </pattern>
+                <message>Niezgodność rodzaju zaimka osobowego i imiesłowu.</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Nie jest ono wykorzystywane do pracy.</example>
+                <example type="incorrect">Nie jest <marker>ono wykorzystywana</marker> do pracy.</example>
+            </rule>
+            <rule id="ZA_ZDANIE" name="„mieć za zdanie/zadnie” (za zadanie)">
+                <pattern>
+                    <token skip="1" inflected='yes'>mieć</token>
+                    <token>za</token>
+                    <marker>
+                        <token regexp='yes'>z[da][da]nie</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>zadanie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Opony do jazdy górskiej mają za <marker>zdanie</marker> poradzić sobie z każdym rodzajem wymagającego terenu.</example>
+                <example type='correct'>Opony do jazdy górskiej mają za zadanie poradzić sobie z każdym rodzajem wymagającego terenu.</example>
+            </rule>
             <rule id="BRAK_GEN" name="„Brak szacunki” (brak szacunku)">
                 <pattern>
                     <token>brak</token>

@@ -18,13 +18,14 @@
  */
 package org.languagetool.tagging;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
@@ -73,9 +74,12 @@ public class ManualTagger {
 
   private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
     final Map<String, List<LookedUpTerm>> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(inputStream, encoding)) {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine();
+    try (
+      InputStreamReader reader = new InputStreamReader(inputStream, encoding);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
@@ -94,16 +98,16 @@ public class ManualTagger {
     return map;
   }
 
-}
+  private class LookedUpTerm {
 
-class LookedUpTerm {
+    final String baseform;
+    final String posTags;
 
-  String baseform;
-  String posTags;
+    LookedUpTerm(String baseform, String posTags) {
+      this.baseform = baseform;
+      this.posTags = posTags;
+    }
 
-  LookedUpTerm(final String baseform, final String posTags) {
-    this.baseform = baseform;
-    this.posTags = posTags;
   }
 
 }

@@ -164,9 +164,9 @@ public abstract class WrongWordInContextRule extends Rule {
   /**
    * Load words, contexts, and explanations.
    */
-  private List<ContextWords> loadContextWords(final InputStream file) {
+  private List<ContextWords> loadContextWords(final InputStream stream) {
     final List<ContextWords> set = new ArrayList<>();
-    try (Scanner scanner = new Scanner(file, "utf-8")) {
+    try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
         if (line.charAt(0) == '#') {

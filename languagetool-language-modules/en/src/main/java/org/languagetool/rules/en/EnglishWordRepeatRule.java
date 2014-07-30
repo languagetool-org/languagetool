@@ -26,7 +26,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatRule;
 
 /**
- * Avoid false alarms in the word repetition rule.
+ * Word repeat rule for English, to avoid false alarms in the generic word repetition rule.
  */
 public class EnglishWordRepeatRule extends WordRepeatRule {
 
@@ -63,19 +63,6 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     }
     if (wordRepetitionOf("tse", tokens, position)) {
       return true;   // "tse tse"
-    }
-
-    return false;
-  }
-
-  private boolean previousWordIsIn(AnalyzedTokenReadings[] tokens, int position, String... words) {
-    if (position >= 2) {
-      String prevWord = tokens[position - 2].getToken();
-      for (String word : words) {
-        if (prevWord.equals(word)) {
-          return true;
-        }
-      }
     }
     return false;
   }

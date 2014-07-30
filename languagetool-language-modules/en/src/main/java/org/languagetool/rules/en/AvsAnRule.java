@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public class AvsAnRule extends EnglishRule {
   private final Set<String> requiresA;
   private final Set<String> requiresAn;
 
-  public AvsAnRule(final ResourceBundle messages) throws IOException {
+  public AvsAnRule(final ResourceBundle messages) {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
@@ -210,16 +209,16 @@ public class AvsAnRule extends EnglishRule {
   }
 
   private static boolean isVowel(char c) {
-    c = Character.toLowerCase(c);
-    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    char lc = Character.toLowerCase(c);
+    return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u';
   }
 
   /**
    * Load words, normalized to lowercase unless starting with '*'.
    */
-  private Set<String> loadWords(final InputStream file) throws IOException {
+  private Set<String> loadWords(final InputStream stream) {
     final Set<String> set = new TreeSet<>();
-    try (Scanner scanner = new Scanner(file, "utf-8")) {
+    try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1 || line.charAt(0) == '#') {

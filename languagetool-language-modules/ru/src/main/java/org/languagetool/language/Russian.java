@@ -18,16 +18,13 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.ru.RussianCompoundRule;
 import org.languagetool.rules.ru.RussianSimpleReplaceRule;
 import org.languagetool.rules.ru.RussianUnpairedBracketsRule;
@@ -111,20 +108,20 @@ public class Russian extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            UppercaseSentenceStartRule.class,
-  //          HunspellNoSuggestionRule.class,
-            MorfologikRussianSpellerRule.class,
-            WordRepeatRule.class,
-            WhitespaceRule.class,
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new UppercaseSentenceStartRule(messages, this),
+            // new HunspellNoSuggestionRule(messages),
+            new MorfologikRussianSpellerRule(messages, this),
+            new WordRepeatRule(messages, this),
+            new MultipleWhitespaceRule(messages, this),
             // specific to Russian :
-            RussianUnpairedBracketsRule.class,
-            RussianCompoundRule.class,
-            RussianSimpleReplaceRule.class,
-            RussianWordRepeatRule.class
+            new RussianUnpairedBracketsRule(messages, this),
+            new RussianCompoundRule(messages),
+            new RussianSimpleReplaceRule(messages),
+            new RussianWordRepeatRule(messages)
     );
   }
 

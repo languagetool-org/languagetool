@@ -19,8 +19,10 @@
 
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikCanadianSpellerRule;
@@ -38,11 +40,11 @@ public class CanadianEnglish extends English {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<>();
-    rules.addAll(super.getRelevantRules());    
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    final List<Rule> rules = new ArrayList<>();
+    rules.addAll(super.getRelevantRules(messages));
     // Canadian English speller...
-    rules.add(MorfologikCanadianSpellerRule.class);
+    rules.add(new MorfologikCanadianSpellerRule(messages, this));
     return rules;
   }
 

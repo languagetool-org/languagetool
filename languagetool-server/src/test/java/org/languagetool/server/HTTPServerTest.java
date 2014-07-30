@@ -161,7 +161,7 @@ public class HTTPServerTest {
     try {
       server.run();
       try {
-        System.out.println("Testing timeout now, please ignore the exception");
+        System.out.println("=== Testing timeout now, please ignore the following exception ===");
         check(new GermanyGerman(), "Einq Tesz miit fieln Fehlan, desshalb sehee laagnsam bee dr Rechtschriebpürfung");
         fail("Check was expected to be stopped because it took too long");
       } catch (IOException expected) {}
@@ -176,7 +176,7 @@ public class HTTPServerTest {
     try {
       server.run();
       try {
-        System.out.println("Testing 'access denied' check now, please ignore the exception");
+        System.out.println("=== Testing 'access denied' check now, please ignore the following exception ===");
         check(new German(), "no ip address allowed, so this cannot work");
         fail();
       } catch (IOException expected) {}
@@ -191,7 +191,7 @@ public class HTTPServerTest {
     try {
       server.run();
       try {
-        System.out.println("Testing 'enabledOnly parameter' now, please ignore the exception");
+        System.out.println("=== Testing 'enabledOnly parameter' now, please ignore the following exception ===");
         final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
         HTTPTools.checkAtUrl(url);
         fail();
@@ -207,7 +207,7 @@ public class HTTPServerTest {
     try {
       server.run();
       try {
-        System.out.println("Testing 'missing language parameter' now, please ignore the exception");
+        System.out.println("=== Testing 'missing language parameter' now, please ignore the following exception ===");
         final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo");
         HTTPTools.checkAtUrl(url);
         fail();

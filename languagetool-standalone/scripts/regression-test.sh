@@ -1,5 +1,5 @@
 #!/bin/bash
-# re-build LT and run it on the given text file (e.g. Tatoeba) and
+# re-build LT and run it on the given text file (e.g. from Tatoeba) and
 # show a diff to the previous results (if any)
 
 CURRENT_DIR=`pwd`
@@ -9,10 +9,16 @@ if [ "$(basename $CURRENT_DIR)" != 'scripts' ]; then
     exit 1;
 fi
 
-if [ $# -ne 3 ]
+if [ $# -eq 4 ]
 then
-  echo "Usage: `basename $0` <langCode> <inputFile> <maxLines>"
-  exit 2;
+    LT_RULE_OPTION="--enable $4"
+elif [ $# -eq 3 ]
+then
+    LT_RULE_OPTION=""
+else
+    echo "Usage: `basename $0` <langCode> <inputFile> <maxLines> [rule_id]"
+    echo "       Hint: specify a rule id to speed up checking"
+    exit 2
 fi
 LANGUAGE=$1
 INPUT=$2
@@ -25,7 +31,7 @@ mv regression-test-output.log regression-test-output.log.bak
 ./build.sh languagetool-standalone package -DskipTests && \
   head -n $MAX $INPUT >$TEMP_FILE && \
   pv $TEMP_FILE | java -jar languagetool-standalone/target/LanguageTool-*-SNAPSHOT/LanguageTool-*-SNAPSHOT/languagetool-commandline.jar \
-      --language $LANGUAGE | sed -e 's/[0-9]\+.) Line [0-9]\+, column [0-9]\+, //' >regression-test-output.log
+      --language $LANGUAGE $LT_RULE_OPTION | sed -e 's/[0-9]\+.) Line [0-9]\+, column [0-9]\+, //' >regression-test-output.log
 
 cd -
 rm $TEMP_FILE

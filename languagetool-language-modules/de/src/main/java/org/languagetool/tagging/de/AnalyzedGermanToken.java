@@ -61,8 +61,6 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     }
     final String[] parts = getPOSTag().split(":");
     if (parts.length < 3) {
-      //FIXME ??
-      //System.err.println(posTagString);
       return;
     }
     

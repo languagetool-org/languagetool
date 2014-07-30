@@ -68,7 +68,8 @@ class Main {
 
   Main(final boolean verbose, final boolean taggerOnly,
       final Language language, final Language motherTongue,
-      final String[] disabledRules, final String[] enabledRules,
+      final String[] disabledRules, final String[] enabledRules, 
+      final boolean enabledOnly,
       final boolean apiFormat, boolean applySuggestions, 
       boolean autoDetect, boolean singleLineBreakMarksParagraph) throws IOException,
       SAXException, ParserConfigurationException {
@@ -88,7 +89,7 @@ class Main {
     lt = new MultiThreadedJLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
-    Tools.selectRules(lt, disabledRules, enabledRules);
+    Tools.selectRules(lt, disabledRules, enabledRules, enabledOnly);
   }
 
   boolean isSpellCheckingActive() {
@@ -178,7 +179,6 @@ class Main {
 
   private void runOnFileInOneGo(String filename, String encoding, boolean listUnknownWords, boolean xmlFiltering) throws IOException {
     if (bitextMode) {
-      //TODO: add parameter to set different readers
       final TabBitextReader reader = new TabBitextReader(filename, encoding);
       if (applySuggestions) {
         CommandLineTools.correctBitext(reader, srcLt, lt, bRules);
@@ -511,8 +511,8 @@ class Main {
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
-            options.getDisabledRules(), options.getEnabledRules(), options.isApiFormat(), options.isApplySuggestions(),
-            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
+            options.getDisabledRules(), options.getEnabledRules(), options.getUseEnabledOnly(), options.isApiFormat(), 
+            options.isApplySuggestions(), options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ? "" : " (no spell checking active, specify a language variant if available)";
       System.out.println(languageHint + spellHint);
@@ -547,7 +547,6 @@ class Main {
   }
 
   // for language auto detect
-  // TODO: alter tika's language profiles so they are in line with LT's supported languages
   private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
     final String text = StringTools.readStream(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);

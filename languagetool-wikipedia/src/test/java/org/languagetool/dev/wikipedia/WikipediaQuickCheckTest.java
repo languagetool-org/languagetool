@@ -82,7 +82,7 @@ public class WikipediaQuickCheckTest extends TestCase {
                     "</normalized><pages><page pageid=\"143424\" ns=\"3\" title=\"Benutzer Diskussion:Dnaber\"><revisions><rev xml:space=\"preserve\">\n" +
                     "Test [[Link]] Foo&amp;nbsp;bar.\n" +
                     "</rev></revisions></page></pages></query></api>");
-    assertEquals("Test Link Foo bar.", filteredContent);
+    assertEquals("Test Link Foo\u00A0bar.", filteredContent);
   }
 
   public void testGetPlainTextMapping() {
@@ -94,7 +94,7 @@ public class WikipediaQuickCheckTest extends TestCase {
                     text +
                     "</rev></revisions></page></pages></query></api>");
 
-    assertEquals("Test Link und noch einer und external link Foo bar.", filteredContent.getPlainText());
+    assertEquals("Test Link und noch einer und external link Foo\u00A0bar.", filteredContent.getPlainText());
     assertEquals(1, filteredContent.getOriginalTextPositionFor(1).line);
     assertEquals(1, filteredContent.getOriginalTextPositionFor(1).column);
     assertEquals(filteredContent.getPlainText().charAt(0), text.charAt(0));

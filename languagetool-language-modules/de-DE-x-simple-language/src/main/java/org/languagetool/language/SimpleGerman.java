@@ -22,6 +22,7 @@ import org.languagetool.rules.Rule;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class SimpleGerman extends GermanyGerman {
 
@@ -53,7 +54,7 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Collections.emptyList();
   }
 

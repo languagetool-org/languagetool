@@ -44,5 +44,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   public String getId() {
     return "MORFOLOGIK_RULE_CA_ES";
   }
+  
+  @Override
+  // Use this rule in LO/OO extension despite being a spelling rule
+  public boolean useInOffice() {
+    return true;
+  }
 
 }

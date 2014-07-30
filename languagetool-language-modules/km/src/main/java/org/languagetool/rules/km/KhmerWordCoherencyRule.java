@@ -41,6 +41,7 @@ import org.languagetool.tools.StringTools;
  * <code>rules/km/coherency.txt</code>, where km is a code of the language.
  * 
  * @author Andriy Rysin
+ * @deprecated use {@link KhmerSimpleReplaceRule} instead (deprecated since 2.7)
  */
 public abstract class KhmerWordCoherencyRule extends KhmerRule {
 
@@ -115,9 +116,9 @@ public abstract class KhmerWordCoherencyRule extends KhmerRule {
     return " is not valid, use ";
   }
 
-  private Map<String, String> loadWords(final InputStream file) throws IOException {
+  private Map<String, String> loadWords(final InputStream stream) throws IOException {
     final Map<String, String> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(file, FILE_ENCODING)) {
+    try (Scanner scanner = new Scanner(stream, FILE_ENCODING)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine().trim();
         if (line.length() < 1) {

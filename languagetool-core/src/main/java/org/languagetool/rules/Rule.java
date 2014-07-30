@@ -26,6 +26,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 /**
@@ -104,8 +105,16 @@ public abstract class Rule {
    * (before, it used to always return {@code false} for those).
    */
   public boolean supportsLanguage(final Language language) {
-    final List<Class<? extends Rule>> relevantRuleClasses = language.getRelevantRules();
-    return relevantRuleClasses != null && relevantRuleClasses.contains(this.getClass());
+    try {
+      List<Class<? extends Rule>> relevantRuleClasses = new ArrayList<>();
+      List<Rule> relevantRules = language.getRelevantRules(JLanguageTool.getMessageBundle());
+      for (Rule relevantRule : relevantRules) {
+        relevantRuleClasses.add(relevantRule.getClass());
+      }
+      return relevantRuleClasses.contains(this.getClass());
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -116,6 +125,16 @@ public abstract class Rule {
    * @since 2.5
    */
   public boolean isDictionaryBasedSpellingRule() {
+    return false;
+  }
+  
+  /**
+   * Whether this rule should be forced to be used in LO/OO extension.
+   * Rules that return {@code true} will be enabled always in LO/OO extension
+   * regardless of other options like isDictionaryBasedSpellingRule().
+   * @since 2.6
+   */
+  public boolean useInOffice() {
     return false;
   }
 
@@ -182,6 +201,7 @@ public abstract class Rule {
   /**
    * Deletes (or disables) previously matched rule.
    * @param index Index of the rule that should be deleted.
+   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
    */
   public final void setAsDeleted(final int index) {
     if (removedMatches == null) {
@@ -201,12 +221,21 @@ public abstract class Rule {
     return previousMatches.size() > index && previousMatches.get(index) != null;
   }
 
+  /**
+   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
+   */
   public final void clearMatches() {
     if (previousMatches != null) {
       previousMatches.clear();
     }
+    if (removedMatches != null) {
+      removedMatches.clear();
+    }
   }
 
+  /**
+   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
+   */
   public final int getMatchesIndex() {
     if (previousMatches == null) {
       return 0;
@@ -241,8 +270,8 @@ public abstract class Rule {
   }
   
   /**
-   * An URL describing the rule match in more detail. Typically points to a dictionary or grammar website
-   * with explanations and examples.
+   * An optional URL describing the rule match in more detail. Typically points to a dictionary or grammar website
+   * with explanations and examples. Will return {@code null} for rules that have no URL.
    * @since 1.8
    */
   public URL getUrl() {

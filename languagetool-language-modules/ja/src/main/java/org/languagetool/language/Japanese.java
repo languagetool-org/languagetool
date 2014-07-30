@@ -20,11 +20,12 @@ package org.languagetool.language;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.WhitespaceRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ja.JapaneseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -64,8 +65,11 @@ public class Japanese extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
-    return Arrays.asList(DoublePunctuationRule.class, WhitespaceRule.class);
+  public List<Rule> getRelevantRules(ResourceBundle messages) {
+    return Arrays.asList(
+            new DoublePunctuationRule(messages),
+            new MultipleWhitespaceRule(messages, this)
+    );
   }
 
   @Override

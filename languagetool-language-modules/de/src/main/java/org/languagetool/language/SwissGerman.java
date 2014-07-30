@@ -18,11 +18,14 @@
  */
 package org.languagetool.language;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.GermanSpellerRule;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class SwissGerman extends German {
 
@@ -37,9 +40,9 @@ public class SwissGerman extends German {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
-    final List<Class<? extends Rule>> rules = new ArrayList<>(super.getRelevantRules());
-    rules.add(GermanSpellerRule.class);
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    final List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages));
+    rules.add(new GermanSpellerRule(JLanguageTool.getMessageBundle(this), this));
     return rules;
   }
   

@@ -18,23 +18,19 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.rules.*;
 // 181 +
 //import org.languagetool.rules.WordRepeatRule;
 import org.languagetool.rules.it.ItalianWordRepeatRule;
 // 181 -
 import org.languagetool.rules.it.MorfologikItalianSpellerRule;
 // 3607406 +
-import org.languagetool.rules.WhitespaceBeforePunctuationRule;
 // 3607406 -
 
 import org.languagetool.tagging.Tagger;
@@ -101,21 +97,21 @@ public class Italian extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
 // 3607406 +
-            WhitespaceBeforePunctuationRule.class,
+            new WhitespaceBeforePunctuationRule(messages),
 // 3607406 -
-            CommaWhitespaceRule.class,
-            DoublePunctuationRule.class,
-            GenericUnpairedBracketsRule.class,
-            MorfologikItalianSpellerRule.class,
-            UppercaseSentenceStartRule.class,
+            new CommaWhitespaceRule(messages),
+            new DoublePunctuationRule(messages),
+            new GenericUnpairedBracketsRule(messages, this),
+            new MorfologikItalianSpellerRule(messages, this),
+            new UppercaseSentenceStartRule(messages, this),
 // 181 +
-//            WordRepeatRule.class,
-            ItalianWordRepeatRule.class,
+//            new WordRepeatRule(messages),
+            new ItalianWordRepeatRule(messages, this),
 // 181 -
-            WhitespaceRule.class
+            new MultipleWhitespaceRule(messages, this)
     );
   }
 

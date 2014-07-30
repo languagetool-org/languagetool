@@ -56,13 +56,13 @@ $Id$
                     </token>
                     <marker>
                     <token postag_regexp="yes" postag="verb.*">
-                        <exception postag_regexp="yes" postag="verb:inf.*"/>
+                        <exception postag_regexp="yes" postag="verb:(rev:)?inf.*"/>
                         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
                         <exception regexp="yes">буде|було|був</exception>
                     </token>
                     </marker>
                 </pattern>
-                <message>Дієслово після присудкового слова має йти інфінітивом: <suggestion><match no="2" postag="verb:inf"/></suggestion></message>
+                <message>Дієслово після присудкового слова має йти інфінітивом: <suggestion><match no="2" postag_regexp="yes" postag="verb:inf.*"/></suggestion></message>
                 <example type="correct">Повинен їхати</example>
                 <example type="correct">Йому треба писати</example>
                 <example type="correct">Чи варто їм таке писати?</example>
@@ -73,6 +73,28 @@ $Id$
             </rule>
         </rulegroup>
 
+        <!-- TODO: work on this
+        <rulegroup name="Узгодженість відмінків з перехідними дієсловами" id="CONSISTENCY_VIDM_VERB">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="verb:.*:tran.*">
+                      <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:tran.*"/>
+                    </token>
+                    <marker>
+                    <token postag_regexp="yes" postag="(noun|adj|pron).*">
+                        <exception postag_regexp="yes" postag="(noun|adj|pron).*:v_zna.*"></exception>
+                    </token>
+                    </marker>
+                </pattern>
+                <message>Після перехідного дієслова має йти знахідний відмінок</message>
+                <example type="correct">знайти коня</example>
+                <example type="correct">читати книжку</example>
+                <example type="correct">споживати при цьому</example>
+                <example type="incorrect">знайти <marker>коню</marker></example>
+                <example type="incorrect">читати <marker>книжкою</marker></example>
+            </rule>
+        </rulegroup>
+        -->
         <rulegroup name="Узгодженість відмінків з прийменниками" id="CONSISTENCY_VIDM_PRYIM">
             <rule>
                 <pattern>
@@ -133,42 +155,89 @@ $Id$
                 <example type="correct">ст. 53 Закону</example>
                 <example type="correct">статті 43 Закону</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|тисяча|мільйон|мільярд|([0-9]*[05-9]|[0-9]+11)<exception scope="previous" regexp="yes">[:./№«]</exception><exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception></token>
+                    <marker>
+                        <token postag_regexp="yes" postag="noun:m:v_naz.*">
+                            <exception postag_regexp="yes" postag="noun:p:v_rod.*"/>
+                            <exception regexp="yes">раз|чоловік|грам|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="2" postag="noun:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+                <!-- хвилин за 10 спікер ..., до 16 вхід заборонено, в 40 став наймолодшим -->
+                <!--
+                <example type="incorrect" correction="грамів">сто <marker>грам</marker></example>
+                <example type="incorrect" correction="грамів">100 <marker>грам</marker></example>
+                -->
+                <example type="incorrect" correction="байтів">10 <marker>байт</marker></example>
+                <example type="correct">50 тис. людей</example>
+                <example type="correct">сто грамів</example>
+                <example type="correct">100 грамів</example>
+                <example type="correct">10 разів</example>
+                <example type="correct">10 раз</example>
+                <example type="correct">10 номер</example>
+                <example type="correct">У 2008 президент</example>
+                <example type="correct">10 плюс 5</example>
+                <example type="correct">о 17.15 патріарх буде в місті</example>
+                <example type="correct">«5 канал»</example>
+                <example type="correct">у свої сімдесят два роки</example>
+                <example type="correct">на виборах-2007 Блок Литвина</example>
+            </rule>
         </rulegroup>
 
         <rulegroup name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи" id="PASSIVE_PREDICATE">
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="(noun|pron).*v_zna"/>
+                    <token postag_regexp="yes" postag="(noun|pron).*v_zna.*"/>
                     <marker>
-                    <token postag="impers"/>    <!-- TODO: add skip adj -->
-                    <token postag_regexp="yes" postag="(noun|pron).*v_oru"/>
+                    <token postag="impers"/>
+                    <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
+                    <!-- TODO: особа-діяч може бути не лише :ist
+                    <token postag_regexp="yes" postag="(noun|pron).*v_oru.*"/>
+                    -->
                     </marker>
                 </pattern>
                 <message>Невластива мові конструкція: пасивний предикат</message>
                 <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
                 <example type="correct">Користувача авторизовано</example>
                 <example type="correct">Справу порушено за фактом</example>
+                <example type="correct">Наказ підписано синьою ручкою</example>
+                <example type="incorrect">Справу <marker>порушено прокурором</marker></example>
+                <example type="incorrect">Справу <marker>порушено генеральним прокурором</marker></example>
+                <!-- TODO: див. вище
                 <example type="incorrect">Справу <marker>порушено судом</marker></example>
-                <!--
                 <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
                 -->
                 <example type="incorrect">Користувача <marker>авторизовано адміністратором</marker></example>
             </rule>
-        <!--
+<!-- потребує складного аналізу, інакше створює багато фальшивих помилок
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="(noun|pron).*(v_oru)"/>
                     <marker>
-                    <token postag_regexp="yes" postag="verb:rev.*"/>
-                    <token postag_regexp="yes" postag="(noun|pron).*v_zna"/>
+                    <token postag_regexp="yes" postag="verb:rev.*"><exception inflected="yes" regexp="yes">виявитися|видаватися|залишатися|оставатися|вважатися</exception></token>
+                    <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
+                    <- TODO: особа-діяч може бути не лише :ist
+                    <token postag_regexp="yes" postag="noun.*v_oru.*"/>
+                    ->
                     </marker>
                 </pattern>
                 <message>Невластива мові конструкція: пасивний предикат</message>
                 <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
-                <example type="correct">Видається багато книжок</example>
-                <example type="incorrect">Ним <marker>видаються книжки</marker></example>
+                <example type="correct">Він виявився учасником тендера</example>
+                <example type="correct">Опікується цим питанням</example>
+                <example type="correct">Залишається авторитетом</example>
+                <example type="correct">Видається провісником</example>
+                <example type="correct">Зосереджується головним чином</example>
+
+                <example type="incorrect">Закон <marker>вноситься королем</marker></example>
+                <example type="incorrect">Обсяги <marker>визначаються замовником</marker></example>
+                <example type="incorrect">Книжки <marker>пишуться автором</marker></example>
             </rule>
-        -->
+-->
         </rulegroup>
 <!--
         <rulegroup name="Узгодженість" id="CONISTENCY">

@@ -34,6 +34,15 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="A_BUT" name="a but (a bit)">
+            <pattern>
+                <token>a</token>
+                <token>but</token>
+            </pattern>
+            <message>Did you mean <suggestion>a bit</suggestion>?</message>
+            <example type='incorrect' correction="a bit">So I confused things <marker>a but</marker> and it was Kai who had planned that.</example>
+            <example type='correct'>So I confused things <marker>a bit</marker> and it was Kai who had planned that.</example>
+        </rule>
         <rule id="TOOL_LONG" name="tool long (too long)">
             <pattern>
                 <marker>
@@ -810,6 +819,19 @@ USA
             <example correction="At the beginning" type="incorrect"><marker>At he beginning</marker>, I was afraid.</example>
             <example type="correct">At the beginning, I was afraid.</example>
             <example type="correct">But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
+        </rule>
+        <rule id="THE_HOW" name="the how/why (how/why)">
+            <pattern case_sensitive='yes'>
+                <marker>
+                    <token>the</token>
+                    <token regexp='yes'>how|why</token>
+                </marker>
+                <token><exception regexp='yes'>and|of|[,\.;']</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2"/></suggestion>?</message>
+            <short>Probable typo</short>
+            <example type='incorrect' correction="how">These are also examples of <marker>the how</marker> a woman's perspective can contribute to science.</example>
+            <example type='correct'>These are also examples of how a woman's perspective can contribute to science.</example>
         </rule>
         <rulegroup id="I_LOWERCASE" name="i'm (I'm)">
         <rule>
@@ -6504,7 +6526,10 @@ USA
     <rule id="A_COMPETE" name="a compete/complete">
         <pattern>
             <token regexp='yes'>a|an|the</token>
-            <token postag='VB|VBP' postag_regexp='yes'><exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception></token>
+            <token postag='VB|VBP' postag_regexp='yes'>
+                <exception>commit</exception>
+                <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception>
+            </token>
         </pattern>
         <message>Probably a wrong construction: a/the + infinitive</message>
         <example type='incorrect'><marker>a compete</marker> catastrophe.</example>
@@ -6750,6 +6775,12 @@ USA
             <example type="correct">Does memory usage <marker>grow</marker> during processing?</example>
         </rule>
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
+            <antipattern>
+                <token>it</token>
+                <token min="0" max="1" postag="RB"/>
+                <token>second</token>
+                <token>hand</token>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -7759,7 +7790,7 @@ USA
                     <marker>
                         <token postag="VBD|VBP|VB" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"></exception></token>
                     </marker>
-                    <token><exception>'</exception></token>
+                    <token><exception>'</exception><exception postag="VBN"/></token>
                 </pattern>
                 <message>Consider using a past participle here: <suggestion><match no="3" postag="VBN"></match></suggestion>.</message>
                 <short>Possible agreement error</short>
@@ -7768,6 +7799,7 @@ USA
                 <example correction="written" type="incorrect">I must have been always <marker>wrote</marker> that.</example>
                 <example correction="hated" type="incorrect">The president was always <marker>hate</marker> in Moscow.</example>
                 <example type="correct">It has always been liked.</example>
+                <example type="correct">As they are differentially <marker>phase</marker> modulated...</example>
             </rule>
         </rulegroup>
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
@@ -8105,6 +8137,7 @@ USA
         </rulegroup>
         <rule id="MOST_SOME_OF_NNS" name="Articles: 'most/some of' + plural noun">
             <pattern>
+
                 <token regexp="yes">most|some</token>
                 <token>of</token>
                 <token postag="NNS" regexp="yes">\p{Lower}+<exception postag="PRP$"></exception></token>
@@ -8882,36 +8915,41 @@ USA
                 <example correction="to stay" type="incorrect">He advised us not <marker>staying</marker> calm.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">couldn|can</token>
+                    <token regexp="yes">['’]</token>
+                    <token>t</token>
+                    <token>help</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern>
+                    <token>cannot</token>
+                    <token>help</token>
+                    <token postag="VBG"/>
+                </antipattern>
+                <antipattern>
+                    <token>could</token>
+                    <token>not</token>
+                    <token>help</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">couldn|can</exception></token>
-                    <token><exception regexp="yes">'|could</exception></token>
-                    <token><exception regexp="yes">t|cannot|not</exception></token>
                     <token inflected="yes">help</token>
                     <marker>
-                        <token postag="VBG"></token>
+                        <token postag="VBG"><exception postag='NN:U'/></token>
                     </marker>
                 </pattern>
-                <message>The verb 'help' is used with infinitive: <suggestion>to <match no="5" postag="VB"></match></suggestion> or <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
+                <message>The verb 'help' is used with infinitive: <suggestion>to <match no="2" postag="VB"></match></suggestion> or <suggestion><match no="2" postag="VB"></match></suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example type="correct">All he did was to help to carry the bags.</example>
                 <example type="correct">But she could not help thinking there must be more to come.</example>
+                <example type="correct">Also because when you're interested in something then it helps learning because you're familiar with it.</example>
                 <example correction="to carry|carry" type="incorrect">All he did was to help <marker>carrying</marker> the bags.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"></token>
-                    <token><exception>cannot</exception></token>
-                    <token inflected="yes">help</token>
-                    <marker>
-                        <token postag="VBG"></token>
-                    </marker>
-                </pattern>
-                <message>The verb 'help' is used with infinitive: <suggestion>to <match no="4" postag="VB"></match></suggestion> or <suggestion><match no="4" postag="VB"></match></suggestion>.</message>
-                <short>Grammatical problem</short>
                 <example type="correct">He helped to carry the bags.</example>
                 <example correction="to carry|carry" type="incorrect">He helped <marker>carrying</marker> the bags.</example>
             </rule>
             <rule>
+                <!-- FIXME: 'cannot help but not like' is one negation too many -->
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token><exception>cannot</exception></token>
@@ -9829,7 +9867,7 @@ USA
             <example type="correct">They need to do this.</example>
             </rule>
         </rulegroup>
-        <rule id="EQUALLY_AS" name="equally+as (equally)">
+        <rule id="EQUALLY_AS" name="equally as (equally)">
             <pattern>
                 <token>equally</token>
                 <token>as</token>
@@ -9840,19 +9878,20 @@ USA
             <example type="correct">This model is equally effective.</example>
             <example type="correct">My new grammar checker is just as slow as the old one.</example>
         </rule>
-        <rulegroup id="CANT_HELP_BUT" name="can't help but (can't help+gerund)">
+        <rulegroup default="off" id="CANT_HELP_BUT" name="can't help but (can't help + gerund)">
             <rule>
                 <pattern>
                     <token>cannot</token>
                     <token>help</token>
-                    <token>but</token>
                     <marker>
+                        <token>but</token>
                         <token postag="VB"></token>
                     </marker>
                 </pattern>
-                <message>This is a nonstandard phrase. Use <suggestion><match no="4" postag="VBG"></match></suggestion>.</message>
+                <message>This is sometimes considered a nonstandard phrase. Use <suggestion><match no="4" postag="VBG"></match></suggestion>.</message>
+                <url>http://english.stackexchange.com/questions/69212/cannot-help-but-think-vs-cannot-but-think-vs-cannot-help-thinking</url>
                 <short>Grammatical problem</short>
-                <example correction="falling" type="incorrect">I cannot help but <marker>fall</marker> in love with you.</example>
+                <example correction="falling" type="incorrect">I cannot help <marker>but fall</marker> in love with you.</example>
                 <example type="correct">I cannot help <marker>falling</marker> in love with you.</example>
             </rule>
             <rule>
@@ -9861,14 +9900,15 @@ USA
                     <token spacebefore="no" regexp="yes">['’]</token>
                     <token>t</token>
                     <token>help</token>
-                    <token>but</token>
                     <marker>
+                        <token>but</token>
                         <token postag="VB"></token>
                     </marker>
                 </pattern>
-                <message>This is a nonstandard phrase. Use <suggestion><match no="6" postag="VBG"></match></suggestion>.</message>
+                <message>This is sometimes considered a nonstandard phrase. Use <suggestion><match no="6" postag="VBG"></match></suggestion>.</message>
+                <url>http://english.stackexchange.com/questions/69212/cannot-help-but-think-vs-cannot-but-think-vs-cannot-help-thinking</url>
                 <short>Grammatical problem</short>
-                <example correction="falling" type="incorrect">I can't help but <marker>fall</marker> in love with you.</example>
+                <example correction="falling" type="incorrect">I can't help <marker>but fall</marker> in love with you.</example>
                 <example type="correct">I <marker>can't help falling</marker> in love with you.</example>
             </rule>
         </rulegroup>
@@ -10628,6 +10668,34 @@ USA
                 <example type="incorrect" correction="anything">I didn't notice <marker>nothing</marker> wrong.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TIP_AND_TRICK" name="misspelled tips and tricks">
+            <rule>
+                <pattern>
+                    <token>tips</token>
+                    <token>and</token>
+                    <marker>
+                        <token>trick</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3"/>s</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type='incorrect' correction="tricks">tips and <marker>trick</marker></example>
+                <example type='correct'>tips and tricks</example>
+             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tip</token>
+                    </marker>
+                    <token>and</token>
+                    <token>tricks</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1"/>s</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type='incorrect' correction="tips"><marker>tip</marker> and tricks</example>
+                <example type='correct'>tips and tricks</example>
+             </rule>
+        </rulegroup>
     </category>
     <category name="Collocations" type="grammar">
       <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
@@ -11146,6 +11214,51 @@ USA
         </rulegroup>
     </category>
     <category name="Punctuation Errors" type="typographical">
+        <rule id="STATE_OF_THE_ART" name="state of the art (state-of-the-art)">
+            <pattern>
+                <marker>
+                    <token>state</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>art</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>state-of-the-art</suggestion>?</message>
+            <example type='incorrect' correction="state-of-the-art">We present our <marker>state of the art</marker> solution.</example>
+            <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
+            <example type='correct'>We compare our results to the <marker>state of the art</marker>.</example>
+        </rule>
+        <rule id="OUT_OF_PLACE" name="out of place (out-of-place) etc.">
+            <pattern>
+                <marker>
+                    <token>out</token>
+                    <token>of</token>
+                    <token regexp="yes">place|door|doors|band|bounds|town|state|wedlock|pocket|order</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>out-of-\3</suggestion>?</message>
+            <example type='correct'>This word is <marker>out of place</marker>.</example>
+            <!--<example type='incorrect'>This word is <marker>out-of-place</marker>.</example>-->
+            <example type='correct'>This is an <marker>out-of-place</marker> word.</example>
+            <example type='incorrect' correction="out-of-place">This is an <marker>out of place</marker> word.</example>
+        </rule>
+        <rule id="OUT_OF_THE_WAY" name="out of the way (out-of-the-way) etc.">
+            <pattern>
+                <marker>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>way</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>out-of-the-way</suggestion>?</message>
+            <example type='correct'>They seem to be having five hindrances <marker>out of the way</marker>.</example>
+            <example type='correct'>An <marker>out-of-the-way</marker> place.</example>
+            <example type='incorrect' correction="out-of-the-way">An <marker>out of the way</marker> place.</example>
+        </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>
                 <pattern>
@@ -11230,6 +11343,16 @@ USA
                 <example type="incorrect">Who's responsible for providing public facilities, <marker>ie.</marker> a post office, library, etc. for the Northwest?</example>
             </rule>
         </rulegroup>
+        <rule id="NO_SPACE_CLOSING_QUOTE" name="Missing space after closing quote">
+            <pattern>
+                <token>”</token>
+                <token regexp='yes' spacebefore='no'>\w+</token>
+            </pattern>
+            <message>There should be a space after a closing quote.</message>
+            <suggestion>\1 \2</suggestion>
+            <example type='incorrect' correction="” said">“Good morning, Frank,<marker>”said</marker> Hal.</example>
+            <example type='correct'>“Good morning, Frank,” said Hal.</example>
+        </rule>
         <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
             <rule>
                 <pattern case_sensitive="yes">
@@ -11301,7 +11424,7 @@ USA
         </rulegroup>
         <rule default="off" id="COMMA_WHICH" name="No comma before 'which'">
           <pattern>
-            <token><exception regexp="yes">[,(]|that</exception><exception postag="IN|TO|;|SENT_START" postag_regexp="yes"></exception></token>
+            <token><exception regexp="yes">[,(-–−—―"“]|that</exception><exception postag="IN|TO|;|SENT_START" postag_regexp="yes"></exception></token>
             <token>which</token>
           </pattern>
           <message>Probably a comma is missing here: <suggestion>\1, \2</suggestion>. Or if you want to use a restrictive clause, use <suggestion>\1 that</suggestion>.</message>
@@ -11414,6 +11537,15 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="ON_BEHAVE" name="on behave (on behalf)">
+            <pattern>
+                <token>on</token>
+                <token>behave</token>
+            </pattern>
+            <message>Did you mean <suggestion>on behalf</suggestion> (in the name of, as a representative of)?</message>
+            <example type='incorrect' correction="on behalf">They act <marker>on behave</marker> of a user.</example>
+            <example type='correct'>They act <marker>on behalf</marker> of a user.</example>
+        </rule>
         <rule id="WITCH_IS_WRONG" name="witch (which) is wrong">
             <pattern>
                 <marker>

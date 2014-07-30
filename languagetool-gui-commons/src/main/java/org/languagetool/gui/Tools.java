@@ -35,10 +35,10 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang.StringUtils;
-import org.languagetool.JLanguageTool;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.FalseFriendPatternRule;
+import org.languagetool.tools.StringTools;
 
 /**
  * GUI-related tools.
@@ -89,7 +89,8 @@ public class Tools {
    * Show the exception (with stacktrace) in a dialog and print it to STDERR.
    */
   static void showError(final Exception e) {
-    final String msg = org.languagetool.tools.Tools.getFullStackTrace(e);
+    String stackTrace = org.languagetool.tools.Tools.getFullStackTrace(e);
+    final String msg = "<html><p style='width: 600px;'>" + StringTools.escapeHTML(stackTrace);
     JOptionPane.showMessageDialog(null, msg, "Error", JOptionPane.ERROR_MESSAGE);
     e.printStackTrace();
   }
@@ -118,7 +119,7 @@ public class Tools {
    */
   public static String shortenComment(String comment) {
     final int maxCommentLength = 100;
-    if(comment.length() > maxCommentLength) {
+    if (comment.length() > maxCommentLength) {
       // if there is text in brackets, drop it (beginning at the end)
       while (comment.lastIndexOf(" [") > 0
               && comment.lastIndexOf(']') > comment.lastIndexOf(" [")
@@ -131,7 +132,7 @@ public class Tools {
         comment = comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(')')+1);
       }
       // in case it's still not short enough, shorten at the end
-      if(comment.length() > maxCommentLength) {
+      if (comment.length() > maxCommentLength) {
         comment = comment.substring(0,maxCommentLength-1) + "…";
       }
     }

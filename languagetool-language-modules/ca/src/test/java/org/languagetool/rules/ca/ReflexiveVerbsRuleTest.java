@@ -136,7 +136,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("fins i tot us vendríeu un amic");
     assertCorrect("ens hem esforçat molt per venir-vos a veure");
     assertCorrect("Un altre dia s'anava a l'Ermita i un tercer dia se solia anar a altres indrets de caràcter comarcal.");
-    assertCorrect("La Nit de sant Joan es baixaven falles de la muntanya."); //solucions: marcar "la nit..." com a CC o comprovar la concordança subj/verb
+    assertCorrect("La nit de sant Joan es baixaven falles de la muntanya."); //solucions: marcar "la nit..." com a CC o comprovar la concordança subj/verb
     assertCorrect("que no pertanyen a ells mateixos es cau en una contradicció.");
     assertCorrect("Els salts els fan impulsant-se amb les cames");
     assertCorrect("Zheng, adonant-se que gairebé totes les forces singaleses");

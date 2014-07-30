@@ -215,14 +215,20 @@ public class PatternRuleHandler extends XMLRuleHandler {
         shortMessage = new StringBuilder();
         break;
       case "url":
-        inUrl = true;
-        url = new StringBuilder();
+        if (inRule) {
+          inUrl = true;
+          url = new StringBuilder();
+        } else {
+          inUrlForRuleGroup = true;
+          urlForRuleGroup = new StringBuilder();
+        }
         break;
       case RULEGROUP:
         ruleGroupId = attrs.getValue(ID);
         ruleGroupDescription = attrs.getValue(NAME);
         defaultOff = "off".equals(attrs.getValue(DEFAULT));
         defaultOn = "on".equals(attrs.getValue(DEFAULT));
+        urlForRuleGroup = new StringBuilder();
         inRuleGroup = true;
         subId = 0;
         if (attrs.getValue(TYPE) != null) {
@@ -404,6 +410,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "url":
         inUrl = false;
+        inUrlForRuleGroup = false;
         break;
       case MATCH:
         if (inMessage) {
@@ -418,6 +425,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inMatch = false;
         break;
       case RULEGROUP:
+        urlForRuleGroup = new StringBuilder();
         inRuleGroup = false;
         ruleGroupIssueType = null;
         if (rulegroupAntiPatterns != null) {
@@ -556,6 +564,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
       } catch (MalformedURLException e) {
         throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + url + "'", e);
       }
+    } else if (urlForRuleGroup != null && urlForRuleGroup.length() > 0) {
+      try {
+        rule.setUrl(new URL(urlForRuleGroup.toString()));
+      } catch (MalformedURLException e) {
+        throw new RuntimeException("Could not parse URL for rule: " + rule + ": '" + urlForRuleGroup + "'", e);
+      }
     }
     // inheritance of values - if no type value is defined for a rule, take the rule group's value etc:
     if (ruleIssueType != null) {
@@ -588,6 +602,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       shortMessage.append(s);
     } else if (inUrl) {
       url.append(s);
+    } else if (inUrlForRuleGroup) {
+      urlForRuleGroup.append(s);
     }
   }
 

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,23 +16,27 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.pl;
 
-import junit.framework.TestCase;
-import org.languagetool.JLanguageTool;
-import org.languagetool.TestTools;
-import org.languagetool.language.Polish;
-import org.languagetool.rules.WhitespaceRule;
+import org.languagetool.synthesis.FrenchSynthesizer;
 
 import java.io.IOException;
+import java.util.Arrays;
 
-public class WhitespaceRuleTest extends TestCase {
+import junit.framework.TestCase;
 
-  public void testRule() throws IOException {
-    final WhitespaceRule rule = new WhitespaceRule(TestTools.getEnglishMessages(), new Polish());
-    final JLanguageTool langTool = new JLanguageTool(new Polish());
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("To jest test.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("To jest   test.")).length);
+import org.languagetool.AnalyzedToken;
+
+public class FrenchSynthesizerTest extends TestCase {
+
+  public final void testSynthesizeStringString() throws IOException {
+    FrenchSynthesizer synth = new FrenchSynthesizer();
+    assertEquals(synth.synthesize(dummyToken("blablabla"), "blablabla").length, 0);
+    
+    assertEquals("[nagent]", Arrays.toString(synth.synthesize(dummyToken("nager"), "V ind pres 3 p")));
+  }
+
+  private AnalyzedToken dummyToken(String tokenStr) {
+    return new AnalyzedToken(tokenStr, tokenStr, tokenStr);
   }
 
 }

@@ -18,17 +18,13 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.languagetool.Language;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.DoublePunctuationRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.SentenceWhitespaceRule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.WhitespaceRule;
-import org.languagetool.rules.WordRepeatRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.pl.CompoundRule;
 import org.languagetool.rules.pl.MorfologikPolishSpellerRule;
 import org.languagetool.rules.pl.PolishUnpairedBracketsRule;
@@ -126,20 +122,20 @@ public class Polish extends Language {
   }
 
   @Override
-  public List<Class<? extends Rule>> getRelevantRules() {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-        CommaWhitespaceRule.class,
-        DoublePunctuationRule.class,
-        UppercaseSentenceStartRule.class,
-        WordRepeatRule.class,
-        WhitespaceRule.class,
-        SentenceWhitespaceRule.class,
+        new CommaWhitespaceRule(messages),
+        new DoublePunctuationRule(messages),
+        new UppercaseSentenceStartRule(messages, this),
+        new WordRepeatRule(messages, this),
+        new MultipleWhitespaceRule(messages, this),
+        new SentenceWhitespaceRule(messages),
         // specific to Polish:
-        PolishUnpairedBracketsRule.class,
-        MorfologikPolishSpellerRule.class,
-        PolishWordRepeatRule.class,
-        CompoundRule.class,
-        SimpleReplaceRule.class
+        new PolishUnpairedBracketsRule(messages, this),
+        new MorfologikPolishSpellerRule(messages, this),
+        new PolishWordRepeatRule(messages),
+        new CompoundRule(messages),
+        new SimpleReplaceRule(messages)
         );
   }
 
