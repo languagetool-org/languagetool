@@ -10461,7 +10461,7 @@ USA
         </rule>
         <rule id="NODT_DOZEN" name="Numeral (dozen, hundred, thousand, million) without a determiner or a number">
           <pattern>
-            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
+            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="UNKNOWN|CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
           </pattern>
           <message>Use simply: <suggestion>a <match no="1"/></suggestion>.</message>
           <short>Grammatical problem</short>
@@ -10469,6 +10469,7 @@ USA
           <example type="correct">You need almost a hundred eggs.</example>
           <example type="correct">The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
           <example type="correct">It was selected as the first of Life magazine's 'hundred photos that changed the world'.</example>
+          <example type="correct">At a peak of 6 <!--note: non-breaking space --><marker>million</marker>.</example>
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
             <pattern>
