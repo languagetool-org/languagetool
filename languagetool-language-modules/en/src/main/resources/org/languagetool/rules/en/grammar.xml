@@ -8229,6 +8229,20 @@ USA
                 <example type='correct'>It happened in the 1990's.</example>
             </rule>
         </rulegroup>
+        <rule id="IN_PAST" name="Missing definite article referring to a time period">
+            <pattern>
+                <marker>
+                    <token>in</token>
+                    <token regexp='yes'>past|future</token>
+                </marker>
+                <token regexp='yes'>[,\.:;]</token>
+            </pattern>
+            <message>Did you mean: <suggestion><match no="1"/> the <match no="2"/></suggestion>?</message>
+            <url>http://pl.talkenglish.com/Grammar/articles.aspx</url>
+            <short>Missing definite article</short>
+            <example type='incorrect' correction="in the past">Something happened <marker>in past</marker>.</example>
+            <example type='correct'>Something happened in the past.</example>
+        </rule>
         <!--  needs more and more tweaking;
   currently the last exception in all rules is a simplification,
   it should be more recursive, i.e., there one more rule for all current rules, structured like this:
