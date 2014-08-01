@@ -7727,6 +7727,25 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="POSTA_POSAT" name="havia *posta/posat">
+            <antipattern>
+                <marker>
+                    <token>posta</token>
+                    <token>de</token>
+                    <token regexp="yes">sol|cavalls|correus?</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">haver</token>
+                <marker>
+                    <token>posta</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>posat</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Ho havia <marker>posta</marker> jo.</example>
+            <example type="correct">No hi havia posta de sol.</example>
+        </rule>
         <rule id="ESTAR_TANCAR" name="estar *tancar/tancat">
             <antipattern>
                 <marker>
@@ -12020,6 +12039,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="MOTS_NO_SEPARATS" name="mots no separats: *súper heroi/*súper-heroi/superheroi">
+            <rule>
+                <pattern>
+                    <token>re</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">edició|exposició</token>
+                </pattern>
+                <message>S'escriu junt sense guionet.</message>
+                <suggestion>re<match no="3"/></suggestion>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="reedició">La <marker>re-edició</marker> de les obres completes.</example>
+                <example type="correct">reedició</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">r[àa]dio</token>
