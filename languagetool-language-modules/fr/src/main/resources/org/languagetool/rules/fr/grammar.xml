@@ -5053,6 +5053,26 @@ though, and has since been slightly modified)-->
         <example type="correct">Le mois d’avril a été froid.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="AGE" name="age et âge">
+      <rule>
+        <pattern>
+          <token regexp="yes">bel|grand|moyen|premier|quel|[mts]on|même|[nv]otre|leur|troisième|quatrième|cinquième</token>
+          <marker><token>age</token></marker>
+        </pattern>
+        <message>Confusion probable entre « age » (pièce d’une charrue) et <suggestion>âge</suggestion>.</message>
+        <example type="incorrect">Quel <marker>age</marker> as-tu ?</example>
+        <example type="correct">Quel âge as-tu ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>age</token></marker>
+          <token regexp="yes">actif|avancé|bête|canonique|critique|dentaire|ingrat|mental|mûr|osseux|préscolaire|pubertaire|respectable|tendre|vénérable</token>
+        </pattern>
+        <message>Confusion probable entre « age » (pièce d’une charrue) et <suggestion>âge</suggestion>.</message>
+        <example type="incorrect">Une femme d’<marker>age</marker> mûr.</example>
+        <example type="correct">Une femme d’âge mûr.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
