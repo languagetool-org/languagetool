@@ -33,6 +33,7 @@ import javax.swing.event.UndoableEditListener;
 import javax.swing.text.JTextComponent;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.CompoundEdit;
 import javax.swing.undo.UndoManager;
 import org.languagetool.JLanguageTool;
 
@@ -47,6 +48,8 @@ class UndoRedoSupport {
   final RedoAction redoAction;
   private final UndoManager undoManager;
   private final ResourceBundle messages;
+  private boolean compoundMode = false;
+  private CompoundEdit ce = null;
 
   UndoRedoSupport(JTextComponent textComponent, ResourceBundle messages) {
     this.messages = messages;
@@ -56,7 +59,11 @@ class UndoRedoSupport {
     textComponent.getDocument().addUndoableEditListener(new UndoableEditListener() {
       @Override
       public void undoableEditHappened(UndoableEditEvent e) {
-        undoManager.addEdit(e.getEdit());
+        if(compoundMode) {
+          ce.addEdit(e.getEdit());
+        } else {
+          undoManager.addEdit(e.getEdit());
+        }
         undoAction.updateUndoState();
         redoAction.updateRedoState();
       }
@@ -70,6 +77,42 @@ class UndoRedoSupport {
             Toolkit.getDefaultToolkit().getMenuShortcutKeyMask() | java.awt.event.InputEvent.SHIFT_DOWN_MASK);
     inputMap.put(key, "redo");
     textComponent.getActionMap().put("redo", redoAction);
+  }
+
+  /**
+   * Notify manager to start merging undoable edits.
+   * 
+   * Calling startCompoundEdit when already in compound mode is an error
+   * and will throw a RuntimeException.
+   *
+   * @since 2.7
+   */
+  void startCompoundEdit()
+  {
+      if(compoundMode) {
+        throw new RuntimeException("already in compound mode");
+      }
+      ce = new CompoundEdit();
+      compoundMode = true;
+  }
+
+  /**
+   * Notify manager to stop merging undoable edits.
+   * 
+   * Calling endCompoundEdit when not in compound mode is an error
+   * and will throw a RuntimeException.
+   *
+   * @since 2.7
+   */  
+  void endCompoundEdit()
+  {
+      if(!compoundMode) {
+        throw new RuntimeException("not in compound mode");
+      }      
+      ce.end();
+      undoManager.addEdit(ce);
+      ce = null;
+      compoundMode = false;
   }
 
   class UndoAction extends AbstractAction {

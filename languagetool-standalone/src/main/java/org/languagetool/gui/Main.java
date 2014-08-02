@@ -318,7 +318,7 @@ public final class Main {
     cons.insets = new Insets(4, 12, 4, 12);
     contentPane.add(insidePanel, cons);
 
-    ltSupport = new LanguageToolSupport(this.frame, this.textArea);
+    ltSupport = new LanguageToolSupport(this.frame, this.textArea, this.undoRedo);
     resultAreaHelper = new ResultArea(messages, ltSupport, resultArea);
     languageBox.selectLanguage(ltSupport.getLanguage());
     languageBox.setEnabled(!ltSupport.getConfig().getAutoDetect());
