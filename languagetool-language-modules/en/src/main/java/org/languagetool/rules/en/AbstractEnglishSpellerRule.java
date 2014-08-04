@@ -78,14 +78,19 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           String baseForm = word.substring(0, word.length() - suffix.length());
           String[] forms = synthesizer.synthesize(new AnalyzedToken(word, null, baseForm), posTag);
           List<String> result = new ArrayList<>();
-          result.addAll(Arrays.asList(forms));
+          for (String form : forms) {
+            if (!speller.isMisspelled(form)) {
+              // only accept suggestions that the spellchecker will accept
+              result.add(form);
+            }
+          }
           // the internal dict might contain forms that the spell checker doesn't accept (e.g. 'criterions'),
           // but we trust the spell checker in this case:
           result.remove(word);
           result.remove("badder");  // non-standard usage
           result.remove("baddest");  // non-standard usage
           result.remove("spake");  // can be removed after dict update
-          if (forms.length > 0) {
+          if (result.size() > 0) {
             return new IrregularForms(baseForm, posName, result);
           }
         }
