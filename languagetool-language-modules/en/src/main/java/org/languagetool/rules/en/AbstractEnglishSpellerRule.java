@@ -40,8 +40,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
-  protected List<RuleMatch> getRuleMatch(String word, int startPos) throws IOException {
-    List<RuleMatch> ruleMatches = super.getRuleMatch(word, startPos);
+  protected List<RuleMatch> getRuleMatches(String word, int startPos) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos);
     if (ruleMatches.size() > 0) {
       // so 'word' is misspelled: 
       IrregularForms irregularForms = getIrregularFormsOrNull(word);
