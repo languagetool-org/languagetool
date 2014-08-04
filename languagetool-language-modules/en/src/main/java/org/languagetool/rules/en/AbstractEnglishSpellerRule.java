@@ -44,12 +44,22 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos);
     if (ruleMatches.size() > 0) {
       // so 'word' is misspelled: 
-      IrregularForms irregularForms = getIrregularFormsOrNull(word);
-      if (irregularForms != null) {
-        RuleMatch match = new RuleMatch(this, startPos, startPos + word.length(), 
-                "'" + irregularForms.baseform + "' is an irregular " + irregularForms.type + ".");
-        match.setSuggestedReplacements(irregularForms.forms);
-        ruleMatches = Collections.singletonList(match);
+      IrregularForms forms = getIrregularFormsOrNull(word);
+      if (forms != null) {
+        RuleMatch oldMatch = ruleMatches.get(0);
+        RuleMatch newMatch = new RuleMatch(this, oldMatch.getFromPos(), oldMatch.getToPos(), 
+                "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
+                "</suggestion>, the irregular " + forms.formName + " form of the " + forms.posName +
+                " '" + forms.baseform + "'?");
+        List<String> allSuggestions = new ArrayList<>();
+        allSuggestions.addAll(forms.forms);
+        for (String repl : oldMatch.getSuggestedReplacements()) {
+          if (!allSuggestions.contains(repl)) {
+            allSuggestions.add(repl);
+          }
+        }
+        newMatch.setSuggestedReplacements(allSuggestions);
+        ruleMatches.set(0, newMatch);
       }
     }
     return ruleMatches;
@@ -57,21 +67,21 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   @SuppressWarnings({"ReuseOfLocalVariable", "ControlFlowStatementWithoutBraces"})
   private IrregularForms getIrregularFormsOrNull(String word) {
-    IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb");
+    IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb", "past tense");
     if (irregularFormsOrNull != null) return irregularFormsOrNull;
-    irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("d" /* e.g. awaked */), "VBD", "verb");
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("d" /* e.g. awaked */), "VBD", "verb", "past tense");
     if (irregularFormsOrNull != null) return irregularFormsOrNull;
-    irregularFormsOrNull = getIrregularFormsOrNull(word, "s", Arrays.asList("s"), "NNS", "noun");
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "s", Arrays.asList("s"), "NNS", "noun", "plural");
     if (irregularFormsOrNull != null) return irregularFormsOrNull;
-    irregularFormsOrNull = getIrregularFormsOrNull(word, "es", Arrays.asList("es"/* e.g. 'analysises' */), "NNS", "noun");
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "es", Arrays.asList("es"/* e.g. 'analysises' */), "NNS", "noun", "plural");
     if (irregularFormsOrNull != null) return irregularFormsOrNull;
-    irregularFormsOrNull = getIrregularFormsOrNull(word, "er", Arrays.asList("er"/* e.g. 'farer' */), "JJR", "adjective");
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "er", Arrays.asList("er"/* e.g. 'farer' */), "JJR", "adjective", "comparative");
     if (irregularFormsOrNull != null) return irregularFormsOrNull;
-    irregularFormsOrNull = getIrregularFormsOrNull(word, "est", Arrays.asList("est"/* e.g. 'farest' */), "JJS", "adjective");
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "est", Arrays.asList("est"/* e.g. 'farest' */), "JJS", "adjective", "superlative");
     return irregularFormsOrNull;
   }
 
-  private IrregularForms getIrregularFormsOrNull(String word, String wordSuffix, List<String> suffixes, String posTag, String posName) {
+  private IrregularForms getIrregularFormsOrNull(String word, String wordSuffix, List<String> suffixes, String posTag, String posName, String formName) {
     try {
       for (String suffix : suffixes) {
         if (word.endsWith(wordSuffix)) {
@@ -91,7 +101,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           result.remove("baddest");  // non-standard usage
           result.remove("spake");  // can be removed after dict update
           if (result.size() > 0) {
-            return new IrregularForms(baseForm, posName, result);
+            return new IrregularForms(baseForm, posName, formName, result);
           }
         }
       }
@@ -103,11 +113,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static class IrregularForms {
     String baseform;
-    String type;
+    String posName;
+    String formName;
     List<String> forms;
-    private IrregularForms(String baseform, String type, List<String> forms) {
+    private IrregularForms(String baseform, String posName, String formName, List<String> forms) {
       this.baseform = baseform;
-      this.type = type;
+      this.posName = posName;
+      this.formName = formName;
       this.forms = forms;
     }
   }

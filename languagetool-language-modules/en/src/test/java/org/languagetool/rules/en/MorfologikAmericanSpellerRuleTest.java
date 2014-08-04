@@ -140,8 +140,8 @@ public class MorfologikAmericanSpellerRuleTest {
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
     assertThat(matches.length, is(1));
-    assertThat("Expected " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
-            matches[0].getSuggestedReplacements().size(), is(expectedSuggestions.length));
+    assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
+            matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);
     for (String expectedSuggestion : expectedSuggestions) {
       assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
     }
