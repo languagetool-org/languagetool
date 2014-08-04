@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -121,12 +122,29 @@ public class MorfologikAmericanSpellerRuleTest {
     assertSuggestion("criterions", "criteria");
     //accepted by spell checker, e.g. as third-person verb:
     // foots, mouses, man
+    
+    // adjectives (comparative):
+    assertSuggestion("gooder", "better");
+    assertSuggestion("bader", "worse");
+    assertSuggestion("farer", "further", "farther");
+    //accepted by spell checker:
+    //badder
+
+    // adjectives (superlative):
+    assertSuggestion("goodest", "best");
+    assertSuggestion("badest", "worst");
+    assertSuggestion("farest", "furthest", "farthest");
+    //double consonants not yet supported:
+    //assertSuggestion("baddest", "worst");
   }
 
-  private void assertSuggestion(String input, String expectedSuggestion) throws IOException {
+  private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
     assertThat(matches.length, is(1));
-    assertThat("Expected 1, got: " + matches[0].getSuggestedReplacements(), matches[0].getSuggestedReplacements().size(), is(1));
-    assertThat(matches[0].getSuggestedReplacements().get(0), is(expectedSuggestion));
+    assertThat("Expected " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
+            matches[0].getSuggestedReplacements().size(), is(expectedSuggestions.length));
+    for (String expectedSuggestion : expectedSuggestions) {
+      assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
+    }
   }
 }

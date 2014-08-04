@@ -55,6 +55,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return ruleMatches;
   }
 
+  @SuppressWarnings("ReuseOfLocalVariable")
   private IrregularForms getIrregularFormsOrNull(String word) {
     IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb");
     if (irregularFormsOrNull != null) {
@@ -72,6 +73,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     if (irregularFormsOrNull != null) {
       return irregularFormsOrNull;
     }
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "er", Arrays.asList("er"/* e.g. 'farer' */), "JJR", "adjective");
+    if (irregularFormsOrNull != null) {
+      return irregularFormsOrNull;
+    }
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "est", Arrays.asList("est"/* e.g. 'farest' */), "JJS", "adjective");
+    if (irregularFormsOrNull != null) {
+      return irregularFormsOrNull;
+    }
     return irregularFormsOrNull;
   }
 
@@ -86,6 +95,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           // the internal dict might contain forms that the spell checker doesn't accept (e.g. 'criterions'),
           // but we trust the spell checker in this case:
           result.remove(word);
+          result.remove("badder");  // non-standard usage
+          result.remove("baddest");  // non-standard usage
           if (forms.length > 0) {
             return new IrregularForms(baseForm, posName, result);
           }
