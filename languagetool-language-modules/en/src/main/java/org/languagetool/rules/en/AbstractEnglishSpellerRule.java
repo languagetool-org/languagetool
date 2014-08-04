@@ -18,14 +18,19 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.synthesis.en.EnglishSynthesizer;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
+
+  private final EnglishSynthesizer synthesizer = new EnglishSynthesizer();
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
@@ -34,4 +39,72 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
   }
 
+  @Override
+  protected List<RuleMatch> getRuleMatch(String word, int startPos) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatch(word, startPos);
+    if (ruleMatches.size() > 0) {
+      // so 'word' is misspelled: 
+      IrregularForms irregularForms = getIrregularFormsOrNull(word);
+      if (irregularForms != null) {
+        RuleMatch match = new RuleMatch(this, startPos, startPos + word.length(), 
+                "'" + irregularForms.baseform + "' is an irregular " + irregularForms.type + ".");
+        match.setSuggestedReplacements(irregularForms.forms);
+        ruleMatches = Collections.singletonList(match);
+      }
+    }
+    return ruleMatches;
+  }
+
+  private IrregularForms getIrregularFormsOrNull(String word) {
+    IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb");
+    if (irregularFormsOrNull != null) {
+      return irregularFormsOrNull;
+    }
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("d" /* e.g. awaked */), "VBD", "verb");
+    if (irregularFormsOrNull != null) {
+      return irregularFormsOrNull;
+    }
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "s", Arrays.asList("s"), "NNS", "noun");
+    if (irregularFormsOrNull != null) {
+      return irregularFormsOrNull;
+    }
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "es", Arrays.asList("es"/* e.g. 'analysises' */), "NNS", "noun");
+    if (irregularFormsOrNull != null) {
+      return irregularFormsOrNull;
+    }
+    return irregularFormsOrNull;
+  }
+
+  private IrregularForms getIrregularFormsOrNull(String word, String wordSuffix, List<String> suffixes, String posTag, String posName) {
+    try {
+      for (String suffix : suffixes) {
+        if (word.endsWith(wordSuffix)) {
+          String baseForm = word.substring(0, word.length() - suffix.length());
+          String[] forms = synthesizer.synthesize(new AnalyzedToken(word, null, baseForm), posTag);
+          List<String> result = new ArrayList<>();
+          result.addAll(Arrays.asList(forms));
+          // the internal dict might contain forms that the spell checker doesn't accept (e.g. 'criterions'),
+          // but we trust the spell checker in this case:
+          result.remove(word);
+          if (forms.length > 0) {
+            return new IrregularForms(baseForm, posName, result);
+          }
+        }
+      }
+      return null;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static class IrregularForms {
+    String baseform;
+    String type;
+    List<String> forms;
+    private IrregularForms(String baseform, String type, List<String> forms) {
+      this.baseform = baseform;
+      this.type = type;
+      this.forms = forms;
+    }
+  }
 }
