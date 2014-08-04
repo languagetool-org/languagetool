@@ -55,32 +55,19 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return ruleMatches;
   }
 
-  @SuppressWarnings("ReuseOfLocalVariable")
+  @SuppressWarnings({"ReuseOfLocalVariable", "ControlFlowStatementWithoutBraces"})
   private IrregularForms getIrregularFormsOrNull(String word) {
     IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb");
-    if (irregularFormsOrNull != null) {
-      return irregularFormsOrNull;
-    }
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
     irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("d" /* e.g. awaked */), "VBD", "verb");
-    if (irregularFormsOrNull != null) {
-      return irregularFormsOrNull;
-    }
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
     irregularFormsOrNull = getIrregularFormsOrNull(word, "s", Arrays.asList("s"), "NNS", "noun");
-    if (irregularFormsOrNull != null) {
-      return irregularFormsOrNull;
-    }
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
     irregularFormsOrNull = getIrregularFormsOrNull(word, "es", Arrays.asList("es"/* e.g. 'analysises' */), "NNS", "noun");
-    if (irregularFormsOrNull != null) {
-      return irregularFormsOrNull;
-    }
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
     irregularFormsOrNull = getIrregularFormsOrNull(word, "er", Arrays.asList("er"/* e.g. 'farer' */), "JJR", "adjective");
-    if (irregularFormsOrNull != null) {
-      return irregularFormsOrNull;
-    }
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
     irregularFormsOrNull = getIrregularFormsOrNull(word, "est", Arrays.asList("est"/* e.g. 'farest' */), "JJS", "adjective");
-    if (irregularFormsOrNull != null) {
-      return irregularFormsOrNull;
-    }
     return irregularFormsOrNull;
   }
 
@@ -97,6 +84,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           result.remove(word);
           result.remove("badder");  // non-standard usage
           result.remove("baddest");  // non-standard usage
+          result.remove("spake");  // can be removed after dict update
           if (forms.length > 0) {
             return new IrregularForms(baseForm, posName, result);
           }

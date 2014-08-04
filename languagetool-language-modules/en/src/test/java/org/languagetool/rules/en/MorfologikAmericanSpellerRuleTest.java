@@ -106,8 +106,7 @@ public class MorfologikAmericanSpellerRuleTest {
     assertSuggestion("He maked", "made");
     assertSuggestion("She runed", "ran");
     assertSuggestion("She selled", "sold");
-    
-    //assertSuggestion("He speaked", "spoke");  // needs dict update to not include 'spake'
+    assertSuggestion("He speaked", "spoke");  // needs dict update to not include 'spake'
 
     // double consonants not yet supported:
     //assertSuggestion("He cutted", "cut");
