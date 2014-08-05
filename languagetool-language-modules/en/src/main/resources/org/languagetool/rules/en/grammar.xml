@@ -1999,6 +1999,11 @@ USA
                 <example type="incorrect">It is <marker>to</marker> soon to move the entire industry.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>similar</token>
+                    <token>to</token>
+                    <token>much</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">access|lead|led</token>
                     <marker>
@@ -10419,7 +10424,7 @@ USA
                     <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
                     <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
-                    <exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception>
+                    <exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|category|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
                     <exception scope="previous">×</exception>
                 </token>
@@ -11538,6 +11543,10 @@ USA
             <antipattern>
                 <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
                 <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"></exception></token>
+            </antipattern>
+            <antipattern>
+                <token>Also</token>
+                <token>commemorated</token>
             </antipattern>
             <pattern>
                 <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
