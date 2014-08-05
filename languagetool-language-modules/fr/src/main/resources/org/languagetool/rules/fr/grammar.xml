@@ -26323,6 +26323,38 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="xubuntu-12.04">J’ai installé <marker>xubuntu-12.4</marker>.</example>
       <example type="correct">J’ai installé <marker>xubuntu-12.04</marker>.</example>
     </rule>
+    <rule id="SQLITE" name="SQLite">
+      <pattern>
+        <token regexp="yes">sql-?l?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>SQLite</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/SQLite</url>
+      <example type="incorrect">Android utilise <marker>SQLlite</marker>.</example>
+      <example type="incorrect">Android utilise <marker>SQL-lite</marker>.</example>
+      <example type="incorrect">Android utilise <marker>Sqlite</marker>.</example>
+      <example type="incorrect">Android utilise <marker>SQLight</marker>.</example>
+      <example type="correct">Android utilise <marker>SQLite</marker>.</example>
+    </rule>
+    <rule id="WINDOWS" name="Window → Windows">
+      <pattern>
+        <marker><token>Window</token></marker>
+        <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>Windows</suggestion> s’il s’agit du système d’exploitation de Microsoft ?</message>
+      <url>http://fr.wikipedia.org/wiki/Windows</url>
+      <example type="incorrect"><marker>Window</marker> Vista plante tout le temps.</example>
+      <example type="correct"><marker>Windows</marker> Vista plante tout le temps.</example>
+    </rule>
+    <rule id="X_WWINDOW" name="X Window">
+      <pattern>
+        <token case_sensitive="yes">X</token>
+        <token>Windows</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+      <example type="incorrect">C'est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      <example type="correct">C'est le MIT qui a publié la première version de <marker>X Window</marker> en juin 1984.</example>
+    </rule>
     <rulegroup id="COCOTTE-MINUTE" name="Cocotte-Minute">
       <rule>
         <pattern>
