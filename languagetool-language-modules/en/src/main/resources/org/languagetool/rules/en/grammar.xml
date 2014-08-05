@@ -11490,9 +11490,9 @@ USA
         <rule id="COMMA_MONTH_DATE" name="Comma after a month name in a date">
         <pattern>
             <marker>
-            <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
-            <token>,</token>
-            <token regexp="yes">[1-3][0-9]{3}</token>
+                <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
+                <token>,</token>
+                <token regexp="yes">[1-3][0-9]{3}</token>
             </marker>
             </pattern>
             <message>The comma is probably incorrect: <suggestion>\1 \3</suggestion>.</message>
@@ -11517,52 +11517,52 @@ USA
         </rule>
         <rulegroup id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
             <rule>
-            <antipattern>
-                <marker><token>instead</token></marker>
-                <token>of</token>
-            </antipattern>
-            <antipattern>
-                <marker><token>rather</token></marker>
-                <token>than</token>
-            </antipattern>
-            <antipattern>
-                <marker><token chunk="B-PP">besides</token></marker>
-            </antipattern>
-            <antipattern>
-                <marker><token>also</token></marker>
-                <token regexp="yes">in|since</token>
-            </antipattern>
-            <antipattern>
-                <marker><token regexp="yes">thus|still</token></marker>
-                <token postag="VB." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <marker><token>however</token></marker>
-                <token postag="JJ"/>
-            </antipattern>
-            <antipattern>
-                <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
-                <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"></exception></token>
-            </antipattern>
-            <antipattern>
-                <token>Also</token>
-                <token>commemorated</token>
-            </antipattern>
-            <pattern>
-                <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
-                <token postag="SENT_START"/>
-                <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
-                <marker>
-                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
-                        <exception negate_pos="yes" postag="RB">further</exception>
-                    </token>
-                </marker>
-                <token negate="yes">,</token>
-            </pattern>
-            <message>Did you forget a comma after a conjunctive/linking adverb?</message>
-            <suggestion>\2,</suggestion>
-            <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
-            <short>Punctuation error</short>
+                <antipattern>
+                    <marker><token>instead</token></marker>
+                    <token>of</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token>rather</token></marker>
+                    <token>than</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token chunk="B-PP">besides</token></marker>
+                </antipattern>
+                <antipattern>
+                    <marker><token>also</token></marker>
+                    <token regexp="yes">in|since</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token regexp="yes">thus|still</token></marker>
+                    <token postag="VB." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <marker><token>however</token></marker>
+                    <token postag="JJ"/>
+                </antipattern>
+                <antipattern>
+                    <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
+                    <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"></exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>Also</token>
+                    <token>commemorated</token>
+                </antipattern>
+                <pattern>
+                    <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
+                    <token postag="SENT_START"/>
+                    <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
+                    <marker>
+                        <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
+                            <exception negate_pos="yes" postag="RB">further</exception>
+                        </token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Did you forget a comma after a conjunctive/linking adverb?</message>
+                <suggestion>\2,</suggestion>
+                <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
+                <short>Punctuation error</short>
                 <example type="incorrect" correction="Nonetheless,"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
                 <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
                 <example type="correct">Further Spanish attacks were harsh.</example>
@@ -11572,7 +11572,7 @@ USA
                 <example type="correct">Thus began the infamous "prison ships" system.</example>
                 <example type="correct">However fast you may walk, you can't catch up with him.</example>
                 <example type="correct">Also specify your gender.</example>
-        </rule>
+            </rule>
             <rule>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
@@ -11627,74 +11627,74 @@ USA
             <example type='correct'>It seems unlikely that they <marker>were</marker> going to achieve it.</example>
         </rule>
         <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
-    <rule>
-  	<pattern>
-    	<marker>
-      	<token>alter</token>
-    	</marker>
-    	<token regexp="yes">boy|server</token>
-  	</pattern>
-  	<message>Did you mean <suggestion>altar</suggestion>?</message>
-  	<url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
-  	<short>Possible typo</short>
-  	<example type="incorrect" correction="altar">He was an <marker>alter</marker> boy.</example>
-	<example type="correct">He was an altar boy.</example>
-	</rule>
-	<rule>
-  	<pattern>
-  		<token>at</token>
-  		<token>the</token>
-    	<marker>
-      	<token>alter</token>
-    	</marker>    	
-  	</pattern>
-  	<message>Did you mean <suggestion>altar</suggestion>?</message>
-  	<url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
-  	<short>Possible typo</short>
-  	<example type="incorrect" correction="altar">He was at the <marker>alter</marker>.</example>
-	<example type="correct">He was at the altar.</example>
-	</rule>
-	<rule>
-	<pattern>
-      <token regexp="yes">significantly|radically|fundamentally|dramatically|drastically|substantially</token>
-       <marker>
-        <token>altar</token>
-       </marker>      
-    </pattern>
-    <message>Did you mean <suggestion>alter</suggestion> (=change)?</message>
-    <short>Possible typo</short>
-    <example type="incorrect" correction="alter"> Forty-seven percent of executives said they were concerned that retiring Boomers will significantly <marker>altar</marker> the workforce in the next decade.</example>
-    <example type="correct">He will radically alter his work.</example>
-    </rule>
-    </rulegroup>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>alter</token>
+                    </marker>
+                    <token regexp="yes">boy|server</token>
+                </pattern>
+                <message>Did you mean <suggestion>altar</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="altar">He was an <marker>alter</marker> boy.</example>
+                <example type="correct">He was an altar boy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>at</token>
+                    <token>the</token>
+                    <marker>
+                        <token>alter</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>altar</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="altar">He was at the <marker>alter</marker>.</example>
+                <example type="correct">He was at the altar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">significantly|radically|fundamentally|dramatically|drastically|substantially</token>
+                    <marker>
+                        <token>altar</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>alter</suggestion> (=change)?</message>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="alter"> Forty-seven percent of executives said they were concerned that retiring Boomers will significantly <marker>altar</marker> the workforce in the next decade.</example>
+                <example type="correct">He will radically alter his work.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
-    <rule>
-    <pattern>
-        <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
-        <marker>
-        <token>decent</token>
-        </marker>
-    </pattern>
-    <message>Did you mean <suggestion>descent</suggestion>?</message>
-    <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
-    <short>Possible typo</short>
-    <example type="incorrect" correction="descent">He is of Asian <marker>decent</marker>.</example>
-    <example type="correct">He is of Asian descent</example>
-    </rule>
-    <rule>
-        <pattern>
-        <token regexp="yes" inflected="yes">with|provide|few|have|really|thoroughly|halfway|get|quite|fairly|reasonably|being|still|look|relatively|some|otherwise|most|be|perfectly|offer|way|create|how|many|up|enough|pretty|somewhat|mad|just|also|fundamentally<exception>s</exception></token>
-        <marker>
-        <token>descent</token>
-        </marker>
-        <token postag="NN.*" postag_regexp="yes"/>
-    </pattern>
-    <message>Did you mean <suggestion>decent</suggestion>?</message>
-    <short>Possible typo</short>
-    <example type="incorrect">Looking for a hotel with <marker>descent</marker> rooms.</example>
-    <example type="correct">Looking for a hotel with decent rooms.</example>
-    </rule>
-    </rulegroup>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
+                    <marker>
+                        <token>decent</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>descent</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="descent">He is of Asian <marker>decent</marker>.</example>
+                <example type="correct">He is of Asian descent</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">with|provide|few|have|really|thoroughly|halfway|get|quite|fairly|reasonably|being|still|look|relatively|some|otherwise|most|be|perfectly|offer|way|create|how|many|up|enough|pretty|somewhat|mad|just|also|fundamentally<exception>s</exception></token>
+                    <marker>
+                        <token>descent</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>decent</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect">Looking for a hotel with <marker>descent</marker> rooms.</example>
+                <example type="correct">Looking for a hotel with decent rooms.</example>
+            </rule>
+        </rulegroup>
         <rule id="DIFFUSE_TENSIONS" name="diffuse (defuse) tensions">
             <pattern>
                 <marker>
