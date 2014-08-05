@@ -794,6 +794,7 @@ USA
                 <example type="correct">The leaves form a rosette at the base of the plant.</example>
                 <example type="correct">In full form the theorem was given in 1825.</example>
                 <example type="correct">These results of Cauchy's still form the core of complex function theory.</example>
+                <example type="triggers_error">Muslims form a slight majority.</example>
             </rule>
         </rulegroup>
         <rule id="THERE_EXITS" name="there exits (there exists)">
@@ -6528,11 +6529,11 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
-    <rule id="A_COMPETE" name="a compete/complete">
+    <rule id="A_INFINITVE" name="a/the + infinitive">
         <pattern>
             <token regexp='yes'>a|an|the</token>
             <token postag='VB|VBP' postag_regexp='yes'>
-                <exception>commit</exception>
+                <exception regexp="yes">commit|remix</exception>
                 <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception>
             </token>
         </pattern>
@@ -10429,7 +10430,7 @@ USA
                     <exception scope="previous">×</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|foot|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
@@ -10529,6 +10530,11 @@ USA
             <example type="incorrect">There are <marker>much</marker> children.</example>
         </rule> 
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
+            <antipattern>
+                <token>many</token>
+                <token>regard</token>
+                <token regexp="yes">him|her|it|this|them|his|its</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
@@ -11547,6 +11553,11 @@ USA
                 <antipattern>
                     <token>Also</token>
                     <token>commemorated</token>
+                </antipattern>
+                <antipattern>
+                    <!-- typical headline, but may hide real errors... -->
+                    <token>Further</token>
+                    <token>reading</token>
                 </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
