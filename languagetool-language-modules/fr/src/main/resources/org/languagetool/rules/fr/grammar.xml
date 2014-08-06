@@ -5109,6 +5109,26 @@ though, and has since been slightly modified)-->
         <example type="correct">Un dessin animé.</example>
       </rule>
     </rulegroup>
+    <rulegroup id="JEUNE" name="jeune et jeûne">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">jeûnes?</token></marker>
+          <token regexp="yes">(âge|homme|femme|garçon|fille|enfant|bébé|chien|chat|célibataire|célibatrice|étudiante?|lycéen(ne)?|élève|écolier|dipl[oô]mée?|prodige|couple|mariée?|papa|père|mère|con(ne)?|génération|Française?|Anglaise?|Américaine?)s?|gens</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="û" regexp_replace="u"/></suggestion> ?</message>
+        <example type="incorrect" correction="jeunes">Des <marker>jeûnes</marker> filles.</example>
+        <example type="correct">Des jeunes filles.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">assez|plutôt|encore|très|moins|plus|toujours</token>
+          <marker><token regexp="yes">jeûnes?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="û" regexp_replace="u"/></suggestion> ?</message>
+        <example type="incorrect" correction="jeune">Il n’est plus très <marker>jeûne</marker>.</example>
+        <example type="correct">Il n’est plus très jeune.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
