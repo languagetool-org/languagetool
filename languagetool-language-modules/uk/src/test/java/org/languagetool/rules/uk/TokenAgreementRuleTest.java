@@ -23,8 +23,10 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -100,6 +102,12 @@ public class TokenAgreementRuleTest {
     
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("в п'ятьом людям")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("в понад п'ятьом людям")).length);
+
+    AnalyzedSentence analyzedSentence = langTool.getAnalyzedSentence("завдяки їх вдалим трюкам");
+    RuleMatch[] match = rule.match(analyzedSentence);
+    assertEquals(1, match.length);
+    List<String> suggestedReplacements = match[0].getSuggestedReplacements();
+    assertTrue("Did not find «їхній»: " + suggestedReplacements, suggestedReplacements.contains("їхнім"));
   }
 
 }
