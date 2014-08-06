@@ -5084,6 +5084,18 @@ though, and has since been slightly modified)-->
         <example type="correct">Une femme d’âge mûr.</example>
       </rule>
     </rulegroup>
+    <rule id="ACIDE_AMINE" name="acide animé → acide aminé">
+      <pattern>
+        <token regexp="yes">acides?</token>
+        <marker><token regexp="yes">animés?</token></marker>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.)." regexp_replace="$1m$2n"/></suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/Acide_amin%C3%A9</url>
+      <example type="incorrect" correction="aminés">Des acides <marker>animés</marker>.</example>
+      <example type="correct">Des acides aminés.</example>
+      <example type="incorrect" correction="aminé">Un acide <marker>animé</marker>.</example>
+      <example type="correct">Un acide aminé.</example>
+    </rule>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
