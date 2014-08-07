@@ -3607,6 +3607,26 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>Richard</token>
+          <token regexp="yes">Stall?mann?<exception>Stallman</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Richard Stallman</suggestion> s’il s’agit du créater du projet GNU.</message>
+        <url>https://fr.wikipedia.org/wiki/Richard_Stallman</url>
+        <example type="incorrect"><marker>Richard Stallmann</marker> a lancé le projet GNU en 1983.</example>
+        <example type="correct"><marker>Richard Stallman</marker> a lancé le projet GNU en 1983.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Bram</token>
+          <token regexp="yes">Moo?u?ll?enaa?re?<exception>Moolenaar</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Bram Moolenaar</suggestion> s’il s’agit de l’auteur de Vim.</message>
+        <url>https://fr.wikipedia.org/wiki/Bram_Moolenaar</url>
+        <example type="incorrect"><marker>Bram Moolenar</marker> est l’auteur de Vim.</example>
+        <example type="correct">Bram Moolenaar est l’auteur de Vim.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Henri</token>
           <marker><token regexp="yes">Point?carr?é<exception>Poincaré</exception></token></marker>
         </pattern>
@@ -7253,8 +7273,8 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception regexp="yes">ça|ce(la|ci)?|(celui|celle)([-‑‐]ci)?</exception>
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
-            <exception scope="previous" postag="P"/>
+            <exception scope="previous" postag_regexp="yes" postag="P|&lt;/DE&gt;"/>
+            <exception scope="previous">et</exception>
           </token>
           <token postag="V .*" postag_regexp="yes">
             <exception postag="V .* 3 s" postag_regexp="yes"/>
@@ -7269,6 +7289,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Des polluants comme celui-ci viennent de la combustion.</example>
         <example type="correct">Je trouve cela passionnant.</example>
         <example type="correct">Je pensais que vous trouveriez ça intéressant.</example>
+        <example type="correct">Pierre et elle étaient fiancés.</example>
       </rule>
       <rule name="ça + 0 tokens + Verbe">
         <pattern>
