@@ -167,7 +167,7 @@ $Id$
           <token regexp="yes" skip="1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
 
           <marker>
-            <token regexp="yes">[Qq]ue<exception> no</exception></token>
+            <token regexp="yes">[Qq]ue<exception postag="R." postag_regexp="yes" scope="next"/></token>
           </marker>
         </pattern>
 
@@ -1456,6 +1456,24 @@ $Id$
 
         <example type="correct">Las casas de la colina.</example>
       </rule>
+
+      <!-- EL_AGRAVANTE Concordancia (este atenuante) -->
+
+      <!-- Esta regla solapaba a EL_NOM_MASC en algunos casos y se añade una excepción para evitarlo -->
+
+      <rule id="EL_AGRAVANTE" name="El agravante y el atenuante">
+        <pattern>
+          <token postag="D..M.." postag_regexp="yes"/>
+
+          <token inflected="yes" regexp="yes">a(grav|tenu)ante</token>
+        </pattern>
+
+        <message>En Derecho, «\2» tiene tratamiento femenino, ya que se omite la palabra «circunstancia».<suggestion><match no="1" postag="(D..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/></suggestion></message>
+
+        <example correction="la" type="incorrect">Se hizo con <marker>el agravante</marker> de nocturnidad.</example>
+
+        <example correction="la" type="incorrect">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
+      </rule>
     </rulegroup>
 
     <!-- CONC_GENERO Concordancias de género -->
@@ -1531,11 +1549,13 @@ $Id$
 
       <!-- EL_NOM_MASC Concordancia (el pava) -->
 
+      <!-- La última excepción es para evitar solapamiento con EL_AGRAVANTE -->
+
       <rule id="EL_NOM_MASC" name="Concordancia masculino en «el» + nombre">
         <pattern case_sensitive="yes">
           <token postag="DA0MS0"/>
 
-          <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"/><exception regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception regexp="yes">anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</exception></token>
+          <token postag="N.{1}F.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}F.*" postag_regexp="yes" scope="current"/><exception regexp="yes">\p{Lu}\p{L}*|aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama</exception><exception regexp="yes">anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</exception><exception regexp="yes">a(grav|tenu)ante</exception></token>
         </pattern>
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
