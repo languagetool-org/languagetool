@@ -9331,7 +9331,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token>la</token></marker>
-          <token regexp="yes">où|que?|à|en|sur|sous|derrière|devant|dessous|dessus|auncune?|plusieurs|se|est|pour|debout|dans|jusqu|avant|après</token>
+          <token regexp="yes">où|que?|à|aux?|en|sur|sous|auncune?|beaucoup|plusieurs|se|est|pour|debout|dans|jusqu|avant|après|un|[cdlmts]es?|du|[mts]on|[nv]otre|[nv]os|leurs?|cette|cet|ceux|celui|celles|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>là</suggestion> ?</message>
         <example type="incorrect">Il l’a trouvé <marker>la</marker> où je l’avais laissé.</example>
@@ -9339,12 +9339,14 @@ though, and has since been slightly modified)-->
         <example type="incorrect">C’est <marker>la</marker> que je l’ai trouvé.</example>
         <example type="correct">C’est là que je l’ai trouvé.</example>
         <example type="correct">Il a écrit l’article à la une aujourd’hui.</example>
+        <example type="incorrect">Il y <marker>la</marker> un risque.</example>
+        <example type="correct">Il y là un risque.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LA" name="là sans trait d’union">
       <rule>
         <pattern>
-          <token>là</token>
+          <token regexp="yes">l[àa]</token>
           <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>là-\2</suggestion> ?</message>
@@ -9379,6 +9381,16 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faisait froid cet <marker>hiver-là.</marker></example>
         <example type="correct">Veux-tu aller là ?</example>
         <example type="correct">Tout est là.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>la</token></marker>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>là</suggestion> ?</message>
+        <example type="incorrect">Il sera <marker>la</marker> l’année prochaine.</example>
+        <example type="correct">Il sera là l’année prochaine.</example>
       </rule>
     </rulegroup>
 
