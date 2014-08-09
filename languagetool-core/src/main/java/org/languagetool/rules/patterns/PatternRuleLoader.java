@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Authenticator;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -67,6 +68,7 @@ public class PatternRuleLoader extends DefaultHandler {
       handler.setRelaxedMode(relaxedMode);
       final SAXParserFactory factory = SAXParserFactory.newInstance();
       final SAXParser saxParser = factory.newSAXParser();
+      Authenticator.setDefault(new PasswordAuthenticator());
       saxParser.getXMLReader().setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
       saxParser.parse(is, handler);
       return handler.getRules();

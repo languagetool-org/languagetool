@@ -38,7 +38,11 @@ $Id$
                     </token>
                     <token postag_regexp="yes" postag="adj:.*:(comp|super).*">
                         <exception postag_regexp="yes" postag="(pro)?noun.*"></exception>
+                        <exception regexp="yes">(дуже|мала)</exception>
                     </token>
+                    <!--
+                    <token><exception inflected="yes">князь</exception></token>
+                    -->
                   </unify>
                 </pattern>
                 <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
@@ -50,10 +54,30 @@ $Id$
                 <example type="correct">вирізняється саме гострою конкуренцією</example>
                 <example type="correct">частину галузі становить саме чорна металургія</example>
                 <example type="correct">Ті ж самі пісні</example>
+                <example type="correct">пояснюється саме дуже високим відсотком людей</example>
+                <example type="correct">повідомляти самого великого князя</example>
+                <example type="correct">вона й сама мала би зректися посади</example>
                 <example type="incorrect"><marker>Самий кращий</marker>.</example>
                 <example type="incorrect"><marker>Сама гірша</marker>.</example>
                 <example type="incorrect"><marker>Самий сильний</marker>.</example>
                 <example type="incorrect"><marker>Сама тривала</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <unify>
+                   <feature id="gender"/>
+                   <feature id="number"/>
+                   <feature id="case"/>
+                    <token inflected="yes">самий
+                        <exception scope="previous" regexp="yes" inflected="yes">(такий|той|же?|чим)</exception>
+                    </token>
+                    <token inflected="yes" regexp="yes">перший|найперший</token>
+                  </unify>
+                </pattern>
+                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
+                <example type="incorrect"><marker>Самий перший</marker>.</example>
+                <example type="correct">самі першими втікали</example>
+                <example type="correct">найперший</example>
             </rule>
         </rulegroup>
 
@@ -394,6 +418,46 @@ $Id$
             </rule>
             -->
 
+<!--
+       <rule>   
+           <pattern>
+               <marker>
+                   <token>настільки</token>
+               </marker>
+           </pattern>
+           <message>Канцеляризм, краще: <suggestion>стільки</suggestion>, <suggestion>так</suggestion>, <suggestion>такий</suggestion>, <suggestion>такою мірою (в такій мірі, так сильно)</suggestion></message>
+           <url>http://r2u.org.ua/s?w=настолько&amp;dicts=1</url>
+           <short>Краще: стільки, так, такий, такою мірою</short>
+           <example type="incorrect"><marker>настільки</marker> ж драматичний ефект</example>
+           <example type="correct">такий же драматичний ефект</example>
+       </rule>   
+       <rule>   
+           <pattern>
+               <marker>
+                   <token>наскільки</token>
+               </marker>
+           </pattern>
+           <message>Канцеляризм, краще: <suggestion>скільки</suggestion>, <suggestion>як</suggestion>, <suggestion>який</suggestion>, <suggestion>якою мірою (в якій мірі, як сильно)</suggestion></message>
+           <url>http://r2u.org.ua/s?w=насколько&amp;dicts=1</url>
+           <example type="incorrect"><marker>наскільки</marker> ж драматичний ефект</example>
+           <example type="correct">який же драматичний ефект</example>
+       </rule>   
+-->
+<!--
+       <rule>   
+           <pattern>
+               <marker>
+                   <token regexp="yes">[ву]</token>
+                   <token>більшості</token>
+                   <token>випадків</token>
+               </marker>
+           </pattern>
+           <message>Краще: <suggestion>здебільшого</suggestion>, <suggestion>здебільш</suggestion>, <suggestion>здебільша</suggestion></message>
+           <short>Краще «здебільшого»</short>
+           <example type="incorrect"><marker>У більшості випадків</marker> це не проблема.</example>
+           <example type="correct">Здебільшого це не проблема</example>
+       </rule>   
+-->
             <rule>
                 <pattern>
                     <marker>
@@ -474,6 +538,16 @@ $Id$
            <example type="incorrect">Не треба <marker>двічі дублювати</marker> цей текст.</example>
            <example type="correct">Не треба дублювати цей текст.</example>
        </rule>   
+
+       <rule>
+         <pattern>
+            <token inflected="yes" postag_regexp="yes" postag="adj.*compr.*">великий</token>
+            <token inflected="yes">половина</token>
+         </pattern>
+         <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
+         <example type="incorrect"><marker>Більшої половини</marker> класу</example>
+         <example type="correct">Більш ніж половина</example>
+       </rule>
 
 	</rulegroup>
 

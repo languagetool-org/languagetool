@@ -13813,9 +13813,18 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="POJECI" name="„pojęci” (pojęcie, pojęcia)">
+                <pattern>
+                    <token>pojęci</token>
+                </pattern>
+                <message>Ta forma jest bardzo rzadka. Czy chodziło o <suggestion>pojęcia</suggestion> lub <suggestion>pojęcie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Nie zdefiniowałeś <marker>pojęci</marker> prawdy.</example>
+                <example type='correct'>Nie zdefiniowałeś pojęcia prawdy.</example>
+            </rule>
             <rule id="JESLI_JEDNAKI" name="„jeśli jednaki” (jeśli jednak)">
                 <pattern>
-                    <token>jeśli</token>
+                    <token regexp="yes">jeśli|jeżeli</token>
                     <marker>
                         <token>jednaki</token>
                     </marker>

@@ -7,11 +7,18 @@ LanguageTool Change Log
      to improve the spell checker suggestions (the frequency data is taken from
      https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries,
      as for other languages that already use this feature).
+    -Better suggestions for English learners: irregular verbs, nouns, and adjectives now
+     usually have a better suggestion. For example, 'thinked' suggests 'thought',
+     'womans' suggests 'women'.
 
 -French:
     -added a synthesizer - the agreement rule can now make suggestions
      for some errors.
     -added/improved several rules
+
+-Spanish
+	-Added new POS category Z
+	-Spelled numbers can be now detected and managed both in disambiguation and rules. 
 
 -German:
     -Fixed a rare NullPointerException and an ArrayIndexOutOfBoundsException
@@ -41,6 +48,8 @@ LanguageTool Change Log
      In order to test only some rules (disabling all the rest), which previously was done
      with "--enable LIST_OF_RULES", now use "--enabledonly --enable LIST_OF_RULES" 
      (or "-eo -e LIST_OF_RULES").
+    -MorfologikSpellerRule.getRuleMatch(String, int) has been renamed to
+     MorfologikSpellerRule.getRuleMatches(String, int)
 
 -Embedded server:
     -Two new options can be set in the properties file to make LanguageTool
@@ -52,6 +61,9 @@ LanguageTool Change Log
 
 -Internals:
     -The compound rule now ignores tokens that have been immunized in the disambiguation.xml
+    -If you're extending the XML rules as described at http://wiki.languagetool.org/tips-and-tricks#toc2,
+     the external rule and disambiguation files can now be hosted on a password-protected server
+     by specifying an URL like this: http://user:password@example.org/path/user-rules.xml
 
 
 2.6 (2014-06-30)

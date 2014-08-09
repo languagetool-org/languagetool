@@ -18,14 +18,19 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.synthesis.en.EnglishSynthesizer;
 
 import java.io.IOException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
+
+  private final EnglishSynthesizer synthesizer = new EnglishSynthesizer();
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
@@ -34,4 +39,88 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                    Example.fixed("This <marker>sentence</marker> contains a spelling mistake."));
   }
 
+  @Override
+  protected List<RuleMatch> getRuleMatches(String word, int startPos) throws IOException {
+    List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos);
+    if (ruleMatches.size() > 0) {
+      // so 'word' is misspelled: 
+      IrregularForms forms = getIrregularFormsOrNull(word);
+      if (forms != null) {
+        RuleMatch oldMatch = ruleMatches.get(0);
+        RuleMatch newMatch = new RuleMatch(this, oldMatch.getFromPos(), oldMatch.getToPos(), 
+                "Possible spelling mistake. Did you mean <suggestion>" + forms.forms.get(0) +
+                "</suggestion>, the irregular " + forms.formName + " form of the " + forms.posName +
+                " '" + forms.baseform + "'?");
+        List<String> allSuggestions = new ArrayList<>();
+        allSuggestions.addAll(forms.forms);
+        for (String repl : oldMatch.getSuggestedReplacements()) {
+          if (!allSuggestions.contains(repl)) {
+            allSuggestions.add(repl);
+          }
+        }
+        newMatch.setSuggestedReplacements(allSuggestions);
+        ruleMatches.set(0, newMatch);
+      }
+    }
+    return ruleMatches;
+  }
+
+  @SuppressWarnings({"ReuseOfLocalVariable", "ControlFlowStatementWithoutBraces"})
+  private IrregularForms getIrregularFormsOrNull(String word) {
+    IrregularForms irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("ed"), "VBD", "verb", "past tense");
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "ed", Arrays.asList("d" /* e.g. awaked */), "VBD", "verb", "past tense");
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "s", Arrays.asList("s"), "NNS", "noun", "plural");
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "es", Arrays.asList("es"/* e.g. 'analysises' */), "NNS", "noun", "plural");
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "er", Arrays.asList("er"/* e.g. 'farer' */), "JJR", "adjective", "comparative");
+    if (irregularFormsOrNull != null) return irregularFormsOrNull;
+    irregularFormsOrNull = getIrregularFormsOrNull(word, "est", Arrays.asList("est"/* e.g. 'farest' */), "JJS", "adjective", "superlative");
+    return irregularFormsOrNull;
+  }
+
+  private IrregularForms getIrregularFormsOrNull(String word, String wordSuffix, List<String> suffixes, String posTag, String posName, String formName) {
+    try {
+      for (String suffix : suffixes) {
+        if (word.endsWith(wordSuffix)) {
+          String baseForm = word.substring(0, word.length() - suffix.length());
+          String[] forms = synthesizer.synthesize(new AnalyzedToken(word, null, baseForm), posTag);
+          List<String> result = new ArrayList<>();
+          for (String form : forms) {
+            if (!speller.isMisspelled(form)) {
+              // only accept suggestions that the spellchecker will accept
+              result.add(form);
+            }
+          }
+          // the internal dict might contain forms that the spell checker doesn't accept (e.g. 'criterions'),
+          // but we trust the spell checker in this case:
+          result.remove(word);
+          result.remove("badder");  // non-standard usage
+          result.remove("baddest");  // non-standard usage
+          result.remove("spake");  // can be removed after dict update
+          if (result.size() > 0) {
+            return new IrregularForms(baseForm, posName, formName, result);
+          }
+        }
+      }
+      return null;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static class IrregularForms {
+    String baseform;
+    String posName;
+    String formName;
+    List<String> forms;
+    private IrregularForms(String baseform, String posName, String formName, List<String> forms) {
+      this.baseform = baseform;
+      this.posName = posName;
+      this.formName = formName;
+      this.forms = forms;
+    }
+  }
 }

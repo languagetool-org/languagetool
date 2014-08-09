@@ -2734,6 +2734,17 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Les pays en <marker>voix</marker> de développement</example>
         <example type="correct">Les pays en voie de développement</example>
       </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">ouvrir</token>
+          <token>la</token>
+          <marker><token>voix</token></marker>
+          <token regexp="yes">à|aux?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>voie</suggestion> ?</message>
+        <example type="incorrect">Il a ouvert la <marker>voix</marker> à la construction de l’Europe.</example>
+        <example type="correct">Il a ouvert la voie à la construction de l’Europe.</example>
+      </rule>
     </rulegroup>
     <rulegroup id="ASCETIQUE_ACETIQUE" name="ascétique et acétique">
       <rule>
@@ -3593,6 +3604,26 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Linux Torvalds</marker></example>
         <example type="incorrect"><marker>Linus Thorvalds</marker></example>
         <example type="correct">Linus Torvalds</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Richard</token>
+          <token regexp="yes">Stall?mann?<exception>Stallman</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Richard Stallman</suggestion> s’il s’agit du créater du projet GNU.</message>
+        <url>https://fr.wikipedia.org/wiki/Richard_Stallman</url>
+        <example type="incorrect"><marker>Richard Stallmann</marker> a lancé le projet GNU en 1983.</example>
+        <example type="correct"><marker>Richard Stallman</marker> a lancé le projet GNU en 1983.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Bram</token>
+          <token regexp="yes">Moo?u?ll?enaa?re?<exception>Moolenaar</exception></token>
+        </pattern>
+        <message>Écrivez <suggestion>Bram Moolenaar</suggestion> s’il s’agit de l’auteur de Vim.</message>
+        <url>https://fr.wikipedia.org/wiki/Bram_Moolenaar</url>
+        <example type="incorrect"><marker>Bram Moolenar</marker> est l’auteur de Vim.</example>
+        <example type="correct">Bram Moolenaar est l’auteur de Vim.</example>
       </rule>
       <rule>
         <pattern>
@@ -4846,7 +4877,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">assurances?|[ée]tats?|visites?|ma[îi]tres?|seigneur|magie|chefs?|responsables?|respect|entretien|propreté|propriétaires?|tranquilité|dans|vers|plans?</token>
+          <token regexp="yes">assurances?|[ée]tats?|visites?|ma[îi]tres?|seigneur|magie|chefs?|responsables?|respect|entretien|propreté|propriétaires?|tranquillité|dans|vers|plans?</token>
           <token>des</token>
           <marker><token regexp="yes">lieue?s</token></marker>
         </pattern>
@@ -4867,7 +4898,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token regexp="yes">lieue?s</token></marker>
-          <token regexp="yes">aménagés|acceuillants|insolites|accessibles|inaccessible|inexplorés|éloignés|lointains|louches|réservés|proches|touristiques|saints|sacrés|connus|inconnus|méconnus|privilégiés|mytiques|publics|privés|prestigieux|stratégiques|historiques|où|humides|secs</token>
+          <token regexp="yes">aménagés|acceuillants|insolites|accessibles|inaccessible|inexplorés|éloignés|lointains|louches|réservés|proches|touristiques|saints|sacrés|connus|inconnus|méconnus|privilégiés|mythiques|publics|privés|prestigieux|stratégiques|historiques|où|humides|secs</token>
         </pattern>
         <message>Confusion probable entre <suggestion>lieux</suggestion> et « lieus » (poissons).</message>
         <example type="incorrect">Des <marker>lieus</marker> historiques.</example>
@@ -5051,6 +5082,71 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>mois</suggestion> ?</message>
         <example type="incorrect">Le <marker>moi</marker> d’avril a été froid.</example>
         <example type="correct">Le mois d’avril a été froid.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="AGE" name="age et âge">
+      <rule>
+        <pattern>
+          <token regexp="yes">autre|bel|bon|certain|grand|cet|en|jeune|moyen|premier|quel|[mts]on|même|[nv]otre|leur|tout|un|troisième|quatrième|cinquième</token>
+          <marker><token>age</token></marker>
+        </pattern>
+        <message>Confusion probable entre « age » (pièce d’une charrue) et <suggestion>âge</suggestion>.</message>
+        <example type="incorrect">Quel <marker>age</marker> as-tu ?</example>
+        <example type="correct">Quel âge as-tu ?</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>age</token></marker>
+          <token regexp="yes">actif|adulte|aidant|approximatif|avancé|bête|canonique|chaque|critique|dentaire|des|du|ingrat|légal|mental|mûr|osseux|où|précoce|préscolaire|pubertaire|respectable|scolaire|tendre|vénérable</token>
+        </pattern>
+        <message>Confusion probable entre « age » (pièce d’une charrue) et <suggestion>âge</suggestion>.</message>
+        <example type="incorrect">Une femme d’<marker>age</marker> mûr.</example>
+        <example type="correct">Une femme d’âge mûr.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="ANIME_AMINE" name="aminé ou animé">
+      <rule>
+        <pattern>
+          <token regexp="yes">acides?</token>
+          <marker><token regexp="yes">animés?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.)." regexp_replace="$1m$2n"/></suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/Acide_amin%C3%A9</url>
+        <example type="incorrect" correction="aminés">Des acides <marker>animés</marker>.</example>
+        <example type="correct">Des acides aminés.</example>
+        <example type="incorrect" correction="aminé">Un acide <marker>animé</marker>.</example>
+        <example type="correct">Un acide aminé.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(dessin|gif|png|image|figure|smiley|écran|avatar|ic[ôo]ne)s?</token>
+          <marker><token regexp="yes">aminés?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="^(.).(.)." regexp_replace="$1n$2m"/></suggestion> ?</message>
+        <example type="incorrect" correction="animés">Des dessins <marker>aminés</marker>.</example>
+        <example type="correct">Des dessins animés.</example>
+        <example type="incorrect" correction="animé">Un dessin <marker>aminé</marker>.</example>
+        <example type="correct">Un dessin animé.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="JEUNE" name="jeune et jeûne">
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">jeûnes?</token></marker>
+          <token regexp="yes">(âge|homme|femme|garçon|fille|enfant|bébé|chien|chat|célibataire|célibatrice|étudiante?|lycéen(ne)?|élève|écolier|dipl[oô]mée?|prodige|couple|mariée?|papa|père|mère|con(ne)?|génération|Française?|Anglaise?|Américaine?)s?|gens</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="û" regexp_replace="u"/></suggestion> ?</message>
+        <example type="incorrect" correction="jeunes">Des <marker>jeûnes</marker> filles.</example>
+        <example type="correct">Des jeunes filles.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">assez|plutôt|encore|très|moins|plus|toujours</token>
+          <marker><token regexp="yes">jeûnes?</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="û" regexp_replace="u"/></suggestion> ?</message>
+        <example type="incorrect" correction="jeune">Il n’est plus très <marker>jeûne</marker>.</example>
+        <example type="correct">Il n’est plus très jeune.</example>
       </rule>
     </rulegroup>
   </category>
@@ -5278,7 +5374,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[2-9]|[1-9]\d+
             <exception regexp="yes">[12]\d\d\d</exception>
             <exception scope="previous" spacebefore="no">,</exception>
-            <exception scope="previous" regexp="yes">taille|(?-i)Peugeot</exception>
+            <exception scope="previous" regexp="yes">année|taille|(?-i)Peugeot</exception>
           </token>
           <token postag="[JN] .* s" postag_regexp="yes">
             <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|min</exception>
@@ -5296,6 +5392,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Une taille 38 imposée aux mannequins.</example>
         <example type="correct">Il a battu le record avec un temps de <marker>3 min</marker> 18 s.</example>
         <example type="correct">Une Peugeot <marker>208 fabriquée</marker> en France.</example>
+        <example type="correct">L’année 800 fut considérée comme une renaissance de l’Empire romain d’Occident.</example>
       </rule>
       <rule name="singulier suivi du pluriel">
         <pattern>
@@ -5591,6 +5688,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Son metteur en <marker>scène préféré</marker>.</example>
         <example type="incorrect">Une mise à <marker>jour gratuit</marker>.</example>
         <example type="correct">Une mise à jour gratuite.</example>
+        <example type="correct">Les sols en permanence gelés.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
@@ -5648,7 +5746,7 @@ though, and has since been slightly modified)-->
           <token postag="D . s?p" postag_regexp="yes"/>
           <token postag="N . p" postag_regexp="yes"/>
           <marker>
-            <token regexp="yes">(vert|bleu|noir|brun|gris)(e?s)|(beige|jaune|rouge|blanche|mauve|poupre|violet|châtain|écarlate|vermeille)s|blancs</token>
+            <token regexp="yes">(vert|bleu|noir|brun|gris)(e?s)|(beige|jaune|rouge|blanche|mauve|pourpre|violet|châtain|écarlate|vermeille)s|blancs</token>
             <token regexp="yes">(clair|foncé)(e?s?)?|(pâle|paille|pétrole|sang|vif|vive|marine)s?</token>
           </marker>
         </pattern>
@@ -6063,7 +6161,7 @@ though, and has since been slightly modified)-->
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
-              <exception regexp="yes">(?-i)\p{Lu}+</exception>
+              <exception regexp="yes">soit|(?-i)\p{Lu}+</exception>
             </token>
           </marker>
         </pattern>
@@ -6076,6 +6174,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Mes <marker>démêles</marker> avec X.</example>
         <example type="correct">Mes <marker>démêlés</marker> avec X.</example>
         <example type="correct">Le son <marker>a</marker> interféré avec l’image.</example>
+        <example type="correct">Une irradiation <marker>avec soit</marker> de la lumière ultraviolette, soit des protons.</example>
       </rule>
       <rule>
         <pattern>
@@ -7174,8 +7273,8 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception regexp="yes">ça|ce(la|ci)?|(celui|celle)([-‑‐]ci)?</exception>
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
-            <exception scope="previous" postag="P"/>
+            <exception scope="previous" postag_regexp="yes" postag="P|&lt;/DE&gt;"/>
+            <exception scope="previous">et</exception>
           </token>
           <token postag="V .*" postag_regexp="yes">
             <exception postag="V .* 3 s" postag_regexp="yes"/>
@@ -7190,6 +7289,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Des polluants comme celui-ci viennent de la combustion.</example>
         <example type="correct">Je trouve cela passionnant.</example>
         <example type="correct">Je pensais que vous trouveriez ça intéressant.</example>
+        <example type="correct">Pierre et elle étaient fiancés.</example>
       </rule>
       <rule name="ça + 0 tokens + Verbe">
         <pattern>
@@ -9231,7 +9331,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token>la</token></marker>
-          <token regexp="yes">où|que?|à|en|sur|sous|derrière|devant|dessous|dessus|auncune?|plusieurs|se|est|pour|debout|dans|jusqu|avant|après</token>
+          <token regexp="yes">où|que?|à|aux?|en|sur|sous|auncune?|beaucoup|plusieurs|se|est|pour|debout|dans|jusqu|avant|après|un|[cdlmts]es?|du|[mts]on|[nv]otre|[nv]os|leurs?|cette|cet|ceux|celui|celles|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>là</suggestion> ?</message>
         <example type="incorrect">Il l’a trouvé <marker>la</marker> où je l’avais laissé.</example>
@@ -9239,12 +9339,14 @@ though, and has since been slightly modified)-->
         <example type="incorrect">C’est <marker>la</marker> que je l’ai trouvé.</example>
         <example type="correct">C’est là que je l’ai trouvé.</example>
         <example type="correct">Il a écrit l’article à la une aujourd’hui.</example>
+        <example type="incorrect">Il y <marker>la</marker> un risque.</example>
+        <example type="correct">Il y là un risque.</example>
       </rule>
     </rulegroup>
     <rulegroup id="LA" name="là sans trait d’union">
       <rule>
         <pattern>
-          <token>là</token>
+          <token regexp="yes">l[àa]</token>
           <token regexp="yes">bas|dedans|dessous|dessus|devant|derrière|haut</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>là-\2</suggestion> ?</message>
@@ -9279,6 +9381,16 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faisait froid cet <marker>hiver-là.</marker></example>
         <example type="correct">Veux-tu aller là ?</example>
         <example type="correct">Tout est là.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>la</token></marker>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+        </pattern>
+        <message>Voulez-vous dire <suggestion>là</suggestion> ?</message>
+        <example type="incorrect">Il sera <marker>la</marker> l’année prochaine.</example>
+        <example type="correct">Il sera là l’année prochaine.</example>
       </rule>
     </rulegroup>
 
@@ -13151,7 +13263,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_COMMUNIQUE" name="émettre un communiqué">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">communiqués?</token>
       </pattern>
       <message>« Émettre un communiqué » est un anglicisme (to issue a communique). Employez <suggestion>publier un communiqué</suggestion>, <suggestion>rendre public un communiqué</suggestion>, <suggestion>lancer un communiqué</suggestion>.</message>
@@ -13160,7 +13272,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_BREVET" name="émettre un brevet">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">brevets?</token>
       </pattern>
       <message>« Émettre un brevet » est un anglicisme. Employez <suggestion>délivrer un brevet</suggestion>.</message>
@@ -13169,7 +13281,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_CERTIFICAT" name="émettre un certificat">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">certificats?</token>
       </pattern>
       <message>« Émettre un certificat » est un anglicisme. Employez <suggestion>délivrer un certificat</suggestion>.</message>
@@ -13178,7 +13290,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_PASSEPORT" name="émettre un passeport">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">passeports?</token>
       </pattern>
       <message>« Émettre un passeport » est un anglicisme. Employez <suggestion>délivrer un passeport</suggestion>.</message>
@@ -13187,7 +13299,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_RECU" name="émettre un reçu">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">reçus?</token>
       </pattern>
       <message>« Émettre un reçu » est un anglicisme. Employez <suggestion>donner un reçu</suggestion>.</message>
@@ -13196,7 +13308,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_RAPPORT" name="émettre un rapport">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">rapports?</token>
       </pattern>
       <message>« Émettre un rapport » est un anglicisme. Employez <suggestion>produire un rapport</suggestion>.</message>
@@ -13205,7 +13317,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="EMETTRE_UN_VERDICT" name="émettre un verdict">
       <pattern>
-        <token inflected="yes" skip="6">émettre</token>
+        <token inflected="yes" skip="1">émettre</token>
         <token regexp="yes">verdicts?</token>
       </pattern>
       <message>« Émettre un verdict » est un anglicisme. Employez <suggestion>rendre un verdict</suggestion>.</message>
@@ -26290,6 +26402,38 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="xubuntu-12.04">J’ai installé <marker>xubuntu-12.4</marker>.</example>
       <example type="correct">J’ai installé <marker>xubuntu-12.04</marker>.</example>
     </rule>
+    <rule id="SQLITE" name="SQLite">
+      <pattern>
+        <token regexp="yes">sql-?l?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>SQLite</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/SQLite</url>
+      <example type="incorrect">Android utilise <marker>SQLlite</marker>.</example>
+      <example type="incorrect">Android utilise <marker>SQL-lite</marker>.</example>
+      <example type="incorrect">Android utilise <marker>Sqlite</marker>.</example>
+      <example type="incorrect">Android utilise <marker>SQLight</marker>.</example>
+      <example type="correct">Android utilise <marker>SQLite</marker>.</example>
+    </rule>
+    <rule id="WINDOWS" name="Window → Windows">
+      <pattern>
+        <marker><token>Window</token></marker>
+        <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>Windows</suggestion> s’il s’agit du système d’exploitation de Microsoft ?</message>
+      <url>http://fr.wikipedia.org/wiki/Windows</url>
+      <example type="incorrect"><marker>Window</marker> Vista plante tout le temps.</example>
+      <example type="correct"><marker>Windows</marker> Vista plante tout le temps.</example>
+    </rule>
+    <rule id="X_WWINDOW" name="X Window">
+      <pattern>
+        <token case_sensitive="yes">X</token>
+        <token>Windows</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
+      <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
+      <example type="incorrect">C'est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
+      <example type="correct">C'est le MIT qui a publié la première version de <marker>X Window</marker> en juin 1984.</example>
+    </rule>
     <rulegroup id="COCOTTE-MINUTE" name="Cocotte-Minute">
       <rule>
         <pattern>
@@ -26471,7 +26615,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">une?|certaine?s?|cet?|[cdl]es|cette|quelques|plusieurs|chaque<exception scope="previous" regexp="yes" inflected="yes">avoir|parler|apprendre|enseigner|étudier|numéro|dans</exception></token>
+          <token regexp="yes">une?|certaine?s?|cet?|[cdl]es|cette|quelques|plusieurs|chaque|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|dix[-‑‐].*|vingt[-‑‐].*|trente[-‑‐].*|quarante[-‑‐].*|cinquante[-‑‐].*|soixante[-‑‐].*|quatre[-‑‐].*|octante[-‑‐].*|huitante[-‑‐].*|nonante[-‑‐].*<exception scope="previous" regexp="yes" inflected="yes">avoir|parler|apprendre|enseigner|étudier|numéro|dans</exception></token>
           <marker>
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes?)?|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud[-‑‐]africain|toulousain|tuvaluan)e?s?|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s?|bahreïni|émirati|formosan|grec(que)?s?|kazakhs?|sothos|ouzbeks?|qatariotes?|swazi|tadjiks?|turcs?|turques?|vanuatuan)</token>
           </marker>
@@ -26487,13 +26631,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Écrit dans un anglais facile</example>
         <example type="incorrect" correction="Américaines">Les <marker>américaines</marker> aiment venir ici.</example>
         <example type="correct">Les <marker>Américaines</marker> aiment venir ici.</example>
-        <example type="correct">Le numéro un <marker>français</marker> a gagné à Roland-Garos aujourd’hui.</example>
+        <example type="correct">Le numéro un <marker>français</marker> a gagné à Roland-Garros aujourd’hui.</example>
         <example type="correct">Il s’est exprimé dans un français approximatif.</example>
+        <example type="incorrect">Deux <marker>français</marker> ont créé l’entreprise.</example>
+        <example type="correct">Deux Français ont créé l’entreprise.</example>
       </rule>
       <rule>
         <pattern>
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">beaucoup|énormément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|vôtes?|\d+%|%</token>
+          <token regexp="yes">beaucoup|énormément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|pourcentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|votes?|\d+%|%</token>
           <token regexp="yes">des?</token>
           <marker>
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato-guinéen|érythréen|estonien|états-?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord-coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint-lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud-coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes)|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo-zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud[-‑‐]africain|toulousain|tuvaluan)e?s|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s|bahreïni|émirati|formosans|grec(que)?s|kazakhs|sothos|ouzbeks|qatariotes|swazi|tadjiks|turcs|turques|vanuatuans)</token>
@@ -26510,7 +26656,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <!-- Obviously, the list of gentilés could be expanded here. -->
-          <token regexp="yes">beaucoup|énomément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|poucentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|vôtes?|\d+%|%</token>
+          <token regexp="yes">beaucoup|énomément|multitude|tant|tellement|poignée|groupes?|associations?|cars?|bus|équipes?|plus|moins|pas|trop|majorité|milliers?|(demi[-‑‐])?millions?|centaines?|dizaines?|douzaines|combien|photos?|complots?|enlèvements?|témoignages?|viols?|meurtres?|assassinats?|duels?|tièrs|quarts?|pourcentages?|proportion|générations?|portraits?|rencontres?|reportages?|paroles?|communautés?|vies?|rassemblements?|bataillons|armées?|émigrations?|immigrations?|invasions?|trios?|couples?|familles|descendante?s?|souhaits?|tiers?|désirs?|attentes?|votes?|\d+%|%</token>
           <token>d</token>
           <token regexp="yes">['´‘’′]</token>
           <marker>
@@ -26711,7 +26857,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">exposition|terasse</token>
+          <token regexp="yes">exposition|terrasse</token>
           <token>au</token>
           <marker><token regexp="yes">(?-i)Nord|Sud</token></marker>
         </pattern>
@@ -26721,7 +26867,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">exposition|terasse</token>
+          <token regexp="yes">exposition|terrasse</token>
           <token>à</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>

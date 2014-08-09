@@ -311,6 +311,19 @@ public class TokenAgreementRule extends Rule {
 
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
         reqTokenReadings.getToken(), StringUtils.join(reqVidminkyNames, ", "), StringUtils.join(foundVidminkyNames, ", "));
+        
+    if( tokenString.equals("їх") ) {
+      msg += ". Можливо тут потрібно присвійний займенник «їхній»?";
+      try {
+        String yihPostag = posTag.replaceFirst("^.*?:", "pron:");
+        String newYihPostag = yihPostag.replaceFirst(":v_[a-z]+", requiredPostTagsRegEx);
+        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "pron:m:v_naz", "їхній"), newYihPostag, true);
+        suggestions.addAll( Arrays.asList(synthesized) );
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+        
     int pos = tokenReadings.getStartPos();
 
     RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + tokenString.length(), msg, getShort());

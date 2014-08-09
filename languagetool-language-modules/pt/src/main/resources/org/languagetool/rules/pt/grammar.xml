@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.092 2014-07-22 14:20:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.093 2014-08-05 11:05:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1107,6 +1107,20 @@ $Id: grammar.xml,v 1.092 2014-07-22 14:20:00 marcoagpinto Exp $
 
 
 
+    <!-- É SUPOSTO QUE supõe-se que -->
+    <rule id="É_SUPOSTO_QUE" name="supõe-se que">
+      <pattern>
+        <token>é</token>
+        <token>suposto</token>
+        <token>que</token>
+      </pattern>
+      <message>Substituir «é suposto que» por <suggestion>supõe-se que</suggestion>.</message>
+      <example type="incorrect">Assim, <marker>é suposto que</marker> aconteça.</example>
+      <example type="correct">Assim, <marker>supõe-se que</marker> aconteça.</example>
+    </rule>
+
+
+
     <!-- E MAS TARDE e mais tarde -->
     <rule id="E_MAS_TARDE" name="e mais tarde">
       <pattern>
@@ -1880,6 +1894,21 @@ $Id: grammar.xml,v 1.092 2014-07-22 14:20:00 marcoagpinto Exp $
       <example type="correct">Excelente para <marker>quem não está</marker> doente.</example>
     </rule>
 
+
+
+    <!-- SEXTA DE VIME cesta de vime -->
+    <rule id="SEXTA_DE_VIME" name="cesta de vime">
+      <pattern>
+        <marker>
+        	<token>sexta</token>
+        </marker>
+        <token>de</token>
+      	<token>vime</token>
+      </pattern>
+      <message>Substituir «sexta» por <suggestion>cesta</suggestion>.</message>
+      <example type="incorrect">Ela tem uma <marker>sexta</marker> de vime.</example>
+      <example type="correct">Ela tem uma <marker>cesta</marker> de vime.</example>
+    </rule>
 
 
 
