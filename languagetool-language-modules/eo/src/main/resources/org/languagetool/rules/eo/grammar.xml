@@ -2346,6 +2346,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">La farmisto trafis la knabon ŝtelantan pomojn.</example>
       </rule>
     </rulegroup>
+    <rule id="UNU_EL" name="unu el mia amiko → unu el miaj amikoj">
+      <pattern>
+        <token regexp="yes">unu|(?:du|tri|kvar|kvin|ses|sep|ok|naŭ)(?:dek|cent)?|dek|mil|(?:(?:mal)?mult|kelk)(e[tg])?aj|iujn?|mil|milionoj?n?|miliardoj?n?</token>
+        <token>el</token>
+        <marker><token regexp="yes">[mcvlŝ]ia|ilia|tiu</token></marker>
+        <token><exception regexp="yes">(?:.*aro|.*opo|speco|nombro|listo|familio)?</exception></token>
+      </pattern>
+      <message>Ĉu vi intencis uzi pluralon?</message>
+      <example type="incorrect">Unu el <marker>mia</marker> amikoj.</example>
+      <example type="incorrect">Unu el <marker>mia</marker> amiko.</example>
+      <example type="correct">Unu el miaj amikoj.</example>
+      <example type="correct">Unu el mia amikaro.</example>
+    </rule>
     <rule id="LA_MIA" name="La + a-pronomo">
       <pattern>
         <marker>
