@@ -5686,6 +5686,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="incorrect" correction="Aber-Ildud">An <marker>Aber Ildud</marker> a zo ur stêr eus Bro-Leon.</example>
       <example type="correct">An Aber-Ildud a zo ur stêr eus Bro-Leon.</example>
     </rule>
+    <rule id="PONT_DOUR" name="pont dour → pont-dour">
+      <pattern>
+        <token regexp="yes">[bp]ont(où)?</token>
+        <token regexp="yes">diri|dour|gwalc’hiñ|gwint|gwinteiz|gwinter|gwinteris|kanol|karr|kazh|orjal|skourr|tro</token>
+      </pattern>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>\1-\2</suggestion>?</message>
+      <example type="incorrect">Ur <marker>pont dour</marker> gant ur skluz.</example>
+      <example type="correct">Ur pont-dour gant ur skluz.</example>
+    </rule>
   </category>
 
   <category name="Araogenn">
@@ -5923,12 +5932,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>e-kichen</token>
-          <token regexp="yes">h[ei]|anezhi</token>
+          <token regexp="yes">hi|anezhi</token>
         </pattern>
         <message>Ha fellout a rae deoc’h skrivañ <suggestion>en he c’hichen</suggestion>?</message>
         <example type="incorrect"><marker>E-kichen hi</marker> e oa.</example>
         <example type="incorrect"><marker>E-kichen anezhi</marker> e oa.</example>
         <example type="correct">En he c’hichen e oa.</example>
+        <example type="correct">War ar maez ke-kichen he feunteun.</example>
       </rule>
       <rule>
         <pattern>
