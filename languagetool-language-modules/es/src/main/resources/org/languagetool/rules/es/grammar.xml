@@ -27,7 +27,7 @@ $Id$
 <!ENTITY adverbio_lugar "detrás|delante|debajo|encima|cerca">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <unification feature="Numero">
+    <unification feature="numero">
         <equivalence type="S">
             <token postag="(PX..|N.{2}|[ADP].{3}|V.{4})[SN0].*|.*_GN_.S.*" postag_regexp="yes"></token>
         </equivalence>
@@ -616,7 +616,7 @@ $Id$
             <token>tu</token>
           </marker>
 
-          <token postag="SENT_END"/>
+            <token postag="SENT_END" regexp="yes">[.?!]</token>
         </pattern>
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
@@ -636,7 +636,7 @@ $Id$
             <token>el</token>
           </marker>
 
-          <token postag="SENT_END"/>
+            <token postag="SENT_END" regexp="yes">[.?!]</token>
         </pattern>
 
         <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
@@ -676,7 +676,7 @@ $Id$
             <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
           </marker>
 
-          <token postag="SENT_END"/>
+          <token postag="SENT_END" regexp="yes">[.?!]</token>
         </pattern>
 
         <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
@@ -696,7 +696,7 @@ $Id$
             <token>mi</token>
           </marker>
 
-          <token postag="SENT_END"/>
+            <token postag="SENT_END" regexp="yes">[.?!]</token>
         </pattern>
 
         <message>El pronombre personal <suggestion>mí</suggestion> lleva tilde.</message>
@@ -716,7 +716,7 @@ $Id$
             <token>de</token>
           </marker>
 
-          <token postag="SENT_END"/>
+            <token postag="SENT_END" regexp="yes">[.?!]</token>
         </pattern>
 
         <message>El verbo <suggestion>dé</suggestion> (forma del verbo dar) lleva tilde.</message>
@@ -753,10 +753,10 @@ $Id$
       <rule id="TE_FINAL" name="Sustantivo té sin tilde al final de la oración">
         <pattern>
           <marker>
-            <token><!--Included «de» to avoid overlap with TE_N rule--><exception regexp="yes">de|verde|perla|negro</exception>te</token>
+            <token>te</token>
           </marker>
 
-          <token postag="SENT_END"/>
+            <token postag="SENT_END" regexp="yes">[.?!]</token>
         </pattern>
 
         <message>El sustantivo <suggestion>té</suggestion> (bebida) lleva tilde.</message>
