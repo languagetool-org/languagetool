@@ -8422,6 +8422,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
           <token postag="N f .*" postag_regexp="yes">
+            <exception postag_regexp="yes" postag="N [me] .*"/>
             <exception regexp="yes">impression|fois</exception>
             <exception inflected="yes">estimer</exception>
           </token>
@@ -8447,11 +8448,14 @@ though, and has since been slightly modified)-->
         <example type="correct">De la même nature que celles qui ont été saisies.</example>
         <example type="correct">La lettre que j’ai voulu envoyer.</example>
         <example type="correct">Certains y voient la preuve qu’il a finalement été lâché par son soutien.</example>
+        <example type="correct">Cette finale qu’il a dominée.</example>
       </rule>
       <rule>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
-          <token postag="N m .*" postag_regexp="yes"/>
+          <token postag="N m .*" postag_regexp="yes">
+            <exception postag_regexp="yes" postag="N [fe] .*"/>
+          </token>
           <token regexp="yes" skip="2">que?</token>
           <marker>
             <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
@@ -8471,7 +8475,9 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START" skip="2"/>
-          <token postag="N m .*" postag_regexp="yes"><exception negate_pos="yes" postag="N m .*" postag_regexp="yes"/></token>
+          <token postag="N m .*" postag_regexp="yes">
+            <exception negate_pos="yes" postag="N m .*" postag_regexp="yes"/>
+          </token>
           <token>qui</token>
           <token postag="V etre .* 3 .*" postag_regexp="yes"/>
           <marker>
