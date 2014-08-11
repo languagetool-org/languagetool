@@ -157,22 +157,34 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|тисяча|мільйон|мільярд|([0-9]*[05-9]|[0-9]+11)<exception scope="previous" regexp="yes">[:./№«]</exception><exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception></token>
+                    <token regexp="yes" inflected="yes">десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|сотня|тисяча|мільйон|мільярд|([0-9]*[05-9]|[0-9]+11)
+                      <exception postag_regexp="yes" postag=".*:v_oru.*"/>
+                      <exception scope="previous" regexp="yes">[:./№«]</exception>
+                      <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
+                    </token>
                     <marker>
-                        <token postag_regexp="yes" postag="noun:m:v_naz.*">
-                            <exception postag_regexp="yes" postag="noun:p:v_rod.*"/>
+                        <!--
+                        <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
+                            <exception scope="previous">хвилин за</exception>
+                            <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|prysudk_sl.*"/>
                             <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
                             <exception regexp="yes">раз|чоловік|грам|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
                         </token>
+                        -->
+                        <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)</token>
                     </marker>
                 </pattern>
                 <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="2" postag="noun:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
-                <!-- хвилин за 10 спікер ..., до 16 вхід заборонено, в 40 став наймолодшим -->
                 <!--
                 <example type="incorrect" correction="грамів">сто <marker>грам</marker></example>
                 <example type="incorrect" correction="грамів">100 <marker>грам</marker></example>
                 -->
                 <example type="incorrect" correction="байтів">10 <marker>байт</marker></example>
+                <example type="incorrect" correction="мілібарів">10 <marker>мілібар</marker></example>
+                <example type="incorrect" correction="солдатів">дві сотні <marker>солдат</marker></example>
+                <example type="correct">хвилин за 10 спікер увійшов</example>
+                <example type="correct">до 16 вхід заборонено</example>
+                <example type="correct">в 40 став наймолодшим</example>
                 <example type="correct">50 тис. людей</example>
                 <example type="correct">сто грамів</example>
                 <example type="correct">100 грамів</example>
@@ -186,6 +198,26 @@ $Id$
                 <example type="correct">у свої сімдесят два роки</example>
                 <example type="correct">на виборах-2007 Блок Литвина</example>
                 <example type="correct">127 Шевченко Євген Валерійович</example>
+                <example type="correct">керував сотнею німець</example>
+                <example type="correct">комендантом сотні став Віталій</example>
+                <example type="correct">ці мільйони слід шукати там</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">десять|двадцять|тридцять|сорок|.*десят|дев'яносто|сто|двісті|триста|чотириста|п'ятьсот|шістьсот|сімсот|вісімсот|сотня|тисяча|мільйон|мільярд|([0-9]*[05-9]|[0-9]+11)
+                      <exception postag_regexp="yes" postag=".*:v_oru.*"/>
+                      <exception scope="previous" regexp="yes">[:./№«]</exception>
+                      <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
+                    </token>
+                    <marker>
+                        <token regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?тон</token>
+                    </marker>
+                </pattern>
+                <message>Ви мали на увазі: <suggestion><match no="2"/>н</suggestion>?</message>
+                <example type="incorrect" correction="кілотонн">10 <marker>кілотон</marker></example>
+                <example type="incorrect" correction="тонн">10 <marker>тон</marker></example>
+                <example type="correct">10 тонн</example>
+                <example type="correct">10 тонів</example>
             </rule>
         </rulegroup>
 
