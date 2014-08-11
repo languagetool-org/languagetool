@@ -5759,6 +5759,48 @@ $Id$
             <example type="correct">El llibre <marker>tracta</marker> aspectes importants de les matemàtiques</example>
             <example type="correct">El llibre <marker>tracta</marker> a més a més aspectes importants de les matemàtiques</example>
         </rule> -->
+        <rule id="DURANT_ALS" name="durant *als/els">
+            <pattern>
+                <token>durant</token>
+                <token>a</token>
+                <token spacebefore="no">ls</token>
+            </pattern>
+            <message>Sobra la preposició 'a'.</message>
+            <suggestion>durant els</suggestion>
+            <example type="incorrect" correction="Durant els"><marker>Durant als</marker> anys trenta.</example>
+            <example type="correct">Durant els anys trenta.</example>
+        </rule>
+        <rule id="DURANT_AL_EL" name="durant *al/el">
+            <pattern>
+                <marker>
+                <token>durant</token>
+                <token>a</token>
+                <token spacebefore="no">l</token>
+                </marker>
+                <token postag=".*[MC][SN].*" postag_regexp="yes"><exception>voltant</exception></token>
+            </pattern>
+            <message>Sobra la preposició 'a'.</message>
+            <suggestion>durant el</suggestion>
+            <example type="incorrect" correction="Durant el"><marker>Durant al</marker> seu regnat.</example>
+            <example type="incorrect" correction="Durant el"><marker>Durant al</marker> segle XIX.</example>
+            <example type="correct">Durant al voltant de 30 anys.</example>
+        </rule>
+        <rule id="DURANT_AL_LA" name="durant *al/la">
+            <pattern>
+                <marker>
+                    <token>durant</token>
+                    <token>a</token>
+                    <token spacebefore="no">l</token>
+                </marker>
+                <token postag=".*[FC][SN].*" postag_regexp="yes"/>
+            </pattern>
+            <message>Error de picatge</message>
+            <suggestion>durant la</suggestion>
+            <example type="incorrect" correction="Durant la"><marker>Durant al</marker> seva vida.</example>
+            <example type="incorrect" correction="Durant la"><marker>Durant al</marker> segona guerra.</example>
+            <example type="incorrect" correction="Durant la"><marker>Durant al</marker> guerra.</example>
+            <example type="correct">Durant al voltant de 30 anys.</example>
+        </rule>
         <rule id="PER_BAIX_DE" name="per *baix/sota/davall de">
             <pattern>
                 <token>per</token>
