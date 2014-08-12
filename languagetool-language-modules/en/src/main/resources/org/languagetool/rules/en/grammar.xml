@@ -14453,6 +14453,19 @@ USA
         </rule>
     </category>
     <category name="Bad style" type="style">
+        <rule default="off" id="And" name="Sentence starting with 'And' or 'But'">
+            <pattern>
+                <token postag='SENT_START'></token>
+                <token regexp="yes">And|But</token>
+            </pattern>
+            <message>Technical not exactly wrong, but stylistically '\2' should only be used to start a sentence for dramatic effect and even then rarely.</message>
+            <url>http://blog.oxforddictionaries.com/2012/01/can-i-start-a-sentence-with-a-conjunction/</url>
+            <short>Bad style</short>
+            <example type='incorrect'><marker>And</marker> yes, it shows a lack of style to start a sentence with 'and'.</example>
+            <example type='correct'>Yes, it shows a lack of style to start a sentence with 'and'.</example>
+            <example type='incorrect'><marker>But</marker> it is not a great writing style to start a sentence with 'but'.</example>
+            <example type='correct'>It is not a great writing style to start a sentence with 'but'.</example>
+        </rule>
         <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
             <pattern>
                 <token postag="SENT_START"></token>
