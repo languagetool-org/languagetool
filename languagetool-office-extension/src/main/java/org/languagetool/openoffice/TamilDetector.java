@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,27 +19,20 @@
 package org.languagetool.openoffice;
 
 /**
- * Helps detecting Khmer strings by their Unicode range.
+ * Helps detecting Tamil strings by their Unicode range.
+ * @since 2.7
  */
 @SuppressWarnings("MagicNumber")
-class KhmerDetector extends LanguageDetector {
-  
+class TamilDetector extends LanguageDetector {
+
   @Override
   int getLowerBound() {
-    return 6016;
+    return 2946;
   }
 
   @Override
   int getUpperBound() {
-    return 6143;
-  }
-
-  /**
-   * @deprecated use {@link #isThisLanguage(String)} instead - deprecated since 2.7
-   */
-  @Deprecated
-  boolean isKhmer(String str) {
-    return isThisLanguage(str);
+    return 3066;
   }
   
 }
