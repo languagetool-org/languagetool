@@ -39,10 +39,10 @@ $Id$
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
-    <!ENTITY precedits_per_TAN "prompte|savi|espectacular|alt|ample|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer">
+    <!ENTITY precedits_per_TAN "prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
-    <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre">
+    <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;]|[èé]|&#176;[CFKNSEW]?)?">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
     <!ENTITY adjectius_TE_INFUSIO "descafeïnat|mòlt|jove|conegut|preparat|empaquetat|xin[èé]s|amargant|sud-americà|instantani|lleuger|indi|roquer|dolç|fals|bord|tradicional|gal·l[éè]s|pudent|salvatge|àrab|angl[éè]s|fosc|negre|verd|vermell|blanc|gelat|fred|calent|turc">
@@ -4860,6 +4860,23 @@ $Id$
                 <example type="incorrect" correction="tan">És <marker>tant</marker> comprensible com inútil.</example>
                 <example type="correct">És tan fort.</example>       
             </rule>
+            <rule> 
+            <!-- mots que probablement són adjectius, 
+                 o que probablement requereixen "tan" (però no en distributives tant...com) -->
+                <pattern>
+                    <token><exception regexp="yes">per|un</exception></token>
+                    <marker>
+                        <token>tant<exception postag="allow_tant|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">gran|petit</token>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>tan</suggestion>.</message>
+                <short>Confusió</short>
+                <example type="incorrect" correction="tan">És <marker>tant</marker> gran.</example>
+                <example type="incorrect" correction="tan">És <marker>tant</marker> gran com jo.</example>
+                <example type="incorrect" correction="tan">Han estat <marker>tant</marker> petit.</example>
+                <example type="correct">Que vinguin tant grans com petits.</example>       
+            </rule>
             <rule>
                 <pattern>
                     <token>per</token>
@@ -7770,6 +7787,32 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="OBRAR_OBRIR" name="obrar/obrir">
+            <pattern>
+                <marker>
+                    <token skip="3" inflected="yes">obrar<exception inflected="yes">obrir</exception></token>
+                </marker>
+                <token regexp="yes" inflected="yes">porta|camí|via</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">obrir</match></suggestion> (v. obrir)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="obre">Ens <marker>obra</marker> totes les portes.</example>
+            <example type="correct">Ens obre el camí.</example>
+            <example type="correct">Ens obren les portes.</example>
+            <example type="correct">Ens obrin les portes.</example>
+        </rule>
+        <rule id="ALL_LLARG" name="*all/al llarg">
+            <pattern>
+                <marker>
+                    <token>all</token>
+                    <token>llarg</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>al \2</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="Al llarg"><marker>All llarg</marker> del temps.</example>
+            <example type="correct">Al llarg del temps.</example>
+        </rule>
         <rule id="POSTA_POSAT" name="havia *posta/posat">
             <antipattern>
                 <marker>
