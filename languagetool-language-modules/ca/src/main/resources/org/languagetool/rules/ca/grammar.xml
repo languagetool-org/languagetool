@@ -13692,7 +13692,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">res|mai</token>
+                    <token regexp="yes" inflected="yes">res|mai|massa|poc|molt|gaire</token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -13702,6 +13702,8 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="més">si res <marker>mes</marker> no</example>
                 <example type="incorrect" correction="més">No passarà mai <marker>mes</marker></example>
+                <example type="incorrect" correction="més">Passa molt <marker>mes</marker> que abans.</example>
+                <example type="incorrect" correction="més">No n'hi ha gaires <marker>mes</marker> que abans.</example>
                 <example type="correct">si res més no</example>
             </rule>
             <rule>
@@ -13731,7 +13733,7 @@ $Id$
                 <example type="correct">Cada cop més.</example>
             </rule>
             <!-- Situació inversa: accentuar "més" quan no toca-->
-            <rule id="UN_MES" name="un més/mes">
+            <rule id="UN_MES" name="un *més/mes">
                 <pattern> 
                     <token><exception regexp="yes">l'|cada|per</exception></token>
                     <token>un</token>
