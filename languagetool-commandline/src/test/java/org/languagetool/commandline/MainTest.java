@@ -405,7 +405,7 @@ public class MainTest extends AbstractSecurityTestCase {
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
-    assertTrue(output.contains("Unknown words: [This, an, is, language, of, tool]"));
+    assertTrue(output.contains("Unknown words: [., This, an, is, language, of, tool]"));
   }
 
   public void testNoListUnknown() throws Exception {

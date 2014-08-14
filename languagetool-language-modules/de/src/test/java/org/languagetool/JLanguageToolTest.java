@@ -37,7 +37,7 @@ public class JLanguageToolTest extends TestCase {
     // no spelling mistakes as we have not created a variant:
     assertEquals(0, tool.check("I can give you more a detailed description").size());
     //test unknown words listing
-    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());    
+    assertEquals("[I, can, description, detailed, give, more, you]", tool.getUnknownWords().toString());    
   }
 
   public void testGermanyGerman() throws IOException {
@@ -49,7 +49,7 @@ public class JLanguageToolTest extends TestCase {
     // German rule has no effect with English error, but they are spelling mistakes:
     assertEquals(6, tool.check("I can give you more a detailed description").size());
     //test unknown words listing
-    assertEquals("[I, can, detailed, give, more, you]", tool.getUnknownWords().toString());
+    assertEquals("[I, can, description, detailed, give, more, you]", tool.getUnknownWords().toString());
   }
 
   public void testPositionsWithGerman() throws IOException {
