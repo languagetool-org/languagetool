@@ -3435,6 +3435,7 @@ $Id$
                 <example type="incorrect">A classe <marker>havia</marker> dos nois fora mida.</example>
                 <example type="incorrect">Que <marker>ha</marker> s'ha trobat</example>
                 <example type="incorrect">Hi havia o no <marker>havia</marker>.</example>
+                <example type="incorrect">Fins <marker>ha</marker> quin punt estava decidit.</example>
                 <example type="correct">no me n'hauria pas recordat.</example>
                 <example type="correct">no me n'hauria pas recordat.</example>
                 <example type="correct">S'han fos els ploms.</example>
@@ -13736,7 +13737,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">res|mai|massa|poc|molt|gaire</token>
+                    <token regexp="yes" inflected="yes">res|mai|massa|poc|molt|gaire|mica|gota</token>
                     <marker>
                         <token>mes</token>
                     </marker>
@@ -13775,6 +13776,18 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="més">Retarden cada vegada <marker>mes</marker> l'edat d'emancipació.</example>
                 <example type="correct">Cada cop més.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">una?</token>
+                    <token regexp="yes">mica|xic</token>
+                    <marker><token>mes</token></marker>
+                </pattern>
+                <message>S'accentua quan és adjectiu o adverbi.</message>
+                <suggestion>més</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="més">En cal una mica <marker>mes</marker>.</example>
+                <example type="correct">Una mica més.</example>
             </rule>
             <!-- Situació inversa: accentuar "més" quan no toca-->
             <rule id="UN_MES" name="un *més/mes">
