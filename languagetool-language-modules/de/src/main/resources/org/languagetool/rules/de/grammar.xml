@@ -680,7 +680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="WIR_WIE" name="Möglicher Tippfehler: 'im selben Stall wir (wie)' etc.">
             <pattern>
                 <token regexp="yes">gleich.*|.*selbe.*</token>
-                <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/></token>
+                <token skip="1"><exception scope="next" postag="VER.*:1:PLU.*|UNKNOWN" postag_regexp="yes"/><exception>,</exception></token>
                 <marker>
                     <token>wir</token>
                 </marker>
@@ -691,6 +691,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Ich habe das gleiche Kleid <marker>wir</marker> sie.</example>
             <example type="correct">Ich habe das gleiche Kleid <marker>wie</marker> sie.</example>
             <example type="correct">Im selben Boot sitzen <marker>wir</marker>.</example>
+            <example type="correct">Unsere Sprache ist fast dieselbe, <marker>wir</marker> haben eine gemeinsame Kultur.</example>
         </rule>
         <rule id="DU_DIE" name="Möglicher Tippfehler: 'du (die)'">
             <pattern>
@@ -4811,10 +4812,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected="yes" regexp="yes">Säuberung|Minderheit|Minorität|Gruppe|Untergruppe|Bevölkerungsgruppe|Gruppierung|Gemeinschaft|Zugehörigkeit|Zuordnung|Herkunft|Abstammung|Homogenität|Zusammensetzung|Proporz|Identifikation|Selbstidentifikation</token>
                 </pattern>
-                <message>&verw;Meinten Sie <suggestion>ethnisch</suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
+                <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="[Ee]thisch" regexp_replace="ethnisch"/></suggestion> (ethisch = Ethik/Moral betreffend, ethnisch = zu einer bestimmten Ethnie/Volksgruppe gehörend)?</message>
                 <example type="correct">Bücher über <marker>ethnische</marker> Minderheiten und Vertriebene</example>
-                <example type="incorrect">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
-                <example type="incorrect"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
+                <example type="incorrect" correction="ethnische">Bücher über <marker>ethische</marker> Minderheiten und Vertriebene</example>
+                <example type="incorrect" correction="Ethnische"><marker>Ethische</marker> Minderheiten und Vertriebene</example>
             </rule>
             <rule>
                 <pattern>
@@ -4823,7 +4824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token inflected='yes' regexp='yes'>Bedenken|Forderung|Haltung</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match="ethni" regexp_replace="ethi"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="[Ee]thni" regexp_replace="ethi"/></suggestion>?</message>
                 <example type='incorrect'>Dagegen bestehen <marker>ethnische</marker> Bedenken.</example>
                 <example type='correct'>Dagegen bestehen <marker>ethische</marker> Bedenken.</example>
             </rule>
@@ -8188,7 +8189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
+                <token regexp="yes">kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
             </antipattern>
             <antipattern>
                 <!-- 'gibt es nach wie vor zu kaufen' -->
@@ -8219,6 +8220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
+                        <exception>abseits</exception>
                         <exception>gegenüber</exception>
                         <exception>statt</exception>
                         <exception>anstatt</exception>
@@ -22862,7 +22864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">[Ee]in</token>
                         <token>Paar</token>
                     </marker>
-                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]äust(ling)?en?|[fF]üße|Brüste|Ohrringe)</token>
+                    <token postag_regexp="yes" postag="SUB:.*PLU:.*" negate="yes" regexp="yes">(.*)([Ss]chuhe|[Ss]ocken|[Ss]trümpfe|[Ss]tiefel|[Ss]andalen|[Hh]osen|[aA]ugen|[oO]hren|[hH]ände|[fF]äust(ling)?en?|[fF]üße|Brüste|Ohrringe|.*ohrringe)</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>ein paar</suggestion> (=einige), im Unterschied zu 'ein Paar' (=genau zwei)?</message>
                 <url>http://www.canoo.net/services/GermanSpelling/Regeln/Gross-klein/Denominalisierung.html#Anchor-Die-14210</url>
@@ -25501,6 +25503,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PLURAL_APOSTROPH" name="Zeichensetzung: AGB's (AGBs) usw.">
+            <antipattern>
+                <token>King</token>
+                <token>’</token>
+                <token>s</token>
+                <token>College</token>
+            </antipattern>
             <rule>
                 <!-- detected by GIRLS_DAY with better message -->
                 <antipattern>
@@ -25533,6 +25541,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="EIG:.*" postag_regexp="yes">
+                        <exception>King</exception>
                         <exception>McDonald</exception>
                         <exception>Andrea</exception>
                     </token>
@@ -25550,7 +25559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>des</token>
                     <marker>
-                        <token postag="SUB:NOM:SIN:(MAS|NEU)" postag_regexp="yes"/>
+                        <token postag="SUB:NOM:SIN:(MAS|NEU)" postag_regexp="yes"><exception>King</exception></token>
                         <token regexp="yes">'|’</token>
                         <token>s</token>
                     </marker>
