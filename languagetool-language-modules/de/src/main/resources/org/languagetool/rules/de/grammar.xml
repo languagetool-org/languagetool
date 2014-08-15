@@ -23397,6 +23397,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
+        <rule id="DAS_DASS" name=", das dass (, dass das)">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token regexp="yes">der|die|das</token>
+                    <token>dass</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>dass das</suggestion>?</message>
+            <example type='incorrect'>Gut, <marker>das dass</marker> heute besser klappt.</example>
+            <example type='correct'>Gut, <marker>dass das</marker> heute besser klappt.</example>
+        </rule>
         <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei/entsprechend' ohne Dativ">
             <rule>
                 <pattern>
