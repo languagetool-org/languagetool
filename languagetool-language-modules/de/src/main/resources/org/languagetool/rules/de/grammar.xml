@@ -116,7 +116,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="VER:[123]:.*" postag_regexp="yes">
                     <exception postag="VER:.*" postag_regexp="yes" negate_pos="yes"/>
-                    <exception regexp="yes">siebten|achten|wachen</exception>
+                    <exception regexp="yes">siebten|achten|wachen|trauten</exception>
                 </token>
             </pattern>
             <message>Möglicher Tippfehler: Meinten Sie <suggestion>ihm</suggestion>?</message>
@@ -8189,7 +8189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
+                <token regexp="yes">messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
             </antipattern>
             <antipattern>
                 <!-- 'gibt es nach wie vor zu kaufen' -->
@@ -8974,6 +8974,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Ich habe es gerade erst <marker>erneuert</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>kann</token>
+                    <token regexp="yes">jede[mnr]?</token>
+                    <token regexp="yes">mögliche[mnr]?</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes" skip="1">können</token>
                     <token regexp="yes">möglich(e[nsr]?)?|möglicherweise</token>
