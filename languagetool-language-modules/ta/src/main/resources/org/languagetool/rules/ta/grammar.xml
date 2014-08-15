@@ -117,7 +117,7 @@ USA
 	<rulegroup id="irunthu" name="அங்கு/இடம்/இல் + இருந்து">
 	  <rule>
 		<pattern>
-			<token>அங்கு</token>
+			<token regexp='yes'>[அஎஇ]ங்கு</token>
 			<token>இருந்து</token>
 		</pattern>
 		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
@@ -128,25 +128,27 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token>அவர்களிடம்</token>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ில்|(([ஃ-ஹ][ா-்]?)*)[க-வ]ிடம்<exception postag='NN.*' postag_regexp='yes'></exception></token>
 			<token>இருந்து</token>
 		</pattern>
-		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="ம்$" regexp_replace="மி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>எனக்குக் <marker>காலையில் இருந்து</marker> வேலை.</example>
+		<example type='correct'>எனக்குக் <marker>காலையிலிருந்து</marker> வேலை.</example>
 		<example type='incorrect'>நாளை <marker>அவர்களிடம் இருந்து</marker> தகவல் வரும்.</example>
 		<example type='correct'>நாளை <marker>அவர்களிடமிருந்து</marker> தகவல் வரும்.</example>
 	  </rule>
 	  <rule>
 		<pattern>
-			<token>காலையில்</token>
+			<token>எங்கோ</token>
 			<token>இருந்து</token>
 		</pattern>
-		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="ல்$" regexp_replace="லி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
-		<example type='incorrect'>எனக்குக் <marker>காலையில் இருந்து</marker> வேலை.</example>
-		<example type='correct'>எனக்குக் <marker>காலையிலிருந்து</marker> வேலை.</example>
+		<example type='incorrect'><marker>எங்கோ இருந்து</marker> வந்த தலைமைகள்.</example>
+		<example type='correct'><marker>எங்கோவிருந்து</marker> வந்த தலைமைகள்.</example>
 	  </rule>
 	</rulegroup>
 	  <rule id="illaamal" name="மட்டும் + இல்லாமல்">
