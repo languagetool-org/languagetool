@@ -110,8 +110,70 @@ USA
 	  </rule>
 	</rulegroup>
     </category>
-    <!-- ====================================================================== -->
+	<!-- ====================================================================== -->
     <!-- சொற்களைச் சேர்த்தும் இடம்விட்டும் எழுதுதல் -->
+    <!-- ====================================================================== -->
+    <category name="தனிச் சொற்களை எழுதும் முறை">
+	<rulegroup id="irunthu" name="அங்கு/இடம்/இல் + இருந்து">
+	  <rule>
+		<pattern>
+			<token>அங்கு</token>
+			<token>இருந்து</token>
+		</pattern>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவன் <marker>அங்கு இருந்து</marker> வீட்டுக்கு விரைந்தான்.</example>
+		<example type='correct'>அவன் <marker>அங்கிருந்து</marker> வீட்டுக்கு விரைந்தான்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token>அவர்களிடம்</token>
+			<token>இருந்து</token>
+		</pattern>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="ம்$" regexp_replace="மி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நாளை <marker>அவர்களிடம் இருந்து</marker> தகவல் வரும்.</example>
+		<example type='correct'>நாளை <marker>அவர்களிடமிருந்து</marker> தகவல் வரும்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token>காலையில்</token>
+			<token>இருந்து</token>
+		</pattern>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="ல்$" regexp_replace="லி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>எனக்குக் <marker>காலையில் இருந்து</marker> வேலை.</example>
+		<example type='correct'>எனக்குக் <marker>காலையிலிருந்து</marker> வேலை.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="illaamal" name="மட்டும் + இல்லாமல்">
+		<pattern>
+			<token>மட்டும்</token>
+			<token>இல்லாமல்</token>
+		</pattern>
+		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வரும்போது சேர்த்தெழுதவேண்டும்: <suggestion>மட்டுமில்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இசை <marker>மட்டும் இல்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
+		<example type='correct'>இசை <marker>மட்டுமில்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
+	  </rule>
+	  <rule id="illai" name="செய்வது + இல்லை">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
+			<token regexp='yes'>இல்லை(([ஃ-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>'செய்வது' போன்ற தொழிற்பெயர்பின் 'இல்லை' வரும்போது சேர்த்தெழுதுவது சிறப்பு: <suggestion><match no="1" regexp_match="து$" regexp_replace="தி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஏன் உன் விழிகள் என்னைப் <marker>பார்ப்பது இல்லை</marker>?</example>
+		<example type='correct'>ஏன் உன் விழிகள் என்னைப் <marker>பார்ப்பதில்லை</marker>?</example>
+	  </rule>
+    </category>
+    <!-- ====================================================================== -->
+    <!-- ஒற்று மிகுதலும் மிகாமையும் -->
     <!-- ====================================================================== -->
     <category name="சந்தி">
     <rulegroup id="Ends_in_A_1" name="முதல் சொல்லின் இறுதி எழுத்து அ (1)">
@@ -581,7 +643,7 @@ USA
 	  </rule>
 	</rulegroup> -->
 	
-    <rulegroup id="Ends_in_Ai_1" name="முதல் சொல்லின் இறுதி எழுத்து ஐ (1)">
+    <rulegroup id="Ends_in_Ai_1" name="2 ஆம் வேற்றுமை உருபு (ஓருமை)">
         <rule>
             <pattern>
                 <token postag='SV'></token>
@@ -627,7 +689,7 @@ USA
             <example type='correct'>என் <marker>கையைப் பிடித்து</marker> இழுக்காதே.</example>
         </rule>
     </rulegroup>
-	<rulegroup id="Ends_in_Ai_2" name="முதல் சொல்லின் இறுதி எழுத்து ஐ (2)">
+	<rulegroup id="Ends_in_Ai_2" name="2 ஆம் வேற்றுமை உருபு (பன்மை)">
 		<rule>
             <pattern>
                 <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'></token>
@@ -673,7 +735,7 @@ USA
             <example type='correct'>ஆசிரியர் <marker>மாணவர்களைப் பார்த்து</marker> அவர்களுடன் உரையாடிக்கொண்டிருந்தார்.</example>
         </rule>
     </rulegroup>
-    <rulegroup id="Ends_in_Ku_1" name="முதல் சொல்லின் இறுதி எழுத்து கு (1)">
+    <rulegroup id="Ends_in_Ku_1" name="4 ஆம் வேற்றுமை உருபு (ஓருமை)">
         <rule>
             <pattern>
                 <token postag='FV'></token>
@@ -719,7 +781,7 @@ USA
             <example type='correct'>அவன் நாளை <marker>ஊருக்குப் போகத்</marker> திட்டமிட்டிருக்கிறான்.</example>
         </rule>
     </rulegroup>
-    <rulegroup id="Ends_in_Ku_2" name="முதல் சொல்லின் இறுதி எழுத்து கு (2)">
+    <rulegroup id="Ends_in_Ku_2" name="4 ஆம் வேற்றுமை உருபு (பன்மை)">
         <rule>
             <pattern>
                 <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
