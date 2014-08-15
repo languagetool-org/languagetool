@@ -23288,12 +23288,17 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="BOLT" name="bolt">
+      <antipattern>
+        <token regexp="yes">(?-i)Alex|Brice|Usain|Robert|von</token>
+        <marker><token>Bolt</token></marker>
+      </antipattern>
       <pattern>
         <token regexp="yes">bolts?</token>
       </pattern>
       <message>« Bolt » est un anglicisme. Employez <suggestion>boulon</suggestion>.</message>
       <example type="incorrect"><marker>bolt</marker>.</example>
       <example type="correct"><marker>boulon</marker>.</example>
+      <example type="correct">Usain Bolt est un athlète Jamaïcain.</example>
     </rule>
     <rule id="PAGEANT" name="pageant">
       <pattern>
