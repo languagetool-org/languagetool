@@ -219,6 +219,17 @@ USA
 		<example type='incorrect'>ஏன் உன் விழிகள் என்னைப் <marker>பார்ப்பது இல்லை</marker>?</example>
 		<example type='correct'>ஏன் உன் விழிகள் என்னைப் <marker>பார்ப்பதில்லை</marker>?</example>
 	  </rule>
+	  <rule id="illai2" name="வினையெச்சம் + இல்லை">
+		<pattern>
+			<token postag='VAN' regexp='yes'></token>
+			<token regexp='yes'>இல்லை(([ஃ-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'இல்லை' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=51</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவன் இன்னும் வீட்டுக்கு <marker>வர இல்லை</marker>.</example>
+		<example type='correct'>அவன் இன்னும் வீட்டுக்கு <marker>வரவில்லை</marker>.</example>
+	  </rule>
 	  <rule id="uNdu" name="செய்வது + உண்டு">
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
@@ -716,7 +727,7 @@ USA
     <rulegroup id="Ends_in_Ai_1" name="2 ஆம் வேற்றுமை உருபு (ஓருமை)">
         <rule>
             <pattern>
-                <token postag='SV'></token>
+                <token postag='SV'><exception>ஆணை</exception></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -727,7 +738,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'></token>
+                <token postag='SV'><exception>ஆணை</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -738,7 +749,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'></token>
+                <token postag='SV'><exception>ஆணை</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -749,7 +760,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'></token>
+                <token postag='SV'><exception>ஆணை</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
