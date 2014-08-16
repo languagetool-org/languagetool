@@ -146,8 +146,6 @@ public class HTTPSServer extends Server {
       System.out.println("                 'password' - the keystore's password");
       System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
       System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
-      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
-      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
       System.out.println("                 'requestLimit' - maximum number of requests (optional)");
       System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
       printCommonConfigFileOptions();

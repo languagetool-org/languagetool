@@ -125,11 +125,11 @@ public class HTTPServer extends Server {
     if (args.length > 5 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file with values for:");
-      printCommonConfigFileOptions();
       System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
       System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
       System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
       System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
+      printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
     }
