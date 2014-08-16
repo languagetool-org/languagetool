@@ -22,20 +22,21 @@ import junit.framework.TestCase;
 
 public class KhmerDetectorTest extends TestCase {
   
-  public void testIsKhmer() {
+  public void testIsThisLanguage() {
     final KhmerDetector detector = new KhmerDetector();
     
+    assertTrue(detector.isThisLanguage("ប៉ុ"));
     assertTrue(detector.isKhmer("ប៉ុ"));
-    assertTrue(detector.isKhmer("ប៉ុន្តែ​តើ"));
-    assertTrue(detector.isKhmer("ហើយដោយ​ព្រោះ​"));
-    assertTrue(detector.isKhmer("«ទៅ​បាន​។ «"));
+    assertTrue(detector.isThisLanguage("ប៉ុន្តែ​តើ"));
+    assertTrue(detector.isThisLanguage("ហើយដោយ​ព្រោះ​"));
+    assertTrue(detector.isThisLanguage("«ទៅ​បាន​។ «"));
 
-    assertFalse(detector.isKhmer("Hallo"));
-    assertFalse(detector.isKhmer("öäü"));
+    assertFalse(detector.isThisLanguage("Hallo"));
+    assertFalse(detector.isThisLanguage("öäü"));
 
-    assertFalse(detector.isKhmer(""));
+    assertFalse(detector.isThisLanguage(""));
     try {
-      assertFalse(detector.isKhmer(null));
+      assertFalse(detector.isThisLanguage(null));
       fail();
     } catch (NullPointerException expected) {}
   }

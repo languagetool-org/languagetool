@@ -794,6 +794,7 @@ USA
                 <example type="correct">The leaves form a rosette at the base of the plant.</example>
                 <example type="correct">In full form the theorem was given in 1825.</example>
                 <example type="correct">These results of Cauchy's still form the core of complex function theory.</example>
+                <example type="triggers_error">Muslims form a slight majority.</example>
             </rule>
         </rulegroup>
         <rule id="THERE_EXITS" name="there exits (there exists)">
@@ -1999,6 +2000,11 @@ USA
                 <example type="incorrect">It is <marker>to</marker> soon to move the entire industry.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>similar</token>
+                    <token>to</token>
+                    <token>much</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" negate="yes">access|lead|led</token>
                     <marker>
@@ -6523,11 +6529,11 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
-    <rule id="A_COMPETE" name="a compete/complete">
+    <rule id="A_INFINITVE" name="a/the + infinitive">
         <pattern>
             <token regexp='yes'>a|an|the</token>
             <token postag='VB|VBP' postag_regexp='yes'>
-                <exception>commit</exception>
+                <exception regexp="yes">commit|remix</exception>
                 <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception>
             </token>
         </pattern>
@@ -6904,13 +6910,14 @@ USA
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="VB.*|MD"/></token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes">be</token>
                     </marker>
-                    <token inflected="yes">be</token>
                 </pattern>
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
+                <suggestion>\3 \2</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">I am <marker>sometimes</marker> happy.</example>
-                <example type="incorrect">I <marker>sometimes</marker> am happy.</example>
+                <example type="correct">I <marker>am sometimes</marker> happy.</example>
+                <example type="incorrect">I <marker>sometimes am</marker> happy.</example>
                 <example type="correct">Although they can <marker>sometimes</marker> be found</example>
             </rule>
             <rule>
@@ -6918,89 +6925,95 @@ USA
                     <token postag="PRP"/>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes">be</token>
                     </marker>
-                    <token inflected="yes">be</token>
                 </pattern>
                 <message>The adverb '\2' is usually put after the verb '\3'.</message>
+                <suggestion>\3 \2</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">I am here and I am <marker>sometimes</marker> happy.</example>
-                <example type="incorrect">I am here and I <marker>sometimes</marker> am happy.</example>
+                <example type="correct">I am here and I <marker>am sometimes</marker> happy.</example>
+                <example type="incorrect">I am here and I <marker>sometimes am</marker> happy.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token inflected="yes">be</token>
-                    <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                     <marker>
+                        <token inflected="yes" regexp="yes">be|have|will</token>
+                        <token inflected="yes">be</token>
+                        <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token><exception postag="SENT_END"/></token>
                 </pattern>
                 <message>The adverb '\4' is usually put between '\1' and '\2'.</message>
+                <suggestion>\1 \4 \2 \3</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">They have <marker>often</marker> been seen together.</example>
-                <example type="incorrect">They have been seen <marker>often</marker> together.</example>
+                <example type="correct">They <marker>have often been seen</marker> together.</example>
+                <example type="incorrect">They <marker>have been seen often</marker> together.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes" regexp="yes">be|have|will</token>
+                        <token inflected="yes">be</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token inflected="yes">be</token>
                     <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\1' is usually put between '\2' and '\3'.</message>
+                <suggestion>\2 \1 \3</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">They have <marker>often</marker> been seen together.</example>
-                <example type="incorrect">They <marker>often</marker> have been seen together.</example>
+                <example type="correct">They have <marker>often been seen</marker> together.</example>
+                <example type="incorrect">They <marker>often have been</marker> seen together.</example>
 <!--                 <example type="incorrect">She <marker>often</marker> has been late.</example> TODO -->
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">be|have|will<exception postag="VBG"/></token>
-                    <token inflected="yes">be<exception>art</exception></token>
                     <marker>
+                        <token inflected="yes" regexp="yes">be|have|will<exception postag="VBG"/></token>
+                        <token inflected="yes">be<exception>art</exception></token>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token postag_regexp="yes" postag="VB[NG]"><exception negate_pos="yes" postag="VB.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\3' is usually put between '\1' and '\2'.</message>
+                <suggestion>\1 \3 \2</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">The human being is <marker>often</marker> regarded as</example>
-                <example type="correct">They have <marker>often</marker> been seen together.</example>
-                <example type="incorrect">They have been <marker>often</marker> seen together.</example>
+                <example type="correct">The human being <marker>is often</marker> regarded as</example>
+                <example type="correct">They <marker>have often</marker> been seen together.</example>
+                <example type="incorrect">They <marker>have been often</marker> seen together.</example>
 <!--                 <example type="incorrect">He has been <marker>often</marker> late.</example> TODO -->
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
                     <marker>
+                        <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be|will</exception><exception postag="NNS?" postag_regexp="yes"/></token>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
                     </marker>
                     <token><exception postag="VB.*|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\2' is usually put before the verb '\1'.</message>
+                <suggestion>\2 \1</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">I <marker>often</marker> go to bed before midnight.</example>
-                <example type="incorrect">I go <marker>often</marker> to bed before midnight.</example>
-                <example type="correct">I will <marker>always</marker> love you.</example>
-                <example type="incorrect">I will love <marker>always</marker> you.</example>
+                <example type="correct">I <marker>often go</marker> to bed before midnight.</example>
+                <example type="incorrect">I <marker>go often</marker> to bed before midnight.</example>
+                <example type="correct">I <marker>will always</marker> love you.</example>
+                <example type="incorrect">I will <marker>love always</marker> you.</example>
             </rule>
             <rule>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">have|be|will</exception></token>
                     <marker>
                         <token regexp="yes">always|hardly|never|often|rarely|seldom|sometimes|usually</token>
+                        <token inflected="yes" regexp="yes">be|have|will</token>
+                        <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token inflected="yes" regexp="yes">be|have|will</token>
-                    <token postag="VB[DPZ]?" postag_regexp="yes"><exception inflected="yes" regexp="yes">have|be</exception><exception postag="JJ.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>The adverb '\2' is usually put between '\3' and '\4'.</message>
+                <suggestion>\3 \2 \4</suggestion>
                 <url>http://faculty.washington.edu/marynell/grammar/AdverbPl.html</url>
-                <example type="correct">They <marker>usually</marker> have long hind limbs</example>
-                <example type="correct">I will <marker>always</marker> love you.</example>
-                <example type="incorrect">I <marker>always</marker> will love you.</example>
+                <example type="correct">They <marker>usually have</marker> long hind limbs</example>
+                <example type="correct">I <marker>will always love</marker> you.</example>
+                <example type="incorrect">I <marker>always will love</marker> you.</example>
             </rule>
         </rulegroup>
         <rule id="GOING_TO_VBD" name="Use of past form with 'going to ...'">
@@ -8196,6 +8209,46 @@ USA
             <example type="incorrect" correction="for dinner">Ray and Helen went with us <marker>for a dinner</marker> in the hotel restaurant.</example>
           </rule>
         </rulegroup>
+        <rulegroup id="IN_1990s" name="Missing definite article in the date">
+            <rule>
+                <pattern>
+                    <token regexp='yes'>in|during</token>
+                    <token regexp='yes'>(1[89]|20)\d0s</token>
+                </pattern>
+                <message>The article is probably missing here: <suggestion><match no="1"/> the <match no="2"/></suggestion>.</message>
+                <url>http://pl.talkenglish.com/Grammar/articles.aspx</url>
+                <short>Missing article</short>
+                <example type='incorrect' correction="in the 1990s">It happened <marker>in 1990s</marker>.</example>
+                <example type='correct'>It happened in the 1990s.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>in|during</token>
+                    <token regexp='yes'>(1[89]|20)\d0</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>The article is probably missing here: <suggestion><match no="1"/> the <match no="2"/><match no="3"/><match no="4"/></suggestion>.</message>
+                <url>http://pl.talkenglish.com/Grammar/articles.aspx</url>
+                <short>Missing article</short>
+                <example type='incorrect' correction="in the 1990's">It happened <marker>in 1990's</marker>.</example>
+                <example type='correct'>It happened in the 1990's.</example>
+            </rule>
+        </rulegroup>
+        <rule id="IN_PAST" name="Missing definite article referring to a time period">
+            <pattern>
+                <marker>
+                    <token>in</token>
+                    <token regexp='yes'>past|future</token>
+                </marker>
+                <token regexp='yes'>[,\.:;]</token>
+            </pattern>
+            <message>Did you mean: <suggestion><match no="1"/> the <match no="2"/></suggestion>?</message>
+            <url>http://pl.talkenglish.com/Grammar/articles.aspx</url>
+            <short>Missing definite article</short>
+            <example type='incorrect' correction="in the past">Something happened <marker>in past</marker>.</example>
+            <example type='correct'>Something happened in the past.</example>
+        </rule>
         <!--  needs more and more tweaking;
   currently the last exception in all rules is a simplification,
   it should be more recursive, i.e., there one more rule for all current rules, structured like this:
@@ -9295,6 +9348,11 @@ USA
         </rulegroup>
         <rulegroup id="DID_BASEFORM" name="Non-infinitive verb after modal verbs">
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"></token>
+                    <token regexp="yes">will|would|could</token>
+                    <token postag="VBG"/>
+                </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|who|which|whom|a|the</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll</token>
@@ -10372,12 +10430,12 @@ USA
                     <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
                     <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
-                    <exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|size|\$\d+</exception>
+                    <exception regexp="yes" scope="previous">January|February|March|April|May|June|July|August|September|October|November|December|category|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
                     <exception scope="previous">×</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
+                    <exception regexp="yes">Pound|Dollar|percent|minute|megapixel|bit|foot|[kcm]m|BC|[KMGk]B|^[^a-zA-Z]+</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                 </token>
@@ -10454,7 +10512,7 @@ USA
         </rule>
         <rule id="NODT_DOZEN" name="Numeral (dozen, hundred, thousand, million) without a determiner or a number">
           <pattern>
-            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
+            <token regexp="yes">dozen|hundred|thousand|[bm]illion<exception scope="previous" postag_regexp="yes" postag="UNKNOWN|CD|W?DT|PRP\$|JJ"/><exception scope="previous" regexp="yes">[\$€£\p{Lu}]+\d+|per|s|of|few|several|'</exception></token>
           </pattern>
           <message>Use simply: <suggestion>a <match no="1"/></suggestion>.</message>
           <short>Grammatical problem</short>
@@ -10462,6 +10520,7 @@ USA
           <example type="correct">You need almost a hundred eggs.</example>
           <example type="correct">The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
           <example type="correct">It was selected as the first of Life magazine's 'hundred photos that changed the world'.</example>
+          <example type="correct">At a peak of 6 <!--note: non-breaking space --><marker>million</marker>.</example>
         </rule>
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
             <pattern>
@@ -10476,6 +10535,11 @@ USA
             <example type="incorrect">There are <marker>much</marker> children.</example>
         </rule> 
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
+            <antipattern>
+                <token>many</token>
+                <token>regard</token>
+                <token regexp="yes">him|her|it|this|them|his|its</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
@@ -11155,7 +11219,7 @@ USA
                 <example type="correct">A handicapped accessible shuttle bus is available <marker>from the</marker> Purdue University parking lot.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="I_VE_A" name="Non-standard contractions '(I've a...)'">
+        <rulegroup default="off" id="I_VE_A" name="Non-standard contractions '(I've a...)'">
             <rule>
                 <pattern>
                     <token></token>
@@ -11229,20 +11293,35 @@ USA
             <example type='correct'>We present our <marker>state-of-the-art</marker> solution.</example>
             <example type='correct'>We compare our results to the <marker>state of the art</marker>.</example>
         </rule>
-        <rule id="OUT_OF_PLACE" name="out of place (out-of-place)">
+        <rule id="OUT_OF_PLACE" name="out of place (out-of-place) etc.">
             <pattern>
                 <marker>
                     <token>out</token>
                     <token>of</token>
-                    <token>place</token>
+                    <token regexp="yes">place|door|doors|band|bounds|town|state|wedlock|pocket|order</token>
                 </marker>
                 <token postag='NN.*|NNS' postag_regexp='yes'></token>
             </pattern>
-            <message>Did you mean <suggestion>out-of-place</suggestion>?</message>
+            <message>Did you mean <suggestion>out-of-\3</suggestion>?</message>
             <example type='correct'>This word is <marker>out of place</marker>.</example>
             <!--<example type='incorrect'>This word is <marker>out-of-place</marker>.</example>-->
             <example type='correct'>This is an <marker>out-of-place</marker> word.</example>
-            <example type='incorrect'>This is an <marker>out of place</marker> word.</example>
+            <example type='incorrect' correction="out-of-place">This is an <marker>out of place</marker> word.</example>
+        </rule>
+        <rule id="OUT_OF_THE_WAY" name="out of the way (out-of-the-way) etc.">
+            <pattern>
+                <marker>
+                    <token>out</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>way</token>
+                </marker>
+                <token postag='NN.*|NNS' postag_regexp='yes'></token>
+            </pattern>
+            <message>Did you mean <suggestion>out-of-the-way</suggestion>?</message>
+            <example type='correct'>They seem to be having five hindrances <marker>out of the way</marker>.</example>
+            <example type='correct'>An <marker>out-of-the-way</marker> place.</example>
+            <example type='incorrect' correction="out-of-the-way">An <marker>out of the way</marker> place.</example>
         </rule>
         <rulegroup default="off" id="EG_NO_COMMA" name="'e.g.' without a comma">
             <rule>
@@ -11409,7 +11488,7 @@ USA
         </rulegroup>
         <rule default="off" id="COMMA_WHICH" name="No comma before 'which'">
           <pattern>
-            <token><exception regexp="yes">[,(-–−—―]|that</exception><exception postag="IN|TO|;|SENT_START" postag_regexp="yes"></exception></token>
+            <token><exception regexp="yes">[,(-–−—―"“]|that</exception><exception postag="IN|TO|;|SENT_START" postag_regexp="yes"></exception></token>
             <token>which</token>
           </pattern>
           <message>Probably a comma is missing here: <suggestion>\1, \2</suggestion>. Or if you want to use a restrictive clause, use <suggestion>\1 that</suggestion>.</message>
@@ -11422,9 +11501,9 @@ USA
         <rule id="COMMA_MONTH_DATE" name="Comma after a month name in a date">
         <pattern>
             <marker>
-            <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
-            <token>,</token>
-            <token regexp="yes">[1-3][0-9]{3}</token>
+                <token regexp="yes">January|February|March|April|May|June|July|August|September|October|November|December</token>
+                <token>,</token>
+                <token regexp="yes">[1-3][0-9]{3}</token>
             </marker>
             </pattern>
             <message>The comma is probably incorrect: <suggestion>\1 \3</suggestion>.</message>
@@ -11449,48 +11528,57 @@ USA
         </rule>
         <rulegroup id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
             <rule>
-            <antipattern>
-                <marker><token>instead</token></marker>
-                <token>of</token>
-            </antipattern>
-            <antipattern>
-                <marker><token>rather</token></marker>
-                <token>than</token>
-            </antipattern>
-            <antipattern>
-                <marker><token chunk="B-PP">besides</token></marker>
-            </antipattern>
-            <antipattern>
-                <marker><token>also</token></marker>
-                <token regexp="yes">in|since</token>
-            </antipattern>
-            <antipattern>
-                <marker><token regexp="yes">thus|still</token></marker>
-                <token postag="VB." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <marker><token>however</token></marker>
-                <token postag="JJ"/>
-            </antipattern>
-            <antipattern>
-                <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
-                <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"></exception></token>
-            </antipattern>
-            <pattern>
-                <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
-                <token postag="SENT_START"/>
-                <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
-                <marker>
-                    <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
-                        <exception negate_pos="yes" postag="RB">further</exception>
-                    </token>
-                </marker>
-                <token negate="yes">,</token>
-            </pattern>
-            <message>Did you forget a comma after a conjunctive/linking adverb?</message>
-            <suggestion>\2,</suggestion>
-            <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
-            <short>Punctuation error</short>
+                <antipattern>
+                    <marker><token>instead</token></marker>
+                    <token>of</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token>rather</token></marker>
+                    <token>than</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token chunk="B-PP">besides</token></marker>
+                </antipattern>
+                <antipattern>
+                    <marker><token>also</token></marker>
+                    <token regexp="yes">in|since</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token regexp="yes">thus|still</token></marker>
+                    <token postag="VB." postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <marker><token>however</token></marker>
+                    <token postag="JJ"/>
+                </antipattern>
+                <antipattern>
+                    <marker><token regexp="yes">accordingly|additionally|also|consequently|similarly</token></marker>
+                    <token postag="VBP"><exception negate_pos="yes" postag="VBP?" postag_regexp="yes"></exception></token>
+                </antipattern>
+                <antipattern>
+                    <token>Also</token>
+                    <token>commemorated</token>
+                </antipattern>
+                <antipattern>
+                    <!-- typical headline, but may hide real errors... -->
+                    <token>Further</token>
+                    <token>reading</token>
+                </antipattern>
+                <pattern>
+                    <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
+                    <token postag="SENT_START"/>
+                    <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
+                    <marker>
+                        <token regexp="yes">accordingly|additionally|also|besides|comparatively|consequently|conversely|elsewhere|equally|finally|further|furthermore|hence|henceforth|however|indeed|instead|likewise|meanwhile|moreover|namely|nevertheless|nonetheless|otherwise|rather|similarly|still|subsequently|thereafter|therefore|thus|typically
+                            <exception negate_pos="yes" postag="RB">further</exception>
+                        </token>
+                    </marker>
+                    <token negate="yes">,</token>
+                </pattern>
+                <message>Did you forget a comma after a conjunctive/linking adverb?</message>
+                <suggestion>\2,</suggestion>
+                <url>https://writing.wisc.edu/Handbook/ConjAdv.html</url>
+                <short>Punctuation error</short>
                 <example type="incorrect" correction="Nonetheless,"><marker>Nonetheless</marker> you should set commas to enhance readability.</example>
                 <example type="correct">Nonetheless, you should set commas to enhance readability.</example>
                 <example type="correct">Further Spanish attacks were harsh.</example>
@@ -11500,7 +11588,7 @@ USA
                 <example type="correct">Thus began the infamous "prison ships" system.</example>
                 <example type="correct">However fast you may walk, you can't catch up with him.</example>
                 <example type="correct">Also specify your gender.</example>
-        </rule>
+            </rule>
             <rule>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
@@ -11555,74 +11643,74 @@ USA
             <example type='correct'>It seems unlikely that they <marker>were</marker> going to achieve it.</example>
         </rule>
         <rulegroup id="ALTER_BOY" name="confusion of alter/altar">
-    <rule>
-  	<pattern>
-    	<marker>
-      	<token>alter</token>
-    	</marker>
-    	<token regexp="yes">boy|server</token>
-  	</pattern>
-  	<message>Did you mean <suggestion>altar</suggestion>?</message>
-  	<url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
-  	<short>Possible typo</short>
-  	<example type="incorrect" correction="altar">He was an <marker>alter</marker> boy.</example>
-	<example type="correct">He was an altar boy.</example>
-	</rule>
-	<rule>
-  	<pattern>
-  		<token>at</token>
-  		<token>the</token>
-    	<marker>
-      	<token>alter</token>
-    	</marker>    	
-  	</pattern>
-  	<message>Did you mean <suggestion>altar</suggestion>?</message>
-  	<url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
-  	<short>Possible typo</short>
-  	<example type="incorrect" correction="altar">He was at the <marker>alter</marker>.</example>
-	<example type="correct">He was at the altar.</example>
-	</rule>
-	<rule>
-	<pattern>
-      <token regexp="yes">significantly|radically|fundamentally|dramatically|drastically|substantially</token>
-       <marker>
-        <token>altar</token>
-       </marker>      
-    </pattern>
-    <message>Did you mean <suggestion>alter</suggestion> (=change)?</message>
-    <short>Possible typo</short>
-    <example type="incorrect" correction="alter"> Forty-seven percent of executives said they were concerned that retiring Boomers will significantly <marker>altar</marker> the workforce in the next decade.</example>
-    <example type="correct">He will radically alter his work.</example>
-    </rule>
-    </rulegroup>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>alter</token>
+                    </marker>
+                    <token regexp="yes">boy|server</token>
+                </pattern>
+                <message>Did you mean <suggestion>altar</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="altar">He was an <marker>alter</marker> boy.</example>
+                <example type="correct">He was an altar boy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>at</token>
+                    <token>the</token>
+                    <marker>
+                        <token>alter</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>altar</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="altar">He was at the <marker>alter</marker>.</example>
+                <example type="correct">He was at the altar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">significantly|radically|fundamentally|dramatically|drastically|substantially</token>
+                    <marker>
+                        <token>altar</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>alter</suggestion> (=change)?</message>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="alter"> Forty-seven percent of executives said they were concerned that retiring Boomers will significantly <marker>altar</marker> the workforce in the next decade.</example>
+                <example type="correct">He will radically alter his work.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONFUSION_OF_DECENT_DESCENT" name="confusion of decent/descent">
-    <rule>
-    <pattern>
-        <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
-        <marker>
-        <token>decent</token>
-        </marker>
-    </pattern>
-    <message>Did you mean <suggestion>descent</suggestion>?</message>
-    <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
-    <short>Possible typo</short>
-    <example type="incorrect" correction="descent">He is of Asian <marker>decent</marker>.</example>
-    <example type="correct">He is of Asian descent</example>
-    </rule>
-    <rule>
-        <pattern>
-        <token regexp="yes" inflected="yes">with|provide|few|have|really|thoroughly|halfway|get|quite|fairly|reasonably|being|still|look|relatively|some|otherwise|most|be|perfectly|offer|way|create|how|many|up|enough|pretty|somewhat|mad|just|also|fundamentally<exception>s</exception></token>
-        <marker>
-        <token>descent</token>
-        </marker>
-        <token postag="NN.*" postag_regexp="yes"/>
-    </pattern>
-    <message>Did you mean <suggestion>decent</suggestion>?</message>
-    <short>Possible typo</short>
-    <example type="incorrect">Looking for a hotel with <marker>descent</marker> rooms.</example>
-    <example type="correct">Looking for a hotel with decent rooms.</example>
-    </rule>
-    </rulegroup>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Aboriginal|African|Albanian|American|Armenian|Asian|British|Canadian|Caribbean|Chinese|Davidic|Dutch|English|European|French|Irish|Indian|Italian|Japanese|Jewish|German|Greek|Mexican|Polish|Scottish|Spanish|common|steep|direct|high|gradual|noble</token>
+                    <marker>
+                        <token>decent</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>descent</suggestion>?</message>
+                <url>http://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
+                <short>Possible typo</short>
+                <example type="incorrect" correction="descent">He is of Asian <marker>decent</marker>.</example>
+                <example type="correct">He is of Asian descent</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">with|provide|few|have|really|thoroughly|halfway|get|quite|fairly|reasonably|being|still|look|relatively|some|otherwise|most|be|perfectly|offer|way|create|how|many|up|enough|pretty|somewhat|mad|just|also|fundamentally<exception>s</exception></token>
+                    <marker>
+                        <token>descent</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Did you mean <suggestion>decent</suggestion>?</message>
+                <short>Possible typo</short>
+                <example type="incorrect">Looking for a hotel with <marker>descent</marker> rooms.</example>
+                <example type="correct">Looking for a hotel with decent rooms.</example>
+            </rule>
+        </rulegroup>
         <rule id="DIFFUSE_TENSIONS" name="diffuse (defuse) tensions">
             <pattern>
                 <marker>
@@ -14365,6 +14453,19 @@ USA
         </rule>
     </category>
     <category name="Bad style" type="style">
+        <rule default="off" id="And" name="Sentence starting with 'And' or 'But'">
+            <pattern>
+                <token postag='SENT_START'></token>
+                <token regexp="yes">And|But</token>
+            </pattern>
+            <message>Technical not exactly wrong, but stylistically '\2' should only be used to start a sentence for dramatic effect and even then rarely.</message>
+            <url>http://blog.oxforddictionaries.com/2012/01/can-i-start-a-sentence-with-a-conjunction/</url>
+            <short>Bad style</short>
+            <example type='incorrect'><marker>And</marker> yes, it shows a lack of style to start a sentence with 'and'.</example>
+            <example type='correct'>Yes, it shows a lack of style to start a sentence with 'and'.</example>
+            <example type='incorrect'><marker>But</marker> it is not a great writing style to start a sentence with 'but'.</example>
+            <example type='correct'>It is not a great writing style to start a sentence with 'but'.</example>
+        </rule>
         <rule default="off" id="SENT_START_NUM" name="Number starting a sentence">
             <pattern>
                 <token postag="SENT_START"></token>

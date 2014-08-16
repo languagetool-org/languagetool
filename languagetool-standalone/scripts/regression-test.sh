@@ -11,7 +11,7 @@ fi
 
 if [ $# -eq 4 ]
 then
-    LT_RULE_OPTION="--enable $4"
+    LT_RULE_OPTION="--enabledonly --enable $4"
 elif [ $# -eq 3 ]
 then
     LT_RULE_OPTION=""

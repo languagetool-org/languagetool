@@ -117,16 +117,27 @@ class LanguageToolSupport {
   private boolean backgroundCheckEnabled = true;
   private Configuration config;
   private boolean mustDetectLanguage = false;
+  private final UndoRedoSupport undo;
 
   /**
    * LanguageTool support for a JTextComponent
    */
   public LanguageToolSupport(JFrame frame, JTextComponent textComponent) {
+    this(frame, textComponent, null);
+  }
+
+  /**
+   * LanguageTool support for a JTextComponent
+   * 
+   * @since 2.7
+   */
+  public LanguageToolSupport(JFrame frame, JTextComponent textComponent, UndoRedoSupport support) {
     this.frame = frame;
     this.textComponent = textComponent;
     this.messages = JLanguageTool.getMessageBundle();
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();    
+    this.undo = support;
     init();
   }
 
@@ -685,6 +696,9 @@ class LanguageToolSupport {
     Document doc = this.textComponent.getDocument();
     if (doc != null) {
       try {
+        if(this.undo != null) {
+          this.undo.startCompoundEdit();
+        }
         if (doc instanceof AbstractDocument) {
           ((AbstractDocument) doc).replace(start, end - start, str, null);
         } else {
@@ -693,6 +707,10 @@ class LanguageToolSupport {
         }
       } catch (BadLocationException e) {
         throw new IllegalArgumentException(e);
+      } finally {
+        if(this.undo != null) {
+          this.undo.endCompoundEdit();
+        }
       }
     }
   }

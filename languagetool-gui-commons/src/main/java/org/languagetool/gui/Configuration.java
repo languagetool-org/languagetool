@@ -18,6 +18,7 @@
  */
 package org.languagetool.gui;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.tools.StringTools;
 
@@ -463,7 +464,7 @@ public class Configuration {
     }
 
     try (FileOutputStream fos = new FileOutputStream(configFile)) {
-      props.store(fos, "LanguageTool configuration");
+      props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
     }
   }
 

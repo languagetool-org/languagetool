@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,28 +18,30 @@
  */
 package org.languagetool.openoffice;
 
-/**
- * Helps detecting Khmer strings by their Unicode range.
- */
-@SuppressWarnings("MagicNumber")
-class KhmerDetector extends LanguageDetector {
-  
-  @Override
-  int getLowerBound() {
-    return 6016;
+import org.junit.Test;
+
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
+
+public class TamilDetectorTest {
+
+  @Test
+  public void testIsThisLanguage() {
+    final TamilDetector detector = new TamilDetector();
+
+    assertTrue(detector.isThisLanguage("இந்த"));
+    assertTrue(detector.isThisLanguage("இ"));
+    assertTrue(detector.isThisLanguage("\"லேங்குவேஜ்"));
+
+    assertFalse(detector.isThisLanguage("Hallo"));
+    assertFalse(detector.isThisLanguage("öäü"));
+
+    assertFalse(detector.isThisLanguage(""));
+    try {
+      assertFalse(detector.isThisLanguage(null));
+      fail();
+    } catch (NullPointerException expected) {}
   }
 
-  @Override
-  int getUpperBound() {
-    return 6143;
-  }
-
-  /**
-   * @deprecated use {@link #isThisLanguage(String)} instead - deprecated since 2.7
-   */
-  @Deprecated
-  boolean isKhmer(String str) {
-    return isThisLanguage(str);
-  }
-  
 }

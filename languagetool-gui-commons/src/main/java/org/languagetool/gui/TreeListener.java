@@ -35,18 +35,15 @@ import javax.swing.tree.TreePath;
  */
 class TreeListener implements KeyListener, MouseListener {
 
-  /**
-   *
-   * @param tree
-   */
   static void install(JTree tree) {
     TreeListener listener = new TreeListener(tree);
     tree.addMouseListener(listener);
     tree.addKeyListener(listener);
   }
 
-  private final JTree tree;
   private static final Dimension checkBoxDimension = new JCheckBox().getPreferredSize();
+  
+  private final JTree tree;
 
   private TreeListener(JTree tree) {
     this.tree = tree;

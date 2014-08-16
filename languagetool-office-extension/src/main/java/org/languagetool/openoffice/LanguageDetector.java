@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,27 +19,28 @@
 package org.languagetool.openoffice;
 
 /**
- * Helps detecting Khmer strings by their Unicode range.
+ * Helps detecting the language of strings by the Unicode range used by the characters.
+ * @since 2.7
  */
-@SuppressWarnings("MagicNumber")
-class KhmerDetector extends LanguageDetector {
+abstract class LanguageDetector {
+
+  private static final int MAX_CHECK_LENGTH = 100;
   
-  @Override
-  int getLowerBound() {
-    return 6016;
+  /** Lower bound of Unicode range that this language's characters use. */
+  abstract int getLowerBound();
+
+  /** Upper bound of Unicode range that this language's characters use. */
+  abstract int getUpperBound();
+
+  boolean isThisLanguage(String str) {
+    final int maxCheckLength = Math.min(str.length(), MAX_CHECK_LENGTH);
+    for (int i = 0; i < maxCheckLength; i++) {
+      final int numericValue = str.charAt(i);
+      if (numericValue >= getLowerBound() && numericValue <= getUpperBound()) {
+        return true;
+      }
+    }
+    return false;
   }
 
-  @Override
-  int getUpperBound() {
-    return 6143;
-  }
-
-  /**
-   * @deprecated use {@link #isThisLanguage(String)} instead - deprecated since 2.7
-   */
-  @Deprecated
-  boolean isKhmer(String str) {
-    return isThisLanguage(str);
-  }
-  
 }

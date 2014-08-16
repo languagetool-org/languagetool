@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.net.Authenticator;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,6 +40,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.tools.StringTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -56,6 +58,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public final class XMLValidator {
 
   public XMLValidator() {
+    Authenticator.setDefault(new PasswordAuthenticator());
   }
 
   /**

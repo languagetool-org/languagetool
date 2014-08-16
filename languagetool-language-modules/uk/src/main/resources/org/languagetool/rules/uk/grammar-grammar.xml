@@ -161,6 +161,7 @@ $Id$
                     <marker>
                         <token postag_regexp="yes" postag="noun:m:v_naz.*">
                             <exception postag_regexp="yes" postag="noun:p:v_rod.*"/>
+                            <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
                             <exception regexp="yes">раз|чоловік|грам|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
                         </token>
                     </marker>
@@ -184,6 +185,7 @@ $Id$
                 <example type="correct">«5 канал»</example>
                 <example type="correct">у свої сімдесят два роки</example>
                 <example type="correct">на виборах-2007 Блок Литвина</example>
+                <example type="correct">127 Шевченко Євген Валерійович</example>
             </rule>
         </rulegroup>
 
@@ -194,7 +196,13 @@ $Id$
                     <marker>
                     <token postag="impers"/>
                     <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
-                    <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
+                    <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*">
+                      <exception postag_regexp="yes" postag="noun.*v_oru$"/>
+                      <exception inflected="yes">тією мірою</exception>
+                      <!--
+                    <token min="0" max="1"><exception>мірою</exception></token>
+                      -->
+                    </token>
                     <!-- TODO: особа-діяч може бути не лише :ist
                     <token postag_regexp="yes" postag="(noun|pron).*v_oru.*"/>
                     -->
@@ -205,6 +213,7 @@ $Id$
                 <example type="correct">Користувача авторизовано</example>
                 <example type="correct">Справу порушено за фактом</example>
                 <example type="correct">Наказ підписано синьою ручкою</example>
+                <example type="correct">церковні терміни використано тією мірою</example>
                 <example type="incorrect">Справу <marker>порушено прокурором</marker></example>
                 <example type="incorrect">Справу <marker>порушено генеральним прокурором</marker></example>
                 <!-- TODO: див. вище

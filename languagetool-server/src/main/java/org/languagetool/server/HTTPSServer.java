@@ -75,6 +75,9 @@ public class HTTPSServer extends Server {
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
       httpHandler.setLanguageModel(config.getLanguageModelDir());
+      if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
+        httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
+      }
       server.createContext("/", httpHandler);
       executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
       server.setExecutor(executorService);
@@ -141,6 +144,10 @@ public class HTTPSServer extends Server {
       System.out.println("  --config file  a Java property file with values for:");
       System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
       System.out.println("                 'password' - the keystore's password");
+      System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
+      System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
+      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
       System.out.println("                 'requestLimit' - maximum number of requests (optional)");
       System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
       printCommonConfigFileOptions();

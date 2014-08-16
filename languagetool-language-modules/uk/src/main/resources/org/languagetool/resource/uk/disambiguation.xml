@@ -19,4 +19,16 @@
         <example type="untouched">Знати про Курську дугу.</example>
     </rule>
 
+    <rule name="Прикметники без порівняльного ступеня" id="NON_COMPARATIVE">
+        <pattern>
+            <token inflected="yes">великий</token>
+            <token inflected="yes">князь</token>
+        </pattern>
+        <disambig><match no="1" postag="adj(.*):compb(.*)" postag_regexp="yes" postag_replace="adj$1$2"/></disambig>
+        <example type="ambiguous" 
+            inputform="великий[великий/adj:m:v_naz:compb,великий/adj:m:v_zna:compb]" 
+            outputform="великий[великий/adj:m:v_naz,великий/adj:m:v_zna]"><marker>великий</marker> князь</example>
+        <example type="untouched">великий вибух</example>
+    </rule>
+
 </rules>

@@ -64,6 +64,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("tse", tokens, position)) {
       return true;   // "tse tse"
     }
+    if (wordRepetitionOf("Li", tokens, position)) {
+      return true;   // "Li Li", Chinese name
+    }
     return false;
   }
 

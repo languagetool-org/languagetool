@@ -107,19 +107,19 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
       final String word = token.getToken();
       if (tokenizingPattern() == null) {
-        ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+        ruleMatches.addAll(getRuleMatches(word, token.getStartPos()));
       } else {
         int index = 0;
         final Matcher m = tokenizingPattern().matcher(word);
         while (m.find()) {
           final String match = word.subSequence(index, m.start()).toString();
-          ruleMatches.addAll(getRuleMatch(match, token.getStartPos() + index));
+          ruleMatches.addAll(getRuleMatches(match, token.getStartPos() + index));
           index = m.end();
         }
         if (index == 0) { // tokenizing char not found
-          ruleMatches.addAll(getRuleMatch(word, token.getStartPos()));
+          ruleMatches.addAll(getRuleMatches(word, token.getStartPos()));
         } else {
-          ruleMatches.addAll(getRuleMatch(word.subSequence(
+          ruleMatches.addAll(getRuleMatches(word.subSequence(
               index, word.length()).toString(), token.getStartPos() + index));
         }
       }
@@ -152,7 +152,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
+  /**
+   * @deprecated use {@link #getRuleMatches} instead (deprecated since 2.7)
+   */
+  @Deprecated
   protected List<RuleMatch> getRuleMatch(final String word, final int startPos) throws IOException {
+    return getRuleMatches(word, startPos);
+  }
+  
+  protected List<RuleMatch> getRuleMatches(final String word, final int startPos) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller, word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
@@ -161,7 +169,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       List<String> suggestions = speller.getSuggestions(word);
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
-        ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions,word));
+        ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word));
       }
       ruleMatches.add(ruleMatch);
     }

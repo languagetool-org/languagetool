@@ -59,6 +59,24 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>de.jflex</groupId>
+                <artifactId>maven-jflex-plugin</artifactId>
+                <version>1.4.3-r1</version>
+                <configuration>
+                    <outputDirectory>src/main/java</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- don't bind to phase, 
+                        we will run the goal by hand -->
+                        <phase/>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

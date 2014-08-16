@@ -64,7 +64,7 @@ public class UkrainianTaggerTest extends TestCase {
       "Майже/[майже]adv -- два/[два]numr:m:v_naz|два/[два]numr:m:v_zna|два/[два]numr:n:v_naz|два/[два]numr:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
     + " -- тому/[той]pron:m:v_dav|тому/[той]pron:m:v_mis|тому/[той]pron:n:v_dav|тому/[той]pron:n:v_mis|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod"
     + " -- Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]pryim:rv_rod:rv_zna:rv_oru"
-    + " -- чоловіком/[чоловік]noun:m:v_oru:ist -- Степаном/[Степан]noun:m:v_oru -- виїхали/[виїхати]verb:past:m:perf -- туди/[туди]adv"
+    + " -- чоловіком/[чоловік]noun:m:v_oru:ist -- Степаном/[Степан]noun:m:v_oru:ist -- виїхали/[виїхати]verb:past:m:perf -- туди/[туди]adv"
     + " -- на/[на]excl|на/[на]part|на/[на]pryim:rv_zna:rv_mis -- "
     + "проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna|проживання/[проживання]noun:p:v_naz|проживання/[проживання]noun:p:v_zna";
   

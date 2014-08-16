@@ -80,7 +80,12 @@ class AtomFeedItem {
       } else if (expectingChange) {
         Matcher matcher = TABLE_DATA_CONTENT.matcher(line);
         if (matcher.find()) {
-          String cleanContent = matcher.group(1)
+          String cleanContent = matcher.group(1);
+          if (cleanContent.matches(".*<div.*?>[!\\|].*") && cleanContent.matches(".*\\w!!\\w.*")) {
+            // remove ugly table syntax like "!Division!!Apps!!Goals!!Apps", triggers the whitespace rules:
+            cleanContent = cleanContent.replaceAll("<div.*?>[!\\|].*?</div>", "");
+          }
+          cleanContent = cleanContent
                   .replaceAll("<span.*?>", "").replace("</span>", "")
                   .replaceAll("<div.*?>[!\\|]", "").replace("<div>", "")  // remove table syntax 
                   .replaceAll("<div.*?>", "").replace("</div>", "")

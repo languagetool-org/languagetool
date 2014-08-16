@@ -50,12 +50,18 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private String shortDesc;
 
-  /** Flag to indicate if the hyphen is ignored in the text entered by the user.
+  /* Flag to indicate if the hyphen is ignored in the text entered by the user.
    * Set this to false if you want the rule to offer suggestions for words like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
-   * This is only available for languages with hyphen as a word separator (ie: not available for english, available for Romanian)
+   * This is only available for languages with hyphen as a word separator (ie: not available for English, available for Romanian)
    * See Language.getWordTokenizer()
    */
   private boolean hyphenIgnored = true;
+
+  @Override
+  public abstract String getId();
+
+  @Override
+  public abstract String getDescription();
 
   public AbstractCompoundRule(final ResourceBundle messages, final String fileName,
       final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
@@ -69,12 +75,6 @@ public abstract class AbstractCompoundRule extends Rule {
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
-  @Override
-  public abstract String getId();
-
-  @Override
-  public abstract String getDescription();
-
   public void setShort(final String shortDescription) {
     shortDesc = shortDescription;
   }
@@ -83,6 +83,9 @@ public abstract class AbstractCompoundRule extends Rule {
     return hyphenIgnored;
   }
 
+  /**
+   * @deprecated overwrite {@link #isHyphenIgnored()} instead (deprecated since 2.7)
+   */
   public void setHyphenIgnored(boolean ignoreHyphen) {
     this.hyphenIgnored = ignoreHyphen;
   }
@@ -106,29 +109,15 @@ public abstract class AbstractCompoundRule extends Rule {
         addToQueue(token, prevTokens);
         continue;
       }
+      if (token.isImmunized()) {
+        continue;
+      }
 
-      final StringBuilder sb = new StringBuilder();
-      int j = 0;
-      AnalyzedTokenReadings firstMatchToken = null;
+      final AnalyzedTokenReadings firstMatchToken = prevTokens.peek();
       final List<String> stringsToCheck = new ArrayList<>();
       final List<String> origStringsToCheck = new ArrayList<>();    // original upper/lowercase spelling
-      final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
-      for (AnalyzedTokenReadings atr : prevTokens) {
-        if (j == 0) {
-          firstMatchToken = atr;
-        }
-        sb.append(' ');
-        sb.append(atr.getToken());
-        if (j >= 1) {
-          final String stringToCheck = normalize(sb.toString());
-          stringsToCheck.add(stringToCheck);
-          origStringsToCheck.add(sb.toString().trim());
-          if (!stringToToken.containsKey(stringToCheck)) {
-            stringToToken.put(stringToCheck, atr);
-          }
-        }
-        j++;
-      }
+      final Map<String, AnalyzedTokenReadings> stringToToken =
+              getStringToTokenMap(prevTokens, stringsToCheck, origStringsToCheck);
       // iterate backwards over all potentially incorrect strings to make
       // sure we match longer strings first:
       for (int k = stringsToCheck.size()-1; k >= 0; k--) {
@@ -170,6 +159,27 @@ public abstract class AbstractCompoundRule extends Rule {
       addToQueue(token, prevTokens);
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private Map<String, AnalyzedTokenReadings> getStringToTokenMap(Queue<AnalyzedTokenReadings> prevTokens,
+                                                                 List<String> stringsToCheck, List<String> origStringsToCheck) {
+    final StringBuilder sb = new StringBuilder();
+    final Map<String, AnalyzedTokenReadings> stringToToken = new HashMap<>();
+    int j = 0;
+    for (AnalyzedTokenReadings atr : prevTokens) {
+      sb.append(' ');
+      sb.append(atr.getToken());
+      if (j >= 1) {
+        final String stringToCheck = normalize(sb.toString());
+        stringsToCheck.add(stringToCheck);
+        origStringsToCheck.add(sb.toString().trim());
+        if (!stringToToken.containsKey(stringToCheck)) {
+          stringToToken.put(stringToCheck, atr);
+        }
+      }
+      j++;
+    }
+    return stringToToken;
   }
 
   private String normalize(final String inStr) {

@@ -119,7 +119,7 @@ public class Tools {
    */
   public static String shortenComment(String comment) {
     final int maxCommentLength = 100;
-    if(comment.length() > maxCommentLength) {
+    if (comment.length() > maxCommentLength) {
       // if there is text in brackets, drop it (beginning at the end)
       while (comment.lastIndexOf(" [") > 0
               && comment.lastIndexOf(']') > comment.lastIndexOf(" [")
@@ -132,7 +132,7 @@ public class Tools {
         comment = comment.substring(0,comment.lastIndexOf(" (")) + comment.substring(comment.lastIndexOf(')')+1);
       }
       // in case it's still not short enough, shorten at the end
-      if(comment.length() > maxCommentLength) {
+      if (comment.length() > maxCommentLength) {
         comment = comment.substring(0,maxCommentLength-1) + "…";
       }
     }

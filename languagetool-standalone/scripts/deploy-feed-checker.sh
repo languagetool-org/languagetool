@@ -24,6 +24,7 @@ do
     echo "  jstop feedcheck-$LANG"
 done
 echo "Wait a bit until the processes are gone (see 'qstat')..."
+echo "  cd ~/feedchecker"
 for LANG in $LANGS;
 do
     echo "  ./check-$LANG.sh"

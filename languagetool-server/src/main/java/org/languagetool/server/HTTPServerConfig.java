@@ -18,6 +18,8 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.Language;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,6 +29,8 @@ import java.util.Properties;
  * @since 2.0
  */
 public class HTTPServerConfig {
+
+  enum Mode { LanguageTool, AfterTheDeadline }
 
   public static final String DEFAULT_HOST = "localhost";
 
@@ -39,6 +43,8 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected long maxCheckTimeMillis = -1;
+  protected Mode mode;
+  protected Language atdLanguage;
   protected File languageModelDir = null;
 
   public HTTPServerConfig() {
@@ -97,6 +103,10 @@ public class HTTPServerConfig {
           if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
             throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
           }
+        }
+        mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
+        if (mode == Mode.AfterTheDeadline) {
+          atdLanguage = Language.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
         }
       }
     } catch (IOException e) {
@@ -157,6 +167,19 @@ public class HTTPServerConfig {
     return languageModelDir;
   }
 
+  /** @since 2.7 */
+  Mode getMode() {
+    return mode;
+  }
+
+  /** @since 2.7 */
+  Language getAfterTheDeadlineLanguage() {
+    return atdLanguage;
+  }
+
+  /**
+   * @throws IllegalConfigurationException if property is not set 
+   */
   protected String getProperty(Properties props, String propertyName, File config) {
     final String propertyValue = (String)props.get(propertyName);
     if (propertyValue == null || propertyValue.trim().isEmpty()) {

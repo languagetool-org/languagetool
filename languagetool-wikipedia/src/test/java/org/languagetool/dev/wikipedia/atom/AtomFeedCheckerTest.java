@@ -18,10 +18,13 @@
  */
 package org.languagetool.dev.wikipedia.atom;
 
+import org.junit.Ignore;
 import org.junit.Test;
+import org.languagetool.language.English;
 import org.languagetool.language.German;
 import org.languagetool.tools.Tools;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -37,6 +40,24 @@ import static org.junit.Assert.assertThat;
 public class AtomFeedCheckerTest {
 
   private static final String DB_URL = "jdbc:derby:atomFeedChecksDB;create=true";
+
+  @Ignore("Interactive use only - for testing the 'recent changes' XML we get from the API")
+  @Test
+  public void testCheckManually() throws IOException {
+    AtomFeedChecker atomFeedChecker = new AtomFeedChecker(new English());
+    CheckResult checkResult = atomFeedChecker.checkChanges(new FileInputStream("/home/dnaber/wiki.xml"));
+    List<ChangeAnalysis> changeAnalysisList = checkResult.getCheckResults();
+    for (ChangeAnalysis changeAnalysis : changeAnalysisList) {
+      System.out.println(changeAnalysis.getTitle());
+      for (WikipediaRuleMatch match : changeAnalysis.getRemovedMatches()) {
+        System.out.println(" [-] " + match);
+      }
+      for (WikipediaRuleMatch match : changeAnalysis.getAddedMatches()) {
+        System.out.println(" [+] " + match);
+      }
+      System.out.println("----------------------");
+    }
+  }
 
   @Test
   public void testCheck() throws IOException {

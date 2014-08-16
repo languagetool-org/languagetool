@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule.DisambiguatorAction;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -32,6 +33,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +56,7 @@ public class DisambiguationRuleLoader extends DefaultHandler {
     final DisambiguationRuleHandler handler = new DisambiguationRuleHandler();
     final SAXParserFactory factory = SAXParserFactory.newInstance();
     final SAXParser saxParser = factory.newSAXParser();
+    Authenticator.setDefault(new PasswordAuthenticator());
     saxParser.parse(stream, handler);
     return handler.getDisambRules();
   }

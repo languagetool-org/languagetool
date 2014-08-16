@@ -93,7 +93,6 @@ public class HTTPSServerConfig extends HTTPServerConfig {
         keyStorePassword = getProperty(props, "password", config);
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
-        maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + config + "'", e);

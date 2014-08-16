@@ -281,9 +281,17 @@ public class PatternRuleTest extends TestCase {
       }
       
       if (!rule.isWithComplexPhrase()) {
-        assertTrue(lang + ": Did expect one error in: \"" + badSentence
-            + "\" (Rule: " + rule + "), but found " + matches.size()
-            + ". Additional info:" + rule.getMessage() + ", Matches: " + matches, matches.size() == 1);
+        if (matches.size() != 1) {
+          final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(badSentence);
+          final StringBuilder sb = new StringBuilder("Analyzed token readings:");
+          for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
+            sb.append(" ").append(atr.toString());
+          }
+          fail(lang + " rule " + rule.getId() + ":\n\"" + badSentence + "\"\n"
+                  + "Errors expected: 1\n"
+                  + "Errors found   : " + matches.size() + "\n"
+                  + "Message: " + rule.getMessage() + "\n" + sb.toString() + "\nMatches: " + matches);
+        }
         assertEquals(lang
                 + ": Incorrect match position markup (start) for rule " + rule + ", sentence: " + badSentence,
                 expectedMatchStart, matches.get(0).getFromPos());

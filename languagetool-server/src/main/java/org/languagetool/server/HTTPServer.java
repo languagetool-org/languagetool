@@ -99,6 +99,9 @@ public class HTTPServer extends Server {
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
+      if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
+        httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
+      }
       httpHandler.setLanguageModel(config.getLanguageModelDir());
       server.createContext("/", httpHandler);
       executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
@@ -123,6 +126,10 @@ public class HTTPServer extends Server {
       System.out.println("Usage: " + HTTPServer.class.getSimpleName() + " [--config propertyFile] [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file with values for:");
       printCommonConfigFileOptions();
+      System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
+      System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
+      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
+      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
       printCommonOptions();
       System.exit(1);
     }
