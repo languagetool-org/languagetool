@@ -28,10 +28,10 @@ USA
     <!-- சொற்களைச் சேர்த்தும் இடம்விட்டும் எழுதுதல் -->
     <!-- ====================================================================== -->
     <category name="இலக்கண அமைப்பில் சொற்கள்">
-    <rulegroup id="noun_noun" name="பெயர் + பெயர்">
+    <rulegroup id="noun_noun" name="ஓரெழுத்துப் பெயர் + பெயர்">
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
 			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1க்\2</suggestion></message>
@@ -42,7 +42,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
 			<token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1ச்\2</suggestion></message>
@@ -53,7 +53,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
 			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1த்\2</suggestion></message>
@@ -64,7 +64,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?</token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
 			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1ப்\2</suggestion></message>
@@ -114,13 +114,59 @@ USA
     <!-- சொற்களைச் சேர்த்தும் இடம்விட்டும் எழுதுதல் -->
     <!-- ====================================================================== -->
     <category name="தனிச் சொற்களை எழுதும் முறை">
+	<rulegroup id="idayil" name="பெயர் + இடையில்/இடையே">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வர்கள்|[உஎ]ங்கள்|[எந]ம்</token>
+			<token regexp='yes'>இடையில்|இடையே</token>
+		</pattern>
+		<message>'உடன்'/'ஓடு'/'நடுவில்' என்னும் பொருளில் 'இடையில்' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="மி" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இன்று அவர் <marker>நம் இடையில்</marker> இல்லை.</example>
+		<example type='correct'>இன்று அவர் <marker>நம்மிடையில்</marker> இல்லை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வர்கள்|[உஎ]ங்கள்</token>
+			<token regexp='yes'>இடையில்|இடையே</token>
+		</pattern>
+		<message>'உடன்'/'ஓடு'/'நடுவில்' என்னும் பொருளில் 'இடையில்' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நண்பர்களாக இருக்கும் <marker>உங்கள் இடையே</marker> காதலா?</example>
+		<example type='correct'>நண்பர்களாக இருக்கும் <marker>உங்களிடையே</marker> காதலா?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='NNSA|NNSU|NNSUM|NNSUF|NNSUP' postag_regexp='yes'></token>
+			<token regexp='yes'>இடையில்|இடையே</token>
+		</pattern>
+		<message>'உடன்'/'ஓடு'/'நடுவில்' என்னும் பொருளில் 'இடையில்' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஊர் <marker>மக்கள் இடையே</marker> ஒற்றுமை இல்லை.</example>
+		<example type='correct'>ஊர் <marker>மக்களிடையே</marker> ஒற்றுமை இல்லை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வர்களுக்கு|[அஇஎ]தற்கு|[அஇஎ]வற்றுக்கு|[உஎ]ங்களுக்கு</token>
+			<token regexp='yes'>இடையில்|இடையே</token>
+		</pattern>
+		<message>'உடன்'/'ஓடு'/'நடுவில்' என்னும் பொருளில் 'இடையில்' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இதற்கு இடையில்</marker> வேறு ஒரு சம்பவம் நடந்தது.</example>
+		<example type='correct'><marker>இதற்கிடையில்</marker> வேறு ஒரு சம்பவம் நடந்தது.</example>
+	  </rule>
+	</rulegroup>
 	<rulegroup id="irunthu" name="அங்கு/இடம்/இல் + இருந்து">
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஎஇ]ங்கு</token>
+			<token regexp='yes'>[அஇஎ]ங்கு</token>
 			<token>இருந்து</token>
 		</pattern>
-		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>அவன் <marker>அங்கு இருந்து</marker> வீட்டுக்கு விரைந்தான்.</example>
@@ -131,7 +177,7 @@ USA
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ில்|(([ஃ-ஹ][ா-்]?)*)[க-வ]ிடம்<exception postag='NN.*' postag_regexp='yes'></exception></token>
 			<token>இருந்து</token>
 		</pattern>
-		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>எனக்குக் <marker>காலையில் இருந்து</marker> வேலை.</example>
@@ -144,19 +190,19 @@ USA
 			<token>எங்கோ</token>
 			<token>இருந்து</token>
 		</pattern>
-		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்தெழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
+		<message>'நீக்கம்', 'தொடக்கம்' என்ற பொருளில் 'இருந்து' வந்தால் சேர்த்து எழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'><marker>எங்கோ இருந்து</marker> வந்த தலைமைகள்.</example>
 		<example type='correct'><marker>எங்கோவிருந்து</marker> வந்த தலைமைகள்.</example>
 	  </rule>
-	</rulegroup>
+	</rulegroup> 
 	  <rule id="illaamal" name="மட்டும் + இல்லாமல்">
 		<pattern>
 			<token>மட்டும்</token>
 			<token>இல்லாமல்</token>
 		</pattern>
-		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வரும்போது சேர்த்தெழுதவேண்டும்: <suggestion>மட்டுமில்லாமல்</suggestion></message>
+		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வரும்போது சேர்த்து எழுதவேண்டும்: <suggestion>மட்டுமில்லாமல்</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>இசை <marker>மட்டும் இல்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
@@ -167,19 +213,41 @@ USA
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
 			<token regexp='yes'>இல்லை(([ஃ-ஹ][ா-்]?)*)?</token>
 		</pattern>
-		<message>'செய்வது' போன்ற தொழிற்பெயர்பின் 'இல்லை' வரும்போது சேர்த்தெழுதுவது சிறப்பு: <suggestion><match no="1" regexp_match="து$" regexp_replace="தி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<message>'செய்வது' போன்ற தொழிற்பெயர்பின் 'இல்லை' வரும்போது சேர்த்து எழுதுவது சிறப்பு: <suggestion><match no="1" regexp_match="து$" regexp_replace="தி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>ஏன் உன் விழிகள் என்னைப் <marker>பார்ப்பது இல்லை</marker>?</example>
 		<example type='correct'>ஏன் உன் விழிகள் என்னைப் <marker>பார்ப்பதில்லை</marker>?</example>
+	  </rule>
+	  <rule id="uNdu" name="செய்வது + உண்டு">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
+			<token regexp='yes'>உண்ட[ாு]</token>
+		</pattern>
+		<message>'செய்வது' போன்ற தொழிற்பெயர்பின் 'இல்லை' வரும்போது சேர்த்து எழுதுவது சிறப்பு: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=52</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் இங்கு <marker>வருவது உண்டு</marker>.</example>
+		<example type='correct'>அவர் இங்கு <marker>வருவதுண்டு</marker>.</example>
+	  </rule>
+	  <rule id="uriya" name="பெயர் + 'கு' உருபு + உரிய">
+		<pattern>
+			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes' regexp='yes'></token>
+			<token>உரிய</token>
+		</pattern>
+		<message>'கு' உருபு ஏற்ற பெயர்களுடன் 'உரிய' சேர்த்து எழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="கு" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=52</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>பெண்களுக்கு உரிய</marker> மரியாதையைத் தா!</example>
+		<example type='correct'><marker>பெண்களுக்குரிய</marker> மரியாதையைத் தா!</example>
 	  </rule>
     </category>
     <!-- ====================================================================== -->
     <!-- ஒற்று மிகுதலும் மிகாமையும் -->
     <!-- ====================================================================== -->
     <category name="சந்தி">
-    <rulegroup id="Ends_in_A_1" name="முதல் சொல்லின் இறுதி எழுத்து அ (1)">
-	  <rule id="ENDS_A1_KA" name="இறுதி எழுத்து அ1_க">
+    <rulegroup id="Ends_in_A_1" name="அந்த/இந்த/எந்த + பெயர்">
+	  <rule>
 		<pattern>
 			<token regexp='yes'>அந்த|இந்த|எந்த</token>
 			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -190,7 +258,7 @@ USA
 		<example type='incorrect'>அவர் <marker>அந்த காலத்து</marker> மனிதர்.</example>
 		<example type='correct'>அவர் <marker>அந்தக் காலத்து</marker> மனிதர்.</example>
 	  </rule>
-	  <rule id="ENDS_A1_SA" name="இறுதி எழுத்து அ1_ச">
+	  <rule>
 		<pattern>
 			<token regexp='yes'>அந்த|இந்த|எந்த</token>
 			<token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -201,7 +269,7 @@ USA
 		<example type='incorrect'>அவர் <marker>அந்த சாலையைக்</marker> கடப்பதற்குப் பெரும்பாடு பட்டார்.</example>
 		<example type='correct'>அவர் <marker>அந்தச் சாலையைக்</marker> கடப்பதற்குப் பெரும்பாடு பட்டார்.</example>
 	  </rule>
-	  <rule id="ENDS_A1_TA" name="இறுதி எழுத்து அ1_த">
+	  <rule>
 		<pattern>
 			<token regexp='yes'>அந்த|இந்த|எந்த</token>
 			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -212,7 +280,7 @@ USA
 		<example type='incorrect'><marker>இந்த தேர்தலில்</marker> காங்கிரஸ் படுதோல்வி அடையும்.</example>
 		<example type='correct'><marker>இந்தத் தேர்தலில்</marker> காங்கிரஸ் படுதோல்வி அடையும்.</example>
 	  </rule>
-	  <rule id="ENDS_A1_PA" name="இறுதி எழுத்து அ1_ப">
+	  <rule>
 		<pattern>
 			<token regexp='yes'>அந்த|இந்த|எந்த</token>
 			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -225,7 +293,7 @@ USA
 	  </rule>
 	</rulegroup>
     <rulegroup id="Ends_in_A_2" name="முதல் சொல்லின் இறுதி எழுத்து அ (2)">
-        <rule id="ENDS_A2_KA" name="இறுதி எழுத்து அ2_க">
+        <rule>
             <pattern>
                 <token postag='VAN'><exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ா-்]</exception></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -236,7 +304,7 @@ USA
             <example type='incorrect'>அவர் ஒரு புதினத்தை என்னிடம் <marker>படிக்க கொடுத்தார்</marker>.</example>
             <example type='correct'>அவர் ஒரு புதினத்தை என்னிடம் <marker>படிக்கக் கொடுத்தார்</marker>.</example>
         </rule>
-        <rule id="ENDS_A2_SA" name="இறுதி எழுத்து அ2_ச">
+        <rule>
             <pattern>
                 <token postag='VAN'><exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ா-்]</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -247,7 +315,7 @@ USA
             <example type='incorrect'>அவர் அக்காரியத்தை உடனே <marker>செய்ய சொன்னார்</marker>.</example>
             <example type='correct'>அவர் அக்காரியத்தை உடனே <marker>செய்யச் சொன்னார்</marker>.</example>
         </rule>
-        <rule id="ENDS_A2_TA" name="இறுதி எழுத்து அ2_த">
+        <rule>
             <pattern>
                 <token postag='VAN'><exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ா-்]</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -258,7 +326,7 @@ USA
             <example type='incorrect'>அச்செய்தியைக் கேட்ட அவள் உடனே <marker>அழ தொடங்கினாள்</marker>.</example>
             <example type='correct'>அச்செய்தியைக் கேட்ட அவள் உடனே <marker>அழத் தொடங்கினாள்</marker>.</example>
         </rule>
-        <rule id="ENDS_A2_PA" name="இறுதி எழுத்து அ2_ப">
+        <rule>
             <pattern>
                 <token postag='VAN'><exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ா-்]</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -271,7 +339,7 @@ USA
         </rule>
     </rulegroup>
     <rulegroup id="Ends_in_A_3" name="முதல் சொல்லின் இறுதி எழுத்து அ (3)">
-        <rule id="ENDS_A3_KA" name="இறுதி எழுத்து அ3_க">
+        <rule>
             <pattern>
                 <token regexp='yes'>சரிவர|கூட|மிக|விட|போல|என</token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -282,7 +350,7 @@ USA
             <example type='incorrect'>நான் சொல்வதை அவர் <marker>சரிவர கேட்கத்</marker> தயாராக இல்லை.</example>
             <example type='correct'>நான் சொல்வதை அவர் <marker>சரிவரக் கேட்கத்</marker> தயாராக இல்லை.</example>
         </rule>
-        <rule id="ENDS_A3_SA" name="இறுதி எழுத்து அ3_ச">
+        <rule>
             <pattern>
                 <token regexp='yes'>சரிவர|கூட|மிக|விட|போல|என</token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -293,7 +361,7 @@ USA
             <example type='incorrect'>நான் கேட்ட கேள்விக்கு அவள் <marker>மிக சரியான</marker> பதிலை அளித்தாள்.</example>
             <example type='correct'>நான் கேட்ட கேள்விக்கு அவள் <marker>மிகச் சரியான</marker> பதிலை அளித்தாள்.</example>
         </rule>
-       <rule id="ENDS_A3_TA" name="இறுதி எழுத்து அ3_த">
+       <rule>
             <pattern>
                 <token regexp='yes'>சரிவர|கூட|மிக|விட|போல|என</token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -304,7 +372,7 @@ USA
             <example type='incorrect'>அங்கு காணப்படுவது <marker>போல தடித்த</marker> மண் சுவர்கள் இக்கோட்டையில் இல்லை.</example>
             <example type='correct'>அங்கு காணப்படுவது <marker>போலத் தடித்த</marker> மண் சுவர்கள் இக்கோட்டையில் இல்லை.</example>
         </rule>
-        <rule id="ENDS_A3_PA" name="இறுதி எழுத்து அ3_ப">
+        <rule>
             <pattern>
                 <token regexp='yes'>சரிவர|கூட|மிக|விட|போல|என</token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -316,8 +384,8 @@ USA
             <example type='correct'>அவனது சொந்த தாய் <marker>கூடப் பயந்து</marker> கொண்டு அவனைப் பார்க்க வருவதில்லை.</example>
         </rule>
     </rulegroup>
-	<rulegroup id="Ends_in_A_4" name="முதல் சொல்லின் இறுதி எழுத்து அ (4)">
-		<rule id="ENDS_A4_KA" name="இறுதி எழுத்து அ4_க">
+	<rulegroup id="Ends_in_A_4" name="ஆக + வினை">
+		<rule>
             <pattern>
                 <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)*)([கசடதபறணமனயரலவழள]ாக))</token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -328,7 +396,7 @@ USA
             <example type='incorrect'><marker>அவனாக கற்க</marker> முன்வந்தால்தான் ஆச்சு.</example>
             <example type='correct'><marker>அவனாகக் கற்க</marker> முன்வந்தால்தான் ஆச்சு.</example>
         </rule>
-        <rule id="ENDS_A4_SA" name="இறுதி எழுத்து அ4_ச">
+        <rule>
             <pattern>
                 <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)*)([கசடதபறணமனயரலவழள]ாக))</token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -339,7 +407,7 @@ USA
             <example type='incorrect'>அவர் <marker>காரமாக சமையலைச்</marker> செய்தார்.</example>
             <example type='correct'>அவர் <marker>காரமாகச் சமையலைச்</marker> செய்தார்.</example>
         </rule>
-       <rule id="ENDS_A4_TA" name="இறுதி எழுத்து அ4_த">
+       <rule>
             <pattern>
                 <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)*)([கசடதபறணமனயரலவழள]ாக))</token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -350,7 +418,7 @@ USA
             <example type='incorrect'><marker>தானாக தோன்ற</marker> நீ என்ன கடவுளா?</example>
             <example type='correct'><marker>தானாகத் தோன்ற</marker> நீ என்ன கடவுளா?</example>
         </rule>
-        <rule id="ENDS_A4_PA" name="இறுதி எழுத்து அ4_ப">
+        <rule>
             <pattern>
                 <token regexp='yes'>(ஆக|(([ஃ-ஹ][ா-்]?)*)([கசடதபறணமனயரலவழள]ாக))</token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -362,8 +430,8 @@ USA
             <example type='correct'>காரியத்தை <marker>அழகாகப் பேசி</marker> சாதிக்கச் சொன்னார்.</example>
         </rule> 
     </rulegroup>
-    <rulegroup id="Ends_in_A_5" name="முதல் சொல்லின் இறுதி எழுத்து அ (5)">
-	  <rule id="ENDS_A5_KA" name="இறுதி எழுத்து அ5_க">
+    <rulegroup id="Ends_in_A_5" name="சின்ன + பெயர்">
+	  <rule>
 		<pattern>
 			<token>சின்ன</token>
 			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -374,7 +442,7 @@ USA
 		<example type='incorrect'><marker>சின்ன குழந்தைக்கு</marker> என்ன உணவு கொடுக்கலாம்.</example>
 		<example type='correct'><marker>சின்னக் குழந்தைக்கு</marker> என்ன உணவு கொடுக்கலாம்.</example>
 	  </rule>
-	  <rule id="ENDS_A5_TA" name="இறுதி எழுத்து அ5_த">
+	  <rule>
 		<pattern>
 			<token>சின்ன</token>
 			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -385,7 +453,7 @@ USA
 		<example type='incorrect'>இங்கு ஒரு <marker>சின்ன திருத்தம்</marker> தேவை.</example>
 		<example type='correct'>இங்கு ஒரு <marker>சின்னத் திருத்தம்</marker> தேவை.</example>
 	  </rule>
-	 <rule id="ENDS_A5_PA" name="இறுதி எழுத்து அ5_ப">
+	 <rule>
 		<pattern>
 			<token>சின்ன</token>
 			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -411,10 +479,10 @@ USA
         </rule>
     </rulegroup>-->
 	
-    <rulegroup id="Ends_in_Aa_1" name="முதல் சொல்லின் இறுதி எழுத்து ஆ (1)">
-        <rule id="ENDS_Aa1_KA" name="இறுதி எழுத்து ஆ1_க">
+    <rulegroup id="Ends_in_Aa_1" name="எதிர்மறை பெயரெச்சம் + பெயர்">
+        <rule>
             <pattern>
-                <token postag='RPNN'></token>
+                <token postag='RPNN'><exception>அப்பா</exception></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -423,9 +491,9 @@ USA
             <example type='incorrect'>நடிகையின் <marker>நிறைவேறா கனவுகள்</marker> அவளை வாட்டின.</example>
             <example type='correct'>நடிகையின் <marker>நிறைவேறாக் கனவுகள்</marker> அவளை வாட்டின.</example>
         </rule>
-        <rule id="ENDS_Aa1_SA" name="இறுதி எழுத்து ஆ1_ச">
+        <rule>
             <pattern>
-                <token postag='RPNN'></token>
+                <token postag='RPNN'><exception>அப்பா</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -434,9 +502,9 @@ USA
             <example type='incorrect'>தன் மகனின் மேல் அவர் <marker>தீரா சினம்</marker> கொண்டிருந்தார்.</example>
             <example type='correct'>தன் மகனின் மேல் அவர் <marker>தீராச் சினம்</marker> கொண்டிருந்தார்.</example>
         </rule>
-        <rule id="ENDS_Aa1_TA" name="இறுதி எழுத்து ஆ1_த">
+        <rule>
             <pattern>
-                <token postag='RPNN'></token>
+                <token postag='RPNN'><exception>அப்பா</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -445,9 +513,9 @@ USA
             <example type='incorrect'>அவன் <marker>அஞ்சா தன்மையுடைய</marker> வீரன்.</example>
             <example type='correct'>அவன் <marker>அஞ்சாத் தன்மையுடைய</marker> வீரன்.</example>
         </rule>
-        <rule id="ENDS_Aa1_PA" name="இறுதி எழுத்து ஆ1_ப">
+        <rule>
             <pattern>
-                <token postag='RPNN'></token>
+                <token postag='RPNN'><exception>அப்பா</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -458,8 +526,8 @@ USA
         </rule>
     </rulegroup>
 	
-    <rulegroup id="Ends_in_I_1" name="முதல் சொல்லின் இறுதி எழுத்து இ (1)">
-        <rule id="ENDS_I1_KA" name="இறுதி எழுத்து இ1_க">
+    <rulegroup id="Ends_in_I_1" name="பற்றி + வினை">
+        <rule>
             <pattern>
                 <token regexp='yes'>(பற்றி|(([ஃ-ஹ][ா-்]?)*)பற்றி)</token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -470,7 +538,7 @@ USA
             <example type='incorrect'>அவனிடம் <marker>அந்நூல்பற்றி கேள்</marker>.</example>
             <example type='correct'>அவனிடம் <marker>அந்நூல்பற்றிக் கேள்</marker>.</example>
         </rule>
-        <rule id="ENDS_I1_SA" name="இறுதி எழுத்து இ1_ச">
+        <rule>
             <pattern>
                 <token regexp='yes'>பற்றி|(([ஃ-ஹ][ா-்]?)*)பற்றி</token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -481,7 +549,7 @@ USA
             <example type='incorrect'>உன்னைப் <marker>பற்றி சொல்</marker>.</example>
             <example type='correct'>உன்னைப் <marker>பற்றிச் சொல்</marker>.</example>
         </rule>
-        <rule id="ENDS_I1_TA" name="இறுதி எழுத்து இ1_த">
+        <rule>
             <pattern>
                 <token regexp='yes'>(பற்றி|(([ஃ-ஹ][ா-்]?)*)பற்றி)</token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -492,7 +560,7 @@ USA
             <example type='incorrect'>நாம் <marker>அந்நிகழ்வுபற்றி தேவையில்லாமல்</marker> கவலைப்படுவதைத் தவிர்த்தோம்.</example>
             <example type='correct'>நாம் <marker>அந்நிகழ்வுபற்றித் தேவையில்லாமல்</marker> கவலைப்படுவதைத் தவிர்த்தோம்.</example>
         </rule>
-        <rule id="ENDS_I1_PA" name="இறுதி எழுத்து இ1_ப">
+        <rule>
             <pattern>
                 <token regexp='yes'>(பற்றி|(([ஃ-ஹ][ா-்]?)*)பற்றி)</token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -504,8 +572,8 @@ USA
             <example type='correct'>அவர் உங்களைப் <marker>பற்றிப் பேசினார்</marker>.</example>
         </rule>
     </rulegroup>
-    <rulegroup id="Ends_in_I_2" name="முதல் சொல்லின் இறுதி எழுத்து இ (2)">
-        <rule id="ENDS_I2_KA" name="இறுதி எழுத்து இ2_க">
+    <rulegroup id="Ends_in_I_2" name="மாதிரி + பெயர்">
+        <rule>
             <pattern>
                 <token>மாதிரி</token>
 				<token inflected='yes' regexp='yes' postag='NN.*|SV|FV' postag_regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -516,7 +584,7 @@ USA
             <example type='incorrect'>இது ஒரு <marker>மாதிரி காகிதம்</marker>.</example>
             <example type='correct'>இது ஒரு <marker>மாதிரிக் காகிதம்</marker>.</example>
         </rule>
-        <rule id="ENDS_I2_SA" name="இறுதி எழுத்து இ2_ச">
+        <rule>
             <pattern>
                 <token>மாதிரி</token>
 				<token inflected='yes' regexp='yes' postag='NN.*|SV|FV' postag_regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -527,7 +595,7 @@ USA
             <example type='incorrect'>மாணவர்களின் <marker>மாதிரி சந்தை</marker>.</example>
             <example type='correct'>மாணவர்களின் <marker>மாதிரிச் சந்தை</marker>.</example>
         </rule>
-        <rule id="ENDS_I2_TA" name="இறுதி எழுத்து இ2_த">
+        <rule>
             <pattern>
                 <token>மாதிரி</token>
 				<token inflected='yes' regexp='yes' postag='NN.*|SV|FV' postag_regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -538,7 +606,7 @@ USA
             <example type='incorrect'>அந்த <marker>மாதிரி தாளை</marker> எடு.</example>
             <example type='correct'>அந்த <marker>மாதிரித் தாளை</marker> எடு.</example>
         </rule>
-        <rule id="ENDS_I2_PA" name="இறுதி எழுத்து இ2_ப">
+        <rule>
             <pattern>
                 <token>மாதிரி</token>
 				<token inflected='yes' regexp='yes' postag='NN.*|SV|FV' postag_regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -552,7 +620,7 @@ USA
     </rulegroup>
 	
    <rulegroup id="Ends_in_IU_1" name="முதல் சொல்லின் இறுதி எழுத்து இ அல்லது உ (1)">
-        <rule id="ENDS_IU1_KA" name="இறுதி எழுத்து இஉ1_க">
+        <rule>
             <pattern>
                 <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -563,7 +631,7 @@ USA
             <example type='incorrect'>முடிந்தவரை <marker>விட்டு கொடு</marker>.</example>
             <example type='correct'>முடிந்தவரை <marker>விட்டுக் கொடு</marker>.</example>
         </rule>
-        <rule id="ENDS_IU1_SA" name="இறுதி எழுத்து இஉ1_ச">
+        <rule>
             <pattern>
                 <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -574,7 +642,7 @@ USA
             <example type='incorrect'>நீ மறையும் முன் <marker>கேட்டு சொல்</marker> வெண்ணிலாவே.</example>
             <example type='correct'>நீ மறையும் முன் <marker>கேட்டுச் சொல்</marker> வெண்ணிலாவே.</example>
         </rule>
-        <rule id="ENDS_IU1_TA" name="இறுதி எழுத்து இஉ1_த">
+        <rule>
             <pattern>
                 <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
@@ -585,7 +653,7 @@ USA
             <example type='incorrect'>அந்நிறுவனம் பன்னாட்டு நாணயங்களை <marker>அச்சடித்து தருகிறது</marker>.</example>
             <example type='correct'>அந்நிறுவனம் பன்னாட்டு நாணயங்களை <marker>அச்சடித்துத் தருகிறது</marker>.</example>
         </rule>
-        <rule id="ENDS_IU1_PA" name="இறுதி எழுத்து இஉ1_ப">
+        <rule>
             <pattern>
                 <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
