@@ -31,7 +31,7 @@ USA
     <rulegroup id="noun_noun" name="ஓரெழுத்துப் பெயர் + பெயர்">
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ|ஷா|சா|சே</exception></token>
 			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1க்\2</suggestion></message>
@@ -42,7 +42,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ|ஷா|சா|சே</exception></token>
 			<token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1ச்\2</suggestion></message>
@@ -53,7 +53,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ|ஷா|சா|சே</exception></token>
 			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1த்\2</suggestion></message>
@@ -64,7 +64,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception>நீ|ஷா|சா|சே</exception></token>
 			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1ப்\2</suggestion></message>
@@ -79,7 +79,7 @@ USA
 			<token postag='NN.*' postag_regexp='yes'></token>
 			<token regexp='yes'>கீழ்|குறித்த|குறித்து|தவிர|பற்றி|பற்றிய|பின்|பேரில்|பொருட்டு|போல|போல்|மீதான|மீது|மூலம்|மேல்</token>
 		</pattern>
-		<message>வேற்றுமை உருபு இல்லா முதல் சொல்லின் பின் கீழ், பற்றி முதலியவற்றைச் சேர்த்து எழுதவேண்டும்: <suggestion>\1\2</suggestion></message>
+		<message>வேற்றுமை உருபு இல்லா சொல்பின் கீழ், பற்றி முதலியன சேர்ந்து வரும்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>நான் <marker>இது பற்றி</marker> உன்னிடம் நாளை பேசுகிறேன்.</example>
@@ -87,6 +87,108 @@ USA
 		<example type='incorrect'>இலங்கையிலுள்ள வங்கிக் <marker>கிளை மீது</marker> தாக்குதல்.</example>
 		<example type='correct'>இலங்கையிலுள்ள வங்கிக் <marker>கிளைமீது</marker> தாக்குதல்.</example>
 	  </rule>
+	<rulegroup id="noun_suffix_1A" name="பெயர் + ஐ + பற்றி/பற்றிய">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றி<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றி</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றி'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றி$" regexp_replace="ப்" /> பற்றி</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இவற்றைப்பற்றி</marker> யாராவது எழுதுங்களேன்!</example>
+		<example type='correct'><marker>இவற்றைப் பற்றி</marker> யாராவது எழுதுங்களேன்!</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றிக்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றிக்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றி'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றிக்$" regexp_replace="ப்" /> பற்றிக்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இவற்றைப்பற்றிக்</marker> கொஞ்சம் சொல்லுங்கள்!</example>
+		<example type='correct'><marker>இவற்றைப் பற்றிக்</marker> கொஞ்சம் சொல்லுங்கள்!</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றிச்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றிச்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றி'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றிச்$" regexp_replace="ப்" /> பற்றிச்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இவற்றைப்பற்றிச்</marker> சொல்லேன்!</example>
+		<example type='correct'><marker>இவற்றைப் பற்றிச்</marker> சொல்லேன்!</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றித்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றித்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றி'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றித்$" regexp_replace="ப்" /> பற்றித்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இவற்றைப்பற்றித்</marker> தயங்காமல் சொல்!</example>
+		<example type='correct'><marker>இவற்றைப் பற்றித்</marker> தயங்காமல் சொல்!</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றிப்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றிப்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றி'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றிப்$" regexp_replace="ப்" /> பற்றிப்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இவற்றைப்பற்றிப்</marker> பயமில்லாமல் எழுது!</example>
+		<example type='correct'><marker>இவற்றைப் பற்றிப்</marker> பயமில்லாமல் எழுது!</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றிய<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றிய</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றிய'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றிய$" regexp_replace="ப்" /> பற்றிய</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதைப்பற்றிய</marker> எழுத்துகள் உள்ளனவா?</example>
+		<example type='correct'><marker>அதைப் பற்றிய</marker> எழுத்துகள் உள்ளனவா?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றியக்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றியக்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றிய'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றியக்$" regexp_replace="ப்" /> பற்றியக்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதைப்பற்றியக்</marker> கட்டுரைகள் உள்ளனவா?</example>
+		<example type='correct'><marker>அதைப் பற்றியக்</marker> கட்டுரைகள் உள்ளனவா?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றியச்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றியச்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றிய'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றியச்$" regexp_replace="ப்" /> பற்றியச்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதைப்பற்றியச்</marker> செய்திகள் உள்ளனவா?</example>
+		<example type='correct'><marker>அதைப் பற்றியச்</marker> செய்திகள் உள்ளனவா?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றியத்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றியத்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றிய'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றியத்$" regexp_replace="ப்" /> பற்றியத்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதைப்பற்றியத்</marker> தலைப்புகள் உள்ளனவா?</example>
+		<example type='correct'><marker>அதைப் பற்றியத்</marker> தலைப்புகள் உள்ளனவா?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பற்றியப்<exception>[அஈஒக-வ][ாீூேைோ]?ப்பற்றியப்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பற்றிய'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பற்றியப்$" regexp_replace="ப்" /> பற்றியப்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதைப்பற்றியப்</marker> பக்கங்கள் உள்ளனவா?</example>
+		<example type='correct'><marker>அதைப் பற்றியப்</marker> பக்கங்கள் உள்ளனவா?</example>
+	  </rule>
+	</rulegroup>
 	<rulegroup id="noun_suffix_2" name="பெயர் + தோறும்">
 	  <rule>
 		<pattern>
