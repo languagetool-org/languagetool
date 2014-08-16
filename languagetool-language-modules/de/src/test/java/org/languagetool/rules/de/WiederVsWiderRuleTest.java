@@ -24,23 +24,20 @@ import org.languagetool.language.German;
 
 import java.io.IOException;
 
-/**
- * @author Daniel Naber
- */
 public class WiederVsWiderRuleTest extends TestCase {
 
   private final WiederVsWiderRule rule = new WiederVsWiderRule(null);
 
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German());
-    // correct sentences:
+
     assertGood("Das spiegelt wider, wie es wieder läuft.", lt);
     assertGood("Das spiegelt die Situation gut wider.", lt);
     assertGood("Das spiegelt die Situation.", lt);
     assertGood("Immer wieder spiegelt das die Situation.", lt);
     assertGood("Immer wieder spiegelt das die Situation wider.", lt);
     assertGood("Das spiegelt wieder wider, wie es läuft.", lt);
-    // errors:
+
     assertBad("Das spiegelt wieder, wie es wieder läuft.", lt);
     assertBad("Sie spiegeln das Wachstum der Stadt wieder.", lt);
     assertBad("Das spiegelt die Situation gut wieder.", lt);
