@@ -8117,17 +8117,30 @@ $Id$
             <example type="correct">El llibre abraça massa coses.</example>
             <example type="correct">Una avarca pintada de vermell.</example>
         </rule>
-        <rule id="SAGRAMENTAL" name="sagramental/sacramental">
-            <pattern>
-                <token postag="N.*" postag_regexp="yes"/>
-                <marker>
-                    <token inflected="yes">sagramental</token>
-                </marker>
-            </pattern>
-            <message>Si és adjectiu, cal dir <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">sacramental</match></suggestion>.</message>
-            <example type="incorrect" correction="sacramentals">En els llibres <marker>sagramentals</marker>.</example>
-            <example type="correct">En els llibres sacramentals</example>
-        </rule>
+        <rulegroup id="SAGRAMENTAL" name="sagramental/sacramental">
+            <rule>
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <marker>
+                        <token inflected="yes">sagramental</token>
+                    </marker>
+                </pattern>
+                <message>Si és adjectiu, cal dir <suggestion><match no="1" postag="N..(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">sacramental</match></suggestion>.</message>
+                <example type="incorrect" correction="sacramentals">En els llibres <marker>sagramentals</marker>.</example>
+                <example type="correct">En els llibres sacramentals</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">secret</token>
+                    <marker>
+                        <token inflected="yes">sagramental</token>
+                    </marker>
+                </pattern>
+                <message>Si és adjectiu, cal dir <suggestion><match no="2" postag="N..(.).*" postag_regexp="yes" postag_replace="AQ.C$1.">sacramental</match></suggestion>.</message>
+                <example type="incorrect" correction="sacramental">El secret <marker>sagramental</marker>.</example>
+                <example type="correct">En els llibres sacramentals</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BASSADA" name="bassada/basada">
             <rule>
                 <pattern>
@@ -10922,22 +10935,37 @@ $Id$
                 <example type="correct"><marker>A penes</marker> arriba.</example>
             </rule>
         </rulegroup>
-        <rule id="CON_COM" name="*con/com">
-            <pattern>
-            <token><exception>de</exception></token>
-                <marker>
-                    <token>con<exception postag="_GN_MS" /></token>
-                </marker>
-                <!-- <token regexp="yes">a|si</token> -->
-            </pattern>
-            <message>¿Volíeu dir <suggestion>com</suggestion> en comptes de "con" (= cos geomètric)?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect"><marker>con</marker> a resultat.</example>
-            <example type="incorrect"><marker>con</marker> si trobessin l’aigua.</example>
-            <example type="correct">Com a resultat.</example>
-            <example type="correct">El volum del con</example>
-            <example type="correct">en forma de con</example>
-        </rule>
+        <rulegroup id="CON_COM" name="*con/com">
+            <rule>
+                <pattern>
+                <token><exception>de</exception></token>
+                    <marker>
+                        <token>con<exception postag="_GN_MS" /></token>
+                    </marker>
+                    <!-- <token regexp="yes">a|si</token> -->
+                </pattern>
+                <message>¿Volíeu dir <suggestion>com</suggestion> en comptes de "con" (= cos geomètric)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect"><marker>con</marker> a resultat.</example>
+                <example type="incorrect"><marker>con</marker> si trobessin l’aigua.</example>
+                <example type="correct">Com a resultat.</example>
+                <example type="correct">El volum del con</example>
+                <example type="correct">en forma de con</example>
+            </rule>
+            <rule>
+                <pattern>
+                <token><exception>de</exception></token>
+                    <marker>
+                        <token>con</token>
+                    </marker>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>com</suggestion> en comptes de "con" (= cos geomètric)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect">Ferm <marker>con</marker> un sagrament.</example>
+                <example type="correct">en forma de con</example>
+            </rule>
+        </rulegroup>
         <rule id="TAL_CON_TAL_COM" name="tal con/tal com">
             <pattern>
                 <token>tal</token>
