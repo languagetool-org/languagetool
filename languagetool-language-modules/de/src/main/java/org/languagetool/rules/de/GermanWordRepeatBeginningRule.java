@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -28,7 +29,8 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
 /**
- * List of German adverbs ("Konjunktionaladverben") for WordRepeatBeginningRule
+ * Extends {@link WordRepeatBeginningRule} by a list of German adverbs ("Konjunktionaladverben")
+ * for a more precise error message.
  * 
  * @author Markus Brenneis
  */
@@ -45,21 +47,10 @@ public class GermanWordRepeatBeginningRule extends WordRepeatBeginningRule {
     return "GERMAN_WORD_REPEAT_BEGINNING_RULE";
   }
   
-  private static final Set<String> ADVERBS = new HashSet<>();
-  static {
-    ADVERBS.add("Auch");
-    ADVERBS.add("Anschließend");
-    ADVERBS.add("Außerdem");
-    ADVERBS.add("Danach");
-    ADVERBS.add("Darüberhinaus");
-    ADVERBS.add("Ferner");
-    ADVERBS.add("Nebenher");
-    ADVERBS.add("Nebenbei");
-    ADVERBS.add("Überdies");
-    ADVERBS.add("Weiterführend");
-    ADVERBS.add("Zudem");
-    ADVERBS.add("Zusätzlich");
-  }
+  private static final Set<String> ADVERBS = new HashSet<>(Arrays.asList(
+          "Auch", "Anschließend", "Außerdem", "Danach", "Darüberhinaus", "Ferner",
+          "Nebenher", "Nebenbei", "Überdies", "Weiterführend", "Zudem", "Zusätzlich"
+  ));
   
   @Override
   protected boolean isAdverb(final AnalyzedTokenReadings token) {
