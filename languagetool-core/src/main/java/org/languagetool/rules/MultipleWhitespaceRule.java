@@ -74,9 +74,11 @@ public class MultipleWhitespaceRule extends Rule {
           i++;
         }
         final String message = messages.getString("whitespace_repetition");
-        final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
-        ruleMatch.setSuggestedReplacement(" ");
-        ruleMatches.add(ruleMatch);
+        if (prevLen > 0) {
+          final RuleMatch ruleMatch = new RuleMatch(this, prevPos, pos + prevLen, message);
+          ruleMatch.setSuggestedReplacement(" ");
+          ruleMatches.add(ruleMatch);
+        }
       }
       if (i < tokens.length) {
         prevWhite = tokens[i].isWhitespace() || StringTools.isNonBreakingWhitespace(tokens[i].getToken());
