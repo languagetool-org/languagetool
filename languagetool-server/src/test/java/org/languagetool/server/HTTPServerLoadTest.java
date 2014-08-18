@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -38,18 +39,21 @@ public class HTTPServerLoadTest extends HTTPServerTest {
   private static final int REPEAT_COUNT = 1;
   private static final int THREAD_COUNT = 2;
 
+  private final AtomicInteger runningTests = new AtomicInteger();
+
   @Test
   @Override
   public void testHTTPServer() throws Exception {
     final long startTime = System.currentTimeMillis();
-    final HTTPServer server = new HTTPServer();
+    HTTPServerConfig config = new HTTPServerConfig(HTTPServerConfig.DEFAULT_PORT, true);
+    final HTTPServer server = new HTTPServer(config);
     assertFalse(server.isRunning());
     try {
       server.run();
       assertTrue(server.isRunning());
-      final ExecutorService executorService = Executors.newFixedThreadPool(THREAD_COUNT);
+      final ExecutorService executorService = Executors.newFixedThreadPool(getThreadCount());
       final List<Future> futures = new ArrayList<>();
-      for (int i = 0; i < THREAD_COUNT; i++) {
+      for (int i = 0; i < getThreadCount(); i++) {
         final Future<?> future = executorService.submit(new TestRunnable());
         futures.add(future);
       }
@@ -60,8 +64,16 @@ public class HTTPServerLoadTest extends HTTPServerTest {
       server.stop();
       assertFalse(server.isRunning());
       final long runtime = System.currentTimeMillis() - startTime;
-      System.out.println("Running with " + THREAD_COUNT + " threads in " + runtime + "ms");
+      System.out.println("Running with " + getThreadCount() + " threads in " + runtime + "ms");
     }
+  }
+
+  protected int getThreadCount() {
+    return THREAD_COUNT;
+  }
+
+  protected int getRepeatCount() {
+    return REPEAT_COUNT;
   }
 
   @Override
@@ -72,12 +84,16 @@ public class HTTPServerLoadTest extends HTTPServerTest {
   private class TestRunnable implements Runnable {
     @Override
     public void run() {
-      try {
-        for (int i = 0; i < REPEAT_COUNT; i++) {
+      for (int i = 0; i < getRepeatCount(); i++) {
+        runningTests.incrementAndGet();
+        try {
           runTests();
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        } finally {
+          int count = runningTests.decrementAndGet();
+          System.out.println("Tests currently running " + count);
         }
-      } catch (Exception e) {
-        throw new RuntimeException(e);
       }
     }
   }
