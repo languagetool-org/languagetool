@@ -25,17 +25,7 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.de.AgreementRule;
-import org.languagetool.rules.de.CaseRule;
-import org.languagetool.rules.de.CompoundRule;
-import org.languagetool.rules.de.DashRule;
-import org.languagetool.rules.de.GermanDoublePunctuationRule;
-import org.languagetool.rules.de.GermanWordRepeatBeginningRule;
-import org.languagetool.rules.de.GermanWordRepeatRule;
-import org.languagetool.rules.de.GermanWrongWordInContextRule;
-import org.languagetool.rules.de.VerbAgreementRule;
-import org.languagetool.rules.de.WiederVsWiderRule;
-import org.languagetool.rules.de.WordCoherencyRule;
+import org.languagetool.rules.de.*;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -149,6 +139,7 @@ public class German extends Language {
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             // specific to German:
+            new MissingVerbRule(messages),
             new GermanWordRepeatRule(messages, this),
             new GermanWordRepeatBeginningRule(messages, this),
             new GermanWrongWordInContextRule(messages),
