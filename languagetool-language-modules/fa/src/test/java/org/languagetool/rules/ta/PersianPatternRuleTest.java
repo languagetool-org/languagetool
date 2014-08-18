@@ -22,7 +22,7 @@ import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;
 
-public class FarsiPatternRuleTest extends PatternRuleTest {
+public class PersianPatternRuleTest extends PatternRuleTest {
   
   public void testRules() throws IOException {
     runGrammarRulesFromXmlTest();

@@ -27,10 +27,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class Farsi extends Language {
+public class Persian extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
-  private String name = "Farsi";
+  private String name = "Persian";
 
   @Override
   public String getName() {
