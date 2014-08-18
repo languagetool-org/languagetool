@@ -116,7 +116,7 @@ $Id$
         <rulegroup name="Узгодженість числа іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC">
             <rule>
                 <pattern>
-                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/]</exception></token>
+                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/]</exception></token>
                     <marker>
 <!--
                         <token postag_regexp="yes" postag="noun:m:.*">
@@ -141,6 +141,7 @@ $Id$
                 <example type="correct">двадцять три вулики</example>
                 <example type="correct">двадцять три дні</example>
                 <example type="correct">три чверті</example>
+                <example type="correct">співвласника ДБК-3 Петра Шелюка</example>
                 <example type="correct">1/2 шилінга</example>
                 <example type="correct">після поразки 0:2 Базилевича</example>
                 <!-- TODO
@@ -229,11 +230,7 @@ $Id$
                     <token postag="impers"/>
                     <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*">
-                      <exception postag_regexp="yes" postag="noun.*v_oru$"/>
-                      <exception inflected="yes">тією мірою</exception>
-                      <!--
-                    <token min="0" max="1"><exception>мірою</exception></token>
-                      -->
+                      <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;adv&gt;"/>
                     </token>
                     <!-- TODO: особа-діяч може бути не лише :ist
                     <token postag_regexp="yes" postag="(noun|pron).*v_oru.*"/>

@@ -1839,11 +1839,12 @@ $Id$
          <pattern>
               <token inflected="yes">понести</token>
               <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
-              <token regexp="yes">збитки|втрати</token>
+              <token regexp="yes">збитки|збитків|втрати|втрат</token>
          </pattern>
          <message>Правильно: <suggestion>зазнавати збитків</suggestion>, <suggestion>зазнавати втрат</suggestion>, <suggestion>мати збитки</suggestion>, <suggestion>мати втрати</suggestion>, <suggestion>утратити</suggestion></message>
          <example type="incorrect">Вони <marker>понесли значні втрати</marker></example>
          <example type="incorrect">Вони <marker>понесли збитки</marker></example>
+         <example type="incorrect">Вони <marker>понесли втрат</marker></example>
          <example type="correct">Вони зазнали втрат</example>
        </rule>
 
@@ -1996,6 +1997,31 @@ $Id$
          <example type="correct">він стояв на роздоріжжі</example>
        </rule>
 -->
+
+        <rule>
+         <pattern>
+           <marker>
+              <token inflected="yes" regexp="yes">зажити|заживати|заживання</token>
+           </marker>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
+              <token inflected="yes" regexp="yes">рана|шов|шво</token>
+         </pattern>
+         <message>Правильно: <suggestion>гоїтися</suggestion>, <suggestion>загоюватися</suggestion>, <suggestion>затягуватися</suggestion>, <suggestion>загоєння</suggestion></message>
+         <example type="incorrect"><marker>заживали</marker> його рани довго</example>
+         <example type="correct">загоювалися його рани довго</example>
+       </rule>
+        <rule>
+         <pattern>
+              <token inflected="yes" regexp="yes">рана|шов|шво</token>
+              <token postag_regexp="yes" postag="(adv|pron).*" min="0" max="1"/>
+           <marker>
+              <token inflected="yes" regexp="yes">зажити|заживати</token>
+           </marker>
+         </pattern>
+         <message>Правильно: <suggestion>гоїтися</suggestion>, <suggestion>загоюватися</suggestion>, <suggestion>затягуватися</suggestion></message>
+         <example type="incorrect">його рани довго <marker>заживали</marker></example>
+         <example type="correct">його рани довго загоювалися</example>
+       </rule>
     </rulegroup>
 
 
@@ -2187,6 +2213,33 @@ $Id$
            <example type="correct">як викапаний</example>
        </rule>   
 
+       <rule>   
+           <pattern>
+             <marker>
+               <token inflected="yes">економічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">двигун|технологія</token>
+               <token min="0" postag_regexp="yes" postag="(adj|pron).*"/>
+               <token postag_regexp="yes" postag="noun.*"><exception regexp="yes">країни|ціноутворення</exception></token>
+           </pattern>
+           <message>Правильно: <suggestion>економний</suggestion></message>
+           <example type="correct">економічну політику</example>
+           <example type="correct">став економічним двигуном ціноутворення</example>
+           <example type="correct">став економічним двигуном великого ціноутворення</example>
+           <example type="correct">став економічним двигуном всієї країни</example>
+       </rule>   
+       <rule>   
+           <pattern>
+             <marker>
+               <token inflected="yes">економічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">двигун|технологія</token>
+           </pattern>
+           <message>Правильно: <suggestion>економний</suggestion></message>
+           <example type="incorrect">поставили <marker>економічний</marker> двигун</example>
+           <example type="correct">поставили економний двигун</example>
+       </rule>   
+
   </rulegroup>
 
   <rulegroup id="NETOCHNE_VZHYV_SLIV" name="Неточне вживання слів">
@@ -2297,7 +2350,6 @@ $Id$
            <example type="incorrect">поїзд <marker>битком набився</marker></example>
            <example type="correct">поїзд напхом напхано</example>
        </rule>   
-
     </rulegroup>
 
     <rulegroup id="KONTROL_ZA_NAD" name="Контроль за/над">
