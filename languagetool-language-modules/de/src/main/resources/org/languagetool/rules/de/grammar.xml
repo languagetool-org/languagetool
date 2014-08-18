@@ -23130,6 +23130,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Im <marker>allgemeinen</marker> und umgangssprachlichen Sprachgebrauch ist das anders.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DES_UEBLICHEN" name="Groß-/Kleinschreibung: 'des üblichen (Üblichen)'">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">des|vom</token>
+                    <marker>
+                        <token regexp="yes">üblichen</token>
+                    </marker>
+                    <token>
+                        <exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
+                        <exception regexp="yes">,|oder|und</exception>
+                        <exception postag_regexp="yes" postag="ADJ:.*"/>
+                    </token>
+                </pattern>
+                <message>&subanfang;<suggestion>Üblichen</suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="Üblichen">Im Rahmen des <marker>üblichen</marker>.</example>
+                <example type="correct">Im Rahmen des <marker>Üblichen</marker>.</example>
+                <example type="correct">Im Rahmen des <marker>üblichen</marker> Verfahrens.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">des|vom</token>
+                    <marker>
+                        <token regexp="yes">Üblichen</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+                <short>&prgk;.</short>
+                <example type="incorrect" correction="üblichen">Im Rahmen des <marker>Üblichen</marker> Verfahrens.</example>
+                <example type="correct">Im Rahmen des <marker>üblichen</marker> Verfahrens.</example>
+                <example type="correct">Im Rahmen des <marker>Üblichen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LEID_TUN" name="Groß-/Kleinschreibung: 'tut mir Leid (leid)'">
             <rule>
                 <pattern case_sensitive="yes">
