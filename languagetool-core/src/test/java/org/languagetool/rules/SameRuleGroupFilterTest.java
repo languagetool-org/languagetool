@@ -75,7 +75,7 @@ public class SameRuleGroupFilterTest extends TestCase {
     assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(19, 21)));
     assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(11, 19)));
     assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(1, 10)));
-    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(20, 20)));
+    assertTrue(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(19, 20)));
 
     assertFalse(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(21, 30)));
     assertFalse(filter.overlaps(makeRuleMatch(10, 20), makeRuleMatch(1, 9)));
