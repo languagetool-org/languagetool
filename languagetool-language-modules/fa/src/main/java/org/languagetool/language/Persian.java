@@ -20,11 +20,13 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.fa.SimpleReplaceRule;
 import org.languagetool.tokenizers.PersianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -81,14 +83,15 @@ public class Persian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
-    return Arrays.asList(
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
+    return Arrays.<Rule>asList(
         //new CommaWhitespaceRule(messages),
         //new UppercaseSentenceStartRule(messages, this),
         //new DoublePunctuationRule(messages),
         //new MultipleWhitespaceRule(messages, this),
         //new LongSentenceRule(messages),
-        //new SentenceWhitespaceRule(messages)
+        //new SentenceWhitespaceRule(messages),
+        new SimpleReplaceRule(messages)
     );
   }
 
