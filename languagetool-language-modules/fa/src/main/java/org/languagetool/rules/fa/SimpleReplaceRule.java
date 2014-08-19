@@ -38,10 +38,10 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public SimpleReplaceRule(ResourceBundle messages) throws IOException {
     super(messages);
-    super.setCategory(new Category("Possible Typo"));  // TODO: translate
+    super.setCategory(new Category("‫اشتباه تایپی محتمل‬"));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    addExamplePair(Example.wrong("We <marker>havent</marker> earned anything."),    // TODO: translate
-                   Example.fixed("We <marker>haven't</marker> earned anything."));  // TODO: translate
+    addExamplePair(Example.wrong("وی <marker>حاظر</marker> به همکاری شد."),
+                   Example.fixed("وی <marker>حاضر</marker> به همکاری شد."));
   }
 
   @Override
@@ -56,18 +56,18 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   @Override
   public String getDescription() {
-    return "Possible spelling mistake";  // TODO: translate
+    return "اشتباه محتمل املائی";
   }
 
   @Override
   public String getShort() {
-    return "Possible spelling mistake";  // TODO: translate
+    return "اشتباه محتمل املائی";
   }
 
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "Possible spelling mistake found: "
-            + StringUtils.join(replacements, ", ") + ".";
+    return "اشتباه محتمل املائی پیداشده: "
+            + StringUtils.join(replacements, "، ") + ".";
   }
 
   @Override
