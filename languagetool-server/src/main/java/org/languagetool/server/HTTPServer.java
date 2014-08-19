@@ -25,8 +25,7 @@ import org.languagetool.gui.Tools;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
 
@@ -95,7 +94,8 @@ public class HTTPServer extends Server {
     try {
       InetSocketAddress address = host != null ? new InetSocketAddress(host, port) : new InetSocketAddress(port);
       server = HttpServer.create(address, 0);
-      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null);
+      final LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, null, workQueue);
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
@@ -103,7 +103,7 @@ public class HTTPServer extends Server {
         httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
       }
       server.createContext("/", httpHandler);
-      executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+      executorService = getExecutorService(workQueue);
       server.setExecutor(executorService);
     } catch (Exception e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();

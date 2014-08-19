@@ -52,6 +52,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final boolean verbose;
   private final boolean internalServer;
   private final RequestLimiter requestLimiter;
+  private final LinkedBlockingQueue<Runnable> workQueue;
   private final ExecutorService executorService;
 
   private long maxCheckTimeMillis = -1;
@@ -68,11 +69,12 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @param allowedIps set of IPs that may connect or <tt>null</tt> to allow any IP
    * @param requestLimiter may be null
    */
-  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter) {
+  LanguageToolHttpHandler(boolean verbose, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, LinkedBlockingQueue<Runnable> workQueue) {
     this.verbose = verbose;
     this.allowedIps = allowedIps;
     this.internalServer = internal;
     this.requestLimiter = requestLimiter;
+    this.workQueue = workQueue;
     this.executorService = Executors.newCachedThreadPool();
   }
 
@@ -294,7 +296,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       messageSent = "notSent: " + exception.getMessage();
     }
     print("Check done: " + text.length() + " chars, " + languageMessage + ", " + referrer + ", "
-            + "handlers:" + handleCount + ", " + matches.size() + " matches, " + (System.currentTimeMillis() - timeStart) + "ms"
+            + "handlers:" + handleCount + ", queue:" + workQueue.size() + ", " + matches.size() + " matches, "
+            + (System.currentTimeMillis() - timeStart) + "ms"
             + ", " + messageSent);
   }
 
