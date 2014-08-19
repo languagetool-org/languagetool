@@ -201,9 +201,8 @@ public abstract class Rule {
   /**
    * Deletes (or disables) previously matched rule.
    * @param index Index of the rule that should be deleted.
-   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
    */
-  public final void setAsDeleted(final int index) {
+  final void setAsDeleted(final int index) {
     if (removedMatches == null) {
       removedMatches = new ArrayList<>();
     }
@@ -221,10 +220,7 @@ public abstract class Rule {
     return previousMatches.size() > index && previousMatches.get(index) != null;
   }
 
-  /**
-   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
-   */
-  public final void clearMatches() {
+  final void clearMatches() {
     if (previousMatches != null) {
       previousMatches.clear();
     }
@@ -233,10 +229,7 @@ public abstract class Rule {
     }
   }
 
-  /**
-   * @deprecated will probably be made non-public in future releases (deprecated since 2.6)
-   */
-  public final int getMatchesIndex() {
+  final int getMatchesIndex() {
     if (previousMatches == null) {
       return 0;
     }

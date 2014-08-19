@@ -151,19 +151,6 @@ public class Tools {
   }
 
   /**
-   * Returns the UI element string with mnemonics encoded in OpenOffice.org
-   * convention (using {@code ~}).
-   *
-   * @param label Label to convert
-   * @return String UI element with {@code ~} replacing {@code &}.
-   * @deprecated deprecated since 2.6 (was not used)
-   */
-  @Deprecated
-  public static String getOOoLabel(final String label) {
-    return label.replaceAll("&([^&])", "~$1").replaceAll("&&", "&");
-  }
-
-  /**
    * Returns mnemonic of a UI element.
    *
    * @param label String Label of the UI element

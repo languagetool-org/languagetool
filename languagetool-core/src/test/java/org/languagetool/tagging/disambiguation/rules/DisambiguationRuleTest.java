@@ -35,11 +35,8 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.XMLValidator;
-import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.patterns.PatternTestTools;
-import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
-import org.languagetool.tagging.disambiguation.xx.TrimDisambiguator;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
@@ -62,8 +59,7 @@ public class DisambiguationRuleTest extends TestCase {
       System.out.println("Running disambiguation tests for " + lang.getName() + "...");
       final DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
       final JLanguageTool languageTool = new JLanguageTool(lang);
-      if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)
-          && !(languageTool.getLanguage().getDisambiguator() instanceof TrimDisambiguator)) {
+      if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
         final String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortName()
             + "/disambiguation.xml";
         validateRuleFile(name);

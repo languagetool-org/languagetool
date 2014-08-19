@@ -86,16 +86,6 @@ public class RuleMatchApplication {
     return errorMarker;
   }
   
-  /** @deprecated use {@link #getErrorMarker()} instead (deprecated since 2.6) */
-  public String getErrorMarkerStart() {
-    return errorMarker.getStartMarker();
-  }
-
-  /** @deprecated use {@link #getErrorMarker()} instead (deprecated since 2.6) */
-  public String getErrorMarkerEnd() {
-    return errorMarker.getEndMarker();
-  }
-
   public boolean hasRealReplacement() {
     return hasRealReplacement;
   }

@@ -43,18 +43,6 @@ public class AnalyzedGermanToken extends AnalyzedToken {
     init();
   }
 
-  /** @deprecated use {@link #AnalyzedGermanToken(AnalyzedToken)} instead (deprecated since 2.6) */
-  public AnalyzedGermanToken(String token, String posTag) {
-    super(token, posTag, null);
-    init();
-  }
-
-  /** @deprecated use {@link #AnalyzedGermanToken(AnalyzedToken)} instead (deprecated since 2.6) */
-  public AnalyzedGermanToken(String token, String posTag, String lemma) {
-    super(token, posTag, lemma);
-    init();
-  }
-  
   private void init() {
     if (getPOSTag() == null) {
       return;
