@@ -69,6 +69,7 @@ public class Persian extends Language {
   public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList(
         //new CommaWhitespaceRule(messages),
+        //new UppercaseSentenceStartRule(messages, this),
         //new DoublePunctuationRule(messages),
         //new MultipleWhitespaceRule(messages, this),
         //new LongSentenceRule(messages),
