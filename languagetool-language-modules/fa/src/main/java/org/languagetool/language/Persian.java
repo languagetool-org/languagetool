@@ -83,12 +83,11 @@ public class Persian extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) {
     return Arrays.asList(
-        //new CommaWhitespaceRule(messages),
-        //new UppercaseSentenceStartRule(messages, this),
-        //new DoublePunctuationRule(messages),
-        //new MultipleWhitespaceRule(messages, this),
-        //new LongSentenceRule(messages),
-        //new SentenceWhitespaceRule(messages)
+        new CommaWhitespaceRule(messages),
+        new DoublePunctuationRule(messages),
+        new MultipleWhitespaceRule(messages, this),
+        new LongSentenceRule(messages),
+        new SentenceWhitespaceRule(messages)
     );
   }
 
