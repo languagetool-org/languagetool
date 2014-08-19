@@ -17549,15 +17549,15 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token>a</token>
+                        <token regexp="yes">a|de</token>
                         <token>mitjan</token>
                         <token regexp='yes'>de|d'</token>
                     </marker>
                     <token><exception postag='D.*' postag_regexp='yes'/></token>
                     </pattern>
                 <message>Expressió incorrecta</message>
-                <suggestion>a mitjan</suggestion>
-                <suggestion>a mitjans \3</suggestion>
+                <suggestion>\1 mitjan</suggestion>
+                <suggestion>\1 mitjans \3</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type='incorrect' correction="A mitjan|A mitjans de"><marker>A mitjan de</marker> segle V</example>
                 <example type='incorrect' correction="A mitjan|A mitjans d'"><marker>A mitjan d'</marker>abril</example>
@@ -17567,14 +17567,14 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token>a</token>
+                        <token regexp="yes">a|de</token>
                         <token>mitjan</token>
                         <token regexp='yes'>de|d'</token>
                     </marker>
                     <token postag='D.*' postag_regexp='yes'/>
                     </pattern>
                 <message>Expressió incorrecta.</message>
-                <suggestion>a mitjans \3</suggestion>
+                <suggestion>\1 mitjans \3</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type='incorrect' correction="A mitjans de"><marker>A mitjan de</marker> la dècada</example>
                 <example type='correct'>A mitjan segle V</example>
