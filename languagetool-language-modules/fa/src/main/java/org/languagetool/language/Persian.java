@@ -84,13 +84,11 @@ public class Persian extends Language {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    return Arrays.<Rule>asList(
-        //new CommaWhitespaceRule(messages),
-        //new UppercaseSentenceStartRule(messages, this),
-        //new DoublePunctuationRule(messages),
-        //new MultipleWhitespaceRule(messages, this),
-        //new LongSentenceRule(messages),
-        //new SentenceWhitespaceRule(messages),
+    return Arrays.asList(
+        new CommaWhitespaceRule(messages),
+        new DoublePunctuationRule(messages),
+        new MultipleWhitespaceRule(messages, this),
+        new LongSentenceRule(messages),
         new SimpleReplaceRule(messages)
     );
   }
