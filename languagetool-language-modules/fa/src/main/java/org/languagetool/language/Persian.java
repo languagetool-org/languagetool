@@ -20,16 +20,23 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.tokenizers.PersianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Support for Persian.
+ * @since 2.7
+ */
 public class Persian extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
+  private WordTokenizer wordTokenizer;
   private String name = "Persian";
 
   @Override
@@ -58,6 +65,14 @@ public class Persian extends Language {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
     return sentenceTokenizer;
+  }
+
+  @Override
+  public final WordTokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new PersianWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
