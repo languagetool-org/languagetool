@@ -17637,6 +17637,19 @@ $Id$
                 <example type="correct">Fins a mitjans del segle.</example>
             </rule>
         </rulegroup>
+        <rule id="MITJAN_EL" name="a mitjan *el segle">
+            <pattern>
+                <marker>
+                    <token>mitjan</token>
+                    <token postag="D[ADI].*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>"Mitjan" ha d'anar seguit d'un nom, no d'un determinant.</message>
+            <suggestion>mitjan</suggestion>
+            <short>Sobra el determinant.</short>
+            <example type="incorrect" correction="mitjan">Va ser a <marker>mitjan el</marker> segle XX.</example>
+            <example type="correct">Va ser a mitjan segle XX.</example>
+        </rule>
         <rulegroup id="DONARSE_A_LA_FUGA" name="donar-se a la fuga">
             <rule>
                 <pattern>
