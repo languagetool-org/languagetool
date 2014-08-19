@@ -416,6 +416,73 @@ USA
 		<example type='incorrect'><marker>பெண்களுக்கு உரிய</marker> மரியாதையைத் தா!</example>
 		<example type='correct'><marker>பெண்களுக்குரிய</marker> மரியாதையைத் தா!</example>
 	  </rule>
+	<rulegroup id="uLLa" name="பெயர் + உள்ள">
+	  <rule>
+		<pattern>
+			<token postag='NN.*' postag_regexp='yes' regexp='yes'>.*ா$</token>
+			<token>உள்ள</token>
+		</pattern>
+		<message>'ஒன்றனது/ஒருவரது' என வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1வுள்ள</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>புறா உள்ள</marker> வீடு.</example>
+		<example type='correct'><marker>புறாவுள்ள</marker> வீடு.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='NN.*' postag_regexp='yes' regexp='yes'>.*[ிை]$</token>
+			<token>உள்ள</token>
+		</pattern>
+		<message>'ஒன்றனது/ஒருவரது' என வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1யுள்ள</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>கை உள்ள</marker> பொம்மை.</example>
+		<example type='correct'><marker>கையுள்ள</marker> பொம்மை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='NN.*' postag_regexp='yes' regexp='yes'>.*ு$<exception postag='FV|.*-F' postag_regexp='yes'></exception></token>
+			<token>உள்ள</token>
+		</pattern>
+		<message>'ஒன்றனது/ஒருவரது' என வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1ள்ள</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வீடு உள்ள</marker> பரப்பு.</example>
+		<example type='correct'><marker>வீடுள்ள</marker> பரப்பு.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='NN.*' postag_regexp='yes' regexp='yes'>.*்$</token>
+			<token>உள்ள</token>
+		</pattern>
+		<message>'ஒன்றனது/ஒருவரது' என வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="" />ுள்ள</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>மனம் உள்ள</marker> மலர்.</example>
+		<example type='correct'><marker>மனமுள்ள</marker> மலர்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='FV|.*-F|' postag_regexp='yes'></token>
+			<token>உள்ள</token>
+		</pattern>
+		<message>'ஒன்றனது/ஒருவரது' என வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1ள்ள</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>உனக்கு உள்ள</marker> தைரியம் பாராட்டுக்குரியது.</example>
+		<example type='correct'><marker>உனக்குள்ள</marker> தைரியம் பாராட்டுக்குரியது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ிலுள்ள</token>
+		</pattern>
+		<message>'இருக்கிற' என்ற பொருளில் வரும்போது இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="லுள்ள$" regexp_replace="ல்" /> உள்ள</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>உலகிலுள்ள</marker> விலங்குகளில் பூச்சிகளின் எண்ணிக்கையே மிக அதிகம்.</example>
+		<example type='correct'><marker>உலகில் உள்ள</marker> விலங்குகளில் பூச்சிகளின் எண்ணிக்கையே மிக அதிகம்.</example>
+	  </rule>
+	</rulegroup>
 	<rulegroup id="ena" name="என இடைச்சொல்">
 	  <rule>
 		<pattern>
