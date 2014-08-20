@@ -24,25 +24,33 @@ import org.languagetool.language.German;
 
 import java.io.IOException;
 
-/**
- * @author Daniel Naber
- */
 public class WiederVsWiderRuleTest extends TestCase {
 
+  private final WiederVsWiderRule rule = new WiederVsWiderRule(null);
+
   public void testRule() throws IOException {
-    WiederVsWiderRule rule = new WiederVsWiderRule(null);
-    JLanguageTool langTool = new JLanguageTool(new German());
-    // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt wider, wie es wieder läuft.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation gut wider.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Immer wieder spiegelt das die Situation.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Immer wieder spiegelt das die Situation wider.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Das spiegelt wieder wider, wie es läuft.")).length);
-    // errors:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das spiegelt wieder, wie es wieder läuft.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Das spiegelt die Situation gut wieder.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Immer wieder spiegelt das die Situation wieder.")).length);
+    JLanguageTool lt = new JLanguageTool(new German());
+
+    assertGood("Das spiegelt wider, wie es wieder läuft.", lt);
+    assertGood("Das spiegelt die Situation gut wider.", lt);
+    assertGood("Das spiegelt die Situation.", lt);
+    assertGood("Immer wieder spiegelt das die Situation.", lt);
+    assertGood("Immer wieder spiegelt das die Situation wider.", lt);
+    assertGood("Das spiegelt wieder wider, wie es läuft.", lt);
+
+    assertBad("Das spiegelt wieder, wie es wieder läuft.", lt);
+    assertBad("Sie spiegeln das Wachstum der Stadt wieder.", lt);
+    assertBad("Das spiegelt die Situation gut wieder.", lt);
+    assertBad("Immer wieder spiegelt das die Situation wieder.", lt);
+    assertBad("Immer wieder spiegelte das die Situation wieder.", lt);
   }
-    
+
+  private void assertGood(String text, JLanguageTool langTool) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
+  private void assertBad(String text, JLanguageTool langTool) throws IOException {
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
 }

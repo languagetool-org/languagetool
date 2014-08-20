@@ -43,6 +43,7 @@ public class HTTPServerConfig {
   protected String allowOriginUrl = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected long maxCheckTimeMillis = -1;
+  protected int maxCheckThreads = 10;
   protected Mode mode;
   protected Language atdLanguage;
   protected File languageModelDir = null;
@@ -103,6 +104,10 @@ public class HTTPServerConfig {
           if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
             throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
           }
+        }
+        maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
+        if (maxCheckThreads < 1) {
+          throw new IllegalArgumentException("Invalid value for maxCheckThreads: " + maxCheckThreads);
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
@@ -175,6 +180,20 @@ public class HTTPServerConfig {
   /** @since 2.7 */
   Language getAfterTheDeadlineLanguage() {
     return atdLanguage;
+  }
+
+  /**
+   * @param maxCheckThreads The maximum number of threads serving requests running at the same time.
+   * If there are more requests, they will be queued until a thread can work on them.
+   * @since 2.7
+   */
+  void setMaxCheckThreads(int maxCheckThreads) {
+    this.maxCheckThreads = maxCheckThreads;
+  }
+
+  /** @since 2.7 */
+  int getMaxCheckThreads() {
+    return maxCheckThreads;
   }
 
   /**

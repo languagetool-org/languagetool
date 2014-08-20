@@ -38,7 +38,7 @@ import org.languagetool.rules.RuleMatch;
 /**
  * A rule that matches words for which two different spellings are used
  * throughout the document. Currently only implemented for German. Loads
- * the relevant word from <code>rules/de/coherency.txt</code>.
+ * the relevant words from <code>rules/de/coherency.txt</code>.
  * 
  * <p>Note that this should not be used for language variations like
  * American English vs. British English or German "alte Rechtschreibung"
@@ -76,34 +76,32 @@ public class WordCoherencyRule extends GermanRule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final AnalyzedTokenReadings[] tokens = sentence.getTokens();
+    final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     int pos = 0;
     for (AnalyzedTokenReadings tmpToken : tokens) {
       String token = tmpToken.getToken();
-      if (!tmpToken.isWhitespace()) {
-        final String origToken = token;
-        final List<AnalyzedToken> readings = tmpToken.getReadings();
-        // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
-        if (readings != null && readings.size() > 0) {
-          final String baseform = readings.get(0).getLemma();
-          if (baseform != null) {
-            token = baseform;
-          }
+      final String origToken = token;
+      final List<AnalyzedToken> readings = tmpToken.getReadings();
+      // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
+      if (readings != null && readings.size() > 0) {
+        final String baseform = readings.get(0).getLemma();
+        if (baseform != null) {
+          token = baseform;
         }
-        if (shouldNotAppearWord.containsKey(token)) {
-          final RuleMatch otherMatch = shouldNotAppearWord.get(token);
-          final String otherSpelling = otherMatch.getMessage();
-          final String msg = "'" + token + "' und '" + otherSpelling +
-                  "' sollten nicht gleichzeitig benutzt werden";
-          final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + origToken.length(), msg);
-          ruleMatch.setSuggestedReplacement(otherSpelling);
-          ruleMatches.add(ruleMatch);
-        } else if (relevantWords.containsKey(token)) {
-          final String shouldNotAppear = relevantWords.get(token);
-          // only used to display this spelling variation if the other one really occurs:
-          final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + origToken.length(), token);
-          shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
-        }
+      }
+      if (shouldNotAppearWord.containsKey(token)) {
+        final RuleMatch otherMatch = shouldNotAppearWord.get(token);
+        final String otherSpelling = otherMatch.getMessage();
+        final String msg = "'" + token + "' und '" + otherSpelling +
+                "' sollten nicht gleichzeitig benutzt werden";
+        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + origToken.length(), msg);
+        ruleMatch.setSuggestedReplacement(otherSpelling);
+        ruleMatches.add(ruleMatch);
+      } else if (relevantWords.containsKey(token)) {
+        final String shouldNotAppear = relevantWords.get(token);
+        // only used to display this spelling variation if the other one really occurs:
+        final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + origToken.length(), token);
+        shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
       }
       pos += tmpToken.getToken().length();
     }

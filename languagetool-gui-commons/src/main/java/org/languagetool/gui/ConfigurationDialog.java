@@ -18,23 +18,10 @@
  */
 package org.languagetool.gui;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.TreeMap;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Rule;
+
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -44,9 +31,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Rule;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.*;
+import java.util.List;
 
 /**
  * Dialog that offers the available rules so they can be turned on/off
@@ -72,15 +60,6 @@ public class ConfigurationDialog implements ActionListener {
   private JTextField serverPortField;
   private JTree configTree;
   private JCheckBox serverSettingsCheckbox;
-
-  @Deprecated  // deprecated since 2.6
-  public ConfigurationDialog(Frame owner, boolean insideOffice) {
-    this.owner = owner;
-    this.insideOffice = insideOffice;
-    this.original = null;
-    this.config = new Configuration();
-    messages = JLanguageTool.getMessageBundle();
-  }
 
   public ConfigurationDialog(Frame owner, boolean insideOffice, Configuration config) {
     this.owner = owner;
@@ -507,46 +486,6 @@ public class ConfigurationDialog implements ActionListener {
     }
   }
 
-  @Deprecated  // deprecated since 2.6
-  public void setDisabledRules(Set<String> ruleIDs) {
-    config.setDisabledRuleIds(ruleIDs);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public Set<String> getDisabledRuleIds() {
-    return config.getDisabledRuleIds();
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public void setEnabledRules(Set<String> ruleIDs) {
-    config.setEnabledRuleIds(ruleIDs);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public Set<String> getEnabledRuleIds() {
-    return config.getEnabledRuleIds();
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public void setDisabledCategories(Set<String> categoryNames) {
-    config.setDisabledCategoryNames(categoryNames);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public Set<String> getDisabledCategoryNames() {
-    return config.getDisabledCategoryNames();
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public void setMotherTongue(Language motherTongue) {
-    config.setMotherTongue(motherTongue);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public Language getMotherTongue() {
-    return config.getMotherTongue();
-  }
-  
   /**
    * Get the Language object for the given localized language name.
    * 
@@ -562,36 +501,6 @@ public class ConfigurationDialog implements ActionListener {
       }
     }
     return null;
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public void setRunServer(boolean serverMode) {
-    config.setRunServer(serverMode);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public void setUseGUIConfig(boolean useGUIConfig) {
-    config.setUseGUIConfig(useGUIConfig);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public boolean getUseGUIConfig() {
-    return config.getUseGUIConfig();
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public boolean getRunServer() {
-    return config.getRunServer();
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public void setServerPort(int serverPort) {
-    config.setServerPort(serverPort);
-  }
-
-  @Deprecated  // deprecated since 2.6
-  public int getServerPort() {
-    return config.getServerPort();
   }
 
   static class CategoryComparator implements Comparator<Rule> {

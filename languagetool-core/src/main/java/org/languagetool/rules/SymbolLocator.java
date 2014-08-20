@@ -24,7 +24,6 @@ package org.languagetool.rules;
  * symbols indexed with integers.
  * 
  * @author Marcin Miłkowski
- * @deprecated deprecated since 2.6 (will be kept, but made non-public in the future)
  */
 public class SymbolLocator {
 

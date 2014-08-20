@@ -53,13 +53,6 @@ public class SuggestionReplacer {
   }
 
   /**
-   * @deprecated use {@link #SuggestionReplacer(PlainTextMapping, String, ErrorMarker)} instead (deprecated since 2.6)
-   */
-  public SuggestionReplacer(PlainTextMapping textMapping, String originalText, String errorMarkerStart, String errorMarkerEnd) {
-    this(textMapping, originalText, new ErrorMarker(errorMarkerStart, errorMarkerEnd));
-  }
-
-  /**
    * Applies the suggestions from the rule to the original text. For rules that
    * have no suggestion, a pseudo-correction is generated that contains the same
    * text as before.

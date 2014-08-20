@@ -79,7 +79,7 @@ public class RuleWithMaxFilterTest extends TestCase {
     assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(11, 21)));
     assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(11, 19)));
     assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(1, 10)));
-    assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(20, 20)));
+    assertTrue(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(19, 20)));
 
     assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(21, 30)));
     assertFalse(filter.includes(makeRuleMatch(10, 20), makeRuleMatch(1, 9)));

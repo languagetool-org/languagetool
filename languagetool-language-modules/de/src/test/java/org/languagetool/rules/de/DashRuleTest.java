@@ -24,30 +24,36 @@ import org.languagetool.language.German;
 
 import java.io.IOException;
 
-/**
- * @author Daniel Naber
- */
 public class DashRuleTest extends TestCase {
 
+  private final DashRule rule = new DashRule(null);
+
   public void testRule() throws IOException {
-    DashRule rule = new DashRule(null);
-    JLanguageTool langTool = new JLanguageTool(new German());
+    JLanguageTool lt = new JLanguageTool(new German());
 
     // correct sentences:
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten-Erhöhung kam dann doch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diätenerhöhung kam dann doch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten-Erhöhungs-Manie kam dann doch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten- und Gehaltserhöhung kam dann doch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten- sowie Gehaltserhöhung kam dann doch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Die große Diäten- oder Gehaltserhöhung kam dann doch.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Erst so - Karl-Heinz dann blah.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Erst so -- Karl-Heinz aber...")).length);
+    assertGood("Die große Diäten-Erhöhung kam dann doch.", lt);
+    assertGood("Die große Diätenerhöhung kam dann doch.", lt);
+    assertGood("Die große Diäten-Erhöhungs-Manie kam dann doch.", lt);
+    assertGood("Die große Diäten- und Gehaltserhöhung kam dann doch.", lt);
+    assertGood("Die große Diäten- sowie Gehaltserhöhung kam dann doch.", lt);
+    assertGood("Die große Diäten- oder Gehaltserhöhung kam dann doch.", lt);
+    assertGood("Erst so - Karl-Heinz dann blah.", lt);
+    assertGood("Erst so -- Karl-Heinz aber...", lt);
     
     // incorrect sentences:
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die große Diäten- Erhöhung kam dann doch.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die große Diäten-  Erhöhung kam dann doch.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die große Diäten-Erhöhungs- Manie kam dann doch.")).length);
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Die große Diäten- Erhöhungs-Manie kam dann doch.")).length);
+    assertBad("Die große Diäten- Erhöhung kam dann doch.", lt);
+    assertBad("Die große Diäten-  Erhöhung kam dann doch.", lt);
+    assertBad("Die große Diäten-Erhöhungs- Manie kam dann doch.", lt);
+    assertBad("Die große Diäten- Erhöhungs-Manie kam dann doch.", lt);
   }
-  
+
+  private void assertGood(String text, JLanguageTool langTool) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
+  private void assertBad(String text, JLanguageTool langTool) throws IOException {
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
 }

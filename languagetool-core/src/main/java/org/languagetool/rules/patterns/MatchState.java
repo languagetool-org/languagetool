@@ -117,7 +117,7 @@ public class MatchState {
         /* only replace if it is something to replace */
         token = regexMatch.matcher(token).replaceAll(regexReplace);
       }
-      token = convertCase(token, token);
+      token = convertCase(token, token, null);
 
       String posTag = match.getPosTag();
       if (posTag != null) {
@@ -178,7 +178,7 @@ public class MatchState {
    * @param sample the sample string used to determine how the original string looks like (used on case preservation)
    * @return Converted string.
    */
-  private String convertCase(final String s, String sample) {
+  String convertCase(final String s, String sample, Language lang) {
     if (StringTools.isEmpty(s)) {
       return s;
     }
@@ -191,7 +191,7 @@ public class MatchState {
         if (StringTools.isAllUppercase(sample)) {
           token = token.toUpperCase(Locale.ENGLISH);
         } else {
-          token = StringTools.uppercaseFirstChar(token);
+          token = StringTools.uppercaseFirstChar(token, lang);
         }
       }
       break;
@@ -199,7 +199,7 @@ public class MatchState {
       token = token.substring(0, 1).toLowerCase() + token.substring(1);
       break;
     case STARTUPPER:
-      token = token.substring(0, 1).toUpperCase(Locale.ENGLISH) + token.substring(1);
+      token = StringTools.uppercaseFirstChar(token, lang);
       break;
     case ALLUPPER:
       token = token.toUpperCase(Locale.ENGLISH);
@@ -317,7 +317,7 @@ public class MatchState {
       original = formattedToken != null ? formattedToken.getToken() : "";
     }
     for (int i = 0; i < formattedString.length; i++) {
-      formattedString[i] = convertCase(formattedString[i], original);
+      formattedString[i] = convertCase(formattedString[i], original, lang);
     }
     // TODO should case conversion happen before or after including skipped tokens?
     IncludeRange includeSkipped = match.getIncludeSkipped();

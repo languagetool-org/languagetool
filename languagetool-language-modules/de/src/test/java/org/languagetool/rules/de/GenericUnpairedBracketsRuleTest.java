@@ -20,7 +20,6 @@ package org.languagetool.rules.de;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
@@ -34,7 +33,9 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
   private JLanguageTool langTool;
   
   public void testGermanRule() throws IOException {
-    setUpRule(new German());
+    German language = new German();
+    rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
+    langTool = new JLanguageTool(language);
     // correct sentences:
     assertMatches("(Das sind die Sätze, die sie testen sollen).", 0);
     assertMatches("(Das sind die «Sätze», die sie testen sollen).", 0);
@@ -46,11 +47,6 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     assertMatches("Die „Sätze zum Testen.", 1);
     assertMatches("Die «Sätze zum Testen.", 1);
     assertMatches("Die »Sätze zum Testen.", 1);
-  }
-
-  private void setUpRule(Language language) throws IOException {
-    rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
-    langTool = new JLanguageTool(language);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

@@ -24,6 +24,9 @@ import org.languagetool.JLanguageTool;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
@@ -103,6 +106,14 @@ abstract class Server {
     System.out.println("  --allow-origin ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
     System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
     System.out.println("                         example: --allow-origin \"*\"");
+  }
+
+  protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
+    int threadPoolSize = config.getMaxCheckThreads();
+    System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
+    return new ThreadPoolExecutor(threadPoolSize, threadPoolSize,
+            0L, TimeUnit.MILLISECONDS,
+            workQueue);
   }
 
 }

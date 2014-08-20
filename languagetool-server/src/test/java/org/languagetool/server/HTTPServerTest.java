@@ -232,7 +232,7 @@ public class HTTPServerTest {
     return check(lang, null, text);
   }
 
-  private String check(Language lang, Language motherTongue, String text) throws IOException {
+  protected String check(Language lang, Language motherTongue, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
@@ -265,7 +265,7 @@ public class HTTPServerTest {
   /**
    * Same as {@link #check(Language, String)} but using HTTP POST method instead of GET
    */
-  private String checkByPOST(Language lang, String text) throws IOException {
+  protected String checkByPOST(Language lang, String text) throws IOException {
     final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
     final URL url = new URL("http://localhost:" + DEFAULT_PORT);
     return HTTPTools.checkAtUrlByPost(url, postData);

@@ -22,40 +22,37 @@ import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.WordRepeatRule;
 
 import java.io.IOException;
 
 public class WordRepeatRuleTest extends TestCase {
 
+  private final German german = new German();
+  private final WordRepeatRule rule = new GermanWordRepeatRule(TestTools.getEnglishMessages(), german);
+
   public void testRuleGerman() throws IOException {
-    final German german = new German();
-    final WordRepeatRule rule = new GermanWordRepeatRule(TestTools.getEnglishMessages(), german);
-    RuleMatch[] matches;
-    final JLanguageTool langTool = new JLanguageTool(german);
-    // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Das sind die Sätze, die die testen sollen."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Sätze, die die testen."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Das Haus, auf das das Mädchen zeigt."));
-    assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Warum fragen Sie sie nicht selbst?"));
-    assertEquals(0, matches.length);
-    // incorrect sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Die die Sätze zum testen."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Und die die Sätze zum testen."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Auf der der Fensterbank steht eine Blume."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Das Buch, in in dem es steht."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Das Haus, auf auf das Mädchen zurennen."));
-    assertEquals(1, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("Sie sie gehen nach Hause."));
-    assertEquals(1, matches.length);
+    JLanguageTool lt = new JLanguageTool(german);
+
+    assertGood("Das sind die Sätze, die die testen sollen.", lt);
+    assertGood("Sätze, die die testen.", lt);
+    assertGood("Das Haus, auf das das Mädchen zeigt.", lt);
+    assertGood("Warum fragen Sie sie nicht selbst?", lt);
+
+    assertBad("Die die Sätze zum testen.", lt);
+    assertBad("Und die die Sätze zum testen.", lt);
+    assertBad("Auf der der Fensterbank steht eine Blume.", lt);
+    assertBad("Das Buch, in in dem es steht.", lt);
+    assertBad("Das Haus, auf auf das Mädchen zurennen.", lt);
+    assertBad("Sie sie gehen nach Hause.", lt);
   }
-  
+
+  private void assertGood(String text, JLanguageTool langTool) throws IOException {
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
+  private void assertBad(String text, JLanguageTool langTool) throws IOException {
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
 }

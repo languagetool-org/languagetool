@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 
-public class SRXSentenceTokenizerTest extends TestCase {
+public class EnglishSRXSentenceTokenizerTest extends TestCase {
 
   // accept \n as paragraph:
   private final SentenceTokenizer stokenizer = new SRXSentenceTokenizer(new English());

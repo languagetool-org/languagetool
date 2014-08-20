@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker 
- * Copyright (C) 2007 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,21 +16,25 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool.tokenizers;
 
-/**
- * @deprecated use {@link BrazilianPortuguese} instead (deprecated since 2.6)
- */
-public class PortugueseBrazil extends Portuguese {
+import org.junit.Test;
+import org.languagetool.TestTools;
+import org.languagetool.language.Persian;
 
-  @Override
-  public String getName() {
-    return "Portuguese (Brazil)";
+public class PersianSRXSentenceTokenizerTest {
+
+  private final SRXSentenceTokenizer stokenizer = new SRXSentenceTokenizer(new Persian());
+  
+  @Test
+  public void test() {
+    // NOTE: sentences here need to end with a space character so they
+    // have correct whitespace when appended:
+    testSplit("a sentence. ", "the next sentence");  // TODO: put Persian here
   }
 
-  @Override
-  public String[] getCountries() {
-    return new String[]{"BR"};
+  private void testSplit(String... sentences) {
+    TestTools.testSplit(sentences, stokenizer);
   }
 
 }

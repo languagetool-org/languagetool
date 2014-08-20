@@ -3366,7 +3366,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.[GN].*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.P.*" postag_regexp="yes"></token>
+                <token postag="V.P.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="filter" postag="VA.*"></disambig>
         </rule>
@@ -3376,7 +3376,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token><exception>hi</exception></token>
                 <token inflected="yes">haver</token>
                 <marker>
-                    <token postag="V.P.*" postag_regexp="yes"></token>
+                    <token postag="V.P.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.P.*"></disambig>
@@ -3407,7 +3407,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <!-- <exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[CNDAS].*|complement" postag_regexp="yes" negate_pos="yes"/> -->
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.[GN].*|VA[^P].*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.P.*" postag_regexp="yes"></token>
+                <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception></token>
             </pattern>
             <disambig action="add"><wd pos="_GV_" lemma="haver"></wd></disambig>
         </rule>
@@ -3416,7 +3416,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token inflected="yes" skip="6">haver<exception scope="next" postag="V.G.*|VA[^P].*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes">haver</exception></token>
+                <token postag="V.P.*" postag_regexp="yes"><exception inflected="yes">haver</exception><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception></token>
             </pattern>
             <disambig action="add"><wd pos="_perfet" lemma="haver"></wd></disambig>
         </rule>
@@ -3424,7 +3424,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token inflected="yes" skip="6">haver<exception scope="next" postag="V.G.*" postag_regexp="yes"/><exception scope="next" regexp="yes">de|d'</exception></token>
                 <marker>
-                    <token postag="V.P.*" postag_regexp="yes"></token>
+                    <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" inflected="yes" regexp="yes">ser|estar|continuar|seguir|matenir|romandre</exception></token>
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="_GV_"></wd></disambig>

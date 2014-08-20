@@ -189,6 +189,21 @@ public final class StringTools {
   }
 
   /**
+   * Like {@link #uppercaseFirstChar(String)}, but handles a special case for Dutch (IJ in 
+   * e.g. "ijsselmeer" -> "IJsselmeer").
+   * @param language the language, will be ignored if it's {@code null}
+   * @since 2.7
+   */
+  public static String uppercaseFirstChar(final String str, Language language) {
+    if (language != null && "nl".equals(language.getShortName()) && str != null && str.toLowerCase().startsWith("ij")) {
+      // hack to fix https://github.com/languagetool-org/languagetool/issues/148
+      return "IJ" + str.substring(2);
+    } else {
+      return changeFirstCharCase(str, true);
+    }
+  }
+
+  /**
    * Return <code>str</code> modified so that its first character is now an
    * lowercase character. If <code>str</code> starts with non-alphabetic
    * characters, such as quotes or parentheses, the first character is 

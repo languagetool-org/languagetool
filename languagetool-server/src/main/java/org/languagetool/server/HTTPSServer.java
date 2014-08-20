@@ -35,8 +35,7 @@ import java.net.InetSocketAddress;
 import java.security.KeyStore;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
 
@@ -70,7 +69,8 @@ public class HTTPSServer extends Server {
       final HttpsConfigurator configurator = getConfigurator(sslContext);
       ((HttpsServer)server).setHttpsConfigurator(configurator);
       final RequestLimiter limiter = getRequestLimiterOrNull(config);
-      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter);
+      final LinkedBlockingQueue<Runnable> workQueue = new LinkedBlockingQueue<>();
+      httpHandler = new LanguageToolHttpHandler(config.isVerbose(), allowedIps, runInternally, limiter, workQueue);
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
@@ -79,7 +79,7 @@ public class HTTPSServer extends Server {
         httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
       }
       server.createContext("/", httpHandler);
-      executorService = Executors.newFixedThreadPool(THREAD_POOL_SIZE);
+      executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
     } catch (BindException e) {
       final ResourceBundle messages = JLanguageTool.getMessageBundle();

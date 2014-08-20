@@ -65,7 +65,7 @@ public class WordTokenizer implements Tokenizer {
   @Override
   public List<String> tokenize(final String text) {
     final List<String> l = new ArrayList<>();
-    final StringTokenizer st = new StringTokenizer(text, TOKENIZING_CHARACTERS, true);
+    final StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
     while (st.hasMoreElements()) {
       l.add(st.nextToken());
     }

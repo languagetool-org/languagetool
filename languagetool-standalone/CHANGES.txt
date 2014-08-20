@@ -14,28 +14,33 @@ LanguageTool Change Log
      usually have a better suggestion. For example, 'thinked' suggests 'thought',
      'womans' suggests 'women'.
 
+-Persian:
+    -added initial support for Persian (Farsi)
+
 -French:
     -added a synthesizer - the agreement rule can now make suggestions
      for some errors.
     -added/improved several rules
 
--Spanish
-    -Added new POS category Z
-    -Spelled numbers can be now detected and managed both in disambiguation and rules.
-    -Improved LO/OO menus translation
-
 -German:
     -Fixed a rare NullPointerException and an ArrayIndexOutOfBoundsException
     -Fixed several false alarms
+    -New rule that checks for sentences without a verb (turned off by default due to
+     the risk of false alarms)
     
 -Portuguese:
     -added/improved several rules
     -added many dozens of compound words
 
--Russian
+-Russian:
     -added new rules    
     -fix sf feature request #38
      
+-Spanish:
+    -Added new POS category Z (for spelled numbers, e.g. 'uno', 'dos', ...)
+    -Spelled numbers can now be detected and managed both in disambiguation and rules.
+    -Improved LO/OO menus translation
+
 -Tamil:
     -Added initial support for Tamil. If the font for Tamil is not properly
      displayed on your computer and you're using Windows, you might need
@@ -43,17 +48,22 @@ LanguageTool Change Log
      https://bugs.openjdk.java.net/browse/JDK-8008572
 
 -API:
+    -Removed several classes and methods that had been deprecated since version 2.6
     -The signature of Language.getRelevantRules() has changed.
     -WhitespaceRule has been renamed to MultipleWhitespaceRule (WhitespaceRule
      still exists but has been deprecated)
     -Deprecated some methods whose visibility will be decreased (e.g. from public
      to protected)
-    -Command line: enabling and disabling specific rules at the same time is now allowed.
+    -MorfologikSpellerRule.getRuleMatch(String, int) has been renamed to
+     MorfologikSpellerRule.getRuleMatches(String, int)
+    -The RuleMatch constructor now throws an exception if toPosition is not
+     larger than fromPosition
+
+-Command line:
+    -Enabling and disabling specific rules at the same time is now allowed.
      In order to test only some rules (disabling all the rest), which previously was done
      with "--enable LIST_OF_RULES", now use "--enabledonly --enable LIST_OF_RULES" 
      (or "-eo -e LIST_OF_RULES").
-    -MorfologikSpellerRule.getRuleMatch(String, int) has been renamed to
-     MorfologikSpellerRule.getRuleMatches(String, int)
 
 -Embedded server:
     -Two new options can be set in the properties file to make LanguageTool
@@ -62,6 +72,8 @@ LanguageTool Change Log
      * mode - 'LanguageTool' or 'AfterTheDeadline'
      * afterTheDeadlineLanguage - code of default language if mode is set to 'AfterTheDeadline'
      NOTE: the 'AfterTheDeadline' mode should be considered experimental for now.
+    -The new option 'maxCheckThreads' allows setting the maximum number of threads working
+     on requests in parallel. The default is 10, as it used to be.
 
 -Internals:
     -The compound rule now ignores tokens that have been immunized in the disambiguation.xml

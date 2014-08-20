@@ -713,7 +713,7 @@ public class JLanguageTool {
       final AnalyzedTokenReadings[] atr = analyzedText
           .getTokensWithoutWhitespace();
       for (final AnalyzedTokenReadings reading : atr) {
-        if (reading.getReadings().toString().contains("null]")) {
+        if (!reading.isTagged()) {
           unknownWords.add(reading.getToken());
         }
       }

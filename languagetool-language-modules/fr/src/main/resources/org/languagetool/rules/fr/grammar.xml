@@ -941,7 +941,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <marker><token regexp="yes">peu[tx]<exception scope="previous">se</exception></token></marker>
+          <marker><token regexp="yes">peu[tx]<exception scope="previous" regexp="yes">se|on|il|elle</exception></token></marker>
           <token regexp="yes">de?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
@@ -950,6 +950,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Peut</marker> d’amis.</example>
         <example type="correct"><marker>Peu</marker> d’amis.</example>
         <example type="correct">Je veux m’éloigner autant que faire se peut d’ici.</example>
+        <example type="correct">On peut d’ailleurs le vérifier.</example>
       </rule>
     </rulegroup>
     <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
@@ -2022,11 +2023,13 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>irruption</suggestion> ?</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2079</url>
         <example type="incorrect">Le voleur fit <marker>éruption</marker> pendant la nuit.</example>
         <example type="correct">Le voleur fit irruption pendant la nuit.</example>
       </rule>
     </rulegroup>
     <rulegroup id="IRRUPTION" name="irruption (éruption)">
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2079</url>
       <rule>
         <pattern>
           <marker>
@@ -2058,6 +2061,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">actuelle|présente|économique|politique|électorale|militaire|mondiale|européenne|française|syndicale|difficile|délicate|favorable</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>conjoncture</suggestion> ?</message>
+      <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2028</url>
       <example type="incorrect">Dans la <marker>conjecture</marker> économique actuelle, les Français dépensent moins.</example>
       <example type="correct">Dans la <marker>conjoncture</marker> économique actuelle, les Français dépensent moins.</example>
     </rule>
@@ -2070,6 +2074,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">fièvre|toux|folie|colère|convulsions?</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>accès</suggestion> ?</message>
+      <url>http://parler-francais.eklablog.com/acces-exces-a4150570</url>
       <example type="incorrect">Il ne sait pas dominer ses <marker>excès</marker> de colère.</example>
       <example type="correct">Il ne sait pas dominer ses <marker>accès</marker> de colère.</example>
     </rule>
@@ -5596,6 +5601,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L’<marker>Inde indépendante</marker>.</example>
         <example type="correct">Voir la déclaration sur l’<marker>honneur ci-jointe</marker>.</example>
         <example type="correct">Une mise à jour gratuite.</example>
+        <example type="correct">Une mise à niveau couteuse.</example>
         <!-- <example type="correct">L’étoile à neutrons peut <marker>même être</marker> remplacée par un trou noir.</example> -->
       </rule>
       <rule name="féminin suivi du masculin">
@@ -9378,7 +9384,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="N .*" postag_regexp="yes">
-            <exception>est</exception>
+            <exception regexp="yes">est|pas</exception>
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
           <token regexp="yes" >l[àa]</token>
@@ -9390,6 +9396,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Il faisait froid cet <marker>hiver-là.</marker></example>
         <example type="correct">Veux-tu aller là ?</example>
         <example type="correct">Tout est là.</example>
+        <example type="correct">Ils ne s’en tinrent pas là.</example>
       </rule>
       <rule>
         <pattern>
@@ -23288,12 +23295,17 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="BOLT" name="bolt">
+      <antipattern>
+        <token regexp="yes">(?-i)Alex|Brice|Usain|Robert|von</token>
+        <marker><token>Bolt</token></marker>
+      </antipattern>
       <pattern>
         <token regexp="yes">bolts?</token>
       </pattern>
       <message>« Bolt » est un anglicisme. Employez <suggestion>boulon</suggestion>.</message>
       <example type="incorrect"><marker>bolt</marker>.</example>
       <example type="correct"><marker>boulon</marker>.</example>
+      <example type="correct">Usain Bolt est un athlète Jamaïcain.</example>
     </rule>
     <rule id="PAGEANT" name="pageant">
       <pattern>
@@ -24885,7 +24897,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="APOS_M" name="je m étais → je m’étais">
       <rule>
         <pattern>
-          <token regexp="yes">[mts]<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|\d\+|.</exception></token>
+          <token regexp="yes">[mts]<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|[\d-]+|.</exception></token>
           <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
@@ -24894,6 +24906,8 @@ though, and has since been slightly modified)-->
         <example type="correct">La lettre l est mal écrite.</example>
         <example type="correct">La variable x est constante.</example>
         <example type="correct">Moody's a abaissé la note de la dette du Japon.</example>
+        <example type="correct">Le vainqueur du 100 m aurait triché.</example>
+        <example type="correct">Ces deux interactions, respectivement 10-15 m et 10-18 m expliquent les difficultés expérimentales rencontrées.</example>
       </rule>
       <rule>
         <pattern>
@@ -24911,7 +24925,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>l<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|\d\+|.</exception></token>
+          <token>l<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|[\d-]+|.</exception></token>
           <token regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>l’\2</suggestion> ?</message>
@@ -24920,7 +24934,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>d<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|\d\+|.</exception></token>
+          <token>d<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|[\d-]+|.</exception></token>
           <token regexp="yes" postag="[^V].*" postag_regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>d’\2</suggestion> ?</message>
@@ -26784,10 +26798,12 @@ though, and has since been slightly modified)-->
           <marker>
             <token regexp="yes">[ée]tat</token>
           </marker>
+          <token><exception>quantique</exception></token>
         </pattern>
         <message>Employez <suggestion>État</suggestion> avec majuscule quand il désigne un pays ou son gouvernement.</message>
         <example type="incorrect">La sûreté de l’<marker>état</marker> en dépend.</example>
         <example type="correct">La sûreté de l’État en dépend.</example>
+        <example type="correct">En fonction de l'état quantique de l'électron.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">

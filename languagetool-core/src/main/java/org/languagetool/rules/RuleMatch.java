@@ -85,6 +85,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage, 
       boolean startWithUppercase, String suggestionsOutMsg) {
     this.rule = rule;
+    if (toPos <= fromPos) {
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
+    }
     this.fromPos = fromPos;
     this.toPos = toPos;
     this.message = message;

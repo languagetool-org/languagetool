@@ -53,23 +53,21 @@ public class HunspellRuleTest {
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("L’allemagne et l’italie.")).length);
   }
 
+  @Test
+  public void testImmunizedFrenchWord() throws Exception {
+    final French french = new French();
+    final HunspellRule rule = new HunspellRule(TestTools.getMessages("French"), french);
+    JLanguageTool langTool = new JLanguageTool(french);
 
-    @Test
-    public void testImmunizedFrenchWord() throws Exception {
-        final French french = new French();
-        final HunspellRule rule = new HunspellRule(TestTools.getMessages("French"), french);
-        JLanguageTool langTool = new JLanguageTool(french);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);
 
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);
-
-        final French frenchWithDisambiguator = new French(){
-            @Override
-            public Disambiguator getDisambiguator() {
-                return new TestFrenchDisambiguator();
-            }
-        };
-        langTool = new JLanguageTool(frenchWithDisambiguator);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);
-
-    }
+    final French frenchWithDisambiguator = new French(){
+      @Override
+      public Disambiguator getDisambiguator() {
+        return new TestFrenchDisambiguator();
+      }
+    };
+    langTool = new JLanguageTool(frenchWithDisambiguator);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("languageTool est génial.")).length);
+  }
 }

@@ -1427,7 +1427,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Mej|Mevr|Mgr|Mw|Ndl|Ned|Nl|No|Secr)\.\s</beforebreak>
+<beforebreak>\b(Mej|Mevr|Mgr|Mw|Ndl|Ned|Nl|No|Secr|Chr)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -1435,7 +1435,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(abs|abstr|adj|adm|afb|[Aa]fd|afk|afl)\.\s</beforebreak>
+<beforebreak>\b(abs|abstr|adj|adm|afb|[Aa]fd|afk|afl|milj|zgn|plv|bvb|bv|afm|evt)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -5489,6 +5489,84 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="Persian">
+<rule break="no">
+<beforebreak>\bwww\.</beforebreak>
+<afterbreak>\w</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(نه|بله)\!\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*…[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\p{Ps}[!?؟]+\p{Pe} </beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\.!?؟…]+\p{Pe} </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[«»"”']\s*</beforebreak>
+<afterbreak>\s*\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[«'"„][\.!?؟…]['"”»]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.\s</beforebreak>
+<afterbreak>\p{L}\.\s</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[^,،][\s]\p{L}{2}\.\s</beforebreak>
+<afterbreak>\p{N}+\)\s</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+<afterbreak>[\p{N}\p{Ll}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[^\.]\s[ضصثقفغعهخحجچشسیبلاتنمکگ\ظطزرذدپوًٌٍَُِّْA-Z]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?؟…][«»\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002¹²³]*\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?؟…][«»'"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?؟…]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 </languagerules>
 <maprules>
 <languagemap languagepattern="[a-z]{2,3}_one" languagerulename="ByLineBreak"></languagemap>
@@ -5516,6 +5594,7 @@ It [really!] works. This is e.g. Mr. Smith, who talks slowly... And this is anot
 <languagemap languagepattern="(PT|pt).*" languagerulename="Portuguese"></languagemap>
 <languagemap languagepattern="(IT|it).*" languagerulename="Italian"></languagemap>
 <languagemap languagepattern="(TA|ta).*" languagerulename="Tamil"></languagemap>
+<languagemap languagepattern="(FA|fa).*" languagerulename="Persian"></languagemap>
 <languagemap languagepattern="(SV|sv).*" languagerulename="Generic"></languagemap>
 <languagemap languagepattern="(LT|lt).*" languagerulename="Generic"></languagemap>
 <languagemap languagepattern="(ML|ml).*" languagerulename="Generic"></languagemap>

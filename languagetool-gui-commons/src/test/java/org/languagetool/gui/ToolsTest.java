@@ -43,7 +43,6 @@ public class ToolsTest extends TestCase {
   }
 
   public void testGetOOoLabel() {
-    assertEquals("This is a ~Label", Tools.getOOoLabel("This is a &Label"));
     assertEquals("Bits & Pieces", Tools.getLabel("Bits && Pieces"));
   }
 
