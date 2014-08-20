@@ -38,6 +38,21 @@ public class GermanHelperTest {
   }
   
   @Test
+  public void testGetDeterminerNumber() throws Exception {
+    assertThat(GermanHelper.getDeterminerNumber("ART:DEF:DAT:SIN:FEM"), is("SIN"));
+  }
+
+  @Test
+  public void testGetDeterminerDefiniteness() throws Exception {
+    assertThat(GermanHelper.getDeterminerDefiniteness("ART:DEF:DAT:SIN:FEM"), is("DEF"));
+  }
+
+  @Test
+  public void testGetDeterminerCase() throws Exception {
+    assertThat(GermanHelper.getDeterminerCase("ART:DEF:DAT:SIN:FEM"), is("DAT"));
+  }
+
+  @Test
   public void testGetDeterminerGender() throws Exception {
     assertThat(GermanHelper.getDeterminerGender(null), is(""));
     assertThat(GermanHelper.getDeterminerGender(""), is(""));
