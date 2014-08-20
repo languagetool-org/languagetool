@@ -95,6 +95,7 @@ abstract class Server {
   protected static void printCommonConfigFileOptions() {
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
+    System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
     System.out.println("                 'languageModel' - a directory with a '3grams' sub directory with a Lucene index that");
     System.out.println("                  contains ngram occurrence counts; activates the confusion rule if supported (optional)");
   }
