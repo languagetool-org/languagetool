@@ -101,8 +101,10 @@ abstract class Server {
     System.out.println("                         example: --allow-origin \"*\"");
   }
 
-  protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue) {
-    return new ThreadPoolExecutor(THREAD_POOL_SIZE, THREAD_POOL_SIZE,
+  protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
+    int threadPoolSize = config.getMaxCheckThreads();
+    System.out.println("Setting up thread pool with " + threadPoolSize + " threads");
+    return new ThreadPoolExecutor(threadPoolSize, threadPoolSize,
             0L, TimeUnit.MILLISECONDS,
             workQueue);
   }
