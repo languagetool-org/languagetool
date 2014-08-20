@@ -68,6 +68,9 @@ class AgreementSuggestor {
 
   private List<String> getArticleSuggestions(String nounCase, String nounNumber, String nounGender, AnalyzedToken article) throws IOException {
     String determinerDefiniteness = GermanHelper.getDeterminerDefiniteness(article.getPOSTag());
+    if (StringTools.isEmpty(determinerDefiniteness)) {
+      return Collections.emptyList();
+    }
     String correctPosTag = "ART:" + determinerDefiniteness + ":" + nounCase + ":" + nounNumber + ":" + nounGender;
     return getDeterminerSuggestionsForPosTag(article, correctPosTag, null);
   }
@@ -78,7 +81,7 @@ class AgreementSuggestor {
   }
 
   private List<String> getNounSuggestions(AnalyzedToken token2Reading, AnalyzedToken determiner) throws IOException {
-    if (determiner.getPOSTag().endsWith(":STV")) {  // STV = stellvertretend
+    if (determiner.getPOSTag() != null && determiner.getPOSTag().endsWith(":STV")) {  // STV = stellvertretend
       return Collections.emptyList();
     }
     String determinerCase = GermanHelper.getDeterminerCase(determiner.getPOSTag());

@@ -25,6 +25,8 @@ import org.languagetool.tagging.de.GermanToken;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class GermanHelperTest {
   
@@ -33,6 +35,13 @@ public class GermanHelperTest {
     AnalyzedTokenReadings readings = new AnalyzedTokenReadings(new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", null), 0);
     assertTrue(GermanHelper.hasReadingOfType(readings, GermanToken.POSType.DETERMINER));
     assertFalse(GermanHelper.hasReadingOfType(readings, GermanToken.POSType.NOMEN));
+  }
+  
+  @Test
+  public void testGetDeterminerGender() throws Exception {
+    assertThat(GermanHelper.getDeterminerGender(null), is(""));
+    assertThat(GermanHelper.getDeterminerGender(""), is(""));
+    assertThat(GermanHelper.getDeterminerGender("ART:DEF:DAT:SIN:FEM"), is("FEM"));
   }
   
 }
