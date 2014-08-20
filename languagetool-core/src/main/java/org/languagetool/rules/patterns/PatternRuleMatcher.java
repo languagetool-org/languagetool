@@ -41,20 +41,19 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
   private static final String MISTAKE = "<mistake/>";
 
   private final boolean useList;
-  private List<ElementMatcher> elementMatchers;
-  private int patternSize;
+  private final List<ElementMatcher> elementMatchers;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
     this.elementMatchers = createElementMatchers();
-    this.patternSize = elementMatchers.size();
   }
 
   final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
+    final List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
+    final int patternSize = elementMatchers.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     ElementMatcher elem = null;
     int i = 0;
