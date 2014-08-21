@@ -5373,6 +5373,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Ils ont tous les <marker>trois été</marker> tués par balle.</example>
         <example type="correct"><marker>Mille neuf</marker> cent quatre-vingt.</example>
         <example type="correct">Les <marker>trois kanji</marker>.</example>
+        <example type="correct">L'intensité des rayons X ayant frappé la pellicule.</example>
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <pattern>
@@ -5451,7 +5452,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="pluriel suivi du singulier">
         <antipattern>
-          <token regexp="yes">ondes|signaux|émetteurs|récepteurs|réflecteurs|brouilleurs</token>
+          <token regexp="yes">ondes|signaux|émetteurs|interféromètres|récepteurs|réflecteurs|brouilleurs</token>
           <token regexp="yes">radio|radar</token>
         </antipattern>
         <pattern>
@@ -5704,6 +5705,11 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
       <rule>
+        <antipattern>
+          <token>nombre</token>
+          <token>de</token>
+          <token>masse</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
           <token>de</token>
@@ -5713,6 +5719,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Une centaine de <marker>personne</marker> est venue.</example>
         <example type="correct">Une centaine de personnes est venue.</example>
         <example type="correct">Il faut beaucoup de sucre.</example>
+        <example type="correct">Le nombre de masse est un terme employé en chimie.</example>
       </rule>
       <rule>
         <pattern>
