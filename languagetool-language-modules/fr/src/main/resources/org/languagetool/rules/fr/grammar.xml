@@ -2551,6 +2551,11 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="SOI_SOIT_SOIE" name="soit, soi, ou soie">
       <rule>
+        <antipattern>
+          <token regexp="yes">encres?</token>
+          <token>sur</token>
+          <token>soie</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">chez|pour|sur</token>
           <marker><token regexp="yes">soi[te]</token></marker>
@@ -2558,6 +2563,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>soi</suggestion> ?</message>
         <example type="incorrect">Comment gagner de l’argent en restant chez <marker>soit</marker>.</example>
         <example type="correct">Comment gagner de l’argent en restant chez <marker>soi</marker>.</example>
+        <example type="correct">Une encre sur soie.</example>
       </rule>
       <rule>
         <pattern>
@@ -18572,16 +18578,6 @@ though, and has since been slightly modified)-->
       <message>« Être en amour » est un anglicisme (to be in love). Employez <suggestion>être amoureux</suggestion>.</message>
       <example type="incorrect"><marker>être en amour</marker></example>
       <example type="correct"><marker>être amoureux</marker></example>
-    </rule>
-    <rule id="MOULIN_A_PAPIER" name="moulin à papier">
-      <pattern>
-        <token regexp="yes">moulins?</token>
-        <token regexp="yes">[aà]</token>
-        <token regexp="yes">papiers?</token>
-      </pattern>
-      <message>« Moulin à papier » est un anglicisme (paper mill). Employez <suggestion>papeterie</suggestion>, <suggestion>usine de pâte à papier</suggestion>, <suggestion>usine de pâte à papier</suggestion>, <suggestion>usine de pâtes et papiers</suggestion>, <suggestion>usine de papeterie</suggestion>.</message>
-      <example type="incorrect"><marker>moulin à papier</marker></example>
-      <example type="correct"><marker>papeterie</marker></example>
     </rule>
     <rule id="BARRE_DE_SAVON" name="barre de savon">
       <pattern>
