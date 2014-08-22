@@ -334,6 +334,19 @@ public class CaseRule extends GermanRule {
   private static final Set<String> myExceptionPhrases = new HashSet<>();
   static {
     // use proper upper/lowercase spelling here:
+    myExceptionPhrases.add("Naher Osten");
+    myExceptionPhrases.add("Nahen Osten");
+    myExceptionPhrases.add("Mittlerer Osten");
+    myExceptionPhrases.add("Mittleren Osten");
+    myExceptionPhrases.add("Ferne Osten");
+    myExceptionPhrases.add("Fernen Osten");
+    myExceptionPhrases.add("Europäische Union");
+    myExceptionPhrases.add("Europäischen Union");
+    myExceptionPhrases.add("Internationaler Währungsfonds");
+    myExceptionPhrases.add("Internationale Währungsfonds");
+    myExceptionPhrases.add("Internationalen Währungsfonds");
+    myExceptionPhrases.add("Süddeutsche Zeitung");
+    myExceptionPhrases.add("Süddeutschen Zeitung");
     myExceptionPhrases.add("nichts Wichtigeres");
     myExceptionPhrases.add("nichts Schöneres");
     myExceptionPhrases.add("ohne Wenn und Aber");
@@ -397,6 +410,7 @@ public class CaseRule extends GermanRule {
 
   private static final Set<String> substVerbenExceptions = new HashSet<>();
   static {
+    substVerbenExceptions.add("lassen");
     substVerbenExceptions.add("passieren");  // "das Schlimmste, das passieren könnte"
     substVerbenExceptions.add("machen");  // "Du kannst das machen."
     substVerbenExceptions.add("haben");  // "Das haben schon viele versucht."
