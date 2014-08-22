@@ -329,7 +329,10 @@ public final class Main {
       public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
-          ltSupport.setLanguage((Language) languageBox.getSelectedItem());
+          Language lang = (Language) languageBox.getSelectedItem();
+          frame.applyComponentOrientation(
+            ComponentOrientation.getOrientation(lang.getLocale()));
+          ltSupport.setLanguage(lang);
         }
       }
     });
@@ -374,6 +377,7 @@ public final class Main {
         }
       }
     });
+    frame.applyComponentOrientation(ComponentOrientation.getOrientation(ltSupport.getLanguage().getLocale()));
     ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguage());
     textArea.setText(textLanguageMessageBundle.getString("guiDemoText"));
 
