@@ -32,7 +32,19 @@ import org.languagetool.JLanguageTool;
 
 /**
  * Check if there is a confusion of two words (which might have a similar spelling) depending on the context.
- *  This rule loads the words and their respective context from external files.
+ * This rule loads the words and their respective context from an external file with the following 
+ * format (tab-separated):
+ * 
+ * <pre>word1 word2 match1 match2 context1 context2 explanation1 explanation2</pre>
+ * 
+ * <ul>
+ * <li>word1 and word2 are regular expressions of the words that can easily be confused
+ * <li>match1 is the substring of word1 that will be replaced with match2 when word1 occurs in a context where it is probably wrong (and vice versa) 
+ * <li>context1 is the context in which word1 typically occurs (but which is wrong for word2), given as a regular expression
+ * <li>context2 is the context in which word2 typically occurs (but which is wrong for word1), given as a regular expression
+ * <li>explanation1 is a short description of word1 (optional)
+ * <li>explanation2 is a short description of word2 (optional)
+ * </ul>
  * 
  * @author Markus Brenneis
  */
@@ -169,7 +181,7 @@ public abstract class WrongWordInContextRule extends Rule {
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
-        if (line.charAt(0) == '#') {
+        if (line.trim().isEmpty() || line.charAt(0) == '#') {
           continue;
         }
         final String[] column = line.split("\t");
