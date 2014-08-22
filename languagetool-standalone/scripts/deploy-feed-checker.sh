@@ -9,7 +9,7 @@ fi
 
 BASE_NAME=LanguageTool-wikipedia-2.7-SNAPSHOT
 TARGET_FILE=$BASE_NAME.zip
-LANGS="en de fr ca pl"
+LANGS="en de fr ca pl fa nl"
 
 cd ../..
 mvn clean package -DskipTests
