@@ -5722,6 +5722,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Le nombre de masse est un terme employé en chimie.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>nombre</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>oxydation</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
           <token>d</token>
@@ -5732,6 +5738,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Une centaine d’<marker>anarchiste</marker> est venue.</example>
         <example type="correct">Une centaine d’anarchistes est venue.</example>
         <example type="correct">Il faut beaucoup d’eau.</example>
+        <example type="correct">Le nombre d’oxydation.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_COULEUR" name="accord couleur">
