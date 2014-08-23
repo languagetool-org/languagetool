@@ -28,9 +28,7 @@ public class PersianSRXSentenceTokenizerTest {
   
   @Test
   public void test() {
-    // NOTE: sentences here need to end with a space character so they
-    // have correct whitespace when appended:
-    testSplit("a sentence. ", "the next sentence");  // TODO: put Persian here
+    testSplit("این یک جمله است. ", "حملهٔ بعدی");
   }
 
   private void testSplit(String... sentences) {
