@@ -18,10 +18,6 @@
  */
 package org.languagetool.language;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -29,12 +25,16 @@ import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class Spanish extends Language {
 
@@ -90,7 +90,7 @@ public class Spanish extends Language {
   @Override
   public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
-      disambiguator = new XmlRuleDisambiguator(new Spanish());
+      disambiguator = new SpanishHybridDisambiguator();
     }
     return disambiguator;
   }
