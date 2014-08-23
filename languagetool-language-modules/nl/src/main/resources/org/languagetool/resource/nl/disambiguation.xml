@@ -1,70 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Disambiguation Rules for LanguageTool Copyright (C) 2008
-$Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
 	-->
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
-    <!-- disambiguation for words used with HET as well as DE' -->
-    <rule name="DE_EN_HET1" id="DE_EN_HET1">
-        <pattern>
-            <token>het</token>
-            <marker>
-                <and>
-                    <token postag="NN1h"/>
-                    <token postag="NN1[dmf]|NN1" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig postag="NN1h" />
-    </rule>
-    <rule name="DE_EN_HET2" id="DE_EN_HET2">
-        <pattern>
-            <token>de</token>
-            <marker>
-                <and>
-                    <token postag="NN1h"/>
-                    <token postag="NN1[dmf]|NN1" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig postag="NN1d" />
-    </rule>
-    <!--
-        <rule name="onbekend verkleinwoord enkelvoud" id="UNKNOWN_NN1r">
-          <pattern mark="0" case_sensitive="yes">
-            <token postag="UNKNOWN" regexp="yes">^[a-z].*je$</token>
-          </pattern>
-          <disambig action="add"><wd pos="NN1r"/></disambig>
-          <example type="ambiguous" inputform="xxxingetje[xxxingetje/UNKNOWN]" outputform="xxxingetje[xxxingetje/NN2r]">Wat is dat voor <marker>xxxingetje</marker>?</example>
-          <example type="untouched">Wat doet dat dingetje?</example>
-        </rule>
 
-        <rule name="onbekend verkleinwoord meervoud" id="UNKNOWN_NN2r">
-          <pattern mark="0" case_sensitive="yes">
-            <token postag="UNKNOWN" regexp="yes">^[a-z].*jes$</token>
-          </pattern>
-          <disambig action="add"><wd pos="NN2r"/></disambig>
-          <example type="ambiguous" inputform="xxxingetjes[xxxingetjes/UNKNOWN]" outputform="xxxingetjes[xxxingetjes/NN2r]">Wat zijn dat voor <marker>xxxingetjes</marker>?</example>
-          <example type="untouched">Wat doen die dingetjes?</example>
-        </rule>
+  <rule name="onbekend verkleinwoord enkelvoud" id="UNKNOWN_NN1r">
+    <pattern case_sensitive="yes">
+      <token postag="UNKNOWN" regexp="yes">^[a-z].*je$</token>
+    </pattern>
+    <disambig action="add"><wd pos="NN1r"/></disambig>
+    <example type="untouched">Wat doet dat dingetje?</example>
+  </rule>
 
-        <rule name="onbekende NN1d" id="UNKNOWN_NN1d">
-          <pattern mark="0" case_sensitive="yes">
-            <token postag="UNKNOWN" regexp="yes">^[a-z].*(heid|teit|ing)$</token>
-          </pattern>
-          <disambig action="add"><wd pos="NN1d"/></disambig>
-          <example type="ambiguous" inputform="xxxing[xxxing/UNKNOWN]" outputform="xxxing[xxxing/NN1d]">Wat is dat voor <marker>xxxing</marker>?</example>
-          <example type="untouched">Wat doet die vermelding?</example>
-        </rule>
+  <rule name="onbekend verkleinwoord meervoud" id="UNKNOWN_NN2r">
+    <pattern case_sensitive="yes">
+      <token postag="UNKNOWN" regexp="yes">^[a-z].*jes$</token>
+    </pattern>
+    <disambig action="add"><wd pos="NN2r"/></disambig>
+    <example type="untouched">Wat doen die dingetjes?</example>
+  </rule>
 
-        <rule name="onbekende NN2" id="UNKNOWN_NN2">
-          <pattern mark="0" case_sensitive="yes">
-            <token postag="UNKNOWN" regexp="yes">^[a-z].*(heden|teiten|ingen)$</token>
-          </pattern>
-          <disambig action="add"><wd pos="NN2"/></disambig>
-          <example type="ambiguous" inputform="xxxingen[xxxingen/UNKNOWN]" outputform="xxxingen[xxxingen/NN2]">Wat zijn dat voor <marker>xxxingen</marker>?</example>
-          <example type="untouched">Wat doen die vermeldingen?</example>
-        </rule>
-    -->
+  <rule name="onbekende NN1d" id="UNKNOWN_NN1d">
+    <pattern case_sensitive="yes">
+      <token postag="UNKNOWN" regexp="yes">^[a-z].*(heid|teit|ing)$</token>
+    </pattern>
+    <disambig action="add"><wd pos="NN1d"/></disambig>
+    <example type="untouched">Wat doet die vermelding?</example>
+  </rule>
+
+  <rule name="onbekende NN2" id="UNKNOWN_NN2">
+    <pattern case_sensitive="yes">
+      <token postag="UNKNOWN" regexp="yes">^[a-z].*(heden|teiten|ingen)$</token>
+    </pattern>
+    <disambig action="add"><wd pos="NN2"/></disambig>
+    <example type="untouched">Wat doen die vermeldingen?</example>
+  </rule>
+	
+
 </rules>
