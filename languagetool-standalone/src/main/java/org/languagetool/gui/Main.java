@@ -40,6 +40,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
@@ -329,9 +330,13 @@ public final class Main {
       public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
-          Language lang = (Language) languageBox.getSelectedItem();
           frame.applyComponentOrientation(
-            ComponentOrientation.getOrientation(lang.getLocale()));
+            ComponentOrientation.getOrientation(Locale.getDefault()));
+          Language lang = (Language) languageBox.getSelectedItem();
+          ComponentOrientation componentOrientation =
+            ComponentOrientation.getOrientation(lang.getLocale());
+          textArea.applyComponentOrientation(componentOrientation);
+          resultArea.applyComponentOrientation(componentOrientation);
           ltSupport.setLanguage(lang);
         }
       }
@@ -377,7 +382,13 @@ public final class Main {
         }
       }
     });
-    frame.applyComponentOrientation(ComponentOrientation.getOrientation(ltSupport.getLanguage().getLocale()));
+    frame.applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
+    Language lang = ltSupport.getLanguage();
+    ComponentOrientation componentOrientation =
+      ComponentOrientation.getOrientation(lang.getLocale());
+    textArea.applyComponentOrientation(componentOrientation);
+    resultArea.applyComponentOrientation(componentOrientation);
+
     ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguage());
     textArea.setText(textLanguageMessageBundle.getString("guiDemoText"));
 
