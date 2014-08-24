@@ -79,7 +79,11 @@ public class Persian extends Language {
 
   @Override
   public final Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Reza1615")};
+    return new Contributor[] {
+        new Contributor("Reza1615"),
+        new Contributor("Alireza Eskandarpour Shoferi"),
+        new Contributor("Ebrahim Byagowi")
+    };
   }
 
   @Override
