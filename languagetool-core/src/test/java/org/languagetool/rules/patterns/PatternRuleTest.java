@@ -287,7 +287,7 @@ public class PatternRuleTest extends TestCase {
           for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
             sb.append(" ").append(atr.toString());
           }
-          fail(lang + " rule " + rule.getId() + ":\n\"" + badSentence + "\"\n"
+          fail(lang + " rule " + rule.getId() + "[" + rule.getSubId() + "]" + ":\n\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
                   + "Errors found   : " + matches.size() + "\n"
                   + "Message: " + rule.getMessage() + "\n" + sb.toString() + "\nMatches: " + matches);
