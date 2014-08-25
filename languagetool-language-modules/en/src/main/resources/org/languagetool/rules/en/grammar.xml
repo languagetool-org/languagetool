@@ -14562,6 +14562,34 @@ USA
             </rule>
             -->
         </rulegroup>
+        <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
+            <rule>
+                <pattern>
+                    <!-- "June 31, 2014" -->
+                    <marker>
+                        <token regexp="yes">April|Apr|June|Jun|September|Sep|Sept|November|Nov</token>
+                        <token>31</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>The month of \1 only has 30 days.</message>
+                <example type='incorrect'>It happened on <marker>November 31</marker>, 2014.</example>
+                <example type='correct'>It happened on <marker>November 30</marker>, 2014.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "February 30, 2014" -->
+                    <marker>
+                        <token regexp="yes">February|Feb</token>
+                        <token regexp="yes">3[01]</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>February only has 28 days, or 29 days in leap years.</message>
+                <example type='incorrect'>It happened on <marker>Feb 30</marker>, 2014.</example>
+                <example type='correct'>It happened on <marker>Feb 28</marker>, 2014.</example>
+            </rule>
+        </rulegroup>
     </category>
     <!-- This rule is useful only for lowercase only text after machine translation. I leave it in the
     file because it's not so bad for such input but it shouldn't be even visible in the config dialog.
