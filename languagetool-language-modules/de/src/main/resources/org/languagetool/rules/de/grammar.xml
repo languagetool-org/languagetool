@@ -36,8 +36,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY nbsp    "&#x00A0;"> <!-- no-break space -->
     <!ENTITY nnbsp    "&#x202F;"> <!-- narrow no-break space -->
     <!ENTITY thinsp    "&#x2009;"> <!-- thin space -->
-    <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonntag">
-    <!ENTITY monate "Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
+    <!ENTITY wochentage "Montag|Dienstag|Mittwoch|Donnerstag|Freitag|Samstag|Sonnabend|Sonntag">
+    <!ENTITY abgekWochentage "Mo|Di|Mi|Do|Fr|Sa|So">
+    <!ENTITY monate "Januar|Jänner|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember">
+    <!ENTITY abgekMonate "Jan|Jän|Feb|Febr|Mär|Apr|Jun|Jul|Aug|Sep|Sept|Okt|Nov|Dez">
     <!ENTITY tageszeitangabenklein "abend|morgen|mittag|nachmittag|nacht|vormittag">
     <!ENTITY zeiteinheiten "Millisekunden|Hundertstelsekunden|Zehntelsekunden|Sekunden|Minuten|Minütchen|Stunden|Stündchen|Tagen|Wochen|Monaten|Semestern|Halbjahren|Jahren|Jahrzehnten|Jahrhunderten|Jahrtausenden|Jahrmillionen">
     <!ENTITY gla "Bitte verwenden Sie in Abkürzungen umbruchgeschützte Leerzeichen.">
@@ -8736,6 +8738,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="abgerundeten">Die <marker>runden</marker> Ecken sind hübsch.</example>
                 <example type="correct">Die <marker>abgerundeten</marker> Ecken sind hübsch.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\8 month:\6 day:\4 weekDay:\1"/>
+                <message>Das Datum \4.\6.\8 fällt nicht auf einen \1.</message>
+                <example type='incorrect'>Termin: <marker>Sonntag, 23.08.2014</marker></example>
+                <example type='incorrect'>Termin: <marker>Sonntag, 23.8.2014</marker></example>
+                <example type='incorrect'>Termin: <marker>So, 23.08.2014</marker></example>
+                <example type='incorrect'>Termin: <marker>Sonntag, den 23.08.2014</marker></example>
+                <example type='incorrect'>Termin: <marker>So, den 23.08.2014</marker></example>
+                <example type='correct'>Termin: Sonnabend, 23.08.2014</example>
+                <example type='correct'>Termin: Samstag, 23.08.2014</example>
+                <example type='correct'>Termin: Sa, 23.08.2014</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&abgekWochentage;</token>
+                    <token>.</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\9 month:\7 day:\5 weekDay:\1"/>
+                <message>Das Datum \5.\7.\9 fällt nicht auf einen \1.</message>
+                <example type='incorrect'>Termin: <marker>So., 23.08.2014</marker></example>
+                <example type='incorrect'>Termin: <marker>So., den 23.08.2014</marker></example>
+                <example type='correct'>Termin: Sa., 23.08.2014</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&monate;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\7 month:\6 day:\4 weekDay:\1"/>
+                <message>Das Datum \4. \6 \7 fällt nicht auf einen \1.</message>
+                <example type='incorrect'>Termin: <marker>Donnerstag, 1. Jänner 2014</marker></example>
+                <example type='incorrect'>Termin: <marker>Sonntag, 23. August 2014</marker></example>
+                <example type='incorrect'>Termin: <marker>So, 23. August 2014</marker></example>
+                <example type='incorrect'>Termin: <marker>Sonntag, den 23. August 2014</marker></example>
+                <example type='correct'>Termin: <marker>Mittwoch, 1. Jänner 2014</marker></example>
+                <example type='correct'>Termin: <marker>Samstag, 23. August 2014</marker></example>
+                <example type='correct'>Termin: <marker>Sa, 23. August 2014</marker></example>
+                <example type='correct'>Termin: <marker>Samstag, den 23. August 2014</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&wochentage;|&abgekWochentage;</token>
+                    <token>,</token>
+                    <token regexp="yes" min="0">den|dem|der|des</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">&abgekMonate;</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.de.DateCheckFilter" args="year:\8 month:\6 day:\4 weekDay:\1"/>
+                <message>Das Datum \4. \6 \8 fällt nicht auf einen \1.</message>
+                <example type='incorrect'>Termin: <marker>Donnerstag, 1. Jän. 2014</marker></example>
+                <example type='incorrect'>Termin: <marker>Sonntag, 23. Aug. 2014</marker></example>
+                <example type='incorrect'>Termin: <marker>So, 23. Aug. 2014</marker></example>
+                <example type='incorrect'>Termin: <marker>Sonntag, den 23. Aug. 2014</marker></example>
+                <example type='correct'>Termin: <marker>Mittwoch, 1. Jän. 2014</marker></example>
+                <example type='correct'>Termin: <marker>Samstag, 23. Aug. 2014</marker></example>
+                <example type='correct'>Termin: <marker>Sa, 23. Aug. 2014</marker></example>
+                <example type='correct'>Termin: <marker>Samstag, den 23. Aug. 2014</marker></example>
+            </rule>
+            <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
         </rulegroup>
     </category>
 

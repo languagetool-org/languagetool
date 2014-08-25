@@ -30,6 +30,8 @@ LanguageTool Change Log
     -Fixed several false alarms
     -New rule that checks for sentences without a verb (turned off by default due to
      the risk of false alarms)
+    -New rule that checks if a weekday matches a date, e.g. detects
+    "Dienstag, 29.9.2014", as that date isn't a Tuesday.
     
 -Portuguese:
     -added/improved several rules
@@ -84,6 +86,15 @@ LanguageTool Change Log
      on requests in parallel. The default is 10, as it used to be.
 
 -Internals:
+    -New abstract rule AbstractDateCheckFilter that allows to check if a week day and date
+     match. For example "Tuesday, September 29, 2014" could be detected, as September 29, 2014 is
+     not actually a Tuesday. This uses the new RuleFilter interface that can be called
+     from XML with the new 'filter' element. 'filter' takes these attributes:
+       'class': the fully-qualified name of a Java class that implements RuleFilter, e.g.
+                "org.languagetool.rules.de.DateCheckFilter"
+       'args':  a string like "year:\1 month:\2 day:\3 weekDay:\4", i.e. a space-separated list of
+                key/value pairs, where \x gets resolved to the pattern's token value (as in
+                the 'message' element)
     -The compound rule now ignores tokens that have been immunized in the disambiguation.xml
     -If you're extending the XML rules as described at http://wiki.languagetool.org/tips-and-tricks#toc2,
      the external rule and disambiguation files can now be hosted on a password-protected server

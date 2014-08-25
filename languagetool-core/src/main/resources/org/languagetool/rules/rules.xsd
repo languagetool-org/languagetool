@@ -155,6 +155,7 @@
 			<xs:sequence>
                 <xs:element ref="antipattern" minOccurs="0" maxOccurs="unbounded"/>
 				<xs:element ref="pattern" />
+				<xs:element ref="filter" minOccurs="0" maxOccurs="1" />
 				<xs:element ref="message" />
 				<xs:element ref="suggestion" minOccurs="0" maxOccurs="15" />
         <xs:element ref="url" minOccurs="0" maxOccurs="1" />
@@ -231,6 +232,23 @@
     </xs:complexType>
   </xs:element>
 
+    <xs:element name="filter">
+        <xs:complexType>
+            <xs:attribute name="class" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A fully qualified Java class that implements the RuleFilter interface</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+            <xs:attribute name="args" type="xs:string" use="required">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Arguments given to the Java code: a space-separated list with 
+                        elements in the form of 'key:\x', where key is the parameter name and x is a number
+                        that refers to the pattern's token. Number and parameter names depend on the Java code.</xs:documentation>
+                </xs:annotation>
+            </xs:attribute>
+        </xs:complexType>
+    </xs:element>
+    
     <xs:annotation>
     		<xs:documentation xml:lang="en">URL with further information
                 about the rule behind this error.</xs:documentation>

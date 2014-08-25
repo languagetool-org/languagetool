@@ -21,7 +21,6 @@ package org.languagetool.rules.patterns;
 import java.io.IOException;
 import java.util.*;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.Language;
 import org.languagetool.rules.RuleMatch;
@@ -49,6 +48,8 @@ public class PatternRule extends AbstractPatternRule {
   // a list of antipatterns used in the rule.
   private final List<DisambiguationPatternRule> antiPatterns;
 
+  private RuleFilter filter;
+  private String filterArgs;
   private String message;
   private String suggestionsOutMsg; // extra suggestions outside message
 
@@ -289,6 +290,26 @@ public class PatternRule extends AbstractPatternRule {
   
   List<Match> getSuggestionMatchesOutMsg() {
     return suggestionMatchesOutMsg;
+  }
+
+  /** @since 2.7 */
+  void setFilter(RuleFilter filter) {
+    this.filter = filter;
+  }
+
+  /** @since 2.7 */
+  RuleFilter getFilter() {
+    return filter;
+  }
+
+  /** @since 2.7 */
+  void setFilterArguments(String filterArgs) {
+    this.filterArgs = filterArgs;
+  }
+
+  /** @since 2.7 */
+  String getFilterArguments() {
+    return filterArgs;
   }
 
   /**

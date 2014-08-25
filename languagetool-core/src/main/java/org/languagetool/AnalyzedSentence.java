@@ -140,15 +140,23 @@ public class AnalyzedSentence {
   }
 
   /**
+   * Return the original text.
+   * @since 2.7
+   */
+  public String getText() {
+    StringBuilder sb = new StringBuilder();
+    for (AnalyzedTokenReadings element : tokens) {
+      sb.append(element.getToken());
+    }
+    return sb.toString();
+  }
+
+  /**
    * Return string representation without any analysis information, just the original text.
    * @since 2.6
    */
   final String toTextString() {
-    StringBuilder sb = new StringBuilder();
-    for (final AnalyzedTokenReadings element : tokens) {
-      sb.append(element.getToken());
-    }
-    return sb.toString();
+    return getText();
   }
 
   /**
