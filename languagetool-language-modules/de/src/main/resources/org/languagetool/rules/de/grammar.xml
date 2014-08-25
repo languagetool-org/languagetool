@@ -8825,6 +8825,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- TODO: weitere regel auch ohne Jahr (Annahme: dieses Jahr (auch am jahresende bei "2.1."?)) -->
         </rulegroup>
+        <rulegroup id="UNGUELTIGES_DATUM" name="Ungültiges Datum, z.B. '31. Februar'">
+            <rule>
+                <pattern>
+                    <token>31</token>
+                    <token>.</token>
+                    <token regexp="yes">April|Apr|Juni|Jun|September|Sep|Sept|November|Nov</token>
+                </pattern>
+                <message>Dieser Monat hat nur 30 Tage.</message>
+                <example type='incorrect'>Es geschah am <marker>31. November</marker>.</example>
+                <example type='correct'>Es geschah am <marker>30. November</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">3[01]</token>
+                    <token>.</token>
+                    <token regexp="yes">Februar|Feb</token>
+                </pattern>
+                <message>Der Februar hat nur 28 Tage (bzw. 29 in Schaltjahren).</message>
+                <example type='incorrect'>Es geschah am <marker>31. Februar</marker>.</example>
+                <example type='incorrect'>Es geschah am <marker>30. Februar</marker>.</example>
+                <example type='correct'>Es geschah am <marker>28. Februar</marker>.</example>
+            </rule>
+        </rulegroup>
     </category>
 
     <!-- ====================================================================== -->
