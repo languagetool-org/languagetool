@@ -530,7 +530,7 @@ USA
 	  </rule>
 	  <rule id="illai2" name="வினையெச்சம் + இல்லை">
 		<pattern>
-			<token postag='VAN' regexp='yes'></token>
+			<token postag='VAN'></token>
 			<token regexp='yes'>இல்லை(([ஃ-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'இல்லை' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
@@ -552,7 +552,7 @@ USA
 	  </rule>
 	  <rule id="uriya" name="பெயர் + 'கு' உருபு + உரிய">
 		<pattern>
-			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes' regexp='yes'></token>
+			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes'></token>
 			<token>உரிய</token>
 		</pattern>
 		<message>'கு' உருபு ஏற்ற பெயர்களுடன் 'உரிய' சேர்த்து எழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="" /></suggestion></message>
@@ -628,6 +628,30 @@ USA
 		<example type='correct'><marker>உலகில் உள்ள</marker> விலங்குகளில் பூச்சிகளின் எண்ணிக்கையே மிக அதிகம்.</example>
 	  </rule>
 	</rulegroup>
+	<rulegroup id="enRu" name="சொல் + என்று">
+	  <rule>
+		<pattern>
+			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes'></token>
+			<token regexp='yes'>என்று</token>
+		</pattern>
+		<message>'ஒருவருக்காக/ஒன்றிற்காக' என்று வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கெ" /><match no="2" regexp_match="^எ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=55#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>உனக்கு என்று</marker> வாங்கிய சட்டை.</example>
+		<example type='correct'><marker>உனக்கென்று</marker> வாங்கிய சட்டை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token>என்ன</token>
+			<token>என்று</token>
+		</pattern>
+		<message>'என்ன' என்ற சொல்லுடன் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ெ" /><match no="2" regexp_match="^எ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=55#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இயற்கையின் எழிலை <marker>என்ன என்று</marker> சொல்வேன்!</example>
+		<example type='correct'>இயற்கையின் எழிலை <marker>என்னவென்று</marker> சொல்வேன்!</example>
+	  </rule>
+	</rulegroup>	
 	<rulegroup id="ena" name="என இடைச்சொல்">
 	  <rule>
 		<pattern>
@@ -721,6 +745,26 @@ USA
 		<example type='correct'>ஆற்றில் வெள்ளம் <marker>வரக்கூடும்</marker>.</example>
 	  </rule>
 	</rulegroup>
+	  <rule id="thakka" name="வினையெச்சம் + தக்க">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)த்தக்க<exception>திருத்தக்க</exception></token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'தக்க' பிரித்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="தக்க$" regexp_replace="" /> தக்க</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>போற்றத்தக்க</marker> மனிதர்.</example>
+		<example type='correct'><marker>போற்றத் தக்க</marker> மனிதர்.</example>
+	  </rule>
+	  <rule id="thagaadha" name="வினையெச்சம் + தகாத">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)த்தகாத</token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'தகாத' பிரித்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="தகாத$" regexp_replace="" /> தகாத</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>பேசத்தகாத</marker> சொற்கள்.</example>
+		<example type='correct'><marker>பேசத் தகாத</marker> சொற்கள்.</example>
+	  </rule>
 	  <rule id="piRagu" name="பெயரெச்சம் + பிறகு">
 		<pattern>
 			<token postag='RP'></token>
@@ -835,11 +879,11 @@ USA
 		<example type='incorrect'>ஊருக்கு <marker>வந்தபுதிதில்</marker> இது நடந்தது.</example>
 		<example type='correct'>ஊருக்கு <marker>வந்த புதிதில்</marker> இது நடந்தது.</example>
 	  </rule>
-	<rulegroup id="pothu" name="பெயரெச்சம்/பெயர்ச்சொல் + போது">
+	<rulegroup id="pothu" name="பெயரெச்சம்/பெயர்ச்சொல் + போது/பொழுது">
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ும்</token>
-			<token>போது</token>
+			<token regexp='yes'>போது|பொழுது</token>
 		</pattern>
 		<message>பெயரெச்சத்தின் பின் 'போது' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
@@ -850,7 +894,7 @@ USA
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]</token>
-			<token>போது</token>
+			<token regexp='yes'>போது|பொழுது</token>
 		</pattern>
 		<message>பெயரெச்சத்தின் பின் 'போது' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
@@ -861,7 +905,7 @@ USA
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ாத</token>
-			<token>போது</token>
+			<token regexp='yes'>போது|பொழுது</token>
 		</pattern>
 		<message>பெயரெச்சத்தின் பின் 'போது' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
