@@ -32,6 +32,7 @@ USA
 <!DOCTYPE rules [
     <!ENTITY weekdays "Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday">
     <!ENTITY months "January|February|March|April|May|June|July|August|September|October|November|December">
+    <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec">
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -14511,20 +14512,22 @@ USA
                     <token regexp="yes">&weekdays;</token>
                     <token>,</token>
                     <token regexp="yes">\d\d?</token>
-                    <token regexp="yes">&months;</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>The date \3 \4 \5 is not a \1.</message>
                 <example type='incorrect'>IGD Convention - <marker>Monday, 7 October 2014</marker></example>
+                <example type='incorrect'>IGD Convention - <marker>Monday, 7 Oct 2014</marker></example>
                 <example type='correct'>IGD Convention - <marker>Tuesday, 7 October 2014</marker></example>
+                <example type='correct'>IGD Convention - <marker>Tuesday, 7 Oct 2014</marker></example>
             </rule>
             <rule>
                 <pattern>
                     <!-- "Monday, October 7, 2014" -->
                     <token regexp="yes">&weekdays;</token>
                     <token>,</token>
-                    <token regexp="yes">&months;</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
                     <token regexp="yes">\d\d?</token>
                     <token>,</token>
                     <token regexp="yes">\d\d\d\d</token>
@@ -14537,7 +14540,9 @@ USA
                 <example type='incorrect'>IGD Convention - <marker>Friday, October 7, 2014</marker></example>
                 <example type='incorrect'>IGD Convention - <marker>Saturday, October 7, 2014</marker></example>
                 <example type='incorrect'>IGD Convention - <marker>Sunday, October 7, 2014</marker></example>
+                <example type='incorrect'>IGD Convention - <marker>Sunday, Oct 7, 2014</marker></example>
                 <example type='correct'>IGD Convention - <marker>Tuesday, October 7, 2014</marker></example>
+                <example type='correct'>IGD Convention - <marker>Tuesday, Oct 7, 2014</marker></example>
             </rule>
             <!-- "Monday, 31/12/2014" - this can be ambiguous (e.g. 6/7/2014) and is thus commented out 
             <rule>
