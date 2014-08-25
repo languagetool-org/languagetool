@@ -59,12 +59,23 @@ public class DateCheckFilterTest {
     assertThat(filter.getDayOfWeek("mo"), is(2));
     assertThat(filter.getDayOfWeek("Mon."), is(2));
     assertThat(filter.getDayOfWeek("Montag"), is(2));
-    assertThat(filter.getDayOfWeek("Montag"), is(2));
     assertThat(filter.getDayOfWeek("montag"), is(2));
     assertThat(filter.getDayOfWeek("Di"), is(3));
     assertThat(filter.getDayOfWeek("Fr"), is(6));
     assertThat(filter.getDayOfWeek("Samstag"), is(7));
     assertThat(filter.getDayOfWeek("Sonnabend"), is(7));
+  }
+
+  @Test
+  public void testGetMonth() throws Exception {
+    assertThat(filter.getMonth("Januar"), is(1));
+    assertThat(filter.getMonth("Jan"), is(1));
+    assertThat(filter.getMonth("Jan."), is(1));
+    assertThat(filter.getMonth("Dezember"), is(12));
+    assertThat(filter.getMonth("Dez"), is(12));
+    assertThat(filter.getMonth("dez"), is(12));
+    assertThat(filter.getMonth("DEZEMBER"), is(12));
+    assertThat(filter.getMonth("dezember"), is(12));
   }
 
   private Map<String, String> makeMap(String year, String month, String dayOfMonth, String weekDay) {

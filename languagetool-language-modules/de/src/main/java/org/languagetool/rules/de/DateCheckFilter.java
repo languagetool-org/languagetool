@@ -29,9 +29,6 @@ import java.util.Locale;
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
 
-  public DateCheckFilter() {
-  }
-
   @Override
   protected Calendar getCalendar() {
     return Calendar.getInstance(Locale.GERMANY);
