@@ -92,14 +92,18 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
           List<String> tokens = wordTokenizer.tokenize(lineWithoutOcc);
           for (String token : tokens) {
             if (token.length() > 0) {
-              if (tokens.size() == 1) {
-                out.write(token + separatorChar + occurrences);
-              } else {
-                // TODO: as the word occurrence data from
-                // https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries
-                // has already been assigned in a previous step, we now cannot just use
-                // that value after having changed the tokenization...
-                out.write(token + separatorChar + "A");  // assume least frequent
+              out.write(token);
+              if (sepPos != -1) {
+                out.write(separatorChar);
+                if (tokens.size() == 1) {
+                  out.write(occurrences);
+                } else {
+                  // TODO: as the word occurrence data from
+                  // https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries
+                  // has already been assigned in a previous step, we now cannot just use
+                  // that value after having changed the tokenization...
+                  out.write("A");  // assume least frequent
+                }
               }
               out.write("\n");
             }
