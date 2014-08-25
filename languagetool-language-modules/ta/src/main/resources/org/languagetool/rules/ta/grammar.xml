@@ -673,6 +673,54 @@ USA
 		<example type='incorrect'>அங்கே <marker>போகக்கூடாது</marker>.</example>
 		<example type='correct'>அங்கே <marker>போகக் கூடாது</marker>.</example>
 	  </rule>
+	<rulegroup id="kuudiya" name="வினையெச்சம் + கூடிய">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்</token>
+			<token>கூடிய</token>
+		</pattern>
+		<message>வினையெச்சத்தின் பின் 'கூடிய' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=60#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நான் அங்கு <marker>வரக் கூடிய</marker> சூழலில்லை.</example>
+		<example type='correct'>நான் அங்கு <marker>வரக்கூடிய</marker> சூழலில்லை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token>கூடிய</token>
+		</pattern>
+		<message>வினையெச்சத்தின் பின் 'கூடிய' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=60#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நான் அங்கு <marker>வர கூடிய</marker> சூழலில்லை.</example>
+		<example type='correct'>நான் அங்கு <marker>வரக்கூடிய</marker> சூழலில்லை.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="kuudum" name="வினையெச்சம் + கூடும்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்</token>
+			<token>கூடும்</token>
+		</pattern>
+		<message>'கூடும்' வினைமுற்றாக வரும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் வீட்டில் <marker>இருக்கக் கூடும்</marker>.</example>
+		<example type='correct'>அவர் வீட்டில் <marker>இருக்கக்கூடும்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token regexp='yes'>கூடும[ா்]</token>
+		</pattern>
+		<message>நிகழக்கூடுமெனக் குறிப்பிடும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஆற்றில் வெள்ளம் <marker>வர கூடும்</marker>.</example>
+		<example type='correct'>ஆற்றில் வெள்ளம் <marker>வரக்கூடும்</marker>.</example>
+	  </rule>
+	</rulegroup>
 	  <rule id="piRagu" name="பெயரெச்சம் + பிறகு">
 		<pattern>
 			<token postag='RP'></token>
@@ -865,17 +913,6 @@ USA
 		<example type='correct'>நீ இன்று <marker>வர வேண்டாம்</marker>!</example>
 	  </rule>
 	</rulegroup>
-	  <rule id="kuudum" name="வினையெச்சம் + கூடும்">
-		<pattern>
-			<token postag='VAN' regexp='yes'></token>
-			<token regexp='yes'>கூடும[ா்]</token>
-		</pattern>
-		<message>நிகழக்கூடுமெனக் குறிப்பிடும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head</url>
-		<short>சேர்த்து எழுத வேண்டும்</short>
-		<example type='incorrect'>ஆற்றில் வெள்ளம் <marker>வர கூடும்</marker>.</example>
-		<example type='correct'>ஆற்றில் வெள்ளம் <marker>வரக்கூடும்</marker>.</example>
-	  </rule>
 	</category>
 	<!-- ====================================================================== -->
 	<!-- ஒற்று மிகுதலும் மிகாமையும் -->
