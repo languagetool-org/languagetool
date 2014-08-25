@@ -37,7 +37,14 @@ public class Japanese extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer tokenizer;
   private String name = "Japanese";
+
+  public Japanese() {
+    this.tagger = new JapaneseTagger();
+    this.tokenizer = new JapaneseWordTokenizer();
+    this.sentenceTokenizer = new SRXSentenceTokenizer(this);
+  }
 
   @Override
   public String getShortName() {
@@ -74,22 +81,16 @@ public class Japanese extends Language {
 
   @Override
   public final Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new JapaneseTagger();
-    }
     return tagger;
   }
 
   @Override
   public final Tokenizer getWordTokenizer() {
-    return new JapaneseWordTokenizer();
+    return tokenizer;
   }
 
   @Override
   public final SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
     return sentenceTokenizer;
   }
 
