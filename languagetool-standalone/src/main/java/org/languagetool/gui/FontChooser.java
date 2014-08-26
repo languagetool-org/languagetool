@@ -304,8 +304,8 @@ class FontChooser extends JDialog implements ActionListener,
     setDefaultFont();
 
     getRootPane().setDefaultButton(cancelButton);
-	this.applyComponentOrientation(
-	  ComponentOrientation.getOrientation(Locale.getDefault()));
+    this.applyComponentOrientation(
+      ComponentOrientation.getOrientation(Locale.getDefault()));
     pack();
   }
 

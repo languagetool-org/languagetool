@@ -56,8 +56,8 @@ public class LanguageComboBox extends JComboBox<Language> {
   }
 
   private void initAllLanguages() {
-	applyComponentOrientation(
-	  ComponentOrientation.getOrientation(Locale.getDefault()));
+    applyComponentOrientation(
+      ComponentOrientation.getOrientation(Locale.getDefault()));
     languages.clear();
     for (Language language : Language.getRealLanguages()) {  // the method returns both built-in and external languages
       final boolean skip = language.hasVariant();
