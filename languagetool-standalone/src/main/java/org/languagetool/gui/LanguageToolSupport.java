@@ -21,6 +21,7 @@ package org.languagetool.gui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -49,6 +50,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -69,6 +71,7 @@ import javax.swing.text.Highlighter;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.Position;
 import javax.swing.text.View;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
@@ -552,6 +555,8 @@ class LanguageToolSupport {
         }
       });
       popup.add(ignoreItem);
+      popup.applyComponentOrientation(
+        ComponentOrientation.getOrientation(Locale.getDefault()));
     }
 
     List<Rule> disabledRules = getDisabledRules();
