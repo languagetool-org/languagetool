@@ -140,7 +140,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String nextWord = getWordAfterEnumerationOrNull(words, idx);
     boolean isCompound = nextWord != null && compoundTokenizer.tokenize(nextWord).size() > 1;
     if (isCompound) {
-      return !dictionary.misspelled(word.replaceFirst("-$", ""));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
+      return !hunspellDict.misspelled(word.replaceFirst("-$", ""));  // "Stil- und Grammatikprüfung" or "Stil-, Text- und Grammatikprüfung"
     }
     return false;
   }

@@ -26,6 +26,10 @@ import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
+/**
+ * Spell checker rule that, unlike {@link GermanSpellerRule}, does not support compounds
+ * (except those listed in the dictionary of course).
+ */
 public final class MorfologikGermanyGermanSpellerRule extends MorfologikSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/de/hunspell/de_DE.dict";
