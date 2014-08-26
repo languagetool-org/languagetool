@@ -724,7 +724,7 @@ USA
 	<rulegroup id="kuudum" name="வினையெச்சம் + கூடும்">
 	  <rule>
 		<pattern>
-			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்</token>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்<exception regexp='yes'>திரளாகக்|கூட்டமாகக்</exception></token>
 			<token>கூடும்</token>
 		</pattern>
 		<message>'கூடும்' வினைமுற்றாக வரும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
@@ -765,17 +765,49 @@ USA
 		<example type='incorrect'><marker>பேசத்தகாத</marker> சொற்கள்.</example>
 		<example type='correct'><marker>பேசத் தகாத</marker> சொற்கள்.</example>
 	  </rule>
+	  <rule id="thaguntha" name="வினையெச்சம் + தகுந்த">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)த்தகுந்த</token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'தகுந்த' பிரித்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="தகுந்த$" regexp_replace="" /> தகுந்த</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=62</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>படிக்கத்தகுந்த</marker> நூல்.</example>
+		<example type='correct'><marker>படிக்கத் தகுந்த</marker> நூல்.</example>
+	  </rule>
 	  <rule id="piRagu" name="பெயரெச்சம் + பிறகு">
 		<pattern>
 			<token postag='RP'></token>
 			<token regexp='yes'>பிறகு(ம[ா்])?</token>
 		</pattern>
-		<message>'‘செய்த' போன்ற பெயரெச்சம்பின் சேர்த்தே எழுதலாம்: <suggestion>\1பிறகு</suggestion></message>
+		<message>'‘செய்த' போன்ற பெயரெச்சம்பின் சேர்த்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head4</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>அவர் <marker>போன பிறகு</marker> என்ன செய்தாய்?</example>
 		<example type='correct'>அவர் <marker>போனபிறகு</marker> என்ன செய்தாய்?</example>
 	  </rule>
+	<rulegroup id="piRagu2" name="பெயர் + 'கு' உருபு + பிறகு">
+	  <rule>
+	  	<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)குப்பிறகு</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பிறகு'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="பிறகு$" regexp_replace="" /> பிறகு</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதற்குப்பிறகு</marker> கடிதம் வரவில்லை.</example>
+		<example type='correct'><marker>அதற்குப் பிறகு</marker> கடிதம் வரவில்லை.</example>
+	  </rule>
+	  <rule>
+	  	<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)குபிறகு</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பிறகு'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="பிறகு$" regexp_replace="ப்" /> பிறகு</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதற்குபிறகு</marker> கடிதம் வரவில்லை.</example>
+		<example type='correct'><marker>அதற்குப் பிறகு</marker> கடிதம் வரவில்லை.</example>
+	  </rule>
+	</rulegroup>
 	<rulegroup id="pin" name="பெயரெச்சம் + பின்/பின்னர்/பின்பு/பின்னே/பின்னால்">
 	  <rule>
 		<pattern>
@@ -878,6 +910,17 @@ USA
 		<short>பிரித்து எழுத வேண்டும்</short>
 		<example type='incorrect'>ஊருக்கு <marker>வந்தபுதிதில்</marker> இது நடந்தது.</example>
 		<example type='correct'>ஊருக்கு <marker>வந்த புதிதில்</marker> இது நடந்தது.</example>
+	  </rule>
+	  <rule id="pothilum" name="பெயரெச்சம் + போதிலும்">
+		<pattern>
+			<token postag='RP'></token>
+			<token regexp='yes'>போதிலும்</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சம்பின் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head2</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அடிபட்ட போதிலும்</marker> அவன் விடவில்லை.</example>
+		<example type='correct'><marker>அடிபட்டபோதிலும்</marker> அவன் விடவில்லை.</example>
 	  </rule>
 	<rulegroup id="pothu" name="பெயரெச்சம்/பெயர்ச்சொல் + போது/பொழுது">
 	  <rule>
