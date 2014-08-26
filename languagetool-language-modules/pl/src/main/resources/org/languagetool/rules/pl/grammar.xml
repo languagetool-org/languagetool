@@ -9970,6 +9970,33 @@ $Id$
 				</rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rulegroup id="KUPKI_SMAKOWE" name="„kupki smakowe” (kubki smakowe)">
+                <rule>
+                    <pattern>
+                        <token>kupek</token>
+                        <token>smakowych</token>
+                    </pattern>
+                    <message>Błąd ortograficzny. Powinno być: <suggestion>kubków <match no="2"/></suggestion>?</message>
+                    <url>http://pl.wikipedia.org/wiki/Kubki_smakowe</url>
+                    <short>Błąd ortograficzny</short>
+                    <example type='incorrect' correction="kubków smakowych">Coś wspaniałego dla moich <marker>kupek smakowych</marker> są w niebie.</example>
+                    <example type='correct'>Moje kubki smakowe są w niebie.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <unify>
+                            <feature id="case"/><feature id="gender"/><feature id="number"/>
+                            <token inflected='yes'>kupka</token>
+                            <token inflected='yes'>smakowy</token>
+                        </unify>
+                    </pattern>
+                    <message>Błąd ortograficzny. Powinno być: <suggestion><match no="1" regexp_match="p" regexp_replace="b"/> <match no="2"/></suggestion>?</message>
+                    <url>http://pl.wikipedia.org/wiki/Kubki_smakowe</url>
+                    <short>Błąd ortograficzny</short>
+                    <example type='incorrect' correction="kubki smakowe">Moje <marker>kupki smakowe</marker> są w niebie.</example>
+                    <example type='correct'>Moje kubki smakowe są w niebie.</example>
+                </rule>
+            </rulegroup>
             <rulegroup id="TEPO_PRACY" name="„tępo pracy” (tempo pracy)">
                 <rule>
                     <pattern>
