@@ -37,41 +37,40 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   
   private static final int MAX_EDIT_DISTANCE = 2;
   private static final int SUGGESTION_MIN_LENGTH = 2;
-  private static final List<Replacement> REPL = new ArrayList<>();
-  static {
-    // see de_DE.aff:
-    REPL.add(new Replacement("f", "ph"));
-    REPL.add(new Replacement("ph", "f"));
-    REPL.add(new Replacement("ß", "ss"));
-    REPL.add(new Replacement("ss", "ß"));
-    REPL.add(new Replacement("s", "ss"));
-    REPL.add(new Replacement("ss", "s"));
-    REPL.add(new Replacement("i", "ie"));
-    REPL.add(new Replacement("ie", "i"));
-    REPL.add(new Replacement("ee", "e"));
-    REPL.add(new Replacement("o", "oh"));
-    REPL.add(new Replacement("oh", "o"));
-    REPL.add(new Replacement("a", "ah"));
-    REPL.add(new Replacement("ah", "a"));
-    REPL.add(new Replacement("e", "eh"));
-    REPL.add(new Replacement("eh", "e"));
-    REPL.add(new Replacement("ae", "ä"));
-    REPL.add(new Replacement("oe", "ö"));
-    REPL.add(new Replacement("ue", "ü"));
-    REPL.add(new Replacement("Ae", "Ä"));
-    REPL.add(new Replacement("Oe", "Ö"));
-    REPL.add(new Replacement("Ue", "Ü"));
-    REPL.add(new Replacement("d", "t"));
-    REPL.add(new Replacement("t", "d"));
-    REPL.add(new Replacement("th", "t"));
-    REPL.add(new Replacement("t", "th"));
-    REPL.add(new Replacement("r", "rh"));
-    REPL.add(new Replacement("ch", "k"));
-    REPL.add(new Replacement("k", "ch"));
-    // not in de_DE.aff (not clear what uppercase replacement we need...):
-    REPL.add(new Replacement("F", "Ph"));
-    REPL.add(new Replacement("Ph", "F"));
-  }
+  private static final List<Replacement> REPL = Arrays.asList(
+      // see de_DE.aff:
+      new Replacement("f", "ph"),
+      new Replacement("ph", "f"),
+      new Replacement("ß", "ss"),
+      new Replacement("ss", "ß"),
+      new Replacement("s", "ss"),
+      new Replacement("ss", "s"),
+      new Replacement("i", "ie"),
+      new Replacement("ie", "i"),
+      new Replacement("ee", "e"),
+      new Replacement("o", "oh"),
+      new Replacement("oh", "o"),
+      new Replacement("a", "ah"),
+      new Replacement("ah", "a"),
+      new Replacement("e", "eh"),
+      new Replacement("eh", "e"),
+      new Replacement("ae", "ä"),
+      new Replacement("oe", "ö"),
+      new Replacement("ue", "ü"),
+      new Replacement("Ae", "Ä"),
+      new Replacement("Oe", "Ö"),
+      new Replacement("Ue", "Ü"),
+      new Replacement("d", "t"),
+      new Replacement("t", "d"),
+      new Replacement("th", "t"),
+      new Replacement("t", "th"),
+      new Replacement("r", "rh"),
+      new Replacement("ch", "k"),
+      new Replacement("k", "ch"),
+      // not in de_DE.aff (not clear what uppercase replacement we need...):
+      new Replacement("F", "Ph"),
+      new Replacement("Ph", "F")
+  );
   
   private final GermanCompoundTokenizer compoundTokenizer;
 
