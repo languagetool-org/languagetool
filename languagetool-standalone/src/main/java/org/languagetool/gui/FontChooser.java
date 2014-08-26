@@ -18,6 +18,7 @@
  */
 package org.languagetool.gui;
 
+import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
@@ -29,7 +30,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Locale;
 import java.util.ResourceBundle;
+
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -48,6 +51,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
 import org.languagetool.JLanguageTool;
 
 /**
@@ -300,6 +304,8 @@ class FontChooser extends JDialog implements ActionListener,
     setDefaultFont();
 
     getRootPane().setDefaultButton(cancelButton);
+	this.applyComponentOrientation(
+	  ComponentOrientation.getOrientation(Locale.getDefault()));
     pack();
   }
 
