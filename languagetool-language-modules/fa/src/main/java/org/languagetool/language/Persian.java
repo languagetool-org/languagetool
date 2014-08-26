@@ -20,6 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
+import org.languagetool.rules.fa.PersianWordRepeatBeginningRule;
 import org.languagetool.rules.fa.SimpleReplaceRule;
 import org.languagetool.tokenizers.PersianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -93,6 +94,7 @@ public class Persian extends Language {
         new DoublePunctuationRule(messages),
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
+        new PersianWordRepeatBeginningRule(messages, this),
         new SimpleReplaceRule(messages)
     );
   }
