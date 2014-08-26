@@ -188,7 +188,7 @@ public class GermanSpellerRuleTest {
     final HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("German"), GERMAN_DE);
     assertCorrectionsByOrder(rule, "heisst", "heißt");  // "heißt" should be first
     assertCorrectionsByOrder(rule, "heissen", "heißen");
-    assertCorrectionsByOrder(rule, "müßte", "müsste", "Mute");  // "müsste" should be first
+    assertCorrectionsByOrder(rule, "müßte", "müsste");
     assertCorrectionsByOrder(rule, "schmohren", "schmoren");
     assertCorrectionsByOrder(rule, "Fänomen", "Phänomen");
     assertCorrectionsByOrder(rule, "homofob", "homophob");
