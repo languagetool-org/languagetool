@@ -826,6 +826,10 @@ public final class Main {
           closeButton.addActionListener(actionListener);
           panel.add(closeButton,c);
         }
+        // orientation each time should be set as language may is changed
+        taggerDialog.applyComponentOrientation(ComponentOrientation.getOrientation(
+          ((Language) languageBox.getSelectedItem()).getLocale()));
+        
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       }
