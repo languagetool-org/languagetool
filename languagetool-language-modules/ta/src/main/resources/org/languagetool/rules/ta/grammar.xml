@@ -505,18 +505,50 @@ USA
 		<example type='incorrect'><marker>எங்கோ இருந்து</marker> வந்த தலைமைகள்.</example>
 		<example type='correct'><marker>எங்கோவிருந்து</marker> வந்த தலைமைகள்.</example>
 	  </rule>
-	</rulegroup> 
+	</rulegroup>
 	  <rule id="illaamal" name="மட்டும் + இல்லாமல்">
 		<pattern>
 			<token>மட்டும்</token>
 			<token>இல்லாமல்</token>
 		</pattern>
-		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வரும்போது சேர்த்து எழுதவேண்டும்: <suggestion>மட்டுமில்லாமல்</suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வந்தால் சேர்த்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ம்$" regexp_replace="" /><match no="2" regexp_match="^இ" regexp_replace="மி" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
-		<example type='incorrect'>இசை <marker>மட்டும் இல்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
-		<example type='correct'>இசை <marker>மட்டுமில்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
+		<example type='incorrect'>திட்டியதோடு <marker>மட்டும் இல்லாமல்</marker> அடிக்கவும் செய்தான்.</example>
+		<example type='correct'>திட்டியதோடு <marker>மட்டுமில்லாமல்</marker> அடிக்கவும் செய்தான்.</example>
 	  </rule>
+	<rulegroup id="illaamal2" name="பெயர்ச்சொல் + இல்லாமல்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)யில்லாமல்<exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ாயில்லாமல்</exception></token>
+		</pattern>
+		<message>பெயர்ச்சொற்களின் பின் 'இல்லாமல்' வந்தால் பிரித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="யில்லாமல்$" regexp_replace="" /> இல்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>மழையில்லாமல்</marker> பயிர் வாடுகிறது.</example>
+		<example type='correct'><marker>மழை இல்லாமல்</marker> பயிர் வாடுகிறது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ணமனரலழள]ில்லாமல்<exception regexp='yes'>(அது)?மட்டுமில்லாமல்</exception></token>
+		</pattern>
+		<message>பெயர்ச்சொற்களின் பின் 'இல்லாமல்' வந்தால் பிரித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ில்லாமல்$" regexp_replace="்" /> இல்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அறை போதிய <marker>வெளிச்சமில்லாமல்</marker> இருக்கிறது.</example>
+		<example type='correct'>அறை போதிய <marker>வெளிச்சம் இல்லாமல்</marker> இருக்கிறது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[கசடதபறவ]ில்லாமல்</token>
+		</pattern>
+		<message>பெயர்ச்சொற்களின் பின் 'இல்லாமல்' வந்தால் பிரித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ில்லாமல்$" regexp_replace="ு" /> இல்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>நெருப்பில்லாமல்</marker> புகையாது.</example>
+		<example type='correct'><marker>நெருப்பு இல்லாமல்</marker> புகையாது.</example>
+	  </rule>
+	</rulegroup>
 	  <rule id="illai" name="செய்வது + இல்லை">
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
