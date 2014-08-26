@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ta;
+package org.languagetool.rules.fa;
 
 import org.languagetool.rules.patterns.PatternRuleTest;
 

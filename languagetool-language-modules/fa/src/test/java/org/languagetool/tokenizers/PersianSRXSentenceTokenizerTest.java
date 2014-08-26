@@ -33,6 +33,10 @@ public class PersianSRXSentenceTokenizerTest {
     testSplit("این یک جمله است. ", "جملهٔ بعدی");
     testSplit("آیا این یک جمله است؟ ", "جملهٔ بعدی");
     testSplit("یک جمله!!! ", "جملهٔ بعدی");
+
+    testSplit("جملهٔ اول... خوب نیست؟ ", "جملهٔ دوم.");
+    testSplit("جملهٔ اول (...) ادامهٔ متن. ");
+    testSplit("جملهٔ اول [...] ادامهٔ متن. ");
   }
 
   private void testSplit(String... sentences) {
