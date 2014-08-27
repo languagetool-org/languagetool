@@ -36,8 +36,8 @@ public class PersianWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
   public PersianWordRepeatBeginningRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
-    addExamplePair(Example.wrong("همچنین، خیابان تقریباً کاملاً مسکونی است. <marker>همچنین</marker>، به اغتخار یک شاعر نامگذاری شده‌است."),
-                   Example.fixed("همچنین، خیابان تقریباً مسکونی است. <marker>این خیابان</marker> به اغتخار یک شاعر نامگذاری شده‌است."));
+    addExamplePair(Example.wrong("همچنین، خیابان تقریباً کاملاً مسکونی است. <marker>همچنین</marker>، به افتخار یک شاعر نامگذاری شده‌است."),
+                   Example.fixed("همچنین، خیابان تقریباً مسکونی است. <marker>این خیابان</marker> به افتخار یک شاعر نامگذاری شده‌است."));
   }
   
   @Override
