@@ -34,6 +34,12 @@ public class PersianCommaWhitespaceRule extends CommaWhitespaceRule {
     super(messages);
   }
   
+  @Override
+  public final String getId() {
+    return "PERSIAN_COMMA_PARENTHESIS_WHITESPACE";
+  }
+
+  @Override
   public String getCommaCharacter() {
 	  return "،";
   }

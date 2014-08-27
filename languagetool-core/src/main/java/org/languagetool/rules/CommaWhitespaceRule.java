@@ -43,7 +43,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   @Override
-  public final String getId() {
+  public String getId() {
     return "COMMA_PARENTHESIS_WHITESPACE";
   }
 
