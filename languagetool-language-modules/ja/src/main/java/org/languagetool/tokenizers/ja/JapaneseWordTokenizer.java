@@ -30,15 +30,12 @@ public class JapaneseWordTokenizer implements Tokenizer {
 
   private StringTagger stringtagger;
 
-  private void init(){
-    if(stringtagger == null){
-      stringtagger = SenFactory.getStringTagger(null);
-    }
+  public JapaneseWordTokenizer(){
+    stringtagger = SenFactory.getStringTagger(null);
   }
 
   @Override  
   public List<String> tokenize(String text){
-    init();
     final List<String> ret = new ArrayList<>();
     List<Token> tokens = new ArrayList<>();
     String basicForm;
