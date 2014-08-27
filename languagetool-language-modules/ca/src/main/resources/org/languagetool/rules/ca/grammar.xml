@@ -4100,7 +4100,7 @@ $Id$
                 <token>punt</token>
             </pattern>
             <message>Val més dir: <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match></suggestion>.</message>
-            <short>Possible confusió</short>
+            <short>Construcció preferible</short>
             <example type="incorrect" correction="Estan"><marker>Són</marker> a punt de fer-ho</example>
             <example type="correct">Estan a punt de fer-ho</example>           
             <example type="correct">Ha estat a punt de fer-ho</example>
@@ -4116,12 +4116,12 @@ $Id$
                 <marker>
                     <token inflected="yes">ser<exception>estat</exception></token>
                     <token>en</token>
-                    <token regexp="yes">contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú<exception postag="_possible_nompropi"/></token>
+                    <token regexp="yes">voga|contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú<exception postag="_possible_nompropi"/></token>
                 </marker>
             </pattern>
             <message>Val més usar el verb 'estar'.</message>
             <suggestion><match no="1" postag="VS(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match> <match no="2"/> <match no="3"/></suggestion>
-            <short>Possible confusió</short>
+            <short>Construcció preferible</short>
             <example type="incorrect" correction="estaven en ordre">Les coses <marker>eren en ordre</marker>.</example>
             <example type="correct">Estan en marxa</example>           
             <example type="correct">Han estat en perill des de fa temps.</example>
@@ -4137,7 +4137,7 @@ $Id$
             </pattern> <!-- no proposa bé el nombre sing/plural -->
             <message>Val més usar el verb 'estar'.</message>
             <suggestion><match no="2" postag="VA(.+)" postag_regexp="yes" postag_replace="VM$1">estar</match> <match no="3"/> <match no="4"/></suggestion>
-            <short>Possible confusió</short>
+            <short>Construcció preferible</short>
             <example type="incorrect" correction="Estava en joc"><marker>Hi havia en joc</marker> el futur.</example>
             <example type="correct">Estaven en marxa</example>           
             <example type="correct">Hi havia moltes coses en joc.</example>
@@ -17298,6 +17298,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="EN_BOGA" name="en *boga/voga">
+            <pattern>
+                <token>en</token>
+                <token>boga</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en voga</suggestion> (=acceptació general)? "Boga" és correcte en altres sentits.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="en voga">Estava <marker>en boga</marker>.</example>
+            <example type="correct">Estava en voga.</example>
+        </rule>
         <rule id="A_TOTHORA" name="*a tothora/a tota hora/tothora">
             <pattern>
                 <token>a</token>
