@@ -47,6 +47,10 @@ public class DoublePunctuationRule extends Rule {
   public final String getDescription() {
     return messages.getString("desc_double_punct");
   }
+  
+  public String getCommaCharacter() {
+    return ",";
+  }
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence sentence) {
@@ -65,7 +69,7 @@ public class DoublePunctuationRule extends Rule {
         dotCount++;
         commaCount = 0;
         startPos = tokens[i].getStartPos();
-      } else if (",".equals(token)) {
+      } else if (getCommaCharacter().equals(token)) {
         commaCount++;
         dotCount = 0;
         startPos = tokens[i].getStartPos();
@@ -77,15 +81,15 @@ public class DoublePunctuationRule extends Rule {
         ruleMatch.setSuggestedReplacement(".");
         ruleMatches.add(ruleMatch);
         dotCount = 0;
-      } else if (commaCount == 2 && !",".equals(nextToken)) {
+      } else if (commaCount == 2 && !getCommaCharacter().equals(nextToken)) {
         final int fromPos = Math.max(0, startPos - 1);
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
             getCommaMessage(), messages.getString("double_commas_short"));
-        ruleMatch.setSuggestedReplacement(",");
+        ruleMatch.setSuggestedReplacement(getCommaCharacter());
         ruleMatches.add(ruleMatch);
         commaCount = 0;
       }
-      if (!".".equals(token) && !",".equals(token)) {
+      if (!".".equals(token) && !getCommaCharacter().equals(token)) {
         dotCount = 0;
         commaCount = 0;
       }
