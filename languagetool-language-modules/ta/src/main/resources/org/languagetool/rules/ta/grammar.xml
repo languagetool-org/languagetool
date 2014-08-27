@@ -705,6 +705,17 @@ USA
 		<example type='correct'><marker>உலகில் உள்ள</marker> விலங்குகளில் பூச்சிகளின் எண்ணிக்கையே மிக அதிகம்.</example>
 	  </rule>
 	</rulegroup>
+	  <rule id="uudaaga" name="சொல் + இன் + ஊடே/ஊடாக">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ின்</token>
+			<token regexp='yes'>ஊடாக|ஊடே</token>
+		</pattern>
+		<message>'இன்' ஏற்ற பெயர்ச்சொல்லின் பின் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="" /><match no="2" regexp_match="^ஊ" regexp_replace="ூ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஜன்னல் <marker>கம்பிகளின் ஊடே</marker> உருவம் தெரிந்தது.</example>
+		<example type='correct'>ஜன்னல் <marker>கம்பிகளினூடே</marker> உருவம் தெரிந்தது.</example>
+	  </rule>
 	<rulegroup id="enRu" name="சொல் + என்று">
 	  <rule>
 		<pattern>
@@ -1048,7 +1059,7 @@ USA
 		<example type='correct'><marker>தேர்தலின்போது</marker> கலவரம்.</example>
 	  </rule>
 	</rulegroup>
-		<rulegroup id="mudiyum" name="வினையெச்சம் + முடியும்/முடியாது">
+	<rulegroup id="mudiyum" name="வினையெச்சம் + முடியும்/முடியாது">
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]முடியும்</token>
@@ -1068,6 +1079,58 @@ USA
 		<short>பிரித்து எழுத வேண்டும்</short>
 		<example type='incorrect'>இதை யாராலும் <marker>தடுக்கமுடியாது</marker>.</example>
 		<example type='correct'>இதை யாராலும் <marker>தடுக்க முடியாது</marker>.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="vazhiyaaka" name="பெயர்ச்சொல் + வழியாக">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாக<exception regexp='yes'>[அஇஎ]வ்வழியாக</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாக$" regexp_replace="" /> வழியாக</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர்கள் <marker>கடல்வழியாக</marker> இந்நாட்டிற்கு வந்தனர்.</example>
+		<example type='correct'>அவர்கள் <marker>கடல் வழியாக</marker> இந்நாட்டிற்கு வந்தனர்.</example>
+	  </rule>
+	  	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகக்<exception regexp='yes'>[அஇஎ]வ்வழியாகக்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகக்$" regexp_replace="" /> வழியாகக்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வாய்வழியாகக்</marker> காற்று வெளியேறியது.</example>
+		<example type='correct'><marker>வாய் வழியாகக்</marker> காற்று வெளியேறியது.</example>
+	  </rule>
+	  	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகச்<exception regexp='yes'>[அஇஎ]வ்வழியாகச்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகச்$" regexp_replace="" /> வழியாகச்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் நாடுகளைக் <marker>கடல்வழியாகச்</marker> சுற்றிவந்தார்.</example>
+		<example type='correct'>அவர் நாடுகளைக் <marker>கடல் வழியாகச்</marker> சுற்றிவந்தார்.</example>
+	  </rule>
+	  	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகத்<exception regexp='yes'>[அஇஎ]வ்வழியாகத்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகத்$" regexp_replace="" /> வழியாகத்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவ்வேறுபாடு <marker>மரபுவழியாகத்</marker> தொடர்கிறது.</example>
+		<example type='correct'>அவ்வேறுபாடு <marker>மரபு வழியாகத்</marker> தொடர்கிறது.</example>
+	  </rule>
+	  	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகப்<exception regexp='yes'>[அஇஎ]வ்வழியாகப்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகப்$" regexp_replace="" /> வழியாகப்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>ஜன்னல்வழியாகப்</marker> பார்.</example>
+		<example type='correct'><marker>ஜன்னல் வழியாகப்</marker> பார்.</example>
 	  </rule>
 	</rulegroup>
 	<rulegroup id="vENdum" name="வினையெச்சம் + வேண்டும்/வேண்டாம்">
