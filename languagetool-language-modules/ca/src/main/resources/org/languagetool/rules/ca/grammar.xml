@@ -3451,6 +3451,7 @@ $Id$
                 <example type="correct">Havia o no havia assumit això?</example>
                 <example type="correct">Ho havia o no ho havia assumit?</example>
                 <example type="correct">Havia o no dit això.</example>
+                <example type="correct">que anys ha degué ésser conegut</example>
             </rule>                   
             <!-- Error de picatge comú amb infinitiu o gerundi -->
             <rule>
@@ -7789,6 +7790,11 @@ $Id$
     </category>
     <category name="Z) Confusions" type="grammar">
         <rule id="OBRAR_OBRIR" name="obrar/obrir">
+            <antipattern>
+                <token>a</token>
+                <token regexp="yes">mig|mitjan</token>
+                <token>camí</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token skip="3" inflected="yes">obrar<exception inflected="yes">obrir</exception></token>
@@ -7801,6 +7807,7 @@ $Id$
             <example type="correct">Ens obre el camí.</example>
             <example type="correct">Ens obren les portes.</example>
             <example type="correct">Ens obrin les portes.</example>
+            <example type="correct">, obra a mig camí entre el reportatge i l'assaig.</example>
         </rule>
         <rule id="ALL_LLARG" name="*all/al llarg">
             <pattern>
@@ -10954,7 +10961,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                <token><exception>de</exception></token>
+                <token><exception>de</exception><exception postag="D..MS." postag_regexp="yes"/></token>
                     <marker>
                         <token>con</token>
                     </marker>
@@ -10963,7 +10970,10 @@ $Id$
                 <message>¿Volíeu dir <suggestion>com</suggestion> en comptes de "con" (= cos geomètric)?</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">Ferm <marker>con</marker> un sagrament.</example>
+                <example type="incorrect">fem també amb aquesta <marker>con</marker> l'altra</example>
                 <example type="correct">en forma de con</example>
+                <example type="correct">fem també amb el con l'experiment</example>
+                <example type="correct">fem també amb aquest con l'experiment</example>
             </rule>
         </rulegroup>
         <rule id="TAL_CON_TAL_COM" name="tal con/tal com">
@@ -17651,7 +17661,7 @@ $Id$
             <pattern>
                 <marker>
                     <token>mitjan</token>
-                    <token postag="D[ADI].*" postag_regexp="yes"></token>
+                    <token postag="D[AI].*" postag_regexp="yes"></token>
                 </marker>
             </pattern>
             <message>"Mitjan" ha d'anar seguit d'un nom, no d'un determinant.</message>
