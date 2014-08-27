@@ -51,6 +51,10 @@ public class CommaWhitespaceRule extends Rule {
   public final String getDescription() {
     return messages.getString("desc_comma_whitespace");
   }
+  
+  public String getCommaCharacter() {
+	  return ",";
+  }
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence sentence) {
@@ -68,23 +72,23 @@ public class CommaWhitespaceRule extends Rule {
       if (isWhitespace && isLeftBracket(prevToken)) {
         msg = messages.getString("no_space_after");
         suggestionText = prevToken;
-      } else if (!isWhitespace && prevToken.equals(",")
+      } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
           && isNotQuoteOrHyphen(token)
           && containsNoNumber(prevPrevToken)
           && containsNoNumber(token)
           && !",".equals(prevPrevToken)) {
         msg = messages.getString("missing_space_after_comma");
-        suggestionText = ", " + tokens[i].getToken();
+        suggestionText = getCommaCharacter() + " " + tokens[i].getToken();
       } else if (prevWhite) {
         if (isRightBracket(token)) {
           msg = messages.getString("no_space_before");
           suggestionText = token;
-        } else if (token.equals(",")) {
+        } else if (token.equals(getCommaCharacter())) {
           msg = messages.getString("space_after_comma");
-          suggestionText = ",";
+          suggestionText = getCommaCharacter();
           // exception for duplicated comma (we already have another rule for that)
           if (i + 1 < tokens.length
-              && ",".equals(tokens[i + 1].getToken())) {
+              && getCommaCharacter().equals(tokens[i + 1].getToken())) {
             msg = null;
           }
         } else if (token.equals(".")) {
