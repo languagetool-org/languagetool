@@ -28,7 +28,7 @@ $Id$
     <!ENTITY interp_conj "&interp;|&conj;">
     <!ENTITY nbsp " ">
     <!ENTITY apost "['`’]">
-    <!ENTITY weekdays "pon(iedziałek)?|wt(orek)?|śr(oda)?|czw(artek)|piątek|pt|sob(ota)?|niedz(ela)?">
+    <!ENTITY weekdays "poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela">
     <!ENTITY months "stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia">
     <!ENTITY abbrevMonths "I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII">
 ]>
@@ -8840,8 +8840,8 @@ $Id$
             <rulegroup name="Niespójny zapis daty" id="DATA_NIEMOZLIWA">
               <rule>
                 <pattern>
-                    <token skip="1" regexp="yes">&weekdays;<exception scope="next" negate="yes" regexp="yes">[,.]</exception></token>
-                    <token>,</token>
+                    <token skip="1" inflected="yes" regexp="yes">&weekdays;<exception scope="next" negate="yes" regexp="yes">[,.\d]+</exception></token>
+                    <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
                     <token regexp="yes">&months;|&abbrevMonths;</token>
                     <token regexp="yes">\d\d\d\d</token>
@@ -8853,14 +8853,35 @@ $Id$
                 <example type="correct">wtorek, 26 sierpnia 2014</example>
                 <example type="incorrect">Dziś jest <marker>wtorek, 27 sierpnia 2014</marker>.</example>
                 <example type="incorrect">Dziś jest <marker>pt., 27 sierpnia 2014</marker>.</example>
+                <example type="incorrect">Dziś jest <marker>niedziela 27 sierpnia 2014</marker>.</example>
+                <example type="incorrect">Koncert odbędzie się w <marker>niedzielę 27 sierpnia 2014</marker>.</example>
               </rule>
+                <rule>
+                    <pattern>
+                        <token skip="2" inflected="yes" regexp="yes">&weekdays;</token>
+                        <token regexp="yes">\d\d?</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">[0]?[1-9]|1\d</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </pattern>
+                    <filter class="org.languagetool.rules.pl.DateCheckFilter"
+                            args="year:\6 month:\4 day:\2 weekDay:\1"/>
+                    <message>Dzień \2.\4.\6 to nie \1.</message>
+                    <short>Niespójna data</short>
+                    <example type="correct">wtorek, 26.08.2014</example>
+                    <example type="incorrect">Dziś jest <marker>wtorek, 27.08.2014</marker>.</example>
+                    <example type="incorrect">Dziś jest <marker>pt., 27.8.2014</marker>.</example>
+                    <example type="incorrect">Dziś jest <marker>niedziela, 27.10.2014</marker>.</example>
+                </rule>
+
                 <rule>
                     <pattern>
                         <token regexp="yes">\d\d?</token>
                         <token regexp="yes">&months;|&abbrevMonths;</token>
                         <token regexp="yes">\d\d\d\d</token>
                         <token regexp="yes">[,\(]</token>
-                        <token regexp="yes">&weekdays;</token>
+                        <token regexp="yes" inflected="yes">&weekdays;</token>
                     </pattern>
                     <filter class="org.languagetool.rules.pl.DateCheckFilter"
                             args="year:\3 month:\2 day:\1 weekDay:\5"/>

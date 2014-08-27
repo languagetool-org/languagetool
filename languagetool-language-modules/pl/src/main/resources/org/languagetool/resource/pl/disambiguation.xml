@@ -7116,6 +7116,38 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <example type="ambiguous" inputform="mghr[mghr]" outputform="mghr[mghr/brev:pun]">To jest <marker>mghr</marker>. Lubiwicz.</example>
     </rule>
 
+    <rule name="niedz" id="niedz_brev">
+        <pattern>
+            <marker>
+                <token>niedz</token>
+            </marker>
+            <token>.</token>
+        </pattern>
+        <disambig action="add"><wd pos="brev:pun" lemma="niedziela"></wd></disambig>
+    </rule>
+
+    <rule name="pt." id="pt_piatek_brev">
+        <pattern>
+            <marker>
+                <token>pt</token>
+            </marker>
+            <token spacebefore="no">.</token>
+            <token regexp="yes">[,–—\-\d\)]+</token>
+        </pattern>
+        <disambig action="add"><wd pos="brev:pun" lemma="piątek"></wd></disambig>
+    </rule>
+
+    <rule name="pt." id="pt_piatek_brev_2">
+        <pattern>
+            <marker>
+                <token>pt</token>
+            </marker>
+            <token spacebefore="no" postag="SENT_END">.</token>
+        </pattern>
+        <disambig action="replace"><wd pos="brev:pun" lemma="piątek"></wd></disambig>
+    </rule>
+
+
     <rule id="PRZE_ZEMNIE" name="zemnie -> xxx">
         <pattern>
             <token>prze</token>
