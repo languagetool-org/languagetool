@@ -47,13 +47,11 @@
 
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Phrase-related vocabulary
-		</xs:documentation>
+		<xs:documentation xml:lang="en">Phrase-related vocabulary</xs:documentation>
 	</xs:annotation>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Phrase definitions
-		</xs:documentation>
+		<xs:documentation xml:lang="en">Phrase definitions</xs:documentation>
 	</xs:annotation>
 	<xs:element name="phrases">
 		<xs:complexType>
@@ -64,8 +62,7 @@
 	</xs:element>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> individual phrase
-			definition </xs:documentation>
+		<xs:documentation xml:lang="en">individual phrase definition</xs:documentation>
 	</xs:annotation>
 	<xs:element name="phrase">
 		<xs:complexType>
@@ -79,10 +76,6 @@
 		</xs:complexType>
 	</xs:element>
 
-	<xs:annotation>
-		<xs:documentation xml:lang="en"> OR operator for phrases
-		</xs:documentation>
-	</xs:annotation>
 	<xs:element name="includephrases">
 		<xs:complexType>
 			<xs:sequence>
@@ -92,8 +85,7 @@
 	</xs:element>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> element that points to
-			the defined phrase </xs:documentation>
+		<xs:documentation xml:lang="en">element that points to the defined phrase </xs:documentation>
 	</xs:annotation>
 	<xs:element name="phraseref">
 		<xs:complexType>
@@ -102,17 +94,14 @@
 	</xs:element>
  
 	<xs:annotation>
-		<xs:documentation xml:lang="en">Reference to the pattern element.
+		<xs:documentation xml:lang="en">Reference to the pattern's token element.
 		Might be used in a suggestion or in the pattern.</xs:documentation>
 	</xs:annotation>
 	<xs:element name="match">
 	<xs:complexType mixed="true">
-		<xs:attribute name="regexp_match" type="xs:string"
-			use="optional" />
-		<xs:attribute name="postag_regexp" type="binaryYesNo"
-			use="optional" default="no" />
-		<xs:attribute name="setpos" type="binaryYesNo" use="optional"
-			default="no" />
+		<xs:attribute name="regexp_match" type="xs:string" use="optional" />
+		<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
+		<xs:attribute name="setpos" type="binaryYesNo" use="optional" default="no" />
 		<xs:attribute name="case_conversion" use="optional">
 			<xs:simpleType>
 				<xs:restriction base="xs:NMTOKEN">
@@ -125,32 +114,24 @@
 			</xs:simpleType>
 		</xs:attribute>
 		<xs:attribute name="suppress_misspelled" type="binaryYesNo" use="optional"/>
-		<xs:attribute name="regexp_replace" type="xs:string"
-			use="optional" />
-		<xs:attribute name="postag_replace" type="xs:string"
-			use="optional" />
+		<xs:attribute name="regexp_replace" type="xs:string" use="optional" />
+		<xs:attribute name="postag_replace" type="xs:string" use="optional" />
 		<xs:attribute name="postag" type="xs:string" use="optional" />
-		<xs:attribute name="no" type="xs:nonNegativeInteger"
-			use="required" />
-		<xs:attribute name="include_skipped" type="includeSelector"
-			use="optional" default="none" />
+		<xs:attribute name="no" type="xs:nonNegativeInteger" use="required" />
+		<xs:attribute name="include_skipped" type="includeSelector" use="optional" default="none" />
 	</xs:complexType>
 	</xs:element>
 
-	<xs:element name="token">		
+	<xs:element name="token">
 	<xs:complexType mixed="true">
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:element ref="exception" />
 				<xs:element ref="match" />
 			</xs:choice>
-			<xs:attribute name="postag_regexp" type="binaryYesNo"
-				use="optional" default="no" />
-			<xs:attribute name="inflected" type="binaryYesNo" use="optional"
-				default="no" />
-			<xs:attribute name="negate" type="binaryYesNo" use="optional"
-				default="no" />
-			<xs:attribute name="regexp" type="binaryYesNo" use="optional"
-				default="no" />
+			<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="inflected" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="negate" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="regexp" type="binaryYesNo" use="optional" default="no" />
 			<xs:attribute name="chunk" use="optional">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
@@ -210,16 +191,13 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional"
-				default="no" />
-            <xs:attribute name="case_sensitive" type="binaryYesNo"
-                      use="optional" />
+			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional" />
 		</xs:complexType>
 	</xs:element>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Enables logical AND
-			between token elements.  </xs:documentation>
+		<xs:documentation xml:lang="en">Enables logical AND between token elements.</xs:documentation>
 	</xs:annotation>
 	<xs:element name="and">
 		<xs:complexType>
@@ -231,8 +209,7 @@
 	</xs:element>
 	
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Enables logical OR
-			between token elements.  </xs:documentation>
+		<xs:documentation xml:lang="en">Enables logical OR between token elements.</xs:documentation>
 	</xs:annotation>
 	<xs:element name="or">
 		<xs:complexType>
@@ -243,15 +220,12 @@
 	</xs:element>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Exception to the matched
-			token. </xs:documentation>
+		<xs:documentation xml:lang="en">Exception to the matched token.</xs:documentation>
 	</xs:annotation>
-
 	<xs:element name="exception">
 		<xs:complexType mixed="true">			
 			<xs:attribute name="postag_regexp" type="binaryYesNo" use="optional" default="no" />
-			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional"
-				default="no" />
+			<xs:attribute name="negate_pos" type="binaryYesNo" use="optional" default="no" />
 			<xs:attribute name="postag" type="xs:string" use="optional" />
 			<xs:attribute name="spacebefore" use="optional" default="ignore">
 				<xs:simpleType>
@@ -262,8 +236,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="inflected" type="binaryYesNo" use="optional"
-				default="no" />
+			<xs:attribute name="inflected" type="binaryYesNo" use="optional" default="no" />
 			<xs:attribute name="scope" use="optional" default="current">
 				<xs:simpleType>
 					<xs:restriction base="xs:NMTOKEN">
@@ -273,12 +246,9 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:attribute>
-			<xs:attribute name="regexp" type="binaryYesNo" use="optional"
-				default="no" />
-			<xs:attribute name="negate" type="binaryYesNo" use="optional"
-				default="no" />
-            <xs:attribute name="case_sensitive" type="binaryYesNo"
-                          use="optional" />
+			<xs:attribute name="regexp" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="negate" type="binaryYesNo" use="optional" default="no" />
+			<xs:attribute name="case_sensitive" type="binaryYesNo" use="optional" />
 		</xs:complexType>
 	</xs:element>
  
@@ -290,11 +260,10 @@
 					<xs:element ref="and" />
 					<xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
 					<xs:element ref="token" />
-                    <xs:element ref="unify-ignore" minOccurs="0" maxOccurs="unbounded"/>
-			    </xs:choice>
-			</xs:sequence>						
-			<xs:attribute name="negate" type="binaryYesNo" use="optional"
-				default="no" />
+					<xs:element ref="unify-ignore" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="negate" type="binaryYesNo" use="optional" default="no" />
 		</xs:complexType>
 	</xs:element>
 	
@@ -315,10 +284,8 @@
  
  
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Helper type for binary
-			choices. </xs:documentation>
+		<xs:documentation xml:lang="en">Helper type for binary choices.</xs:documentation>
 	</xs:annotation>
-
 	<xs:simpleType name="binaryYesNo">
 		<xs:restriction base="xs:NMTOKEN">
 			<xs:enumeration value="yes" />
@@ -327,10 +294,8 @@
 	</xs:simpleType>
 
 	<xs:annotation>
-		<xs:documentation xml:lang="en"> Helper type for match[@include_skipped].
-		</xs:documentation>
+		<xs:documentation xml:lang="en">Helper type for match[@include_skipped].</xs:documentation>
 	</xs:annotation>
-
 	<xs:simpleType name="includeSelector">
 		<xs:restriction base="xs:NMTOKEN">
 			<xs:enumeration value="none" />
@@ -340,32 +305,31 @@
 	</xs:simpleType>
  
  	<xs:annotation>
-		<xs:documentation xml:lang="en"> Marks the matched part of
-			the example. 
-		</xs:documentation>
+		<xs:documentation xml:lang="en">Marks the matched part of the example.</xs:documentation>
 	</xs:annotation>
 	<xs:element name="marker">
 		<xs:complexType mixed="false">
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-   				<xs:element ref="token" />
-                <xs:element ref="unify" />
-                <xs:element ref="and" />
-                <xs:element ref="phraseref" />
-                <xs:element ref="unify-ignore" />
-   			</xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="token" />
+				<xs:element ref="unify" />
+				<xs:element ref="and" />
+				<xs:element ref="phraseref" />
+				<xs:element ref="unify-ignore" />
+			</xs:choice>
 		</xs:complexType>
 	</xs:element>
 
-    <xs:annotation>
-        <xs:documentation xml:lang="en">Marks the neutral part of the unified sequence.</xs:documentation>
-    </xs:annotation>
-    <xs:element name="unify-ignore">
-        <xs:complexType>
-        <xs:choice minOccurs="0" maxOccurs="unbounded">
-            <xs:element ref="and" />
-            <xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
-            <xs:element ref="token" />
-        </xs:choice>
-        </xs:complexType>
-    </xs:element>
+	<xs:annotation>
+		<xs:documentation xml:lang="en">Marks the neutral part of the unified sequence.</xs:documentation>
+	</xs:annotation>
+	<xs:element name="unify-ignore">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element ref="and" />
+				<xs:element ref="marker" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="token" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
 </xs:schema>
