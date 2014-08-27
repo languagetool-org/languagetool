@@ -48,9 +48,7 @@ public class RuleTest extends TestCase {
         assertIdUniqueness(ids, ruleClasses, language, rule);
         assertIdValidity(language, rule);
         if (rule instanceof PatternRule) {
-          // doesn't make sense, but that's the way it works for PatternRules
-          // and it's documented that it always returns false:
-          assertFalse(rule.supportsLanguage(language));
+          throw new RuntimeException("Did not expect PatternRule here: " + rule);
         } else {
           assertTrue(rule.supportsLanguage(language));
           testExamples(rule, lt);
