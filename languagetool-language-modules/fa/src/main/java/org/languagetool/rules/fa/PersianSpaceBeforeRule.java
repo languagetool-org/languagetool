@@ -44,7 +44,7 @@ public class PersianSpaceBeforeRule extends PersianRule {
 
   @Override
   public String getId() {
-    return "Fa_SPACE_BEFORE_CONJUNCTION";
+    return "FA_SPACE_BEFORE_CONJUNCTION";
   }
 
   @Override
