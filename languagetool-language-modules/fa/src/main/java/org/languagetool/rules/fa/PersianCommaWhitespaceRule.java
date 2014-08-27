@@ -27,6 +27,7 @@ import org.languagetool.rules.CommaWhitespaceRule;
  * opening parenthesis followed by whitespace.
  * 
  * @author Ebrahim Byagowi
+ * @since 2.7
  */
 public class PersianCommaWhitespaceRule extends CommaWhitespaceRule {
 
@@ -41,7 +42,7 @@ public class PersianCommaWhitespaceRule extends CommaWhitespaceRule {
 
   @Override
   public String getCommaCharacter() {
-	  return "،";
+    return "،";
   }
 
 }
