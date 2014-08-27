@@ -94,6 +94,7 @@ public class Persian extends Language {
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
         // specific to Persian:
+        new PersianCommaWhitespaceRule(messages),
         new PersianWordRepeatBeginningRule(messages, this),
         new PersianWordRepeatRule(messages, this),
         new SimpleReplaceRule(messages),
