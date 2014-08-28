@@ -8191,7 +8191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
+                <token regexp="yes">evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
             </antipattern>
             <antipattern>
                 <!-- 'gibt es nach wie vor zu kaufen' -->
@@ -23751,12 +23751,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MEIN_KLEIN_HAUS" name="Grammatik: Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <rule>
                 <pattern>
-                    <token postag="PRP:.*" postag_regexp="yes"><exception regexp="yes">um|zu|als</exception></token>
-                    <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
-                    <token postag="SUB:.*" postag_regexp="yes">
-                        <exception postag="SUB:.*:ADJ" postag_regexp="yes" />
-                        <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
-                    </token>
+                    <marker>
+                        <token postag="PRP:.*" postag_regexp="yes"><exception regexp="yes">um|zu|als</exception></token>
+                        <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
+                        <token postag="SUB:.*" postag_regexp="yes">
+                            <exception postag="SUB:.*:ADJ" postag_regexp="yes" />
+                            <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
+                        </token>
+                    </marker>
+                    <token><exception regexp="yes">genannten|bezeichneten</exception></token>
                 </pattern>
                 <message>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mit groß Mühe' statt 'mit großer Mühe'</message>
                 <short>Möglicherweise fehlende grammatische Übereinstimmung zwischen Adjektiv und Nomen.</short>
@@ -23771,6 +23774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das Signal kann <marker>mit maximal Lichtgeschwindigkeit</marker> den Beobachter erreichen.</example>
                 <example type="correct">Wir sind ganz auf die Bedürfnisse <marker>von bewusst Reisenden</marker> eingestellt.</example>
                 <example type="correct"><marker>Als zufällig Jahre</marker> später der Brief gefunden wurde...</example>
+                <example type="correct">Die Konflikte gipfelten <marker>im scherzhaft Gedankenstrich-Krieg</marker> genannten Diskurs.</example>
             </rule>
             <!-- TODO ergaenzen -->
             <rule>
