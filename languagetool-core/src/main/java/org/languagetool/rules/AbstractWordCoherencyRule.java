@@ -67,7 +67,6 @@ public abstract class AbstractWordCoherencyRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    int pos = 0;
     for (AnalyzedTokenReadings tmpToken : tokens) {
       String token = tmpToken.getToken();
       final String origToken = token;
@@ -83,16 +82,14 @@ public abstract class AbstractWordCoherencyRule extends Rule {
         final RuleMatch otherMatch = shouldNotAppearWord.get(token);
         final String otherSpelling = otherMatch.getMessage();
         final String msg = getMessage(token, otherSpelling);
-        final RuleMatch ruleMatch = new RuleMatch(this, pos, pos + origToken.length(), msg);
+        final RuleMatch ruleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getStartPos() + origToken.length(), msg);
         ruleMatch.setSuggestedReplacement(otherSpelling);
         ruleMatches.add(ruleMatch);
       } else if (relevantWords.containsKey(token)) {
         final String shouldNotAppear = relevantWords.get(token);
-        // only used to display this spelling variation if the other one really occurs:
-        final RuleMatch potentialRuleMatch = new RuleMatch(this, pos, pos + origToken.length(), token);
+        final RuleMatch potentialRuleMatch = new RuleMatch(this, tmpToken.getStartPos(), tmpToken.getStartPos() + origToken.length(), token);
         shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
       }
-      pos += tmpToken.getToken().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
