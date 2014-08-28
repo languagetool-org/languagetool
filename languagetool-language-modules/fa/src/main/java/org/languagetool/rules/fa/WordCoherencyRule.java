@@ -58,8 +58,8 @@ public class WordCoherencyRule extends PersianRule {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
     relevantWords = loadWords(JLanguageTool.getDataBroker().getFromRulesDirAsStream(FILE_NAME));
-    addExamplePair(Example.wrong("من در <marker>اطاق</marker> تو را دیدم."),
-                   Example.fixed("من در <marker>اتاق</marker> تو را دیدم."));
+    //addExamplePair(Example.wrong("من در <marker>اطاق</marker> تو را دیدم."),
+    //               Example.fixed("من در <marker>اتاق</marker> تو را دیدم."));
   }
   
   @Override
