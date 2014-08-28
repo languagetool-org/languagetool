@@ -32,7 +32,7 @@ import org.languagetool.rules.patterns.PatternRule;
 
 public class RuleTest extends TestCase {
 
-  public void testJavaRuleIds() throws IOException {
+  public void testJavaRules() throws IOException {
     final Set<String> ids = new HashSet<>();
     final Set<Class> ruleClasses = new HashSet<>();
     if (Language.LANGUAGES.length <= 1) {
@@ -45,11 +45,11 @@ public class RuleTest extends TestCase {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
-        assertIdUniqueness(ids, ruleClasses, language, rule);
-        assertIdValidity(language, rule);
         if (rule instanceof PatternRule) {
           throw new RuntimeException("Did not expect PatternRule here: " + rule);
         } else {
+          assertIdUniqueness(ids, ruleClasses, language, rule);
+          assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
           testExamples(rule, lt);
         }

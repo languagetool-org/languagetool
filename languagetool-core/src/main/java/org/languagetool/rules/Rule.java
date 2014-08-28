@@ -53,15 +53,12 @@ public abstract class Rule {
   private List<RuleMatch> previousMatches;
   private List<RuleMatch> removedMatches;
 
-  /**
-   * Called by language-dependent rules.
-   */
   public Rule() {
     this.messages = null;
   }
 
   /**
-   * Called by language-independent rules.
+   * Called by rules that require a translation of their messages.
    */
   public Rule(final ResourceBundle messages) {
     this.messages = messages;
@@ -70,7 +67,8 @@ public abstract class Rule {
   /**
    * A string used to identify the rule in e.g. configuration files.
    * This string is supposed to be unique and to stay the same in all upcoming
-   * versions of LanguageTool.
+   * versions of LanguageTool. It's supposed to contain only the characters {@code A-Z} 
+   * and the underscore.
    */
   public abstract String getId();
 
