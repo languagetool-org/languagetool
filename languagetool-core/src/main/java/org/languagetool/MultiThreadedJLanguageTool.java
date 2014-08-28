@@ -20,6 +20,7 @@ package org.languagetool;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -93,9 +94,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     try {
       final List<Callable<List<RuleMatch>>> callables =
               createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
-      final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
-      for (Future<List<RuleMatch>> future : futures) {
-        ruleMatches.addAll(future.get());
+      final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);                      
+      for (int i = 0; i < futures.size(); i++) {
+          Future<List<RuleMatch>> future = futures.get(i);
+          ruleMatches.addAll(future.get());            
       }
     } catch (InterruptedException | ExecutionException e) {
       throw new RuntimeException(e);
