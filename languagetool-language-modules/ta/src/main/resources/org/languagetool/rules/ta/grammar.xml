@@ -784,7 +784,7 @@ USA
 		</pattern>
 		<message>'தகுந்த' என்னும் பொருளில் இடம்விட்டு எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="கேற்ற$" regexp_replace="கு" /> ஏற்ற</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=57#head</url>
-		<short>பிரித்து எழுத வேண்டும்</short>
+		<short>பிரித்து எழுதுவது சிறப்பு</short>
 		<example type='incorrect'><marker>உழைப்புக்கேற்ற</marker> ஊதியம்.</example>
 		<example type='correct'><marker>உழைப்புக்கு ஏற்ற</marker> ஊதியம்.</example>
 	  </rule>
@@ -1173,6 +1173,41 @@ USA
 		<short>பிரித்து எழுத வேண்டும்</short>
 		<example type='incorrect'>நீ இன்று <marker>வரவேண்டாம்</marker>!</example>
 		<example type='correct'>நீ இன்று <marker>வர வேண்டாம்</marker>!</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="vERu" name="வேறு + ஒரு/ஒருவர்/பல/சில/இடம்">
+	  <rule>
+		<pattern>
+			<token>வேறு</token>
+			<token regexp='yes'>ஒரு|ஒருவர்</token>
+		</pattern>
+		<message>'வேறு' அடுத்து வரும் ஒரு, ஒருவர் சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ொ" /><match no="2" regexp_match="^ஒ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வேறு ஒரு</marker> பக்கத்தில் பார்.</example>
+		<example type='correct'><marker>வேறொரு</marker> பக்கத்தில் பார்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token>வேறு</token>
+			<token regexp='yes'>பல|சில</token>
+		</pattern>
+		<message>'வேறு' அடுத்து வரும் 'சில', 'பல' சேர்த்து எழுதப்படுகிறது: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இவை <marker>வேறு சில</marker> இடங்களிலும் பொருந்தும்.</example>
+		<example type='correct'>இவை <marker>வேறுசில</marker> இடங்களிலும் பொருந்தும்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token>வேறு</token>
+			<token regexp='yes'>இடம்|இடத்திற்கு([கசதப]்)?|இடத்துக்கு([கசதப]்)?|இடத்தில்</token>
+		</pattern>
+		<message>'வேறு' அடுத்து வரும் 'இடம்' சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர்கள் <marker>வேறு இடத்துக்குக்</marker> குடிபெயர்ந்தனர்.</example>
+		<example type='correct'>அவர்கள் <marker>வேறிடத்துக்குக்</marker> குடிபெயர்ந்தனர்.</example>
 	  </rule>
 	</rulegroup>
 	</category>
