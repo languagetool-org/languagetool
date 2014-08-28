@@ -1091,6 +1091,28 @@ USA
 		<example type='correct'>இதை யாராலும் <marker>தடுக்க முடியாது</marker>.</example>
 	  </rule>
 	</rulegroup>
+	<rulegroup id="valadhu" name="இடது/வலது + சொல்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>இடது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
+		</pattern>
+		<message>'இடது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>இடது <match no="1" regexp_match="^இடது" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=49#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இடதுபுறம்</marker> பார்.</example>
+		<example type='correct'><marker>இடது புறம்</marker> பார்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>வலது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
+		</pattern>
+		<message>'வலது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>வலது <match no="1" regexp_match="^வலது" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வலதுபுறம்</marker> பார்.</example>
+		<example type='correct'><marker>வலது புறம்</marker> பார்.</example>
+	  </rule>
+	</rulegroup>
 	<rulegroup id="vazhiyaaka" name="பெயர்ச்சொல் + வழியாக">
 	  <rule>
 		<pattern>
@@ -1143,6 +1165,28 @@ USA
 		<example type='correct'><marker>ஜன்னல் வழியாகப்</marker> பார்.</example>
 	  </rule>
 	</rulegroup>
+	  <rule id="vaakkil" name="சொல் + வாக்கில்">
+		<pattern>
+			<token regexp='yes'>(([க-ஹ][ா-்]?)*)</token>
+			<token>வாக்கில்</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களோடும் சேர்த்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head4</url>
+		<short>சேர்த்து எழுதலாம்</short>
+		<example type='incorrect'><marker>நீள வாக்கில்</marker> மடி.</example>
+		<example type='correct'><marker>நீளவாக்கில்</marker> மடி.</example>
+	  </rule>
+	<rule id="vegu" name="வெகு + சொல்">
+		<pattern>
+			<token>வெகு</token>
+			<token regexp='yes'>(([க-ஹ][ா-்]?)*)</token>
+		</pattern>
+		<message>'வெகு'வை அடுத்து வரும் சொல்லோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>காந்தாரி <marker>வெகு காலம்</marker> கர்ப்பமாக இருந்தாள்.</example>
+		<example type='correct'>காந்தாரி <marker>வெகுகாலம்</marker> கர்ப்பமாக இருந்தாள்.</example>
+	  </rule>
 	<rulegroup id="vENdum" name="வினையெச்சம் + வேண்டும்/வேண்டாம்">
 	  <rule>
 		<pattern>
@@ -1183,7 +1227,7 @@ USA
 		</pattern>
 		<message>'வேறு' அடுத்து வரும் ஒரு, ஒருவர் சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ொ" /><match no="2" regexp_match="^ஒ" regexp_replace="" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
-		<short>சேர்த்து எழுத வேண்டும்</short>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
 		<example type='incorrect'><marker>வேறு ஒரு</marker> பக்கத்தில் பார்.</example>
 		<example type='correct'><marker>வேறொரு</marker> பக்கத்தில் பார்.</example>
 	  </rule>
@@ -1194,7 +1238,7 @@ USA
 		</pattern>
 		<message>'வேறு' அடுத்து வரும் 'சில', 'பல' சேர்த்து எழுதப்படுகிறது: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
-		<short>சேர்த்து எழுத வேண்டும்</short>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
 		<example type='incorrect'>இவை <marker>வேறு சில</marker> இடங்களிலும் பொருந்தும்.</example>
 		<example type='correct'>இவை <marker>வேறுசில</marker> இடங்களிலும் பொருந்தும்.</example>
 	  </rule>
@@ -1205,7 +1249,7 @@ USA
 		</pattern>
 		<message>'வேறு' அடுத்து வரும் 'இடம்' சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
-		<short>சேர்த்து எழுத வேண்டும்</short>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
 		<example type='incorrect'>அவர்கள் <marker>வேறு இடத்துக்குக்</marker> குடிபெயர்ந்தனர்.</example>
 		<example type='correct'>அவர்கள் <marker>வேறிடத்துக்குக்</marker> குடிபெயர்ந்தனர்.</example>
 	  </rule>
