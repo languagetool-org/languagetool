@@ -24,14 +24,14 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * English localization of {@link AbstractDateCheckFilter}.
+ * French localization of {@link AbstractDateCheckFilter}.
  * @since 2.7
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
 
   @Override
   protected Calendar getCalendar() {
-    return Calendar.getInstance(Locale.UK);
+    return Calendar.getInstance(Locale.FRENCH);
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
