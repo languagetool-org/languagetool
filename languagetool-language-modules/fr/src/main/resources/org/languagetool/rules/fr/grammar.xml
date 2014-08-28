@@ -13242,7 +13242,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DEPENSE_DOPERATION" name="dépense d’opération">
       <pattern>
-        <token regexp="yes" skip="3">dépenses?</token>
+        <token regexp="yes">dépenses?</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">opérations?</token>
       </pattern>
       <message>« Dépense d’opération » est un anglicisme. Employez <suggestion>dépense de fonctionnement</suggestion>.</message>
@@ -13251,7 +13253,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COUT_DOPERATION" name="coût d’opération">
       <pattern>
-        <token regexp="yes" skip="3">coûts?</token>
+        <token regexp="yes">coûts?</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">opérations?</token>
       </pattern>
       <message>« Coût d’opération » est un anglicisme (operation costs). Employez <suggestion>frais d’exploitation</suggestion>.</message>
@@ -13260,7 +13264,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="FRAIS_DOPERATION" name="frais d’opération">
       <pattern>
-        <token skip="3">frais</token>
+        <token>frais</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">opérations?</token>
       </pattern>
       <message>« Frais d’opération » est un anglicisme (operation costs). Employez <suggestion>frais d’exploitation</suggestion>.</message>
