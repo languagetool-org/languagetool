@@ -23,6 +23,8 @@ import org.languagetool.rules.Rule;
 /**
  * Abstract base class for rules for the Persian language.
  * 
+ * @author Ebrahim Byagowi
+ * @since 2.7
  */
 public abstract class PersianRule extends Rule {
 

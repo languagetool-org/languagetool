@@ -27,6 +27,8 @@ import org.languagetool.rules.WordRepeatRule;
 
 /**
  * Word repeat rule for English, to avoid false alarms in the generic word repetition rule.
+ * 
+ * @since 2.7
  */
 public class PersianWordRepeatRule extends WordRepeatRule {
 
@@ -60,18 +62,6 @@ public class PersianWordRepeatRule extends WordRepeatRule {
     }
     if (wordRepetitionOf("کل", tokens, position)) {
       return true;   // "با من کل کل نکن"
-    }
-    return false;
-  }
-
-  private boolean nextPOSIsIn(AnalyzedTokenReadings[] tokens, int position, String... posTags) {
-    if (tokens.length > position + 1) {
-      for (String posTag : posTags) {
-        if (tokens[position + 1].hasPartialPosTag(posTag)) {
-          return true;
-        }
-      }
-
     }
     return false;
   }
