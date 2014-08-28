@@ -44,6 +44,7 @@ import org.languagetool.rules.RuleMatch;
  * American English vs. British English or German "alte Rechtschreibung"
  * vs. "neue Rechtschreibung" -- that's the task of a spell checker.
  * 
+ * @since 2.7
  */
 public class WordCoherencyRule extends PersianRule {
 

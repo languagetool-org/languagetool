@@ -33,6 +33,7 @@ import org.languagetool.rules.RuleMatch;
 /**
  * A Persian rule that checks if there is a missing space begore some conjunctions.
  * 
+ * @since 2.7
  */
 public class PersianSpaceBeforeRule extends PersianRule {
 

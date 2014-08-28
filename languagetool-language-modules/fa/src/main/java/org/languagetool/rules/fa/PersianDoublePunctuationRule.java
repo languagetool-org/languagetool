@@ -20,7 +20,6 @@ package org.languagetool.rules.fa;
 
 import java.util.ResourceBundle;
 
-import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.DoublePunctuationRule;
 
 /**

@@ -31,6 +31,7 @@ import org.languagetool.rules.WordRepeatBeginningRule;
  * List of Persian adverbs for WordRepeatBeginningRule
  * 
  * @author Ebrahim Byagowi
+ * @since 2.7
  */
 public class PersianWordRepeatBeginningRule extends WordRepeatBeginningRule {
   
