@@ -77,7 +77,7 @@ USA
 	  <rule id="noun_suffix_1" name="பெயர் + இடைச்சொல்">
 		<pattern>
 			<token postag='NN.*' postag_regexp='yes'><exception postag='FV|SV|.*-F|.*-S' postag_regexp='yes'></exception></token>
-			<token regexp='yes'>கீழ்|குறித்த|குறித்து([கசதப]்)?|பற்றி([கசதப]்)?|பற்றிய|மீதான|மீது|மூலம்|மேல்|பின்|பேரில்|போல([கசதப]்)?|போல்</token> <!-- "தவிர", "பொருட்டு" ஆகியன நீக்கப்பட்டது -->
+			<token regexp='yes'>கீழ்|குறித்த|குறித்து([கசதப]்)?|பற்றி([கசதப]்)?|பற்றிய|மீதான|மீது(ம்)?|மூலம்|மேல்|பின்|பேரில்|போல([கசதப]்)?|போல்</token> <!-- "தவிர", "பொருட்டு" ஆகியன நீக்கப்பட்டது -->
 		</pattern>
 		<message>வேற்றுமை உருபு இல்லா சொல்பின் கீழ், பற்றி முதலியன சேர்ந்து வரும்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
@@ -778,6 +778,16 @@ USA
 		<example type='correct'>அவர் அத்தீவுக்கு கிரிஸ்துமஸ் <marker>தீவெனப்</marker> பெயரிட்டார்.</example>
 	  </rule>
 	</rulegroup>
+	  <rule id="ERRa" name="பெயர்ச்சொல் + 'கு' உருபு + ஏற்ற">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[கற]்கேற்ற<exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]க்கேற்ற</exception></token>
+		</pattern>
+		<message>'தகுந்த' என்னும் பொருளில் இடம்விட்டு எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="கேற்ற$" regexp_replace="கு" /> ஏற்ற</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=57#head</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>உழைப்புக்கேற்ற</marker> ஊதியம்.</example>
+		<example type='correct'><marker>உழைப்புக்கு ஏற்ற</marker> ஊதியம்.</example>
+	  </rule>
 	  <rule id="kuudaadhu" name="சொல் + கூடாது">
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?கூடாது</token>
@@ -1092,7 +1102,7 @@ USA
 		<example type='incorrect'>அவர்கள் <marker>கடல்வழியாக</marker> இந்நாட்டிற்கு வந்தனர்.</example>
 		<example type='correct'>அவர்கள் <marker>கடல் வழியாக</marker> இந்நாட்டிற்கு வந்தனர்.</example>
 	  </rule>
-	  	  <rule>
+	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகக்<exception regexp='yes'>[அஇஎ]வ்வழியாகக்</exception></token>
 		</pattern>
@@ -1102,7 +1112,7 @@ USA
 		<example type='incorrect'><marker>வாய்வழியாகக்</marker> காற்று வெளியேறியது.</example>
 		<example type='correct'><marker>வாய் வழியாகக்</marker> காற்று வெளியேறியது.</example>
 	  </rule>
-	  	  <rule>
+	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகச்<exception regexp='yes'>[அஇஎ]வ்வழியாகச்</exception></token>
 		</pattern>
@@ -1112,7 +1122,7 @@ USA
 		<example type='incorrect'>அவர் நாடுகளைக் <marker>கடல்வழியாகச்</marker> சுற்றிவந்தார்.</example>
 		<example type='correct'>அவர் நாடுகளைக் <marker>கடல் வழியாகச்</marker> சுற்றிவந்தார்.</example>
 	  </rule>
-	  	  <rule>
+	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகத்<exception regexp='yes'>[அஇஎ]வ்வழியாகத்</exception></token>
 		</pattern>
@@ -1122,7 +1132,7 @@ USA
 		<example type='incorrect'>அவ்வேறுபாடு <marker>மரபுவழியாகத்</marker> தொடர்கிறது.</example>
 		<example type='correct'>அவ்வேறுபாடு <marker>மரபு வழியாகத்</marker> தொடர்கிறது.</example>
 	  </rule>
-	  	  <rule>
+	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகப்<exception regexp='yes'>[அஇஎ]வ்வழியாகப்</exception></token>
 		</pattern>
@@ -1265,7 +1275,7 @@ USA
 	<rulegroup id="Ends_in_A_3" name="முதல் சொல்லின் இறுதி எழுத்து அ (3)">
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -1276,7 +1286,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1287,7 +1297,7 @@ USA
         </rule>
        <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1298,7 +1308,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -1639,7 +1649,7 @@ USA
 	<rulegroup id="Ends_in_Ai_1" name="2 ஆம் வேற்றுமை உருபு (ஓருமை)">
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception regexp='yes'>ஆணை|வித்தை</exception></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -1650,7 +1660,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception regexp='yes'>ஆணை|வித்தை</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1661,7 +1671,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception regexp='yes'>ஆணை|வித்தை</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1672,7 +1682,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception regexp='yes'>ஆணை|வித்தை</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
