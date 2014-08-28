@@ -57,8 +57,11 @@ import java.io.IOException;
  */
 public class VerbAgreementRule extends GermanRule {
   
+  // Words that prevent a rule match when they occur directly before "bin":
   private static final Set<String> BIN_IGNORE = new HashSet<>(Arrays.asList(
     "al-Aziz",
+    "Asis",
+    "Numan",
     "Hussein",
     "Abdul",
     "Abdulla",
