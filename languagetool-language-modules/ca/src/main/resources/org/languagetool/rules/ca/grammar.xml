@@ -30,7 +30,9 @@ $Id$
     <!ENTITY exceptions_ASSENTAR_ASSEURE "igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_A_DIT_HA_DIT "concedir|crèdit|selecció|subvenció|atorgar|designar|designació|contractar|contractació|plaça|assignar|assignació|nomenar|nomenament|col·locar|col·locació|ajudicar|adjudicació|càrrec">
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
+    <!ENTITY dies_setmana_abrev "dl|dt|dc|dj|dv|ds|dg">
     <!ENTITY mesos_any "gener|febrer|març|abril|maig|juny|juliol|agost|setembre|octubre|novembre|desembre">
+    <!ENTITY mesos_any_abrev "gen|febr|març|abr|maig|juny|jul|ag|set|oct|nov|des">
     <!ENTITY mesos_any_maj "Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre">
     <!ENTITY estacions "primavera|estiu|tardor|hivern">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
@@ -85,6 +87,57 @@ $Id$
             <token postag="(P.|V.{3})[30].*" postag_regexp="yes"></token>
         </equivalence>
     </unification>
+    <category name="Semàntica" type="inconsistency">
+        <rulegroup id="DATE_WEEKDAY" name="El dia de la setmana no correspon amb la data">
+            <rule>
+                <pattern>
+                    <!-- "Dilluns, 7 d'octubre de 2014" -->
+                    <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
+                    <token>de</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>La data \3 \5 \7 no és un \1.</message>
+                <example type='incorrect'><marker>Dilluns, 7 d'octubre de 2014</marker></example>
+                <example type='correct'><marker>Dimarts, 7 d'octubre de 2014</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "Dilluns, 7 d'octubre del 2014" -->
+                    <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
+                    <token>de</token>
+                    <token spacebefore="no">l</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\8 month:\5 day:\3 weekDay:\1"/>
+                <message>La data \3 \5 \8 no és un \1.</message>
+                <example type='incorrect'><marker>Dilluns, 7 d'octubre del 2014</marker></example>
+                <example type='correct'><marker>Dimarts, 7 d'octubre del 2014</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "Dilluns, 7 oct 2014" -->
+                    <token regexp="yes">&dies_setmana;|&dies_setmana_abrev;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&mesos_any;|&mesos_any_abrev;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.ca.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+                <message>La data \3 \4 \5 no és un \1.</message>
+                <example type='incorrect'><marker>Dilluns, 7 oct 2014</marker></example>
+                <example type='correct'><marker>Dimarts, 7 oct 2014</marker></example>
+            </rule>
+        </rulegroup>
+    </category>
     <category name="A2) Variants regionals: accentuació, possessius, demostratius, pronoms" default="on"  type="locale-violation">
         <rulegroup id="DEMOSTRATIUS" name="demostratius 'este' i 'eixe'" >
              <rule id="EVITA_DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'">
