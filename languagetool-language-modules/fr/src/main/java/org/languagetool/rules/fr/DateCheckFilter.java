@@ -38,13 +38,13 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getDayOfWeek(String dayStr) {
     String day = dayStr.toLowerCase();
-    if (day.equals("dimanche")) return Calendar.SUNDAY;
-    if (day.equals("lundi"))    return Calendar.MONDAY;
-    if (day.equals("mardi"))    return Calendar.TUESDAY;
-    if (day.equals("mercredi")) return Calendar.WEDNESDAY;
-    if (day.equals("jeudi"))    return Calendar.THURSDAY;
-    if (day.equals("vendredi")) return Calendar.FRIDAY;
-    if (day.equals("samedi"))   return Calendar.SATURDAY;
+    if (day.startsWith("dim")) return Calendar.SUNDAY;
+    if (day.startsWith("lun")) return Calendar.MONDAY;
+    if (day.startsWith("mar")) return Calendar.TUESDAY;
+    if (day.startsWith("mer")) return Calendar.WEDNESDAY;
+    if (day.startsWith("jeu")) return Calendar.THURSDAY;
+    if (day.startsWith("ven")) return Calendar.FRIDAY;
+    if (day.startsWith("sam")) return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
 
@@ -57,19 +57,19 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
-    if (mon.equals("janvier")   || mon.equals("1") || mon.equals("01")) return 1;
-    if (mon.equals("février")   || mon.equals("2") || mon.equals("02")) return 2;
-    if (mon.equals("mars")      || mon.equals("3") || mon.equals("03")) return 3;
-    if (mon.equals("avril")     || mon.equals("4") || mon.equals("04")) return 4;
-    if (mon.equals("mai")       || mon.equals("5") || mon.equals("05")) return 5;
-    if (mon.equals("juin")      || mon.equals("6") || mon.equals("06")) return 6;
-    if (mon.equals("juillet")   || mon.equals("7") || mon.equals("07")) return 7;
-    if (mon.equals("aout")      ||
-        mon.equals("août")      || mon.equals("8") || mon.equals("08")) return 8;
-    if (mon.equals("septembre") || mon.equals("9") || mon.equals("09")) return 9;
-    if (mon.equals("octobre")   || mon.equals("10")) return 10;
-    if (mon.equals("novembre")  || mon.equals("11")) return 11;
-    if (mon.equals("décembre")  || mon.equals("12")) return 12;
+    if (mon.startsWith("jan")) return 1;
+    if (mon.startsWith("fév")) return 2;
+    if (mon.startsWith("mar")) return 3;
+    if (mon.startsWith("avr")) return 4;
+    if (mon.startsWith("mai")) return 5;
+    if (mon.startsWith("jui")) return 6;
+    if (mon.startsWith("jui")) return 7;
+    if (mon.startsWith("aou") ||
+        mon.startsWith("aoû")) return 8;
+    if (mon.startsWith("sep")) return 9;
+    if (mon.startsWith("oct")) return 10;
+    if (mon.startsWith("nov")) return 11;
+    if (mon.startsWith("déc")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
 
