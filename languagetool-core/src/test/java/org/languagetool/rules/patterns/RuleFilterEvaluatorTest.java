@@ -24,10 +24,26 @@ import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Map;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class RuleFilterEvaluatorTest {
 
   private final RuleFilterEvaluator eval = new RuleFilterEvaluator(null);
+
+  @Test
+  public void testGetResolvedArguments() throws Exception {
+    AnalyzedTokenReadings[] readingsList = {
+            new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
+            new AnalyzedTokenReadings(new AnalyzedToken("fake2", "pos", null), 0)
+    };
+    Map<String,String> map = eval.getResolvedArguments("year:\\1 month:\\2", readingsList, Arrays.asList(1, 1));
+    assertThat(map.get("year"), is("fake1"));
+    assertThat(map.get("month"), is("fake2"));
+    assertThat(map.size(), is(2));
+  }
 
   @Test(expected = RuntimeException.class)
   public void testDuplicateKey() throws Exception {
