@@ -53,7 +53,7 @@ public class CommaWhitespaceRule extends Rule {
   }
   
   public String getCommaCharacter() {
-	  return ",";
+    return ",";
   }
 
   @Override

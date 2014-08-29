@@ -54,7 +54,7 @@ class ConfigThread extends Thread {
   }  
 
   @Override
-  public void run() {    
+  public void run() {
     try {
       final JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
