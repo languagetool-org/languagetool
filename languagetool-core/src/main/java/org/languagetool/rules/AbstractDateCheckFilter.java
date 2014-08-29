@@ -67,6 +67,14 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
     }
   }
 
+  protected String getRequired(String key, Map<String, String> map) {
+    String result = map.get(key);
+    if (result == null) {
+      throw new IllegalArgumentException("Missing key '" + key + "'");
+    }
+    return result;
+  }
+
   private Calendar getDate(Map<String, String> args) {
     int year = Integer.parseInt(getRequired("year", args));
     int month = getMonthFromArguments(args);
@@ -75,14 +83,6 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
     //noinspection MagicConstant
     calendar.set(year, month, dayOfMonth, 0, 0, 0);
     return calendar;
-  }
-
-  private String getRequired(String key, Map<String, String> map) {
-    String result = map.get(key);
-    if (result == null) {
-      throw new IllegalArgumentException("Missing key '" + key + "'");
-    }
-    return result;
   }
 
   private int getMonthFromArguments(Map<String, String> args) {
