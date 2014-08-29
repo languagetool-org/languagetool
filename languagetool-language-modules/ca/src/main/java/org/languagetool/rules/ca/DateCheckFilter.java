@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 /**
- * English localization of {@link AbstractDateCheckFilter}.
+ * Catalan localization of {@link AbstractDateCheckFilter}.
  * @since 2.7
  */
 public class DateCheckFilter extends AbstractDateCheckFilter {
