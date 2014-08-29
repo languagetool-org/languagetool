@@ -27067,43 +27067,49 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+          <token min="0" max="1">,</token>
           <token regexp="yes">[012]?\d|3[01]</token>
           <token regexp="yes">janvier|février|mars|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
-        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\4 month:\3 day:\2 weekDay:\1"/>
-        <message>La date « \2 \3 \4 » n’est pas un <match no="1" case_conversion="alllower"/>.</message>
+        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+        <message>La date « \3 \4 \5 » n’est pas un <match no="1" case_conversion="alllower"/>.</message>
         <example type="incorrect"><marker>Vendredi 28 août 2014</marker>.</example>
         <example type="incorrect"><marker>Vendredi 28 août 2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 28 août 2014</marker>.</example>
         <example type="correct">Jeudi 28 août 2014.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+          <token min="0" max="1">,</token>
           <token regexp="yes">[012]?\d|3[01]</token>
           <token>/</token>
           <token regexp="yes">0?\d|1[012]</token>
           <token>/</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
-        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\6 month:\4 day:\2 weekDay:\1"/>
-        <message>La date « \2\3\4\5\6 » n’est pas un <match no="1" case_conversion="alllower"/>.</message>
+        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+        <message>La date « \3\4\5\6\7 » n’est pas un <match no="1" case_conversion="alllower"/>.</message>
         <example type="incorrect"><marker>Vendredi 28/08/2014</marker>.</example>
         <example type="incorrect"><marker>Vendredi 28/8/2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 28/8/2014</marker>.</example>
         <example type="correct"><marker>Jeudi 28/08/2014</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche</token>
+          <token min="0" max="1">,</token>
           <token regexp="yes">[12]\d\d\d</token>
           <token>/</token>
           <token regexp="yes">0?\d|1[012]</token>
           <token>/</token>
           <token regexp="yes">[012]?\d|3[01]</token>
         </pattern>
-        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\2 month:\4 day:\6 weekDay:\1"/>
-        <message>La date « \2\3\4\5\6 » n’est pas un <match no="1" case_conversion="alllower"/>.</message>
+        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\3 month:\5 day:\7 weekDay:\1"/>
+        <message>La date « \3\4\5\6\7 » n’est pas un <match no="1" case_conversion="alllower"/>.</message>
         <example type="incorrect"><marker>Vendredi 2014/08/28</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 2014/08/28</marker>.</example>
         <example type="correct"><marker>Jeudi 2014/08/28</marker>.</example>
       </rule>
       <rule>
