@@ -50,7 +50,15 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
 
   @Override
   protected String getDayOfWeek(Calendar date) {
-    return date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
+    String englishDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
+    if (englishDay.equals("Sunday")) return "diumenge";
+    if (englishDay.equals("Monday")) return "dilluns";
+    if (englishDay.equals("Tuesday")) return "dimarts";
+    if (englishDay.equals("Wednesday")) return "dimecres";
+    if (englishDay.equals("Thursday")) return "dijous";
+    if (englishDay.equals("Friday")) return "divendres";
+    if (englishDay.equals("Saturday")) return "dissabte";
+    return "";
   }
 
   @SuppressWarnings({"ControlFlowStatementWithoutBraces", "MagicNumber"})
@@ -71,5 +79,4 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.startsWith("des")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
-
 }
