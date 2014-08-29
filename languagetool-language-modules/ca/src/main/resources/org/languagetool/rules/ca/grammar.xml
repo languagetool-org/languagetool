@@ -1974,6 +1974,21 @@ $Id$
                 <example type="incorrect" correction="mateixes">En elles <marker>mateixa</marker>.</example>
                 <example type="correct">Ho van fer ells mateixos.</example>
             </rule>
+            <rule id="MANERA_O_ALTRE" name="una manera o *altre/altra">
+                <pattern>
+                    <token>una</token>
+                    <token postag='NC[FC][SN]000' postag_regexp='yes'></token>
+                    <token regexp='yes'>o|i|ni</token>
+                    <marker>
+                        <token>altre</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion>altra</suggestion>
+                <example type='incorrect' correction='altra'>D'una manera o <marker>altre</marker>.</example>
+                <example type='incorrect'>Una cosa o <marker>altre</marker></example>
+                <example type='correct'>D'una manera o altra</example>
+            </rule>
             <rule id="DE_MANERA_ADJ" name="de manera + adj">
                 <!-- Problem not detected by rule COMPLEX_ADJECTIVE_CONCORDANCE in some contexts-->
                 <pattern>
