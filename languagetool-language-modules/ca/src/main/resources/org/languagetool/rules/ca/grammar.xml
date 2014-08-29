@@ -7842,6 +7842,39 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="CABDAL_CABAL" name="cabdal/cabal">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">cabdals?<exception scope="previous" postag="N.*" postag_regexp="yes"/><exception scope="previous" regexp="yes" inflected="yes">ser|considerar|resultar|,</exception></token>
+                    </marker>
+                    <token><exception postag="N.*" postag_regexp="yes"></exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag=".*([SP]).*" postag_regexp="yes" postag_replace="NCM$1000">cabal</match></suggestion> (=quantitat de fluid, conjunt de béns) en comptes de \1 (=eminent, principal)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="cabal">El <marker>cabdal</marker> del riu.</example>
+                <example type="correct">Això era cabdal.</example>
+                <example type="correct">Obres cabdals del seu catàleg.</example>
+                <example type="correct">Aquestes obres, cabdals en el seu catàleg.</example>
+                <example type="correct">Això era de cabdal importància.</example>
+                <example type="correct">Fruit del seu cabdal treball.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">cabdals?<exception scope="previous" postag="N.*" postag_regexp="yes"/><exception scope="previous" regexp="yes" inflected="yes">ser|considerar|resultar|,</exception></token>
+                    </marker>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag=".*([SP]).*" postag_regexp="yes" postag_replace="NCM$1000">cabal</match></suggestion> (=quantitat de fluid, conjunt de béns) en comptes de \1 (=eminent, principal)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="cabals">De <marker>cabdals</marker> variables.</example>
+                <example type="incorrect" correction="cabal">De <marker>cabdal</marker> mitjà.</example>
+                <example type="correct">Això era cabdal.</example>
+                <example type="correct">Això era de cabdal importància.</example>
+                <example type="correct">Fruit del seu cabdal treball.</example>
+            </rule>
+        </rulegroup>
         <rule id="OBRAR_OBRIR" name="obrar/obrir">
             <antipattern>
                 <token>a</token>
