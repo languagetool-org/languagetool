@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * Accepts rule matches if a date doesn't match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
- * isn't actually a Monday.
+ * isn't actually a Monday. Replaces {@code \realDay} with the real day of the date in the rule's message.
  * @since 2.7
  */
 public abstract class AbstractDateCheckFilter implements RuleFilter {
@@ -35,6 +35,11 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
    * @param localizedWeekDayString a week day name or abbreviation thereof
    */
   protected abstract int getDayOfWeek(String localizedWeekDayString);
+
+  /**
+   * Get the localized name of the day of week for the given date.
+   */
+  protected abstract String getDayOfWeek(Calendar date);
 
   /**
    * Implement so that January returns {@code 1}, February {@code 2} etc.
@@ -48,11 +53,15 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
    * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}  
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch ruleMatch, Map<String,String> args) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String,String> args) {
     int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
-    int dayOfWeekFromDate = getDate(args).get(Calendar.DAY_OF_WEEK);
+    Calendar dateFromDate = getDate(args);
+    int dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
     if (dayOfWeekFromString != dayOfWeekFromDate) {
-      return ruleMatch;
+      String realDayName = getDayOfWeek(dateFromDate);
+      String message = match.getMessage().replace("\\realDay", realDayName);
+      RuleMatch newMatch = new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
+      return newMatch;
     } else {
       return null;
     }

@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.junit.Test;
 import org.languagetool.rules.RuleMatch;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class DateCheckFilterTest {
   }
 
   @Test
-  public void testGetDayOfWeek() throws Exception {
+  public void testGetDayOfWeek1() throws Exception {
     assertThat(filter.getDayOfWeek("So"), is(1));
     assertThat(filter.getDayOfWeek("Mo"), is(2));
     assertThat(filter.getDayOfWeek("mo"), is(2));
@@ -64,6 +65,15 @@ public class DateCheckFilterTest {
     assertThat(filter.getDayOfWeek("Fr"), is(6));
     assertThat(filter.getDayOfWeek("Samstag"), is(7));
     assertThat(filter.getDayOfWeek("Sonnabend"), is(7));
+  }
+
+  @Test
+  public void testGetDayOfWeek2() throws Exception {
+    Calendar calendar = Calendar.getInstance();
+    calendar.set(2014, 8-1, 29);
+    assertThat(filter.getDayOfWeek(calendar), is("Freitag"));
+    calendar.set(2014, 8-1, 30);
+    assertThat(filter.getDayOfWeek(calendar), is("Samstag"));
   }
 
   @Test
