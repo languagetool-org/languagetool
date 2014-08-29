@@ -42,11 +42,11 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   private int threadPoolSize = -1;
 
-  public MultiThreadedJLanguageTool(Language language) throws IOException {
+  public MultiThreadedJLanguageTool(Language language) {
     super(language);
   }
 
-  public MultiThreadedJLanguageTool(Language language, Language motherTongue) throws IOException {
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
     super(language, motherTongue);
   }
 

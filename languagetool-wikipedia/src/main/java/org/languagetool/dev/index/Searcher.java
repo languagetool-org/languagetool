@@ -259,7 +259,7 @@ public class Searcher {
     return matchingSentences;
   }
 
-  private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) throws IOException {
+  private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) {
     final JLanguageTool langTool = new JLanguageTool(lang);
     for (Rule rule : langTool.getAllActiveRules()) {
       langTool.disableRule(rule.getId());

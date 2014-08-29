@@ -71,7 +71,7 @@ public class Indexer implements AutoCloseable {
     run(args[0], args[1], args[2]);
   }
 
-  static Analyzer getAnalyzer(Language language) throws IOException {
+  static Analyzer getAnalyzer(Language language) {
     final Map<String, Analyzer> analyzerMap = new HashMap<>();
     analyzerMap.put(FIELD_NAME, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), false));
     analyzerMap.put(FIELD_NAME_LOWERCASE, new LanguageToolAnalyzer(LUCENE_VERSION, new JLanguageTool(language), true));

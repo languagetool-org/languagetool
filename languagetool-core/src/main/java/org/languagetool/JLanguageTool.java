@@ -164,7 +164,7 @@ public class JLanguageTool {
    *
    * @param language the language of the text to be checked
    */
-  public JLanguageTool(final Language language) throws IOException {
+  public JLanguageTool(final Language language) {
     this(language, null);
   }
 
@@ -176,8 +176,7 @@ public class JLanguageTool {
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
    *          The mother tongue may also be used as a source language for checking bilingual texts.
    */
-  public JLanguageTool(final Language language, final Language motherTongue)
-      throws IOException {
+  public JLanguageTool(final Language language, final Language motherTongue) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.motherTongue = motherTongue;
     final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
