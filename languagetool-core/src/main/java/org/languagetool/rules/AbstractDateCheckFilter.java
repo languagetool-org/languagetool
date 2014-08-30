@@ -56,7 +56,13 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String,String> args) {
     int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
     Calendar dateFromDate = getDate(args);
-    int dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
+    int dayOfWeekFromDate;
+    try {
+      dayOfWeekFromDate = dateFromDate.get(Calendar.DAY_OF_WEEK);
+    } catch (IllegalArgumentException ignore) {
+      // happens with 'dates' like '32.8.2014' - those should be caught by a different rule
+      return null;
+    }
     if (dayOfWeekFromString != dayOfWeekFromDate) {
       String realDayName = getDayOfWeek(dateFromDate);
       String message = match.getMessage().replace("\\realDay", realDayName);
@@ -80,6 +86,7 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
     int month = getMonthFromArguments(args);
     int dayOfMonth = Integer.parseInt(getRequired("day", args));
     Calendar calendar = getCalendar();
+    calendar.setLenient(false);  // be strict about validity of dates
     //noinspection MagicConstant
     calendar.set(year, month, dayOfMonth, 0, 0, 0);
     return calendar;

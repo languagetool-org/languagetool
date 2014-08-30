@@ -8761,6 +8761,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type='correct'>Termin: Sonnabend, 23.08.2014</example>
                 <example type='correct'>Termin: Samstag, 23.08.2014</example>
                 <example type='correct'>Termin: Sa, 23.08.2014</example>
+                <example type='correct'>Termin: Sa, 33.08.2014</example><!-- invalid, but ignored by this rule -->
+                <example type='correct'>Termin: Sa, 11.13.2014</example><!-- invalid, but ignored by this rule -->
+                <example type='correct'>Termin: Sa, 12.13.2014</example><!-- invalid, but ignored by this rule -->
             </rule>
             <rule>
                 <pattern>
@@ -8779,6 +8782,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type='incorrect'>Termin: <marker>So., 23.08.2014</marker></example>
                 <example type='incorrect'>Termin: <marker>So., den 23.08.2014</marker></example>
                 <example type='correct'>Termin: Sa., 23.08.2014</example>
+                <example type='correct'>Termin: Sa., 34.08.2014</example><!-- invalid, but ignored by this rule -->
+                <example type='correct'>Termin: Sa., 35.08.2014</example><!-- invalid, but ignored by this rule -->
             </rule>
             <rule>
                 <pattern>
@@ -8846,6 +8851,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type='incorrect'>Es geschah am <marker>31. Februar</marker>.</example>
                 <example type='incorrect'>Es geschah am <marker>30. Februar</marker>.</example>
                 <example type='correct'>Es geschah am <marker>28. Februar</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">3[2-9]|[4-9]\d</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d?|&abgekMonate;</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>Wenn es sich um ein Datum handelt, ist der Tag nicht gültig.</message>
+                <example type='incorrect'>Es geschah am <marker>32.8.2014</marker>.</example>
+                <example type='incorrect'>Es geschah am <marker>55.8.2014</marker>.</example>
+                <example type='incorrect'>Es geschah am <marker>32. Aug. 2014</marker>.</example>
+                <example type='correct'>Es geschah am <marker>30.8.2014</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">3[2-9]|[4-9]\d</token>
+                    <token>.</token>
+                    <token regexp="yes">&monate;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>Wenn es sich um ein Datum handelt, ist der Tag nicht gültig.</message>
+                <example type='incorrect'>Es geschah am <marker>32. August 2014</marker>.</example>
+                <example type='correct'>Es geschah am <marker>30. August 2014</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d\d?</token>
+                    <token>.</token>
+                    <token regexp="yes">1[3-9]|[2-9]\d</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <message>Wenn es sich um ein Datum handelt, ist der Monat nicht gültig.</message>
+                <example type='incorrect'>Es geschah am <marker>11.13.2014</marker>.</example>
+                <example type='incorrect'>Es geschah am <marker>11.20.2014</marker>.</example>
+                <example type='correct'>Es geschah am <marker>11.12.2014</marker>.</example>
             </rule>
         </rulegroup>
     </category>
