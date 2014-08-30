@@ -38,13 +38,13 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getDayOfWeek(String dayStr) {
     String day = dayStr.toLowerCase();
-    if (day.equalsIgnoreCase("dg") || day.equalsIgnoreCase("diumenge")) return Calendar.SUNDAY;
-    if (day.equalsIgnoreCase("dl") || day.equalsIgnoreCase("dilluns")) return Calendar.MONDAY;
-    if (day.equalsIgnoreCase("dt") || day.equalsIgnoreCase("dimarts")) return Calendar.TUESDAY;
-    if (day.equalsIgnoreCase("dc") || day.equalsIgnoreCase("dimecres")) return Calendar.WEDNESDAY;
-    if (day.equalsIgnoreCase("dj") || day.equalsIgnoreCase("dijous")) return Calendar.THURSDAY;
-    if (day.equalsIgnoreCase("dv") || day.equalsIgnoreCase("divendres")) return Calendar.FRIDAY;
-    if (day.equalsIgnoreCase("ds") || day.equalsIgnoreCase("dissabte")) return Calendar.SATURDAY;
+    if (day.equals("dg") || day.equals("diumenge")) return Calendar.SUNDAY;
+    if (day.equals("dl") || day.equals("dilluns")) return Calendar.MONDAY;
+    if (day.equals("dt") || day.equals("dimarts")) return Calendar.TUESDAY;
+    if (day.equals("dc") || day.equals("dimecres")) return Calendar.WEDNESDAY;
+    if (day.equals("dj") || day.equals("dijous")) return Calendar.THURSDAY;
+    if (day.equals("dv") || day.equals("divendres")) return Calendar.FRIDAY;
+    if (day.equals("ds") || day.equals("dissabte")) return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
 
