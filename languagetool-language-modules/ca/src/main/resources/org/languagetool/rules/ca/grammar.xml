@@ -88,6 +88,18 @@ $Id$
         </equivalence>
     </unification>
     <category name="Semàntica" type="inconsistency">
+        <rule id="ANY20011_2011" name="*20011/2011">
+            <pattern>
+                <token regexp="yes">de|el|en|a|l|anys?|curs(os)?|acadèmics?|&mesos_any;|&mesos_any_abrev;</token>
+                <marker>
+                    <token regexp="yes">200[12]\d</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
+            <example type="incorrect" correction="2014">És de l'any <marker>20014</marker>.</example>
+            <example type="incorrect" correction="2014">És del <marker>20014</marker>.</example>
+            <example type="correct">És del 2015.</example>
+        </rule>
         <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
             <rule>
                 <pattern>
