@@ -8874,7 +8874,6 @@ $Id$
                     <example type="incorrect">Dziś jest <marker>pt., 27.8.2014</marker>.</example>
                     <example type="incorrect">Dziś jest <marker>niedziela, 27.10.2014</marker>.</example>
                 </rule>
-
                 <rule>
                     <pattern>
                         <token regexp="yes">\d\d?</token>
@@ -8891,6 +8890,62 @@ $Id$
                     <example type="incorrect">Dziś jest <marker>27 sierpnia 2014, wtorek</marker>.</example>
                     <example type="incorrect">Dziś jest <marker>27 sierpnia 2014 (wtorek</marker>).</example>
                     <example type="incorrect">Dziś jest <marker>27 sierpnia 2014, pt</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>31</token>
+                        <token regexp="yes">kwietnia|czerwca|września|listopada|IV|VI|IX|XI</token>
+                    </pattern>
+                    <message>W tym miesiącu jest tylko 30 dni.</message>
+                    <example type="incorrect">Urodził się <marker>31 września</marker>.</example>
+                    <example type="incorrect">Urodził się <marker>31 IX</marker> 1911.</example>
+                    <example type="correct">Urodził się <marker>31 października</marker>.</example>
+                    <example type="correct">Urodził się <marker>30 września</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">3[01]</token>
+                        <token regexp="yes">lutego|II</token>
+                    </pattern>
+                    <message>W lutym jest 28 lub 29 dni (w roku przestępnym).</message>
+                    <example type="incorrect">Urodził się <marker>30 lutego</marker>.</example>
+                    <example type="correct">Urodził się <marker>28 lutego</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>29</token>
+                        <token regexp="yes">lutego|II</token>
+                        <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                            <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                        </token>
+                    </pattern>
+                    <message>W lutym \3 nie ma 29 dni, gdyż \3 nie jest rokiem przestępnym.</message>
+                    <url>https://pl.wikipedia.org/wiki/Rok_przest%C4%99pny</url>
+                    <!-- 1900 is not a leap year (divisible by 100) -->
+                    <example type="incorrect">Dzień <marker>29 lutego 1900</marker>.</example>
+                    <!-- 2000 is a leap year (divisible by 400) -->
+                    <example type="correct"><marker>29 II 2000</marker>.</example>
+                    <example type="incorrect"><marker>29 II 2001</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2002</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2003</marker>.</example>
+                    <!-- 2004 is a leap year (divisible by 4) -->
+                    <example type="correct"><marker>29 lutego 2004</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2005</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2006</marker>.</example>
+                    <example type="incorrect"><marker>29 II 2007</marker>.</example>
+                    <!-- 2008 is a leap year (divisible by 4) -->
+                    <example type="correct"><marker>29 II 2008</marker>.</example>
+                    <example type="incorrect"><marker>29 II 2009</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2010</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2011</marker>.</example>
+                    <!-- 2012 is a leap year (divisible by 4) -->
+                    <example type="correct"><marker>29 lutego 2012</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2014</marker>.</example>
+                    <example type="correct"><marker>29 lutego 2016</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2018</marker>.</example>
+                    <example type="correct"><marker>29 II 2020</marker>.</example>
+                    <!-- 2100 is not a leap year (divisible by 100) -->
+                    <example type="incorrect"><marker>29 lutego 2100</marker>.</example>
                 </rule>
             </rulegroup>
             <rule name="„muzułman” (muzułmanin)" id="MUZULMAN">
@@ -13899,6 +13954,28 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rulegroup id="ROK_20001" name="Rok 20001 (2001)">
+                <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">&abbrevMonths;</token>
+                    <token regexp="yes">200\d\d</token>
+                </pattern>
+                <message>Czy na pewno chodziło o tak odległy rok? A może o <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Wybory odbędą się 12 V 2015 r.</example>
+                <example type="incorrect" correction="V 2015">Wybory odbędą się 12 <marker>V 20015</marker> r.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień</token>
+                        <token regexp="yes">200\d\d</token>
+                    </pattern>
+                    <message>Czy na pewno chodziło o tak odległy rok? A może o <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example type="correct">Wybory odbędą się w maju 2015 r.</example>
+                    <example type="incorrect" correction="maju 2015">Wybory odbędą się w <marker>maju 20015</marker> r.</example>
+                </rule>
+            </rulegroup>
             <rule id="POJECI" name="„pojęci” (pojęcie, pojęcia)">
                 <pattern>
                     <token>pojęci</token>

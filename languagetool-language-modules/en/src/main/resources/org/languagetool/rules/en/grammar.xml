@@ -40,6 +40,16 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category name="Possible Typo" type="misspelling">
+        <rule id="YEAR_20001" name="May 20001 (May 2001)">
+            <pattern>
+                <token regexp="yes">&months;</token>
+                <token regexp="yes">200\d\d</token>
+            </pattern>
+            <message>Did you really mean year \2? Or maybe <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+            <short>Possible typo</short>
+            <example type="correct">I will go to Holland in <marker>May 2014</marker>.</example>
+            <example type="incorrect" correction="May 2014">I will go to Holland in <marker>May 20014</marker>.</example>
+        </rule>
         <rule id="A_BUT" name="a but (a bit)">
             <pattern>
                 <token>a</token>
