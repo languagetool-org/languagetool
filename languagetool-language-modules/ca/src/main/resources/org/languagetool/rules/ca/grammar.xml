@@ -7891,6 +7891,19 @@ $Id$
                 <example type="correct">Això era de cabdal importància.</example>
                 <example type="correct">Fruit del seu cabdal treball.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">cabdals?</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">diner|coneixement|aigua|sortida|eixida</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag=".*([SP]).*" postag_regexp="yes" postag_replace="NCM$1000">cabal</match></suggestion> (=quantitat de fluid, conjunt de béns) en comptes de \1 (=eminent, principal)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="cabal">Un ampli <marker>cabdal</marker> de coneixements.</example>
+                <example type="correct">Fruit del seu cabdal treball.</example>
+            </rule>
         </rulegroup>
         <rule id="OBRAR_OBRIR" name="obrar/obrir">
             <antipattern>
@@ -23183,6 +23196,16 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ERMOS_BELL" name="*ermós/bell">
+            <pattern>
+                <token inflected="yes">ermós</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(AQ.+)" postag_regexp="yes" postag_replace="$1">bell</match></suggestion>? "<match no="1" case_conversion ="startupper"/>" existeix com a derivat de "erm".</message>
+            <suggestion><match no="1" postag="(AQ.+)" postag_regexp="yes" postag_replace="$1">bonic</match></suggestion>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="bella|bonica">Una <marker>ermosa</marker> casa.</example>
+            <example type="correct">Una casa formosa i bonica.</example>
+        </rule>
         <rule id="PROVABLE" name="provable/probable">
             <pattern>
                 <token inflected="yes">provable</token>
