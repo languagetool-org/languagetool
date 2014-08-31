@@ -7640,7 +7640,30 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       </pattern>
       <disambig action="ignore_spelling"></disambig>
     </rule>
-    
+
+    <rule id="compounds_2" name="Przymiotniki złożone występujące co najmniej dwukrotnie">
+        <pattern>
+            <marker>
+            <token postag="adja"/>
+            </marker>
+            <token spacebefore="no">-</token>
+            <token>,</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
+    <rule id="compounds_3" name="Przymiotniki złożone występujące co najmniej dwukrotnie">
+        <pattern>
+            <marker>
+                <token postag="adja"/>
+            </marker>
+            <token spacebefore="no">-</token>
+            <token postag="conj"/>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
+
     <rule id='KONSKI_ZAB' name="końskiego zębu - dobra pisownia">
       <pattern>
         <token>końskiego</token>
