@@ -805,7 +805,7 @@ USA
 	  </rule>
 	  <rule id="uriya" name="பெயர் + 'கு' உருபு + உரிய">
 		<pattern>
-			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes'></token>
+			<token postag='.*-F|FV' postag_regexp='yes'></token>
 			<token>உரிய</token>
 		</pattern>
 		<message>'கு' உருபு ஏற்ற பெயர்களுடன் 'உரிய' சேர்த்து எழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="" /></suggestion></message>
@@ -1481,28 +1481,6 @@ USA
 		<example type='correct'>இதை யாராலும் <marker>தடுக்க முடியாது</marker>.</example>
 	  </rule>
 	</rulegroup>
-	<rulegroup id="valadhu" name="இடது/வலது + சொல்">
-	  <rule>
-		<pattern>
-			<token regexp='yes'>இடது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
-		</pattern>
-		<message>'இடது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>இடது <match no="1" regexp_match="^இடது" regexp_replace="" /></suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=49#head1</url>
-		<short>பிரித்து எழுத வேண்டும்</short>
-		<example type='incorrect'><marker>இடதுபுறம்</marker> பார்.</example>
-		<example type='correct'><marker>இடது புறம்</marker> பார்.</example>
-	  </rule>
-	  <rule>
-		<pattern>
-			<token regexp='yes'>வலது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
-		</pattern>
-		<message>'வலது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>வலது <match no="1" regexp_match="^வலது" regexp_replace="" /></suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head1</url>
-		<short>பிரித்து எழுத வேண்டும்</short>
-		<example type='incorrect'><marker>வலதுபுறம்</marker> பார்.</example>
-		<example type='correct'><marker>வலது புறம்</marker> பார்.</example>
-	  </rule>
-	</rulegroup>
 	<rulegroup id="mun2" name="பெயர் + உருபு + முன்/முன்பு/முன்பே/முன்னே">
 	  <rule>
 		<pattern>
@@ -1563,6 +1541,50 @@ USA
 		<short>பிரித்து எழுத வேண்டும்</short>
 		<example type='incorrect'>கோயிலுக்குள் <marker>நுழைவதற்குமுன்னே</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
 		<example type='correct'>கோயிலுக்குள் <marker>நுழைவதற்கு முன்னே</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="vannam" name="பெயரெச்சம் + வண்ணம்">
+		<pattern>
+			<token postag='RP|RPN' postag_regexp='yes'></token>
+			<token>வண்ணம்</token>
+		</pattern>
+		<message>பெயரெச்சத்தின் பின் இதைச் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=71#head4</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>வாழ்த்துத் தந்திகள் <marker>வந்த வண்ணம்</marker> இருக்கின்றன.</example>
+		<example type='correct'>வாழ்த்துத் தந்திகள் <marker>வந்தவண்ணம்</marker> இருக்கின்றன.</example>
+	  </rule>
+	  <rule id="varai" name="பெயரெச்சம் + வரை/வரைக்கும்/வரையில்">
+		<pattern>
+			<token postag='RP|RPN|NNA|NNU|NNUM|NNUF|NNSA|NNSU|NNSUM|NNSUF|NNSUP|NNPA' postag_regexp='yes'></token>
+			<token regexp='yes'>வரை|வரைக்கும்|வரையில்</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களோடும் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>காலைமுதல் <marker>மாலை வரை</marker> கோயிலில் பூஜை.</example>
+		<example type='correct'>காலைமுதல் <marker>மாலைவரை</marker> கோயிலில் பூஜை.</example>
+	  </rule>
+	<rulegroup id="valadhu" name="இடது/வலது + சொல்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>இடது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
+		</pattern>
+		<message>'இடது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>இடது <match no="1" regexp_match="^இடது" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=49#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இடதுபுறம்</marker> பார்.</example>
+		<example type='correct'><marker>இடது புறம்</marker> பார்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>வலது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
+		</pattern>
+		<message>'வலது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>வலது <match no="1" regexp_match="^வலது" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வலதுபுறம்</marker> பார்.</example>
+		<example type='correct'><marker>வலது புறம்</marker> பார்.</example>
 	  </rule>
 	</rulegroup>
 	<rulegroup id="vazhiyaaka" name="பெயர்ச்சொல் + வழியாக">
@@ -1627,6 +1649,17 @@ USA
 		<short>சேர்த்து எழுதலாம்</short>
 		<example type='incorrect'><marker>நீள வாக்கில்</marker> மடி.</example>
 		<example type='correct'><marker>நீளவாக்கில்</marker> மடி.</example>
+	  </rule>
+	  <rule id="vida" name="சொல் + விட">
+		<pattern>
+			<token postag='.*-S|SV' postag_regexp='yes'></token>
+			<token regexp='yes'>விட([கசதப]்)?</token>
+		</pattern>
+		<message>ஒப்புப் பொருளில் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head4</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அசுரகளின் ஆற்றல் மனிதர்களின் <marker>ஆற்றலை விட</marker> அதிகம்.</example>
+		<example type='correct'>அசுரகளின் ஆற்றல் மனிதர்களின் <marker>ஆற்றலைவிட</marker> அதிகம்.</example>
 	  </rule>
 	<rule id="vegu" name="வெகு + சொல்">
 		<pattern>
@@ -2329,7 +2362,7 @@ USA
         </rule>
 		<rule>
             <pattern>
-                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
+                <token postag='.*-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -2340,7 +2373,7 @@ USA
         </rule>
 		<rule>
             <pattern>
-                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
+                <token postag='.*-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -2351,7 +2384,7 @@ USA
         </rule>
 		<rule>
             <pattern>
-                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
+                <token postag='.*-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -2421,7 +2454,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
+                <token postag='.*-F' postag_regexp='yes'></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>4 ஆம் வேற்றுமை உருபாகிய 'கு' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -2432,7 +2465,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
+                <token postag='.*-F' postag_regexp='yes'></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>4 ஆம் வேற்றுமை உருபாகிய 'கு' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -2443,7 +2476,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
+                <token postag='.*-F' postag_regexp='yes'></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>4 ஆம் வேற்றுமை உருபாகிய 'கு' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
