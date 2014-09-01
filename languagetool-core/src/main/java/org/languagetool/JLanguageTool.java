@@ -19,7 +19,6 @@
 package org.languagetool;
 
 import org.apache.commons.lang.StringUtils;
-import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.markup.AnnotatedText;
@@ -30,9 +29,6 @@ import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.SuggestionExtractor;
-import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tokenizers.Tokenizer;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -121,11 +117,6 @@ public class JLanguageTool {
 
   private Language language;
   private Language motherTongue;
-  private Disambiguator disambiguator;
-  private Tagger tagger;
-  private Tokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Chunker chunker;
 
   private PrintStream printStream;
 
@@ -181,11 +172,6 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages);
-    disambiguator = language.getDisambiguator();
-    tagger = language.getTagger();
-    sentenceTokenizer = language.getSentenceTokenizer();
-    wordTokenizer = language.getWordTokenizer();
-    chunker = language.getChunker();
   }
   
   /**
@@ -465,7 +451,7 @@ public class JLanguageTool {
    * Tokenizes the given text into sentences.
    */
   public List<String> sentenceTokenize(final String text) {
-    return sentenceTokenizer.tokenize(text);
+    return language.getSentenceTokenizer().tokenize(text);
   }
 
   /**
@@ -740,7 +726,7 @@ public class JLanguageTool {
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
-    return disambiguator.disambiguate(getRawAnalyzedSentence(sentence));
+    return language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
   }
 
   /**
@@ -752,12 +738,12 @@ public class JLanguageTool {
    * @since 0.9.8
    */
   public AnalyzedSentence getRawAnalyzedSentence(final String sentence) throws IOException {
-    final List<String> tokens = wordTokenizer.tokenize(sentence);
+    final List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     final Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
 
-    final List<AnalyzedTokenReadings> aTokens = tagger.tag(tokens);
-    if (chunker != null) {
-      chunker.addChunkTags(aTokens);
+    final List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
+    if (language.getChunker() != null) {
+      language.getChunker().addChunkTags(aTokens);
     }
     final int numTokens = aTokens.size();
     int posFix = 0; 
@@ -766,7 +752,7 @@ public class JLanguageTool {
       aTokens.get(i).setStartPos(aTokens.get(i).getStartPos() + posFix);
       if (!softHyphenTokens.isEmpty()) {
         if (softHyphenTokens.get(i) != null) {
-          aTokens.get(i).addReading(tagger.createToken(softHyphenTokens.get(i), null));
+          aTokens.get(i).addReading(language.getTagger().createToken(softHyphenTokens.get(i), null));
           posFix += softHyphenTokens.get(i).length() - aTokens.get(i).getToken().length();
         }
       }
