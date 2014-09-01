@@ -866,6 +866,7 @@ public class JLanguageTool {
   
   /**
    * Number of sentences the latest call to a check method like {@link #check(String)} has checked.
+   * @deprecated use {@link #analyzeText(String)} instead (deprecated since 2.7)
    */
   public int getSentenceCount() {
     return sentenceCount;
