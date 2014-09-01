@@ -27133,36 +27133,92 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>31</token>
-          <token regexp="yes">avril|juin|septembre|novembre</token>
+          <token regexp="yes">avril|avr|juin|jui|septembre|sep|novembre|nov</token>
         </pattern>
-        <message>Le mois de \2 n’a que 30 jours.</message>
+        <message>Le mois « \2 » n’a que 30 jours.</message>
         <example type="incorrect">Il est né le <marker>31 septembre</marker>.</example>
         <example type="correct">Il est né le <marker>31 octobre</marker>.</example>
         <example type="correct">Il est né le <marker>30 septembre</marker>.</example>
       </rule>
       <rule>
         <pattern>
+          <token>31</token>
+          <token>/</token>
+          <token regexp="yes">avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11</token>
+          <token>/</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <message>Le mois « \3 » n’a que 30 jours.</message>
+        <example type="incorrect">Il est né le <marker>31/septembre/1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31/09/1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31/9/1969</marker>.</example>
+        <example type="correct">Il est né le <marker>31/10/1969</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">31-(avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11)(-\d\d(\d\d)?)?</token>
+        </pattern>
+        <message>Le mois « <match no="1" regexp_match="31-([^-]*)(.*)" regexp_replace="$1"/> » n’a que 30 jours.</message>
+        <example type="incorrect">Il est né le <marker>31-septembre-1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31-09-1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31-9-69</marker>.</example>
+        <example type="correct">Il est né le <marker>31-8-69</marker>.</example>
+        <example type="correct">Il est né le <marker>31-aout-1969</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token regexp="yes">3[01]</token>
-          <token>février</token>
+          <token regexp="yes">février|fév</token>
         </pattern>
         <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
         <example type="incorrect">Il est né le <marker>30 février</marker>.</example>
         <example type="correct">Il est né le <marker>28 février</marker>.</example>
       </rule>
       <rule>
         <pattern>
+          <token regexp="yes">3[01]</token>
+          <token>/</token>
+          <token regexp="yes">février|fév|0?2</token>
+          <token>/</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Il est né le <marker>30/février/1969</marker>.</example>
+        <example type="correct">Il est né le <marker>28 février</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">3[01]-(février|fév|0?2)(-\d\d(\d\d)?)?</token>
+        </pattern>
+        <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Il est né le <marker>30-02-1969</marker>.</example>
+        <example type="correct">Il est né le <marker>28-02-1969</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>29</token>
-          <token>février</token>
+          <token min="0" max="1">/</token>
+          <token regexp="yes">février|fév|0?2</token>
+          <token min="0" max="1">/</token>
           <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
             <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
           </token>
         </pattern>
-        <message>Le mois de février \3 n’a pas 29 jours, puisque \3 n’est pas une année bissextile.</message>
+        <message>Le mois de février \5 n’a pas 29 jours, puisque \5 n’est pas une année bissextile.</message>
         <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
         <!-- 1900 is not a leap year (divisible by 100) -->
         <example type="incorrect">Le <marker>29 février 1900</marker>.</example>
+        <example type="incorrect">Le <marker>29/février/1900</marker>.</example>
+        <example type="incorrect">Le <marker>29/02/1900</marker>.</example>
+        <example type="incorrect">Le <marker>29/2/1900</marker>.</example>
         <!-- 2000 is a leap year (divisible by 400) -->
         <example type="correct">Le <marker>29 février 2000</marker>.</example>
+        <example type="correct">Le <marker>29/février/2000</marker>.</example>
+        <example type="correct">Le <marker>29/02/2000</marker>.</example>
+        <example type="correct">Le <marker>29/2/2000</marker>.</example>
         <example type="incorrect">Le <marker>29 février 2001</marker>.</example>
         <example type="incorrect">Le <marker>29 février 2002</marker>.</example>
         <example type="incorrect">Le <marker>29 février 2003</marker>.</example>
@@ -27184,6 +27240,18 @@ though, and has since been slightly modified)-->
         <example type="correct">Le <marker>29 février 2020</marker>.</example>
         <!-- 2100 is not a leap year (divisible by 100) -->
         <example type="incorrect">Le <marker>29 février 2100</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">29-(février|fév|0?2)-\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">29-[^-]+-[13579][26]00|[2468][048]00</exception>
+          </token>
+        </pattern>
+        <message>Le mois de février n’a pas 29 jours, puisque <match no="1" regexp_match=".*(\d\d\d\d)$" regexp_replace="$1"/> n’est pas une année bissextile.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Le <marker>29-02-1900</marker></example>
+        <example type="incorrect">Le <marker>29-février-2005</marker></example>
+        <example type="correct">Le 29-février-2004</example>
       </rule>
     </rulegroup>
   </category>
