@@ -23,8 +23,10 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -96,9 +98,12 @@ public abstract class AbstractWordCoherencyRule extends Rule {
 
   private Map<String, String> loadWords(InputStream stream) throws IOException {
     final Map<String, String> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(stream, FILE_ENCODING)) {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, FILE_ENCODING);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
         if (line.length() < 1 || line.charAt(0) == '#') {   // ignore comments
           continue;
         }
