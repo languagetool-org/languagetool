@@ -26,10 +26,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 
 $Id$
 -->
+<!--suppress CheckTagEmptyBody -->
+<!DOCTYPE rules [
+    <!ENTITY weekdays "Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье">
+    <!ENTITY months "Январь|Февраль|Март|Апрель|Май|Июнь|Июль|Август|Сентябрь|Октябрь|Ноябрь|Декабрь">
+    <!ENTITY abbrevMonths "Янв|Фев|Мар|Апр|Авг|Сен|Окт|Ноя|Дек">
+]>
+
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
-        <rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
+          <rulegroup id="INVALID_DATE" name="Неверная дата, например '31 февраля 2014'">
+            <rule>
+                <pattern>
+                    <!-- "31 июня 2014 г." -->
+                    <marker>
+                        <token>31</token>
+			<token regexp="yes">апрель|апр|апреля|июнь|июня|сен|сентября|сентябрь|ноябрь|ноября|ноя</token>                      
+                    </marker>
+                </pattern>
+                <message>В месяце \2 только 30 дней.</message>
+                <example type='incorrect'>Это случилось <marker>31 ноября</marker> 2014 г.</example>
+                <example type='correct'>Это случилось <marker>30 ноября</marker> 2014 г.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "30 февраля 2014 г." -->
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+		        <token regexp="yes">февраля|фев|февраль</token>
+                    </marker>
+                </pattern>
+                <message>В феврале бывает только 28 дней, или 29 дней в високосном году.</message>
+                <example type='incorrect'>Это случилось <marker>30 февраля</marker> 2014 г.</example>
+                <example type='correct'>Это случилось <marker>28 февраля</marker> 2014 г.</example>
+            </rule>
+        </rulegroup>
+
+	<rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
             <rule> 
                 <pattern>
                     <token>кВт</token>
