@@ -648,12 +648,15 @@ public class CaseRule extends GermanRule {
 
   private boolean isAdjectiveAsNoun(int i, AnalyzedTokenReadings[] tokens) {
     AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
-    boolean isPrevDeterminer = prevToken != null && prevToken.hasPartialPosTag("ART"); 
+    boolean isPrevDeterminer = prevToken != null && (prevToken.hasPartialPosTag("ART") || prevToken.hasPartialPosTag("PRP"));
+    if (!isPrevDeterminer) {
+      return false;
+    }
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     for (AnalyzedToken reading : tokens[i].getReadings()) {
       String posTag = reading.getPOSTag();
       // ignore "die Ausgewählten" but not "die Ausgewählten Leute":
-      if (isPrevDeterminer && posTag != null && posTag.contains(":ADJ") && !hasNounReading(nextReadings)) {
+      if (posTag != null && posTag.contains(":ADJ") && !hasNounReading(nextReadings)) {
         return true;
       }
     }

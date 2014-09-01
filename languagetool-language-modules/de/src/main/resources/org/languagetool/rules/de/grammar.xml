@@ -8223,6 +8223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
                         <exception>abseits</exception>
+                        <exception>beim</exception>
                         <exception>gegenüber</exception>
                         <exception>statt</exception>
                         <exception>anstatt</exception>
@@ -24114,6 +24115,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Das ist für <marker>den schönen Männern</marker>.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
+                    <marker>
+                        <token regexp="yes">[Ddsm]?ein|euer|Euer|ihr|Ihr|unser</token>
+                        <and>
+                            <token postag_regexp="yes" postag="SUB:.*"/>
+                            <token postag_regexp="yes" postag="ADJ:.*"/>
+                        </and>
+                    </marker>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
@@ -24128,6 +24139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das ist für <marker>mein Auto</marker>.</example>
                 <example type="correct">Das ist für <marker>meine Frau</marker>.</example>
                 <example type="correct">Im November 2013 begann er für <marker>ein Gehalt</marker> von einem US-Dollar pro Jahr.</example>
+                <example type="correct">Er führte einen Markenrechtsstreit für <marker>ein Berliner</marker> Verkehrsunternehmen.</example>
                 <example type="incorrect">Das ist für <marker>mein Mann</marker>.</example>
             </rule>
             <rule>
