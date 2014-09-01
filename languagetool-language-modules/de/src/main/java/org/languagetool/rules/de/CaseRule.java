@@ -567,6 +567,7 @@ public class CaseRule extends GermanRule {
         !exceptions.contains(token) &&
         !languages.contains(token) &&
         !languages.contains(token.replaceFirst("e$", "")) &&  // z.B. "ins Japanische übersetzt"
+        !languages.contains(token.replaceFirst("en$", "")) &&  // z.B. "im Japanischen"
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
