@@ -8890,6 +8890,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type='incorrect'>Es geschah am <marker>11.20.2014</marker>.</example>
                 <example type='correct'>Es geschah am <marker>11.12.2014</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>29</token>
+                    <token>.</token>
+                    <token regexp="yes">2|02|Feb|Febr</token>
+                    <token>.</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Der Februar \5 hat nicht 29 Tage, da es kein Schaltjahr ist.</message>
+                <url>https://de.wikipedia.org/wiki/Schaltjahr</url>
+                <!-- 1900 is not a leap year (divisible by 100) -->
+                <example type="incorrect">Der <marker>29. Feb. 1900</marker>.</example>
+                <example type="incorrect">Der <marker>29.02.1900</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.1900</marker>.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example type="correct">Der <marker>29.2.2000</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2001</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2002</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2003</marker>.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example type="correct">Der <marker>29.2.2004</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2005</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2006</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2007</marker>.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example type="correct">Der <marker>29.2.2008</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2009</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2010</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2011</marker>.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example type="correct">Der <marker>29.2.2012</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2014</marker>.</example>
+                <example type="correct">Der <marker>29.2.2016</marker>.</example>
+                <example type="incorrect">Der <marker>29.2.2018</marker>.</example>
+                <example type="correct">Der <marker>29.2.2020</marker>.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example type="incorrect">Der <marker>29.2.2100</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>29</token>
+                    <token>.</token>
+                    <token>Februar</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Der Februar \4 hat nicht 29 Tage, da es kein Schaltjahr ist.</message>
+                <url>https://de.wikipedia.org/wiki/Schaltjahr</url>
+                <example type="correct">Der <marker>29. Februar 2012</marker>.</example>
+                <example type="incorrect">Der <marker>29. Februar 2014</marker>.</example>
+            </rule>
+
         </rulegroup>
     </category>
 
