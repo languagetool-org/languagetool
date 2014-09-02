@@ -143,6 +143,11 @@ public class CaseRuleTest extends TestCase {
     //assertEquals(1, langTool.check("Karten werden vom Auswahlstapel gezogen. [...] Der Auswahlstapel gehört zum Inhalt.").size());
     //TODO: error not found:
     //assertBad("So schwer, dass selbst Er ihn nicht hochheben kann.");
+
+    assertGood("Im Norwegischen klingt das schöner.");
+    assertGood("Übersetzt aus dem Norwegischen von Ingenieur Frederik Dingsbums.");
+    assertGood("Dem norwegischen Ingenieur gelingt das gut.");
+    assertBad("Dem Norwegischen Ingenieur gelingt das gut.");
   }
 
   private void assertGood(String input) throws IOException {

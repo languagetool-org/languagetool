@@ -334,17 +334,31 @@ public class CaseRule extends GermanRule {
   private static final Set<String> myExceptionPhrases = new HashSet<>();
   static {
     // use proper upper/lowercase spelling here:
+    myExceptionPhrases.add("Arabische Halbinsel");
+    myExceptionPhrases.add("Arabischen Halbinsel");
     myExceptionPhrases.add("Naher Osten");
     myExceptionPhrases.add("Nahen Osten");
     myExceptionPhrases.add("Mittlerer Osten");
     myExceptionPhrases.add("Mittleren Osten");
     myExceptionPhrases.add("Ferne Osten");
     myExceptionPhrases.add("Fernen Osten");
+    myExceptionPhrases.add("Ferner Osten");
     myExceptionPhrases.add("Europäische Union");
     myExceptionPhrases.add("Europäischen Union");
+    myExceptionPhrases.add("Russische Föderation");
+    myExceptionPhrases.add("Russischen Föderation");
     myExceptionPhrases.add("Internationaler Währungsfonds");
     myExceptionPhrases.add("Internationale Währungsfonds");
     myExceptionPhrases.add("Internationalen Währungsfonds");
+    myExceptionPhrases.add("Japanische Meer");
+    myExceptionPhrases.add("Japanisches Meer");
+    myExceptionPhrases.add("Japanischen Meer");
+    myExceptionPhrases.add("Japanische Alpen");  // http://www.duden.de/sprachwissen/rechtschreibregeln/namen#K140
+    myExceptionPhrases.add("Japanischen Alpen");
+    myExceptionPhrases.add("Chinesische Mauer");
+    myExceptionPhrases.add("Chinesischen Mauer");
+    myExceptionPhrases.add("Französische Revolution");
+    myExceptionPhrases.add("Französischen Revolution");
     myExceptionPhrases.add("Süddeutsche Zeitung");
     myExceptionPhrases.add("Süddeutschen Zeitung");
     myExceptionPhrases.add("nichts Wichtigeres");
@@ -565,9 +579,7 @@ public class CaseRule extends GermanRule {
         !sentenceStartExceptions.contains(tokens[i - 1].getToken()) &&
         !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
-        !languages.contains(token) &&
-        !languages.contains(token.replaceFirst("e$", "")) &&  // z.B. "ins Japanische übersetzt"
-        !languages.contains(token.replaceFirst("en$", "")) &&  // z.B. "im Japanischen"
+        !isLanguage(i, tokens) &&
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
@@ -661,6 +673,15 @@ public class CaseRule extends GermanRule {
       }
     }
     return false;
+  }
+
+  private boolean isLanguage(int i, AnalyzedTokenReadings[] tokens) {
+    String token = tokens[i].getToken();
+    boolean maybeLanguage = languages.contains(token) ||
+                            languages.contains(token.replaceFirst("e$", "")) ||  // z.B. "ins Japanische übersetzt"
+                            languages.contains(token.replaceFirst("en$", ""));   // z.B. "im Japanischen"
+    AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+    return nextReadings != null && !hasNounReading(nextReadings) && maybeLanguage;
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
