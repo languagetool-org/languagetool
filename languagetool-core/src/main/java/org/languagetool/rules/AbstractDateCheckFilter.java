@@ -94,7 +94,7 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
     // The day of the month may have a suffix ("22nd" in English for example).
     // dayOfMonthString is expected to match the pattern
     // patternDayOfMonth assuming that XML rules are correct.
-    String dayOfMonthString = args.get("day");
+    String dayOfMonthString = getRequired("day", args);
     Matcher matcherDayOfMonth = patternDayOfMonth.matcher(dayOfMonthString);
     int dayOfMonth = matcherDayOfMonth.matches()
                    ? Integer.parseInt(matcherDayOfMonth.group(1))
