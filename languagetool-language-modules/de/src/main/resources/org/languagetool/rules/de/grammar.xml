@@ -11393,6 +11393,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rule id="HALBMAST" name="auf Halbmast (halbmast)">
+            <pattern>
+                <token>auf</token>
+                <marker>
+                    <token case_sensitive='yes'>Halbmast</token>
+                </marker>
+            </pattern>
+            <message><suggestion><match case_conversion="startlower" no="2"/></suggestion> wird kleingeschrieben.</message>
+            <url>http://www.korrekturen.de/beliebte_fehler/auf_halbmast.shtml</url>
+            <example type='incorrect' correction="halbmast">Die Flagge weht auf <marker>Halbmast</marker>.</example>
+            <example type='correct'>Die Flagge weht auf <marker>halbmast</marker>.</example>
+        </rule>
         <rule id="ZUM_EINEN" name="zum Einen (einen)">
             <!-- Wird von DE_CASE wg. Ausnahme nicht erkannt -->
             <pattern>
