@@ -31,7 +31,7 @@ import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 
 /**
- * A Persian rule that checks if there is a missing space begore some conjunctions.
+ * A Persian rule that checks if there is a missing space before some conjunctions.
  * 
  * @since 2.7
  */
