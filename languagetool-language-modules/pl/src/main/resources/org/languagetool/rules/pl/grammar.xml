@@ -10511,38 +10511,67 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token inflected="yes" skip="5">naważyć</token>
+												<token inflected="yes" skip="5" regexp="yes">(:?na)?ważyć</token>
 										</marker>
 										<token inflected="yes">piwo</token>
 								</pattern>
-								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="1" regexp_match="(nawa)ż(.*)" regexp_replace="$1rz$2"></match></suggestion> (=wpędzili się w kłopoty; „naważyć” znaczy „nałożyć na wagę”).</message>
+								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="1" regexp_match="ż" regexp_replace="rz"></match></suggestion> (=wpędzili się w kłopoty lub dosł. przygotowali piwo; „naważyć” znaczy „nałożyć na wagę”).</message>
 								<short>Błąd ortograficzny</short>
 								<example correction="nawarzyli" type="incorrect">Koledzy <marker>naważyli</marker> sobie w ten sposób piwa.</example>
 								<example type="correct">Koledzy nawarzyli sobie w ten sposób piwa.</example>
+                                <example type="incorrect" correction="warzyłem">Wczoraj <marker>ważyłem</marker> piwo.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token inflected="yes" skip="5">piwo</token>
 										<marker>
-												<token inflected="yes">naważyć</token>
+												<token inflected="yes" regexp="yes">(:?na)?ważyć</token>
 										</marker>
 								</pattern>
-								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="2" regexp_match="(nawa)ż(.*)" regexp_replace="$1rz$2"></match></suggestion> (=wpędzili się w kłopoty; „naważyć” znaczy „nałożyć na wagę”).</message>
+								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="2" regexp_match="ż" regexp_replace="rz"></match></suggestion> (=wpędzili się w kłopoty; „naważyć” znaczy „nałożyć na wagę”).</message>
 								<short>Błąd ortograficzny</short>
 								<example correction="nawarzyłeś" type="incorrect">Mówisz wypić piwo, którego sobie <marker>naważyłeś</marker>.</example>
 								<example type="correct">Mówisz wypić piwo, którego sobie <marker>nawarzyłeś</marker>.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <token inflected='yes'>ważenie</token>
+                                <token>piwa</token>
+                            </pattern>
+                            <message>Powinno być <suggestion><match no="1" regexp_match="ż" regexp_replace="rz"/> <match no="2"/></suggestion>.</message>
+                            <url>http://so.pwn.pl/lista.php?co=warzenie</url>
+                            <short>Błąd ortograficzny</short>
+                            <example type='incorrect' correction="warzenie piwa">Uwielbiam <marker>ważenie piwa</marker>.</example>
+                            <example type='correct'>Uwielbiam warzenie piwa.</example>
+                        </rule>
 				</rulegroup>
-				<rule id="WIEZA_EIFFELA" name="„wieża Eiffela” (wieża Eiffla)">
+				<rulegroup id="WIEZA_EIFFELA" name="„wieża Eiffela” (wieża Eiffla)">
+                    <rule>
 						<pattern>
 								<token inflected="yes">wieża</token>
 								<token>Eiffela</token>
 						</pattern>
 						<message>Nieprawidłowa pisownia. Poprawnie: <suggestion>\1 Eiffla</suggestion> (wymowa: Ajfla).</message>
+                        <url>http://so.pwn.pl/lista.php?co=Eiffel</url>
 						<short>Błąd ortograficzny</short>
 						<example correction="wieżą Eiffla" type="incorrect">Spędźmy dziką noc pod <marker>wieżą Eiffela</marker>!</example>
 						<example type="correct">W Warszawie nie ma nic, co przypominałoby wieżę Eiffla.</example>
-				</rule>
+				    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\p{Ll}+|[;,:]</token>
+                            <marker>
+                                <token inflected="yes">wieża<exception regexp="yes">w.*</exception></token>
+                                <token>Eiffla</token>
+                            </marker>
+                        </pattern>
+                        <message>Nieprawidłowa pisownia. Poprawnie: <suggestion><match no="2" case_conversion="alllower"/> Eiffla</suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=14712</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="incorrect" correction="wieży Eiffla">W związku z remontem części wind na <marker>Wieży Eiffla</marker> bilety dostępne są na zapytanie.</example>
+                        <example type="correct">W związku z remontem części wind na <marker>wieży Eiffla</marker> bilety dostępne są na zapytanie.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="PAR_EXCELLENCE" name="„par excellance” (par excellence)">
 						<pattern>
 								<token>par</token>
