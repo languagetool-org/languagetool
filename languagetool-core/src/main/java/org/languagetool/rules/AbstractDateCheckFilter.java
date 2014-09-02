@@ -19,6 +19,8 @@
 package org.languagetool.rules;
 
 import org.languagetool.rules.patterns.RuleFilter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.util.Calendar;
 import java.util.Map;
@@ -29,6 +31,10 @@ import java.util.Map;
  * @since 2.7
  */
 public abstract class AbstractDateCheckFilter implements RuleFilter {
+  // The day of the month may contain not only digits but also extra letters
+  // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
+  // the numerical part.
+  private static final Pattern patternDayOfMonth = Pattern.compile("(\\d+).*");
 
   /**
    * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
@@ -46,11 +52,11 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
    * @param localizedMonth name of a month or abbreviation thereof
    */
   protected abstract int getMonth(String localizedMonth);
-  
+
   protected abstract Calendar getCalendar();
 
   /**
-   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}  
+   * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String,String> args) {
@@ -84,7 +90,16 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
   private Calendar getDate(Map<String, String> args) {
     int year = Integer.parseInt(getRequired("year", args));
     int month = getMonthFromArguments(args);
-    int dayOfMonth = Integer.parseInt(getRequired("day", args));
+
+    // The day of the month may have a suffix ("22nd" in English for example).
+    // dayOfMonthString is expected to match the pattern
+    // patternDayOfMonth assuming that XML rules are correct.
+    String dayOfMonthString = args.get("day");
+    Matcher matcherDayOfMonth = patternDayOfMonth.matcher(dayOfMonthString);
+    int dayOfMonth = matcherDayOfMonth.matches()
+                   ? Integer.parseInt(matcherDayOfMonth.group(1))
+                   : 0;
+
     Calendar calendar = getCalendar();
     calendar.setLenient(false);  // be strict about validity of dates
     //noinspection MagicConstant
