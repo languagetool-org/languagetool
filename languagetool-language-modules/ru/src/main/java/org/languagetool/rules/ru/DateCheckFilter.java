@@ -55,18 +55,18 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
-    if (mon.equals("январь") || monthStr.equals("I") || monthStr.equals("1")) return 1;
-    if (mon.equals("февраль") || monthStr.equals("II") ||  monthStr.equals("2")) return 2;
-    if (mon.equals("март") || monthStr.equals("III") || monthStr.equals("3")) return 3;
-    if (mon.equals("апрель") || monthStr.equals("IV") || monthStr.equals("4")) return 4;
-    if (mon.equals("май") || monthStr.equals("V") || monthStr.equals("5")) return 5;
-    if (mon.equals("июнь") || monthStr.equals("VI") || monthStr.equals("6")) return 6;
-    if (mon.equals("июль") || monthStr.equals("VII") || monthStr.equals("7")) return 7;
-    if (mon.equals("август") || monthStr.equals("VIII") || monthStr.equals("8")) return 8;
-    if (mon.equals("сентябрь") || monthStr.equals("IX") || monthStr.equals("9")) return 9;
-    if (mon.equals("октябрь") || monthStr.equals("X") || monthStr.equals("10")) return 10;
-    if (mon.equals("ноябрь") || monthStr.equals("XI") || monthStr.equals("11")) return 11;
-    if (mon.equals("декабрь") || monthStr.equals("XII") || monthStr.equals("12")) return 12;
+    if (mon.equals("январь") || monthStr.equals("I") || monthStr.equals("января")) return 1;
+    if (mon.equals("февраль") || monthStr.equals("II") ||  monthStr.equals("февраля")) return 2;
+    if (mon.equals("март") || monthStr.equals("III") || monthStr.equals("марта")) return 3;
+    if (mon.equals("апрель") || monthStr.equals("IV") || monthStr.equals("апреля")) return 4;
+    if (mon.equals("май") || monthStr.equals("V") || monthStr.equals("мая")) return 5;
+    if (mon.equals("июнь") || monthStr.equals("VI") || monthStr.equals("июня")) return 6;
+    if (mon.equals("июль") || monthStr.equals("VII") || monthStr.equals("июля")) return 7;
+    if (mon.equals("август") || monthStr.equals("VIII") || monthStr.equals("августа")) return 8;
+    if (mon.equals("сентябрь") || monthStr.equals("IX") || monthStr.equals("сентября")) return 9;
+    if (mon.equals("октябрь") || monthStr.equals("X") || monthStr.equals("октября")) return 10;
+    if (mon.equals("ноябрь") || monthStr.equals("XI") || monthStr.equals("ноября")) return 11;
+    if (mon.equals("декабрь") || monthStr.equals("XII") || monthStr.equals("декабря")) return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
 }

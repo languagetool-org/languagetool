@@ -29,7 +29,7 @@ $Id$
 <!--suppress CheckTagEmptyBody -->
 <!DOCTYPE rules [
     <!ENTITY weekdays "Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье">
-    <!ENTITY months "Январь|Февраль|Март|Апрель|Май|Июнь|Июль|Август|Сентябрь|Октябрь|Ноябрь|Декабрь">
+    <!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь">
     <!ENTITY abbrevMonths "Янв|Фев|Мар|Апр|Авг|Сен|Окт|Ноя|Дек">
 ]>
 
@@ -62,6 +62,16 @@ $Id$
                 <example type='correct'>Это случилось <marker>28 февраля</marker> 2014 г.</example>
             </rule>
         </rulegroup>
+	 <rule id="YEAR_20001" name="Май 20001 (Май 2001)">
+            <pattern>
+                <token regexp="yes">&months;|год</token>
+                <token regexp="yes">200\d\d</token>
+            </pattern>
+            <message>Действительно \2? Или <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+            <short>Опечатка?</short>
+            <example type="correct">Моя поездка на море запланирована на <marker>май 2014</marker> г.</example>
+            <example type="incorrect" correction="май 2014">Моя поездка на море запланирована на <marker>май 20014</marker> г.</example>
+        </rule>
 
 	<rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
             <rule> 
