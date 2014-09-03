@@ -33,8 +33,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Runs LanguageTool's confusion rule on Wikipedia-extracted sentences that we assume to be correct.
@@ -43,6 +42,7 @@ import java.util.Map;
 class RealWordFalseAlarmEvaluator {
 
   private static final int MAX_SENTENCES = 1000;
+  private static final int MAX_ERROR_DISPLAY = 50;
   
   private final JLanguageTool langTool;
   private final ConfusionProbabilityRule confusionRule;
@@ -56,7 +56,7 @@ class RealWordFalseAlarmEvaluator {
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
     confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
     langTool = new JLanguageTool(new BritishEnglish());
-    langTool.activateDefaultPatternRules();
+    //langTool.activateDefaultPatternRules();
     List<Rule> rules = langTool.getAllActiveRules();
     for (Rule rule : rules) {
       langTool.disableRule(rule.getId());
@@ -67,16 +67,20 @@ class RealWordFalseAlarmEvaluator {
   }
 
   void run(File dir) throws IOException {
+    System.out.println("grep for '^DATA;' to get results in CVS format:");
+    System.out.println("DATA;word;sentence_count;errors_found;errors_percent");
     File[] files = dir.listFiles();
     //noinspection ConstantConditions
+    int fileCount = 1;
     for (File file : files) {
       if (!file.getName().endsWith(".txt")) {
         System.out.println("Ignoring " + file + ", does not match *.txt");
         continue;
       }
       try (FileInputStream fis = new FileInputStream(file)) {
-        System.out.println("===== Working on " + file.getName() + " =====");
+        System.out.println("===== Working on " + file.getName() + " (" + fileCount + "/" + files.length + ") =====");
         checkLines(IOUtils.readLines(fis), file.getName().replace(".txt", ""));
+        fileCount++;
       }
     }
     System.out.println(globalSentenceCount + " sentences checked");
@@ -97,11 +101,15 @@ class RealWordFalseAlarmEvaluator {
       sentenceCount++;
       globalSentenceCount++;
       if (matches.size() > 0) {
-        System.out.println("[" + name + "] " + line + " => " + matches.size());
+        Set<String> suggestions = new HashSet<>();
         for (RuleMatch match : matches) {
-          System.out.println("    " + match + ": " + match.getSuggestedReplacements());
+          //System.out.println("    " + match + ": " + match.getSuggestedReplacements());
+          suggestions.addAll(match.getSuggestedReplacements());
           ruleMatches++;
           globalRuleMatches++;
+        }
+        if (ruleMatches <= MAX_ERROR_DISPLAY) {
+          System.out.println("[" + name + "] " + line + " => " + suggestions);
         }
       }
       if (sentenceCount > MAX_SENTENCES) {
@@ -112,7 +120,8 @@ class RealWordFalseAlarmEvaluator {
     System.out.println(sentenceCount + " sentences checked");
     System.out.println(ruleMatches + " errors found");
     float percentage = ((float)ruleMatches/(float)sentenceCount*100);
-    System.out.printf("%.2f%% of sentences have a match\n\n", percentage);
+    System.out.printf("%.2f%% of sentences have a match\n", percentage);
+    System.out.printf(Locale.ENGLISH, "DATA;%s;%d;%d;%.2f\n\n", name, sentenceCount, ruleMatches, percentage);
   }
 
   public static void main(String[] args) throws IOException {
