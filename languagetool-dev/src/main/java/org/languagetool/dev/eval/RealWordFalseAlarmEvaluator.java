@@ -41,6 +41,7 @@ import java.util.*;
  */
 class RealWordFalseAlarmEvaluator {
 
+  private static final boolean EVAL_MODE = true;  // set to false to get data for homophonedb-info.txt
   private static final int MAX_SENTENCES = 1000;
   private static final int MAX_ERROR_DISPLAY = 50;
   
@@ -54,7 +55,8 @@ class RealWordFalseAlarmEvaluator {
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
-    confusionSet = confusionSetLoader.loadConfusionSet(inputStream, null);
+    InputStream infoStream = EVAL_MODE ? JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb-info.txt") : null;
+    confusionSet = confusionSetLoader.loadConfusionSet(inputStream, infoStream);
     langTool = new JLanguageTool(new BritishEnglish());
     //langTool.activateDefaultPatternRules();
     List<Rule> rules = langTool.getAllActiveRules();
@@ -67,8 +69,12 @@ class RealWordFalseAlarmEvaluator {
   }
 
   void run(File dir) throws IOException {
-    System.out.println("grep for '^DATA;' to get results in CVS format:");
-    System.out.println("DATA;word;sentence_count;errors_found;errors_percent");
+    if (EVAL_MODE) {
+      System.out.println("Running in eval mode, no 'DATA' lines will be printed, only a subset of the homophones will be used.");
+    } else {
+      System.out.println("grep for '^DATA;' to get results in CVS format:");
+      System.out.println("DATA;word;sentence_count;errors_found;errors_percent");
+    }
     File[] files = dir.listFiles();
     //noinspection ConstantConditions
     int fileCount = 1;
@@ -90,8 +96,8 @@ class RealWordFalseAlarmEvaluator {
   private void checkLines(List<String> lines, String name) throws IOException {
     ConfusionProbabilityRule.ConfusionSet subConfusionSet = confusionSet.get(name);
     if (subConfusionSet == null) {
-      throw new RuntimeException("No confusion set found for '" + name 
-              + "' - please make sure file names in sentence directory are like 'their.txt' and 'there.txt'");
+      System.err.println("Skipping '" + name + "', homophone not loaded");
+      return;
     }
     confusionRule.setConfusionSet(subConfusionSet);
     int sentenceCount = 0;
@@ -121,7 +127,9 @@ class RealWordFalseAlarmEvaluator {
     System.out.println(ruleMatches + " errors found");
     float percentage = ((float)ruleMatches/(float)sentenceCount*100);
     System.out.printf("%.2f%% of sentences have a match\n", percentage);
-    System.out.printf(Locale.ENGLISH, "DATA;%s;%d;%d;%.2f\n\n", name, sentenceCount, ruleMatches, percentage);
+    if (!EVAL_MODE) {
+      System.out.printf(Locale.ENGLISH, "DATA;%s;%d;%d;%.2f\n\n", name, sentenceCount, ruleMatches, percentage);
+    }
   }
 
   public static void main(String[] args) throws IOException {

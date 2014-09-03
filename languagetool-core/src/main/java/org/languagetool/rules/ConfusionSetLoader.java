@@ -28,8 +28,8 @@ import java.util.*;
  */
 public class ConfusionSetLoader {
 
-  private static final int MIN_SENTENCES = 100;
-  private static final float MAX_ERROR_RATE = 1.0f;
+  private static final int MIN_SENTENCES = 0;
+  private static final float MAX_ERROR_RATE = 100.0f;
   private static final String CHARSET = "utf-8";
 
   public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream, InputStream infoStream) throws IOException {
@@ -78,16 +78,15 @@ public class ConfusionSetLoader {
         }
         String[] words = line.split(",\\s*");
         ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet(words);
-        boolean allHomonymsAreUseful = usefulHomophones != null && usefulHomophones.containsAll(Arrays.asList(words));
-        if (allHomonymsAreUseful) {
-          for (String word : words) {
+        for (String word : words) {
+          if (usefulHomophones.contains(word)) {
             map.put(word, confusionSet);
           }
-          setsLoaded++;
         }
+        setsLoaded++;
         setsAvailable++;
       }
-      //System.out.println(setsLoaded + " of " + setsAvailable + " homophone sets loaded");
+      System.out.println(setsLoaded + " of " + setsAvailable + " homophone sets loaded");
     }
     return map;
   }
