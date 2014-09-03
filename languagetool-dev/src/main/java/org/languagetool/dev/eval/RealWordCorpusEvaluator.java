@@ -32,30 +32,30 @@ import java.util.List;
  * Runs LanguageTool on Jenny Pedler's Real-word Error Corpus, available at
  * http://www.dcs.bbk.ac.uk/~jenny/resources.html.
  * 
- * Results as of 2014-07-21 (pure LT without corpus data, i.e. without confusion rule):
+ * Results as of 2014-09-03 (pure LT without corpus data, i.e. without confusion rule):
  * <pre>
  * Counting matches, no matter whether the first suggestion is correct:
- * 147 out of 209 matches are real errors => 0,70 precision, 0,18 recall
- * => 0,4406 F(0.5) measure
+ * 147 out of 206 matches are real errors => 0,71 precision, 0,18 recall
+ * => 0,4438 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 114 out of 209 matches are real errors => 0,55 precision, 0,14 recall
- * => 0,3417 F(0.5) measure
+ * 119 out of 206 matches are real errors => 0,58 precision, 0,14 recall
+ * => 0,3593 F(0.5) measure
  * </pre>
  * 
- * Results as of 2014-07-22 (LT with 3grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * Results as of 2014-09-03 (LT with 3grams from Google ngram index, in form of a Lucene index), with a cleaned
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.
  * Confusion rule matches: 157 perfect, 8 good, 7 bad ([form, now, feel, now, too, too, very])
  *
  * Counting matches, no matter whether the first suggestion is correct:
- * 312 out of 379 matches are real errors => 0,82 precision, 0,38 recall
- * => 0,6644 F(0.5) measure
+ * 312 out of 378 matches are real errors => 0,83 precision, 0,38 recall
+ * => 0,6655 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 275 out of 379 matches are real errors => 0,73 precision, 0,33 recall
- * => 0,5856 F(0.5) measure
+ * 276 out of 378 matches are real errors => 0,73 precision, 0,33 recall
+ * => 0,5887 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
