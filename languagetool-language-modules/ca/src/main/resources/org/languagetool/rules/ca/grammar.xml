@@ -18728,16 +18728,17 @@ $Id$
         </rule>
     	<rule id="POR_A_LES_ALCADES" name="*por a les alçades/por a les altures">
             <pattern>
+                <token>por</token>
+                <token min="0" regexp="yes">a|de</token>
+                <token>les</token>
                 <marker>
-                    <token>por</token>
-                    <token regexp="yes">a|de</token>
-                    <token>les</token>
                     <token>alçades</token>
                 </marker>
             </pattern>
-            <message>Cal dir: <suggestion>por <match no="2"/> les altures</suggestion>.</message>
+            <message>Cal dir: <suggestion>altures</suggestion>.</message>
             <short>Expressió incorrecta</short>
-            <example type="incorrect" correction="por a les altures">Tinc <marker>por a les alçades</marker></example>
+            <example type="incorrect" correction="altures">Tinc por a les <marker>alçades</marker></example>
+            <example type="incorrect" correction="altures">Em fan por les <marker>alçades</marker></example>
             <example type="correct">No té por de les altures.</example>
         </rule>
     	<rule id="VISTA_GROSSA" name="*fer la vista grossa/fer els ulls grossos">
@@ -26517,7 +26518,7 @@ $Id$
                         <token regexp="yes">ordres?</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister</token>
+                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>?</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
