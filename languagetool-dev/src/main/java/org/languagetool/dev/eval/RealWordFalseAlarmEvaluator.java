@@ -96,7 +96,7 @@ class RealWordFalseAlarmEvaluator {
   private void checkLines(List<String> lines, String name) throws IOException {
     ConfusionProbabilityRule.ConfusionSet subConfusionSet = confusionSet.get(name);
     if (subConfusionSet == null) {
-      System.err.println("Skipping '" + name + "', homophone not loaded");
+      System.out.println("Skipping '" + name + "', homophone not loaded");
       return;
     }
     confusionRule.setConfusionSet(subConfusionSet);

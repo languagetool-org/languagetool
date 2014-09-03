@@ -69,8 +69,8 @@ public class ConfusionSetLoader {
       InputStreamReader reader = new InputStreamReader(stream, CHARSET);
       BufferedReader br = new BufferedReader(reader)
     ) {
-      int setsAvailable = 0;
-      int setsLoaded = 0;
+      int homophonesAvailable = 0;
+      int homophonesLoaded = 0;
       String line;
       while ((line = br.readLine()) != null) {
         if (line.startsWith("#")) {
@@ -82,11 +82,11 @@ public class ConfusionSetLoader {
           if (usefulHomophones.contains(word)) {
             map.put(word, confusionSet);
           }
+          homophonesLoaded++;
         }
-        setsLoaded++;
-        setsAvailable++;
+        homophonesAvailable += words.length;
       }
-      System.out.println(setsLoaded + " of " + setsAvailable + " homophone sets loaded");
+      System.out.println(homophonesLoaded + " of " + homophonesAvailable + " homophones loaded");
     }
     return map;
   }
