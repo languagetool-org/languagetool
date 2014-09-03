@@ -26,7 +26,6 @@ import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSetLoader;
 import org.languagetool.tools.StringTools;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +62,7 @@ class ConfusionSetCoverage {
             "is more common. Actually even more ngram lookups will be needed, depending on what ngrams we have.)");
   }
 
-  private Map<String, ConfusionProbabilityRule.ConfusionSet> getConfusionSet() throws FileNotFoundException {
+  private Map<String, ConfusionProbabilityRule.ConfusionSet> getConfusionSet() throws IOException {
     ConfusionSetLoader loader = new ConfusionSetLoader();
     InputStream homophoneStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
     return loader.loadConfusionSet(homophoneStream);

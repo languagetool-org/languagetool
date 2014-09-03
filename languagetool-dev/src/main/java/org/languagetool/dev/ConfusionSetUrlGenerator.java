@@ -29,7 +29,7 @@ import java.util.*;
 /**
  * Generate URLs for the confusion set to download the parts of Google's ngram corpus that we need
  * to cover the confusion set.
- * @since 2.6
+ * @since 2.x
  */
 final class ConfusionSetUrlGenerator {
 
