@@ -21,20 +21,22 @@ package org.languagetool.rules;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
- * Loads a confusion set from a plain text file. Expects a file
+ * Loads a confusion set from a plain text file (UTF-8). Expects a file
  * where there is one confusion set per line, words separated by commas.
  * @since 2.7
  */
 public class ConfusionSetLoader {
 
-  public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream inputStream) throws FileNotFoundException {
+  public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream inputStream) throws IOException {
     Map<String,ConfusionProbabilityRule.ConfusionSet> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (
+      InputStreamReader reader = new InputStreamReader(inputStream, "utf-8");
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
         if (line.startsWith("#")) {
           continue;
         }

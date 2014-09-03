@@ -22,7 +22,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.rules.ConfusionProbabilityRule;
 import org.languagetool.rules.ConfusionSetLoader;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
@@ -33,7 +33,7 @@ import java.util.*;
  */
 final class ConfusionSetUrlGenerator {
 
-  public static void main(String[] args) throws FileNotFoundException {
+  public static void main(String[] args) throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
     Map<String,ConfusionProbabilityRule.ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);

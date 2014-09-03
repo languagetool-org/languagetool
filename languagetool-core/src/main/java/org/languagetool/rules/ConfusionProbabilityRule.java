@@ -197,5 +197,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
     public Set<String> getSet() {
       return set;
     }
+    @Override
+    public String toString() {
+      return set.toString();
+    }
   }
 }
