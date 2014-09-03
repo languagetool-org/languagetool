@@ -343,11 +343,23 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             true, disambiguatedPOS, null,
             Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
-        final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
-        final String prevValue = whTokens[fromPos].toString();
-        final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
-        whTokens[fromPos] = matchState.filterReadings();
-        annotateChange(whTokens[fromPos], prevValue, prevAnot);
+        boolean newPOSmatches = false;
+
+        // only apply filter rule when it matches previous tags:
+        for (int i = 0; i < whTokens[fromPos].getReadingsLength(); i++) {
+          if (!whTokens[fromPos].getAnalyzedToken(i).hasNoTag() &&
+              whTokens[fromPos].getAnalyzedToken(i).getPOSTag().matches(disambiguatedPOS)) {
+            newPOSmatches = true;
+            break;
+          }
+        }
+        if (newPOSmatches) {
+          final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+          final String prevValue = whTokens[fromPos].toString();
+          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
+          whTokens[fromPos] = matchState.filterReadings();
+          annotateChange(whTokens[fromPos], prevValue, prevAnot);
+        }
         break;
       }
       //fallthrough
