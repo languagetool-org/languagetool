@@ -26,6 +26,9 @@ $Id$
 
     <category name="Стиль">
         <rulegroup name="Самий з прикметниками" id="SAMYI">
+        <!-- TODO: якщо робити це правило загальним фальшивих помилок більше ніж правильних позначень,
+                   тож поки що обмежимося лише двома більш-менш стабільними випадками 
+    
             <rule>
                 <pattern>
                   <unify>
@@ -34,15 +37,12 @@ $Id$
                    <feature id="case"/>
                       
                     <token inflected="yes">самий
-                        <exception scope="previous" regexp="yes" inflected="yes">(такий|той|же?|чим)</exception>
+                        <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
                     </token>
-                    <token postag_regexp="yes" postag="adj:.*:(comp|super).*">
-                        <exception postag_regexp="yes" postag="(pro)?noun.*"></exception>
+                    <token postag_regexp="yes" postag="adj:.*:(comp).*">
+                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
                         <exception regexp="yes">(дуже|мала)</exception>
                     </token>
-                    <!--
-                    <token><exception inflected="yes">князь</exception></token>
-                    -->
                   </unify>
                 </pattern>
                 <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
@@ -57,10 +57,111 @@ $Id$
                 <example type="correct">пояснюється саме дуже високим відсотком людей</example>
                 <example type="correct">повідомляти самого великого князя</example>
                 <example type="correct">вона й сама мала би зректися посади</example>
+                <example type="correct">вона й сама зрозуміла це</example>
+                <example type="correct">з цим самим білим піском</example>
+                <example type="correct">лише самих економічних санкцій</example>
                 <example type="incorrect"><marker>Самий кращий</marker>.</example>
                 <example type="incorrect"><marker>Сама гірша</marker>.</example>
                 <example type="incorrect"><marker>Самий сильний</marker>.</example>
                 <example type="incorrect"><marker>Сама тривала</marker>.</example>
+            </rule>
+            -->
+            <rule>
+                <pattern>
+                  <unify>
+                   <feature id="gender"/>
+                   <feature id="number"/>
+                   <feature id="case"/>
+                      
+                    <token inflected="yes">самий
+                        <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="adj:.*:(compr).*">
+                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                    </token>
+                  </unify>
+                </pattern>
+                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
+                <example type="correct">Сама прийшла</example>
+                <example type="correct">Саме такий</example>
+                <example type="correct">Саме кращий</example>
+                <example type="incorrect"><marker>Самий кращий</marker>.</example>
+                <example type="incorrect"><marker>Сама гірша</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>самий
+                        <exception scope="previous" regexp="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="adj.*:v_(naz|zna).*:comp.*">
+                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                    </token>
+                </pattern>
+                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
+                                         postag="(adj:.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                <example type="correct">Самий цвіт</example>
+                <example type="correct">Саме такий</example>
+                <example type="correct">той самий страшний сон</example>
+                <example type="correct">лише самих економічних санкцій</example>
+                <example type="incorrect"><marker>Самий кращий</marker>.</example>
+                <example type="incorrect">Він — <marker>самий сильний</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <unify>
+                   <feature id="gender"/>
+                   <feature id="number"/>
+                   <feature id="case"/>
+                      
+                    <marker>
+                    <token inflected="yes">самий
+                        <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="adj:.*:(comp).*">
+                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception regexp="yes">(дуже|мала)</exception>
+                    </token>
+                    </marker>
+                  </unify>
+                    <token regexp="yes">[—–-]</token>
+                </pattern>
+                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
+                                         postag="(adj:.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                <example type="correct">Самий цвіт</example>
+                <example type="correct">Сама прийшла</example>
+                <example type="correct">Саме такий</example>
+                <example type="correct">Саме вони</example>
+                <example type="correct">представник саме романтичного націоналізму</example>
+                <example type="incorrect" correction="Найкраще|Якнайкраще"><marker>Саме краще</marker> — ливарний цех.</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <unify>
+                   <feature id="gender"/>
+                   <feature id="number"/>
+                   <feature id="case"/>
+                      
+                    <marker>
+                    <token inflected="yes">самий
+                        <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
+                    </token>
+                    <token postag_regexp="yes" postag="adj:.*:(comp).*">
+                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception regexp="yes">(дуже|мала)</exception>
+                    </token>
+                    </marker>
+                  </unify>
+                    <token>,</token>
+                    <token regexp="yes">що|який</token>
+                </pattern>
+                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
+                                         postag="(adj:.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
+                <example type="correct">Самий цвіт</example>
+                <example type="correct">Сама прийшла до нього</example>
+                <example type="correct">Саме такий</example>
+                <example type="correct">Саме вони</example>
+                <example type="correct">представник саме романтичного націоналізму</example>
+                <example type="incorrect" correction="Найкраще|Якнайкраще"><marker>Саме краще</marker>, що в нас є.</example>
             </rule>
             <rule>
                 <pattern>
@@ -69,12 +170,12 @@ $Id$
                    <feature id="number"/>
                    <feature id="case"/>
                     <token inflected="yes">самий
-                        <exception scope="previous" regexp="yes" inflected="yes">(такий|той|же?|чим)</exception>
+                        <exception scope="previous" regexp="yes" inflected="yes">(той|же?|чим)</exception>
                     </token>
                     <token inflected="yes" regexp="yes">перший|найперший</token>
                   </unify>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
+                <message>Замість «самий перший» тре вживати найвищу ступінь: <suggestion>найперший</suggestion></message>
                 <example type="incorrect"><marker>Самий перший</marker>.</example>
                 <example type="correct">самі першими втікали</example>
                 <example type="correct">найперший</example>
@@ -547,6 +648,15 @@ $Id$
          <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
          <example type="incorrect"><marker>Більшої половини</marker> класу</example>
          <example type="correct">Більш ніж половина</example>
+       </rule>
+       <rule>
+         <pattern>
+           <token inflected="yes">вільний</token>
+           <token inflected="yes">вакансія</token>
+          </pattern>
+         <message>Правильно: <suggestion><match no="1"/></suggestion>.</message>
+         <example type="incorrect"><marker>Вільної вакансії</marker></example>
+         <example type="correct"><marker>вакансію</marker></example>
        </rule>
 
 	</rulegroup>

@@ -2551,6 +2551,11 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="SOI_SOIT_SOIE" name="soit, soi, ou soie">
       <rule>
+        <antipattern>
+          <token regexp="yes">encres?</token>
+          <token>sur</token>
+          <token>soie</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">chez|pour|sur</token>
           <marker><token regexp="yes">soi[te]</token></marker>
@@ -2558,6 +2563,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>soi</suggestion> ?</message>
         <example type="incorrect">Comment gagner de l’argent en restant chez <marker>soit</marker>.</example>
         <example type="correct">Comment gagner de l’argent en restant chez <marker>soi</marker>.</example>
+        <example type="correct">Une encre sur soie.</example>
       </rule>
       <rule>
         <pattern>
@@ -3013,22 +3019,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Willy Brandt était un politicien allemand.</example>
       </rule>
       <rule>
-        <pattern>
+        <antipattern>
           <token>Keira</token>
-          <token regexp="yes">Knight?e?le?y?<exception>Knightley</exception></token>
+          <token>Knightley</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Kie?ra|Keira</token>
+          <token regexp="yes">Knight?e?le?y?</token>
         </pattern>
         <message>Écrivez <suggestion>Keira Knightley</suggestion> s’il s’agit de l’actrice britannique.</message>
         <url>https://fr.wikipedia.org/wiki/Keira_Knightley</url>
         <example type="incorrect"><marker>Keira Knightly</marker> est une actrice britannique.</example>
-        <example type="correct">Keira Knightley est une actrice britannique.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">Kie?ra</token>
-          <token regexp="yes">Knight?le?y?</token>
-        </pattern>
-        <message>Écrivez <suggestion>Keira Knightley</suggestion> s’il s’agit de l’actrice britannique.</message>
-        <url>https://fr.wikipedia.org/wiki/Keira_Knightley</url>
         <example type="incorrect"><marker>Kiera Knightley</marker> est une actrice britannique.</example>
         <example type="correct">Keira Knightley est une actrice britannique.</example>
       </rule>
@@ -3312,9 +3313,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Roger Hodgson est né en 1950.</example>
       </rule>
       <rule>
-        <pattern>
-          <token regexp="yes">Ste(ff?|ph)e?[iy]<exception>Steffi</exception></token>
+        <antipattern>
+          <token>Steffi</token>
           <token>Graf</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Ste(ff?|ph)e?[iy]</token>
+          <token regexp="yes">Graff?</token>
         </pattern>
         <message>Écrivez <suggestion>Steffi Graf</suggestion> s’il s’agit de joueuse de tennis.</message>
         <url>https://fr.wikipedia.org/wiki/Steffi_Graf</url>
@@ -3392,10 +3397,15 @@ though, and has since been slightly modified)-->
         <example type="correct">Alanis Morissette</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Weird</token>
+          <token>Al</token>
+          <token>Yankovic</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">Weird|Wierd</token>
           <token>Al</token>
-          <token>Yankovich</token>
+          <token regexp="yes">Yankovich?</token>
         </pattern>
         <message>Écrivez <suggestion>Weird Al Yankovic</suggestion> s’il s’agit du chanteur américain.</message>
         <url>https://fr.wikipedia.org/wiki/Weird_Al_Yankovic</url>
@@ -3413,9 +3423,14 @@ though, and has since been slightly modified)-->
         <example type="correct">Barbra Straisand</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>Edgar</token>
+          <token>Allan</token>
+          <token>Poe</token>
+        </antipattern>
         <pattern>
           <token>Edgar</token>
-          <token regexp="yes">Al[ae]n|Allen</token>
+          <token regexp="yes">All?[ae]n</token>
           <token regexp="yes">Poe?</token>
         </pattern>
         <message>Écrivez <suggestion>Edgar Allan Poe</suggestion> s’il s’agit de l’écrivain américain.</message>
@@ -3523,7 +3538,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">Ghandh?i</token>
+          <token regexp="yes">Ghandh?i|Gandi</token>
         </pattern>
         <message>Écrivez <suggestion>Gandhi</suggestion> s’il du dirigeant politique et guide spirituel de l’Inde.</message>
         <url>https://fr.wikipedia.org/wiki/Gandhi</url>
@@ -5373,6 +5388,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Ils ont tous les <marker>trois été</marker> tués par balle.</example>
         <example type="correct"><marker>Mille neuf</marker> cent quatre-vingt.</example>
         <example type="correct">Les <marker>trois kanji</marker>.</example>
+        <example type="correct">L'intensité des rayons X ayant frappé la pellicule.</example>
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <pattern>
@@ -5450,6 +5466,10 @@ though, and has since been slightly modified)-->
         <example type="correct">J’ai au moins quelques dollars.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
+        <antipattern>
+          <token regexp="yes">ondes|signaux|échos|émetteurs|interféromètres|récepteurs|réflecteurs|brouilleurs|stations</token>
+          <token regexp="yes">radio|radar|météo</token>
+        </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">des?</token>
           <marker>
@@ -5505,6 +5525,7 @@ though, and has since been slightly modified)-->
         <example type="correct">En 1779 débute la première <marker>des neuf</marker> guerres.</example>
         <example type="incorrect"><marker>Les véhicule</marker>.</example>
         <example type="correct">Les véhicules.</example>
+        <example type="correct">Les ondes radio.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -5699,6 +5720,11 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
       <rule>
+        <antipattern>
+          <token>nombre</token>
+          <token>de</token>
+          <token regexp="yes">masse|neuf</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
           <token>de</token>
@@ -5708,8 +5734,16 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Une centaine de <marker>personne</marker> est venue.</example>
         <example type="correct">Une centaine de personnes est venue.</example>
         <example type="correct">Il faut beaucoup de sucre.</example>
+        <example type="correct">Le nombre de masse est un terme employé en chimie.</example>
+        <example type="correct">Ils sont au nombre de neuf.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>nombre</token>
+          <token>d</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>oxydation</token>
+        </antipattern>
         <pattern>
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
           <token>d</token>
@@ -5720,6 +5754,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Une centaine d’<marker>anarchiste</marker> est venue.</example>
         <example type="correct">Une centaine d’anarchistes est venue.</example>
         <example type="correct">Il faut beaucoup d’eau.</example>
+        <example type="correct">Le nombre d’oxydation.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_COULEUR" name="accord couleur">
@@ -9344,7 +9379,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <marker><token>la</token></marker>
-          <token regexp="yes" case_sensitive="yes">où|que?|à|aux?|en|sur|sous|auncune?|beaucoup|plusieurs|se|est|pour|debout|dans|jusqu|avant|après|un|[cdlmts]es?|du|[mts]on|[nv]otre|[nv]os|leurs?|cette|cet|ceux|celui|celles|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize<exception regexp="yes">.*ième</exception></token>
+          <token regexp="yes" case_sensitive="yes">où|que?|à|aux?|en|sur|sous|aucune?|beaucoup|plusieurs|se|est|pour|debout|dans|jusqu|avant|après|un|[cdlmts]es?|du|[mts]on|[nv]otre|[nv]os|leurs?|cette|cet|ceux|celui|celles|(?:deux|trois|quatre|cinq|six|sept|huit|neuf|dix|vingt|trente|quarante|cinquante|soixante|septante|huitante|octante|nonante|cents?|mille)(?:-.*)?|onze|douze|treize|quatorze|quinze|seize<exception regexp="yes">.*ième</exception></token>
         </pattern>
         <message>Voulez-vous dire <suggestion>là</suggestion> ?</message>
         <example type="incorrect">Il l’a trouvé <marker>la</marker> où je l’avais laissé.</example>
@@ -13216,7 +13251,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="DEPENSE_DOPERATION" name="dépense d’opération">
       <pattern>
-        <token regexp="yes" skip="3">dépenses?</token>
+        <token regexp="yes">dépenses?</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">opérations?</token>
       </pattern>
       <message>« Dépense d’opération » est un anglicisme. Employez <suggestion>dépense de fonctionnement</suggestion>.</message>
@@ -13225,7 +13262,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="COUT_DOPERATION" name="coût d’opération">
       <pattern>
-        <token regexp="yes" skip="3">coûts?</token>
+        <token regexp="yes">coûts?</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">opérations?</token>
       </pattern>
       <message>« Coût d’opération » est un anglicisme (operation costs). Employez <suggestion>frais d’exploitation</suggestion>.</message>
@@ -13234,7 +13273,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="FRAIS_DOPERATION" name="frais d’opération">
       <pattern>
-        <token skip="3">frais</token>
+        <token>frais</token>
+        <token>d</token>
+        <token regexp="yes">[’´'‛′‘]</token>
         <token regexp="yes">opérations?</token>
       </pattern>
       <message>« Frais d’opération » est un anglicisme (operation costs). Employez <suggestion>frais d’exploitation</suggestion>.</message>
@@ -18553,16 +18594,6 @@ though, and has since been slightly modified)-->
       <message>« Être en amour » est un anglicisme (to be in love). Employez <suggestion>être amoureux</suggestion>.</message>
       <example type="incorrect"><marker>être en amour</marker></example>
       <example type="correct"><marker>être amoureux</marker></example>
-    </rule>
-    <rule id="MOULIN_A_PAPIER" name="moulin à papier">
-      <pattern>
-        <token regexp="yes">moulins?</token>
-        <token regexp="yes">[aà]</token>
-        <token regexp="yes">papiers?</token>
-      </pattern>
-      <message>« Moulin à papier » est un anglicisme (paper mill). Employez <suggestion>papeterie</suggestion>, <suggestion>usine de pâte à papier</suggestion>, <suggestion>usine de pâte à papier</suggestion>, <suggestion>usine de pâtes et papiers</suggestion>, <suggestion>usine de papeterie</suggestion>.</message>
-      <example type="incorrect"><marker>moulin à papier</marker></example>
-      <example type="correct"><marker>papeterie</marker></example>
     </rule>
     <rule id="BARRE_DE_SAVON" name="barre de savon">
       <pattern>
@@ -24897,7 +24928,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="APOS_M" name="je m étais → je m’étais">
       <rule>
         <pattern>
-          <token regexp="yes">[mts]<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|[\d-]+|.</exception></token>
+          <token regexp="yes">[mts]<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|parametre|variable|voyelle|où|[\d-]+|.</exception></token>
           <token postag="V.*" postag_regexp="yes" regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1’\2</suggestion> ?</message>
@@ -26433,11 +26464,11 @@ though, and has since been slightly modified)-->
         <token regexp="yes">(?-i)9[58x]|2000|Me|CE|SE|RT|NT|XP|Vista|[789]|Mobile|Millenium|Server|Phone|Media</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>Windows</suggestion> s’il s’agit du système d’exploitation de Microsoft ?</message>
-      <url>http://fr.wikipedia.org/wiki/Windows</url>
+      <url>https://fr.wikipedia.org/wiki/Windows</url>
       <example type="incorrect"><marker>Window</marker> Vista plante tout le temps.</example>
       <example type="correct"><marker>Windows</marker> Vista plante tout le temps.</example>
     </rule>
-    <rule id="X_WWINDOW" name="X Window">
+    <rule id="X_WINDOW" name="X Window">
       <pattern>
         <token case_sensitive="yes">X</token>
         <token>Windows</token>
@@ -27041,6 +27072,197 @@ though, and has since been slightly modified)-->
       <example type="incorrect">Il a remporté la médaille <marker>Field</marker>.</example>
       <example type="correct">Il a remporté la médaille Fields.</example>
     </rule>
+    <rulegroup id="DATE_JOUR" name="date inconsistent avec jour">
+      <rule>
+        <pattern>
+          <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
+          <token min="0" max="1">,</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+          <token regexp="yes">janvier|jan|février|fév|mars?|avril|avr|mai|juin?|juillet|jui|ao[uû]t?|septembre|sep|octobre|oct|novembre|nov|décembre|déc</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+        <message>La date « \3 \4 \5 » n’est pas un <match no="1" case_conversion="alllower"/> mais un \realDay.</message>
+        <example type="incorrect"><marker>Vendredi 28 août 2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi 28 août 2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 28 août 2014</marker>.</example>
+        <example type="incorrect"><marker>Ven 28 août 2014</marker>.</example>
+        <example type="correct">Jeudi 28 août 2014.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
+          <token min="0" max="1">,</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+          <token>/</token>
+          <token regexp="yes">0?\d|1[012]</token>
+          <token>/</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+        <message>La date « \3\4\5\6\7 » n’est pas un <match no="1" case_conversion="alllower"/> mais un \realDay.</message>
+        <example type="incorrect"><marker>Vendredi 28/08/2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi 28/8/2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 28/8/2014</marker>.</example>
+        <example type="incorrect"><marker>Ven 28/8/2014</marker>.</example>
+        <example type="correct"><marker>Jeudi 28/08/2014</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
+          <token min="0" max="1">,</token>
+          <token regexp="yes">[12]\d\d\d</token>
+          <token>/</token>
+          <token regexp="yes">0?\d|1[012]</token>
+          <token>/</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\3 month:\5 day:\7 weekDay:\1"/>
+        <message>La date « \3\4\5\6\7 » n’est pas un <match no="1" case_conversion="alllower"/> mais un \realDay.</message>
+        <example type="incorrect"><marker>Vendredi 2014/08/28</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 2014/08/28</marker>.</example>
+        <example type="incorrect"><marker>Ven, 2014/08/28</marker>.</example>
+        <example type="correct"><marker>Jeudi 2014/08/28</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
+          <token min="0" max="1">,</token>
+          <token regexp="yes">\d\d?-\d\d?-\d\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.fr.DMYDateCheckFilter" args="date:\3 weekDay:\1"/>
+        <message>La date « \1\2 \3 » n’est pas un <match no="1" case_conversion="alllower"/> mais un \realDay.</message>
+        <example type="incorrect"><marker>Vendredi 28-8-2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi 28-08-2014</marker>.</example>
+        <example type="incorrect"><marker>Vendredi, 28-08-2014</marker>.</example>
+        <example type="correct"><marker>Jeudi 28-08-2014</marker>.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DATE" name="date incorrecte">
+      <rule>
+        <pattern>
+          <token>31</token>
+          <token regexp="yes">avril|avr|juin|jui|septembre|sep|novembre|nov</token>
+        </pattern>
+        <message>Le mois « \2 » n’a que 30 jours.</message>
+        <example type="incorrect">Il est né le <marker>31 septembre</marker>.</example>
+        <example type="correct">Il est né le <marker>31 octobre</marker>.</example>
+        <example type="correct">Il est né le <marker>30 septembre</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>31</token>
+          <token>/</token>
+          <token regexp="yes">avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11</token>
+          <token>/</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <message>Le mois « \3 » n’a que 30 jours.</message>
+        <example type="incorrect">Il est né le <marker>31/septembre/1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31/09/1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31/9/1969</marker>.</example>
+        <example type="correct">Il est né le <marker>31/10/1969</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">31-(avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11)(-\d\d(\d\d)?)?</token>
+        </pattern>
+        <message>Le mois « <match no="1" regexp_match="31-([^-]*)(.*)" regexp_replace="$1"/> » n’a que 30 jours.</message>
+        <example type="incorrect">Il est né le <marker>31-septembre-1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31-09-1969</marker>.</example>
+        <example type="incorrect">Il est né le <marker>31-9-69</marker>.</example>
+        <example type="correct">Il est né le <marker>31-8-69</marker>.</example>
+        <example type="correct">Il est né le <marker>31-aout-1969</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">3[01]</token>
+          <token regexp="yes">février|fév</token>
+        </pattern>
+        <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Il est né le <marker>30 février</marker>.</example>
+        <example type="correct">Il est né le <marker>28 février</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">3[01]</token>
+          <token>/</token>
+          <token regexp="yes">février|fév|0?2</token>
+          <token>/</token>
+          <token regexp="yes">\d\d\d\d</token>
+        </pattern>
+        <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Il est né le <marker>30/février/1969</marker>.</example>
+        <example type="correct">Il est né le <marker>28 février</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">3[01]-(février|fév|0?2)(-\d\d(\d\d)?)?</token>
+        </pattern>
+        <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Il est né le <marker>30-02-1969</marker>.</example>
+        <example type="correct">Il est né le <marker>28-02-1969</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>29</token>
+          <token min="0" max="1">/</token>
+          <token regexp="yes">février|fév|0?2</token>
+          <token min="0" max="1">/</token>
+          <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+          </token>
+        </pattern>
+        <message>Le mois de février \5 n’a pas 29 jours, puisque \5 n’est pas une année bissextile.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <!-- 1900 is not a leap year (divisible by 100) -->
+        <example type="incorrect">Le <marker>29 février 1900</marker>.</example>
+        <example type="incorrect">Le <marker>29/février/1900</marker>.</example>
+        <example type="incorrect">Le <marker>29/02/1900</marker>.</example>
+        <example type="incorrect">Le <marker>29/2/1900</marker>.</example>
+        <!-- 2000 is a leap year (divisible by 400) -->
+        <example type="correct">Le <marker>29 février 2000</marker>.</example>
+        <example type="correct">Le <marker>29/février/2000</marker>.</example>
+        <example type="correct">Le <marker>29/02/2000</marker>.</example>
+        <example type="correct">Le <marker>29/2/2000</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2001</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2002</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2003</marker>.</example>
+        <!-- 2004 is a leap year (divisible by 4) -->
+        <example type="correct">Le <marker>29 février 2004</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2005</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2006</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2007</marker>.</example>
+        <!-- 2008 is a leap year (divisible by 4) -->
+        <example type="correct">Le <marker>29 février 2008</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2009</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2010</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2011</marker>.</example>
+        <!-- 2012 is a leap year (divisible by 4) -->
+        <example type="correct">Le <marker>29 février 2012</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2014</marker>.</example>
+        <example type="correct">Le <marker>29 février 2016</marker>.</example>
+        <example type="incorrect">Le <marker>29 février 2018</marker>.</example>
+        <example type="correct">Le <marker>29 février 2020</marker>.</example>
+        <!-- 2100 is not a leap year (divisible by 100) -->
+        <example type="incorrect">Le <marker>29 février 2100</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">29-(février|fév|0?2)-\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">29-[^-]+-[13579][26]00|[2468][048]00</exception>
+          </token>
+        </pattern>
+        <message>Le mois de février n’a pas 29 jours, puisque <match no="1" regexp_match=".*(\d\d\d\d)$" regexp_replace="$1"/> n’est pas une année bissextile.</message>
+        <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
+        <example type="incorrect">Le <marker>29-02-1900</marker></example>
+        <example type="incorrect">Le <marker>29-février-2005</marker></example>
+        <example type="correct">Le 29-février-2004</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->

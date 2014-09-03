@@ -171,8 +171,14 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       //noinspection CallToPrintStackTrace
       e.printStackTrace();
-      final String response = "Error: " + StringTools.escapeXML(Tools.getFullStackTrace(e));
-      sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, response);
+      String response;
+      if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
+        response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +
+                "Please make sure you have selected the proper language or consider submitting a shorter text.";
+      } else {
+        response = Tools.getFullStackTrace(e);
+      }
+      sendError(httpExchange, HttpURLConnection.HTTP_INTERNAL_ERROR, "Error: " + response);
     } finally {
       synchronized (this) {
         handleCount--;
@@ -281,7 +287,8 @@ class LanguageToolHttpHandler implements HttpHandler {
         matches = future.get(maxCheckTimeMillis, TimeUnit.MILLISECONDS);
       } catch (TimeoutException e) {
         throw new RuntimeException("Text checking took longer than allowed maximum of " + maxCheckTimeMillis +
-                " milliseconds (handleCount: " + handleCount + ", language: " + lang.getShortNameWithCountryAndVariant() +
+                " milliseconds (handleCount: " + handleCount + ", queue size: " + workQueue.size() +
+                ", language: " + lang.getShortNameWithCountryAndVariant() +
                 ", " + text.length() + " characters of text)", e);
       }
     }

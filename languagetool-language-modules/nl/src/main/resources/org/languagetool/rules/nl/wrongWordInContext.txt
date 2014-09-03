@@ -1,4 +1,14 @@
-#word1	word2	match1	match2	context1	context2	[explanation1	explanation2]
-#do not forget to add tests to DutchWrongWordInContextRuleTest.java
-# Mine/Miene (example, can be removed)
-# Minen?	Mienen?	in	ien	(?i)explodier.*|unterirdisch.*|Kugelschreiber.*|.*stift|Explosion.*|.*stürzen|.*spreng.*|.*gestürzt	verzieh(en|s?t)|verzog(en)?|auf(zu)?setzen|setze.*|setzt|gekränkt.*|unbewegt.*	unterirdischer Gang, Sprengkörper, Kugelschreibermine	Gesichtsausdruck
+# word1 and word2 are regular expressions of the words that can easily be confused
+# match1 is the substring of word1 that will be replaced with match2 when word1 occurs in a context where it is probably wrong (and vice versa)
+# context1 is the context in which word1 typically occurs (but which is wrong for word2), given as a regular expression
+# context2 is the context in which word2 typically occurs (but which is wrong for word1), given as a regular expression
+# explanation1 is a short description of word1 (optional)
+# explanation2 is a short description of word2 (optional)
+korps	corps	k	c	politie.*	student.*	Een korps is een groep mensen met eenzelfde rol.	Een corps is een (studenten)vereniging.
+kadet	cadet	k	c	.*	.*	Een kadet is een broodje.	Een cadet is een militair in opleiding.
+email	e-mail	em	e-m	pot|pan	(ver){0,1}stuur.*|(ver){0,1}sturen|(ver){0,1}zend.*|ontvang.*	Email is glazuur.	Een e-mail is elektronische post.
+biljard	biljart	d	t	euro|dollar|yen	.*	Een biljard is een grote hoeveelheid.	Biljart is een spel.
+rei(zen|s|st)	rij(zen|s|st)	ei	ij	trein|auto	deeg|brood|gebak	Reizen is je verplaatsen.	Rijzen is omhoog komen.
+#peter	Peter	p	P	.*	.*	Een peter is een peetvader.	Peter is een naam.
+#fries	Fries	f	F	.*	.*	Een fries is een deel van een gevel.	Een Fries is iemand uit Friesland.
+#gent	Gent	g	G	.*	.*	Gent is een stad.	Een gent is een vogel.

@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Category;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
@@ -60,6 +61,8 @@ public class MissingVerbRule extends GermanRule {
       super.setCategory(new Category(messages.getString("category_grammar")));
     }
     setDefaultOff();
+    addExamplePair(Example.wrong("<marker>In diesem Satz kein Wort.</marker>"),
+                   Example.fixed("In diesem Satz <marker>fehlt</marker> kein Wort."));
   }
 
   @Override

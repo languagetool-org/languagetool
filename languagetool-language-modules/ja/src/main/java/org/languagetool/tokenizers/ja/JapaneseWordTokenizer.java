@@ -28,33 +28,30 @@ import org.languagetool.tokenizers.Tokenizer;
 
 public class JapaneseWordTokenizer implements Tokenizer {
 
-  private StringTagger stringtagger;
+  private final StringTagger stringTagger;
 
-  private void init(){
-    if(stringtagger == null){
-      stringtagger = SenFactory.getStringTagger(null);
-    }
+  public JapaneseWordTokenizer() {
+    stringTagger = SenFactory.getStringTagger(null);
   }
 
   @Override  
-  public List<String> tokenize(String text){
-    init();
+  public List<String> tokenize(String text) {
     final List<String> ret = new ArrayList<>();
     List<Token> tokens = new ArrayList<>();
-    String basicForm;
     try {
-      stringtagger.analyze(text, tokens);
+      stringTagger.analyze(text, tokens);
     } catch (Exception e) {
       return ret;
     }
     
     for(Token token : tokens){
-      if(token.getMorpheme().getBasicForm().equalsIgnoreCase("*")){
+      String basicForm;
+      if (token.getMorpheme().getBasicForm().equalsIgnoreCase("*")) {
         basicForm = token.getSurface();
       } else {
         basicForm = token.getMorpheme().getBasicForm();
       }
-      ret.add(token.getSurface()+" "+token.getMorpheme().getPartOfSpeech()+" "+basicForm);
+      ret.add(token.getSurface() + " " + token.getMorpheme().getPartOfSpeech() + " " + basicForm);
     }
     return ret;
   }

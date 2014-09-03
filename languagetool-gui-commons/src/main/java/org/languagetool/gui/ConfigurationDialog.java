@@ -189,6 +189,14 @@ public class ConfigurationDialog implements ActionListener {
       }
     });
     configTree = new JTree(treeModel);
+
+    Language lang = config.getLanguage();
+    if (lang == null) {
+      lang = Language.getLanguageForLocale(Locale.getDefault());
+    }
+    configTree.applyComponentOrientation(
+      ComponentOrientation.getOrientation(lang.getLocale()));
+
     configTree.setRootVisible(false);
     configTree.setEditable(false);
     configTree.setCellRenderer(new CheckBoxTreeCellRenderer());

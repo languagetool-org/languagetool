@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.093 2014-08-05 11:05:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.095 2014-08-27 14:08:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -457,6 +457,21 @@ $Id: grammar.xml,v 1.093 2014-08-05 11:05:00 marcoagpinto Exp $
       <message>Substituir «alertar para com» por <suggestion>alertar para</suggestion>.</message>
       <example type="incorrect">Obrigado por me <marker>alertar para com</marker> o perigo.</example>
       <example type="correct">Obrigado por me <marker>alertar para</marker> o perigo.</example>
+    </rule>
+
+
+
+    <!-- ANALISE análise -->
+    <rule id="ANALISE" name="análise">
+      <pattern case_sensitive="no">
+		 <marker>
+            <token>analise</token>
+         </marker>
+         <token regexp="yes">dos?|das?</token>
+      </pattern>
+      <message>Substituir «analise» por <suggestion>análise</suggestion>.</message>
+      <example type="incorrect">Quero uma <marker>analise</marker> do problema.</example>
+      <example type="correct">Quero uma <marker>análise</marker> do problema.</example>
     </rule>
 
 
@@ -1494,6 +1509,21 @@ $Id: grammar.xml,v 1.093 2014-08-05 11:05:00 marcoagpinto Exp $
       <message>Substituir «há tua» por <suggestion>à tua</suggestion>.</message>
       <example type="incorrect">Dá uma mãozinha <marker>há tua</marker> família.</example>
       <example type="correct">Dá uma mãozinha <marker>à tua</marker> família.</example>
+    </rule>
+    
+
+
+    <!-- MAIOR maiores -->
+    <rule id="MAIOR" name="maiores">
+      <pattern>
+		 <marker>
+            <token>maior</token>
+         </marker>
+         <token regexp="yes">as|os|são</token>
+      </pattern>
+      <message>Substituir «maior» por <suggestion>maiores</suggestion>.</message>
+      <example type="incorrect">São <marker>maior</marker> as hipóteses.</example>
+      <example type="correct">São <marker>maiores</marker> as hipóteses.</example>
     </rule>
 
 

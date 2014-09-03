@@ -41,17 +41,18 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
   private static final String MISTAKE = "<mistake/>";
 
   private final boolean useList;
+  private final List<ElementMatcher> elementMatchers;
 
   PatternRuleMatcher(PatternRule rule, boolean useList) {
     super(rule, rule.getLanguage().getUnifier());
     this.useList = useList;
+    this.elementMatchers = createElementMatchers();
   }
 
   final RuleMatch[] match(final AnalyzedSentence sentence) throws IOException {
-    final List<ElementMatcher> elementMatchers = createElementMatchers();
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-    List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
+    final List<Integer> tokenPositions = new ArrayList<>(tokens.length + 1);
     final int patternSize = elementMatchers.size();
     final int limit = Math.max(0, tokens.length - patternSize + 1);
     ElementMatcher elem = null;
@@ -149,11 +150,11 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {
     final PatternRule rule = (PatternRule) this.rule;
     final String errMessage = formatMatches(tokens, tokenPositions,
-        firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
+            firstMatchToken, rule.getMessage(), rule.getSuggestionMatches());
     final String shortErrMessage = formatMatches(tokens, tokenPositions,
         firstMatchToken, rule.getShortMessage(), rule.getSuggestionMatches());
     final String suggestionsOutMsg = formatMatches(tokens, tokenPositions,
-        firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
+            firstMatchToken, rule.getSuggestionsOutMsg(), rule.getSuggestionMatchesOutMsg());
     int correctedStPos = 0;
     if (rule.startPositionCorrection > 0) {
       for (int l = 0; l <= Math.min(rule.startPositionCorrection, tokenPositions.size() - 1); l++) {
@@ -197,8 +198,15 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
       //now do some spell-checking:
       if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && errMessage.contains(MISTAKE))) {
         final String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
-        return new RuleMatch(rule, fromPos, toPos, clearMsg,
-            shortErrMessage, startsWithUppercase, suggestionsOutMsg);
+        final RuleMatch ruleMatch = new RuleMatch(rule, fromPos, toPos, clearMsg,
+                shortErrMessage, startsWithUppercase, suggestionsOutMsg);
+        if (rule.getFilter() != null) {
+          RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
+          AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
+          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, tokenPositions, patternTokens);
+        } else {
+          return ruleMatch; 
+        }
       }
     } // failed to create any rule match...
     return null;

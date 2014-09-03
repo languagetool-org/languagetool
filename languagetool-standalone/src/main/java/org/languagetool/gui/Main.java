@@ -40,6 +40,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.JTextComponent;
@@ -329,7 +330,14 @@ public final class Main {
       public void itemStateChanged(ItemEvent e) {
         if (e.getStateChange() == ItemEvent.SELECTED) {
           // we cannot re-use the existing LT object anymore
-          ltSupport.setLanguage((Language) languageBox.getSelectedItem());
+          frame.applyComponentOrientation(
+            ComponentOrientation.getOrientation(Locale.getDefault()));
+          Language lang = (Language) languageBox.getSelectedItem();
+          ComponentOrientation componentOrientation =
+            ComponentOrientation.getOrientation(lang.getLocale());
+          textArea.applyComponentOrientation(componentOrientation);
+          resultArea.applyComponentOrientation(componentOrientation);
+          ltSupport.setLanguage(lang);
         }
       }
     });
@@ -374,6 +382,13 @@ public final class Main {
         }
       }
     });
+    frame.applyComponentOrientation(ComponentOrientation.getOrientation(Locale.getDefault()));
+    Language lang = ltSupport.getLanguage();
+    ComponentOrientation componentOrientation =
+      ComponentOrientation.getOrientation(lang.getLocale());
+    textArea.applyComponentOrientation(componentOrientation);
+    resultArea.applyComponentOrientation(componentOrientation);
+
     ResourceBundle textLanguageMessageBundle = JLanguageTool.getMessageBundle(ltSupport.getLanguage());
     textArea.setText(textLanguageMessageBundle.getString("guiDemoText"));
 
@@ -811,6 +826,10 @@ public final class Main {
           closeButton.addActionListener(actionListener);
           panel.add(closeButton,c);
         }
+        // orientation each time should be set as language may is changed
+        taggerDialog.applyComponentOrientation(ComponentOrientation.getOrientation(
+          ((Language) languageBox.getSelectedItem()).getLocale()));
+        
         taggerDialog.setVisible(true);
         taggerArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
       }

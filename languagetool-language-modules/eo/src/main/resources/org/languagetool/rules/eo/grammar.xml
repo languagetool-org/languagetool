@@ -426,7 +426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>Ribelo</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>\1 Rebelo</suggestion>, se temas pri la Esperantisto, kiu kreis Ĝangalon?</message>
-      <url>http://eo.wikipedia.org/wiki/Flavio_Rebelo</url>
+      <url>https://eo.wikipedia.org/wiki/Flavio_Rebelo</url>
       <example type="incorrect" correction="Flavio Rebelo"><marker>Flavio Ribelo</marker> funkciigis la retpaĝaron Ĝangalo.</example>
       <example type="correct">Flavio Rebelo funkciigis la retpaĝaron Ĝangalo.</example>
     </rule>
@@ -440,7 +440,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token regexp="yes">Wenn?er?grenn?</token>
       </pattern>
       <message>Ĉu vi intencis skribi <suggestion>Bertilo Wennergren</suggestion>, se temas pri la verkisto de PMEG?</message>
-      <url>http://eo.wikipedia.org/wiki/Bertilo_Wennergren</url>
+      <url>https://eo.wikipedia.org/wiki/Bertilo_Wennergren</url>
       <example type="incorrect"><marker>Bertilow Wennergren</marker> estas sveda esperantisto.</example>
       <example type="incorrect"><marker>Bertilo Wenergren</marker> estas sveda esperantisto.</example>
       <example type="correct">Bertilo Wennergren estas sveda esperantisto.</example>
@@ -2463,7 +2463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token postag="V .*[^u]" postag_regexp="yes"/>
         </marker>
       </pattern>
-      <message>Oni preskaŭ ĉiu uzu u-verbon kun ke-frazo kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="([aiou]s|i)$" regexp_replace="u"/></suggestion>?</message>
+      <message>Oni preskaŭ ĉiu uzas u-verbon kun ke-frazo, kiam la verbo de ĉeffrazo estas «\1». Ĉu vi intencis skribi <suggestion><match no="3" regexp_match="([aiou]s|i)$" regexp_replace="u"/></suggestion>?</message>
       <url>http://bertilow.com/pmeg/gramatiko/verboj/vola.html#i-zd8</url>
       <example type="incorrect" correction="iru">Mi volas, ke vi tien <marker>iras</marker>.</example>
       <example type="correct">Mi volas, ke vi tien iru.</example>
@@ -3966,7 +3966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <marker><token>al</token></marker>
         <token postag="V .* i" postag_regexp="yes"/>
       </pattern>
-      <message>Kun la verbo «\1» ne eblas uzi «al» antaŭ i-verbo por la komparo. Uzu <suggestion>ol</suggestion> aŭ iafoje <suggestion>antstataŭ</suggestion>.</message>
+      <message>Kun la verbo «\1» ne eblas uzi «al» antaŭ i-verbo por la komparo. Uzu <suggestion>ol</suggestion> aŭ iafoje <suggestion>anstataŭ</suggestion>.</message>
       <url>http://bertilow.com/pmeg/pmeg140/gramatiko/komparoj/aliaj.html#i-ig4</url>
       <example type="incorrect">Mi preferas ludi <marker>al</marker> studi.</example>
       <example type="correct">Mi preferas ludi <marker>ol</marker> studi.</example>
@@ -4171,6 +4171,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="incorrect"><marker>Okej</marker>!</example>
       <example type="correct">O kej!</example>
     </rule>
+    <rulegroup id="DATO_TAGO" name="kongruo de dato kaj tago">
+      <rule>
+        <pattern>
+          <token regexp="yes">lundon|lun|mardon|mar|merkredon|mer|ĵaŭdon|ĵaŭ|vendredon|ven|sabaton|sab|dimanĉon|dim</token>
+          <token>la</token>
+          <token regexp="yes">([012]?\d|3[01])-an</token>
+          <token>de</token>
+          <token regexp="yes">januaro|jan|februaro|feb|marto|mar|aprilo|apr|majo|maj|junio|jun|julio|jul|aŭgusto|aŭg|septembro|sep|oktobro|okt|novembro|nov|decembro|dec</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.eo.DateCheckFilter" args="year:\6 month:\5 day:\3 weekDay:\1"/>
+        <message>La tago de la dato «\1 \2 \3 \4 \5 \6» ne estas <match no="1" case_conversion="alllower" regexp_match="n$" regexp_replace=""/>, sed \realDay.</message>
+        <url>http://bertilow.com/pmeg/gramatiko/nombroj/datoj.html</url>
+        <example type="incorrect"><marker>Vendredon la 28-an de Aŭgusto 2014</marker>.</example>
+        <example type="correct">Jaŭdon la 28-an de Aŭgusto 2014.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->

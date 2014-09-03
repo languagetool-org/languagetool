@@ -53,7 +53,7 @@ public class HunspellRule extends SpellingCheckRule {
   public static final String RULE_ID = "HUNSPELL_RULE";
 
   protected boolean needsInit = true;
-  protected Hunspell.Dictionary dictionary = null;
+  protected Hunspell.Dictionary hunspellDict = null;
 
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
@@ -80,7 +80,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (needsInit) {
       init();
     }
-    if (dictionary == null) {
+    if (hunspellDict == null) {
       // some languages might not have a dictionary, be silent about it
       return toRuleMatchArray(ruleMatches);
     }
@@ -98,7 +98,7 @@ public class HunspellRule extends SpellingCheckRule {
       if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
         isAlphabetic = Character.isAlphabetic(word.charAt(0));
       }
-      if (isAlphabetic && !word.equals("--") && dictionary.misspelled(word)) {
+      if (isAlphabetic && !word.equals("--") && hunspellDict.misspelled(word)) {
         final RuleMatch ruleMatch = new RuleMatch(this,
             len, len + word.length(),
             messages.getString("spelling"),
@@ -120,7 +120,7 @@ public class HunspellRule extends SpellingCheckRule {
     if (needsInit) {
       init();
     }
-    return dictionary.suggest(word);
+    return hunspellDict.suggest(word);
   }
 
   protected String[] tokenizeText(final String sentence) {
@@ -163,16 +163,16 @@ public class HunspellRule extends SpellingCheckRule {
     if (JLanguageTool.getDataBroker().resourceExists(shortDicPath)) {
       final String path = getDictionaryPath(langCountry, shortDicPath);
       if ("".equals(path)) {
-        dictionary = null;
+        hunspellDict = null;
       } else {
-        dictionary = Hunspell.getInstance().getDictionary(path);
+        hunspellDict = Hunspell.getInstance().getDictionary(path);
 
-        if (!"".equals(dictionary.getWordChars())) {
-          wordChars = "(?![" + dictionary.getWordChars().replace("-", "\\-") + "])";
+        if (!"".equals(hunspellDict.getWordChars())) {
+          wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
         }
 
-        dictionary.addWord(SpellingCheckRule.LANGUAGETOOL); // to make demo text check 4 times faster...
-        dictionary.addWord(SpellingCheckRule.LANGUAGETOOL_FX);
+        hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL); // to make demo text check 4 times faster...
+        hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL_FX);
       }
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);

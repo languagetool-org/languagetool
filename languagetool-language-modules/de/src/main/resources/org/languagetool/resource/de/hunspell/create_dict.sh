@@ -30,7 +30,7 @@ mvn clean package -DskipTests &&
  unmunch $DIC_FILE $CONTENT_DIR/$PREFIX.aff | \
  # unmunch doesn't properly work for languages with compounds, thus we filter
  # the result using hunspell:
- recode latin1..utf8 | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
+ recode latin1..utf8 | grep -v "^#" | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
 
 java -cp languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar org.languagetool.dev.SpellDictionaryBuilder ${LANG_CODE}-${COUNTRY_CODE} $TEMP_FILE $INFO_FILE
 

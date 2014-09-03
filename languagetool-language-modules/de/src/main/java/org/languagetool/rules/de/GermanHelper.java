@@ -56,21 +56,21 @@ public final class GermanHelper {
    */
   public static String getNounCase(String posTag) {
     // input e.g. SUB:AKK:SIN:NEU
-    return getIndexOrEmptyString(posTag.split(":"), 1);
+    return getIndexOrEmptyString(posTag, 1);
   }
 
   /**
    * @since 2.4
    */
   public static String getNounNumber(String posTag) {
-    return getIndexOrEmptyString(posTag.split(":"), 2);
+    return getIndexOrEmptyString(posTag, 2);
   }
 
   /**
    * @since 2.4
    */
   public static String getNounGender(String posTag) {
-    return getIndexOrEmptyString(posTag.split(":"), 3);
+    return getIndexOrEmptyString(posTag, 3);
   }
 
   /**
@@ -78,31 +78,35 @@ public final class GermanHelper {
    */
   public static String getDeterminerDefiniteness(String posTag) {
     // input e.g. ART:DEF:DAT:SIN:FEM
-    return getIndexOrEmptyString(posTag.split(":"), 1);
+    return getIndexOrEmptyString(posTag, 1);
   }
 
   /**
    * @since 2.4
    */
   public static String getDeterminerCase(String posTag) {
-    return getIndexOrEmptyString(posTag.split(":"), 2);
+    return getIndexOrEmptyString(posTag, 2);
   }
 
   /**
    * @since 2.4
    */
   public static String getDeterminerNumber(String posTag) {
-    return getIndexOrEmptyString(posTag.split(":"), 3);
+    return getIndexOrEmptyString(posTag, 3);
   }
 
   /**
    * @since 2.4
    */
   public static String getDeterminerGender(String posTag) {
-    return getIndexOrEmptyString(posTag.split(":"), 4);
+    return getIndexOrEmptyString(posTag, 4);
   }
 
-  private static String getIndexOrEmptyString(String[] array, int idx) {
+  private static String getIndexOrEmptyString(String posTag, int idx) {
+    if (posTag == null) {
+      return "";
+    }
+    String[] array = posTag.split(":");
     if (array.length > idx) {
       return array[idx];
     } else {

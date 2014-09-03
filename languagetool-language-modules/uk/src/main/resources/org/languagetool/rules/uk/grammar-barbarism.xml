@@ -50,36 +50,42 @@ $Id$
        <rule>
          <pattern>
           <marker>
-           <token inflected="yes">приймати</token>
+           <token inflected="yes" regexp="yes">приймати|прийняти</token>
           </marker>
+           <token min="0" postag_regexp="yes" postag="adj.*"/>
            <token>участь</token>
           </pattern>
-         <message>Правильно: <suggestion>брати</suggestion>.</message>
+         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion>.</message>
          <example type="incorrect"><marker>приймав</marker> участь</example>
+         <example type="incorrect"><marker>приймав</marker> активну участь</example>
          <example type="correct">брав участь</example>
        </rule>
        <rule>
          <pattern>
           <marker>
-           <token inflected="yes">приймати</token>
+           <token inflected="yes" regexp="yes">приймати|прийняти</token>
+          </marker>
+           <token>на</token>
+           <token>себе</token>
+           <token>зобов'язання</token>
+          </pattern>
+         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion>.</message>
+         <example type="incorrect"><marker>прийняв</marker> на себе зобов'язання</example>
+         <example type="correct">взяв на себе зобов'язання</example>
+       </rule>
+       <rule>
+         <pattern>
+          <marker>
+           <token inflected="yes" regexp="yes">приймати|прийняти</token>
           </marker>
            <token>до</token>
            <token regexp="yes">(уваги|відома|серця)</token>
           </pattern>
-         <message>Правильно: <suggestion>брати</suggestion>.</message>
+         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion>.</message>
          <example type="incorrect"><marker>приймав</marker> до серця</example>
          <example type="incorrect"><marker>прийматиме</marker> до відома</example>
          <example type="incorrect"><marker>приймати</marker> до уваги</example>
          <example type="correct">брати до уваги</example>
-       </rule>
-       <rule>
-         <pattern>
-           <token inflected="yes">вільний</token>
-           <token inflected="yes">вакансія</token>
-          </pattern>
-         <message>Правильно: <suggestion><match no="1"/></suggestion>.</message>
-         <example type="incorrect"><marker>Вільної вакансії</marker></example>
-         <example type="correct"><marker>вакансію</marker></example>
        </rule>
        <rule>
          <pattern>
@@ -146,7 +152,9 @@ $Id$
          <pattern>
            <token negate="yes" inflected="yes" regexp="yes">свій|мій|твій|його|її|наш|ваш|їхній|такий</token>
            <marker>
-           <token inflected="yes">любий</token>
+           <token inflected="yes">любий
+                <exception case_sensitive="yes" inflected="yes" postag_regexp="yes" postag="noun:f:.*">Люба</exception>
+           </token>
            </marker>
            <token postag="noun.*" postag_regexp="yes">
                 <exception postag=".*v_(kly|dav).*" postag_regexp="yes"/>
@@ -162,7 +170,22 @@ $Id$
          <example type="correct">Відіслати своє любе чадо</example>
          <example type="correct">Прийдуть любі друзі</example>
          <example type="correct">Принесла Люба метелика</example>
+         <example type="correct">Люба Григорович</example>
        </rule>
+       <rule>
+         <pattern>
+           <token postag="SENT_START"></token>
+           <marker>
+           <token inflected="yes" postag_regexp="yes" postag="adj:f:.*">любий</token>
+           </marker>
+           <token postag="noun.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[а-яіїєґ].*</token>
+          </pattern>
+         <message>Правильно: <suggestion>будь-який</suggestion>, <suggestion>перший кращий</suggestion>, <suggestion>усякий</suggestion>, <suggestion>кожний</suggestion>, часом також <suggestion>аби-який</suggestion>.</message>
+         <example type="incorrect"><marker>Люба</marker> лисиця впіймає зайця</example>
+         <example type="correct">Принесла Люба метелика</example>
+         <example type="correct">Люба Григорович</example>
+       </rule>
+
        <rule>
          <pattern>
             <token>ні</token>
@@ -460,7 +483,7 @@ $Id$
               <token>на</token>
             </marker>
          </pattern>
-         <message>Правильно: <suggestion>попри</suggestion>, <suggestion>дарма</suggestion>, <suggestion>всупереч</suggestion>, <suggestion>наперекір</suggestion>, <suggestion>не зважаючи на</suggestion>, <suggestion>не вважаючи на</suggestion></message>
+         <message>Правильно: <suggestion>попри</suggestion>, <suggestion>дарма що</suggestion>, <suggestion>всупереч</suggestion>, <suggestion>наперекір</suggestion>, <suggestion>хоч</suggestion>, <suggestion>не зважаючи на</suggestion>, <suggestion>не вважаючи на</suggestion></message>
          <example type="incorrect">Гра тривала <marker>незважаючи на</marker> сильну зливу.</example>
          <example type="incorrect">Вони бігли туди <marker>незважаючи на</marker> сильну зливу.</example>
          <example type="correct">Гра тривала попри сильну зливу.</example>
@@ -1822,11 +1845,12 @@ $Id$
          <pattern>
               <token inflected="yes">понести</token>
               <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
-              <token regexp="yes">збитки|втрати</token>
+              <token regexp="yes">збитки|збитків|втрати|втрат</token>
          </pattern>
          <message>Правильно: <suggestion>зазнавати збитків</suggestion>, <suggestion>зазнавати втрат</suggestion>, <suggestion>мати збитки</suggestion>, <suggestion>мати втрати</suggestion>, <suggestion>утратити</suggestion></message>
          <example type="incorrect">Вони <marker>понесли значні втрати</marker></example>
          <example type="incorrect">Вони <marker>понесли збитки</marker></example>
+         <example type="incorrect">Вони <marker>понесли втрат</marker></example>
          <example type="correct">Вони зазнали втрат</example>
        </rule>
 
@@ -1932,6 +1956,91 @@ $Id$
          <example type="correct">вони стали табором</example>
        </rule>
 
+        <rule>
+         <pattern>
+           <marker>
+              <token inflected="yes" regexp="yes">розбивати|розбити</token>
+           </marker>
+              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token>парк</token>
+         </pattern>
+         <message>Правильно: <suggestion>посадити</suggestion></message>
+         <example type="incorrect">вони <marker>розбили</marker> великий парк</example>
+         <example type="correct">вони посадили великий парк</example>
+       </rule>
+
+        <rule>
+         <pattern>
+              <token>рукою</token>
+              <token>подати</token>
+         </pattern>
+         <message>Правильно: <suggestion>(як) палицею (шапкою, штихом) кинути, докинути</suggestion>, <suggestion>(як) рукою сягнути</suggestion>, <suggestion>тільки що не видно</suggestion>, <suggestion>дуже (зовсім) близько</suggestion>, <suggestion>близенько (близесенько)</suggestion>, <suggestion>от-от за плечима</suggestion></message>
+         <example type="incorrect">До Івано-Франківська <marker>рукою подати</marker> — 17 кілометрів</example>
+         <example type="correct">До Івано-Франківська шапкою докинути — 17 кілометрів</example>
+       </rule>
+
+        <rule>
+         <pattern>
+           <marker>
+              <token inflected="yes">підмочений</token>
+           </marker>
+              <token inflected="yes" regexp="yes">репутація|авторитет</token>
+         </pattern>
+         <message>Правильно: <suggestion>щербатий</suggestion>, <suggestion>сумнівний</suggestion>, <suggestion>підупалий</suggestion></message>
+         <example type="incorrect">з такою <marker>підмоченою</marker> репутацією</example>
+         <example type="correct">з такою щербатою славою</example>
+       </rule>
+       <!-- TODO:
+        <rule>
+         <pattern>
+              <token inflected="yes" regexp="yes">репутація|авторитет</token>
+              <token min="0" max="1"/>
+           <marker>
+              <token inflected="yes">підмочений|підмочено</token>
+           </marker>
+         </pattern>
+         <message>Правильно: <suggestion>щербатий</suggestion>, <suggestion>сумнівний</suggestion>, <suggestion>підупалий</suggestion></message>
+         <example type="incorrect">репутація була <marker>підмочена</marker></example>
+         <example type="incorrect">репутацію було <marker>підмочено</marker></example>
+         <example type="correct">слава підупала</example>
+       </rule>
+       -->
+<!--
+        <rule>
+         <pattern>
+              <token">на</token>
+              <token">розвилці</token>
+         </pattern>
+         <message>Правильно: <suggestion>на роздоріжжі</suggestion></message>
+         <example type="incorrect">він стояв <marker>на розвилці</marker></example>
+         <example type="correct">він стояв на роздоріжжі</example>
+       </rule>
+-->
+
+        <rule>
+         <pattern>
+           <marker>
+              <token inflected="yes" regexp="yes">зажити|заживати|заживання</token>
+           </marker>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
+              <token inflected="yes" regexp="yes">рана|шов|шво</token>
+         </pattern>
+         <message>Правильно: <suggestion>гоїтися</suggestion>, <suggestion>загоюватися</suggestion>, <suggestion>затягуватися</suggestion>, <suggestion>загоєння</suggestion></message>
+         <example type="incorrect"><marker>заживали</marker> його рани довго</example>
+         <example type="correct">загоювалися його рани довго</example>
+       </rule>
+        <rule>
+         <pattern>
+              <token inflected="yes" regexp="yes">рана|шов|шво</token>
+              <token postag_regexp="yes" postag="(adv|pron).*" min="0" max="1"/>
+           <marker>
+              <token inflected="yes" regexp="yes">зажити|заживати</token>
+           </marker>
+         </pattern>
+         <message>Правильно: <suggestion>гоїтися</suggestion>, <suggestion>загоюватися</suggestion>, <suggestion>затягуватися</suggestion></message>
+         <example type="incorrect">його рани довго <marker>заживали</marker></example>
+         <example type="correct">його рани довго загоювалися</example>
+       </rule>
     </rulegroup>
 
 
@@ -2123,6 +2232,33 @@ $Id$
            <example type="correct">як викапаний</example>
        </rule>   
 
+       <rule>   
+           <pattern>
+             <marker>
+               <token inflected="yes">економічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">двигун|технологія</token>
+               <token min="0" postag_regexp="yes" postag="(adj|pron).*"/>
+               <token postag_regexp="yes" postag="noun.*"><exception regexp="yes">країни|ціноутворення</exception></token>
+           </pattern>
+           <message>Правильно: <suggestion>економний</suggestion></message>
+           <example type="correct">економічну політику</example>
+           <example type="correct">став економічним двигуном ціноутворення</example>
+           <example type="correct">став економічним двигуном великого ціноутворення</example>
+           <example type="correct">став економічним двигуном всієї країни</example>
+       </rule>   
+       <rule>   
+           <pattern>
+             <marker>
+               <token inflected="yes">економічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">двигун|технологія</token>
+           </pattern>
+           <message>Правильно: <suggestion>економний</suggestion></message>
+           <example type="incorrect">поставили <marker>економічний</marker> двигун</example>
+           <example type="correct">поставили економний двигун</example>
+       </rule>   
+
   </rulegroup>
 
   <rulegroup id="NETOCHNE_VZHYV_SLIV" name="Неточне вживання слів">
@@ -2233,7 +2369,6 @@ $Id$
            <example type="incorrect">поїзд <marker>битком набився</marker></example>
            <example type="correct">поїзд напхом напхано</example>
        </rule>   
-
     </rulegroup>
 
     <rulegroup id="KONTROL_ZA_NAD" name="Контроль за/над">

@@ -26,10 +26,54 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 
 $Id$
 -->
+<!--suppress CheckTagEmptyBody -->
+<!DOCTYPE rules [
+    <!ENTITY weekdays "Понедельник|Вторник|Среда|Четверг|Пятница|Суббота|Воскресенье">
+    <!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь">
+    <!ENTITY abbrevMonths "Янв|Фев|Мар|Апр|Авг|Сен|Окт|Ноя|Дек">
+]>
+
 <rules lang="ru" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     
     <category name="Логические ошибки">
-        <rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
+          <rulegroup id="INVALID_DATE" name="Неверная дата, например '31 февраля 2014'">
+            <rule>
+                <pattern>
+                    <!-- "31 июня 2014 г." -->
+                    <marker>
+                        <token>31</token>
+			<token regexp="yes">апрель|апр|апреля|июнь|июня|сен|сентября|сентябрь|ноябрь|ноября|ноя</token>                      
+                    </marker>
+                </pattern>
+                <message>В месяце \2 только 30 дней.</message>
+                <example type='incorrect'>Это случилось <marker>31 ноября</marker> 2014 г.</example>
+                <example type='correct'>Это случилось <marker>30 ноября</marker> 2014 г.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <!-- "30 февраля 2014 г." -->
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+		        <token regexp="yes">февраля|фев|февраль</token>
+                    </marker>
+                </pattern>
+                <message>В феврале бывает только 28 дней, или 29 дней в високосном году.</message>
+                <example type='incorrect'>Это случилось <marker>30 февраля</marker> 2014 г.</example>
+                <example type='correct'>Это случилось <marker>28 февраля</marker> 2014 г.</example>
+            </rule>
+        </rulegroup>
+	 <rule id="YEAR_20001" name="Май 20001 (Май 2001)">
+            <pattern>
+                <token regexp="yes">&months;|год</token>
+                <token regexp="yes">200\d\d</token>
+            </pattern>
+            <message>Действительно \2? Или <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+            <short>Опечатка?</short>
+            <example type="correct">Моя поездка на море запланирована на <marker>май 2014</marker> г.</example>
+            <example type="incorrect" correction="май 2014">Моя поездка на море запланирована на <marker>май 20014</marker> г.</example>
+        </rule>
+
+	<rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
             <rule> 
                 <pattern>
                     <token>кВт</token>
@@ -2263,19 +2307,22 @@ $Id$
                 <pattern case_sensitive="no">
                     <token regexp="yes">ни|не</token>
                     <token regexp="yes">кто|что</token>
-                    <token regexp="yes">иной|иное</token>
+                    <token regexp="yes">иной|иное|другой|другое</token>
                     <token>не</token>
                 </pattern>
                 <message>Оборот:<suggestion>ни\2 \3 \4</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Ничто иное не могло бы его испугать.</example>
+                <example type="correct">Ничто другое не могло бы его испугать.</example>
                 <example type="incorrect">
                     <marker>Не что иное не</marker> могло бы его испугать.</example>
+                <example type="incorrect">
+                    <marker>Не что другое не</marker> могло бы его испугать.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="no">
                     <token regexp="yes">(не)(кто|что)</token>
-                    <token regexp="yes">иной|иное</token>
+                    <token regexp="yes">иной|иное|другой|другое</token>
                     <token>не</token>
                 </pattern>
                 <message>Оборот:<suggestion>
@@ -2285,8 +2332,11 @@ $Id$
                     </suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Ничто иное не могло бы его испугать.</example>
+                <example type="correct">Ничто другое не могло бы его испугать.</example>
                 <example type="incorrect">
                     <marker>Нечто иное не</marker> могло бы его испугать.</example>
+                <example type="incorrect">
+                    <marker>Нечто другое не</marker> могло бы его испугать.</example>
             </rule>
         </rulegroup>
         

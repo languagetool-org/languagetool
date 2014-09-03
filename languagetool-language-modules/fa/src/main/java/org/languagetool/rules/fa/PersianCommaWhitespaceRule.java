@@ -1,6 +1,6 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2013 Daniel Naber (http://www.danielnaber.de)
- *
+ * Copyright (C) 2014 Ebrahim Byagowi <ebrahim@gnu.org>
+ * 
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,16 +16,33 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ta;
+package org.languagetool.rules.fa;
 
-import org.languagetool.rules.patterns.PatternRuleTest;
+import java.util.ResourceBundle;
 
-import java.io.IOException;
+import org.languagetool.rules.CommaWhitespaceRule;
 
-public class PersianPatternRuleTest extends PatternRuleTest {
+/**
+ * A rule that matches periods, commas and closing parenthesis preceded by whitespace and
+ * opening parenthesis followed by whitespace.
+ * 
+ * @author Ebrahim Byagowi
+ * @since 2.7
+ */
+public class PersianCommaWhitespaceRule extends CommaWhitespaceRule {
+
+  public PersianCommaWhitespaceRule(final ResourceBundle messages) {
+    super(messages);
+  }
   
-  public void testRules() throws IOException {
-    runGrammarRulesFromXmlTest();
+  @Override
+  public final String getId() {
+    return "PERSIAN_COMMA_PARENTHESIS_WHITESPACE";
+  }
+
+  @Override
+  public String getCommaCharacter() {
+    return "،";
   }
 
 }

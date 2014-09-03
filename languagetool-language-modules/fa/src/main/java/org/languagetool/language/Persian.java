@@ -20,7 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.fa.SimpleReplaceRule;
+import org.languagetool.rules.fa.*;
 import org.languagetool.tokenizers.PersianWordTokenizer;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -79,7 +79,11 @@ public class Persian extends Language {
 
   @Override
   public final Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Reza1615")};
+    return new Contributor[] {
+        new Contributor("Reza1615"),
+        new Contributor("Alireza Eskandarpour Shoferi"),
+        new Contributor("Ebrahim Byagowi")
+    };
   }
 
   @Override
@@ -89,7 +93,14 @@ public class Persian extends Language {
         new DoublePunctuationRule(messages),
         new MultipleWhitespaceRule(messages, this),
         new LongSentenceRule(messages),
-        new SimpleReplaceRule(messages)
+        // specific to Persian:
+        new PersianCommaWhitespaceRule(messages),
+        new PersianDoublePunctuationRule(messages),
+        new PersianWordRepeatBeginningRule(messages, this),
+        new PersianWordRepeatRule(messages, this),
+        new SimpleReplaceRule(messages),
+        new PersianSpaceBeforeRule(messages, this),
+        new WordCoherencyRule(messages)
     );
   }
 

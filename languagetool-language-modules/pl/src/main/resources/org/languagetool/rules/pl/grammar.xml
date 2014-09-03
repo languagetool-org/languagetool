@@ -28,6 +28,9 @@ $Id$
     <!ENTITY interp_conj "&interp;|&conj;">
     <!ENTITY nbsp " ">
     <!ENTITY apost "['`’]">
+    <!ENTITY weekdays "poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela">
+    <!ENTITY months "stycznia|lutego|marca|kwietnia|maja|czerwca|lipca|sierpnia|września|października|listopada|grudnia">
+    <!ENTITY abbrevMonths "I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII">
 ]>
 
 <rules lang="pl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -3074,6 +3077,36 @@ $Id$
                     <example type='incorrect'>V.S. Ramachandran, dz. cyt., s. <marker>266—267</marker>.</example>
                     <example type='correct'>V.S. Ramachandran, dz. cyt., s. 266-267.</example>
                 </rule>
+                <rule id="MYSLNIK_ZAMIAST_DYWIZU_WYLICZENIE" name="Myślnik zamiast dywizu w wyliczeniu">
+                    <pattern>
+                        <marker>
+                            <token postag="adja"/>
+                            <token spacebefore="no" regexp="yes">[—–]</token>
+                        </marker>
+                        <token regexp="yes">[,i]|lub|oraz</token>
+                    </pattern>
+                    <message>Myślnika ani półpauzy nie używa się do rozdzielania wielokrotnego wystąpienia przymiotnika złożonego. Poprawnie: <suggestion>\1-</suggestion>.</message>
+                    <url>http://so.pwn.pl/zasady.php?id=629547</url>
+                    <short>Błąd typograficzny</short>
+                    <example type="correct">To jest przykład pierwszo-, drugo- i trzeciorzędowy.</example>
+                    <example type="incorrect" correction="pierwszo-">To jest przykład <marker>pierwszo–</marker>, drugo- i trzeciorzędowy.</example>
+                    <example type="incorrect" correction="drugo-">To jest przykład pierwszo-, <marker>drugo–</marker> i trzeciorzędowy.</example>
+                </rule>
+                <rule id="KOD_POCZTOWY_POLPAUZA" name="Półpauza w kodzie pocztowym">
+                    <pattern case_sensitive="yes">
+                        <marker>
+                            <token regexp="yes">\d{2}</token>
+                            <token spacebefore="no">–</token>
+                            <token spacebefore="no" regexp="yes">\d{3}</token>
+                        </marker>
+                        <token regexp="yes">\p{Lu}\p{L}+</token>
+                    </pattern>
+                    <message>Prawdopodobnie zły format kodu pocztowego. W kodzie pocztowym używamy dywizu, nie półpauzy: <suggestion>\1-\3</suggestion>.</message>
+                    <url>https://pl.wikipedia.org/wiki/Kod_pocztowy</url>
+                    <short>Błąd typograficzny</short>
+                    <example type="correct">00-950 Warszawa</example>
+                    <example type="incorrect" correction="00-950"><marker>00–950</marker> Warszawa</example>
+                </rule>
                 <rulegroup id="APOSTROF_DATA" name="Błędne apostrofy przed datami rocznymi">
 						<rule>
 								<pattern>
@@ -3140,6 +3173,16 @@ $Id$
                     <short>Błąd typograficzny</short>
                     <example type="correct">11 XI 1918</example>
                     <example type="incorrect" correction="11 XI 1918"><marker>11.XI.1918</marker></example>
+                </rule>
+                <rule type="locale-violation" id="DATA_DYWIZ_RZYMSKIE" name="Błędny zapis daty dziennej z liczbami rzymskimi i dywizami">
+                    <pattern case_sensitive="yes">
+                        <token regexp="yes">[0-3]?\d-(?:I|II|III|IV|V|VI|VII|VIII|IX|X|XI|XII)-\d{2,4}</token>
+                    </pattern>
+                    <message>Prawdopodobnie błędny zapis daty. Powinno być bez kropek: <suggestion><match no="1" regexp_match="-" regexp_replace=" "/></suggestion>.</message>
+                    <url>http://so.pwn.pl/zasady.php?id=629747</url>
+                    <short>Błąd typograficzny</short>
+                    <example type="correct">11 XI 1918</example>
+                    <example type="incorrect" correction="11 XI 1918"><marker>11-XI-1918</marker></example>
                 </rule>
 				<rulegroup id="POMINIECIE" name="(...) → […]">
                     <rule>
@@ -8834,6 +8877,117 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy różne" type="uncategorized">
+            <rulegroup name="Niespójny zapis daty" id="DATA_NIEMOZLIWA">
+              <rule>
+                <pattern>
+                    <token skip="1" inflected="yes" regexp="yes">&weekdays;<exception scope="next" negate="yes" regexp="yes">[,.\d]+</exception></token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.pl.DateCheckFilter"
+                        args="year:\5 month:\4 day:\3 weekDay:\1"/>
+                <message>Dzień \3 \4 \5 to nie \1.</message>
+                <short>Niespójna data</short>
+                <example type="correct">wtorek, 26 sierpnia 2014</example>
+                <example type="incorrect">Dziś jest <marker>wtorek, 27 sierpnia 2014</marker>.</example>
+                <example type="incorrect">Dziś jest <marker>pt., 27 sierpnia 2014</marker>.</example>
+                <example type="incorrect">Dziś jest <marker>niedziela 27 sierpnia 2014</marker>.</example>
+                <example type="incorrect">Koncert odbędzie się w <marker>niedzielę 27 sierpnia 2014</marker>.</example>
+              </rule>
+                <rule>
+                    <pattern>
+                        <token skip="2" inflected="yes" regexp="yes">&weekdays;</token>
+                        <token regexp="yes">\d\d?</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">[0]?[1-9]|1\d</token>
+                        <token spacebefore="no">.</token>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </pattern>
+                    <filter class="org.languagetool.rules.pl.DateCheckFilter"
+                            args="year:\6 month:\4 day:\2 weekDay:\1"/>
+                    <message>Dzień \2.\4.\6 to nie \1.</message>
+                    <short>Niespójna data</short>
+                    <example type="correct">wtorek, 26.08.2014</example>
+                    <example type="incorrect">Dziś jest <marker>wtorek, 27.08.2014</marker>.</example>
+                    <example type="incorrect">Dziś jest <marker>pt., 27.8.2014</marker>.</example>
+                    <example type="incorrect">Dziś jest <marker>niedziela, 27.10.2014</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">\d\d?</token>
+                        <token regexp="yes">&months;|&abbrevMonths;</token>
+                        <token regexp="yes">\d\d\d\d</token>
+                        <token regexp="yes">[,\(]</token>
+                        <token regexp="yes" inflected="yes">&weekdays;</token>
+                    </pattern>
+                    <filter class="org.languagetool.rules.pl.DateCheckFilter"
+                            args="year:\3 month:\2 day:\1 weekDay:\5"/>
+                    <message>Dzień \1 \2 \3 to nie \5.</message>
+                    <short>Niespójna data</short>
+                    <example type="correct">Dziś jest 26 sierpnia 2014, wtorek.</example>
+                    <example type="incorrect">Dziś jest <marker>27 sierpnia 2014, wtorek</marker>.</example>
+                    <example type="incorrect">Dziś jest <marker>27 sierpnia 2014 (wtorek</marker>).</example>
+                    <example type="incorrect">Dziś jest <marker>27 sierpnia 2014, pt</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>31</token>
+                        <token regexp="yes">kwietnia|czerwca|września|listopada|IV|VI|IX|XI</token>
+                    </pattern>
+                    <message>W tym miesiącu jest tylko 30 dni.</message>
+                    <example type="incorrect">Urodził się <marker>31 września</marker>.</example>
+                    <example type="incorrect">Urodził się <marker>31 IX</marker> 1911.</example>
+                    <example type="correct">Urodził się <marker>31 października</marker>.</example>
+                    <example type="correct">Urodził się <marker>30 września</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token regexp="yes">3[01]</token>
+                        <token regexp="yes">lutego|II</token>
+                    </pattern>
+                    <message>W lutym jest 28 lub 29 dni (w roku przestępnym).</message>
+                    <example type="incorrect">Urodził się <marker>30 lutego</marker>.</example>
+                    <example type="correct">Urodził się <marker>28 lutego</marker>.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>29</token>
+                        <token regexp="yes">lutego|II</token>
+                        <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                            <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                        </token>
+                    </pattern>
+                    <message>W lutym \3 nie ma 29 dni, gdyż \3 nie jest rokiem przestępnym.</message>
+                    <url>https://pl.wikipedia.org/wiki/Rok_przest%C4%99pny</url>
+                    <!-- 1900 is not a leap year (divisible by 100) -->
+                    <example type="incorrect">Dzień <marker>29 lutego 1900</marker>.</example>
+                    <!-- 2000 is a leap year (divisible by 400) -->
+                    <example type="correct"><marker>29 II 2000</marker>.</example>
+                    <example type="incorrect"><marker>29 II 2001</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2002</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2003</marker>.</example>
+                    <!-- 2004 is a leap year (divisible by 4) -->
+                    <example type="correct"><marker>29 lutego 2004</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2005</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2006</marker>.</example>
+                    <example type="incorrect"><marker>29 II 2007</marker>.</example>
+                    <!-- 2008 is a leap year (divisible by 4) -->
+                    <example type="correct"><marker>29 II 2008</marker>.</example>
+                    <example type="incorrect"><marker>29 II 2009</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2010</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2011</marker>.</example>
+                    <!-- 2012 is a leap year (divisible by 4) -->
+                    <example type="correct"><marker>29 lutego 2012</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2014</marker>.</example>
+                    <example type="correct"><marker>29 lutego 2016</marker>.</example>
+                    <example type="incorrect"><marker>29 lutego 2018</marker>.</example>
+                    <example type="correct"><marker>29 II 2020</marker>.</example>
+                    <!-- 2100 is not a leap year (divisible by 100) -->
+                    <example type="incorrect"><marker>29 lutego 2100</marker>.</example>
+                </rule>
+            </rulegroup>
             <rule name="„muzułman” (muzułmanin)" id="MUZULMAN">
               <pattern>
                 <token inflected="yes">muzułman<exception inflected="yes">muzułmanin</exception></token>
@@ -9970,6 +10124,33 @@ $Id$
 				</rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rulegroup id="KUPKI_SMAKOWE" name="„kupki smakowe” (kubki smakowe)">
+                <rule>
+                    <pattern>
+                        <token>kupek</token>
+                        <token>smakowych</token>
+                    </pattern>
+                    <message>Błąd ortograficzny. Powinno być: <suggestion>kubków <match no="2"/></suggestion>?</message>
+                    <url>http://pl.wikipedia.org/wiki/Kubki_smakowe</url>
+                    <short>Błąd ortograficzny</short>
+                    <example type='incorrect' correction="kubków smakowych">Coś wspaniałego dla moich <marker>kupek smakowych</marker> są w niebie.</example>
+                    <example type='correct'>Moje kubki smakowe są w niebie.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <unify>
+                            <feature id="case"/><feature id="gender"/><feature id="number"/>
+                            <token inflected='yes'>kupka</token>
+                            <token inflected='yes'>smakowy</token>
+                        </unify>
+                    </pattern>
+                    <message>Błąd ortograficzny. Powinno być: <suggestion><match no="1" regexp_match="p" regexp_replace="b"/> <match no="2"/></suggestion>?</message>
+                    <url>http://pl.wikipedia.org/wiki/Kubki_smakowe</url>
+                    <short>Błąd ortograficzny</short>
+                    <example type='incorrect' correction="kubki smakowe">Moje <marker>kupki smakowe</marker> są w niebie.</example>
+                    <example type='correct'>Moje kubki smakowe są w niebie.</example>
+                </rule>
+            </rulegroup>
             <rulegroup id="TEPO_PRACY" name="„tępo pracy” (tempo pracy)">
                 <rule>
                     <pattern>
@@ -10330,38 +10511,67 @@ $Id$
 						<rule>
 								<pattern>
 										<marker>
-												<token inflected="yes" skip="5">naważyć</token>
+												<token inflected="yes" skip="5" regexp="yes">(:?na)?ważyć</token>
 										</marker>
 										<token inflected="yes">piwo</token>
 								</pattern>
-								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="1" regexp_match="(nawa)ż(.*)" regexp_replace="$1rz$2"></match></suggestion> (=wpędzili się w kłopoty; „naważyć” znaczy „nałożyć na wagę”).</message>
+								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="1" regexp_match="ż" regexp_replace="rz"></match></suggestion> (=wpędzili się w kłopoty lub dosł. przygotowali piwo; „naważyć” znaczy „nałożyć na wagę”).</message>
 								<short>Błąd ortograficzny</short>
 								<example correction="nawarzyli" type="incorrect">Koledzy <marker>naważyli</marker> sobie w ten sposób piwa.</example>
 								<example type="correct">Koledzy nawarzyli sobie w ten sposób piwa.</example>
+                                <example type="incorrect" correction="warzyłem">Wczoraj <marker>ważyłem</marker> piwo.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token inflected="yes" skip="5">piwo</token>
 										<marker>
-												<token inflected="yes">naważyć</token>
+												<token inflected="yes" regexp="yes">(:?na)?ważyć</token>
 										</marker>
 								</pattern>
-								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="2" regexp_match="(nawa)ż(.*)" regexp_replace="$1rz$2"></match></suggestion> (=wpędzili się w kłopoty; „naważyć” znaczy „nałożyć na wagę”).</message>
+								<message>Prawdopodobny błąd ortograficzny. Powinno być <suggestion><match no="2" regexp_match="ż" regexp_replace="rz"></match></suggestion> (=wpędzili się w kłopoty; „naważyć” znaczy „nałożyć na wagę”).</message>
 								<short>Błąd ortograficzny</short>
 								<example correction="nawarzyłeś" type="incorrect">Mówisz wypić piwo, którego sobie <marker>naważyłeś</marker>.</example>
 								<example type="correct">Mówisz wypić piwo, którego sobie <marker>nawarzyłeś</marker>.</example>
 						</rule>
+                        <rule>
+                            <pattern>
+                                <token inflected='yes'>ważenie</token>
+                                <token>piwa</token>
+                            </pattern>
+                            <message>Powinno być <suggestion><match no="1" regexp_match="ż" regexp_replace="rz"/> <match no="2"/></suggestion>.</message>
+                            <url>http://so.pwn.pl/lista.php?co=warzenie</url>
+                            <short>Błąd ortograficzny</short>
+                            <example type='incorrect' correction="warzenie piwa">Uwielbiam <marker>ważenie piwa</marker>.</example>
+                            <example type='correct'>Uwielbiam warzenie piwa.</example>
+                        </rule>
 				</rulegroup>
-				<rule id="WIEZA_EIFFELA" name="„wieża Eiffela” (wieża Eiffla)">
+				<rulegroup id="WIEZA_EIFFELA" name="„wieża Eiffela” (wieża Eiffla)">
+                    <rule>
 						<pattern>
 								<token inflected="yes">wieża</token>
 								<token>Eiffela</token>
 						</pattern>
 						<message>Nieprawidłowa pisownia. Poprawnie: <suggestion>\1 Eiffla</suggestion> (wymowa: Ajfla).</message>
+                        <url>http://so.pwn.pl/lista.php?co=Eiffel</url>
 						<short>Błąd ortograficzny</short>
 						<example correction="wieżą Eiffla" type="incorrect">Spędźmy dziką noc pod <marker>wieżą Eiffela</marker>!</example>
 						<example type="correct">W Warszawie nie ma nic, co przypominałoby wieżę Eiffla.</example>
-				</rule>
+				    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <token regexp="yes">\p{Ll}+|[;,:]</token>
+                            <marker>
+                                <token inflected="yes">wieża<exception regexp="yes">w.*</exception></token>
+                                <token>Eiffla</token>
+                            </marker>
+                        </pattern>
+                        <message>Nieprawidłowa pisownia. Poprawnie: <suggestion><match no="2" case_conversion="alllower"/> Eiffla</suggestion>.</message>
+                        <url>http://poradnia.pwn.pl/lista.php?id=14712</url>
+                        <short>Błąd ortograficzny</short>
+                        <example type="incorrect" correction="wieży Eiffla">W związku z remontem części wind na <marker>Wieży Eiffla</marker> bilety dostępne są na zapytanie.</example>
+                        <example type="correct">W związku z remontem części wind na <marker>wieży Eiffla</marker> bilety dostępne są na zapytanie.</example>
+                    </rule>
+                </rulegroup>
 				<rule id="PAR_EXCELLENCE" name="„par excellance” (par excellence)">
 						<pattern>
 								<token>par</token>
@@ -11885,6 +12095,22 @@ $Id$
 						<example type="correct">1 stycznia 1999</example>
 						<example correction="1" type="incorrect"><marker>1.</marker> stycznia 2000</example>
 				</rule>
+                <rule id="GODZINA_KROPKA" name="Zbędne kropki po cyfrach arabskich oznaczających godziny">
+                    <pattern>
+                        <marker>
+                            <token inflected="yes">godzina</token>
+                            <token regexp="yes">[0-2]?\d</token>
+                            <token>.</token>
+                         </marker>
+                        <token regexp="yes">\p{L}+</token>
+                    </pattern>
+                    <message>Nie stawiamy kropki po cyfrach arabskich, jeśli oznaczają godzinę: <suggestion>\1 \2</suggestion>.</message>
+                    <url>http://poradnia.pwn.pl/lista.php?id=6141</url>
+                    <short>Błąd ortograficzny</short>
+                    <example type="correct">Poszedłem tam o godzinie 10.</example>
+                    <example type="correct">Poszedłem tam o 22.00.</example>
+                    <example type="incorrect" correction="godziny 4">Serwer pracował od <marker>godziny 4.</marker> do 6 nad ranem.</example>
+                </rule>
 				<rule id="TYMCZASEM" name="„tym czasem” (tymczasem)">
 						<pattern>
 								<token negate="yes" negate_pos="yes" postag="verb.*" postag_regexp="yes" regexp="yes">z|przed|poza|za|nad</token>
@@ -13813,6 +14039,28 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rulegroup id="ROK_20001" name="Rok 20001 (2001)">
+                <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">&abbrevMonths;</token>
+                    <token regexp="yes">200\d\d</token>
+                </pattern>
+                <message>Czy na pewno chodziło o tak odległy rok? A może o <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Wybory odbędą się 12 V 2015 r.</example>
+                <example type="incorrect" correction="V 2015">Wybory odbędą się 12 <marker>V 20015</marker> r.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token inflected="yes" regexp="yes">styczeń|luty|marzec|kwiecień|maj|czerwiec|lipiec|sierpień|wrzesień|październik|listopad|grudzień|rok</token>
+                        <token regexp="yes">200\d\d</token>
+                    </pattern>
+                    <message>Czy na pewno chodziło o tak odległy rok? A może o <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example type="correct">Wybory odbędą się w maju 2015 r.</example>
+                    <example type="incorrect" correction="maju 2015">Wybory odbędą się w <marker>maju 20015</marker> r.</example>
+                </rule>
+            </rulegroup>
             <rule id="POJECI" name="„pojęci” (pojęcie, pojęcia)">
                 <pattern>
                     <token>pojęci</token>

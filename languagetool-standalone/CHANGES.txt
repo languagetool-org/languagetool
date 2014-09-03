@@ -5,6 +5,9 @@ LanguageTool Change Log
 -Breton:
     -added and improved rules
 
+-Dutch:
+    -added and improved rules
+    
 -English:
     -All English dictionaries have been extended to contain word frequency classes
      to improve the spell checker suggestions (the frequency data is taken from
@@ -13,6 +16,13 @@ LanguageTool Change Log
     -Better suggestions for English learners: irregular verbs, nouns, and adjectives now
      usually have a better suggestion. For example, 'thinked' suggests 'thought',
      'womans' suggests 'women'.
+    -New rule that checks if a weekday matches a date, e.g. detects
+     "Monday, 7 October 2014", as that date isn't a Monday. This rule will only
+     work if it detects the date format in use. So far, only these formats are supported:
+       * "Monday, 7 October 2014"
+       * "Monday, 7 Oct 2014"
+       * "Monday, October 7, 2014"
+       * "Monday, Oct 7, 2014"
 
 -Persian:
     -added initial support for Persian (Farsi)
@@ -21,12 +31,17 @@ LanguageTool Change Log
     -added a synthesizer - the agreement rule can now make suggestions
      for some errors.
     -added/improved several rules
+    -New rule that checks if a weekday matches a date, e.g. detects
+     "vendredi 28/08/2014", as that date isn't a Friday.
 
 -German:
     -Fixed a rare NullPointerException and an ArrayIndexOutOfBoundsException
     -Fixed several false alarms
     -New rule that checks for sentences without a verb (turned off by default due to
      the risk of false alarms)
+    -New rule that checks if a weekday matches a date, e.g. detects
+     "Dienstag, 29.9.2014", as that date isn't a Tuesday.
+    -Performance improvements for spell check suggestions
     
 -Portuguese:
     -added/improved several rules
@@ -40,12 +55,17 @@ LanguageTool Change Log
     -Added new POS category Z (for spelled numbers, e.g. 'uno', 'dos', ...)
     -Spelled numbers can now be detected and managed both in disambiguation and rules.
     -Improved LO/OO menus translation
+    -Updated Community site translation
+    -Spelled numbers can be now detected and managed both in disambiguation and rules
+    -Fixed some incorrect lemmas in POS dictionary
+    -Added Hybrid chunker-disambiguator.
 
 -Tamil:
     -Added initial support for Tamil. If the font for Tamil is not properly
      displayed on your computer and you're using Windows, you might need
      to apply the work around described here:
      https://bugs.openjdk.java.net/browse/JDK-8008572
+
 
 -API:
     -Removed several classes and methods that had been deprecated since version 2.6
@@ -58,6 +78,8 @@ LanguageTool Change Log
      MorfologikSpellerRule.getRuleMatches(String, int)
     -The RuleMatch constructor now throws an exception if toPosition is not
      larger than fromPosition
+    -The JLanguageTool and MultiThreadedJLanguageTool constructors don't declare to
+     throw an IOException anymore
 
 -Command line:
     -Enabling and disabling specific rules at the same time is now allowed.
@@ -76,6 +98,15 @@ LanguageTool Change Log
      on requests in parallel. The default is 10, as it used to be.
 
 -Internals:
+    -New abstract rule AbstractDateCheckFilter that allows to check if a week day and date
+     match. For example "Tuesday, September 29, 2014" could be detected, as September 29, 2014 is
+     not actually a Tuesday. This uses the new RuleFilter interface that can be called
+     from XML with the new 'filter' element. 'filter' takes these attributes:
+       'class': the fully-qualified name of a Java class that implements RuleFilter, e.g.
+                "org.languagetool.rules.de.DateCheckFilter"
+       'args':  a string like "year:\1 month:\2 day:\3 weekDay:\4", i.e. a space-separated list of
+                key/value pairs, where \x gets resolved to the pattern's token value (as in
+                the 'message' element)
     -The compound rule now ignores tokens that have been immunized in the disambiguation.xml
     -If you're extending the XML rules as described at http://wiki.languagetool.org/tips-and-tricks#toc2,
      the external rule and disambiguation files can now be hosted on a password-protected server

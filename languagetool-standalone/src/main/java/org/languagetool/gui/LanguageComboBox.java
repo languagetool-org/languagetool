@@ -18,9 +18,11 @@
  */
 package org.languagetool.gui;
 
+import java.awt.ComponentOrientation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JComboBox;
@@ -54,6 +56,8 @@ public class LanguageComboBox extends JComboBox<Language> {
   }
 
   private void initAllLanguages() {
+    applyComponentOrientation(
+      ComponentOrientation.getOrientation(Locale.getDefault()));
     languages.clear();
     for (Language language : Language.getRealLanguages()) {  // the method returns both built-in and external languages
       final boolean skip = language.hasVariant();

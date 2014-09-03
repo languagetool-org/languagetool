@@ -45,6 +45,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
   protected String ruleGroupIssueType;
   protected String ruleIssueType;
   protected String name;
+  protected String filterClassName;
+  protected String filterArgs;
 
   private int subId;
 
@@ -194,6 +196,10 @@ public class PatternRuleHandler extends XMLRuleHandler {
           }
         }
         break;
+      case "filter":
+        filterClassName = attrs.getValue("class");
+        filterArgs = attrs.getValue("args");
+        break;
       case MESSAGE:
         inMessage = true;
         inSuggestion = false;
@@ -318,6 +324,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         ruleIssueType = null;
         inRule = false;
+        filterClassName = null;
+        filterArgs = null;
         break;
       case EXCEPTION:
         finalizeExceptions();
@@ -495,6 +503,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
       final PatternRule rule = new PatternRule(id, language, tmpElements, name,
           message.toString(), shortMessage.toString(),
           suggestionsOutMsg.toString(), phraseElementList.size() > 1);
+      if (filterClassName != null && filterArgs != null) {
+        RuleFilterCreator creator = new RuleFilterCreator();
+        RuleFilter filter = creator.getFilter(filterClassName);
+        rule.setFilter(filter);
+        rule.setFilterArguments(filterArgs);
+      }
       prepareRule(rule);
       rules.add(rule);
     } else {

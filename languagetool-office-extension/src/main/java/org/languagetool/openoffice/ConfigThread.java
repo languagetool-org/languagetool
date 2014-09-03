@@ -18,8 +18,6 @@
  */
 package org.languagetool.openoffice;
 
-import java.util.Set;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
@@ -48,13 +46,8 @@ class ConfigThread extends Thread {
     cfgDialog = new ConfigurationDialog(null, true, config);
   }
 
-  @Deprecated
-  public Set<String> getDisabledRuleIds() {
-    return config.getDisabledRuleIds();
-  }  
-
   @Override
-  public void run() {    
+  public void run() {
     try {
       final JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();

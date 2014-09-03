@@ -270,8 +270,7 @@ public class AgreementRule extends GermanRule {
             }
           }
         } else if (GermanHelper.hasReadingOfType(nextToken, POSType.NOMEN)) {
-          final RuleMatch ruleMatch = checkDetNounAgreement(tokens[i],
-                  tokens[i+1]);
+          final RuleMatch ruleMatch = checkDetNounAgreement(tokens[i], tokens[i+1]);
           if (ruleMatch != null) {
             ruleMatches.add(ruleMatch);
           }
@@ -387,19 +386,18 @@ public class AgreementRule extends GermanRule {
     }
     set1.retainAll(set2);
     RuleMatch ruleMatch = null;
-    if (set1.size() == 0) {
+    if (set1.size() == 0 && !isException(token1, token2)) {
       final List<String> errorCategories = getCategoriesCausingError(token1, token2);
-      final String errorDetails = errorCategories.size() > 0 ? StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
+      final String errorDetails = errorCategories.size() > 0 ?
+              StringTools.listToString(errorCategories, " und ") : "Kasus, Genus oder Numerus";
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel und Nomen " +
             "bezüglich " + errorDetails + ".";
+      final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
+      ruleMatch = new RuleMatch(this, token1.getStartPos(),
+              token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
       final AgreementSuggestor suggestor = new AgreementSuggestor(german.getSynthesizer(), token1, token2);
       final List<String> suggestions = suggestor.getSuggestions();
-      final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
-      if (!isException(token1, token2)) {
-        ruleMatch = new RuleMatch(this, token1.getStartPos(),
-                token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
-        ruleMatch.setSuggestedReplacements(suggestions);
-      }
+      ruleMatch.setSuggestedReplacements(suggestions);
     }
     return ruleMatch;
   }

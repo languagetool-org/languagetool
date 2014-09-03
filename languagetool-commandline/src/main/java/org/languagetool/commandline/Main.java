@@ -265,13 +265,7 @@ class Main {
             if (profileRules) {
               sentences += lt.sentenceTokenize(sb.toString()).size();
             }
-            if (listUnknownWords && !taggerOnly) {
-              for (String word : lt.getUnknownWords()) {
-                if (!unknownWords.contains(word)) {
-                  unknownWords.add(word);
-                }
-              }
-            }
+            rememberUnknownWords(listUnknownWords, unknownWords);
             sb = new StringBuilder();
             lineOffset = tmpLineOffset;
           } else {
@@ -281,13 +275,7 @@ class Main {
               if (profileRules) {
                 sentences += lt.sentenceTokenize(sb.toString()).size();
               }
-              if (listUnknownWords && !taggerOnly) {
-                for (String word : lt.getUnknownWords()) {
-                  if (!unknownWords.contains(word)) {
-                    unknownWords.add(word);
-                  }
-                }
-              }
+              rememberUnknownWords(listUnknownWords, unknownWords);
               sb = new StringBuilder();
               lineOffset = tmpLineOffset;
             }
@@ -303,13 +291,7 @@ class Main {
           if (apiFormat && !taggerOnly && !applySuggestions) {
               System.out.println("</matches>");
           }
-          if (listUnknownWords && !taggerOnly) {
-            for (String word : lt.getUnknownWords()) {
-              if (!unknownWords.contains(word)) {
-                unknownWords.add(word);
-              }
-            }
-          }
+          rememberUnknownWords(listUnknownWords, unknownWords);
         }
         printTimingInformation(listUnknownWords, rules, unknownWords, ruleIndex, matches, sentences, startTime);
         if (br != null) {
@@ -317,6 +299,16 @@ class Main {
         }
         if (isr != null) {
           isr.close();
+        }
+      }
+    }
+  }
+
+  private void rememberUnknownWords(boolean listUnknownWords, List<String> unknownWords) {
+    if (listUnknownWords && !taggerOnly) {
+      for (String word : lt.getUnknownWords()) {
+        if (!unknownWords.contains(word)) {
+          unknownWords.add(word);
         }
       }
     }

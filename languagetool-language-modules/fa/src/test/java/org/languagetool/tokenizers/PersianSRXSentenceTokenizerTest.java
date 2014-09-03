@@ -30,7 +30,13 @@ public class PersianSRXSentenceTokenizerTest {
   public void test() {
     // NOTE: sentences here need to end with a space character so they
     // have correct whitespace when appended:
-    testSplit("a sentence. ", "the next sentence");  // TODO: put Persian here
+    testSplit("این یک جمله است. ", "جملهٔ بعدی");
+    testSplit("آیا این یک جمله است؟ ", "جملهٔ بعدی");
+    testSplit("یک جمله!!! ", "جملهٔ بعدی");
+
+    testSplit("جملهٔ اول... خوب نیست؟ ", "جملهٔ دوم.");
+    testSplit("جملهٔ اول (...) ادامهٔ متن. ");
+    testSplit("جملهٔ اول [...] ادامهٔ متن. ");
   }
 
   private void testSplit(String... sentences) {

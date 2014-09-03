@@ -75,7 +75,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     final List<String> parts = wordSplitter.tokenize(word);
     int partCount = 0;
     for (String part : parts) {
-      if (dictionary.misspelled(part)) {
+      if (hunspellDict.misspelled(part)) {
         List<String> suggestions = morfoSpeller.getSuggestions(part);
         if (suggestions.size() == 0) {
           suggestions = morfoSpeller.getSuggestions(StringTools.uppercaseFirstChar(part));
@@ -123,7 +123,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
       final String[] words = tokenizeText(wordOrPhrase);
       boolean wordIsOkay = true;
       for (String word : words) {
-        if (dictionary.misspelled(word)) {
+        if (hunspellDict.misspelled(word)) {
           wordIsOkay = false;
           break;
         }

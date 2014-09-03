@@ -31,7 +31,7 @@ USA
 	<rulegroup id="noun_noun" name="ஓரெழுத்துப் பெயர் + பெயர்">
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|ஷா|சா|சே|லீ|டை</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|கா|சா|சே|லீ|டை</exception></token>
 			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1க்\2</suggestion></message>
@@ -42,7 +42,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|ஷா|சா|சே|லீ|டை</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|கா|சா|சே|லீ|டை</exception></token>
 			<token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1ச்\2</suggestion></message>
@@ -53,7 +53,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|ஷா|சா|சே|லீ|டை</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|கா|சா|சே|லீ|டை</exception></token>
 			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1த்\2</suggestion></message>
@@ -64,7 +64,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|ஷா|சா|சே|லீ|டை</exception></token>
+			<token regexp='yes'>[அஈஒக-வ][ாீூேைோ]?<exception regexp='yes'>நீ|கா|சா|சே|லீ|டை</exception></token>
 			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>ஓரெழுத்துப் பெயர்ச்சொல்லின் பின் வல்லெழுத்து வந்தால், ஒற்று மிகும்: <suggestion>\1ப்\2</suggestion></message>
@@ -77,7 +77,7 @@ USA
 	  <rule id="noun_suffix_1" name="பெயர் + இடைச்சொல்">
 		<pattern>
 			<token postag='NN.*' postag_regexp='yes'><exception postag='FV|SV|.*-F|.*-S' postag_regexp='yes'></exception></token>
-			<token regexp='yes'>கீழ்|குறித்த|குறித்து([கசதப]்)?|பற்றி([கசதப]்)?|பற்றிய|மீதான|மீது|மூலம்|மேல்|பின்|பேரில்|போல([கசதப]்)?|போல்</token> <!-- "தவிர", "பொருட்டு" ஆகியன நீக்கப்பட்டது -->
+			<token regexp='yes'>கீழ்|குறித்த|குறித்து([கசதப]்)?|பற்றி([கசதப]்)?|பற்றிய|மீதான|மீது(ம்)?|மூலம்|மேல்|பின்|பேரில்|போல([கசதப]்)?|போல்|வசம்</token> <!-- "தவிர", "பொருட்டு" ஆகியன நீக்கப்பட்டது -->
 		</pattern>
 		<message>வேற்றுமை உருபு இல்லா சொல்பின் கீழ், பற்றி முதலியன சேர்ந்து வரும்: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
@@ -87,7 +87,37 @@ USA
 		<example type='incorrect'>இலங்கையிலுள்ள வங்கிக் <marker>கிளை மீது</marker> தாக்குதல்.</example>
 		<example type='correct'>இலங்கையிலுள்ள வங்கிக் <marker>கிளைமீது</marker> தாக்குதல்.</example>
 	  </rule>
-	<rulegroup id="noun_suffix_1A" name="பெயர் + ஐ + பற்றி/பற்றிய">
+	  <rule id="noun_suffix_1A" name="பெயர் + இன் + கீழ்">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ின்கீழ்</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'கீழ்'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="கீழ்$" regexp_replace="" /> கீழ்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>காஸ்ட்ரோ <marker>ஆட்சியின்கீழ்</marker> கியூபா வந்தது.</example>
+		<example type='correct'>காஸ்ட்ரோ <marker>ஆட்சியின் கீழ்</marker> கியூபா வந்தது.</example>
+	  </rule>
+	  <rule id="noun_suffix_1B" name="பெயர் + ஐ + குறித்த">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ைக்குறித்த<exception>நிலைக்குறித்த</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'குறித்த'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="குறித்த$" regexp_replace="" /> குறித்த</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இந்த <marker>நாளைக்குறித்த</marker> ஒரு புரிதல் அவர்களிடம் இல்லை.</example>
+		<example type='correct'>இந்த <marker>நாளைக் குறித்த</marker> ஒரு புரிதல் அவர்களிடம் இல்லை.</example>
+	  </rule>
+	  <rule id="noun_suffix_1C" name="பெயர் + ஐ + குறித்து">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ைக்குறித்து<exception>நிலைக்குறித்து</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'குறித்து'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="குறித்து$" regexp_replace="" /> குறித்து</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=39</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவர்களைக்குறித்து</marker> எழுதிய தலைப்பு.</example>
+		<example type='correct'><marker>அவர்களைக் குறித்து</marker> எழுதிய தலைப்பு.</example>
+	  </rule>
+	<rulegroup id="noun_suffix_1D" name="பெயர் + ஐ + பற்றி/பற்றிய">
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ைப்பற்றி<exception regexp='yes'>[அஈஒக-வ][ாீூேைோ]?ப்பற்றி</exception></token>
@@ -189,7 +219,17 @@ USA
 		<example type='correct'><marker>அதைப் பற்றியப்</marker> பக்கங்கள் உள்ளனவா?</example>
 	  </rule>
 	</rulegroup>
-	<rulegroup id="noun_suffix_1B" name="பெயர் + ஐ + போல/போல்">
+	  <rule id="noun_suffix_1E" name="பெயர் + இன் + பேரில்">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ின்பேரில்</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பேரில்'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="பேரில்$" regexp_replace="" /> பேரில்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=65#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அரசு <marker>அழைப்பின்பேரில்</marker> வந்திருக்கிறார்.</example>
+		<example type='correct'>அரசு <marker>அழைப்பின் பேரில்</marker> வந்திருக்கிறார்.</example>
+	  </rule>
+	<rulegroup id="noun_suffix_1F" name="பெயர் + ஐ + போல/போல்">
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ைப்போல<exception regexp='yes'>[அஈஒக-வ][ாீூேைோ]?ப்போல</exception></token>
@@ -273,11 +313,292 @@ USA
 		<example type='correct'><marker>வாரந்தோறும்</marker> அம்மாவைப் பார்க்க உருக்குச் சென்றுவிடுவேன்.</example>
 	  </rule>
 	</rulegroup>
+	<rulegroup id="vinai_vinai" name="வினை + துணை வினை">
+	  <rule>
+		<pattern>
+			<token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+			<token regexp='yes'>(கட்டு|காட்டு|காண்பி|கிட|குவி|கூடு|கொடு|கொள்|கொண்டிருந்தா[னளர]்)</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அந்நாடதத்தை அவன் பின்னிருக்கையிலிருந்து <marker>பார்த்து கொண்டிருந்தான்</marker>.</example>
+		<example type='correct'>அந்நாடதத்தை அவன் பின்னிருக்கையிலிருந்து <marker>பார்த்துக்கொண்டிருந்தான்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VP'><exception postag='VP' regexp='yes' negate='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+			<token regexp='yes'>(கட்டு|காட்டு|காண்பி|கிட|குவி|கூடு|கொடு|கொள்|கொண்டிருந்தா[னளர]்)</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கொடுத்த பணியை அவன் அமைதியாகச் <marker>செய்து கொண்டிருந்தான்</marker>.</example>
+		<example type='correct'>கொடுத்த பணியை அவன் அமைதியாகச் <marker>செய்துகொண்டிருந்தான்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VPK'></token>
+			<token regexp='yes'>(கட்டு|காட்டு|காண்பி|கிட|குவி|கூடு|கொடு|கொள்|கொண்டிருந்தா[னளர]்)</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அந்நாடதத்தை அவன் பின்னிருக்கையிலிருந்து <marker>பார்த்துக் கொண்டிருந்தான்</marker>.</example>
+		<example type='correct'>அந்நாடதத்தை அவன் பின்னிருக்கையிலிருந்து <marker>பார்த்துக்கொண்டிருந்தான்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+			<token regexp='yes'>சாக|சாகி(ன்)?றா[னளர]்|செய்</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1ச்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவன் தன் நிலையை நினைத்து <marker>வருந்தி சாகிறான்</marker>.</example>
+		<example type='correct'>அவன் தன் நிலையை நினைத்து <marker>வருந்திச்சாகிறான்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VP'><exception postag='VP' regexp='yes' negate='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+			<token regexp='yes'>சாக|சாகி(ன்)?றா[னளர]்|செய்</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஆசிரியரைக் கண்டு அவன் <marker>மிரண்டு சாகிறான்</marker>.</example>
+		<example type='correct'>ஆசிரியரைக் கண்டு அவன் <marker>மிரண்டுசாகிறான்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VPC'></token>
+			<token regexp='yes'>சாக|சாகி(ன்)?றா[னளர]்|செய்</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவன் தன் நிலையை நினைத்து <marker>வருந்திச் சாகிறான்</marker>.</example>
+		<example type='correct'>அவன் தன் நிலையை நினைத்து <marker>வருந்திச்சாகிறான்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token> <!-- 'தா', 'திரி', 'தீர்', 'தொலை' ஆகிய சொற்களை இன்னும் சேர்க்கவில்லை -->
+			<token regexp='yes'>தள்ளு|தா|திரி|தீர்|தொலை</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1த்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>எதற்கும் பயனில்லாத அந்த மரத்தை <marker>வெட்டி தள்ளு</marker>.</example>
+		<example type='correct'>எதற்கும் பயனில்லாத அந்த மரத்தை <marker>வெட்டித்தள்ளு</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VPT'></token>
+			<token regexp='yes'>தள்ளு|தள்ளிவிட்டா[னளர]்|தா|திரி|தீர்|தொலை</token>
+		</pattern>
+		<message>துணை வினையை முதன்மை வினையோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=40#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>தரம்பற்றிக் கவலைப்படாமல் கதைகளை <marker>எழுதித் தள்ளிவிட்டார்</marker>.</example>
+		<example type='correct'>தரம்பற்றிக் கவலைப்படாமல் கதைகளை <marker>எழுதித்தள்ளிவிட்டார்</marker>.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="vinaiyeccham_vinai" name="வினையெச்சம் + (காரண) வினை">
+	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token postag='VB' regexp='yes'>செய்(([ஃ-ஹ]?[ா-்]?)*)</token>
+		</pattern>
+		<message>செ(ய்)ய என்னும் வினையெச்சத்துடன் காரண வினை சேர்ந்து வரும்: <suggestion>\1ச்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=41#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவனை இங்கு <marker>வர செய்</marker>.</example>
+		<example type='correct'>அவனை இங்கு <marker>வரச்செய்</marker>.</example>
+	  </rule>
+<!--	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token postag='VB' regexp='yes'>பண்ண(([ஃ-ஹ]?[ா-்]?)*)</token>
+		</pattern>
+		<message>செ(ய்)ய என்னும் வினையெச்சத்துடன் காரண வினை சேர்ந்து வரும்: <suggestion>\1ப்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=41#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவன் என்னைப் <marker>பார்க்க பண்ணு</marker>.</example>
+		<example type='correct'>அவன் என்னைப் <marker>பார்க்கப்பண்ணு</marker>.</example>
+	  </rule>-->
+	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token postag='VB' regexp='yes'>வை(([ஃ-ஹ]?[ா-்]?)*)</token>
+		</pattern>
+		<message>செ(ய்)ய என்னும் வினையெச்சத்துடன் காரண வினை சேர்ந்து வரும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=41#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவனை இங்கு <marker>வர வை</marker>.</example>
+		<example type='correct'>அவனை இங்கு <marker>வரவை</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VAN.' postag_regexp='yes'></token>
+			<token postag='VB' regexp='yes'>(செய்|வை)(([ஃ-ஹ]?[ா-்]?)*)</token> <!-- "அடி", "பண்ணு" விடப்பட்டுள்ளது -->
+		</pattern>
+		<message>செ(ய்)ய என்னும் வினையெச்சத்துடன் காரண வினை சேர்ந்து வரும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=41#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவனை இங்கு <marker>வரச் செய்</marker>.</example>
+		<example type='correct'>அவனை இங்கு <marker>வரச்செய்</marker>.</example>
+	  </rule>
+	</rulegroup>
 	</category>
 	<!-- ====================================================================== -->
 	<!-- சொற்களைச் சேர்த்தும் இடம்விட்டும் எழுதுதல் -->
 	<!-- ====================================================================== -->
 	<category name="தனிச் சொற்களை எழுதும் முறை">
+	<rulegroup id="aie_noun" name="அ/இ/எ + பெயர்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>அ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^அ" regexp_replace="வ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் அமைப்பு</marker>.</example>
+		<example type='correct'><marker>அவ்வமைப்பு</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஆ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஆ" regexp_replace="வா" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஆடு</marker>.</example>
+		<example type='correct'><marker>அவ்வாடு</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>இ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் இலை</marker>.</example>
+		<example type='correct'><marker>அவ்விலை</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஈ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஈ" regexp_replace="வீ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஈட்டி</marker>.</example>
+		<example type='correct'><marker>அவ்வீட்டி</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>உ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="வு" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் உலகம்</marker>.</example>
+		<example type='correct'><marker>அவ்வுலகம்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஊ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஊ" regexp_replace="வூ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஊர்</marker>.</example>
+		<example type='correct'><marker>அவ்வூர்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>எ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^எ" regexp_replace="வெ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் எலி</marker>.</example>
+		<example type='correct'><marker>அவ்வெலி</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஏ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஏ" regexp_replace="வே" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஏணி</marker>.</example>
+		<example type='correct'><marker>அவ்வேணி</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஐ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஐ" regexp_replace="வை" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஐயர்</marker>.</example>
+		<example type='correct'><marker>அவ்வையர்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஒ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஒ" regexp_replace="வொ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஒளி</marker>.</example>
+		<example type='correct'><marker>அவ்வொளி</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ]வ்</token>
+			<token regexp='yes'>ஓ(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^ஓ" regexp_replace="வோ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அவ் ஓடம்</marker>.</example>
+		<example type='correct'><marker>அவ்வோடம்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[அஇஎ][க-வ]்<exception regexp='yes'>[அஇஎ][றரலழளணன]்</exception></token>
+			<token regexp='yes'>[க-வ][ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>அடுத்து வரும் சொல்லோடு இச்சுட்டெழுத்து சேர்த்தே எழுதப்படுகிறது: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=44</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அக் காலத்துக்</marker> கட்டிடக்கலை.</example>
+		<example type='correct'><marker>அக்காலத்துக்</marker> கட்டிடக்கலை.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="aakaadhu" name="செய்தல் + ஆகாது">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ல்<exception postag='NN.*|VB' postag_regexp='yes'></exception></token>
+			<token regexp='yes'>ஆகாத(ா(ம்)?|ோ|ு)</token>
+		</pattern>
+		<message>'கூடாது' என்னும் பொருளில் வரும்போது சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="்$" regexp_replace="ா" /><match no="2" regexp_match="^ஆ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=47#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இதற்குக் <marker>கவலைப்படல் ஆகாது</marker>.</example>
+		<example type='correct'>இதற்குக் <marker>கவலைப்படலாகாது</marker>.</example>
+	  </rule>
 	<rulegroup id="idayil" name="பெயர் + இடையில்/இடையே">
 	  <rule>
 		<pattern>
@@ -360,18 +681,50 @@ USA
 		<example type='incorrect'><marker>எங்கோ இருந்து</marker> வந்த தலைமைகள்.</example>
 		<example type='correct'><marker>எங்கோவிருந்து</marker> வந்த தலைமைகள்.</example>
 	  </rule>
-	</rulegroup> 
+	</rulegroup>
 	  <rule id="illaamal" name="மட்டும் + இல்லாமல்">
 		<pattern>
 			<token>மட்டும்</token>
 			<token>இல்லாமல்</token>
 		</pattern>
-		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வரும்போது சேர்த்து எழுதவேண்டும்: <suggestion>மட்டுமில்லாமல்</suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50</url>
+		<message>'மட்டும்' என்ற சொல்லை அடுத்து 'இல்லாமல்' வந்தால் சேர்த்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ம்$" regexp_replace="" /><match no="2" regexp_match="^இ" regexp_replace="மி" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
-		<example type='incorrect'>இசை <marker>மட்டும் இல்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
-		<example type='correct'>இசை <marker>மட்டுமில்லாமல்</marker> போயிருந்தால், மனிதன் நிச்சயம் பைத்தியம் ஆகியிருப்பான்.</example>
+		<example type='incorrect'>திட்டியதோடு <marker>மட்டும் இல்லாமல்</marker> அடிக்கவும் செய்தான்.</example>
+		<example type='correct'>திட்டியதோடு <marker>மட்டுமில்லாமல்</marker> அடிக்கவும் செய்தான்.</example>
 	  </rule>
+	<rulegroup id="illaamal2" name="பெயர்ச்சொல் + இல்லாமல்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)யில்லாமல்<exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ாயில்லாமல்</exception></token>
+		</pattern>
+		<message>பெயர்ச்சொற்களின் பின் 'இல்லாமல்' வந்தால் பிரித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="யில்லாமல்$" regexp_replace="" /> இல்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>மழையில்லாமல்</marker> பயிர் வாடுகிறது.</example>
+		<example type='correct'><marker>மழை இல்லாமல்</marker> பயிர் வாடுகிறது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ணமனரலழள]ில்லாமல்<exception regexp='yes'>(அது)?மட்டுமில்லாமல்</exception></token>
+		</pattern>
+		<message>பெயர்ச்சொற்களின் பின் 'இல்லாமல்' வந்தால் பிரித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ில்லாமல்$" regexp_replace="்" /> இல்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அறை போதிய <marker>வெளிச்சமில்லாமல்</marker> இருக்கிறது.</example>
+		<example type='correct'>அறை போதிய <marker>வெளிச்சம் இல்லாமல்</marker> இருக்கிறது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[கசடதபறவ]ில்லாமல்</token>
+		</pattern>
+		<message>பெயர்ச்சொற்களின் பின் 'இல்லாமல்' வந்தால் பிரித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ில்லாமல்$" regexp_replace="ு" /> இல்லாமல்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=50#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>நெருப்பில்லாமல்</marker> புகையாது.</example>
+		<example type='correct'><marker>நெருப்பு இல்லாமல்</marker> புகையாது.</example>
+	  </rule>
+	</rulegroup>
 	  <rule id="illai" name="செய்வது + இல்லை">
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
@@ -385,7 +738,7 @@ USA
 	  </rule>
 	  <rule id="illai2" name="வினையெச்சம் + இல்லை">
 		<pattern>
-			<token postag='VAN' regexp='yes'></token>
+			<token postag='VAN'></token>
 			<token regexp='yes'>இல்லை(([ஃ-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'இல்லை' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="வி" /></suggestion></message>
@@ -394,20 +747,65 @@ USA
 		<example type='incorrect'>அவன் இன்னும் வீட்டுக்கு <marker>வர இல்லை</marker>.</example>
 		<example type='correct'>அவன் இன்னும் வீட்டுக்கு <marker>வரவில்லை</marker>.</example>
 	  </rule>
+	<rulegroup id="indRi" name="பெயர்ச்சொல் + இன்றி">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][்ு]<exception regexp='yes'>[ஃ-ஹ][ிுெொ]?[ஃ-ஹ][ா-்]?</exception></token>
+			<token>இன்றி</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களோடும் 'இன்றி' சேர்த்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="[்ு]$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=51</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>உண்ண <marker>உணவு இன்றி</marker> மடிகின்றனர்.</example>
+		<example type='correct'>உண்ண <marker>உணவின்றி</marker> மடிகின்றனர்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ிேைோ]</token>
+			<token>இன்றி</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களோடும் 'இன்றி' சேர்த்தே எழுதப்படுகிறது: <suggestion>\1<match no="2" regexp_match="^இ" regexp_replace="யி" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=51</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நாடாளுமன்றத்திற்குள் <marker>அனுமதி இன்றி</marker> நுழைய முடியாது.</example>
+		<example type='correct'>நாடாளுமன்றத்திற்குள் <marker>அனுமதியின்றி</marker> நுழைய முடியாது.</example>
+	  </rule>
+	</rulegroup> 
+	  <rule id="udan" name="பெயரெச்சம் + உடன்">
+		<pattern>
+			<token postag='RP'></token>
+			<token regexp='yes'>உடன[்ே]</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சம்பின் சேர்த்து எழுத வேண்டும்: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="வு" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=51#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நான் நாளை <marker>திரும்பிய உடன்</marker> சந்தித்துப் பேசுவோம்.</example>
+		<example type='correct'>நான் நாளை <marker>திரும்பியவுடன்</marker> சந்தித்துப் பேசுவோம்.</example>
+	  </rule>
 	  <rule id="uNdu" name="செய்வது + உண்டு">
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து<exception postag='NN.*' postag_regexp='yes'></exception></token>
 			<token regexp='yes'>உண்ட[ாு]</token>
 		</pattern>
-		<message>'செய்வது' போன்ற தொழிற்பெயர்பின் 'இல்லை' வரும்போது சேர்த்து எழுதுவது சிறப்பு: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="" /></suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=52</url>
+		<message>'செய்வது' போன்ற தொழிற்பெயர்பின் 'உண்டு' வரும்போது சேர்த்து எழுதுவது சிறப்பு: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=52#head</url>
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>அவர் இங்கு <marker>வருவது உண்டு</marker>.</example>
 		<example type='correct'>அவர் இங்கு <marker>வருவதுண்டு</marker>.</example>
 	  </rule>
+	  <rule id="uNdu2" name="பெயர்ச்சொல் + உண்டு">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[லழளமன]ுண்டு<exception postag='NN.*' postag_regexp='yes'></exception></token>
+		</pattern>
+		<message>'இருக்கிறது' என்ற பொருளில் பெயர்ச்சொல் வரும்போது பிரித்து எழுதுவது சிறப்பு: <suggestion><match no="1" regexp_match="ுண்டு$" regexp_replace="்" /> உண்டு</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=52#head</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>மனிதனுக்கு <marker>மரணமுண்டு</marker>.</example>
+		<example type='correct'>மனிதனுக்கு <marker>மரணம் உண்டு</marker>.</example>
+	  </rule>
 	  <rule id="uriya" name="பெயர் + 'கு' உருபு + உரிய">
 		<pattern>
-			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes' regexp='yes'></token>
+			<token postag='.*-F|FV' postag_regexp='yes'></token>
 			<token>உரிய</token>
 		</pattern>
 		<message>'கு' உருபு ஏற்ற பெயர்களுடன் 'உரிய' சேர்த்து எழுதவேண்டும்: <suggestion>\1<match no="2" regexp_match="^உ" regexp_replace="" /></suggestion></message>
@@ -463,7 +861,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token postag='FV|.*-F|' postag_regexp='yes'></token>
+			<token postag='FV|.*-F' postag_regexp='yes'></token>
 			<token>உள்ள</token>
 		</pattern>
 		<message>'ஒன்றனது/ஒருவரது' என வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1ள்ள</suggestion></message>
@@ -483,6 +881,44 @@ USA
 		<example type='correct'><marker>உலகில் உள்ள</marker> விலங்குகளில் பூச்சிகளின் எண்ணிக்கையே மிக அதிகம்.</example>
 	  </rule>
 	</rulegroup>
+	  <rule id="uudaaga" name="சொல் + இன் + ஊடே/ஊடாக">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ின்</token>
+			<token regexp='yes'>ஊடாக|ஊடே</token>
+		</pattern>
+		<message>'இன்' ஏற்ற பெயர்ச்சொல்லின் பின் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="" /><match no="2" regexp_match="^ஊ" regexp_replace="ூ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=53#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஜன்னல் <marker>கம்பிகளின் ஊடே</marker> உருவம் தெரிந்தது.</example>
+		<example type='correct'>ஜன்னல் <marker>கம்பிகளினூடே</marker> உருவம் தெரிந்தது.</example>
+	  </rule>
+	<rulegroup id="enRu" name="சொல் + என்று">
+	  <rule>
+		<pattern>
+			<token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F|FV' postag_regexp='yes'></token>
+			<token>என்று</token>
+		</pattern>
+		<message>'ஒருவருக்காக/ஒன்றிற்காக' என்று வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="கு$" regexp_replace="கெ" /><match no="2" regexp_match="^எ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=55#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>உனக்கு என்று</marker> வாங்கிய சட்டை.</example>
+		<example type='correct'><marker>உனக்கென்று</marker> வாங்கிய சட்டை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+		  <marker>
+			<token>என்ன</token>
+			<token skip="-1">என்று</token>
+		  </marker>
+			<token postag="SENT_END">!</token>
+		</pattern>
+		<message>'என்ன' என்ற சொல்லுடன் சேர்த்து எழுத வேண்டும்: <suggestion>\1<match no="2" regexp_match="^எ" regexp_replace="வெ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=56</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இயற்கையின் எழிலை <marker>என்ன என்று</marker> சொல்வேன்!</example>
+		<example type='correct'>இயற்கையின் எழிலை <marker>என்னவென்று</marker> சொல்வேன்!</example>
+	  </rule>
+	</rulegroup>	
 	<rulegroup id="ena" name="என இடைச்சொல்">
 	  <rule>
 		<pattern>
@@ -497,6 +933,17 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ா[யரலழளணமன]்</token>
+			<token regexp='yes'>என([கசதப]்)?</token>
+		</pattern>
+		<message>'போன்று', 'என்று' என்பதாக 'என' வந்தால் சேர்த்து எழுதுவது சிறப்பு: <suggestion><match no="1" regexp_match="்$" regexp_replace="ெ" /><match no="2" regexp_match="^எ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=56#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் என்ன <marker>சொன்னார் எனத்</marker> தெரியவில்லை, மறந்துவிட்டேன்.</example>
+		<example type='correct'>அவர் என்ன <marker>சொன்னாரெனத்</marker> தெரியவில்லை, மறந்துவிட்டேன்.</example>
+	  </rule>
+<!--	  <rule>
+		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)்</token>
 			<token regexp='yes'>என([கசதப]்)?</token>
 		</pattern>
@@ -506,7 +953,7 @@ USA
 		<example type='incorrect'>காமராசர் நெடுமாறனை <marker>மாவீரன் எனப்</marker> பாராட்டினார்.</example>
 		<example type='correct'>காமராசர் நெடுமாறனை <marker>மாவீரனெனப்</marker> பாராட்டினார்.</example>
 	  </rule>
-	  	  <rule>
+	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ு</token>
 			<token regexp='yes'>என([கசதப]்)?</token>
@@ -516,20 +963,236 @@ USA
 		<short>சேர்த்து எழுத வேண்டும்</short>
 		<example type='incorrect'>அவர் அத்தீவுக்கு கிரிஸ்துமஸ் <marker>தீவு எனப்</marker> பெயரிட்டார்.</example>
 		<example type='correct'>அவர் அத்தீவுக்கு கிரிஸ்துமஸ் <marker>தீவெனப்</marker> பெயரிட்டார்.</example>
+	  </rule>-->
+	</rulegroup>
+	  <rule id="ERRa" name="பெயர்ச்சொல் + 'கு' உருபு + ஏற்ற">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[கற]்கேற்ற<exception regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]க்கேற்ற</exception></token>
+		</pattern>
+		<message>'தகுந்த' என்னும் பொருளில் இடம்விட்டு எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="கேற்ற$" regexp_replace="கு" /> ஏற்ற</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=57#head</url>
+		<short>பிரித்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'><marker>உழைப்புக்கேற்ற</marker> ஊதியம்.</example>
+		<example type='correct'><marker>உழைப்புக்கு ஏற்ற</marker> ஊதியம்.</example>
+	  </rule>
+	<rulegroup id="YEn" name="சொல் + ஏன்">
+	  <rule>
+		<pattern>
+		  <marker>
+			<token postag='FV|.*-F' postag_regexp='yes'></token>
+			<token skip="-1">ஏன்</token>
+		  </marker>
+			<token postag="SENT_END">?</token>
+		</pattern>
+		<message>'எதற்கு' என்ற பொருளில் வரும்போது சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ே" /><match no="2" regexp_match="^ஏ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=57#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>நமக்கு ஏன்</marker> இந்த ஊர் வம்பெல்லாம்?</example>
+		<example type='correct'><marker>நமக்கேன்</marker> இந்த ஊர் வம்பெல்லாம்?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+		  <marker>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[பவ]து</token>
+			<token skip="-1">ஏன்</token>
+		  </marker>
+			<token postag="SENT_END">?</token>
+		</pattern>
+		<message>சில வினை வடிவங்களுடன் சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ே" /><match no="2" regexp_match="^ஏ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=57#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>குப்குப்பென்று புகை <marker>வருவது ஏன்</marker>?</example>
+		<example type='correct'>குப்குப்பென்று புகை <marker>வருவதேன்</marker>?</example>
 	  </rule>
 	</rulegroup>
-	<rulegroup id="pin" name="பெயரெச்சம் + பின்/பின்னர்/பின்பு/பின்னே/பின்னால்">
+	<rulegroup id="oru" name="பெயர்ச்சொல் + 'கு' உருபு + ஒரு">
+<!--	  <rule>
+		<pattern>
+			<token postag='FV'></token>
+			<token>ஒரு</token>
+		</pattern>
+		<message>'ஒவ்வொருவருக்கும் என்னும் பொருளில் 'ஒரு' சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ொ" /><match no="2" regexp_match="^ஒ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=58</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வீட்டுக்கு ஒரு</marker> மரம்.</example>
+		<example type='correct'><marker>வீட்டுக்கொரு</marker> மரம்.</example>
+	  </rule> -->
 	  <rule>
+		<pattern>
+			<token regexp='yes'>அப்படி|இப்படி|எப்படி</token>
+			<token>ஒரு</token>
+		</pattern>
+		<message>'அப்படி', 'இப்படி', 'எப்படி' என்பனவற்றோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1<match no="2" regexp_match="^ஒ" regexp_replace="யொ" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=58</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அப்படி ஒரு</marker> வலி!</example>
+		<example type='correct'><marker>அப்படியொரு</marker> வலி!</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="ozhiya" name="வினையெச்சம் + 'ஆல்' + ஒழிய">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[டதன]ால்</token>
+			<token>ஒழிய</token>
+		</pattern>
+		<message>'செய்தால்' போன்ற வினையெச்சத்தோடு சேர்த்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="்$" regexp_replace="ொ" /><match no="2" regexp_match="^ஒ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=58#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் நேராக <marker>வந்தால் ஒழிய</marker> நடக்கப் போவதில்லை.</example>
+		<example type='correct'>அவர் நேராக <marker>வந்தாலொழிய</marker> நடக்கப்போவதில்லை.</example>
+	  </rule>
+	  <rule id="kaattilum" name="சொல் + காட்டிலும்">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்காட்டிலும்<exception>பாலக்காட்டிலும்</exception></token>
+		</pattern>
+		<message>ஒப்புப் பொருளைக் குறிக்கும் இச்சொல் தனித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="காட்டிலும்$" regexp_replace="" /> காட்டிலும்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=59#head</url>
+		<short>பிரித்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>அவர்கள் <marker>நம்மைக்காட்டிலும்</marker> வசதி படைத்தவர்கள்.</example>
+		<example type='correct'>அவர்கள் <marker>நம்மைக் காட்டிலும்</marker> வசதி படைத்தவர்கள்.</example>
+	  </rule>
+	  <rule id="kuudaadhu" name="சொல் + கூடாது">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?கூடாது</token>
+		</pattern>
+		<message>'கூடாது' சொல்லை இடம்விட்டு எழுத வேண்டும்: <suggestion><match no="1" regexp_match="கூடாது$" regexp_replace="" /> கூடாது</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=60#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அங்கே <marker>போகக்கூடாது</marker>.</example>
+		<example type='correct'>அங்கே <marker>போகக் கூடாது</marker>.</example>
+	  </rule>
+	<rulegroup id="kuudiya" name="வினையெச்சம் + கூடிய">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்</token>
+			<token>கூடிய</token>
+		</pattern>
+		<message>வினையெச்சத்தின் பின் 'கூடிய' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=60#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நான் அங்கு <marker>வரக் கூடிய</marker> சூழலில்லை.</example>
+		<example type='correct'>நான் அங்கு <marker>வரக்கூடிய</marker> சூழலில்லை.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token>கூடிய</token>
+		</pattern>
+		<message>வினையெச்சத்தின் பின் 'கூடிய' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=60#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நான் அங்கு <marker>வர கூடிய</marker> சூழலில்லை.</example>
+		<example type='correct'>நான் அங்கு <marker>வரக்கூடிய</marker> சூழலில்லை.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="kuudum" name="வினையெச்சம் + கூடும்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)க்<exception regexp='yes'>திரளாகக்|கூட்டமாகக்</exception></token>
+			<token>கூடும்</token>
+		</pattern>
+		<message>'கூடும்' வினைமுற்றாக வரும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் வீட்டில் <marker>இருக்கக் கூடும்</marker>.</example>
+		<example type='correct'>அவர் வீட்டில் <marker>இருக்கக்கூடும்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token postag='VAN'></token>
+			<token regexp='yes'>கூடும[ா்]</token>
+		</pattern>
+		<message>நிகழக்கூடுமெனக் குறிப்பிடும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>ஆற்றில் வெள்ளம் <marker>வர கூடும்</marker>.</example>
+		<example type='correct'>ஆற்றில் வெள்ளம் <marker>வரக்கூடும்</marker>.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="thakka" name="வினையெச்சம் + தக்க">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)த்தக்க<exception>திருத்தக்க</exception></token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'தக்க' பிரித்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="தக்க$" regexp_replace="" /> தக்க</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>போற்றத்தக்க</marker> மனிதர்.</example>
+		<example type='correct'><marker>போற்றத் தக்க</marker> மனிதர்.</example>
+	  </rule>
+	  <rule id="thagaadha" name="வினையெச்சம் + தகாத">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)த்தகாத</token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'தகாத' பிரித்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="தகாத$" regexp_replace="" /> தகாத</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>பேசத்தகாத</marker> சொற்கள்.</example>
+		<example type='correct'><marker>பேசத் தகாத</marker> சொற்கள்.</example>
+	  </rule>
+	  <rule id="thaguntha" name="வினையெச்சம் + தகுந்த">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)த்தகுந்த</token>
+		</pattern>
+		<message>'செ(ய்)ய' போன்ற வினையெச்சத்தின் பின் 'தகுந்த' பிரித்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="தகுந்த$" regexp_replace="" /> தகுந்த</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=62</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>படிக்கத்தகுந்த</marker> நூல்.</example>
+		<example type='correct'><marker>படிக்கத் தகுந்த</marker> நூல்.</example>
+	  </rule>
+	  <rule id="paarkilum" name="சொல் + பார்க்கிலும்">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)ப்பார்க்கிலும்</token>
+		</pattern>
+		<message>ஒப்புப் பொருளைக் குறிக்கும் இச்சொல் தனித்தே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="பார்க்கிலும்$" regexp_replace="" /> பார்க்கிலும்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head2</url>
+		<short>பிரித்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'><marker>வெயிலைப்பார்க்கிலும்</marker> குளிர் தாங்கிக் கொள்ளக்கூடியதே.</example>
+		<example type='correct'><marker>வெயிலைப் பார்க்கிலும்</marker> குளிர் தாங்கிக் கொள்ளக்கூடியதே.</example>
+	  </rule>
+	  <rule id="piRagu" name="பெயரெச்சம் + பிறகு">
+		<pattern>
+			<token postag='RP'></token>
+			<token regexp='yes'>பிறகு(ம[ா்])?</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சம்பின் சேர்த்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head4</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் <marker>போன பிறகு</marker> என்ன செய்தாய்?</example>
+		<example type='correct'>அவர் <marker>போனபிறகு</marker> என்ன செய்தாய்?</example>
+	  </rule>
+	<rulegroup id="piRagu2" name="பெயர் + 'கு' உருபு + பிறகு">
+	  <rule>
+	  	<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)குப்பிறகு</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பிறகு'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="பிறகு$" regexp_replace="" /> பிறகு</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதற்குப்பிறகு</marker> கடிதம் வரவில்லை.</example>
+		<example type='correct'><marker>அதற்குப் பிறகு</marker> கடிதம் வரவில்லை.</example>
+	  </rule>
+	  <rule>
+	  	<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)குபிறகு</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொல்பின் 'பிறகு'  வந்தால் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="பிறகு$" regexp_replace="ப்" /> பிறகு</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=64#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அதற்குபிறகு</marker> கடிதம் வரவில்லை.</example>
+		<example type='correct'><marker>அதற்குப் பிறகு</marker> கடிதம் வரவில்லை.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="pin" name="பெயரெச்சம் + பின்/பின்னர்/பின்பு/பின்னே/பின்னால்">
 		<pattern>
 			<token postag='RP'></token>
 			<token regexp='yes'>பின்|பின்னர்|பின்பு|பின்னே|பின்னால்</token>
 		</pattern>
 		<message>'செய்த' போன்ற பெயரெச்சம்பின் சேர்த்து எழுதுவது சிறப்பு: <suggestion>\1\2</suggestion></message>
 		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=65</url>
-		<short>சேர்த்து எழுத வேண்டும்</short>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
 		<example type='incorrect'>அவருடன் <marker>பேசிய பின்</marker> என்னை அழை.</example>
 		<example type='correct'>அவருடன் <marker>பேசியபின்</marker> என்னை அழை.</example>
 	  </rule>
+	<rulegroup id="pin2" name="பெயர் + உருபு + பின்/பின்னர்/பின்பு/பின்னே/பின்னால்">
 	  <rule>
 		<pattern>
 			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[கற]்குப்பின்</token>
@@ -559,6 +1222,16 @@ USA
 		<short>பிரித்து எழுத வேண்டும்</short>
 		<example type='incorrect'><marker>விடுதலைக்குப்பின்னர்</marker> நடந்த சம்பவங்களை நூலில் காணலாம்.</example>
 		<example type='correct'><marker>விடுதலைக்குப் பின்னர்</marker> நடந்த சம்பவங்களை நூலில் காணலாம்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[கற]்குப்பின்னரே</token>
+		</pattern>
+		<message>வேற்றுமை உருபு, சாரியை ஆகியன பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="ப்பின்னரே$" regexp_replace="ப்" /> பின்னரே</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=65</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>விடுதலைக்குப்பின்னரே</marker> அவனது நிலை அவளுக்குத் தெரியவந்தது.</example>
+		<example type='correct'><marker>விடுதலைக்குப் பின்னரே</marker> அவனது நிலை அவளுக்குத் தெரியவந்தது.</example>
 	  </rule>
   	  <rule>
 		<pattern>
@@ -621,6 +1294,384 @@ USA
 		<example type='incorrect'>ஊருக்கு <marker>வந்தபுதிதில்</marker> இது நடந்தது.</example>
 		<example type='correct'>ஊருக்கு <marker>வந்த புதிதில்</marker> இது நடந்தது.</example>
 	  </rule>
+	  <rule id="poorvamaaka" name="பெயர்ச்சொல் + பூர்வமாக/பூர்வமான">
+		<pattern>
+			<token postag='NNA'></token>
+			<token regexp='yes'>பூர்வமான|பூர்வமாக([கசதப]்)?</token>
+		</pattern>
+		<message>பெயர்ச்சொற்களோடு சேர்த்தே எழுதப்படுகின்றது: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head2</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>அவரது <marker>உணர்வு பூர்வமான</marker> விவாதம் எனக்குப் பிடித்திருந்தது.</example>
+		<example type='correct'>அவரது <marker>உணர்வுபூர்வமான</marker> விவாதம் எனக்குப் பிடித்திருந்தது.</example>
+	  </rule>
+	  <rule id="pothilum" name="பெயரெச்சம் + போதிலும்">
+		<pattern>
+			<token postag='RP'></token>
+			<token>போதிலும்</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சம்பின் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head2</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>அடிபட்ட போதிலும்</marker> அவன் விடவில்லை.</example>
+		<example type='correct'><marker>அடிபட்டபோதிலும்</marker> அவன் விடவில்லை.</example>
+	  </rule>
+	<rulegroup id="pothu" name="பெயரெச்சம்/பெயர்ச்சொல் + போது/பொழுது">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ும்</token>
+			<token regexp='yes'>போது|பொழுது</token>
+		</pattern>
+		<message>பெயரெச்சத்தின் பின் 'போது' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கல்லூரிக்கு <marker>வரும் போது</marker> அவனைப் பார்த்தேன்.</example>
+		<example type='correct'>கல்லூரிக்கு <marker>வரும்போது</marker> அவனைப் பார்த்தேன்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]</token>
+			<token regexp='yes'>போது|பொழுது</token>
+		</pattern>
+		<message>பெயரெச்சத்தின் பின் 'போது' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கீழே <marker>விழுந்த போது</marker> பையில் பணம் இருந்தது.</example>
+		<example type='correct'>கீழே <marker>விழுந்தபோது</marker> பையில் பணம் இருந்தது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ாத</token>
+			<token regexp='yes'>போது|பொழுது</token>
+		</pattern>
+		<message>பெயரெச்சத்தின் பின் 'போது' வந்தால் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நாய் <marker>குலைக்காத போது</marker> வாலை ஆட்டுகிறது.</example>
+		<example type='correct'>நாய் <marker>குலைக்காதபோது</marker> வாலை ஆட்டுகிறது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]ின்</token>
+			<token>போது</token>
+		</pattern>
+		<message>'இன்' ஏற்ற பெயர்ச்சொல்லின் பின் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>தேர்தலின் போது</marker> கலவரம்.</example>
+		<example type='correct'><marker>தேர்தலின்போது</marker> கலவரம்.</example>
+	  </rule>
+	</rulegroup>
+	 <rule id="polum" name="சொல் + போலும்">
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[ா-்]போலும்</token>
+			<token postag="SENT_END">.</token>
+		</pattern>
+		<message>வாக்கியத்தின் முடிவில் வரும்போது தனித்து எழுத வேண்டும்: <suggestion><match no="1" regexp_match="போலும்$" regexp_replace="" /> போலும்\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=67#head2</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அது அவரின் சொந்த <marker>வீடுபோலும்.</marker></example>
+		<example type='correct'>அது அவரின் சொந்த <marker>வீடு போலும்.</marker></example>
+	  </rule>
+	  <rule id="pondRa" name="சொல் + போன்ற">
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*போன்ற</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டு எழுதலாம்: <suggestion><match no="1" regexp_match="போன்ற$" regexp_replace="" /> போன்ற</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=67#head3</url>
+		<short>இடம்விட்டு எழுதுவது நல்லது</short>
+		<example type='incorrect'><marker>அவரைப்போன்ற</marker> கருமி யாரும் இல்லை.</example>
+		<example type='correct'><marker>அவரைப் போன்ற</marker> கருமி யாரும் இல்லை.</example>
+	  </rule>
+	  <rule id="pondRu" name="சொல் + போன்று">
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*போன்று</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டு எழுதலாம்: <suggestion><match no="1" regexp_match="போன்று$" regexp_replace="" /> போன்று</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=67#head4</url>
+		<short>இடம்விட்டு எழுதுவது நல்லது</short>
+		<example type='incorrect'><marker>அவரைப்போன்று</marker> பேசக் கூடியவர் ஒருவரும் இல்லை.</example>
+		<example type='correct'><marker>அவரைப் போன்று</marker> பேசக் கூடியவர் ஒருவரும் இல்லை.</example>
+	  </rule>
+	  <rule id="mattil" name="பெயரெச்சம் + மட்டில்">
+		<pattern>
+<!--			<token postag='RP'></token> - to replace with this after RP has been expanded -->
+			<token>பொறுத்த</token>
+			<token>மட்டில்</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சம்பின் சேர்த்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=66#head2</url>
+		<short>சேர்த்து எழுதலாம்</short>
+		<example type='incorrect'>அவரைப் <marker>பொறுத்த மட்டில்</marker> பிரச்சனை முடிந்தது.</example>
+		<example type='correct'>அவரைப் <marker>பொறுத்தமட்டில்</marker> பிரச்சனை முடிந்தது.</example>
+	  </rule>
+	  <rule id="mattum" name="பெயரெச்சம் + மட்டும்">
+		<pattern>
+			<token postag='RP'></token>
+			<token regexp='yes'>மட்டும்</token>
+		</pattern>
+		<message>செய்த' போன்ற பெயரெச்சத்தின் பின் சேர்ந்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=68#head1</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>இந்தக் கதை <marker>படித்த மட்டும்</marker> அருமை.</example>
+		<example type='correct'>இந்தக் கதை <marker>படித்தமட்டும்</marker> அருமை.</example>
+	  </rule>
+	  <rule id="mayam" name="பெயர் + மயம்/மயமாக">
+		<pattern>
+			<token postag='NNA'></token>
+			<token regexp='yes'>மயம்|மயமாக([கசதப]்)?|மயமாகவே</token>
+		</pattern>
+		<message>பெயர்ச்சொற்களுடன் சேர்த்தே எழுதப்படுகிறது: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=68#head2</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>அவருடைய பேட்டி முழுவதும் <marker>குற்றச்சாட்டு மயமாக</marker> இருந்தது.</example>
+		<example type='correct'>அவருடைய பேட்டி முழுவதும் <marker>குற்றச்சாட்டுமயமாக</marker> இருந்தது.</example>
+	  </rule>
+	  <rule id="maattu" name="வினையெச்சம் + மாட்டு">
+		<pattern>
+			<token postag='VAN'></token>
+			<token regexp='yes'>மாட்ட(ேன்|ோம்|ீர்(கள்)?)|மாட்டா[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*</token>
+		</pattern>
+		<message>'செ(ய்)ய' என்னும் வினையெச்சத்தின் பின் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=68#head3</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>நாளை நான் வேளைக்கு <marker>வர மாட்டேன்</marker>.</example>
+		<example type='correct'>நாளை நான் வேளைக்கு <marker>வரமாட்டேன்</marker>.</example>
+	  </rule>
+	  <rule id="maathiraththil" name="வினையெச்சம் + மாத்திரத்தில்">
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*மாத்திரத்தில்</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சத்தின் பின் தனித்தே எழுதலாம்: <suggestion><match no="1" regexp_match="மாத்திரத்தில்$" regexp_replace="" /> மாத்திரத்தில்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=69#head</url>
+		<short>பிரித்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>வீட்டைப் <marker>பார்த்தமாத்திரத்தில்</marker> பிடித்துவிட்டது.</example>
+		<example type='correct'>வீட்டைப் <marker>பார்த்த மாத்திரத்தில்</marker> பிடித்துவிட்டது.</example>
+	  </rule>
+	  <rule id="mugamaaga" name="பெயரெச்சம் + முகமாக">
+		<pattern>
+			<token postag='RP'></token>
+			<token regexp='yes'>முகமாக([கசதப]்)?</token>
+		</pattern>
+		<message>'செய்த' போன்ற பெயரெச்சங்களின் பின் சேர்த்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=69#head3</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>கப்பலைப் பார்க்க <marker>வந்த முகமாக</marker> இருக்கிறார்கள்.</example>
+		<example type='correct'>கப்பலைப் பார்க்க <marker>வந்தமுகமாக</marker> இருக்கிறார்கள்.</example>
+	  </rule>
+	<rulegroup id="mudiyum" name="வினையெச்சம் + முடியும்/முடியாது">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]முடியும்</token>
+		</pattern>
+		<message>'முடியும்' என்ற வினைமுற்று வடிவம்முன் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முடியும்$" regexp_replace="" /> முடியும்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=69#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>என்னால் ஐந்து மணிக்குள் <marker>வந்துவிடமுடியும்</marker>.</example>
+		<example type='correct'>என்னால் ஐந்து மணிக்குள் <marker>வந்துவிட முடியும்</marker>.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ]முடியாது</token>
+		</pattern>
+		<message>'முடியாது' என்ற வினைமுற்று வடிவம்முன் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முடியாது$" regexp_replace="" /> முடியாது</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=69#head4</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>இதை யாராலும் <marker>தடுக்கமுடியாது</marker>.</example>
+		<example type='correct'>இதை யாராலும் <marker>தடுக்க முடியாது</marker>.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="mun2" name="பெயர் + உருபு + முன்/முன்பு/முன்பே/முன்னே">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*ின்முன்</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொற்களின் பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முன்$" regexp_replace="" /> முன்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=70#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவள் அவனது அழைப்புக்காகத் <marker>தொலைபேசியின்முன்</marker> காத்திருந்தாள்.</example>
+		<example type='correct'>அவள் அவனது அழைப்புக்காகத் <marker>தொலைபேசியின் முன்</marker> காத்திருந்தாள்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*ின்முன்னே</token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொற்களின் பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முன்னே$" regexp_replace="" /> முன்னே</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=70#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவள் அவனது அழைப்புக்காகத் <marker>தொலைபேசியின்முன்னே</marker> காத்திருந்தாள்.</example>
+		<example type='correct'>அவள் அவனது அழைப்புக்காகத் <marker>தொலைபேசியின் முன்னே</marker> காத்திருந்தாள்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*ற்குமுன்<exception>ஏற்குமுன்</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொற்களின் பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முன்$" regexp_replace="" /> முன்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=70#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கோயிலுக்குள் <marker>நுழைவதற்குமுன்</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+		<example type='correct'>கோயிலுக்குள் <marker>நுழைவதற்கு முன்</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*ற்குமுன்பு<exception>ஏற்குமுன்பு</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொற்களின் பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முன்பு$" regexp_replace="" /> முன்பு</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=70#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கோயிலுக்குள் <marker>நுழைவதற்குமுன்பு</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+		<example type='correct'>கோயிலுக்குள் <marker>நுழைவதற்கு முன்பு</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*ற்குமுன்பே<exception>ஏற்குமுன்பே</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொற்களின் பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முன்பே$" regexp_replace="" /> முன்பே</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=70#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கோயிலுக்குள் <marker>நுழைவதற்குமுன்பே</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+		<example type='correct'>கோயிலுக்குள் <marker>நுழைவதற்கு முன்பே</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>[ஃ-ஹ]([ா-்]?[ஃ-ஹ]?)*ற்குமுன்னே<exception>ஏற்குமுன்னே</exception></token>
+		</pattern>
+		<message>வேற்றுமை உருபு ஏற்ற சொற்களின் பின் இடம்விட வேண்டும்: <suggestion><match no="1" regexp_match="முன்னே$" regexp_replace="" /> முன்னே</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=70#head2</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>கோயிலுக்குள் <marker>நுழைவதற்குமுன்னே</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+		<example type='correct'>கோயிலுக்குள் <marker>நுழைவதற்கு முன்னே</marker> காலைக் கழுவிக்கொள்ளுங்கள்.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="vannam" name="பெயரெச்சம் + வண்ணம்">
+		<pattern>
+			<token postag='RP|RPN' postag_regexp='yes'></token>
+			<token>வண்ணம்</token>
+		</pattern>
+		<message>பெயரெச்சத்தின் பின் இதைச் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=71#head4</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>வாழ்த்துத் தந்திகள் <marker>வந்த வண்ணம்</marker> இருக்கின்றன.</example>
+		<example type='correct'>வாழ்த்துத் தந்திகள் <marker>வந்தவண்ணம்</marker> இருக்கின்றன.</example>
+	  </rule>
+	  <rule id="varai" name="பெயரெச்சம் + வரை/வரைக்கும்/வரையில்">
+		<pattern>
+			<token postag='RP|RPN|NNA|NNU|NNUM|NNUF|NNSA|NNSU|NNSUM|NNSUF|NNSUP|NNPA' postag_regexp='yes'></token>
+			<token regexp='yes'>வரை|வரைக்கும்|வரையில்</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களோடும் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>காலைமுதல் <marker>மாலை வரை</marker> கோயிலில் பூஜை.</example>
+		<example type='correct'>காலைமுதல் <marker>மாலைவரை</marker> கோயிலில் பூஜை.</example>
+	  </rule>
+	<rulegroup id="valadhu" name="இடது/வலது + சொல்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>இடது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
+		</pattern>
+		<message>'இடது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>இடது <match no="1" regexp_match="^இடது" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=49#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>இடதுபுறம்</marker> பார்.</example>
+		<example type='correct'><marker>இடது புறம்</marker> பார்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>வலது(([ஃ-ஹ][ா-்]?)*)([க-வ]?[ா-்])</token>
+		</pattern>
+		<message>'வலது' சொல்லைத் தனித்து எழுத வேண்டும்: <suggestion>வலது <match no="1" regexp_match="^வலது" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head1</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வலதுபுறம்</marker> பார்.</example>
+		<example type='correct'><marker>வலது புறம்</marker> பார்.</example>
+	  </rule>
+	</rulegroup>
+	<rulegroup id="vazhiyaaka" name="பெயர்ச்சொல் + வழியாக">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாக<exception regexp='yes'>[அஇஎ]வ்வழியாக</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாக$" regexp_replace="" /> வழியாக</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர்கள் <marker>கடல்வழியாக</marker> இந்நாட்டிற்கு வந்தனர்.</example>
+		<example type='correct'>அவர்கள் <marker>கடல் வழியாக</marker> இந்நாட்டிற்கு வந்தனர்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகக்<exception regexp='yes'>[அஇஎ]வ்வழியாகக்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகக்$" regexp_replace="" /> வழியாகக்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>வாய்வழியாகக்</marker> காற்று வெளியேறியது.</example>
+		<example type='correct'><marker>வாய் வழியாகக்</marker> காற்று வெளியேறியது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகச்<exception regexp='yes'>[அஇஎ]வ்வழியாகச்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகச்$" regexp_replace="" /> வழியாகச்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவர் நாடுகளைக் <marker>கடல்வழியாகச்</marker> சுற்றிவந்தார்.</example>
+		<example type='correct'>அவர் நாடுகளைக் <marker>கடல் வழியாகச்</marker> சுற்றிவந்தார்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகத்<exception regexp='yes'>[அஇஎ]வ்வழியாகத்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகத்$" regexp_replace="" /> வழியாகத்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அவ்வேறுபாடு <marker>மரபுவழியாகத்</marker> தொடர்கிறது.</example>
+		<example type='correct'>அவ்வேறுபாடு <marker>மரபு வழியாகத்</marker> தொடர்கிறது.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>(([ஃ-ஹ][ா-்]?)*)[க-வ][ா-்]?வழியாகப்<exception regexp='yes'>[அஇஎ]வ்வழியாகப்</exception></token>
+		</pattern>
+		<message>'வழியாக' எல்லா வகைச் சொற்களின் பின்னும் இடம்விட்டே எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="வழியாகப்$" regexp_replace="" /> வழியாகப்</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head3</url>
+		<short>பிரித்து எழுத வேண்டும்</short>
+		<example type='incorrect'><marker>ஜன்னல்வழியாகப்</marker> பார்.</example>
+		<example type='correct'><marker>ஜன்னல் வழியாகப்</marker> பார்.</example>
+	  </rule>
+	</rulegroup>
+	  <rule id="vaakkil" name="சொல் + வாக்கில்">
+		<pattern>
+			<token regexp='yes'>(([க-ஹ][ா-்]?)*)</token>
+			<token>வாக்கில்</token>
+		</pattern>
+		<message>எல்லா வகைச் சொற்களோடும் சேர்த்தே எழுதலாம்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head4</url>
+		<short>சேர்த்து எழுதலாம்</short>
+		<example type='incorrect'><marker>நீள வாக்கில்</marker> மடி.</example>
+		<example type='correct'><marker>நீளவாக்கில்</marker> மடி.</example>
+	  </rule>
+	  <rule id="vida" name="சொல் + விட">
+		<pattern>
+			<token postag='.*-S|SV' postag_regexp='yes'></token>
+			<token regexp='yes'>விட([கசதப]்)?</token>
+		</pattern>
+		<message>ஒப்புப் பொருளில் சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=72#head4</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>அசுரகளின் ஆற்றல் மனிதர்களின் <marker>ஆற்றலை விட</marker> அதிகம்.</example>
+		<example type='correct'>அசுரகளின் ஆற்றல் மனிதர்களின் <marker>ஆற்றலைவிட</marker> அதிகம்.</example>
+	  </rule>
+	<rule id="vegu" name="வெகு + சொல்">
+		<pattern>
+			<token>வெகு</token>
+			<token regexp='yes'>(([க-ஹ][ா-்]?)*)</token>
+		</pattern>
+		<message>'வெகு'வை அடுத்து வரும் சொல்லோடு சேர்த்து எழுத வேண்டும்: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head1</url>
+		<short>சேர்த்து எழுத வேண்டும்</short>
+		<example type='incorrect'>காந்தாரி <marker>வெகு காலம்</marker> கர்ப்பமாக இருந்தாள்.</example>
+		<example type='correct'>காந்தாரி <marker>வெகுகாலம்</marker> கர்ப்பமாக இருந்தாள்.</example>
+	  </rule>
 	<rulegroup id="vENdum" name="வினையெச்சம் + வேண்டும்/வேண்டாம்">
 	  <rule>
 		<pattern>
@@ -653,17 +1704,41 @@ USA
 		<example type='correct'>நீ இன்று <marker>வர வேண்டாம்</marker>!</example>
 	  </rule>
 	</rulegroup>
-	  <rule id="kuudum" name="வினையெச்சம் + கூடும்">
+	<rulegroup id="vERu" name="வேறு + ஒரு/ஒருவர்/பல/சில/இடம்">
+	  <rule>
 		<pattern>
-			<token postag='VAN' regexp='yes'></token>
-			<token regexp='yes'>கூடும[ா்]</token>
+			<token>வேறு</token>
+			<token regexp='yes'>ஒரு|ஒருவர்</token>
 		</pattern>
-		<message>நிகழக்கூடுமெனக் குறிப்பிடும்போது சேர்த்து எழுத வேண்டும்: <suggestion>\1க்\2</suggestion></message>
-		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=61#head</url>
-		<short>சேர்த்து எழுத வேண்டும்</short>
-		<example type='incorrect'>ஆற்றில் வெள்ளம் <marker>வர கூடும்</marker>.</example>
-		<example type='correct'>ஆற்றில் வெள்ளம் <marker>வரக்கூடும்</marker>.</example>
+		<message>'வேறு' அடுத்து வரும் ஒரு, ஒருவர் சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ொ" /><match no="2" regexp_match="^ஒ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'><marker>வேறு ஒரு</marker> பக்கத்தில் பார்.</example>
+		<example type='correct'><marker>வேறொரு</marker> பக்கத்தில் பார்.</example>
 	  </rule>
+	  <rule>
+		<pattern>
+			<token>வேறு</token>
+			<token regexp='yes'>பல|சில</token>
+		</pattern>
+		<message>'வேறு' அடுத்து வரும் 'சில', 'பல' சேர்த்து எழுதப்படுகிறது: <suggestion>\1\2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>இவை <marker>வேறு சில</marker> இடங்களிலும் பொருந்தும்.</example>
+		<example type='correct'>இவை <marker>வேறுசில</marker> இடங்களிலும் பொருந்தும்.</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token>வேறு</token>
+			<token>இடம்</token>
+		</pattern>
+		<message>'வேறு' அடுத்து வரும் 'இடம்' சேர்த்து எழுதப்படுகிறது: <suggestion><match no="1" regexp_match="ு$" regexp_replace="ி" /><match no="2" regexp_match="^இ" regexp_replace="" /></suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=73#head3</url>
+		<short>சேர்த்து எழுதுவது சிறப்பு</short>
+		<example type='incorrect'>அவர்கள் <marker>வேறு இடம்</marker> சென்றனர்.</example>
+		<example type='correct'>அவர்கள் <marker>வேறிடம்</marker> சென்றனர்.</example>
+	  </rule>
+	</rulegroup>
 	</category>
 	<!-- ====================================================================== -->
 	<!-- ஒற்று மிகுதலும் மிகாமையும் -->
@@ -764,7 +1839,7 @@ USA
 	<rulegroup id="Ends_in_A_3" name="முதல் சொல்லின் இறுதி எழுத்து அ (3)">
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -775,7 +1850,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -786,7 +1861,7 @@ USA
         </rule>
        <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -797,7 +1872,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன</token>
+                <token regexp='yes'>சரிவர|கூட|மிக|விட|(([ஃ-ஹ][ா-்]?)*)?போல|((([ஃ-ஹ][ா-்]?)*)ெ|எ)ன|ஏற்ப</token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'சரிவர', 'போல' போன்ற வினையடைகளின், இடைச்சொற்களின் பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -889,7 +1964,7 @@ USA
 	  </rule>
 	</rulegroup>
 
-	<!--	<rulegroup id="Ends_in_A_6" name="முதல் சொல்லின் இறுதி எழுத்து அ (6)">
+<!--	<rulegroup id="Ends_in_A_6" name="முதல் சொல்லின் இறுதி எழுத்து அ (6)">
 		<rule id="ENDS_A6_KA" name="இறுதி எழுத்து அ6_க">
             <pattern>
                 <marker><token postag='ADJ|RP|RPN' postag_regexp='yes' regexp='yes'>.*க்</token></marker>
@@ -906,7 +1981,7 @@ USA
 	<rulegroup id="Ends_in_Aa_1" name="எதிர்மறை பெயரெச்சம் + பெயர்">
         <rule>
             <pattern>
-                <token postag='RPNN'><exception regexp='yes'>அப்பா|விழா</exception></token>
+                <token postag='RPNN'><exception negate_pos='yes' postag='RPNN'></exception></token> <!-- 'அப்பா', 'விழா' ஆகியன தவிர்க்கப்படும் -->
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -917,7 +1992,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='RPNN'><exception regexp='yes'>அப்பா|விழா</exception></token>
+                <token postag='RPNN'><exception negate_pos='yes' postag='RPNN'></exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -928,7 +2003,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='RPNN'><exception regexp='yes'>அப்பா|விழா</exception></token>
+                <token postag='RPNN'><exception negate_pos='yes' postag='RPNN'></exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -939,7 +2014,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='RPNN'><exception regexp='yes'>அப்பா|விழா</exception></token>
+                <token postag='RPNN'><exception negate_pos='yes' postag='RPNN'></exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>ஈறுகெட்ட எதிர்மறை பெயரெச்சம்பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -1044,7 +2119,7 @@ USA
 	<rulegroup id="Ends_in_IU_1" name="முதல் சொல்லின் இறுதி எழுத்து இ அல்லது உ (1)">
         <rule>
             <pattern>
-                <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+                <token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'ஓடி' போன்ற ('செய்து' என்னும்) வினையெச்சத்தின் பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -1055,7 +2130,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+                <token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'ஓடி' போன்ற ('செய்து' என்னும்) வினையெச்சத்தின் பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1066,7 +2141,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+                <token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'ஓடி' போன்ற ('செய்து' என்னும்) வினையெச்சத்தின் பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1077,7 +2152,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='VP'><exception postag='VP' regexp="yes">.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
+                <token postag='VP'><exception postag='VP' regexp='yes'>.*ண்டு|.*ந்து|.*ய்து|.*ன்று</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>'ஓடி' போன்ற ('செய்து' என்னும்) வினையெச்சத்தின் பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -1087,11 +2162,103 @@ USA
             <example type='correct'>நோய்களே <marker>ஓடிப் போ</marker>!</example>
         </rule>
     </rulegroup>
-
+	<rulegroup id="Ends_in_U" name="'உ'வில் முடியும் பெயர்ச்சொல் + பெயர்ச்சொல்">
+        <rule>
+            <pattern>
+                <token postag='NNA|NNU' postag_regexp='yes' regexp='yes'>.*(கு|சு|டு|ணு|து|பு|று|ரு|ழு|வு)<exception postag='NNA|NNU' postag_regexp='yes' regexp='yes'>([ஆஈஊஏஓ]|.*[ாீூேோ])[டற]ு</exception></token>
+                <token postag='NN.*|SV|FV' postag_regexp='yes' regexp='yes'>க.*</token>
+            </pattern>
+            <message>பெயர்ச்சொற்கள் கூட்டுச்சொற்களாக வரும்போது ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=82</url>
+            <short>ஒற்றுப் பிழை</short>
+            <example type='incorrect'>நேற்று அவன் <marker>மருந்து கடைக்கு</marker> வந்தான்.</example>
+            <example type='correct'>நேற்று அவன் <marker>மருந்துக் கடைக்கு</marker> வந்தான்.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag='NNA|NNU' postag_regexp='yes' regexp='yes'>.*(கு|சு|டு|ணு|து|பு|று|ரு|ழு|வு)<exception postag='NNA|NNU' postag_regexp='yes' regexp='yes'>([ஆஈஊஏஓ]|.*[ாீூேோ])[டற]ு</exception></token>
+                <token postag='NN.*|SV|FV' postag_regexp='yes' regexp='yes'>ச.*</token>
+            </pattern>
+            <message>பெயர்ச்சொற்கள் கூட்டுச்சொற்களாக வரும்போது ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=82</url>
+            <short>ஒற்றுப் பிழை</short>
+            <example type='incorrect'><marker>சொத்து சண்டை</marker> என்றாலே சிக்கல்தான்.</example>
+            <example type='correct'><marker>சொத்துச் சண்டை</marker> என்றாலே சிக்கல்தான்.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag='NNA|NNU' postag_regexp='yes' regexp='yes'>.*(கு|சு|டு|ணு|து|பு|று|ரு|ழு|வு)<exception postag='NNA|NNU' postag_regexp='yes' regexp='yes'>([ஆஈஊஏஓ]|.*[ாீூேோ])[டற]ு</exception></token>
+                <token postag='NN.*|SV|FV' postag_regexp='yes' regexp='yes'>த.*</token>
+            </pattern>
+            <message>பெயர்ச்சொற்கள் கூட்டுச்சொற்களாக வரும்போது ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=82</url>
+            <short>ஒற்றுப் பிழை</short>
+            <example type='incorrect'>இதற்கு ஒரு <marker>தரவு தளம்</marker> தேவை.</example>
+            <example type='correct'>இதற்கு ஒரு <marker>தரவுத் தளம்</marker> தேவை.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag='NNA|NNU' postag_regexp='yes' regexp='yes'>.*(கு|சு|டு|ணு|து|பு|று|ரு|ழு|வு)<exception postag='NNA|NNU' postag_regexp='yes' regexp='yes'>([ஆஈஊஏஓ]|.*[ாீூேோ])[டற]ு</exception></token>
+                <token postag='NN.*|SV|FV' postag_regexp='yes' regexp='yes'>ப.*</token>
+            </pattern>
+            <message>பெயர்ச்சொற்கள் கூட்டுச்சொற்களாக வரும்போது ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
+            <url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=82</url>
+            <short>ஒற்றுப் பிழை</short>
+            <example type='incorrect'>அந்த <marker>மருந்து பையை</marker> இங்கு கொண்டுவா.</example>
+            <example type='correct'>அந்த <marker>மருந்துப் பையை</marker> இங்கு கொண்டுவா.</example>
+        </rule>
+	</rulegroup>
+	<rulegroup id="angu_ingu_engu" name="அங்கு/இங்கு/எங்கு + பெயர்">
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அங்கு|இங்கு|எங்கு</token>
+			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகலாம்: <suggestion>\1க் \2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=83</url>
+		<short>ஒற்று மிகலாம்</short>
+		<example type='incorrect'>அவரை <marker>அங்கு கண்டாயா</marker>?</example>
+		<example type='correct'>அவரை <marker>அங்குக் கண்டாயா</marker>?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அங்கு|இங்கு|எங்கு</token>
+			<token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகலாம்: <suggestion>\1ச் \2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=83</url>
+		<short>ஒற்று மிகலாம்</short>
+		<example type='incorrect'>அவரை <marker>அங்கு சந்தித்தாயா</marker>?</example>
+		<example type='correct'>அவரை <marker>அங்குச் சந்தித்தாயா</marker>?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அங்கு|இங்கு|எங்கு</token>
+			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகலாம்: <suggestion>\1த் \2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=83</url>
+		<short>ஒற்று மிகலாம்</short>
+		<example type='incorrect'>அவரை <marker>அங்கு தோன்றினாரா</marker>?</example>
+		<example type='correct'>அவரை <marker>அங்குத் தோன்றினாரா</marker>?</example>
+	  </rule>
+	  <rule>
+		<pattern>
+			<token regexp='yes'>அங்கு|இங்கு|எங்கு</token>
+			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
+		</pattern>
+		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகலாம்: <suggestion>\1ப் \2</suggestion></message>
+		<url>http://www.tamilvu.org/slet/lA100/lA100pd3.jsp?bookid=169&amp;pno=83</url>
+		<short>ஒற்று மிகலாம்</short>
+		<example type='incorrect'>அவரை <marker>அங்கு பார்த்தாயா</marker>?</example>
+		<example type='correct'>அவரை <marker>அங்குப் பார்த்தாயா</marker>?</example>
+	  </rule>
+	</rulegroup>
+	
 <!--    <rulegroup id="Ends_in_U" name="முதல் சொல்லின் இறுதி எழுத்து அ (1)">
 	  <rule>
 		<pattern>
-			<token regexp='yes'>அப்படி|இப்படி|எப்படி|அங்கு|இங்கு|எங்கு|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
+			<token regexp='yes'>அப்படி|இப்படி|எப்படி|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
 			<token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -1102,7 +2269,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>அப்படி|இப்படி|எப்படி|அங்கு|இங்கு|எங்கு|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
+			<token regexp='yes'>அப்படி|இப்படி|எப்படி|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
 			<token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1113,7 +2280,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>அப்படி|இப்படி|எப்படி|அங்கு|இங்கு|எங்கு|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
+			<token regexp='yes'>அப்படி|இப்படி|எப்படி|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
 			<token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1124,7 +2291,7 @@ USA
 	  </rule>
 	  <rule>
 		<pattern>
-			<token regexp='yes'>அப்படி|இப்படி|எப்படி|அங்கு|இங்கு|எங்கு|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
+			<token regexp='yes'>அப்படி|இப்படி|எப்படி|யாங்கு|யாண்டு|ஈண்டு|அத்துணை|இத்துணை|எத்துணை|அனைத்து</token>
 			<token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
 		</pattern>
 		<message>'அந்த', 'இந்த', 'எந்த' பின்பு ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -1138,7 +2305,7 @@ USA
 	<rulegroup id="Ends_in_Ai_1" name="2 ஆம் வேற்றுமை உருபு (ஓருமை)">
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception negate_pos='yes' postag='SV'></exception></token> <!-- 'ஆணை', 'வித்தை' விடப்பட்டுள்ளது -->
                 <token regexp='yes'>க[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1க் \2</suggestion></message>
@@ -1149,7 +2316,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception negate_pos='yes' postag='SV'></exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1160,7 +2327,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception negate_pos='yes' postag='SV'></exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1171,7 +2338,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='SV'><exception>ஆணை</exception></token>
+                <token postag='SV'><exception negate_pos='yes' postag='SV'></exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -1195,7 +2362,7 @@ USA
         </rule>
 		<rule>
             <pattern>
-                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
+                <token postag='.*-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1206,7 +2373,7 @@ USA
         </rule>
 		<rule>
             <pattern>
-                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
+                <token postag='.*-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1217,7 +2384,7 @@ USA
         </rule>
 		<rule>
             <pattern>
-                <token postag='NNSA-S|NNSU-S|NNSUF-S|NNSUM-S|NNSUP-S|NNPUM-S|NNPUF-S|NNPU-S|NNPA-S|NNSPU-S|NNSPA-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
+                <token postag='.*-S' postag_regexp='yes'><exception>உள்ளவரை</exception></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>2 ஆம் வேற்றுமை உருபாகிய 'ஐ' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
@@ -1287,7 +2454,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
+                <token postag='.*-F' postag_regexp='yes'></token>
                 <token regexp='yes'>ச[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>4 ஆம் வேற்றுமை உருபாகிய 'கு' பின் ஒற்று மிகும்: <suggestion>\1ச் \2</suggestion></message>
@@ -1298,7 +2465,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
+                <token postag='.*-F' postag_regexp='yes'></token>
                 <token regexp='yes'>த[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>4 ஆம் வேற்றுமை உருபாகிய 'கு' பின் ஒற்று மிகும்: <suggestion>\1த் \2</suggestion></message>
@@ -1309,7 +2476,7 @@ USA
         </rule>
         <rule>
             <pattern>
-                <token postag='NNSA-F|NNSU-F|NNSUF-F|NNSUM-F|NNSUP-F|NNPUM-F|NNPUF-F|NNPU-F|NNPA-F|NNSPU-F|NNSPA-F' postag_regexp='yes'></token>
+                <token postag='.*-F' postag_regexp='yes'></token>
                 <token regexp='yes'>ப[ா-ௌ]?(([க-ஹ][ா-்]?)*)?</token>
             </pattern>
             <message>4 ஆம் வேற்றுமை உருபாகிய 'கு' பின் ஒற்று மிகும்: <suggestion>\1ப் \2</suggestion></message>
