@@ -212,7 +212,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     final int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
 
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
-    boolean filtered = false;
     final DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
 
     final AnalyzedToken[] newTokenReadings = rule.getNewTokenReadings();
@@ -349,12 +348,11 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
         whTokens[fromPos] = matchState.filterReadings();
         annotateChange(whTokens[fromPos], prevValue, prevAnot);
-        filtered = true;
+        break;
       }
       //fallthrough
     case REPLACE:
     default:
-      if (!filtered) {
         if (newTokenReadings != null && newTokenReadings.length > 0) {
           if (newTokenReadings.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
             for (int i = 0; i < newTokenReadings.length; i++) {
@@ -406,7 +404,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
 
-    }
     return whTokens;
   }
 
