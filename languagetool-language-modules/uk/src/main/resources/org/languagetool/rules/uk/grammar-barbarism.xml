@@ -97,6 +97,7 @@ $Id$
          <example type="incorrect">Рід <marker>уявляє з себе</marker> справді щось стале</example>
          <example type="correct">Рід є справді щось стале</example>
        </rule>
+
        <rule>
          <pattern>
            <token>нема</token>
@@ -125,6 +126,18 @@ $Id$
          <example type="incorrect">Збори скликаються <marker>в міру необхідності</marker></example>
          <example type="correct">збори скликаються за потреби</example>
        </rule>
+       <rule>
+         <pattern>
+           <token inflected="yes">гострий</token>
+           <marker>
+           <token inflected="yes">необхідність</token>
+           </marker>
+          </pattern>
+         <message>Правильно: <suggestion>потреба</suggestion>.</message>
+         <example type="incorrect">за гострої <marker>необхідності</marker></example>
+         <example type="correct">за гострої потреби</example>
+       </rule>
+
        <rule>
          <pattern>
             <token inflected="yes">річ</token>
@@ -2368,6 +2381,33 @@ $Id$
            <message>Правильно: <suggestion>напхом напхатися</suggestion>, <suggestion>напхом найти (налізти)</suggestion>, <suggestion>натовпитися</suggestion></message>
            <example type="incorrect">поїзд <marker>битком набився</marker></example>
            <example type="correct">поїзд напхом напхано</example>
+       </rule>   
+
+       <rule>   
+           <pattern>
+             <marker>
+               <token inflected="yes">металічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">конструкція|опалубка|руда|сітка|спіраль|стружка|термопара|гроші|відходи|порошок|покрив|виробництво|підшипник</token>
+           </pattern>
+           <message>Правильно: <suggestion>металевий</suggestion></message>
+           <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
+           <example type="incorrect"><marker>металічної</marker> руди</example>
+           <example type="correct">металевої руди</example>
+           <example type="correct">металічного присмаку</example>
+       </rule>   
+       <rule>   
+           <pattern>
+             <marker>
+               <token inflected="yes">металевий</token>
+             </marker>
+               <token inflected="yes" regexp="yes">провідність|зв'язок|блиск|водень|кристал|присмак</token>
+           </pattern>
+           <message>Правильно: <suggestion>металічний</suggestion></message>
+           <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
+           <example type="incorrect"><marker>металевого</marker> блиску</example>
+           <example type="correct">металічного блиску</example>
+           <example type="correct">металевої руди</example>
        </rule>   
     </rulegroup>
 

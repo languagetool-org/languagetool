@@ -102,7 +102,7 @@ public class TokenAgreementRule extends Rule {
 
       //TODO: skip conj напр. «бодай»
 
-      if (posTag == null || posTag.equals(IPOSTag.todo.getText()) || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
+      if (posTag == null || posTag.contains(IPOSTag.todo.getText()) || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
         reqTokenReadings = null;
         continue;
       }
@@ -237,7 +237,7 @@ public class TokenAgreementRule extends Rule {
 
   private boolean isTokenToSkip(AnalyzedTokenReadings tokenReadings) {
     for(AnalyzedToken token: tokenReadings) {
-      if( IPOSTag.adv.match(token.getPOSTag()) || IPOSTag.insert_sl.match(token.getPOSTag()) )
+      if( IPOSTag.adv.match(token.getPOSTag()) || IPOSTag.insert.match(token.getPOSTag()) )
         return true;
     }
     return false;

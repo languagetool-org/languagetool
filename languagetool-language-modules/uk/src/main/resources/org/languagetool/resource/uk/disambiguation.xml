@@ -31,6 +31,29 @@
         <example type="untouched">великий вибух</example>
     </rule>
 
+    <rule name="Вставні слова виділяються комами" id="INSERTS">
+        <pattern>
+            <token><exception>,</exception><exception postag="SENT_START"/></token>
+            <marker>
+            <and>
+              <token postag_regexp="yes" postag="verb.*"/>
+              <token postag_regexp="yes" postag="insert"/>
+            </and>
+            </marker>
+            <!--
+            <token><exception>,</exception><exception postag="SENT_END"/></token>
+            -->
+        </pattern>
+        <disambig><match no="1" postag="verb.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="бачиш[бачити/verb:pres:s:2:imperf:intran:tran,бачиш/insert]" 
+            outputform="бачиш[бачити/verb:pres:s:2:imperf:intran:tran]">по <marker>бачиш</marker> його</example>
+        <example type="ambiguous" 
+            inputform="сподіваюся[сподіватися/verb:rev:pres:s:1:imperf,сподіваюся/insert]" 
+            outputform="сподіваюся[сподіватися/verb:rev:pres:s:1:imperf]">тому варто <marker>сподіваюся</marker>, що так буде</example>
+        <example type="untouched">велике, бачиш, цабе</example>
+    </rule>
+
 <!--
     <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="PREP_ADV_BEFORE_VERB">
         <pattern>

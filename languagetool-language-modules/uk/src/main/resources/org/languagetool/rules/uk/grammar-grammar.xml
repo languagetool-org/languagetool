@@ -35,6 +35,7 @@ $Id$
                         <exception>крім</exception>
                         <exception>замість</exception>
                         <exception>задля</exception>
+                        <exception>заради</exception>
                     </token>
                     <token postag_regexp="yes" postag="verb.*">
                         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
@@ -51,12 +52,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="prysudk_sl.*">
-                        <exception negate_pos="yes" postag_regexp="yes" postag="prysudk_sl.*" />
+                    <token postag_regexp="yes" postag="predic.*">
+                        <exception negate_pos="yes" postag_regexp="yes" postag="predic.*" />
                     </token>
                     <marker>
                     <token postag_regexp="yes" postag="verb.*">
-                        <exception postag_regexp="yes" postag="verb:(rev:)?inf.*"/>
+                        <exception postag_regexp="yes" postag="verb:(rev:)?inf.*|.*unknown.*"/>
                         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
                         <exception regexp="yes">буде|було|був</exception>
                     </token>
@@ -70,6 +71,7 @@ $Id$
                 <example type="correct">Треба буде таке писати</example>
                 <example type="incorrect">Повинен <marker>писатиме</marker>.</example>
                 <example type="incorrect">Треба <marker>писав</marker>.</example>
+                <example type="incorrect">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
             </rule>
         </rulegroup>
 
@@ -167,7 +169,7 @@ $Id$
                         <!--
                         <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
                             <exception scope="previous">хвилин за</exception>
-                            <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|prysudk_sl.*"/>
+                            <exception postag_regexp="yes" postag="noun:p:v_rod.*|verb.*|predic.*"/>
                             <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ].*</exception>
                             <exception regexp="yes">раз|чоловік|грам|тис|куб|як|абзац|клас|канал|номер|плюс|поверх|пункт</exception>
                         </token>
@@ -227,7 +229,7 @@ $Id$
                 <pattern>
                     <token postag_regexp="yes" postag="(noun|pron).*v_zna.*"/>
                     <marker>
-                    <token postag="impers"/>
+                    <token postag_regexp="yes" postag="impers.*"/>
                     <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*">
                       <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;adv&gt;"/>
@@ -257,8 +259,8 @@ $Id$
                     <marker>
                     <token postag_regexp="yes" postag="verb:rev.*"><exception inflected="yes" regexp="yes">виявитися|видаватися|залишатися|оставатися|вважатися</exception></token>
                     <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
-                    <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
-                    <- TODO: особа-діяч може бути не лише :ist
+                    <token postag_regexp="yes" postag="noun.*v_oru.*:pers.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
+                    <- TODO: особа-діяч може бути не лише :pers
                     <token postag_regexp="yes" postag="noun.*v_oru.*"/>
                     ->
                     </marker>
