@@ -32,8 +32,9 @@ public class ConfusionSetLoaderTest {
   @Test
   public void test() throws IOException {
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb.txt");
+    InputStream infoStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophonedb-info.txt");
     ConfusionSetLoader loader = new ConfusionSetLoader();
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = loader.loadConfusionSet(inputStream);
+    Map<String,ConfusionProbabilityRule.ConfusionSet> map = loader.loadConfusionSet(inputStream, infoStream);
     assertTrue(map.size() > 10);
   }
 }

@@ -19,8 +19,7 @@
 package org.languagetool.rules;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Loads a confusion set from a plain text file (UTF-8). Expects a file
@@ -29,12 +28,49 @@ import java.util.Map;
  */
 public class ConfusionSetLoader {
 
-  public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream inputStream) throws IOException {
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = new HashMap<>();
+  private static final int MIN_SENTENCES = 100;
+  private static final float MAX_ERROR_RATE = 1.0f;
+  private static final String CHARSET = "utf-8";
+
+  public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream, InputStream infoStream) throws IOException {
+    Set<String> usefulHomophones = null;
+    if (infoStream != null) {
+      usefulHomophones = getUsefulHomophones(infoStream);
+    }
+    return getStringConfusionMap(stream, usefulHomophones);
+  }
+
+  private Set<String> getUsefulHomophones(InputStream infoStream) throws IOException {
+    Set<String> result = new HashSet<>();
     try (
-      InputStreamReader reader = new InputStreamReader(inputStream, "utf-8");
+      InputStreamReader reader = new InputStreamReader(infoStream, CHARSET);
       BufferedReader br = new BufferedReader(reader)
     ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.startsWith("#") || line.isEmpty()) {
+          continue;
+        }
+        String[] parts = line.split(";");
+        String word = parts[0];
+        int sentences = Integer.parseInt(parts[1]);
+        float errorRate = Float.parseFloat(parts[3]);
+        if (sentences >= MIN_SENTENCES && errorRate <= MAX_ERROR_RATE) {
+          result.add(word);
+        }
+      }
+    }
+    return result;
+  }
+
+  private Map<String, ConfusionProbabilityRule.ConfusionSet> getStringConfusionMap(InputStream stream, Set<String> usefulHomophones) throws IOException {
+    Map<String,ConfusionProbabilityRule.ConfusionSet> map = new HashMap<>();
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, CHARSET);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      int setsAvailable = 0;
+      int setsLoaded = 0;
       String line;
       while ((line = br.readLine()) != null) {
         if (line.startsWith("#")) {
@@ -42,10 +78,16 @@ public class ConfusionSetLoader {
         }
         String[] words = line.split(",\\s*");
         ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet(words);
-        for (String word : words) {
-          map.put(word, confusionSet);
+        boolean allHomonymsAreUseful = usefulHomophones != null && usefulHomophones.containsAll(Arrays.asList(words));
+        if (allHomonymsAreUseful) {
+          for (String word : words) {
+            map.put(word, confusionSet);
+          }
+          setsLoaded++;
         }
+        setsAvailable++;
       }
+      //System.out.println(setsLoaded + " of " + setsAvailable + " homophone sets loaded");
     }
     return map;
   }

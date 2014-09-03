@@ -45,6 +45,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   // corpus, but setting e.g. 5.0 improves precision for Wikipedia texts):
   private static final double TEXT_SCORE_ADVANTAGE = 0.0;
   private static final String HOMOPHONES = "homophonedb.txt";
+  private static final String HOMOPHONES_INFO = "homophonedb-info.txt";
   
   private final Map<String,ConfusionSet> wordToSet;
   private final LanguageModel languageModel;
@@ -52,8 +53,9 @@ public abstract class ConfusionProbabilityRule extends Rule {
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     super(messages);
     ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
-    this.wordToSet = confusionSetLoader.loadConfusionSet(inputStream);
+    InputStream homophonesStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
+    InputStream homophonesInfoStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES_INFO);
+    this.wordToSet = confusionSetLoader.loadConfusionSet(homophonesStream, homophonesInfoStream);
     this.languageModel = languageModel;
   }
 
