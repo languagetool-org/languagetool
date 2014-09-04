@@ -493,7 +493,8 @@ class Main {
     String languageHint = null;
     if (options.getLanguage() == null) {
       if (!options.isApiFormat() && !options.isAutoDetect()) {
-        System.err.println("No language specified, using English");
+        System.err.println("No language specified, using English (no spell checking active, " +
+                "specify a language variant like 'en-GB' if available)");
       }
       options.setLanguage(new English());
     } else if (!options.isApiFormat() && !options.isApplySuggestions()) {
@@ -506,7 +507,8 @@ class Main {
             options.getDisabledRules(), options.getEnabledRules(), options.getUseEnabledOnly(), options.isApiFormat(), 
             options.isApplySuggestions(), options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
     if (languageHint != null) {
-      String spellHint = prg.isSpellCheckingActive() ? "" : " (no spell checking active, specify a language variant if available)";
+      String spellHint = prg.isSpellCheckingActive() ?
+              "" : " (no spell checking active, specify a language variant like 'en-GB' if available)";
       System.out.println(languageHint + spellHint);
     }
     prg.setListUnknownWords(options.isListUnknown());
