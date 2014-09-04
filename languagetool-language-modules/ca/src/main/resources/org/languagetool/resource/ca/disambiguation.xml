@@ -359,12 +359,21 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[1234567890., ]+|/|per</token>
+                    <token regexp="yes">[1234567890., ]+</token>
                     <marker>
                         <token>m</token>
                     </marker>
                 </pattern>
-                <disambig action="filter" postag="N.*" />
+                <disambig action="replace" postag="NCMP000" />
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">1|/|per</token>
+                    <marker>
+                        <token>m</token>
+                    </marker>
+                </pattern>
+                <disambig action="replace" postag="NCMS000" />
             </rule>
             <rule id="la_numero_u" name="la número u">
                 <pattern>
@@ -1143,10 +1152,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="N.*" postag_regexp="yes"></token>
                 <marker>
                     <token>fruit</token>
+                    <token regexp="yes">de|d'</token>
                 </marker>
-                <token>de</token>
             </pattern>
-            <disambig action="filter" postag="SPS00"></disambig>
+            <disambig action="replace"><wd lemma="fruit de" pos="LOC_PREP"/><wd lemma="fruit de" pos="LOC_PREP"/></disambig>
         </rule>
         <rule id="desquena" name="d'esquena">
             <pattern>
@@ -1720,7 +1729,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>,</token>
                 <token><match no="0"/></token>
             </pattern>
-            <disambig action="filter" postag="I" />
+            <disambig action="replace" postag="I" />
         </rule>
         <rule>
             <pattern>
@@ -1730,7 +1739,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token><match no="0"/></token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="I" />
+            <disambig action="replace" postag="I" />
         </rule>
         <rule>
             <pattern>
@@ -1739,7 +1748,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
                 <token>!</token>
             </pattern>
-            <disambig action="filter" postag="I" />
+            <disambig action="replace" postag="I" />
         </rule>
         <rule>
             <pattern>
@@ -1749,7 +1758,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>ha</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="I" />
+            <disambig action="replace" postag="I" />
         </rule>
         <rule>
             <pattern>
