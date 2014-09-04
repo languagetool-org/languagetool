@@ -77,6 +77,8 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("Té un trau al cap. ", "Cal portar-lo a l'hospital.");
     // Units
     testSplit("1 500 m/s. ", "Neix a");
+    testSplit("Són d'1 g. ", "Han estat condicionades.");
+    testSplit("Són d'1 m. ", "Han estat condicionades.");
     
     //Error: missing space. It is not split in order to trigger other errors. 
     testSplit("s'hi enfrontà quan G.Oueddei n'esdevingué líder");
