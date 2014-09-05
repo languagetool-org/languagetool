@@ -24,13 +24,25 @@ import java.util.*;
 /**
  * Loads a confusion set from a plain text file (UTF-8). Expects a file
  * where there is one confusion set per line, words separated by commas.
+ * Also loads information about the quality of the confusion sets from
+ * another file.
  * @since 2.7
  */
 public class ConfusionSetLoader {
 
-  private static final int MIN_SENTENCES = 0;
-  private static final float MAX_ERROR_RATE = 10.0f;
   private static final String CHARSET = "utf-8";
+
+  private final int minSentences;
+  private final float maxErrorRate;
+
+  /**
+   * @param minSentences the minimum sentences that each homophone must have been tested with to be considered at all (see homophonedb-info.txt)
+   * @param maxErrorRate the maximum error rate of each homophone to be considered at all (see homophonedb-info.txt)
+   */
+  public ConfusionSetLoader(int minSentences, float maxErrorRate) {
+    this.minSentences = minSentences;
+    this.maxErrorRate = maxErrorRate;
+  }
 
   public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream, InputStream infoStream) throws IOException {
     Set<String> usefulHomophones = null;
@@ -55,7 +67,7 @@ public class ConfusionSetLoader {
         String word = parts[0];
         int sentences = Integer.parseInt(parts[1]);
         float errorRate = Float.parseFloat(parts[3]);
-        if (sentences >= MIN_SENTENCES && errorRate <= MAX_ERROR_RATE) {
+        if (sentences >= minSentences && errorRate <= maxErrorRate) {
           result.add(word);
         }
       }
@@ -69,8 +81,8 @@ public class ConfusionSetLoader {
       InputStreamReader reader = new InputStreamReader(stream, CHARSET);
       BufferedReader br = new BufferedReader(reader)
     ) {
-      int homophonesAvailable = 0;
-      int homophonesLoaded = 0;
+      //int homophonesAvailable = 0;
+      //int homophonesLoaded = 0;
       String line;
       while ((line = br.readLine()) != null) {
         if (line.startsWith("#")) {
@@ -82,9 +94,9 @@ public class ConfusionSetLoader {
           if (usefulHomophones.contains(word)) {
             map.put(word, confusionSet);
           }
-          homophonesLoaded++;
+          //homophonesLoaded++;
         }
-        homophonesAvailable += words.length;
+        //homophonesAvailable += words.length;
       }
       //System.out.println(homophonesLoaded + " of " + homophonesAvailable + " homophones loaded");
     }

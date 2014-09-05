@@ -37,12 +37,17 @@ import java.util.*;
 public abstract class ConfusionProbabilityRule extends Rule {
 
   /* The minimal amount the alternative's score needs to be better to be used as a replacement.
-   * If all alternatives have smaller differences to the text score, no error will be reported. */
+   * If all alternatives have smaller differences to the text score, no error will be reported: */
   private static final int MIN_SCORE_DIFF = 6;
   /* The minimum score of the alternative (e.g. 'there' is the text is 'their') to be considered at
    * all. Setting this to > 0 avoids very exotic suggestions that are backed only by a small number
-   * of occurrences (and thus often wrong). */
+   * of occurrences (and thus often wrong): */
   private static final int MIN_ALTERNATIVE_SCORE = 14;
+  /* The minimum sentences that each homophone must have been tested with to be considered at 
+   * all (see homophonedb-info.txt): */
+  private static final int MIN_SENTENCES = 0;
+  /* The maximum error rate of each homophone to be considered at all (see homophonedb-info.txt): */
+  private static final float MAX_ERROR_RATE = 10.0f;
 
   @Override
   public abstract String getDescription();
@@ -60,7 +65,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   
   public ConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     super(messages);
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(MIN_SENTENCES, MAX_ERROR_RATE);
     InputStream homophonesStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES);
     InputStream homophonesInfoStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(HOMOPHONES_INFO);
     this.wordToSet = confusionSetLoader.loadConfusionSet(homophonesStream, homophonesInfoStream);
