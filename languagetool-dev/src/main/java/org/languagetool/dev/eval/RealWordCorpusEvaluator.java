@@ -47,15 +47,15 @@ import java.util.List;
  * up Pedler corpus (see resources/data/pedler_corpus.diff):
  * <pre>
  * 673 lines checked with 832 errors.
- * Confusion rule matches: 112 perfect, 8 good, 5 bad ([form, now, feel, now, very])
+ * Confusion rule matches: 53 perfect, 0 good, 0 bad ([])
  *
  * Counting matches, no matter whether the first suggestion is correct:
- * 267 out of 331 matches are real errors => 0,81 precision, 0,32 recall
- * => 0,6192 F(0.5) measure
+ * 200 out of 259 matches are real errors => 0,77 precision, 0,24 recall
+ * => 0,5353 F(0.5) measure
  *
  * Counting only matches with a perfect first suggestion:
- * 231 out of 331 matches are real errors => 0,70 precision, 0,28 recall
- * => 0,5357 F(0.5) measure
+ * 172 out of 259 matches are real errors => 0,66 precision, 0,21 recall
+ * => 0,4604 F(0.5) measure
  * </pre>
  * 
  * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
