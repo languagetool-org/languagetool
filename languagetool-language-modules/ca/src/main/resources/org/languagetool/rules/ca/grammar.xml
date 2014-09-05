@@ -24235,6 +24235,19 @@ $Id$
                 <example type="incorrect" correction="fulls">Hi ha <marker>fulles</marker> de reclamació a disposició dels clients</example>
                 <example type="correct">jo tinc el full dominical</example>                
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">fulls?</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes" inflected="yes">afaitar|esmolar</token>
+                </pattern>
+                <message>En aquest sentit, cal dir <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCF$1000">fulla</match></suggestion> (nom femení).</message>
+                <short>Gènere incorrecte</short>
+                <example type="incorrect" correction="fulla">Un <marker>full</marker> d'afaitar</example>
+                <example type="correct">Una fulla d'afaitar.</example>
+            </rule>
         </rulegroup>
         <rule id="PORGAR_PURGAR" name="porgar/purgar">
             <pattern>
@@ -25866,25 +25879,38 @@ $Id$
             <example type="correct">que allà era fondo</example>
             <example type="correct">Va respirar fondo</example>
         </rule>
-        <rule id="FONS" name="fons (subst. no adj.)">
-            <pattern case_sensitive="yes">
-                <token postag="NC.*" postag_regexp="yes"/>
-                <token postag="RG_anteposat"/>
-                <marker>
-                    <token>fons<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">fondo</match></suggestion> (adj.) en lloc de "fons" (nom)?</message>
-            <!-- <example type="incorrect">que era <marker>fons</marker></example> -->
-            <!-- <example type="incorrect">que era molt <marker>fons</marker>.</example>
-            <example type="incorrect">que era massa <marker>fons</marker>.</example> --> 
-            <example type="correct">que era el fons</example>     
-            <example type="correct">va obtenir prou fons per a dur-ho a terme</example>
-            <example type="correct">Alguns cursos són simplement fons de valls o barrancs</example>
-            <example type="correct">les diverses conques marcianes actuals serien fons marins secs.</example>
-            <example type="incorrect" correction="fondo">el pou més <marker>fons</marker>.</example>
-            <example type="incorrect" correction="fonda">una rasa poc <marker>fons</marker>.</example>
-        </rule>
+        <rulegroup id="FONS" name="fons (subst. no adj.)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token postag="RG_anteposat"/>
+                    <marker>
+                        <token>fons<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ0$10">fondo</match></suggestion> (adj.) en lloc de "fons" (nom)?</message>
+                <!-- <example type="incorrect">que era <marker>fons</marker></example> -->
+                <!-- <example type="incorrect">que era molt <marker>fons</marker>.</example>
+                <example type="incorrect">que era massa <marker>fons</marker>.</example> --> 
+                <example type="correct">que era el fons</example>     
+                <example type="correct">va obtenir prou fons per a dur-ho a terme</example>
+                <example type="correct">Alguns cursos són simplement fons de valls o barrancs</example>
+                <example type="correct">les diverses conques marcianes actuals serien fons marins secs.</example>
+                <example type="incorrect" correction="fondo">el pou més <marker>fons</marker>.</example>
+                <example type="incorrect" correction="fonda">una rasa poc <marker>fons</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">respirar|inspirar|aspirar|inhalar|pressionar|pitjar|prémer|apretar</token>
+                    <marker>
+                        <token>fons</token>
+                    </marker>
+                </pattern>
+                <message>Cal dir <suggestion>fondo</suggestion> (adv.) en lloc de "fons" (nom).</message>
+                <example type="incorrect" correction="fondo">Respira <marker>fons</marker>.</example>
+                <example type="correct">Respira fondo.</example>
+            </rule>
+        </rulegroup>
         <rule id="NADALS_NADAL" name="Nadals/Nadal">
             <pattern>
                 <token><exception postag="DN.*" postag_regexp="yes" /><exception regexp="yes">\d+</exception></token>
