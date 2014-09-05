@@ -49,6 +49,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
+
     assertCorrect("cada zona més meridional esdevingué adient per als éssers àrtics");
     assertCorrect("cereals, garrofers, vinya i olivar.");
     assertCorrect("m'aniria bé probablement posar els quilos");
@@ -236,6 +237,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("Joan s'ha anat a dutxar.");
     assertCorrect("amb els Confederats intentant burlar el bloqueig a Maryland.");
     //IMPERSONALS
+    assertCorrect("Es pot baixar la darrera versió.");
     assertCorrect("Se'l va fer callar.");
     assertCorrect("Se li va fer callar."); //incorrecta per una altra qüestió
     assertCorrect("Se'ns va fer callar.");

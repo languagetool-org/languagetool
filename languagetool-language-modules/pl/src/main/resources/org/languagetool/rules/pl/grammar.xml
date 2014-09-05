@@ -2500,7 +2500,20 @@ $Id$
 						<example correction="z tym że" type="incorrect">Polubiłem cię <marker>z tym, że</marker> musisz się wykazać, mordując karawaniarza.</example>
                         <example type="correct">Mniejsza z tym, że to szczęście nie wszystkich spotyka.</example>
 				</rule>
-				<rule id="W_PRZYPADKU_PRZECINEK" name="Zbędny przecinek po „w przypadku” na początku zdania">
+            <rule id="JEDNAK_PRZECINEK" name="Zbędny przecinek po „jednak”">
+                <pattern>
+                    <marker>
+                        <token>jednak</token>
+                        <token>,</token>
+                        <phraseref idref="NIE_SPOJNIK_PRZECINKOWY_OLD"></phraseref>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobnie zbędny przecinek. Poprawnie: <suggestion>\1 \3</suggestion>.</message>
+                <example correction="Jednak miałem" type="incorrect"><marker>Jednak, miałem</marker> rację.</example>
+                <example correction="jednak jedyna" type="incorrect">Nie jest to <marker>jednak, jedyna</marker> dostępna strategia.</example>
+                <example type="correct">Jednak, co pisałem, miałem rację.</example>
+            </rule>
+            <rule id="W_PRZYPADKU_PRZECINEK" name="Zbędny przecinek po „w przypadku” na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
 								<token skip="2">W</token>
@@ -15612,11 +15625,13 @@ $Id$
 						<pattern>
 								<token>w</token>
 								<token>odróżnieniu</token>
+                                <token min="0">,</token>
 								<token>do</token>
 						</pattern>
 						<message>Prawdopodobna literówka; powinno być <suggestion>\1 \2 od</suggestion>.</message>
 						<short>Prawdopodobna literówka</short>
 						<example correction="w odróżnieniu od" type="incorrect">Ponadto czarownicy <marker>w odróżnieniu do</marker> czartów są zdecydowanie liczniejsi.</example>
+                        <example correction="w odróżnieniu od" type="incorrect">Ponadto czarownicy, <marker>w odróżnieniu, do</marker> czartów są zdecydowanie liczniejsi.</example>
 						<example type="correct">Ponadto czarownicy <marker>w odróżnieniu od</marker> czartów są zdecydowanie liczniejsi.</example>
 				</rule>
 				<rule id="W_PRZECIWIENSTWIE_OD" name="„w przeciwieństwie od” (w przeciwieństwie do)">

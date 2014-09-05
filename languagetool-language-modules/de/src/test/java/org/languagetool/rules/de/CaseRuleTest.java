@@ -148,6 +148,9 @@ public class CaseRuleTest extends TestCase {
     assertGood("Übersetzt aus dem Norwegischen von Ingenieur Frederik Dingsbums.");
     assertGood("Dem norwegischen Ingenieur gelingt das gut.");
     assertBad("Dem Norwegischen Ingenieur gelingt das gut.");
+    assertGood("Peter Peterson, dessen Namen auf Griechisch Stein bedeutet.");
+    assertGood("Peter Peterson, dessen Namen auf Griechisch gut klingt.");
+    //assertBad("Peter Peterson, dessen Namen auf griechisch Stein bedeutet.");
   }
 
   private void assertGood(String input) throws IOException {

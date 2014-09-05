@@ -42,7 +42,7 @@ public class UkrainianTaggerTest extends TestCase {
   
   public void testTagger() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]numr -- р/[р]todo -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
+      "300/[300]numr -- р/[р]unknown:abbr -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
        tokenizer, tagger);
     
     // one-way case sensitivity
@@ -50,11 +50,11 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav", tokenizer, tagger);
     TestTools.myAssert("віл", "віл/[віл]noun:m:v_naz:ist", tokenizer, tagger);
     TestTools.myAssert("Віл", "Віл/[віл]noun:m:v_naz:ist", tokenizer, tagger);
-    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:nv|ВІЛ/[віл]noun:m:v_naz:ist", tokenizer, tagger);
+    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:nv:abbr|ВІЛ/[віл]noun:m:v_naz:ist", tokenizer, tagger);
     TestTools.myAssert("далі", "далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis:ist|Далі/[Далі]noun:m:nv|Далі/[далі]adv", tokenizer, tagger);
-    TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:ist|Бен/[бен]todo", tokenizer, tagger);
-    TestTools.myAssert("бен", "бен/[бен]todo", tokenizer, tagger);
+    TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:ist|Бен/[бен]unknown", tokenizer, tagger);
+    TestTools.myAssert("бен", "бен/[бен]unknown", tokenizer, tagger);
 
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:f:v_zna -- порушено/[порушено]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",

@@ -24,12 +24,12 @@ public enum IPOSTag {
   adj("adj"),
   verb("verb"),
   adv("adv"),
-  part("aprt"),
+  part("part"),
   numr("numr"),
   dieprysl("dieprysl"),
-  prysudk_sl("prysudk_sl"),
-  insert_sl("insert_sl"),
-  todo("todo");
+  predic("predic"),
+  insert("insert"),
+  todo("unknown");
 
   private final String text;
 

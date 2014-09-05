@@ -212,7 +212,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     final int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
 
     final boolean spaceBefore = whTokens[fromPos].isWhitespaceBefore();
-    boolean filtered = false;
     final DisambiguationPatternRule.DisambiguatorAction disAction = rule.getAction();
 
     final AnalyzedToken[] newTokenReadings = rule.getNewTokenReadings();
@@ -344,17 +343,28 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
             true, disambiguatedPOS, null,
             Match.CaseConversion.NONE, false, false,
             Match.IncludeRange.NONE);
-        final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
-        final String prevValue = whTokens[fromPos].toString();
-        final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
-        whTokens[fromPos] = matchState.filterReadings();
-        annotateChange(whTokens[fromPos], prevValue, prevAnot);
-        filtered = true;
+        boolean newPOSmatches = false;
+
+        // only apply filter rule when it matches previous tags:
+        for (int i = 0; i < whTokens[fromPos].getReadingsLength(); i++) {
+          if (!whTokens[fromPos].getAnalyzedToken(i).hasNoTag() &&
+              whTokens[fromPos].getAnalyzedToken(i).getPOSTag().matches(disambiguatedPOS)) {
+            newPOSmatches = true;
+            break;
+          }
+        }
+        if (newPOSmatches) {
+          final MatchState matchState = tmpMatchToken.createState(rule.getLanguage().getSynthesizer(), whTokens[fromPos]);
+          final String prevValue = whTokens[fromPos].toString();
+          final String prevAnot = whTokens[fromPos].getHistoricalAnnotations();
+          whTokens[fromPos] = matchState.filterReadings();
+          annotateChange(whTokens[fromPos], prevValue, prevAnot);
+        }
+        break;
       }
       //fallthrough
     case REPLACE:
     default:
-      if (!filtered) {
         if (newTokenReadings != null && newTokenReadings.length > 0) {
           if (newTokenReadings.length == matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection) {
             for (int i = 0; i < newTokenReadings.length; i++) {
@@ -406,7 +416,6 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
 
-    }
     return whTokens;
   }
 

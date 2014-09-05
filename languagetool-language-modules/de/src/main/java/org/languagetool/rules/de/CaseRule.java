@@ -680,8 +680,10 @@ public class CaseRule extends GermanRule {
     boolean maybeLanguage = languages.contains(token) ||
                             languages.contains(token.replaceFirst("e$", "")) ||  // z.B. "ins Japanische übersetzt"
                             languages.contains(token.replaceFirst("en$", ""));   // z.B. "im Japanischen"
+    AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
-    return nextReadings != null && !hasNounReading(nextReadings) && maybeLanguage;
+    return maybeLanguage && ((nextReadings != null && !hasNounReading(nextReadings)) ||
+                             (prevToken != null && prevToken.getToken().equals("auf")));
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
