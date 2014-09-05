@@ -935,6 +935,21 @@ $Id$
   </category>
 
   <category name="Gramática" type="grammar">
+    <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
+            <pattern>
+                <marker>
+                    <token inflected="yes">surgir</token>
+                    <token>efecto</token>
+                </marker>
+            </pattern>
+            <message>Expresión incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">surtir</match> efecto</suggestion>
+            <url>http://castellanoactual.com/surtir-o-surgir-efecto/</url>
+            <example type="incorrect" correction="surtió efecto">No <marker>surgió efecto</marker>.</example>
+            <example type="correct">No surtió efecto.</example>
+        </rule>
+
+
     <!-- EN_BASE_A En base a -> con base en (o basado en) (o sobre la base de) (http://cvc.cervantes.es/alhabla/museo_horrores/museo_039.htm)-->
 
     <rule id="EN_BASE_A" name="en base a">
