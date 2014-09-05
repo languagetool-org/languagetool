@@ -97,7 +97,8 @@ public abstract class ConfusionProbabilityRule extends Rule {
         String betterAlternative = getBetterAlternativeOrNull(tokens, pos, confusionSet);
         if (betterAlternative != null) {
           int endPos = token.getStartPos() + token.getToken().length();
-          RuleMatch match = new RuleMatch(this, token.getStartPos(), endPos, "Did you maybe mean '" + betterAlternative + "'?");
+          String message = "Statistic suggests that '" + betterAlternative + "' might be the right word here. Please check.";
+          RuleMatch match = new RuleMatch(this, token.getStartPos(), endPos, message);
           match.setSuggestedReplacement(betterAlternative);
           matches.add(match);
         }
