@@ -36,6 +36,14 @@ import java.util.*;
  */
 public abstract class ConfusionProbabilityRule extends Rule {
 
+  /* The minimal amount the alternative's score needs to be better to be used as a replacement.
+   * If all alternatives have smaller differences to the text score, no error will be reported. */
+  private static final int MIN_SCORE_DIFF = 6;
+  /* The minimum score of the alternative (e.g. 'there' is the text is 'their') to be considered at
+   * all. Setting this to > 0 avoids very exotic suggestions that are backed only by a small number
+   * of occurrences (and thus often wrong). */
+  private static final int MIN_ALTERNATIVE_SCORE = 14;
+
   @Override
   public abstract String getDescription();
 
@@ -118,7 +126,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
         continue;
       }
       double alternativeScore = score(alternative, next, next2, prev, prev2);
-      if (alternativeScore > bestScore) {
+      if (alternativeScore >= bestScore + MIN_SCORE_DIFF && alternativeScore >= MIN_ALTERNATIVE_SCORE) {
         betterAlternative = alternative;
         bestScore = alternativeScore;
       }
@@ -182,7 +190,12 @@ public abstract class ConfusionProbabilityRule extends Rule {
     // 3grams only:
     //double val = Math.max(1, ngram3);  // f-measure: 0.5038 (perfect suggestions only)
     double val = val3 + val4 + val5;  // f-measure: 0.5292 (perfect suggestions only)
-    //System.out.println("=> " + option + ": " + val3 + ", " + val4 + ", " + val5 + " = " + val);
+    /*String ngram3String = prev1 + " " + option + " " + next1;
+    String ngram3leftString = prev2 + " " + prev1 + " " + option;
+    String ngram3rightString = option + " " + next1+ " " + next2;
+    System.out.println("=> " + option + ": " + val3 + ", " + val4 + ", " + val5 + " = " + val
+            + " (" + ngram3String + "=" + ngram3 + ", " + ngram3leftString + "=" + ngram3left + ", " + ngram3rightString + "=" + ngram3right + ")");
+    */
 
     return val;
   }

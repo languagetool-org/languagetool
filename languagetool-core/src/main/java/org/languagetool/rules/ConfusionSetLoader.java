@@ -29,7 +29,7 @@ import java.util.*;
 public class ConfusionSetLoader {
 
   private static final int MIN_SENTENCES = 0;
-  private static final float MAX_ERROR_RATE = 100.0f;
+  private static final float MAX_ERROR_RATE = 10.0f;
   private static final String CHARSET = "utf-8";
 
   public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream, InputStream infoStream) throws IOException {
@@ -86,7 +86,7 @@ public class ConfusionSetLoader {
         }
         homophonesAvailable += words.length;
       }
-      System.out.println(homophonesLoaded + " of " + homophonesAvailable + " homophones loaded");
+      //System.out.println(homophonesLoaded + " of " + homophonesAvailable + " homophones loaded");
     }
     return map;
   }
