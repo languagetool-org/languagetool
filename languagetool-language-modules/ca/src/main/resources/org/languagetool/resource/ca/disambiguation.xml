@@ -2936,6 +2936,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="V.N.*"></disambig>
     </rule>
+    <rule id="poder_podar" name="poder/podar + infinitiu">
+        <pattern>
+            <marker>
+                <and>
+                    <token inflected="yes">poder</token>
+                    <token inflected="yes">podar</token>
+                </and>
+            </marker>
+            <token postag="V.N.*" postag_regexp="yes"><exception postag="AQ.*" postag_regexp="yes"/></token> <!-- exc. el poder militar -->
+        </pattern>
+        <disambig action="remove"><wd lemma="podar"/></disambig>
+    </rule>
     <rule id="menjar_substantiu" name="menjar substantiu">
         <pattern>
             <token postag="D[^R].[CM]S.*" postag_regexp="yes"><exception>tant</exception></token>
@@ -3345,7 +3357,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token inflected="yes">haver</token>
                 </and>
             </pattern>
-            <disambig action="remove"><wd lemma="hajar"></wd></disambig>
+            <disambig action="remove"><wd lemma="hajar"/></disambig>
         </rule>
         <rule> <!-- excepcions: hi ha necessitat. Pot havier-hi ambigüitats: s'hi havia calat foc -->
             <pattern>

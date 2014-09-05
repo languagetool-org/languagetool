@@ -29845,6 +29845,20 @@ $Id$
         </rule>
     </category>
     <category name="Sintaxi" type="grammar">
+        <rule id="ESPERA_QUE_INDICATIU" name="esperar que + *indicatiu/subjuntiu">
+            <pattern>
+                <token inflected='yes' skip='4'>esperar<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"></exception></token>
+                <token skip='5'>que<exception scope="next">que</exception><exception scope="next" postag="V.S.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag='V.IP.*' postag_regexp='yes'><exception postag='V.S.*|N.*|_GV_' postag_regexp='yes'></exception></token>
+                </marker>
+            </pattern>
+            <message>Temps verbal incorrecte</message>
+            <suggestion><match no="3" postag="(V.)I(P.*)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+            <example type="incorrect" correction="vingueu">Espero que <marker>veniu</marker>.</example>
+            <example type="incorrect" correction="pugueu">Espero que al final <marker>podeu</marker> venir.</example>
+            <example type="correct">Espero que pugueu venir.</example>
+        </rule>
         <rule id="TOT_I_QUE_SUBJUNTIU" name="tot i que + *subjuntiu/indicatiu">
             <pattern>
                 <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
