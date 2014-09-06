@@ -14052,6 +14052,18 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="DOMYSLA_DOMYSLNA" name="„na domyślą” (na domyślną)">
+                <pattern>
+                    <token postag='prep:acc.*' postag_regexp='yes'></token>
+                    <marker>
+                        <token>domyślą</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>domyślną</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Dość wyraźnie przerzuca ci na <marker>domyślą</marker> angielską.</example>
+                <example type='correct'>Dość wyraźnie przerzuca ci na domyślną angielską.</example>
+            </rule>
             <rulegroup id="ROK_20001" name="Rok 20001 (2001)">
                 <rule>
                 <pattern case_sensitive="yes">
