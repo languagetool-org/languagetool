@@ -393,6 +393,19 @@ USA
             <example type="correct">This is the Carmen up to <marker>Data</marker>.</example>
             <example type="incorrect" correction="date">The software is not up to <marker>data</marker>.</example>
         </rule>
+        <rule id="COLD_COULD" name="he cold do (he could do)">
+            <pattern>
+                <token postag='PRP'></token>
+                <marker>
+                    <token>cold</token>
+                </marker>
+                <token postag='VB'></token>
+            </pattern>
+            <message>Did you mean <suggestion>could</suggestion>?</message>
+            <short>Probable typoe</short>
+            <example type='incorrect' correction="could">This is all he <marker>cold</marker> do.</example>
+            <example type='correct'>This is all he could do.</example>
+        </rule>
         <rule id="FORMALLY_KNOWN_AS" name="formally known as (formerly known as)">
           <pattern>
             <token>formally</token>
