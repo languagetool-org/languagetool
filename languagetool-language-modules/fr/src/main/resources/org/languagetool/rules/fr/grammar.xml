@@ -5169,6 +5169,17 @@ though, and has since been slightly modified)-->
         <example type="correct">Il n’est plus très jeune.</example>
       </rule>
     </rulegroup>
+    <rule id="AMANITE" name="amanite ou ammonite">
+      <pattern>
+        <marker><token regexp="yes">amm?onites?|ammanites?</token></marker>
+        <token regexp="yes">citrina|tue-mouches?|ovoïdes?|panthères?|rougissantes?|phalloïdes?|printanièress?|épaisses?|solitaires?|vaginées?|vireuses?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="^.*?(s?)$" regexp_replace="amanite$1"/></suggestion> s’il s’agit du champignon ?</message>
+      <url>https://fr.wikipedia.org/wiki/Amanite</url>
+      <example type="incorrect" correction="amanite">L’<marker>ammonite</marker> tue-mouches est toxique.</example>
+      <example type="incorrect" correction="amanites">Des <marker>ammonites</marker> tue-mouches.</example>
+      <example type="correct">L’amanite tue-mouches est toxique.</example>
+    </rule>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
