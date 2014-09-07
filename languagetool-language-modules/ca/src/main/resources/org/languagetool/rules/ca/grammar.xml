@@ -7897,6 +7897,21 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="PARTIT_PARTIR" name="a *partit/partir de">
+            <pattern>
+                <token>a<exception scope="previous">com</exception></token>
+                <marker>
+                    <token>partit</token>
+                </marker>
+                <token regexp="yes">de|d'</token>
+                <token><exception regexp="yes">govern|oposició|dreta|esquerra|centredreta|centreesquerra</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>partir</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">A <marker>partit</marker> de demà.</example>
+            <example type="correct">El seu ascens a partit de govern.</example>
+            <example type="correct">Com a partit de districte.</example>
+        </rule>
         <rule id="O_HO" name="que *o/ho vaig fer">
             <pattern>
                 <token regexp="yes">que|què|quals?</token>
