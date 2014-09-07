@@ -7897,6 +7897,34 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="O_HO" name="que *o/ho vaig fer">
+            <pattern>
+                <token regexp="yes">que|què|quals?</token>
+                <marker>
+                    <token>o</token>
+                </marker>
+                <token postag="V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" skip="-1"><exception scope="next">o</exception></token>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ho</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Crec que <marker>o</marker> vaig fer la setmana passada.</example>
+            <example type="correct">Crec que o vaig dir-ho jo o vas dir-ho tu.</example>
+            <example type="correct">Crec que o ho vaig dir o em confonc.</example>
+        </rule>
+        <rule id="I_HI" name="que *i/hi vaig anar">
+            <pattern>
+                <token regexp="yes">que|què|quals?</token>
+                <marker>
+                    <token>i</token>
+                </marker>
+                <token postag="V.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ho</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Crec que <marker>i</marker> vaig anar la setmana passada.</example>
+            <example type="correct">Crec que hi vaig anar la setmana passada.</example>
+        </rule>
         <rulegroup id="CABDAL_CABAL" name="cabdal/cabal">
             <rule>
                 <pattern>
