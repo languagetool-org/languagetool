@@ -5693,6 +5693,27 @@ $Id$
 						<example type="correct">Policjant kierował ruchem pojazdów.</example>
 						<example correction="regulował ruch|kierował ruchem" type="incorrect">Policjant <marker>regulował ruchem</marker> pojazdów.</example>
 				</rule>
+                <rule id="NIE_TYLE_ALE" name="„nie tyle… ale” (nie tyle…, ile)">
+                    <antipattern>
+                        <token>nie</token>
+                        <token>tyle</token>
+                        <token min="0">,</token>
+                        <token>co</token>
+                    </antipattern>
+                    <pattern>
+                        <token>nie</token>
+                        <token skip='-1'>tyle<exception scope='next'>ile</exception></token>
+                        <marker>
+                            <token skip='-1'>ale<exception>ile</exception></token>
+                        </marker>
+                        <token postag='SENT_END'></token>
+                    </pattern>
+                    <message>Czy chodziło o <suggestion>ile</suggestion>? (Zdanie występuje po spójniku skorelowanym „nie tyle…”).</message>
+                    <short>Błąd składniowy</short>
+                    <example type='incorrect'>Cynizm uznajemy nie tyle za normalny, <marker>ale</marker> z pewnością powszechny.</example>
+                    <example type='correct'>Cynizm uznajemy nie tyle za normalny, ile z pewnością powszechny.</example>
+                    <example type="correct">Arturze, może nie tyle co, ale kto.</example>
+                </rule>
 				<rule id="ZAROWNO_I" name="„zarówno... i” („zarówno... jak”)">
                         <antipattern>
                             <token skip="-1">zarówno<exception regexp="yes" scope="next">jak|\(.*|„</exception></token>
