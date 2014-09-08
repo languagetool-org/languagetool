@@ -18,12 +18,12 @@
  */
 package org.languagetool.tokenizers.de;
 
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import java.io.IOException;
 import java.util.List;
-
 import org.languagetool.tokenizers.Tokenizer;
 
-import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
+
 
 /**
  * Split German nouns using the jWordSplitter library.

@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
-import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
+import de.danielnaber.jwordsplitter.AbstractWordSplitter;
+import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
@@ -71,7 +71,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       new Replacement("F", "Ph"),
       new Replacement("Ph", "F")
   );
-  
+
+  private static AbstractWordSplitter wordSplitter;
   private final GermanCompoundTokenizer compoundTokenizer;
 
   public GermanSpellerRule(ResourceBundle messages, Language language) throws IOException {
@@ -87,19 +88,21 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
   
   private static CompoundWordTokenizer getCompoundSplitter() {
-    try {
-      final AbstractWordSplitter wordSplitter = new GermanWordSplitter(false);
-      wordSplitter.setStrictMode(false); // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
-      ((GermanWordSplitter)wordSplitter).setMinimumWordLength(3);
-      return new CompoundWordTokenizer() {
-        @Override
-        public List<String> tokenize(String word) {
-          return new ArrayList<>(wordSplitter.splitWord(word));
+    if(wordSplitter == null) {
+         try {
+            wordSplitter = new GermanWordSplitter(false);
+        } catch (IOException e) {
+            throw new RuntimeException("Could not set up German compound splitter", e);
         }
-      };
-    } catch (IOException e) {
-      throw new RuntimeException("Could not set up German compound splitter", e);
     }
+    wordSplitter.setStrictMode(false); // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
+    ((GermanWordSplitter)wordSplitter).setMinimumWordLength(3);
+    return new CompoundWordTokenizer() {
+      @Override
+      public List<String> tokenize(String word) {
+        return new ArrayList<>(wordSplitter.splitWord(word));
+      }
+    };
   }
 
   private static MorfologikSpeller getSpeller(Language language) {
