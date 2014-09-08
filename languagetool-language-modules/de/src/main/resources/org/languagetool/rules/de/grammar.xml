@@ -27442,6 +27442,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="X_SOLL_XXXX" name="'soll (vergangenes Jahr)': Angabe nicht aktuell?">
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d\d\d\d</token>
+                    <token>worden</token>
+                    <token>sein</token>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SUB|PRO):.*"/>
+                    <token>soll</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <!-- Filter all matches whose years are not 1 to 10 years ago: -->
+                <filter class="org.languagetool.rules.de.RecentYearFilter" args="year:\3 maxYearsBack:10"/>
+                <message>Evtl. ist diese Angabe veraltet und sollte aktualisiert werden.</message>
+                <example type="incorrect">Das Hotel soll <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="incorrect">Es soll <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="correct">Das Hotel soll <marker>2003</marker> eröffnet werden.</example><!-- too far in the past -->
+                <example type="correct">Das Hotel soll <marker>2013</marker> eröffnet worden sein.</example>
+                <example type="correct">Das Hotel soll <marker>2200</marker> eröffnet worden sein.</example>
+                <example type="triggers_error">Der Kran soll <marker>2013</marker> Tonnen heben können.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d\d\d\d</token>
+                    <token>worden</token>
+                    <token>sein</token>
+                </antipattern>
+                <pattern>
+                    <token>soll</token>
+                    <token>im</token>
+                    <token regexp="yes">Jahre?|&monate;</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.de.RecentYearFilter" args="year:\4 maxYearsBack:10"/>
+                <message>Evtl. ist diese Angabe veraltet und sollte aktualisiert werden.</message>
+                <example type="incorrect">Das Hotel soll im Jahr <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="incorrect">Das Hotel soll im Februar <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="correct">Das Hotel soll im Jahr <marker>2003</marker> eröffnet werden.</example><!-- too far in the past -->
+                <example type="correct">Das Hotel soll im Jahr <marker>2013</marker> eröffnet worden sein.</example>
+                <example type="correct">Das Hotel soll <marker>2200</marker> eröffnet worden sein.</example>
+            </rule>
+        </rulegroup>
     </category>
 
 </rules>

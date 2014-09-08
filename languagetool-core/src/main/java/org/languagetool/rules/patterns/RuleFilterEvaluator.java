@@ -68,7 +68,7 @@ class RuleFilterEvaluator {
         }
         result.put(key, tokenReadings[correctedRef].getToken());
       } else {
-        throw new RuntimeException("Unsupported reference, use '\\x' with x being a number: '" + arg + "'");
+        result.put(key, val);
       }
     }
     return result;

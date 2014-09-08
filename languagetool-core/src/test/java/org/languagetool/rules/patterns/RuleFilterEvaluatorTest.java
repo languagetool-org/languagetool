@@ -24,6 +24,7 @@ import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -55,14 +56,18 @@ public class RuleFilterEvaluatorTest {
     eval.getResolvedArguments("year:\\1 year:\\2", readingsList, Arrays.asList(1, 2));
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testTooLargeBackRef() throws Exception {
-    eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, Collections.<Integer>emptyList());
+  @Test
+  public void testNoBackReference() throws Exception {
+    Map<String, String> args = eval.getResolvedArguments("year:2 foo:bar", null, Collections.<Integer>emptyList());
+    Map<String, String> expected = new HashMap<>();
+    expected.put("year", "2");
+    expected.put("foo", "bar");
+    assertThat(args, is(expected));
   }
 
   @Test(expected = RuntimeException.class)
-  public void testNoBackReference() throws Exception {
-    eval.getResolvedArguments("year:2", null, Collections.<Integer>emptyList());
+  public void testTooLargeBackRef() throws Exception {
+    eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, Collections.<Integer>emptyList());
   }
 
 }
