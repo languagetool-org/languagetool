@@ -23,9 +23,6 @@ import org.languagetool.language.Demo;
 
 import java.io.IOException;
 
-/**
- * Test for a core class, but needs a language to be properly tested, so the test is here.
- */
 public class PatternRuleXmlCreatorTest extends TestCase {
 
   public void testToXML() throws IOException {
