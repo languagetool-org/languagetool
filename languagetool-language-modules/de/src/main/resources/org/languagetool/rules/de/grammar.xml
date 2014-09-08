@@ -8186,7 +8186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>ab</token>
                 <token>zu</token>
-                <token regexp="yes">bewegen|lernen|kommen</token>
+                <token regexp="yes">betonen|bewegen|lernen|kommen</token>
             </antipattern>
             <antipattern>
                 <token>aus</token>
@@ -9183,7 +9183,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Ich habe es gerade erst <marker>neu erneuert</marker>.</example>
                 <example type="correct">Ich habe es gerade erst <marker>erneuert</marker>.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- off by default because "Es kann möglicherweise die Behandlung einer Schizophrenie unterstützen." looks okay to me -->
                 <antipattern>
                     <token>kann</token>
                     <token regexp="yes">jede[mnr]?</token>
@@ -9196,7 +9197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&redundanz;Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
                 <short>&redundanz;</short>
                 <example type="incorrect">Das <marker>kann möglicherweise</marker> sein.</example>
-                <example type="correct">Das <marker>möglicherweise</marker> sein.</example>
+                <example type="correct">Das <marker>kann</marker> sein.</example>
             </rule>
             <rule>
                 <pattern>
@@ -22701,7 +22702,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
-                            <exception regexp="yes">öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
+                            <exception regexp="yes">sein|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
                 </pattern>
