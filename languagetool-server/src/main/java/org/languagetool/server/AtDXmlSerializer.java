@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class AtDXmlSerializer {
   public String ruleMatchesToXml(List<RuleMatch> matches, String text) {
     StringBuilder sb = new StringBuilder();
     sb.append("<results>\n");
+    sb.append("<!-- Server: LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ") -->\n");
     for (RuleMatch match : matches) {
       addRuleMatch(sb, match, text);
     }
