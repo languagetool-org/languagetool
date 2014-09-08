@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 
 public class MissingVerbRuleTest {
 
-  private final MissingVerbRule rule = new MissingVerbRule(TestTools.getEnglishMessages());
+  private final MissingVerbRule rule = new MissingVerbRule(TestTools.getEnglishMessages(), new German());
 
   @Test
   public void test() throws IOException {

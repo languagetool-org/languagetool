@@ -40,7 +40,7 @@ public class VerbAgreementRuleTest extends TestCase {
   
   @Override
   public void setUp() throws IOException {
-    rule = new VerbAgreementRule(null);
+    rule = new VerbAgreementRule(null, new German());
     langTool = new JLanguageTool(new German());
   }
   

@@ -41,7 +41,7 @@ public class AgreementRuleTest extends TestCase {
   
   @Override
   public void setUp() throws IOException {
-    rule = new AgreementRule(null);
+    rule = new AgreementRule(null, new German());
     langTool = new JLanguageTool(new German());
   }
   

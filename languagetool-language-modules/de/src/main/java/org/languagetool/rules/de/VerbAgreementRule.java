@@ -29,6 +29,7 @@ import java.util.Set;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
@@ -96,11 +97,12 @@ public class VerbAgreementRule extends GermanRule {
     "\"", "„"
   ));
   
-  private final German german = new German();
+  private final Language language;
 
   private AnalyzedTokenReadings finiteVerb;
 
-  public VerbAgreementRule(final ResourceBundle messages) {
+  public VerbAgreementRule(final ResourceBundle messages, German language) {
+    this.language = language;
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
     }
@@ -347,7 +349,7 @@ public class VerbAgreementRule extends GermanRule {
     }
     
     try {
-      String[] synthesized = german.getSynthesizer().synthesize(verbToken, "VER.*:"+expectedVerbPOS+".*", true);
+      String[] synthesized = language.getSynthesizer().synthesize(verbToken, "VER.*:"+expectedVerbPOS+".*", true);
       // remove duplicates
       Set<String> suggestionSet = new HashSet<>();
       suggestionSet.addAll(Arrays.asList(synthesized));
