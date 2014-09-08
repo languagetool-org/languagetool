@@ -6460,30 +6460,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type='incorrect'><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
             <example type='correct'>Zuallererst mal in Ruhe nachdenken.</example>
         </rule>
-        <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
-            <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
-            <rule>
-                <pattern>
-                    <token regexp='yes'>\d+jährige[rsn]?</token>
-                </pattern>
-                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
-                <short>Fehlender Bindestrich</short>
-                <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
-                <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
-                <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
-                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp='yes'>\d+</token>
-                    <token regexp='yes' spacebefore="yes">jährige[rsn]?</token>
-                </pattern>
-                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
-                <short>Fehlender Bindestrich</short>
-                <example type='incorrect' correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
-                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
-            </rule>
-        </rulegroup>
         <rule id="PLAN_MAESSIG" name="Zusammen-/Getrenntschreibung: 'plan mäßig (planmäßig)' etc.">
             <pattern>
                 <token><exception postag="ART:.*" postag_regexp="yes"/></token>
@@ -25325,6 +25301,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category name="Zeichensetzung">
+        <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
+            <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+jährige[rsn]?</token>
+                </pattern>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
+                <short>Fehlender Bindestrich</short>
+                <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
+                <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+</token>
+                    <token regexp='yes' spacebefore="yes">jährige[rsn]?</token>
+                </pattern>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
+                <short>Fehlender Bindestrich</short>
+                <example type='incorrect' correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_UND_AUSWENDIG" name="in (in-) und auswendig">
             <pattern>
                 <token>in</token>
