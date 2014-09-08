@@ -25305,24 +25305,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
             <rule>
                 <pattern>
-                    <token regexp='yes'>\d+jährige[rsn]?</token>
+                    <token regexp='yes'>\d+jährige[rsnm]?</token>
                 </pattern>
-                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="([Jj])ährig" regexp_replace="-$1ährig"/></suggestion></message>
                 <short>Fehlender Bindestrich</short>
                 <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
                 <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
                 <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
                 <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+                <example type='incorrect'><marker>46jährigem</marker> Diplom-Kaufmann der Hut geklaut</example>
+                <example type='correct'><marker>46-jährigem</marker> Diplom-Kaufmann der Hut geklaut</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp='yes'>\d+</token>
-                    <token regexp='yes' spacebefore="yes">jährige[rsn]?</token>
+                    <token regexp='yes' spacebefore="yes">jährige[rsnm]?</token>
                 </pattern>
                 <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
                 <short>Fehlender Bindestrich</short>
                 <example type='incorrect' correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
                 <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XX-PROZENTIG" name="20-%ig (20%ig)">
+            <url>http://www.duden.de/rechtschreibung/_prozentig</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+-%ig(e|es|er|en|em)?</token>
+                </pattern>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)-%ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
+                <example type='incorrect' correction="20%ige">Eine <marker>20-%ige</marker> Lösung.</example>
+                <example type='correct'>Eine <marker>20%ige</marker> Lösung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+%-ig(e|es|er|en|em)?</token>
+                </pattern>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)%-ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
+                <example type='incorrect' correction="20%ige">Eine <marker>20%-ige</marker> Lösung.</example>
+                <example type='correct'>Eine <marker>20%ige</marker> Lösung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+prozentige(e|es|er|en|em)?</token>
+                </pattern>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)prozent" regexp_replace="$1-prozent" /></suggestion> geschrieben.</message>
+                <example type='incorrect' correction="20-prozentige">Eine <marker>20prozentige</marker> Lösung.</example>
+                <example type='correct'>Eine <marker>20-prozentige</marker> Lösung.</example>
             </rule>
         </rulegroup>
         <rule id="IN_UND_AUSWENDIG" name="in (in-) und auswendig">
