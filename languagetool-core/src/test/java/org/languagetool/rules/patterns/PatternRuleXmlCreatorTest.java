@@ -71,6 +71,17 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<message>This is a dummy message 2.</message>"));
   }
 
+  public void testToXMLWithAntiPattern() throws IOException {
+    PatternRuleId ruleId = new PatternRuleId("DEMO_RULE_ANTIPATTERN");
+    PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
+    String xml = creator.toXML(ruleId, new Demo());
+    assertTrue(xml.contains(
+            "  <antipattern>\n" +
+            "    <token>bar</token>\n" +
+            "    <token>,</token>\n" +
+            "  </antipattern>\n"));
+  }
+
   public void testToXMLInvalidRuleId() throws IOException {
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     PatternRuleId fakeRuleId = new PatternRuleId("FAKE_ID");

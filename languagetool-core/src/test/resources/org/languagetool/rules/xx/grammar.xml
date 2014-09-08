@@ -130,6 +130,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">This is <marker>foo different</marker>.</example>
             <example type="incorrect">This is <marker>foosomething</marker>.</example>
         </rule>
+        <rule id="DEMO_RULE_ANTIPATTERN" name="Find 'foo bar' but not 'not this'">
+            <antipattern>
+                <token>bar</token>
+                <token>,</token>
+            </antipattern>
+            <pattern>
+                <token>foo</token>
+                <token>bar</token>
+            </pattern>
+            <message>Did you mean <suggestion>foo</suggestion>?</message>
+            <example type="correct">This is <marker>fuu bah</marker>.</example>
+            <example type="incorrect">This is <marker>foo bar</marker>.</example>
+            <example type="correct">This is <marker>foo bar</marker>, but this is not.</example>
+        </rule>
         <rulegroup id="GROUP_WITH_URL" name="rule group with url">
             <url>http://fake-server.org/rule-group-url</url>
             <rule>
