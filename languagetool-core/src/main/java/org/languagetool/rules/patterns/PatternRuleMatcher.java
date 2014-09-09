@@ -203,7 +203,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         if (rule.getFilter() != null) {
           RuleFilterEvaluator evaluator = new RuleFilterEvaluator(rule.getFilter());
           AnalyzedTokenReadings[] patternTokens = Arrays.copyOfRange(tokens, firstMatchToken, lastMatchToken + 1);
-          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, tokenPositions, patternTokens);
+          return evaluator.runFilter(rule.getFilterArguments(), ruleMatch, patternTokens, tokenPositions);
         } else {
           return ruleMatch; 
         }
