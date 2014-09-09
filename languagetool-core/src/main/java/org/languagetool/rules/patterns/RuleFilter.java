@@ -19,15 +19,17 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Map;
 
 /**
  * Filter rule matches after a PatternRule has matched already.
- * Can be used from the XML using the 'filter' element.
+ * Can be used from the XML using the {@code filter} element.
  * @since 2.7
  */
+@Experimental
 public interface RuleFilter {
 
   /**
