@@ -23,7 +23,6 @@ import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
@@ -42,7 +41,6 @@ import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSParser;
-import org.xml.sax.SAXException;
 
 /**
  * Makes XML definition of rules accessible as strings.
@@ -72,9 +70,9 @@ public class PatternRuleXmlCreator {
         if (ruleId.getSubId() != null) {
           final NodeList ruleGroupNodes = (NodeList) xpath.evaluate("/rules/category/rulegroup[@id='" + ruleId.getId() + "']/rule", doc, XPathConstants.NODESET);
           if (ruleGroupNodes != null) {
-            for (int i = 1; i <= ruleGroupNodes.getLength(); i++) {
-              if (Integer.toString(i).equals(ruleId.getSubId())) {
-                return nodeToString(ruleGroupNodes.item(i - 1));
+            for (int i = 0; i < ruleGroupNodes.getLength(); i++) {
+              if (Integer.toString(i+1).equals(ruleId.getSubId())) {
+                return nodeToString(ruleGroupNodes.item(i));
               }
             }
           }
@@ -91,7 +89,7 @@ public class PatternRuleXmlCreator {
     throw new RuntimeException("Could not find rule '" + ruleId + "' for language " + language + " in files: " + filenames);
   }
 
-  private Document getDocument(InputStream is) throws ParserConfigurationException, SAXException, IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+  private Document getDocument(InputStream is) throws InstantiationException, IllegalAccessException, ClassNotFoundException {
     final DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
     final DOMImplementationLS impl = (DOMImplementationLS)registry.getDOMImplementation("LS");
     final LSParser parser = impl.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, null);
@@ -102,7 +100,7 @@ public class PatternRuleXmlCreator {
     return parser.parse(domInput);
   }
 
-  private String nodeToString(Node node) throws ParserConfigurationException, IOException, SAXException {
+  private String nodeToString(Node node) {
     final StringWriter sw = new StringWriter();
     try {
       final Transformer t = TransformerFactory.newInstance().newTransformer();
@@ -118,9 +116,12 @@ public class PatternRuleXmlCreator {
       .replace("<and", "\n    <and")
       .replace("</and>", "\n    </and>")
       .replace("<phraseref", "\n    <phraseref")
+      .replace("<antipattern", "\n  <antipattern")
       .replace("<pattern", "\n  <pattern")
       .replace("</pattern", "\n  </pattern")
+      .replace("</antipattern", "\n  </antipattern")
       .replace("</rule>", "\n</rule>")
+      .replace("<filter", "\n  <filter")
       .replace("<message", "\n  <message")
       .replace("<short", "\n  <short")
       .replace("<url", "\n  <url")

@@ -7,6 +7,7 @@ LanguageTool Change Log
 
 -Dutch:
     -added and improved rules
+    -switched to Morfologik-based spell checker
     
 -English:
     -Do you want to be part of the team that develops the world's most powerful 
@@ -22,7 +23,7 @@ LanguageTool Change Log
      'womans' suggests 'women'.
     -New rule that checks if a weekday matches a date, e.g. detects
      "Monday, 7 October 2014", as that date isn't a Monday. This rule will only
-     work if it detects the date format in use. So far, only these formats are supported:
+     work if it detects the date format in use. So far, these formats are supported:
        * "Monday, 7 October 2014"
        * "Monday, 7 Oct 2014"
        * "Monday, October 7, 2014"
@@ -46,6 +47,8 @@ LanguageTool Change Log
     -New rule that checks if a weekday matches a date, e.g. detects
      "Dienstag, 29.9.2014", as that date isn't a Tuesday.
     -Performance improvements for spell check suggestions
+    -Performance improvements for the multi-thread use case, where JLanguageTool
+     gets created per thread, but German gets created only once
     
 -Portuguese:
     -added/improved several rules
@@ -53,7 +56,7 @@ LanguageTool Change Log
 
 -Russian:
     -added new rules    
-    -fix sf feature request #38
+    -fix SourceForge feature request #38 (check for different quotation marks)
 
 -Polish:
     -added and improved some rules
@@ -61,10 +64,7 @@ LanguageTool Change Log
 -Spanish:
     -Added new POS category Z (for spelled numbers, e.g. 'uno', 'dos', ...)
     -Spelled numbers can now be detected and managed both in disambiguation and rules.
-    -Improved LO/OO menus translation
-    -Updated Community site translation
-    -Spelled numbers can be now detected and managed both in disambiguation and rules
-    -Fixed some incorrect lemmas in POS dictionary
+    -Fixed some incorrect lemmas in POS dictionary.
     -Added Hybrid chunker-disambiguator.
 
 -Tamil:
@@ -76,7 +76,9 @@ LanguageTool Change Log
 
 -API:
     -Removed several classes and methods that had been deprecated since version 2.6
-    -The signature of Language.getRelevantRules() has changed.
+    -The signature of Language.getRelevantRules() has changed
+    -The JLanguageTool and MultiThreadedJLanguageTool constructors don't declare to
+     throw an IOException anymore
     -WhitespaceRule has been renamed to MultipleWhitespaceRule (WhitespaceRule
      still exists but has been deprecated)
     -Deprecated some methods whose visibility will be decreased (e.g. from public
@@ -85,8 +87,6 @@ LanguageTool Change Log
      MorfologikSpellerRule.getRuleMatches(String, int)
     -The RuleMatch constructor now throws an exception if toPosition is not
      larger than fromPosition
-    -The JLanguageTool and MultiThreadedJLanguageTool constructors don't declare to
-     throw an IOException anymore
 
 -Command line:
     -Enabling and disabling specific rules at the same time is now allowed.
@@ -107,7 +107,7 @@ LanguageTool Change Log
 -Internals:
     -New abstract rule AbstractDateCheckFilter that allows to check if a week day and date
      match. For example "Tuesday, September 29, 2014" could be detected, as September 29, 2014 is
-     not actually a Tuesday. This uses the new RuleFilter interface that can be called
+     not actually a Tuesday. This uses the new experimental RuleFilter interface that can be called
      from XML with the new 'filter' element. 'filter' takes these attributes:
        'class': the fully-qualified name of a Java class that implements RuleFilter, e.g.
                 "org.languagetool.rules.de.DateCheckFilter"

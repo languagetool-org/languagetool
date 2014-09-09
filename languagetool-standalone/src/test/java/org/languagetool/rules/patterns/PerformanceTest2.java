@@ -45,17 +45,17 @@ final class PerformanceTest2 {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     System.out.println("Text length: " + text.length());
     Random rnd = new Random(42);
+    Language language = Language.getLanguageForShortName(languageCode);
     long totalTime = 0;
     for (int i = 0; i < RUNS; i++) {
       int beginIndex = rnd.nextInt(text.length());
       int endIndex = Math.min(beginIndex + MAX_TEXT_LENGTH, text.length()-1);
       String subText = text.substring(beginIndex, endIndex);
       long startTime = System.currentTimeMillis();
-      JLanguageTool langTool = new MultiThreadedJLanguageTool(Language.getLanguageForShortName(languageCode));
+      JLanguageTool langTool = new MultiThreadedJLanguageTool(language);
       langTool.activateDefaultPatternRules();
       List<RuleMatch> matches = langTool.check(subText);
-      long endTime = System.currentTimeMillis();
-      long runTime = endTime-startTime;
+      long runTime = System.currentTimeMillis() - startTime;
       totalTime += runTime;
       System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");
     }

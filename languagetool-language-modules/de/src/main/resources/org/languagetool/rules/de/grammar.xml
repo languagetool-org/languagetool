@@ -533,7 +533,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ABREITEN_VS_ARBEITEN" name="Möglicher Tippfehler: 'abreitet (arbeitet) daran' etc.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">wohnt|lebt</token>
                     <token>und</token>
                     <marker>
@@ -546,7 +546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="arbeitet">Er lebt und <marker>abreitet</marker> in Essen.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes" skip="1">an|hart|daran|als|in|für|mit|viel|zu</token>
                     <marker>
                         <token regexp="yes">abreite(n|s?t)</token>
@@ -558,7 +558,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="arbeiten">Er sollte daran <marker>abreiten</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token regexp="yes" skip="1">abreite(n|s?t)</token>
                     </marker>
@@ -572,7 +572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="HAARE_VS_HARRE" name="Möglicher Tippfehler: 'Harre (Haare) schneiden'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>Harre</token>
                     </marker>
@@ -585,7 +585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Haare">Ich lasse mir die <marker>Harre</marker> schneiden.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token inflected="yes">schneiden</token>
                     <token regexp="yes">mir|dir|sich|ihr|ihm|ihnen|euch</token>
                     <token>die</token>
@@ -3293,7 +3293,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Seit"><marker>Seid</marker> wann ist das so?</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>seid</token>
                     </marker>
@@ -3304,7 +3304,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Seit"><marker>Seid</marker> du nicht mehr da bist, ist alles doof.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">ich|wir</token>
                     <marker>
                         <token>seid</token>
@@ -3828,7 +3828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="WAGE_WAAGE" name="Mögliche Wortverwechslung: wage/Waage">
             <url>http://www.duden.de/rechtschreibung/Waage</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token inflected="yes" regexp="yes" skip="2">bringen|legen</token>
                     <token>auf</token>
                     <token>die</token>
@@ -3843,7 +3843,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Der bringt zwanzig Kilo auf die <marker>Waage</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>auf</token>
                     <token>die</token>
                     <marker>
@@ -3904,7 +3904,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ZU_RECHT" name="Mögliche Wortverwechslung: zurecht/zu Recht">
             <url>http://www.duden.de/rechtschreibung/zurecht_</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>und</token>
                     <token>zwar</token>
                     <marker>
@@ -3918,7 +3918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- match 'zurecht' without 'kommen', 'finden' etc. INCOMPLETE, NEEDS WORK -->
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes" skip="1"><exception regexp="yes" inflected="yes">kommen|finden|biegen|legen|machen|rücken|schneiden|schnitzen|weisen|zimmern</exception></token>
                     <marker>
                         <token>zurecht</token>
@@ -3934,7 +3934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">So behauptet er <marker>zurecht</marker>, das sei falsch.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>zurecht</token>
                     </marker>
@@ -3947,7 +3947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- match 'zurecht kommen', 'zurecht finden' etc. -->
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>zurecht</token>
                     <token regexp="yes" inflected="yes">kommen|finden|biegen|legen|machen|rücken|schneiden|schnitzen|weisen|zimmern</token>
                 </pattern>
@@ -4001,7 +4001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="JE_DESTO" name="Mögliche Wortverwechslung: je/desto" default="on">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>je</token>
                     <token postag="ADJ:PRD:KOM" skip="-1"><exception regexp="yes" scope="next">bzw|und</exception></token>
                     <marker>
@@ -4019,7 +4019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="CHAMPIGNON_CHAMPION" name="Mögliche Wortverwechslung: Champignon/Champion">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">Dosen?|Pizza|Pasta|Nudeln|Soße|Sauce</token>
                     <token>mit</token>
                     <marker>
@@ -4032,7 +4032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Pizza mit <marker>Champignons</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">Dosen?|Glas|Gläsern?|(frisch|gedünstet|gehackt|geschnitten|gebraten|gefüllt)en?</token>
                     <marker>
                         <token regexp="yes">Champions?</token>
@@ -4086,7 +4086,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="TOT_TOD" name="Mögliche Wortverwechslung: tot/Tod">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">auf|um|über|zwischen</token>
                     <marker>
                         <token>leben</token>
@@ -4101,7 +4101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct"><marker>Leben und tot</marker> sein schließt sich bekanntlich gegenseitig aus.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token skip="1">bis</token>
                     <token>der</token>
                     <marker>
@@ -4301,7 +4301,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FOLGERN_FOLGEN" name="Mögliche Wortverwechslung: folgern/folgen">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <token>Daraus</token>
                     <marker>
@@ -4316,7 +4316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Daraus <marker>folgert</marker> er, dass diese Formulierung richtig ist.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <token>Daraus</token>
                     <marker>
@@ -4333,7 +4333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PERDU_PARTOUT" name="Mögliche Wortverwechslung: perdu/partout">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes" negate="yes">enfant|temps|corps|fonds</token>
                     <marker>
                         <token>perdu</token>
@@ -4498,7 +4498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das ist schlechter <marker>Stil</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>nicht</token>
                     <token regexp="yes">&meindein;</token>
                     <marker>
@@ -4661,7 +4661,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DASS_STATT_DAS_RELATIVPRONOMEN" name="Mögliche Wortverwechslung: dass/das">
             <url>http://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes">Ein|Das</token>
                     <token postag="SUB:NOM:SIN:NEU"/>
@@ -4689,7 +4689,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DASS_MIT_VERB" name="Mögliche Wortverwechslung: 'dass (das) ist' etc.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token negate="yes">so</token>
                     <marker>
                         <token>dass</token>
@@ -4708,7 +4708,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Er sagt, <marker>das</marker> sei richtig, aber er irrt.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token>Dass</token>
@@ -6460,50 +6460,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type='incorrect'><marker>Zu allererst</marker> mal in Ruhe nachdenken.</example>
             <example type='correct'>Zuallererst mal in Ruhe nachdenken.</example>
         </rule>
-        <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
-            <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
-            <rule>
-                <pattern>
-                    <token regexp='yes'>\d+jährige[rsn]?</token>
-                </pattern>
-                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="jährig" regexp_replace="-jährig"/></suggestion></message>
-                <short>Fehlender Bindestrich</short>
-                <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
-                <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
-                <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
-                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp='yes'>\d+</token>
-                    <token regexp='yes' spacebefore="yes">jährige[rsn]?</token>
-                </pattern>
-                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
-                <short>Fehlender Bindestrich</short>
-                <example type='incorrect' correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
-                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
-            </rule>
-        </rulegroup>
-        <rule id="NIEDER_SCHLAGEN" name="nieder schlagen (niederschlagen)">
-            <pattern>
-                <token>nieder</token>
-                <token regexp='yes'>schlägt|schlug</token>
-            </pattern>
-            <message>'niederschlagen' wird zusammengeschrieben</message>
-            <suggestion>\1\2</suggestion>
-            <example type='incorrect'>Wie sich das Wetter in den Verkäufen <marker>nieder schlägt</marker>.</example>
-            <example type='correct'>Wie sich das Wetter in den Verkäufen <marker>niederschlägt</marker>.</example>
-        </rule>
-        <rule id="GERAETE_WAHL" name="Zusammen-/Getrenntschreibung: 'Geräte Wahl (Gerätewahl)' etc.">
-            <pattern>
-                <token regexp="yes">Bundestag|Bundesrat|Geräte|Landtag</token>
-                <token>Wahl</token>
-            </pattern>
-            <message>Meinten Sie <suggestion><match no="1" case_conversion="startupper"/><match no="2" case_conversion="startlower"/></suggestion>?</message>
-            <short>&getrennt;</short>
-            <example type="incorrect" correction="Gerätewahl">Die <marker>Geräte Wahl</marker> ist schwierig.</example>
-            <example type="correct">Die <marker>Gerätewahl</marker> ist schwierig.</example>
-        </rule>
         <rule id="PLAN_MAESSIG" name="Zusammen-/Getrenntschreibung: 'plan mäßig (planmäßig)' etc.">
             <pattern>
                 <token><exception postag="ART:.*" postag_regexp="yes"/></token>
@@ -6576,7 +6532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct"><marker>Dr.-Ing.</marker> Stefan Müller</example>
         </rule>
         <rule id="BEILEIBE_NICHT" name="Zusammen-/Getrenntschreibung: bei Leibe (beleibe) nicht">
-            <pattern case_sensitive="no">
+            <pattern>
                 <marker>
                     <token>bei</token>
                     <token>Leibe</token>
@@ -6635,7 +6591,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--
         <rulegroup id="HIN_UND_HER" name="Zusammen-/Getrenntschreibung: 'hin- und hergehen (hin und her gehen)">
           <rule>
-            <pattern mark_from="0" mark_to="-1" case_sensitive="no">
+            <pattern mark_from="0" mark_to="-1">
               <token>hin-</token>
               <token>und</token>
               <token regexp="yes">her(gehen|laufen|wandern|gehe|geht|gehst|ging|gingen|läuft|läufst|lief|liefen|wandert|wanderst|gegangen|gelaufen|gewandert)</token>
@@ -6650,7 +6606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- TODO needs work -->
             <url>http://www.duden.de/rechtschreibung/jahrelang</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/></token>
                     <token postag="ZAL"><exception scope="previous" postag=".*ART.*" postag_regexp="yes"/></token>
                     <marker>
@@ -6663,7 +6619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Wir haben zwei <marker>Jahre lang</marker> gesucht.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/></token>
                     <token regexp="yes">einige|viele|etliche|mehrere</token>
                     <marker>
@@ -6707,7 +6663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ZEITLANG_ZEIT_LANG" name="Zusammen-/Getrenntschreibung: 'eine gewisse Zeitlang (Zeit lang)' u.ä.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>eine</token>
                     <token postag="ADJ:NOM:SIN:FEM.*" postag_regexp="yes"/>
                     <marker>
@@ -6726,7 +6682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EINMALEINS" name="Zusammen-/Getrenntschreibung: 'das ein mal eins (Einmaleins)' etc." default="on">
             <url>http://www.duden.de/rechtschreibung/Einmaleins</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>das</token>
                     <marker>
                         <token>ein</token>
@@ -6740,7 +6696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das <marker>Einmaleins</marker> des Handwerks.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>das</token>
                     <marker>
                         <token regexp="yes">&anfauf;</token>
@@ -6756,7 +6712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das <marker>Einmaleins</marker> des Handwerks.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>das</token>
                     <token postag="ADJ:NOM:SIN:NEU.*" postag_regexp="yes"/>
                     <marker>
@@ -6774,7 +6730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ACHTMALVIER" name="Zusammen-/Getrenntschreibung: 'acht mal (achtmal)' etc." default="on">
             <url>http://www.duden.de/rechtschreibung/mal</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token postag="ZAL"/>
                         <token>mal</token>
@@ -6787,7 +6743,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Wir haben es <marker>achtmal</marker> versucht.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token regexp="yes">(ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun|zehn|elf|zwölf|hundert|tausend|(zwanz|dreiß|vierz|fünfz|sechz|siebz|achtz|neunz)ig)mal</token>
                         <token postag="ZAL"/>
@@ -6804,7 +6760,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="UEBER_DEN_WEGLAUFEN" name="Zusammen-/Getrenntschreibung: 'über den weggelaufen (über den Weg gelaufen)'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>über</token>
                     <token>den</token>
                     <marker>
@@ -6818,7 +6774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Ich bin ihm zufällig über den <marker>Weg gelaufen</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>aus</token>
                     <token>dem</token>
                     <marker>
@@ -6837,7 +6793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DEM_ZUFOLGE" name="Zusammen-/Getrenntschreibung: 'demzufolge (dem zufolge) in Relativsätzen'">
             <url>http://www.korrekturen.de/beliebte_fehler/demzufolge.shtml</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SUB:.+:(MAS|NEU)" postag_regexp="yes"/>
                     <token>,</token>
                     <marker>
@@ -6853,7 +6809,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Ein Sprichwort, <marker>dem zufolge</marker> Geld nicht stinkt.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SUB:.+:(MAS|NEU)" postag_regexp="yes"/>
                     <token>,</token>
                     <marker>
@@ -6871,7 +6827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FREUND_SCHAFT" name="Zusammen-/Getrenntschreibung: 'Freund Schaft (Freundschaft)'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">Freund|Partner|Kamerad|Mutter|Bot|Errungen</token>
                     <token>schaft</token>
                 </pattern>
@@ -6904,7 +6860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ENTWEDER_ODER" name="Zusammen-/Getrenntschreibung: 'ein entweder oder (Entweder-oder)'">
             <url>http://www.duden.de/sprachwissen/sprachratgeber/beispiele-zur-neuen-rechtschreibung</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">ein|das</token>
                     <marker>
                         <token>entweder</token>
@@ -6917,7 +6873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Es läuft auf ein <marker>Entweder-oder</marker> hinaus.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">ein|das</token>
                     <marker>
                         <token>entweder</token>
@@ -6936,7 +6892,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- some false pos. extend to 'vielmehr als nur' -->
             <url>http://www.duden.de/rechtschreibung/vielmehr_sondern</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token negate="yes">wie</token>
                     <token>sehr</token>
                     <marker>
@@ -6949,7 +6905,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">... wie sehr <marker>vielmehr</marker> schon das erste Landrecht hierin von den alten Gebräuchen abweicht.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token><exception>sondern</exception></token>
                     <marker>
                         <token>vielmehr</token>
@@ -6966,7 +6922,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ZWEI_UND_VIERZIG" name="Zusammenschreibung von Zahlwörtern: 'zwei und vierzig (zweiundvierzig)' etc." default="on">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token regexp="yes">.*hundert|.*tausend|ein|zwei|drei|vier|fünf|sechs|sieben|acht|neun</token>
                         <token>und</token>
@@ -7010,7 +6966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ZEIT_LEBENS" name="Zusammen-/Getrenntschreibung: 'zeit Lebens (zeitlebens)'" default="on">
             <url>http://www.duden.de/rechtschreibung/zeitlebens</url>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token><exception postag="SENT_START"/></token>
                     <marker>
                         <token>zeit</token>
@@ -7024,7 +6980,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="zeitlebens">Er war <marker>Zeit Lebens</marker> ein armer Schlucker.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token>Zeit</token>
@@ -7038,7 +6994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="EBEN_SO" name="Zusammen-/Getrenntschreibung: 'eben so (ebenso)'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <marker>
                     <token>eben</token>
                     <token>so</token>
@@ -7054,7 +7010,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="JE_UM_SO" name="Zusammen-/Getrenntschreibung: 'je ... um so (umso) ...'" default="on">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>je</token>
                     <token postag="ADJ:PRD:KOM" skip="-1"/>
                     <marker>
@@ -7072,7 +7028,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="VIEL_LEICHT_PLUS_VERB" name="Zusammen-/Getrenntschreibung: 'Viel leicht (vielleicht) ist' etc.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>viel</token>
                         <token>leicht</token>
@@ -7093,7 +7049,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>vor</token>
             </antipattern>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>da</token>
                         <token regexp="yes">nach|neben|ran|rauf|runter</token>
@@ -7124,7 +7080,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="NACHDEM_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'nachdem (nach dem) Essen etc.'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token regexp="yes">(nach|trotz|seit|außer|in)dem</token>
                     </marker>
@@ -7183,7 +7139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="AUS_AN_DEREN" name="Zusammen-/Getrenntschreibung: 'aus an deren (anderen)'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">in|aus</token>
                 <marker>
                     <token>an</token>
@@ -7195,7 +7151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Buchmacher in <marker>an deren</marker> Bundesländern haben eine Genehmigung.</example>
         </rule>
         <rule id="JE_NACH_DEM" name="Zusammen-/Getrenntschreibung: 'je nach dem (je nachdem)'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <marker>
                     <token>je</token>
                     <token>nach</token>
@@ -7296,7 +7252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Sobald"><marker>So bald</marker> das Wetter besser wird, brechen wir auf.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                         <token>,</token>
                     <marker>
                         <token>so</token>
@@ -7341,7 +7297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="OST_ASIATISCH" name="Zusammen-/Getrenntschreibung: 'ost asiatisch (ostasiatisch)' u.ä.">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">(nord|süd)?(west|ost)|nord|süd</token>
                 <token regexp="yes" inflected="yes" postag="ADJ:.+" postag_regexp="yes">&regionadj;</token>
             </pattern>
@@ -7351,7 +7307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="südostasiatischen">In den <marker>südost asiatischen</marker> Ländern.</example>
         </rule>
         <rule id="PFLEGE_FALL" name="Zusammen-/Getrenntschreibung: 'Pflege Fall (Pflegefall)' u.ä.">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">ein(e[nm]?)?|zum</token>
                 <marker>
                     <token regexp="yes">pflege|s(o|pe)zial|sonder</token>
@@ -7364,7 +7320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="Pflegefall">Wir haben einen <marker>Pflege Fall</marker> zu versorgen.</example>
         </rule>
         <rule id="BAR_GELD" name="Zusammen-/Getrenntschreibung: 'Bar Geld (Bargeld)'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">zu|ohne|kein|mit|viel|wenig|etwas|bisschen|Blixa</token>
                 <marker>
                     <token>Bar</token>
@@ -7379,7 +7335,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Ich gebe an der <marker>Bar Geld</marker> aus.</example>
         </rule>
         <rule id="VIEL_ZAHL" name="Zusammen-/Getrenntschreibung: 'eine viel Zahl (Vielzahl)'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">die|der|eine</token>
                 <marker>
                     <token>viel</token>
@@ -7394,10 +7350,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="Vielzahl">Wir haben eine <marker>viel Zahl</marker> innovativer Konstruktionen gesehen.</example>
         </rule>
         <rule id="NACH_LAESSIGKEIT" name="Zusammen-/Getrenntschreibung: 'aus nach Lässigkeit (Nachlässigkeit)'">
-            <pattern case_sensitive="yes">
-                <token regexp="yes">[aA]us</token>
+            <pattern>
+                <token regexp="yes">aus|durch</token>
                 <marker>
-                    <token regexp="yes">[nN]ach</token>
+                    <token>nach</token>
                     <token>Lässigkeit</token>
                 </marker>
             </pattern>
@@ -7407,7 +7363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="Nachlässigkeit">Wir haben aus <marker>nach Lässigkeit</marker> etwas übersehen.</example>
         </rule>
         <rule id="FRAGE_ZEICHEN" name="Zusammen-/Getrenntschreibung: 'ein Frage Zeichen (Fragezeichen)'">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">drei|ein(em)?|große[nms]?|einziges</token>
                 <marker>
                     <token>Frage</token>
@@ -7422,7 +7378,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="HIN_WEISEN" name="Zusammen-/Getrenntschreibung: 'darauf hin weisen (hinweisen)'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">da?rauf</token>
                     <marker>
                         <token>hin</token>
@@ -7435,7 +7391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="hinweisen">Ich wollte nur darauf <marker>hin weisen</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes" skip="1">weisen?|weist|wies|wiesen</token>
                     <marker>
                         <token>daraufhin</token>
@@ -7449,7 +7405,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="darauf hin">Ich weise <marker>daraufhin</marker>, dass das schwierig wird.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>daraufhin</token>
                         <token regexp="yes">weisen?|weist|wies|(ge)?wiesen</token>
@@ -7479,7 +7435,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect" correction="zweitbeste">Sie war die <marker>zweit beste</marker> Läuferin.</example>
         </rule>
         <rule id="DAS_SELBE" name="Zusammen-/Getrenntschreibung: 'das selbe (dasselbe)' etc.">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">der|die|das|des|dem|den</token>
                 <token regexp="yes">selben?</token>
             </pattern>
@@ -7491,7 +7447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="MOEGLICHER_WEISE_ETC" name="Zusammen-/Getrenntschreibung: 'möglicher Weise (möglicherweise)' etc.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token/>
                     <marker>
                         <token regexp="yes">(absurd|auffällig|bedauerlich|bedauernswert|begreiflich|beklagenswert|bemerkenswert|berechtigt|betrüblich|bevorzugt|bezeichnend|billig|blöd|charakteristisch|dankenswert|drollig|ehrlich|eigenartig|eigenmächtig|eigentümlich|entgegenkommend|enttäuschend|erfreulich|erklärlich|erstaunlich|evident|fair|fälschlich|fatal|folgend|frech|freundlich|gebührend|gemein|gerecht|gewöhnlich|gleich|glied|glücklich|gnädig|günstig|heimlich|heimtückisch|herkömmlich|ideal|idiotisch|inkonsequent|inkorrekt|interessant|ironisch|irreführend|irrig|irritierend|irrtümlich|klar|klassisch|kleck|klug|komisch|konsequent|kontingent|korrekt|kurios|laienhaft|legitim|leichtsinnig|liebenswürdig|listig|lobenswert|löblich|logisch|merkwürdig|missverständlich|möglich|naheliegend|naiv|natürlich|nett|normal|notwendig|originell|paradox|passend|pikant|plausibl|praktisch|realistisch|richtig|riskant|schlau|seltsam|sinnig|sinnvoll|solch|sonderbar|traditionell|tragisch|traurig|trickreich|trivial|typisch|unachtsam|unerklärlich|unerlaubt|unerwartet|ungeschickt|unglücklich|unnötig|unstrittig|unverdient|unvermeidlich|unverständlich|unvorsichtig|verdient|vernünftig|verständlich|widersinnig|wunderbar|wunderlich|zufällig|zulässig|zweckmäßig)er<exception scope="previous">in</exception></token>
@@ -7524,7 +7480,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Das offene Ende, das später den Übergang <marker>zu Teil</marker> 2 bildete, war eher scherzweise gedacht.</example>
         </rule>
         <rule id="RUND_UM" name="Zusammen-/Getrenntschreibung: 'rund um (rundum) sorglos' etc.">
-            <pattern case_sensitive="no">
+            <pattern>
                 <marker>
                     <token>rund</token>
                     <token>um</token>
@@ -7539,7 +7495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="EIN_DANKE_SCHOEN" name="Zusammen-/Getrenntschreibung: 'ein danke schön (Dankeschön)'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">als|ein|das</token>
                     <marker>
                         <token>danke</token>
@@ -7552,7 +7508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Dankeschön">Als <marker>Danke schön</marker> überreichen wir Dir dieses kleine Präsent.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">als|ein|das</token>
                     <token postag="ADJ:AKK:SIN:NEU.*" postag_regexp="yes"/>
                     <marker>
@@ -7566,7 +7522,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Dankeschön">Als kleines <marker>Danke schön</marker> überreichen wir Dir dieses Präsent.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">als|ein|das</token>
                     <token postag="ADJ:AKK:SIN:NEU.*" postag_regexp="yes"/>
                     <marker>
@@ -7582,9 +7538,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Dankeschön">Als kleines <marker>„Danke schön“</marker> überreichen wir Dir dieses Präsent.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZUM_HAARESCHNEIDEN" name="Zusammen-/Getrenntschreibung: 'zum/beim Haare schneiden (Haareschneiden)'">
+        <rulegroup id="ZUM_HAARESCHNEIDEN" name="Zusammen-/Getrenntschreibung: 'zum/beim Haare schneiden (Haareschneiden)' etc.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>zum</token>
                     <marker>
                         <token>bei</token>
@@ -8091,7 +8047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="DURCHEINANDER" name="Zusammen-/Getrenntschreibung: 'durcheinander' usw.">
-            <pattern case_sensitive="no">
+            <pattern>
                 <marker>
                     <token regexp="yes">an|durch|von|in|auf|zu|mit|aus|neben</token>
                     <token>einander</token>
@@ -8115,7 +8071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Und <marker>genau so</marker> soll es sein.</example>
         </rule>-->
         <rule id="DIENSTAG_ABEND" name="Zusammen-/Getrenntschreibung: 'Dienstag abend (Dienstagabend)">
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">&wochentage;</token>
                 <token regexp="yes">&tageszeitangabenklein;</token>
             </pattern>
@@ -8186,7 +8142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>ab</token>
                 <token>zu</token>
-                <token regexp="yes">bewegen|lernen|kommen</token>
+                <token regexp="yes">betonen|bewegen|lernen|kommen</token>
             </antipattern>
             <antipattern>
                 <token>aus</token>
@@ -8510,93 +8466,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
-		<rulegroup id="MORGEN_MIT_VERGANGENHEIT" name="Zeitform: 'morgen' etc. mit Vergangenheit">
-			<rule>
-				<antipattern>
-					<!-- eigentlich "heute Morgen", aber dafür gibt es schon eine andere Regel: -->
-					<token>heute</token>
-					<token>morgen</token>
-				</antipattern>
-				<pattern>
-					<token postag="SENT_START" skip="-1">
-						<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-						<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-					</token>
-					<marker>
-						<token regexp="yes" case_sensitive="yes">(über)?morgen</token>
-						<token postag="VER:.*:PRT.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
-				</pattern>
-				<message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
-				<short>Falsche Zeitform</short>
-				<example type="incorrect">Aber <marker>morgen schien</marker> die Sonne.</example>
-				<example type="correct">Morgen wird die Sonne scheinen.</example>
-				<example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
-				<example type="correct">Er hat seine Abreise auf <marker>morgen verschoben</marker>.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token postag="SENT_START"/>
-					<marker>
-						<token regexp="yes">(über)?morgen</token>
-						<token postag="VER:.*:PRT.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
-				</pattern>
-				<message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
-				<short>Falsche Zeitform</short>
-				<example type="incorrect"><marker>Morgen schien</marker> die Sonne.</example>
-				<example type="correct">Morgen wird die Sonne scheinen.</example>
-				<example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token postag="SENT_START" skip="-1">
-						<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-						<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-					</token>
-					<marker>
-						<token regexp="yes">nächste[ns]?</token>
-						<token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
-						<token postag="VER:.*:PRT.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
-				</pattern>
-				<message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
-				<short>Falsche Zeitform</short>
-				<example type="incorrect"><marker>Nächstes Wochenende schien</marker> die Sonne.</example>
-				<example type="correct">Nächstes Wochenende wird die Sonne scheinen.</example>
-				<example type="correct"><marker>Nächstes Wochenende scheint</marker> die Sonne.</example>
-			</rule>
-		</rulegroup>
+        <rulegroup id="MORGEN_MIT_VERGANGENHEIT" name="Zeitform: 'morgen' etc. mit Vergangenheit">
+            <rule>
+                <antipattern>
+                    <!-- eigentlich "heute Morgen", aber dafür gibt es schon eine andere Regel: -->
+                    <token>heute</token>
+                    <token>morgen</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" skip="-1">
+                        <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                        <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                    </token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">(über)?morgen</token>
+                        <token postag="VER:.*:PRT.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect">Aber <marker>morgen schien</marker> die Sonne.</example>
+                <example type="correct">Morgen wird die Sonne scheinen.</example>
+                <example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
+                <example type="correct">Er hat seine Abreise auf <marker>morgen verschoben</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">(über)?morgen</token>
+                        <token postag="VER:.*:PRT.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect"><marker>Morgen schien</marker> die Sonne.</example>
+                <example type="correct">Morgen wird die Sonne scheinen.</example>
+                <example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1">
+                        <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                        <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                    </token>
+                    <marker>
+                        <token regexp="yes">nächste[ns]?</token>
+                        <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+                        <token postag="VER:.*:PRT.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect"><marker>Nächstes Wochenende schien</marker> die Sonne.</example>
+                <example type="correct">Nächstes Wochenende wird die Sonne scheinen.</example>
+                <example type="correct"><marker>Nächstes Wochenende scheint</marker> die Sonne.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GESTERN_MIT_PRAESENS" name="Zeitform: 'gestern' etc. mit Präsens">
             <rule>
                 <pattern>
-					<marker>
-						<token postag="SENT_START" skip="-1">
-							<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-							<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-						</token>
-						<token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
-						<token postag="VER:.*:PRÄ.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
+                    <marker>
+                        <token postag="SENT_START" skip="-1">
+                            <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                            <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                        </token>
+                        <token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
+                        <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
                     <token>
-						<exception inflected="yes">haben</exception>
-						<exception inflected="yes">sein</exception>
+                        <exception inflected="yes">haben</exception>
+                        <exception inflected="yes">sein</exception>
                     </token>
                 </pattern>
                 <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
@@ -8609,22 +8565,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-					<marker>
-						<token postag="SENT_START" skip="-1">
-							<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-							<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-						</token>
-						<token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
-						<token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
-						<token postag="VER:.*:PRÄ.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
+                    <marker>
+                        <token postag="SENT_START" skip="-1">
+                            <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                            <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                        </token>
+                        <token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
+                        <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+                        <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
                     </marker>
                     <token>
-						<exception inflected="yes">haben</exception>
-						<exception inflected="yes">sein</exception>
+                        <exception inflected="yes">haben</exception>
+                        <exception inflected="yes">sein</exception>
                     </token>
                 </pattern>
                 <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
@@ -8947,6 +8903,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
 
         </rulegroup>
+        <rule id="DOPPELUNG_JAHRE" name="Doppelung: 'Jahre 1990 bis 1990'">
+            <pattern>
+                <token regexp="yes">Jahre[ns]?</token>
+                <marker>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">bis|und</token>
+                    <token regexp="yes"><match no="1"/></token>
+                </marker>
+                <token><exception>/</exception></token>
+            </pattern>
+            <message>Wiederholung der Jahreszahl</message>
+            <example type="incorrect">In den Jahren <marker>1960 und 1960</marker> wurden sie jeweils Dritte.</example>
+            <example type="correct">In den Jahren <marker>1960 und 1961</marker> wurden sie jeweils Dritte.</example>
+            <example type="correct">In den Jahren <marker>1960 und 1960</marker>/61 wurden sie jeweils Dritte.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
@@ -9183,7 +9154,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Ich habe es gerade erst <marker>neu erneuert</marker>.</example>
                 <example type="correct">Ich habe es gerade erst <marker>erneuert</marker>.</example>
             </rule>
-            <rule>
+            <rule default="off">
+                <!-- off by default because "Es kann möglicherweise die Behandlung einer Schizophrenie unterstützen." looks okay to me -->
                 <antipattern>
                     <token>kann</token>
                     <token regexp="yes">jede[mnr]?</token>
@@ -9196,7 +9168,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&redundanz;Die Wörter <suggestion>\1</suggestion> und <suggestion>\2</suggestion> drücken etwa dasselbe aus.</message>
                 <short>&redundanz;</short>
                 <example type="incorrect">Das <marker>kann möglicherweise</marker> sein.</example>
-                <example type="correct">Das <marker>möglicherweise</marker> sein.</example>
+                <example type="correct">Das <marker>kann</marker> sein.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9600,7 +9572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="VON_WOHER" name="Verdoppelung: 'von woher'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>von</token>
                     <token>woher</token>
                 </pattern>
@@ -9614,7 +9586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="WOHIN_HIN" name="Verdoppelung: 'wohin ... hin'">
             <!-- TODO expect some false pos. Not covered: 'wohin ist er hingegangen' etc. – reg. expr. -->
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>wohin</token>
                     <token>
                         <exception postag="SENT_END"/>
@@ -9631,7 +9603,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct"><marker>Wo wollte er hin</marker>?</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>wohin</token>
                     <token>
                         <exception postag="SENT_END"/>
@@ -9651,7 +9623,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct"><marker>Wo wollte er denn hin</marker>?</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>woher</token>
                     <token>
                         <exception postag="SENT_END"/>
@@ -9669,7 +9641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct"><marker>Woher kam er</marker>?</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>woher</token>
                     <token>
                         <exception postag="SENT_END"/>
@@ -9689,7 +9661,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct"><marker>Wo kam er denn her</marker>?</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>daher</token>
                     <token>
                         <exception postag="SENT_END"/>
@@ -9708,7 +9680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="WAEHREND_DES_VERLAUFS" name="Verdoppelung: 'während des Verlaufs'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <marker>
                         <token>während</token>
                         <token>des</token>
@@ -9724,7 +9696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="KAUSAL_VERURSACHT" name="Verdoppelung: 'kausal verursachen'">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token inflected="yes">verursachen</token>
                     <token>kausal</token>
                 </pattern>
@@ -9734,7 +9706,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das hat den Unfall <marker>verursacht</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>kausal</token>
                     <token inflected="yes">verursachen</token>
                 </pattern>
@@ -10814,7 +10786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>und</token>
                 <token>-frauen</token>
             </antipattern>
-            <pattern case_sensitive="no">
+            <pattern>
                 <token regexp="yes">(.*kauf|See|Feuerwehr|Gewährs|Edel)männern?</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="(Kauf|.*kauf|See|Feuerwehr|Gewährs|Edel)männer(n)?" regexp_replace="$1leute$2"/></suggestion>?</message>
@@ -10961,7 +10933,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ANREDE" name="Möglicher Tippfehler: 'Sehr geehrte (geehrter) Herr Müller' u.ä.">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <marker>
@@ -10977,7 +10949,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="geehrter">Sehr <marker>geehrten</marker> Herr ...</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <marker>
@@ -10994,7 +10966,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="geehrte">Sehr <marker>geehrt</marker> Frau ...</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <token>Sehr</token>
                     <token regexp="yes">geehrte\w?</token>
@@ -11129,7 +11101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="VERBLEIBEN_WIR" name="Stil: 'verbleibe ich' (altmodische Formel)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">verbleiben?</token>
                     <token regexp="yes">ich|wir</token>
                 </pattern>
@@ -11161,7 +11133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="BEZUG_NEHMEND" name="Stil: 'Bezug nehmend auf Ihr Schreiben' (Papierdeutsch)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>Bezug</token>
                     <token>nehmend</token>
                     <token>auf</token>
@@ -11176,7 +11148,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FREUNDLICHE_KENNTNISNAHME" name="Stil: 'zu Ihrer freundlichen Kenntnisnahme' (Papierdeutsch)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes" skip="2">zur?</token>
                     <token>Kenntnisnahme</token>
                 </pattern>
@@ -11189,7 +11161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="UEBERSENDEN" name="Stil: 'übersenden wir' (Papierdeutsch)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">übersende\w?</token>
                 </pattern>
                 <message>Diese Wendung könnte als verstaubtes Papierdeutsch empfunden werden.</message>
@@ -11200,7 +11172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ERGEBENST" name="Stil: 'ergebenst, höflichst' (altmodische Formel in Briefen)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">ergebenst|höflichst|untertänig+</token>
                 </pattern>
                 <message>Diese Wendung kann als altmodisch und unangebracht devot empfunden werden.</message>
@@ -11211,7 +11183,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="AUCH_NACH_FEIERABEND" name="Stil: 'ich stehe Ihnen jederzeit zur Verfügung' (Floskel)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes" skip="2">stehen?</token>
                     <token skip="4">jederzeit</token>
                     <token>zur</token>
@@ -11225,7 +11197,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="SCHNELLE_ANTWORT" name="Stil: 'danke für die schnelle Antwort' (Floskel)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes" skip="1">(be)?dank(en?)?</token>
                     <token>für</token>
                     <token regexp="yes">Ihre|deine|die</token>
@@ -11257,7 +11229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="LG" name="Stil: 'LG (Liebe Grüße)' (abgekürzte Schlussformeln)" default="off">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token postag="SENT_START"/>
                     <marker>
                         <token>LG</token>
@@ -18835,7 +18807,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Wann kommst du nach <marker>hause</marker>?</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">&meindein;|k?ein|neues</token>
                     <marker>
                         <token>zu</token>
@@ -22701,7 +22673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
-                            <exception regexp="yes">öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
+                            <exception regexp="yes">sein|öden|regen|rauen|apologetischen|wachen|achten|.*genetischen|einen|.*romantischen|.+haften|.*dramatischen|starren|sieben|.+werten</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -23613,7 +23585,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- TODO: Fix false alarms like in "Seite zum Suchen von Abkürzungen"
         <rulegroup id="ZUM_ZUR" name="Grammatik: 'zum (zur) Trennung'">
           <rule>
-            <pattern case_sensitive="no" mark_to="-1">
+            <pattern mark_to="-1">
               <token regexp="yes">zum|vom</token>
               <token postag="SUB:.*FEM" postag_regexp="yes"/>
             </pattern>
@@ -23641,7 +23613,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- TODO: too many false alarms
         <rulegroup id="SEIT_PREP_TEILGRUPPE_MIT_NACH_ETC" name="Grammatik: 'seit/nach/... des (dem)'">
           <rule>
-            <pattern case_sensitive="no" mark_from="1">
+            <pattern mark_from="1">
               <token regexp="yes">mit|nach|bei|von|aus|zu|seit</token>
               <token postag=".*:DEF:(GEN|NOM|AKK).*" postag_regexp="yes"/>
               <token/>
@@ -24832,7 +24804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="VIELZAHL_PLUS_SINGULAR" name="Grammatik: 'eine Vielzahl von Möglichkeit (Möglichkeiten)' etc. (falscher Singular)">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">die|der|eine|ganze</token>
                     <token regexp="yes">Vielzahl|Reihe|Fülle</token>
                     <token>von</token>
@@ -25344,6 +25316,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category name="Zeichensetzung">
+        <rulegroup id="XJAEHRIG" name="Xjährig (X-jährig)">
+            <url>http://www.duden.de/rechtschreibung/_jaehrig</url>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+jährige[rsnm]?</token>
+                </pattern>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion><match no="1" regexp_match="([Jj])ährig" regexp_replace="-$1ährig"/></suggestion></message>
+                <short>Fehlender Bindestrich</short>
+                <example type='incorrect'>Der <marker>46jährige</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Der <marker>46-jährige</marker> Diplom-Kaufmann</example>
+                <example type='incorrect'>Ein <marker>46jähriger</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+                <example type='incorrect'><marker>46jährigem</marker> Diplom-Kaufmann der Hut geklaut</example>
+                <example type='correct'><marker>46-jährigem</marker> Diplom-Kaufmann der Hut geklaut</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+</token>
+                    <token regexp='yes' spacebefore="yes">jährige[rsnm]?</token>
+                </pattern>
+                <message>Die Kombination Zahl und "jährig" wird mit Bindestrich geschrieben: <suggestion>\1-\2</suggestion></message>
+                <short>Fehlender Bindestrich</short>
+                <example type='incorrect' correction="46-jähriger">Ein <marker>46 jähriger</marker> Diplom-Kaufmann</example>
+                <example type='correct'>Ein <marker>46-jähriger</marker> Diplom-Kaufmann</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="XX-PROZENTIG" name="20-%ig (20%ig)">
+            <url>http://www.duden.de/rechtschreibung/_prozentig</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+-%ig(e|es|er|en|em)?</token>
+                </pattern>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)-%ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
+                <example type='incorrect' correction="20%ige">Eine <marker>20-%ige</marker> Lösung.</example>
+                <example type='correct'>Eine <marker>20%ige</marker> Lösung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+%-ig(e|es|er|en|em)?</token>
+                </pattern>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)%-ig" regexp_replace="$1%ig" /></suggestion> geschrieben.</message>
+                <example type='incorrect' correction="20%ige">Eine <marker>20%-ige</marker> Lösung.</example>
+                <example type='correct'>Eine <marker>20%ige</marker> Lösung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+prozentige(e|es|er|en|em)?</token>
+                </pattern>
+                <message>Eine Zahl und "prozentig" wird <suggestion><match no="1" regexp_match="(\d+)prozent" regexp_replace="$1-prozent" /></suggestion> geschrieben.</message>
+                <example type='incorrect' correction="20-prozentige">Eine <marker>20prozentige</marker> Lösung.</example>
+                <example type='correct'>Eine <marker>20-prozentige</marker> Lösung.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_UND_AUSWENDIG" name="in (in-) und auswendig">
             <pattern>
                 <token>in</token>
@@ -25539,7 +25564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="on">
             <url>http://www.korrekturen.de/zeichensetzung04.shtml</url>
-			<rule>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
@@ -25561,7 +25586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="?">Wann denn endlich<marker>.</marker></example>
                 <example type="incorrect" correction="?">Wohin denn überhaupt<marker>.</marker></example>
             </rule>
-			<rule>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="1">Und|Aber</token>
@@ -25587,7 +25612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="?">Was soll das denn<marker>.</marker></example>
                 <example type="incorrect" correction="?">Und wer ist das<marker>.</marker></example>
             </rule>
-			<rule>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
@@ -26490,7 +26515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="VON_BIS" name="Zeichensetzung: 'von' mit Bis-Strich">
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>von</token>
                     <marker>
                         <token>a-z</token>
@@ -26505,7 +26530,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="A bis Z">Pilze von <marker>A-Z</marker>.</example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>von</token>
                     <marker>
                         <token>a</token>
@@ -27096,7 +27121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="c.&nbsp;t.">Das Seminar beginnt um 16 Uhr <marker>c.t.</marker></example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token regexp="yes">u|o|i</token>
                     <token spacebefore="no">.</token>
                     <token regexp="yes">ö|ä|a|dgl</token>
@@ -27124,7 +27149,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="n.&nbsp;V.">Sprechstunde <marker>n.V.</marker></example>
             </rule>
             <rule>
-                <pattern case_sensitive="no">
+                <pattern>
                     <token>u</token>
                     <token spacebefore="no">.</token>
                     <token>v</token>
@@ -27440,6 +27465,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Eine relative Zeitangabe wie '\1 \2 \3' ist für Wikipedia-Artikel nicht gut geeignet und sollte möglicherweise durch eine absolute Zeitangabe ersetzt werden.</message>
                 <example type="incorrect"><marker>Seit einigen Jahren</marker> ist sie Bundeskanzlerin.</example>
                 <example type="correct">Seit März 2009 ist sie Bundeskanzlerin.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="X_SOLL_XXXX" name="'soll (vergangenes Jahr)': Angabe nicht aktuell?">
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d\d\d\d</token>
+                    <token>worden</token>
+                    <token>sein</token>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="(SUB|PRO):.*"/>
+                    <token>soll</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <!-- Filter all matches whose years are not 1 to 10 years ago: -->
+                <filter class="org.languagetool.rules.de.RecentYearFilter" args="year:\3 maxYearsBack:10"/>
+                <message>Evtl. ist diese Angabe veraltet und sollte aktualisiert werden.</message>
+                <example type="incorrect">Das Hotel soll <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="incorrect">Es soll <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="correct">Das Hotel soll <marker>2003</marker> eröffnet werden.</example><!-- too far in the past -->
+                <example type="correct">Das Hotel soll <marker>2013</marker> eröffnet worden sein.</example>
+                <example type="correct">Das Hotel soll <marker>2200</marker> eröffnet worden sein.</example>
+                <example type="triggers_error">Der Kran soll <marker>2013</marker> Tonnen heben können.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">\d\d\d\d</token>
+                    <token>worden</token>
+                    <token>sein</token>
+                </antipattern>
+                <pattern>
+                    <token>soll</token>
+                    <token>im</token>
+                    <token regexp="yes">Jahre?|&monate;</token>
+                    <marker>
+                        <token regexp="yes">\d\d\d\d</token>
+                    </marker>
+                </pattern>
+                <filter class="org.languagetool.rules.de.RecentYearFilter" args="year:\4 maxYearsBack:10"/>
+                <message>Evtl. ist diese Angabe veraltet und sollte aktualisiert werden.</message>
+                <example type="incorrect">Das Hotel soll im Jahr <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="incorrect">Das Hotel soll im Februar <marker>2013</marker> eröffnet werden.</example><!-- this will start to fail in 2024 -->
+                <example type="correct">Das Hotel soll im Jahr <marker>2003</marker> eröffnet werden.</example><!-- too far in the past -->
+                <example type="correct">Das Hotel soll im Jahr <marker>2013</marker> eröffnet worden sein.</example>
+                <example type="correct">Das Hotel soll <marker>2200</marker> eröffnet worden sein.</example>
             </rule>
         </rulegroup>
     </category>

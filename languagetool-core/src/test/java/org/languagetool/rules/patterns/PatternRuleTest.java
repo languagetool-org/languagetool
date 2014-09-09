@@ -406,14 +406,15 @@ public class PatternRuleTest extends TestCase {
       // enable indentation use
       goodSentence = goodSentence.replaceAll("[\\n\\t]+", "");
       goodSentence = cleanXML(goodSentence);
-      assertTrue(lang + ": Empty correct example in rule "+rule.getId(), goodSentence.trim().length() > 0);
+      assertTrue(lang + ": Empty correct example in rule " + rule.getId(), goodSentence.trim().length() > 0);
       boolean isMatched = false;
       // necessary for XML Pattern rules containing <or>
       for (Rule auxRule : rules) {
         isMatched = isMatched || match(auxRule, goodSentence, languageTool);
       }
-      assertFalse(lang + ": Did not expect error in: " + goodSentence
-              + " (Rule: " + rule + ")", isMatched);
+      assertFalse(lang + ": Did not expect error in:\n" +
+              "  " + goodSentence + "\n" +
+              "Matching Rule: " + rule, isMatched);
       // avoid matches with all the *other* rules:
       /*
       final List<RuleMatch> matches = allRulesLanguageTool.check(goodSentence);

@@ -21,6 +21,7 @@ package org.languagetool.tagging.de;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import morfologik.stemming.Dictionary;
@@ -80,9 +81,7 @@ public class GermanTagger implements Tagger {
   }
 
   public AnalyzedTokenReadings lookup(final String word) throws IOException {
-    final List<String> words = new ArrayList<>();
-    words.add(word);
-    final List<AnalyzedTokenReadings> result = tag(words, false);
+    final List<AnalyzedTokenReadings> result = tag(Collections.singletonList(word), false);
     final AnalyzedTokenReadings atr = result.get(0);
     if (atr.getAnalyzedToken(0).getPOSTag() == null) {
       return null;

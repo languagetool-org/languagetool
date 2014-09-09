@@ -34,10 +34,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * The command line tool to check plain text files.
@@ -509,6 +506,10 @@ class Main {
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
             options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
             options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
+    if (prg.lt.getAllActiveRules().size() == 0) {
+      throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
+              Arrays.toString(options.getEnabledRules()));
+    }
     if (languageHint != null) {
       String spellHint = prg.isSpellCheckingActive() ?
               "" : " (no spell checking active, specify a language variant like 'en-GB' if available)";

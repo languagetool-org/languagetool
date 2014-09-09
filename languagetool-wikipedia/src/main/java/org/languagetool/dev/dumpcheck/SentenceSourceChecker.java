@@ -29,6 +29,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -167,6 +168,9 @@ public class SentenceSourceChecker {
         List<RuleMatch> matches = languageTool.check(sentence.getText());
         resultHandler.handleResult(sentence, matches, lang);
         sentenceCount++;
+        if (sentenceCount % 5000 == 0) {
+          System.err.printf("%s sentences checked...\n", NumberFormat.getNumberInstance(Locale.US).format(sentenceCount));
+        }
         ruleMatchCount += matches.size();
       }
     } catch (ErrorLimitReachedException | DocumentLimitReachedException e) {

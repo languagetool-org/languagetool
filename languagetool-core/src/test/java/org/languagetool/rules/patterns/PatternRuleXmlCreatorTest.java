@@ -23,9 +23,6 @@ import org.languagetool.language.Demo;
 
 import java.io.IOException;
 
-/**
- * Test for a core class, but needs a language to be properly tested, so the test is here.
- */
 public class PatternRuleXmlCreatorTest extends TestCase {
 
   public void testToXML() throws IOException {
@@ -72,6 +69,17 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertFalse(xml.contains("<rulegroup id=\"test_spacebefore\""));
     assertFalse(xml.contains("</rulegroup>"));
     assertTrue(xml.contains("<message>This is a dummy message 2.</message>"));
+  }
+
+  public void testToXMLWithAntiPattern() throws IOException {
+    PatternRuleId ruleId = new PatternRuleId("DEMO_RULE_ANTIPATTERN");
+    PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
+    String xml = creator.toXML(ruleId, new Demo());
+    assertTrue(xml.contains(
+            "  <antipattern>\n" +
+            "    <token>bar</token>\n" +
+            "    <token>,</token>\n" +
+            "  </antipattern>\n"));
   }
 
   public void testToXMLInvalidRuleId() throws IOException {

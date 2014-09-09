@@ -393,6 +393,19 @@ USA
             <example type="correct">This is the Carmen up to <marker>Data</marker>.</example>
             <example type="incorrect" correction="date">The software is not up to <marker>data</marker>.</example>
         </rule>
+        <rule id="COLD_COULD" name="he cold do (he could do)">
+            <pattern>
+                <token postag='PRP'></token>
+                <marker>
+                    <token>cold</token>
+                </marker>
+                <token postag='VB'></token>
+            </pattern>
+            <message>Did you mean <suggestion>could</suggestion>?</message>
+            <short>Probable typoe</short>
+            <example type='incorrect' correction="could">This is all he <marker>cold</marker> do.</example>
+            <example type='correct'>This is all he could do.</example>
+        </rule>
         <rule id="FORMALLY_KNOWN_AS" name="formally known as (formerly known as)">
           <pattern>
             <token>formally</token>
@@ -7272,6 +7285,26 @@ USA
             <example type="correct">I got up at 3 a.m.</example>
             <example type="incorrect">I am going to <marker>an.</marker></example>
             <example type="incorrect">I am going to <marker>the.</marker></example>
+        </rule>
+        <rule id="THE_PUNCT" name="'The' or 'a' before a punctuation">
+            <pattern case_sensitive="yes">
+                <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"></exception></token>
+                <marker>
+                    <token regexp="yes">the|The|an|An|a</token>
+                    <token regexp="yes">[,;]</token>
+                </marker>
+            </pattern>
+            <message>Did you forget something after '\2'?</message>
+            <example type="correct">I am going to the store.</example>
+            <example type="correct">I got a .2TB hard drive.</example>
+            <example type="correct">I met Robert (a.k.a. Bob) at the store.</example>
+            <example type="correct">a. The first item in the list.</example>
+            <example type="correct">I am in Concourse A.</example>
+            <example type="correct">I read the Qur'an.</example>
+            <example type="correct">He was taken to Chang’an.</example>
+            <example type="correct">I got up at 3 a.m.</example>
+            <example type="incorrect">I am going to <marker>an,</marker> then I see you.</example>
+            <example type="incorrect">I am going to <marker>the;</marker> that's right.</example>
         </rule>
         <rule id="PRP_RB_NO_VB" name="Verb missing after personal pronoun and adverb at beginning of sentence.">
             <pattern>

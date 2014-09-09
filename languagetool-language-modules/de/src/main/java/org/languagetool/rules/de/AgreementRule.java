@@ -53,6 +53,8 @@ import java.util.*;
  */
 public class AgreementRule extends GermanRule {
 
+  private final German language;
+
   private enum GrammarCategory {
     KASUS("Kasus (Fall: Wer/Was, Wessen, Wem, Wen/Was - Beispiel: 'das Fahrrads' statt 'des Fahrrads')"),
     GENUS("Genus (männlich, weiblich, sächlich - Beispiel: 'der Fahrrad' statt 'das Fahrrad')"),
@@ -139,9 +141,6 @@ public class AgreementRule extends GermanRule {
     // TODO: add more
   }
   
-  private final German german = new German();
-  private final GermanTagger tagger = (GermanTagger) german.getTagger();
-
   private static final Set<String> PRONOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "ich",
     "dir",
@@ -183,7 +182,8 @@ public class AgreementRule extends GermanRule {
     "Kilogramm"
   ));
     
-  public AgreementRule(final ResourceBundle messages) {
+  public AgreementRule(final ResourceBundle messages, German language) {
+    this.language = language;
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
     }
@@ -322,6 +322,7 @@ public class AgreementRule extends GermanRule {
     // city names:
     if (nextTerm.endsWith("er") && tokens.length > tokenPos+1 && !ER_TO_BE_IGNORED.contains(nextTerm)) {
       final AnalyzedTokenReadings nextNextToken = tokens[tokenPos+1];
+      final GermanTagger tagger = (GermanTagger)language.getTagger();
       try {
         final AnalyzedTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
         final AnalyzedTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
@@ -395,7 +396,7 @@ public class AgreementRule extends GermanRule {
       final String shortMsg = "Möglicherweise keine Übereinstimmung bezüglich " + errorDetails;
       ruleMatch = new RuleMatch(this, token1.getStartPos(),
               token2.getStartPos() + token2.getToken().length(), msg, shortMsg);
-      final AgreementSuggestor suggestor = new AgreementSuggestor(german.getSynthesizer(), token1, token2);
+      final AgreementSuggestor suggestor = new AgreementSuggestor(language.getSynthesizer(), token1, token2);
       final List<String> suggestions = suggestor.getSuggestions();
       ruleMatch.setSuggestedReplacements(suggestions);
     }

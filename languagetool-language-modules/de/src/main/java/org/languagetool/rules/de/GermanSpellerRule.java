@@ -18,14 +18,12 @@
  */
 package org.languagetool.rules.de;
 
-import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
-import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.language.German;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
-import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 
 import java.io.IOException;
@@ -74,32 +72,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   
   private final GermanCompoundTokenizer compoundTokenizer;
 
-  public GermanSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language, getCompoundSplitter(), getSpeller(language));
+  public GermanSpellerRule(ResourceBundle messages, German language) {
+    super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language));
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
-    compoundTokenizer = new GermanCompoundTokenizer();
+    compoundTokenizer = language.getStrictCompoundTokenizer();
   }
 
   @Override
   public String getId() {
     return RULE_ID;
-  }
-  
-  private static CompoundWordTokenizer getCompoundSplitter() {
-    try {
-      final AbstractWordSplitter wordSplitter = new GermanWordSplitter(false);
-      wordSplitter.setStrictMode(false); // there's a spelling mistake in (at least) one part, so strict mode wouldn't split the word
-      ((GermanWordSplitter)wordSplitter).setMinimumWordLength(3);
-      return new CompoundWordTokenizer() {
-        @Override
-        public List<String> tokenize(String word) {
-          return new ArrayList<>(wordSplitter.splitWord(word));
-        }
-      };
-    } catch (IOException e) {
-      throw new RuntimeException("Could not set up German compound splitter", e);
-    }
   }
 
   private static MorfologikSpeller getSpeller(Language language) {

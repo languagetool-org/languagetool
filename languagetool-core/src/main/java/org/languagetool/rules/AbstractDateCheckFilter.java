@@ -18,7 +18,10 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
 import org.languagetool.rules.patterns.RuleFilter;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,11 +33,12 @@ import java.util.Map;
  * isn't actually a Monday. Replaces {@code \realDay} with the real day of the date in the rule's message.
  * @since 2.7
  */
+@Experimental
 public abstract class AbstractDateCheckFilter implements RuleFilter {
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
   // the numerical part.
-  private static final Pattern patternDayOfMonth = Pattern.compile("(\\d+).*");
+  private static final Pattern DAY_OF_MONTH_PATTERN = Pattern.compile("(\\d+).*");
 
   /**
    * Implement so that Sunday returns {@code 1}, Monday {@code 2} etc.
@@ -59,7 +63,7 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
    * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String,String> args) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
     int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
     Calendar dateFromDate = getDate(args);
     int dayOfWeekFromDate;
@@ -95,7 +99,7 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
     // dayOfMonthString is expected to match the pattern
     // patternDayOfMonth assuming that XML rules are correct.
     String dayOfMonthString = getRequired("day", args);
-    Matcher matcherDayOfMonth = patternDayOfMonth.matcher(dayOfMonthString);
+    Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);
     int dayOfMonth = matcherDayOfMonth.matches()
                    ? Integer.parseInt(matcherDayOfMonth.group(1))
                    : 0;

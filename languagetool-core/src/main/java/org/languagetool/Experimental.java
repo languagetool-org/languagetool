@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2012 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2014 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,33 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.language;
+package org.languagetool;
 
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.de.GermanSpellerRule;
+import java.lang.annotation.Documented;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-public class SwissGerman extends German {
-
-  @Override
-  public final String[] getCountries() {
-    return new String[]{"CH"};
-  }
-
-  @Override
-  public final String getName() {
-    return "German (Swiss)";
-  }
-
-  @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages));
-    rules.add(new GermanSpellerRule(messages, this));
-    return rules;
-  }
-  
+/**
+ * An experimental feature that may change without warning in future versions.
+ */
+@Documented
+public @interface Experimental {
 }

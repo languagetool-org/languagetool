@@ -26,8 +26,8 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.nl.CompoundRule;
-import org.languagetool.rules.nl.DutchSpellerRule;
 import org.languagetool.rules.nl.DutchWrongWordInContextRule;
+import org.languagetool.rules.nl.MorfologikDutchSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.nl.DutchSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -132,7 +132,7 @@ public class Dutch extends Language {
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
-            new DutchSpellerRule(messages, this),
+            new MorfologikDutchSpellerRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new CompoundRule(messages),
             new DutchWrongWordInContextRule(messages)

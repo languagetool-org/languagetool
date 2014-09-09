@@ -65,6 +65,9 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   private static final Pattern pMascNo = Pattern.compile("h?[ui][aeioàèéóò].+",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern pFemYes = Pattern.compile("h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+[aeiou][ns]?|urbs",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  
+  /** Patterns verb **/
+  private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0]");
 
   public CatalanSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
@@ -100,20 +103,62 @@ public class CatalanSynthesizer extends BaseSynthesizer {
           lookup(token.getLemma(), tag, results);
         }
       }
-    }
+    }       
     
     // if not found, try verbs from any regional variant
-    if ((results.size()==0) && posTag.startsWith("V") && !posTag.endsWith(".") && !posTag.endsWith("*")) {
-      p = Pattern.compile(posTag.substring(0, posTag.length()-1).concat("0"));
-      for (final String tag : possibleTags) {
-        final Matcher m = p.matcher(tag);
-        if (m.matches()) {       
-            lookup(token.getLemma(), tag, results);
-        }
+    if ((results.size() == 0) && posTag.startsWith("V")) {
+      if (!posTag.endsWith("0")) {
+            lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0"), results);
+      }
+      if (results.size() == 0) { // another try
+        return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
       }
     }
-    
     return results.toArray(new String[results.size()]);
+  }
+  
+  @Override
+  public String[] synthesize(final AnalyzedToken token, final String posTag,
+      final boolean posTagRegExp) throws IOException {
+    if (posTagRegExp) {
+      initPossibleTags();
+      Pattern p = Pattern.compile(posTag);
+      final List<String> results = new ArrayList<>();
+      for (final String tag : possibleTags) {
+        final Matcher m = p.matcher(tag);
+        if (m.matches()) {
+          lookup(token.getLemma(), tag, results);
+        }
+      }
+      // if not found, try verbs from any regional variant
+      if ((results.size() == 0)) {
+        final Matcher mVerb = pVerb.matcher(posTag);
+        if (mVerb.matches()) {
+          if (!posTag.endsWith("0")) {
+            p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
+                .concat("0"));
+            for (final String tag : possibleTags) {
+              final Matcher m = p.matcher(tag);
+              if (m.matches()) {
+                lookup(token.getLemma(), tag, results);
+              }
+            }
+          }
+          if (results.size() == 0) { // another try
+            p = Pattern.compile(posTag.substring(0, posTag.length() - 1)
+                .concat("."));
+            for (final String tag : possibleTags) {
+              final Matcher m = p.matcher(tag);
+              if (m.matches()) {
+                lookup(token.getLemma(), tag, results);
+              }
+            }
+          }
+        }
+      }
+      return results.toArray(new String[results.size()]);
+    }
+    return synthesize(token, posTag);
   }
 
   /**

@@ -16,31 +16,30 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.patterns;
+package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleFilter;
 
+import java.util.Calendar;
 import java.util.Map;
 
 /**
- * Filter rule matches after a PatternRule has matched already.
- * Can be used from the XML using the {@code filter} element.
+ * Keep only those matches whose 'year' value is last year or in
+ * recent years (up to {@code maxYearsBack} years ago).
  * @since 2.7
  */
-@Experimental
-public interface RuleFilter {
-
-  /**
-   * Returns the original rule match or a modified one, or {@code null}
-   * if the rule match is filtered out.
-   * @param arguments the resolved argument from the {@code args} attribute in the XML. Resolved
-   *                  means that e.g. {@code \1} has been resolved to the actual string at that match position.
-   * @param patternTokens those tokens of the text that correspond the matched pattern
-   * @return {@code null} if this rule match should be removed, or any other RuleMatch (e.g. the one from
-   *         the arguments) that properly describes the detected error
-   */
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
+public class RecentYearFilter implements RuleFilter {
   
+  @Override
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
+    int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+    int maxYear = thisYear - Integer.parseInt(arguments.get("maxYearsBack"));
+    int year = Integer.parseInt(arguments.get("year"));
+    if (year < thisYear && year >= maxYear) {
+      return match;
+    }
+    return null;
+  }
 }

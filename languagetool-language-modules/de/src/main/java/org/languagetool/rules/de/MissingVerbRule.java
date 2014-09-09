@@ -27,7 +27,6 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.tagging.Tagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -47,16 +46,18 @@ public class MissingVerbRule extends GermanRule {
 
   private static final int MIN_TOKENS_FOR_ERROR = 5;
 
-  private final Language german = new German();
-  private final Tagger tagger = german.getTagger();
-  private final PatternRule rule1 = new PatternRule("internal", german, Arrays.asList(
-          new Element("Vielen", true, false, false),
-          new Element("Dank", true, false, false)), "", "", "");
-  private final PatternRule rule2 = new PatternRule("internal", german, Arrays.asList(
-          new Element("Herzlichen", true, false, false),
-          new Element("Glückwunsch", true, false, false)), "", "", "");
+  private final PatternRule rule1;
+  private final PatternRule rule2;
+  private final Language language;
 
-  public MissingVerbRule(ResourceBundle messages) {
+  public MissingVerbRule(ResourceBundle messages, German language) {
+    this.language = language;
+    rule1 = new PatternRule("internal", language, Arrays.asList(
+            new Element("Vielen", true, false, false),
+            new Element("Dank", true, false, false)), "", "", "");
+    rule2 = new PatternRule("internal", language, Arrays.asList(
+            new Element("Herzlichen", true, false, false),
+            new Element("Glückwunsch", true, false, false)), "", "", "");
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_grammar")));
     }
@@ -124,13 +125,13 @@ public class MissingVerbRule extends GermanRule {
   private boolean verbAtSentenceStart(AnalyzedTokenReadings readings) throws IOException {
     // start of sentence is mis-tagged because of the uppercase first character, work around that:
     String lowercased = StringTools.lowercaseFirstChar(readings.getToken());
-    List<AnalyzedTokenReadings> lcReadings = tagger.tag(Collections.singletonList(lowercased));
+    List<AnalyzedTokenReadings> lcReadings = language.getTagger().tag(Collections.singletonList(lowercased));
     if (lcReadings.size() > 0 && lcReadings.get(0).hasPartialPosTag("VER")) {
       return true;
     }
     // our dictionary doesn't know some imperative forms like "erzähl", but it knows "erzähle", so let's try that:
     if (!lowercased.endsWith("e")) {
-      List<AnalyzedTokenReadings> lcImperativeReadings = tagger.tag(Collections.singletonList(lowercased + "e"));
+      List<AnalyzedTokenReadings> lcImperativeReadings = language.getTagger().tag(Collections.singletonList(lowercased + "e"));
       if (lcImperativeReadings.size() > 0 && lcImperativeReadings.get(0).hasPartialPosTag("VER")) {
         return true;
       }

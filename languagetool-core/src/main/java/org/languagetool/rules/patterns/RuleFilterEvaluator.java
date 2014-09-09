@@ -35,15 +35,15 @@ class RuleFilterEvaluator {
     this.filter = filter;
   }
 
-  RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, List<Integer> tokenPositions, AnalyzedTokenReadings[] tokenReadings) {
-    Map<String,String> args = getResolvedArguments(filterArgs, tokenReadings, tokenPositions);
-    return filter.acceptRuleMatch(ruleMatch, args);
+  RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
+    Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, tokenPositions);
+    return filter.acceptRuleMatch(ruleMatch, args, patternTokens);
   }
 
   /**
    * Resolves the backref arguments, e.g. replaces {@code \1} by the value of the first token in the pattern.
    */
-  Map<String,String> getResolvedArguments(String filterArgs, AnalyzedTokenReadings[] tokenReadings, List<Integer> tokenPositions) {
+  Map<String,String> getResolvedArguments(String filterArgs, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Map<String,String> result = new HashMap<>();
     String[] arguments = filterArgs.split("\\s+");
     for (String arg : arguments) {
@@ -59,16 +59,16 @@ class RuleFilterEvaluator {
           throw new RuntimeException("Your reference number " + refNumber + " is bigger than the number of tokens: " + tokenPositions.size());
         }
         int correctedRef = getSkipCorrectedReference(tokenPositions, refNumber);
-        if (correctedRef >= tokenReadings.length) {
+        if (correctedRef >= patternTokens.length) {
           throw new RuntimeException("Your reference number " + refNumber +
-                  " is bigger than number of matching tokens: " + tokenReadings.length);
+                  " is bigger than number of matching tokens: " + patternTokens.length);
         }
         if (result.containsKey(key)) {
           throw new RuntimeException("Duplicate key '" + key + "'");
         }
-        result.put(key, tokenReadings[correctedRef].getToken());
+        result.put(key, patternTokens[correctedRef].getToken());
       } else {
-        throw new RuntimeException("Unsupported reference, use '\\x' with x being a number: '" + arg + "'");
+        result.put(key, val);
       }
     }
     return result;
