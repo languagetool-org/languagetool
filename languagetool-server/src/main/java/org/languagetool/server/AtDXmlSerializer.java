@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.languagetool.Experimental;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.RuleMatch;
 
@@ -30,6 +31,7 @@ import static org.languagetool.tools.StringTools.escapeXML;
  * See the <a href="http://www.afterthedeadline.com/api.slp">AtD API documentation</a>.
  * @since 2.7
  */
+@Experimental
 public class AtDXmlSerializer {
   
   public String ruleMatchesToXml(List<RuleMatch> matches, String text) {

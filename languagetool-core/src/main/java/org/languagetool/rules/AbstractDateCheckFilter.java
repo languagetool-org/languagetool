@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
 import org.languagetool.rules.patterns.RuleFilter;
 
 import java.util.regex.Matcher;
@@ -32,6 +33,7 @@ import java.util.Map;
  * isn't actually a Monday. Replaces {@code \realDay} with the real day of the date in the rule's message.
  * @since 2.7
  */
+@Experimental
 public abstract class AbstractDateCheckFilter implements RuleFilter {
   // The day of the month may contain not only digits but also extra letters
   // such as"22nd" in English or "22-an" in Esperanto. The regexp extracts
