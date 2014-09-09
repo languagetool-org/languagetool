@@ -8903,6 +8903,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
 
         </rulegroup>
+        <rule id="DOPPELUNG_JAHRE" name="Doppelung: 'Jahre 1990 bis 1990'">
+            <pattern>
+                <token regexp="yes">Jahre[ns]?</token>
+                <marker>
+                    <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">bis|und</token>
+                    <token regexp="yes"><match no="1"/></token>
+                </marker>
+                <token><exception>/</exception></token>
+            </pattern>
+            <message>Wiederholung der Jahreszahl</message>
+            <example type="incorrect">In den Jahren <marker>1960 und 1960</marker> wurden sie jeweils Dritte.</example>
+            <example type="correct">In den Jahren <marker>1960 und 1961</marker> wurden sie jeweils Dritte.</example>
+            <example type="correct">In den Jahren <marker>1960 und 1960</marker>/61 wurden sie jeweils Dritte.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
