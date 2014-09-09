@@ -8466,93 +8466,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
-		<rulegroup id="MORGEN_MIT_VERGANGENHEIT" name="Zeitform: 'morgen' etc. mit Vergangenheit">
-			<rule>
-				<antipattern>
-					<!-- eigentlich "heute Morgen", aber dafür gibt es schon eine andere Regel: -->
-					<token>heute</token>
-					<token>morgen</token>
-				</antipattern>
-				<pattern>
-					<token postag="SENT_START" skip="-1">
-						<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-						<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-					</token>
-					<marker>
-						<token regexp="yes" case_sensitive="yes">(über)?morgen</token>
-						<token postag="VER:.*:PRT.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
-				</pattern>
-				<message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
-				<short>Falsche Zeitform</short>
-				<example type="incorrect">Aber <marker>morgen schien</marker> die Sonne.</example>
-				<example type="correct">Morgen wird die Sonne scheinen.</example>
-				<example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
-				<example type="correct">Er hat seine Abreise auf <marker>morgen verschoben</marker>.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token postag="SENT_START"/>
-					<marker>
-						<token regexp="yes">(über)?morgen</token>
-						<token postag="VER:.*:PRT.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
-				</pattern>
-				<message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
-				<short>Falsche Zeitform</short>
-				<example type="incorrect"><marker>Morgen schien</marker> die Sonne.</example>
-				<example type="correct">Morgen wird die Sonne scheinen.</example>
-				<example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<token postag="SENT_START" skip="-1">
-						<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-						<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-					</token>
-					<marker>
-						<token regexp="yes">nächste[ns]?</token>
-						<token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
-						<token postag="VER:.*:PRT.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
-				</pattern>
-				<message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
-				<short>Falsche Zeitform</short>
-				<example type="incorrect"><marker>Nächstes Wochenende schien</marker> die Sonne.</example>
-				<example type="correct">Nächstes Wochenende wird die Sonne scheinen.</example>
-				<example type="correct"><marker>Nächstes Wochenende scheint</marker> die Sonne.</example>
-			</rule>
-		</rulegroup>
+        <rulegroup id="MORGEN_MIT_VERGANGENHEIT" name="Zeitform: 'morgen' etc. mit Vergangenheit">
+            <rule>
+                <antipattern>
+                    <!-- eigentlich "heute Morgen", aber dafür gibt es schon eine andere Regel: -->
+                    <token>heute</token>
+                    <token>morgen</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" skip="-1">
+                        <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                        <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                    </token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">(über)?morgen</token>
+                        <token postag="VER:.*:PRT.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect">Aber <marker>morgen schien</marker> die Sonne.</example>
+                <example type="correct">Morgen wird die Sonne scheinen.</example>
+                <example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
+                <example type="correct">Er hat seine Abreise auf <marker>morgen verschoben</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes">(über)?morgen</token>
+                        <token postag="VER:.*:PRT.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect"><marker>Morgen schien</marker> die Sonne.</example>
+                <example type="correct">Morgen wird die Sonne scheinen.</example>
+                <example type="correct"><marker>Morgen scheint</marker> die Sonne.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1">
+                        <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                        <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                    </token>
+                    <marker>
+                        <token regexp="yes">nächste[ns]?</token>
+                        <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+                        <token postag="VER:.*:PRT.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Falsche Zeitform? Meinten Sie die Zukunftsform des Verbs oder die Gegenwart (umgangssprachlich)?</message>
+                <short>Falsche Zeitform</short>
+                <example type="incorrect"><marker>Nächstes Wochenende schien</marker> die Sonne.</example>
+                <example type="correct">Nächstes Wochenende wird die Sonne scheinen.</example>
+                <example type="correct"><marker>Nächstes Wochenende scheint</marker> die Sonne.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GESTERN_MIT_PRAESENS" name="Zeitform: 'gestern' etc. mit Präsens">
             <rule>
                 <pattern>
-					<marker>
-						<token postag="SENT_START" skip="-1">
-							<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-							<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-						</token>
-						<token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
-						<token postag="VER:.*:PRÄ.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
-					</marker>
+                    <marker>
+                        <token postag="SENT_START" skip="-1">
+                            <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                            <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                        </token>
+                        <token regexp="yes">gestern|vorgestern|vorvorgestern|vorhin</token>
+                        <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
+                    </marker>
                     <token>
-						<exception inflected="yes">haben</exception>
-						<exception inflected="yes">sein</exception>
+                        <exception inflected="yes">haben</exception>
+                        <exception inflected="yes">sein</exception>
                     </token>
                 </pattern>
                 <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
@@ -8565,22 +8565,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-					<marker>
-						<token postag="SENT_START" skip="-1">
-							<exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
-							<exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
-						</token>
-						<token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
-						<token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
-						<token postag="VER:.*:PRÄ.*" postag_regexp="yes">
-							<exception inflected="yes">haben</exception>
-							<exception inflected="yes">sein</exception>
-							<exception regexp="yes">eine|einen</exception>
-						</token>
+                    <marker>
+                        <token postag="SENT_START" skip="-1">
+                            <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
+                            <exception postag_regexp="yes" postag="VER:.*:PRT.*" scope="next"/>
+                        </token>
+                        <token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
+                        <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+                        <token postag="VER:.*:PRÄ.*" postag_regexp="yes">
+                            <exception inflected="yes">haben</exception>
+                            <exception inflected="yes">sein</exception>
+                            <exception regexp="yes">eine|einen</exception>
+                        </token>
                     </marker>
                     <token>
-						<exception inflected="yes">haben</exception>
-						<exception inflected="yes">sein</exception>
+                        <exception inflected="yes">haben</exception>
+                        <exception inflected="yes">sein</exception>
                     </token>
                 </pattern>
                 <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
@@ -25564,7 +25564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FRAGE_OHNE_FRAGEZEICHEN" name="Zeichensetzung: Punkt statt Fragezeichen (nur in wenigen einfachen Fällen, Regel ist in Arbeit)" default="on">
             <url>http://www.korrekturen.de/zeichensetzung04.shtml</url>
-			<rule>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
@@ -25586,7 +25586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="?">Wann denn endlich<marker>.</marker></example>
                 <example type="incorrect" correction="?">Wohin denn überhaupt<marker>.</marker></example>
             </rule>
-			<rule>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token regexp="yes" min="0" max="1">Und|Aber</token>
@@ -25612,7 +25612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="?">Was soll das denn<marker>.</marker></example>
                 <example type="incorrect" correction="?">Und wer ist das<marker>.</marker></example>
             </rule>
-			<rule>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="PRP.+" postag_regexp="yes" min="0" max="1"/>
