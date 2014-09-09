@@ -7286,6 +7286,26 @@ USA
             <example type="incorrect">I am going to <marker>an.</marker></example>
             <example type="incorrect">I am going to <marker>the.</marker></example>
         </rule>
+        <rule id="THE_PUNCT" name="'The' or 'a' before a punctuation">
+            <pattern case_sensitive="yes">
+                <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"></exception></token>
+                <marker>
+                    <token regexp="yes">the|The|an|An|a</token>
+                    <token regexp="yes">[,;]</token>
+                </marker>
+            </pattern>
+            <message>Did you forget something after '\2'?</message>
+            <example type="correct">I am going to the store.</example>
+            <example type="correct">I got a .2TB hard drive.</example>
+            <example type="correct">I met Robert (a.k.a. Bob) at the store.</example>
+            <example type="correct">a. The first item in the list.</example>
+            <example type="correct">I am in Concourse A.</example>
+            <example type="correct">I read the Qur'an.</example>
+            <example type="correct">He was taken to Chang’an.</example>
+            <example type="correct">I got up at 3 a.m.</example>
+            <example type="incorrect">I am going to <marker>an,</marker> then I see you.</example>
+            <example type="incorrect">I am going to <marker>the;</marker> that's right.</example>
+        </rule>
         <rule id="PRP_RB_NO_VB" name="Verb missing after personal pronoun and adverb at beginning of sentence.">
             <pattern>
                 <token postag="SENT_START"></token>
