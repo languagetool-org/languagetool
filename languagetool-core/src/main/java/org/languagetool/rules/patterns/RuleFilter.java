@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.Map;
@@ -32,7 +33,12 @@ public interface RuleFilter {
   /**
    * Returns the original rule match or a modified one, or {@code null}
    * if the rule match is filtered out.
+   * @param arguments the resolved argument from the {@code args} attribute in the XML. Resolved
+   *                  means that e.g. {@code \1} has been resolved to the actual string at that match position.
+   * @param patternTokens those tokens of the text that correspond the matched pattern
+   * @return {@code null} if this rule match should be removed, or any other RuleMatch (e.g. the one from
+   *         the arguments) that properly describes the detected error
    */
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String,String> arguments);
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
   
 }

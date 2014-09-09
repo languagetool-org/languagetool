@@ -18,7 +18,9 @@
  */
 package org.languagetool.rules;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,7 +61,7 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
    * @param args a map with values for {@code year}, {@code month}, {@code day} (day of month), {@code weekDay}
    */
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String,String> args) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> args, AnalyzedTokenReadings[] patternTokens) {
     int dayOfWeekFromString = getDayOfWeek(getRequired("weekDay", args));
     Calendar dateFromDate = getDate(args);
     int dayOfWeekFromDate;

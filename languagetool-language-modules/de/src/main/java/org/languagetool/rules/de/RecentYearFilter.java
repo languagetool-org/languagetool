@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
@@ -32,7 +33,7 @@ import java.util.Map;
 public class RecentYearFilter implements RuleFilter {
   
   @Override
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments) {
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens) {
     int thisYear = Calendar.getInstance().get(Calendar.YEAR);
     int maxYear = thisYear - Integer.parseInt(arguments.get("maxYearsBack"));
     int year = Integer.parseInt(arguments.get("year"));

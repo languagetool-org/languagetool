@@ -37,7 +37,7 @@ class RuleFilterEvaluator {
 
   RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, List<Integer> tokenPositions) {
     Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, tokenPositions);
-    return filter.acceptRuleMatch(ruleMatch, args);
+    return filter.acceptRuleMatch(ruleMatch, args, patternTokens);
   }
 
   /**
