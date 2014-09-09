@@ -121,6 +121,7 @@ public class PatternRuleXmlCreator {
       .replace("</pattern", "\n  </pattern")
       .replace("</antipattern", "\n  </antipattern")
       .replace("</rule>", "\n</rule>")
+      .replace("<filter", "\n  <filter")
       .replace("<message", "\n  <message")
       .replace("<short", "\n  <short")
       .replace("<url", "\n  <url")
