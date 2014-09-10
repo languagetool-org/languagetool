@@ -109,6 +109,15 @@ USA
 			<example type="correct">He's gotten up on the wrong side of bed.</example>
 			<example type="incorrect" correction="got">He has <marker>gotten</marker> some food.</example>
 		</rule>
-
+        <rule id="GAS_PETROL" name="gas/petrol" default="off"> <!-- This rule needs more exceptions to be usable -->
+            <pattern>
+                <marker>
+                    <token>gas<exception scope="previous">natural</exception></token>
+                </marker>
+            </pattern>
+            <message>With the meaning of "gasoline", in British English is more common to use <suggestion>petrol</suggestion>.</message>
+            <example type="correct">Natural gas.</example>
+            <example type="incorrect" correction="petrol">More <marker>gas</marker>.</example>
+        </rule>
 	</category>
 </rules>
