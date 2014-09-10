@@ -180,7 +180,10 @@ public class HTTPServerConfig {
     return mode;
   }
 
-  /** @since 2.7 */
+  /**
+   * @return the language used, or {@code null} if not in AtD mode
+   * @since 2.7 
+   */
   Language getAfterTheDeadlineLanguage() {
     return atdLanguage;
   }
