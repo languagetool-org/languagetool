@@ -108,10 +108,31 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Згідно з чим</message>
-                <example type="correct">згідно зі статутом</example>
-                <example type="correct">згідно з правилом</example>
                 <example type="incorrect">згідно <marker>статуту</marker></example>
                 <example type="incorrect">згідно <marker>до</marker> правила</example>
+                <example type="correct">згідно зі статутом</example>
+                <example type="correct">згідно з правилом</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup name="Узгодженість відмінків з дієсловами" id="CONSISTENCY_VIDM_AFTER_VERBS">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">навчати|навчити</token>
+                  <marker>
+                    <token postag_regexp="yes" postag="adj:.*v_dav.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="(noun|pronoun).*:v_dav.*">
+                        <exception postag_regexp="yes" postag=".*:v_(naz|rod|zna|oru).*"/>
+                    </token>
+                  </marker>
+                </pattern>
+                <message>Навчати чого</message>
+                <example type="incorrect">навчати <marker>математиці</marker></example>
+                <example type="incorrect">навчати <marker>елементарній математиці</marker></example>
+                <example type="correct">навчати математики</example>
+                <example type="correct">навчати елементарної математики</example>
+                <example type="correct">навчати фаху</example>
+                <example type="correct">навчати їх</example>
             </rule>
         </rulegroup>
 

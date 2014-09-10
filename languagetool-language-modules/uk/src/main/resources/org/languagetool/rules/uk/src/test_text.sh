@@ -11,6 +11,8 @@ BASE4="$BASE/languagetool-language-modules/uk/target/classes"
 
 CPATH=.libs/lucene-gosen-ipadic.jar:libs/ictclas4j.jar:libs/cjftransform.jar:libs/jwordsplitter.jar:libs/commons-logging.jar:libs/segment.jar:libs/morfologik-fsa.jar:libs/morfologik-speller.jar:libs/morfologik-stemming.jar:libs/commons-lang.jar
 
+#JAVA_OPTS="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
+#JAVA_OPTS="-Xverify:none"
 
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"
 RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,EUPHONY,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE"
@@ -19,7 +21,8 @@ RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_R
 function run_lt() 
 {
   SRC="$1"
-    java -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE,$RULES_TO_FIX,$RULES_DONE $SRC | \
+  ID="$2"
+    java $JAVA_OPTS -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE,$RULES_TO_FIX,$RULES_DONE $SRC | \
       sed -r "s/^[0-9]+\.\) //" | grep -vE "^Line|Suggestion" > checked$ID.out
 
 #    java -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE,$RULES_TO_FIX,$RULES_DONE $SRC | \
@@ -47,7 +50,7 @@ if [ "$ID_TO_CHECK" == "0" ]; then
     SRC=text4.txt
     echo "Checking $SRC [$ID]"
 
-    run_lt $SRC
+    run_lt $SRC $ID
 
     diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
     exit
@@ -63,7 +66,7 @@ for src_file in $SRCS; do
     
     echo "Checking $SRC [$ID]"
 
-    run_lt $SRC
+    run_lt $SRC $ID
 
     diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
 
