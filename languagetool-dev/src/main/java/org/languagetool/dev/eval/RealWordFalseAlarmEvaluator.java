@@ -60,14 +60,14 @@ class RealWordFalseAlarmEvaluator {
 
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
     InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophones.txt");
+    ConfusionSetLoader confusionSetLoader;
     if (EVAL_MODE) {
-      ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader(MIN_SENTENCES, MAX_ERROR_RATE);
       InputStream infoStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophones-info.txt");
-      confusionSet = confusionSetLoader.loadConfusionSet(inputStream, infoStream);
+      confusionSetLoader =  new ConfusionSetLoader(infoStream, MIN_SENTENCES, MAX_ERROR_RATE);
     } else {
-      ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
-      confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
+      confusionSetLoader =  new ConfusionSetLoader();
     }
+    confusionSet = confusionSetLoader.loadConfusionSet(inputStream);
     langTool = new JLanguageTool(new BritishEnglish());
     //langTool.activateDefaultPatternRules();
     List<Rule> rules = langTool.getAllActiveRules();

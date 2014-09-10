@@ -35,33 +35,51 @@ public class ConfusionSetLoader {
 
   private final int minSentences;
   private final float maxErrorRate;
+  private final Set<String> usefulHomophones;
 
   public ConfusionSetLoader() {
-    this(0, 100);
+    this(null, 0, 100);
   }
   
   /**
    * @param minSentences the minimum sentences that each homophone must have been tested with to be considered at all (see homophones-info.txt)
    * @param maxErrorRate the maximum error rate of each homophone to be considered at all (see homophones-info.txt)
    */
-  public ConfusionSetLoader(int minSentences, float maxErrorRate) {
+  public ConfusionSetLoader(InputStream infoStream, int minSentences, float maxErrorRate) {
     this.minSentences = minSentences;
     this.maxErrorRate = maxErrorRate;
+    usefulHomophones = infoStream != null ? getUsefulHomophones(infoStream) : null;
   }
 
   public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream) throws IOException {
-    return loadConfusionSet(stream, null);
-  }
-
-  public Map<String,ConfusionProbabilityRule.ConfusionSet> loadConfusionSet(InputStream stream, InputStream infoStream) throws IOException {
-    Set<String> usefulHomophones = null;
-    if (infoStream != null) {
-      usefulHomophones = getUsefulHomophones(infoStream);
+    Map<String,ConfusionProbabilityRule.ConfusionSet> map = new HashMap<>();
+    try (
+      InputStreamReader reader = new InputStreamReader(stream, CHARSET);
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      //int homophonesAvailable = 0;
+      //int homophonesLoaded = 0;
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.startsWith("#")) {
+          continue;
+        }
+        String[] words = line.split(",\\s*");
+        ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet(words);
+        for (String word : words) {
+          if (usefulHomophones == null || usefulHomophones.contains(word)) {
+            map.put(word, confusionSet);
+          }
+          //homophonesLoaded++;
+        }
+        //homophonesAvailable += words.length;
+      }
+      //System.out.println(homophonesLoaded + " of " + homophonesAvailable + " homophones loaded");
     }
-    return getStringConfusionMap(stream, usefulHomophones);
+    return map;
   }
 
-  private Set<String> getUsefulHomophones(InputStream infoStream) throws IOException {
+  private Set<String> getUsefulHomophones(InputStream infoStream) {
     Set<String> result = new HashSet<>();
     try (
       InputStreamReader reader = new InputStreamReader(infoStream, CHARSET);
@@ -80,36 +98,10 @@ public class ConfusionSetLoader {
           result.add(word);
         }
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return result;
-  }
-
-  private Map<String, ConfusionProbabilityRule.ConfusionSet> getStringConfusionMap(InputStream stream, Set<String> usefulHomophones) throws IOException {
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = new HashMap<>();
-    try (
-      InputStreamReader reader = new InputStreamReader(stream, CHARSET);
-      BufferedReader br = new BufferedReader(reader)
-    ) {
-      //int homophonesAvailable = 0;
-      //int homophonesLoaded = 0;
-      String line;
-      while ((line = br.readLine()) != null) {
-        if (line.startsWith("#")) {
-          continue;
-        }
-        String[] words = line.split(",\\s*");
-        ConfusionProbabilityRule.ConfusionSet confusionSet = new ConfusionProbabilityRule.ConfusionSet(words);
-        for (String word : words) {
-          if (usefulHomophones.contains(word)) {
-            map.put(word, confusionSet);
-          }
-          //homophonesLoaded++;
-        }
-        //homophonesAvailable += words.length;
-      }
-      //System.out.println(homophonesLoaded + " of " + homophonesAvailable + " homophones loaded");
-    }
-    return map;
   }
 
 }

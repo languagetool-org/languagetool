@@ -32,9 +32,8 @@ public class ConfusionSetLoaderTest {
   @Test
   public void testWithDefaultLimits() throws IOException {
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones.txt");
-    InputStream infoStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones-info.txt");
     ConfusionSetLoader loader = new ConfusionSetLoader();
-    Map<String,ConfusionProbabilityRule.ConfusionSet> map = loader.loadConfusionSet(inputStream, infoStream);
+    Map<String,ConfusionProbabilityRule.ConfusionSet> map = loader.loadConfusionSet(inputStream);
     assertTrue(map.size() == 2);
   }
 
@@ -42,7 +41,7 @@ public class ConfusionSetLoaderTest {
   public void testLoadWithStrictLimits() throws IOException {
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones.txt");
     InputStream infoStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/yy/homophones-info.txt");
-    ConfusionSetLoader loader2 = new ConfusionSetLoader(1002, 10.0f);
-    assertTrue(loader2.loadConfusionSet(inputStream, infoStream).size() == 0);
+    ConfusionSetLoader loader2 = new ConfusionSetLoader(infoStream, 1002, 10.0f);
+    assertTrue(loader2.loadConfusionSet(inputStream).size() == 0);
   }
 }
