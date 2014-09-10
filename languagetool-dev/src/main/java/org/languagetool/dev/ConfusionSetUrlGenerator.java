@@ -35,7 +35,7 @@ final class ConfusionSetUrlGenerator {
 
   public static void main(String[] args) throws IOException {
     ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophones.txt");
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
     Map<String,ConfusionProbabilityRule.ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);
     String url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20120701-<XX>.gz";
     Set<String> nameSet = new HashSet<>();

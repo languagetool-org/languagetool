@@ -63,7 +63,7 @@ class ConfusionSetCoverage {
 
   private Map<String, ConfusionProbabilityRule.ConfusionSet> getConfusionSet() throws IOException {
     ConfusionSetLoader loader = new ConfusionSetLoader();
-    InputStream homophoneStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophones.txt");
+    InputStream homophoneStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
     return loader.loadConfusionSet(homophoneStream);
   }
 

@@ -59,10 +59,10 @@ class RealWordFalseAlarmEvaluator {
   private int globalRuleMatches;
 
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophones.txt");
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
     ConfusionSetLoader confusionSetLoader;
     if (EVAL_MODE) {
-      InputStream infoStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream("homophones-info.txt");
+      InputStream infoStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones-info.txt");
       confusionSetLoader =  new ConfusionSetLoader(infoStream, MIN_SENTENCES, MAX_ERROR_RATE);
     } else {
       confusionSetLoader =  new ConfusionSetLoader();
