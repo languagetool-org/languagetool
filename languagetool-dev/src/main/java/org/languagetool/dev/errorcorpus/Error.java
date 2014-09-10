@@ -16,30 +16,43 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.eval;
+package org.languagetool.dev.errorcorpus;
 
-import org.junit.Ignore;
-import org.junit.Test;
+/**
+ * An error from an error corpus.
+ * @since 2.7
+ */
+public class Error {
+  
+  private final int startPos;
+  private final int endPos;
+  private final String correction;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-public class RealWordCorpusEvaluatorTest {
-
-  @Ignore("requires local ngram index")
-  @Test
-  public void testCheck() throws IOException {
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(new File("/data/google-ngram-index/"));
-    URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
-    evaluator.run(new File(errors.getFile()));
-    assertThat(evaluator.getSentencesChecked(), is(3));
-    assertThat(evaluator.getErrorsChecked(), is(5));
-    assertThat(evaluator.getRealErrorsFound(), is(3));
-    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
+  Error(int startPos, int endPos, String correction) {
+    this.startPos = startPos;
+    this.endPos = endPos;
+    this.correction = correction;
   }
 
+  public int getStartPos() {
+    return startPos;
+  }
+
+  public int getEndPos() {
+    return endPos;
+  }
+
+  public String getCorrection() {
+    return correction;
+  }
+
+  public String getAppliedCorrection(String markupText) {
+    String correctionApplied = markupText.substring(0, startPos) + correction + markupText.substring(endPos);
+    return correctionApplied.replaceAll("<.*?>", "");
+  }
+
+  @Override
+  public String toString() {
+    return startPos + "-" + endPos + ":" + correction;
+  }
 }

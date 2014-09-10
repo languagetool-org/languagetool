@@ -21,6 +21,7 @@ package org.languagetool;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
@@ -290,6 +291,21 @@ public class JLanguageTool {
       return ruleLoader.getRules(new File(filename), language, motherTongue);
     } else {
       return ruleLoader.getRules(is, language, motherTongue);
+    }
+  }
+
+  /**
+   * Activate rules that depend on a language model. The language model currently
+   * consists of Lucene indexes with ngram occurrence counts.
+   * @param indexDir directory with a '3grams' sub directory which contains a Lucene index with 3gram occurrence counts
+   * @since 2.7
+   */
+  public void activateLanguageModelRules(File indexDir) throws IOException {
+    LanguageModel languageModel = language.getLanguageModel(indexDir);
+    if (languageModel != null) {
+      ResourceBundle messages = getMessageBundle(language);
+      List<Rule> rules = language.getRelevantLanguageModelRules(messages, languageModel);
+      userRules.addAll(rules);
     }
   }
 

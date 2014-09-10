@@ -68,7 +68,7 @@ class Main {
       final String[] disabledRules, final String[] enabledRules, 
       final boolean enabledOnly,
       final boolean apiFormat, boolean applySuggestions, 
-      boolean autoDetect, boolean singleLineBreakMarksParagraph) throws IOException,
+      boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModelIndexDir) throws IOException,
       SAXException, ParserConfigurationException {
     this.verbose = verbose;
     this.apiFormat = apiFormat;
@@ -86,6 +86,9 @@ class Main {
     lt = new MultiThreadedJLanguageTool(language, motherTongue);
     lt.activateDefaultPatternRules();
     lt.activateDefaultFalseFriendRules();
+    if (languageModelIndexDir != null) {
+      lt.activateLanguageModelRules(languageModelIndexDir);
+    }
     Tools.selectRules(lt, disabledRules, enabledRules, enabledOnly);
   }
 
@@ -501,8 +504,8 @@ class Main {
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
-            options.getDisabledRules(), options.getEnabledRules(), options.getUseEnabledOnly(), options.isApiFormat(), 
-            options.isApplySuggestions(), options.isAutoDetect(), options.isSingleLineBreakMarksParagraph());
+            options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
+            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
     if (prg.lt.getAllActiveRules().size() == 0) {
       throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
               Arrays.toString(options.getEnabledRules()));

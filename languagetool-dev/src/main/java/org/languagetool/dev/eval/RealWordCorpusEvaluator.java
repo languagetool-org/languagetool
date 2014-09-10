@@ -18,52 +18,74 @@
  */
 package org.languagetool.dev.eval;
 
-import org.apache.tika.io.IOUtils;
-import org.languagetool.JLanguageTool;
-import org.languagetool.language.BritishEnglish;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.dev.errorcorpus.ErrorCorpus;
+import org.languagetool.dev.errorcorpus.ErrorSentence;
+import org.languagetool.dev.errorcorpus.PedlerCorpus;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Runs LanguageTool on Jenny Pedler's Real-word Error Corpus, available at
  * http://www.dcs.bbk.ac.uk/~jenny/resources.html.
  * 
- * Results as of 2014-05-10:
+ * Results as of 2014-09-03 (pure LT without corpus data, i.e. without confusion rule):
  * <pre>
- * 673 lines checked with 834 errors.
- * 144 errors found that are marked as errors in the corpus (not counting whether LanguageTool's correction was useful)
- * => 17,27% recall
- * 103 errors found where the first suggestion was the correct one
- * => 12,35% recall
+ * Counting matches, no matter whether the first suggestion is correct:
+ * 147 out of 206 matches are real errors => 0,71 precision, 0,18 recall
+ * => 0,4438 F(0.5) measure
+ *
+ * Counting only matches with a perfect first suggestion:
+ * 119 out of 206 matches are real errors => 0,58 precision, 0,14 recall
+ * => 0,3593 F(0.5) measure
  * </pre>
  * 
- * <p>After the Deadline has a recall of 27.1% ("The Design of a Proofreading Software Service"), even
- * considering only correct suggestions (by comparing the first suggestion to the expected correction).</p>
+ * Results as of 2014-09-03 (LT with 3grams from Google ngram index, in form of a Lucene index), with a cleaned
+ * up Pedler corpus (see resources/data/pedler_corpus.diff):
+ * <pre>
+ * 673 lines checked with 832 errors.
+ * Confusion rule matches: 53 perfect, 0 good, 0 bad ([])
+ *
+ * Counting matches, no matter whether the first suggestion is correct:
+ * 200 out of 259 matches are real errors => 0,77 precision, 0,24 recall
+ * => 0,5353 F(0.5) measure
+ *
+ * Counting only matches with a perfect first suggestion:
+ * 172 out of 259 matches are real errors => 0,66 precision, 0,21 recall
+ * => 0,4604 F(0.5) measure
+ * </pre>
  * 
- * @since 2.6
+ * <p>After the Deadline has a precision of 89.4% and a recall of 27.1%  ("The Design of a Proofreading Software Service",
+ * Raphael Mudge, 2010). The recall is calculated by comparing only the first suggestion to the expected correction.
+ * Also see the constructor of this class where you can comment in AtDEvalChecker to run a direct comparison.
+ * </p>
+ * @since 2.7
  */
 class RealWordCorpusEvaluator {
 
-  private static final String NORMALIZE_REGEX = "\\s*<ERR targ\\s*=\\s*([^>]*?)\\s*>\\s*(.*?)\\s*</ERR>\\s*";
-
-  private final JLanguageTool langTool;
+  private final Evaluator checker;
+  private final List<String> badConfusionMatchWords = new ArrayList<>();
   
   private int sentenceCount;
   private int errorsInCorpusCount;
   private int perfectMatches;
   private int goodMatches;
+  private int matchCount;
+  private int perfectConfusionMatches;
+  private int goodConfusionMatches;
+  private int badConfusionMatches;
 
-  RealWordCorpusEvaluator() throws IOException {
-    langTool = new JLanguageTool(new BritishEnglish());
-    langTool.activateDefaultPatternRules();
+  RealWordCorpusEvaluator(File indexTopDir) throws IOException {
+    checker = new LanguageToolEvaluator(indexTopDir);
+    // use this to run AtD as the backend, so results can easily be compared to LT:
+    //checker = new AtDEvalChecker("http://en.service.afterthedeadline.com/checkDocument?key=test&data=");
+  }
+  
+  void close() {
+    checker.close();
   }
 
   int getSentencesChecked() {
@@ -87,46 +109,19 @@ class RealWordCorpusEvaluator {
     System.out.println("    [  ] = this is not an expected error");
     System.out.println("    [+ ] = this is an expected error");
     System.out.println("    [++] = this is an expected error and the first suggestion is correct");
+    System.out.println("    [//]  = not counted because already matches by a different rule");
     System.out.println("");
-    File[] files = dir.listFiles();
-    if (files == null) {
-      throw new RuntimeException("Directory not found: " + dir);
-    }
-    for (File file : files) {
-      if (!file.getName().endsWith(".txt")) {
-        System.out.println("Ignoring " + file + ", does not match *.txt");
-        continue;
-      }
-      try (FileInputStream fis = new FileInputStream(file)) {
-        checkLines(IOUtils.readLines(fis));
-      }
-    }
+    ErrorCorpus corpus = new PedlerCorpus(dir);
+    checkLines(corpus);
     printResults();
   }
 
-  private void printResults() {
-    System.out.println("");
-    System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
-    System.out.println(goodMatches + " errors found that are marked as errors in the corpus " +
-                       "(not counting whether LanguageTool's correction was useful)");
-    float goodRecall = (float)goodMatches / errorsInCorpusCount * 100;
-    System.out.printf(" => %.2f%% recall\n", goodRecall);
-    float perfectRecall = (float)perfectMatches / errorsInCorpusCount * 100;
-    System.out.println(perfectMatches + " errors found where the first suggestion was the correct one");
-    System.out.printf(" => %.2f%% recall\n", perfectRecall);
-  }
-
-  private void checkLines(List<String> lines) throws IOException {
-    for (String line : lines) {
-      if (!line.contains("<ERR ")) {
-        System.out.println("No error markup found, ignoring: " + line);
-        continue;
-      }
-      ErrorSentence sentence = getIncorrectSentence(line);
-      List<RuleMatch> matches = langTool.check(sentence.annotatedText);
+  private void checkLines(ErrorCorpus corpus) throws IOException {
+    for (ErrorSentence sentence : corpus) {
+      List<RuleMatch> matches = checker.check(sentence.getAnnotatedText());
       sentenceCount++;
-      errorsInCorpusCount += sentence.errors.size();
-      System.out.println(sentence.markupText + " => " + matches.size());
+      errorsInCorpusCount += sentence.getErrors().size();
+      System.out.println(sentence.getMarkupText() + " => " + matches.size());
       //System.out.println("###"+sentence.annotatedText.toString().replaceAll("<.*?>", ""));
       List<Span> detectedErrorPositions = new ArrayList<>();
       for (RuleMatch match : matches) {
@@ -135,16 +130,62 @@ class RealWordCorpusEvaluator {
           //TODO: it depends on the order of matches whether [++] comes before [ +] (it should!)
           goodMatches++;
           perfectMatches++;
+          matchCount++;
+          if (isConfusionRule(match)) {
+            perfectConfusionMatches++;
+          }
           System.out.println("    [++] " + match + ": " + match.getSuggestedReplacements());
         } else if (!alreadyCounted && sentence.hasErrorCoveredByMatch(match)) {
           goodMatches++;
+          matchCount++;
+          if (isConfusionRule(match)) {
+            goodConfusionMatches++;
+          }
           System.out.println("    [+ ] " + match + ": " + match.getSuggestedReplacements());
+        } else if (alreadyCounted) {
+          System.out.println("    [//]  " + match + ": " + match.getSuggestedReplacements());
         } else {
           System.out.println("    [  ] " + match + ": " + match.getSuggestedReplacements());
+          matchCount++;
+          if (isConfusionRule(match)) {
+            badConfusionMatches++;
+            badConfusionMatchWords.add(sentence.getMarkupText().substring(match.getFromPos(), match.getToPos()));
+          }
         }
         detectedErrorPositions.add(new Span(match.getFromPos(), match.getToPos()));
       }
     }
+  }
+
+  private boolean isConfusionRule(RuleMatch match) {
+    return match.getRule().getId().equals("CONFUSION_RULE");
+  }
+
+  private void printResults() {
+    System.out.println("");
+    System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
+    System.out.println("Confusion rule matches: " + perfectConfusionMatches+ " perfect, "
+            + goodConfusionMatches + " good, " + badConfusionMatches + " bad (" + badConfusionMatchWords + ")");
+
+    System.out.println("\nCounting matches, no matter whether the first suggestion is correct:");
+    
+    System.out.print("  " + goodMatches + " out of " + matchCount + " matches are real errors");
+    float goodPrecision = (float)goodMatches / matchCount;
+    float goodRecall = (float)goodMatches / errorsInCorpusCount;
+    System.out.printf(" => %.2f precision, %.2f recall\n", goodPrecision, goodRecall);
+
+    System.out.printf("  => %.4f F(0.5) measure\n",
+            FMeasure.getWeightedFMeasure(goodPrecision, goodRecall));
+    
+    System.out.println("\nCounting only matches with a perfect first suggestion:");
+
+    System.out.print("  " + perfectMatches + " out of " + matchCount + " matches are real errors");
+    float perfectPrecision = (float)perfectMatches / matchCount;
+    float perfectRecall = (float)perfectMatches / errorsInCorpusCount;
+    System.out.printf(" => %.2f precision, %.2f recall\n", perfectPrecision, perfectRecall);
+
+    System.out.printf("  => %.4f F(0.5) measure\n",
+            FMeasure.getWeightedFMeasure(perfectPrecision, perfectRecall));
   }
 
   private boolean errorAlreadyCounted(RuleMatch match, List<Span> detectedErrorPositions) {
@@ -157,99 +198,23 @@ class RealWordCorpusEvaluator {
     return false;
   }
 
-  private ErrorSentence getIncorrectSentence(String line) {
-    String normalized = line.replaceAll(NORMALIZE_REGEX, " <ERR targ=$1>$2</ERR> ").replaceAll("\\s+", " ").trim();
-    List<Error> errors = new ArrayList<>();
-    int startPos = 0;
-    while (normalized.indexOf("<ERR targ=", startPos) != -1) {
-      int startTagStart = normalized.indexOf("<ERR targ=", startPos);
-      int startTagEnd = normalized.indexOf(">", startTagStart);
-      int endTagStart = normalized.indexOf("</ERR>", startTagStart);
-      int correctionEnd = normalized.indexOf(">", startTagStart);
-      String correction = normalized.substring(startTagStart + "<ERR targ=".length(), correctionEnd);
-      errors.add(new Error(startTagEnd + 1, endTagStart, correction));
-      startPos = startTagStart + 1;
-    }
-    return new ErrorSentence(normalized, makeAnnotatedText(normalized), errors);
-  }
-
-  private AnnotatedText makeAnnotatedText(String pseudoXml) {
-    AnnotatedTextBuilder builder = new AnnotatedTextBuilder();
-    StringTokenizer tokenizer = new StringTokenizer(pseudoXml, "<>", true);
-    boolean inMarkup = false;
-    while (tokenizer.hasMoreTokens()) {
-      String part = tokenizer.nextToken();
-      if (part.startsWith("<")) {
-        builder.addMarkup(part);
-        inMarkup = true;
-      } else if (part.startsWith(">")) {
-        inMarkup = false;
-        builder.addMarkup(part);
-      } else {
-        if (inMarkup) {
-          builder.addMarkup(part);
-        } else {
-          builder.addText(part);
-        }
-      }
-    }
-    return builder.build();
-  }
-
   public static void main(String[] args) throws IOException {
-    if (args.length != 1) {
-      System.out.println("Usage: " + RealWordCorpusEvaluator.class.getSimpleName() + " <corpusDirectory>");
+    if (args.length != 1 && args.length != 2) {
+      System.out.println("Usage: " + RealWordCorpusEvaluator.class.getSimpleName() + " <corpusDirectory> [languageModel]");
+      System.out.println("   [languageModel] is a morfologik file or Lucene index directory with ngram frequency information (optional)");
       System.exit(1);
     }
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator();
-    evaluator.run(new File(args[0]));
-  }
-
-  class ErrorSentence {
-    private final String markupText;
-    private final AnnotatedText annotatedText;
-    private final List<Error> errors;
-
-    ErrorSentence(String markupText, AnnotatedText annotatedText, List<Error> errors) {
-      this.markupText = markupText;
-      this.annotatedText = annotatedText;
-      this.errors = errors;
-    }
-
-    boolean hasErrorCoveredByMatchAndGoodFirstSuggestion(RuleMatch match) {
-      if (hasErrorCoveredByMatch(match)) {
-        List<String> suggestion = match.getSuggestedReplacements();
-        if (suggestion.size() > 0) {
-          String firstSuggestion = suggestion.get(0);
-          for (Error error : errors) {
-            if (error.correction.equals(firstSuggestion)) {
-              return true;
-            }
-          }
-        }
-      }
-      return false;
-    }
-    
-    boolean hasErrorCoveredByMatch(RuleMatch match) {
-      for (Error error : errors) {
-        if (match.getFromPos() <= error.startPos && match.getToPos() >= error.endPos) {
-          return true;
-        }
-      }
-      return false;
-    }
-  }
-  
-  class Error {
-    private final int startPos;
-    private final int endPos;
-    private final String correction;
-
-    Error(int startPos, int endPos, String correction) {
-      this.startPos = startPos;
-      this.endPos = endPos;
-      this.correction = correction;
+    if (args.length == 1) {
+      System.out.println("Running without language model");
+      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(null);
+      evaluator.run(new File(args[0]));
+      evaluator.close();
+    } else {
+      File languageModelTopDir = new File(args[1]);
+      System.out.println("Running with language model from " + languageModelTopDir);
+      RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(languageModelTopDir);
+      evaluator.run(new File(args[0]));
+      evaluator.close();
     }
   }
   

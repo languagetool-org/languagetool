@@ -16,30 +16,32 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.dev.eval;
+package org.languagetool.rules.en;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.languagetool.Language;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.ConfusionProbabilityRule;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.util.ResourceBundle;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+/**
+ * @since 2.7
+ */
+public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
-public class RealWordCorpusEvaluatorTest {
-
-  @Ignore("requires local ngram index")
-  @Test
-  public void testCheck() throws IOException {
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(new File("/data/google-ngram-index/"));
-    URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
-    evaluator.run(new File(errors.getFile()));
-    assertThat(evaluator.getSentencesChecked(), is(3));
-    assertThat(evaluator.getErrorsChecked(), is(5));
-    assertThat(evaluator.getRealErrorsFound(), is(3));
-    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
+  public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) throws IOException {
+    super(messages, languageModel, language);
   }
 
+  @Override
+  public String getDescription() {
+    return "Statistically detect wrong use of words that are easily confused";
+  }
+  
+  @Override
+  public String getMessage(String suggestion) {
+    return "Statistic suggests that '" + suggestion + "' might be the right word here. Please check.";
+  }
+  
 }

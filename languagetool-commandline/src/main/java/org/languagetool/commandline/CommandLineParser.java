@@ -18,6 +18,7 @@
  */
 package org.languagetool.commandline;
 
+import java.io.File;
 import java.io.PrintStream;
 
 import org.languagetool.Language;
@@ -80,6 +81,9 @@ public class CommandLineParser {
       } else if (args[i].equals("-m") || args[i].equals("--mothertongue")) {
         checkArguments("-m/--mothertongue", i, args);
         options.setMotherTongue(getLanguage(args[++i]));
+      } else if (args[i].equals("--languagemodel")) {
+        checkArguments("--languagemodel", i, args);
+        options.setLanguageModel(new File(args[++i]));
       } else if (args[i].equals("-c") || args[i].equals("--encoding")) {
         checkArguments("-c/--encoding", i, args);
         options.setEncoding(args[++i]);
@@ -156,6 +160,8 @@ public class CommandLineParser {
             + "  -v, --verbose            print text analysis (sentences, part-of-speech tags) to STDERR\n"
             + "  --version                print LanguageTool version number and exit\n"
             + "  -a, --apply              automatically apply suggestions if available, printing result to STDOUT\n"
+            + "  --languagemodel DIR      a directory with a '3grams' sub directory with a Lucene index that\n"
+            + "                           contains ngram occurrence counts; activates the confusion rule if supported\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (this is deprecated)");
   }
 

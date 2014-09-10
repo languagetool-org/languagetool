@@ -68,16 +68,13 @@ public class SentenceSourceChecker {
     }
     final int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     final int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
-    String[] ruleIds = null;
-    if (commandLine.hasOption('r')) {
-      ruleIds = commandLine.getOptionValue('r').split(",");
-    }
-    String[] categoryIds = null;
-    if (commandLine.hasOption("also-enable-categories")) {
-      categoryIds = commandLine.getOptionValue("also-enable-categories").split(",");
-    }
+    String[] ruleIds = commandLine.hasOption('r') ? commandLine.getOptionValue('r').split(",") : null;
+    String[] categoryIds = commandLine.hasOption("also-enable-categories") ?
+                           commandLine.getOptionValue("also-enable-categories").split(",") : null;
     String[] fileNames = commandLine.getOptionValues('f');
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors);
+    File languageModelDir = commandLine.hasOption("languagemodel") ?
+                            new File(commandLine.getOptionValue("languagemodel")) : null;
+    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles, maxErrors, languageModelDir);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -120,6 +117,9 @@ public class SentenceSourceChecker {
     options.addOption(OptionBuilder.withLongOpt("max-errors").withArgName("number").hasArg()
             .withDescription("maximum number of errors, stop when finding more")
             .create());
+    options.addOption(OptionBuilder.withLongOpt("languagemodel").withArgName("indexDir").hasArg()
+            .withDescription("directory with a '3grams' sub directory that contains an ngram index")
+            .create());
     try {
       CommandLineParser parser = new GnuParser();
       return parser.parse(options, args);
@@ -134,11 +134,14 @@ public class SentenceSourceChecker {
     return null;
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds, 
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors) throws IOException {
+  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
+                   String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir) throws IOException {
     final Language lang = Language.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
+    if (languageModelDir != null) {
+      languageTool.activateLanguageModelRules(languageModelDir);
+    }
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, languageTool);
     } else {

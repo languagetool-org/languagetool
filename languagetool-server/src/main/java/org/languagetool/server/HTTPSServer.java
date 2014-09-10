@@ -77,6 +77,7 @@ public class HTTPSServer extends Server {
       if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
         httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
       }
+      httpHandler.setLanguageModel(config.getLanguageModelDir());
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);
@@ -137,7 +138,7 @@ public class HTTPSServer extends Server {
   }
 
   public static void main(String[] args) {
-    if (args.length > 7 || usageRequested(args)) {
+    if (args.length == 0 || args.length > 7 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");
       System.out.println("  --config file  a Java property file with values for:");
@@ -145,11 +146,9 @@ public class HTTPSServer extends Server {
       System.out.println("                 'password' - the keystore's password");
       System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
       System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
-      System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
-      System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
-      System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
       System.out.println("                 'requestLimit' - maximum number of requests (optional)");
       System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
+      printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
     }

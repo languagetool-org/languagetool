@@ -60,6 +60,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private String allowOriginUrl;
   private boolean afterTheDeadlineMode;
   private Language afterTheDeadlineLanguage;
+  private File languageModelDir;
   
   private static int handleCount = 0;
 
@@ -110,6 +111,11 @@ class LanguageToolHttpHandler implements HttpHandler {
     System.out.println("Running in After the Deadline mode, default language: " + defaultLanguage);
     this.afterTheDeadlineMode = true;
     this.afterTheDeadlineLanguage = defaultLanguage;
+  }
+
+  /** @since 2.7 */
+  void setLanguageModel(File languageModelDir) {
+    this.languageModelDir = languageModelDir;
   }
 
   @Override
@@ -409,6 +415,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
     newLanguageTool.activateDefaultPatternRules();
     newLanguageTool.activateDefaultFalseFriendRules();
+    if (languageModelDir != null) {
+      newLanguageTool.activateLanguageModelRules(languageModelDir);
+    }
     final Configuration config = new Configuration(lang);
     if (!params.useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
       configureGUI(newLanguageTool, config);

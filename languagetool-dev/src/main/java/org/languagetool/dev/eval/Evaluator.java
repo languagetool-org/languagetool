@@ -18,28 +18,18 @@
  */
 package org.languagetool.dev.eval;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.rules.RuleMatch;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
+import java.util.List;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+/**
+ * @since 2.7
+ */
+interface Evaluator {
+  
+  List<RuleMatch> check(AnnotatedText annotatedText) throws IOException;
 
-public class RealWordCorpusEvaluatorTest {
-
-  @Ignore("requires local ngram index")
-  @Test
-  public void testCheck() throws IOException {
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(new File("/data/google-ngram-index/"));
-    URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
-    evaluator.run(new File(errors.getFile()));
-    assertThat(evaluator.getSentencesChecked(), is(3));
-    assertThat(evaluator.getErrorsChecked(), is(5));
-    assertThat(evaluator.getRealErrorsFound(), is(3));
-    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
-  }
-
+  void close();
 }

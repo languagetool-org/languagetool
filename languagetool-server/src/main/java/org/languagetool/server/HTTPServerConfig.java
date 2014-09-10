@@ -46,6 +46,7 @@ public class HTTPServerConfig {
   protected int maxCheckThreads = 10;
   protected Mode mode;
   protected Language atdLanguage;
+  protected File languageModelDir = null;
 
   public HTTPServerConfig() {
     this.port = DEFAULT_PORT;
@@ -97,6 +98,13 @@ public class HTTPServerConfig {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        String langModel = getOptionalProperty(props, "languageModel", null);
+        if (langModel != null) {
+          languageModelDir = new File(langModel);
+          if (!languageModelDir.exists() || !languageModelDir.isDirectory()) {
+            throw new RuntimeException("LanguageModel directory not found or is not a directory: " + languageModelDir);
+          }
+        }
         maxCheckThreads = Integer.parseInt(getOptionalProperty(props, "maxCheckThreads", "10"));
         if (maxCheckThreads < 1) {
           throw new IllegalArgumentException("Invalid value for maxCheckThreads: " + maxCheckThreads);
@@ -157,6 +165,14 @@ public class HTTPServerConfig {
   /** @since 2.6 */
   long getMaxCheckTimeMillis() {
     return maxCheckTimeMillis;
+  }
+
+  /**
+   * Get language model directory (which contains '3grams' sub directory) or {@code null}.
+   * @since 2.7
+   */
+  File getLanguageModelDir() {
+    return languageModelDir;
   }
 
   /** @since 2.7 */

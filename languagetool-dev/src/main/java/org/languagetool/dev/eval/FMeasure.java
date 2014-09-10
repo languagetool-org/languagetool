@@ -18,28 +18,26 @@
  */
 package org.languagetool.dev.eval;
 
-import org.junit.Ignore;
-import org.junit.Test;
+/**
+ * Helper to calculate F-measure value. See https://en.wikipedia.org/wiki/F1_score.
+ * @since 2.7
+ */
+public final class FMeasure {
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
+  private FMeasure() {
+  }
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+  /**
+   * Calculates the F-measure with a beta of 0.5, so that precision
+   * weights higher than recall.
+   */
+  public static double getWeightedFMeasure(float precision, float recall) {
+    return getFMeasure(precision, recall, 0.5f);
+  }
 
-public class RealWordCorpusEvaluatorTest {
-
-  @Ignore("requires local ngram index")
-  @Test
-  public void testCheck() throws IOException {
-    RealWordCorpusEvaluator evaluator = new RealWordCorpusEvaluator(new File("/data/google-ngram-index/"));
-    URL errors = RealWordCorpusEvaluatorTest.class.getResource("/org/languagetool/dev/eval");
-    evaluator.run(new File(errors.getFile()));
-    assertThat(evaluator.getSentencesChecked(), is(3));
-    assertThat(evaluator.getErrorsChecked(), is(5));
-    assertThat(evaluator.getRealErrorsFound(), is(3));
-    assertThat(evaluator.getRealErrorsFoundWithGoodSuggestion(), is(2));
+  public static double getFMeasure(float precision, float recall, float beta) {
+    double betaSquared = Math.pow(beta, 2);
+    return (1 + betaSquared) * (precision * recall) / ((betaSquared * precision) + recall);
   }
 
 }

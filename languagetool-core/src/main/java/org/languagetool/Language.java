@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
@@ -34,6 +35,7 @@ import org.languagetool.tokenizers.*;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -215,6 +217,24 @@ public abstract class Language {
   public abstract List<Rule> getRelevantRules(ResourceBundle messages) throws IOException;
 
   // -------------------------------------------------------------------------
+
+  /**
+   * @param indexDir directory with a '3grams' sub directory which contains a Lucene index with 3gram occurrence counts
+   * @return a LanguageModel or {@code null} if this language doesn't support one
+   * @since 2.7
+   */
+  public LanguageModel getLanguageModel(File indexDir) throws IOException {
+    return null;
+  }
+
+  /**
+   * Get a list of rules that require a {@link LanguageModel}. Returns an empty list for
+   * languages that don't have such rules.
+   * @since 2.7
+   */
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Collections.emptyList();
+  }
 
   /**
    * Get this language's Java locale, not considering the country code.

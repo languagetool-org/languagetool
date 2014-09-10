@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -26,13 +27,10 @@ import java.util.ResourceBundle;
 import org.languagetool.Language;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.en.AvsAnRule;
-import org.languagetool.rules.en.CompoundRule;
-import org.languagetool.rules.en.ContractionSpellingRule;
-import org.languagetool.rules.en.EnglishUnpairedBracketsRule;
-import org.languagetool.rules.en.EnglishWordRepeatBeginningRule;
-import org.languagetool.rules.en.EnglishWordRepeatRule;
+import org.languagetool.rules.en.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -47,8 +45,10 @@ import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
  * etc. if you need spell checking.
+ * Make sure to call {@link #close()} after using this (currently only relevant if you make
+ * use of {@link EnglishConfusionProbabilityRule}).
  */
-public class English extends Language {
+public class English extends Language implements AutoCloseable {
 
   private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
 
@@ -58,6 +58,7 @@ public class English extends Language {
   private Synthesizer synthesizer;
   private Disambiguator disambiguator;
   private WordTokenizer wordTokenizer;
+  private LuceneLanguageModel languageModel;
   private String name = "English";
 
   @Override
@@ -137,6 +138,14 @@ public class English extends Language {
   }
 
   @Override
+  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+    if (languageModel == null) {
+      languageModel = new LuceneLanguageModel(indexDir);
+    }
+    return languageModel;
+  }
+
+  @Override
   public final Contributor[] getMaintainers() {
     return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
@@ -160,4 +169,18 @@ public class English extends Language {
     );
   }
 
+  @Override
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+    return Arrays.<Rule>asList(
+        new EnglishConfusionProbabilityRule(messages, languageModel, this)
+    );
+  }
+
+  /** @since 2.7 */
+  @Override
+  public void close() throws Exception {
+    if (languageModel != null) {
+      languageModel.close();
+    }
+  }
 }
