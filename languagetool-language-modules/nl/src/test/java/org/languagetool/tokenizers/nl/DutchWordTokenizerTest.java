@@ -25,22 +25,21 @@ import junit.framework.TestCase;
 
 public class DutchWordTokenizerTest extends TestCase {
 
+  private final DutchWordTokenizer wordTokenizer = new DutchWordTokenizer();
+
   public void testTokenize() {
-    DutchWordTokenizer wordTokenizer = new DutchWordTokenizer();
-    List<String> testList = wordTokenizer.tokenize("This is\u00A0a test");
-    assertEquals(testList.size(), 7);
-    assertEquals("[This,  , is, \u00A0, a,  , test]", testList.toString());
-    testList = wordTokenizer.tokenize("Bla bla oma's bla bla 'test");
-    assertEquals(testList.size(), 12);
-    assertEquals("[Bla,  , bla,  , oma's,  , bla,  , bla,  , ', test]",
-        testList.toString());
-    testList = wordTokenizer.tokenize("Ik zie het''");
-    assertEquals(7, testList.size());
-    assertEquals("[Ik,  , zie,  , het, ', ']",
-        testList.toString());
-    testList = wordTokenizer.tokenize("''Ik zie het");
-    assertEquals(7, testList.size());
-    assertEquals("[', ', Ik,  , zie,  , het]",
-        testList.toString());
+    assertTokenize("This is\u00A0a test",
+                   "[This,  , is,  , a,  , test]");
+    assertTokenize("Bla bla oma's bla bla 'test",
+                   "[Bla,  , bla,  , oma's,  , bla,  , bla,  , ', test]");
+    assertTokenize("Ik zie het''",
+                   "[Ik,  , zie,  , het, ', ']");
+    assertTokenize("''Ik zie het",
+                   "[', ', Ik,  , zie,  , het]");
+  }
+
+  private void assertTokenize(String input, String expected) {
+    List<String> result = wordTokenizer.tokenize(input);
+    assertEquals(result.toString(), expected);
   }
 }
