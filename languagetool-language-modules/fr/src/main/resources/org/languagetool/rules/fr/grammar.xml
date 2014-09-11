@@ -6371,29 +6371,14 @@ though, and has since been slightly modified)-->
           <token regexp="yes" skip="1">ne?</token>
           <token postag="V etre.* 3 .*" postag_regexp="yes"/>
           <token regexp="yes">pas|point|guère|plus|jamais</token>
-          <marker>
-            <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>Le mot masculin « \6 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
-        <example type="incorrect">Martine n’est pas <marker>marié</marker>.</example>
-        <example type="correct">Martine n’est pas mariée.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="SENT_START" skip="-1">
-            <exception scope="next" postag="[NRZ].* [me] .*|V inf" postag_regexp="yes"/>
-          </token>
-          <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes"/>
-          <token regexp="yes" skip="1">ne?</token>
-          <token postag="V etre.* 3 .*" postag_regexp="yes"/>
-          <token regexp="yes">pas|point|guère|plus|jamais</token>
-          <token postag="A"/>
+          <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Le mot masculin « \7 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
+        <example type="incorrect">Martine n’est pas <marker>marié</marker>.</example>
+        <example type="correct">Martine n’est pas mariée.</example>
         <example type="incorrect">Martine n’est pas très <marker>joli</marker>.</example>
         <example type="correct">Martine n’est pas très jolie.</example>
       </rule>
