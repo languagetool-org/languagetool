@@ -6352,15 +6352,18 @@ though, and has since been slightly modified)-->
           <token postag="[NZ] f .*|R pers suj 3 f .*|R dem f .*" postag_regexp="yes"/>
           <token regexp="yes">a|aurait|avait|aura|eût</token>
           <token>été</token>
+          <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
-        <message>Le mot masculin « \4 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
+        <message>Le mot masculin « \5 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example type="incorrect">Une averse avait été <marker>annoncé</marker>.</example>
         <example type="correct">Une averse avait été <marker>annoncée</marker>.</example>
         <example type="incorrect">Martine aurait été <marker>content</marker>.</example>
         <example type="correct">Martine aurait été <marker>contente</marker>.</example>
+        <example type="incorrect">Martine aurait été très <marker>content</marker>.</example>
+        <example type="correct">Martine aurait été très <marker>contente</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -6392,13 +6395,14 @@ though, and has since been slightly modified)-->
             <exception>on</exception>
           </token>
           <token postag="V etre .*s" postag_regexp="yes"/>
+          <token min="0" max="1" postag="A"/>
           <marker>
             <token postag="V.* ppa .* p|J . p" postag_regexp="yes">
               <exception postag="V.* ppa .* sp|J . sp" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
-        <message>Le mot pluriel « \4 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
+        <message>Le mot pluriel « \5 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
         <example type="incorrect">Un orage fut <marker>annoncés</marker>.</example>
         <example type="correct">Un orage fut annoncé.</example>
         <example type="incorrect">Elle sera <marker>contentes</marker>.</example>
@@ -6412,6 +6416,9 @@ though, and has since been slightly modified)-->
         <example type="correct">Celle-là est folle.</example>
         <example type="correct">Il est casse-couilles.</example>
         <example type="correct">On est fatigués.</example>
+        <example type="incorrect">Tu étais très <marker>jeunes</marker>.</example>
+        <example type="correct">Tu étais très jeune.</example>
+        <example type="correct">On était tellement <marker>fatigués</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -6435,24 +6442,6 @@ though, and has since been slightly modified)-->
         <example type="incorrect">Martine n’était guère <marker>ennuyeuses</marker>.</example>
         <example type="correct">Martine n’était guère ennuyeuse.</example>
         <example type="correct">Elle est casse-couilles.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="SENT_START" skip="-1">
-            <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
-            <exception scope="next">et</exception>
-          </token>
-          <token postag="Z . sp?|N . s|R pers suj.* s|R dem.* s" postag_regexp="yes"><exception>on</exception></token>
-          <token postag="V etre .*s" postag_regexp="yes"/>
-          <token postag="A"/>
-          <marker>
-            <token postag="V.* ppa .* p|J . p" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>Le mot pluriel « \5 » n’est pas accordé en nombre avec le mot singulier « \2 ».</message>
-        <example type="incorrect">Tu étais très <marker>jeunes</marker>.</example>
-        <example type="correct">Tu étais très jeune.</example>
-        <example type="correct">On était tellement <marker>fatigués</marker>.</example>
       </rule>
       <rule>
         <pattern>
