@@ -49,7 +49,7 @@ class NGramStats {
     if (args.length != 2) {
       System.out.println("Usage: " + NGramStats.class.getSimpleName() + " <dir> <phrase>");
       System.out.println("  'dir' is a directory with e.g. a '3grams' sub directory with a Lucene index of ngrams");
-      System.out.println("  'phrase' is a 2 or 3-word phrase, e.g. \"the tall boy\" (include the quotes)");
+      System.out.println("  'phrase' is a 2 or 3-word case-sensitive phrase, e.g. \"the tall boy\" (include the quotes)");
       System.exit(1);
     }
     String dir = args[0];
