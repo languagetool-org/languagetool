@@ -40,6 +40,6 @@ public class DutchWordTokenizerTest extends TestCase {
 
   private void assertTokenize(String input, String expected) {
     List<String> result = wordTokenizer.tokenize(input);
-    assertEquals(result.toString(), expected);
+    assertEquals(expected, result.toString());
   }
 }
