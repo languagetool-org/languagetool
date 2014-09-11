@@ -29,7 +29,7 @@ $Id$
 <!--suppress CheckTagEmptyBody -->
 <!DOCTYPE rules [
     <!ENTITY weekdays "понедельник|вторник|среда|четверг|пятница|суббота|воскресенье">
-    <!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь">
+    <!ENTITY months "январь|февраль|март|апрель|май|июнь|июль|август|сентябрь|октябрь|ноябрь|декабрь|января|февраля|марта|апреля|мая|июня|июля|августа|сентября|октября|ноября|декабря">
     <!ENTITY abbrevMonths "янв|фев|мар|апр|авг|сен|окт|ноя|дек">
 ]>
 
@@ -72,10 +72,10 @@ $Id$
             <example type="correct">Моя поездка на море запланирована на <marker>май 2014</marker> г.</example>
             <example type="incorrect" correction="май 2014">Моя поездка на море запланирована на <marker>май 20014</marker> г.</example>
         </rule>
-<!--
-	<rulegroup id="DATE_WEEKDAY1" name="День недели не соответствует дате">   -->
+
+	<rulegroup id="DATE_WEEKDAY1" name="День недели не соответствует дате">   
                     <!-- "понедельник, 7 октября 2014" -->
-<!--            <rule>
+            <rule>
                 <pattern>
                     <token regexp="yes">&weekdays;</token>
                     <token>,</token>
@@ -85,11 +85,11 @@ $Id$
                 </pattern>
                 <filter class="org.languagetool.rules.ru.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>Дата \3 \4 \5 не \1, а \realDay.</message>
-                <example type='incorrect'>Конференция состоится в <marker>среду, 7 октября 2014</marker> г.</example>
+                <example type='incorrect'>Конференция состоится в <marker>понедельник, 7 октября 2014</marker> г.</example>
                 <example type='correct'>Конференция состоится во <marker>вторник, 7 октября 2014</marker> г.</example>
             </rule>
         </rulegroup>
--->
+
 	<rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
             <rule> 
                 <pattern>
