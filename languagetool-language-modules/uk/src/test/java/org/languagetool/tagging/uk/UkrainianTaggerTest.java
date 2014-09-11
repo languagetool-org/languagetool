@@ -21,19 +21,19 @@ package org.languagetool.tagging.uk;
 import junit.framework.TestCase;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
 import java.io.IOException;
 
 public class UkrainianTaggerTest extends TestCase {
     
   private UkrainianTagger tagger;
-  private WordTokenizer tokenizer;
+  private UkrainianWordTokenizer tokenizer;
       
   @Override
   public void setUp() {
     tagger = new UkrainianTagger();
-    tokenizer = new WordTokenizer();
+    tokenizer = new UkrainianWordTokenizer();
   }
 
   public void testDictionary() throws IOException {
@@ -42,7 +42,7 @@ public class UkrainianTaggerTest extends TestCase {
   
   public void testTagger() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]numr -- р/[р]unknown:abbr -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
+      "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:nv|до/[до]pryim:rv_rod -- н/[null]null -- е/[null]null",
        tokenizer, tagger);
     
     // one-way case sensitivity
@@ -55,6 +55,10 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis:ist|Далі/[Далі]noun:m:nv|Далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:ist|Бен/[бен]unknown", tokenizer, tagger);
     TestTools.myAssert("бен", "бен/[бен]unknown", tokenizer, tagger);
+
+    TestTools.myAssert("101,234", 
+        "101,234/[101,234]number",
+         tokenizer, tagger);
 
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:f:v_zna -- порушено/[порушено]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",

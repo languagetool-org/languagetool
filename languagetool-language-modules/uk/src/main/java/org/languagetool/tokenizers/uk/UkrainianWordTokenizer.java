@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.StringTokenizer;
+
 import org.languagetool.tokenizers.Tokenizer;
 
 /**
@@ -41,35 +42,31 @@ public class UkrainianWordTokenizer implements Tokenizer {
         + ",.;()[]{}<>!?:/|\\\"«»„”“`´‘‛′…¿¡\t\n\r";
 
   // decimal comma between digits
-  private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final String DECIMAL_COMMA_SUBST = "#DECIMAL_COMMA#";
+  private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final char DECIMAL_COMMA_SUBST = '_'; // some unused character to hide comma in decimal number temporary for tokenizer run
 
   public UkrainianWordTokenizer() {
   }
 
   @Override
   public List<String> tokenize(String text) {
+    text = cleanup(text);
+    text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1" + DECIMAL_COMMA_SUBST + "$2");
+
     List<String> tokenList = new ArrayList<>();
-
-    text = substitute(text);
-
     StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
 
     while (st.hasMoreElements()) {
-      tokenList.add( clean(st.nextToken()) );
+      String token = st.nextToken();
+      token = token.replace(DECIMAL_COMMA_SUBST, ',');
+      tokenList.add( token );
     }
 
     return tokenList;
   }
 
-  private static String substitute(String text) {
-    return DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1"+DECIMAL_COMMA_SUBST+"$2");
-  }
-
-  private static String clean(String token) {
-    token = token.replace("\u0301", "").replace("\u00AD", "").replace('’', '\'').replace('ʼ', '\'');
-    token = token.replace(DECIMAL_COMMA_SUBST, ",");
-    return token;
+  private static String cleanup(String text) {
+    return text.replace("\u0301", "").replace("\u00AD", "").replace('’', '\'').replace('ʼ', '\'');
   }
   
 }

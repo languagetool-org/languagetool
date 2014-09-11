@@ -882,7 +882,7 @@ $Id$
           <marker>
             <token inflected="yes">вартувати</token>
           </marker>
-          <token postag_regexp="yes" postag="numr.*"></token>
+          <token postag_regexp="yes" postag="num.*"/>
          </pattern>
          <message>Правильно: <suggestion>коштує</suggestion>, <suggestion>бути вартим</suggestion>, <suggestion>мати ціну</suggestion></message>
          <example type="incorrect">Квиток <marker>вартує</marker> 100 грн.</example>
@@ -1038,7 +1038,7 @@ $Id$
        <rule>
          <pattern>
            <marker>
-            <token inflected="yes" regexp="yes">знімати|зняти</token>
+            <token inflected="yes" regexp="yes">знімати|зняти|знятий</token>
            </marker>
             <token regexp="yes">житло|квартиру|помешкання|офіс</token>
          </pattern>
@@ -1157,7 +1157,7 @@ $Id$
          <pattern>
               <token inflected="yes">виручка<exception scope="previous">на</exception></token>
          </pattern>
-         <message>Правильно: <suggestion>виторг</suggestion>, <suggestion>уторгування</suggestion></message>
+         <message>Краще: <suggestion>виторг</suggestion>, <suggestion>уторгування</suggestion></message>
          <example type="incorrect">здаючи <marker>виручку</marker> на зміну</example>
          <example type="correct">здаючи виторг на зміну</example>
          <example type="correct">на виручку прийшли друзі</example>
@@ -1956,7 +1956,7 @@ $Id$
            <marker>
               <token>порядка</token>
            </marker>
-              <token postag_regexp="yes" postag="numr.*"/>
+              <token postag_regexp="yes" postag="num.*"/>
          </pattern>
          <message>Правильно: <suggestion>близько</suggestion>, <suggestion>коло</suggestion>, <suggestion>приблизно</suggestion></message>
          <example type="incorrect">Напруга <marker>порядка</marker> 100 вольт</example>
@@ -2073,6 +2073,16 @@ $Id$
          <message>Правильно: <suggestion>гоїтися</suggestion>, <suggestion>загоюватися</suggestion>, <suggestion>затягуватися</suggestion></message>
          <example type="incorrect">його рани довго <marker>заживали</marker></example>
          <example type="correct">його рани довго загоювалися</example>
+       </rule>
+
+        <rule>
+         <pattern>
+              <token inflected="yes" regexp="yes">підводити|підвести|підводячи|підведений</token>
+              <token inflected="yes">підсумок</token>
+         </pattern>
+         <message>Правильно: <suggestion>підбивати підсумки</suggestion>, <suggestion>робити підсумки</suggestion>, <suggestion>підсумовувати</suggestion></message>
+         <example type="incorrect"><marker>підводячи підсумок</marker> своєї боротьби</example>
+         <example type="correct">підбиваючи підсумок своєї боротьби</example>
        </rule>
     </rulegroup>
 

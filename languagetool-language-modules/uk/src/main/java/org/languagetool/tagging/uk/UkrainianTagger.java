@@ -55,7 +55,7 @@ public class UkrainianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
-    return "/uk/ukrainian.dict";    
+    return "/uk/ukrainian.dict";
   }
 
   public UkrainianTagger() {
@@ -68,7 +68,7 @@ public class UkrainianTagger extends BaseTagger {
   public List<AnalyzedToken> additionalTags(String word) {
     if ( NUMBER.matcher(word).matches() ){
       List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.numr.toString(), word));
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText(), word));
       return additionalTaggedTokens;
     }
     return null;

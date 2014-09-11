@@ -26,10 +26,11 @@ public enum IPOSTag {
   adv("adv"),
   part("part"),
   numr("numr"),
+  number("number"),
   dieprysl("dieprysl"),
   predic("predic"),
   insert("insert"),
-  todo("unknown");
+  unknown("unknown");
 
   private final String text;
 
@@ -43,6 +44,10 @@ public enum IPOSTag {
 
   public boolean match(String posTag) {
     return posTag != null && posTag.startsWith(this.name());
+  }
+  
+  public static boolean isNum(String posTag) {
+    return numr.match(posTag) || number.match(posTag);
   }
 
 }

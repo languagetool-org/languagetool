@@ -102,7 +102,7 @@ public class TokenAgreementRule extends Rule {
 
       //TODO: skip conj напр. «бодай»
 
-      if (posTag == null || posTag.contains(IPOSTag.todo.getText()) || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
+      if (posTag == null || posTag.contains(IPOSTag.unknown.getText()) || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
         reqTokenReadings = null;
         continue;
       }
@@ -175,42 +175,45 @@ public class TokenAgreementRule extends Rule {
           }
         }
 
-        if( isCapitalized( token ) 
-            && tokens.length > i+1 && STREETS.contains( tokens[i+1].getAnalyzedToken(0).getToken()) ) {
-          reqTokenReadings = null;
-          continue;
-        }
+        // exceptions
+        if( tokens.length > i+1 ) {
+          if( isCapitalized( token ) 
+              && STREETS.contains( tokens[i+1].getAnalyzedToken(0).getToken()) ) {
+            reqTokenReadings = null;
+            continue;
+          }
 
-        if( tokens.length > i+1 && IPOSTag.numr.match(tokens[i+1].getAnalyzedToken(0).getPOSTag())
-            && token.equals("мінус") || token.equals("плюс") ) {
-          reqTokenReadings = null;
-          continue;
-        }
+          if( IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag())
+              && token.equals("мінус") || token.equals("плюс") ) {
+            reqTokenReadings = null;
+            continue;
+          }
 
-        if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("через")
-            && token.equals("років") 
-            && tokens.length > i+1 && IPOSTag.numr.match(tokens[i+1].getAnalyzedToken(0).getPOSTag()) ) {
-          reqTokenReadings = null;
-          continue;
-        }
+          if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("через")
+              && token.equals("років") 
+              && IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag()) ) {
+            reqTokenReadings = null;
+            continue;
+          }
 
-        if( (token.equals("собі") || token.equals("йому"))
-            && tokens.length > i+1 && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("подібн") ) {
-          //          reqTokenReadings = null;
-          continue;
-        }
+          if( (token.equals("собі") || token.equals("йому"))
+              && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("подібн") ) {
+            //          reqTokenReadings = null;
+            continue;
+          }
 
-        if( (token.equals("усім") || token.equals("всім"))
-            && tokens.length > i+1 && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("відом") ) {
-          //          reqTokenReadings = null;
-          continue;
-        }
+          if( (token.equals("усім") || token.equals("всім"))
+              && tokens[i+1].getAnalyzedToken(0).getToken().startsWith("відом") ) {
+            //          reqTokenReadings = null;
+            continue;
+          }
 
-        if( tokens.length > i+2 && ( 
-            (token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому")) 
-            && tokens[i+1].getAnalyzedToken(0).getToken().equals("не")) ) {
-          //          reqTokenReadings = null;
-          continue;
+          if( tokens.length > i+2 && ( 
+              (token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому")) 
+              && tokens[i+1].getAnalyzedToken(0).getToken().equals("не")) ) {
+            //          reqTokenReadings = null;
+            continue;
+          }
         }
 
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, reqTokenReadings, posTagsToFind);
