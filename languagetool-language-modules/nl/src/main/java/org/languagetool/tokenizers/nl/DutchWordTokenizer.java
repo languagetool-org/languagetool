@@ -53,7 +53,11 @@ public class DutchWordTokenizer extends WordTokenizer {
     while (st.hasMoreElements()) {
       String token = st.nextToken();
       if (token.length() > 1) {
-        if (token.endsWith("'")) {
+        if (token.startsWith("'") && token.endsWith("'") && token.length() > 2) {
+          l.add("'");
+          l.add(token.substring(1, token.length()-1));
+          l.add("'");
+        } else if (token.endsWith("'")) {
           int cnt = 0;
           while (token.endsWith("'")) {
             token = token.substring(0, token.length() - 1);

@@ -36,6 +36,11 @@ public class DutchWordTokenizerTest extends TestCase {
                    "[Ik,  , zie,  , het, ', ']");
     assertTokenize("''Ik zie het",
                    "[', ', Ik,  , zie,  , het]");
+    assertTokenize("Ik 'zie' het",
+                   "[Ik,  , ', zie, ',  , het]");
+    assertTokenize("'", "[']");
+    assertTokenize("''", "[, ', ']");
+    assertTokenize("'x'", "[', x, ']");
   }
 
   private void assertTokenize(String input, String expected) {
