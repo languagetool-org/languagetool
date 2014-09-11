@@ -22,7 +22,9 @@ import org.languagetool.Language;
 
 /**
  * Helper class.
+ * @deprecated deprecated since 2.7 (not used anymore)
  */
+@Deprecated
 class TextFilterTools {
 
   private TextFilterTools() {

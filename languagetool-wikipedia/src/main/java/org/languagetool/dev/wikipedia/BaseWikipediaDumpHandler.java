@@ -33,7 +33,9 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * Read the Wikipedia XML dump, check texts with LanguageTool, and
  * let result be handled in sub classes.
+ * @deprecated use {@link org.languagetool.dev.dumpcheck.SentenceSourceChecker} instead (deprecated since 2.7)
  */
+@Deprecated
 abstract class BaseWikipediaDumpHandler extends DefaultHandler {
 
   protected static final int CONTEXT_SIZE = 50; 

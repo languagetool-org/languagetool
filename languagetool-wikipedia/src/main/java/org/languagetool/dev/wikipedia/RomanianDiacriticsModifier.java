@@ -24,7 +24,9 @@ package org.languagetool.dev.wikipedia;
  * <b>ș</b> and <b>ţ</b> instead of <b>ț</b>.
  * 
  * @author Ionuț Păduraru
+ * @deprecated deprecated since 2.7 (not used anymore)
  */
+@Deprecated
 public final class RomanianDiacriticsModifier {
 
   private static final int REPLACEMENT_BUFF_SIZE = 10 * 1024;
