@@ -34,7 +34,7 @@ public class MorfologikSouthAfricanSpellerRuleTest {
   public void testMorfologikSpeller() throws IOException {
     final SouthAfricanEnglish language = new SouthAfricanEnglish();
     final MorfologikSouthAfricanSpellerRule rule =
-            new MorfologikSouthAfricanSpellerRule (TestTools.getMessages("English"), language);
+            new MorfologikSouthAfricanSpellerRule (TestTools.getMessages("en"), language);
 
     final JLanguageTool langTool = new JLanguageTool(language);
 

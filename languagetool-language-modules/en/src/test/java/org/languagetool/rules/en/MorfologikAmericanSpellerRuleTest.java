@@ -41,7 +41,7 @@ public class MorfologikAmericanSpellerRuleTest {
 
   @BeforeClass
   public static void setup() throws IOException {
-    rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("English"), language);
+    rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     langTool = new JLanguageTool(language);
   }
 

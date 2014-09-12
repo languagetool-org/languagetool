@@ -33,7 +33,7 @@ public class MorfologikPolishSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     final MorfologikPolishSpellerRule rule =
-        new MorfologikPolishSpellerRule (TestTools.getMessages("Polish"), new Polish());
+        new MorfologikPolishSpellerRule (TestTools.getMessages("pl"), new Polish());
 
     final JLanguageTool langTool = new JLanguageTool(new Polish());
 

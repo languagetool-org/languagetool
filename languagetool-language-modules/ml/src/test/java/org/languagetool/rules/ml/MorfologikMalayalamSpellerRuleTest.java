@@ -34,7 +34,7 @@ public class MorfologikMalayalamSpellerRuleTest {
   public void testMorfologikSpeller() throws IOException {
     final Malayalam language = new Malayalam();
     final MorfologikMalayalamSpellerRule rule =
-            new MorfologikMalayalamSpellerRule (TestTools.getMessages("Malayalam"), language);
+            new MorfologikMalayalamSpellerRule (TestTools.getMessages("ml"), language);
 
     RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(language);

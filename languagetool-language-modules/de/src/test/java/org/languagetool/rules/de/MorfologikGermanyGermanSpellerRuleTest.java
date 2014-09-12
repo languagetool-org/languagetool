@@ -32,7 +32,7 @@ public class MorfologikGermanyGermanSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     final MorfologikGermanyGermanSpellerRule rule =
-          new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("English"), new German());
+          new MorfologikGermanyGermanSpellerRule(TestTools.getMessages("en"), new German());
     final JLanguageTool langTool = new JLanguageTool(new German());
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Hier stimmt jedes Wort!")).length);

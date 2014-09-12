@@ -36,7 +36,7 @@ public class WordCoherencyRuleTest extends PatternRuleTest {
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new Persian());
-    rule = new WordCoherencyRule(TestTools.getMessages("Persian"));
+    rule = new WordCoherencyRule(TestTools.getMessages("fa"));
   }
 
   public void testRules() throws IOException {

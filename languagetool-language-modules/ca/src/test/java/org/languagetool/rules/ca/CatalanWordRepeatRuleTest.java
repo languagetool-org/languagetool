@@ -34,7 +34,7 @@ public class CatalanWordRepeatRuleTest extends TestCase {
    * Test method for 'org.languagetool.rules.ca.CatalanWordRepeatRule.match(AnalyzedSentence)'
    */
   public void testRule() throws IOException {
-    final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("Catalan"), new Catalan());
+    final CatalanWordRepeatRule rule = new CatalanWordRepeatRule(TestTools.getMessages("ca"), new Catalan());
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(new Catalan());
     //correct

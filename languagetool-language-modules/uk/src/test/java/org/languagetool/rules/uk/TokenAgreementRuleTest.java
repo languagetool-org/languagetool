@@ -36,7 +36,7 @@ public class TokenAgreementRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    TokenAgreementRule rule = new TokenAgreementRule(TestTools.getMessages("Ukrainian"));
+    TokenAgreementRule rule = new TokenAgreementRule(TestTools.getMessages("uk"));
 
     JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 

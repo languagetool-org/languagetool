@@ -33,7 +33,7 @@ public class MixedAlphabetsRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    final MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("Ukrainian"));
+    final MixedAlphabetsRule rule = new MixedAlphabetsRule(TestTools.getMessages("uk"));
 
     final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
 

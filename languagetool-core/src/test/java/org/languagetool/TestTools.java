@@ -74,12 +74,15 @@ public final class TestTools {
 
   /**
    * Gets the resource bundle for the specified language.
-   * @param language lowercase two-letter ISO-639 code.
+   * @param languageCode lowercase two-letter ISO-639 code.
    * @return the resource bundle for the specified language.
    */
-  public static ResourceBundle getMessages(String language) {
+  public static ResourceBundle getMessages(String languageCode) {
+    if (languageCode.length() > 3) {
+      throw new RuntimeException("Use a character code (ISO-639 code), not a full language name: " + languageCode);
+    }
     final ResourceBundle messages = ResourceBundle.getBundle(
-            JLanguageTool.MESSAGE_BUNDLE, new Locale(language));
+            JLanguageTool.MESSAGE_BUNDLE, new Locale(languageCode));
     return messages;
   }
 

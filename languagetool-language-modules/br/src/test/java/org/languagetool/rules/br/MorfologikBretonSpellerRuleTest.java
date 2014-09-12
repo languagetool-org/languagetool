@@ -33,7 +33,7 @@ public class MorfologikBretonSpellerRuleTest {
   @Test
   public void testMorfologikSpeller() throws IOException {
     final MorfologikBretonSpellerRule rule =
-            new MorfologikBretonSpellerRule (TestTools.getMessages("Breton"), new Breton());
+            new MorfologikBretonSpellerRule (TestTools.getMessages("br"), new Breton());
 
     RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new Breton());
