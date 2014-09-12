@@ -21,8 +21,10 @@ package org.languagetool.rules.en;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.AmericanEnglish;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -32,7 +34,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertEquals;
 
-public class MorfologikAmericanSpellerRuleTest {
+public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
 
   private static final AmericanEnglish language = new AmericanEnglish();
   
@@ -43,6 +45,13 @@ public class MorfologikAmericanSpellerRuleTest {
   public static void setup() throws IOException {
     rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     langTool = new JLanguageTool(language);
+  }
+
+  @Test
+  public void testSuggestions() throws IOException {
+    Language language = new AmericanEnglish();
+    Rule rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
+    super.testNonVariantSpecificSuggestions(rule, language);
   }
 
   @Test

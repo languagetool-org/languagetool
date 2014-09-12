@@ -24,11 +24,20 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.SouthAfricanEnglish;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
-public class MorfologikSouthAfricanSpellerRuleTest {
+public class MorfologikSouthAfricanSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
+
+  @Test
+  public void testSuggestions() throws IOException {
+    Language language = new SouthAfricanEnglish();
+    Rule rule = new MorfologikSouthAfricanSpellerRule(TestTools.getMessages("en"), language);
+    super.testNonVariantSpecificSuggestions(rule, language);
+  }
 
   @Test
   public void testMorfologikSpeller() throws IOException {
@@ -69,8 +78,6 @@ public class MorfologikSouthAfricanSpellerRuleTest {
     assertEquals(3, matches[0].getFromPos());
     assertEquals(10, matches[0].getToPos());
     assertEquals("taught", matches[0].getSuggestedReplacements().get(0));
-
-    
   }
 
 }

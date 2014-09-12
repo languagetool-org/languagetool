@@ -24,17 +24,26 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.CanadianEnglish;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
-public class MorfologikCanadianSpellerRuleTest {
+public class MorfologikCanadianSpellerRuleTest extends AbstractEnglishSpellerRuleTest{
+
+  @Test
+  public void testSuggestions() throws IOException {
+    Language language = new CanadianEnglish();
+    Rule rule = new MorfologikCanadianSpellerRule(TestTools.getMessages("en"), language);
+    super.testNonVariantSpecificSuggestions(rule, language);
+  }
 
   @Test
   public void testMorfologikSpeller() throws IOException {
     final CanadianEnglish language = new CanadianEnglish();
     final MorfologikBritishSpellerRule rule =
-            new MorfologikBritishSpellerRule (TestTools.getMessages("en"), language);
+            new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language);
 
     final JLanguageTool langTool = new JLanguageTool(language);
 
