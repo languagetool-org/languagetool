@@ -126,28 +126,16 @@ public class DemoPatternRuleTest extends PatternRuleTest {
 
   public void testFormatMultipleSynthesis() throws Exception {
     final String[] suggestions1 = { "blah blah", "foo bar" };
-
     assertEquals(
             "This is how you should write: <suggestion>blah blah</suggestion>, <suggestion>foo bar</suggestion>.",
-
-            callFormatMultipleSynthesis(suggestions1,
+            PatternRuleMatcher.formatMultipleSynthesis(suggestions1,
                     "This is how you should write: <suggestion>", "</suggestion>."));
 
     final String[] suggestions2 = { "test", " " };
-
     assertEquals(
             "This is how you should write: <suggestion>test</suggestion>, <suggestion> </suggestion>.",
-
-            callFormatMultipleSynthesis(suggestions2,
+            PatternRuleMatcher.formatMultipleSynthesis(suggestions2,
                     "This is how you should write: <suggestion>", "</suggestion>."));
-  }
-
-  private static String callFormatMultipleSynthesis(final String[] suggestions,
-                                                    final String left, final String right) throws Exception {
-    final Class[] argClasses = { String[].class, String.class, String.class };
-    final Object[] argObjects = { suggestions, left, right };
-    return TestTools.callStringStaticMethod(PatternRuleMatcher.class,
-            "formatMultipleSynthesis", argClasses, argObjects);
   }
 
   private PatternRule makePatternRule(final String s) {

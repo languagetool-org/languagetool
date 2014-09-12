@@ -19,8 +19,6 @@
 package org.languagetool;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -203,16 +201,6 @@ public final class TestTools {
       }
     }
     return false;
-  }
-
-  public static String callStringStaticMethod(final Class targetClass,
-      final String methodName, final Class[] argClasses,
-      final Object[] argObjects) throws InvocationTargetException,
-      IllegalArgumentException, IllegalAccessException, SecurityException,
-      NoSuchMethodException {
-    final Method method = targetClass.getDeclaredMethod(methodName, argClasses);
-    method.setAccessible(true);
-    return (String) method.invoke(null, argObjects);
   }
 
   public static void testDictionary(BaseTagger tagger, Language language) throws IOException {

@@ -329,7 +329,8 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     return errorMessage;
   }
 
-  private static String formatMultipleSynthesis(final String[] matches,
+  // non-private for tests
+  static String formatMultipleSynthesis(final String[] matches,
       final String leftSide, final String rightSide) {
     final String errorMessage;
     String suggestionLeft = "";
