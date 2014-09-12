@@ -7287,6 +7287,10 @@ USA
             <example type="incorrect">I am going to <marker>the.</marker></example>
         </rule>
         <rule id="THE_PUNCT" name="'The' or 'a' before a punctuation">
+            <antipattern>
+                <token regexp="yes">vowel|letter</token>
+                <token>a</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token><exception regexp="yes">’|'|\.</exception><exception postag="SENT_START"></exception></token>
                 <marker>
