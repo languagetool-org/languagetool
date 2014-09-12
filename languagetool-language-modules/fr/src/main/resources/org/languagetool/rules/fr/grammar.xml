@@ -7087,24 +7087,17 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
-      <rule name="je + 0 token + verbe">
+      <rule name="je + token + verbe">
         <pattern>
           <token postag="R pers suj 1 s|&lt;/JE&gt;" postag_regexp="yes"/>
+          <token min="0" max="1" regexp="yes">[lmnt]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom et le verbe « \2 ».</message>
+        <message>Vérifiez l’accord entre le pronom et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Je peut</marker></example>
         <example type="correct">Je peux</example>
         <example type="incorrect">J<marker>’arrives</marker></example>
         <example type="correct">J’arrive</example>
-      </rule>
-      <rule name="je + 1 token + verbe">
-        <pattern>
-          <token postag="R pers suj 1 s|&lt;/JE&gt;" postag_regexp="yes"/>
-          <token regexp="yes">[lmnt]e|la|les|[nv]vous|leur|lui|en|y</token>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Je ne travailles</marker> pas.</example>
         <example type="correct">Je ne travaille pas</example>
         <example type="incorrect">J<marker>’en ait</marker></example>
@@ -7172,26 +7165,19 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Je ne l’y ai</marker> pas vu.</example>
       </rule>
 
-      <rule name="tu + 0 token + verbe">
+      <rule name="tu token + verbe">
         <pattern>
           <token>tu</token>
+          <token min="0" max="1" regexp="yes">[lmnt]e|la|les|[nv]ous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes">
             <exception postag="V.*(ind|sub|con) .* 2 s" postag_regexp="yes"/>
             <exception>suis</exception>
           </token>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Tu travaillait</marker></example>
         <example type="correct">Tu travaillais</example>
         <example type="correct">Si tu suis le sentier.</example>
-      </rule>
-      <rule name="tu + 1 token + verbe">
-        <pattern>
-          <token>tu</token>
-          <token regexp="yes">[lmnt]e|la|les|[nv]ous|leur|lui|en|y</token>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V.*(ind|sub|con) .* 2 s" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Tu ne travaillait</marker> pas</example>
         <example type="correct">Tu ne travaillais pas.</example>
       </rule>
@@ -7398,20 +7384,13 @@ though, and has since been slightly modified)-->
       <rule name="nous + Verbe">
         <pattern>
           <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/></token>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
-        <example type="incorrect"><marker>Nous perds</marker></example>
-        <example type="correct">Nous perdons</example>
-        <example type="correct">Nous nous sommes perdus.</example>
-      </rule>
-      <rule name="nous + ne + Verbe">
-        <pattern>
-          <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/></token>
-          <token>ne</token>
+          <token min="0" max="1">ne</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
+        <example type="incorrect"><marker>Nous perds</marker></example>
+        <example type="correct">Nous perdons</example>
+        <example type="correct">Nous nous sommes perdus.</example>
         <example type="incorrect"><marker>Nous ne perds</marker> pas.</example>
         <example type="correct">Nous ne perdons pas.</example>
         <example type="correct">Nous ne sommes pas perdus.</example>
@@ -7419,62 +7398,39 @@ though, and has since been slightly modified)-->
       <rule name="nous + pronom obj + Verbe">
         <pattern>
           <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/></token>
-          <token postag="R pers obj.*" postag_regexp="yes"/>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example type="incorrect"><marker>Nous vous attendez</marker></example>
-        <example type="correct">Nous vous attendons</example>
-      </rule>
-      <rule name="nous + ne + pronom obj + Verbe">
-        <pattern>
-          <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/></token>
-          <token>ne</token>
+          <token min="0" max="1">ne</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
+        <example type="incorrect"><marker>Nous vous attendez</marker></example>
+        <example type="correct">Nous vous attendons</example>
         <example type="incorrect"><marker>Nous ne vous attendez</marker> pas.</example>
         <example type="correct">Nous ne vous attendons pas.</example>
       </rule>
       <rule name="vous + Verbe">
         <pattern>
           <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/></token>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
-        <example type="incorrect"><marker>Vous travaille</marker></example>
-        <example type="correct">Vous travaillez</example>
-        <example type="correct">Est-ce que ça vous dérange si je fume ?</example>
-      </rule>
-      <rule name="vous + ne + Verbe">
-        <pattern>
-          <token postag="R pers suj 2 p"/>
-          <token>ne</token>
+          <token min="0" max="1">ne</token>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
+        <example type="incorrect"><marker>Vous travaille</marker></example>
+        <example type="correct">Vous travaillez</example>
+        <example type="correct">Est-ce que ça vous dérange si je fume ?</example>
         <example type="incorrect"><marker>Vous ne travaille</marker> pas.</example>
         <example type="correct">Vous ne travaillez pas.</example>
       </rule>
       <rule name="vous + pronom obj + Verbe">
         <pattern>
           <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/></token>
-          <token postag="R pers obj.*" postag_regexp="yes"/>
-          <token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
-        <example type="incorrect"><marker>Vous nous attendons</marker></example>
-        <example type="correct">Vous nous attendez</example>
-      </rule>
-      <rule name="vous + ne + pronom obj + Verbe">
-        <pattern>
-          <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/></token>
-          <token>ne</token>
+          <token min="0" max="1">ne</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
+        <example type="incorrect"><marker>Vous nous attendons</marker></example>
+        <example type="correct">Vous nous attendez</example>
         <example type="incorrect"><marker>Vous ne nous attendons</marker> pas.</example>
         <example type="correct">Vous ne nous attendez pas.</example>
       </rule>
@@ -7486,11 +7442,12 @@ though, and has since been slightly modified)-->
             <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
           </token>
+          <token min="0" max="1" regexp="yes">[lmnst]e|la|les|[nv]vous|leur|lui|en|y</token>
           <token postag="V .*" postag_regexp="yes">
             <exception postag="V .* 3 p" postag_regexp="yes"/>
           </token>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \2 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Ils travaille</marker>.</example>
         <example type="correct">Ils travaillent.</example>
         <example type="incorrect"><marker>Ceux-ci fonctionne</marker>.</example>
@@ -7498,19 +7455,6 @@ though, and has since been slightly modified)-->
         <example type="correct">Ceux enseignés dans cette école</example>
         <example type="correct">À elles revient la maison.</example>
         <example type="correct">L’une d’elles est inutile.</example>
-      </rule>
-      <rule name="ils/elles + 1 token + Verbe">
-        <pattern>
-          <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
-            <exception scope="previous" postag="P"/>
-          </token>
-          <token regexp="yes">[lmnst]e|la|les|[nv]vous|leur|lui|en|y</token>
-          <token postag="V .*" postag_regexp="yes">
-            <exception postag="V .* 3 p" postag_regexp="yes"/>
-          </token>
-        </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
         <example type="incorrect"><marker>Ils ne travaille</marker> pas.</example>
         <example type="correct">Ils ne travaillent pas.</example>
         <example type="incorrect"><marker>Ceux-ci ne fonctionne</marker> pas.</example>
@@ -7589,7 +7533,8 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token>ne</token>
+          <token regexp="yes">ne?</token>
+          <token min="0" max="1" regexp="yes">[lmt]e|[nv]ous|les|la|leur|lui|[’´'‛′‘]</token>
           <marker>
             <token postag_regexp="yes" postag="V.*">
               <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
@@ -7597,27 +7542,12 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">pas|plus|jamais|rien</token>
         </pattern>
-        <message>Le verbe « \3 » devrait être à l’impératif.</message>
+        <message>Le verbe « \4 » devrait être à l’impératif.</message>
         <example type="incorrect">Ne <marker>soit</marker> pas en retard !</example>
         <example type="correct">Ne <marker>sois</marker> pas en retard !</example>
         <example type="incorrect">Ne <marker>vas</marker> plus là !</example>
         <example type="correct">Ne <marker>va</marker> plus là !</example>
         <example type="correct">Ne <marker>sachant</marker> pas quoi faire</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token postag="SENT_START"/>
-          <token regexp="yes">ne?</token>
-          <!-- 1 token -->
-          <token regexp="yes">[lmt]e|[nv]ous|les|la|leur|lui|[’´'‛′‘]</token>
-          <marker>
-            <token postag_regexp="yes" postag="V.*">
-              <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
-            </token>
-          </marker>
-          <token regexp="yes">pas|plus</token>
-        </pattern>
-        <message>Le verbe « \4 » devrait être à l’impératif.</message>
         <example type="incorrect">Ne me <marker>prend</marker> pas pour un idiot</example>
         <example type="correct">Ne me <marker>prends</marker> pas pour un idiot</example>
         <example type="correct">Ne me <marker>présentant</marker> pas comme maire</example>
@@ -26985,7 +26915,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">degrés?</token>
           <token>kelvin</token>
         </pattern>
-        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message>
         <suggestion><match no="2" case_conversion="alllower"/></suggestion>
         <url>https://fr.wikipedia.org/wiki/Kelvin</url>
         <example type="incorrect" correction="kelvin">Une température de 3 <marker>degrés kelvin</marker>.</example>
@@ -26995,7 +26925,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>°K</token>
         </pattern>
-        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message> 
+        <message>Le kelvin n’est jamais précédé du mot « degré » ni du symbole « ° ». À l’origine le kelvin s’appelait « degré Kelvin » et s’écrivait °K, mais le degré fut supprimé en 1967 et son symbole devint K.</message>
         <suggestion>K</suggestion>
         <url>https://fr.wikipedia.org/wiki/Kelvin</url>
         <example type="incorrect">Une température de 3 <marker>°K</marker>.</example>
