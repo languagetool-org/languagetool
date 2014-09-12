@@ -35,7 +35,8 @@ import org.languagetool.rules.ITSIssueType;
  *
  * Dutch implementations. Loads the list of words from
  * <code>rules/nl/replace.txt</code>.
- *
+ * 
+ * @since 2.7
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
@@ -80,17 +81,11 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         + StringUtils.join(replacements, ", ") + ".";
   }
 
-  /**
-   * use case-insensitive matching.
-   */
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
     return NL_LOCALE;
