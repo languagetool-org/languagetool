@@ -15014,6 +15014,33 @@ $Id$
                 <example type="incorrect" correction="En vaig portar|Vaig portar-ne"><marker>En vaig portar-ne</marker> quatre.</example>
                 <example type="correct">En vaig portar quatre</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">ho</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                    <token min="0" inflected="yes">de</token>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token regexp="yes">[-']ho</token>
+                </pattern>
+                <message>Pronom feble duplicat.</message>
+                <example type="incorrect"><marker>Ho hem de fer-ho</marker>.</example>
+                <example type="correct">Ho hem de fer.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">hi</token>
+                    <token postag="V.[MSI].*" postag_regexp="yes"/>
+                    <token min="0" postag="V.[NP].*" postag_regexp="yes"/>
+                    <token min="0" inflected="yes">de</token>
+                    <token postag="V.[NG].*" postag_regexp="yes"/>
+                    <token regexp="yes">[-']hi</token>
+                </pattern>
+                <message>Pronom feble duplicat.</message>
+                <example type="incorrect"><marker>Hi vam haver d'anar-hi</marker>.</example>
+                <example type="incorrect"><marker>Hi hem hagut d'anar-hi</marker>.</example>
+                <example type="correct">Vam haver d'anar-hi.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_SOLTS" name="Comprova pronoms febles solts: *li cantar">
             <!-- pronom feble solt: caldria diferenciar dos casos: posposat i anteposat-->
@@ -17140,7 +17167,7 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PUNTUACIO_INCORRECTA" name="combinacions de puntuació incorrectes">
-            <rule id="TRESPUNTS_PUT" name="tres punts + punt">
+            <rule id="TRESPUNTS_PUNT" name="tres punts + punt">
                 <pattern>
                     <token>…</token>
                     <token>.</token>
@@ -17551,6 +17578,24 @@ $Id$
         </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="ESTENDRE_LA_MA" name="estendre la mà/oferir diàleg">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">tendir|estendre</token>
+                    <token>la</token>
+                    <token>mà</token>
+                </marker>
+            </pattern>
+            <message>En sentit figurat, cal usar una altra expressió.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">allargar</match> la mà</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> la mà</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> diàleg</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">oferir</match> consens</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/maestesa</url>
+            <short>Ús incorrecte</short>
+            <example type="incorrect" correction="Allarguen la mà|Donen la mà|Ofereixen diàleg|Ofereixen consens"><marker>Estenen la mà</marker>.</example>
+            <example type="correct">Ofereixen diàleg.</example>
+        </rule>
         <rule id="EN_BOGA" name="en *boga/voga">
             <pattern>
                 <token>en</token>
@@ -23315,6 +23360,20 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TENDIR_ESTENDRE" name="*tendir/*estendre/bastir ponts">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes" skip="1">tendir|estendre</token>
+                </marker>
+                <token regexp="yes" inflected="yes">pont|llaç</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">bastir</match></suggestion>?</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">aixecar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alçar</match></suggestion>
+            <short>Ús incorrecte</short>
+            <example type="incorrect" correction="Basteixen|Aixequen|Alcen"><marker>Tendeixen</marker> ponts.</example>
+            <example type="correct">Basteixen ponts de diàleg.</example>
+        </rule>
         <rule id="ERMOS_BELL" name="*ermós/bell">
             <pattern>
                 <token inflected="yes">ermós</token>
@@ -23420,7 +23479,7 @@ $Id$
                 <marker>
                 <token inflected="yes" skip="4">sortejar</token>
                 </marker>
-                <token regexp="yes" inflected="yes">envestida|adversari|competidor|pressió|sanció|oposició|obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig</token>
+                <token regexp="yes" inflected="yes">entrebac|envestida|adversari|competidor|pressió|sanció|oposició|obstacle|barrera|porter|defensa|problema|contratemps|dificultat|accident|parany|trampa|perill|risc|negatiu|pregunta|escull|congost|riu|pas|difícil|tàctica|trava|il·legalització|càstig|pena|atac|bloqueig</token>
             </pattern>
             <message>Ús incorrecte.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">esquivar</match></suggestion>
