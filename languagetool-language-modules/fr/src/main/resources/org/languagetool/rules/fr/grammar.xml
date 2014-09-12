@@ -6448,6 +6448,24 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>j</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">ai|aurais|avais|aurai|aie|eus|eusse</token>
+          <token>été</token>
+          <token min="0" max="1" postag="A"/>
+          <marker>
+            <token postag="V.* ppa .* p|J . p" postag_regexp="yes">
+              <exception postag="V.* ppa .* sp|J . sp" postag_regexp="yes"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Le mot pluriel « \6 » n’est pas accordé en nombre avec le pronom singulier « \1 ».</message>
+        <example type="incorrect">J’avais été <marker>contents</marker>.</example>
+        <example type="incorrect">J’avais été très <marker>contents</marker>.</example>
+        <example type="correct">J’avais été contents.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token postag="SENT_START" skip="-1">
             <exception scope="next" postag="[NR].*p" postag_regexp="yes"/>
             <exception scope="next">et</exception>
