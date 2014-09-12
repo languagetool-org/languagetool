@@ -56,7 +56,7 @@ RB => Règles Brutes
     <pattern><token>un</token></pattern>
     <disambig postag="D m s"/>
   </rule>
-  
+
   <rule name="la (nom)" id="LA_N">
     <pattern>
       <token regexp="yes">un|les?|ce|du|des</token>
@@ -76,7 +76,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m s"/>
   </rule>
-  
+
   <rule name="la (pronom pers))" id="LA_R">
     <pattern>
       <token postag="R pers suj.*" postag_regexp="yes"/>
@@ -86,7 +86,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="R pers obj 3 f s"/>
   </rule>
-  
+
   <rule name="la (déterminant)" id="LA_D">
     <pattern>
       <marker>
@@ -98,7 +98,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="D f s"/>
   </rule>
-  
+
   <!-- So that word "faute" (etc) as in "des faute", "une fautes" is marked as
  a noun and not a verb, otherwise we don't find the incorrect
  accord in number -->
@@ -168,7 +168,13 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N m s"/>
   </rule>
-  
+  <rule name="quelque peu" id="QUELQUE_PEU">
+    <pattern>
+      <marker><token>quelque</token></marker>
+      <token>peu</token>
+    </pattern>
+    <disambig postag="A"/>
+  </rule>
   <rulegroup name="RP : Pronoms personnels objets" id="RP-PRO_PERS_OBJ">
     <rule name="nous">
       <pattern>
@@ -420,7 +426,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 3 m s"/>
     </rule>
-    
+
     <rule>
       <pattern>
         <token postag="[NZR].*" postag_regexp="yes"/>
@@ -448,7 +454,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="D e s"/>
     </rule>
-    
+
     <rule name="le/la/les/l'">
       <pattern>
         <token postag="R pers suj .*" postag_regexp="yes"/>
@@ -469,7 +475,7 @@ RB => Règles Brutes
       <disambig><match no="3" postag_regexp="yes" postag="R pers obj .*"/></disambig>
     </rule>
   </rulegroup>
-  
+
   <rulegroup name="RP : Pronoms personnels sujets" id="RP-PRO_PERS_SUJ">
     <rule name="j'">
       <pattern>
@@ -479,7 +485,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers suj 1 s"/>
     </rule>
-    
+
     <rule name="tu">
       <pattern>
         <marker>
@@ -498,7 +504,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers suj 2 s"/>
     </rule>
-    
+
     <rule name="Nous">
       <pattern>
         <token postag="SENT_START"/>
@@ -508,7 +514,7 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers suj 1 p"/>
     </rule>
-    
+
     <rule name="Vous">
       <pattern>
         <token postag="SENT_START"/>
@@ -518,9 +524,9 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers suj 2 p"/>
     </rule>
-    
+
   </rulegroup>
-  
+
   <rulegroup name="RP : étais" id="RP-ETAIS">
     <rule name="j'étais">
       <pattern>
@@ -541,7 +547,7 @@ RB => Règles Brutes
       <disambig postag="V etre ind impa 2 s"/>
     </rule>
   </rulegroup>
-  
+
   <rulegroup name="ne + verbe" id="NE_V">
     <rule>
       <pattern>
@@ -563,7 +569,7 @@ RB => Règles Brutes
       <disambig><match no="2" postag_regexp="yes" postag="V.*"/></disambig>
     </rule>
   </rulegroup>
-  
+
   <rulegroup id="SON" name="non (nom)">
     <rule>
       <pattern>
@@ -596,7 +602,7 @@ RB => Règles Brutes
       <disambig postag="N m s"/>
     </rule>
   </rulegroup>
-  
+
   <rule name="RP : En + participe présent" id="RP-EN_VPPR">
     <pattern>
       <token>en</token>
@@ -606,7 +612,7 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="1" postag="V ppr"/></disambig>
   </rule>
-  
+
   <rulegroup name="RP : mon/ton/son" id="RP-MON_TON_SON">
     <rule name="mon">
       <pattern>
@@ -649,7 +655,7 @@ RB => Règles Brutes
       <disambig postag="A"/>
     </rule>
   </rulegroup>
-  
+
   <rulegroup name="RP : Infinitif ambigu" id="RP-INFINITIF">
     <rule name="Infinitif être">
       <pattern>
@@ -691,7 +697,7 @@ RB => Règles Brutes
     <example type="untouched">Ils sont parti.</example>
     <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
   </rule>
-  
+
   <!-- This is to catch frequent errors such as "J'ai manger" which would not
          be caught without disambiguation as "manger" can also be a noun -->
   <rulegroup name="Etre/Avoir + verb" id="ETRE_AVOIR_V_ER">
@@ -873,7 +879,7 @@ RB => Règles Brutes
       <disambig postag="V avoir inf"/>
     </rule>
   </rulegroup>
-  
+
   <rulegroup name="RP : a - est" id="RP-A_EST">
     <rule name="a">
       <pattern>
@@ -904,7 +910,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="A"/>
   </rule> -->
-  
+
   <rulegroup name="RB : Pro pers + V" id="RB-PRO_PERS_V">
     <rule name="je + verbe">
       <pattern>
@@ -1051,7 +1057,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="P"/>
   </rule>
-  
+
   <rule name="Tout sauf" id="TOUT_SAUF">
     <pattern>
       <token>tout</token>
@@ -1061,7 +1067,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="P"/>
   </rule>
-  
+
   <rule name="au + N/V" id="AU_NV">
     <pattern>
       <token regexp="yes">aux?</token>
@@ -1074,7 +1080,7 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filter"><match no="2" postag="[ZN].*" postag_regexp="yes"/></disambig>
   </rule>
-  
+
   <rule name="Cela" id="CELA">
     <pattern>
       <marker>
@@ -1083,7 +1089,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="R dem m s"/>
   </rule>
-  
+
   <rule name="Nombres + N" id="NOMBRE-N">
     <pattern>
       <token postag="Y"/>
@@ -1098,7 +1104,7 @@ RB => Règles Brutes
     <example type="untouched">Tu minutes.</example>
     <example type="ambiguous" inputform="minutes[&lt;/S&gt;,minute/N f p,minuter/V ind pres 2 s,minuter/V sub pres 2 s]" outputform="minutes[&lt;/S&gt;,minute/N f p]">5 <marker>minutes</marker></example>
   </rule>
-  
+
   <rule name="L'Écosse" id="ECOSSE">
     <pattern case_sensitive="yes">
       <token negate_pos="yes" postag="SENT_START"/>
@@ -1117,7 +1123,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="N f s"/>
   </rule>
-  
+
   <rule name="aura lieu" id="AURA_LIEU">
     <pattern>
       <marker>
@@ -1129,7 +1135,7 @@ RB => Règles Brutes
     <example type="ambiguous" inputform="aura[aura/N f s,avoir/V avoir ind futu 3 s]" outputform="aura[avoir/V avoir ind futu 3 s]">La rentrée scolaire <marker>aura</marker> lieu comme prévu la semaine prochaine.</example>
     <example type="untouched">Mon petit conseil pour une belle aura...</example>
   </rule>
-  
+
   <rule id="MEME_ADV" name="même adverbe">
     <pattern>
       <token postag="SENT_START|C.*|M nonfin|V.*" postag_regexp="yes"/>
@@ -1139,7 +1145,7 @@ RB => Règles Brutes
     </pattern>
     <disambig postag="A"/>
   </rule>
-  
+
   <rule id="Pierre" name="Pierre">
     <pattern case_sensitive="yes">
       <marker>
