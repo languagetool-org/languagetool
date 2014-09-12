@@ -35,6 +35,10 @@ import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
+  // Maximum edit distance (not considering replacement pairs). Note that using a larger
+  // distance might decrease performance.
+  private static final int MAX_EDIT_DISTANCE = 1;
+  
   protected MorfologikSpeller speller;
   protected Locale conversionLocale;
 
@@ -82,7 +86,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     //lazy init
     if (speller == null) {
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-        speller = new MorfologikSpeller(getFileName());
+        speller = new MorfologikSpeller(getFileName(), MAX_EDIT_DISTANCE);
         setConvertsCase(speller.convertsCase());
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
