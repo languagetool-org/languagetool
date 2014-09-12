@@ -54,10 +54,6 @@ public final class TestTools {
     return DEMO_LANGUAGE;
   }
 
-  public static ResourceBundle getEnglishMessages() {
-    return getMessages("en");
-  }
-
   public static Set<Language> getLanguagesExcept(String[] langCodes) {
     final Set<Language> languages = new HashSet<>();
     languages.addAll(Arrays.asList(Language.LANGUAGES));
@@ -68,6 +64,10 @@ public final class TestTools {
       }
     }
     return languages;
+  }
+
+  public static ResourceBundle getEnglishMessages() {
+    return getMessages("en");
   }
 
   /**
@@ -161,6 +161,26 @@ public final class TestTools {
     assertEquals(expected, outputStr.toString());
   }
 
+  public static boolean isWord(final String token) {
+    for (int i = 0; i < token.length(); i++) {
+      final char c = token.charAt(i);
+      if (Character.isLetter(c) || Character.isDigit(c)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  public static void testDictionary(BaseTagger tagger, Language language) throws IOException {
+    final Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(tagger.getFileName()));
+    final DictionaryLookup lookup = new DictionaryLookup(dictionary);
+    for (WordData wordData : lookup) {
+      if (wordData.getTag() == null || wordData.getTag().length() == 0) {
+        System.err.println("**** Warning: " + language + ": the word " + wordData.getWord() + "/" + wordData.getStem() + " lacks a POS tag in the dictionary.");
+      }
+    }
+  }
+
   private static List<String> getAsStrings(AnalyzedTokenReadings tokenReadings) {
     final List<String> readings = new ArrayList<>();
     for (AnalyzedToken analyzedToken : tokenReadings) {
@@ -191,26 +211,6 @@ public final class TestTools {
       }
     }
     return noWhitespaceTokens;
-  }
-
-  public static boolean isWord(final String token) {
-    for (int i = 0; i < token.length(); i++) {
-      final char c = token.charAt(i);
-      if (Character.isLetter(c) || Character.isDigit(c)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  public static void testDictionary(BaseTagger tagger, Language language) throws IOException {
-    final Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(tagger.getFileName()));
-    final DictionaryLookup lookup = new DictionaryLookup(dictionary);
-    for (WordData wordData : lookup) {
-      if (wordData.getTag() == null || wordData.getTag().length() == 0) {
-        System.err.println("**** Warning: " + language + ": the word " + wordData.getWord() + "/" + wordData.getStem() + " lacks a POS tag in the dictionary.");
-      }
-    }
   }
 
 }
