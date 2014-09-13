@@ -71,7 +71,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("hygeine", "hygiene");
     assertFirstMatch("vehical", "medical", "vehicle");
     //assertFirstMatch("speach", "speech");  // TODO
-    //assertFirstMatch("alot", "a lot");  // TODO
+    //assertFirstMatch("alot", "a lot");  // TODO, see https://github.com/morfologik/morfologik-stemming/issues/32
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
 
     // TODO: these are not very good, maybe caused by https://github.com/morfologik/morfologik-stemming/issues/30?
