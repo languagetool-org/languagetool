@@ -24,6 +24,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
@@ -44,7 +45,6 @@ public class AbstractEnglishSpellerRuleTest {
     //assertFirstMatch("didnt", "didn't"); - covered by ContractionSpellingRule
     //assertFirstMatch("doesnt", "doesn't"); - covered by ContractionSpellingRule
     assertFirstMatch("seperate", "separate");
-    //assertFirstMatch("calender", "calendar");  // TODO?
     assertFirstMatch("definately", "definitely");
     assertFirstMatch("recieve", "receive");
     assertFirstMatch("offical", "official");
@@ -56,22 +56,43 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("occurence", "occurrence");
     assertFirstMatch("commision", "commission");
     assertFirstMatch("assocation", "association");
-    //assertFirstMatch("Cincinatti", "Cincinnati");  // TODO
+    assertFirstMatch("Cincinatti", "Cincinnati");
     assertFirstMatch("milennium", "millennium");
     assertFirstMatch("accomodation", "accommodation");
     assertFirstMatch("foriegn", "foreign");
     assertFirstMatch("chemcial", "chemical");
     assertFirstMatch("developement", "development");
+    assertFirstMatch("maintainance", "maintenance");
+    assertFirstMatch("restaraunt", "restaurant");
+    assertFirstMatch("garentee", "guarantee");
+    assertFirstMatch("greatful", "grateful");
+    assertFirstMatch("hipocrit", "hypocrite");
+    assertFirstMatch("mischevious", "mischievous");
+    assertFirstMatch("hygeine", "hygiene");
+    assertFirstMatch("vehical", "medical", "vehicle");
+    //assertFirstMatch("speach", "speech");  // TODO
+    //assertFirstMatch("alot", "a lot");  // TODO
+    //assertFirstMatch("calender", "calendar");  // TODO?
+
+    // TODO: these are not very good, maybe caused by https://github.com/morfologik/morfologik-stemming/issues/30?
+    assertFirstMatch("rythem", "them", "rather", "rhythm");
+    assertFirstMatch("vacume", "value", "volume", "acute", "vacuum");
     
     // TODO:
     // http://grammar.yourdictionary.com/spelling-and-word-lists/misspelled.html
     // https://en.wikipedia.org/wiki/Commonly_misspelled_English_words#cite_note-YD-4
   }
 
-  private void assertFirstMatch(String text, String expectedFirstSuggestion) throws IOException {
+  private void assertFirstMatch(String text, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
     assertTrue("Expected 1 match for '" + text + "', got " + matches.length, matches.length == 1);
-    assertTrue("Expected at least one suggestion for '" + text + "'", matches[0].getSuggestedReplacements().size() > 0);
-    assertThat(matches[0].getSuggestedReplacements().get(0), is(expectedFirstSuggestion));
+    List<String> suggestions = matches[0].getSuggestedReplacements();
+    assertTrue("Expected at least one suggestion for '" + text + "'", suggestions.size() > 0);
+    int i = 0;
+    for (String expectedSuggestion : expectedSuggestions) {
+      assertThat("Expected suggestion '" + expectedSuggestion + "' not found in suggestions"
+              + suggestions, suggestions.get(i), is(expectedSuggestion));
+      i++;
+    }
   }
 }

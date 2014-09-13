@@ -35,11 +35,8 @@ import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
-  // Maximum edit distance (not considering replacement pairs). Note that using a larger
-  // distance might decrease performance.
-  private static final int MAX_EDIT_DISTANCE = 1;
-  
-  protected MorfologikSpeller speller;
+  protected MorfologikSpeller speller1;
+  protected MorfologikSpeller speller2;
   protected Locale conversionLocale;
 
   private boolean ignoreTaggedWords = false;
@@ -84,10 +81,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     //lazy init
-    if (speller == null) {
+    if (speller1 == null) {
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-        speller = new MorfologikSpeller(getFileName(), MAX_EDIT_DISTANCE);
-        setConvertsCase(speller.convertsCase());
+        speller1 = new MorfologikSpeller(getFileName(), 1);
+        speller2 = new MorfologikSpeller(getFileName(), 2);
+        setConvertsCase(speller1.convertsCase());
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
@@ -166,11 +164,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
   protected List<RuleMatch> getRuleMatches(final String word, final int startPos) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (isMisspelled(speller, word)) {
+    if (isMisspelled(speller1, word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short"));
-      List<String> suggestions = speller.getSuggestions(word);
+      List<String> suggestions = speller1.getSuggestions(word);
+      if (suggestions.size() == 0 && word.length() >= 5) {
+        // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" ezc.
+        suggestions.addAll(speller2.getSuggestions(word));
+      }
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
         ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word));

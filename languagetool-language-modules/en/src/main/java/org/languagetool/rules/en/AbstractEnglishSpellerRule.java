@@ -89,7 +89,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           String[] forms = synthesizer.synthesize(new AnalyzedToken(word, null, baseForm), posTag);
           List<String> result = new ArrayList<>();
           for (String form : forms) {
-            if (!speller.isMisspelled(form)) {
+            if (!speller1.isMisspelled(form)) {
               // only accept suggestions that the spellchecker will accept
               result.add(form);
             }

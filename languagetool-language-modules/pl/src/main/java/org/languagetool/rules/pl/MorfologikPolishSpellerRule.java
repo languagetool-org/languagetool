@@ -112,18 +112,18 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
     protected List<RuleMatch> getRuleMatches(final String word, final int startPos)
     throws IOException {
         final List<RuleMatch> ruleMatches = new ArrayList<>();
-        if (isMisspelled(speller, word) && isNotCompound(word)) {
+        if (isMisspelled(speller1, word) && isNotCompound(word)) {
             final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
                     + word.length(), messages.getString("spelling"),
                     messages.getString("desc_spelling_short"));
             //If lower case word is not a misspelled word, return it as the only suggestion
-            if (!isMisspelled(speller, word.toLowerCase(conversionLocale))) {
+            if (!isMisspelled(speller1, word.toLowerCase(conversionLocale))) {
                 List<String> suggestion = Arrays.asList(word.toLowerCase(conversionLocale));
                 ruleMatch.setSuggestedReplacements(suggestion);
                 ruleMatches.add(ruleMatch);
                 return ruleMatches;
             }
-            List<String> suggestions = speller.getSuggestions(word);
+            List<String> suggestions = speller1.getSuggestions(word);
             suggestions.addAll(getAdditionalSuggestions(suggestions, word));
             if (!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(pruneSuggestions(orderSuggestions(suggestions,word)));
@@ -149,7 +149,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
             final String first = word.substring(0, i);
             final String second = word.substring(i, word.length());
             if (prefixes.contains(first.toLowerCase(conversionLocale))
-                    && !isMisspelled(speller, second)) {
+                    && !isMisspelled(speller1, second)) {
                 // ignore this match, it's fine
                 probablyCorrectWords.add(word);
             } else {
@@ -177,9 +177,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
 
   /**
    * Remove suggestions -- not really runon words using a list of non-word suffixes
-   * @param suggestions
    * @return A list of pruned suggestions.
-   * @since 2.6
    */
     private List<String> pruneSuggestions(final List<String> suggestions) {
       List<String> prunedSuggestions = new ArrayList<String>(suggestions.size());
