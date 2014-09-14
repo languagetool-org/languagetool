@@ -611,6 +611,12 @@ though, and has since been slightly modified)-->
         <example type="correct">Nous ne sommes pas près d’arriver.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>l</token>
+          <token regexp="yes">[’´'‛′‘]</token>
+          <token>un</token>
+          <marker><token>près</token></marker>
+        </antipattern>
         <pattern>
           <token regexp="yes">un|le|ce|[mst]on|[nv]otre|leur</token>
           <marker><token>près</token></marker>
@@ -618,6 +624,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>prêt</suggestion> ?</message>
         <example type="incorrect">J’ai obtenu un <marker>près</marker> de la banque.</example>
         <example type="correct">J’ai obtenu un prêt de la banque.</example>
+        <example type="correct">vivre l'un près de l'autre.</example>
       </rule>
     </rulegroup>
     <rulegroup id="COTE" name="coté et côté">
