@@ -24882,12 +24882,13 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>d<exception scope="previous" regexp="yes">lettre|consonne|symbole|dimension|function|variable|où|[\d-]+|.</exception></token>
+          <token>d<exception scope="previous" regexp="yes">lettres?|consonnes?|symboles?|dimensions?|functions?|variables?|vitamines?|où|[\d-]+|.</exception></token>
           <token regexp="yes" postag="[^V].*" postag_regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>d’\2</suggestion> ?</message>
         <example type="incorrect" correction="d’histoire">Un livre <marker>d histoire</marker> et géographie.</example>
         <example type="correct">Un livre d’histoire et géographie.</example>
+        <example type="correct">La vitamine D ou la vitamine C.</example>
       </rule>
     </rulegroup>
     <rule id="APOS_ESPACE" name="apostrophe + espace">
@@ -26994,7 +26995,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
           <token min="0" max="1">,</token>
-          <token regexp="yes">[012]?\d|3[01]</token>
+          <token regexp="yes">[012]?\d|3[01]|1er</token>
           <token regexp="yes">janvier|jan|février|fév|mars?|avril|avr|mai|juin?|juillet|jui|ao[uû]t?|septembre|sep|octobre|oct|novembre|nov|décembre|déc</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
@@ -27005,6 +27006,8 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Vendredi, 28 août 2014</marker>.</example>
         <example type="incorrect"><marker>Ven 28 août 2014</marker>.</example>
         <example type="correct">Jeudi 28 août 2014.</example>
+        <example type="incorrect"><marker>Lundi 14 septembre 2014</marker>.</example>
+        <example type="correct">Dimanche 14 septembre 2014.</example>
       </rule>
       <rule>
         <pattern>
