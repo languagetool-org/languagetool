@@ -539,6 +539,16 @@ $Id$
                 <example type="incorrect" correction="galetes"><marker>galletes</marker></example>
                 <example type="correct">galetes</example>
             </rule>
+            <rule id="ESSER" name="esser/ésser">
+                <pattern>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes">esser</token>
+                </pattern>
+                <message>Forma balear o antiga</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">ésser</match></suggestion>
+                <example type="incorrect" correction="éssers">Els <marker>essers</marker> vius.</example>
+                <example type="incorrect" correction="ésser">Un <marker>esser</marker> humà.</example>
+                <example type="correct">Ha d'esser cert.</example>
+            </rule>
         </rulegroup>
     </category>    
     <category name="Z) Concordances en grups nominals" type="grammar">
