@@ -5180,6 +5180,58 @@ though, and has since been slightly modified)-->
       <example type="incorrect" correction="amanites">Des <marker>ammonites</marker> tue-mouches.</example>
       <example type="correct">L’amanite tue-mouches est toxique.</example>
     </rule>
+    <rulegroup id="CORNOUAILLE" name="Cornouailles et Cornouaille">
+      <rule>
+        <pattern>
+          <token regexp="yes">(Haute|Basse)-Cornouailles</token>
+        </pattern>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
+        <example type="incorrect">Les communes de la <marker>Haute-Cornouailles</marker>.</example>
+        <example type="correct">Les communes de la Haute-Cornouaille.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Haute|Basse</token>
+          <marker><token>Cornouailles</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
+        <example type="incorrect">Les communes de la Haute <marker>Cornouailles</marker>.</example>
+        <example type="correct">Les communes de la Haute Cornouaille.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">festival|golf</token>
+          <token>de</token>
+          <marker><token>Cornouailles</token></marker>
+        </pattern>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
+        <example type="incorrect">Le Festival de <marker>Cornouailles</marker> est un festival annuel se déroulant dans la ville de Quimper.</example>
+        <example type="correct">Le Festival de Cornouaille est un festival annuel se déroulant dans la ville de Quimper.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>Cornouailles</token></marker>
+          <token regexp="yes">bretonnes?|armoricaines?|françaises?</token>
+        </pattern>
+        <message>Confusion probable entre <suggestion>Cornouaille</suggestion> (ancienne division de la Bretagne) et « Cornouailles » (nation celtique au sud ouest de l’Angleterre).</message>
+        <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
+        <example type="incorrect">Tourisme en <marker>Cornouailles</marker> bretonne.</example>
+        <example type="correct">Tourisme en Cornouaille bretonne.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token>Cornouaille</token></marker>
+          <token regexp="yes">britannique|anglaise</token>
+        </pattern>
+        <message>Confusion probable entre « Cornouaille » (ancienne division de la Bretagne) et <suggestion>Cornouailles</suggestion> (nation celtique au sud ouest de l’Angleterre).</message>
+        <url>https://fr.wikipedia.org/wiki/Cornouaille</url>
+        <example type="incorrect">Tourisme en <marker>Cornouaille</marker> britannique.</example>
+        <example type="correct">Tourisme en Cornouailles britannique.</example>
+      </rule>
+    </rulegroup>
   </category>
   <category name="Élision">
     <rulegroup id="EL_PRESQUE" name="Élision de presque">
