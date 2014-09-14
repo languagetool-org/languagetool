@@ -57,6 +57,7 @@ $Id$
     <!ENTITY mots_femenins_apostrofen "hidra|hifa|hulla|ulna|umbra|una|ungla|unça|umma|upa|urbs|urca|urna|urpa|idus|illa|inca|iva|URSS|UJI|(?-i)ICONA|ICS|Ingrid|IRA">
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|kg|Hz|[kM]Hz|°[FC]|K">
+    <!ENTITY excepcions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -7919,10 +7920,12 @@ $Id$
         <rulegroup id="PARIS" name="Paris/París">
             <rule>
                 <pattern case_sensitive="yes">
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception></token>
                     <marker>
-                        <token skip="-1">Paris<exception scope="next" regexp="yes">Helena|Menelau</exception></token>
+                        <token skip="-1">Paris<exception scope="next" regexp="yes">&excepcions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
                     </marker>
-                    <token postag="NP..G.*" postag_regexp="yes"><exception regexp="yes">Troia|Atena|Esparta</exception></token>
+                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception></token>
+                    <token postag="SENT_END"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat)?</message>
                 <short>Possible confusió</short>
@@ -7932,12 +7935,14 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" regexp="yes">Helena|Menelau|Hèctor</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception></token>
+                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" regexp="yes">&excepcions_Paris;</exception></token>
                     <marker>
-                        <token>Paris</token>
+                        <token skip="-1">Paris<exception scope="next" inflected="yes" regexp="yes">&excepcions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
                     </marker>
+                    <token postag="SENT_END"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat)?</message>
+                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (persona)?</message>
                 <short>Possible confusió</short>
                 <example type="incorrect">A Londres i <marker>Paris</marker>.</example>
                 <example type="correct">A la guerra de Troia, Paris no fa res.</example>
@@ -7945,12 +7950,12 @@ $Id$
             </rule>
             <rule>
             <pattern>
-                <token regexp="yes" skip="2">nord|sud|est|oest|des</token>
+                <token regexp="yes" skip="1">nord|sud|est|oest|des|centre</token>
                 <marker>
                     <token regexp="yes">(?-i)Paris</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat)?</message>
+            <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (persona)?</message>
             <short>Possible confusió</short>
             <example type="incorrect">Al nord de <marker>Paris</marker>.</example>
             <example type="incorrect">Des de <marker>Paris</marker>.</example>
