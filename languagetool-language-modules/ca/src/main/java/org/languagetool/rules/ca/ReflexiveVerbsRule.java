@@ -52,7 +52,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern VERB_AUTO = Pattern.compile("auto.+");
   private static final List<String> excepVerbsPronominals = Arrays.asList("amoixar", "delirar", "atendre", "escollir", "assolir","autografiar","automatitzar","autoritzar");  
   
-  private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure"); 
+  private static final List<String> verbsNoPronominals = Arrays.asList("baixar","caure","callar","marxar","albergar","olorar","seure", "saltar"); 
   private static final List<String> verbsNoPronominalsImpersonals = Arrays.asList("caure", "callar", "marxar", "olorar");
   private static final List<String> verbsNoPronominalsImpersonals2 = Arrays.asList("témer","albergar","baixar");
   private static final List<String> excepVerbsNoPronominals = Arrays.asList("segar");

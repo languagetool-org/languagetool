@@ -268,6 +268,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("el que no s'olora, el que no es tasta");
        
     // errors:
+    assertIncorrect("Ha arribat l'hora de saltar-se la legalitat.");
     assertIncorrect("Delia per menjar-ne.");
     assertIncorrect("Ells es volen dur les ànimes a l'Inframón");
     assertIncorrect("Joan es va portar el carretó");
