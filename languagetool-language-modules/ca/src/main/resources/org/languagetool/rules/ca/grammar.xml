@@ -17623,6 +17623,21 @@ $Id$
                 <example type="correct">És dels anys cinquanta.</example>
             </rule>
         </rulegroup>
+        <rule id="PUNT_EN_HORES" name="*22:30 h/22.30 h">
+            <pattern>
+                <token regexp="yes">[12]\d</token>
+                <token regexp="yes">[,:]</token>
+                <token regexp="yes">[12345]\d</token>
+                <token regexp="yes">h|hores</token>
+            </pattern>
+            <message>En les expressions d'hores, usem el punt.</message>
+            <suggestion>\1.\3 \4</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
+            <short>Preferència tipogràfica</short>
+            <example type="incorrect" correction="22.50 h">A les <marker>22:50 h</marker>.</example>
+            <example type="correct">A les 22.30 h.</example>
+        </rule>
+        
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="ESTENDRE_LA_MA" name="estendre la mà/oferir diàleg">
