@@ -507,39 +507,29 @@ $Id$
         <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta">
             <rule>
                 <pattern>
-                    <token>novia</token>
+                    <token postag="NCF.*" postag_regexp="yes" inflected="yes">novia</token>
                 </pattern>
                 <message>Paraula correcta com a femení de "novii" (usada en balear).</message>
-                <suggestion>xicota</suggestion>
-                <suggestion>promesa</suggestion>
-                <suggestion>núvia</suggestion>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">xicot</match></suggestion>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">promès</match></suggestion>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">núvia</match></suggestion>
                 <short>Vocabulari balear</short>
-                <example type="incorrect"><marker>novia</marker></example>
-                <example type="correct">xicota</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>novies</token>
-                </pattern>
-                <message>Paraula correcta com a femení de "novii" (usada en balear).</message>
-                <suggestion>xicotes</suggestion>
-                <suggestion>promeses</suggestion>
-                <suggestion>núvies</suggestion>
-                <short>Vocabulari balear</short>
-                <example type="incorrect"><marker>novies</marker></example>
+                <example type="incorrect" correction="xicotes|promeses|núvies"><marker>novies</marker></example>
+                <example type="incorrect" correction="xicota|promesa|núvia"><marker>novia</marker></example>
                 <example type="correct">xicotes</example>
+                <example type="correct">xicota</example>
             </rule>  
             <rule>
                 <pattern>
-                    <token regexp="yes">gallet(a|es)</token>
+                    <token inflected="yes">galleta</token>
                 </pattern>
                 <message>Forma usada en balear.</message>
-                <suggestion><match no="1" regexp_match="gallet(.+)" regexp_replace="galet$1"/></suggestion>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">galeta</match></suggestion>
                 <short>Vocabulari balear</short>
                 <example type="incorrect" correction="galetes"><marker>galletes</marker></example>
                 <example type="correct">galetes</example>
             </rule>
-            <rule id="ESSER" name="esser/ésser">
+            <rule id="ESSER" name="esser">
                 <pattern>
                     <token postag="N.*" postag_regexp="yes" inflected="yes">esser</token>
                 </pattern>
@@ -4651,8 +4641,8 @@ $Id$
                 </marker>
                 <token skip="-1"><exception regexp="yes">\?|a|de|d'|temps</exception>
                     <exception postag="_PUNCT.*|V.P.*|AQ.*" postag_regexp="yes"/>
-                    <exception inflected="yes" regexp="yes">fer|durar|deure|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir</exception>
-                    <exception scope="next" inflected="yes" regexp="yes">guanyar|durar|deure|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir</exception></token>
+                    <exception inflected="yes" regexp="yes">fer|durar|deure|guanyar|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir|variar|augmentar|pujar|baixar|apujar|abaixar</exception>
+                    <exception scope="next" inflected="yes" regexp="yes">guanyar|durar|deure|estimar|tenir|valer|costar|representar|voler|tardar|trigar|demanar|pagar|cobrar|donar|faltar|mancar|produir|variar|augmentar|pujar|baixar|apujar|abaixar</exception></token>
                 <token postag="SENT_END"/>
                 <!-- <token postag="D.*|V.*" postag_regexp="yes"/>-->
             </pattern>

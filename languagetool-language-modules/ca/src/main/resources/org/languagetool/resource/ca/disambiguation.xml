@@ -1693,7 +1693,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule id="esser" name="ésser: nom no verb">
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes">ésser</token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">ésser|esser</token>
                 </marker>
                 <token regexp="yes">humà|viu</token>
             </pattern>
@@ -4394,6 +4394,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes" />
                 </and>
             </marker>
+        </pattern>
+        <disambig><match no="1" postag_regexp="yes" postag="[^V].*"></match></disambig>
+    </rule>
+    <rule id="mitjana_nVerb" name="mitjana no verb">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes">mitjana</token>
+                    <token postag="V.*" postag_regexp="yes" negate_pos="yes" />
+                </and>
+            </marker>
+            <token postag="SPS00|_PUNCT.*" postag_regexp="yes"/>
         </pattern>
         <disambig><match no="1" postag_regexp="yes" postag="[^V].*"></match></disambig>
     </rule>
