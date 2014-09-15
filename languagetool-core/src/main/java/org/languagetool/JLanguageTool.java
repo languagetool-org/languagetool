@@ -315,11 +315,11 @@ public class JLanguageTool {
    */
   public void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = new ArrayList<>();
-    final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
-    final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
     for (String patternRuleFileName : language.getRuleFileNames()) {
       patternRules.addAll(loadPatternRules(patternRuleFileName));
     }
+    final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
+    final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
     if (!enabledRules.isEmpty() || !disabledRules.isEmpty()) {
       for (PatternRule patternRule : patternRules) {
         if (enabledRules.contains(patternRule.getId())) {
