@@ -24,6 +24,8 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.languagetool.rules.patterns.Unifier;
 import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.synthesis.Synthesizer;
@@ -60,6 +62,7 @@ public abstract class Language {
   private boolean isExternalLanguage = false;
 
   private List<String> externalRuleFiles = new ArrayList<>();
+  private List<PatternRule> patternRules;
   
   /**
    * All languages supported by LanguageTool. This includes at least a "demo" language
@@ -434,6 +437,25 @@ public abstract class Language {
    */
   public String[] getUnpairedRuleEndSymbols() {
     return new String[]{ "]", ")", "}", "\"", "'" };
+  }
+  
+  // -------------------------------------------------------------------------
+
+  /**
+   * Get the pattern rules as defined in the files returned by {@link #getRuleFileNames()}.
+   * @since 2.7
+   */
+  @Experimental
+  List<PatternRule> getPatternRules() throws IOException {
+    if (patternRules == null) {
+      patternRules = new ArrayList<>();
+      PatternRuleLoader ruleLoader = new PatternRuleLoader();
+      for (String fileName : getRuleFileNames()) {
+        InputStream is = this.getClass().getResourceAsStream(fileName);
+        patternRules.addAll(ruleLoader.getRules(is, fileName));
+      }
+    }
+    return patternRules;
   }
   
   // -------------------------------------------------------------------------

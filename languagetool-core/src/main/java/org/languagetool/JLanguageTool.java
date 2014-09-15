@@ -314,10 +314,7 @@ public class JLanguageTool {
    * {@code org/languagetool/rules/<languageCode>/grammar.xml}.
    */
   public void activateDefaultPatternRules() throws IOException {
-    final List<PatternRule> patternRules = new ArrayList<>();
-    for (String patternRuleFileName : language.getRuleFileNames()) {
-      patternRules.addAll(loadPatternRules(patternRuleFileName));
-    }
+    final List<PatternRule> patternRules = language.getPatternRules();
     final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
     final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
     if (!enabledRules.isEmpty() || !disabledRules.isEmpty()) {

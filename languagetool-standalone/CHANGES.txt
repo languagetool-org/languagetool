@@ -50,8 +50,6 @@ LanguageTool Change Log
     -New rule that checks if a weekday matches a date, e.g. detects
      "Dienstag, 29.9.2014", as that date isn't a Tuesday.
     -Performance improvements for spell check suggestions
-    -Performance improvements for the multi-thread use case, where JLanguageTool
-     gets created per thread, but German gets created only once
     
 -Portuguese:
     -added/improved several rules
@@ -78,6 +76,9 @@ LanguageTool Change Log
 
 
 -API:
+    -Major performance improvements for the multi-thread use case, where JLanguageTool
+     gets created per thread, but the language object (e.g. 'German') gets
+     created only once. Overhead for creating JLanguageTool should now be much lower. 
     -Removed several classes and methods that had been deprecated since version 2.6
     -The signature of Language.getRelevantRules() has changed
     -The JLanguageTool and MultiThreadedJLanguageTool constructors don't declare to
