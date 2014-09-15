@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -180,8 +181,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
     if (!isCaseSensitive() && StringTools.startsWithUppercase(tokenString)) {
       for (int i = 0; i < replacements.size(); i++) {
-        replacements
-        .set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
+        replacements.set(i, StringTools.uppercaseFirstChar(replacements.get(i)));
       }
     }
 
@@ -202,9 +202,8 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
         }
         String[] parts = line.split("=");
         if (parts.length != 2) {
-          throw new IOException("Format error in file "
-              + JLanguageTool.getDataBroker().getFromRulesDirAsUrl(
-                  getFileName()) + ", line: " + line);
+          URL filename = JLanguageTool.getDataBroker().getFromRulesDirAsUrl(getFileName());
+          throw new IOException("Format error in file " + filename + ", line: " + line);
         }
 
         String[] replacements = parts[1].split("\\|");

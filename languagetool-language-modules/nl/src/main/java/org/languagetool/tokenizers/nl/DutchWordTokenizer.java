@@ -28,28 +28,24 @@ import org.languagetool.tokenizers.WordTokenizer;
 public class DutchWordTokenizer extends WordTokenizer {
 
   //the string used to tokenize characters
-  private final String nlTokenizing;
+  private final String nlTokenizingChars;
 
   public DutchWordTokenizer() {
     //remove the apostrophe from the standard tokenizing characters
-    nlTokenizing = super.getTokenizingCharacters().replace("'", "");
+    nlTokenizingChars = super.getTokenizingCharacters().replace("'", "");
   }
 
   /**
    * Tokenizes just like WordTokenizer with the exception for words such as
-   * "oma's" that contains an apostrophe in their middle.
-   * 
-   * @param text
-   *          - Text to tokenize
-   * @return List of tokens.
-   * 
+   * "oma's" that contain an apostrophe in their middle.
+   * @param text Text to tokenize
+   * @return List of tokens
    */
   @Override
   public List<String> tokenize(final String text) {
 
     final List<String> l = new ArrayList<>();
-    final StringTokenizer st = new StringTokenizer(text,
-        nlTokenizing, true);
+    final StringTokenizer st = new StringTokenizer(text, nlTokenizingChars, true);
     while (st.hasMoreElements()) {
       String token = st.nextToken();
       if (token.length() > 1) {
@@ -85,6 +81,6 @@ public class DutchWordTokenizer extends WordTokenizer {
 
   @Override
   public String getTokenizingCharacters() {
-    return nlTokenizing;
+    return nlTokenizingChars;
   }
 }

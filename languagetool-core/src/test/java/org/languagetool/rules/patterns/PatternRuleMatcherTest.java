@@ -138,7 +138,7 @@ public class PatternRuleMatcherTest {
     final Element elementB = makeElement("b");
     elementB.setMinOccurrence(2);
     elementB.setMaxOccurrence(3);
-    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // regex: a b b+ c
+    final PatternRuleMatcher matcher = getMatcher(makeElement("a"), elementB, makeElement("c"));  // regex: a b{2,3} c
     assertCompleteMatch("a b b c", matcher);
     assertCompleteMatch("a b b b c", matcher);
     assertNoMatch("a c", matcher);
