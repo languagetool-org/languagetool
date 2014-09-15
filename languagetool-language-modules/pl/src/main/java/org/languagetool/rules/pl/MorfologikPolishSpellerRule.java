@@ -124,6 +124,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
                 return ruleMatches;
             }
             List<String> suggestions = speller1.getSuggestions(word);
+            suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
             suggestions.addAll(getAdditionalSuggestions(suggestions, word));
             if (!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(pruneSuggestions(orderSuggestions(suggestions,word)));

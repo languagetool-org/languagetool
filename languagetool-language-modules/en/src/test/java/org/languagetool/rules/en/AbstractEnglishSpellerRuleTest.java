@@ -70,9 +70,12 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
     assertFirstMatch("vehical", "medical", "vehicle");
-    //assertFirstMatch("speach", "speech");  // TODO
-    //assertFirstMatch("alot", "a lot");  // TODO, see https://github.com/morfologik/morfologik-stemming/issues/32
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
+
+    // currently solved as a special case, also see https://github.com/morfologik/morfologik-stemming/issues/32:
+    assertFirstMatch("alot", "a lot");
+    // currently solved as a special case (AbstractEnglishSpellerRule.getAdditionalTopSuggestions()):
+    assertFirstMatch("speach", "speech");
 
     // TODO: these are not very good, maybe caused by https://github.com/morfologik/morfologik-stemming/issues/30?
     assertFirstMatch("rythem", "them", "rather", "rhythm");

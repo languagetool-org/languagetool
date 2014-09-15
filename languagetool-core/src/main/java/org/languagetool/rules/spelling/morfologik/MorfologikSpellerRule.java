@@ -173,6 +173,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" ezc.
         suggestions.addAll(speller2.getSuggestions(word));
       }
+      suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
         ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word));

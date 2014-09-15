@@ -111,6 +111,21 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
   }
 
+  /**
+   * @since 2.7
+   */
+  @Override
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
+    if ("Alot".equals(word)) {
+      return Arrays.asList("A lot");
+    } else if ("alot".equals(word)) {
+      return Arrays.asList("a lot");
+    } else if ("speach".equals(word)) {  // the replacement pairs would prefer "speak"
+      return Arrays.asList("speech");
+    }
+    return super.getAdditionalTopSuggestions(suggestions, word);
+  }
+
   private static class IrregularForms {
     String baseform;
     String posName;

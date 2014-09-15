@@ -110,12 +110,24 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
+  /**
+   * Get additional suggestions added before other suggestions (note the rule may choose to
+   * re-order the suggestions anyway).
+   */
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
     List<String> moreSuggestions = new ArrayList<>();
     if ("Languagetool".equals(word) && !suggestions.contains(LANGUAGETOOL)) {
       moreSuggestions.add(LANGUAGETOOL);
     }
     return moreSuggestions;
+  }
+
+  /**
+   * Get additional suggestions added after other suggestions (note the rule may choose to
+   * re-order the suggestions anyway).
+   */
+  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
+    return Collections.emptyList();
   }
 
   /**
