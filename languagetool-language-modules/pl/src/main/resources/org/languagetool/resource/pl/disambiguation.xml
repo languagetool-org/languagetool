@@ -118,7 +118,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
 
     <rule name="żebysie" id="zebysie">
         <pattern>
-            <token regexp="yes"><exception postag="comp"/>(?:żeby|a?by|ażeby|iżby)(?:ś|śmy|ście|m)</token>
+            <token regexp="yes"><exception postag="comp"/>(?:a?żeby|a?by|iżby)(?:ś|śmy|ście|m)</token>
         </pattern>
         <disambig action="add"><wd pos="comp" lemma="by"/></disambig>
     </rule>
@@ -631,6 +631,36 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     		<example type="untouched">Jaki piękny jest dziki <marker>bez</marker>.</example>
     	</rule>
     </rulegroup>
+
+    <rule id="CZAS_NIE_PRED" name="czas + gen to nie predykatyw">
+        <pattern>
+            <marker>
+                <token>czas</token>
+            </marker>
+            <token postag_regexp="yes" postag=".*gen.*"/>
+            <token><exception postag_regexp="yes" postag="verb:inf.*"/></token>
+        </pattern>
+        <disambig action="remove" postag="pred"/>
+        <example type="untouched">Czas umierać!</example>
+        <example type="ambiguous" inputform="Czas[czas/pred,czas/subst:sg:acc:m3,czas/subst:sg:nom:m3]"
+                 outputform="Czas[czas/subst:sg:acc:m3,czas/subst:sg:nom:m3]"><marker>Czas</marker> przygotowania: do 30 minut</example>
+    </rule>
+
+    <rule id="SOL_I_PIEPRZ" name="sól i pieprz do smaku to nie czasowniki">
+        <pattern>
+            <marker>
+                <token regexp="yes" postag="subst:sg.*" postag_regexp="yes">sól|pieprz</token>
+                <token>i</token>
+                <token regexp="yes" postag="subst:sg.*" postag_regexp="yes">sól|pieprz</token>
+            </marker>
+            <token>do</token>
+            <token>smaku</token>
+        </pattern>
+        <disambig action="filterall"></disambig>
+        <example type="untouched">Nie pieprz!</example>
+        <example type="ambiguous" inputform="sól[solić/verb:impt:sg:sec:imperf:refl.nonrefl,sól/subst:sg:acc:f,sól/subst:sg:nom:f]"
+                 outputform="sól[sól/subst:sg:acc:f,sól/subst:sg:nom:f]">Dodaj <marker>sól</marker> i pieprz do smaku.</example>
+    </rule>
 
     <rule id="OD_DAWNA" name="od dawna">
         <pattern>
