@@ -39,6 +39,7 @@ import java.util.Random;
 final class PerformanceTest2 {
 
   private static final int RUNS = 100;
+  private static final int SKIP = 3;
   private static final int MAX_TEXT_LENGTH = 150;
   
   private void run(String languageCode, File textFile) throws IOException {
@@ -56,8 +57,12 @@ final class PerformanceTest2 {
       langTool.activateDefaultPatternRules();
       List<RuleMatch> matches = langTool.check(subText);
       long runTime = System.currentTimeMillis() - startTime;
-      totalTime += runTime;
-      System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");
+      if (i >= SKIP) {
+        totalTime += runTime;
+        System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");
+      } else {
+        System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches) - skipped because of warm-up");
+      }
     }
     System.out.println("Avg. Time: " + (float)totalTime/RUNS);
   }
