@@ -75,17 +75,11 @@ public class CastWordsRule extends AbstractSimpleReplaceRule {
         + StringUtils.join(replacements, ", ") + ".";
   }
 
-  /**
-   * use case-insensitive matching.
-   */
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
     return GL_LOCALE;

@@ -81,17 +81,11 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         + StringUtils.join(replacements, ", ") + ".";
   }
 
-  /**
-   * use case-insensitive matching.
-   */
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
     return PL_LOCALE;

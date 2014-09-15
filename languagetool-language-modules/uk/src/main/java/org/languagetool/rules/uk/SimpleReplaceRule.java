@@ -69,20 +69,11 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         + StringUtils.join(replacements, ", ") + ".";
   }
 
-  /**
-   * Indicates if the rule is case-sensitive.
-   * 
-   * @return true if the rule is case-sensitive, false otherwise.
-   */
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
 
-  /**
-   * @return the locale used for case conversion when {@link #isCaseSensitive()}
-   *         is set to <code>false</code>.
-   */
   @Override
   public Locale getLocale() {
     return Locale.getDefault();
