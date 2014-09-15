@@ -211,6 +211,9 @@ public abstract class Rule {
     return removedMatches != null && removedMatches.contains(ruleMatch);
   }
 
+  /**
+   * @deprecated will be made non-public (deprecated since 2.7)
+   */
   public final boolean isInMatches(final int index) {
     if (previousMatches == null) {
       return false;
