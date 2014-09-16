@@ -44,6 +44,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
    * all. Setting this to > 0 avoids very exotic suggestions that are backed only by a small number
    * of occurrences (and thus often wrong): */
   private static final int MIN_ALTERNATIVE_SCORE = 14;
+  /* The maximum score of the original text up to which it will be considered a potential error.
+   * In other words, if the original text is this or more common, it will not be considered an error,
+   * no matter how common the alternatives are. */
+  private static final int MAX_TEXT_SCORE = Integer.MAX_VALUE;
   /* The minimum sentences that each homophone must have been tested with to be considered at 
    * all (see homophones-info.txt): */
   private static final int MIN_SENTENCES = 0;
@@ -127,6 +131,10 @@ public abstract class ConfusionProbabilityRule extends Rule {
     }
     @SuppressWarnings("UnnecessaryLocalVariable")
     double textScore = score(token.getToken(), next, next2, prev, prev2);
+    if (textScore >= MAX_TEXT_SCORE) {
+      // too common, let's assume it is not an error
+      return null;
+    }
     double bestScore = textScore;
     String betterAlternative = null;
     for (String alternative : confusionSet.set) {
