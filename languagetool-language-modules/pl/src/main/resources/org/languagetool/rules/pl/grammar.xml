@@ -2513,6 +2513,18 @@ $Id$
                 <example correction="jednak jedyna" type="incorrect">Nie jest to <marker>jednak, jedyna</marker> dostępna strategia.</example>
                 <example type="correct">Jednak, co pisałem, miałem rację.</example>
             </rule>
+            <rule id="W_TRAKCIE_PRZECINEK_KTOREGO" name="Zbędny przecinek w wyrażeniu „w trakcie, którego”">
+                <pattern>
+                    <token>w</token>
+                    <token regexp='yes'>trakcie|czasie|przypadku|razie</token>
+                    <token>,</token>
+                    <token regexp='yes'>które(:?j|go)</token>
+                </pattern>
+                <message>Ten przecinek jest zbędny. Powinno być: <suggestion><match no="1"/> <match no="2"/> <match no="4"/></suggestion>.</message>
+                <short>Błąd interpunkcyjny</short>
+                <example type='incorrect'>To wydarzenie, <marker>w trakcie, którego</marker> doszło do eskalacji napięcia.</example>
+                <example type='correct'>To wydarzenie, w trakcie którego doszło do eskalacji napięcia.</example>
+            </rule>
             <rule id="W_PRZYPADKU_PRZECINEK" name="Zbędny przecinek po „w przypadku” na początku zdania">
 						<pattern>
 								<token postag="SENT_START"></token>
