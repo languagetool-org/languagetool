@@ -19,20 +19,20 @@
 
 package org.languagetool.rules.ca;
 
-import java.io.IOException;
-import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class CatalanUnpairedBracketsRuleTest extends TestCase {
 
-  private Rule rule;
+  private TextLevelRule rule;
   private JLanguageTool langTool;
   
   @Override
@@ -99,19 +99,19 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertIncorrect("Some text (and some funny remark :-) with more text to follow");
 
     RuleMatch[] matches;
-    matches = rule.match(langTool.getAnalyzedSentence("(This is a test” sentence."));
+    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
     assertEquals(2, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This [is (a test} sentence."));
+    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("This [is (a test} sentence.")));
     assertEquals(3, matches.length);
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(1, matches.length);
   }
   
@@ -139,12 +139,10 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
         .check("«Els manaments diuen: \"No desitjaràs la dona del teu veí\"»");
     //assertEquals(0, matches.size());
             
-    // now with a paragraph end inside - we get two alarms because of paragraph
-    // resetting
     matches = tool
         .check("Aquesta és una sentència múltiple amb parèntesis "
             + "(Ací hi ha un parèntesi. \n\n Amb algun text.) i ací continua.");
-    assertEquals(2, matches.size());
+    assertEquals(0, matches.size());
   }
 
 }

@@ -27,6 +27,7 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class GenericUnpairedBracketsRuleTest extends TestCase {
 
@@ -42,13 +43,13 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     assertMatches("¡Atención", 1);
   }
 
-  private void setUpRule(Language language) throws IOException {
+  private void setUpRule(Language language) {
     rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
     langTool = new JLanguageTool(language);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(input));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
     assertEquals(expectedMatches, matches.length);
   }
 }

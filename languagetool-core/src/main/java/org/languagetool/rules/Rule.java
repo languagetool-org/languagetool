@@ -45,16 +45,10 @@ public abstract class Rule {
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
-  /** If true, then the rule is turned off by default. */
   private boolean defaultOff;
-  /** Used by paragraph rules to signal that they can remove previous rule matches */
-  private boolean paragraphBackTrack;
-  /** The final list of RuleMatches, without removed matches. */
-  private List<RuleMatch> previousMatches;
-  private List<RuleMatch> removedMatches;
 
   public Rule() {
-    this.messages = null;
+    this(null);
   }
 
   /**
@@ -175,70 +169,6 @@ public abstract class Rule {
 
   protected final RuleMatch[] toRuleMatchArray(final List<RuleMatch> ruleMatches) {
     return ruleMatches.toArray(new RuleMatch[ruleMatches.size()]);
-  }
-
-  public final boolean isParagraphBackTrack() {
-    return paragraphBackTrack;
-  }
-
-  public final void setParagraphBackTrack(final boolean backTrack) {
-    paragraphBackTrack = backTrack;
-  }
-
-  /**
-   * Method to add matches.
-   * @param ruleMatch RuleMatch - matched rule added by check()
-   */
-  public final void addRuleMatch(final RuleMatch ruleMatch) {
-    if (previousMatches == null) {
-      previousMatches = new ArrayList<>();
-    }
-    previousMatches.add(ruleMatch);
-  }
-
-  /**
-   * Deletes (or disables) previously matched rule.
-   * @param index Index of the rule that should be deleted.
-   */
-  final void setAsDeleted(final int index) {
-    if (removedMatches == null) {
-      removedMatches = new ArrayList<>();
-    }
-    removedMatches.add(previousMatches.get(index));
-  }
-
-  public final boolean isInRemoved(final RuleMatch ruleMatch) {
-    return removedMatches != null && removedMatches.contains(ruleMatch);
-  }
-
-  /**
-   * @deprecated will be made non-public (deprecated since 2.7)
-   */
-  public final boolean isInMatches(final int index) {
-    if (previousMatches == null) {
-      return false;
-    }
-    return previousMatches.size() > index && previousMatches.get(index) != null;
-  }
-
-  final void clearMatches() {
-    if (previousMatches != null) {
-      previousMatches.clear();
-    }
-    if (removedMatches != null) {
-      removedMatches.clear();
-    }
-  }
-
-  final int getMatchesIndex() {
-    if (previousMatches == null) {
-      return 0;
-    }
-    return previousMatches.size();
-  }
-
-  public final List<RuleMatch> getMatches() {
-    return previousMatches;
   }
 
   /**

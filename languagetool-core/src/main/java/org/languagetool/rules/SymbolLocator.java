@@ -29,10 +29,12 @@ public class SymbolLocator {
 
   String symbol;
   int index;
+  int startPos;
 
-  public SymbolLocator(final String symbol, final int index) {
+  SymbolLocator(final String symbol, final int index, final int startPos) {
     this.symbol = symbol;
     this.index = index;
+    this.startPos = startPos;
   }
 
   /**
@@ -43,4 +45,8 @@ public class SymbolLocator {
     return symbol;
   }
 
+  @Override
+  public String toString() {
+    return symbol + "/" + index;
+  }
 }

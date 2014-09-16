@@ -26,6 +26,7 @@ import org.languagetool.language.Russian;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class RussianUnpairedBracketsRuleTest extends TestCase {
 
@@ -35,21 +36,21 @@ public class RussianUnpairedBracketsRuleTest extends TestCase {
     RuleMatch[] matches;
     JLanguageTool langTool = new JLanguageTool(new Russian());
     // correct sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("(О жене и детях не беспокойся, я беру их на свои руки)."));
+    matches = rule.match(Collections.singletonList(langTool
+        .getAnalyzedSentence("(О жене и детях не беспокойся, я беру их на свои руки).")));
     assertEquals(0, matches.length);
     // correct sentences:
     matches = rule
-        .match(langTool
-            .getAnalyzedSentence("Позже выходит другая «южная поэма» «Бахчисарайский фонтан» (1824)."));
+        .match(Collections.singletonList(langTool
+            .getAnalyzedSentence("Позже выходит другая «южная поэма» «Бахчисарайский фонтан» (1824).")));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("А \"б\" Д."));
+    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("А \"б\" Д.")));
     assertEquals(0, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("а), б), Д)..., ДД), аа) и 1а)"));
+    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("а), б), Д)..., ДД), аа) и 1а)")));
     assertEquals(0, matches.length);
     // incorrect sentences:
-    matches = rule.match(langTool
-        .getAnalyzedSentence("В таком ключе был начат в мае 1823 в Кишинёве роман в стихах 'Евгений Онегин."));
+    matches = rule.match(Collections.singletonList(langTool
+        .getAnalyzedSentence("В таком ключе был начат в мае 1823 в Кишинёве роман в стихах 'Евгений Онегин.")));
     assertEquals(1, matches.length);
   }
   

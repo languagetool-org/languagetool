@@ -26,7 +26,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
-import org.languagetool.rules.SymbolLocator;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 

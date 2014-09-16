@@ -523,20 +523,6 @@ public class JLanguageTool {
     
     final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
     
-    if (!ruleMatches.isEmpty() && !paraMode.equals(ParagraphHandling.ONLYNONPARA)) {
-      // removing false positives in paragraph-level rules
-      for (final Rule rule : allRules) {
-        if (rule.isParagraphBackTrack() && rule.getMatches() != null) {
-          final List<RuleMatch> rm = rule.getMatches();
-          for (final RuleMatch r : rm) {
-            if (rule.isInRemoved(r)) {
-              ruleMatches.remove(r);
-            }
-          }
-        }
-      }
-    }
-
     Collections.sort(ruleMatches);
     return ruleMatches;
   }
@@ -599,50 +585,42 @@ public class JLanguageTool {
         throws IOException {
     final List<RuleMatch> sentenceMatches = new ArrayList<>();
     for (final Rule rule : rules) {
-      if (disabledRules.contains(rule.getId())
-          || (rule.isDefaultOff() && !enabledRules.contains(rule.getId()))) {
+      if (rule instanceof TextLevelRule) {
         continue;
       }
-
-      final Category category = rule.getCategory();
-      if (category != null && disabledCategories.contains(category.getName())) {
+      if (ignoreRule(rule)) {
         continue;
       }
-      
       if (rule instanceof PatternRule && ((PatternRule)rule).canBeIgnoredFor(analyzedSentence)) {
         // this is a performance optimization, it should have no effect on matching logic
         continue;
       }
-
-      switch (paraMode) {
-        case ONLYNONPARA: {
-          if (rule.isParagraphBackTrack()) {
-            continue;
-          }
-          break;
-        }
-        case ONLYPARA: {
-          if (!rule.isParagraphBackTrack()) {
-            continue;
-          }
-         break;
-        }
-        case NORMAL:
-        default:
+      if (paraMode == ParagraphHandling.ONLYPARA) {
+        continue;
       }
-
       final RuleMatch[] thisMatches = rule.match(analyzedSentence);
       for (final RuleMatch element1 : thisMatches) {
         final RuleMatch thisMatch = adjustRuleMatchPos(element1,
             charCount, columnCount, lineCount, sentence, annotatedText);
         sentenceMatches.add(thisMatch);
-        if (rule.isParagraphBackTrack()) {
-          rule.addRuleMatch(thisMatch);
-        }
       }
     }
     final RuleMatchFilter filter = new SameRuleGroupFilter();
     return filter.filter(sentenceMatches);
+  }
+
+  private boolean ignoreRule(Rule rule) {
+    if (disabledRules.contains(rule.getId())) {
+      return true;
+    }
+    if (rule.isDefaultOff() && !enabledRules.contains(rule.getId())) {
+      return true;
+    }
+    Category category = rule.getCategory();
+    if (category != null && disabledCategories.contains(category.getName())) {
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -940,6 +918,18 @@ public class JLanguageTool {
     public List<RuleMatch> call() throws Exception {
       final List<RuleMatch> ruleMatches = new ArrayList<>();
       int i = 0;
+      for (Rule rule : rules) {
+        if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
+          RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
+          for (RuleMatch match : matches) {
+            match.setColumn(columnCount);
+            match.setEndColumn(columnCount);
+            match.setLine(lineCount);
+            match.setEndLine(lineCount);
+          }
+          ruleMatches.addAll(Arrays.asList(matches));
+        }
+      }
       for (final AnalyzedSentence analyzedSentence : analyzedSentences) {
         final String sentence = sentences.get(i++);
         try {

@@ -20,6 +20,7 @@
 package org.languagetool.rules.en;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -27,12 +28,12 @@ import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
-import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 
 public class EnglishUnpairedBracketsRuleTest extends TestCase {
 
-  private Rule rule;
+  private TextLevelRule rule;
   private JLanguageTool langTool;
 
   @Override
@@ -79,11 +80,7 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertCorrect("\"02\" will sort before \"10\" as expected so it will have size of 10\".");
     assertCorrect("\"02\" will sort before \"10\" as expected so it will have size of 10\""); // inch symbol is at the sentence end
     assertCorrect("\"02\" will sort before \"10\""); // quotation mark is at the sentence end
-
-
-
-    //Should be correct!
-    //assertCorrect("On their 'host societies'.");
+    assertCorrect("On their 'host societies'.");
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
@@ -96,19 +93,19 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
     assertIncorrect("Some text (and some funny remark :-) with more text to follow");
 
     RuleMatch[] matches;
-    matches = rule.match(langTool.getAnalyzedSentence("(This is a test” sentence."));
+    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
     assertEquals(2, matches.length);
-    matches = rule.match(langTool.getAnalyzedSentence("This [is (a test} sentence."));
+    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("This [is (a test} sentence.")));
     assertEquals(3, matches.length);
   }
 
   private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(0, matches.length);
   }
 
   private void assertIncorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
+    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
     assertEquals(1, matches.length);
   }
 
@@ -125,12 +122,10 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
         .check("This is multiple sentence text that contains a bracket: "
             + "[This is bracket. With some text. And this continues.\n\n");
     assertEquals(1, matches.size());
-    // now with a paragraph end inside - we get two alarms because of paragraph
-    // resetting
     matches = tool
         .check("This is multiple sentence text that contains a bracket. "
             + "(This is bracket. \n\n With some text.) and this continues.");
-    assertEquals(2, matches.size());
+    assertEquals(0, matches.size());
   }
 
 }
