@@ -106,8 +106,11 @@ class RealWordFalseAlarmEvaluator {
         fileCount++;
       }
     }
+    System.out.println("==============================");
     System.out.println(globalSentenceCount + " sentences checked");
     System.out.println(globalRuleMatches + " errors found");
+    float percentage = ((float)globalRuleMatches/(float)globalSentenceCount*100);
+    System.out.printf("%.2f%% of sentences have a match\n", percentage);
   }
 
   private void checkLines(List<String> lines, String name) throws IOException {
