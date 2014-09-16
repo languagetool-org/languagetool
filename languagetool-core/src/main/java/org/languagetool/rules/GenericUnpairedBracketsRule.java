@@ -79,6 +79,10 @@ public class GenericUnpairedBracketsRule extends Rule {
     return messages.getString("desc_unpaired_brackets");
   }
 
+  /**
+   * @deprecated (will become protected; deprecated since 2.7)
+   */
+  @Deprecated
   public void uniqueMapInit() {
     uniqueMap = new HashMap<>();
     for (String endSymbol : endSymbols) {
