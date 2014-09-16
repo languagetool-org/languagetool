@@ -7383,6 +7383,11 @@ though, and has since been slightly modified)-->
         <example type="correct">Je ne trouve pas ça intéressant.</example>
       </rule>
       <rule name="il/elle/on + 1 token + Verbe">
+        <antipattern>
+          <token postag="[NZ].*" postag_regexp="yes"/>
+          <token>et</token>
+          <token>elle</token>
+        </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception regexp="yes">ce|celle|cela</exception>
@@ -7401,6 +7406,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect"><marker>Elle se demandent</marker>.</example>
         <example type="correct">Elle se demande.</example>
         <example type="correct">Il a converti cela en médailles.</example>
+        <example type="correct">Dominique et elle les attendent.</example>
       </rule>
       <rule name="ça + 1 tokens + Verbe">
         <pattern>
