@@ -17343,6 +17343,7 @@ $Id$
             </rule>
         </rulegroup>    
         <rulegroup id="ELA_GEMINADA" name="Errors en la ela geminada" type="misspelling">
+            <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
@@ -17351,7 +17352,6 @@ $Id$
                 </pattern>
                 <message>Error tipogràfic.</message>
                 <suggestion><match no="1" regexp_match="(.+[Ll])[•.⋅\-]([Ll].+)" regexp_replace="$1·$2"/></suggestion>
-                <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="sol·licitud">La <marker>sol•licitud</marker>.</example>
                 <example type="incorrect" correction="sol·licitud">La <marker>sol-licitud</marker>.</example>
@@ -17370,9 +17370,30 @@ $Id$
                 </pattern>
                 <message>Error tipogràfic</message>
                 <suggestion><match no="1"/>·<match no="3"/></suggestion>
-                <url>https://ca.wikipedia.org/wiki/L%C2%B7L</url>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="col·laboració"><marker>col · laboració</marker></example>
+                <example type="correct">col·laboració</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[aeiouàèéíòóúïü]l</token>
+                    <token regexp="yes">[·•]l[aeiouàèéíòóúïü].*</token>
+                </pattern>
+                <message>Error tipogràfic</message>
+                <suggestion><match no="1"/>·<match no="3" regexp_match=".(.*)" regexp_replace="$1"/></suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="col·laboració"><marker>col ·laboració</marker></example>
+                <example type="correct">col·laboració</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[aeiouàèéíòóúïü]l[·•]</token>
+                    <token regexp="yes">l[aeiouàèéíòóúïü].*</token>
+                </pattern>
+                <message>Error tipogràfic</message>
+                <suggestion><match no="1"  regexp_match="(.*)." regexp_replace="$1"/>·<match no="3"/></suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="col·laboració"><marker>col· laboració</marker></example>
                 <example type="correct">col·laboració</example>
             </rule>
         </rulegroup>
