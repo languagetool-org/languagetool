@@ -33,7 +33,7 @@ public class EnglishWordTokenizer extends WordTokenizer {
   private final String enTokenizing;
 
   public EnglishWordTokenizer() {
-    enTokenizing = super.getTokenizingCharacters() + "–" + "—";  // n-dash, m-dash
+    enTokenizing = super.getTokenizingCharacters() + "–";  // n-dash
   }
 
   /**
