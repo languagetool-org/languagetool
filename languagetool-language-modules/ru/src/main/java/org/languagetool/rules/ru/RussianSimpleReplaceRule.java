@@ -38,8 +38,7 @@ import org.languagetool.rules.AbstractSimpleReplaceRule;
 public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   private static final String FILE_NAME = "/ru/replace.txt";
-
-  // locale used on case-conversion
+  // locale used on case-conversion:
   private static final Locale RU_LOCALE = new Locale("ru");
 
   @Override
@@ -72,17 +71,11 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule {
         + StringUtils.join(replacements, ", ") + ".";
   }
 
-  /**
-   * use case-insensitive matching.
-   */
   @Override
   public boolean isCaseSensitive() {
     return false;
   }
 
-  /**
-   * locale used on case-conversion
-   */
   @Override
   public Locale getLocale() {
     return RU_LOCALE;

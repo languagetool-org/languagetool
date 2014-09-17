@@ -43,7 +43,6 @@ public class DutchWordTokenizer extends WordTokenizer {
    */
   @Override
   public List<String> tokenize(final String text) {
-
     final List<String> l = new ArrayList<>();
     final StringTokenizer st = new StringTokenizer(text, nlTokenizingChars, true);
     while (st.hasMoreElements()) {

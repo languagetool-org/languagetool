@@ -42,7 +42,7 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     assertMatches("(Qu'est ce que c'est ?", 1);
   }
 
-  private void setUpRule(Language language) throws IOException {
+  private void setUpRule(Language language) {
     rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
     langTool = new JLanguageTool(language);
   }
