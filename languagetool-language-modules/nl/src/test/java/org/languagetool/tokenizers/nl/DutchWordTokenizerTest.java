@@ -32,15 +32,24 @@ public class DutchWordTokenizerTest extends TestCase {
                    "[This,  , is,  , a,  , test]");
     assertTokenize("Bla bla oma's bla bla 'test",
                    "[Bla,  , bla,  , oma's,  , bla,  , bla,  , ', test]");
+    assertTokenize("Bla bla oma`s bla bla 'test",
+                   "[Bla,  , bla,  , oma`s,  , bla,  , bla,  , ', test]");
     assertTokenize("Ik zie het''",
                    "[Ik,  , zie,  , het, ', ']");
+    assertTokenize("Ik zie het``",
+                   "[Ik,  , zie,  , het, `, `]");
     assertTokenize("''Ik zie het",
                    "[', ', Ik,  , zie,  , het]");
     assertTokenize("Ik 'zie' het",
                    "[Ik,  , ', zie, ',  , het]");
+    assertTokenize("Ik `zie het",
+                   "[Ik,  , `, zie,  , het]");
+    assertTokenize("Ik ``zie het",
+                   "[Ik,  , `, `, zie,  , het]");
     assertTokenize("'", "[']");
     assertTokenize("''", "[, ', ']");
     assertTokenize("'x'", "[', x, ']");
+    assertTokenize("`x`", "[`, x, `]");
   }
 
   private void assertTokenize(String input, String expected) {

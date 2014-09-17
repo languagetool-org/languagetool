@@ -20,6 +20,7 @@
 package org.languagetool.tokenizers.nl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -27,12 +28,18 @@ import org.languagetool.tokenizers.WordTokenizer;
 
 public class DutchWordTokenizer extends WordTokenizer {
 
+  private static final List<String> QUOTES = Arrays.asList("'", "`", "’",  "‘", "´");
+
   //the string used to tokenize characters
   private final String nlTokenizingChars;
 
   public DutchWordTokenizer() {
-    //remove the apostrophe from the standard tokenizing characters
-    nlTokenizingChars = super.getTokenizingCharacters().replace("'", "");
+    //remove the apostrophe etc. from the standard tokenizing characters:
+    String chars = super.getTokenizingCharacters();
+    for (String quote : QUOTES) {
+      chars = chars.replace(quote, "");
+    }
+    nlTokenizingChars = chars;
   }
 
   /**
@@ -47,25 +54,26 @@ public class DutchWordTokenizer extends WordTokenizer {
     final StringTokenizer st = new StringTokenizer(text, nlTokenizingChars, true);
     while (st.hasMoreElements()) {
       String token = st.nextToken();
+      String origToken = token;
       if (token.length() > 1) {
-        if (token.startsWith("'") && token.endsWith("'") && token.length() > 2) {
-          l.add("'");
+        if (startsWithQuote(token) && endsWithQuote(token) && token.length() > 2) {
+          l.add(token.substring(0, 1));
           l.add(token.substring(1, token.length()-1));
-          l.add("'");
-        } else if (token.endsWith("'")) {
+          l.add(token.substring(token.length()-1, token.length()));
+        } else if (endsWithQuote(token)) {
           int cnt = 0;
-          while (token.endsWith("'")) {
+          while (endsWithQuote(token)) {
             token = token.substring(0, token.length() - 1);
             cnt++;
           }
           l.add(token);
-          for (int i = 0; i < cnt; i++) {
-            l.add("'");
+          for (int i = origToken.length() - cnt; i < origToken.length(); i++) {
+            l.add(origToken.substring(i, i + 1));
           }
-        } else if (token.startsWith("'")) {
-          while (token.startsWith("'")) {
+        } else if (startsWithQuote(token)) {
+          while (startsWithQuote(token)) {
+            l.add(token.substring(0, 1));
             token = token.substring(1, token.length());
-            l.add("'");
           }
           l.add(token);
         } else {
@@ -76,6 +84,24 @@ public class DutchWordTokenizer extends WordTokenizer {
       }
     }
     return joinUrls(l);
+  }
+
+  private boolean startsWithQuote(String token) {
+    for (String quote : QUOTES) {
+      if (token.startsWith(quote)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean endsWithQuote(String token) {
+    for (String quote : QUOTES) {
+      if (token.endsWith(quote)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @Override
