@@ -80,7 +80,7 @@ public class GenericUnpairedBracketsRule extends Rule {
   }
 
   /**
-   * @deprecated (will become protected; deprecated since 2.7)
+   * @deprecated will become protected (deprecated since 2.7)
    */
   @Deprecated
   public void uniqueMapInit() {
