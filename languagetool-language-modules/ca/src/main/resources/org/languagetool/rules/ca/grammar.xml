@@ -6258,7 +6258,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -17661,6 +17661,23 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="EL_GAT_A_LAIGUA" name="*emportar-se el gat a l'aigua">
+            <pattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" skip="4">portar|dur|emportar|endur</token>
+                    <token>el</token>
+                    <token>gat</token>
+                    <token>a</token>
+                    <token>l'</token>
+                    <token>aigua</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>(ficar-s'ho) a la butxaca</suggestion>
+            <suggestion>(guanyar) la partida</suggestion>
+            <example type="incorrect">Va <marker>emportar-se el gat a l'aigua</marker>.</example>
+            <example type="correct">Va caure el gat a l'aigua.</example>
+        </rule>
         <rule id="ESTENDRE_LA_MA" name="estendre la mà/oferir diàleg">
             <pattern>
                 <marker>
