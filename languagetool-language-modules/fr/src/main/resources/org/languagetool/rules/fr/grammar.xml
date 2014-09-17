@@ -8401,11 +8401,14 @@ though, and has since been slightly modified)-->
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
       <rule>
         <antipattern>
+          <marker>
           <token regexp="yes">voulu|souhaité</token>
+          <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
           <token postag="V.* inf" postag_regexp="yes"></token>
+          </marker>
         </antipattern>
         <pattern>
-          <token negate="yes" regexp="yes">plus|moins|de|à|appareil|[’´'‛′‘]/</token>
+          <token negate="yes" regexp="yes">plus|moins|de|à|appareil</token>
           <token postag="N . p" postag_regexp="yes"><exception>fois</exception></token>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
@@ -8420,13 +8423,14 @@ though, and has since been slightly modified)-->
         <example type="correct">Le sac à main que j’ai acheté.</example>
         <example type="correct">Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
         <example type="correct">Les lettres que j’ai voulu envoyer.</example>
+        <example type="correct">Les lettres que j’ai voulu t’envoyer.</example>
         <example type="correct">Les images qu’elle a envoyées ont montré une structure inattendue.</example>
         <example type="incorrect">Les récompenses qu’elle a <marker>eue</marker>.</example>
         <example type="correct">Les récompenses qu’elle a eues.</example>
       </rule>
       <rule>
         <pattern>
-          <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
+          <token negate="yes" regexp="yes">plus|moins|de</token>
           <token postag="N . s" postag_regexp="yes">
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
@@ -8444,10 +8448,11 @@ though, and has since been slightly modified)-->
       <rule>
         <antipattern>
           <token regexp="yes">voulu|souhaité</token>
+          <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
           <token postag="V.* inf" postag_regexp="yes"></token>
         </antipattern>
         <pattern>
-          <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
+          <token negate="yes" regexp="yes">plus|moins|de</token>
           <token postag="N f .*" postag_regexp="yes">
             <exception postag_regexp="yes" postag="N [me] .*"/>
             <exception regexp="yes">impression|fois</exception>
@@ -8476,10 +8481,12 @@ though, and has since been slightly modified)-->
         <example type="correct">La lettre que j’ai voulu envoyer.</example>
         <example type="correct">Certains y voient la preuve qu’il a finalement été lâché par son soutien.</example>
         <example type="correct">Cette finale qu’il a dominée.</example>
+        <example type="correct">La pommade qu’il a voulu me passer.</example>
+        <example type="correct">La pommade qu’il a voulu m’apporter.</example>
       </rule>
       <rule>
         <pattern>
-          <token negate="yes" regexp="yes">plus|moins|de|[’´'‛′‘]/</token>
+          <token negate="yes" regexp="yes">plus|moins|de</token>
           <token postag="N m .*" postag_regexp="yes">
             <exception postag_regexp="yes" postag="N [fe] .*"/>
           </token>
