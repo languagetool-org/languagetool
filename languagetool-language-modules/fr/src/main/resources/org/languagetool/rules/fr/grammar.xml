@@ -895,7 +895,10 @@ though, and has since been slightly modified)-->
       <url>http://www.académie-française.fr/peut-etre-pour-peut-etre</url>
       <rule>
         <pattern>
-          <token postag="V.*" postag_regexp="yes"><exception postag="V inf"/><exception>cela</exception></token>
+          <token postag="V.*" postag_regexp="yes">
+            <exception postag="V inf|[NJZ].*" postag_regexp="yes"/>
+            <exception>cela</exception>
+          </token>
           <marker>
             <token>peut</token>
             <token regexp="yes">[êe]tre</token>
@@ -907,6 +910,7 @@ though, and has since been slightly modified)-->
         <example type="correct">Cela peut être vrai.</example>
         <example type="correct">L’Écosse peut être très chaude.</example>
         <example type="correct">L’alcool au volant peut être dangereux.</example>
+        <example type="correct">Un intoxication en cours peut être dianostiquée.</example>
       </rule>
       <rule>
         <pattern>
