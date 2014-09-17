@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
-import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -31,27 +30,20 @@ import java.util.Collections;
 public class PolishUnpairedBracketsRuleTest extends TestCase {
 
   public void testRulePolish() throws IOException {
-    PolishUnpairedBracketsRule rule = new PolishUnpairedBracketsRule(TestTools
-        .getEnglishMessages(), new Polish());
-    RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(new Polish());
-    // correct sentences:
-    matches = rule.match(Collections.singletonList(langTool
-        .getAnalyzedSentence("(To jest zdanie do testowania).")));
-    assertEquals(0, matches.length);
-    // correct sentences:
-    matches = rule
-        .match(Collections.singletonList(langTool
-            .getAnalyzedSentence("Piosenka ta trafiła na wiele list \"Best of...\", włączając w to te, które zostały utworzone przez magazyn Rolling Stone.")));
-    assertEquals(0, matches.length);
-    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("A \"B\" C.")));
-    assertEquals(0, matches.length);
-    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("\"A\" B \"C\".")));
-    assertEquals(0, matches.length);
-    // incorrect sentences:
-    matches = rule.match(Collections.singletonList(langTool
-        .getAnalyzedSentence("W tym zdaniu jest niesparowany „cudzysłów.")));
-    assertEquals(1, matches.length);
+    Polish language = new Polish();
+    PolishUnpairedBracketsRule rule = new PolishUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
+    JLanguageTool lt = new JLanguageTool(language);
+
+    assertEquals(0, getMatches("(To jest zdanie do testowania).", rule, lt));
+    assertEquals(0, getMatches("Piosenka ta trafiła na wiele list \"Best of...\", włączając w to te, które zostały utworzone przez magazyn Rolling Stone.", rule, lt));
+    assertEquals(0, getMatches("A \"B\" C.", rule, lt));
+    assertEquals(0, getMatches("\"A\" B \"C\".", rule, lt));
+
+    assertEquals(1, getMatches("W tym zdaniu jest niesparowany „cudzysłów.", rule, lt));
   }
-  
+
+  private int getMatches(String input, PolishUnpairedBracketsRule rule, JLanguageTool lt) throws IOException {
+    return rule.match(Collections.singletonList(lt.getAnalyzedSentence(input))).length;
+  }
+
 }

@@ -19,17 +19,15 @@
 
 package org.languagetool.rules.en;
 
-import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-
 import junit.framework.TestCase;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
+
+import java.io.IOException;
+import java.util.Collections;
 
 public class EnglishUnpairedBracketsRuleTest extends TestCase {
 
@@ -110,22 +108,20 @@ public class EnglishUnpairedBracketsRuleTest extends TestCase {
   }
 
   public void testMultipleSentences() throws IOException {
-    final JLanguageTool tool = new JLanguageTool(new English());
-    tool.enableRule("EN_UNPAIRED_BRACKETS");
+    final JLanguageTool lt = new JLanguageTool(new English());
 
-    List<RuleMatch> matches;
-    matches = tool
-        .check("This is multiple sentence text that contains a bracket: "
-            + "[This is bracket. With some text.] and this continues.\n");
-    assertEquals(0, matches.size());
-    matches = tool
-        .check("This is multiple sentence text that contains a bracket: "
-            + "[This is bracket. With some text. And this continues.\n\n");
-    assertEquals(1, matches.size());
-    matches = tool
-        .check("This is multiple sentence text that contains a bracket. "
-            + "(This is bracket. \n\n With some text.) and this continues.");
-    assertEquals(0, matches.size());
+    assertEquals(0, getMatches("This is multiple sentence text that contains a bracket: "
+                             + "[This is bracket. With some text.] and this continues.\n", lt));
+
+    assertEquals(0, getMatches("This is multiple sentence text that contains a bracket. "
+                             + "(This is bracket. \n\n With some text.) and this continues.", lt));
+
+    assertEquals(1, getMatches("This is multiple sentence text that contains a bracket: "
+                             + "[This is bracket. With some text. And this continues.\n\n", lt));
+  }
+
+  private int getMatches(String input, JLanguageTool lt) throws IOException {
+    return lt.check(input).size();
   }
 
 }
