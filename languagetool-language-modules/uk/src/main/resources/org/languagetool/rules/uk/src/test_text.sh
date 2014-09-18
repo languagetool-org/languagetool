@@ -29,9 +29,19 @@ function run_lt()
 #       grep -vE "Suggestion|Expected text|Working on" | sed -r "s/.*Rule ID:/#/g" | tr '\n' '@' | tr '#' '\n' | sort | sed -r "s/@@/@/g" | tr '@' '\n' > checked$ID.sorted.txt
 }
 
+function run_full_test()
+{
+  SRC="$1"
+  ID="$2"
+
+  run_lt $SRC $ID
+  diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
+  echo "Done [$ID]"
+}
+
 
 SRC_BASE="$HOME/work/ukr/spelling/media"
-SRCS="dt.txt.clean tyzhden/td.txt um/um.txt vz/vz.txt"
+SRCS="tyzhden/td.txt um/um.txt dt.txt.clean vz/vz.txt"
 
 ID_TO_CHECK="$1"
 
@@ -66,11 +76,12 @@ for src_file in $SRCS; do
     
     echo "Checking $SRC [$ID]"
 
-    run_lt $SRC $ID
-
-    diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
+    run_full_test $SRC $ID
 
   fi
 
   (( ID = ID + 1))
 done
+
+#echo "Waiting for all jobs to finish..."
+#wait

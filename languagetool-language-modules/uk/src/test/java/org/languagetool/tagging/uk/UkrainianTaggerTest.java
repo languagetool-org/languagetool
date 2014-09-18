@@ -50,7 +50,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav", tokenizer, tagger);
     TestTools.myAssert("віл", "віл/[віл]noun:m:v_naz:ist", tokenizer, tagger);
     TestTools.myAssert("Віл", "Віл/[віл]noun:m:v_naz:ist", tokenizer, tagger);
-    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:nv:abbr|ВІЛ/[віл]noun:m:v_naz:ist", tokenizer, tagger);
+    TestTools.myAssert("ВІЛ", "ВІЛ/[ВІЛ]noun:m:nv:abbr|ВІЛ/[віл]noun:m:v_naz:ist", tokenizer, tagger);
     TestTools.myAssert("далі", "далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Далі", "Далі/[Даль]noun:m:v_mis:ist|Далі/[Далі]noun:m:nv|Далі/[далі]adv", tokenizer, tagger);
     TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:ist|Бен/[бен]unknown", tokenizer, tagger);
