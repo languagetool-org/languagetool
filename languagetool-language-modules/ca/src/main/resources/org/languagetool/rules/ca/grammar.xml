@@ -7917,6 +7917,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="CONTAR_COMPTAR_AMB" name="contar/comptar amb">
+            <pattern>
+                <marker>
+                    <token inflected="yes">contar<exception scope="previous" postag="|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                    <token>amb</token>
+                </marker>
+                <token><exception regexp="yes">enginy|gràcia</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comptar</match></suggestion> en comptes de \1 (=relatar)?</message>
+            <example type="incorrect" correction="Compta"><marker>Conta amb</marker> 3.000 habitants.</example>
+            <example type="incorrect" correction="compta">Ell <marker>conta amb</marker> el nostre suport.</example>
+            <example type="correct">Li conta amb qui havia fugit.</example>
+        </rule>
         <rulegroup id="PARIS" name="Paris/París">
             <rule>
                 <pattern case_sensitive="yes">
@@ -24452,7 +24465,7 @@ $Id$
                 <marker>
                 <token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
                 </marker>
-                <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita|intenció</token>
+                <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita|intenció|pla</token>
             </pattern>
             <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
