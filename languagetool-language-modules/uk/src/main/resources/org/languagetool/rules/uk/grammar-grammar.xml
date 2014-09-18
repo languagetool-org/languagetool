@@ -29,8 +29,8 @@ $Id$
         <rulegroup name="Узгодженість частин речення" id="CONSISTENCY_VERB">
             <rule>
                 <pattern>
-                    <token postag_regexp="yes" postag="pryim.*">
-                        <exception negate_pos="yes" postag_regexp="yes" postag="pryim.*" />
+                    <token postag_regexp="yes" postag="prep.*">
+                        <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
                         <!-- TODO: лише для інфінитиву -->
                         <exception>крім</exception>
                         <exception>замість</exception>
@@ -97,12 +97,12 @@ $Id$
             </rule>
         </rulegroup>
         -->
-        <rulegroup name="Узгодженість відмінків з прийменниками" id="CONSISTENCY_VIDM_PRYIM">
+        <rulegroup name="Узгодженість відмінків з прийменниками" id="CONSISTENCY_VIDM_prep">
             <rule>
                 <pattern>
                     <token>згідно</token>
                     <marker>
-                    <token postag_regexp="yes" postag="(noun|adj|pryim).*">
+                    <token postag_regexp="yes" postag="(noun|adj|prep).*">
                         <exception regexp="yes">з|зі|із</exception>
                     </token>
                     </marker>
@@ -325,7 +325,7 @@ $Id$
         <rulegroup name="Узгодженість відмінку" id="CONISTENCY_VIDM_1">
             <rule>
                 <pattern>
-                    <token postag="pryim:rv_rod"></token>
+                    <token postag="prep:rv_rod"></token>
                     <token postag_regexp="yes" postag="(noun|adj):v_[^r].*"></token>
                 </pattern>
                 <message>Прийменник вимагає родового відмінку <suggestion>\2</suggestion></message>
