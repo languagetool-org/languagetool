@@ -644,7 +644,7 @@ public class JLanguageTool {
         fromPos, toPos, match.getMessage(), match.getShortMessage());
     thisMatch.setSuggestedReplacements(match.getSuggestedReplacements());
     final String sentencePartToError = sentence.substring(0, match.getFromPos());
-    final String sentencePartToEndOfError = sentence.substring(0,match.getToPos());
+    final String sentencePartToEndOfError = sentence.substring(0, match.getToPos());
     final int lastLineBreakPos = sentencePartToError.lastIndexOf('\n');
     final int column;
     final int endColumn;
@@ -922,10 +922,11 @@ public class JLanguageTool {
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences);
           for (RuleMatch match : matches) {
-            match.setColumn(columnCount);
-            match.setEndColumn(columnCount);
-            match.setLine(lineCount);
-            match.setEndLine(lineCount);
+            LineColumnRange range = getLineColumnRange(match);
+            match.setColumn(range.from.column);
+            match.setEndColumn(range.to.column);
+            match.setLine(range.from.line);
+            match.setEndLine(range.to.line);
           }
           ruleMatches.addAll(Arrays.asList(matches));
         }
@@ -962,6 +963,50 @@ public class JLanguageTool {
       }
       return ruleMatches;
     }
+
+    private LineColumnRange getLineColumnRange(RuleMatch match) {
+      LineColumnPosition fromPos = new LineColumnPosition(-1, -1);
+      LineColumnPosition toPos = new LineColumnPosition(-1, -1);
+      LineColumnPosition pos = new LineColumnPosition(0, 0);
+      int charCount = 0;
+      for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        for (AnalyzedTokenReadings readings : analyzedSentence.getTokens()) {
+          String token = readings.getToken();
+          if ("\n".equals(token)) {
+            pos.line++;
+            pos.column = 0;
+          }
+          pos.column += token.length();
+          charCount += token.length();
+          if (charCount == match.getFromPos()) {
+            fromPos = new LineColumnPosition(pos.line, pos.column);
+          } 
+          if (charCount == match.getToPos()) {
+            toPos = new LineColumnPosition(pos.line, pos.column);
+          }
+        }
+      }
+      return new LineColumnRange(fromPos, toPos);
+    }
+    
+    private class LineColumnPosition {
+      int line;
+      int column;
+      private LineColumnPosition(int line, int column) {
+        this.line = line;
+        this.column = column;
+      }
+    }
+  
+    private class LineColumnRange {
+      LineColumnPosition from;
+      LineColumnPosition to;
+      private LineColumnRange(LineColumnPosition from, LineColumnPosition to) {
+        this.from = from;
+        this.to = to;
+      }
+    }
+  
   }
 
 }

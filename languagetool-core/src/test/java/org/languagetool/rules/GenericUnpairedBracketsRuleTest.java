@@ -27,7 +27,9 @@ import org.languagetool.language.Demo;
 import java.io.IOException;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class GenericUnpairedBracketsRuleTest {
 
@@ -62,6 +64,26 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches(1, "»Correct, he said. This is the next sentence. Here's another sentence.");
     assertMatches(1, "»Correct, he said. This is the next sentence.\n\nHere's another sentence.");
     assertMatches(1, "»Correct, he said. This is the next sentence.\n\n\n\nHere's another sentence.");
+  }
+
+  @Test
+  public void testRuleMatchPositions() throws IOException {
+    setUpRule(new MyDemo());
+    RuleMatch match1 = langTool.check("This »is a test.").get(0);
+    assertThat(match1.getFromPos(), is(5));
+    assertThat(match1.getToPos(), is(6));
+    assertThat(match1.getLine(), is(0));
+    assertThat(match1.getEndLine(), is(0));
+    assertThat(match1.getColumn(), is(5));
+    assertThat(match1.getEndColumn(), is(6));
+
+    RuleMatch match2 = langTool.check("This.\nSome stuff.\nIt »is a test.").get(0);
+    assertThat(match2.getFromPos(), is(21));
+    assertThat(match2.getToPos(), is(22));
+    assertThat(match2.getLine(), is(2));  // first line is 0
+    assertThat(match2.getEndLine(), is(2));
+    assertThat(match2.getColumn(), is(4));
+    assertThat(match2.getEndColumn(), is(5));
   }
 
   private void setUpRule(Language language) {
