@@ -110,84 +110,84 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
-   * Set the line number in which the match occurs.
+   * Set the line number in which the match occurs (zero-based).
    */
   public void setLine(final int fromLine) {
     this.fromLine = fromLine;
   }
 
   /**
-   * Get the line number in which the match occurs.
+   * Get the line number in which the match occurs (zero-based).
    */
   public int getLine() {
     return fromLine;
   }
 
   /**
-   * Set the line number in which the match ends.
+   * Set the line number in which the match ends (zero-based).
    */
   public void setEndLine(final int endLine) {
     this.endLine = endLine;
   }
 
   /**
-   * Get the line number in which the match ends.
+   * Get the line number in which the match ends (zero-based).
    */
   public int getEndLine() {
     return endLine;
   }
 
   /**
-   * Set the column number in which the match occurs.
+   * Set the column number in which the match occurs (zero-based).
    */
   public void setColumn(final int column) {
     this.column = column;
   }
 
   /**
-   * Get the column number in which the match occurs.
+   * Get the column number in which the match occurs (zero-based).
    */
   public int getColumn() {
     return column;
   }
 
   /**
-   * Set the column number in which the match ends.
+   * Set the column number in which the match ends (zero-based).
    */
   public void setEndColumn(final int endColumn) {
     this.endColumn = endColumn;
   }
 
   /**
-   * Get the column number in which the match ends.
+   * Get the column number in which the match ends (zero-based).
    */
   public int getEndColumn() {
     return endColumn;
   }
 
   /**
-   * Set the character offset at which the match occurs.
+   * Set the character offset at which the match occurs (zero-based).
    */
   public void setOffset(final int offset) {
     this.offset = offset;
   }
 
   /**
-   * Get the character offset at which the match occurs.
+   * Get the character offset at which the match occurs (zero-based).
    */
   public int getOffset() {
     return offset;
   }
 
   /**
-   * Position of the start of the error (in characters).
+   * Position of the start of the error (in characters, zero-based).
    */
   public int getFromPos() {
     return fromPos;
   }
 
   /**
-   * Position of the end of the error (in characters).
+   * Position of the end of the error (in characters, zero-based).
    */
   public int getToPos() {
     return toPos;
