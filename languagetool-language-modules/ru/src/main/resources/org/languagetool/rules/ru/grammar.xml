@@ -1224,13 +1224,14 @@ $Id$
         
         <rule default="on" id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
             <pattern>
-                <token spacebefore="no" regexp="yes"><exception scope="previous" regexp="yes">;|:</exception>;|:|-|—</token>
+                <token spacebefore="no" regexp="yes"><exception scope="previous" regexp="yes">;|:|[\p{Digit}]*</exception>;|:|-|—</token>
                 <token regexp="yes">»|\)</token>
             </pattern>
             <message>Знаки препинания должны стоять после закрывающихся кавычек или скобок: <suggestion>\2\1</suggestion></message>
             <short>Знаки препинания - после кавычек/скобок.</short>
             <example type="correct">Газета «Правда»: &quot;У нас опубликована сенсационная статья&quot;!</example>
             <example type="correct">У нас опубликована сенсационная ;) статья.</example>
+            <example type="correct">(1989—)</example>
             <example type="incorrect">Газета «Правда<marker>:»</marker> &quot;У нас опубликована сенсационная статья&quot;!</example>
         </rule>
         
