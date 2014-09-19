@@ -2487,8 +2487,26 @@ $Id$
 						<example type="incorrect">Nie wiadomo, czy Jarek był agentem <marker>tym bardziej, że</marker> jego teczka została sfałszowana.</example>
 				</rule>
 				<rule id="Z_TYM_ZE" name="Zbędny przecinek w „z tym że”">
-						<pattern>
-								<token><exception scope="previous" regexp="yes">związku|mniejsza</exception>z</token>
+                        <antipattern>
+                            <token inflected="yes" regexp="yes">borykać|z?identyfikować|kojarzyć|liczyć|męczyć|mylić|pogodzić|wiązać|(:?po)?kłócić|spierać|utożsamiać|zapoznać|zapoznawać|zdradz[ia]ć|zetknąć|zmagać|zgadzać|zgodzić</token>
+                            <token skip="4">się</token>
+                            <marker>
+                                <token>z</token>
+                                <token>tym</token>
+                            </marker>
+                        </antipattern>
+                    <antipattern>
+                        <token inflected="yes" regexp="yes">radzić</token>
+                        <token skip="4">sobie</token>
+                        <marker>
+                            <token>z</token>
+                            <token>tym</token>
+                        </marker>
+                    </antipattern>
+                    <pattern>
+								<token>z<exception scope="previous" regexp="yes">związku|mniejsza|zgod[zn]ie</exception>
+                                    <exception scope="previous" inflected="yes" regexp="yes">biec|biegać|borykać|(:?za)?dzwonić|kombinować|korespondować|polemizować|porównać|porównywać|utożsamiać|wyskakiwać|wyskoczyć|(:?po)?dyskutować|(:?po|z)?łączyć|(:?po|z)?wiązać|(:?za)?telefonować|spójny|tożsamy</exception>
+                                    </token>
 								<token>tym</token>
 								<token>,</token>
 								<token>że</token>
@@ -14115,6 +14133,15 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="STRYKTURA" name="„stryktura” (struktura)">
+                <pattern>
+                    <token inflected="yes">stryktura</token>
+                </pattern>
+                <message>To rzadki wyraz (oznaczający zwężenie kanału lub przetoki w organizmie z powodu bliznowacenia lub nowotworu). Czy chodziło o <suggestion><match suppress_misspelled="yes" no="1" regexp_match="tryk" regexp_replace="truk"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Reorganizacja struktury Komendy Powiatowej Policji w Staszowie.</example>
+                <example type="incorrect" correction="struktury">Reorganizacja <marker>stryktury</marker> Komendy Powiatowej Policji w Staszowie.</example>
+            </rule>
             <rule id="ZEZ" name="„żeż” (że)">
                 <pattern>
                     <token>,</token>
