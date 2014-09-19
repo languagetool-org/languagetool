@@ -14115,6 +14115,30 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="ZEZ" name="„żeż” (że)">
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                       <token>żeż</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>że</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">O żeż ty!</example>
+                <example type="incorrect" correction="że">Powiedział mi, <marker>żeż</marker> to nieprawda.</example>
+            </rule>
+            <rule id="O_PRZYJSCIE" name="„o przyjcie” (o przyjęcie, o przyjście)">
+                <pattern>
+                    <token regexp="yes">o|na</token>
+                    <marker>
+                        <token>przyjcie</token>
+                    </marker>
+                </pattern>
+                <message>Czy chodziło o <suggestion>przyjście</suggestion> lub <suggestion>przyjęcie</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Proszę o przyjęcie na studia.</example>
+                <example type="incorrect" correction="przyjście|przyjęcie">Proszę o <marker>przyjcie</marker> na studia.</example>
+            </rule>
             <rule id="LEZACY" name="„lezący u podstaw” (leżący u podstaw)">
                 <pattern>
                     <marker>
@@ -14136,7 +14160,7 @@ $Id$
                     <token regexp='yes'>bardzo|(:?naj)?bardziej</token>
                     <token regexp='yes' postag='pact.*' postag_regexp='yes'>obcując.*</token>
                 </pattern>
-                <message>Możliwa literówka. Czy chodziło o <suggestion><match no="1"/> <match no="2" regexp_match="obcu" regexp_replace="obiecu"/></suggestion>?</message>
+                <message>Możliwa literówka. Czy chodziło o <suggestion><match no="1"/> <match no="2" regexp_match="bcu" regexp_replace="biecu"/></suggestion>?</message>
                 <short>Prawdopodobna literówka</short>
                 <example type='incorrect' correction="najbardziej obiecujący">To <marker>najbardziej obcujący</marker> pomysł.</example>
                 <example type='correct'>To najbardziej obiecujący pomysł.</example>
