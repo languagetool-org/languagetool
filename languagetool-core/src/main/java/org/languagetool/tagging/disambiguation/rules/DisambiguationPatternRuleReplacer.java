@@ -301,15 +301,15 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       for (int i = 0; i < matchingTokensWithCorrection - startPositionCorrection + endPositionCorrection; i++) {
         final int position = sentence.getOriginalPosition(firstMatchToken + correctedStPos + i);
         Element myEl;
-      if (elementsMatched.get(i + startPositionCorrection)) {
-        myEl = rule.getPatternElements().get(i + startPositionCorrection);
+        if (elementsMatched.get(i + startPositionCorrection)) {
+          myEl = rule.getPatternElements().get(i + startPositionCorrection);
         } else {
           int k = 1;
           while (i + startPositionCorrection + k < rule.getPatternElements().size() + endPositionCorrection &&
               !elementsMatched.get(i + startPositionCorrection + k)) {
             k++;
           }
-        //FIXME: this is left to see whether this fails anywhere
+         //FIXME: this is left to see whether this fails anywhere
          assert(i + k + startPositionCorrection < rule.getPatternElements().size());
          myEl = rule.getPatternElements().get(i + k + startPositionCorrection);
         }
