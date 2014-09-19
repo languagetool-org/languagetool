@@ -42,6 +42,8 @@ import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
+import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -247,15 +249,29 @@ public class Main extends WeakBase implements XJobExecutor,
       paRes.aDocumentIdentifier = docID;
       paRes.aText = paraText;
       paRes.aProperties = propertyValues;
-      return doGrammarCheckingInternal(paraText, locale, paRes);
+      int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
+      return doGrammarCheckingInternal(paraText, locale, paRes, footnotePositions);
     } catch (final Throwable t) {
       showError(t);
       return paRes;
     }
   }
 
+  private int[] getPropertyValues(String propName, PropertyValue[] propertyValues) {
+    for (PropertyValue propertyValue : propertyValues) {
+      if (propName.equals(propertyValue.Name)) {
+        if (propertyValue.Value instanceof int[]) {
+          return (int[]) propertyValue.Value;
+        } else {
+          System.err.println("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+        }
+      }
+    }
+    return new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
+  }
+
   private synchronized ProofreadingResult doGrammarCheckingInternal(
-      final String paraText, final Locale locale, final ProofreadingResult paRes) {
+      final String paraText, final Locale locale, final ProofreadingResult paRes, int[] footnotePositions) {
 
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
       Language langForShortName;
@@ -309,7 +325,8 @@ public class Main extends WeakBase implements XJobExecutor,
         paRes.nStartOfNextSentencePosition = position + sentence.length();
         paRes.nBehindEndOfSentencePosition = paRes.nStartOfNextSentencePosition;
         if (!StringTools.isEmpty(sentence)) {
-          final List<RuleMatch> ruleMatches = langTool.check(sentence, false,
+          AnnotatedText annotatedText = getAnnotatedText(sentence, footnotePositions, paRes);
+          final List<RuleMatch> ruleMatches = langTool.check(annotatedText, false,
               JLanguageTool.ParagraphHandling.ONLYNONPARA);
           final SingleProofreadingError[] pErrors = checkParaRules(paraText,
               locale, paRes.nStartOfSentencePosition,
@@ -351,6 +368,23 @@ public class Main extends WeakBase implements XJobExecutor,
       }
     }
     return paRes;
+  }
+
+  private AnnotatedText getAnnotatedText(String sentence, int[] footnotePos, ProofreadingResult paRes) {
+    Set<Integer> correctedPos = new HashSet<>();
+    for (int pos : footnotePos) {
+      correctedPos.add(pos - paRes.nStartOfSentencePosition);
+    }
+    AnnotatedTextBuilder annotations = new AnnotatedTextBuilder();
+    // not very efficient but simple implementation:
+    for (int i = 0; i < sentence.length(); i++) {
+      if (correctedPos.contains(i)) {
+        annotations.addMarkup("\u200B");
+      } else {
+        annotations.addText(String.valueOf(sentence.charAt(i)));
+      }
+    }
+    return annotations.build();
   }
 
   private void initLanguageTool() {
