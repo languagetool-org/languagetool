@@ -366,6 +366,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (startPos != -1 && endPos != -1) {
           rule.setStartPositionCorrection(startPos);
           rule.setEndPositionCorrection(endPos - tokenCountForMarker);
+        } else {
+          // No '<marker>'? Then add artificial <marker>s around all tokens to work
+          // around issue https://github.com/languagetool-org/languagetool/issues/189:
+          for (Element element : elementList) {
+            element.setInsideMarker(true);
+          }
         }
         elementList.clear();
         if (inRule) {
