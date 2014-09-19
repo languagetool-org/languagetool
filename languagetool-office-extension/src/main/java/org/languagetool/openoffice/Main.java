@@ -207,15 +207,18 @@ public class Main extends WeakBase implements XJobExecutor,
       showError(t);
       return null;
     }
+    return getLanguage(charLocale);
+  }
 
+  private Language getLanguage(Locale locale) {
     try {
-      if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
-        return Language.getLanguageForShortName(charLocale.Variant);
+      if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
+        return Language.getLanguageForShortName(locale.Variant);
       } else {
-        return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Country);
+        return Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
       }
     } catch (java.lang.IllegalArgumentException e) {
-      return Language.getLanguageForShortName(charLocale.Language);
+      return Language.getLanguageForShortName(locale.Language);
     }
   }
 
@@ -267,21 +270,9 @@ public class Main extends WeakBase implements XJobExecutor,
       final String paraText, final Locale locale, final ProofreadingResult paRes, int[] footnotePositions) {
 
     if (!StringTools.isEmpty(paraText) && hasLocale(locale)) {
-      Language langForShortName;
-      try {
-        if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
-          langForShortName = Language.getLanguageForShortName(locale.Variant);
-        } else {
-          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
-        }
-      } catch (java.lang.IllegalArgumentException e) {
-        langForShortName = Language.getLanguageForShortName(locale.Language);
-      }
+      Language langForShortName = getLanguage(locale);
       if (!langForShortName.equals(docLanguage) || langTool == null || recheck) {
         docLanguage = langForShortName;
-        if (docLanguage == null) {
-          return paRes;
-        }
         initLanguageTool();
       }
 
