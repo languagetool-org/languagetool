@@ -70,7 +70,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       int matchingTokens = 0;
       int skipShiftTotal = 0;
       int firstMatchToken = -1;
-      int lastMatchToken = -1;
+      int lastMatchToken;
       int firstMarkerMatchToken = -1;
       int lastMarkerMatchToken = -1;
       int prevSkipNext = 0;
@@ -130,8 +130,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
         }
       }
       if (allElementsMatch && matchingTokens == patternSize || matchingTokens == patternSize - minOccurSkip && firstMatchToken != -1) {
-        int lastMatchTokenTmp = lastMarkerMatchToken != -1 ? lastMarkerMatchToken : lastMatchToken;
-        whTokens = executeAction(sentence, whTokens, unifiedTokens, firstMatchToken, lastMatchTokenTmp, matchingTokens, tokenPositions);
+        whTokens = executeAction(sentence, whTokens, unifiedTokens, firstMatchToken, lastMarkerMatchToken, matchingTokens, tokenPositions);
         changed = true;
       }
       i++;
@@ -205,8 +204,10 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
       }
     }
 
-    int maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);
-    matchingTokensWithCorrection += maxPosCorrection;
+    if (lastMatchToken != -1) {
+      int maxPosCorrection = Math.max((lastMatchToken + 1 - (firstMatchToken + correctedStPos)) - matchingTokens, 0);
+      matchingTokensWithCorrection += maxPosCorrection;
+    }
 
     final int fromPos = sentence.getOriginalPosition(firstMatchToken + correctedStPos);
 
