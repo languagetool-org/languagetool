@@ -7918,17 +7918,23 @@ $Id$
     </category>
     <category name="Z) Confusions" type="grammar">
         <rule id="CONTAR_COMPTAR_AMB" name="contar/comptar amb">
+            <antipattern>
+                <marker>
+                <token skip="1">amb</token>
+                <token regexp="yes">detall|enginy|gràcia</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">contar<exception scope="previous" postag="|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
                     <token>amb</token>
                 </marker>
-                <token><exception regexp="yes">enginy|gràcia</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comptar</match></suggestion> en comptes de \1 (=relatar)?</message>
             <example type="incorrect" correction="Compta"><marker>Conta amb</marker> 3.000 habitants.</example>
             <example type="incorrect" correction="compta">Ell <marker>conta amb</marker> el nostre suport.</example>
             <example type="correct">Li conta amb qui havia fugit.</example>
+            <example type="correct">Les hi ha contades amb tot detall.</example>
         </rule>
         <rulegroup id="PARIS" name="Paris/París">
             <rule>
@@ -24460,20 +24466,36 @@ $Id$
                 <example type="correct">El tribut també es va apujar a 14.000 ducats l'any.</example>
             </rule>
         </rulegroup> 
-        <rule id="ALBERGAR_ABRIGAR" name="Evita: albergar/abrigar esperances/dubtes">
-            <pattern>
-                <marker>
-                <token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
-                </marker>
-                <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita|intenció|pla</token>
-            </pattern>
-            <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">nodrir</match></suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concebre</match></suggestion>
-            <example type="incorrect" correction="tenia|alimentava|nodria|concebia">Ja no <marker>abrigava</marker> cap esperança</example>
-            <example type="correct">Ja no tenia cap esperança</example>
-        </rule>
+        <rulegroup id="ALBERGAR_ABRIGAR" name="Evita: albergar/abrigar esperances/dubtes">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes" skip="2">abrigar|albergar</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">esperança|dubte|inquietud|sospita|intenció|pla</token>
+                </pattern>
+                <message>Ús inapropiat en el sentit de <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">nodrir</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concebre</match></suggestion>
+                <example type="incorrect" correction="tenia|alimentava|nodria|concebia">Ja no <marker>abrigava</marker> cap esperança</example>
+                <example type="correct">Ja no tenia cap esperança</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="3">esperança|dubte|inquietud|sospita|intenció|pla</token>
+                    <marker>
+                        <token regexp="yes" inflected="yes">abrigar|albergar</token>
+                    </marker>
+                </pattern>
+                <message>Ús inapropiat en el sentit de <suggestion><match no="2" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">tenir</match></suggestion>.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alimentar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">nodrir</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">concebre</match></suggestion>
+                <example type="incorrect" correction="tengut|tingut|alimentat|nodrit|concebut">Els dubtes que sempre havia <marker>abrigat</marker>.</example>
+                <example type="correct">Els dubtes que havia tingut sempre.</example>
+            </rule>
+        </rulegroup>    
         <rule id="PLANOL_PLA" name="plànol / pla">
             <pattern>
                 <marker>
@@ -26180,7 +26202,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">respirar|inspirar|aspirar|inhalar|pressionar|pitjar|prémer|apretar</token>
+                    <token inflected="yes" regexp="yes">calar|respirar|inspirar|aspirar|inhalar|pressionar|pitjar|prémer|apretar</token>
                     <marker>
                         <token>fons</token>
                     </marker>
@@ -29603,7 +29625,7 @@ $Id$
             <example type="incorrect" correction="menyspreu">Quin <marker>despreci</marker>.</example>
             <example type="correct">Menyspreu.</example>
         </rule>
-         <rule id="XIRINGUITO" name="xiringuito">
+        <rule id="XIRINGUITO" name="xiringuito">
             <pattern>
                 <token>xiringuito</token>
             </pattern>
@@ -30135,6 +30157,21 @@ $Id$
         </rule>
     </category>
     <category name="Sintaxi" type="grammar">
+        <rule id="POTSER_SIGUI" name="potser *sigui/és">
+            <pattern>
+                <token regexp="yes" skip="1">probablement|potser</token>
+                <marker>
+                    <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Probablement cal usar un verb en indicatiu.</message>
+            <suggestion><match no="2" postag="(V.)S(.*)" postag_regexp="yes" postag_replace="$1I$2"/></suggestion>
+            <short>Temps verbal incorrecte</short>
+            <example type="incorrect" correction="tens">Probablement <marker>tinguis</marker> raó.</example>
+            <example type="incorrect" correction="tens">Probablement encara <marker>tinguis</marker> raó.</example>
+            <example type="incorrect" correction="estava">ha fet pensar que probablement ja <marker>estigués</marker> feta d'abans</example>
+            <example type="correct">Potser arribaren l'any passat.</example>
+        </rule>
         <rule id="ESPERA_QUE_INDICATIU" name="esperar que + *indicatiu/subjuntiu">
             <pattern>
                 <token postag='V.IP.*|V.G.*' postag_regexp='yes' inflected='yes' skip='4'>esperar<exception scope="next" postag="_PUNCT.*|CC|N.*" postag_regexp="yes"></exception></token>

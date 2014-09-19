@@ -67,7 +67,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
   private static final Pattern pFemNo = Pattern.compile("host|ira|inxa",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   /** Patterns verb **/
-  private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0]");
+  private static final Pattern pVerb = Pattern.compile("V.*[CVBXYZ0123456]");
 
   public CatalanSynthesizer() {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME);
