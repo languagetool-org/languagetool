@@ -70,6 +70,7 @@ public final class RuleOverview {
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
     System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
+    System.out.println("  <th valign='bottom' align=\"left\" width=\"70\">Activity</th>");
     System.out.println("  <th valign='bottom' align=\"left\">Rule Maintainers</th>");
     System.out.println("</tr>");
     System.out.println("</thead>");
@@ -84,6 +85,7 @@ public final class RuleOverview {
 
     int overallJavaCount = 0;
     int langSpecificWebsiteCount = 0;
+    RuleActivityOverview activity = new RuleActivityOverview();
     for (final Language lang : sortedLanguages) {
       if (lang.isVariant()) {
         continue;
@@ -141,6 +143,17 @@ public final class RuleOverview {
       final int count = countFalseFriendRules(falseFriendRules, lang);
       System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
       //System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
+      
+      // activity:
+      int commits = activity.getActivityFor(lang, 365/2);
+      int width = (int) Math.max(commits * 0.5, 1);
+      String images = "";
+      if (width > 50) {
+        images += "<img title='" + commits + " commits in the last 6 months' src='../images/bar-end.png' width='22' height='10'/>";
+        width = 50;
+      }
+      images += "<img title='" + commits + " commits in the last 6 months' src='../images/bar.png' width='" + width + "' height='10'/>";
+      System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
       
       // maintainer information:
       final StringBuilder maintainerInfo = getMaintainerInfo(lang);
