@@ -165,13 +165,17 @@ public class SentenceSourceChecker {
       MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang);
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
-        List<RuleMatch> matches = languageTool.check(sentence.getText());
-        resultHandler.handleResult(sentence, matches, lang);
-        sentenceCount++;
-        if (sentenceCount % 5000 == 0) {
-          System.err.printf("%s sentences checked...\n", NumberFormat.getNumberInstance(Locale.US).format(sentenceCount));
+        try {
+          List<RuleMatch> matches = languageTool.check(sentence.getText());
+          resultHandler.handleResult(sentence, matches, lang);
+          sentenceCount++;
+          if (sentenceCount % 5000 == 0) {
+            System.err.printf("%s sentences checked...\n", NumberFormat.getNumberInstance(Locale.US).format(sentenceCount));
+          }
+          ruleMatchCount += matches.size();
+        } catch (Exception e) {
+          throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
         }
-        ruleMatchCount += matches.size();
       }
     } catch (ErrorLimitReachedException | DocumentLimitReachedException e) {
       System.out.println(e);
