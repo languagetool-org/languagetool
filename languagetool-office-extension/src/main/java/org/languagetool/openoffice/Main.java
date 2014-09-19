@@ -89,7 +89,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private Configuration config;
   private JLanguageTool langTool;
   private Language docLanguage;
-
   private String docID;
 
   // Rules disabled using the config dialog box rather than Spelling dialog box
@@ -109,7 +108,6 @@ public class Main extends WeakBase implements XJobExecutor,
   private List<String> tokenizedSentences;
   private int position;
   private List<RuleMatch> paragraphMatches;
-
   private XComponentContext xContext;
 
   public Main(final XComponentContext xCompContext) {
@@ -138,8 +136,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private XComponent getXComponent() {
     try {
       final XMultiComponentFactory xMCF = xContext.getServiceManager();
-      final Object desktop = xMCF.createInstanceWithContext(
-          "com.sun.star.frame.Desktop", xContext);
+      final Object desktop = xMCF.createInstanceWithContext("com.sun.star.frame.Desktop", xContext);
       final XDesktop xDesktop = UnoRuntime.queryInterface(XDesktop.class, desktop);
       return xDesktop.getCurrentComponent();
     } catch (final Throwable t) {
@@ -159,9 +156,8 @@ public class Main extends WeakBase implements XJobExecutor,
     final XPropertySet xCursorProps;
     try {
       final XModel model = UnoRuntime.queryInterface(XModel.class, xComponent);
-      final XTextViewCursorSupplier xViewCursorSupplier = UnoRuntime
-          .queryInterface(XTextViewCursorSupplier.class,
-              model.getCurrentController());
+      final XTextViewCursorSupplier xViewCursorSupplier =
+          UnoRuntime.queryInterface(XTextViewCursorSupplier.class, model.getCurrentController());
       final XTextViewCursor xCursor = xViewCursorSupplier.getViewCursor();
       if (xCursor.isCollapsed()) { // no text selection
         xCursorProps = UnoRuntime.queryInterface(XPropertySet.class, xCursor);
@@ -192,8 +188,7 @@ public class Main extends WeakBase implements XJobExecutor,
       boolean langIsSupported = false;
       for (Language element : Language.LANGUAGES) {
         if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
-            && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(
-                charLocale.Variant)) {
+            && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(charLocale.Variant)) {
           langIsSupported = true;
           break;
         }
@@ -217,13 +212,11 @@ public class Main extends WeakBase implements XJobExecutor,
       if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
         return Language.getLanguageForShortName(charLocale.Variant);
       } else {
-        return Language.getLanguageForShortName(charLocale.Language + "-"
-            + charLocale.Country);
+        return Language.getLanguageForShortName(charLocale.Language + "-" + charLocale.Country);
       }
     } catch (java.lang.IllegalArgumentException e) {
       return Language.getLanguageForShortName(charLocale.Language);
     }
-
   }
 
   /**
@@ -279,8 +272,7 @@ public class Main extends WeakBase implements XJobExecutor,
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
           langForShortName = Language.getLanguageForShortName(locale.Variant);
         } else {
-          langForShortName = Language.getLanguageForShortName(locale.Language
-              + "-" + locale.Country);
+          langForShortName = Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
         }
       } catch (java.lang.IllegalArgumentException e) {
         langForShortName = Language.getLanguageForShortName(locale.Language);
@@ -329,19 +321,18 @@ public class Main extends WeakBase implements XJobExecutor,
           final List<RuleMatch> ruleMatches = langTool.check(annotatedText, false,
               JLanguageTool.ParagraphHandling.ONLYNONPARA);
           final SingleProofreadingError[] pErrors = checkParaRules(paraText,
-              locale, paRes.nStartOfSentencePosition,
+                  paRes.nStartOfSentencePosition,
               paRes.nStartOfNextSentencePosition, paRes.aDocumentIdentifier);
           int pErrorCount = 0;
           if (pErrors != null) {
             pErrorCount = pErrors.length;
           }
           if (!ruleMatches.isEmpty()) {
-            final SingleProofreadingError[] errorArray = new SingleProofreadingError[ruleMatches
-                .size() + pErrorCount];
+            final SingleProofreadingError[] errorArray = 
+                    new SingleProofreadingError[ruleMatches.size() + pErrorCount];
             int i = 0;
             for (final RuleMatch myRuleMatch : ruleMatches) {
-              errorArray[i] = createOOoError(myRuleMatch,
-                  paRes.nStartOfSentencePosition);
+              errorArray[i] = createOOoError(myRuleMatch, paRes.nStartOfSentencePosition);
               i++;
             }
             // add para matches
@@ -390,8 +381,7 @@ public class Main extends WeakBase implements XJobExecutor,
   private void initLanguageTool() {
     try {
       prepareConfig(docLanguage);
-      langTool = new MultiThreadedJLanguageTool(docLanguage,
-          config.getMotherTongue());
+      langTool = new MultiThreadedJLanguageTool(docLanguage, config.getMotherTongue());
       langTool.activateDefaultPatternRules();
       langTool.activateDefaultFalseFriendRules();
       for (Rule rule : langTool.getAllActiveRules()) {
@@ -443,7 +433,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   private synchronized SingleProofreadingError[] checkParaRules(
-      final String paraText, final Locale locale, final int startPos,
+      final String paraText, final int startPos,
       final int endPos, final String docID) {
     if (startPos == 0) {
       try {
@@ -454,10 +444,8 @@ public class Main extends WeakBase implements XJobExecutor,
         showError(t);
       }
     }
-    if (paragraphMatches != null && !paragraphMatches.isEmpty()
-        && docID.equals(this.docID)) {
-      final List<SingleProofreadingError> errorList = new ArrayList<>(
-          paragraphMatches.size());
+    if (paragraphMatches != null && !paragraphMatches.isEmpty() && docID.equals(this.docID)) {
+      final List<SingleProofreadingError> errorList = new ArrayList<>(paragraphMatches.size());
       for (final RuleMatch myRuleMatch : paragraphMatches) {
         final int startErrPos = myRuleMatch.getFromPos();
         final int endErrPos = myRuleMatch.getToPos();
@@ -681,13 +669,12 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   public static boolean __writeRegistryServiceInfo(final XRegistryKey regKey) {
-    return Factory.writeRegistryServiceInfo(Main.class.getName(),
-        Main.getServiceNames(), regKey);
+    return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
 
   @Override
   public void trigger(final String sEvent) {
-    if(Thread.currentThread().getContextClassLoader() == null) {
+    if (Thread.currentThread().getContextClassLoader() == null) {
       Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
     }
     if (!javaVersionOkay()) {
