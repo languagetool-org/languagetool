@@ -3466,6 +3466,21 @@ $Id$
                       <example type="incorrect" correction="op. cit."><marker>op.cit.</marker></example>
                     </rule>                    
                   </rulegroup>
+                <rule id="SREDNIK_PYTAJNIK" name="Średnik przed pytajnikiem">
+                    <antipattern>  <!-- php code -->
+                        <token>;</token>
+                        <token>?</token>
+                        <token>&lt;</token>
+                    </antipattern>
+                    <pattern>
+                        <token regexp='yes'>;</token>
+                        <token>?</token>
+                    </pattern>
+                    <message>Przed znakiem zapytania nie używa się średnika. Czy chodziło o <suggestion>?</suggestion>, czy o <suggestion>;</suggestion>?</message>
+                    <short>Błąd typograficzny</short>
+                    <example type='incorrect' correction="?|;">Skąd ten pomysł<marker>;?</marker></example>
+                    <example type='correct'>Skąd ten pomysł?</example>
+                </rule>
 		</category>
 		<category name="Błędy odmiany" type="grammar">
                 <rulegroup id="DWA_ZLOTYCH" name="„2 złotych” (2 złote)">
@@ -14100,6 +14115,32 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="LEZACY" name="„lezący u podstaw” (leżący u podstaw)">
+                <pattern>
+                    <marker>
+                        <token inflected='yes' postag='pact.*|pcon:imperf:nonrefl' postag_regexp='yes'>leźć</token>
+                    </marker>
+                    <token><exception postag='prep:acc.*' postag_regexp='yes'></exception></token>
+                </pattern>
+                <message>Możliwa literówka. Czy chodziło o <suggestion><match no="1" regexp_match="ezą" regexp_replace="eżą"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect'>Robił to w pozycji <marker>lezącej</marker>.</example>
+                <example type="incorrect">Rekord życiowy w wyciskaniu sztangi <marker>leząc</marker> to 225 kg.</example>
+                <example type='correct'>Robił to w pozycji leżącej.</example>
+                <example type="correct">Zdeptałbym lezącą przez chodnik włochatą gąsienicę.</example>
+                <!-- Część lezącą na Zadnieprzu… -->
+                <!-- Tupnął na robaka lezącego po zaplamionej wykładzinie. -->
+            </rule>
+            <rule id="BARDZO_OBCUJACY" name="„najbardziej obcujący” (najbardziej obiecujący)">
+                <pattern>
+                    <token regexp='yes'>bardzo|(:?naj)?bardziej</token>
+                    <token regexp='yes' postag='pact.*' postag_regexp='yes'>obcując.*</token>
+                </pattern>
+                <message>Możliwa literówka. Czy chodziło o <suggestion><match no="1"/> <match no="2" regexp_match="obcu" regexp_replace="obiecu"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="najbardziej obiecujący">To <marker>najbardziej obcujący</marker> pomysł.</example>
+                <example type='correct'>To najbardziej obiecujący pomysł.</example>
+            </rule>
             <rule id="DOMYSLA_DOMYSLNA" name="„na domyślą” (na domyślną)">
                 <pattern>
                     <token postag='prep:(acc|inst).*' postag_regexp='yes'></token>
