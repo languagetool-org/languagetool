@@ -14886,13 +14886,17 @@ $Id$
 				</rulegroup>
 				<rule id="ZDAJE_SIE" name="„zdaję się” (zdaje się)">
 						<pattern>
-								<token>zdaję<exception scope="previous">ja</exception></token>
-								<token>się</token>
+                            <marker>
+                                <token>zdaję<exception scope="previous">ja</exception></token>
+                                <token>się</token>
+                            </marker>
+                            <token><exception>na</exception></token>
 						</pattern>
 						<message>Prawdopodobna literówka. Czy chodziło o <suggestion>zdaje się</suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
 						<example correction="Zdaje się" type="incorrect"><marker>Zdaję się</marker>, że tak było.</example>
 						<example type="correct">Ja zdaję się kimś innym niż dawniej.</example>
+                        <example type="correct">Zdaję się na ciebie.</example>
 				</rule>
 				<rule id="DO_PACY" name="„do pacy” (do pracy)">
 						<pattern>
@@ -16407,7 +16411,7 @@ $Id$
 								<pattern>
 										<token regexp="yes">z|wiele|tyle|mało</token>
 										<marker>
-												<token postag="subst.*[:\.]m.*" postag_regexp="yes" regexp="yes">\p{Ll}.*y<exception postag=".*[\.:]gen[\.:].*|verb.*" postag_regexp="yes"></exception><exception postag="UNKNOWN"></exception></token>
+												<token postag="subst.*[:\.]m.*" postag_regexp="yes" regexp="yes">\p{Ll}.*y<exception postag=".*[\.:]gen[\.:].*|verb.*" postag_regexp="yes"></exception><exception postag="UNKNOWN"/><exception>prosty</exception></token>
 										</marker>
 								</pattern>
 								<message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="2" regexp_match="(.*)y" regexp_replace="$1u"></match></suggestion>?</message>
@@ -16419,6 +16423,7 @@ $Id$
 								<example correction="powodu" type="incorrect">Nie ma go z <marker>powody</marker> grypy.</example>
 								<example type="correct">Był nie tyle obrażony, ile zaszokowany.</example>
                                 <example type="correct">Rozlegały się w niej nie tyle grzmoty, ile jakieś syki i gwizdania.</example>
+                                <example type="correct">Każdy wszechświat, na tyle prosty, by dało się go zrozumieć…</example>
 						</rule>
 						<rule>
 								<pattern>
