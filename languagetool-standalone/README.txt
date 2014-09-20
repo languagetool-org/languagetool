@@ -140,8 +140,9 @@ License:
 
  French:
  The French data for part-of-speech tagging are from the Dicollecte project. 
- They are made available here under LGPL. See detailed information in 
- resource/fr/README_lexique.txt
+ They are made available here under the terms of the Mozilla Public
+ License 2.0 (http://mozilla.org/MPL/2.0/). See also detailed information
+ in resource/fr/README_lexique.txt.
 
  Galician:
  The Galician data for part-of-speech tagging were created by Susana Sotelo
