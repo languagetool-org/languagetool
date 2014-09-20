@@ -1270,33 +1270,63 @@ though, and has since been slightly modified)-->
         <example type="correct">Péchés de jeunesse</example>
       </rule>
     </rulegroup>
-    <rulegroup id="DES_DES_ACCENT" name="Des au lieu de Dès">
+    <rulegroup id="DES_DES_ACCENT" name="Des, dès, dés">
       <rule>
         <pattern>
-          <marker>
-            <token regexp="yes">d[eé]s</token>
-          </marker>
-          <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|à|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
+          <marker><token regexp="yes">d[eé]s<exception scope="previous" regexp="yes">[mtsl]es|[nv]os|quelques</exception></token></marker>
+          <token regexp="yes">que?|[lmst]a|[mts]on|[lmst]es|le?[nv]os|cette|lors|après|maintenant|toujours|midi|minuit|aujourd|hier|demain|une?|janvier|f[eé]vrier|mars|avril|mai|juin|juillet|a[uû]ot|septembre|octobre|novembre|d[eé]cembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|lundi|mardi|mercredi|jeudi|vendredi|samedi|dimanche|P[âa]ques|No[ëe]l</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
-        <example type="incorrect" correction="dès">Tu repars <marker>des</marker> qu’il arrive.</example>
+        <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
+        <example type="incorrect">Tu repars <marker>des</marker> qu’il arrive.</example>
         <example type="correct">Tu repars <marker>dès</marker> qu’il arrive.</example>
-        <example type="incorrect" correction="Dès"><marker>Des</marker> à présent</example>
         <example type="correct">C’est un des leurs.</example>
+        <example type="correct">Les dés les plus courants.</example>
       </rule>
       <rule>
         <pattern>
-          <marker>
-            <token regexp="yes">d[eé]s</token>
-          </marker>
+          <marker><token regexp="yes">d[eé]s</token></marker>
+          <token>à</token>
+          <token>présent</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
+        <example type="incorrect"><marker>Des</marker> à présent</example>
+        <example type="incorrect"><marker>Dés</marker> à présent</example>
+        <example type="correct">Dès à présent</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">d[eè]s</token></marker>
+          <token regexp="yes">[àa]</token>
+          <token><exception>présent</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>dés</suggestion> ?</message>
+        <example type="incorrect">J’ai achetés des <marker>dès</marker> à jouer.</example>
+        <example type="correct">J’ai achetés des dés à jouer.</example>
+        <example type="correct">Dès à présent</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">aux|[dlsmt]es|[nv]os|plusieurs|quelques|de</token>
+          <marker><token regexp="yes">d[eè]s</token></marker>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>dés</suggestion> ?</message>
+        <example type="incorrect">Dieu ne joue pas aux <marker>dès</marker>.</example>
+        <example type="incorrect">Dieu ne joue pas aux <marker>des</marker>.</example>
+        <example type="correct">Dieu ne joue pas aux <marker>dés</marker>.</example>
+        <example type="incorrect">J’apporte mes <marker>dès</marker>.</example>
+        <example type="correct">J’apporte mes <marker>dés</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker><token regexp="yes">d[eé]s</token></marker>
           <token regexp="yes">1\d\d\d|20\d\d</token>
           <token><exception postag="N . s?p|V ppa . p" postag_regexp="yes"/></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
-        <example type="incorrect" correction="Dès"><marker>Des</marker> 1980, le pays était en crise.</example>
-        <example type="correct"><marker>Dès</marker> 1980, le pays était en crise.</example>
-        <example type="correct"><marker>Des</marker> 2000 participants, seuls 1000 sont venus.</example>
-        <example type="correct"><marker>Des</marker> 2000 invités, seuls 1000 sont venus.</example>
+        <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
+        <example type="incorrect"><marker>Des</marker> 1980, le pays était en crise.</example>
+        <example type="correct">Dès 1980, le pays était en crise.</example>
+        <example type="correct">Des 2000 participants, seuls 1000 sont venus.</example>
+        <example type="correct">Des 2000 invités, seuls 1000 sont venus.</example>
       </rule>
       <rule>
         <pattern>
@@ -1307,10 +1337,10 @@ though, and has since been slightly modified)-->
           <token regexp="yes">ans?|heures?</token>
           <token><exception>de</exception></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="(.).." regexp_replace="$1ès"/></suggestion> ?</message>
-        <example type="incorrect" correction="Dès"><marker>Des</marker> dix-huit ans.</example>
-        <example type="correct"><marker>Dès</marker> dix-huit ans.</example>
-        <example type="incorrect" correction="Dès"><marker>Des</marker> 4 ans.</example>
+        <message>Voulez-vous écrire <suggestion>dès</suggestion> ?</message>
+        <example type="incorrect"><marker>Des</marker> dix-huit ans.</example>
+        <example type="correct">Dès dix-huit ans.</example>
+        <example type="incorrect"><marker>Des</marker> 4 ans.</example>
         <example type="correct"><marker>Dès</marker> 4 ans.</example>
         <example type="correct">L’anniversaire des 30 ans de la libération.</example>
         <example type="correct">Le cap des 35 ans.</example>
