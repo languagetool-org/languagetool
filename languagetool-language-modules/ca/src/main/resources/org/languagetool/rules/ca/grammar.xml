@@ -504,7 +504,17 @@ $Id$
                 <example type="correct">Hi dipositarem.</example>
             </rule>     
         </rulegroup>
-        <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta">
+        <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta, esser, posader">
+            <rule>
+                <pattern>
+                    <token inflected="yes">posader</token>
+                </pattern>
+                <message>Terme antic o mallorquí.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">hostaler</match></suggestion>
+                <short>Vocabulari balear</short>
+                <example type="incorrect" correction="hostalers">Els <marker>posaders</marker></example>
+                <example type="correct">hostalera</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="NCF.*" postag_regexp="yes" inflected="yes">novia</token>
@@ -529,7 +539,7 @@ $Id$
                 <example type="incorrect" correction="galetes"><marker>galletes</marker></example>
                 <example type="correct">galetes</example>
             </rule>
-            <rule id="ESSER" name="esser">
+            <rule>
                 <pattern>
                     <token postag="N.*" postag_regexp="yes" inflected="yes">esser</token>
                 </pattern>
@@ -17291,7 +17301,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>,</token>
-                        <token regexp="yes">[-–—\)\(]</token>
+                        <token regexp="yes">[-–—\)\(…]</token>
                     </marker>
                     <token><exception regexp="yes">\d.*</exception></token>
                 </pattern>
@@ -30159,7 +30169,7 @@ $Id$
     <category name="Sintaxi" type="grammar">
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern>
-                <token regexp="yes" skip="1">probablement|potser<exception scope="next" regexp="yes">que|quan|perquè|si</exception></token>
+                <token regexp="yes" skip="1">probablement|potser<exception scope="next" regexp="yes">que|quan|perquè|si</exception><exception scope="previous">quan</exception></token>
                 <marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*" postag_regexp="yes"/></token>
                 </marker>
@@ -30171,6 +30181,8 @@ $Id$
             <example type="incorrect" correction="tens">Probablement encara <marker>tinguis</marker> raó.</example>
             <example type="incorrect" correction="estava">ha fet pensar que probablement ja <marker>estigués</marker> feta d'abans</example>
             <example type="correct">Potser arribaren l'any passat.</example>
+            <example type="correct">quan probablement es produeixi la prohibició</example>
+            <example type="correct">Potser si haguessin pogut desenvolupar-se</example>
         </rule>
         <rule id="ESPERA_QUE_INDICATIU" name="esperar que + *indicatiu/subjuntiu">
             <pattern>
