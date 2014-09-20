@@ -173,6 +173,8 @@ public class SentenceSourceChecker {
             System.err.printf("%s sentences checked...\n", NumberFormat.getNumberInstance(Locale.US).format(sentenceCount));
           }
           ruleMatchCount += matches.size();
+        } catch (DocumentLimitReachedException | ErrorLimitReachedException e) {
+          throw e;
         } catch (Exception e) {
           throw new RuntimeException("Check failed on sentence: " + StringUtils.abbreviate(sentence.getText(), 250), e);
         }
