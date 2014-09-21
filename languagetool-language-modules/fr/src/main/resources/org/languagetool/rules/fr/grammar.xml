@@ -27091,6 +27091,24 @@ though, and has since been slightly modified)-->
         <example type="correct">Une température de 3 <marker>K</marker>.</example>
       </rule>
     </rulegroup>
+    <rule id="UNITES_DE_MESURE" name="unités de mesure">
+      <pattern>
+        <token regexp="yes">\d+|une?|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingt|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|mille|dix-.*|vingt-.*|trente-.*|quarante-.*|cinquante-.*|soixante-.*|quatre-.*|octante-.*|huitante-.*|nonante-.*|-?cents?-?|mille</token>
+        <marker>
+         <and>
+           <token regexp="yes">(yotta|zetta|exa|péta|téra|giga|méga|kilo|hecto|déca|déci|centi|milli|micro|nano|pico|femto|atto|zepto|yocto)?((mètre|watt|gramme|seconde|ampère|kelvin|mole|candela|hertz|henry|newton|pascal|joule|coulompb|volt|ohm|farad|tesla|wéber|radian|stéradian|lumen|lux|becquerel|gray|sievert|katal)s?|siémens)</token>
+           <token regexp="yes">(?-i)[A-Z].*</token>
+          </and>
+        </marker>
+      </pattern>
+      <message>Les unités de mesure s’écrivent en minuscules (kelvin et non Kelvin, ampère et non Ampère¸etc.) même s’ils dérivent de noms propres. Seul le degré Celsius contient une majuscule.</message>
+      <suggestion><match no="2" case_conversion="alllower"/></suggestion>
+      <url>https://fr.wikipedia.org/wiki/Unit%C3%A9_de_mesure</url>
+      <example type="incorrect" correction="ampères">Un courant de 10 <marker>Ampères</marker>.</example>
+      <example type="incorrect" correction="ampères">Un courant de dix <marker>Ampères</marker>.</example>
+      <example type="correct">Un courant de 10 ampères.</example>
+      <example type="correct">Un courant de dix ampères.</example>
+    </rule>
     <rule id="MEDAILLE_FIELDS" name="médaille Field → médaille Fields">
       <pattern>
         <token regexp="yes" inflected="yes">médaill(e|ée?)s?</token>
