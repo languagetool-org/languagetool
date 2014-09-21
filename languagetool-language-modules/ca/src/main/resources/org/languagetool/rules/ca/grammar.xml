@@ -17301,7 +17301,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token>,</token>
-                        <token regexp="yes">[-–—\)\(…]</token>
+                        <token regexp="yes">[-–—\(]</token>
                     </marker>
                     <token><exception regexp="yes">\d.*</exception></token>
                 </pattern>
@@ -17311,6 +17311,26 @@ $Id$
                 <example type="incorrect" correction=" —">Vine<marker>, —</marker>va dir Joan.</example>
                 <example type="correct">Vine, digué.</example>
                 <example type="correct">indiqueu els punts A(-2, -6)</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>,</token>
+                        <token>…</token>
+                        <token>,</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>,</token>
+                        <token regexp="yes">[…\)]</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de puntuació</message>
+                <suggestion><match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="…">Cotxes, avions<marker>,…</marker></example>
+                <example type="correct">φ1(x1, x2,…, xn)</example>
             </rule>
             <rule>
                 <pattern>
