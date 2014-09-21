@@ -2496,7 +2496,7 @@ $Id$
                             </marker>
                         </antipattern>
                     <antipattern>
-                        <token inflected="yes" regexp="yes">radzić</token>
+                        <token inflected="yes">radzić</token>
                         <token skip="4">sobie</token>
                         <marker>
                             <token>z</token>
@@ -14133,6 +14133,53 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="ODDZIELNIE" name="„oddzielnie od” (oddzielenie od)">
+                <pattern>
+                    <token>oddzielnie</token>
+                    <token postag='subst.*gen.*' postag_regexp='yes'></token>
+                    <token>od</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>oddzielenie <match no="2"/> <match no="3"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="oddzielenie sygnału od">Naszym zadaniem jest <marker>oddzielnie sygnału od</marker> szumu.</example>
+                <example type='correct'>Naszym zadaniem jest oddzielenie sygnału od szumu.</example>
+            </rule>
+            <rule id="W_ZALEZNOSC_OD" name="„w zależność od” (w zależności od)">
+                <antipattern>
+                    <token skip="3" inflected="yes" regexp="yes">popa(?:ść|dać)|wpaść|zaplątać|wejść<exception scope="next">(</exception></token>
+                    <token>w</token>
+                    <token>zależność</token>
+                </antipattern>
+                <pattern>
+                    <token>w</token>
+                    <token>zależność</token>
+                    <token>od</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło <suggestion>\1 zależności \3</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Popadł w zależność od Rosji.</example>
+                <example type="incorrect" correction="W zależności od"><marker>W zależność od</marker> potrzeb dostosuj ustawienia.</example>
+            </rule>
+            <rule id="SCISLE_OKRESLONE" name="„ścisłe określone” (ściśle określone)">
+                <pattern>
+                    <token>ścisłe</token>
+                    <token inflected='yes' >określony</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>ściśle <match no="2"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="ściśle określone">Sposoby wykonywania są <marker>ścisłe określone</marker>.</example>
+                <example type='correct'>Sposoby wykonywania są ściśle określone.</example>
+            </rule>
+            <rule id="ZGODNIE_INST" name="„zgodnie opisem” (zgodnie z opisem)">
+                <pattern>
+                    <token>zgodnie</token>
+                    <token postag='.*inst.*' postag_regexp='yes'><exception inflected='yes'>z</exception></token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1"/> z <match no="2"/></suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type='incorrect' correction="zgodnie z opisem">Wykonaj kopertę <marker>zgodnie opisem</marker> na pudełku.</example>
+                <example type='correct'>Wykonaj kopertę zgodnie z opisem na pudełku.</example>
+            </rule>
             <rule id="STRYKTURA" name="„stryktura” (struktura)">
                 <pattern>
                     <token inflected="yes">stryktura</token>
