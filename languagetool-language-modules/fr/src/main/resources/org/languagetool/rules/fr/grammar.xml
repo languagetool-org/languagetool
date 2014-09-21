@@ -954,6 +954,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token regexp="yes">peu[tx]<exception scope="previous" regexp="yes">se|on|il|elle</exception></token></marker>
           <token regexp="yes">de?</token>
+          <token><exception regexp="yes">nouveau|même</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peu</suggestion> ?</message>
         <example type="incorrect"><marker>Peut</marker> de gens.</example>
@@ -962,6 +963,7 @@ though, and has since been slightly modified)-->
         <example type="correct"><marker>Peu</marker> d’amis.</example>
         <example type="correct">Je veux m’éloigner autant que faire se peut d’ici.</example>
         <example type="correct">On peut d’ailleurs le vérifier.</example>
+        <example type="correct">Il est guérit et peut de nouveau travailler.</example>
       </rule>
     </rulegroup>
     <rule id="FOR_INTERIEUR" name="fort intérieur au lieu de for intérieur">
@@ -6456,7 +6458,7 @@ though, and has since been slightly modified)-->
             <token postag="V.* ppa m .*|J m .*" postag_regexp="yes"/>
           </marker>
         </pattern>
-        <message>Le mot masculin « \5 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
+        <message>Le mot masculin « \6 » n’est pas accordé en genre avec le mot féminin « \2 ».</message>
         <example type="incorrect">Une averse avait été <marker>annoncé</marker>.</example>
         <example type="correct">Une averse avait été <marker>annoncée</marker>.</example>
         <example type="incorrect">Martine aurait été <marker>content</marker>.</example>
@@ -27101,7 +27103,7 @@ though, and has since been slightly modified)-->
           </and>
         </marker>
       </pattern>
-      <message>Les unités de mesure s’écrivent en minuscules (kelvin et non Kelvin, ampère et non Ampère¸etc.) même s’ils dérivent de noms propres. Seul le degré Celsius contient une majuscule.</message>
+      <message>Les unités de mesure s’écrivent en minuscules même celles qui dérivent de noms propres (kelvin et non Kelvin, ampère et non Ampère, etc.). Seul le degré Celsius contient une majuscule.</message>
       <suggestion><match no="2" case_conversion="alllower"/></suggestion>
       <url>https://fr.wikipedia.org/wiki/Unit%C3%A9_de_mesure</url>
       <example type="incorrect" correction="ampères">Un courant de 10 <marker>Ampères</marker>.</example>
