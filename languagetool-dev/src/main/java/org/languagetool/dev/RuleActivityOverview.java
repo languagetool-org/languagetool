@@ -68,14 +68,13 @@ public final class RuleActivityOverview {
       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
       String pastString = dateFormat.format(past.getTime());
       String langCode = lang.getShortName();
-      List<String> ruleFileNames = lang.getRuleFileNames();
+      List<File> xmlFiles = getAllXmlFiles(lang, langCode);
       int commits = 0;
-      for (String ruleFileName : ruleFileNames) {
-        File xmlFile = new File("../languagetool-language-modules/" + langCode + "/src/main/resources/" + ruleFileName);
-        if (!xmlFile.exists()) {
-          throw new RuntimeException("Not found: " + xmlFile);
+      for (File file : xmlFiles) {
+        if (!file.exists()) {
+          throw new RuntimeException("Not found: " + file);
         }
-        String command = "git log --after=" + pastString + " " + xmlFile;
+        String command = "git log --after=" + pastString + " " + file;
         Runtime runtime = Runtime.getRuntime();
         Process process = runtime.exec(command);
         InputStream inputStream = process.getInputStream();
@@ -87,6 +86,20 @@ public final class RuleActivityOverview {
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private List<File> getAllXmlFiles(Language lang, String langCode) {
+    List<File> files = new ArrayList<>();
+    List<String> ruleFileNames = lang.getRuleFileNames();
+    for (String ruleFileName : ruleFileNames) {
+      files.add(new File("../languagetool-language-modules/" + langCode + "/src/main/resources/" + ruleFileName));
+    }
+    File disambiguationFile = new File("../languagetool-language-modules/" + langCode +
+            "/src/main/resources/org/languagetool/resource/" + langCode + "/disambiguation.xml");
+    if (disambiguationFile.exists()) {
+      files.add(disambiguationFile);
+    }
+    return files;
   }
 
   private int getCommits(String svnOutput) {
