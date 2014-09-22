@@ -9,7 +9,6 @@ fi
 
 BASE_NAME=LanguageTool-wikipedia-2.7-SNAPSHOT
 TARGET_FILE=$BASE_NAME.zip
-LANGS="en de fr ca pl fa nl"
 
 cd ../..
 mvn clean package -DskipTests
@@ -19,13 +18,6 @@ echo "Now log on to the server and execute:"
 echo "  mv $TARGET_FILE /data/project/languagetool/"
 echo "  become languagetool"
 echo "  cd feedchecker && mv LanguageTool-wikipedia LanguageTool-wikipedia_bak && unzip ../$TARGET_FILE && mv $BASE_NAME LanguageTool-wikipedia"
-for LANG in $LANGS;
-do
-    echo "  jstop feedcheck-$LANG"
-done
+echo "  ./stop-all.sh"
 echo "Wait a bit until the processes are gone (see 'qstat')..."
-echo "  cd ~/feedchecker"
-for LANG in $LANGS;
-do
-    echo "  ./check-$LANG.sh"
-done
+echo "  ./start-all.sh"
