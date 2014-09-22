@@ -68,7 +68,8 @@ public abstract class AbstractSpaceBeforeRule extends Rule {
       final String token = tokens[i].getToken();
       Matcher matcher = getConjuntions().matcher(token);
       if (matcher.matches()) {
-        if (!tokens[i - 1].getToken().equals(" ")) {
+        final String previousToken = tokens[i - 1].getToken();
+        if (!(previousToken.equals(" ") || previousToken.equals("("))) {
           final String replacement = " " + token;
           final String msg = getSuggestion();
           final int pos = tokens[i].getStartPos();

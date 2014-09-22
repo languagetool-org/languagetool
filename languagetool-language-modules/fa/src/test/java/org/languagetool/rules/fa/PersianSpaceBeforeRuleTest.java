@@ -1,0 +1,48 @@
+/* LanguageTool, a natural language style checker
+ * Copyright (C) 2014 Ebrahim Byagowi <ebrahim@gnu.org>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
+ * USA
+ */
+package org.languagetool.rules.fa;
+
+import org.languagetool.TestTools;
+
+import java.io.IOException;
+import junit.framework.TestCase;
+import org.languagetool.JLanguageTool;
+
+public class PersianSpaceBeforeRuleTest extends TestCase {
+
+  private PersianSpaceBeforeRule rule;
+  private JLanguageTool langTool;
+
+  @Override
+  public void setUp() throws IOException {
+    rule = new PersianSpaceBeforeRule(TestTools.getEnglishMessages(), TestTools.getDemoLanguage());
+    langTool = new JLanguageTool(TestTools.getDemoLanguage());
+  }
+
+  public void testRules() throws IOException {
+    assertMatches("به اینجا", 1);
+    assertMatches("من به اینجا", 0);
+    assertMatches("(به اینجا", 0);
+  }
+
+  private void assertMatches(String text, int expectedMatches) throws IOException {
+    assertEquals(expectedMatches, rule.match(langTool.getAnalyzedSentence(text)).length);
+  }
+
+}
