@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
-  private static final String RESOURCE_FILENAME = "/nl/hunspell/nl_NL.dict";
+  private static final String RESOURCE_FILENAME = "/nl/spelling/nl_NL.dict";
 
   public MorfologikDutchSpellerRule(ResourceBundle messages,
                                     Language language) throws IOException {
