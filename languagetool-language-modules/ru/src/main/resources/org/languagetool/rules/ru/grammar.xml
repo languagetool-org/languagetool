@@ -1975,12 +1975,13 @@ $Id$
                 <pattern>
                     <token postag="PNN:.*" regexp="yes" postag_regexp="yes">(ни)(.*)</token>
                     <marker>
-                        <token postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes">(не)(.*)<exception regexp="yes">(необходим)(.*)</exception></token>
+                        <token postag="(ADJ:.*)|(PT:.*)" postag_regexp="yes" regexp="yes">(не)(.*)<exception regexp="yes">(необходим)(.*)|(немецк)(.*)</exception></token>
                     </marker>
                 </pattern>
                 <message>Пишется раздельно с не: <suggestion><match no="1"></match> <match no="2" regexp_match="(не)(.*)" regexp_replace="$1 $2"></match></suggestion>.</message>
                 <short>Раздельно с не</short>
                 <example type="correct">На полке лежит никому не нужная коробка.</example>
+                <example type="correct">На корабль доставили контейнеры с погруженными в них немецкими автомобилями.</example>
                 <example type="incorrect">На полке лежит никому <marker>ненужная</marker> коробка.</example>
             </rule>
             
