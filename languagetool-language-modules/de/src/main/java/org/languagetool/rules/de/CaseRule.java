@@ -81,6 +81,9 @@ public class CaseRule extends GermanRule {
      * solution is to add all those to our Morphy data, but as a simple
      * workaround to avoid false alarms, these words can be added here.
      */
+    exceptions.add("Beschäftigter");
+    exceptions.add("Beschäftigte");
+    exceptions.add("Beschäftigten");
     exceptions.add("Üblichen");
     exceptions.add("Bekannter");
     exceptions.add("Bekannte");

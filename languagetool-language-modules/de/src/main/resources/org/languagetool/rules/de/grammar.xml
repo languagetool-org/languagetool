@@ -346,6 +346,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="AUF_AUS" name="Möglicher Tippfehler: 'auf (aus) einer Liste entfernen'">
             <antipattern>
+                <token>auf</token>
+                <token>der</token>
+                <token>Stelle</token>
+            </antipattern>
+            <antipattern>
                 <token>vom</token>
                 <token postag="SUB:.*" postag_regexp="yes"></token>
                 <token>entfernten</token>
@@ -1080,6 +1085,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Das, was <marker>erblich blieb</marker>, ist schlecht.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>hätte</token>
+                    <token>werden</token>
+                    <token postag="VER:MOD:.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">bin|bist|ist|sind|seid|w[aä]re?s?t?|habet?|hat|h[aä]tten?s?t?</token>
                     <token regexp="yes">w[ai]rst|wird|w[eü]rden?t?</token>
@@ -1806,7 +1816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">zu|und|oder|,|bis</exception></token>
                     <marker>
                         <!-- please note that 'siebt' (verb) and 'acht' are intentionally omitted -->
-                        <token regexp="yes">zweit|dritt|viert|fünft|sechst|neunt|zehnt|elft|zwölft</token>
+                        <token regexp="yes" case_sensitive="yes">zweit|dritt|viert|fünft|sechst|neunt|zehnt|elft|zwölft>Zehnt</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2e</suggestion>, <suggestion>zu \2</suggestion> oder eine andere Form?</message>
@@ -1814,6 +1824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Wir waren zu <marker>zweit</marker>.</example>
                 <example type="correct">Das war jetzt schon das <marker>zweite</marker> Mal.</example>
                 <example type="correct">Selten treten die Blütenteile zu fünft bis <marker>neunt</marker> auf.</example>
+                <example type="correct">Weil man den <marker>Zehnt</marker> an den Klerus abgeben musste.</example>
                 <example type="incorrect">Das war jetzt schon das <marker>zweit</marker> Mal.</example>
             </rule>
         </rulegroup>
@@ -8147,7 +8158,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
+                <token regexp="yes">besichtigen|evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
             </antipattern>
             <antipattern>
                 <!-- 'gibt es nach wie vor zu kaufen' -->
@@ -24167,7 +24178,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception postag="ADJ:.*:DEF" postag_regexp="yes"/>
                             <exception postag="ADJ:PRD.*" postag_regexp="yes"/>
                             <exception postag="ADV.*|ZUS.*" postag_regexp="yes"/>
-                            <exception regexp="yes">anderer|heutiger</exception>
+                            <exception regexp="yes">anderer|heutiger|weiterer</exception>
                         </token>
                     </marker>
                     <token/>
@@ -24831,7 +24842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar|Promille</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
@@ -24844,13 +24855,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Wir haben ein paar <marker>Game</marker> Boys.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>Runde</token>
+                    <token postag="ZAL"/>
+                </antipattern>
                 <pattern>
                     <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/><exception regexp="yes">erstens|zweitens|drittens</exception></token>
                     <marker>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
@@ -24861,6 +24876,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Möglichkeiten">Wir haben drei <marker>Möglichkeit</marker>.</example>
                 <example type="correct">Wir haben hier drei <marker>Möglichkeiten</marker>.</example>
                 <example type="correct">Zwei <marker>Game</marker> Boys können verbunden werden.</example>
+                <example type="correct">Es war schon in Runde eins Endstation.</example>
             </rule>
             <rule>
                 <pattern>
