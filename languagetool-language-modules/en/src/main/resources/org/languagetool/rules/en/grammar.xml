@@ -10821,6 +10821,355 @@ USA
                 <example type='correct'>tips and tricks</example>
              </rule>
         </rulegroup>
+        <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment">
+            <!--rule R0.1A Single word list, likely to start a fragment -->
+            <!-- Note: 
+                I took this list of likely fragment indicators directly from the following link http://www.chompchomp.com/rules/fragrules.htm
+                -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>Though the dog likes to bark.</marker></example>
+                <example type='correct'>Though the dog likes to bark; it's still a nice dog.</example>
+            </rule>
+            <!-- Note: 
+                The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
+                -->
+            <!--rule R0.1B Phrase 'Even [list]', likely to start a fragment -->
+            <!-- Note:
+                Here , mainly for easy maintenance, I am using the full list from the previous rule. Some combinations of 'Even' with the list are very unlikely and probably wrong in their own right!
+            -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>Even</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>Even</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>even</token>
+                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>Even if the dog likes to bark.</marker></example>
+                <example type='correct'>Even if the dog likes to bark; it's still a nice dog.</example>
+            </rule>
+            <!--rule R0.1C phrase 'So [list]', likely to start a fragment -->
+            <!-- Note:
+                Here , mainly for easy maintenance, I am using the full list from the previous rule. Some combinations of 'So' with the list are very unlikely and probably wrong in their own right!
+            -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>So</token>
+                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>So if the dog likes to bark.</marker></example>
+                <example type='correct'>So if the dog likes to bark; it's still a nice dog.</example>
+            </rule>
+            <!--rule R0.1D phrase 'So, [list]', likely to start a fragment -->
+            <!-- Note:
+                Here , mainly for easy maintenance, I am using the full list from the previous rule. Some combinations of 'So' with the list are very unlikely and probably wrong in their own right!
+            -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token postag=',|:' postag_regexp='yes' />
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token postag=',|:' postag_regexp='yes' />
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>So</token>
+                        <token postag=',|:' postag_regexp='yes' />
+                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3 \4” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>So, if the dog likes to bark.</marker></example>
+                <example type='correct'>So, if the dog likes to bark; it's still a nice dog.</example>
+            </rule>
+            <!--rule R0.1E phrase 'So even [list]', likely to start a fragment -->
+            <!-- Note:
+                Here , mainly for easy maintenance, I am using the full list from the previous rule. Some combinations of 'So even' with the list are very unlikely and probably wrong in their own right!
+            -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token>even</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token>even</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>So</token>
+                        <token>even</token>
+                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3 \4” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>So even if the dog likes to bark.</marker></example>
+                <example type='correct'>So even if the dog likes to bark; it's still a nice dog.</example>
+            </rule>
+            <!--rule R0.1F phrase 'So, even [list]', likely to start a fragment -->
+            <!-- Note:
+                Here , mainly for easy maintenance, I am using the full list from the previous rule. Some combinations of 'So even' with the list are very unlikely and probably wrong in their own right!
+            -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token postag=',|:' postag_regexp='yes' />
+                    <token>even</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>So</token>
+                    <token postag=',|:' postag_regexp='yes' />
+                    <token>even</token>
+                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    </token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If ir got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>So</token>
+                        <token postag=',|:' postag_regexp='yes' />
+                        <token>even</token>
+                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        </token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3 \4 \5” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>So, even if the dog likes to bark.</marker></example>
+                <example type='correct'>So, even if the dog likes to bark; it's still a nice dog.</example>
+            </rule>
+            <!--rule R0.1G phrase 'In order that', likely to start a fragment -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>In</token>
+                    <token>order</token>
+                    <token>that</token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>In</token>
+                    <token>order</token>
+                    <token>that</token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>In</token>
+                        <token>order</token>
+                        <token>that</token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3 \4” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>In order that the dog guards the house.</marker></example>
+                <example type='correct'>In order that dog guards the house; it needs to bark loudly.</example>
+            </rule>
+            <!--rule R0.1H phrase 'Provided that', likely to start a fragment -->
+            <rule>
+                <!-- Does it have a comma or semicolon or end with an exclamation or question mark?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>Provided</token>
+                    <token>that</token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token regexp='yes'>,|;|:|!|\?</token>
+                </antipattern>
+                <!-- Does it have an unpunctuated CC/SC?-->
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token>Provided</token>
+                    <token>that</token>
+                    <token skip='-1' />
+                    <!-- start search after 2nd token in case it is a comma -->
+                    <token postag='CC' />
+                </antipattern>
+                <!-- If it got past the antipatterns, then something is wrong -->
+                <pattern>
+                    <marker>
+                        <token postag='SENT_START' />
+                        <token>Provided</token>
+                        <token>that</token>
+                        <!-- mark entire sentence -->
+                        <token skip='-1' />
+                        <token postag='SENT_END' />
+                    </marker>
+                </pattern>
+                <message>This can be a subtle error: “\2 \3” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <url>http://www.chompchomp.com/rules/fragrules.htm</url>
+                <short>Sentence is a fragment</short>
+                <example type='incorrect'><marker>Provided that the dog guards my house.</marker></example>
+                <example type='correct'>Provided that the dog guards my house; I do not mind it barking loudly.</example>
+            </rule>
+        </rulegroup>    
     </category>
     <category name="Collocations" type="grammar">
       <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
