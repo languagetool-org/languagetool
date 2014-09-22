@@ -43,7 +43,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.equals("meurzh"))   return Calendar.TUESDAY;
     if (day.equals("merc'her")) return Calendar.WEDNESDAY;
     if (day.equals("yaou"))     return Calendar.THURSDAY;
-    if (day.equals("gwengolo")) return Calendar.FRIDAY;
+    if (day.equals("gwener"))   return Calendar.FRIDAY;
     if (day.equals("sadorn"))   return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
