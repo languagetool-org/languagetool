@@ -583,6 +583,7 @@ public class CaseRule extends GermanRule {
         !StringTools.isAllUppercase(token) &&
         !exceptions.contains(token) &&
         !isLanguage(i, tokens) &&
+        !isProbablyCity(i, tokens) &&
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
@@ -687,6 +688,16 @@ public class CaseRule extends GermanRule {
     AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
     return maybeLanguage && ((nextReadings != null && !hasNounReading(nextReadings)) ||
                              (prevToken != null && prevToken.getToken().equals("auf")));
+  }
+
+  private boolean isProbablyCity(int i, AnalyzedTokenReadings[] tokens) {
+    String token = tokens[i].getToken();
+    boolean hasCityPrefix = "Klein".equals(token) || "Groß".equals(token) || "Neu".equals(token);
+    if (hasCityPrefix) {
+      AnalyzedTokenReadings nextReadings = i < tokens.length-1 ? tokens[i+1] : null;
+      return nextReadings != null && (!nextReadings.isTagged() || nextReadings.hasPartialPosTag("EIG"));
+    }
+    return false;
   }
 
   private boolean isExceptionPhrase(int i, AnalyzedTokenReadings[] tokens) {
