@@ -8880,20 +8880,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="incorrect"><marker>Yann-Fañch Kemeneur</marker> a zo unan eus gwellañ kanerien hengounel a Vreizh.</example>
       <example type="correct">Yann-Fañch Kemener a zo unan eus gwellañ kanerien hengounel a Vreizh.</example>
     </rule>
-    <rule id="DEIZIAD" name="Deiziad">
-      <pattern>
-        <token regexp="yes">Lun|Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
-        <token regexp="yes">[012]?\d|3[01]</token>
-        <token>a</token>
-        <token>viz</token>
-        <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Eost|Gwengolo|Here|Du|Kerzu</token>
-        <token regexp="yes">[12]\d\d\d</token>
-      </pattern>
-      <filter class="org.languagetool.rules.br.DateCheckFilter" args="year:\6 month:\5 day:\2 weekDay:\1"/>
-      <message>N’eo ket \1 deiz an deiziad «\2 \3 \4 \5 \6», \realDay eo.</message>
-      <example type="incorrect">Ar <marker>Sul 22 a viz Gwengolo 2014</marker>.</example>
-      <example type="correct">Al <marker>Lun 22 a viz Gwengolo 2014</marker>.</example>
-    </rule>
+    <rulegroup id="DEIZIAD" name="Deiziad">
+      <rule>
+        <pattern>
+          <token regexp="yes">Lun|Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+          <token>a</token>
+          <token>viz</token>
+          <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Eost|Gwengolo|Here|Du|Kerzu</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.br.DateCheckFilter" args="year:\6 month:\5 day:\2 weekDay:\1"/>
+        <message>N’eo ket \1 deiz an deiziad «\2 \3 \4 \5 \6», \realDay eo.</message>
+        <example type="incorrect">Ar <marker>Sul 22 a viz Gwengolo 2014</marker>.</example>
+        <example type="correct">Al <marker>Lun 22 a viz Gwengolo 2014</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Lun|Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
+          <token min="0" max="1">,</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+          <token>/</token>
+          <token regexp="yes">0?\d|1[012]</token>
+          <token>/</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.br.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+        <message>N’eo ket \1 an deiziad « \3\4\5\6\7 », \realDay eo.</message>
+        <example type="incorrect"><marker>Gwener 28/08/2014</marker>.</example>
+        <example type="incorrect"><marker>Gwener 28/8/2014</marker>.</example>
+        <example type="incorrect"><marker>Gwener, 28/8/2014</marker>.</example>
+        <example type="correct"><marker>Yaou 28/08/2014</marker>.</example>
+      </rule>
+    </rulegroup>
   </category>
   <!-- vim: foldmethod=marker foldmarker=<category,</category:
   -->
