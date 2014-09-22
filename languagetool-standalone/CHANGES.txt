@@ -4,13 +4,15 @@ LanguageTool Change Log
 
 -Breton:
     -added and improved rules
+    -New rule that checks if a weekday matches a date, e.g. detects
+     "Gwener 28 a viz Eost 2014", as that date isn't a Friday.
 
 -Dutch:
     -added and improved rules
     -switched to Morfologik-based spell checker
-    
+
 -English:
-    -Do you want to be part of the team that develops the world's most powerful 
+    -Do you want to be part of the team that develops the world's most powerful
      Open Source proofreading tool? We're looking for a maintainer for the English
      rules in LanguageTool. See http://wiki.languagetool.org/tasks-for-language-maintainers
      for details.
@@ -32,6 +34,10 @@ LanguageTool Change Log
        * "Monday, October 7, 2014"
        * "Monday, Oct 7, 2014"
 
+-Esperanto:
+    -New rule that checks if a weekday matches a date, e.g. detects
+     "Vendredon la 28-an de Aŭgusto 2014", as that date isn't a Friday.
+
 -Persian:
     -added initial support for Persian (Farsi)
 
@@ -51,13 +57,13 @@ LanguageTool Change Log
     -New rule that checks if a weekday matches a date, e.g. detects
      "Dienstag, 29.9.2014", as that date isn't a Tuesday.
     -Performance improvements for spell check suggestions
-    
+
 -Portuguese:
     -added/improved several rules
     -added many dozens of compound words
 
 -Russian:
-    -added new rules    
+    -added new rules
     -fix SourceForge feature request #38 (check for different quotation marks)
     -added a few false friends rules (Russian/English)
     -new rule that checks if a weekday matches a date, e.g. detects
@@ -66,7 +72,7 @@ LanguageTool Change Log
 
 -Polish:
     -added and improved some rules
-     
+
 -Spanish:
     -Added new POS category Z (for spelled numbers, e.g. 'uno', 'dos', ...)
     -Spelled numbers can now be detected and managed both in disambiguation and rules.
@@ -78,7 +84,7 @@ LanguageTool Change Log
      displayed on your computer and you're using Windows, you might need
      to apply the work around described here:
      https://bugs.openjdk.java.net/browse/JDK-8008572
-     
+
 -Ukrainian:
     - big update for POS dictionary (fixes and new words)
     - some POS tag renamed for consistency; new tags for abbreviations and rare words
@@ -92,7 +98,7 @@ LanguageTool Change Log
 -API:
     -Major performance improvements for the multi-thread use case, where JLanguageTool
      gets created per thread, but the language object (e.g. 'German') gets
-     created only once. Overhead for creating JLanguageTool should now be much lower. 
+     created only once. Overhead for creating JLanguageTool should now be much lower.
     -Removed several classes and methods that had been deprecated since version 2.6
     -The signature of Language.getRelevantRules() has changed
     -The JLanguageTool and MultiThreadedJLanguageTool constructors don't declare to
@@ -111,7 +117,7 @@ LanguageTool Change Log
 -Command line:
     -Enabling and disabling specific rules at the same time is now allowed.
      In order to test only some rules (disabling all the rest), which previously was done
-     with "--enable LIST_OF_RULES", now use "--enabledonly --enable LIST_OF_RULES" 
+     with "--enable LIST_OF_RULES", now use "--enabledonly --enable LIST_OF_RULES"
      (or "-eo -e LIST_OF_RULES").
 
 -Embedded server:
@@ -141,7 +147,7 @@ LanguageTool Change Log
      the external rule and disambiguation files can now be hosted on a password-protected server
      by specifying an URL like this: http://user:password@example.org/path/user-rules.xml
     -The em dash ("—") is now a tokenizing character for all languages
-     
+
 -New feature: Use of language models
     LanguageTool can now make use of ngram data. ngram data is information about
     how often phrases occur in a language. Currently, this uses phrases of length 3.
@@ -171,7 +177,7 @@ LanguageTool Change Log
     -Morfologik spellchecking rule is enabled for use in LibreOffice/OpenOffice
      extension. The Hunspell spellchecker should be manually disabled in
      LibreOffice/OpenOffice for the results to be visible.
-        
+
 -English:
     -The spelling rule now accepts words with hyphens if the parts are valid words.
      For example, "web-based" is accepted now. This avoids a lot of false alarms.
@@ -186,7 +192,7 @@ LanguageTool Change Log
     -added/improved several rules
 
 -German:
-    -fixed false alarm for words like "Stil-" in phrases like "Stil- und 
+    -fixed false alarm for words like "Stil-" in phrases like "Stil- und
      Grammatikprüfung" (issue #93)
     -added/improved several rules
     -detect wrong uppercase spelling in sentences like "Die Blaue Tür"
@@ -196,26 +202,26 @@ LanguageTool Change Log
 
 -Japanese:
     -added some rules, thanks to github user Shugyousha
-    
+
 -Polish:
     -added/improved many rules
     -improved disambiguation
     -improved spell-checking of foreign words with apostrophes
-    
+
 -Portuguese:
     -added/improved several rules
     -a total of 3534 compound words
-    
+
 -Russian:
     -added big wordlist to spellcheck dictionary. Thanks for wordlist to Dmitri Gabinski
     -fixed wrong tag in tagger dictionary:  ADJ_Comp --> ADJ_Sup,  ADJ_S --> ADJ_Com
     -added/improved several rules
-    
+
 -Spanish:
     -added and improved several rules
-    
+
 -Asturian, Italian, Lithuanian, Malayalam, Swedish, and Tagalog have been switched
- to an SRX-based sentence tokenizer implementation. 
+ to an SRX-based sentence tokenizer implementation.
 
 -Wikipedia:
     -The deprecated options check-dump and wiki-index have been removed
@@ -223,7 +229,7 @@ LanguageTool Change Log
      and index-data instead.
 
 -API:
-    -Almost all deprecated methods and classes have been removed. If you're upgrading 
+    -Almost all deprecated methods and classes have been removed. If you're upgrading
      from a version earlier than 2.5, we recommend to upgrade to 2.5 first, fix all
      deprecation warnings, and then upgrade to 2.6.
     -If you extend the 'Language' class and don't implement the getSentenceTokenizer()
@@ -232,7 +238,7 @@ LanguageTool Change Log
      a LocalSRXSentenceTokenizer instead that's adapted to your needs.
     -Rule.supportsLanguage() now also works for PatternRules (i.e. rules loaded from
      XML files). It used to always return 'false' for those rules.
-    -The public field Language.DEMO has been removed. It is now only available 
+    -The public field Language.DEMO has been removed. It is now only available
      internally for tests, together with the demo language itself and DemoChunker.
     -JLanguageTool.printIfVerbose() has been changed from protected to private,
      as it was not used anywhere and it's not really useful to extend JLanguageTool.
