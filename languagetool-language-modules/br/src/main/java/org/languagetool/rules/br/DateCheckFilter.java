@@ -41,7 +41,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.equals("sul"))      return Calendar.SUNDAY;
     if (day.equals("lun"))      return Calendar.MONDAY;
     if (day.equals("meurzh"))   return Calendar.TUESDAY;
-    if (day.equals("merc'her")) return Calendar.WEDNESDAY;
+    if (day.equals("merc’her")) return Calendar.WEDNESDAY;
     if (day.equals("yaou"))     return Calendar.THURSDAY;
     if (day.equals("gwener"))   return Calendar.FRIDAY;
     if (day.equals("sadorn"))   return Calendar.SATURDAY;
@@ -66,7 +66,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
     if (mon.equals("genver"))    return 1;
-    if (mon.equals("c'hwevrer")) return 2;
+    if (mon.equals("c’hwevrer")) return 2;
     if (mon.equals("meurzh"))    return 3;
     if (mon.equals("ebrel"))     return 4;
     if (mon.equals("mae"))       return 5;
