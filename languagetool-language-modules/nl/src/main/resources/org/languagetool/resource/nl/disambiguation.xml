@@ -6,6 +6,163 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
 <rules lang="nl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
+  <!-- SPELLING IGNORES -->
+  <!-- ROMEINSE GETALLEN -->
+  <rule name="ignore roman numbers" id="SPELLER_ROMAN_NUMBERS">
+    <pattern case_sensitive="yes">
+	  <token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+
+  <!-- rangtelnummers -->
+  <rule name="ignore -ste" id="SPELLER_NUMBERS_RANKING">
+    <pattern>
+	  <token regexp="yes">[0-9]{1,10}(ste|de|e)</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+
+  <!-- alle 'woorden' zonder letters -->
+  <rule name="ignore 0-1 etc" id="SPELLER_NONWORDS">
+    <pattern>
+	  <token regexp="yes">[^a-zA-Z]{1,80}</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+  
+  <!-- mailadressen en twitternamen -->
+  <rule name="ignore @" id="SPELLER_AT">
+    <pattern>
+	  <token regexp="yes">.*@.*</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+  
+  <!-- straten etc -->
+  <rule name="ignore adresses" id="SPELLER_STREETS">
+    <pattern>
+	  <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*(straat|plein|steeg|allee|boulevard|weg|wijk)</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+
+  <!-- FC Twente etc. -->
+  <rule name="ignore clubs" id="SPELLER_FC_CLUB">
+    <pattern>
+      <marker>
+      <token>FC</token>
+      </marker>
+      <token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+
+  <!-- wegnummers van NL en Vlaanderen -->
+  <rule name="ignore numbers of roads" id="SPELLER_ROAD_NUMBERS">
+    <pattern>
+      <token regexp="yes" case_sensitive="yes">A[0-9]{1,3}|N[0-9]{1,3}|s[0-9]{3}|R[0-9]|B[0-9]{3}</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+  
+  <!-- straten etc -->
+  <rule name="ignore parts of proper names" id="SPELLER_NEDERLANDSCHE">
+    <pattern>
+      <marker>
+	<token>Nederlandsche</token>
+      </marker>
+      <token case_sensitive="yes">Bank</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+
+  <!-- domains etc -->
+  <rule name="ignore parts of domains" id="SPELLER_DOMAINS_a">
+    <pattern>
+      <marker>
+      <token regexp="yes">[A-Za-z0-9]{3,50}</token>
+      </marker>
+      <token spacebefore="no">.</token>
+      <token spacebefore="no" regexp="yes">[A-Za-z0-9]{3,50}</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+  
+  <rule name="ignore parts of domains" id="SPELLER_DOMAINS_b">
+    <pattern>
+      <token regexp="yes">[A-Za-z0-9]{3,50}</token>
+      <token spacebefore="no">.</token>
+      <marker>
+      <token spacebefore="no" regexp="yes">[A-Za-z0-9]{2,50}</token>
+    </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+  
+    <!-- bijv naamw met getal-->
+  <rule name="getal-ig" id="SPELLER_NUMBER_IG">
+    <pattern>
+	<token regexp="yes">[0-9]{1,3}[-](jarig|jarige|tal|tallen)</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+  
+  <!-- social media en andere woordgroepen -->
+  <rule name="social media etc" id="SPELLER_SOCIAL_MEDIA">
+    <pattern>
+      <marker>
+      <token>social</token>
+      </marker>
+      <token>media</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>  
+  
+  <!-- social media en andere woordgroepen -->
+  <rule name="nota bene" id="SPELLER_NOTA_BENE">
+    <pattern>
+      <token>nota</token>
+      <marker>
+      <token>bene</token>
+    </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+
+  <!-- social media en andere woordgroepen -->
+  <rule name="per se" id="SPELLER_PER_SE">
+    <pattern>
+      <token>per</token>
+      <marker>
+      <token>se</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+
+  <!-- Tel Aviv-->
+  <rule name="Tel Aviv" id="SPELLER_TEL_AVIV">
+    <pattern case_sensitive="yes">
+      <token>Tel</token>
+      <marker>
+      <token>Aviv</token>
+    </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+
+  <!-- Tel Aviv-->
+  <rule name="New York etc." id="SPELLER_NEW_X">
+    <pattern case_sensitive="yes">
+      <token>New</token>
+      <marker>
+      <token regexp="yes">York|Orleans|Yorkse|Yorks</token>
+    </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>  
+  </rule>
+  
   <!-- ZELFSTANDIGE NAAMWOORDEN -->
   <!-- ~je duidt op verkleinwoord behalve ~ije (~vrije vooral) en ~nje (oranje, spanje)-->
   <rule name="guess NN1r" id="NN1r">
@@ -27,7 +184,7 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
   <!-- van schap zijn uitzonderingen die 'het' zijn -->
   <rule name="guess NN1d" id="NN1d_1">
     <pattern>
-      <token regexp="yes">[a-z].*(heid|teit|ing|tie|steem|schap|amma|groep|stand|ctie|ctuur|itect|prefect|markt|racht|ijst|elaar|kaart)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
+      <token regexp="yes">[a-z].*(heid|teit|ing|tie|groep|stand|ctie|ctuur|itect|prefect|markt|racht|ijst|elaar|kaart)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
     </pattern>
     <disambig action="add"><wd pos="NN1d"/></disambig>
   </rule>
@@ -45,10 +202,11 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
   
   <rule name="guess NN1h" id="NN1h_1">
     <pattern>
-      <token regexp="yes">[a-z].*(ement|beleid|gebied|proces|zoek|drijf|project|effect|aspect|dialect|defect|traject|object|insect|iveau|model)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
+      <token regexp="yes">[a-z].*(gramma|ement|beleid|gebied|proces|zoek|drijf|project|effect|aspect|dialect|defect|traject|object|insect|iveau|model)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
     </pattern>
     <disambig action="add"><wd pos="NN1h"/></disambig>
   </rule>
+  
   <rule name="guess NN1h" id="NN1h_2">
     <pattern>
       <token regexp="yes">[a-z].*(trum|gebeuren|eczeem|oedeem|morfeem|embleem|probleem|systeem|[bg]edrag)<exception postag_regexp="yes" postag="NN1d|NN1h"/></token>
@@ -76,23 +234,34 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
     </pattern>
     <disambig action="add"><wd pos="NN2"/></disambig>
   </rule>
+
   <rule name="guess NN2" id="GUESS_NN2_n3">
     <pattern>
       <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
       <!-- TODO bekken is een lastige, die moet nog verwerkt worden -->
-      
       <token regexp="yes">[a-z].*([dflsm]ag|([ns])hag|zag|[bgkhmostvz]ur|[dghklt]eur|iss|gebied|lied|rt|ijz|dienst|winst|[gk]unst)en<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
     </pattern>
     <disambig action="add"><wd pos="NN2"/></disambig>
   </rule>
   
-  <rule name="guess NN2" id="GUESS_NN2_s">
+  <rule name="guess NN2" id="GUESS_NN2_s_a">
     <pattern>
       <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
-      <token regexp="yes">[a-z].*('|tie|ster|der|egel|(geg|l|st)even|(sp|st)aander|[lmrt]ander|schender|kalender|hoender|zender)s<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
+      <token regexp="yes">[a-z].*('|sie|tie|ster|der|egel|(geg|l|st)even|(sp|st)aander|[lmrt]ander|schender|kalender|hoender|zender)s<exception postag_regexp="yes" postag="NN2|VBh|VBi|AJm|AJci"/></token>
     </pattern>
     <disambig action="add"><wd pos="NN2"/></disambig>
   </rule>
+
+  <rule name="guess NN2" id="GUESS_NN2_s_b">
+    <pattern>
+<!--       <token negate="yes">iets</token> -->
+      <marker>
+      <token regexp="yes" postag="UNKNOWN">.*ers</token>
+    </marker>
+    </pattern>
+    <disambig action="add"><wd pos="NN2"/></disambig>
+  </rule>
+  
   <rule name="guess NN2" id="GUESS_NN2_s_2">
     <pattern>
       <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
@@ -144,7 +313,7 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
     <pattern>
       <token>iets</token>
       <marker>
-      <token regexp="yes">[a-z].*(igers|ijkers|ders|sters|ischers)<exception postag="AJci"/></token>
+      <token regexp="yes">[a-z].*(ig|ijk|d|st|isch)ers<exception postag="AJci"/></token>
     </marker>
     </pattern>
     <disambig action="add"><wd pos="AJci"/></disambig>
@@ -172,6 +341,31 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
     <disambig action="add"><wd pos="VB3"/></disambig>
   </rule>
   
+  <!-- GETALLEN -->
+  
+  <rule name="guess number" id="NUMBERS">
+    <pattern>
+      <token regexp="yes">[0-9]*</token>
+    </pattern>
+    <disambig action="add"><wd pos="NM"/></disambig>
+  </rule>  
+
+  <rule name="guess number" id="NUMBERS_RANKING">
+    <pattern>
+      <token regexp="yes">[0-9]{1,}(e|de|ste)</token>
+    </pattern>
+    <disambig action="add"><wd pos="NMr"/></disambig>
+  </rule>  
+  
+  <!-- EIGENNAMEN? -->  
+  
+  <rule name="guess proper name" id="PROPER_NAME">
+    <pattern>
+      <token regexp="yes" case_sensitive="yes">[A-Z][a-z].{4,}</token>
+    </pattern>
+    <disambig action="add"><wd pos="PN"/></disambig>
+  </rule>  
+  
   <!-- REAL DISAMBIGUATION --> 
   <!-- NN2 and AJci -->
   <rule name="iets + NN2/AJci => drop NN2" id="IETS_AJci_NN2">
@@ -184,27 +378,52 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
     <disambig action="remove"><wd pos="NN2"/></disambig>
   </rule>
 
-  <!-- VBi en NN2 -->
-  
-  <rule name="de  + NN2/VBi => drop VBi" id="DE_NN_VBI">
+  <rule name="de .*(en|s) die => NN2" id="DE_XEN_DIE_NN2">
+    <!-- guess as plural -->
     <pattern>
         <token>de</token>
         <marker>
-            <token postag="NN2"/>
+	  <token postag="UNKNOWN" regexp="yes">.*(en|s)</token>
         </marker>
+        <token>die</token>
     </pattern>
-    <disambig action="remove"><wd pos="NN2"/></disambig>
+    <disambig action="add"><wd pos="NN2"/></disambig>
   </rule>  
   
-  <rule name="het  + NN2/VBi => drop VBi" id="HET_NN_VBI">
+  <!-- what is left is problably NN1d -->
+  <rule name="de .. die => NN2" id="DE_X_DIE_NN1d">
+    <!-- guess as single (even when it is an adjective, this is probably right -->
     <pattern>
-        <token>het</token>
+        <token>de</token>
         <marker>
-            <token postag="VBi"/>
+	  <token postag="UNKNOWN"/>
         </marker>
+        <token>die</token>
     </pattern>
-    <disambig action="remove"><wd pos="VBi"/></disambig>
+    <disambig action="add"><wd pos="NN1d"/></disambig>
   </rule>  
+  
+  <rule name="een .. die => NN1d" id="EEN_X_DIE_NN1d">
+    <!-- guess as single (even when it is an adjective, this is probably right -->
+    <pattern>
+        <token>een</token>
+        <marker>
+	  <token postag="UNKNOWN"><exception regexp="yes">van|door|in|naar</exception></token>
+        </marker>
+        <token>die</token>
+    </pattern>
+    <disambig action="add"><wd pos="NN1d"/></disambig>
+  </rule>  
+  
+  <rule id="DE_X_VAN_a" name="De NN2/VBi van => NN2">
+    <pattern>
+      <token>de</token>
+      <token postag="VBi"/>
+      <token>van</token>
+    </pattern>    
+    <disambig action="remove"><wd pos="VBi"/></disambig>
+    <!-- add NN2 ?? -->
+  </rule>   
   
   <!-- IMMUNIZING SOME WIKIPEDIA CONSTRUCTIONS THAT GENERATE ERRORS IN WIKICHECK -->
   <rule name="x=quote" id="Wikipedia_1">
