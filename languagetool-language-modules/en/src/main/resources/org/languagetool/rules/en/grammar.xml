@@ -12026,6 +12026,29 @@ USA
         </rulegroup>
     </category>
     <category name="Commonly Confused Words" type="misspelling">
+        <rule id="TANK_YOU" name="tank (thank) you">
+            <pattern>
+                <marker>
+                    <token>tank</token>
+                </marker>
+                <token>you</token>
+            </pattern>
+            <message>Did you mean <suggestion>thank</suggestion>?</message>
+            <example type='incorrect' correction="Thank"><marker>Tank</marker> you for your help.</example>
+            <example type='correct'><marker>Thank</marker> you for your help.</example>
+        </rule>
+        <rule id="PUBIC_X" name="pubic (public) education etc.">
+            <pattern>
+                <marker>
+                    <token>pubic</token>
+                </marker>
+                <!-- source of exceptions: the most common words after 'pubic' from Google ngran corpus (v1) -->
+                <token><exception regexp="yes">hairs?|bones?|symphysis|areas?|and|tubercles?|arch|regions?|ramus|rami|lice|crest|triangle|or|mound|ligament|louse|spine|hairlines?|angle|branch|portions?|skins?|symphyseal|symphyses</exception></token>
+            </pattern>
+            <message>Did you mean <suggestion>public</suggestion>?</message>
+            <example type='incorrect' correction="Public"><marker>Pubic</marker> Affairs is a term for the formal offices of the branches of the US Department of Defense.</example>
+            <example type='correct'><marker>Pubic</marker> hair is the hair in the frontal genital area of adolescent and adult humans.</example>
+        </rule>
         <rule id="CALENDER" name="calender (calendar)">
             <pattern>
                 <token>calender</token>
