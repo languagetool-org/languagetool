@@ -14133,6 +14133,19 @@ $Id$
           <example type="correct">On jest tłumaczem.</example>
           <example type="incorrect" correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rule id="DZIALALO_SIE_TO" name="„działało się to (działo się to)">
+                <pattern>
+                    <marker>
+                        <token>działało</token>
+                    </marker>
+                    <token>się</token>
+                    <token regexp="yes"/>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>działo</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example type="correct">Działo się to wczoraj.</example>
+                <example type="incorrect"><marker>Działało</marker> się to wczoraj.</example>
+            </rule>
             <rule id="ODDZIELNIE" name="„oddzielnie od” (oddzielenie od)">
                 <pattern>
                     <token>oddzielnie</token>
