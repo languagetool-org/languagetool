@@ -1900,7 +1900,7 @@ $Id$
   </marker>
   <token negate="yes">.</token>
   </pattern>
-  <message>Vergeet de punt niet achter <suggestion>\1.</suggestion> als het een afkorting is.</message>
+  <message>Vergeet de punt niet als het een afkorting is: <suggestion>\1.</suggestion></message>
   <short>Punt</short>
   <example type="incorrect"><marker>Dr</marker> Janssen is fout.</example>
   <example type="correct"><marker>Dr.</marker> Janssen is goed.</example>
@@ -3650,7 +3650,7 @@ $Id$
   <example type="correct">Gebruik de <marker>pauze</marker>.</example>
 </rule>
 
-<rule id="OT_MULTIPLE_C" name="multiple choice → meerkeuze">
+<rule id="OT_MULTIPLE_CHOICE" name="multiple choice → meerkeuze">
   <!-- 2014-08-19 TaalTik regel iets aangepast, zodat deze niet meerkeuze suggereert -->
   <pattern>
   <token regexp="yes">multiplechoice.{1,}</token>
@@ -5423,7 +5423,7 @@ $Id$
   <pattern>
     <token inflected="yes">evident</token>
   </pattern>
-  <message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="NN.*" postag_regexp="yes">duidelijk</match></suggestion>, 
+  <message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="AJ.*" postag_regexp="yes">duidelijk</match></suggestion>, 
   <suggestion><match no="1" postag="NN.*" postag_regexp="yes">overduidelijk</match></suggestion>    
   .</message>
   <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
@@ -6564,9 +6564,10 @@ zijdens 	van de kant van, door
 
 <rule id="TaalTik_JIJ_BEHEERD" name="Jij beheerd => jij beheert">
   <!--
-  2014-09-12 TaalTik
-    nieuw
+  2014-09-12 TaalTik nieuw
+  2014-09-22 TaalTik antipattern toegevoegd 
   -->
+  <antipattern><token>je</token><token postag="NN1.*" postag_regexp="yes"/><token></token></antipattern> <!-- je geduld wordt .. -->
   <pattern>
   <token postag="SENT_START"></token>
   <marker>
@@ -9074,12 +9075,15 @@ zich van de domme houden, van den domme houden
     nieuwe regel
   -->
   <pattern>
+    <token regexp="yes">een|de|geen|soort</token>    
+    <marker>
     <token>huis</token>
     <token>aan</token>
     <token>huis</token>
     <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    </marker>
   </pattern>
-  <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
+  <message>U bedoelt vast: <suggestion>\2-\3-\4\5</suggestion> of <suggestion>\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
   <short>- vereist</short>
   <example type="incorrect">Dit is een <marker>huis aan huis blad</marker>.</example>
@@ -9091,13 +9095,16 @@ zich van de domme houden, van den domme houden
     nieuwe regel
   -->
   <pattern>
+    <token regexp="yes">een|de|geen|soort</token>    
+    <marker>
     <token>huis</token>
     <token>tuin</token>
     <token>en</token>
     <token>keuken</token>
     <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    </marker>
   </pattern>
-  <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
+  <message>U bedoelt vast: <suggestion>\2-\3-\4-\5\6</suggestion> of <suggestion>\2-\3-\4-\5-\6</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
   <short>- vereist</short>
   <example type="incorrect">Dit is een <marker>huis tuin en keuken gesprek</marker>.</example>
@@ -9107,12 +9114,15 @@ zich van de domme houden, van den domme houden
 <rule id="TaalTik_AAN-EN-UIT-RELATIE" name="aan en uit relatie → aan-en-uit-relatie">
   <!-- TaalTik 2014-09-09 nieuwe regel -->
   <pattern>
+  <token regexp="yes">een|de|geen|soort</token>
+  <marker>
   <token>aan</token>
   <token>en</token>
   <token>uit</token>
-      <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+  <token regexp="yes">relatie|relaties</token>
+  </marker>
   </pattern>
-  <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
+  <message>U bedoelt vast: <suggestion>\2-\3-\4\5</suggestion> of <suggestion>\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
   <short>- vereist</short>
   <example type="incorrect">Dit is een <marker>aan en uit relatie</marker>.</example>
@@ -9947,7 +9957,7 @@ zich van de domme houden, van den domme houden
 <token>poep</token>
 <token>en</token>
 <token>pies</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token regexp="yes" >humor|grap|grappen</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9986,10 +9996,13 @@ zich van de domme houden, van den domme houden
 <rule id="TaalTik_VERSE_GROETEN" name="Verse groeten → verse groenten">
   <!-- TaalTik 2014-09-19 nieuwe regel -->
   <pattern>
+    <token><exception>het</exception></token> <!-- dan is het een werkwoord -->
+    <marker>
     <token postag="AJe"><exception regexp="yes">hartelijke|vriendelijke</exception></token>
-  <token>groeten</token>
+    <token>groeten</token>
+    </marker>
   </pattern>
-  <message>U bedoelt vast: <suggestion>\1 groenten</suggestion></message>
+  <message>Bedoelt u misschien: <suggestion>\1 groenten</suggestion></message>
   <short>brandschoon</short>
   <example type="incorrect">Een gerecht met <marker>verse groeten</marker>.</example>
   <example type="correct">Een gerecht met <marker>verse groenten</marker>.</example>
@@ -10072,7 +10085,7 @@ zich van de domme houden, van den domme houden
     <pattern>
       <token regexp="yes">dit|dat</token>
       <token postag="VBp" regexp="yes" skip="1">.*[dt]<exception postag_regexp="yes" postag="NN1.*|VB3"/></token>
-      <token regexp="yes">mij|me|dat|hem|haar|hen|ze</token>
+      <token><exception postag_regexp="yes" postag="VB.*"/></token>
     </pattern>
     <message>\1|\2|\3</message>    
     <example type="incorrect"><marker>Dit betekend dat</marker> het fout is</example>
@@ -10258,11 +10271,11 @@ zich van de domme houden, van den domme houden
     <antipattern><token>van</token><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern> <!-- blokkeer eigennamen -->
     <pattern>
       <token>de</token>
-      <token postag="NN1h"><exception postag_regexp="yes" postag="NN1d|VBpe|AJ.*|PPe|VB3|NN2"/><exception regexp="yes">iets|paar</exception></token>
+      <token case_sensitive="yes" postag="NN1h"><exception postag_regexp="yes" postag="NN1d|VBpe|AJ.*|PPe|VB3|NN2"/><exception regexp="yes">iets|paar|weer|nummer|been</exception><exception regexp="yes">[A-Z].*</exception></token>
     </pattern>
-    <message>Verwacht werd: <suggestion>het \2</suggestion>. Of het is een spatiefout.</message>    
+    <message>Verwacht werd: <suggestion>het \2</suggestion>.</message>    
     <url>http://woordenlijst.org/</url>
-    <example type="incorrect"><marker>De kind</marker>.</example>
+    <example type="incorrect"><marker>De weeskind</marker>.</example>
   <example type="correct">Het kind.</example>
   </rule>
 
@@ -10273,11 +10286,11 @@ zich van de domme houden, van den domme houden
       <token><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">of|en|dat</exception></token>
       <marker>
       <token>het</token>
-      <token postag="NN1d"><exception postag_regexp="yes" postag="NN1h|VBi|VB3|VBh1|VBp.*|AJ.*|PP.*|NM.*"/><exception regexp="yes">bij|voor|een|te|immer|mijn|hen|u</exception></token>
+      <token postag="NN1d"  case_sensitive="yes" ><exception postag_regexp="yes" postag="NN1h|VBi|VB3|VBh1|VBp.*|AJ.*|PP.*|NM.*"/><exception regexp="yes">[A-Z].*|bij|voor|een|te|immer|mijn|hen|u</exception></token>
       </marker>
       <token><exception postag_regexp="yes" postag="VBi|VB3"/></token>
     </pattern>
-    <message>Verwacht werd: <suggestion>de \3</suggestion>. Het kan ook een spatiefout zijn.</message>    
+    <message>Verwacht werd: <suggestion>de \3</suggestion>.</message>    
     <example type="incorrect"><marker>Het man</marker>.</example>
   <example type="correct">De man.</example>
   </rule>
@@ -10296,167 +10309,20 @@ zich van de domme houden, van den domme houden
     <example type="correct">Mijn taak is volbracht.</example>
   </rule>  
   
-</category>
-
-<category name="Experimenteel, vangen van zinnen">
- 
-  <rule id="VANG_DE_HET_NN1" name="... test NN1 voor voorkeur ...">
+  <rule id="TaalTik_DE_MAXIMUM" name="De maximum aanvaardbare => de maximaal aanvaardbare">
+    <!-- 2014-09-22 TaalTik nieuw -->
     <pattern>
+      <token>de</token>
       <marker>
-      <token regexp="yes">de|het</token>
-      <token postag="NN1"/>
+      <token>maximum</token>
       </marker>
-      <token><exception postag="NN.*" postag_regexp="yes"/><exception postag="SENT_END"/></token>
+      <token postag="AJe"/>
     </pattern>
-    <message>\2|\1</message>    
-    <example type="incorrect"><marker>De stof</marker> gaat.</example>
-    <example type="correct">Hij kan het</example>
-  </rule>    
-
-  <rule id="VANG_IK_GA" name="">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token>ik</token>
-      <token postag="VB1"/>
-      <token/>
-    </pattern>
-    <message>\1 \2 \3</message>    
-    <example type="incorrect"><marker>Ik ga weg</marker>.</example>
-    <example type="correct">Hij kan het</example>
-  </rule>    
-
-  <rule id="VANG_HIJ_GAAT" name="">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token regexp="yes">hij|zij|ze|u|gij</token>
-      <token postag="VB3"/>
-      <token/>
-    </pattern>
-    <message>\1 \2 \3</message>    
-    <example type="incorrect"><marker>Hij gaat weg</marker>.</example>
-    <example type="correct">Ik xxx het</example>
-  </rule>    
-
-  <rule id="VANG_WIJ_GAAN" name="">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token regexp="yes">we|wij|zij|ze</token>
-      <token postag="VBi"/>
-      <token/>
-    </pattern>
-    <message>\1 \2 \3</message>    
-    <example type="incorrect"><marker>Wij gaan weg</marker>.</example>
-    <example type="correct">Hij kan het</example>
-  </rule>    
-
-  <!--
-  <rule id="VANG_UNTAGGED" name="begin disambiguation 3">
-    <pattern>
-    <marker>
-      <token postag="UNKNOWN"><exception regexp="yes">,|:|;|\(|\)|-|"|‘|“|’|–|\*</exception>
-	<exception postag="SENT_START"/>
-	<exception regexp="yes" case_sensitive="yes">[A-Z]{5,80}</exception>
-	<exception regexp="yes">er|ook|zich|nog|wat|\.|geen|zou|dus|hier|zoals|zelf|zo|me|altijd|vanaf|omdat|per|tijdens|sinds|eens|wie|toen</exception>
-	<exception regexp="yes">soms|ervoor|ten|zowel|vanuit|der|nooit|vandaag|helemaal|bijna|terug|iedereen|toe|mee|steeds|nu|volgens|vooral|toch|bijvoorbeeld|samen|zonder|eerst|hier|wanneer|toen|ter</exception>
-	<exception regexp="yes">echter|nadat|zelfs|ongeveer|inderdaad|elkaar|allemaal|meestal|name|zodat|'|achter|/|elk|terwijl|dezelfde|vervolgens|zo'n</exception>
-	<exception regexp="yes">zichzelf|ervan|opnieuw|inmiddels|€|vanwege|voordat|hetzelfde|meteen|heen|ene|hiervoor|erop|jezelf|overigens</exception>
-	<exception regexp="yes">hierbij|nou|doordat|gedurende|hiervan|zover|niemand|tevensḧiermee|Eén|vooraf|gisteren|trouwens|alsof|zodra|binnenkort</exception>
-	<exception regexp="yes">hieronder|én|helaas|nogal|bovendien|uiteraard|rondom|zomaar|vrijwel|nauwelijks|hierover|eeenmaal|tegenover</exception>
-	<exception regexp="yes">volop|hierdoor|erbij|veelal|alsnog|doorgaans|inzake|minstens|alweer|ineens|vandaan|vóór|onlangs|feite|beneden|nergens|mezelf</exception>
-	</token>
-    </marker>
-    <token/>
-    </pattern>    
-    <message>geen tag</message>    
-    <example type="incorrect"><marker>fietsenrekkendief</marker> woord ander woord.</example>
-    <example type="correct">deur</example>
-  </rule>  
-  --> 
- 
-<!--
-  <rule id="VANG_DE_NN1d_VB3" name="De man loopt.">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token>De</token>
-      <token postag="NN1d"/>
-      <token postag="VB3"/>
-      <token postag="SENT_END">.</token>
-    </pattern>
-    <message></message>    
-    <example type="incorrect"><marker>De man loopt.</marker></example>
-  <example type="correct">Juist.</example>
-  </rule>
-  
-  <rule id="VANG_Het_NN1h_VB3" name="Het kind loopt.">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token>Het</token>
-      <token postag="NN1h"/>
-      <token postag="VB3"/>
-      <token postag="SENT_END">.</token>
-    </pattern>
-    <message></message>    
-    <example type="incorrect"><marker>Het kind loopt.</marker></example>
-  <example type="correct">Juist.</example>
+    <message>Juist is: <suggestion>maximaal</suggestion></message>    
+    <example type="incorrect">De <marker>maximum</marker> aanvaardbare schade.</example>
+    <example type="correct">De <marker>maximaal</marker> aanvaardbare schade.</example>
   </rule>  
 
-  <rule id="VANG_DE_NN2_VBi" name="De mannen lopen.">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token>De</token>
-      <token postag="NN2"/>
-      <token postag="VBi"/>
-      <token postag="SENT_END">.</token>
-    </pattern>
-    <message></message>    
-    <example type="incorrect"><marker>De mannen lopen.</marker></example>
-  <example type="correct">Juist.</example>
-  </rule>
-  
-  <rule id="VANG_HET_NN1r_VB3" name="Het kindje loopt.">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token>Het</token>
-      <token postag="NN1r"/>
-      <token postag="VB3"/>
-      <token postag="SENT_END">.</token>
-    </pattern>
-    <message></message>    
-    <example type="incorrect"><marker>Het kindje loopt.</marker></example>
-    <example type="correct">Juist.</example>
-  </rule>  
-  
-  <rule id="VANG_DE_NN2r_VBi" name="De mannetjes lopen.">
-    <pattern>
-      <token postag="SENT_START"/>
-      <token>De</token>
-      <token postag="NN2r"/>
-      <token postag="VBi"/>
-      <token postag="SENT_END">.</token>
-    </pattern>
-    <message></message>    
-    <example type="incorrect"><marker>De mannetjes lopen.</marker></example>
-  <example type="correct">Juist.</example>
-  </rule>
-
-  <rule id="VANG__OVERIGE_ZINNEN" name="Vang overige korte zinnen">
-  <antipattern><token regexp="yes">[0-9]{1,2}|[a-z]</token><token>.</token></antipattern>
-    <antipattern><token postag="SENT_START"/><token>De</token><token postag="NN1d"/><token postag="VB3"/><token postag="SENT_END">.</token></antipattern>
-    <antipattern><token postag="SENT_START"/><token>Het</token><token postag="NN1h"/><token postag="VB3"/><token postag="SENT_END">.</token></antipattern>
-    <antipattern><token postag="SENT_START"/><token>Het</token><token postag="NN1r"/><token postag="VB3"/><token postag="SENT_END">.</token></antipattern>
-    <antipattern><token postag="SENT_START"/><token>De</token><token postag="NN2"/><token postag="VBi"/><token postag="SENT_END">.</token></antipattern>
-    <antipattern><token postag="SENT_START"/><token>De</token><token postag="NN2r"/><token postag="VBi"/><token postag="SENT_END">.</token></antipattern>
-    <antipattern><token postag="SENT_START"/><token>Uw</token><token postag="NN1d"/><token postag="VBi"/><token postag="SENT_END">.</token></antipattern>
- 
-    <pattern>
-      <token postag="SENT_START" skip="10"/>
-      <token postag="SENT_END"/>
-    </pattern>
-    <message></message>    
-    <example type="incorrect"><marker>Hij a b niet.</marker></example>
-    <example type="correct">A b c d e f g h i j k l m n.</example>
-  </rule>
-  -->  
 </category>
-
+    
 </rules>
