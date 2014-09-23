@@ -31,14 +31,14 @@ import org.languagetool.rules.AbstractSpaceBeforeRule;
  */
 public class PersianSpaceBeforeRule extends AbstractSpaceBeforeRule {
 
+  private static final Pattern CONJUNCTIONS = Pattern.compile("و|به|با|تا|زیرا|چون|بنابراین|چونکه");
+
   public PersianSpaceBeforeRule(ResourceBundle messages, Language language) {
     super(messages, language);
   }
 
-  private static final Pattern CONJUNCTIONS = Pattern.compile("و|به|با|تا|زیرا|چون|بنابراین|چونکه");
-
   @Override
-  protected Pattern getConjuntions() {
+  protected Pattern getConjunctions() {
     return CONJUNCTIONS;
   }
 

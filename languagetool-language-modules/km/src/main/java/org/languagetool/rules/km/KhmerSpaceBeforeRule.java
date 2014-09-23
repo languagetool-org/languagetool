@@ -18,18 +18,11 @@
  */
 package org.languagetool.rules.km;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.AbstractSpaceBeforeRule;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.RuleMatch;
+
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
  * A Khmer rule that checks if there is a missing space before some conjunctions.
@@ -38,14 +31,15 @@ import org.languagetool.rules.RuleMatch;
  */
 public class KhmerSpaceBeforeRule extends AbstractSpaceBeforeRule {
 
+  private static final Pattern CONJUNCTIONS = 
+          Pattern.compile("ដើម្បី|និង|ពីព្រោះ", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
   public KhmerSpaceBeforeRule(final ResourceBundle messages, final Language language) {
     super(messages, language);
   }
 
-  private static final Pattern CONJUNCTIONS = Pattern.compile("ដើម្បី|និង|ពីព្រោះ",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
   @Override
-  public Pattern getConjuntions() {
+  public Pattern getConjunctions() {
     return CONJUNCTIONS;
   }
 

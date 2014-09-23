@@ -35,6 +35,8 @@ import org.languagetool.Language;
  */
 public abstract class AbstractSpaceBeforeRule extends Rule {
 
+  protected abstract Pattern getConjunctions();
+
   public AbstractSpaceBeforeRule(final ResourceBundle messages, final Language language) {
     super.setCategory(new Category(messages.getString("category_misc")));
   }
@@ -48,8 +50,6 @@ public abstract class AbstractSpaceBeforeRule extends Rule {
   public String getDescription() {
     return "Checks for missing space before some conjunctions";
   }
-
-  abstract protected Pattern getConjuntions();
 
   protected String getShort() {
     return "Missing white space";
@@ -66,7 +66,7 @@ public abstract class AbstractSpaceBeforeRule extends Rule {
 
     for (int i = 1; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
-      Matcher matcher = getConjuntions().matcher(token);
+      Matcher matcher = getConjunctions().matcher(token);
       if (matcher.matches()) {
         final String previousToken = tokens[i - 1].getToken();
         if (!(previousToken.equals(" ") || previousToken.equals("("))) {
