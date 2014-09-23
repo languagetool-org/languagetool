@@ -36,6 +36,7 @@ public class DateCheckFilterTest {
     assertThat(filter.getDayOfWeek("monday"), is(2));
     assertThat(filter.getDayOfWeek("Tue"), is(3));
     assertThat(filter.getDayOfWeek("Fri"), is(6));
+    assertThat(filter.getDayOfWeek("Fr"), is(6));
     assertThat(filter.getDayOfWeek("Saturday"), is(7));
   }
 
