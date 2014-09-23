@@ -575,7 +575,7 @@ $Id$
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception><exception regexp="yes">[аА]</exception></token>
-                    <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
+                    <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых<exception scope="next">далее</exception></token>
                     <token negate="yes">,</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2, \3</suggestion>.</message>
@@ -603,7 +603,7 @@ $Id$
                 <pattern case_sensitive="yes">
                     <token>,<exception postag="SENT_START"></exception></token>
                     <marker>
-                        <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
+                        <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых<exception scope="next">далее</exception></token>
                     </marker>
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—</token>
                 </pattern>
@@ -2200,6 +2200,19 @@ $Id$
                 <example type="incorrect">Премия в этом году состоялась <marker>не взирая на</marker> кризис.</example>
             </rule>
         </rulegroup>
+        <rulegroup default="on" id="i_tak_dalee" name="«И так далее»">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>итак</token>
+                    <token>далее</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>и так далее</suggestion>.</message>
+                <short>Пишется раздельно: «и так далее».</short>
+                <example type="correct">В пять часов после обеда он ложится спать, в девять встаёт, часа через три опять ложится спать, <marker>и так далее</marker>.</example>
+                <example type="incorrect">В шесть часов после обеда он ложится спать, в девять встаёт, часа через три опять ложится спать, <marker>итак далее</marker>.</example>
+            </rule>
+        </rulegroup>  
+        
         <rulegroup default="on" id="Vo_chto_by_to_ni_stalo" name="«Во что бы то ни стало»">
             <rule>
                 <pattern case_sensitive="no">
