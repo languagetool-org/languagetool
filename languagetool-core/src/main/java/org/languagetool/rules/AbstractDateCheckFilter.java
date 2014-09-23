@@ -30,7 +30,8 @@ import java.util.Map;
 
 /**
  * Accepts rule matches if a date doesn't match the accompanying weekday, e.g. if {@code Monday, 8 November 2003}
- * isn't actually a Monday. Replaces {@code \realDay} with the real day of the date in the rule's message.
+ * isn't actually a Monday. Replaces {@code \realDay} with the real day of the date in the rule's message,
+ * and {@code \day} with the claimed day from the text (might be useful in case the text uses an abbreviation).
  * @since 2.7
  */
 @Experimental
@@ -74,8 +75,11 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
       return null;
     }
     if (dayOfWeekFromString != dayOfWeekFromDate) {
-      String realDayName = getDayOfWeek(dateFromDate);
-      String message = match.getMessage().replace("\\realDay", realDayName);
+      Calendar calFromDateString = Calendar.getInstance();
+      calFromDateString.set(Calendar.DAY_OF_WEEK, dayOfWeekFromString);
+      String message = match.getMessage()
+              .replace("\\realDay", getDayOfWeek(dateFromDate))
+              .replace("\\day", getDayOfWeek(calFromDateString));
       RuleMatch newMatch = new RuleMatch(match.getRule(), match.getFromPos(), match.getToPos(), message, match.getShortMessage());
       return newMatch;
     } else {
