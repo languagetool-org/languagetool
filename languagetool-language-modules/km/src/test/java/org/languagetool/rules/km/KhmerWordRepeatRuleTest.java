@@ -20,7 +20,6 @@ package org.languagetool.rules.km;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
 
@@ -31,17 +30,17 @@ import java.io.IOException;
  */
 public class KhmerWordRepeatRuleTest extends TestCase {
 
-    public void testWordRepeatRule() throws IOException {
-        final Khmer language = new Khmer();
-        KhmerWordRepeatRule rule = new KhmerWordRepeatRule(TestTools.getEnglishMessages(), language);
-        JLanguageTool langTool = new JLanguageTool(language);
-        // correct sentences:
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
+  public void testWordRepeatRule() throws IOException {
+    final Khmer language = new Khmer();
+    KhmerWordRepeatRule rule = new KhmerWordRepeatRule(TestTools.getEnglishMessages(), language);
+    JLanguageTool langTool = new JLanguageTool(language);
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយៗ​នោះ។")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ហើយ ហើយ​ខ្ញុំ។")).length);
 
-        // incorrect sentences:
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
-    }
+    // incorrect sentences:
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("នេះ​ហើយ​ហើយ​នោះ។")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​និង​គាត់។")).length);
+  }
 
 }

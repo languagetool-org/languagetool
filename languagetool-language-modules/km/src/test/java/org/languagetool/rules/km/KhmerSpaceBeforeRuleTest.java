@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Khmer;
-import org.languagetool.rules.km.KhmerSpaceBeforeRule;
 import java.io.IOException;
 
 /**
@@ -30,18 +29,18 @@ import java.io.IOException;
  */
 public class KhmerSpaceBeforeRuleTest extends TestCase {
 
-    public void testSpaceBeforeRule() throws IOException {
-        final Khmer language = new Khmer();
-        KhmerSpaceBeforeRule rule = new KhmerSpaceBeforeRule(TestTools.getEnglishMessages(), language);
-        JLanguageTool langTool = new JLanguageTool(language);
-        // correct sentences:
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​បាន​ទៅ ដើម្បី​ទិញ​ម្ហូប។")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ និង​គាត់។")).length);
-        assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ចង់​បាន ពីព្រោះ​គាត់​អត់​មាន។")).length);
+  public void testSpaceBeforeRule() throws IOException {
+    final Khmer language = new Khmer();
+    KhmerSpaceBeforeRule rule = new KhmerSpaceBeforeRule(TestTools.getEnglishMessages(), language);
+    JLanguageTool langTool = new JLanguageTool(language);
+    // correct sentences:
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​បាន​ទៅ ដើម្បី​ទិញ​ម្ហូប។")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ និង​គាត់។")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("គាត់​ចង់​បាន ពីព្រោះ​គាត់​អត់​មាន។")).length);
 
-        // incorrect sentences:
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("គាត់​បាន​ទៅ​ដើម្បី​ទិញ​ម្ហូប។")).length);
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​គាត់។")).length);
-        assertEquals(1, rule.match(langTool.getAnalyzedSentence("គាត់​ចង់​បាន​ពីព្រោះ​គាត់​អត់​មាន។")).length);
-    }
+    // incorrect sentences:
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("គាត់​បាន​ទៅ​ដើម្បី​ទិញ​ម្ហូប។")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("ខ្ញុំ​និង​គាត់។")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("គាត់​ចង់​បាន​ពីព្រោះ​គាត់​អត់​មាន។")).length);
+  }
 }
