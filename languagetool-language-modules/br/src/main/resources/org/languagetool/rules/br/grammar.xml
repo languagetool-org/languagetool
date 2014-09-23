@@ -8883,7 +8883,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DEIZIAD" name="Deiziad">
       <rule>
         <pattern>
-          <token regexp="yes">Lun|Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
+          <token>31</token>
+          <token>a</token>
+          <token>viz</token>
+          <token regexp="yes">Ebrel|Mezheven|Gwengolo|Du</token>
+        </pattern>
+        <message>30 deiz hepken a zo er miz \4.</message>
+        <example type="incorrect"><marker>31 a viz Ebrel</marker>.</example>
+        <example type="correct">30 a viz Ebrel.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">3[01]</token>
+          <token>a</token>
+          <token>viz</token>
+          <token>C’hwevrer</token>
+        </pattern>
+        <message>28 pe 29 deiz hepken a zo er miz C’hwevrer.</message>
+        <example type="incorrect">Etre an 25 hag an <marker>30 a viz C'hwevrer</marker>.</example>
+        <example type="correct">Etre an 25 hag 28 a viz C’hwevrer.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>29</token>
+          <token>a</token>
+          <token>viz</token>
+          <token>C’hwevrer</token>
+          <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+            <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+          </token>
+        </pattern>
+        <message>28 deiz hepken a zo er miz C’hwevrer \5. N’eo ket ur \5 ur bloavezh bizeost.</message>
+        <url>http://br.wikipedia.org/wiki/Bloavezh_bizeost</url>
+        <!-- 1900 is not a leap year (divisible by 100) -->
+        <example type="incorrect">An <marker>29 a viz C’hwevrer 1900</marker>.</example>
+        <!-- 2000 is a leap year (divisible by 400) -->
+        <example type="correct">An 29 a viz C’hwevrer 2000.</example>
+        <example type="incorrect">An <marker>29 a viz C’hwevrer 2001</marker>.</example>
+        <example type="incorrect">An <marker>29 a viz C’hwevrer 2002</marker>.</example>
+        <example type="incorrect">An <marker>29 a viz C’hwevrer 2003</marker>.</example>
+        <example type="correct">Le 29 a viz ’hwevrer 2004.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="DEIZ_DEIZIAD" name="Deiziad">
+      <rule>
+        <pattern>
+          <token>Lun</token>
           <token regexp="yes">[012]?\d|3[01]</token>
           <token>a</token>
           <token>viz</token>
@@ -8891,9 +8936,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
         <filter class="org.languagetool.rules.br.DateCheckFilter" args="year:\6 month:\5 day:\2 weekDay:\1"/>
-        <message>N’eo ket ur/ul «\1» deiz an deiziad «\2 \3 \4 \5 \6», ur/ul «{realDay}» eo.</message>
+        <message>N’eo ket ul «\1» deiz an deiziad «\2 \3 \4 \5 \6», ul «{realDay}» eo.</message>
+        <example type="incorrect">Al <marker>Lun 23 a viz Gwengolo 2014</marker>.</example>
+        <example type="correct">Al Lun 22 a viz Gwengolo 2014.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+          <token>a</token>
+          <token>viz</token>
+          <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Eost|Gwengolo|Here|Du|Kerzu</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.br.DateCheckFilter" args="year:\6 month:\5 day:\2 weekDay:\1"/>
+        <message>N’eo ket ur «\1» deiz an deiziad «\2 \3 \4 \5 \6», ur/ul «{realDay}» eo.</message>
         <example type="incorrect">Ar <marker>Sul 22 a viz Gwengolo 2014</marker>.</example>
-        <example type="correct">Al <marker>Lun 22 a viz Gwengolo 2014</marker>.</example>
+        <example type="correct">Ar Sul 21 a viz Gwengolo 2014.</example>
+        <example type="correct">Al Lun 22 a viz Gwengolo 2014.</example>
         <example type="incorrect">D’ar <marker>Merc’her 6 a viz C’hwevrer 2014</marker>.</example>
         <example type="incorrect">D’ar <marker>Merc'her 6 a viz C'hwevrer 2014</marker>.</example>
         <example type="correct">D’ar Merc’her 5 a viz C'hwevrer 2014.</example>
@@ -8914,7 +8974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="incorrect"><marker>Gwener 28/08/2014</marker>.</example>
         <example type="incorrect"><marker>Gwener 28/8/2014</marker>.</example>
         <example type="incorrect"><marker>Gwener, 28/8/2014</marker>.</example>
-        <example type="correct"><marker>Yaou 28/08/2014</marker>.</example>
+        <example type="correct">Yaou 28/08/2014.</example>
       </rule>
     </rulegroup>
   </category>
