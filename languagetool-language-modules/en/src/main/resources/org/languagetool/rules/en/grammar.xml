@@ -10439,6 +10439,11 @@ USA
             <example type="correct">I have got <marker>lots of wine</marker>.</example>
         </rule>
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
+            <antipattern>
+                <token>top</token>
+                <token postag="CD"/>
+                <token>hit</token>
+            </antipattern>
             <antipattern>   <!-- *two sliver and black triangles* -->
                 <marker><token postag="CD"/>
                 <token postag="NN(:UN?)?" postag_regexp="yes"/>
@@ -10492,7 +10497,7 @@ USA
                     <exception regexp="yes">1[789]\d\d</exception><!-- exclude, might be year -->
                     <exception regexp="yes">20[0123]\d</exception><!-- exclude, might be year -->
                     <exception postag="NNP"/><exception scope="previous" postag="DT|PRP\$|POS" postag_regexp="yes"/>
-                    <exception regexp="yes" scope="previous">&months;|category|size|\$\d+</exception>
+                    <exception regexp="yes" scope="previous">&months;|season|category|size|\$\d+</exception>
                     <exception spacebefore="no" scope="previous">.</exception>
                     <exception scope="previous">×</exception>
                 </token>
