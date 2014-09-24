@@ -10873,19 +10873,20 @@ USA
                 <pattern>
                     <marker>
                         <token postag='SENT_START' />
-                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip="-1" regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
-                        <token postag='SENT_END' />
                     </marker>
+                        <token postag='SENT_END' />
                 </pattern>
-                <message>This can be a subtle error: “\2” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes. Finally, it can sometimes be caused by confusing closely related words, e.g using 'that' instead of 'this'.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
-                <example type='incorrect'><marker>Though the dog likes to bark.</marker></example>
-                <example type='correct'>Though the dog likes to bark; it's still a nice dog.</example>
+                <short>Punctuation error, sentence looks like a fragment</short>
+                <example type='incorrect'><marker>Though</marker> the dog likes to bark.</example>
+                <example type='incorrect'><marker>After</marker> we had dinner.</example>
+                <example type='correct'>Though the dog likes to bark, it's still a nice dog.</example>
+                <example type='correct'>After we had dinner, we went to the cinema.</example>
+
             </rule>
             <!-- Note: 
                 The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
@@ -10899,19 +10900,17 @@ USA
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>Even</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>Even</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC' />
                 </antipattern>
@@ -10920,18 +10919,16 @@ USA
                     <marker>
                         <token postag='SENT_START' />
                         <token>even</token>
-                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                             <exception postag="DT"/>
                         </token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
-                        <token postag='SENT_END' />
                     </marker>
+                        <token postag='SENT_END' />
                 </pattern>
-                <message>This can be a subtle error: “\2 \3” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
-                <example type='incorrect'><marker>Even if the dog likes to bark.</marker></example>
+                <short>Punctuation error, sentence looks like a fragment</short>
+                <example type='incorrect'><marker>Even if</marker> the dog likes to bark.</example>
                 <example type='correct'>Even if the dog likes to bark; it's still a nice dog.</example>
                 <example type="correct">That was probably what influenced their decision.</example>
             </rule>
@@ -10944,19 +10941,17 @@ USA
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>So</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>So</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC' />
                 </antipattern>
@@ -10965,17 +10960,15 @@ USA
                     <marker>
                         <token postag='SENT_START' />
                         <token>So</token>
-                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
-                        <token postag='SENT_END' />
                     </marker>
+                        <token postag='SENT_END' />
                 </pattern>
-                <message>This can be a subtle error: “\2 \3” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
-                <example type='incorrect'><marker>So if the dog likes to bark.</marker></example>
+                <short>Punctuation error, sentence looks like a fragment</short>
+                <example type='incorrect'><marker>So if</marker> the dog likes to bark.</example>
                 <example type='correct'>So if the dog likes to bark; it's still a nice dog.</example>
             </rule>
             <!--rule R0.1D phrase 'So, [list]', likely to start a fragment -->
@@ -10988,20 +10981,18 @@ USA
                     <token postag='SENT_START' />
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes' />
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes' />
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC' />
                 </antipattern>
@@ -11011,17 +11002,15 @@ USA
                         <token postag='SENT_START' />
                         <token>So</token>
                         <token postag=',|:' postag_regexp='yes' />
-                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
-                        <token postag='SENT_END' />
                     </marker>
+                        <token postag='SENT_END' />
                 </pattern>
-                <message>This can be a subtle error: “\2 \3 \4” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3 \4”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
-                <example type='incorrect'><marker>So, if the dog likes to bark.</marker></example>
+                <short>Punctuation error, sentence looks like a fragment</short>
+                <example type='incorrect'><marker>So, if</marker> the dog likes to bark.</example>
                 <example type='correct'>So, if the dog likes to bark; it's still a nice dog.</example>
             </rule>
             <!--rule R0.1E phrase 'So even [list]', likely to start a fragment -->
@@ -11034,20 +11023,18 @@ USA
                     <token postag='SENT_START' />
                     <token>So</token>
                     <token>even</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>So</token>
                     <token>even</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC' />
                 </antipattern>
@@ -11057,14 +11044,12 @@ USA
                         <token postag='SENT_START' />
                         <token>So</token>
                         <token>even</token>
-                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
                         <token postag='SENT_END' />
                     </marker>
                 </pattern>
-                <message>This can be a subtle error: “\2 \3 \4” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3 \4”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
                 <short>Sentence is a fragment</short>
                 <example type='incorrect'><marker>So even if the dog likes to bark.</marker></example>
@@ -11081,11 +11066,10 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes' />
                     <token>even</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
@@ -11093,9 +11077,8 @@ USA
                     <token>So</token>
                     <token postag=',|:' postag_regexp='yes' />
                     <token>even</token>
-                    <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                    <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                     </token>
-                    <token skip='-1' />
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC' />
                 </antipattern>
@@ -11106,16 +11089,14 @@ USA
                         <token>So</token>
                         <token postag=',|:' postag_regexp='yes' />
                         <token>even</token>
-                        <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                        <token skip='-1' regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
                         </token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
                         <token postag='SENT_END' />
                     </marker>
                 </pattern>
-                <message>This can be a subtle error: “\2 \3 \4 \5” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3 \4 \5”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
+                <short>Punctuation error, sentence looks like a fragment</short>
                 <example type='incorrect'><marker>So, even if the dog likes to bark.</marker></example>
                 <example type='correct'>So, even if the dog likes to bark; it's still a nice dog.</example>
             </rule>
@@ -11126,19 +11107,16 @@ USA
                     <token postag='SENT_START' />
                     <token>In</token>
                     <token>order</token>
-                    <token>that</token>
-                    <token skip='-1' />
+                    <token skip='-1'>that</token>
                     <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>In</token>
                     <token>order</token>
-                    <token>that</token>
-                    <token skip='-1' />
-                    <!-- start search after 2nd token in case it is a comma -->
+                    <token skip='-1'>that</token>
                     <token postag='CC' />
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
@@ -11147,16 +11125,14 @@ USA
                         <token postag='SENT_START' />
                         <token>In</token>
                         <token>order</token>
-                        <token>that</token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
-                        <token postag='SENT_END' />
+                        <token skip='-1' >that</token>
                     </marker>
+                    <token postag='SENT_END' />
                 </pattern>
-                <message>This can be a subtle error: “\2 \3 \4” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3 \4”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
-                <example type='incorrect'><marker>In order that the dog guards the house.</marker></example>
+                <short>Punctuation error, sentence looks like a fragment</short>
+                <example type='incorrect'><marker>In order that</marker> the dog guards the house.</example>
                 <example type='correct'>In order that dog guards the house; it needs to bark loudly.</example>
             </rule>
             <!--rule R0.1H phrase 'Provided that', likely to start a fragment -->
@@ -11165,18 +11141,14 @@ USA
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>Provided</token>
-                    <token>that</token>
-                    <token skip='-1' />
-                    <!-- start search after 2nd token in case it is a comma -->
-                    <token regexp='yes'>,|;|:|!|\?</token>
+                    <token skip='-1'>that</token>
+                    <token regexp='yes'>[,;:!\?]</token>
                 </antipattern>
                 <!-- Does it have an unpunctuated CC/SC?-->
                 <antipattern>
                     <token postag='SENT_START' />
                     <token>Provided</token>
-                    <token>that</token>
-                    <token skip='-1' />
-                    <!-- start search after 2nd token in case it is a comma -->
+                    <token skip='-1'>that</token>
                     <token postag='CC' />
                 </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
@@ -11184,16 +11156,14 @@ USA
                     <marker>
                         <token postag='SENT_START' />
                         <token>Provided</token>
-                        <token>that</token>
-                        <!-- mark entire sentence -->
-                        <token skip='-1' />
-                        <token postag='SENT_END' />
+                        <token skip='-1'>that</token>
                     </marker>
+                        <token postag='SENT_END' />
                 </pattern>
-                <message>This can be a subtle error: “\2 \3” introduce a subordinate clause; however, there is neither punctuation nor coordinating conjunction to indicate a main clause. Alternatively, if the SC is subordinate to the preceding sentence, the two sentences should be joined. A subordinate conjunction ending a sentence would normally not be punctuated: Though a colon may be used for emphasis. Another possibility, with narrative or rhetorical styles, is a missing question or exclamation mark. Finally, correct punctuation is very sensitive to phrasing.</message>
+                <message>This can be a subtle error. When “\2 \3”  is used to begin a sentence there is an implication of a 2nd clause; however, the rule can find no punctuation or coordinating conjunction. The error can be caused by poor style, but it is more likely to be a hard grammatical error: a missing comma, question or exclamation mark; the splitting of sentences with closely linked clauses, (for example, using a full stop instead a colon), or poor phrasing with excessive and unclear wordage, are all possible causes.</message>
                 <url>http://www.chompchomp.com/rules/fragrules.htm</url>
-                <short>Sentence is a fragment</short>
-                <example type='incorrect'><marker>Provided that the dog guards my house.</marker></example>
+                <short>Punctuation error, sentence looks like a fragment</short>
+                <example type='incorrect'><marker>Provided that</marker> the dog guards my house.</example>
                 <example type='correct'>Provided that the dog guards my house; I do not mind it barking loudly.</example>
             </rule>
         </rulegroup>    
