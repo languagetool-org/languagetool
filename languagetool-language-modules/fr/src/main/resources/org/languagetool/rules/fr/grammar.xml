@@ -761,6 +761,10 @@ though, and has since been slightly modified)-->
       <example type="correct"><marker>Quand</marker> il arrive, je suis heureuse.</example>
     </rule>
     <rulegroup id="NOTRE" name="notre/votre et nôtre/vôtre">
+      <antipattern>
+        <token case_sensitive="yes">Notre</token>
+        <token case_sensitive="yes">Père</token>
+      </antipattern>
       <rule>
         <pattern>
           <token regexp="yes">les?|la|du|des|aux?</token>
@@ -771,6 +775,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="o" regexp_replace="ô"/></suggestion> ?</message>
         <example type="incorrect" correction="nôtre">C’est le <marker>notre</marker>.</example>
         <example type="correct">C’est le nôtre.</example>
+        <example type="correct">Le Notre Père est une prière chrétienne.</example>
       </rule>
       <rule>
         <pattern>
