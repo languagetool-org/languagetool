@@ -575,8 +575,8 @@ $Id$
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}]|-|—<exception postag="SENT_START"></exception><exception regexp="yes">[аА]</exception></token>
-                    <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых<exception scope="next">далее</exception></token>
-                    <token negate="yes">,</token>
+                    <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
+                    <token negate="yes" regexp="yes">,|далее</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\1, \2, \3</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
