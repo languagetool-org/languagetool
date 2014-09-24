@@ -1629,8 +1629,8 @@ $Id$
   <antipattern case_sensitive="yes"><token>het</token><token regexp="yes">[A-Z].*</token><token regexp="yes">[A-Z].*</token></antipattern> <!-- eigennamen -->
   <pattern>
   <token>het</token>
-  <token postag="NN1[dmf]|NN2" postag_regexp="yes"><exception regexp="yes">heeft|bij|voor|was|niet|een|buiten</exception><exception postag="VB1|VBp|VBpe|NM.*|VBi|AJ.*|PP.*|UNKNOWN" postag_regexp="yes"></exception></token>
-  <token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception>iets</exception></token>
+  <token postag="NN1[dmf]|NN2" postag_regexp="yes"><exception regexp="yes">heeft|bij|voor|was|niet|een|buiten</exception><exception postag="VB3|VBp|VBpe|NM.*|VBi|AJ.*|PP.*|UNKNOWN" postag_regexp="yes"></exception></token>
+  <token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception regexp="yes">iets|niets</exception></token>
   </pattern>
   <message>U bedoelt mogelijk <suggestion>de <match no="2"></match></suggestion>, <suggestion>het <match no="2"></match><match no="3" case_conversion="startlower"></match></suggestion> of <suggestion>het <match no="2"></match>-<match no="3"></match></suggestion></message>
   <short>de- of het-fout (HET_NN1D_NN1H)</short>
@@ -2047,7 +2047,7 @@ $Id$
   <token negate="yes">volgens</token>
   <marker>
   <token>jou</token>
-  <token postag="NN.*" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"></exception><exception regexp="yes">bij|goed|een|voor|iets|thuis</exception></token>
+  <token postag="NN.*" postag_regexp="yes"><exception postag="VB.*" postag_regexp="yes"></exception><exception regexp="yes">bij|goed|een|voor|iets|thuis|alles|super|niets</exception></token>
   </marker>
   </pattern>
   <message>Bedoelt u misschien <suggestion>jouw <match no="3"></match></suggestion>?</message>
@@ -2391,10 +2391,10 @@ $Id$
   2014-08-22 TaalTik
     regel werkte redelijk; case sensitive op pattern verwijderd
   -->
-<pattern>
+<pattern case_sensitive="yes">
 <marker>
-<token case_sensitive="yes">de</token>
-<token regexp="yes">Baarsjes|Bilt|Klinge|Meern|Moeren|Ronde|Wolden|Lier</token>
+<token>de</token>
+<token regexp="yes">Baarsjes|Bilt|Klinge|Meern|Wolden|Lier|Ronde|Moeren</token>
 </marker>
 <token><exception>van</exception></token>
 </pattern>
@@ -2751,7 +2751,7 @@ $Id$
   <example type="correct">Ik zie het <marker>bisdom</marker> terug.</example>
 </rule>
 
-<rule id="OT_MAANDEN" name="maanden hoeven geen hoofdletter">
+<rule id="OT_MAANDEN" name="maanden hebben geen hoofdletter">
   <!-- 
   2014-08-21 TaalTik
     regel werkt goed op NL teksten; er zitten wel een paar eigennamen in de weg.
@@ -2762,7 +2762,7 @@ $Id$
   <token regexp="yes">Januari|Februari|Maart|April|Mei|Juni|Juli|Augustus|September|Oktober|November|December</token>
   </marker>
   </pattern>
-  <message>Maanden behoeven geen hoofdletter: <suggestion><match no="2" case_conversion="startlower"></match></suggestion></message>
+  <message>Maanden krijgen geen hoofdletter: <suggestion><match no="2" case_conversion="startlower"></match></suggestion></message>
   <short>Geen hoofdletter</short>
   <example type="incorrect">De maand <marker>Mei</marker> is droog.</example>
   <example type="correct">De maand <marker>mei</marker> is droog.</example>
@@ -2778,7 +2778,7 @@ $Id$
   <pattern case_sensitive="yes">
   <token><exception postag="SENT_START"></exception></token>
   <marker>
-  <token regexp="yes">(Oudejaar|Oudjaar|Nieuwjaar|Allerzielen|Dierendag|Prinsjesdag|Vaderdag|Moederdag|Aswoensdag|Carnaval|Valentijns|Driekoningen|Kinderboekenweek|Boekenweek|Allerheiligen|Pinkster|Kerst|Hemelvaarts).*...<exception regexp="yes">Kerstmis|Kerstman</exception></token>
+  <token regexp="yes">(Oudejaar|Oudjaar|Nieuwjaar|Allerzielen|Dierendag|Prinsjesdag|Vaderdag|Moederdag|Aswoensdag|Carnaval|Valentijnsdag|Driekoningen|Kinderboekenweek|Boekenweek|Allerheiligen|Pinkster|Kerst|Hemelvaarts).*...<exception regexp="yes">Kerstmis|Kerstman|Hemelvaartsdag</exception></token>
   </marker>
   </pattern>
   <message>Samenstellingen met namen van feesten behoeven geen hoofdletter: <suggestion><match no="2" case_conversion="startlower"></match></suggestion></message>
@@ -3682,7 +3682,7 @@ $Id$
     regel werkt goed
   -->
   <pattern case_sensitive="yes">
-  <token inflected="yes">magazine</token>
+  <token inflected="yes" case_sensitive="yes">magazine</token>
   </pattern>
   <message>Leenwoord. Suggesties: <suggestion><match no="1" postag="NN.*" postag_regexp="yes">tijdschrift</match></suggestion>.</message>
   <short>Leenwoord</short>
@@ -5451,6 +5451,8 @@ $Id$
   <!-- 2014-09-08 TaalTik
   nieuw
   -->
+  <antipattern><token>is</token><token>gelukt</token></antipattern>
+  <antipattern><token>gelukt</token><token>is</token></antipattern>
   <pattern>
     <token inflected="yes">gelukken<exception postag_regexp="yes" postag="NN1.*"/></token>
   </pattern>
@@ -5657,7 +5659,7 @@ zijdens 	van de kant van, door
   <example type="correct">Kom eens <marker>ter zake</marker>.</example>
 </rule>
 
-<rule id="OT_TER_ZAKE_VAN" name="ter zake van">
+<rule id="OT_TER_ZAKE_VAN" name="Ter zake van => in verband met">
   <!--
   2014-08-22 TaalTik
     regel werkt prima.
@@ -5673,7 +5675,7 @@ zijdens 	van de kant van, door
   <example type="correct"><marker>In verband met</marker> uw verzoek --.</example>
 </rule>
 
-<rule id="TT0001" name="Aanwenden is ouderwets">
+<rule id="TaalTik_AANWENDEN" name="Aanwenden => gebruiken">
   <!-- 2014-08-20 TaalTik: nieuwe regel -->
   <pattern>
   <token inflected="yes">aanwenden</token>
@@ -6279,7 +6281,7 @@ zijdens 	van de kant van, door
   <token>/</token>
   <token>h</token>
   </pattern>
-  <message> liever <suggestion>van het</suggestion>.</message>
+  <message>Gebruik liever <suggestion>van het</suggestion> of <suggestion>voorheen</suggestion>.</message>
   <short>Vermijd / </short>
   <example type="incorrect">Een <marker>v/h</marker> stel.</example>
   <example type="correct">Een <marker>van het</marker> stel.</example>
@@ -6562,7 +6564,7 @@ zijdens 	van de kant van, door
   <example type="correct"><marker>Hij loopt</marker> verder.</example>
 </rule>
 
-<rule id="TaalTik_JIJ_BEHEERD" name="Jij beheerd => jij beheert">
+<rule id="TaalTik_JIJ_BEHEERD" name="Jij beheerd → jij beheert">
   <!--
   2014-09-12 TaalTik nieuw
   2014-09-22 TaalTik antipattern toegevoegd 
@@ -7825,7 +7827,7 @@ zijdens 	van de kant van, door
   </marker>
   <token regexp="yes">je|jij</token>
   </pattern>
-  <message>Vele vinden dat <suggestion>kun</suggestion> netter is. Kan mag echter ook.</message>
+  <message>Velen vinden dat <suggestion>kun</suggestion> netter is. Kan mag echter ook.</message>
   <url>http://taaladvies.net/taal/advies/vraag/442/je_kan_kunt/</url>
   <short>Kun</short>
   <example type="correct"><marker>Kun</marker> je het even doen voor mij?.</example>
@@ -7993,7 +7995,7 @@ zijdens 	van de kant van, door
       <token>.</token>      
       <token>:</token>      
     </pattern>
-    <message>Na N.B. komt geen dubbelepunt :<suggestion>N.B.</suggestion></message>
+    <message>Na N.B. komt geen dubbelepunt: <suggestion>N.B.</suggestion></message>
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <short>N.B.</short>
     <example type="incorrect"><marker>N.B.:</marker> Dit is fout.</example>
@@ -8008,7 +8010,7 @@ zijdens 	van de kant van, door
       <token case_sensitive="yes">NB</token>
       <token>:</token>
     </pattern>
-    <message>Na NB komt geen dubbelepunt :<suggestion>NB</suggestion></message>
+    <message>Na NB komt geen dubbelepunt: <suggestion>NB</suggestion></message>
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <short>NB</short>
     <example type="incorrect"><marker>NB:</marker> Dit is fout.</example>
@@ -8027,7 +8029,7 @@ zijdens 	van de kant van, door
       <token>.</token>      
       <token>:</token>      
     </pattern>
-    <message>Na P.S. komt geen dubbelepunt :<suggestion>P.S.</suggestion></message>
+    <message>Na P.S. komt geen dubbelepunt: <suggestion>P.S.</suggestion></message>
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <short>P.S.</short>
     <example type="incorrect"><marker>P.S.:</marker> Dit is fout.</example>
@@ -8043,7 +8045,7 @@ zijdens 	van de kant van, door
       <token case_sensitive="yes">PS</token>
       <token>:</token>
     </pattern>
-    <message>Na PS komt geen dubbelepunt :<suggestion>PS</suggestion></message>
+    <message>Na PS komt geen dubbelepunt: <suggestion>PS</suggestion></message>
     <url>https://onzetaal.nl/taaladvies/advies/ps</url>
     <short>PS</short>
     <example type="incorrect"><marker>PS:</marker> Dit is fout.</example>
@@ -8580,7 +8582,7 @@ zijdens 	van de kant van, door
 </rule>
 
 <rule id="TaalTik_HARER" name="Waarschuwen voor 'harer' etc. buiten staande uitdrukkingen">
-  <!-- TODO Afraden van al deze ouderwetsigheid -->
+  <!-- 2014-09-24 TaalTik nieuw -->
   <pattern>
     <marker>
     <token regexp="yes">mijner|jouwer|uwer|onzer|harer|hunner|zijner</token>
@@ -8596,12 +8598,12 @@ zijdens 	van de kant van, door
   <example type="correct">Het is om te <marker>uwer</marker> informatie.</example>
 </rule>
 
-<rule id="TaalTik_HAREN" name="Waarschuwen voor 'haren' etc. buiten staande uitdrukkingen">
-  <!-- TODO Afraden van al deze ouderwetsigheid -->
+<rule id="TaalTik_JOUWEN" name="Waarschuwen voor 'jouwen' etc. buiten staande uitdrukkingen">
+  <!-- 2014-09-24 TaalTik nieuw -->
+  <!-- haren en mijnen uitgeschakeld i.v.m. vele false positives -->
    <pattern case_sensitive="yes">
-     <token><exception postag="AJe"/><exception>de</exception></token>
     <marker>
-    <token regexp="yes">mijnen|jouwen|uwen|onzen|haren|hunnen|zijnen</token>
+    <token regexp="yes">jouwen|uwen|onzen|hunnen|zijnen</token>
     </marker>
     <token regexp="yes" negate="yes">aanzien|gunste|huize|behoeve|burele|dienste|genoegen|gerieve|kantore|laste|nadele|voordele</token>
   </pattern>
@@ -9061,7 +9063,7 @@ zich van de domme houden, van den domme houden
     <token>onder</token>
     <token>een</token>
     <token>kap</token>
-  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9080,7 +9082,7 @@ zich van de domme houden, van den domme houden
     <token>huis</token>
     <token>aan</token>
     <token>huis</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
     </marker>
   </pattern>
   <message>U bedoelt vast: <suggestion>\2-\3-\4\5</suggestion> of <suggestion>\2-\3-\4-\5</suggestion></message>
@@ -9101,7 +9103,7 @@ zich van de domme houden, van den domme houden
     <token>tuin</token>
     <token>en</token>
     <token>keuken</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
     </marker>
   </pattern>
   <message>U bedoelt vast: <suggestion>\2-\3-\4-\5\6</suggestion> of <suggestion>\2-\3-\4-\5-\6</suggestion></message>
@@ -9137,7 +9139,7 @@ zich van de domme houden, van den domme houden
   <token>van</token>
   <token>de</token>
   <token>duivel</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9154,7 +9156,7 @@ zich van de domme houden, van den domme houden
   <token>op</token>
   <token>de</token>
   <token>wereld</token>
-      <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+      <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9170,7 +9172,7 @@ zich van de domme houden, van den domme houden
   <token>alles</token>
   <token>of</token>
   <token>niets</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9186,7 +9188,7 @@ zich van de domme houden, van den domme houden
   <token>baas</token>
   <token>boven</token>
   <token>baas</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2\3</suggestion> of <suggestion>\1-\2-\3</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9203,7 +9205,7 @@ zich van de domme houden, van den domme houden
   <token>in</token>
   <token>eigen</token>
   <token>buik</token>
-      <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+      <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9219,7 +9221,7 @@ zich van de domme houden, van den domme houden
   <token>benen</token>
   <token>op</token>
   <token>tafel</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9235,7 +9237,7 @@ zich van de domme houden, van den domme houden
   <token>dag</token>
   <token>na</token>
   <token>dag</token>
-  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9252,7 +9254,7 @@ zich van de domme houden, van den domme houden
   <token>in</token>
   <token>een</token>
   <token>dozijn</token>
-  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+  <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9268,7 +9270,7 @@ zich van de domme houden, van den domme houden
   <token>face</token>
   <token>to</token>
   <token>face</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9285,7 +9287,7 @@ zich van de domme houden, van den domme houden
   <token>terug</token>
   <token>bij</token>
   <token>vertraging</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token regexp="yes">actie|acties</token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9301,7 +9303,7 @@ zich van de domme houden, van den domme houden
   <token>glas</token>
   <token>in</token>
   <token>lood</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9317,7 +9319,7 @@ zich van de domme houden, van den domme houden
   <token>half</token>
   <token>om</token>
   <token>half</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9333,7 +9335,7 @@ zich van de domme houden, van den domme houden
   <token>hard</token>
   <token>tegen</token>
   <token>hard</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9350,7 +9352,7 @@ zich van de domme houden, van den domme houden
   <token>van</token>
   <token>de</token>
   <token>naald</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9366,7 +9368,7 @@ zich van de domme houden, van den domme houden
   <token>huis</token>
   <token>in</token>
   <token>huis</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9382,7 +9384,7 @@ zich van de domme houden, van den domme houden
   <token>kop</token>
   <token>of</token>
   <token>munt</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9398,7 +9400,7 @@ zich van de domme houden, van den domme houden
   <token>lijf</token>
   <token>aan</token>
   <token>lijf</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9445,7 +9447,7 @@ zich van de domme houden, van den domme houden
   <token>mannen</token>
   <token>onder</token>
   <token>elkaar</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9461,7 +9463,7 @@ zich van de domme houden, van den domme houden
   <token>man</token>
   <token>tegen</token>
   <token>man</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9508,7 +9510,7 @@ zich van de domme houden, van den domme houden
 <token>mond</token>
 <token>tot</token>
 <token>mond</token>
-<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>http://taaladvies.net/taal/advies/vraag/559/mondopmondreclame_mondtotmondreclame/</url>
@@ -9540,7 +9542,7 @@ zich van de domme houden, van den domme houden
 <token>nek</token>
 <token>aan</token>
 <token>nek</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9556,7 +9558,7 @@ zich van de domme houden, van den domme houden
 <token>opa</token>
 <token>en</token>
 <token>oma</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token regexp="yes">regeling|regelingen</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9572,7 +9574,7 @@ zich van de domme houden, van den domme houden
 <token>over</token>
 <token>mijn</token>
 <token>lijk</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9588,7 +9590,7 @@ zich van de domme houden, van den domme houden
 <token>papa</token>
 <token>en</token>
 <token>mama</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9604,7 +9606,7 @@ zich van de domme houden, van den domme houden
 <token>rijst</token>
 <token>met</token>
 <token>krenten</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9620,7 +9622,7 @@ zich van de domme houden, van den domme houden
 <token>rond</token>
 <token>de</token>
 <token>tafel</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9636,7 +9638,7 @@ zich van de domme houden, van den domme houden
 <token>rond</token>
 <token>de</token>
 <token>wereld</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token regexp="yes">ticket|tickets</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9652,7 +9654,7 @@ zich van de domme houden, van den domme houden
 <token>stap</token>
 <token>voor</token>
 <token>stap</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9668,7 +9670,7 @@ zich van de domme houden, van den domme houden
 <token>tussen</token>
 <token>de</token>
 <token>oren</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9685,7 +9687,7 @@ zich van de domme houden, van den domme houden
 <token>negen</token>
 <token>tot</token>
 <token>vijf</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9702,7 +9704,7 @@ zich van de domme houden, van den domme houden
 <token>van</token>
 <token>mijn</token>
 <token>bed</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token regexp="yes">show|verhaal</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9718,7 +9720,7 @@ zich van de domme houden, van den domme houden
 <token>voet</token>
 <token>bij</token>
 <token>stuk</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9734,7 +9736,7 @@ zich van de domme houden, van den domme houden
 <token>vraag</token>
 <token>en</token>
 <token>antwoord</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9749,7 +9751,7 @@ zich van de domme houden, van den domme houden
 <token>vrouwen</token>
 <token>onder</token>
 <token>elkaar</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9764,7 +9766,7 @@ zich van de domme houden, van den domme houden
 <token>gooi</token>
 <token>en</token>
 <token>smijt</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9780,7 +9782,7 @@ zich van de domme houden, van den domme houden
 <token>hang</token>
 <token>en</token>
 <token>sluit</token>
-<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9796,7 +9798,7 @@ zich van de domme houden, van den domme houden
 <token>hans</token>
 <token>en</token>
 <token>grietje</token>
-<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9812,7 +9814,7 @@ zich van de domme houden, van den domme houden
 <token>jeu</token>
 <token>de</token>
 <token>boules</token>
-<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9828,7 +9830,7 @@ zich van de domme houden, van den domme houden
 <token>jip</token>
 <token>en</token>
 <token>janneke</token>
-<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9844,7 +9846,7 @@ zich van de domme houden, van den domme houden
 <token>kat</token>
 <token>en</token>
 <token>muis</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9860,7 +9862,7 @@ zich van de domme houden, van den domme houden
 <token>kip</token>
 <token>of</token>
 <token>ei</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9877,7 +9879,7 @@ zich van de domme houden, van den domme houden
 <token>of</token>
 <token>ik</token>
 <token>schiet</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9909,7 +9911,7 @@ zich van de domme houden, van den domme houden
 <token>normen</token>
 <token>en</token>
 <token>waarden</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token regexp="yes">debat|discussie</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9925,7 +9927,7 @@ zich van de domme houden, van den domme houden
 <token>ot</token>
 <token>en</token>
 <token>sien</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+<token regexp="yes">kleding|spullen|speelgoed</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9941,7 +9943,7 @@ zich van de domme houden, van den domme houden
 <token>peper</token>
 <token>en</token>
 <token>zout</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token regexp="yes">stel|stellen</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9972,7 +9974,7 @@ zich van de domme houden, van den domme houden
 <pattern>
 <token>welles</token>
 <token>nietes</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een</exception></token>
+    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2\3</suggestion> of <suggestion>\1-\2-\3</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9998,7 +10000,7 @@ zich van de domme houden, van den domme houden
   <pattern>
     <token><exception>het</exception></token> <!-- dan is het een werkwoord -->
     <marker>
-    <token postag="AJe"><exception regexp="yes">hartelijke|vriendelijke</exception></token>
+    <token regexp="yes">verse|heerlijke|lekkere|smakelijke</token>
     <token>groeten</token>
     </marker>
   </pattern>
@@ -10085,7 +10087,7 @@ zich van de domme houden, van den domme houden
     <pattern>
       <token regexp="yes">dit|dat</token>
       <token postag="VBp" regexp="yes" skip="1">.*[dt]<exception postag_regexp="yes" postag="NN1.*|VB3"/></token>
-      <token><exception postag_regexp="yes" postag="VB.*"/></token>
+      <token><exception postag_regexp="yes" postag="VB.*"/><exception postag="UNKNOWN"/><exception regexp="yes">is|wordt</exception></token>
     </pattern>
     <message>\1|\2|\3</message>    
     <example type="incorrect"><marker>Dit betekend dat</marker> het fout is</example>
@@ -10104,7 +10106,7 @@ zich van de domme houden, van den domme houden
     <example type="correct">Het was van die <marker>orde van grootte</marker>.</example>
   </rule>
 
-  <rule id="TaalTik_TAAK_IS_VOLDAAN" name="Taak is voldaan => taak is volbracht">
+  <rule id="TaalTik_TAAK_IS_VOLDAAN" name="Taak is voldaan → taak is volbracht">
     <!-- TaalTik 2014-09-15: nieuw -->
     <pattern>
       <token>taak</token>
@@ -10167,7 +10169,7 @@ zich van de domme houden, van den domme houden
     <example type="correct">Hij kan het</example>
     </rule> 
 
-  <rule id="TaalTik_GAAT_TE_PAARD_MET" name="Gaat te paard met => gaat gepaard met">
+  <rule id="TaalTik_GAAT_TE_PAARD_MET" name="Gaat te paard met → gaat gepaard met">
     <!-- TaalTik 2014-09-15 nieuw -->
     <pattern>
       <token><exception>ziel</exception></token>
@@ -10184,7 +10186,7 @@ zich van de domme houden, van den domme houden
     <example type="correct">Het <marker>gaat gepaard met</marker> humor.</example>
   </rule>  
 
-  <rule id="TaalTik_NOG_EENDJE" name="Nog eendje => nog eentje">
+  <rule id="TaalTik_NOG_EENDJE" name="Nog eendje → nog eentje">
     <!-- TaalTik 2014-09-15 nieuw -->
     <pattern>
       <token regexp="yes">nog|noch</token>
@@ -10211,7 +10213,7 @@ zich van de domme houden, van den domme houden
     <example type="correct">Een <marker>afdoend</marker> antwoord.</example>
   </rule>  
 
-  <rule id="TaalTik_GEDACHTESTREEPJE_a" name=" - => —">
+  <rule id="TaalTik_GEDACHTESTREEPJE_a" name=" - → —">
     <!-- TaalTik 2014-09-18 nieuwe regel -->
     <pattern>
       <marker>
@@ -10229,7 +10231,10 @@ zich van de domme houden, van den domme houden
   <rule id="TaalTik_GEDACHTESTREEPJE_b" name="spatie voor gedachtestreep">
     <!-- TaalTik 2014-09-18 nieuw -->
     <pattern>
+      <token><exception postag="SENT_START"/></token>
+      <marker>
       <token spacebefore="no">—</token>
+    </marker>
     </pattern>
     <message>Voor een gedachtestreepje moet een spatie: <suggestion> —</suggestion></message>
     <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
@@ -10253,7 +10258,7 @@ zich van de domme houden, van den domme houden
     <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
   </rule>  
   
-  <rule id="TaalTik_ME_TEEN" name="me teen => meteen, met een, mijn teen">
+  <rule id="TaalTik_ME_TEEN" name="me teen → meteen, met een, mijn teen">
     <!-- TaalTik 2014-09-18 nieuw -->
     <pattern>
       <token>me</token>
@@ -10266,36 +10271,36 @@ zich van de domme houden, van den domme houden
   </rule>  
 
   
-  <rule id="TaalTik_DE_IPV_HET" name="De => het">
+  <rule id="TaalTik_DE_IPV_HET" name="De → het">
     <!-- 2014-09-18 TaalTik nieuw -->
     <antipattern><token>van</token><token>de</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern> <!-- blokkeer eigennamen -->
     <pattern>
       <token>de</token>
-      <token case_sensitive="yes" postag="NN1h"><exception postag_regexp="yes" postag="NN1d|VBpe|AJ.*|PPe|VB3|NN2"/><exception regexp="yes">iets|paar|weer|nummer|been</exception><exception regexp="yes">[A-Z].*</exception></token>
+      <token case_sensitive="yes" postag="NN1h"><exception postag_regexp="yes" postag="NN1d|VBpe|AJ.*|PPe|VB3|NN2"/><exception regexp="yes">iets|paar|weer|nummer|been|alles</exception><exception regexp="yes">[A-Z].*</exception></token>
     </pattern>
-    <message>Verwacht werd: <suggestion>het \2</suggestion>.</message>    
+    <message>Verwacht werd: <suggestion>het \2</suggestion>. Het kan een de-het-fout zijn, een spatiefout, of nog anders.</message>    
     <url>http://woordenlijst.org/</url>
     <example type="incorrect"><marker>De weeskind</marker>.</example>
   <example type="correct">Het kind.</example>
   </rule>
 
-  <rule id="TaalTik_HET_IPV_DE" name="Het => de">
+  <rule id="TaalTik_HET_IPV_DE" name="Het → de">
     <!-- 2014-09-18 TaalTik nieuw -->
     <antipattern><token></token><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern> <!-- voor het uitschakelen van eigennamen met foute spaties .. -->
     <pattern>
-      <token><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">of|en|dat</exception></token>
+      <token><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">of|en|dat|zodat|je</exception></token>
       <marker>
       <token>het</token>
-      <token postag="NN1d"  case_sensitive="yes" ><exception postag_regexp="yes" postag="NN1h|VBi|VB3|VBh1|VBp.*|AJ.*|PP.*|NM.*"/><exception regexp="yes">[A-Z].*|bij|voor|een|te|immer|mijn|hen|u</exception></token>
+      <token postag="NN1d"  case_sensitive="yes" ><exception postag_regexp="yes" postag="NN1h|VBi|VB3|VBh1|VBp.*|AJ.*|PP.*|NM.*"/><exception regexp="yes">[A-Z].*|zij|bij|voor|een|te|immer|mijn|hen</exception></token>
       </marker>
-      <token><exception postag_regexp="yes" postag="VBi|VB3"/></token>
+      <token><exception postag_regexp="yes" postag="VBi|VB3"/><exception regexp="yes">te|is|was</exception></token>
     </pattern>
-    <message>Verwacht werd: <suggestion>de \3</suggestion>.</message>    
+    <message>Verwacht werd: <suggestion>de \3</suggestion>. Het kan een de-het-fout zijn, een spatiefout, of nog anders.</message>    
     <example type="incorrect"><marker>Het man</marker>.</example>
   <example type="correct">De man.</example>
   </rule>
 
-  <rule id="TaalTik_WEER_ZIN" name="weer zin => weerzin">
+  <rule id="TaalTik_WEER_ZIN" name="weer zin → weerzin">
     <!-- 2014-09-20 TaalTik nieuw -->
     <pattern>
       <token regexp="yes">de|een|geen|mijn|zijn|hun|jouw</token>
@@ -10309,7 +10314,7 @@ zich van de domme houden, van den domme houden
     <example type="correct">Mijn taak is volbracht.</example>
   </rule>  
   
-  <rule id="TaalTik_DE_MAXIMUM" name="De maximum aanvaardbare => de maximaal aanvaardbare">
+  <rule id="TaalTik_DE_MAXIMUM" name="De maximum aanvaardbare → de maximaal aanvaardbare">
     <!-- 2014-09-22 TaalTik nieuw -->
     <pattern>
       <token>de</token>
@@ -10323,17 +10328,26 @@ zich van de domme houden, van den domme houden
     <example type="correct">De <marker>maximaal</marker> aanvaardbare schade.</example>
   </rule>  
 
-  <rule id="TaalTik_DAR" name="Dar => daar">
+  <rule id="TaalTik_DAR" name="Dar → daar">
     <pattern>
       <token>dar</token>
     </pattern>
-    <message>Bedoelt u soms <suggestion>daar</suggestion>? Een 'dar' is een bij.</message>    
+    <message>Bedoelt u soms <suggestion>dat</suggestion> of <suggestion>daar</suggestion>? Een 'dar' is een bij.</message>    
     <example type="incorrect">Hij werkt <marker>dar</marker> niet.</example>
     <example type="correct">Hij werkt <marker>daar</marker> wel.</example>
   </rule>  
   
-</category>
 
+  <rule id="TaalTik_GE" name="Ge, gij → je, u">
+    <pattern>
+      <token regexp="yes">ge|gij</token>
+    </pattern>
+    <message>'\1' is niet gebruikelijk meer in dagelijks Nederlands. Gebruik <suggestion>je</suggestion> of <suggestion>u</suggestion></message>    
+    <example type="incorrect"><marker>Ge</marker> doet het fout.</example>
+    <example type="correct"><marker>Je</marker> doet het goed.</example>
+  </rule>    
+  
+</category>
 
 
 </rules>
