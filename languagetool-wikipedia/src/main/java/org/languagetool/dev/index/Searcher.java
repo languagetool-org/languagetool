@@ -64,14 +64,13 @@ public class Searcher {
   private static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
   private static final String MAX_DOC_COUNT_FIELD_VAL = "1";
 
+  private final Directory directory;
+
   private int maxHits = 1000;
   private int maxSearchTimeMillis = 5000;
-
-  private final Directory directory;
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
-
-  private static boolean limitSearch = true;
+  private boolean limitSearch = true;
 
   public Searcher(Directory directory) throws IOException {
     //openIndex(directory);
@@ -360,13 +359,12 @@ public class Searcher {
     final String languageCode = args[1];
     final Language language = Language.getLanguageForShortName(languageCode);
     final File indexDir = new File(args[2]);
-    if (args.length > 3 && "--no_limit".equals(args[3])) {
-      limitSearch = false;
-    }
+    final boolean limitSearch = args.length > 3 && "--no_limit".equals(args[3]);
     final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir));
     if (!limitSearch) {
-      searcher.setMaxHits(100000);
+      searcher.setMaxHits(100_000);
     }
+    searcher.limitSearch = limitSearch;
     for (String ruleId : ruleIds) {
       final long ruleStartTime = System.currentTimeMillis();
       for (PatternRule rule : searcher.getRuleById(ruleId, language)) {
