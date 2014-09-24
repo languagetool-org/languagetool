@@ -18,14 +18,15 @@
  */
 package org.languagetool.dev.index;
 
-import java.io.File;
+import org.languagetool.Language;
+
 import java.io.IOException;
 
 public class PatternRuleNotFoundException extends IOException {
 
   private static final long serialVersionUID = -220557881967037175L;
 
-  public PatternRuleNotFoundException(String ruleId, File ruleFile) {
-    super("Could not find pattern rule '" + ruleId + "' in rule file " + ruleFile);
+  public PatternRuleNotFoundException(String ruleId, Language language) {
+    super("Could not find pattern rule '" + ruleId + "' for language " + language);
   }
 }

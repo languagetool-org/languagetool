@@ -47,8 +47,6 @@ import org.languagetool.rules.patterns.PatternRule;
 
 public class IndexerSearcherTest extends LuceneTestCase {
 
-  private final File ruleFile = new File("../languagetool-language-modules/en/src/main/resources/org/languagetool/rules/en/grammar.xml");
-
   private Searcher errorSearcher;
   private Directory directory;
 
@@ -189,42 +187,40 @@ public class IndexerSearcherTest extends LuceneTestCase {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     //createIndex("I thin so");
     useRealIndex();
-    final PatternRule rule = getRule("I_THIN", ruleFile).get(0);
-    final SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, new German());
+    German language = new German();
+    PatternRule rule = getFirstRule("I_THIN", language);
+    SearcherResult searcherResult = errorSearcher.findRuleMatchesOnIndex(rule, language);
     System.out.println("Matches: " + searcherResult.getMatchingSentences());
   }
 
   public void testIndexerSearcherWithEnglish() throws Exception {
     // Note that the second sentence ends with "lid" instead of "lids" (the inflated one)
     createIndex("How to move back and fourth from linux to xmb? Calcium deposits on eye lid.");
+    English language = new English();
     SearcherResult searcherResult =
-        errorSearcher.findRuleMatchesOnIndex(getRule("BACK_AND_FOURTH").get(0), new English());
+        errorSearcher.findRuleMatchesOnIndex(getFirstRule("BACK_AND_FOURTH", language), language);
     assertEquals(2, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
-    searcherResult = errorSearcher.findRuleMatchesOnIndex(getRule("EYE_BROW").get(0), new English());
+    searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("EYE_BROW", language), language);
     assertEquals(2, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
-    searcherResult = errorSearcher.findRuleMatchesOnIndex(getRule("ALL_OVER_THE_WORD").get(0), new English());
+    searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("ALL_OVER_THE_WORD", language), language);
     assertEquals(2, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(0, searcherResult.getMatchingSentences().size());
 
     try {
-      errorSearcher.findRuleMatchesOnIndex(getRule("Invalid Rule Id").get(0), new English());
+      errorSearcher.findRuleMatchesOnIndex(getFirstRule("Invalid Rule Id", language), language);
       fail("Exception should be thrown for invalid rule id.");
     } catch (PatternRuleNotFoundException expected) {}
   }
 
-  private List<PatternRule> getRule(String ruleId) throws IOException {
-    return errorSearcher.getRuleById(ruleId, ruleFile);
-  }
-
-  private List<PatternRule> getRule(String ruleId, File grammarFile) throws IOException {
-    return errorSearcher.getRuleById(ruleId, grammarFile);
+  private PatternRule getFirstRule(String ruleId, Language language) throws IOException {
+    return errorSearcher.getRuleById(ruleId, language).get(0);
   }
 
   public void testWithNewRule() throws Exception {

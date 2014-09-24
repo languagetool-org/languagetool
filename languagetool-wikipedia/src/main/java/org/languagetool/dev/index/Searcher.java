@@ -48,7 +48,6 @@ import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternRuleLoader;
 
 /**
  * A class with a main() method that takes a rule id  and the location of the
@@ -219,19 +218,19 @@ public class Searcher {
     return new PossiblyLimitedTopDocs(topCollector.topDocs(), timeLimitActivated);
   }
 
-  List<PatternRule> getRuleById(String ruleId, File xmlRuleFile) throws IOException {
-    final PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    final List<PatternRule> rules = ruleLoader.getRules(xmlRuleFile);
-    final List<PatternRule> matchingRules = new ArrayList<PatternRule>();
-    for (PatternRule rule : rules) {
-      if (rule.getId().equals(ruleId)) {
-        matchingRules.add(rule);
+  List<PatternRule> getRuleById(String ruleId, Language language) throws IOException {
+    List<PatternRule> rules = new ArrayList<>();
+    JLanguageTool langTool = new JLanguageTool(language);
+    langTool.activateDefaultPatternRules();
+    for (Rule rule : langTool.getAllRules()) {
+      if (rule.getId().equals(ruleId) && rule instanceof PatternRule) {
+        rules.add((PatternRule) rule);
       }
     }
-    if (matchingRules.isEmpty()) {
-      throw new PatternRuleNotFoundException(ruleId, xmlRuleFile);
+    if (rules.size() > 0) {
+      return rules;
     } else {
-      return matchingRules;
+      throw new PatternRuleNotFoundException(ruleId, language);
     }
   }
 
@@ -279,10 +278,9 @@ public class Searcher {
   }
 
   private static void ensureCorrectUsageOrExit(String[] args) {
-    if (args.length < 4 || (args.length == 5 && !"--no_limit".equals(args[4]))) {
+    if (args.length < 3 || (args.length == 4 && !"--no_limit".equals(args[3]))) {
       System.err.println("Usage: Searcher <ruleId> <ruleXML> <languageCode> <indexDir> <--no_limit>");
       System.err.println("\truleId       Id of the rule to search for");
-      System.err.println("\truleXML      path to a rule file, e.g. en/grammar.xml");
       System.err.println("\tlanguageCode short language code, e.g. en for English");
       System.err.println("\tindexDir     path to a directory containing the index");
       System.err.println("\t--no_limit   do not limit search time");
@@ -359,11 +357,10 @@ public class Searcher {
     ensureCorrectUsageOrExit(args);
     final long startTime = System.currentTimeMillis();
     final String[] ruleIds = args[0].split(",");
-    final File ruleFile = new File(args[1]);
-    final String languageCode = args[2];
+    final String languageCode = args[1];
     final Language language = Language.getLanguageForShortName(languageCode);
-    final File indexDir = new File(args[3]);
-    if (args.length > 4 && "--no_limit".equals(args[4])) {
+    final File indexDir = new File(args[2]);
+    if (args.length > 3 && "--no_limit".equals(args[3])) {
       limitSearch = false;
     }
     final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir));
@@ -372,7 +369,7 @@ public class Searcher {
     }
     for (String ruleId : ruleIds) {
       final long ruleStartTime = System.currentTimeMillis();
-      for (PatternRule rule : searcher.getRuleById(ruleId, ruleFile)) {
+      for (PatternRule rule : searcher.getRuleById(ruleId, language)) {
         final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);
         int i = 1;
         if (searcherResult.getMatchingSentences().size() == 0) {
