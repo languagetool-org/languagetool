@@ -8473,7 +8473,9 @@ though, and has since been slightly modified)-->
           </token>
           <token regexp="yes" skip="2">que?</token>
           <marker>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
+            <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
+              <exception scope="next">été</exception>
+            </token>
             <token postag="V.* ppa.* p" postag_regexp="yes"/>
           </marker>
         </pattern>
@@ -8481,12 +8483,13 @@ though, and has since been slightly modified)-->
         <example type="correct">Le document qu’ils <marker>ont acheté</marker>.</example>
         <example type="incorrect">Le document qu’ils <marker>ont achetés</marker>.</example>
         <example type="correct">Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
+        <example type="correct">C’est dans la soirée que ces poursuites avaient été entamées.</example>
       </rule>
       <rule>
         <antipattern>
           <token regexp="yes">voulu|souhaité</token>
           <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
-          <token postag="V.* inf" postag_regexp="yes"></token>
+          <token postag="V.* inf" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|de</token>
@@ -8529,7 +8532,9 @@ though, and has since been slightly modified)-->
           </token>
           <token regexp="yes" skip="2">que?</token>
           <marker>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2"/>
+            <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
+              <exception scope="next">été</exception>
+            </token>
             <token postag="V.* ppa f .*" postag_regexp="yes"/>
           </marker>
         </pattern>
@@ -8540,6 +8545,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect">L’homme que j’<marker>ai aidée</marker>.</example>
         <example type="incorrect">L’homme que j’<marker>ai beaucoup aidée</marker>.</example>
         <example type="incorrect">L’homme que j’<marker>ai un peu aidée</marker>.</example>
+        <example type="correct">Pour faire savoir que cette arrestation a été décidée.</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUI_EST" name="accord qui + verbe être">
