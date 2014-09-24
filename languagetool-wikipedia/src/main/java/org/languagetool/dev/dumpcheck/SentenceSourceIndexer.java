@@ -38,9 +38,9 @@ import java.util.List;
  */
 public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseable {
 
-  private static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
-  private static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
-  private static final String MAX_DOC_COUNT_FIELD_VAL = "1";
+  public static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
+  public static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
+  public static final String MAX_DOC_COUNT_FIELD_VAL = "1";
 
   private final Indexer indexer;
   private final int maxSentences;

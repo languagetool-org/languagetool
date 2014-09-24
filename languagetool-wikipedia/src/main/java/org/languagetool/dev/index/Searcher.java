@@ -18,6 +18,9 @@
  */
 package org.languagetool.dev.index;
 
+import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD;
+import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD_VAL;
+import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_VALUE;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NAME;
@@ -60,10 +63,6 @@ import org.languagetool.rules.patterns.PatternRule;
  */
 public class Searcher {
 
-  private static final String MAX_DOC_COUNT_VALUE = "maxDocCountValue";
-  private static final String MAX_DOC_COUNT_FIELD = "maxDocCount";
-  private static final String MAX_DOC_COUNT_FIELD_VAL = "1";
-
   private final Directory directory;
 
   private int maxHits = 1000;
@@ -72,8 +71,7 @@ public class Searcher {
   private DirectoryReader reader;
   private boolean limitSearch = true;
 
-  public Searcher(Directory directory) throws IOException {
-    //openIndex(directory);
+  public Searcher(Directory directory) {
     this.directory = directory;
   }
 
@@ -318,11 +316,7 @@ public class Searcher {
         final long luceneTime = System.currentTimeMillis() - t2;
         final long t3 = System.currentTimeMillis();
         luceneMatchCount = limitedTopDocs.topDocs.totalHits;
-        if (limitedTopDocs.topDocs.scoreDocs.length >= maxHits) {
-          tooManyLuceneMatches = true;
-        } else {
-          tooManyLuceneMatches = false;
-        }
+        tooManyLuceneMatches = limitedTopDocs.topDocs.scoreDocs.length >= maxHits;
         matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
         System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3)
             + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs, query " + query.toString(FIELD_NAME_LOWERCASE));
