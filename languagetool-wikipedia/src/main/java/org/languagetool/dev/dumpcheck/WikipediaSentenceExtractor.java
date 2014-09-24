@@ -24,7 +24,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * Extract sentences from a Wikipedia XML dump.
+ * Command line tool to extract sentences from a decompressed Wikipedia XML dump.
  * @since 2.6
  */
 class WikipediaSentenceExtractor {

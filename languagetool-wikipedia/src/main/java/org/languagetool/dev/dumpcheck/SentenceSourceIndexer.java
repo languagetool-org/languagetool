@@ -83,7 +83,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
   public static void main(String... args) throws Exception {
     if (args.length != 4) {
       System.out.println("Usage: " + SentenceSourceIndexer.class.getSimpleName() + " <dataFile...> <indexDir> <languageCode> <maxSentences>");
-      System.out.println("\t<dataFiles> comma-separated list of a Wikipedia XML dumps (*.xml) and/or Tatoeba files (tatoeba-*)");
+      System.out.println("\t<dataFiles> comma-separated list of a Wikipedia XML dump (*.xml) and/or Tatoeba files (tatoeba-*)");
       System.out.println("\t<indexDir> directory where Lucene index will be written to, existing index content will be removed");
       System.out.println("\t<languageCode> short code like en for English, de for German etc");
       System.out.println("\t<maxSentences> maximum number of sentences to be indexed, use 0 for no limit");
