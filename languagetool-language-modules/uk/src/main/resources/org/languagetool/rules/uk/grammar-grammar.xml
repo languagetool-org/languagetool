@@ -21,6 +21,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 $Id$
 -->
+
+<!--suppress CheckTagEmptyBody -->
+<!DOCTYPE rules [
+    <!ENTITY weekdays "понеділок|вівторлк|середа|четвер|п'ятниця|субота|неділя">
+    <!ENTITY months "січень|лютий|березень|квітень|травень|червень|липень|серпень|вересень|жовтень|листопад|грудень|січня|лютого|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня">
+    <!ENTITY abbrevMonths "січ|лют|бер|кві|тра|чер|лип|сер|вер|жов|лис|гру">
+]>
+
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
@@ -356,6 +364,64 @@ $Id$
                 </rule>
         </rulegroup>
 -->
+    </category>
+
+    <category name="Логічні помилки">
+          <rulegroup id="INVALID_DATE" name="Неправильна дата, наприклад '31 лютого 2014'">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>31</token>
+						<token regexp="yes">квітень|квітня|кві|червень|червня|вересень|вересня|вер|листопад|листопада|лис</token>                      
+                    </marker>
+                </pattern>
+                <message>Місяць \2 має лише 30 днів.</message>
+                <example type='incorrect'>Це трапилося <marker>31 листопада</marker> 2014 р.</example>
+                <example type='correct'>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+				        <token regexp="yes">лютий|лютого|лют</token>
+                    </marker>
+                </pattern>
+                <message>Лютий має 28 днів або 29 днів у переступному році.</message>
+                <example type='incorrect'>Це трапилося <marker>30 лютого</marker> 2014 р.</example>
+                <example type='correct'>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
+            </rule>
+        </rulegroup>
+	
+		 <rule id="YEAR_20001" name="Забагато нулів в номері року">
+            <pattern>
+                <token regexp="yes">&months;|рік</token>
+                <token regexp="yes">200\d\d</token>
+            </pattern>
+            <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
+            <short>Помилка друку?</short>
+            <example type="correct">Мою поїздку запланували на травень 2014 р.</example>
+            <example type="incorrect" correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
+        </rule>
+
+		<rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">   
+                    <!-- "понеділок, 7 жовтня 2014" -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">&weekdays;</token>
+                    <token>,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token regexp="yes">&months;|&abbrevMonths;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
+                <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
+                <example type='incorrect'>Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
+                <example type='incorrect'>Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
+                <example type='correct'>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
+                <example type='correct'>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
+            </rule>
+        </rulegroup>
+
     </category>
 
 </rules>
