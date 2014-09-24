@@ -10851,11 +10851,30 @@ USA
                     <!-- start search after 2nd token in case it is a comma -->
                     <token postag='CC' />
                 </antipattern>
+                <!-- 'that' is not always a connective -->
+                <antipattern>
+                    <token regexp="yes">that|whoever</token>
+                    <token regexp="yes">is|was</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">that|whoever</token>
+                    <token postag="MD"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">that|whoever</token>
+                    <token postag="VBZ"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">that|whoever</token>
+                    <token regexp="yes">['’]</token>
+                    <token regexp="yes">s|ll|ve</token>
+                </antipattern>
                 <!-- If it got past the antipatterns, then something is wrong -->
                 <pattern>
                     <marker>
                         <token postag='SENT_START' />
                         <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                            <exception postag="DT"/>
                         </token>
                         <!-- mark entire sentence -->
                         <token skip='-1' />
@@ -10902,6 +10921,7 @@ USA
                         <token postag='SENT_START' />
                         <token>even</token>
                         <token regexp='yes'>after|although|as|because|before|if|once|since|than|that|though|unless|until|when|whenever|where|whereas|wherever|whether|which|whichever|while|who|whoever|whom|whomever|whose
+                            <exception postag="DT"/>
                         </token>
                         <!-- mark entire sentence -->
                         <token skip='-1' />
@@ -10913,6 +10933,7 @@ USA
                 <short>Sentence is a fragment</short>
                 <example type='incorrect'><marker>Even if the dog likes to bark.</marker></example>
                 <example type='correct'>Even if the dog likes to bark; it's still a nice dog.</example>
+                <example type="correct">That was probably what influenced their decision.</example>
             </rule>
             <!--rule R0.1C phrase 'So [list]', likely to start a fragment -->
             <!-- Note:
