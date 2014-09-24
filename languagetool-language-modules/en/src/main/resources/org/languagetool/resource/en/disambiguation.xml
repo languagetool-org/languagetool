@@ -1934,7 +1934,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
     <example type="untouched">This is a well.</example>
     <example type="ambiguous" inputform="better[better/NN,better/VB,better/VBP,good/JJR,well/RBR]" outputform="better[good/JJR,well/RBR]">It is <marker>better</marker> for us to remember.</example>
     </rule>
-    
+
+    <rule name="that MD + be -> MD" id="THAT_MD_MD">
+        <pattern>
+            <token regexp="yes">this|that</token>
+            <marker>
+                <and>
+                    <token postag="MD"/>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token postag="VB"/>
+        </pattern>
+        <disambig postag="MD"/>
+        <example type="ambiguous" inputform="might[might/MD,might/NN:U]" outputform="might[might/MD]">That <marker>might</marker> be the most painful experience in my life.</example>
+    </rule>
+
     <rule name="determiner + verb/NN -&gt; NN" id="DT_VB_NN">
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|each</exception></token>
@@ -3049,7 +3064,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="WP"></token>
-                    <token postag="WDT"></token>
+                    <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
             <token postag_regexp="yes" postag="NN|NN:UN"></token>
@@ -3063,7 +3078,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <and>
                     <token postag="WP"></token>
-                    <token postag="WDT"></token>
+                    <token postag="WDT"><exception>that</exception></token>
                 </and>
             </marker>
             <token><exception postag_regexp="yes" postag="NN|NN:UN"></exception></token>
@@ -3071,7 +3086,22 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         <disambig postag="WP"></disambig>
         <example type="ambiguous" inputform="What[what/UH,what/WDT,what/WP]" outputform="What[what/WP]"><marker>What</marker> are you doing?</example>
         <example type="untouched">What kind of bread is this?</example>
-    </rule>    
+    </rule>
+    <rule name="That + NN -&gt;DT" id="DT_WP_WDT_DT">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="WP"></token>
+                    <token postag="WDT">that</token>
+                </and>
+            </marker>
+            <token min="0" postag="JJ"/>
+            <token postag_regexp="yes" postag="NN|NN:UN"></token>
+        </pattern>
+        <disambig postag="DT"></disambig>
+        <example type="ambiguous" inputform="That[that/DT,that/RP,that/WDT,that/WP]" outputform="That[that/DT]"><marker>That</marker> kind of bread is stale.</example>
+        <example type="untouched">What are you doing?</example>
+    </rule>
     <rulegroup name="Quotation marks" id="QUOT">
         <rule>
             <pattern>
