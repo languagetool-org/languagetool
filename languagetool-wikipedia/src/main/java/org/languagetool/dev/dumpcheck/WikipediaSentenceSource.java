@@ -44,6 +44,9 @@ import java.util.NoSuchElementException;
  */
 class WikipediaSentenceSource extends SentenceSource {
 
+  private static final boolean ONLY_ARTICLES = false;
+  private static final String ARTICLE_NAMESPACE = "0";
+  
   private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
   private final XMLEventReader reader;
   private final Tokenizer sentenceTokenizer;
@@ -51,6 +54,8 @@ class WikipediaSentenceSource extends SentenceSource {
   private final Language language;
 
   private int articleCount = 0;
+  private int namespaceSkipCount = 0;
+  private int redirectSkipCount = 0;
 
   WikipediaSentenceSource(InputStream xmlInput, Language language) {
     super(language);
@@ -97,6 +102,7 @@ class WikipediaSentenceSource extends SentenceSource {
 
   private void fillSentences() throws XMLStreamException {
     String title = null;
+    String namespace = null;
     while (sentences.size() == 0 && reader.hasNext()) {
       XMLEvent event = reader.nextEvent();
       if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {
@@ -105,14 +111,22 @@ class WikipediaSentenceSource extends SentenceSource {
           event = reader.nextEvent();
           title = event.asCharacters().getData();
           articleCount++;
+        } else if (elementName.equals("ns")) {
+          event = reader.nextEvent();
+          namespace = event.asCharacters().getData();
         } else if (elementName.equals("text")) {
-          handleTextElement(title, articleCount);
+          handleTextElement(namespace, title, articleCount);
         }
       }
     }
   }
 
-  private void handleTextElement(String title, int articleCount) throws XMLStreamException {
+  private void handleTextElement(String namespace, String title, int articleCount) throws XMLStreamException {
+    if (ONLY_ARTICLES && !ARTICLE_NAMESPACE.equals(namespace)) {
+      namespaceSkipCount++;
+      return;
+    }
+    //System.out.println(articleCount + " (nsSkip:" + namespaceSkipCount + ", redirectSkip:" + redirectSkipCount + "). " + title);
     XMLEvent event = reader.nextEvent();
     StringBuilder sb = new StringBuilder();
     while (event.isCharacters()) {
@@ -120,6 +134,10 @@ class WikipediaSentenceSource extends SentenceSource {
       event = reader.nextEvent();
     }
     try {
+      if (sb.toString().trim().toLowerCase().startsWith("#redirect")) {
+        redirectSkipCount++;
+        return;
+      }
       String textToCheck = textFilter.filter(sb.toString()).getPlainText();
       for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {
         if (acceptSentence(sentence)) {
