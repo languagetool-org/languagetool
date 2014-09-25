@@ -41,7 +41,7 @@ $Id$
     <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
     <!ENTITY ordes "agustinià|salesià|religiós|franciscà|benedictí|templari|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim">
     <!ENTITY ordes_invariable "conventual|mendicant|militar|major|menor|marista|jesuïta|regular">
-    <!ENTITY precedits_per_TAN "prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat">
+    <!ENTITY precedits_per_TAN "bo|prompte|savi|espectacular|alt|ample|estret|complex|comú|divers|eficaç|efectiu|important|simple|senzill|difícil|cert|fort|(in)?comprensible|(in)?substancial|covard|arriscar|decidir|variar|desconèixer|exagerat">
     <!ENTITY precedits_per_TANT "no|ací|aquí|allí|allà|potser|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans">
     <!ENTITY vocabulari_menjar "xocolata|xocolate|allioli|aliment|all|amanida|arròs|bolet|carn|carxofa|cep|coriandre|fava|fetge|foie|formatge|gamba|j[ou]livert|llamàntol|llobregant|lluç|macarró|magret|mandonguilla|mango|menjar|mongeta|p[éè]sol|pa|pastís|porc|r[eo]nyó|safrà|tofu|verdura|vi|ànec">
     <!ENTITY seguits_per_COM_A "acceptar|justificar|caracteritzar|qualificar|establir|figurar|reconèixer|conèixer|definir|veure|entendre|interpretar|percebre|etiquetar|pintar">
@@ -4999,6 +4999,7 @@ $Id$
                 <example type="incorrect" correction="tan">És <marker>tant</marker> fort.</example>
                 <example type="incorrect" correction="tan">Han estat <marker>tant</marker> fort.</example>
                 <example type="incorrect" correction="tan">És <marker>tant</marker> comprensible com inútil.</example>
+                <example type="incorrect" correction="tan">És <marker>tant</marker> bo que no m'ho puc creure.</example>
                 <example type="correct">És tan fort.</example>       
             </rule>
             <rule> 
@@ -8682,19 +8683,34 @@ $Id$
             <example type="incorrect"><marker>tres</marker> de rodalia</example>
             <example type="correct">trens de rodalia</example>
         </rule>
-        <rule id="MEDICAMENT" name="medicament/mèdicament">
-            <pattern>
-                <token><exception postag="SPS00|D[^R].MS.|A..[NC]S." postag_regexp="yes"/></token>
-                <marker>
-                    <token>medicament</token>
-                </marker>
-                <token postag="AQ.*" postag_regexp="yes"><exception>genèric</exception></token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>mèdicament</suggestion> (adverbi) en comptes de "medicament" (nom)?</message>
-            <example type="incorrect" correction="mèdicament">És <marker>medicament</marker> innovador</example>
-            <example type="correct">Un medicament innovador</example>
-            <example type="correct">Deu dosis de mèdicament genèric</example>
-        </rule>
+        <rulegroup id="MEDICAMENT" name="medicament/mèdicament">
+            <rule>
+                <pattern>
+                    <token><exception postag="SPS00|D[^R].MS.|A..[NC]S." postag_regexp="yes"/></token>
+                    <marker>
+                        <token>medicament</token>
+                    </marker>
+                    <token postag="AQ.*" postag_regexp="yes"><exception>genèric</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mèdicament</suggestion> (adverbi) en comptes de "medicament" (nom)?</message>
+                <example type="incorrect" correction="mèdicament">És <marker>medicament</marker> innovador</example>
+                <example type="correct">Un medicament innovador</example>
+                <example type="correct">Deu dosis de medicament genèric</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[MSING].*|_GV_" postag_regexp="yes"></token>
+                    <marker>
+                        <token>medicament</token>
+                    </marker>
+                    <token><exception>genèric</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mèdicament</suggestion> (adverbi) en comptes de "medicament" (nom)?</message>
+                <example type="incorrect" correction="mèdicament">Ha permès diagnosticar <marker>medicament</marker> aquestes malalties.</example>
+                <example type="correct">Un medicament innovador</example>
+                <example type="correct">Deu dosis de medicament genèric</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BO_BON" name="bo/bon">
             <rule>
                 <pattern>
