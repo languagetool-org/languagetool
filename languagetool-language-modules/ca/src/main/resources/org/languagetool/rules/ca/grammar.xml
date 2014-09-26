@@ -2094,6 +2094,35 @@ $Id$
                 <example type="correct">La cama esquerra.</example>
                 <example type="correct">El llum esquerre.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>dreta</token>
+                    <token regexp="yes" skip="1">i|o|ni|,</token>
+                    <token min="0" regexp="yes">a|d'|l'</token>
+                    <marker>
+                        <token>esquerre</token>
+                    </marker>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion>esquerra</suggestion>
+                <example type="incorrect">Ni a dreta ni a <marker>esquerre</marker>.</example>
+                <example type="correct">De dreta i d'esquerra</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>esquerre</token>
+                    </marker>
+                    <token regexp="yes" skip="1">i|o|ni|,</token>
+                    <token min="0" regexp="yes">a|de|la</token>
+                    <token>dreta</token>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion>esquerra</suggestion>
+                <example type="incorrect">Ni d'<marker>esquerre</marker> ni de dreta.</example>
+                <example type="incorrect">Per l'<marker>esquerre</marker> i per la dreta.</example>
+                <example type="correct">A l'esquerra i a la dreta</example>
+            </rule>
             <rule id="ALTRE_ALTRA_PART" name="altre/altra part">
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes">embaràs|embarassos|dolors?|cesàri.*|pors?|avort.+|llevador.*|hospitals?|nen.+|infants?|nadó|nadons|bessó|bessons|trigèmins?|naixements?|clínic.*|vagina.*</exception></token>
