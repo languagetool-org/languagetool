@@ -38,8 +38,8 @@ public class MorfologikDutchSpellerRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Amsterdam")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("ipv")).length);  // in ignore.txt
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("voorzover")).length);  // in ignore.txt
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("FoobarWrongxx")).length);  // camel case is ignored
-
+    
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("FoobarWrongxx")).length);  // camel case is not ignored
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("foobarwrong")).length);
   }
 }
