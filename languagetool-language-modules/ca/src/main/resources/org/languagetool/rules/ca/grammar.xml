@@ -14827,7 +14827,7 @@ $Id$
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <token postag="_GN_.*|PD.*|_PUNCT.*|C.*|PR.*" postag_regexp="yes"/>
                     <marker>
                         <token>dona<exception postag="_GN_FS|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
@@ -14837,6 +14837,8 @@ $Id$
                 <suggestion>dóna</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">el vot lliure dels diputats <marker>dona</marker> una imatge de divisió.</example>
+                <example type="incorrect">Això <marker>dona</marker> un caràcter fort.</example>
+                <example type="incorrect">N'hi ha un que <marker>dona</marker> una pila d'or.</example>
                 <example type="correct">el vot lliure dels diputats dóna una imatge de divisiór.</example>
                 <example type="correct">una dona gran que seia en una taula.</example>
             </rule>
