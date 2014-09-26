@@ -23555,6 +23555,17 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DONLENCA" name="dolença/malaltia">
+            <pattern>
+                <token inflected="yes">dolença</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">malaltia</match></suggestion>? "<match no="1" case_conversion ="startupper"/>" té uns usos restringits.</message>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">xacra</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">mal</match></suggestion>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="malalties|xacres|mals">Unes <marker>dolences</marker> terribles.</example>
+            <example type="correct">Unes xacres.</example>
+        </rule>
         <rule id="TENDIR_ESTENDRE" name="*tendir/*estendre/bastir ponts">
             <pattern>
                 <marker>
