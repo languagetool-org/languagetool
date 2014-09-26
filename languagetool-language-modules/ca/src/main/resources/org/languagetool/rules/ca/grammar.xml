@@ -58,6 +58,7 @@ $Id$
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|kg|Hz|[kM]Hz|°[FC]|K">
     <!ENTITY excepcions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu">
+    <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
 ]>
     
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -5980,13 +5981,41 @@ $Id$
             <pattern>
                 <token>baix</token>
                 <token postag="DA.*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol</token>
+                <token regexp="yes" inflected="yes">&mots_SOTA;</token>
             </pattern>
             <message>Preposició inadequada</message>
             <suggestion>sota \2 \3</suggestion>
             <example type="incorrect" correction="sota la direcció">Tocaren <marker>baix la direcció</marker> del mestre.</example>
             <example type="correct">Sota la direcció del mestre.</example>
         </rule>
+        <rulegroup id="DAVALL_SOTA" name="davall/sota (sentit figurat)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>davall</token>
+                    </marker>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&mots_SOTA;</token>
+                </pattern>
+                <message>En sentit figurat és preferible usar <suggestion>sota</suggestion>.</message>
+                <example type="incorrect" correction="sota">Vivien <marker>davall</marker> dominació turca.</example>
+                <example type="incorrect" correction="sota">Vivien <marker>davall</marker> la dominació turca.</example>
+                <example type="correct">Vivien sota dominació turca.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>davall</token>
+                        <token inflected="yes">de</token>
+                    </marker>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&mots_SOTA;</token>
+                </pattern>
+                <message>En sentit figurat és preferible usar <suggestion>sota</suggestion>.</message>
+                <example type="incorrect" correction="sota">Vivien <marker>davall de</marker> la dominació turca.</example>
+                <example type="correct">Vivien sota dominació turca.</example>
+            </rule>
+        </rulegroup>
         <rule id="ACOSTUMAR_A" name="acostumar *(a)">
             <pattern>
                 <token inflected='yes' skip="3">acostumar<exception scope="next" regexp="yes">a|de|d'</exception></token>
