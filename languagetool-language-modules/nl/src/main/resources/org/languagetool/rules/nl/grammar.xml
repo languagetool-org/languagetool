@@ -72,7 +72,7 @@ $Id$
       <token case_sensitive="yes" >chinees</token>
     </marker>
     </pattern>
-    <message>In de witte spelling horen de namen van restaurants ook een hoofdletter te krijgen: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
+    <message>In de witte spelling horen de namen van restaurants net als de taal een hoofdletter te krijgen: <suggestion><match no="1" case_conversion="startupper"/></suggestion>.</message>
     <url>https://onzetaal.nl/taaladvies/advies/chinezen-bij-de-chinees</url>
     <short>Hoofdletter</short>
     <example type="incorrect">Hij at bij de <marker>chinees</marker>.</example>
@@ -8727,7 +8727,7 @@ zich van de domme houden, van den domme houden
   <token>van</token>
   <token>de</token>
   <token>duivel</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
+  <token>rol</token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -8743,7 +8743,7 @@ zich van de domme houden, van den domme houden
   <token>op</token>
   <token>de</token>
   <token>wereld</token>
-      <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
+  <token>gevoel</token>
   </pattern>
   <message>U bedoelt vast: <suggestion>\1-\2-\3-\4\5</suggestion> of <suggestion>\1-\2-\3-\4-\5</suggestion></message>
   <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9152,7 +9152,7 @@ zich van de domme houden, van den domme houden
 <token>papa</token>
 <token>en</token>
 <token>mama</token>
-    <token postag_regexp="yes" postag="NN.*"><exception regexp="yes">bij|een|weer</exception></token>
+<token>huis</token>
 </pattern>
 <message>U bedoelt vast: <suggestion>\1-\2-\3\4</suggestion> of <suggestion>\1-\2-\3-\4</suggestion></message>
 <url>https://onzetaal.nl/taaladvies/advies/twee-onder-een-kap-woning</url>
@@ -9621,12 +9621,12 @@ zich van de domme houden, van den domme houden
     <example type="correct">Een <marker>20e-eeuws</marker> gebouw</example>
   </rule>
   
-  <rule id="TaalTik_DIT_BETEKEND" name="Dit betekend → dit betekent">
+  <rule id="TaalTik_DIT_BETEKEND_DAT" name="Dit betekend → dit betekent">
     <!-- TaalTik 2014-09-15: nieuw -->
     <pattern>
       <token regexp="yes">dit|dat</token>
-      <token postag="VBp" regexp="yes" skip="1">.*[dt]<exception postag_regexp="yes" postag="NN1.*|VB3"/></token>
-      <token><exception postag_regexp="yes" postag="VB.*"/><exception postag="UNKNOWN"/><exception regexp="yes">is|wordt</exception></token>
+      <token postag="VBp" regexp="yes" skip="1">.*d<exception postag_regexp="yes" postag="NN1.*|VB3"/></token>
+      <token>dat</token>
     </pattern>
     <message>\1|\2|\3</message>    
     <example type="incorrect"><marker>Dit betekend dat</marker> het fout is</example>
