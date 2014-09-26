@@ -34,7 +34,8 @@ final class DictionaryExporter {
       System.exit(1);
     }
     String filename = args[0];
-    if (new File(filename).getAbsolutePath().contains("hunspell")) {
+    String path = new File(filename).getAbsolutePath();
+    if (path.contains("hunspell") || path.contains("spelling")) {
       FSADumpTool.main("--raw-data", "-d", args[0]);
     } else {
       FSADumpTool.main("--raw-data", "-x", "-d", args[0]);
