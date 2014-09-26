@@ -1630,7 +1630,7 @@ $Id$
   <pattern>
   <token>het</token>
   <token postag="NN1[dmf]|NN2" postag_regexp="yes"><exception regexp="yes">heeft|bij|voor|was|niet|een|buiten</exception><exception postag="VB3|VBp|VBpe|NM.*|VBi|AJ.*|PP.*|UNKNOWN" postag_regexp="yes"></exception></token>
-  <token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception regexp="yes">iets|niets</exception></token>
+  <token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception regexp="yes">iets|niets|alles</exception></token>
   </pattern>
   <message>U bedoelt mogelijk <suggestion>de <match no="2"></match></suggestion>, <suggestion>het <match no="2"></match><match no="3" case_conversion="startlower"></match></suggestion> of <suggestion>het <match no="2"></match>-<match no="3"></match></suggestion></message>
   <short>de- of het-fout (HET_NN1D_NN1H)</short>
@@ -1646,7 +1646,7 @@ $Id$
   <pattern>
   <token>het</token>
   <token postag="NN1[dmf]|NN2" postag_regexp="yes"><exception regexp="yes">bij|voor|was|niet|een|buiten</exception><exception postag="VB1|VBp|VBpe|NM.*|VBi|AJ.*|PP.*|UNKNOWN" postag_regexp="yes"></exception></token>
-  <token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception>iets</exception></token>
+  <token postag="NN1[hr]" postag_regexp="yes"><exception postag="AJn"/><exception regexp="yes">iets|niets|alles</exception></token>
   </pattern>
   <message>Dit kan een eigennaam zijn met een spatiefout. Controleer s.v.p. bij de eigenaar hoe deze de naam zelf schrijft.</message>
   <short>de- of het-fout (HET_NN1D_NN1H)</short>
@@ -3286,6 +3286,62 @@ $Id$
   <example type="correct">900 <marker>is</marker> een goed begin.</example>
 </rule>
   -->
+  <rulegroup id="TaalTik_GEDACHTESTREEPJE" name="- → —">
+    <rule>
+      <!-- TaalTik 2014-09-18 nieuwe regel -->
+      <pattern>
+	<marker>
+	<token spacebefore="yes">-</token>
+	  </marker>
+	<token spacebefore="yes"></token>
+      </pattern>
+      <message>Als gedachtestreepje wordt een langer streepje geadviseerd: <suggestion>—</suggestion></message>
+      <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
+      <short>—</short>
+      <example type="incorrect">Dit is geen <marker>-</marker> gedachtestreep.</example>
+      <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
+    </rule>  
+
+    <rule>
+      <!-- TaalTik 2014-09-18 nieuw -->
+      <pattern>
+	<token><exception postag="SENT_START"/></token>
+	<marker>
+	<token spacebefore="no">—</token>
+      </marker>
+      </pattern>
+      <message>Voor een gedachtestreepje moet een spatie: <suggestion> —</suggestion></message>
+      <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
+      <short>—</short>
+      <example type="incorrect">Dit is geen<marker>—</marker> gedachtestreep.</example>
+      <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
+    </rule>  
+
+    <rule>
+      <!-- TaalTik 2014-09-18 nieuw -->
+      <pattern>
+	<marker>
+	<token spacebefore="yes">—</token>
+      </marker>
+	<token spacebefore="no"></token>
+      </pattern>
+      <message>Na een gedachtestreepje moet een spatie: <suggestion> — </suggestion></message>
+      <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
+      <short>—</short>
+      <example type="incorrect">Dit is geen <marker>—</marker>gedachtestreep.</example>
+      <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
+    </rule>  
+  </rulegroup>
+  <rule id="TaalTik_KOMMA_DAT" name=", dat → dat">
+    <!-- 2014-09-24 Nieuwe regel (uit 'hoe bereidt je een paard' -->
+    <pattern>
+      <token>,</token>
+      <token>dat</token>
+    </pattern>
+    <message>Voor 'dat' lees je meestal geen pauze; dan hoort er ook geen komma: <suggestion>\2</suggestion></message>    
+    <example type="incorrect">Ik wist niet<marker>, dat</marker> het fout was.</example>
+    <example type="correct">Ik wist niet <marker>dat</marker> het goed was.</example>
+  </rule> 
   
 <rule id="OT_PUNT_UITR" name=".! of .?">
   <!--
@@ -5468,9 +5524,9 @@ $Id$
   nieuw
   -->
   <pattern>
-    <token inflected="yes">geraken<exception>geraakt</exception></token>
+    <token inflected="yes">geraken</token>
   </pattern>
-  <message>Dit is ouderwets. Gebruik <suggestion><match no="1" postag="VB.*" postag_regexp="yes">raken</match></suggestion>.</message>
+  <message>Mogelijk ouderwets. Kunt u hier <suggestion><match no="1" postag="VB.*" postag_regexp="yes">raken</match></suggestion> schrijven, doe dat dan.</message>
   <url>https://onzetaal.nl/taaladvies/advies/ouderwets-taalgebruik</url>
   <short>Ouderwets</short>
   <example type="incorrect">Ik <marker>geraak</marker> in het vreemde.</example>
@@ -5659,7 +5715,7 @@ zijdens 	van de kant van, door
   <example type="correct">Kom eens <marker>ter zake</marker>.</example>
 </rule>
 
-<rule id="OT_TER_ZAKE_VAN" name="Ter zake van => in verband met">
+<rule id="OT_TER_ZAKE_VAN" name="Ter zake van → in verband met">
   <!--
   2014-08-22 TaalTik
     regel werkt prima.
@@ -5675,7 +5731,7 @@ zijdens 	van de kant van, door
   <example type="correct"><marker>In verband met</marker> uw verzoek --.</example>
 </rule>
 
-<rule id="TaalTik_AANWENDEN" name="Aanwenden => gebruiken">
+<rule id="TaalTik_AANWENDEN" name="Aanwenden → gebruiken">
   <!-- 2014-08-20 TaalTik: nieuwe regel -->
   <pattern>
   <token inflected="yes">aanwenden</token>
@@ -5704,6 +5760,19 @@ zijdens 	van de kant van, door
   <short>Typefout?</short>
   <example type="incorrect">Ik lust geen <marker>vees</marker>.</example>
   <example type="correct">Ik lust geen <marker>vlees</marker>.</example>
+</rule>
+
+<rule id="TaalTik_PLATVORM" name="Platvorm → patform">
+  <!--
+  2014-09-26 TaalTik Nieuw
+  -->
+  <pattern case_sensitive="yes">
+  <token>platvorm</token>
+  </pattern>
+  <message>Een 'platvorm' (platte vorm) kan wel, maar de kans is groot dat u bedoelt: <suggestion>platform</suggestion>.</message>
+  <short>Typefout?</short>
+  <example type="incorrect">Het is een <marker>platvorm</marker>.</example>
+  <example type="correct">Het is een <marker>platform</marker>.</example>
 </rule>
 
 <rule id="OT_WAKE" name="Wake of waken?">
@@ -5882,7 +5951,7 @@ zijdens 	van de kant van, door
 
 <category name="Stijlkwesties">
 
-    <rule id="ER_MIST" name="Er mist -> Er ontbreekt">
+    <rule id="ER_MIST" name="Er mist → Er ontbreekt">
     <!--
     2014-08-23 TaalTik
       regel werkt goed, als is het een waarschuwing.
@@ -7448,25 +7517,29 @@ zijdens 	van de kant van, door
 </rule>
 </category>
 <category name="Woordverwarring">
-  <!--
-  2014-08-22 TaalTik
-    regel verhuisd naar wrongwordsincontext
-  <rule id="nr645" name="Email of e-mail">
+
+  <!-- TaalTik 2014-09-26 nieuw -->
+  <rule id="TaalTik_CADET" name="Cadet of kadet">
   <pattern>
-  <token regexp="yes">de|een|geen|mijn|zijn|hun</token>
-  <marker>
-  <token>email</token>
-  </marker>
+  <token regexp="yes">cadet|cadetten</token>
   </pattern>
-  <message>Bedoelt u <suggestion>e-mail</suggestion> ?</message>
+  <message>Let op: een 'kadet' is een broodje, een 'cadet' is een militair in opleiding.</message>
   <short>Typefout?</short>
-  <example type="incorrect">Wij sturen een <marker>email</marker>.</example>
-  <example type="correct">Wij sturen een <marker>e-mail</marker>.</example>
+  <example type="correct">Wij maken een <marker>kadet</marker>.</example>
+  <example type="incorrect">Wij vormen een <marker>cadet</marker>.</example>
+  </rule>
 
-</rule>
-  -->
+  <!-- TaalTik 2014-09-26 nieuw -->
+  <rule id="TaalTik_KADET" name="Cadet of kadet">
+  <pattern>
+  <token regexp="yes">kadet|kadetten</token>
+  </pattern>
+  <message>Let op: een 'kadet' is een broodje, een 'cadet' is een militair in opleiding.</message>
+  <short>Typefout?</short>
+  <example type="correct">Wij vormen een <marker>cadet</marker>.</example>
+  <example type="incorrect">Wij maken een <marker>kadet</marker>.</example>
+  </rule>  
  
-
 <rule id="OT_MONOPOLIEN" name="monopoliën of monopolyen">
   <!-- TaalTik 2014-09-06
     Nieuwe regel
@@ -7949,7 +8022,7 @@ zijdens 	van de kant van, door
     TODO: uitzonderingen toevoegen
     -->
   <pattern>
-  <token regexp="yes">.{3,}werkzaamheid</token>
+    <token regexp="yes">.{3,}werkzaamheid<exception>zelfwerkzaamheid</exception></token>
   </pattern>
   <message>Dit is een ongebruikelijk enkelvoud. Probeer een ander woord, zoals <suggestion>bezigheid</suggestion></message>
   <short>werkzaamheid</short>
@@ -10070,6 +10143,8 @@ zich van de domme houden, van den domme houden
   </rule>
   -->
   
+    
+  
   <rule id="TaalTik_X_EEUWSE" name="19e eeuwse → 19e-eeuwse">
     <!-- TaalTik 2014-09-15: nieuw -->
     <antipattern><token regexp="yes">[0-9]</token><token>.</token><token regexp="yes">[0-9]</token><token>.</token></antipattern>
@@ -10213,50 +10288,6 @@ zich van de domme houden, van den domme houden
     <example type="correct">Een <marker>afdoend</marker> antwoord.</example>
   </rule>  
 
-  <rule id="TaalTik_GEDACHTESTREEPJE_a" name=" - → —">
-    <!-- TaalTik 2014-09-18 nieuwe regel -->
-    <pattern>
-      <marker>
-      <token spacebefore="yes">-</token>
-	</marker>
-      <token spacebefore="yes"></token>
-    </pattern>
-    <message>Als dit bedoeld is als gedachtestreepje, dan is juist: <suggestion>—</suggestion></message>
-    <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-    <short>—</short>
-    <example type="incorrect">Dit is geen <marker>-</marker> gedachtestreep.</example>
-    <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
-  </rule>  
-
-  <rule id="TaalTik_GEDACHTESTREEPJE_b" name="spatie voor gedachtestreep">
-    <!-- TaalTik 2014-09-18 nieuw -->
-    <pattern>
-      <token><exception postag="SENT_START"/></token>
-      <marker>
-      <token spacebefore="no">—</token>
-    </marker>
-    </pattern>
-    <message>Voor een gedachtestreepje moet een spatie: <suggestion> —</suggestion></message>
-    <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-    <short>—</short>
-    <example type="incorrect">Dit is geen<marker>—</marker> gedachtestreep.</example>
-    <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
-  </rule>  
-
-  <rule id="TaalTik_GEDACHTESTREEPJE_c" name="spatie na gedachtestreep">
-    <!-- TaalTik 2014-09-18 nieuw -->
-    <pattern>
-      <marker>
-      <token spacebefore="yes">—</token>
-    </marker>
-      <token spacebefore="no"></token>
-    </pattern>
-    <message>Na een gedachtestreepje moet een spatie: <suggestion> — </suggestion></message>
-    <url>http://taaladvies.net/taal/advies/vraag/312/gedachtestreepje</url>
-    <short>—</short>
-    <example type="incorrect">Dit is geen <marker>—</marker>gedachtestreep.</example>
-    <example type="correct">Dit is een <marker>—</marker> gedachtestreep.</example>
-  </rule>  
   
   <rule id="TaalTik_ME_TEEN" name="me teen → meteen, met een, mijn teen">
     <!-- TaalTik 2014-09-18 nieuw -->
@@ -10288,14 +10319,14 @@ zich van de domme houden, van den domme houden
     <!-- 2014-09-18 TaalTik nieuw -->
     <antipattern><token></token><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token><token case_sensitive="yes" regexp="yes">[A-Z][a-z].*</token></antipattern> <!-- voor het uitschakelen van eigennamen met foute spaties .. -->
     <pattern>
-      <token><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">of|en|dat|zodat|je</exception></token>
+      <token><exception postag="VB.*" postag_regexp="yes"/><exception regexp="yes">u|ik|of|en|dat|zodat|je|waar</exception></token>
       <marker>
       <token>het</token>
-      <token postag="NN1d"  case_sensitive="yes" ><exception postag_regexp="yes" postag="NN1h|VBi|VB3|VBh1|VBp.*|AJ.*|PP.*|NM.*"/><exception regexp="yes">[A-Z].*|zij|bij|voor|een|te|immer|mijn|hen</exception></token>
+      <token postag="NN1d"  case_sensitive="yes" ><exception postag_regexp="yes" postag="NN1h|VBi|VB3|VBh1|VBp.*|AJ.*|PP.*|NM.*"/><exception regexp="yes">[A-Z].*|u|zij|bij|voor|een|te|immer|mijn|hen</exception></token>
       </marker>
-      <token><exception postag_regexp="yes" postag="VBi|VB3"/><exception regexp="yes">te|is|was</exception></token>
+      <token><exception postag_regexp="yes" postag="VB.*"/><exception regexp="yes">te|of|en|op</exception></token>
     </pattern>
-    <message>Verwacht werd: <suggestion>de \3</suggestion>. Het kan een de-het-fout zijn, een spatiefout, of nog anders.</message>    
+    <message>Verwacht werd: <suggestion>de \3</suggestion>. Het zou een de-het-fout kunnen zijn, een spatiefout, of nog anders.</message>    
     <example type="incorrect"><marker>Het man</marker>.</example>
   <example type="correct">De man.</example>
   </rule>
@@ -10345,6 +10376,18 @@ zich van de domme houden, van den domme houden
     <message>'\1' is niet gebruikelijk meer in dagelijks Nederlands. Gebruik <suggestion>je</suggestion> of <suggestion>u</suggestion></message>    
     <example type="incorrect"><marker>Ge</marker> doet het fout.</example>
     <example type="correct"><marker>Je</marker> doet het goed.</example>
+  </rule>    
+
+  <rule id="TaalTik_ONDANKS_HET_FEIT" name="Ondanks het feit dat → hoewel">
+    <pattern>
+      <token>ondanks</token>
+      <token>het</token>
+      <token>feit</token>
+      <token>dat</token>
+    </pattern>
+    <message>Niet fout, maar wel onnodig lang; <suggestion>hoewel</suggestion> is een stuk korter.</message>    
+    <example type="incorrect"><marker>Ondanks het feit dat</marker> het fout was.</example>
+    <example type="correct"><marker>Hoewel</marker> het correct was.</example>
   </rule>    
   
 </category>
