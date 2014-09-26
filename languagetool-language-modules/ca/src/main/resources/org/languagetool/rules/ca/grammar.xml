@@ -24419,7 +24419,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception><exception scope="previous">no</exception></token>
+                        <token inflected="yes">lliurar<exception regexp="yes">lliura|lliures</exception><exception scope="previous">no</exception></token>
                         <token regexp="yes">de|d'</token>
                     </marker>
                 </pattern>
@@ -24433,6 +24433,7 @@ $Id$
                 <example type="correct">per a la secreció de cada lliura de cera</example>
                 <example type="correct">del romanent no lliurat del preu</example>
                 <example type="correct">dels més lliures del planeta</example>
+                <example type="correct">Els va deixar lliures de fer el que volguessin</example>
             </rule>
             <rule>
                 <pattern>
@@ -24448,6 +24449,21 @@ $Id$
                 <short>Possible error</short>
                 <example type="incorrect" correction="deslliurar-me de|alliberar-me de|estalviar-me">Vull <marker>lliurar-me de</marker> la seva mala cara.</example>
                 <example type="correct">Es van lliurar a la beguda.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">lliura|lliures</token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>des<match no="2"/> \3</suggestion>.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alliberar</match> \3</suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estalviar</match></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="deslliures de|alliberes de|estalvies">Et <marker>lliures de</marker>l podriment.</example>
+                <example type="correct">Els va deixar lliures de fer el que volguessin</example>
             </rule>
         </rulegroup>
         <rule id="GEMA_GEMMA" name="gema/gemma">
