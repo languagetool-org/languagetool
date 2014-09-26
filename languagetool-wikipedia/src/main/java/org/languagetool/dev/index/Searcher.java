@@ -51,6 +51,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.tools.ContextTools;
 
 /**
  * A class with a main() method that takes a rule id  and the location of the
@@ -132,6 +133,7 @@ public class Searcher {
         throw new NullPointerException("Cannot search on null query for rule: " + rule.getId());
       }
 
+      System.out.println("Running query: " + query.toString(FIELD_NAME_LOWERCASE));
       final SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
       final Thread searchThread = new Thread(runnable);
       searchThread.start();
@@ -261,6 +263,7 @@ public class Searcher {
       langTool.disableRule(rule.getId());
     }
     langTool.addRule(patternRule);
+    langTool.enableDefaultOffRule(patternRule.getId()); // rule might be off by default
     return langTool;
   }
 
@@ -277,8 +280,8 @@ public class Searcher {
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length < 3 || (args.length == 4 && !"--no_limit".equals(args[3]))) {
       System.err.println("Usage: Searcher <ruleId> <ruleXML> <languageCode> <indexDir> <--no_limit>");
-      System.err.println("\truleId       Id of the rule to search for");
-      System.err.println("\tlanguageCode short language code, e.g. en for English");
+      System.err.println("\truleId       Id of the rule to search for (or comma-separated list of ids)");
+      System.err.println("\tlanguageCode short language code, e.g. 'en' for English");
       System.err.println("\tindexDir     path to a directory containing the index");
       System.err.println("\t--no_limit   do not limit search time");
       System.exit(1);
@@ -319,7 +322,7 @@ public class Searcher {
         tooManyLuceneMatches = limitedTopDocs.topDocs.scoreDocs.length >= maxHits;
         matchingSentences = findMatchingSentences(indexSearcher, limitedTopDocs.topDocs, languageTool);
         System.out.println("Check done in " + langToolCreationTime + "/" + luceneTime + "/" + (System.currentTimeMillis() - t3)
-            + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs, query " + query.toString(FIELD_NAME_LOWERCASE));
+            + "ms (LT creation/Lucene/matching) for " + limitedTopDocs.topDocs.scoreDocs.length + " docs");
       } catch (Exception e) {
         exception = e;
       }
@@ -346,6 +349,15 @@ public class Searcher {
     }
   }
 
+  private static ContextTools getContextTools() {
+    final ContextTools contextTools = new ContextTools();
+    contextTools.setEscapeHtml(false);
+    contextTools.setContextSize(140);
+    contextTools.setErrorMarkerStart("**");
+    contextTools.setErrorMarkerEnd("**");
+    return contextTools;
+  }
+
   public static void main(String[] args) throws Exception {
     ensureCorrectUsageOrExit(args);
     final long startTime = System.currentTimeMillis();
@@ -359,23 +371,29 @@ public class Searcher {
       searcher.setMaxHits(100_000);
     }
     searcher.limitSearch = limitSearch;
+    final ContextTools contextTools = getContextTools();
+    int totalMatches = 0;
     for (String ruleId : ruleIds) {
       final long ruleStartTime = System.currentTimeMillis();
       for (PatternRule rule : searcher.getRuleById(ruleId, language)) {
+        System.out.println("===== " + ruleId + "[" + rule.getSubId() + "] =========================================================");
         final SearcherResult searcherResult = searcher.findRuleMatchesOnIndex(rule, language);
         int i = 1;
         if (searcherResult.getMatchingSentences().size() == 0) {
           System.out.println("[no matches]");
         }
         for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {
-          System.out.println(i + ": " + ruleMatch.getSentence() + " (Source: " + ruleMatch.getSource() + ")");
+          for (RuleMatch match : ruleMatch.getRuleMatches()) {
+            String context = contextTools.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
+            System.out.println(i + ": " + context + " [" + ruleMatch.getSource() + "]");
+          }
+          totalMatches += ruleMatch.getRuleMatches().size();
           i++;
         }
         System.out.println("Time: " + (System.currentTimeMillis() - ruleStartTime) + "ms");
-        System.out.println("==============================================================");
       }
     }
-    System.out.println("Total time: " + (System.currentTimeMillis() - startTime) + "ms");
+    System.out.println("Total time: " + (System.currentTimeMillis() - startTime) + "ms, " + totalMatches + " matches");
   }
 
 }
