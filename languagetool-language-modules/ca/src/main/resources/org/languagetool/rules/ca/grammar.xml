@@ -24375,23 +24375,41 @@ $Id$
             <example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
             <example type="correct">Ets un simple.</example>
         </rule>
-        <rule id="LLIURAR" name="lliurar/deslliurar">
-            <pattern>
-                <marker>
-                    <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception><exception scope="previous">no</exception></token>
-                </marker>
-                <token regexp="yes">de|d'</token>
-            </pattern>
-            <message>Incorrecte si equival a <suggestion>des<match no="1"/></suggestion>.</message>
-            <suggestion><match no="1" regexp_match="lliur(.*)" regexp_replace="alliber$1"/></suggestion>
-            <short>Possible error</short>
-            <example type="incorrect" correction="deslliuraren|alliberaren">Es <marker>lliuraren</marker> del podriment.</example>
-            <example type="correct">Es van lliurar a la beguda.</example>
-            <example type="correct">preneu una lliura de vidre blanc</example>
-            <example type="correct">per a la secreció de cada lliura de cera</example>
-            <example type="correct">del romanent no lliurat del preu</example>
-            <example type="correct">dels més lliures del planeta</example>
-        </rule>
+        <rulegroup id="LLIURAR" name="lliurar/deslliurar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception><exception scope="previous">no</exception></token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>des<match no="1"/> \2</suggestion>.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alliberar</match> \2</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estalviar</match></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="deslliuraren de|alliberaren de|estalviaren">Es <marker>lliuraren de</marker>l podriment.</example>
+                <example type="correct">Es van lliurar a la beguda.</example>
+                <example type="correct">preneu una lliura de vidre blanc</example>
+                <example type="correct">per a la secreció de cada lliura de cera</example>
+                <example type="correct">del romanent no lliurat del preu</example>
+                <example type="correct">dels més lliures del planeta</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">lliurar<exception postag="_GN_F." postag_regexp="yes" regexp="yes">lliura|lliures</exception><exception scope="previous">no</exception></token>
+                        <token postag="P.*" postag_regexp="yes" regexp="yes">['-].+</token>
+                        <token regexp="yes">de|d'</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte si equival a <suggestion>des<match no="1"/>\2 \3</suggestion>.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">alliberar</match>\2 \3</suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estalviar</match>\2</suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="deslliurar-me de|alliberar-me de|estalviar-me">Vull <marker>lliurar-me de</marker> la seva mala cara.</example>
+                <example type="correct">Es van lliurar a la beguda.</example>
+            </rule>
+        </rulegroup>
         <rule id="GEMA_GEMMA" name="gema/gemma">
             <pattern>
                 <token regexp="yes">gem(a|es)</token>
