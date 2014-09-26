@@ -349,10 +349,10 @@ public class Searcher {
     }
   }
 
-  private static ContextTools getContextTools() {
+  private static ContextTools getContextTools(int contextSize) {
     final ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
-    contextTools.setContextSize(140);
+    contextTools.setContextSize(contextSize);
     contextTools.setErrorMarkerStart("**");
     contextTools.setErrorMarkerEnd("**");
     return contextTools;
@@ -371,7 +371,7 @@ public class Searcher {
       searcher.setMaxHits(100_000);
     }
     searcher.limitSearch = limitSearch;
-    final ContextTools contextTools = getContextTools();
+    final ContextTools contextTools = getContextTools(140);
     int totalMatches = 0;
     for (String ruleId : ruleIds) {
       final long ruleStartTime = System.currentTimeMillis();
@@ -386,6 +386,15 @@ public class Searcher {
           for (RuleMatch match : ruleMatch.getRuleMatches()) {
             String context = contextTools.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
             System.out.println(i + ": " + context + " [" + ruleMatch.getSource() + "]");
+            // comment in to get output in WikiText syntax:
+            //ContextTools contextTools2 = getContextTools(0);
+            //String coveredText = contextTools2.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
+            //coveredText = coveredText.replaceFirst("^\\.\\.\\.", "").replaceFirst("\\.\\.\\.$", "");
+            //coveredText = coveredText.replaceFirst("^\\*\\*", "").replaceFirst("\\*\\*$", "");
+            //String encodedText = URLEncoder.encode("\"" + coveredText + "\"", "UTF-8");
+            //String searchLink = "https://de.wikipedia.org/w/index.php?search=" + encodedText + "&title=Spezial%3ASuche&go=Artikel";
+            //context = context.replaceAll("\\*\\*.*?\\*\\*", "[" + searchLink + " " + coveredText + "]");
+            //System.out.println("# " + context);
           }
           totalMatches += ruleMatch.getRuleMatches().size();
           i++;
