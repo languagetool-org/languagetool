@@ -198,7 +198,12 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   protected void init() throws IOException {
-    loadFileIfExists(language.getShortName() + SPELLING_IGNORE_FILE);
+    loadFileIfExists(getIgnoreFileName());
+  }
+
+  /** @since 2.7 */
+  protected String getIgnoreFileName() {
+    return language.getShortName() + SPELLING_IGNORE_FILE;
   }
 
   private void loadFileIfExists(String filename) throws IOException {

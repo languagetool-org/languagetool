@@ -27,21 +27,23 @@ import java.util.ResourceBundle;
 
 public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
 
-  private static final String RESOURCE_FILENAME = "/nl/spelling/nl_NL.dict";
-
-  public MorfologikDutchSpellerRule(ResourceBundle messages,
-                                    Language language) throws IOException {
+  public MorfologikDutchSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
   }
 
   @Override
   public String getFileName() {
-    return RESOURCE_FILENAME;
+    return "/nl/spelling/nl_NL.dict";
   }
 
   @Override
   public String getId() {
     return "MORFOLOGIK_RULE_NL_NL";
+  }
+
+  @Override
+  protected String getIgnoreFileName() {
+    return "/nl/spelling/ignore.txt";
   }
 
 }
