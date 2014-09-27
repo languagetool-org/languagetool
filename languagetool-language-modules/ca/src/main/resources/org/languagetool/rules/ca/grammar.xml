@@ -7987,6 +7987,36 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="HABITAT" name="habitat/hàbitat/habitant">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">habitats?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">natural|terrestre|marí|ecològic|marítim|desèrtic|àrid</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Hh])a(bitats?)" regexp_replace="$1à$2"/></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Hàbitat"><marker>Habitat</marker> natural.</example>
+                <example type="correct">Hàbitat natural.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PX.*|DD.*|DA.*|DI.*" postag_regexp="yes"><exception regexp="yes">tots?</exception></token>
+                    <marker>
+                        <token regexp="yes">habitats?</token>
+                    </marker>
+                    <token><exception inflected="yes">per</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="([Hh])a(bitats?)" regexp_replace="$1à$2"/></suggestion>?</message>
+                <suggestion><match no="2" regexp_match="([Hh]abita)(ts?)" regexp_replace="$1n$2"/></suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="hàbitat|habitant">Del seu <marker>habitat</marker>.</example>
+                <example type="incorrect" correction="hàbitats|habitants">Alguns <marker>habitats</marker> es manifesten.</example>
+                <example type="correct">Alguns habitats pels romans.</example>
+                <example type="correct">Tots habitats.</example>
+            </rule>
+        </rulegroup>
         <rule id="ESPASSA" name="espassa/espasa">
             <pattern>
                 <marker>
