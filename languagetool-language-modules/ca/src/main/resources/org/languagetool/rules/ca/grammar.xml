@@ -7987,6 +7987,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="ESPASSA" name="espassa/espasa">
+            <pattern>
+                <marker>
+                    <token regexp="yes">espassa|espasses<exception scope="previous" regexp="yes">m'|t'|li|ens|us|vos|els|ho|hi|n'|tu|ell</exception></token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="([Ee]spas)s(.*)" regexp_replace="$1$2"/></suggestion>. \2 és del verb espassar.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="espasa">La meva <marker>espassa</marker>.</example>
+            <example type="incorrect" correction="espasa">L'<marker>espassa</marker>.</example>
+            <example type="incorrect" correction="Espasa"><marker>Espassa</marker> de cavaller.</example>
+            <example type="incorrect" correction="espases">Aquestes boniques <marker>espasses</marker>.</example>
+            <example type="correct">El mal de cap no li espassa.</example>
+        </rule>
         <rule id="CONTAR_COMPTAR_AMB" name="contar/comptar amb">
             <antipattern>
                 <marker>
@@ -7996,7 +8010,7 @@ $Id$
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected="yes">contar<exception scope="previous" postag="|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
+                    <token inflected="yes">contar<exception scope="previous" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
                     <token>amb</token>
                 </marker>
             </pattern>
