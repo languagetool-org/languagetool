@@ -6328,7 +6328,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -14875,14 +14875,19 @@ $Id$
                     <marker>
                         <token>dona<exception postag="_GN_FS|_possible_nompropi" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="_GN_.*" postag_regexp="yes"/>
+                    <or>
+                        <token postag="_GN_.*|NC.*" postag_regexp="yes"/>
+                        <token>a</token>
+                    </or>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion>dóna</suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">el vot lliure dels diputats <marker>dona</marker> una imatge de divisió.</example>
                 <example type="incorrect">Això <marker>dona</marker> un caràcter fort.</example>
+                <example type="incorrect">Això <marker>dona</marker> caràcter.</example>
                 <example type="incorrect">N'hi ha un que <marker>dona</marker> una pila d'or.</example>
+                <example type="incorrect">La portalada que <marker>dona</marker> al carrer.</example>
                 <example type="correct">el vot lliure dels diputats dóna una imatge de divisiór.</example>
                 <example type="correct">una dona gran que seia en una taula.</example>
             </rule>
@@ -15003,14 +15008,15 @@ $Id$
                     <marker>
                         <token regexp="yes">dona|dones</token>
                     </marker>
-                    <token regexp="yes">compte|ajuda</token>
+                    <token regexp="yes">compte|ajuda|valor|lloc|inici|accés</token>
                     <!-- són nom i verb-->
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion><match no="2" regexp_match=".+(a|es)" regexp_replace="dón$1"></match></suggestion>
                 <short>Accent diacrític</short>
                 <example type="incorrect">Ell <marker>dona</marker> compte al banquer.</example>
-                <example type="correct">Ell <marker>dóna</marker> compte al banquer.</example>
+                <example type="correct">Ell dóna compte al banquer.</example>
+                <example type="correct">Donar a les dones accés al crèdit.</example>
             </rule>
             <rule>
                 <pattern>
@@ -15033,7 +15039,7 @@ $Id$
                     <marker>
                         <token regexp="yes">dona|dones</token>
                     </marker>
-                    <token regexp="yes">llum|vida|fum|menjar|beure|valor|lloc</token>
+                    <token regexp="yes">llum|vida|fum|menjar|beure</token>
                 </pattern>
                 <message>S'accentua quan és del verb "donar".</message>
                 <suggestion><match no="1" regexp_match=".+(a|es)" regexp_replace="dón$1"/></suggestion>
