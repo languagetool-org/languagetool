@@ -24447,6 +24447,25 @@ $Id$
             <example type="correct">Ets un simple.</example>
         </rule>
         <rulegroup id="LLIURAR" name="lliurar/deslliurar">
+            <antipattern>
+                <marker>
+                    <token skip="1">de</token>
+                    <token regexp="yes">ple|cor</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token>manera</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>una</token>
+                    <token>manera</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -24465,6 +24484,9 @@ $Id$
                 <example type="correct">del romanent no lliurat del preu</example>
                 <example type="correct">dels més lliures del planeta</example>
                 <example type="correct">Els va deixar lliures de fer el que volguessin</example>
+                <example type="correct">Es va lliurar de ple al gravat</example>
+                <example type="correct">Es va lliurar de tot cor a la feina</example>
+                <example type="correct">Es lliurà d'una manera paral·lela a tasques de recerca.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24479,7 +24501,10 @@ $Id$
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estalviar</match>\2</suggestion>
                 <short>Possible error</short>
                 <example type="incorrect" correction="deslliurar-me de|alliberar-me de|estalviar-me">Vull <marker>lliurar-me de</marker> la seva mala cara.</example>
-                <example type="correct">Es van lliurar a la beguda.</example>
+                <example type="correct">Van lliurar-se a la beguda.</example>
+                <example type="correct">no trigà a lliurar-se de ple al gravat</example>
+                <example type="correct">Va lliurar-se d'una manera paral·lela a tasques de recerca.</example>
+                <example type="correct">Va lliurar-se de cor a la feina</example>
             </rule>
             <rule>
                 <pattern>
