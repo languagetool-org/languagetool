@@ -140,12 +140,12 @@ public class German extends Language {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
-            new GermanDoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             // specific to German:
+            new GermanDoublePunctuationRule(messages),
             new MissingVerbRule(messages, this),
             new GermanWordRepeatRule(messages, this),
             new GermanWordRepeatBeginningRule(messages, this),
