@@ -29,4 +29,6 @@ utils.jar: part of Sweble, Apache License 2.0, http://sweble.org
 Other resources like dictionaries are not technically libraries, they may have 
 different licenses (including GPL) without affecting LanguageTool's licensing. 
 For the dictionaries that are used for spell checking, see
-./org/languagetool/resource/<xx>/hunspell/README* (<xx> = language code).
+./org/languagetool/resource/<xx>/hunspell/README*
+and
+./org/languagetool/resource/<xx>/spelling/README* (<xx> = language code).
