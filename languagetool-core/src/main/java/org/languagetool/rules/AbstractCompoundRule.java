@@ -50,13 +50,6 @@ public abstract class AbstractCompoundRule extends Rule {
 
   private String shortDesc;
 
-  /* Flag to indicate if the hyphen is ignored in the text entered by the user.
-   * Set this to false if you want the rule to offer suggestions for words like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
-   * This is only available for languages with hyphen as a word separator (ie: not available for English, available for Romanian)
-   * See Language.getWordTokenizer()
-   */
-  private boolean hyphenIgnored = true;
-
   @Override
   public abstract String getId();
 
@@ -79,15 +72,15 @@ public abstract class AbstractCompoundRule extends Rule {
     shortDesc = shortDescription;
   }
 
-  public boolean isHyphenIgnored() {
-    return hyphenIgnored;
-  }
-
   /**
-   * @deprecated overwrite {@link #isHyphenIgnored()} instead (deprecated since 2.7)
+   * Flag to indicate if the hyphen is ignored in the text entered by the user.
+   * Set this to false if you want the rule to offer suggestions for words 
+   * like [ro] "câte-și-trei" (with hyphen), not only for "câte și trei" (with spaces)
+   * This is only available for languages with hyphen as a word separator (ie: not 
+   * available for English, available for Romanian). See Language.getWordTokenizer()
    */
-  public void setHyphenIgnored(boolean ignoreHyphen) {
-    this.hyphenIgnored = ignoreHyphen;
+  public boolean isHyphenIgnored() {
+    return true;
   }
 
   @Override

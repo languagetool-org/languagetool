@@ -26,7 +26,6 @@ public class KhmerDetectorTest extends TestCase {
     final KhmerDetector detector = new KhmerDetector();
     
     assertTrue(detector.isThisLanguage("ប៉ុ"));
-    assertTrue(detector.isKhmer("ប៉ុ"));
     assertTrue(detector.isThisLanguage("ប៉ុន្តែ​តើ"));
     assertTrue(detector.isThisLanguage("ហើយដោយ​ព្រោះ​"));
     assertTrue(detector.isThisLanguage("«ទៅ​បាន​។ «"));

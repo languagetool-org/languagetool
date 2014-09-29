@@ -154,14 +154,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return true;
   }
 
-  /**
-   * @deprecated use {@link #getRuleMatches} instead (deprecated since 2.7)
-   */
-  @Deprecated
-  protected List<RuleMatch> getRuleMatch(final String word, final int startPos) throws IOException {
-    return getRuleMatches(word, startPos);
-  }
-  
   protected List<RuleMatch> getRuleMatches(final String word, final int startPos) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
     if (isMisspelled(speller1, word)) {

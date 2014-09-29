@@ -34,12 +34,4 @@ class KhmerDetector extends LanguageDetector {
     return 6143;
   }
 
-  /**
-   * @deprecated use {@link #isThisLanguage(String)} instead - deprecated since 2.7
-   */
-  @Deprecated
-  boolean isKhmer(String str) {
-    return isThisLanguage(str);
-  }
-  
 }

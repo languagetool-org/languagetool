@@ -23,7 +23,6 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.MultipleWhitespaceRule;
-import org.languagetool.rules.WhitespaceRule;
 
 import java.io.IOException;
 

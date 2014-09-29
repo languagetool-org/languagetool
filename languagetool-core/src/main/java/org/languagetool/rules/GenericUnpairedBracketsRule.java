@@ -69,11 +69,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return messages.getString("desc_unpaired_brackets");
   }
 
-  /**
-   * @deprecated will become protected (deprecated since 2.7)
-   */
-  @Deprecated
-  public void uniqueMapInit() {
+  protected void uniqueMapInit() {
     for (String endSymbol : endSymbols) {
       int found = 0;
       for (String endSymbol1 : endSymbols) {

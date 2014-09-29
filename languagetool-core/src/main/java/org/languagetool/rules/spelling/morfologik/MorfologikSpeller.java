@@ -30,7 +30,6 @@ import java.net.URL;
 import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Morfologik-based spell checker.
@@ -51,22 +50,6 @@ public class MorfologikSpeller {
     final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
     dictionary = Dictionary.read(url);
     speller = new Speller(dictionary, maxEditDistance);
-  }
-
-  /**
-   * @deprecated use {@link #MorfologikSpeller(String, int)} instead (deprecated since 2.7)
-   * @param conversionLocale not used
-   */
-  public MorfologikSpeller(String filename, Locale conversionLocale, int maxEditDistance) throws IOException {
-    this(filename, maxEditDistance);
-  }
-
-  /**
-   * @deprecated use {@link #MorfologikSpeller(String)} instead (deprecated since 2.7)
-   * @param conversionLocale not used
-   */
-  public MorfologikSpeller(String filename, Locale conversionLocale) throws IOException {
-    this(filename, 1);
   }
 
   /**

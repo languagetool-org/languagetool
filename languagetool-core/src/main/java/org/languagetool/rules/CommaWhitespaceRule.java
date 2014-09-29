@@ -116,8 +116,7 @@ public class CommaWhitespaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  /** @deprecated will be made private (deprecated since 2.7) */
-  static boolean isNotQuoteOrHyphen(final String str) {
+  private static boolean isNotQuoteOrHyphen(final String str) {
     if (str.length() == 1) {
       final char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”'
@@ -131,8 +130,7 @@ public class CommaWhitespaceRule extends Rule {
     return true;
   }
 
-  /** @deprecated will be made private (deprecated since 2.7) */
-  static boolean isNumberOrDot(final String str) {
+  private static boolean isNumberOrDot(final String str) {
     if (isEmpty(str)) {
       return false;
     }
@@ -140,8 +138,7 @@ public class CommaWhitespaceRule extends Rule {
     return c == '.' || Character.isDigit(c);
   }
 
-  /** @deprecated will be made private (deprecated since 2.7) */ 
-  static boolean isLeftBracket(final String str) {
+  private static boolean isLeftBracket(final String str) {
     if (str.length() == 0) {
       return false;
     }
@@ -149,8 +146,7 @@ public class CommaWhitespaceRule extends Rule {
     return c == '(' || c == '[' || c == '{';
   }
 
-  /** @deprecated will be made private (deprecated since 2.7) */
-  static boolean isRightBracket(final String str) {
+  private static boolean isRightBracket(final String str) {
     if (str.length() == 0) {
       return false;
     }
@@ -158,8 +154,7 @@ public class CommaWhitespaceRule extends Rule {
     return c == ')' || c == ']' || c == '}';
   }
 
-  /** @deprecated will be made private (deprecated since 2.7) */
-  static boolean containsNoNumber(final String str) {
+  private static boolean containsNoNumber(final String str) {
     for (int i = 0; i < str.length(); i++) {
       if (Character.isDigit(str.charAt(i))) {
         return false;
