@@ -26,6 +26,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
+import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tools.ContextTools;
 import org.languagetool.tools.RuleAsXmlSerializer;
 import org.languagetool.tools.StringTools;
@@ -109,7 +110,9 @@ public final class CommandLineTools {
 
     //display stats if it's not in a buffered mode
     if (xmlMode == StringTools.XmlPrintMode.NORMAL_XML) {
-      displayTimeStats(startTime, lt.getSentenceCount(), apiFormat);
+      SentenceTokenizer sentenceTokenizer = lt.getLanguage().getSentenceTokenizer();
+      int sentenceCount = sentenceTokenizer.tokenize(contents).size();
+      displayTimeStats(startTime, sentenceCount, apiFormat);
     }
     return ruleMatches.size();
   }
