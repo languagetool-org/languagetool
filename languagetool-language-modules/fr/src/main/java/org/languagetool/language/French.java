@@ -21,10 +21,11 @@ package org.languagetool.language;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.io.IOException;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.fr.QuestionWhitespaceRule;
+import org.languagetool.rules.fr.*;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.FrenchSynthesizer;
@@ -120,7 +121,7 @@ public class French extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
@@ -130,6 +131,7 @@ public class French extends Language {
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
             // specific to French:
+            new CompoundRule(messages),
             new QuestionWhitespaceRule(messages)
     );
   }
