@@ -49,6 +49,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "Start, Ziel, Sieg");
     check(0, "Roll-on-roll-off-Schiff");
     check(0, "Halswirbelsäule");
+    check(0, "Castrop-Rauxel");
     check(0, "Hals-Wirbel-Säule");   // doubtful whether this is correct...
     // incorrect sentences:
     check(1, "System Administrator", new String[]{"System-Administrator", "Systemadministrator"});
@@ -69,6 +70,7 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(2, "System Administrator CD ROM");
     check(2, "Hals Wirbel Säule");
     check(1, "Und herum zu knobeln können.", new String[]{"herumzuknobeln"});
+    check(1, "Castrop Rauxel", new String[]{"Castrop-Rauxel"});
     //FIXME: suggestions / longest match
     //check(1, "Roll on roll off Schiff", new String[]{"Roll-on-roll-off-Schiff"});
     check(1, "Spin off");

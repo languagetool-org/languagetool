@@ -56,16 +56,26 @@ public abstract class AbstractCompoundRule extends Rule {
   @Override
   public abstract String getDescription();
 
-  public AbstractCompoundRule(final ResourceBundle messages, final String fileName,
-      final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
+  /**
+   * @since 2.8
+   */
+  public AbstractCompoundRule(ResourceBundle messages, List<String> fileNames,
+                              String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
     if (messages != null) {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
-    loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName), "UTF-8");
+    for (String fileName : fileNames) {
+      loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName), "UTF-8");
+    }
     this.withHyphenMessage = withHyphenMessage;
     this.withoutHyphenMessage = withoutHyphenMessage;
     this.withOrWithoutHyphenMessage = withOrWithoutHyphenMessage;
     setLocQualityIssueType(ITSIssueType.Misspelling);
+  }
+  
+  public AbstractCompoundRule(final ResourceBundle messages, final String fileName,
+      final String withHyphenMessage, final String withoutHyphenMessage, final String withOrWithoutHyphenMessage) throws IOException {
+    this(messages, Collections.singletonList(fileName), withHyphenMessage, withoutHyphenMessage, withOrWithoutHyphenMessage);
   }
 
   public void setShort(final String shortDescription) {

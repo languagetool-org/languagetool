@@ -19,6 +19,8 @@
 package org.languagetool.rules.de;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.rules.AbstractCompoundRule;
@@ -32,9 +34,9 @@ import org.languagetool.rules.Example;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final String FILE_NAME = "/de/compounds.txt";
+  private static final List<String> FILE_NAME = Arrays.asList("/de/compounds.txt", "/de/compound-cities.txt");
  
-  public CompoundRule(final ResourceBundle messages) throws IOException {    
+  public CompoundRule(final ResourceBundle messages) throws IOException {
     super(messages, FILE_NAME,
             "Dieses Wort wird mit Bindestrich geschrieben.",
             "Dieses Wort wird zusammengeschrieben.",
