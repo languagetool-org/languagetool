@@ -5,7 +5,7 @@ Chinese, French, Dutch, Russian, Italian, Danish and more languages
 Copyright (C) 2005-2014 the LanguageTool community and
   Daniel Naber (www.danielnaber.de)
 
-Version 2.7-SNAPSHOT, 2014-xx-yy
+Version 2.7, 2014-09-29
 Homepage: http://www.languagetool.org
 
 Requirements:
@@ -19,12 +19,12 @@ Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
   can use two methods:
  
- 1. Double-click LanguageTool-2.6.oxt. The extension should
+ 1. Double-click LanguageTool-2.7.oxt. The extension should
   start installing. Follow the on-screen instructions.
  
  2. If the above method doesn't work, call Tools > Extension 
   Manager > Add... in OpenOffice.org/LibreOffice and browse for the
-  LanguageTool-2.6.oxt file. 
+  LanguageTool-2.7.oxt file. 
   
   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
   the QuickStarter as well if you use it. Type text with
@@ -34,14 +34,10 @@ Usage:
   Opening the context menu with the right mouse button on that word
   offers you a short description of the error and a correction ("free").
 
-  If you are using LibreOffice 3.5+ and you want to check English texts:
-  Use Options -> Language Settings -> Writing Aids -> Edit... to disable
-  LightProof and enable LanguageTool for English.
+  If you are using LibreOffice and you want to check English or Russian texts:
+  Use Options -> Language Settings -> Writing Aids -> Edit...in the
+  'Tools' menu to disable LightProof and enable LanguageTool for English.
   
-  If you are using LibreOffice 3.5+ and you want to check Russian texts:
-  Use Options -> Language Settings -> Writing Aids -> Edit... to disable
-  LightProof and enable LanguageTool for Russian.
-
   Note that there will also be a new menu item "LanguageTool"
   under the "Tools" menu.
   If the native spelling and grammar dialog doesn't check grammar,
