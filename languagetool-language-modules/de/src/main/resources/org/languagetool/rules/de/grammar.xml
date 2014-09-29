@@ -8811,6 +8811,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>31</token>
+                    <token>.</token>
+                    <token regexp="yes">0?4|0?6|0?9|11</token>
+                    <token>.</token>
+                </pattern>
+                <message>Dieser Monat hat nur 30 Tage.</message>
+                <example type='incorrect'>Es geschah am <marker>31.4.</marker>2014.</example>
+                <example type='incorrect'>Es geschah am <marker>31.04.</marker>.</example>
+                <example type='incorrect'>Es geschah am <marker>31.11.</marker>.</example>
+                <example type='correct'>Es geschah am <marker>30.11.</marker>.</example>
+                <example type='correct'>Es geschah am <marker>30.10.</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">3[01]</token>
                     <token>.</token>
                     <token regexp="yes">Februar|Feb</token>
@@ -8819,6 +8833,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type='incorrect'>Es geschah am <marker>31. Februar</marker>.</example>
                 <example type='incorrect'>Es geschah am <marker>30. Februar</marker>.</example>
                 <example type='correct'>Es geschah am <marker>28. Februar</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">3[01]</token>
+                    <token>.</token>
+                    <token regexp="yes">0?2</token>
+                    <token>.</token>
+                </pattern>
+                <message>Der Februar hat nur 28 Tage (bzw. 29 in Schaltjahren).</message>
+                <example type='incorrect'>Es geschah am <marker>31.02.</marker>.</example>
+                <example type='incorrect'>Es geschah am <marker>31.2.</marker>.</example>
+                <example type='correct'>Es geschah am <marker>28.2.</marker>.</example>
+                <example type='correct'>Es geschah am <marker>28.02.</marker>.</example>
             </rule>
             <rule>
                 <pattern>
