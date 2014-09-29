@@ -26606,6 +26606,17 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="MOIS" name="mois de l’année">
       <rule>
+        <antipattern>
+          <token>monarchie</token>
+          <token>de</token>
+          <token case_sensitive="yes">Juillet</token>
+        </antipattern>
+        <antipattern>
+          <token>révolution</token>
+          <token>d</token>
+          <token regexp="yes">['´‘’′]</token>
+          <token case_sensitive="yes">Octobre</token>
+        </antipattern>
         <pattern case_sensitive="yes">
           <token negate_pos="yes" postag="SENT_START"/>
           <marker>
@@ -26617,6 +26628,7 @@ though, and has since been slightly modified)-->
         <example type="incorrect" correction="avril">Cette année, <marker>Avril</marker> a été chaud.</example>
         <example type="correct">Cette année, <marker>avril</marker> a été chaud.</example>
         <example type="correct">Février est le mois le plus froid.</example>
+        <example type="correct">La monarchie de Juillet.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
