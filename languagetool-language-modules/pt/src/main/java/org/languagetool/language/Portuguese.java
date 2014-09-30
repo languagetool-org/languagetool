@@ -18,19 +18,19 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.pt.PortugueseCompoundRule;
+import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.pt.PortugueseTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class Portuguese extends Language {
 
@@ -97,8 +97,8 @@ public class Portuguese extends Language {
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SentenceWhitespaceRule(messages),
-            //Specific to Portuguese
-            new PortugueseCompoundRule(messages)
+            //Specific to Portuguese:
+            new PreReformPortugueseCompoundRule(messages)
     );
   }
 

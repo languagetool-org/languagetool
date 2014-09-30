@@ -19,8 +19,8 @@
 package org.languagetool.language;
 
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.pt.PortugueseCompoundRule;
 import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
+import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class PostReformPortugalPortuguese extends PortugalPortuguese {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     final List<Rule> filteredRules = new ArrayList<>();
     for (Rule rule : super.getRelevantRules(messages)) {
-      if (rule.getClass() != PortugueseCompoundRule.class) {
+      if (rule.getClass() != PreReformPortugueseCompoundRule.class) {
         filteredRules.add(rule);
       }
     }
