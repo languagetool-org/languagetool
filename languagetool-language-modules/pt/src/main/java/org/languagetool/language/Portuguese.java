@@ -32,11 +32,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Pre-spelling-reform Portuguese.
+ */
 public class Portuguese extends Language {
 
   private Tagger tagger;
   private SentenceTokenizer sentenceTokenizer;
-  private String name ="Portuguese";
+  private String name = "Portuguese";
 
   @Override
   public String getName() {
