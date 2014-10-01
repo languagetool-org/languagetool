@@ -5472,8 +5472,8 @@ though, and has since been slightly modified)-->
     <rulegroup id="MILLES" name="nombre mille invariable">
       <rule>
         <pattern>
-          <marker><token case_sensitive="yes">milles<exception scope="previous">des</exception></token></marker>
-          <token><exception regexp="yes">de?|marins?|nautiques?</exception></token>
+          <marker><token case_sensitive="yes">milles<exception scope="previous" regexp="yes">des|mille|quelques|plusieurs</exception></token></marker>
+          <token><exception regexp="yes">de?|marins?|nautiques?|au-delà|jusqu</exception></token>
         </pattern>
         <message>Le mot « mille » est invariable lorsqu’il s’agit du nombre 1000. Il s’accorde uniquement lorsqu’il désigne l’unité de mesure de longueur.</message>
         <suggestion>mille</suggestion>
@@ -5483,6 +5483,8 @@ though, and has since been slightly modified)-->
         <example type="correct">Vous avons parcourut 10 milles marins.</example>
         <example type="correct">Convertir des milles aux kilomètre.</example>
         <example type="correct">Carl Milles était un sculpteur suédois.</example>
+        <example type="correct">Un voyage de mille milles.</example>
+        <example type="correct">Il reste seulement dix milles jusqu’à l’arrivée.</example>
       </rule>
       <rule>
         <pattern>
