@@ -5469,6 +5469,43 @@ though, and has since been slightly modified)-->
       <example type="correct">Deux cents milliards d’étoiles.</example>
       <example type="incorrect">J’ai cinq <marker>cents</marker> soixante-et-un euros.</example>
     </rule>
+    <rulegroup id="MILLES" name="nombre mille invariable">
+      <rule>
+        <pattern>
+          <marker><token case_sensitive="yes">milles<exception scope="previous">des</exception></token></marker>
+          <token><exception regexp="yes">de?|marins?|nautiques?</exception></token>
+        </pattern>
+        <message>Le mot « mille » est invariable lorsqu’il s’agit du nombre 1000. Il s’accorde uniquement lorsqu’il désigne l’unité de mesure de longueur.</message>
+        <suggestion>mille</suggestion>
+        <url>http://www.projet-voltaire.fr/blog/regle-orthographe/%C2%AB-mille-%C2%BB-ou-%C2%AB-milles-%C2%BB</url>
+        <example type="incorrect">J’ai gagné dix <marker>milles</marker> euros.</example>
+        <example type="correct">J’ai gagné dix <marker>mille</marker> euros.</example>
+        <example type="correct">Vous avons parcourut 10 milles marins.</example>
+        <example type="correct">Convertir des milles aux kilomètre.</example>
+        <example type="correct">Carl Milles était un sculpteur suédois.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">.*(un|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingts?t|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|xcents?)[-‑‐]milles([-‑‐].*)?</token>
+        </pattern>
+        <message>Le mot « mille » est invariable lorsqu’il s’agit du nombre 1000. Il s’accorde uniquement lorsqu’il désigne l’unité de mesure de longueur.</message>
+        <suggestion><match no="1" regexp_match="-milles" regexp_replace="-mille"/></suggestion>
+        <url>http://www.projet-voltaire.fr/blog/regle-orthographe/%C2%AB-mille-%C2%BB-ou-%C2%AB-milles-%C2%BB</url>
+        <example type="incorrect" correction="Trois-mille"><marker>Trois-milles</marker> euros.</example>
+        <example type="incorrect" correction="trois-mille-neuf-cent-douze"><marker>trois-milles-neuf-cent-douze</marker></example>
+        <example type="correct">Trois-mille euros.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">(.*[-‑‐])?milles-(un|deux|trois|quatre|cinq|six|sept|huit|neuf|dix|onze|douze|treize|quatorze|quinze|seize|vingts?t|trente|quarante|cinquante|soixante|septante|octante|huitante|nonante|cents?)([-‑‐].*)?</token>
+        </pattern>
+        <message>Le mot « mille » est invariable lorsqu’il s’agit du nombre 1000. Il s’accorde uniquement lorsqu’il désigne l’unité de mesure de longueur.</message>
+        <suggestion><match no="1" regexp_match="milles-" regexp_replace="mille-"/></suggestion>
+        <url>http://www.projet-voltaire.fr/blog/regle-orthographe/%C2%AB-mille-%C2%BB-ou-%C2%AB-milles-%C2%BB</url>
+        <example type="incorrect" correction="mille-deux-cents"><marker>milles-deux-cents</marker> euros.</example>
+        <example type="correct"><marker>mille-deux-cents</marker> euros.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <rule name="nombre singulier suivi du pluriel">
         <pattern>
