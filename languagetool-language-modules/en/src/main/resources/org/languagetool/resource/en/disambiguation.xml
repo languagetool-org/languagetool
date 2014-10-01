@@ -3681,6 +3681,20 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 			<example type="untouched">It's still valid.</example>
 			<example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
 		</rule>
+
+        <rule id="VBP_NN_VBZ_NN" name="have palm trees - palm is a noun">
+            <pattern>
+                <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
+                <marker>
+                    <and>
+                        <token postag="NN.*" postag_regexp="yes"><exception postag="JJ.*" postag_regexp="yes"></exception></token>
+                        <token postag="VB[ZP]?" postag_regexp="yes"/>
+                    </and>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig><match no="2" postag="NN.*" postag_regexp="yes"></match></disambig>
+        </rule>
 		
 		<rule name="saw as a verb" id="PRP_SAW">
 			<pattern>
