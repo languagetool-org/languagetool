@@ -38,13 +38,14 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getDayOfWeek(String dayStr) {
     String day = dayStr.toLowerCase();
-    if (day.equals("sul"))      return Calendar.SUNDAY;
-    if (day.equals("lun"))      return Calendar.MONDAY;
-    if (day.equals("meurzh"))   return Calendar.TUESDAY;
-    if (day.equals("merc’her")) return Calendar.WEDNESDAY;
-    if (day.equals("yaou"))     return Calendar.THURSDAY;
-    if (day.equals("gwener"))   return Calendar.FRIDAY;
-    if (day.equals("sadorn"))   return Calendar.SATURDAY;
+    if (day.endsWith("sul"))      return Calendar.SUNDAY;
+    if (day.endsWith("lun"))      return Calendar.MONDAY;
+    if (day.endsWith("meurzh"))   return Calendar.TUESDAY;
+    if (day.endsWith("merc’her")) return Calendar.WEDNESDAY;
+    if (day.equals  ("yaou"))     return Calendar.THURSDAY;
+    if (day.equals  ("diriaou"))  return Calendar.THURSDAY;
+    if (day.endsWith("gwener"))   return Calendar.FRIDAY;
+    if (day.endsWith("sadorn"))   return Calendar.SATURDAY;
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
 

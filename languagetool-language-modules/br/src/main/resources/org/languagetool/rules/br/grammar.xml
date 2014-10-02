@@ -8940,6 +8940,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DEIZ_DEIZIAD" name="Deiziad">
       <rule>
         <pattern>
+          <token regexp="yes">di(lun|meurzh|merc’her|riaou|gwener|sadorn|sul)</token>
+          <token>d’</token>
+          <token regexp="yes">a[nr]</token>
+          <token regexp="yes">[012]?\d|3[01]</token>
+          <token>a</token>
+          <token>viz</token>
+          <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerzu</token>
+          <token regexp="yes">[12]\d\d\d</token>
+        </pattern>
+        <filter class="org.languagetool.rules.br.DateCheckFilter" args="year:\8 month:\7 day:\4 weekDay:\1"/>
+        <message>N’eo ket ur «\1» deiz an deiziad «\4 \5 \6 \7 \8», «{realDay}» eo.</message>
+        <example type="incorrect"><marker>Dilun d’an 2 a viz Gwengolo 2014</marker>.</example>
+        <example type="correct">Dimeurzh d’an 2 a viz Gwengolo 2014.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>Lun</token>
           <token regexp="yes">[012]?\d|3[01]</token>
           <token>a</token>
