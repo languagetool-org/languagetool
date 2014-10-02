@@ -72,6 +72,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.equals("mae"))       return 5;
     if (mon.equals("mezheven"))  return 6;
     if (mon.equals("gouere"))    return 7;
+    if (mon.equals("gouhere"))   return 7;
     if (mon.equals("eost"))      return 8;
     if (mon.equals("gwengolo"))  return 9;
     if (mon.equals("here"))      return 10;
