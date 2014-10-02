@@ -7711,6 +7711,15 @@ USA
         </rule>
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
+                <antipattern>
+                    <token>'</token>
+                    <token regexp="yes">ve|s</token>
+                    <marker>
+                        <token>go</token>
+                    </marker>
+                    <token>to</token>
+                    <token postag="VB"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
