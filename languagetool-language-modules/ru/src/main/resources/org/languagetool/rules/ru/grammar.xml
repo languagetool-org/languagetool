@@ -354,6 +354,20 @@ $Id$
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule>
         -->
+         <rule default="on" id="postscriptum" name="P.S.">
+             <pattern case_sensitive="no">
+                <marker>
+                    <token>P</token>
+                    <token>.</token>
+                    <token spacebefore="yes">S</token>
+                    <token>.</token>
+                </marker>
+             </pattern>
+            <message>P.S. пробелом не разделяется: <suggestion>P.S.</suggestion></message>
+            <short>P.S. пробелом не разделяется</short>
+            <example type="correct">P.S.</example>
+            <example type="incorrect"><marker>P. S.</marker></example>
+        </rule>
         <rulegroup id="POZHALUJSTA" name="«Пожалуйста» выделяется запятыми">
             <rule>
                 <pattern case_sensitive="yes">
