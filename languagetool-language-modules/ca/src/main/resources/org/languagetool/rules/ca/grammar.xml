@@ -14872,6 +14872,11 @@ $Id$
                 <token regexp="yes">i|o</token>
                 <token>dones</token>
             </antipattern>
+            <antipattern>
+                <token>dona</token>
+                <token regexp="yes">i|o|ni|,</token>
+                <token regexp="yes">home|donzella</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="_GN_.*|PD.*|_PUNCT.*|C.*|PR.*" postag_regexp="yes"/>
@@ -15063,6 +15068,33 @@ $Id$
                 <short>Accent diacrític</short>
                 <example type="incorrect" correction="Dóna"><marker>Dona</marker> a llum tres cries.</example>
                 <example type="correct">Dones boniques.</example>
+            </rule>
+            <rule>
+                <pattern>   
+                    <token>que</token>
+                    <marker>
+                        <token>dona</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua quan és del verb "donar".</message>
+                <suggestion>dóna</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="dóna">que <marker>dona</marker> Stuart Mill</example>
+                <example type="correct">que dona ni donzella</example>
+            </rule>
+            <rule>
+                <pattern>   
+                    <token>que</token>
+                    <marker>
+                        <token>dones</token>
+                    </marker>
+                </pattern>
+                <message>S'accentua quan és del verb "donar".</message>
+                <suggestion>dónes</suggestion>
+                <suggestion>donés</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect" correction="dónes|donés">que <marker>dones</marker> la seva ajuda</example>
+                <example type="correct">que dona ni donzella</example>
             </rule>
             <rule default="off">
                 <pattern>
