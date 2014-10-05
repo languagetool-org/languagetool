@@ -1191,6 +1191,9 @@ $Id$
         </rulegroup>
     </category>
     <category name="Типографика">
+        
+        
+        
         <rulegroup default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
             <rule>
                <pattern>
@@ -1215,7 +1218,7 @@ $Id$
             <example type="incorrect">«Цыганы<marker>»»</marker> мои не продаются вовсе», — сетовал Пушкин.</example>
            </rule>
         </rulegroup>
-        <rule default="off" id="KAVITCHKI" name="„ → ”">
+        <rule default="off" id="KAVITCHKI" name="” → „">
             <pattern>
                 <token>“</token>
             </pattern>
@@ -1235,7 +1238,20 @@ $Id$
             <example type="correct">Продолжение следует…</example>
             <example type="incorrect">Продолжение следует<marker>...</marker></example>
         </rule>
-        
+        <rulegroup  default="on" id="Wrong_group_punct" name="Неправильное сочетание знаков препинания">
+           <rule>         
+            <pattern>
+                <token>?</token>
+                <token>!</token>
+                <token>!</token>
+            </pattern>
+            <message>Неправильное сочетание знаков препинания. Возможная замена:<suggestion>?!</suggestion></message>
+            <short>Неправильное сочетание знаков препинания</short>
+            <example type="correct">Продолжение следует?!</example>
+            <example type="incorrect">Продолжение следует<marker>?!!</marker></example>
+        </rule>
+        </rulegroup>
+                
         <rule default="on" id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
             <pattern>
                 <token spacebefore="no" regexp="yes"><exception scope="previous" regexp="yes">;|:|[\p{Digit}]*</exception>;|:|-|—</token>
