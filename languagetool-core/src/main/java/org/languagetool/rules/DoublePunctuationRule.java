@@ -62,8 +62,12 @@ public class DoublePunctuationRule extends Rule {
     for (int i = 0; i < tokens.length; i++) {
       final String token = tokens[i].getToken();
       String nextToken = null;
+      String prevToken = null;
       if (i < tokens.length - 1) {
         nextToken = tokens[i + 1].getToken();
+      }
+      if (i > 1) {
+        prevToken = tokens[i - 2].getToken();
       }
       if (".".equals(token)) {
         dotCount++;
@@ -74,7 +78,7 @@ public class DoublePunctuationRule extends Rule {
         dotCount = 0;
         startPos = tokens[i].getStartPos();
       }
-      if (dotCount == 2 && !".".equals(nextToken)) {
+      if (dotCount == 2 && !".".equals(nextToken) && !"?".equals(prevToken) && !"!".equals(prevToken)) {
         final int fromPos = Math.max(0, startPos - 1);
         final RuleMatch ruleMatch = new RuleMatch(this, fromPos, startPos + 1,
             getDotMessage(), messages.getString("double_dots_short"));
