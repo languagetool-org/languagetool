@@ -19,6 +19,7 @@
 
 package org.languagetool.rules;
 
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -200,7 +201,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
 
   private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol) {
     if (!ruleMatchStack.empty()) {
-      final int index = findSymbolNum(symbol);
+      final int index = findSymbolNum(symbol, endSymbols);
       if (index >= 0) {
         final SymbolLocator rLoc = ruleMatchStack.peek();
         if (rLoc.symbol.equals(startSymbols[index])) {
@@ -213,16 +214,28 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       }
     }
     ruleMatchStack.push(new SymbolLocator(symbol, ruleMatches.size(), startPos));
-    return new RuleMatch(this, startPos, startPos + symbol.length(), messages.getString("unpaired_brackets"));
+    String otherSymbol = findCorrespondingSymbol(symbol);
+    String message = MessageFormat.format(messages.getString("unpaired_brackets"), otherSymbol);
+    return new RuleMatch(this, startPos, startPos + symbol.length(), message);
   }
 
-  private int findSymbolNum(final String ch) {
-    for (int i = 0; i < endSymbols.length; i++) {
-      if (ch.equals(endSymbols[i])) {
+  private int findSymbolNum(final String ch, String[] symbols) {
+    for (int i = 0; i < symbols.length; i++) {
+      if (ch.equals(symbols[i])) {
         return i;
       }
     }
     return -1;
+  }
+
+  private String findCorrespondingSymbol(final String symbol) {
+    int idx1 = findSymbolNum(symbol, startSymbols);
+    if (idx1 >= 0) {
+      return endSymbols[idx1];
+    } else {
+      int idx2 = findSymbolNum(symbol, endSymbols);
+      return startSymbols[idx2];
+    }
   }
 
 }
