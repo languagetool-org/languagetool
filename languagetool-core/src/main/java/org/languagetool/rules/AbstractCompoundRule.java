@@ -65,7 +65,7 @@ public abstract class AbstractCompoundRule extends Rule {
       super.setCategory(new Category(messages.getString("category_misc")));
     }
     for (String fileName : fileNames) {
-      loadCompoundFile(JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName), "UTF-8");
+      loadCompoundFile(fileName, "UTF-8");
     }
     this.withHyphenMessage = withHyphenMessage;
     this.withoutHyphenMessage = withoutHyphenMessage;
@@ -233,7 +233,8 @@ public abstract class AbstractCompoundRule extends Rule {
     }
   }
 
-  private void loadCompoundFile(final InputStream stream, final String encoding) throws IOException {
+  private void loadCompoundFile(final String fileName, final String encoding) throws IOException {
+    InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(fileName);
     try (
       InputStreamReader reader = new InputStreamReader(stream, encoding);
       BufferedReader br = new BufferedReader(reader)
@@ -247,10 +248,10 @@ public abstract class AbstractCompoundRule extends Rule {
         line = line.replace('-', ' ');
         final String[] parts = line.split(" ");
         if (parts.length > MAX_TERMS) {
-          throw new IOException("Too many compound parts: " + line + ", maximum allowed: " + MAX_TERMS);
+          throw new IOException("Too many compound parts in file " + fileName + ": " + line + ", maximum allowed: " + MAX_TERMS);
         }
         if (parts.length == 1) {
-          throw new IOException("Not a compound: " + line);
+          throw new IOException("Not a compound in file " + fileName + ": " + line);
         }
         if (line.endsWith("+")) {
           line = removeLastCharacter(line);
@@ -259,6 +260,9 @@ public abstract class AbstractCompoundRule extends Rule {
           line = removeLastCharacter(line);
           onlyDashSuggestion.add(line.toLowerCase());
         }
+        //if (incorrectCompounds.contains(line.toLowerCase())) {
+        //  throw new RuntimeException("Duplicated word in file " + fileName + ": " + line);
+        //}
         incorrectCompounds.add(line.toLowerCase());
       }
     }
