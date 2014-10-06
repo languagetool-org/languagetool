@@ -8512,6 +8512,18 @@ $Id$
                 <example type="correct">L'"eix".</example>
                 <example type="correct">La L representa la inductància.</example>
             </rule>
+            <rule id="L_A_LA" name="l a/la">
+                <pattern>
+                    <marker>
+                        <token>l<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1\2</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="La"><marker>L a</marker> plataforma.</example>
+                <example type="correct">Han caigut 300 L a Barcelona.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="D" name="*d/de/d'">
 <!--             <antipattern>
