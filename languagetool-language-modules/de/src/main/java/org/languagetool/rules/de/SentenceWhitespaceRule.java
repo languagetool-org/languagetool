@@ -16,76 +16,71 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules;
+package org.languagetool.rules.de;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 /**
- * Checks that there's whitespace between sentences.
- *   
+ * Checks that there's whitespace between sentences etc.
+ *
  * @author Daniel Naber
- * @since 2.5
+ * @since 2.8
  */
-public class SentenceWhitespaceRule extends Rule {
+public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhitespaceRule {
 
-  private boolean isFirstSentence = true;
-  private boolean prevSentenceEndsWithWhitespace = false;
+  private static final Pattern NUMBER_REGEX = Pattern.compile("\\d+");
   
+  private boolean prevSentenceEndsWithNumber = false;
+
   public SentenceWhitespaceRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(new Category(messages.getString("category_misc")));
     setLocQualityIssueType(ITSIssueType.Whitespace);
   }
-  
+
   @Override
   public String getId() {
-    return "SENTENCE_WHITESPACE";
+    return "DE_SENTENCE_WHITESPACE";
   }
 
   @Override
   public String getDescription() {
-    return messages.getString("missing_space_between_sentences");
+    return "Fehlendes Leerzeichen zwischen Sätzen oder nach Ordnungszahlen";
   }
 
+  @Override
   public String getMessage() {
-    return messages.getString("addSpaceBetweenSentences");
+    if (prevSentenceEndsWithNumber) {
+      return "Fügen Sie nach Ordnungszahlen (1., 2. usw.) ein Leerzeichen ein";
+    } else {
+      return "Fügen Sie zwischen Sätzen ein Leerzeichen ein";
+    }
   }
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
-    List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokens();
-
-    if (isFirstSentence) {
-      isFirstSentence = false;
-    } else {
-      if (!prevSentenceEndsWithWhitespace && tokens.length > 1) {
-        int startPos = 0;
-        String firstToken = tokens[1].getToken();
-        int endPos = firstToken.length();
-        RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, getMessage());
-        ruleMatch.setSuggestedReplacement(" " + firstToken);
-        ruleMatches.add(ruleMatch);
-      }
+    if (tokens.length > 1) {
+      String prevLastToken = tokens[tokens.length-2].getToken();
+      prevSentenceEndsWithNumber = NUMBER_REGEX.matcher(prevLastToken).matches();
     }
-    
-    if (tokens.length > 0) {
-      String lastToken = tokens[tokens.length-1].getToken();
-      prevSentenceEndsWithWhitespace = lastToken.trim().isEmpty() && lastToken.length() == 1;
-    }
-
-    return toRuleMatchArray(ruleMatches);
+    List<RuleMatch> matches = Arrays.asList(super.match(sentence));
+    return toRuleMatchArray(matches);
   }
 
   @Override
   public void reset() {
-    isFirstSentence = true;
-    prevSentenceEndsWithWhitespace = false;
+    super.reset();
+    prevSentenceEndsWithNumber = false;
   }
 
 }

@@ -29,6 +29,7 @@ import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 import org.languagetool.Language;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
+import org.languagetool.rules.de.SentenceWhitespaceRule;
 import org.languagetool.synthesis.GermanSynthesizer;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
@@ -143,8 +144,8 @@ public class German extends Language {
             new GenericUnpairedBracketsRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
-            new SentenceWhitespaceRule(messages),
             // specific to German:
+            new SentenceWhitespaceRule(messages),
             new GermanDoublePunctuationRule(messages),
             new MissingVerbRule(messages, this),
             new GermanWordRepeatRule(messages, this),
