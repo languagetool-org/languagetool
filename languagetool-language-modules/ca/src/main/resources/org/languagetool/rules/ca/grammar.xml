@@ -7988,6 +7988,17 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="RECONDIT" name="recondit/recòndit">
+            <pattern>
+                <marker>
+                    <token regexp="yes">recondits?<exception scope="previous" inflected="yes">haver</exception></token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Rr]ec)o(ndits?)" regexp_replace="$1ò$2"/></suggestion>? "\1"" exisiteix com a participi de recondir.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="recòndit">En un lloc <marker>recondit</marker>.</example>
+            <example type="correct">Han recondit els diners.</example>
+        </rule>
         <rule id="QUEDAT_QUEDA" name="*quedat/queda determinat">
             <pattern>
                 <token>quedat<exception postag="_GV_|.*LOC_.*" postag_regexp="yes"/></token>
