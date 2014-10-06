@@ -62,10 +62,10 @@ public class SentenceWhitespaceRule extends Rule {
     } else {
       if (!prevSentenceEndsWithWhitespace && tokens.length > 1) {
         int startPos = 0;
-        String firsToken = tokens[1].getToken();
-        int endPos = firsToken.length();
+        String firstToken = tokens[1].getToken();
+        int endPos = firstToken.length();
         RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, messages.getString("addSpaceBetweenSentences"));
-        ruleMatch.setSuggestedReplacement(" " + firsToken);
+        ruleMatch.setSuggestedReplacement(" " + firstToken);
         ruleMatches.add(ruleMatch);
       }
     }
