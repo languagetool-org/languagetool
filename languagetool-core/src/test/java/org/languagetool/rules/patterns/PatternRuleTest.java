@@ -128,7 +128,9 @@ public class PatternRuleTest extends TestCase {
       } else {
         fileName = lang.getShortName() + "/" + nameOnly;
       }
-      fileNames.add(fileName);
+      if (!fileNames.contains(fileName)) {
+        fileNames.add(fileName);
+      }
     }
     return fileNames;
   }
