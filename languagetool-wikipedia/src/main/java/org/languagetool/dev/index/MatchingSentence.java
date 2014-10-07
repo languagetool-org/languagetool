@@ -30,12 +30,14 @@ public class MatchingSentence {
 
   private final String sentence;
   private final String source;
+  private final String title;
   private final AnalyzedSentence analyzedSentence;
   private final List<RuleMatch> ruleMatches;
 
-  MatchingSentence(String sentence, String source, AnalyzedSentence analyzedSentence, List<RuleMatch> ruleMatches) {
+  MatchingSentence(String sentence, String source, String title, AnalyzedSentence analyzedSentence, List<RuleMatch> ruleMatches) {
     this.sentence = sentence;
     this.source = source;
+    this.title = title;
     this.analyzedSentence = analyzedSentence;
     this.ruleMatches = ruleMatches;
   }
@@ -46,6 +48,10 @@ public class MatchingSentence {
 
   public String getSource() {
     return source;
+  }
+
+  public String getTitle() {
+    return title;
   }
 
   public AnalyzedSentence getAnalyzedSentence() {

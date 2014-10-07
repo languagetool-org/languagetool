@@ -50,8 +50,9 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NA
  */
 public class Indexer implements AutoCloseable {
 
+  static final String TITLE_FIELD_NAME = "title";
+
   private static final Version LUCENE_VERSION = Version.LUCENE_4_10_1;
-  private static final String TITLE_FIELD_NAME = "title";
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;

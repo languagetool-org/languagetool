@@ -27,6 +27,7 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NA
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +65,8 @@ import org.languagetool.tools.ContextTools;
  */
 public class Searcher {
 
+  private static boolean WIKITEXT_OUTPUT = false;
+  
   private final Directory directory;
 
   private int maxHits = 1000;
@@ -249,8 +252,9 @@ public class Searcher {
       final List<RuleMatch> ruleMatches = languageTool.check(sentence);
       if (ruleMatches.size() > 0) {
         final String source = doc.get(SOURCE_FIELD_NAME);
+        final String title = doc.get(Indexer.TITLE_FIELD_NAME);
         final AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
-        final MatchingSentence matchingSentence = new MatchingSentence(sentence, source, analyzedSentence, ruleMatches);
+        final MatchingSentence matchingSentence = new MatchingSentence(sentence, source, title, analyzedSentence, ruleMatches);
         matchingSentences.add(matchingSentence);
       }
     }
@@ -385,16 +389,18 @@ public class Searcher {
         for (MatchingSentence ruleMatch : searcherResult.getMatchingSentences()) {
           for (RuleMatch match : ruleMatch.getRuleMatches()) {
             String context = contextTools.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
-            System.out.println(i + ": " + context + " [" + ruleMatch.getSource() + "]");
-            // comment in to get output in WikiText syntax:
-            //ContextTools contextTools2 = getContextTools(0);
-            //String coveredText = contextTools2.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
-            //coveredText = coveredText.replaceFirst("^\\.\\.\\.", "").replaceFirst("\\.\\.\\.$", "");
-            //coveredText = coveredText.replaceFirst("^\\*\\*", "").replaceFirst("\\*\\*$", "");
-            //String encodedText = URLEncoder.encode("\"" + coveredText + "\"", "UTF-8");
-            //String searchLink = "https://de.wikipedia.org/w/index.php?search=" + encodedText + "&title=Spezial%3ASuche&go=Artikel";
-            //context = context.replaceAll("\\*\\*.*?\\*\\*", "[" + searchLink + " " + coveredText + "]");
-            //System.out.println("# " + context);
+            if (WIKITEXT_OUTPUT) {
+              ContextTools contextTools2 = getContextTools(0);
+              String coveredText = contextTools2.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
+              coveredText = coveredText.replaceFirst("^\\.\\.\\.", "").replaceFirst("\\.\\.\\.$", "");
+              coveredText = coveredText.replaceFirst("^\\*\\*", "").replaceFirst("\\*\\*$", "");
+              String encodedText = URLEncoder.encode("\"" + coveredText + "\"", "UTF-8");
+              String searchLink = "https://de.wikipedia.org/w/index.php?search=" + encodedText + "&title=Spezial%3ASuche&go=Artikel";
+              context = context.replaceAll("\\*\\*.*?\\*\\*", "[" + searchLink + " " + coveredText + "]");
+              System.out.println("# [[" + ruleMatch.getTitle() + "]]: " + context);
+            } else {
+              System.out.println(i + ": " + context + " [" + ruleMatch.getSource() + "]");
+            }
           }
           totalMatches += ruleMatch.getRuleMatches().size();
           i++;
