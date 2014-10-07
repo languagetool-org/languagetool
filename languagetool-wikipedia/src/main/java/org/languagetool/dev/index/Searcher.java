@@ -279,7 +279,7 @@ public class Searcher {
 
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length < 3 || (args.length == 4 && !"--no_limit".equals(args[3]))) {
-      System.err.println("Usage: Searcher <ruleId> <ruleXML> <languageCode> <indexDir> <--no_limit>");
+      System.err.println("Usage: Searcher <ruleId> <languageCode> <indexDir> [--no_limit]");
       System.err.println("\truleId       Id of the rule to search for (or comma-separated list of ids)");
       System.err.println("\tlanguageCode short language code, e.g. 'en' for English");
       System.err.println("\tindexDir     path to a directory containing the index");
