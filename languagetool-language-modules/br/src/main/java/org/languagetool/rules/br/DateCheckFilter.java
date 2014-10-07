@@ -49,9 +49,10 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     throw new RuntimeException("Could not find day of week for '" + dayStr + "'");
   }
 
+  @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
   protected String getDayOfWeek(Calendar date) {
-    String englishDay=date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
+    String englishDay = date.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.UK);
     if (englishDay.equals("Sunday"))    return "Sul";
     if (englishDay.equals("Monday"))    return "Lun";
     if (englishDay.equals("Tuesday"))   return "Meurzh";
