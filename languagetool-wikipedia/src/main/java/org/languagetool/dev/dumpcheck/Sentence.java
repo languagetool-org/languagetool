@@ -46,7 +46,7 @@ public class Sentence {
     return source;
   }
 
-  String getTitle() {
+  public String getTitle() {
     return title;
   }
 

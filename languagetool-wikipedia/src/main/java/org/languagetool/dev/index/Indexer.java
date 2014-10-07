@@ -51,6 +51,7 @@ import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NA
 public class Indexer implements AutoCloseable {
 
   private static final Version LUCENE_VERSION = Version.LUCENE_4_10_1;
+  private static final String TITLE_FIELD_NAME = "title";
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
@@ -105,7 +106,7 @@ public class Indexer implements AutoCloseable {
       try (FSDirectory directory = FSDirectory.open(new File(indexDir))) {
         final Language language = Language.getLanguageForShortName(languageCode);
         try (Indexer indexer = new Indexer(directory, language)) {
-          indexer.indexText(reader, null);
+          indexer.indexText(reader);
         }
       }
     }
@@ -115,7 +116,7 @@ public class Indexer implements AutoCloseable {
   public static void run(String content, Directory dir, Language language) throws IOException {
     final BufferedReader br = new BufferedReader(new StringReader(content));
     try (Indexer indexer = new Indexer(dir, language)) {
-      indexer.indexText(br, null);
+      indexer.indexText(br);
     }
   }
 
@@ -123,16 +124,16 @@ public class Indexer implements AutoCloseable {
     final BufferedReader reader = new BufferedReader(new StringReader(sentence.getText()));
     String line;
     while ((line = reader.readLine()) != null) {
-      add(line, sentence.getSource(), docCount);
+      add(line, sentence.getSource(), sentence.getTitle(), docCount);
     }
   }
 
-  public void indexText(BufferedReader reader, String source) throws IOException {
+  public void indexText(BufferedReader reader) throws IOException {
     String line;
     while ((line = reader.readLine()) != null) {
       final List<String> sentences = sentenceTokenizer.tokenize(line);
       for (String sentence : sentences) {
-        add(sentence, source, -1);
+        add(sentence, null, null, -1);
       }
     }
   }
@@ -141,7 +142,7 @@ public class Indexer implements AutoCloseable {
     writer.addDocument(doc);
   }
 
-  private void add(String sentence, String source, int docCount) throws IOException {
+  private void add(String sentence, String source, String title, int docCount) throws IOException {
     final Document doc = new Document();
     final FieldType type = new FieldType();
     type.setStored(true);
@@ -154,6 +155,13 @@ public class Indexer implements AutoCloseable {
       countType.setStored(true);
       countType.setIndexed(false);
       doc.add(new Field("docCount", docCount + "", countType));
+    }
+    if (title != null) {
+      final FieldType titleType = new FieldType();
+      titleType.setStored(true);
+      titleType.setIndexed(false);
+      titleType.setTokenized(false);
+      doc.add(new Field(TITLE_FIELD_NAME, title, titleType));
     }
     if (source != null) {
       final FieldType sourceType = new FieldType();
