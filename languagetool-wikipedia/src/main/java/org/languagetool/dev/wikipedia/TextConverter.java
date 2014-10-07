@@ -86,6 +86,8 @@ public class TextConverter extends Visitor {
   private boolean noWrap;
 
   private LinkedList<Integer> sections;
+  
+  private boolean enableMapping = true;
 
   // =========================================================================
 
@@ -94,10 +96,17 @@ public class TextConverter extends Visitor {
     this.wrapCol = wrapCol;
   }
 
+  public void enableMapping(boolean enableMapping) {
+    this.enableMapping = enableMapping;
+  }
+
   /**
    * Return a mapping from converted text positions to original text positions.
    */
   public Map<Integer, Location> getMapping() {
+    if (!enableMapping) {
+      throw new IllegalStateException("enableMapping not activated");
+    }
     return mapping;
   }
 
@@ -380,6 +389,10 @@ public class TextConverter extends Visitor {
   }
 
   private void addMapping(Locatable loc, int columnCorrection) {
+    if (!enableMapping) {
+      // this is surprisingly resource intensive, so it can be disabled
+      return;
+    }
     String contentSoFar = sb.toString() + line;
     int textPos = contentSoFar.length() + needNewlines + 1;
     if (loc.hasLocation()) {
@@ -469,4 +482,5 @@ public class TextConverter extends Visitor {
   private void write(int num) {
     writeWord(String.valueOf(num));
   }
+
 }

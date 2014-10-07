@@ -22,6 +22,8 @@ public interface TextMapFilter {
 
   /**
    * Filter the given text, keeping a mapping from plain text to original markup positions.
+   * Note that the result's mapping may be {@code null} if mapping has been disabled for
+   * performance reasons.
    */
   PlainTextMapping filter(String text);
 

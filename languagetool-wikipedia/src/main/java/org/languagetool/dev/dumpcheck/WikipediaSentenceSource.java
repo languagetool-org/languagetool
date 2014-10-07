@@ -20,7 +20,6 @@ package org.languagetool.dev.dumpcheck;
 
 import org.languagetool.Language;
 import org.languagetool.dev.wikipedia.SwebleWikipediaTextFilter;
-import org.languagetool.dev.wikipedia.TextMapFilter;
 import org.languagetool.tokenizers.Tokenizer;
 
 import javax.xml.stream.XMLEventReader;
@@ -47,7 +46,7 @@ class WikipediaSentenceSource extends SentenceSource {
   private static final boolean ONLY_ARTICLES = false;
   private static final String ARTICLE_NAMESPACE = "0";
   
-  private final TextMapFilter textFilter = new SwebleWikipediaTextFilter();
+  private final SwebleWikipediaTextFilter textFilter = new SwebleWikipediaTextFilter();
   private final XMLEventReader reader;
   private final Tokenizer sentenceTokenizer;
   private final List<WikipediaSentence> sentences;
@@ -59,6 +58,7 @@ class WikipediaSentenceSource extends SentenceSource {
 
   WikipediaSentenceSource(InputStream xmlInput, Language language) {
     super(language);
+    textFilter.enableMapping(false);  // improves performance
     try {
       XMLInputFactory factory = XMLInputFactory.newInstance();
       reader = factory.createXMLEventReader(xmlInput);

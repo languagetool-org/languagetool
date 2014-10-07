@@ -35,6 +35,7 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
   private final SimpleWikiConfiguration config;
   private final Compiler compiler;
   private final PageId pageId;
+  private boolean enableMapping = true;
   
   public SwebleWikipediaTextFilter() {
     try {
@@ -53,12 +54,24 @@ public class SwebleWikipediaTextFilter implements TextMapFilter {
     try {
       final CompiledPage compiledPage = compiler.postprocess(pageId, wikiText, null);
       final TextConverter textConverter = new TextConverter(config, WRAP_COL);
+      textConverter.enableMapping(enableMapping);
       final String plainText = (String) textConverter.go(compiledPage.getPage());
-      return new PlainTextMapping(plainText, textConverter.getMapping());
+      if (enableMapping) {
+        return new PlainTextMapping(plainText, textConverter.getMapping());
+      } else {
+        return new PlainTextMapping(plainText, null);
+      }
     } catch (Exception e) {
       throw new RuntimeException("Could not extract plain text from MediaWiki syntax: '"
               + StringUtils.abbreviate(wikiText, 500) + "'", e);
     }
   }
 
+  /**
+   * Set this to {@code false} for better performance. The result of {@link #filter(String)}
+   * will then have a {@code null} mapping.
+   */
+  public void enableMapping(boolean enable) {
+    enableMapping = enable;
+  }
 }
