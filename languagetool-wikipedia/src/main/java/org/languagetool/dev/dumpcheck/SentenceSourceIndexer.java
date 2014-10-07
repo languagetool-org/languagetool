@@ -61,7 +61,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
     MixingSentenceSource mixingSource = MixingSentenceSource.create(dumpFileNames, language);
     while (mixingSource.hasNext()) {
       Sentence sentence = mixingSource.next();
-      if (sentenceCount % 100 == 0) {
+      if (sentenceCount % 1000 == 0) {
         System.out.println("Indexing sentence #" + sentenceCount + " (" + mixingSource.getSourceDistribution() + "):");
         System.out.println("  [" +  sentence.getSource() + "] " + sentence);
       }
