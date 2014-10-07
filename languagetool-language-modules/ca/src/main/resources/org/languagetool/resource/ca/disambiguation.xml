@@ -7233,10 +7233,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_GN_FP"/><wd pos="_GN_FP"/></disambig>
         </rule>
-        <!-- Desambigua un nom neutre o masculí i femení alhora. El llum, els alumnes. Excepció: L'intel·lectual -->
+    </rulegroup>
+    <rulegroup id="nom_neutre" name="desambigua nom neutre o masculí i femení alhora">
+    <!-- Desambigua un nom neutre o masculí i femení alhora. El llum, els alumnes. Excepció: L'intel·lectual -->
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_MS"><exception postag="_GN_FS"/></token></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_MS"><exception postag="_GN_FS"/></token></and>
                 <marker>
                     <and><token postag="NCCS.*|NCMN.*|NCCN.*" postag_regexp="yes"/><token postag="_GN_MS"/></and>
                 </marker>
@@ -7245,7 +7247,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_FS"><exception postag="_GN_MS"/></token></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_FS"><exception postag="_GN_MS"/></token></and>
                 <marker>
                     <and><token postag="NCCS.*|NCFN.*|NCCN.*" postag_regexp="yes"/><token postag="_GN_FS"/></and>
                 </marker>
@@ -7254,7 +7256,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_MP"/></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_MP"/></and>
                 <marker>
                     <and><token postag="NCCP.*|NCMN.*|NCCN.*" postag_regexp="yes"/><token postag="_GN_MP"/></and>
                 </marker>
@@ -7263,7 +7265,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_FP"/></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_FP"/></and>
                 <marker>
                     <and><token postag="NCCP.*|NCFN.*|NCCN.*" postag_regexp="yes"/><token postag="_GN_FP"/></and>
                 </marker>
@@ -7272,7 +7274,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_MS"><exception postag="_GN_FS"/></token></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_MS"><exception postag="_GN_FS"/></token></and>
                 <marker>
                     <and>
                         <token postag="NC[MC][SN].*" postag_regexp="yes"><exception postag="V.[NSI].*" postag_regexp="yes"/></token>
@@ -7284,7 +7286,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_FS"><exception postag="_GN_MS"/></token></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_FS"><exception postag="_GN_MS"/></token></and>
                 <marker>
                     <and>
                         <token postag="NC[FC][SN].*" postag_regexp="yes"/>
@@ -7296,7 +7298,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_MP"><exception postag="_GN_FP"/></token></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_MP"><exception postag="_GN_FP"/></token></and>
                 <marker>
                     <and><token postag="NC[MC][PN].*" postag_regexp="yes"/><token postag="_GN_MP"/></and>
                 </marker>
@@ -7305,7 +7307,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <and><token postag="D.*" postag_regexp="yes"/><token postag="_GN_FP"><exception postag="_GN_MP"/></token></and>
+                <and><token postag="D.*|PX.*" postag_regexp="yes"/><token postag="_GN_FP"><exception postag="_GN_MP"/></token></and>
                 <marker>
                     <and><token postag="NC[FC][PN].*" postag_regexp="yes"/><token postag="_GN_FP"/></and>
                 </marker>

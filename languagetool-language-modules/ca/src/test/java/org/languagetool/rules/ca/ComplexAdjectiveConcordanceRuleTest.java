@@ -160,6 +160,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    assertIncorrect("Aquella va ser la seva peça mestre.");
     assertIncorrect("La petició de tramitar el cas per lesions dolosa.");
     // policia i justícia són més usualment femenins, encara que poden ser masculins
     assertIncorrect("Especialment en matèria de policia i justícia autonòmics");
