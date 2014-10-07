@@ -216,7 +216,6 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
    
   <!-- verklaar tot meervoud als het einde daarop wijst -->
   <!-- cten kan ook vt zijn, dat moet er later weer uitgehaald worden -->
-  <!-- 's kan ook bezittelijk zijn -->
   
   <rule name="guess NN2" id="GUESS_NN2_n">
     <pattern>
@@ -225,6 +224,7 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
     </pattern>
     <disambig action="add"><wd pos="NN2"/></disambig>
   </rule>
+  
   <rule name="guess NN2" id="GUESS_NN2_n2">
     <pattern>
       <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
@@ -235,6 +235,26 @@ $Id: disambiguation.xml,v 1.4 2010-09-19 23:27:49 milek_pl Exp $
     <disambig action="add"><wd pos="NN2"/></disambig>
   </rule>
 
+  <rule name="guess NN2" id="GUESS_NN2_s">
+    <pattern>
+      <!-- 's -->
+      <marker>
+      <token regexp="yes">.*'s</token>
+    </marker>
+    </pattern>
+    <disambig action="add"><wd pos="NN2"/></disambig>
+  </rule>
+  
+  <rule name="guess ZnwGen" id="GUESS_ZnwGen">
+    <pattern>
+      <marker>
+      <token regexp="yes">.*'s</token>
+      </marker>
+    <token></token>
+    </pattern>
+    <disambig action="add"><wd pos="ZnwGen"/></disambig>
+  </rule>
+  
   <rule name="guess NN2" id="GUESS_NN2_n3">
     <pattern>
       <!-- TODO : uitzonderingen schrappen als disambiguation dubbelzinigheid weghaalt -->
