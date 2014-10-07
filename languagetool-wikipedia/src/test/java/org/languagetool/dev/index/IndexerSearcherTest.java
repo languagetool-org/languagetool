@@ -341,7 +341,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
   private void createIndex(String content) throws IOException {
     directory = new RAMDirectory();
     //directory = FSDirectory.open(new File("/tmp/lucenetest"));  // for debugging
-    Indexer.run(content, directory, new English(), false);
+    Indexer.run(content, directory, new English());
     errorSearcher = new Searcher(directory);
   }
 

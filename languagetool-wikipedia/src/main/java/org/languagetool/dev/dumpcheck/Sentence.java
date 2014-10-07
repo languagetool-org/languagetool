@@ -20,9 +20,9 @@ package org.languagetool.dev.dumpcheck;
 
 /**
  * A single sentence to be indexed/checked.
- * @since 2.4
+ * @since 2.4 (public since 2.8)
  */
-class Sentence {
+public class Sentence {
 
   private final String sentence;
   private final String source;
@@ -38,11 +38,11 @@ class Sentence {
     this.articleCount = articleCount;
   }
 
-  String getText() {
+  public String getText() {
     return sentence;
   }
 
-  String getSource() {
+  public String getSource() {
     return source;
   }
 
@@ -62,5 +62,4 @@ class Sentence {
   public String toString() {
     return sentence;
   }
-  
 }

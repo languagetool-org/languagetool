@@ -65,7 +65,7 @@ public class SentenceSourceIndexer extends DefaultHandler implements AutoCloseab
         System.out.println("Indexing sentence #" + sentenceCount + " (" + mixingSource.getSourceDistribution() + "):");
         System.out.println("  [" +  sentence.getSource() + "] " + sentence);
       }
-      indexer.index(sentence.getText(), sentence.getSource(), true, sentenceCount);
+      indexer.indexSentence(sentence, sentenceCount);
       sentenceCount++;
       if (maxSentences > 0 && sentenceCount >= maxSentences) {
         throw new DocumentLimitReachedException(maxSentences);

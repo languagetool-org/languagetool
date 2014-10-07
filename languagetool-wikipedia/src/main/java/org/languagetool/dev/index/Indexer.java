@@ -36,6 +36,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
@@ -85,7 +86,7 @@ public class Indexer implements AutoCloseable {
   private static void ensureCorrectUsageOrExit(String[] args) {
     if (args.length != 3) {
       System.err.println("Usage: Indexer <textFile> <indexDir> <languageCode>");
-      System.err.println("\ttextFile path to a text file to be indexed");
+      System.err.println("\ttextFile path to a text file to be indexed (line end implies sentence end)");
       System.err.println("\tindexDir path to a directory storing the index");
       System.err.println("\tlanguageCode short language code, e.g. en for English");
       System.exit(1);
@@ -104,43 +105,34 @@ public class Indexer implements AutoCloseable {
       try (FSDirectory directory = FSDirectory.open(new File(indexDir))) {
         final Language language = Language.getLanguageForShortName(languageCode);
         try (Indexer indexer = new Indexer(directory, language)) {
-          run(reader, indexer, false);
+          indexer.indexText(reader, null);
         }
       }
     }
     System.out.println("Index complete!");
   }
 
-  public static void run(String content, Directory dir, Language language, boolean isSentence) throws IOException {
+  public static void run(String content, Directory dir, Language language) throws IOException {
     final BufferedReader br = new BufferedReader(new StringReader(content));
     try (Indexer indexer = new Indexer(dir, language)) {
-      run(br, indexer, isSentence);
+      indexer.indexText(br, null);
     }
   }
 
-  public static void run(BufferedReader reader, Indexer indexer, boolean isSentence) throws IOException {
-    indexer.index(reader, null, isSentence, -1);
-  }
-
-  public void index(String content, boolean isSentence, int docCount) throws IOException {
-    index(content, null, isSentence, docCount);
-  }
-
-  public void index(String content, String source, boolean isSentence, int docCount) throws IOException {
-    final BufferedReader br = new BufferedReader(new StringReader(content));
-    index(br, source, isSentence, docCount);
-  }
-
-  public void index(BufferedReader reader, String source, boolean isSentence, int docCount) throws IOException {
+  public void indexSentence(Sentence sentence, int docCount) throws IOException {
+    final BufferedReader reader = new BufferedReader(new StringReader(sentence.getText()));
     String line;
     while ((line = reader.readLine()) != null) {
-      if (isSentence) {
-        add(-1, line, source);
-      } else {
-        final List<String> sentences = sentenceTokenizer.tokenize(line);
-        for (String sentence : sentences) {
-          add(docCount, sentence, source);
-        }
+      add(line, sentence.getSource(), docCount);
+    }
+  }
+
+  public void indexText(BufferedReader reader, String source) throws IOException {
+    String line;
+    while ((line = reader.readLine()) != null) {
+      final List<String> sentences = sentenceTokenizer.tokenize(line);
+      for (String sentence : sentences) {
+        add(sentence, source, -1);
       }
     }
   }
@@ -149,7 +141,7 @@ public class Indexer implements AutoCloseable {
     writer.addDocument(doc);
   }
 
-  private void add(int docCount, String sentence, String source) throws IOException {
+  private void add(String sentence, String source, int docCount) throws IOException {
     final Document doc = new Document();
     final FieldType type = new FieldType();
     type.setStored(true);
