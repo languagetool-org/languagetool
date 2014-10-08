@@ -69,6 +69,8 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (mon.startsWith("jan")) return 1;
     if (mon.startsWith("feb")) return 2;
     if (mon.startsWith("maa")) return 3;
+    if (mon.startsWith("mrt")) return 3;
+    if (mon.startsWith("mar")) return 3;
     if (mon.startsWith("apr")) return 4;
     if (mon.startsWith("mei")) return 5;
     if (mon.startsWith("jun")) return 6;
