@@ -8715,6 +8715,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="DATUM_WOCHENTAG" name="Wochentag passt nicht zum Datum">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Chr</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>v</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>u</token>
+                <token>.</token>
+                <token min="0">&nbsp;</token>
+                <token>Z</token>
+                <token>.</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">&wochentage;|&abgekWochentage;</token>
@@ -8780,6 +8799,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type='correct'>Termin: <marker>Samstag, 23. August 2014</marker></example>
                 <example type='correct'>Termin: <marker>Sa, 23. August 2014</marker></example>
                 <example type='correct'>Termin: <marker>Samstag, den 23. August 2014</marker></example>
+                <example type='correct'>Er ermittelte dafür Sonntag, den 23. Oktober 4004 v. u. Z.</example>
+                <example type='correct'>Er ermittelte dafür Sonntag, den 23. Oktober 4004 v.&nbsp;u.&nbsp;Z.</example>
+                <example type='correct'>Er ermittelte dafür Sonntag, den 23. Oktober 4004 v. Chr.</example>
+                <example type='correct'>Er ermittelte dafür Sonntag, den 23. Oktober 4004 v.&nbsp;Chr.</example>
             </rule>
             <rule>
                 <pattern>
