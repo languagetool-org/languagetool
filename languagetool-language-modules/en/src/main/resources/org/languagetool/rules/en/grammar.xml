@@ -14941,6 +14941,17 @@ USA
     </category>
     <category name="Semantic" type="inconsistency">
         <rulegroup id="DATE_WEEKDAY" name="Weekday doesn't match date">
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>BC</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d\d\d\d</token>
+                <token>B</token>
+                <token>.</token>
+                <token>C</token>
+                <token>.</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- "Monday, 7 October 2014" -->
