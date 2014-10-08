@@ -44,7 +44,12 @@ public class SuggestionExtractorTool {
         System.out.println("No directory " + hunspellDir + " found, ignoring language " + language);
         continue;
       }
-      final File ignoreFile = new File(hunspellDir, "ignore.txt");
+      final File ignoreFile;
+      if (language.isVariant()) {
+        ignoreFile = new File(hunspellDir, "ignore-" + language.getCountries()[0] + ".txt");
+      } else {
+        ignoreFile = new File(hunspellDir, "ignore.txt");
+      }
       final Set<String> tokens = entry.getValue();
       try (FileOutputStream fos = new FileOutputStream(ignoreFile)) {
         try (OutputStreamWriter writer = new OutputStreamWriter(fos, "utf-8")) {
