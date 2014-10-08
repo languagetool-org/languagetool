@@ -1194,7 +1194,7 @@ $Id$
         
         
         
-        <rulegroup default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
+        <rulegroup default="off" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
             <rule>
                <pattern>
                 <token>«</token>
@@ -1249,7 +1249,19 @@ $Id$
             <short>Неправильное сочетание знаков препинания</short>
             <example type="correct">Продолжение следует?!</example>
             <example type="incorrect">Продолжение следует<marker>?!!</marker></example>
+           </rule>
+        <rule>         
+            <pattern>
+                <token>!</token>
+                <token>?</token>
+            </pattern>
+            <message>Неправильное сочетание знаков препинания. Возможная замена:<suggestion>?!</suggestion></message>
+            <short>Неправильное сочетание знаков препинания</short>
+            <example type="correct">Продолжение следует?!</example>
+            <example type="incorrect">Продолжение следует<marker>!?</marker></example>
         </rule>
+        
+        
         </rulegroup>
                 
         <rule default="on" id="PUNKT_KAVITCHKI" name="Кавычки и знаки препинания">
