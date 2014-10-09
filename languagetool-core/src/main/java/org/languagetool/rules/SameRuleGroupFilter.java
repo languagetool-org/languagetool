@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * Filter rule matches so that only the first match is kept from overlapping
- * matches with the same rule group.
+ * matches with the same rule group (actually: the same id).
  *
  * @since 1.8
  */
