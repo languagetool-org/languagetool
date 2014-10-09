@@ -26444,6 +26444,58 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Je mehr ich schreibe<marker>, desto</marker> mehr Fehler mache ich.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="KOMMA_DATUM_WOCHENTAG" name="Fehlendes Komma zwischen Wochentag und Datumsangabe">
+            <url>http://www.canoo.net/services/GermanSpelling/Regeln/Interpunktion/Komma/Angaben.html#Anchor-Bei-49575</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    </marker>
+                    <token regexp='yes' min='0'>den|dem|der|des</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                </pattern>
+                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma</message>
+                <suggestion>\1,</suggestion>
+                <short>Fehlendes Komma</short>
+                <example type='incorrect' correction="Samstag,">Termin: <marker>Samstag</marker> den 23.08.2014</example>
+                <example type='incorrect' correction="Samstag,">Termin: <marker>Samstag</marker> 23.08.2014</example>
+                <example type='incorrect' correction="Samstag,">Termin: <marker>Samstag</marker> den 23.8.2014</example>
+                <example type='incorrect' correction="Sa,">Termin: <marker>Sa</marker> der 23.08.2014</example>
+                <example type='incorrect' correction="Freitag,">Termin: <marker>Freitag</marker> der 22.08.2014</example>
+                <example type='incorrect' correction="Sa,">Termin: <marker>Sa</marker> dem 23.08.2014</example>
+                <example type='correct'>Termin: Samstag, den 23.08.2014</example>
+                <example type='correct'>Termin: Samstag, den 23.8.2014</example>
+                <example type='correct'>Termin: Sa, der 23.08.2014</example>
+                <example type='correct'>Termin: Freitag, der 22.08.2014</example>
+                <example type='correct'>Termin: Sa, dem 23.08.2014</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp='yes'>&wochentage;|&abgekWochentage;</token>
+                    </marker>
+                    <token regexp='yes' min='0'>den|dem|der|des</token>
+                    <token regexp='yes'>\d\d?</token>
+                    <token>.</token>
+                    <token regexp='yes'>&monate;|&abgekMonate;</token>
+                </pattern>
+                <message>Bei mehrteiligen Datumsangaben steht hinter dem Wochentag ein Komma</message>
+                <suggestion>\1,</suggestion>
+                <short>Fehlendes Komma</short>
+                <example type='incorrect' correction="Samstag,">Termin: <marker>Samstag</marker> den 23. August 2014</example>
+                <example type='incorrect' correction="Samstag,">Termin: <marker>Samstag</marker> 23. August 2014</example>
+                <example type='incorrect' correction="Sa,">Termin: <marker>Sa</marker> der 23. August 2014</example>
+                <example type='incorrect' correction="Freitag,">Termin: <marker>Freitag</marker> der 22. August 2014</example>
+                <example type='incorrect' correction="Sa,">Termin: <marker>Sa</marker> dem 23. August 2014</example>
+                <example type='correct'>Termin: Samstag, den 23. August</example>
+                <example type='correct'>Termin: Sa, der 23. August 2014</example>
+                <example type='correct'>Termin: Freitag, der 22. August 2014</example>
+                <example type='correct'>Termin: Sa, dem 23. August 2014</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SONDERN_KOMMA" name="Zeichensetzung: Fehlendes Komma vor 'sondern'">
             <!-- "vor die Konjunktion 'sondern' [ist] immer ein Komma zu setzen" (cf. url) -->
             <rule>
