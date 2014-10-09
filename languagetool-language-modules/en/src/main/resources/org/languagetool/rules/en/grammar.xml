@@ -15000,18 +15000,18 @@ USA
 	      <antipattern>
 		    <token regexp="yes">&weekdays;</token>
 		    <token>,</token>
-		    <token regexp="yes">0{0,1}[1-9]|1[0-2]</token>
+		    <token regexp="yes">0?[1-9]|1[0-2]</token>
 		    <token>/</token>
-		    <token regexp="yes">0{0,1}[1-9]|1[0-2]</token>
+		    <token regexp="yes">0?[1-9]|1[0-2]</token>
 		    <token>/</token>
 		    <token regexp="yes">\d\d\d\d</token>
 	      </antipattern>
                 <pattern>
                     <token regexp="yes">&weekdays;</token>
                     <token>,</token>
-                    <token regexp="yes">0{0,1}[1-9]|[12][0-9]|3[01]</token>		    
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>		    
                     <token>/</token>
-                    <token regexp="yes">0{0,1}[1-9]|1[0-2]</token>
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>
                     <token>/</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
@@ -15019,6 +15019,8 @@ USA
                 <message>The date \3/\5/\7 is not a \1.</message>
                 <example type='incorrect'>IGD Convention 2014 - <marker>Monday, 31/10/2014</marker></example>
                 <example type='correct'>IGD Convention 2014 - <marker>Friday, 31/10/2014</marker></example>
+                <example type='correct'>IGD Convention 2014 - <marker>Monday, 10/09/2014</marker></example><!-- not correct, but ambiguous -->
+                <example type='correct'>IGD Convention 2014 - <marker>Monday, 9/10/2014</marker></example><!-- not correct, but ambiguous -->
             </rule>
             <rule>
 	    <!-- "Monday, 10/31/2014" -->
@@ -15026,18 +15028,18 @@ USA
 	      <antipattern>
 		    <token regexp="yes">&weekdays;</token>
 		    <token>,</token>
-		    <token regexp="yes">0{0,1}[1-9]|1[0-2]</token>
+		    <token regexp="yes">0?[1-9]|1[0-2]</token>
 		    <token>/</token>
-		    <token regexp="yes">0{0,1}[1-9]|1[0-2]</token>
+		    <token regexp="yes">0?[1-9]|1[0-2]</token>
 		    <token>/</token>
 		    <token regexp="yes">\d\d\d\d</token>
 	      </antipattern>
                 <pattern>
                     <token regexp="yes">&weekdays;</token>
                     <token>,</token>
-                    <token regexp="yes">0{0,1}[1-9]|1[0-2]</token>		    
+                    <token regexp="yes">0?[1-9]|1[0-2]</token>		    
                     <token>/</token>
-                    <token regexp="yes">0{0,1}[1-9]|[12][0-9]|3[01]</token>
+                    <token regexp="yes">0?[1-9]|[12][0-9]|3[01]</token>
                     <token>/</token>
                     <token regexp="yes">\d\d\d\d</token>
                 </pattern>
@@ -15045,6 +15047,8 @@ USA
                 <message>The date \3/\5/\7 is not a \1.</message>
                 <example type='incorrect'>IGD Convention 2014 - <marker>Monday, 10/31/2014</marker></example>
                 <example type='correct'>IGD Convention 2014 - <marker>Friday, 10/31/2014</marker></example>
+                <example type='correct'>IGD Convention 2014 - <marker>Monday, 10/09/2014</marker></example><!-- not correct, but ambiguous -->
+                <example type='correct'>IGD Convention 2014 - <marker>Monday, 9/10/2014</marker></example><!-- not correct, but ambiguous -->
             </rule>	    
         </rulegroup>
         <rulegroup id="INVALID_DATE" name="Invalid date, like 'February 31, 2014'">
