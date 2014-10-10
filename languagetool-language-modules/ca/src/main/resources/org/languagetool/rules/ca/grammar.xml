@@ -23703,7 +23703,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
-        <rule id="DONLENCA" name="dolença/malaltia">
+        <rule id="AMANYAT" name="amanyat">
+            <pattern>
+                <token inflected="yes">amanyat</token>
+            </pattern>
+            <message>Correcte en el sentit de "manyós". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="V.P..$2$1.">arreglar</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="V.P..$2$1.">manegar</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="V.P..$2$1.">manipular</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="V.P..$2$1.">falsejar</match></suggestion>
+            <suggestion><match no="1" postag="AQ0(.)(.)0" postag_regexp="yes" postag_replace="V.P..$2$1.">alterar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/amanar</url>
+            <example type="incorrect" correction="arreglat|manegat|manipulat|falsejat|alterat">Estava <marker>amanyat</marker>.</example>
+            <example type="incorrect" correction="arreglades|manegades|manipulades|falsejades|alterades">Estaven <marker>amanyades</marker>.</example>
+            <example type="correct">Estava manipulat.</example>
+        </rule>
+        <rule id="DOLENCA" name="dolença/malaltia">
             <pattern>
                 <token inflected="yes">dolença</token>
             </pattern>
