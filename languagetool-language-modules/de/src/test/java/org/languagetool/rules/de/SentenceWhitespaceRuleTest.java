@@ -21,9 +21,11 @@ package org.languagetool.rules.de;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.language.German;
 
 import java.io.IOException;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -32,7 +34,7 @@ public class SentenceWhitespaceRuleTest {
   @Test
   public void testMatch() throws Exception {
     SentenceWhitespaceRule rule = new SentenceWhitespaceRule(TestTools.getEnglishMessages());
-    JLanguageTool languageTool = new JLanguageTool(TestTools.getDemoLanguage());
+    JLanguageTool languageTool = new JLanguageTool(new German());
     languageTool.addRule(rule);
 
     assertGood("Das ist ein Satz. Und hier der nächste.", rule, languageTool);
@@ -45,6 +47,9 @@ public class SentenceWhitespaceRuleTest {
 
     assertGood("Am 28. September.", rule, languageTool);
     assertBad("Am 28.September.", rule, languageTool);
+
+    assertTrue(languageTool.check("Am 7.September 2014.").get(0).getMessage().contains("nach Ordnungszahlen"));
+    assertTrue(languageTool.check("Im September.Dann der nächste Satz.").get(0).getMessage().contains("zwischen Sätzen"));
   }
 
   private void assertGood(String text, SentenceWhitespaceRule rule, JLanguageTool languageTool) throws IOException {

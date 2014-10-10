@@ -69,11 +69,11 @@ public class SentenceWhitespaceRule extends org.languagetool.rules.SentenceWhite
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) {
     AnalyzedTokenReadings[] tokens = sentence.getTokens();
+    List<RuleMatch> matches = Arrays.asList(super.match(sentence));
     if (tokens.length > 1) {
       String prevLastToken = tokens[tokens.length-2].getToken();
       prevSentenceEndsWithNumber = NUMBER_REGEX.matcher(prevLastToken).matches();
     }
-    List<RuleMatch> matches = Arrays.asList(super.match(sentence));
     return toRuleMatchArray(matches);
   }
 
