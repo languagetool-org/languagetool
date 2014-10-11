@@ -101,8 +101,12 @@ public class WikipediaQuickCheck {
     final WikipediaQuickCheck check = new WikipediaQuickCheck();
     final String xml = check.getMediaWikiContent(url);
     final MediaWikiContent wikiContent = getRevisionContent(xml);
-    if (wikiContent.getContent().trim().isEmpty() || wikiContent.getContent().toLowerCase().contains("#redirect")) {
-      throw new PageNotFoundException("No content found at " + url);
+    final String content = wikiContent.getContent();
+    if (content.trim().isEmpty()) {
+      throw new PageNotFoundException("No content found at '" + url + "'");
+    }
+    if (content.toLowerCase().contains("#redirect")) {
+      throw new PageNotFoundException("No content but redirect found at '" + url + "'");
     }
     return checkWikipediaMarkup(url, wikiContent, getLanguage(url), errorMarker);
   }
