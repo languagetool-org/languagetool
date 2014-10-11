@@ -3240,7 +3240,7 @@ $Id$
 	                    <token postag="V.[ISMG].*" postag_regexp="yes" inflected="yes" regexp="yes">informar|perjudicar|afectar|emprenyar|concernir|cansar|empipar|preocupar|molestar|sorprendre|espantar|apassionar|atr[ae]ure<exception postag="_GN_.*" postag_regexp="yes"/></token>
 	                    <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?|si</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'. La preposició és necessària en casos d'ambigüitat.</message>
                 <suggestion><match no="2"/></suggestion>
@@ -3267,7 +3267,7 @@ $Id$
 	                    </and>
 	                    <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?|si</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'. La preposició és necessària en casos d'ambigüitat.</message>
                 <suggestion><match no="3"/></suggestion>
@@ -3288,7 +3288,7 @@ $Id$
                         </and>
                         <token>a<exception postag=".*LOC.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">ls?|tots?|tothom|ningú|cadascú|mi|tu|ella?|[nv]osaltres|elle?s|vost[éè]s?|si</exception><exception postag="V.N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Aquest verb és transitiu. Potser cal eliminar la preposició 'a'. La preposició és necessària en casos d'ambigüitat.</message>
                 <suggestion><match no="3"/></suggestion>
@@ -3296,6 +3296,7 @@ $Id$
                 <example type="incorrect" correction="afectar">No va <marker>afectar a</marker> la relació.</example>
                 <example type="correct">No va afectar a tots igual.</example>
                 <example type="correct">El va sorprendre a Vilanova.</example>
+                <example type="correct">es va sorprendre a si mateix</example> 
             </rule>
         </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
@@ -25664,9 +25665,9 @@ $Id$
         <rulegroup id="BORDAR_BRODAR" name="bordar / brodar">
             <rule>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">ca1|gos|animal|gosset|amenaç.*|perill|lladr.*|ensum.*|olor.*</exception></token>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">ca1|gos|animal|gosset|amenaç.*|perill|lladr.*|ensum.*|olor.*|udol.*|gruny.*</exception></token>
                     <marker>
-                        <token inflected="yes" skip="-1">bordar<exception postag="_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">ca1|gos|gosset|animal|amenaç.*|perill|lladr.*|ensum.*|olor.*</exception><exception scope="previous" postag="UNKNOWN"/></token>
+                        <token inflected="yes" skip="-1">bordar<exception postag="_GN_.*|_possible_nompropi" postag_regexp="yes"/><exception scope="next" inflected="yes" regexp="yes">ca1|gos|gosset|animal|amenaç.*|perill|lladr.*|ensum.*|olor.*|udol.*|gruny.*</exception><exception scope="previous" postag="UNKNOWN"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
