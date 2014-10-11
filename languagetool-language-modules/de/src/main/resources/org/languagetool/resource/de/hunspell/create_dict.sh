@@ -13,6 +13,8 @@ then
   exit 1
 fi
 
+INPUT_ENCODING=latin1
+OUTPUT_ENCODING=utf8
 LANG_CODE=$1
 COUNTRY_CODE=$2
 TEMP_FILE=/tmp/lt-dictionary.dump
@@ -30,7 +32,7 @@ mvn clean package -DskipTests &&
  unmunch $DIC_FILE $CONTENT_DIR/$PREFIX.aff | \
  # unmunch doesn't properly work for languages with compounds, thus we filter
  # the result using hunspell:
- recode latin1..utf8 | grep -v "^#" | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
+ recode $INPUT_ENCODING..$OUTPUT_ENCODING | grep -v "^#" | hunspell -d $DIC_NO_SUFFIX -G -l >$TEMP_FILE
 
 java -cp languagetool-standalone/target/LanguageTool-*/LanguageTool-*/languagetool.jar org.languagetool.dev.SpellDictionaryBuilder ${LANG_CODE}-${COUNTRY_CODE} $TEMP_FILE $INFO_FILE
 
