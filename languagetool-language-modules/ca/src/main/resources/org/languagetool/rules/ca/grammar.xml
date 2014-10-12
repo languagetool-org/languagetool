@@ -2266,6 +2266,27 @@ $Id$
                 <!-- provenen d'un lloc de naixença comú 
                 per un ideal d'emancipació comú-->
             </rule>
+            <rule id="ESTRATEGA" name="estratega">
+                <pattern>
+                    <token inflected="yes" postag="NCF.*" postag_regexp="yes">estrateg<exception postag="_GN_F." postag_regexp="yes"/></token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000"></match></suggestion>
+                <example type="incorrect" correction="estrateg">Polític i <marker>estratega</marker>.</example>
+                <example type="correct">Una gran estratega.</example>
+            </rule>
+            <rule id="L_ESTRATEGA" name="l'estratega">
+                <pattern>
+                    <token>l'</token>
+                    <marker>
+                        <token>estratega</token>
+                    </marker>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion>estrateg</suggestion>
+                <example type="incorrect" correction="estrateg">L'<marker>estratega</marker>.</example>
+                <example type="correct">Una gran estratega.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
