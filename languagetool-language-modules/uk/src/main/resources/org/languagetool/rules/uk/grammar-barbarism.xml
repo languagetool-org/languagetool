@@ -340,7 +340,7 @@ $Id$
        <rule>
          <pattern>
            <marker>
-            <token>давайте</token>
+            <token regexp="yes">давай(те)?</token>
             <token postag_regexp="yes" postag="verb.*:futr.*"></token>
            </marker>
          </pattern>
@@ -523,11 +523,12 @@ $Id$
        <rule>
          <pattern>
               <token inflected="yes" regexp="yes">кидатися|кинутися</token>
-              <token>в</token>
-              <token>очі</token>
+              <token regexp="yes">[ув]</token>
+              <token regexp="yes">очі|вічі</token>
          </pattern>
          <message>Краще: <suggestion>впадати в око (очі)</suggestion>, <suggestion>брати очі</suggestion>, <suggestion>вбирати в себе очі</suggestion></message>
          <example type="incorrect">його кожух одразу <marker>кидався в очі</marker></example>
+         <example type="incorrect">його кожух одразу <marker>кидавсь у вічі</marker></example>
          <example type="correct">його кожух одразу впадав у око</example>
        </rule>
 
@@ -683,6 +684,27 @@ $Id$
          <url>http://slovopedia.org.ua/34/53405/33275.html</url>
          <example type="incorrect">Вулиця <marker>носить назву</marker> Героїв Небесної Сотні</example>
          <example type="correct">Вулиця має назву Героїв Небесної Сотні</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes" regexp="yes">піднімати|підняти</token>
+           </marker>
+            <token>тост</token>
+         </pattern>
+         <message>Правильно: <suggestion>підносити</suggestion>, <suggestion>піднести</suggestion></message>
+         <example type="incorrect">Ми <marker>піднімаємо</marker> тост за нові успіхи</example>
+         <example type="correct">Ми підносимо тост за нові успіхи</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">наверстувати|наверстати</token>
+         </pattern>
+         <message>Правильно: <suggestion>надолужувати</suggestion>, <suggestion>навертати</suggestion>, <suggestion>наганяти</suggestion>, <suggestion>натягати</suggestion></message>
+         <example type="incorrect">встигаємо <marker>наверстати</marker> прогаяне</example>
+         <example type="correct">встигаємо надолужити прогаяне</example>
        </rule>
 
 
@@ -1742,6 +1764,17 @@ $Id$
          <message>Правильно: <suggestion>(як) палицею (шапкою, штихом) кинути, докинути</suggestion>, <suggestion>(як) рукою сягнути</suggestion>, <suggestion>тільки що не видно</suggestion>, <suggestion>дуже (зовсім) близько</suggestion>, <suggestion>близенько (близесенько)</suggestion>, <suggestion>от-от за плечима</suggestion></message>
          <example type="incorrect">До Івано-Франківська <marker>рукою подати</marker> — 17 кілометрів</example>
          <example type="correct">До Івано-Франківська шапкою докинути — 17 кілометрів</example>
+       </rule>
+
+        <rule>
+         <pattern>
+              <token>білка</token>
+              <token>в</token>
+              <token>колесі</token>
+         </pattern>
+         <message>Правильно: <suggestion>муха в окропі</suggestion>, <suggestion>в'юн в ополонці</suggestion>, <suggestion>в'юн на сковорідці</suggestion>, <suggestion>посолений в'юн</suggestion>, <suggestion>дзига</suggestion>, <suggestion>у колесі</suggestion>, <suggestion>сорока на тину</suggestion></message>
+         <example type="incorrect">Хоча і крутяться, як <marker>білка в колесі</marker>, але ж не задарма</example>
+         <example type="correct">Хоча і крутяться, як у колесі, але ж не задарма</example>
        </rule>
 <!--
         <rule>

@@ -57,16 +57,16 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
   public void testChunker() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
-      "/[null]SENT_START Танцювати/[танцювати]verb:inf:intran:tran  /[null]null до/[до впаду]<adv>|до/[до]noun:n:nv|до/[до]prep:rv_rod  /[null]null " +
+      "/[null]SENT_START Танцювати/[танцювати]verb:inf:imperf:intran:tran  /[null]null до/[до впаду]<adv>|до/[до]noun:n:nv|до/[до]prep:rv_rod  /[null]null " +
       "впаду/[впасти]verb:futr:s:1:perf:v-u|впаду/[до впаду]</adv>",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:past:f  /[null]null Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf  /[null]null Люба/[Люба]noun:f:v_naz|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, demoDisambiguator);
 
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:past:f  /[null]null Люба/[Люба]noun:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf  /[null]null Люба/[Люба]noun:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, disambiguator);
       
   }

@@ -16,7 +16,7 @@ CPATH=.libs/lucene-gosen-ipadic.jar:libs/ictclas4j.jar:libs/cjftransform.jar:lib
 
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"
 #RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,EUPHONY,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE"
-RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,EUPHONY"
+RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,EUPHONY,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1"
 #RULES_DONE="BILSHE_WITH_NUMERICS,COMMA_BEFORE_BUT,INSERTED_WORDS_NO_COMMA"
 
 function run_lt() 
@@ -44,7 +44,7 @@ function run_full_test()
 SRC_BASE="$HOME/work/ukr/spelling/media"
 SRCS="tyzhden/td.txt um/um.txt dt.txt.clean vz/vz.txt"
 
-ID_TO_CHECK="$1"
+IDS_TO_CHECK="$@"
 
 #if [ "$SRC" == "" ] || [ "$ID" == "" ]; then
 #    echo "Usage $0 <file> <id>"
@@ -56,8 +56,8 @@ echo $LIBS
 
 #mv -f checked.out checked.out.bak
 
-if [ "$ID_TO_CHECK" == "0" ]; then
-    ID=$ID_TO_CHECK
+if [ "$IDS_TO_CHECK" == "0" ]; then
+    ID=$IDS_TO_CHECK
     SRC=text4.txt
     echo "Checking $SRC [$ID]"
 
@@ -73,7 +73,7 @@ fi
 ID=1
 for src_file in $SRCS; do
 
-  if [ "$ID_TO_CHECK" == "" ] || [ "$ID" == "$ID_TO_CHECK" ]; then
+  if [ "$IDS_TO_CHECK" == "" ] || (echo $IDS_TO_CHECK | grep -q $ID) ; then
 
     SRC=$SRC_BASE/$src_file
     
