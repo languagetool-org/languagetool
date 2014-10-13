@@ -55,6 +55,7 @@ public class Galician extends Language {
     }
     return sentenceTokenizer;
   }
+  
   @Override
   public String getName() {
     return name;
@@ -130,9 +131,8 @@ public class Galician extends Language {
             new GenericUnpairedBracketsRule(messages, this),
             new HunspellRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
-            // WordRepeatRule(messages),
             new MultipleWhitespaceRule(messages, this),
-            // Specific to Galician
+            // Specific to Galician:
             new SimpleReplaceRule(messages),
             new CastWordsRule(messages)
     );
