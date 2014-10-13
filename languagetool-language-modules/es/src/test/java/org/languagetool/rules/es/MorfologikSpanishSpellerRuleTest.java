@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.es;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -31,19 +30,12 @@ import static org.junit.Assert.assertEquals;
 
 public class MorfologikSpanishSpellerRuleTest {
 
-  private static final Spanish language = new Spanish();
-
-  private static MorfologikSpanishSpellerRule rule;
-  private static JLanguageTool langTool;
-
-  @BeforeClass
-  public static void setup() throws IOException {
-    rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("en"), language);
-    langTool = new JLanguageTool(language);
-  }
-
   @Test
   public void testMorfologikSpeller() throws IOException {
+    Spanish language = new Spanish();
+    MorfologikSpanishSpellerRule rule = new MorfologikSpanishSpellerRule(TestTools.getMessages("en"), language);
+    JLanguageTool langTool = new JLanguageTool(language);
+
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Escriba un texto aquí. LanguageTool le ayudará a afrontar algunas dificultades propias de la escritura.")).length);
     
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales."));
