@@ -20,7 +20,7 @@ package org.languagetool.language;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
+import org.languagetool.rules.es.MorfologikSpanishSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.es.SpanishSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -32,6 +32,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -127,12 +128,12 @@ public class Spanish extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages, this),
-            new HunspellRule(messages, this),
+            new MorfologikSpanishSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
