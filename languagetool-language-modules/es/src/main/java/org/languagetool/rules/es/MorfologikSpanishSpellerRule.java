@@ -40,6 +40,6 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public final String getId() {
-    return "MORFOLOGIK_RULE_ES_US";
+    return "MORFOLOGIK_RULE_ES";
   }
 }
