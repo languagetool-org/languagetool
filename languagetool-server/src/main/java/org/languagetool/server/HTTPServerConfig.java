@@ -48,6 +48,9 @@ public class HTTPServerConfig {
   protected Language atdLanguage;
   protected File languageModelDir = null;
 
+  /**
+   * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
+   */
   public HTTPServerConfig() {
     this(DEFAULT_PORT, false);
   }
