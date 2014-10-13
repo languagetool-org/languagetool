@@ -2282,7 +2282,7 @@ $Id$
                         <token>estratega</token>
                     </marker>
                 </pattern>
-                <message>Possible error de concordança.</message>
+                <message>Possible error de concordança. Correcte si és femení.</message>
                 <suggestion>estrateg</suggestion>
                 <example type="incorrect" correction="estrateg">L'<marker>estratega</marker>.</example>
                 <example type="correct">Una gran estratega.</example>
@@ -27830,6 +27830,7 @@ $Id$
         <rule id="POSAR_EN_VALOR" name="sublevar">
             <pattern>
                 <token inflected="yes">posar</token>
+                <token min="0" regexp="yes" postag="P.*" postag_regexp="yes">-.+</token>
                 <token>en</token>
                 <token>valor</token>
             </pattern>
@@ -27843,6 +27844,7 @@ $Id$
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">reivindicar</match></suggestion>
             <short>Expressió preferible</short>
             <example type="incorrect" correction="Valorarem|Farem valdre|Afavorirem|Traurem profit|Remarcarem|Realçarem|Reivindicarem"><marker>Posarem en valor</marker> el museu.</example>
+            <example type="incorrect">Cal <marker>posar-la en valor</marker>.</example>
             <example type="correct">Valorarem.</example>
         </rule>
         <rule id="EL_SUFICIENTMENT" name="el suficientment">
