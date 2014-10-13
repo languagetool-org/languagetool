@@ -31,7 +31,6 @@ import java.net.URLEncoder;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 public class HTTPSServerTest {
 
@@ -41,7 +40,7 @@ public class HTTPSServerTest {
   @Test
   public void runRequestLimitationTest() throws Exception {
     HTTPTools.disableCertChecks();
-    final HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPServerConfig.DEFAULT_PORT, false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
+    final HTTPSServerConfig serverConfig = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD, 2, 120);
     final HTTPSServer server = new HTTPSServer(serverConfig, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
       server.run();
@@ -60,7 +59,7 @@ public class HTTPSServerTest {
   @Test
   public void testHTTPSServer() throws Exception {
     HTTPTools.disableCertChecks();
-    final HTTPSServerConfig config = new HTTPSServerConfig(getKeystoreFile(), KEYSTORE_PASSWORD);
+    final HTTPSServerConfig config = new HTTPSServerConfig(HTTPTools.getDefaultPort(), false, getKeystoreFile(), KEYSTORE_PASSWORD);
     config.setMaxTextLength(500);
     final HTTPSServer server = new HTTPSServer(config, false, HTTPServerConfig.DEFAULT_HOST, null);
     try {
@@ -81,12 +80,12 @@ public class HTTPSServerTest {
 
   private void runTests() throws IOException {
     try {
-      final String httpPrefix = "http://localhost:" + HTTPServerConfig.DEFAULT_PORT + "/";
+      final String httpPrefix = "http://localhost:" + HTTPTools.getDefaultPort() + "/";
       HTTPTools.checkAtUrl(new URL(httpPrefix + "?text=a+test&language=en"));
       fail("HTTP should not work, only HTTPS");
     } catch (SocketException expected) {}
 
-    final String httpsPrefix = "https://localhost:" + HTTPServerConfig.DEFAULT_PORT + "/";
+    final String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/";
 
     final String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
     assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
@@ -110,7 +109,7 @@ public class HTTPSServerTest {
   private String check(Language lang, String text) throws IOException {
     String urlOptions = "/?language=" + lang.getShortName();
     urlOptions += "&disabled=HUNSPELL_RULE&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
-    final URL url = new URL("https://localhost:" + DEFAULT_PORT + urlOptions);
+    final URL url = new URL("https://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
   

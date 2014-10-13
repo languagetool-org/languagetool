@@ -36,7 +36,6 @@ import java.net.URLEncoder;
 import java.util.HashSet;
 
 import static org.junit.Assert.*;
-import static org.languagetool.server.HTTPServerConfig.DEFAULT_PORT;
 
 public class HTTPServerTest {
 
@@ -91,7 +90,7 @@ public class HTTPServerTest {
     // test http POST
     assertTrue(checkByPOST(new Romanian(), "greșit greșit").contains("greșit"));
     // test supported language listing
-    final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/Languages");
+    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/Languages");
     final String languagesXML = StringTools.streamToString((InputStream) url.getContent(), "UTF-8");
     if (!languagesXML.contains("Romanian") || !languagesXML.contains("English")) {
       fail("Error getting supported languages: " + languagesXML);
@@ -155,7 +154,7 @@ public class HTTPServerTest {
 
   @Test
   public void testTimeout() throws Exception {
-    HTTPServerConfig config = new HTTPServerConfig();
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), false);
     config.setMaxCheckTimeMillis(1);
     final HTTPServer server = new HTTPServer(config, false);
     try {
@@ -172,7 +171,7 @@ public class HTTPServerTest {
 
   @Test
   public void testAccessDenied() throws Exception {
-    final HTTPServer server = new HTTPServer(new HTTPServerConfig(), false, new HashSet<String>());
+    final HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false, new HashSet<String>());
     try {
       server.run();
       try {
@@ -187,12 +186,12 @@ public class HTTPServerTest {
   
   @Test
   public void testEnabledOnlyParameter() throws Exception {
-    final HTTPServer server = new HTTPServer(new HTTPServerConfig(), false);
+    final HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false);
     try {
       server.run();
       try {
         System.out.println("=== Testing 'enabledOnly parameter' now, please ignore the following exception ===");
-        final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
+        final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo&language=en-US&disabled=EN_A_VS_AN&enabledOnly=yes");
         HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {}
@@ -203,12 +202,12 @@ public class HTTPServerTest {
 
   @Test
   public void testMissingLanguageParameter() throws Exception {
-    final HTTPServer server = new HTTPServer(new HTTPServerConfig(), false);
+    final HTTPServer server = new HTTPServer(new HTTPServerConfig(HTTPTools.getDefaultPort()), false);
     try {
       server.run();
       try {
         System.out.println("=== Testing 'missing language parameter' now, please ignore the following exception ===");
-        final URL url = new URL("http://localhost:" + DEFAULT_PORT + "/?text=foo");
+        final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + "/?text=foo");
         HTTPTools.checkAtUrl(url);
         fail();
       } catch (IOException expected) {}
@@ -224,7 +223,7 @@ public class HTTPServerTest {
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
-    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
+    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
@@ -238,7 +237,7 @@ public class HTTPServerTest {
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
     }
-    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
+    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
 
@@ -258,7 +257,7 @@ public class HTTPServerTest {
     if (useEnabledOnly) {
       urlOptions += "&enabledOnly=yes";
     }
-    final URL url = new URL("http://localhost:" + DEFAULT_PORT + urlOptions);
+    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);
   }
   
@@ -267,7 +266,7 @@ public class HTTPServerTest {
    */
   protected String checkByPOST(Language lang, String text) throws IOException {
     final String postData = "language=" + lang.getShortName() + "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like Polish, Romanian, etc
-    final URL url = new URL("http://localhost:" + DEFAULT_PORT);
+    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort());
     return HTTPTools.checkAtUrlByPost(url, postData);
   }
 

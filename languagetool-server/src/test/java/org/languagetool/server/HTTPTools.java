@@ -37,6 +37,11 @@ class HTTPTools {
   private HTTPTools() {
   }
 
+  public static int getDefaultPort() {
+    String defaultPort = System.getProperty("lt.default.port");
+    return defaultPort != null ? Integer.parseInt(defaultPort) : HTTPServerConfig.DEFAULT_PORT;
+  }
+
   /**
    * For testing, we disable all checks because we use a self-signed certificate on the server
    * side and we want this test to run everywhere without importing the certificate into the JVM's trust store.

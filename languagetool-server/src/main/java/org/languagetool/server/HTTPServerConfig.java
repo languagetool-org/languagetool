@@ -49,9 +49,15 @@ public class HTTPServerConfig {
   protected File languageModelDir = null;
 
   public HTTPServerConfig() {
-    this.port = DEFAULT_PORT;
-    this.verbose = false;
-    this.publicAccess = false;
+    this(DEFAULT_PORT, false);
+  }
+
+  /**
+   * @param serverPort the port to bind to
+   * @since 2.8
+   */
+  public HTTPServerConfig(int serverPort) {
+    this(serverPort, false);
   }
 
   /**
@@ -61,7 +67,6 @@ public class HTTPServerConfig {
   public HTTPServerConfig(int serverPort, boolean verbose) {
     this.port = serverPort;
     this.verbose = verbose;
-    this.publicAccess = false;
   }
 
   /**

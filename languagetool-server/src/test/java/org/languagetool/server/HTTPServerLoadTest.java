@@ -45,7 +45,7 @@ public class HTTPServerLoadTest extends HTTPServerTest {
   @Override
   public void testHTTPServer() throws Exception {
     final long startTime = System.currentTimeMillis();
-    HTTPServerConfig config = new HTTPServerConfig(HTTPServerConfig.DEFAULT_PORT, true);
+    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort(), true);
     final HTTPServer server = new HTTPServer(config);
     assertFalse(server.isRunning());
     try {
