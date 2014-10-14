@@ -5,7 +5,6 @@
 Spanish Grammar and Typo Rules for LanguageTool
 Copyright (C) 2006 Marcin Miłkowski
 Copyright (C) 2010 Juan Martorell
-Copyright (C) 2012 Alexander Socop Arango
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
@@ -183,362 +182,6 @@ $Id$
       <example type="correct"><marker>Voy a hablar</marker> con ella.</example>
     </rule>
 
-    <!-- TODO: Following rules generate lots of false positives and should be removed. The author choses options based upon semantic criteria, so positives are ramdom.-->
-
-    <!-- REMOVE: The author choses options based upon semantic criteria, so positives are ramdom.-->
-
-    <!-- QUÉ/CÓMO/QUIÉN/QUIÉNES/CUÁL/CUÁLES/CUÁNTO/CUÁNTOS/DÓNDE/CUÁNDO/POR QUÉ: Pronombres exclamativos e interrogativos-->
-
-    <rulegroup default="off" id="PRONOMBRES_EXCLAMATIVOS_E_INTERROGATIVOS" name="Pronombres exclamativos e interrogrativos">
-      <!-- QUE pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="QUE" name="Qué">
-        <pattern>
-          <token regexp="yes" skip="1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Qq]ue<exception postag="R." postag_regexp="yes" scope="next"/></token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Que» debe tildarse. <suggestion>qué</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="qué" type="incorrect">¿A <marker>que</marker> hora vendrán?</example>
-
-        <example type="correct">¿A qué hora vendrán?</example>
-      </rule>
-
-      <!-- COMO pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="COMO" name="Cómo">
-        <pattern>
-          <token regexp="yes" skip="1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]omo<exception scope="previous">era </exception></token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Como» debe tildarse. <suggestion>cómo</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="cómo" type="incorrect">¿Tú <marker>como</marker> te llamas?</example>
-
-        <example type="correct">¿Tú cómo te llamas?</example>
-      </rule>
-
-      <!-- QUIEN pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="QUIEN" name="Quién">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Qq]uien</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Quien» debe tildarse. <suggestion>quién</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="quién" type="incorrect">Dime, ¿Ella <marker>quien</marker> es?</example>
-
-        <example type="correct">Dime, ¿Ella quién es?</example>
-      </rule>
-
-      <!-- QUIENES pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="QUIENES" name="Quiénes">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Qq]uienes</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Quienes» debe tildarse. <suggestion>quiénes</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="quiénes" type="incorrect">¿Con <marker>quienes</marker> han venido?</example>
-
-        <example type="correct">¿Con quiénes han venido?</example>
-      </rule>
-
-      <!-- CUAL pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="CUAL" name="Cuál">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]ual</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «cual» debe tildarse. <suggestion>cuál</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="cuál" type="incorrect">No sé <marker>cual</marker> de estos juguetes quieres.</example>
-
-        <example type="correct">No sé cuál de estos juguetes queires.</example>
-      </rule>
-
-      <!-- CUALES pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="CUALES" name="Cuáles">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]uales</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «cuales» debe tildarse. <suggestion>cuáles</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="Cuáles" type="incorrect">¿<marker>Cuales</marker> son los libros que llevaremos?</example>
-
-        <example type="correct">¿Cuáles son los libros que llevaremos?</example>
-      </rule>
-
-      <!-- CUANTO pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="CUANTO" name="Cuánto">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]uanto</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Cuanto» debe tildarse. <suggestion>cuánto</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="cuánto" type="incorrect">¿Alguien sabe <marker>cuanto</marker> cuesta ese reloj?</example>
-
-        <example type="correct">¿Alguien sabe cuánto cuesta ese reloj?</example>
-      </rule>
-
-      <!-- CUANTOS pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="CUANTOS" name="Cuántos">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]uantos</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Cuantos» debe tildarse. <suggestion>cuántos</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="cuántos" type="incorrect">¿Sabes <marker>cuantos</marker> invitados vendrán?</example>
-
-        <example type="correct">¿Sabes cuántos invitados vendrán?</example>
-      </rule>
-
-      <!-- DONDE pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="DONDE" name="Dónde">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Dd]onde</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Donde» debe tildarse. <suggestion>dónde</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="dónde" type="incorrect">¿En <marker>donde</marker> será el concierto?</example>
-
-        <example type="correct">¿En dónde será el concierto?</example>
-      </rule>
-
-      <!-- ADÓNDE pronombre exclamativo e interrogativo lleva tilde (http://cvc.cervantes.es/alhabla/museo_horrores/museo_063.htm)-->
-
-      <rule id="ADONDE" name="Adónde">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|pero|sé|sabemos|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Aa]donde</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «adonde» debe tildarse. <suggestion>adónde</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="adónde" type="incorrect">Ya sabemos <marker>adonde</marker> vamos a ir.</example>
-
-        <example type="correct">Ya sabemos adónde vamos a ir.</example>
-      </rule>
-
-      <!-- CUANDO pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="CUANDO" name="Cuándo">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|pero|sé|sabemos|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]uando</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Cuando» debe tildarse. <suggestion>cuándo</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="Cuándo" type="incorrect">¿<marker>Cuando</marker> es tu cumpleaños.</example>
-
-        <example type="correct">¿Cuándo es tu cumpleaños.</example>
-      </rule>
-
-      <!-- CUAN pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="CUAN" name="Cuán">
-        <pattern>
-          <token regexp="yes" skip="-1">¿|¡|pero|sé|sabemos|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren<exception scope="next">,</exception></token>
-
-          <marker>
-            <token regexp="yes">[Cc]uan</token>
-          </marker>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Cuan» debe tildarse. <suggestion>cuán</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="Cuán" type="incorrect">¡<marker>Cuan</marker> grande era!</example>
-
-        <example type="correct">¡Cuán grande era!</example>
-      </rule>
-
-      <!-- por QUE pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="POR_QUE1" name="Por qué1">
-        <pattern>
-          <token regexp="yes">¿|¡</token>
-
-          <marker>
-            <token regexp="yes">porque|porqué</token>
-          </marker>
-        </pattern>
-
-        <message>Se trata de la secuencia formada por la preposición «por» y el interrogativo o exclamativo «qué» (palabra tónica que se escribe con tilde diacrítica para distinguirla del relativo y de la conjunción «que»). Introduce oraciones interrogativas y exclamativas directas e indirectas. <suggestion>por qué</suggestion></message>
-
-        <short>La secuencia de la preposición «por» y el interrogativo o exclamativo «qué» debe tildarse.</short>
-
-        <example correction="Por qué" type="incorrect">¿<marker>Porque</marker> no llegaste a la fiesta?</example>
-
-        <example type="correct">¿Por qué no llegaste a la fiesta?</example>
-      </rule>
-
-      <!-- QUE pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="QUE2" name="Qué2">
-        <pattern>
-          <token>no</token>
-
-          <token regexp="yes">dijo|dije|dijeron|manifestaron|manifestó|mencionó|mencionaron|comentó|dice|contó</token>
-
-          <token>a</token>
-
-          <marker>
-            <token>que</token>
-          </marker>
-        </pattern>
-
-        <message>Se sugiere tildar el ponombre exclamativo o interrogativo «Que». <suggestion>qué</suggestion></message>
-
-        <short>Se sugiere tildar los ponombres exclamativos o interrogativos.</short>
-
-        <example correction="qué" type="incorrect">No dijo a <marker>que</marker> hora vendría.</example>
-
-        <example type="correct">No dijo a qué hora vendría.</example>
-      </rule>
-
-      <!-- QUE pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="QUE3" name="Qué3">
-        <pattern>
-          <token regexp="yes">yo|–yo|—yo</token>
-
-          <marker>
-            <token>que</token>
-          </marker>
-
-          <token regexp="yes">se|sé</token>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Que» debe tildarse. <suggestion>qué</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="qué" type="incorrect">Yo <marker>que</marker> sé.</example>
-
-        <example type="correct">Yo qué sé.</example>
-      </rule>
-
-      <!-- QUE pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="QUE_HORA" name="Qué hora">
-        <pattern>
-          <marker>
-            <token><!--Included to avoid overlap with QUE rule--><exception regexp="yes" scope="previous">¿|¡|sé|sabemos|pero|preguntado|pregunto|preguntas|preguntás|pregunta|preguntáis|preguntan|preguntaba|preguntabas|preguntábamos|preguntabrais|preguntaban|pregunté|preguntaste|preguntó|preguntamos|preguntasteis|preguntaron|preguntaré|preguntarás|preguntaremos|preguntaréis|preguntarán|preguntaría|preguntaríamos|preguntaríais|preguntarían|pregunte|preguntes|preguntemos|preguntéis|pregunten|preguntara|preguntase|preguntaras|preguntases|preguntáramos|preguntásemos|preguntarais|preguntaseis|preguntaran|preguntasen|preguntares|preguntare|preguntáremos|preguntareis|preguntaren</exception>que</token>
-          </marker>
-
-          <token>hora</token>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «Que» debe tildarse. <suggestion>qué</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="qué" type="incorrect">No dijo a <marker>que</marker> hora vendría.</example>
-
-        <example type="correct">No dijo a qué hora vendría.</example>
-      </rule>
-
-      <!-- COMO pronombre exclamativo e interrogativo lleva tilde-->
-
-      <rule id="COMO2" name="Cómo2">
-        <pattern>
-          <token postag="V.{3}3.*" postag_regexp="yes"><exception postag="N.*|P.*|AQ.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
-
-          <marker>
-            <token>como</token>
-          </marker>
-
-          <token regexp="yes">se|era|fue</token>
-        </pattern>
-
-        <message>El ponombre exclamativo o interrogativo «como» debe tildarse. <suggestion>cómo</suggestion></message>
-
-        <short>Los ponombres exclamativos o interrogativos deben tildarse.</short>
-
-        <example correction="cómo" type="incorrect">No dijo <marker>como</marker> era su ciudad.</example>
-
-        <example type="correct">No dijo cómo era su ciudad.</example>
-      </rule>
-    </rulegroup>
-
     <!-- PRONOM_TILDE Pronombres personales con o sin tilde -->
 
     <!-- Pronombres personales cuyo tilde se olvida o se pone impropiamente.
@@ -563,6 +206,24 @@ $Id$
         <example correction="tú" type="incorrect">Cuando <marker>tu</marker> vuelves, yo voy.</example>
 
         <example type="correct">Me alegra tu vuelta al trabajo.</example>
+      </rule>
+
+      <rule id="TU_C" name="Tu + conjunción">
+        <pattern>
+           <marker>
+             <token>tu</token>
+           </marker>
+
+           <token postag="C." postag_regexp="yes"></token>
+        </pattern>
+
+        <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+
+        <short>El pronombre personal lleva tilde.</short>
+
+        <example correction="tú" type="incorrect">Esto queda entre <marker>tu</marker> y yo.</example>
+
+        <example type="correct">Me alegra tu a la sazón victoria.</example>
       </rule>
 
       <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
@@ -616,7 +277,7 @@ $Id$
             <token>tu</token>
           </marker>
 
-            <token postag="SENT_END" regexp="yes">[.?!]</token>
+            <token postag="SENT_END" regexp="yes" >[.?!;]</token>
         </pattern>
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
