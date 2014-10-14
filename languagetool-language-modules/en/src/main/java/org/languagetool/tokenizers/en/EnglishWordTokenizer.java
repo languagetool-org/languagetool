@@ -43,8 +43,8 @@ public class EnglishWordTokenizer extends WordTokenizer {
    * <ol>
    * <li> it does not treat the hyphen as part of the
    * word if the hyphen is at the end of the word;</li>
-   * <li> it includes n-dash and m-dash as tokenizing characters,
-   * as these are used without a whitespace in English.
+   * <li> it includes n-dash as a tokenizing character,
+   * as it is used without a whitespace in English.
    * </ol>
    * @param text String of words to tokenize.
    */
