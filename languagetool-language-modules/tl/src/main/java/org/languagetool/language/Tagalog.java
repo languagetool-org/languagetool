@@ -19,17 +19,20 @@
 
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.language.tl.MorfologikTagalogSpellerRule;
+import org.languagetool.language.tokenizers.TagalogWordTokenizer;
 import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.tl.TagalogTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 /** 
  * @author Nathaniel Oco
@@ -37,6 +40,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 public class Tagalog extends Language {
 
   private SentenceTokenizer sentenceTokenizer;
+  private WordTokenizer wordTokenizer;
   private Tagger tagger;
   private String name = "Tagalog";
 
@@ -69,6 +73,14 @@ public class Tagalog extends Language {
   }
 
   @Override
+  public final WordTokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new TagalogWordTokenizer();
+    }
+    return wordTokenizer;
+  }
+
+  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new TagalogTagger();
@@ -86,14 +98,15 @@ public class Tagalog extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages, this),
-            new HunspellRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
-            new MultipleWhitespaceRule(messages, this)
+            new MultipleWhitespaceRule(messages, this),
+            // specific to Tagalog:
+            new MorfologikTagalogSpellerRule(messages, this)
     );
   }
 
