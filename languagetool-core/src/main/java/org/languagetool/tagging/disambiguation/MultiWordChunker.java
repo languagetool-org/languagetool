@@ -64,6 +64,9 @@ public class MultiWordChunker implements Disambiguator {
     final List<String> posTokens = loadWords(JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename));
     for (String posToken : posTokens) {
       final String[] tokenAndTag = posToken.split("\t");
+      if (tokenAndTag.length != 2) {
+        throw new RuntimeException("Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
+      }
       final boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
       String firstToken;
       final String[] firstTokens;
