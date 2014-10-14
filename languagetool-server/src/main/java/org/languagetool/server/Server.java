@@ -107,6 +107,7 @@ abstract class Server {
     System.out.println("  --allow-origin ORIGIN  set the Access-Control-Allow-Origin header in the HTTP response,");
     System.out.println("                         used for direct (non-proxy) JavaScript-based access from browsers;");
     System.out.println("                         example: --allow-origin \"*\"");
+    System.out.println("  --verbose, -v  in case of exceptions, log the input text");
   }
 
   protected ThreadPoolExecutor getExecutorService(LinkedBlockingQueue<Runnable> workQueue, HTTPServerConfig config) {
