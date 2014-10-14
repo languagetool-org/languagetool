@@ -26,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -166,8 +167,9 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
     } catch (Exception e) {
       print("An error has occurred. Stacktrace follows:", System.err);
-      if (verbose) {
-        print("Exception was caused by this text: " + text, System.err);
+      if (verbose && text != null) {
+        print("Exception was caused by this text (" + text.length() + " chars, showing up to 500):\n" +
+                StringUtils.abbreviate(text, 500), System.err);
       }
       //noinspection CallToPrintStackTrace
       e.printStackTrace();
