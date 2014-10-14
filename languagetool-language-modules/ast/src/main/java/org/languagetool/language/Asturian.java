@@ -18,13 +18,14 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
+import org.languagetool.language.rules.ast.MorfologikAsturianSpellerRule;
 import org.languagetool.rules.*;
-import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ast.AsturianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
@@ -62,12 +63,12 @@ public class Asturian extends Language {
   }
 
   @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages) {
+  public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
             new GenericUnpairedBracketsRule(messages, this),
-            new HunspellRule(messages, this),
+            new MorfologikAsturianSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this)
     );
