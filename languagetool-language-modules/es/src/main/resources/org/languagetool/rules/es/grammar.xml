@@ -767,6 +767,28 @@ $Id$
 
         <example type="correct">Ella bebía té.</example>
       </rule>
+
+        <!-- SE_SABER_SER En la oración, se delante de ciertas palabras lleva tilde -->
+
+        <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling">
+            <antipattern>
+                <token>se</token>
+                <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"></token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>se</token>
+                </marker>
+                <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception></token>
+            </pattern>
+            <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
+            <short>sé lleva tilde delante de \2</short>
+            <example type="incorrect" correction="sé">Qué <marker>se</marker> yo.</example>
+            <example type="incorrect" correction="sé">Pero <marker>se</marker> quién fue.</example>
+            <example type="correct">Ella se fue.</example>
+            <example type="correct">Ella se lo dijo.</example>
+        </rule>
+
     </rulegroup>
   </category>
 
