@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -56,7 +57,7 @@ public class WikipediaQuickCheck {
     final Language lang = getLanguage(wikipediaUrl);
     final String pageTitle = getPageTitle(wikipediaUrl);
     final String apiUrl = "http://" + lang.getShortName() + ".wikipedia.org/w/api.php?titles=" 
-            + pageTitle + "&action=query&prop=revisions&rvprop=content|timestamp&format=xml";
+            + URLEncoder.encode(pageTitle, "utf-8") + "&action=query&prop=revisions&rvprop=content|timestamp&format=xml";
     return getContent(new URL(apiUrl));
   }
 
