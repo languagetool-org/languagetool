@@ -7335,28 +7335,28 @@ $Id$
         <rulegroup id="NECESSITAR_DE" name="necessitar *de">
             <rule>
                 <pattern>
-                	  <token><exception postag="P[0P].*" postag_regexp="yes">en</exception></token>
+                    <token><exception postag="P[0P].*" postag_regexp="yes">en</exception></token>
                     <marker>
                         <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.*|NC.*|[DP].*|.*LOC.*|V.N.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" regexp="yes">més|menys</exception></token>
                         <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
-                    </marker>    
-                    <token><exception regexp="yes">manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                        <token><exception regexp="yes">l|ls|manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                    </marker>
                 </pattern>
                 <message>Aquest verb no regeix la preposició 'de'. Probablement cal eliminar-la.</message>
-                <suggestion><match no="2" include_skipped="all"/></suggestion>
+                <suggestion><match no="2" include_skipped="all"/> \4</suggestion>
                 <short>Possible error</short>
-                <example type="incorrect" correction="necessitava"><marker>necessitava de</marker> comprensió</example>
-                <example type="incorrect" correction="necessitat">ha <marker>necessitat de</marker> comprensió</example>
+                <example type="incorrect" correction="necessitava comprensió"><marker>necessitava de comprensió</marker></example>
+                <example type="incorrect" correction="necessitat comprensió">ha <marker>necessitat de comprensió</marker></example>
+                <example type="incorrect" correction="requereixen ajuda">Els nens <marker>requereixen d'ajuda</marker> professional.</example>
                 <example type="correct">hi ha necessitat de comprensió</example>
-                <example type="incorrect" correction="necessitar">sense <marker>necessitar de</marker> moure el cap</example>
-                <example type="incorrect">no van pas <marker>necessitar de</marker>ls béns orientals,</example> 
+                <example type="incorrect" correction="necessitar moure">sense <marker>necessitar de moure</marker> el cap</example>
                 <example type="correct">sense necessitat de moure el cap</example>
                 <example type="correct">Ho necessitava de manera urgent</example>
                 <example type="correct">necessita comprensió</example>
                 <example type="correct">sentia la necessitat de fer-ho</example>
                 <example type="correct">o necessitat de satisfer un benestar material,</example>
                 <example type="correct">si hi ha necessitat de biòpsia.</example>   
-                <example type="incorrect" correction="requereixen necessàriament">no <marker>requereixen necessàriament de</marker> l’ús de noves tecnologies</example>
+                <example type="incorrect" correction="requereixen necessàriament l'">no <marker>requereixen necessàriament de l’</marker>ús de noves tecnologies</example>
                 <example type="correct">Tot el que necessiti de vosaltres</example>
                 <example type="correct">Tot el que necessiti de mi</example>
                 <example type="correct">Tot el que necessitis de més a més</example>
@@ -7374,6 +7374,21 @@ $Id$
                 <!-- requeria del Consell executiu la presentació d'un projecte
                 que hom requereix dels alumnes
                 necessita molt de l'agricultura intensiva. -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P[0P].*" postag_regexp="yes">en</exception></token>
+                    <marker>
+                        <token skip="1" postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/><exception scope="next" postag="_GN_.*|NC.*|[DP].*|.*LOC.*|V.N.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" regexp="yes">més|menys</exception></token>
+                        <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="no">l|ls</token>
+                    </marker>
+                </pattern>
+                <message>Aquest verb no regeix la preposició 'de'. Probablement cal eliminar-la.</message>
+                <suggestion><match no="2" include_skipped="all"/> e\4</suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="necessitar els">no van pas <marker>necessitar dels</marker> béns orientals,</example> 
+                <example type="correct">sense necessitat de moure el cap</example>
             </rule>
         </rulegroup>
         <rule id="DE_QUE" name="de que">
