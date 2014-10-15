@@ -4,3 +4,5 @@ and more than 20 other languages. It finds many errors that a simple spell check
 LanguageTool is freely available under the LGPL 2.1 or later.
 
 For more information, please see our homepage at http://languagetool.org and [this README](https://raw.githubusercontent.com/languagetool-org/languagetool/master/languagetool-standalone/README.txt).
+
+[![Build Status](https://travis-ci.org/languagetool-org/languagetool.svg?branch=master)](https://travis-ci.org/languagetool-org/languagetool)
