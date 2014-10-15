@@ -27749,6 +27749,23 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="JA_SIA_O" name="ja sia... o... / sia... o...">
+            <pattern>
+                <token>ja</token>
+                <token regexp="yes">sigui|siga|sia</token>
+                <token skip="4"/>
+                <token>o</token>
+            </pattern>
+            <message>Val més usar una altra expressió.</message>
+            <suggestion>\2 <match no="3" include_skipped="all"/> \4</suggestion>
+            <suggestion>\2 <match no="3" include_skipped="all"/> \2</suggestion>
+            <suggestion><match no="3" include_skipped="all"/> \4</suggestion>
+            <suggestion>\4 <match no="3" include_skipped="all"/> \4</suggestion>
+            <url>http://www.uoc.edu/serveilinguistic/criteris/gramatica/conjuncions.html</url>
+            <example type="incorrect" correction="Sigui blanc o|Sigui blanc sigui|Blanc o|O blanc o"><marker>Ja sigui blanc o</marker> negre.</example>
+            <example type="incorrect" correction="sia per una causa o|sia per una causa sia|per una causa o|o per una causa o">I <marker>ja sia per una causa o</marker> per una altra.</example>
+            <example type="correct">Siga blanc o negre.</example>
+        </rule>
         <rulegroup id="DONAR_LA_CASUALITAT" name="donar la casualitat">
             <rule>
                 <pattern>
