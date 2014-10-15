@@ -61,13 +61,14 @@ $Id$
 
       <rule id="A_PARTICIPIO" name="a + participio">
         <pattern>
-          <token><exception inflected="yes" regexp="yes">ol[oe]r|sab[e]r|gust(o|ar)|aroma|pest.+</exception></token>
+          <token><exception inflected="yes" regexp="yes">meter|ol[oe]r|sab[oe]r|gust(o|ar)|arom.+|pest.+</exception></token>
 
           <marker>
             <token>a</token>
           </marker>
 
-          <token postag="V[ASM]P00SM" postag_regexp="yes"/>
+          <token postag="V[ASM]P00SM" postag_regexp="yes"><exception regexp="yes">(gan|sold|abog|pes?c)ado|dicho|(cubi|mu)erto|partido</exception></token>
+
         </pattern>
 
         <message>El verbo 'haber' lleva hache: <suggestion>ha</suggestion></message>
@@ -214,7 +215,7 @@ $Id$
              <token>tu</token>
            </marker>
 
-           <token postag="C." postag_regexp="yes"></token>
+           <token postag="C." postag_regexp="yes"><exception>bien</exception></token>
         </pattern>
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
@@ -225,6 +226,24 @@ $Id$
 
         <example type="correct">Me alegra tu a la sazón victoria.</example>
       </rule>
+
+        <rule id="EL_C" name="El + conjunción">
+            <pattern>
+                <marker>
+                    <token>el</token>
+                </marker>
+
+                <token postag="CC"><exception regexp="yes">bien|tanto</exception></token>
+            </pattern>
+
+            <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+
+            <short>El pronombre personal lleva tilde.</short>
+
+            <example correction="él" type="incorrect">Esto queda entre <marker>el</marker> y yo.</example>
+
+            <example type="correct">Me gusta el que tienes.</example>
+        </rule>
 
       <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
      Anulamos si entremedias hay al menos un nombre-->
@@ -440,7 +459,7 @@ $Id$
                 <marker>
                     <token>se</token>
                 </marker>
-                <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception></token>
+                <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception><exception>hacia</exception></token>
             </pattern>
             <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
             <short>sé lleva tilde delante de \2</short>
@@ -448,6 +467,19 @@ $Id$
             <example type="incorrect" correction="sé">Pero <marker>se</marker> quién fue.</example>
             <example type="correct">Ella se fue.</example>
             <example type="correct">Ella se lo dijo.</example>
+        </rule>
+
+        <rule id="SE_HACIA" name="Se + hacia es se hacía" type="misspelling">
+            <pattern>
+                <token regexp="yes">[sl]e|la</token>
+                <marker><token>hacia</token></marker>
+            </pattern>
+            <message>Quizá quiso poner<suggestion>hacía</suggestion></message>
+            <short>El pretérito imperfecto del verbo hacer es hacía</short>
+            <example type="incorrect" correction="hacía">Eso se <marker>hacia</marker> mal.</example>
+            <example type="incorrect" correction="hacía">Eso le <marker>hacia</marker> mal.</example>
+            <example type="incorrect" correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
+            <example type="correct">Depende de lo hacia abajo que apuntes.</example>
         </rule>
 
     </rulegroup>
@@ -543,6 +575,7 @@ $Id$
     <!-- AFRENTAR_DIFICULTADES http://cvc.cervantes.es/alhabla/museo_horrores/museo_050.htm-->
 
     <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
+
       <pattern>
         <token inflected="yes" skip="1">afrentar</token>
 
@@ -550,7 +583,7 @@ $Id$
       </pattern>
 
       <message>La forma correcta es usando el verbo «afrontar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"/> <match no="2"/></suggestion>"</message>
-
+      <url>  http://cvc.cervantes.es/alhabla/museo_horrores/museo_050.htm</url>
       <short>Confusión entre «afrontar» y «afrentar»</short>
 
       <example correction="afrontar muchos problemas" type="incorrect">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
@@ -570,7 +603,7 @@ $Id$
       </pattern>
 
       <message>La forma correcta es usando el verbo «desternillar»: <suggestion><match include_skipped="none" no="1" postag="(.*)" postag_replace="$1">desternillar</match> <match include_skipped="all" no="2"/> <match no="3"/></suggestion>"</message>
-
+      <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_015.htm</url>
       <short>Confusión entre «desternillar» y «destornillar»</short>
 
       <example correction="desternilló de risa" type="incorrect">Con ese chiste, se <marker>destornilló de risa</marker>.</example>
@@ -588,7 +621,7 @@ $Id$
       </pattern>
 
       <message>La forma correcta es <suggestion>cuanto más</suggestion> excepto en el contexto de litigar o luchar y no en el contexto de sumar.</message>
-
+      <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_034.htm</url>
       <short>Expresión incorrecta excepto en el contexto de luchar o litigar.</short>
 
       <example correction="cuanto más" type="incorrect">Seguro que <marker>contra más</marker> estudias, más aprendes</example>
@@ -645,7 +678,7 @@ $Id$
       </pattern>
 
       <message>En español, la expresión «en base a» no existe. Puede cambiarse por <suggestion>basándonos en</suggestion>, <suggestion>basándose en</suggestion>, <suggestion>con base en</suggestion>, <suggestion>sobre la base de</suggestion>, <suggestion>en relación con</suggestion>, <suggestion>según</suggestion> o <suggestion>por</suggestion>.</message>
-
+      <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_039.htm</url>
       <short>En español, la expresión «en base a» no existe.</short>
 
       <example correction="basándonos en|basándose en|con base en|sobre la base de|en relación con|según|por" type="incorrect">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
@@ -663,7 +696,7 @@ $Id$
       </pattern>
 
       <message>La forma correcta es decir <suggestion>gratis</suggestion> o <suggestion>de balde</suggestion>.</message>
-
+      <url>http://buscon.rae.es/dpdI/SrvltConsulta?lema=gratis</url>
       <short>Confusión entre dos formas equivalentes</short>
 
       <example type="correct">El agua es gratis.</example>
@@ -685,7 +718,7 @@ $Id$
         </pattern>
 
         <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible dequeísmo.</short>
 
         <example correction="alegrarse de que" type="incorrect">Está bien <marker>alegrarse que</marker> haya dinero para todos.</example>
@@ -705,7 +738,7 @@ $Id$
         </pattern>
 
         <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de \3</suggestion></message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible queísmo.</short>
 
         <example correction="Estamos seguros de que" type="incorrect"><marker>Estamos seguros que</marker> falta poco para acabar.</example>
@@ -725,7 +758,7 @@ $Id$
         </pattern>
 
         <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de que</suggestion></message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible queísmo.</short>
 
         <example correction="Nos alegramos de que" type="incorrect"><marker>Nos alegramos que</marker> haya comida para todos</example>
@@ -745,7 +778,7 @@ $Id$
         </pattern>
 
         <message>Posible dequeísmo: <suggestion>\1 \3</suggestion>.</message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible dequeísmo.</short>
 
         <example correction="Pienso que" type="incorrect"><marker>Pienso de que</marker> estamos mejorando mucho.</example>
@@ -767,7 +800,7 @@ $Id$
         </pattern>
 
         <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible dequeísmo.</short>
 
         <example correction="Es fácil que" type="incorrect"><marker>Es fácil de que</marker> volvamos a encontrarnos</example>
@@ -789,7 +822,7 @@ $Id$
         </pattern>
 
         <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible dequeísmo.</short>
 
         <example correction="Me alegra que" type="incorrect"><marker>Me alegra de que</marker> volvamos a encontrarnos</example>
@@ -809,7 +842,7 @@ $Id$
         </pattern>
 
         <message>Posible dequeísmo: <suggestion>\1 en \3</suggestion>.</message>
-
+        <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
         <short>Posible dequeísmo.</short>
 
         <example correction="insistas en que" type="incorrect">No <marker>insistas de que</marker> vayamos al cine</example>
@@ -831,7 +864,7 @@ $Id$
         </pattern>
 
         <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">mí</match></suggestion>».</message>
-
+        <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
         <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de mí" type="incorrect">Venían <marker>detrás mío</marker>.</example>
@@ -849,7 +882,7 @@ $Id$
         </pattern>
 
         <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">ti</match></suggestion>».</message>
-
+        <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
         <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de ti" type="incorrect">Venían <marker>detrás tuyo</marker>.</example>
@@ -867,7 +900,7 @@ $Id$
         </pattern>
 
         <message>La expresión correcta es «<suggestion>\1 de nosotros</suggestion>» o «<suggestion>\1 de nosotras</suggestion>».</message>
-
+        <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
         <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de nosotros|detrás de nosotras" type="incorrect">Venían <marker>detrás nuestro</marker>.</example>
@@ -885,7 +918,7 @@ $Id$
         </pattern>
 
         <message>La expresión correcta es «<suggestion>\1 de vosotros</suggestion>» o «<suggestion>\1 de vosotras</suggestion>».</message>
-
+        <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
         <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de vosotros|detrás de vosotras" type="incorrect">Venían <marker>detrás vuestro</marker>.</example>
@@ -903,7 +936,7 @@ $Id$
         </pattern>
 
         <message>La expresión correcta es «<suggestion>\1 de él</suggestion>» o «<suggestion>\1 de ella</suggestion>» o «<suggestion>\1 de ello</suggestion>» o «<suggestion>\1 de ellos</suggestion>» o «<suggestion>\1 de ellas</suggestion>» o «<suggestion>\1 de usted</suggestion>» o «<suggestion>\1 de ustedes</suggestion>».</message>
-
+        <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
         <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de él|detrás de ella|detrás de ello|detrás de ellos|detrás de ellas|detrás de usted|detrás de ustedes" type="incorrect">Venían <marker>detrás suya</marker>.</example>
@@ -929,7 +962,7 @@ $Id$
       </pattern>
 
       <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo <suggestion>\1 <match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"/></suggestion>.</message>
-
+        <url>http://roble.pntic.mec.es/acid0002/index_archivos/Gramatica/imperativo.htm</url>
       <short>Con sentido negado, en lugar del imperativo debe emplearse el subjuntivo.</short>
 
       <example correction="No contéis" type="incorrect"><marker>No contad</marker> con nosotros.</example>
@@ -1008,7 +1041,7 @@ $Id$
       </pattern>
 
       <message>La expresión latina <suggestion>grosso modo</suggestion> se usa sin preposición.</message>
-
+      <url>http://buscon.rae.es/dpdI/SrvltConsulta?lema=grosso</url>
       <short>La expresión latina se usa sin preposición.</short>
 
       <example correction="grosso modo" type="incorrect">Las cifras indican <marker>a grosso modo</marker> que la gestión es correcta.</example>
@@ -1610,7 +1643,7 @@ $Id$
       </pattern>
 
       <message>Se prefiere la expresion «<suggestion>olor de multitudes</suggestion>».</message>
-
+      <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_014.htm</url>
       <short>Expresión incorrecta.</short>
 
       <example correction="olor de multitudes" type="incorrect">Entraron en <marker>loor de multitudes</marker></example>
@@ -1633,7 +1666,7 @@ $Id$
         </pattern>
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
-
+        <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
         <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="todos" type="incorrect">Hemos llegado <marker>todas y todos</marker></example>
@@ -1653,7 +1686,7 @@ $Id$
         </pattern>
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
-
+        <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
         <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="todos" type="incorrect">Hemos llegado <marker>todos y todas</marker></example>
@@ -1677,7 +1710,7 @@ $Id$
         </pattern>
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
-
+        <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
         <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="los mozos" type="incorrect">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
@@ -1701,7 +1734,7 @@ $Id$
         </pattern>
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"/> <match no="2"/></suggestion>.</message>
-
+        <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
         <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="los mozos" type="incorrect">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
@@ -1709,48 +1742,6 @@ $Id$
         <example type="correct">Debemos ayudar a los alumnos.</example>
       </rule>
     </rulegroup>
-
-    <!-- TODO: Following rule need simplification using pos tags and synthesis.Creates a lot of false positive. -->
-
-    <!-- REMOVE: The author choses options based upon semantic criteria, so positives are ramdom.-->
-
-    <!-- DEBE_DE: diferencia entre «debe» y «debe de»-->
-
-    <rule default="off" id="DEBE_DE" name="debe de">
-      <pattern>
-        <token regexp="yes">deber|debido|debiendo|debo|debes|debés|debe|debemos|debéis|deben|deberé|deberás|deberá|deberemos|deberéis|deberán|debas|deba|debamos|debáis|deban|debía|debías|debíamos|debíais|debían|debiera|debiese|debieras|debieses|debiéramos|debiésemos|debierais|debieseis|debieran|debiesen|debí|debiste|debió|debimos|debisteis|debieron|debieres|debiere|debiéremos|debiereis|debieren|debé|debed</token>
-
-        <token>de</token>
-      </pattern>
-
-      <message>Se aconseja eliminar la preposición 'de'. Deber de + infinitivo: Denota probabilidad o suposición. Igualmente, la lengua culta admite, en este sentido, el uso sin preposición. Deber + infinitivo: Denota obligación: «Debo cumplir con la orden».</message>
-
-      <short>Se aconseja eliminar la preposición «de»</short>
-
-      <example type="incorrect">No atiende nadie. Los tipos <marker>deben de</marker> haber salido.</example>
-
-      <example type="correct">No atiende nadie. Los tipos deben haber salido.</example>
-    </rule>
-
-    <!-- TODO: Following rule need simplification using pos tags and synthesis.-->
-
-    <!-- DEBERÍA_DE: forma condicional del verbo DEBER admitida como únicamente «debería»-->
-
-    <rule id="DEBERIA_DE" name="debería de">
-      <pattern>
-        <token regexp="yes">debería|deberías|deberíamos|deberíais|deberían</token>
-
-        <token>de</token>
-      </pattern>
-
-      <message>Se debe eliminar la preposición 'de'. Deber en su forma condicional + infinitivo: Denota únicamente obligación, y por tanto, no debe figurar la preposición 'de': «Deberías bañarte más».</message>
-
-      <short>Se debe eliminar la preposición «de»</short>
-
-      <example type="incorrect">Es la hora en que <marker>debería de</marker> haber salido.</example>
-
-      <example type="correct">Es la hora en que debería haber salido.</example>
-    </rule>
 
     <!-- EN_RELACION_A: La forma preferida es: en relación con o con relación a-->
 
