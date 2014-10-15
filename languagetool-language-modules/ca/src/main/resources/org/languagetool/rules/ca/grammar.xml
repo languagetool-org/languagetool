@@ -23725,6 +23725,16 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ESTORAR" name="estorar/astorar">
+            <pattern>
+                <token inflected="yes">estorar<exception postag="_GN.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">astorar</match></suggestion>. "Estorar" vol dir "posar estores, catifes".</message>
+            <example type="incorrect" correction="astorà">S'<marker>estorà</marker> moltíssim.</example>
+            <example type="incorrect" correction="astora">No m'<marker>estora</marker> gens.</example>
+            <example type="correct">Una estora d'espart.</example>
+            <example type="correct">L'estora era molt bonica.</example>
+        </rule>
         <rule id="AMANYAT" name="amanyat">
             <pattern>
                 <token inflected="yes">amanyat</token>
