@@ -37,7 +37,7 @@ import org.languagetool.AnalyzedToken;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
-  private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?");
+  private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?");
 
   public static final Map<String, String> VIDMINKY_MAP;
 

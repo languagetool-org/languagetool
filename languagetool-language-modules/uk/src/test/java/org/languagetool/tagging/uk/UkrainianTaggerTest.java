@@ -44,7 +44,10 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("300 р. до н. е.", 
       "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:nv|до/[до]prep:rv_rod -- н/[null]null -- е/[null]null",
        tokenizer, tagger);
-    
+
+    TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
+    TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
+
     // one-way case sensitivity
     TestTools.myAssert("києві", "києві/[кий]noun:m:v_dav", tokenizer, tagger);
     TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav", tokenizer, tagger);
@@ -56,9 +59,6 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Бен", "Бен/[Бен]noun:m:v_naz:ist|Бен/[бен]unknown", tokenizer, tagger);
     TestTools.myAssert("бен", "бен/[бен]unknown", tokenizer, tagger);
 
-    TestTools.myAssert("101,234", 
-        "101,234/[101,234]number",
-         tokenizer, tagger);
 
     TestTools.myAssert("Справу порушено судом", 
       "Справу/[справа]noun:f:v_zna -- порушено/[порушити]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",

@@ -54,6 +54,58 @@
         <example type="untouched">велике, бачиш, цабе</example>
     </rule>
 
+    <rule name="Прийменник до і іменник до" id="PREP_OR_NOUN_DO">
+        <pattern>
+          <marker>
+            <token>до</token>
+          </marker>
+            <token><exception inflected="yes" regexp="yes">ре|мажор|мінор|дієз|бемоль</exception></token>
+        </pattern>
+        <disambig><match no="1" postag="prep.*|.*adv.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="до[до/noun:n:nv,до/prep:rv_rod]"
+            outputform="до[до/prep:rv_rod]"><marker>до</marker> паркану</example>
+        <example type="untouched">до мажор</example>
+        <example type="untouched">до ре мі</example>
+    </rule>
+
+    <rule name="Займенник та і сполучник/частка та" id="PRON_OR_CONJ_TA">
+        <pattern>
+          <marker>
+            <token>та</token>
+          </marker>
+            <token><exception postag_regexp="yes" postag="noun:f:v_naz.*"/></token>
+        </pattern>
+        <disambig><match no="1" postag="conj.*|part.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="та[та/conj,та/part,той/pron:f:v_naz]"
+            outputform="та[та/conj,та/part]">садки <marker>та</marker> ясла</example>
+        <example type="untouched">та жінка</example>
+        <!-- TODO:
+        <example type="untouched">та сама фігура</example>
+        <example type="untouched">та зелена спідниця</example>
+         -->
+    </rule>
+
+    <rule name="Іменник та числівник сорока" id="NOUN_AND_NUMR_40">
+        <pattern>
+          <token regexp="yes">до|мінус|плюс|приблизно</token>
+          <marker>
+            <token regexp="yes">сорока|п'яти</token> <!--  TODO: «приклав до п'яти» -->
+          </marker>
+        </pattern>
+        <disambig><match no="1" postag="numr.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="сорока[&lt;/S&gt;,сорок/numr:v_dav,сорок/numr:v_mis,сорок/numr:v_oru,сорок/numr:v_rod,сорок/numr:v_zna,сорока/noun:f:v_naz:ist]"
+            outputform="сорока[&lt;/S&gt;,сорок/numr:v_dav,сорок/numr:v_mis,сорок/numr:v_oru,сорок/numr:v_rod,сорок/numr:v_zna]"
+            >до мінус <marker>сорока</marker></example>
+        <example type="untouched">полетіла сорока</example>
+        <!-- TODO:
+        <example type="untouched">та сама фігура</example>
+        <example type="untouched">та зелена спідниця</example>
+         -->
+    </rule>
+
 <!--
     <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="PREP_ADV_BEFORE_VERB">
         <pattern>

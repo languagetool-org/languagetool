@@ -42,12 +42,16 @@ public enum IPOSTag {
     return text;
   }
 
-  public boolean match(String posTag) {
-    return posTag != null && posTag.startsWith(this.name());
+  public boolean match(String posTagPrefix) {
+    return posTagPrefix != null && posTagPrefix.startsWith(this.name());
   }
   
   public static boolean isNum(String posTag) {
     return numr.match(posTag) || number.match(posTag);
+  }
+
+  public static boolean contains(String posTag, String postagMatch) {
+    return posTag != null && posTag.contains(postagMatch);
   }
 
 }

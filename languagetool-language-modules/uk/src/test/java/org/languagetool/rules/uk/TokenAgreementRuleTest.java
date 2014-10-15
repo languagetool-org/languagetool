@@ -67,22 +67,23 @@ public class TokenAgreementRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("що балотувався за цім округом")).length);
 
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("окрім як українці"))));
-
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("за двісті метрів"))));
-
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("переходить у Фрідріх Штрассе"))));
-
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("від мінус 1 до плюс 1"))));
-
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до мінус сорока градусів"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до мінус шістдесяти"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через років 10"))));
-    
-    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через років 10"))));
-
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("співпрацювати із собі подібними"))));
-
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через усім відомі причини"))));
-    
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через нікому не відомі причини"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("прийшли до ВАТ «Кривий Ріг цемент»"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("від А до Я"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до та після"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до схід сонця"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до НАК «Надра України»"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("призвів до значною мірою демократичного середнього класу"))));
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("призвів до значною мірою демократичному середньому класу")).length);
 
 //    assertEquals(0, rule.match(langTool.getAnalyzedSentence("як у Конана Дойла")).length); //TODO
 //    assertEquals(0, rule.match(langTool.getAnalyzedSentence("як у Конану Дойла")).length);

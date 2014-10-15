@@ -162,12 +162,19 @@ public class TokenAgreementRule extends Rule {
         if( isTokenToSkip(tokenReadings) )
           continue;
 
-        //        if( isTokenToIgnore(tokenReadings) ) {
-        //          reqTokenReadings = null;
-        //          continue;
-        //        }
+//        if( isTokenToIgnore(tokenReadings) ) {
+//          reqTokenReadings = null;
+//          continue;
+//        }
 
         String prep = reqTokenReadings.getAnalyzedToken(0).getToken();
+        if( prep.equalsIgnoreCase("до") ) {
+          if( tokenReadings.getAnalyzedToken(0).getToken().compareToIgnoreCase("Я") == 0 ) {  // від А до Я
+            reqTokenReadings = null;
+            continue;
+          }
+        }
+
         if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") ) {
           if( hasRequiredPosTag(Arrays.asList("p:v_naz"), tokenReadings) ) {  //TODO: only for subset: президенти/депутати/мери/гості... or by verb піти/йти/балотуватися/записатися...
             reqTokenReadings = null;
@@ -184,7 +191,8 @@ public class TokenAgreementRule extends Rule {
           }
 
           if( IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag())
-              && token.equals("мінус") || token.equals("плюс") ) {
+              && (token.equals("мінус") || token.equals("плюс")
+                  || token.equals("мінімум") || token.equals("максимум") ) ) {
             reqTokenReadings = null;
             continue;
           }
@@ -208,11 +216,27 @@ public class TokenAgreementRule extends Rule {
             continue;
           }
 
-          if( tokens.length > i+2 && ( 
-              (token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому")) 
-              && tokens[i+1].getAnalyzedToken(0).getToken().equals("не")) ) {
-            //          reqTokenReadings = null;
+          if( prep.equalsIgnoreCase("до") && token.equals("схід") 
+                && tokens[i+1].getAnalyzedToken(0).getToken().equals("сонця") ) {
+            reqTokenReadings = null;
             continue;
+          }
+
+          if( tokens[i+1].getAnalyzedToken(0).getToken().equals("«") 
+              && tokens[i].getAnalyzedToken(0).getPOSTag().contains(":abbr") ) {
+            reqTokenReadings = null;
+            continue;
+          }
+
+          
+          if( tokens.length > i+2 ) {
+            if ((token.equals("нікому") || token.equals("ніким") || token.equals("нічим") || token.equals("нічому")) 
+                && tokens[i+1].getAnalyzedToken(0).getToken().equals("не")) {
+              //          reqTokenReadings = null;
+              continue;
+            }
+
+
           }
         }
 
@@ -240,19 +264,22 @@ public class TokenAgreementRule extends Rule {
 
   private boolean isTokenToSkip(AnalyzedTokenReadings tokenReadings) {
     for(AnalyzedToken token: tokenReadings) {
-      if( IPOSTag.adv.match(token.getPOSTag()) || IPOSTag.insert.match(token.getPOSTag()) )
+//      System.out.println("    tag: " + token.getPOSTag() + " for " + token.getToken());
+      if( IPOSTag.adv.match(token.getPOSTag())
+          || IPOSTag.contains(token.getPOSTag(), "adv>")
+          ||  IPOSTag.insert.match(token.getPOSTag()) )
         return true;
     }
     return false;
   }
 
-  //  private boolean isTokenToIgnore(AnalyzedTokenReadings tokenReadings) {
-  //    for(AnalyzedToken token: tokenReadings) {
-  //      if( IPOSTag.numr.name().equals(token.getPOSTag()) )
-  //        return true;
-  //    }
-  //    return false;
-  //  }
+//  private boolean isTokenToIgnore(AnalyzedTokenReadings tokenReadings) {
+//    for(AnalyzedToken token: tokenReadings) {
+//      if( token.getPOSTag().contains("abbr") )
+//        return true;
+//    }
+//    return false;
+//  }
 
   private boolean hasRequiredPosTag(Collection<String> posTagsToFind, AnalyzedTokenReadings tokenReadings) {
     boolean vidminokFound = false;  // because POS dictionary is not complete
