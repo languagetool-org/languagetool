@@ -53,6 +53,14 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
   protected abstract String getDayOfWeek(Calendar date);
 
   /**
+   * Implement so that "first" returns {@code 1}, second returns {@code 2} etc.
+   * @param localizedDayOfMonth name of day of the month or abbreviation thereof
+   */
+  protected int getDayOfMonth(String localizedDayOfMonth) {
+    return 0;
+  }
+
+  /**
    * Implement so that January returns {@code 1}, February {@code 2} etc.
    * @param localizedMonth name of a month or abbreviation thereof
    */
@@ -98,21 +106,29 @@ public abstract class AbstractDateCheckFilter implements RuleFilter {
   private Calendar getDate(Map<String, String> args) {
     int year = Integer.parseInt(getRequired("year", args));
     int month = getMonthFromArguments(args);
-
-    // The day of the month may have a suffix ("22nd" in English for example).
-    // dayOfMonthString is expected to match the pattern
-    // patternDayOfMonth assuming that XML rules are correct.
-    String dayOfMonthString = getRequired("day", args);
-    Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);
-    int dayOfMonth = matcherDayOfMonth.matches()
-                   ? Integer.parseInt(matcherDayOfMonth.group(1))
-                   : 0;
+    int dayOfMonth = getDayOfMonthFromArguments(args);
 
     Calendar calendar = getCalendar();
     calendar.setLenient(false);  // be strict about validity of dates
     //noinspection MagicConstant
     calendar.set(year, month, dayOfMonth, 0, 0, 0);
     return calendar;
+  }
+
+  private int getDayOfMonthFromArguments(Map<String, String> args) {
+    String dayOfMonthString = getRequired("day", args);
+    int dayOfMonth;
+    Matcher matcherDayOfMonth = DAY_OF_MONTH_PATTERN.matcher(dayOfMonthString);
+    if (matcherDayOfMonth.matches()) {
+      // The day of the month is a number, possibly with a suffix such
+      // as "22nd" for example.
+      dayOfMonth = Integer.parseInt(matcherDayOfMonth.group(1));
+    } else {
+      // In some languages, the day of the month can also be written with
+      // letters rather than with digits, so parse localized numbers.
+      dayOfMonth = getDayOfMonth(dayOfMonthString);
+    }
+    return dayOfMonth;
   }
 
   private int getMonthFromArguments(Map<String, String> args) {

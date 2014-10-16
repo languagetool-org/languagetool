@@ -4174,9 +4174,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DATO_TAGO" name="kongruo de dato kaj tago">
       <rule>
         <pattern>
-          <token regexp="yes">lundon|lun|mardon|mar|merkredon|mer|ĵaŭdon|ĵaŭ|vendredon|ven|sabaton|sab|dimanĉon|dim</token>
+          <token regexp="yes">lundon?|lun|mardon?|mar|merkredon?|mer|ĵaŭdon?|ĵaŭ|vendredon?|ven|sabaton?|sab|dimanĉon?|dim</token>
           <token>la</token>
-          <token regexp="yes">([012]?\d|3[01])-an</token>
+          <token regexp="yes">([012]?\d|3[01]|dek|dudek|tridek(-unu)?|(dek-?|dudek-?)?(unu|du|tri|kvar|kvin|ses|sep|ok|naŭ))-?an</token>
           <token>de</token>
           <token regexp="yes">januaro|jan|februaro|feb|marto|mar|aprilo|apr|majo|maj|junio|jun|julio|jul|aŭgusto|aŭg|septembro|sep|oktobro|okt|novembro|nov|decembro|dec</token>
           <token regexp="yes">[12]\d\d\d</token>
@@ -4186,6 +4186,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <url>http://bertilow.com/pmeg/gramatiko/nombroj/datoj.html</url>
         <example type="incorrect"><marker>Vendredon la 28-an de Aŭgusto 2014</marker>.</example>
         <example type="correct">Jaŭdon la 28-an de Aŭgusto 2014.</example>
+        <example type="incorrect"><marker>Sabaton la duan de Oktobro 2014</marker>.</example>
+        <example type="correct">Ĵaŭdon la duan de Oktobro 2014.</example>
+        <example type="incorrect"><marker>Sabaton la dudek-duan de Oktobro 2014</marker>.</example>
+        <example type="correct">Merkredon la dudek-duan de Oktobro 2014.</example>
       </rule>
     </rulegroup>
   </category>

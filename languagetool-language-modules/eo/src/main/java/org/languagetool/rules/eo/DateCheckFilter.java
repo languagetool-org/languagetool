@@ -36,6 +36,41 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")
   @Override
+  protected int getDayOfMonth(String dayStr) {
+    String day = dayStr.toLowerCase();
+    if (day.endsWith("n")) {
+      // Removing final n if any.
+      day = day.substring(0, day.length() - 1);
+    }
+    int n = 0;
+    if (day.startsWith("dek")) {
+      n = 10;
+      day = day.substring(3, day.length());
+    } else if (day.startsWith("dudek")) {
+      n = 20;
+      day = day.substring(5, day.length());
+    } else if (day.startsWith("tridek")) {
+      n = 30;
+      day = day.substring(6, day.length());
+    }
+    if (n > 0 && day.startsWith("-")) {
+      // Remove hyphen as in "dudek-trian".
+      day = day.substring(1, day.length());
+    }
+    if (day.equals("unua"))  n += 1;
+    if (day.equals("dua"))   n += 2;
+    if (day.equals("tria"))  n += 3;
+    if (day.equals("kvara")) n += 4;
+    if (day.equals("kvina")) n += 5;
+    if (day.equals("sesa"))  n += 6;
+    if (day.equals("sepa"))  n += 7;
+    if (day.equals("oka"))   n += 8;
+    if (day.equals("naŭa"))  n += 9;
+    return n;
+  }
+
+  @SuppressWarnings("ControlFlowStatementWithoutBraces")
+  @Override
   protected int getDayOfWeek(String dayStr) {
     String day = dayStr.toLowerCase();
     if (day.startsWith("dim")) return Calendar.SUNDAY;
