@@ -9984,11 +9984,13 @@ $Id$
             <rule>
                 <pattern>
                     <token>que</token>
-                    <token regexp="yes">est[èé]s</token>
+                    <marker>
+                        <token regexp="yes">est[èé]s</token>
+                    </marker>
                 </pattern>
-                 <message>¿Volíeu dir <suggestion>estigués</suggestion> (v. estar) en comptes de '<match no="1"/>' (v. estendre)?</message>
+                 <message>¿Volíeu dir <suggestion>estigués</suggestion> (v. estar) en comptes de '<match no="2"/>' (v. estendre)?</message>
                 <short>Possible confusió</short>
-                <example type="incorrect"><marker>que estès</marker></example>
+                <example type="incorrect" correction="estigués">que <marker>estès</marker></example>
                 <example type="correct">que estigués</example>
             </rule>
         </rulegroup>
