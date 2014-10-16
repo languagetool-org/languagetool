@@ -11688,6 +11688,21 @@ USA
         </rulegroup>
     </category>
     <category name="Punctuation Errors" type="typographical">
+        <rule id="APOS_ARE" name="extraneous apostrophes before 'are'">
+            <pattern>
+                <marker>
+                    <token postag='NN'></token>
+                    <token>'</token>
+                    <token>s</token>
+                </marker>
+                <token>are</token>
+            </pattern>
+            <message>Did you mean the plural instead of the possessive?</message>
+            <suggestion>\1\3</suggestion>
+            <short>extraneous apostrophe</short>
+            <example type='incorrect' correction="cars">The <marker>car's</marker> are cheap.</example>
+            <example type='correct'>The <marker>cars</marker> are cheap.</example>
+        </rule>
         <rule id="STATE_OF_THE_ART" name="state of the art (state-of-the-art)">
             <pattern>
                 <marker>
