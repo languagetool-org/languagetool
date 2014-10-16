@@ -12890,6 +12890,18 @@ $Id$
                 <example type="incorrect" correction="tardoromànic">L'estil <marker>tardo romànic</marker>.</example>
                 <example type="correct">L'estil tardoromànic.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">franco?</token>
+                    <token min="0">-</token>
+                    <token inflected="yes" regexp="yes">prussià|alemany|català|sicilià|americà|italià</token>
+                </pattern>
+                <message>Normalment s'escriu junt sense guionet.</message>
+                <suggestion>franco\3</suggestion>
+                <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
+                <example type="incorrect" correction="francoprussiana">La guerra <marker>franc prussiana</marker>.</example>
+                <example type="correct">La guerra francoprussiana.</example>
+            </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
             <rule>
@@ -24862,6 +24874,7 @@ $Id$
                 <token inflected="yes" regexp="yes">.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell. </message>
+            <url>http://esadir.cat/entrades/fitxa/id/2157</url>
             <short>Possible confusió</short>
             <example type="incorrect" correction="pla">en el <marker>plànol</marker> personal</example>
             <example type="correct">pla personal</example>
