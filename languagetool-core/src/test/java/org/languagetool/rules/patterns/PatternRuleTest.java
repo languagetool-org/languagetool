@@ -145,7 +145,7 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  protected void runTestForLanguage(Language lang) throws IOException {
+  public void runTestForLanguage(Language lang) throws IOException {
     validatePatternFile(lang);
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
@@ -230,7 +230,7 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private void testGrammarRulesFromXML(final List<PatternRule> rules,
+  public void testGrammarRulesFromXML(final List<PatternRule> rules,
                                        final JLanguageTool languageTool,
                                        final JLanguageTool allRulesLanguageTool, final Language lang) throws IOException {
     final HashMap<String, PatternRule> complexRules = new HashMap<>();
