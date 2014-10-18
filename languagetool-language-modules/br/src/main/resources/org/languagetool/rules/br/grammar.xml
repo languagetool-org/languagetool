@@ -8943,7 +8943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">di(lun|meurzh|merc’her|riaou|gwener|sadorn|sul)</token>
           <token>d’</token>
           <token regexp="yes">a[nr]</token>
-          <token regexp="yes">[012]?\d|3[01]</token>
+          <token regexp="yes">[012]?\d|3[01]|1-?añ</token>
           <token>a</token>
           <token>viz</token>
           <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerzu</token>
@@ -8957,7 +8957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token>Lun</token>
-          <token regexp="yes">[012]?\d|3[01]</token>
+          <token regexp="yes">[012]?\d|3[01]|1-?añ</token>
           <token>a</token>
           <token>viz</token>
           <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerzu</token>
@@ -8971,7 +8971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes">Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
-          <token regexp="yes">[012]?\d|3[01]</token>
+          <token regexp="yes">[012]?\d|3[01]|1-?añ</token>
           <token>a</token>
           <token>viz</token>
           <token regexp="yes">Genver|C’hwevrer|Meurzh|Ebrel|Mae|Mezheven|Gouere|Gouhere|Eost|Gwengolo|Here|Du|Kerzu</token>
@@ -8986,12 +8986,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="incorrect">D’ar <marker>Merc'her 6 a viz C'hwevrer 2014</marker>.</example>
         <example type="correct">D’ar Merc’her 5 a viz C'hwevrer 2014.</example>
         <example type="correct">D’ar Merc'her 5 a viz C'hwevrer 2014.</example>
+        <example type="incorrect">Ar <marker>Sul 1-añ a viz Here 2014</marker>.</example>
+        <example type="correct">Ar Merc’her 1-añ a viz Here 2014.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">Lun|Meurzh|Merc’her|Yaou|Gwener|Sadorn|Sul</token>
           <token min="0" max="1">,</token>
-          <token regexp="yes">[012]?\d|3[01]</token>
+          <token regexp="yes">[012]?\d|3[01]|1-?añ</token>
           <token>/</token>
           <token regexp="yes">0?\d|1[012]</token>
           <token>/</token>
