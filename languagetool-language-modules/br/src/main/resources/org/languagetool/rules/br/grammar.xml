@@ -8181,13 +8181,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">N’a ket an urzhiater <marker>en-dro</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="WAR_LERCH" name="war-lec’h → war-lerc’h">
+    <rule id="LERCH_LECH" name="war-lec’h → war-lerc’h">
       <pattern>
-        <token>war-lec’h</token>
+        <token regexp="yes">war-lec’h|ler?c’h-ouzh-ler?c’h<exception>lerc’h-ouzh-lerc’h</exception></token>
       </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>war-lerc’h</suggestion>?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="lec’h" regexp_replace="lerc’h"/></suggestion>?</message>
       <example type="incorrect" correction="War-lerc’h"><marker>War-lec’h</marker> ar brezel.</example>
       <example type="correct">War-lerc’h ar brezel.</example>
+      <example type="incorrect" correction="lerc’h-ouzh-lerc’h">Treuzennoù <marker>lec’h-ouzh-lec’h</marker>.</example>
+      <example type="correct" correction="lerc’h-ouzh-lerc’h">Treuzennoù lerc’h-ouzh-lerc’h.</example>
     </rule>
     <rule id="PEZH" name="ar pez → a pezh">
       <pattern>
