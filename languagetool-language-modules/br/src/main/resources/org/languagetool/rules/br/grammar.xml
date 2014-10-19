@@ -3617,6 +3617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </marker>
         <token postag_regexp="yes" postag="N f.*">
           <exception postag_regexp="yes" postag="N [em][^M]*(M.*:2:.*)?"/>
+          <exception>amzer</exception>
         </token>
       </pattern>
       <message>Implijit <suggestion><match no="1" regexp_match="var" regexp_replace="der"/></suggestion> dirak ar ger benel «\2». (CHALM P1.3)</message>
@@ -3624,22 +3625,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example type="correct">Peder flac’h.</example>
       <example type="incorrect" correction="beder">Da <marker>bevar</marker> flac’h.</example>
       <example type="correct">Da beder flac’h.</example>
+      <example type="correct">Ar pevar amzer.</example>
     </rule>
-    <rule id="PEDER" name="peder">
-      <pattern>
-        <marker>
-          <token regexp="yes">[pbf]eder</token>
-        </marker>
-        <token postag_regexp="yes" postag="N m.*">
-          <exception postag_regexp="yes" postag="N [ef][^M]*(M.*:2:.*)?"/>
-        </token>
-      </pattern>
-      <message>Implijit <suggestion><match no="1" regexp_match="...$" regexp_replace="var"/></suggestion> dirak ar ger gourel «\2». (CHALM P1.3)</message>
-      <example type="incorrect" correction="Pevar"><marker>Peder</marker> faotr.</example>
-      <example type="correct">Pevar faotr.</example>
-      <example type="incorrect" correction="fevar">Ma <marker>feder</marker> faotr.</example>
-      <example type="correct">Ma fevar faotr.</example>
-    </rule>
+    <rulegroup id="PEDER" name="peder">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[pbf]eder</token>
+          </marker>
+          <token postag_regexp="yes" postag="N m.*">
+            <exception postag_regexp="yes" postag="N [ef][^M]*(M.*:2:.*)?"/>
+          </token>
+        </pattern>
+        <message>Implijit <suggestion><match no="1" regexp_match="...$" regexp_replace="var"/></suggestion> dirak ar ger gourel «\2». (CHALM P1.3)</message>
+        <example type="incorrect" correction="Pevar"><marker>Peder</marker> faotr.</example>
+        <example type="correct">Pevar faotr.</example>
+        <example type="incorrect" correction="fevar">Ma <marker>feder</marker> faotr.</example>
+        <example type="correct">Ma fevar faotr.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>peder</token>
+          <token>amzer</token>
+        </pattern>
+        <message>Ret eo skrivañ <suggestion>pevar amzer</suggestion>.</message>
+        <url>https://br.wiktionary.org/wiki/amzer</url>
+        <example type="incorrect">Ar <marker>peder amzer</marker>.</example>
+        <example type="correct">Ar <marker>pavar amzer</marker>.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="MILION" name="Milion, miliard, …">
       <rule>
         <pattern>
