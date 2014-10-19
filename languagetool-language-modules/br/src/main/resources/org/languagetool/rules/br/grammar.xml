@@ -8046,7 +8046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token>ne</token>
         <token>ket</token>
       </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion>n’eo ket</suggestion> pe <suggestion>neket</suggestion> ?</message>
+      <message>Ha fellout a rae deoc’h skrivañ <suggestion>n’eo ket</suggestion> pe <suggestion>neket</suggestion>?</message>
       <example type="incorrect"><marker>Ne ket</marker> diaes koulskoude.</example>
       <example type="correct">N’eo ket diaes koulskoude.</example>
     </rule>
@@ -8102,7 +8102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker><token>c’hont</token></marker>
           <token regexp="yes">emgefre|Facebook|Gmail|Launchpad|Twitter|OpenStreetMap|Wikipedia|WordPress|Livejournal|implijer|postel|http</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion>?</message>
         <example type="incorrect">Ur <marker>c’hont</marker> Facebook ho peus?</example>
         <example type="correct">Ur gont Facebook ho peus?</example>
       </rule>
@@ -8114,7 +8114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>ur</token>
           <marker><token>c’hont</token></marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>gont</suggestion>?</message>
         <example type="incorrect">Digoret em eus ur <marker>c’hont</marker>.</example>
         <example type="correct">Digoret em eus ur <marker>gont</marker>.</example>
       </rule>
@@ -8124,7 +8124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>boued-oad</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>boued-aod</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>boued-aod</suggestion>?</message>
         <example type="incorrect">Kavout a ran mat <marker>boued-oad</marker>.</example>
         <example type="correct">Kavout a ran mat <marker>boued-aod</marker>.</example>
       </rule>
@@ -8133,7 +8133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>boued</token>
           <token>oad</token>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>boued-aod</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>boued-aod</suggestion>?</message>
         <example type="incorrect">Kavout a ran mat <marker>boued oad</marker>.</example>
         <example type="correct">Kavout a ran mat <marker>boued-aod</marker>.</example>
       </rule>
@@ -8143,7 +8143,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>an</token>
           <marker><token>oad</token></marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>aod</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>aod</suggestion>?</message>
         <example type="incorrect">Un ti war an <marker>oad</marker>.</example>
         <example type="correct">Un ti war an <marker>aod</marker>.</example>
       </rule>
@@ -8152,19 +8152,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>pe</token>
           <marker><token>aod</token></marker>
         </pattern>
-        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oad</suggestion> ?</message>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>oad</suggestion>?</message>
         <example type="incorrect">Pe <marker>aod</marker> out?</example>
         <example type="correct">Pe <marker>oad</marker> out?</example>
       </rule>
     </rulegroup>
-    <rule id="CHARR_TAN" name="c’har-tann → c’harr-tan">
-      <pattern>
-        <token regexp="yes">((c’h|[kg])arr|[tdz]our|[mv]enez|c’hwil)-tann</token>
-      </pattern>
-      <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".$" regexp_replace=""/></suggestion> ?</message>
-      <example type="incorrect" correction="c’harr-tan">Ur <marker>c’harr-tann</marker> nevez am eus.</example>
-      <example type="correct">Ur c’harr-tan nevez am eus.</example>
-    </rule>
+    <rulegroup id="CHARR_TAN" name="c’har-tann → c’harr-tan">
+      <rule>
+        <pattern>
+          <token regexp="yes">(c’h|[kg])ar-(ambroug|argad|arsailh|bac’h|biskoulenn|boutin|bombezenn|digeriñ|distronkañ|dre-lien|emgann|gedal|levraoueg|nij|kañv|kampiñ|nezañ|pej|saout|samm|skoazell|tan)</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match="ar-" regexp_replace="arr-"/></suggestion>?</message>
+        <example type="incorrect" correction="c’harr-tan">Ur <marker>c’har-tan</marker> ruz.</example>
+        <example type="correct">Ur c’harr-tan ruz.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">((c’h|[kg])arr|[tdz]our|[mv]enez|c’hwil)-tann</token>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion><match no="1" regexp_match=".$" regexp_replace=""/></suggestion>?</message>
+        <example type="incorrect" correction="c’harr-tan">Ur <marker>c’harr-tann</marker> nevez am eus.</example>
+        <example type="correct">Ur c’harr-tan nevez am eus.</example>
+      </rule>
+    </rulegroup>
     <rulegroup id="ENDRO" name="en-dro pe endro">
       <rule>
         <pattern>
