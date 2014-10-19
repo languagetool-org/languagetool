@@ -60,7 +60,7 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     if (day.equals("unnek"))                            return 11;
     if (day.equals("daouzek"))                          return 12;
     if (day.equals("drizek"))                           return 13;
-    if (day.equals("bevazek"))                          return 14;
+    if (day.equals("bevarzek"))                         return 14;
     if (day.equals("bemzek"))                           return 15;
     if (day.equals("c’hwezek"))                         return 16;
     if (day.equals("seitek"))                           return 17;
