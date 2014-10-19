@@ -8181,7 +8181,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">N’a ket an urzhiater <marker>en-dro</marker>.</example>
       </rule>
     </rulegroup>
-    <rule id="LERCH_LECH" name="war-lec’h → war-lerc’h">
+    <rulegroup id="LERCH_LECH" name="lerc’h → lec’h">
+      <rule>
+        <pattern>
+          <token>e</token>
+          <token>pep</token>
+          <marker><token>lerc’h</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>lec’h</suggestion>?</message>
+        <example type="incorrect">E pep <marker>lerc'h</marker> er bed e kaver Bretoned.</example>
+        <example type="correct">E pep lec'h er bed e kaver Bretoned.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">d?a</token>
+          <token>bep</token>
+          <marker><token>lerc’h</token></marker>
+        </pattern>
+        <message>Ha fellout a rae deoc’h skrivañ <suggestion>lec’h</suggestion>?</message>
+        <example type="incorrect">Da bep <marker>lerc'h</marker>.</example>
+        <example type="correct">Da bep lec'h.</example>
+      </rule>
+    </rulegroup>
+    <rule id="LECH_LERCH" name="lec’h → lerc’h">
       <pattern>
         <token regexp="yes">war-lec’h|ler?c’h-ouzh-ler?c’h<exception>lerc’h-ouzh-lerc’h</exception></token>
       </pattern>
