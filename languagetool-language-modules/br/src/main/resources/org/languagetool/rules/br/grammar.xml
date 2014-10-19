@@ -2352,6 +2352,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example type="correct">Emañ Dom Duff o kanañ.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>mil</token>
+          <marker><token regexp="yes">boan|bres|gozh|c’hast</token></marker>
+        </antipattern>
         <pattern>
           <token postag="K . .*" postag_regexp="yes">
             <exception regexp="yes">[dtz]aou|[dtz]iv|[dtz]ri|[tdz]eir|[pbf]evar|[pbf]eder|nav</exception>
@@ -8748,6 +8752,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
     <rule id="KOZHOCH" name="kozhoc’h → koshoc’h">
+      <antipattern>
+        <token>o</token>
+        <marker><token>kozhañ</token></marker>
+      </antipattern>
+      <antipattern>
+        <marker><token>kozhañ</token></marker>
+        <token>a</token>
+        <token inflected="yes">ober</token>
+      </antipattern>
+      <antipattern>
+        <token>c’hwi</token>
+        <token>a</token>
+        <marker><token regexp="yes">gozhoc’h|ruzoc’h</token></marker>
+      </antipattern>
       <pattern>
         <marker><token regexp="yes">(([kg]|c’h)ozh|nevez|pizh|ruz|serzh)(oc’h|añ|a?at)|reizhoc’h</token></marker>
       </pattern>
