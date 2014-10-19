@@ -1842,6 +1842,61 @@ $Id$
             </rule>
         </rulegroup>
         
+                <rulegroup default="on" id="PREP_PNN" name="Правописание предлогов с местоимениями">
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                    <token>у</token>
+                    <token>никого</token>
+                    </marker>
+                </pattern>
+                <message>Предлог ставится между частицей и местоимением: <suggestion>ни у кого</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5</url>
+                <short>Предлог ставится между частицей и местоимением.</short>
+                <example type="correct">Ни у кого этого нет.</example>
+                <example type="incorrect"><marker>У никого</marker> этого нет.</example>
+            </rule>
+               <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                    <token>с</token>
+                    <token>нечем</token>
+                    </marker>
+                </pattern>
+                <message>Предлог ставится между частицей и местоимением: <suggestion>не с чем</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5</url>
+                <short>Предлог ставится между частицей и местоимением.</short>
+                <example type="correct">Не с чем сравнивать.</example>
+                <example type="incorrect"><marker>С нечем</marker> сравнивать.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                    <token>с</token>
+                    <token>никаким</token>
+                    </marker>
+                </pattern>
+                <message>Предлог ставится между частицей и местоимением: <suggestion>ни с каким</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5</url>
+                <short>Предлог ставится между частицей и местоимением.</short>
+                <example type="correct">ни с каким</example>
+                <example type="incorrect"><marker>с никаким</marker></example>
+            </rule>         
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                    <token>при</token>
+                    <token>никаких</token>
+                    </marker>
+                </pattern>
+                <message>Предлог ставится между частицей и местоимением: <suggestion>ни при каких</suggestion>.</message>
+                <url>https://ru.wikipedia.org/wiki/%D0%9C%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D0%B5</url>
+                <short>Предлог ставится между частицей и местоимением.</short>
+                <example type="correct">Проведение матчей в манеже пока невозможно ни при каких обстоятельствах.</example>
+                <example type="incorrect">Проведение матчей в манеже пока невозможно <marker>при никаких</marker> обстоятельствах.</example>
+            </rule>      
+        </rulegroup>
+        
         <rulegroup default="on" id="Com_Num" name="Собирательные числительные">
             <rule>
                 <pattern>
