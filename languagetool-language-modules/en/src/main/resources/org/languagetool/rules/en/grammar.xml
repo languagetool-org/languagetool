@@ -13193,6 +13193,20 @@ USA
         </rule>
     </category>
     <category name="Redundant Phrases" type="style">
+      <rule id="USELESS_THAT" name="Possibly needless 'that'" default="off">
+            <pattern>
+                <token postag='JJ'><exception postag_regexp="yes" postag='VBN|RP'/><exception regexp='yes'>say|like|then|so|though|.*?ble</exception></token>
+                <marker>
+                    <token>that</token>
+                </marker>
+                <token><exception postag="SENT_END"/></token>
+            </pattern>
+            <message>"\2" may be unnecessary here.</message>
+            <short>Possibly needless word</short>
+            <example type='incorrect'>I am pretty sure <marker>that</marker> this is right.</example>
+            <example type='correct'>I am pretty sure this is right.</example>
+            <example type='correct'>It has grown way beyond that.</example>
+      </rule>
       <rule id="SEND_AN_EMAIL" name="send an email (email)">
             <pattern>
                 <marker>
