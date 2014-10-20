@@ -15194,6 +15194,21 @@ $Id$
                 <example type="incorrect">La <marker>dona</marker> al barquer.</example>
                 <example type="correct">La <marker>dóna</marker> al barquer.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>dona</token>
+                    </marker>
+                    <token regexp="yes" skip="1">per|com</token>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>S'accentua quan és del verb "donar".</message>
+                <suggestion>dóna</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect">Joan <marker>dona</marker> per suposat.</example>
+                <example type="incorrect">Joan <marker>dona</marker> com a bo.</example>
+                <example type="correct">La dona com a objecte.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SOC" name="soc/sóc">    
             <rule>
