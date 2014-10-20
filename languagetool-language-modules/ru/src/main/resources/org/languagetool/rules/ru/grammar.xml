@@ -45,8 +45,9 @@ $Id$
 			<token regexp="yes">апрель|апр|апреля|июнь|июня|сен|сентября|сентябрь|ноябрь|ноября|ноя</token>                      
                     </marker>
                 </pattern>
-                <message>В месяце \2 только 30 дней.</message>
+                <message>В <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match> месяце  только 30 дней.</message>
                 <example type='incorrect'>Это случилось <marker>31 ноября</marker> 2014 г.</example>
+                <example type='incorrect'>Это случилось <marker>31 апреля</marker> 2014 г.</example>
                 <example type='correct'>Это случилось <marker>30 ноября</marker> 2014 г.</example>
             </rule>
             <rule>
