@@ -394,10 +394,14 @@ public class Searcher {
               String coveredText = contextTools2.getContext(match.getFromPos(), match.getToPos(), ruleMatch.getSentence());
               coveredText = coveredText.replaceFirst("^\\.\\.\\.", "").replaceFirst("\\.\\.\\.$", "");
               coveredText = coveredText.replaceFirst("^\\*\\*", "").replaceFirst("\\*\\*$", "");
-              String encodedText = URLEncoder.encode("\"" + coveredText + "\"", "UTF-8");
-              String searchLink = "https://de.wikipedia.org/w/index.php?search=" + encodedText + "&title=Spezial%3ASuche&go=Artikel";
+              String encodedTextWithQuotes = URLEncoder.encode("\"" + coveredText + "\"", "UTF-8");
+              String searchLink = "https://de.wikipedia.org/w/index.php?search=" + encodedTextWithQuotes + "&title=Spezial%3ASuche&go=Artikel";
               context = context.replaceAll("\\*\\*.*?\\*\\*", "[" + searchLink + " " + coveredText + "]");
-              System.out.println("# [[" + ruleMatch.getTitle() + "]]: " + context);
+              String encTitle = URLEncoder.encode(ruleMatch.getTitle(), "UTF-8");
+              String encodedText = URLEncoder.encode(coveredText, "UTF-8");
+              System.out.println("# [[" + ruleMatch.getTitle() + "]]: " + context +
+                " ([http://wikipedia.ramselehof.de/wikiblame.php?user_lang=de&lang=de&project=wikipedia&article=" + encTitle +
+                      "&needle=" + encodedText + "&skipversions=0&ignorefirst=0&limit=500&searchmethod=int&order=desc&start=Start WikiBlame])");
             } else {
               System.out.println(i + ": " + context + " [" + ruleMatch.getSource() + "]");
             }
