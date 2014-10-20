@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 CURRENT_DIR=`pwd`
 CURRENT_BASE=`basename $CURRENT_DIR`

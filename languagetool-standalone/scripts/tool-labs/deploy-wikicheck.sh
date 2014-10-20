@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # dnaber, 2014-06-27
 # This script is running on WikiCheck Tool Labs.
 # Re-deploy the WikiCheck wep app.

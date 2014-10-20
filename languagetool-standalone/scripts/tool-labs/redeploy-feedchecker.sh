@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # dnaber, 2014-10-20
 # This script is running on WikiCheck Tool Labs.
 # Re-deploy the command-line app to check Wikipedia Recent Changes.
