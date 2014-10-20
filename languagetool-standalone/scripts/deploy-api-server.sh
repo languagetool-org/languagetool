@@ -7,6 +7,15 @@ if [ "$(basename $CURRENT_DIR)" != 'scripts' ]; then
     exit 1;
 fi
 
+echo "This script usually doesn't need to be called manually."
+echo "Deployments usually happen automatically (using create-snapshot.sh)."
+echo "Continue anyway? y/n"
+read cont
+if [ $cont != "y" ]; then
+  echo "Stopping."
+  exit
+fi
+
 echo ""
 echo "###"
 echo "### Admin only - you will need the server password to deploy the code ###"
