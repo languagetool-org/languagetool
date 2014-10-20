@@ -45,7 +45,7 @@ public class AnalyzedSentence {
 
   public AnalyzedSentence(final AnalyzedTokenReadings[] tokens, final int[] whPositions) {
     this.tokens = tokens;
-    this.setWhPositions(whPositions);
+    this.setWhPositions(Objects.requireNonNull(whPositions));
     getTokensWithoutWhitespace();
   }
 
@@ -92,22 +92,24 @@ public class AnalyzedSentence {
    * token included.
    */
   public final AnalyzedTokenReadings[] getTokensWithoutWhitespace() {
-    if (nonBlankTokens == null) {
-      int whCounter = 0;
-      int nonWhCounter = 0;
-      final int[] mapping = new int[tokens.length + 1];
-      final List<AnalyzedTokenReadings> l = new ArrayList<>();
-      for (final AnalyzedTokenReadings token : tokens) {
-        if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd()
-            || token.isParagraphEnd()) {
-          l.add(token);
-          mapping[nonWhCounter] = whCounter;
-          nonWhCounter++;
+    synchronized (this) {
+      if (nonBlankTokens == null) {
+        int whCounter = 0;
+        int nonWhCounter = 0;
+        final int[] mapping = new int[tokens.length + 1];
+        final List<AnalyzedTokenReadings> l = new ArrayList<>();
+        for (final AnalyzedTokenReadings token : tokens) {
+          if (!token.isWhitespace() || token.isSentenceStart() || token.isSentenceEnd()
+                  || token.isParagraphEnd()) {
+            l.add(token);
+            mapping[nonWhCounter] = whCounter;
+            nonWhCounter++;
+          }
+          whCounter++;
         }
-        whCounter++;
+        setNonBlankTokens(l.toArray(new AnalyzedTokenReadings[l.size()]));
+        setWhPositions(mapping.clone());
       }
-      setNonBlankTokens(l.toArray(new AnalyzedTokenReadings[l.size()]));
-      setWhPositions(mapping.clone());
     }
     return nonBlankTokens.clone();
   }
@@ -231,7 +233,7 @@ public class AnalyzedSentence {
    * @param whPositions the whPositions to set, see {@link #getWhPositions()}
    */
   public void setWhPositions(int[] whPositions) {
-    this.whPositions = whPositions;
+    this.whPositions = Objects.requireNonNull(whPositions);
   }
 
   /**
