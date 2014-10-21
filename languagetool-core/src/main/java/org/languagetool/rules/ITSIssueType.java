@@ -19,6 +19,7 @@
 package org.languagetool.rules;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 /**
  * Some constants for Localization Quality Issue Type from the
@@ -61,7 +62,7 @@ public enum ITSIssueType {
    */
   @Override
   public String toString() {
-    return name.toLowerCase();
+    return name.toLowerCase(Locale.ENGLISH);
   }
 
 }
