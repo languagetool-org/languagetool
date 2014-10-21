@@ -78,6 +78,10 @@ public class PatternRuleLoaderTest extends TestCase {
     assertEquals("http://fake-server.org/rule-group-url-overwrite", orRules.get(1).getUrl().toString());
     assertEquals("http://fake-server.org/rule-group-url", orRules.get(2).getUrl().toString());
     
+    assertEquals("short message on rule group", ((PatternRule)orRules.get(0)).getShortMessage());
+    assertEquals("overwriting short message", ((PatternRule)orRules.get(1)).getShortMessage());
+    assertEquals("short message on rule group", ((PatternRule)orRules.get(2)).getShortMessage());
+    
     // make sure URLs don't leak to the next rule:
     final List<Rule> orRules2 = getRulesById("OR_GROUPS", rules);
     for (Rule rule : orRules2) {

@@ -217,8 +217,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inSuggestion = true;
         break;
       case "short":
-        inShortMessage = true;
-        shortMessage = new StringBuilder();
+        if (inRule) {
+          inShortMessage = true;
+          shortMessage = new StringBuilder();
+        } else {
+          inShortMessageForRuleGroup = true;
+          shortMessageForRuleGroup = new StringBuilder();
+        }
         break;
       case "url":
         if (inRule) {
@@ -235,6 +240,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         defaultOff = "off".equals(attrs.getValue(DEFAULT));
         defaultOn = "on".equals(attrs.getValue(DEFAULT));
         urlForRuleGroup = new StringBuilder();
+        shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = true;
         subId = 0;
         if (attrs.getValue(TYPE) != null) {
@@ -421,6 +427,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "short":
         inShortMessage = false;
+        inShortMessageForRuleGroup = false;
         break;
       case "url":
         inUrl = false;
@@ -440,6 +447,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case RULEGROUP:
         urlForRuleGroup = new StringBuilder();
+        shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = false;
         ruleGroupIssueType = null;
         if (rulegroupAntiPatterns != null) {
@@ -505,9 +513,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
    */
   private void createRules(List<Element> elemList,
       List<Element> tmpElements, int numElement) {
+    String shortMessage = "";
+    if (this.shortMessage != null && this.shortMessage.length() > 0) {
+      shortMessage = this.shortMessage.toString();
+    } else if (shortMessageForRuleGroup != null && shortMessageForRuleGroup.length() > 0) {
+      shortMessage = this.shortMessageForRuleGroup.toString();
+    }
     if (numElement >= elemList.size()) {
       final PatternRule rule = new PatternRule(id, language, tmpElements, name,
-          message.toString(), shortMessage.toString(),
+          message.toString(), shortMessage,
           suggestionsOutMsg.toString(), phraseElementList.size() > 1);
       if (filterClassName != null && filterArgs != null) {
         RuleFilterCreator creator = new RuleFilterCreator();
@@ -620,6 +634,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
       suggestionsOutMsg.append(s);
     } else if (inShortMessage) {
       shortMessage.append(s);
+    } else if (inShortMessageForRuleGroup) {
+      shortMessageForRuleGroup.append(s);
     } else if (inUrl) {
       url.append(s);
     } else if (inUrlForRuleGroup) {

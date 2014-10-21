@@ -142,12 +142,15 @@ public class XMLRuleHandler extends DefaultHandler {
   protected int andGroupCounter;
   protected int orGroupCounter;
 
-  protected StringBuilder shortMessage = new StringBuilder();
-  protected StringBuilder url = new StringBuilder();
-  protected StringBuilder urlForRuleGroup = new StringBuilder();
-  protected boolean inShortMessage;
   protected boolean inUrl;
   protected boolean inUrlForRuleGroup;
+  protected StringBuilder url = new StringBuilder();
+  protected StringBuilder urlForRuleGroup = new StringBuilder();
+
+  protected boolean inShortMessage;
+  protected boolean inShortMessageForRuleGroup;
+  protected StringBuilder shortMessage = new StringBuilder();
+  protected StringBuilder shortMessageForRuleGroup = new StringBuilder();
 
   protected boolean inUnification;
   protected boolean inMarker;
