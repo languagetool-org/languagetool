@@ -9629,13 +9629,14 @@ USA
                 <pattern>
                     <token skip="1" regexp="yes" postag="PRP">we|they</token>
                     <marker>
-                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP"/></token>
+                        <token postag="VBZ"><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="RB|PRP|DT"/></token>
                     </marker>
                 </pattern>
                 <message>The pronoun '<match no="1"></match>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <example correction="work" type="incorrect">They <marker>works</marker> here.</example>
                 <example correction="work" type="incorrect">They always <marker>works</marker> here.</example>
+                <example correction="mean" type="incorrect">They all <marker>means</marker> the same.</example>
                 <example type="correct">We <marker>make</marker> a lot of mistakes.</example>
                 <example type="correct">Phase I corresponds to the small-deformation regime.</example>
             </rule>
