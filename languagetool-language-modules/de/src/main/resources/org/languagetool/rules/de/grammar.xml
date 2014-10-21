@@ -465,6 +465,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type='correct'>Der Direktor des Instituts hat das gesagt.</example>
         </rule>
         <rulegroup id="WALTER_WALZER" name="Möglicher Tippfehler: 'Walter (Walzer)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <marker>
@@ -474,7 +475,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">.</token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>Walzer</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Der <marker>Walzer</marker> in A ist sehr schön.</example>
                 <example type="correct"><marker>Walter</marker> H. Hunt</example>
                 <example type="incorrect" correction="Walzer">Der <marker>Walter</marker> in A ist sehr schön.</example>
@@ -487,7 +487,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[a-h]?\-?(Dur|Moll)</token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion>Walzer</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Der <marker>Walzer</marker> in A-Dur ist sehr schön.</example>
                 <example type="correct"><marker>Walter</marker> H. Hunt</example>
                 <example type="incorrect" correction="Walzer">Der <marker>Walter</marker> in A-Dur ist sehr schön.</example>
@@ -537,6 +536,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ABREITEN_VS_ARBEITEN" name="Möglicher Tippfehler: 'abreitet (arbeitet) daran' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token regexp="yes">wohnt|lebt</token>
@@ -546,7 +546,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="3" regexp_match="abrei" regexp_replace="arbei"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Er lebt und <marker>arbeitet</marker> in Essen.</example>
                 <example type="incorrect" correction="arbeitet">Er lebt und <marker>abreitet</marker> in Essen.</example>
             </rule>
@@ -558,7 +557,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="2" regexp_match="abrei" regexp_replace="arbei"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Er sollte daran <marker>arbeiten</marker>.</example>
                 <example type="incorrect" correction="arbeiten">Er sollte daran <marker>abreiten</marker>.</example>
             </rule>
@@ -570,12 +568,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">an|hart|daran|als|in|für|mit|viel</token>
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie <suggestion><match no="1" regexp_match="breite" regexp_replace="rbeite"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Er <marker>arbeitet</marker> als Kellner.</example>
                 <example type="incorrect" correction="arbeitet">Er <marker>abreitet</marker> als Kellner.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAARE_VS_HARRE" name="Möglicher Tippfehler: 'Harre (Haare) schneiden'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <marker>
@@ -584,7 +582,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">schneiden|wachsen|waschen|föhnen|(ab)?geschnitten</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>Haare</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Ich ließ mir die <marker>Haare</marker> schneiden.</example>
                 <example type="correct">Ich ließ mir die <marker>Haare</marker> wachsen.</example>
                 <example type="incorrect" correction="Haare">Ich lasse mir die <marker>Harre</marker> schneiden.</example>
@@ -599,12 +596,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>Haare</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Ich schneide mir die <marker>Haare</marker> ab.</example>
                 <example type="incorrect" correction="Haare">Ich schneide dir die <marker>Harre</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ETWAS_ETWA" name="Möglicher Tippfehler: 'vor etwas (etwa) einem Jahr' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token regexp="yes">vor|nach|in|seit|nur</token>
@@ -614,7 +611,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag=".*ZAL.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="etwa">Vor <marker>etwas</marker> zwei Jahren war ich da.</example>
                 <example type="incorrect" correction="etwa">Ich komme in <marker>etwas</marker> zwei Stunden an.</example>
                 <example type="correct">Vor <marker>etwa</marker> zwei Jahren war ich da.</example>
@@ -628,7 +624,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[1-9][0-9]*</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="etwa">Vor <marker>etwas</marker> 20 Jahren war ich da.</example>
                 <example type="correct">Vor <marker>etwa</marker> 20 Jahren war ich da.</example>
             </rule>
@@ -641,12 +636,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>einem</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="etwa">Vor <marker>etwas</marker> einem Jahr war ich da.</example>
                 <example type="correct">Vor <marker>etwa</marker> einem Jahr war ich da.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EINFACHERER_EINFACHER" name="Möglicher Tippfehler: 'einfacherer (einfacher) zu machen' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <marker>
@@ -667,7 +662,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="VER:EIZ.*"/>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="erer" regexp_replace="er"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="komplexer">Man sollte es vermeiden, die Aufgaben <marker>komplexerer</marker> aufzubauen.</example>
                 <example type="correct">Man sollte es vermeiden, die Aufgaben <marker>komplexer</marker> aufzubauen.</example>
             </rule>
@@ -779,6 +773,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="ACHTZIGIGSTEN" name="Möglicher Tippfehler: '80igsten (80sten)' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token regexp="yes">[1-9]*[2-9][0-9](z?i)?gste[nr]</token>
@@ -793,12 +788,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">[1-9]*[2-9][0-9](z?i)?gern?</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="(z?i)?g" regexp_replace=""/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">Wir sind nicht in den <marker>80ern</marker>.</example>
                 <example type="incorrect" correction="80ern">Wir sind nicht in den <marker>80gern</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="JA_MEHR" name="Möglicher Tippfehler: 'ja (je) mehr'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <marker>
@@ -808,7 +803,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>desto</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>je</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="Je"><marker>Ja</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
                 <example type="correct"><marker>Je</marker> mehr ich schreibe, desto mehr Fehler mache ich.</example>
             </rule>
@@ -821,12 +815,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>desto</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>je</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="Je"><marker>Ja</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
                 <example type="correct"><marker>Je</marker> schneller ich schreibe, desto mehr Fehler mache ich.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZU_KOENNE" name="Möglicher Tippfehler: 'um das zu könne (können)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>zu</token>
@@ -836,7 +830,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>,</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2n</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="können">Um die Frage beantworten zu <marker>könne</marker>, muss man schlau sein.</example>
                 <example type="correct">Um die Frage beantworten zu <marker>können</marker>, muss man schlau sein.</example>
             </rule>
@@ -849,7 +842,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>\2n</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="können">Man muss schlau sein, um die Frage beantworten zu <marker>könne</marker>.</example>
                 <example type="correct">Man muss schlau sein, um die Frage beantworten zu <marker>können</marker>.</example>
             </rule>
@@ -893,6 +885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="STARTE_STARRTE" name="Möglicher Tippfehler: 'er starte (starrte) mich an' u.ä.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -902,7 +895,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Leere</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="tart" regexp_replace="tarrt"/></suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrte">Er <marker>starte</marker> ins Leere.</example>
                 <example type="correct">Er <marker>starrte</marker> mich an.</example>
             </rule>
@@ -916,7 +908,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">den|die|das</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrten">Sie <marker>starten</marker> auf den Monitor.</example>
                 <example type="correct">Er <marker>starrte</marker> auf den Monitor.</example>
             </rule>
@@ -930,7 +921,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">den|die|das</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrte">Er <marker>starte</marker> auf den Monitor.</example>
                 <example type="correct">Er <marker>starrte</marker> mich an.</example>
             </rule>
@@ -944,7 +934,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrte">Er <marker>starte</marker> mich an.</example>
                 <example type="correct">Er <marker>starrte</marker> mich an.</example>
             </rule>
@@ -958,7 +947,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrten">Sie <marker>starten</marker> uns ungläubig an.</example>
                 <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
             </rule>
@@ -972,7 +960,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrte</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrte">Der Mann <marker>starte</marker> mich an.</example>
                 <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
             </rule>
@@ -986,7 +973,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>an</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>starrten</suggestion>? (anstarren = starr ansehen; starten = in Gang bringen)</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="starrten">Die Frauen <marker>starten</marker> uns ungläubig an.</example>
                 <example type="correct">Der Mann <marker>starrte</marker> mich an.</example>
             </rule>
@@ -1003,6 +989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Spaß" type="incorrect">Das Spiel macht mir viel <marker>Spaße</marker>.</example>
         </rule>
         <rulegroup id="GEGEN_GEGEBEN" name="Möglicher Tippfehler: 'gegen (gegeben)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token inflected="yes" skip="-1">haben</token>
@@ -1012,7 +999,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="gegeben">Hast du ihm das Buch <marker>gegen</marker>?</example>
                 <example type="correct">Hast du ihm das Buch <marker>gegeben</marker>?</example>
                 <example type="incorrect" correction="gegeben">Wieso hast du ihm das Buch <marker>gegen</marker>?</example>
@@ -1027,7 +1013,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="gegeben">Ich fragte, ob du ihm das <marker>gegen</marker> hast.</example>
                 <example type="correct">Ich fragte, ob du ihm das <marker>gegeben</marker> hast.</example>
             </rule>
@@ -1039,7 +1024,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">wurde|werden</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="gegeben">Man hat herausgefunden, dass ihnen wenig <marker>gegen</marker> wurde.</example>
                 <example type="incorrect" correction="gegeben">Man hat herausgefunden, dass ihm Hinweise <marker>gegen</marker> werden.</example>
                 <example type="correct">Man hat herausgefunden, dass ihnen wenig <marker>gegeben</marker> wurde.</example>
@@ -1054,12 +1038,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" postag="VER:.*" postag_regexp="yes">sein</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect">Man hat herausgefunden, dass ihnen wenig <marker>gegen</marker> worden ist.</example>
                 <example type="correct">Man hat herausgefunden, dass ihnen wenig <marker>gegeben</marker> worden ist.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SAGT_RUFT" name="Möglicher Tippfehler: Zwei aufeinanderfolgende Verben">
+            <short>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="VER:(1|2|3):.*" postag_regexp="yes" regexp="yes">[a-zäöü].*
@@ -1073,7 +1057,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </pattern>
                 <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma. Vorschläge: <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>\1, \2</suggestion></message>
-                <short>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma</short>
                 <example type="incorrect">Sie <marker>sagt ruft</marker> laut.</example>
                 <example type="correct">Sie <marker>ruft</marker> laut.</example>
                 <example type="correct">Dort, wo es <marker>erkauft wird</marker>.</example>
@@ -1095,7 +1078,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">w[ai]rst|wird|w[eü]rden?t?</token>
                 </pattern>
                 <message>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma. Vorschläge: <suggestion>\1</suggestion>, <suggestion>\2</suggestion>, <suggestion>\1, \2</suggestion></message>
-                <short>Möglicherweise ist hier ein Wort zu viel oder es fehlt ein Komma</short>
                 <example type="incorrect">Weil die Abfrage „false“ als Ergebnis <marker>hat wird</marker> die Schleife nicht erneut durchlaufen.</example>
                 <example type="correct">Weil die Abfrage „false“ als Ergebnis <marker>hat, wird</marker> die Schleife nicht erneut durchlaufen.</example>
                 <example type="incorrect">Da die Bedingung erfüllt <marker>ist wird</marker> die Schleife erneut durchlaufen.</example>
@@ -1149,6 +1131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Ich <marker>danke</marker> schön!</example>
         </rule>
         <rulegroup id="ALS_OHNE_KOMPARATIV" name="Möglicher Tippfehler: 'schnelle (schneller) als' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token regexp="yes" skip="1">aber|jedoch|auch</token>
@@ -1159,7 +1142,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>als</token>
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="3" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="schneller">Er schießt auch nicht <marker>schnelle</marker> als sein Schatten.</example>
                 <example type="correct">Die sind auch nicht <marker>schneller</marker> als wir.</example>
             </rule>
@@ -1172,7 +1154,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>als</token>
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="flinker">Die sind <marker>flinke</marker> als wir.</example>
                 <example type="incorrect" correction="schneller">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
                 <example type="correct">Die sind <marker>schneller</marker> als wir.</example>
@@ -1186,7 +1167,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>als</token>
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="2" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="flinker">Die sind <marker>flinke</marker> als wir.</example>
                 <example type="incorrect" correction="schneller">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
                 <example type="correct">Die sind <marker>schneller</marker> als wir.</example>
@@ -1201,7 +1181,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>als</token>
                 </pattern>
                 <message>Meinten Sie den Komparativ <suggestion><match no="3" regexp_match="(e|em|en|es|ere|eren|erem|erer|eres|ste|stem|ster|stes)$" regexp_replace="er"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="schneller">Die sind deutlich <marker>schnelle</marker> als wir.</example>
                 <example type="correct">Die sind einfach <marker>schneller</marker> als wir.</example>
             </rule>
@@ -1221,6 +1200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="NAEHREN_VS_NAEHERN" name="Möglicher Tippfehler: 'sich nähren (nähern)' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <marker>
@@ -1230,7 +1210,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">mir|dir|ihm|ihr|den|ihnen|ihrer|ihren|euch|uns|unsere[nmr]|meine[nmr]|deine[nmr]|seine[nmr]</token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="ährte" regexp_replace="äherte"/> \2</suggestion> (kam näher)?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="näherte sich">Er <marker>nährte sich</marker> mir.</example>
                 <example type="correct">Er <marker>näherte sich</marker> mir.</example>
             </rule>
@@ -1243,7 +1222,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>genähert</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="genähert">Er hat sich mir <marker>genährt</marker>.</example>
                 <example type="correct">Er hat sich mir <marker>genähert</marker>.</example>
             </rule>
@@ -1294,6 +1272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Besser <marker>ausgerüstet konnte</marker> er in der nächsten Nacht bessert schlafen.</example>
         </rule>
         <rulegroup id="EIGNE_VS_EIGENE" name="Möglicher Tippfehler: 'eigne (eigene)' etc.">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token regexp="yes">[mds]eine|ihre|unsere|eure</token>
@@ -1303,7 +1282,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:NOM:SIN:FEM"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>eigene</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="eigene">Seine <marker>eigne</marker> Frau hat ihn ermordet.</example>
                 <example type="correct">Seine <marker>eigene</marker> Frau hat ihn ermordet.</example>
             </rule>
@@ -1316,7 +1294,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:NOM:PLU:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>eigenen</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="eigenen">Seine <marker>eignen</marker> Leute haben ihn ermordet.</example>
                 <example type="incorrect" correction="eigenen">Diese sind in 2 <marker>eignen</marker> Klassen umgesetzt.</example>
                 <example type="incorrect">Dies ist in einer <marker>eignen</marker> Klassen umgesetzt.</example>
@@ -1332,7 +1309,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SUB:NOM:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Meinten Sie <suggestion>eigenen</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="eigenen">Diese sind in zwei <marker>eignen</marker> Klassen umgesetzt.</example>
                 <example type="correct">Diese sind in zwei <marker>eigenen</marker> Klassen umgesetzt.</example>
             </rule>
@@ -1354,6 +1330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct"><marker>Ein</marker> einem Mitarbeiter untergeordnetem Praktikanten sollte man nicht verletzen.</example>
         </rule>
         <rulegroup id="SICH_BEWEHREN" name="Möglicher Tippfehler: 'sich bewehren (bewähren)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token>sich</token>
@@ -1362,7 +1339,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>bewährt</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="bewährt">Diese Idee hat sich <marker>bewehrt</marker>.</example>
                 <example type="correct">Diese Idee hat sich <marker>bewährt</marker>.</example>
             </rule>
@@ -1374,7 +1350,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sich</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>bewährt</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="bewährt">Diese Idee <marker>bewehrt</marker> sich immer wieder.</example>
                 <example type="correct">Diese Idee hat sich <marker>bewährt</marker>.</example>
             </rule>
@@ -1387,7 +1362,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>bewährt</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="bewährt">Diese Idee hat sich nicht <marker>bewehrt</marker>.</example>
                 <example type="correct">Diese Idee hat sich <marker>bewährt</marker>.</example>
             </rule>
@@ -1446,6 +1420,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Was kann man <marker>während</marker> des Ansehens von Filmen machen?</example>
         </rule>
         <rulegroup id="HERZ_HERTZ" name="Möglicher Tippfehler: '50 Herz (Hertz)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <!-- TODO add some typical phrases, 'blutendes Herz' ... -->
                 <pattern>
@@ -1455,7 +1430,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>Herz</suggestion> (Organ) statt 'Hertz' (physikalische Einheit der Frequenz)?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="Herz">Mein <marker>Hertz</marker> schlug wie wild.</example>
                 <example type="correct">1 <marker>Hertz</marker> ist definiert als 1/s.</example>
                 <example type="correct">Mein <marker>Herz</marker> schlug wie wild.</example>
@@ -1471,7 +1445,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion>Hertz</suggestion> (Einheit der Frequenz) statt 'Herz' (Organ)?</message>
                 <url>http://www.duden.de/rechtschreibung/Hertz</url>
-                <short>Möglicher Tippfehler</short>
                 <example type="correct">1 <marker>Hertz</marker> ist definiert als 1/s.</example>
                 <example type="incorrect">Mit einer Frequenz von 10 <marker>Herz</marker>.</example>
             </rule>
@@ -1515,6 +1488,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Es scheint defekt zu <marker>sein</marker>.</example>
         </rule>
         <rulegroup id="ES_KANN_NICHT_SEIEN" name="Möglicher Tippfehler: 'es kann nicht seien (sein)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token>kann</token>
@@ -1524,7 +1498,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="sein">Das kann nicht <marker>seien</marker>.</example>
                 <example type="correct">Das kann nicht <marker>sein</marker>.</example>
             </rule>
@@ -1538,7 +1511,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="sein">Das kann doch nicht <marker>seien</marker>.</example>
                 <example type="correct">Das kann doch nicht <marker>sein</marker>.</example>
             </rule>
@@ -1553,12 +1525,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie den Infinitiv <suggestion>sein</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="sein">Das kann doch gar nicht <marker>seien</marker>.</example>
                 <example type="correct">Das kann doch gar nicht <marker>sein</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ZUR_RUHE_GEBETET" name="Möglicher Tippfehler: 'zur Ruhe gebetet (gebettet)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern>
                     <token>zur</token>
@@ -1568,7 +1540,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="gebettet">Dort wurde er zur Ruhe <marker>gebetet</marker>.</example>
                 <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
                 <example type="correct">Dort wurde häufig <marker>gebetet</marker>.</example>
@@ -1583,7 +1554,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>gebettet</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="gebettet">Dort wurde er zur letzten Ruhe <marker>gebetet</marker>.</example>
                 <example type="correct">Dort wurde er zur Ruhe <marker>gebettet</marker>.</example>
                 <example type="correct">Dort wurde für ihn <marker>gebetet</marker>.</example>
@@ -1603,6 +1573,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Dort wurde er auf Rosen <marker>gebettet</marker>.</example>
         </rule>
         <rulegroup id="FUER_IHN_GEBETTET" name="Möglicher Tippfehler: 'für jemanden betten (beten)'">
+            <short>Möglicher Tippfehler</short>
             <rule>
                 <pattern case_sensitive="yes">
                     <token>für</token>
@@ -1612,7 +1583,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>gebetet</suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="gebetet">Ich habe heute morgen für Sie <marker>gebettet</marker>.</example>
                 <example type="correct">Er wurde nicht auf Rosen <marker>gebettet</marker>.</example>
                 <example type="correct">Ich habe für dich <marker>gebetet</marker>.</example>
@@ -1626,7 +1596,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="3" regexp_match="bette" regexp_replace="bete"/></suggestion>?</message>
-                <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="beten">Ich werde morgen für Sie <marker>betten</marker>.</example>
                 <example type="correct">Er wurde nicht auf Rosen <marker>gebettet</marker>.</example>
                 <example type="correct">Ich werde für dich <marker>beten</marker>!</example>
