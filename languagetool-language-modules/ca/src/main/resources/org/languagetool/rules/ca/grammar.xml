@@ -23771,6 +23771,21 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
+            <pattern>
+                <token>tota</token>
+                <token>vegada</token>
+                <token>que</token>
+            </pattern>
+            <message>Expressió incorrecta si equival a <suggestion>ja que</suggestion>. Correcta si equival a <suggestion>sempre que</suggestion>.</message>
+            <suggestion>per tal com</suggestion>
+            <suggestion>puix que</suggestion>
+            <suggestion>atès que</suggestion>
+            <suggestion>atés que</suggestion>
+            <short>Possible incorrecció.</short>
+            <example type="incorrect"><marker>tota vegada que</marker>.</example>
+            <example type="correct">per tal com</example>
+        </rule>
         <rule id="ESTORAR" name="estorar/astorar">
             <pattern>
                 <token inflected="yes">estorar<exception postag="_GN.*" postag_regexp="yes"/></token>
