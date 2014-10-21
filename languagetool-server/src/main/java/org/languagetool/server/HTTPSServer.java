@@ -92,15 +92,6 @@ public class HTTPSServer extends Server {
     }
   }
 
-  private RequestLimiter getRequestLimiterOrNull(HTTPSServerConfig config) {
-    final int requestLimit = config.getRequestLimit();
-    final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
-    if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
-      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
-    }
-    return null;
-  }
-
   private SSLContext getSslContext(File keyStoreFile, String passPhrase) {
     try (FileInputStream keyStoreStream = new FileInputStream(keyStoreFile)) {
       final KeyStore keystore = KeyStore.getInstance("JKS");
@@ -146,8 +137,6 @@ public class HTTPSServer extends Server {
       System.out.println("                 'password' - the keystore's password");
       System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
       System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
-      System.out.println("                 'requestLimit' - maximum number of requests (optional)");
-      System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
       printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);

@@ -47,6 +47,8 @@ public class HTTPServerConfig {
   protected Mode mode;
   protected Language atdLanguage;
   protected File languageModelDir = null;
+  protected int requestLimit;
+  protected int requestLimitPeriodInSeconds;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -106,6 +108,8 @@ public class HTTPServerConfig {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
+        requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
+        requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null) {
           languageModelDir = new File(langModel);
@@ -155,6 +159,14 @@ public class HTTPServerConfig {
    */
   public void setMaxTextLength(int maxTextLength) {
     this.maxTextLength = maxTextLength;
+  }
+
+  int getRequestLimit() {
+    return requestLimit;
+  }
+
+  int getRequestLimitPeriodInSeconds() {
+    return requestLimitPeriodInSeconds;
   }
 
   int getMaxTextLength() {

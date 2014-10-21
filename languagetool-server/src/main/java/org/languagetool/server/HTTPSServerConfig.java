@@ -31,9 +31,6 @@ public class HTTPSServerConfig extends HTTPServerConfig {
   private final File keystore;
   private final String keyStorePassword;
   
-  private int requestLimit;
-  private int requestLimitPeriodInSeconds;
-
   /**
    * @param keystore a Java keystore file as created with the <tt>keytool</tt> command
    * @param keyStorePassword the password for the keystore
@@ -91,8 +88,6 @@ public class HTTPSServerConfig extends HTTPServerConfig {
         props.load(fis);
         keystore = new File(getProperty(props, "keystore", config));
         keyStorePassword = getProperty(props, "password", config);
-        requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
-        requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + config + "'", e);
@@ -105,14 +100,6 @@ public class HTTPSServerConfig extends HTTPServerConfig {
 
   String getKeyStorePassword() {
     return keyStorePassword;
-  }
-
-  int getRequestLimit() {
-    return requestLimit;
-  }
-
-  int getRequestLimitPeriodInSeconds() {
-    return requestLimitPeriodInSeconds;
   }
 
 }

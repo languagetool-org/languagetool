@@ -88,6 +88,15 @@ abstract class Server {
     return isRunning;
   }
 
+  protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
+    final int requestLimit = config.getRequestLimit();
+    final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
+    if (requestLimit > 0 || requestLimitPeriodInSeconds > 0) {
+      return new RequestLimiter(requestLimit, requestLimitPeriodInSeconds);
+    }
+    return null;
+  }
+
   protected static boolean usageRequested(String[] args) {
     return args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
   }
@@ -96,6 +105,8 @@ abstract class Server {
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");
+    System.out.println("                 'requestLimit' - maximum number of requests (optional)");
+    System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with a '3grams' sub directory with a Lucene index that");
     System.out.println("                  contains ngram occurrence counts; activates the confusion rule if supported (optional)");
   }
