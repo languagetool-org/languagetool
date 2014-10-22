@@ -49,6 +49,7 @@ public class HTTPServerConfig {
   protected File languageModelDir = null;
   protected int requestLimit;
   protected int requestLimitPeriodInSeconds;
+  protected boolean trustXForwardForHeader;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -110,6 +111,7 @@ public class HTTPServerConfig {
         maxCheckTimeMillis = Long.parseLong(getOptionalProperty(props, "maxCheckTimeMillis", "-1"));
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
+        trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null) {
           languageModelDir = new File(langModel);
@@ -220,6 +222,16 @@ public class HTTPServerConfig {
   /** @since 2.7 */
   int getMaxCheckThreads() {
     return maxCheckThreads;
+  }
+
+  /** @since 2.8 */
+  void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
+    this.trustXForwardForHeader = trustXForwardForHeader;
+  }
+
+  /** @since 2.8 */
+  boolean getTrustXForwardForHeader() {
+    return trustXForwardForHeader;
   }
 
   /**

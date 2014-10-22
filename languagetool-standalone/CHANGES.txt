@@ -29,6 +29,12 @@ LanguageTool Change Log
 -Embedded server:
     -the config file options 'requestLimit' and 'requestLimitPeriodInSeconds' can
      now also be used for the HTTP server (not just for the HTTPS server)
+    -new config file option 'trustXForwardForHeader': set this to 'true' if you
+     run the server behind a reverse proxy and want the request limit to
+     work on the original IP addresses provided by the 'X-forwarded-for' HTTP header,
+     usually set by the proxy. If you run behind a proxy but don't set this
+     property to true, one user can use all the requests so other users will
+     also get an error message because of the request limit.
 
 
 2.7 (2014-09-29)

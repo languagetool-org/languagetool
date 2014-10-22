@@ -74,6 +74,7 @@ public class HTTPSServer extends Server {
       httpHandler.setMaxTextLength(config.getMaxTextLength());
       httpHandler.setAllowOriginUrl(config.getAllowOriginUrl());
       httpHandler.setMaxCheckTimeMillis(config.getMaxCheckTimeMillis());
+      httpHandler.setTrustXForwardForHeader(config.getTrustXForwardForHeader());
       if (config.getMode() == HTTPServerConfig.Mode.AfterTheDeadline) {
         httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
       }

@@ -19,9 +19,7 @@
 package org.languagetool.server;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URLDecoder;
+import java.net.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
@@ -49,6 +47,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private static final int CONTEXT_SIZE = 40; // characters
   private static final int MIN_LENGTH_FOR_AUTO_DETECTION = 60;  // characters
 
+  private static int handleCount = 0;
+
   private final Set<String> allowedIps;  
   private final boolean verbose;
   private final boolean internalServer;
@@ -62,9 +62,9 @@ class LanguageToolHttpHandler implements HttpHandler {
   private boolean afterTheDeadlineMode;
   private Language afterTheDeadlineLanguage;
   private File languageModelDir;
+  private Set<String> ownIps;
+  private boolean trustXForwardForHeader = false;
   
-  private static int handleCount = 0;
-
   /**
    * Create an instance. Call {@link #shutdown()} when done.
    * @param verbose print the input text in case of exceptions
@@ -78,6 +78,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.requestLimiter = requestLimiter;
     this.workQueue = workQueue;
     this.executorService = Executors.newCachedThreadPool();
+    this.ownIps = getServersOwnIps();
   }
 
   /** @since 2.6 */
@@ -96,6 +97,16 @@ class LanguageToolHttpHandler implements HttpHandler {
    */
   void setMaxCheckTimeMillis(long maxCheckTimeMillis) {
     this.maxCheckTimeMillis = maxCheckTimeMillis;
+  }
+
+  /**
+   * Set to {@code true} if this is running behind a (reverse) proxy which
+   * sets the 'X-forwarded-for' HTTP header. The last IP address (but not local IP addresses)
+   * in that header will then be used for enforcing a request limitation.
+   * @since 2.8
+   */
+  void setTrustXForwardForHeader(boolean trustXForwardForHeader) {
+    this.trustXForwardForHeader = trustXForwardForHeader;
   }
 
   /**
@@ -127,7 +138,9 @@ class LanguageToolHttpHandler implements HttpHandler {
     String text = null;
     try {
       final URI requestedUri = httpExchange.getRequestURI();
-      final String remoteAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      final String origAddress = httpExchange.getRemoteAddress().getAddress().getHostAddress();
+      final String realAddressOrNull = getRealRemoteAddressOrNull(httpExchange);
+      final String remoteAddress = realAddressOrNull != null ? realAddressOrNull : origAddress;
       // According to the Javadoc, "Closing an exchange without consuming all of the request body is
       // not an error but may make the underlying TCP connection unusable for following exchanges.",
       // so we consume the request now, even before checking for request limits:
@@ -140,7 +153,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         print(errorMessage);
         return;
       }
-      if (allowedIps == null || allowedIps.contains(remoteAddress)) {
+      if (allowedIps == null || allowedIps.contains(origAddress)) {
         if (requestedUri.getRawPath().endsWith("/Languages")) {
           // request type: list known languages
           printListOfLanguages(httpExchange);
@@ -161,7 +174,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           checkText(text, httpExchange, parameters);
         }
       } else {
-        final String errorMessage = "Error: Access from " + StringTools.escapeXML(remoteAddress) + " denied";
+        final String errorMessage = "Error: Access from " + StringTools.escapeXML(origAddress) + " denied";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         throw new RuntimeException(errorMessage);
       }
@@ -187,6 +200,57 @@ class LanguageToolHttpHandler implements HttpHandler {
       }
       httpExchange.close();
     }
+  }
+
+  private Set<String> getServersOwnIps() {
+    Set<String> ownIps = new HashSet<>();
+    try {
+      Enumeration e = NetworkInterface.getNetworkInterfaces();
+      while (e.hasMoreElements()) {
+        NetworkInterface netInterface = (NetworkInterface) e.nextElement();
+        Enumeration addresses = netInterface.getInetAddresses();
+        while (addresses.hasMoreElements()) {
+          InetAddress address = (InetAddress) addresses.nextElement();
+          ownIps.add(address.getHostAddress());
+        }
+      }
+    } catch (SocketException e1) {
+      throw new RuntimeException("Could not get the servers own IP addresses", e1);
+    }
+    return ownIps;
+  }
+
+  /**
+   * A (reverse) proxy can set the 'X-forwarded-for' header so we can see a user's original IP.
+   * But that's just a common header than can also be set by the client. So we can
+   * only trust the last item in the list of proxies, as it was set by our proxy,
+   * which we can trust.
+   */
+  private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
+    if (trustXForwardForHeader) {
+      List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");
+      if (forwardedIpsStr != null) {
+        String allForwardedIpsStr = StringUtils.join(forwardedIpsStr, ", ");
+        List<String> allForwardedIps = Arrays.asList(allForwardedIpsStr.split(", "));
+        return getLastIpIgnoringOwn(allForwardedIps);
+      }
+    }
+    return null;
+  }
+
+  private String getLastIpIgnoringOwn(List<String> forwardedIps) {
+    String lastIp = null;
+    for (String ip : forwardedIps) {
+      if (ownIps.contains(ip)) {
+        // If proxy.php runs on this machine, our own IP will be listed. We want to ignore that
+        // because otherwise all requests would seem to be coming from the same address (our own),
+        // making the request limiter a bit useless: other users could send tons of requests and
+        // stop the service for everybody else.
+        continue;
+      }
+      lastIp = ip;  // use last in the list, we assume we can trust our own proxy (other items can be faked)
+    }
+    return lastIp;
   }
 
   private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
