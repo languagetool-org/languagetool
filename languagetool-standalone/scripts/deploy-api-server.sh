@@ -25,7 +25,7 @@ echo ""
 sleep 1
 
 cd ../.. &&
-  mvn clean package -DskipTests &&
+  mvn --projects languagetool-standalone --also-make clean package -DskipTests &&
   cd languagetool-standalone &&
   scp target/LanguageTool-[1-9].[0-9]*.zip languagetool@languagetool.org: &&
   ssh languagetool@languagetool.org "unzip -d /home/languagetool/api ~/LanguageTool-[1-9].[0-9]*.zip && cp -r /home/languagetool/api/LanguageTool-[1-9].[0-9]*/* /home/languagetool/api/ && rm -rf /home/languagetool/api/LanguageTool-[1-9].[0-9]*/ && cd /home/languagetool/ && ./restart-api-server.sh && rm ~/LanguageTool-[1-9].[0-9]*.zip"
