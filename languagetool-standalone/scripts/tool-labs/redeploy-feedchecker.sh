@@ -21,8 +21,12 @@ cd ~/feedchecker && \
   unzip LanguageTool-wikipedia-$DOWNLOAD_DATE-snapshot.zip && \
   rm LanguageTool-wikipedia-$DOWNLOAD_DATE-snapshot.zip && \
   mv LanguageTool-wikipedia-*-SNAPSHOT LanguageTool-wikipedia && \
+  echo "Currently running jobs:" && \
+  qstat && \
   echo "Stopping all command line feed checker apps..." && \
   ./stop-all.sh && \
-  echo "Sleeping 30 seconds to wait for shutdown..." && \
-  sleep 30 && \
+  echo "Sleeping 60 seconds to wait for shutdown..." && \
+  sleep 60 && \
   ./start-all.sh
+qstat
+echo "Done."
