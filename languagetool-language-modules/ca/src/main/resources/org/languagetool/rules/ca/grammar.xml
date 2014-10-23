@@ -6352,7 +6352,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -23866,22 +23866,38 @@ $Id$
             <example type="incorrect" correction="probable">És molt <marker>provable</marker>.</example>
             <example type="correct">No és probable</example>
         </rule>
-        <rule id="CAMERA_CAMBRA" name="*càmera/cambra de diputats">
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="1">càmera</token>
-                </marker>
-                <token inflected="yes" regexp="yes">legislatiu|representatiu|diputat|representant|insonoritzar|anecoic</token>
-            </pattern>
-            <message>Paraula incorrecta en aquest context.</message>
-            <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
-            <short>Mot fora de context</short>
-            <example type="incorrect" correction="Cambra"><marker>Càmera</marker> legislativa.</example>
-            <example type="incorrect" correction="Cambres"><marker>Càmeres</marker> representatives.</example>
-            <example type="incorrect" correction="Cambres"><marker>Càmeres</marker> insonoritzades.</example>
-            <example type="incorrect" correction="Cambra"><marker>Càmera</marker> anecoica.</example>
-            <example type="correct">A la cambra de representants.</example>
-        </rule>
+        <rulegroup id="CAMERA_CAMBRA" name="*càmera/cambra de diputats">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="1">càmera</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">legislatiu|representatiu|diputat|representant|insonoritzar|anecoic</token>
+                </pattern>
+                <message>Paraula incorrecta en aquest context.</message>
+                <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
+                <short>Mot fora de context</short>
+                <example type="incorrect" correction="Cambra"><marker>Càmera</marker> legislativa.</example>
+                <example type="incorrect" correction="Cambres"><marker>Càmeres</marker> representatives.</example>
+                <example type="incorrect" correction="Cambres"><marker>Càmeres</marker> insonoritzades.</example>
+                <example type="incorrect" correction="Cambra"><marker>Càmera</marker> anecoica.</example>
+                <example type="correct">A la cambra de representants.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">música|obra|pintor</token>
+                    <token>de</token>
+                    <marker>
+                        <token inflected="yes">càmera</token>
+                    </marker>
+                </pattern>
+                <message>Paraula incorrecta en aquest context.</message>
+                <suggestion><match no="3" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">cambra</match></suggestion>
+                <short>Mot fora de context</short>
+                <example type="incorrect" correction="cambra">Toca obres de <marker>càmera</marker>.</example>
+                <example type="correct">Toca música de cambra.</example>
+            </rule>
+        </rulegroup>
         <rule id="COLINA" name="colina/turó">
             <pattern>
                 <token inflected="yes">colina</token>
