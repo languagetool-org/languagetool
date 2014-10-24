@@ -33,6 +33,7 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -45,6 +46,9 @@ import java.util.*;
 public class CaseRule extends GermanRule {
 
   private final GermanTagger tagger;
+
+  private static final Pattern NUMERALS_EN =
+          Pattern.compile("[a-z]|[0-9]+|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
 
   // wenn hinter diesen Wörtern ein Verb steht, ist es wohl ein substantiviertes Verb,
   // muss also groß geschrieben werden:
@@ -587,6 +591,7 @@ public class CaseRule extends GermanRule {
         !GermanHelper.hasReadingOfType(analyzedToken, POSType.PROPER_NOUN) &&
         !analyzedToken.isSentenceEnd() &&
         !isEllipsis(i, tokens) &&
+        !isNumbering(i, tokens) &&
         !isNominalization(i, tokens) &&
         !isAdverbAndNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
@@ -600,6 +605,13 @@ public class CaseRule extends GermanRule {
       ruleMatch.setSuggestedReplacement(fixedWord);
       ruleMatches.add(ruleMatch);
     }
+  }
+
+  // e.g. "a) bla bla"
+  private boolean isNumbering(int i, AnalyzedTokenReadings[] tokens) {
+    return i >= 2
+            && (tokens[i-1].getToken().equals(")") || (tokens[i-1].getToken().equals("]")))
+            && NUMERALS_EN.matcher(tokens[i-2].getToken()).matches();
   }
 
   private boolean isEllipsis(int i, AnalyzedTokenReadings[] tokens) {
