@@ -8027,11 +8027,18 @@ $Id$
     </category>
     <category name="Z) Confusions" type="grammar">
         <rule id="POR_PER" name="format *por/per">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">fer|passar|causar|sofrir</token>
+                    <token>por</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <token postag="V.P.*" postag_regexp="yes"></token>
                 <marker>
                     <token>por</token>
                 </marker>
+                <token postag="_GN.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>per</suggestion>?</message>
             <example type="incorrect">Conformat <marker>por</marker> un parterre.</example>
