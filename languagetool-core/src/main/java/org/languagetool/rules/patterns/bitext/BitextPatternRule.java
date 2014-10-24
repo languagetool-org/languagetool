@@ -70,6 +70,7 @@ public class BitextPatternRule extends BitextRule {
 
   /**
    * This method always returns an empty array.
+   * Use {@link #match(org.languagetool.AnalyzedSentence, org.languagetool.AnalyzedSentence)} instead.
    */
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
