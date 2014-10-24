@@ -8029,7 +8029,8 @@ $Id$
         <rule id="POR_PER" name="format *por/per">
             <antipattern>
                 <marker>
-                    <token inflected="yes" regexp="yes">fer|passar|causar|sofrir</token>
+                    <token inflected="yes" skip="1">haver</token>
+                    <token postag="_GV_" regexp="yes">tingut|fet|passat|causat|sofrit|sofert|patit</token>
                     <token>por</token>
                 </marker>
             </antipattern>
@@ -8038,11 +8039,14 @@ $Id$
                 <marker>
                     <token>por</token>
                 </marker>
-                <token postag="_GN.*|D.*|NP.*" postag_regexp="yes"/>
             </pattern>
             <message>¿Volíeu dir <suggestion>per</suggestion>?</message>
             <example type="incorrect">Conformat <marker>por</marker> un parterre.</example>
-            <example type="correct">Conformat per un parterre.</example>
+            <example type="incorrect">Les fetes <marker>por</marker> J. A. Martínez.</example>
+            <example type="incorrect">Fou causat <marker>por</marker> les pluges.</example>
+            <example type="correct">Ha causat por entre la població.</example>
+            <example type="correct">M'ha fet por la seva veu.</example>
+            <example type="correct">Havia tingut por que no arribés un llop</example>
         </rule>
         <rule id="RECONDIT" name="recondit/recòndit">
             <pattern>
