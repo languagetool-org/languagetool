@@ -707,6 +707,18 @@ $Id$
          <example type="correct">встигаємо надолужити прогаяне</example>
        </rule>
 
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">знущатися|знущання</token>
+            <marker>
+            <token>над</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>з (кого/чого)</suggestion></message>
+         <example type="incorrect">вона знущалася <marker>над</marker> ним</example>
+         <example type="correct">вона знущалася з нього</example>
+       </rule>
+
 
        <!-- прикметники -->
 
@@ -1855,7 +1867,7 @@ $Id$
               <feature id="number"/>
               <feature id="case"/>
 
-              <token postag_regexp="yes" postag="adj:[fp]:v_dav.*"/>
+              <token postag_regexp="yes" postag="adj.*:[fp]:v_dav.*"/>
               <token postag_regexp="yes" postag="noun:[fp]:v_dav.*" inflected="yes">причина</token>
             </unify>
          </pattern>
@@ -1866,7 +1878,7 @@ $Id$
                             </message>
 -->
          <message>Правильно: <suggestion>через [<match no="2"/>] <match no="3" postag_regexp="yes" postag="(noun:[fp]):v_dav(.*)" postag_replace="$1:v_zna$2"
-                            /></suggestion>, <suggestion>з <match no="2" postag_regexp="yes" postag="(adj:[fp]):v_dav(.*)" postag_replace="$1:v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun:[fp]):v_dav(.*)" postag_replace="$1:v_rod$2"
+                            /></suggestion>, <suggestion>з <match no="2" postag_regexp="yes" postag="(adj.*:[fp]):v_dav(.*)" postag_replace="$1:v_rod$2"/> <match no="3" postag_regexp="yes" postag="(noun:[fp]):v_dav(.*)" postag_replace="$1:v_rod$2"
                             /></suggestion>
                             </message>
          <example type="incorrect"><marker>по технічним причинам</marker></example>
@@ -2268,11 +2280,14 @@ $Id$
        <rule>
          <pattern>
               <token>по</token>
-              <token postag_regexp="yes" postag="adj:.:v_dav.*" />
+              <token postag_regexp="yes" postag="adj.*:v_dav.*" />
               <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">пошта|телефон|інтернет</token>
          </pattern>
-         <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj:.):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="3" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
+         <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj.*):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="3" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
          <example type="incorrect" correction="електронною поштою">надсилати <marker>по електронній пошті</marker></example>
+         <!--
+         <example type="incorrect" correction="фіксованим телефоном"><marker>по фіксованому телефону</marker></example>
+         -->
          <example type="correct">електронною поштою</example>
        </rule>
 
@@ -2294,11 +2309,11 @@ $Id$
               <token regexp="yes" inflected="yes">йти|гуляти|бігти|бігати|їхати|рухатися</token>
               <marker>
               <token>по</token>
-              <token postag_regexp="yes" postag="adj:.:v_dav.*" />
+              <token postag_regexp="yes" postag="adj.*:v_dav.*" />
               <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">вулиця|дорога|шлях|берег|місто</token>
               </marker>
          </pattern>
-         <message>Краще: <suggestion><match no="3" postag_regexp="yes" postag="(adj:.):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="4" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
+         <message>Краще: <suggestion><match no="3" postag_regexp="yes" postag="(adj.*):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="4" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
          <example type="incorrect" correction="широкою вулицею">бігти <marker>по широкій вулиці</marker></example>
          <example type="incorrect" correction="гарним містом">гуляти <marker>по гарному місту</marker></example>
          <example type="correct">бігти широкою вулицею</example>
@@ -2367,11 +2382,11 @@ $Id$
               <token inflected="yes">план</token>
               <marker>
               <token>по</token>
-              <token postag_regexp="yes" postag="adj:.:v_mis.*"/>
+              <token postag_regexp="yes" postag="adj.*:v_mis.*"/>
               <token postag_regexp="yes" postag="noun.*v_mis.*"></token>
               </marker>
          </pattern>
-         <message>Правильно: <suggestion><match no="3" postag_regexp="yes" postag="(adj:.*):v_mis(.*)" postag_replace="$1:v_rod$2"/> <match no="4" postag_regexp="yes" postag="(^.*?:.):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion>, <suggestion>з <match no="3" postag_regexp="yes" postag="(adj:.):v_mis(.*)" postag_replace="$1:v_rod$2"/> <match no="4" postag_regexp="yes" postag="(^.*?:.):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+         <message>Правильно: <suggestion><match no="3" postag_regexp="yes" postag="(adj.*):v_mis(.*)" postag_replace="$1:v_rod$2"/> <match no="4" postag_regexp="yes" postag="(^.*?:.):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion>, <suggestion>з <match no="3" postag_regexp="yes" postag="(adj:.):v_mis(.*)" postag_replace="$1:v_rod$2"/> <match no="4" postag_regexp="yes" postag="(^.*?:.):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
          <example type="incorrect" correction="повної ліквідації|з повної ліквідації">план <marker>по повній ліквідації</marker></example>
          <example type="correct">план повної ліквідації</example>
        </rule>

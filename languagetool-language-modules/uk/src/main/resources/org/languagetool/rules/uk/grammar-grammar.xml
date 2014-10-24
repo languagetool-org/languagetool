@@ -36,14 +36,13 @@ $Id$
 
         <rulegroup name="Узгодженість частин речення" id="CONSISTENCY_VERB">
             <rule>
+                <antipattern>
+                   <token regexp="yes">о?крім|замість|(за)?для|(за)?ради</token>
+                   <token postag_regexp="yes" postag="verb.*inf.*"/>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="prep.*">
                         <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
-                        <!-- TODO: лише для інфінитиву -->
-                        <exception>крім</exception>
-                        <exception>замість</exception>
-                        <exception>задля</exception>
-                        <exception>заради</exception>
                     </token>
                     <token postag_regexp="yes" postag="verb.*">
                         <exception negate_pos="yes" postag_regexp="yes" postag="verb.*" />
@@ -53,10 +52,18 @@ $Id$
                 <example type="correct">Їм треба їхати.</example>
                 <example type="correct">Їм треба в'їхати.</example>
                 <example type="correct">Просто взяти.</example>
+                <!-- TODO: case sensitivity in MultiWordChunker 
+                <example type="correct">Справедливості заради скажемо</example>
+                <example type="correct">Справедливості заради хочеться зауважити</example>
+                -->
                 <example type="correct">Просто неба.</example>
+                <example type="correct">Це більше задля годиться</example>
+                <example type="correct">задля годиться</example>
                 <example type="correct">не залишається нічого іншого, крім чекати.</example>
                 <example type="correct">Наїхали на Мела Гібсона</example>
+                <example type="correct">заради скажемо</example>
                 <example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
+                <example type="incorrect"><marker>для будь</marker> кого</example>
             </rule>
             <rule>
                 <pattern>
@@ -128,7 +135,7 @@ $Id$
                 <pattern>
                     <token inflected="yes" regexp="yes">навчати|навчити</token>
                   <marker>
-                    <token postag_regexp="yes" postag="adj:.*v_dav.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="adj.*v_dav.*" min="0" max="1"/>
                     <token postag_regexp="yes" postag="(noun|pronoun).*:v_dav.*">
                         <exception postag_regexp="yes" postag=".*:v_(naz|rod|zna|oru).*"/>
                     </token>
@@ -137,6 +144,7 @@ $Id$
                 <message>Навчати чого</message>
                 <example type="incorrect">навчати <marker>математиці</marker></example>
                 <example type="incorrect">навчати <marker>елементарній математиці</marker></example>
+                <example type="incorrect">навчали <marker>улюбленому заняттю</marker></example>
                 <example type="correct">навчати математики</example>
                 <example type="correct">навчати елементарної математики</example>
                 <example type="correct">навчати фаху</example>
@@ -147,7 +155,7 @@ $Id$
         <rulegroup name="Узгодженість числа іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC">
             <rule>
                 <pattern>
-                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/]</exception></token>
+                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/№]</exception></token>
                     <marker>
 <!--
                         <token postag_regexp="yes" postag="noun:m:.*">
@@ -259,7 +267,7 @@ $Id$
                     <token postag_regexp="yes" postag="(noun|pron).*v_zna.*"/>
                     <marker>
                     <token postag_regexp="yes" postag="impers.*"><exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано</exception></token>
-                    <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="1"/>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*">
                       <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;adv&gt;"/>
                       <exception>тим</exception>

@@ -17,7 +17,12 @@ CPATH=.libs/lucene-gosen-ipadic.jar:libs/ictclas4j.jar:libs/cjftransform.jar:lib
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"
 #RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,EUPHONY,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE"
 RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,EUPHONY,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1"
+RULES_TO_IGNORE_FOR_GROUPED="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1"
 #RULES_DONE="BILSHE_WITH_NUMERICS,COMMA_BEFORE_BUT,INSERTED_WORDS_NO_COMMA"
+
+if [ echo "$@" | grep -q "\--group-rules" ]; then
+  GROUP_RULES=1
+fi
 
 function run_lt() 
 {
@@ -30,13 +35,25 @@ function run_lt()
 #       grep -vE "Suggestion|Expected text|Working on" | sed -r "s/.*Rule ID:/#/g" | tr '\n' '@' | tr '#' '\n' | sort | sed -r "s/@@/@/g" | tr '@' '\n' > checked$ID.sorted.txt
 }
 
+function run_lt_grouped() 
+{
+  SRC="$1"
+  ID="$2"
+  java -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE_FOR_GROUPED,$RULES_TO_FIX,$RULES_DONE $SRC | \
+      grep -vE "Suggestion|Expected text|Working on" | sed -r "s/.*Rule ID:/#/g" | tr '\n' '@' | tr '#' '\n' | sort | sed -r "s/@@/@/g" | tr '@' '\n' > checked$ID.grouped.txt
+}
+
 function run_full_test()
 {
   SRC="$1"
   ID="$2"
 
-  run_lt $SRC $ID
-  diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
+  if [ "$GROUP_RULES" = "1" ]; then
+    run_lt_grouped $SRC $ID
+  else
+    run_lt $SRC $ID
+    diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
+  fi
   echo "Done [$ID]"
 }
 
