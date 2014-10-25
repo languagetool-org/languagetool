@@ -104,19 +104,18 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
   @Override
   protected int getMonth(String monthStr) {
     String mon = monthStr.toLowerCase();
-    if (mon.equals("genver"))    return 1;
-    if (mon.equals("c’hwevrer")) return 2;
-    if (mon.equals("meurzh"))    return 3;
-    if (mon.equals("ebrel"))     return 4;
-    if (mon.equals("mae"))       return 5;
-    if (mon.equals("mezheven"))  return 6;
-    if (mon.equals("gouere"))    return 7;
-    if (mon.equals("gouhere"))   return 7;
-    if (mon.equals("eost"))      return 8;
-    if (mon.equals("gwengolo"))  return 9;
-    if (mon.equals("here"))      return 10;
-    if (mon.equals("du"))        return 11;
-    if (mon.equals("kerzu"))     return 12;
+    if (mon.equals("genver"))                            return 1;
+    if (mon.equals("c’hwevrer"))                         return 2;
+    if (mon.equals("meurzh"))                            return 3;
+    if (mon.equals("ebrel"))                             return 4;
+    if (mon.equals("mae"))                               return 5;
+    if (mon.equals("mezheven") || mon.equals("even"))    return 6;
+    if (mon.equals("gouere")   || mon.equals("gouhere")) return 7;
+    if (mon.equals("eost"))                              return 8;
+    if (mon.equals("gwengolo"))                          return 9;
+    if (mon.equals("here"))                              return 10;
+    if (mon.equals("du"))                                return 11;
+    if (mon.equals("kerzu"))                             return 12;
     throw new RuntimeException("Could not find month '" + monthStr + "'");
   }
 }
