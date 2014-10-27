@@ -953,6 +953,34 @@ $Id$
       <example type="correct">Nunca contéis conmigo.</example>
     </rule>
 
+
+  <rule id="ID_HUBO_HUBIERON" name="Uso incorrecto del plural del verbo haber">
+      <antipattern>
+          <marker><token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber</token></marker>
+          <token postag_regexp="yes" postag="(L_)?RG|PP2CP00P|PP3[MF]P000"/>
+          <token postag_regexp="yes" postag="V.P.+"/>
+      </antipattern>
+      <antipattern>
+          <marker><token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber</token></marker>
+          <!-- TODO: correct next token when -mente adverbs are tagged -->
+          <token regexp="yes">de|.+mente</token>
+          <!-- TODO: activate next commented token when pronominal and reflexive forms are tagged -->
+          <!-- <token postag_regexp="yes" postag="V.N0000"/> -->
+      </antipattern>
+      <pattern>
+          <marker>
+              <token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber</token>
+          </marker>
+          <token regexp='yes'>.+<exception postag='V.P.+' postag_regexp='yes'/></token>
+      </pattern>
+      <message>Se conjuga el verbo Haber en plural para la tercera persona sólo si va seguido del participio de un verbo. <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion></message>
+      <short>Verbo haber en plural sin participio.</short>
+      <example type='incorrect'><marker>Hubieron</marker> varios disparos</example>
+      <example type='correct'>Hubo varios disparos</example>
+      <example type='correct'>Hubiera sido peor si no vienen.</example>
+      <example type='correct'>Ellos habían nacido para jugar.</example>
+  </rule>
+
     <!--PP_SE: te se -> se te-->
 
     <rule id="PP_SE" name="te se, me se">

@@ -103,7 +103,7 @@ Los códigos ~~tachados~~ están sin implementar en LanguageTool.
 |     |               | ---         |   0    |
 | 5   | Persona       | Primera     |   1    |
 |     |               | Segunda     |   2    |
-|     |               | ercera      |   3    |
+|     |               | Tercera     |   3    |
 | 6   | Número        | Singular    |   S    |
 |     |               | Plural      |   P    |
 | 7   | Género        | Masculino   |   M    |
