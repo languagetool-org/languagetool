@@ -11489,6 +11489,41 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <rulegroup id="JAEHRIG" name="x-jährig/Jährig">
+            <url>http://www.korrekturen.de/kurz_erklaert/schreibweise_von_ziffern_mit_-jaehrig_und_-jaehrige.shtml</url>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <!-- "250-jährige ununterbrochene Geschichte" -->
+                    <token regexp='yes'>\d+-jährige[srnm]?</token>
+                    <token regexp='yes'>[a-zöäü].+</token>
+                    <token regexp='yes'>[A-ZÖÄÜ].+</token>
+                </antipattern>
+                <pattern case_sensitive='yes'>
+                    <marker>
+                        <token regexp='yes'>\d+-jährige[srnm]?</token>
+                    </marker>
+                    <token regexp='yes'>[a-zöäü].+</token>
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="jähr" regexp_replace="Jähr"/></suggestion>?</message>
+                <example type='incorrect' correction="10-Jährige">Als <marker>10-jährige</marker> gewann sie den Vorlesewettbewerb.</example>
+                <example type='correct'>Als <marker>10-Jährige</marker> gewann sie den Vorlesewettbewerb.</example>
+                <example type='correct'>Sie blickt auf eine <marker>250-jährige</marker> ununterbrochene Geschichte zurück.</example>
+                <example type='correct'>Watt forderte jedoch ein <marker>14-jähriges</marker> Liefermonopol.</example>
+                <example type='correct'>Dort entdeckte Chaplin die <marker>19-jährige</marker> Edna Purviance.</example>
+                <example type='correct'>Sie feierte ihr <marker>800-jähriges</marker> Bestehen.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <marker>
+                        <token regexp='yes'>\d+-Jährige[srnm]?</token>
+                    </marker>
+                    <token regexp='yes'>[A-ZÖÄÜ].+</token> <!-- wir erkennen nicht alle Nomen, also so... -->
+                </pattern>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match="Jähr" regexp_replace="jähr"/></suggestion>?</message>
+                <example type='incorrect' correction="13-jährige">Das <marker>13-Jährige</marker> Mädchen gewann den Vorlesewettbewerb.</example>
+                <example type='correct'>Die Zeitschrift wurde zum <marker>25-jährigen</marker> Bestehen veröffentlicht.</example>
+            </rule>
+        </rulegroup>
         <rule id="HALBMAST" name="Groß-/Kleinschreibung: auf Halbmast (halbmast)">
             <pattern>
                 <token>auf</token>
