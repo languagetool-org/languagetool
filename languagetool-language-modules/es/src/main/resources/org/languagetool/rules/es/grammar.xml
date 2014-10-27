@@ -189,6 +189,9 @@ $Id$
  Atención: estas reglas pueden generar muchos falsos positivos.-->
 
     <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
+
+      <short>El pronombre personal lleva tilde.</short>
+
       <!-- TU_VERBO_P2 tu + verbo en 2a persona-->
 
       <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
@@ -201,8 +204,6 @@ $Id$
         </pattern>
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-
-        <short>El pronombre personal lleva tilde.</short>
 
         <example correction="tú" type="incorrect">Cuando <marker>tu</marker> vuelves, yo voy.</example>
 
@@ -220,8 +221,6 @@ $Id$
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
-
         <example correction="tú" type="incorrect">Esto queda entre <marker>tu</marker> y yo.</example>
 
         <example type="correct">Me alegra tu a la sazón victoria.</example>
@@ -237,8 +236,6 @@ $Id$
             </pattern>
 
             <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-
-            <short>El pronombre personal lleva tilde.</short>
 
             <example correction="él" type="incorrect">Esto queda entre <marker>el</marker> y yo.</example>
 
@@ -261,8 +258,6 @@ $Id$
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
-
         <example correction="tú" type="incorrect">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
 
         <example type="correct">Me alegra tu feliz vuelta al trabajo.</example>
@@ -280,8 +275,6 @@ $Id$
         </pattern>
 
         <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-
-        <short>El pronombre personal lleva tilde.</short>
 
         <example correction="él" type="incorrect">Cuando <marker>el</marker> llegó, yo me fui.</example>
 
@@ -301,8 +294,6 @@ $Id$
 
         <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
-
         <example correction="tú" type="incorrect">Tu hermana es como <marker>tu</marker>.</example>
 
         <example type="correct">¿Te puedes ocupar tú?</example>
@@ -321,51 +312,9 @@ $Id$
 
         <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
-
         <example correction="él" type="incorrect">Se encargará <marker>el</marker>.</example>
 
         <example type="correct">Esa caja es para él.</example>
-      </rule>
-
-      <!-- LO_SE lo sé-->
-
-      <rule id="LO_SE" name="lo se (sé)">
-        <pattern>
-          <token regexp="yes">l[oae]</token>
-
-          <marker>
-            <token>se</token>
-          </marker>
-        </pattern>
-
-        <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
-
-        <short>El presente de indicativo primera persona de «saber» lleva tilde.</short>
-
-        <example correction="sé" type="incorrect">Yo lo <marker>se</marker> desde hace tiempo</example>
-
-        <example type="correct">Si lo sé, no vengo.</example>
-      </rule>
-
-      <!-- SE_FINAL se al final de la oración simepre es verbo. -->
-
-      <rule id="SE_FINAL" name="se al final de la oración. (sé)">
-        <pattern>
-          <marker>
-            <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
-          </marker>
-
-          <token postag="SENT_END" regexp="yes">[.?!]</token>
-        </pattern>
-
-        <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
-
-        <short>El presente de indicativo primera persona de «saber» lleva tilde.</short>
-
-        <example correction="sé" type="incorrect">Hay quien programa, pero yo no <marker>se</marker>.</example>
-
-        <example type="correct">Hay que saber tocar y yo sé.</example>
       </rule>
 
       <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
@@ -381,12 +330,49 @@ $Id$
 
         <message>El pronombre personal <suggestion>mí</suggestion> lleva tilde.</message>
 
-        <short>El pronombre personal lleva tilde.</short>
-
         <example correction="mí" type="incorrect">Ella estaba cerca de <marker>mi</marker>.</example>
 
         <example type="correct">Ella estaba cerca de mí.</example>
       </rule>
+
+    </rulegroup>
+
+    <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
+        <!-- LO_SE lo sé-->
+        <short>El verbo lleva tilde.</short>
+        <rule id="LO_SE" name="lo se (sé)">
+            <pattern>
+                <token regexp="yes">l[oae]</token>
+
+                <marker>
+                    <token>se</token>
+                </marker>
+            </pattern>
+
+            <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
+
+            <example correction="sé" type="incorrect">Yo lo <marker>se</marker> desde hace tiempo</example>
+
+            <example type="correct">Si lo sé, no vengo.</example>
+        </rule>
+
+        <!-- SE_FINAL se al final de la oración simepre es verbo. -->
+
+        <rule id="SE_FINAL" name="se al final de la oración. (sé)">
+            <pattern>
+                <marker>
+                    <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
+                </marker>
+
+                <token postag="SENT_END" regexp="yes">[.?!]</token>
+            </pattern>
+
+            <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
+
+            <example correction="sé" type="incorrect">Hay quien programa, pero yo no <marker>se</marker>.</example>
+
+            <example type="correct">Hay que saber tocar y yo sé.</example>
+        </rule>
 
       <!-- DE_FINAL Dé al final de la oración-->
 
@@ -401,12 +387,15 @@ $Id$
 
         <message>El verbo <suggestion>dé</suggestion> (forma del verbo dar) lleva tilde.</message>
 
-        <short>El verbo lleva tilde.</short>
-
         <example correction="dé" type="incorrect">No es justo que sólo yo <marker>de</marker>.</example>
 
         <example type="correct">No es justo que sólo yo dé.</example>
       </rule>
+    </rulegroup>
+
+    <rulegroup id="SUSTANTIVO_TILDE" name="Verbos con o sin tilde">
+
+      <short>El sustantivo lleva tilde.</short>
 
       <!-- TE_N: sustantivo masculino-->
 
@@ -441,54 +430,55 @@ $Id$
 
         <message>El sustantivo <suggestion>té</suggestion> (bebida) lleva tilde.</message>
 
-        <short>El sustantivo lleva tilde.</short>
-
         <example correction="té" type="incorrect">Ella bebía <marker>te</marker>.</example>
 
         <example type="correct">Ella bebía té.</example>
       </rule>
-
-        <!-- SE_SABER_SER En la oración, se delante de ciertas palabras lleva tilde -->
-
-        <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling">
-            <antipattern>
-                <token>se</token>
-                <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"></token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>se</token>
-                </marker>
-                <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception><exception>hacia</exception></token>
-            </pattern>
-            <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
-            <short>sé lleva tilde delante de \2</short>
-            <example type="incorrect" correction="sé">Qué <marker>se</marker> yo.</example>
-            <example type="incorrect" correction="sé">Pero <marker>se</marker> quién fue.</example>
-            <example type="correct">Ella se fue.</example>
-            <example type="correct">Ella se lo dijo.</example>
-        </rule>
-
-        <rule id="SE_HACIA" name="Se + hacia es se hacía" type="misspelling">
-            <pattern>
-                <token regexp="yes">[sl]e|la</token>
-                <marker><token>hacia</token></marker>
-            </pattern>
-            <message>Quizá quiso poner<suggestion>hacía</suggestion></message>
-            <short>El pretérito imperfecto del verbo hacer es hacía</short>
-            <example type="incorrect" correction="hacía">Eso se <marker>hacia</marker> mal.</example>
-            <example type="incorrect" correction="hacía">Eso le <marker>hacia</marker> mal.</example>
-            <example type="incorrect" correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
-            <example type="correct">Depende de lo hacia abajo que apuntes.</example>
-        </rule>
-
     </rulegroup>
+    <!-- SE_SABER_SER En la oración, se delante de ciertas palabras lleva tilde -->
+
+    <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling">
+        <antipattern>
+            <token>se</token>
+            <token postag_regexp="yes" postag="(PP...0|V.[^NP]).+"></token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token>se</token>
+            </marker>
+            <token postag_regexp="yes" postag="(P....[^AD]|[DRS]|V.[NP]).+"><exception postag="SENT_END"></exception><exception>hacia</exception></token>
+        </pattern>
+        <message>Delante de un pronombre no dativo o acusativo, determinante, adverbio, preposición o forma verbal no personal; <suggestion>sé</suggestion> lleva tilde.</message>
+        <short>sé lleva tilde delante de \2</short>
+        <example type="incorrect" correction="sé">Qué <marker>se</marker> yo.</example>
+        <example type="incorrect" correction="sé">Pero <marker>se</marker> quién fue.</example>
+        <example type="correct">Ella se fue.</example>
+        <example type="correct">Ella se lo dijo.</example>
+    </rule>
+
+    <rule id="SE_HACIA" name="Se + hacia es se hacía" type="misspelling">
+        <pattern>
+            <token regexp="yes">[sl]e|la</token>
+            <marker><token>hacia</token></marker>
+        </pattern>
+        <message>Quizá quiso poner<suggestion>hacía</suggestion></message>
+        <short>El pretérito imperfecto del verbo hacer es hacía</short>
+        <example type="incorrect" correction="hacía">Eso se <marker>hacia</marker> mal.</example>
+        <example type="incorrect" correction="hacía">Eso le <marker>hacia</marker> mal.</example>
+        <example type="incorrect" correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
+        <example type="correct">Depende de lo hacia abajo que apuntes.</example>
+    </rule>
+
+
   </category>
 
   <category name="Ortografía (concepto)" type="grammar">
     <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
 
     <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
+
+      <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
+
       <!--HABER_QUE-->
 
       <rule>
@@ -499,8 +489,6 @@ $Id$
         </pattern>
 
         <message>Verifique que no quiso decir <suggestion>a ver qué</suggestion>.</message>
-
-        <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
 
         <example correction="a ver qué" type="incorrect">Mirad esto, <marker>haber que</marker> opináis.</example>
 
@@ -521,8 +509,6 @@ $Id$
         </pattern>
 
         <message>Verifique que no quiso decir <suggestion>a ver si</suggestion>.</message>
-
-        <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
 
         <example correction="A ver si" type="incorrect"><marker>Haber si</marker> puedes arreglar esto.</example>
 
@@ -661,6 +647,7 @@ $Id$
             <message>Expresión incorrecta.</message>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">surtir</match> efecto</suggestion>
             <url>http://castellanoactual.com/surtir-o-surgir-efecto/</url>
+            <short>Expresión incorrecta.</short>
             <example type="incorrect" correction="surtió efecto">No <marker>surgió efecto</marker>.</example>
             <example type="correct">No surtió efecto.</example>
         </rule>
@@ -708,7 +695,10 @@ $Id$
       Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
 
     <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos y dequeismos" type="grammar">
-      <!--INF_PP_QUE Queísmo: convenceros que -> convenceros de que -->
+
+      <short>Posible dequeísmo.</short>
+
+        <!--INF_PP_QUE Queísmo: convenceros que -> convenceros de que -->
 
       <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
         <pattern>
@@ -719,7 +709,6 @@ $Id$
 
         <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
         <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-        <short>Posible dequeísmo.</short>
 
         <example correction="alegrarse de que" type="incorrect">Está bien <marker>alegrarse que</marker> haya dinero para todos.</example>
 
@@ -779,7 +768,6 @@ $Id$
 
         <message>Posible dequeísmo: <suggestion>\1 \3</suggestion>.</message>
         <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-        <short>Posible dequeísmo.</short>
 
         <example correction="Pienso que" type="incorrect"><marker>Pienso de que</marker> estamos mejorando mucho.</example>
 
@@ -801,7 +789,6 @@ $Id$
 
         <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
         <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-        <short>Posible dequeísmo.</short>
 
         <example correction="Es fácil que" type="incorrect"><marker>Es fácil de que</marker> volvamos a encontrarnos</example>
 
@@ -823,7 +810,6 @@ $Id$
 
         <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
         <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-        <short>Posible dequeísmo.</short>
 
         <example correction="Me alegra que" type="incorrect"><marker>Me alegra de que</marker> volvamos a encontrarnos</example>
 
@@ -843,7 +829,6 @@ $Id$
 
         <message>Posible dequeísmo: <suggestion>\1 en \3</suggestion>.</message>
         <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-        <short>Posible dequeísmo.</short>
 
         <example correction="insistas en que" type="incorrect">No <marker>insistas de que</marker> vayamos al cine</example>
 
@@ -854,6 +839,9 @@ $Id$
     <!--DETRAS_PX http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm-->
 
     <rulegroup id="DETRAS_PX" name="Adverbio de posición + posesivo">
+
+      <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
+
       <!--1ª Singular: detrás mío.-->
 
       <rule>
@@ -865,7 +853,6 @@ $Id$
 
         <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">mí</match></suggestion>».</message>
         <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de mí" type="incorrect">Venían <marker>detrás mío</marker>.</example>
 
@@ -883,7 +870,6 @@ $Id$
 
         <message>La expresión correcta es «<suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">ti</match></suggestion>».</message>
         <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de ti" type="incorrect">Venían <marker>detrás tuyo</marker>.</example>
 
@@ -901,7 +887,6 @@ $Id$
 
         <message>La expresión correcta es «<suggestion>\1 de nosotros</suggestion>» o «<suggestion>\1 de nosotras</suggestion>».</message>
         <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de nosotros|detrás de nosotras" type="incorrect">Venían <marker>detrás nuestro</marker>.</example>
 
@@ -919,7 +904,6 @@ $Id$
 
         <message>La expresión correcta es «<suggestion>\1 de vosotros</suggestion>» o «<suggestion>\1 de vosotras</suggestion>».</message>
         <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de vosotros|detrás de vosotras" type="incorrect">Venían <marker>detrás vuestro</marker>.</example>
 
@@ -937,7 +921,6 @@ $Id$
 
         <message>La expresión correcta es «<suggestion>\1 de él</suggestion>» o «<suggestion>\1 de ella</suggestion>» o «<suggestion>\1 de ello</suggestion>» o «<suggestion>\1 de ellos</suggestion>» o «<suggestion>\1 de ellas</suggestion>» o «<suggestion>\1 de usted</suggestion>» o «<suggestion>\1 de ustedes</suggestion>».</message>
         <url>http://cvc.cervantes.es/alhabla/museo_horrores/museo_025.htm</url>
-        <short>Los posesivos nunca pueden acompañar a los adverbios.</short>
 
         <example correction="detrás de él|detrás de ella|detrás de ello|detrás de ellos|detrás de ellas|detrás de usted|detrás de ustedes" type="incorrect">Venían <marker>detrás suya</marker>.</example>
 
@@ -981,7 +964,7 @@ $Id$
 
       <message>El orden de las partículas debe invertirse: «<suggestion>\2 \1</suggestion>».</message>
 
-      <short>El pronombre reflexivo debe ir antes.</short>
+      <short>El pronombre reflexivo en 3a persona debe ir primero.</short>
 
       <example correction="se te" type="incorrect">¡Como te agarre, <marker>te se</marker> cae el pelo!</example>
 
@@ -991,6 +974,9 @@ $Id$
     <!--MAS_BUENO_MALO más + bueno/malo = mejor/peor-->
 
     <rulegroup id="MAS_BUENO_MALO" name="más + bueno/malo (mejor/peor)">
+
+      <short>Confusión con el comparativo.</short>
+
       <!--MAS_BUENA más buena = mejor-->
 
       <rule id="MAS_BUENA">
@@ -1001,8 +987,6 @@ $Id$
         </pattern>
 
         <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion></message>
-
-        <short>Confusión con el comparativo.</short>
 
         <example correction="mejor" type="incorrect">Este pan está <marker>más bueno</marker> que el otro</example>
 
@@ -1019,8 +1003,6 @@ $Id$
         </pattern>
 
         <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion></message>
-
-        <short>Confusión con el comparativo.</short>
 
         <example correction="peor" type="incorrect">Este pan está <marker>más malo</marker> que el otro</example>
 
@@ -1100,6 +1082,8 @@ $Id$
           TODO: Simplificar con desambiguación.
           TODO: sugerencias múltiples-->
 
+      <short>Concordancia de número dudosa.</short>
+
       <!-- DET_NOM_SING Concordancia (el pavos) -->
 
       <rule id="DET_NOM_SING" name="Concordancia singular en Determinante + nombre">
@@ -1110,8 +1094,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
-
-        <short>Concordancia de número dudosa.</short>
 
         <example type="incorrect">Acércame <marker>la sillas</marker>, por favor.</example>
 
@@ -1129,8 +1111,6 @@ $Id$
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
-
         <example type="incorrect">Ha vuelto <marker>del parques</marker> pronto.</example>
 
         <example type="correct">Ha vuelto del parque pronto.</example>
@@ -1146,8 +1126,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
-
-        <short>Concordancia de número dudosa.</short>
 
         <example type="incorrect">Ordenamos <marker>las silla</marker> por colores.</example>
 
@@ -1169,8 +1147,6 @@ $Id$
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
-
         <example type="incorrect">Hay <marker>silla rojas</marker> en esa tienda.</example>
 
         <example type="correct">Hay sillas verdes en esa tienda.</example>
@@ -1191,8 +1167,6 @@ $Id$
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa.</short>
-
         <example type="incorrect">Pintaremos las <marker>sillas verde</marker> de otro color.</example>
 
         <example type="correct">Pintaremos las sillas verdes de otro color.</example>
@@ -1211,29 +1185,9 @@ $Id$
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de número dudosa</short>
-
         <example type="incorrect">Las <marker>casa</marker> de la colina.</example>
 
         <example type="correct">Las casas de la colina.</example>
-      </rule>
-
-      <!-- EL_AGRAVANTE Concordancia (este atenuante) -->
-
-      <!-- Esta regla solapaba a EL_NOM_MASC en algunos casos y se añade una excepción para evitarlo -->
-
-      <rule id="EL_AGRAVANTE" name="El agravante y el atenuante">
-        <pattern>
-          <token postag="D..M.." postag_regexp="yes"/>
-
-          <token inflected="yes" regexp="yes">a(grav|tenu)ante</token>
-        </pattern>
-
-        <message>En Derecho, «\2» tiene tratamiento femenino, ya que se omite la palabra «circunstancia».<suggestion><match no="1" postag="(D..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/></suggestion></message>
-
-        <example correction="la" type="incorrect">Se hizo con <marker>el agravante</marker> de nocturnidad.</example>
-
-        <example correction="la" type="incorrect">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
       </rule>
     </rulegroup>
 
@@ -1252,6 +1206,7 @@ $Id$
          TODO: Realizar sugerencias múltiples.
             -->
 
+      <short>Concordancia de género dudosa.</short>
       <!-- DET_NOM_FEM Concordancia (la pavo) -->
 
       <rule id="DET_NOM_FEM" name="Concordancia femenino en Determinante + nombre">
@@ -1262,8 +1217,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
-
-        <short>Concordancia de género dudosa.</short>
 
         <example type="incorrect">Me gusta <marker>esa teléfono</marker> para ti.</example>
 
@@ -1301,8 +1254,6 @@ $Id$
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <short>Concordancia de género dudosa.</short>
-
         <example type="incorrect">Me gusta <marker>ese silla</marker> que hay ahí.</example>
 
         <example type="correct">Me gusta esa silla que hay ahí.</example>
@@ -1321,8 +1272,6 @@ $Id$
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
 
-        <short>Concordancia de género dudosa.</short>
-
         <example type="incorrect">Me gusta <marker>el silla</marker> que hay ahí.</example>
 
         <example type="correct">Me gusta esa silla que hay ahí.</example>
@@ -1338,8 +1287,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
-
-        <short>Concordancia de género dudosa.</short>
 
         <example type="incorrect"><marker>Del silla</marker></example>
 
@@ -1363,8 +1310,6 @@ $Id$
 
         <message>Posible falta de concordancia de género entre «\2» y «\3».</message>
 
-        <short>Concordancia de género dudosa.</short>
-
         <example type="incorrect">La <marker>silla feo</marker> está al fondo.</example>
 
         <example type="correct">La silla roja está al fondo</example>
@@ -1384,8 +1329,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
-
-        <short>Concordancia de género dudosa.</short>
 
         <example type="incorrect">El <marker>sillón roja</marker> está al fondo.</example>
 
@@ -1439,6 +1382,24 @@ $Id$
 
         <example type="correct">Cada una de las damas está ocupada.</example>
       </rule>
+
+      <!-- EL_AGRAVANTE Concordancia (este atenuante) -->
+
+      <!-- Esta regla solapaba a EL_NOM_MASC en algunos casos y se añade una excepción para evitarlo -->
+
+      <rule id="EL_AGRAVANTE" name="El agravante y el atenuante">
+          <pattern>
+              <token postag="D..M.." postag_regexp="yes"/>
+
+              <token inflected="yes" regexp="yes">a(grav|tenu)ante</token>
+          </pattern>
+
+          <message>En Derecho, «\2» tiene tratamiento femenino, ya que se omite la palabra «circunstancia».<suggestion><match no="1" postag="(D..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/></suggestion></message>
+
+          <example correction="la" type="incorrect">Se hizo con <marker>el agravante</marker> de nocturnidad.</example>
+
+          <example correction="la" type="incorrect">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
+      </rule>
     </rulegroup>
 
     <!--Concordancias con verbos-->
@@ -1450,6 +1411,7 @@ $Id$
          TODO: Simplificar con desambiguación
          TODO: Ofrecer sugerencias múltiples-->
 
+      <short>Concordancia de persona dudosa.</short>
       <!-- PP_V_1 Concordancia (yo entregas)-->
 
       <rule id="PP_V_1" name="Concordancia 1ª persona">
@@ -1460,8 +1422,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
-
-        <short>Concordancia de persona dudosa.</short>
 
         <example type="incorrect"><marker>Yo vienes</marker></example>
 
@@ -1479,8 +1439,6 @@ $Id$
 
         <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
 
-        <short>Concordancia de persona dudosa.</short>
-
         <example type="incorrect"><marker>Tú vengo</marker></example>
 
         <example type="correct">Tú vienes</example>
@@ -1496,8 +1454,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
-
-        <short>Concordancia de persona dudosa.</short>
 
         <example type="incorrect"><marker>Él vengo</marker></example>
 
@@ -1517,8 +1473,6 @@ $Id$
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
 
-        <short>Concordancia de persona dudosa.</short>
-
         <example type="incorrect"><marker>Yo venimos</marker></example>
 
         <example type="correct">Yo vengo</example>
@@ -1536,8 +1490,6 @@ $Id$
         </pattern>
 
         <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
-
-        <short>Concordancia de número dudosa.</short>
 
         <example type="incorrect">sólo <marker>ellos vuela</marker> por el cielo</example>
 
@@ -1654,6 +1606,9 @@ $Id$
     <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&lema=g%E9nero2#22)-->
 
     <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas">
+
+      <short>Redundancia. El neutro es suficiente.</short>
+
       <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
 
       <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
@@ -1667,7 +1622,7 @@ $Id$
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
         <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
-        <short>Redundancia. El neutro es suficiente.</short>
+
 
         <example correction="todos" type="incorrect">Hemos llegado <marker>todas y todos</marker></example>
 
@@ -1687,7 +1642,6 @@ $Id$
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
         <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
-        <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="todos" type="incorrect">Hemos llegado <marker>todos y todas</marker></example>
 
@@ -1711,7 +1665,6 @@ $Id$
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
         <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
-        <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="los mozos" type="incorrect">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
 
@@ -1735,7 +1688,6 @@ $Id$
 
         <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"/> <match no="2"/></suggestion>.</message>
         <url>http://buscon.rae.es/dpdI/SrvltGUIBusDPD?origen=RAE&amp;lema=g%E9nero2#22</url>
-        <short>Redundancia. El neutro es suficiente.</short>
 
         <example correction="los mozos" type="incorrect">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
 
