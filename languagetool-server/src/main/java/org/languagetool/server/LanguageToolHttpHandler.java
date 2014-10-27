@@ -187,9 +187,11 @@ class LanguageToolHttpHandler implements HttpHandler {
       //noinspection CallToPrintStackTrace
       e.printStackTrace();
       String response;
-      if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
+      if (e instanceof TextTooLongException) {
+        response = e.getMessage();
+      } else if (e.getCause() != null && e.getCause() instanceof TimeoutException) {
         response = "Checking took longer than " + maxCheckTimeMillis/1000 + " seconds, which is this server's limit. " +
-                "Please make sure you have selected the proper language or consider submitting a shorter text.";
+                   "Please make sure you have selected the proper language or consider submitting a shorter text.";
       } else {
         response = Tools.getFullStackTrace(e);
       }
@@ -312,7 +314,8 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void checkText(final String text, final HttpExchange httpExchange, final Map<String, String> parameters) throws Exception {
     final long timeStart = System.currentTimeMillis();
     if (text.length() > maxTextLength) {
-      throw new IllegalArgumentException("Text is " + text.length() + " characters long, exceeding maximum length of " + maxTextLength);
+      throw new TextTooLongException("Your text is " + text.length() + " characters long, which longer " +
+              "than this server's limit of " + maxTextLength + " characters. Please consider submitting a shorter text.");
     }
     //print("Check start: " + text.length() + " chars, " + langParam);
     final boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
