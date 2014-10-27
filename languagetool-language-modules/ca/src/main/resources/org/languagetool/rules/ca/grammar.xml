@@ -23871,11 +23871,11 @@ $Id$
         <rule id="ESCOLTAR_DIR" name="escoltar/dir">
             <pattern>
                 <token inflected="yes">escoltar</token>
-                <token>dir</token>
+                <token regexp="yes">dir|parlar</token>
             </pattern>
             <message>Ús incorrecte.</message>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> dir</suggestion>
-            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a dir</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> \2</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a \2</suggestion>
             <example type="incorrect" correction="Sentia dir|Sentia a dir"><marker>Escoltava dir</marker> coses.</example>
             <example type="correct">Sentia a dir coses.</example>
         </rule>
