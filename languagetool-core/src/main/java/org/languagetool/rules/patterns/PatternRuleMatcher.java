@@ -269,8 +269,7 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
     int errMarker = errorMessage.indexOf('\\');
     boolean numberFollows = false;
     if (errMarker >= 0 && errMarker < errLen - 1) {
-      numberFollows = StringTools.isPositiveNumber(errorMessage
-          .charAt(errMarker + 1));
+      numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
     }
     while (errMarker >= 0 && numberFollows) {
       final int backslashPos = errorMessage.indexOf('\\');

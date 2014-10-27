@@ -45,8 +45,6 @@ import java.util.regex.Pattern;
  */
 public class CaseRule extends GermanRule {
 
-  private final GermanTagger tagger;
-
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|[0-9]+|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
 
@@ -467,6 +465,8 @@ public class CaseRule extends GermanRule {
     substVerbenExceptions.add("bekommen");
     substVerbenExceptions.add("sauer");
   }
+
+  private final GermanTagger tagger;
   
   public CaseRule(final ResourceBundle messages, final German german) {
     if (messages != null) {
