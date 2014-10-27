@@ -23798,6 +23798,35 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="SOVINTEJAR_FREQUENTAR" name="sovintejar/freqüentar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">sovintejar</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <or>
+                    <token inflected="yes" regexp="yes">personalitat|àrea|mar|platja|bar|club|lloc|plaça|carrer|restaurant|hotel|hostal|hospital|farmàcia|piscina|espectacle|banquet|festa|festí</token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
+                </or>
+            </pattern>
+            <message>Ús incorrecte</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">freqüentar</match></suggestion>
+            <example type="incorrect" correction="Freqüentava"><marker>Sovintejava</marker> bars de copes.</example>
+            <example type="incorrect" correction="Freqüentava"><marker>Sovintejava</marker> la farmàcia.</example>
+            <example type="incorrect" correction="Freqüentava"><marker>Sovintejava</marker> Sitges.</example>
+            <example type="correct">Freqüenta la platja.</example>
+        </rule>
+        <rule id="ESCOLTAR_DIR" name="escoltar/dir">
+            <pattern>
+                <token inflected="yes">escoltar</token>
+                <token>dir</token>
+            </pattern>
+            <message>Ús incorrecte.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> dir</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentir</match> a dir</suggestion>
+            <example type="incorrect" correction="Sentia dir|Sentia a dir"><marker>Escoltava dir</marker> coses.</example>
+            <example type="correct">Sentia a dir coses.</example>
+        </rule>
         <rule id="TOTA_VEGADA_QUE" name="tota vegada que">
             <pattern>
                 <token>tota</token>
