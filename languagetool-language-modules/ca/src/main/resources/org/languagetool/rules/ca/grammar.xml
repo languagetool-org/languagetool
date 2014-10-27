@@ -2288,6 +2288,26 @@ $Id$
                 <example type="incorrect" correction="estrateg">L'<marker>estratega</marker>.</example>
                 <example type="correct">Una gran estratega.</example>
             </rule>
+            <rule id="COMU_COMUNA" name="comú/comuna">
+                <pattern>
+                    <unify>
+                    <feature id="nombre"/>
+                        <token postag="NCF.*" postag_regexp="yes"/>
+                        <unify-ignore>
+                            <token regexp="yes">més|molt|tan</token>
+                        </unify-ignore>
+                        <marker>
+                            <token postag="AQ.M[PS]." postag_regexp="yes" inflected="yes">comú</token>
+                        </marker>
+                    </unify>
+                </pattern>
+                <message>Error de concordança.</message>
+                <suggestion><match no="3" postag="AQ.M([PS])." postag_regexp="yes" postag_replace="AQ0F$10"/></suggestion>
+                <short>Majúscula incorrecta</short>
+                <example type="incorrect" correction="comuna">De la manera més <marker>comú</marker>.</example>
+                <example type="incorrect" correction="comunes">Són formes molt <marker>comuns</marker>.</example>
+                <example type="correct">La forma més comuna.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
@@ -17245,23 +17265,39 @@ $Id$
             <example type="incorrect" correction="Sud-est">Al <marker>Sud-Est</marker> asiàtic.</example>
             <example type="correct">Al sud-est</example>
         </rule>
-        <rule id="MESOS_ANY" name="Exigeix mesos de l'any en minúscula en dates">
-            <pattern>
-                <token regexp="yes">\d{1,2}|des</token>
-                <token regexp="yes">de|d'</token>
-                <marker>
-                    <token regexp="yes">(?-i)Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
-                </marker>
-                <token regexp="yes">de|d'</token> 
-            </pattern>
-            <message>En les dates els mesos de l'any s'escriuen en minúsucula: <suggestion><match no="3" case_conversion="alllower" /></suggestion>.</message>
-            <short>Majúscula incorrecta</short>
-            <example type="incorrect" correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
-            <example type="incorrect" correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
-            <example type="correct" correction="febrer">Des de<marker>Febrer</marker> del 2012</example>
-            <example type="correct">Abril de 1965.</example>
-            <example type="correct">els fets del Sis d'Octubre del 1934</example>
-        </rule>
+        <rulegroup id="MESOS_ANY" name="Exigeix mesos de l'any en minúscula en dates">
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,2}|des</token>
+                    <token regexp="yes">de|d'</token>
+                    <marker>
+                        <token regexp="yes">(?-i)Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token> 
+                </pattern>
+                <message>En les dates els mesos de l'any s'escriuen en minúsucula: <suggestion><match no="3" case_conversion="alllower" /></suggestion>.</message>
+                <short>Majúscula incorrecta</short>
+                <example type="incorrect" correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
+                <example type="incorrect" correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
+                <example type="correct" correction="febrer">Des de<marker>Febrer</marker> del 2012</example>
+                <example type="correct">Abril de 1965.</example>
+                <example type="correct">els fets del Sis d'Octubre del 1934</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">per</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">(?-i)Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
+                    </marker>
+                </pattern>
+                <message>En les dates els mesos de l'any s'escriuen en minúsucula: <suggestion><match no="3" case_conversion="alllower" /></suggestion>.</message>
+                <short>Majúscula incorrecta</short>
+                <example type="incorrect" correction="juliol">Pel <marker>Juliol</marker> de 1985.</example>
+                <example type="incorrect" correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
+                <example type="correct">Pel juliol.</example>
+            </rule>
+        </rulegroup>
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
             <pattern>
                 <marker>
