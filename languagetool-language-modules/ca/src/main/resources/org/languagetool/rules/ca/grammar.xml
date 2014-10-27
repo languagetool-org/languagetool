@@ -8046,6 +8046,33 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rulegroup id="DEUS" name="deus/déus/deu">
+            <rule>
+                <pattern>
+                    <token postag="D..MP.|PP3CP000" postag_regexp="yes"/>
+                    <marker>
+                        <token>deus</token>
+                    </marker>
+                    <token postag="N.[CM][PN].*|AQ.[CM][PN]." postag_regexp="yes"><exception>diners</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>déus</suggestion> (= éssers divins) o <suggestion>deu</suggestion> (= numeral)?</message>
+                <example type="incorrect">els <marker>deus</marker> manaments.</example>
+                <example type="incorrect">els <marker>deus</marker> grecs.</example>
+                <example type="correct">¿Els deus diners?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00"/>
+                    <token postag="D..MP." postag_regexp="yes"/>
+                    <marker>
+                        <token>deus</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>déus</suggestion> (= éssers divins) o <suggestion>deu</suggestion> (= numeral)?</message>
+                <example type="incorrect">Amb els <marker>deus</marker>.</example>
+                <example type="correct">¿Els deus diners?</example>
+            </rule>
+        </rulegroup>
         <rule id="POR_PER" name="format *por/per">
             <antipattern>
                 <marker>
