@@ -11,8 +11,12 @@ then
   exit
 fi
 
-DOWNLOAD_DATE=`date +%Y%m%d`
-#DOWNLOAD_DATE=20141019
+if [ $# -eq 1 ]
+then
+  DOWNLOAD_DATE=$1
+else
+  DOWNLOAD_DATE=`date +%Y%m%d`
+fi
 
 cd ~/feedchecker && \
   wget https://languagetool.org/download/snapshots/LanguageTool-wikipedia-$DOWNLOAD_DATE-snapshot.zip && \
