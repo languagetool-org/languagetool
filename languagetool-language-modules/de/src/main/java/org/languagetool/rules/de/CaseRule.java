@@ -630,7 +630,8 @@ public class CaseRule extends GermanRule {
       // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
       AnalyzedTokenReadings prevPrevToken = i > 1 ? tokens[i-2] : null;
-      return (prevToken != null && "aufs".equals(prevToken.getToken())) || hasPartialTag(prevToken, "PRO") ||  // z.B. "etwas Verrücktes"
+      return (prevToken != null && ("irgendwas".equals(prevToken.getToken()) || "aufs".equals(prevToken.getToken()))) ||
+             hasPartialTag(prevToken, "PRO") ||  // z.B. "etwas Verrücktes"
              (hasPartialTag(prevPrevToken, "PRO") && hasPartialTag(prevToken, "ADJ", "ADV")); // z.B. "etwas schön Verrücktes"
     }
     return false;

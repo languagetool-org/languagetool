@@ -6610,6 +6610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>vorbei</token>
                     <token postag_regexp="yes" postag="VER:.*">
                         <exception inflected="yes" regexp="yes">sein|abfälschen|führen|einen|werden</exception>
+                        <exception regexp="yes">verläuft|verlief</exception>
                     </token>
                 </marker>
             </pattern>
@@ -6619,6 +6620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Die werden mal wieder aneinander <marker>vorbeireden</marker>.</example>
             <example type="correct">Und erst als der Zug <marker>vorbei war</marker>, kamen wir am Bahnhof an.</example>
             <example type="correct">An der Yenidze <marker>vorbei führt</marker> die Bahnstrecke zwischen Hauptbahnhof und Zentrum.</example>
+            <example type="correct">Am Ort <marker>vorbei verlief</marker> die Spree.</example>
         </rule>
         <rule id="ZU_MAL" name="Zusammen-/Getrenntschreibung: zu mal (zumal)">
             <pattern>
@@ -8199,9 +8201,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/sprachwissen/sprachratgeber/infinitiv-mit-zu</url>
             <!-- Siehe auch die Regel ZU_ZUMUTEN. -->
             <antipattern>
+                <token skip="2" regexp="yes">liegt|liegen|lag</token>
                 <token>nahe</token>
                 <token>zu</token>
-                <token>kündigen</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="2">hören</token>
@@ -8209,7 +8211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>zu</token>
             </antipattern>
             <antipattern>
-                <token skip="2">hör</token>
+                <token skip="3" regexp="yes">hör|hören|hört</token>
                 <token>auf</token>
                 <token>zu</token>
             </antipattern>
@@ -8221,13 +8223,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>aus</token>
                 <token>zu</token>
-                <token regexp="yes">besichtigen|evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen</token>
+                <token regexp="yes">besichtigen|evakuieren|messen|steuern|kontrollieren|verstehen|sehen|tätigen|installieren|beschießen|schaffen|verfolgen|erobern|organisieren|beobachten|erkennen|erblicken|buchen|erwerben|betreten</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2" regexp="yes">von|vom</token>
+                <token regexp="yes">aus|auf</token>
+                <token>zu</token>
+                <token postag=".*VER:.*INF.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <!-- 'gibt es nach wie vor zu kaufen' -->
                 <token>vor</token>
                 <token>zu</token>
                 <token regexp="yes">kaufen|tun|speisen|heiraten|bleiben|betrachten|beginnen|diskutieren</token>
+            </antipattern>
+            <antipattern>
+                <token>außen</token>
+                <token>vor</token>
+                <token>zu</token>
+                <token postag=".*VER:.*INF.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>zugunsten</token>
@@ -8242,16 +8256,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>über</token>
                 <token>zu</token>
-                <token>sehen</token>
+                <token regexp="yes">sehen|beobachten|finden</token>
             </antipattern>
             <antipattern>
                 <token>bei</token>
                 <token>zu</token>
-                <token>schnellen</token>
+                <token regexp="yes">schnellen|feuchten|langen|heißen</token>
+            </antipattern>
+            <antipattern>
+                <token>durch</token>
+                <token>zu</token>
+                <token regexp="yes">schnellen|feuchten|langen|heißen</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">fangen|fängt|fing</token>
+                <token>an</token>
+                <token>zu</token>
+                <token postag=".*VER:.*INF.*" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <pattern>
                     <token postag=".*PRP:.*" postag_regexp="yes">
+                        <exception>außerhalb</exception>
+                        <exception>aufgrund</exception>
                         <exception>abseits</exception>
                         <exception>beim</exception>
                         <exception>gegenüber</exception>
@@ -8276,6 +8303,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception>seitlich</exception>
                         <exception>wegen</exception>
                         <exception>für</exception>
+                        <exception>in</exception>
                     </token>
                     <token>zu</token>
                     <token postag=".*VER:.*INF.*" postag_regexp="yes"><exception regexp="yes">einigen|agieren|sieben|weiten|sein|unter.+en|ermöglichen|berichten|beeinflussen|erreichen</exception></token>
@@ -8287,6 +8315,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="auszugeben">Ist es gut, Geld <marker>aus zu geben</marker>?</example>
                 <example type="incorrect" correction="unterzugehen">Ist es gut <marker>unter zu gehen</marker>?</example>
                 <example type="correct">Sie können versuchen, es von der CD <marker>aus zu installieren</marker></example>
+                <example type="correct">…um so Angriffe von Frankreich <marker>aus zu verhindern</marker>.</example>
+                <example type="correct">Dort lernt man, selbst einen Toaster von Grund auf zu bauen.</example>
+                <example type="correct">Dann hören die Tröpfchen irgendwann auf zu wachsen.</example>
             </rule>
             <!-- Now try to catch some errors our first rule missed, mostly because of the exceptions defined above -->
             <rule>
@@ -9458,7 +9489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="SUB:.+:NEU" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen</exception>
+                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -24990,7 +25021,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar|Promille</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Zoll|Bar|Promille|Barrel</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
@@ -25013,7 +25044,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille</exception>
+                            <exception regexp="yes">Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+" postag_regexp="yes"/></token>
