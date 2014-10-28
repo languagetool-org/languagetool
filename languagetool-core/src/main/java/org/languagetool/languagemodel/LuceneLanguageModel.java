@@ -21,7 +21,6 @@ package org.languagetool.languagemodel;
 import org.apache.lucene.index.*;
 import org.apache.lucene.search.*;
 import org.apache.lucene.store.FSDirectory;
-import org.apache.lucene.util.BytesRef;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,39 +82,7 @@ public class LuceneLanguageModel implements LanguageModel {
     return count;
   }
 
-  /**
-   * Get the context (left and right words) for the given word(s). This is slow,
-   * as it needs to scan the whole index.
-   * @deprecated this is for internal use only
-   */
-  public Map<String,Long> getContext(String... tokens) throws IOException {
-    Objects.requireNonNull(tokens);
-    LuceneSearcher luceneSearcher = getLuceneSearcher(3);
-    Fields fields = MultiFields.getFields(luceneSearcher.reader);
-    Terms terms = fields.terms("ngram");
-    TermsEnum iterator = terms.iterator(null);
-    Map<String,Long> result = new HashMap<>();
-    BytesRef byteRef;
-    int i = 0;
-    while ((byteRef = iterator.next()) != null) {
-      String term = new String(byteRef.bytes, byteRef.offset, byteRef.length);
-      for (String token : tokens) {
-        if (term.contains(" " + token + " ")) {
-          String[] split = term.split(" ");
-          if (split.length == 3) {
-            long count = getCount(split[0], split[1], split[2]);
-            result.put(term, count);
-          }
-        }
-      }
-      /*if (i++ > 1_000_000) { // comment in for faster testing with subsets of the data
-        break;
-      }*/
-    }
-    return result;
-  }
-
-  private LuceneSearcher getLuceneSearcher(int ngramSize) {
+  protected LuceneSearcher getLuceneSearcher(int ngramSize) {
     LuceneSearcher luceneSearcher = luceneSearcherMap.get(ngramSize);
     if (luceneSearcher == null) {
       throw new RuntimeException("No " + ngramSize + "grams directory found in " + topIndexDir);
@@ -154,7 +121,7 @@ public class LuceneLanguageModel implements LanguageModel {
     return indexes.toString();
   }
 
-  private class LuceneSearcher {
+  protected class LuceneSearcher {
     final FSDirectory directory;
     final IndexReader reader;
     final IndexSearcher searcher;
@@ -162,6 +129,9 @@ public class LuceneLanguageModel implements LanguageModel {
       this.directory = FSDirectory.open(indexDir);
       this.reader = DirectoryReader.open(directory);
       this.searcher = new IndexSearcher(reader);
+    }
+    public IndexReader getReader() {
+      return reader;
     }
   }
 }

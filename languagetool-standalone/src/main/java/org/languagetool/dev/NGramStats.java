@@ -18,8 +18,6 @@
  */
 package org.languagetool.dev;
 
-import org.languagetool.languagemodel.LuceneLanguageModel;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
@@ -31,7 +29,7 @@ import java.util.*;
 class NGramStats {
 
   private void lookup(File dir, String phrase) throws IOException {
-    try (LuceneLanguageModel lm = new LuceneLanguageModel(dir)) {
+    try (HomophoneOccurrenceDumper lm = new HomophoneOccurrenceDumper(dir)) {
       String[] tokens = phrase.split(" ");
       if (tokens.length == 1) {
         String[] parts = phrase.split("\\|");
@@ -56,7 +54,9 @@ class NGramStats {
   private void showUsefulContexts(Map<String, Long> contexts, String[] similarWords) {
     List<PairRatio> ratios = getContexts(contexts, similarWords);
     Collections.sort(ratios);
-    printTopContexts(ratios);
+    for (String word : similarWords) {
+      printTopContexts(word, ratios);
+    }
   }
 
   private List<PairRatio> getContexts(Map<String, Long> contexts, String[] similarWords) {
@@ -86,11 +86,15 @@ class NGramStats {
     return ratios;
   }
 
-  private void printTopContexts(List<PairRatio> ratios) {
+  private void printTopContexts(String word, List<PairRatio> ratios) {
     int max = 500;
     int i = 0;
-    System.out.println("Top " + max + " contexts:");
+    System.out.println("================================================");
+    System.out.println("Top " + max + " contexts for '" + word + "':");
     for (PairRatio ratio : ratios) {
+      if (!ratio.term1.equals(word)) {
+        continue;
+      }
       System.out.printf(Locale.ENGLISH,"%dx advantage (%d/%d) for '%s' in: %s\n",
                         ratio.ratio, ratio.term1Count, ratio.term2Count, ratio.term1, ratio.ngram);
       if (++i >= max) {
