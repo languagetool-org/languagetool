@@ -218,6 +218,7 @@ public class VerbAgreementRule extends GermanRule {
       final int plus1 = ((posDu + 1) == tokens.length) ? 0 : +1;
       if (!verbDoesMatchPersonAndNumber(tokens[posDu-1], tokens[posDu+plus1], "2", "SIN") &&
           !tokens[posDu+plus1].hasPartialPosTag("VER:1:SIN:KJ2") && // "Wenn ich du wäre"
+          !tokens[posDu+plus1].hasPartialPosTag("ADJ:") && // "dass du  billige Klamotten..."
           !tokens[posDu-1].hasPartialPosTag("VER:1:SIN:KJ2")) {
         if (!nextButOneIsModal(tokens, posDu)) {
           ruleMatches.add(ruleMatchWrongVerbSubject(tokens[posDu], finiteVerb, "2:SIN"));
