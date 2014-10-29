@@ -1,10 +1,23 @@
 #/bin/sh
 
 export PATH=$PATH:~/bin
+DICT_ENCODING=cp1251
+#DICT_ENCODING=
 
 function encode() {
-    iconv -f utf-8 -t cp1251
-#    cat
+  if [ "$DICT_ENCODING" != "" ]; then
+    iconv -f utf-8 -t $DICT_ENCODING
+  else
+    cat
+  fi
+}
+
+function decode() {
+  if [ "$DICT_ENCODING" != "" ]; then
+    iconv -f $DICT_ENCODING
+  else
+    cat
+  fi
 }
 
 MFL_JAR_DIR="$HOME/work/ukr/spelling/grammar/morfologik-stemming/morfologik-tools/target"
@@ -25,7 +38,7 @@ echo -e "\nGenerating POS dictionary"
 
 grep -h "^[^#].*[a-z]" tagged.*.txt | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
 $MFL_CMD tab2morph -i all.tagged.tmp | \
-$MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict 2>&1 | iconv -f cp1251 -t utf-8
+$MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict 2>&1 | decode
 
 echo -e "\nGenerating synthesizer dictionary"
 

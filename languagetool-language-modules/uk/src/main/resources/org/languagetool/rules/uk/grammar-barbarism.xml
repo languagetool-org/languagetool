@@ -476,7 +476,7 @@ $Id$
            <marker>
             <token inflected="yes" regexp="yes">носити|носивши</token>
            </marker>
-            <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+            <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
             <token>характер</token>
          </pattern>
          <message>Правильно: <suggestion>мати</suggestion></message>
@@ -595,7 +595,7 @@ $Id$
         <rule>
          <pattern>
               <token inflected="yes" regexp="yes">нести|понести|понісший</token>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token regexp="yes">збитки|збитків|втрати|втрат</token>
          </pattern>
          <message>Правильно: <suggestion>зазнавати збитків</suggestion>, <suggestion>зазнавати втрат</suggestion>, <suggestion>мати збитки</suggestion>, <suggestion>мати втрати</suggestion>, <suggestion>утратити</suggestion></message>
@@ -608,7 +608,7 @@ $Id$
         <rule>
          <pattern>
               <token inflected="yes" regexp="yes">наносити|нанести|нанісший</token>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token regexp="yes">збитки|втрати</token>
          </pattern>
          <message>Правильно: <suggestion>завдавати збитків</suggestion>, <suggestion>завдавати втрат</suggestion>, <suggestion>утрати (збитки, шкоду) робити</suggestion>, <suggestion>призводити до збитків (втрат)</suggestion>, <suggestion>спричинювати збитки</suggestion></message>
@@ -619,7 +619,7 @@ $Id$
         <rule>
          <pattern>
               <token inflected="yes" regexp="yes">наносити|нанести|нанісший|нанесений</token>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>удар</token>
          </pattern>
          <message>Правильно: <suggestion>завдавати удар(у)</suggestion>, <suggestion>уражати</suggestion>, <suggestion>ударити</suggestion></message>
@@ -630,7 +630,7 @@ $Id$
         <rule>
          <pattern>
               <token inflected="yes" regexp="yes">прикладати|прикласти|прикладений|приклавший</token>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>зусилля</token>
          </pattern>
          <message>Правильно: <suggestion>докладати сили</suggestion>, <suggestion>докладати зусиль</suggestion></message>
@@ -643,7 +643,7 @@ $Id$
            <marker>
               <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
            </marker>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token regexp="yes">намет|палатку|шатро</token>
          </pattern>
          <message>Правильно: <suggestion>ставити</suggestion>, <suggestion>напинати</suggestion>, <suggestion>натягувати</suggestion></message>
@@ -654,7 +654,7 @@ $Id$
          <pattern>
            <marker>
               <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>табір</token>
            </marker>
          </pattern>
@@ -667,7 +667,7 @@ $Id$
            <marker>
               <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
            </marker>
-              <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+              <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>парк</token>
          </pattern>
          <message>Правильно: <suggestion>посадити</suggestion></message>
@@ -1867,7 +1867,7 @@ $Id$
               <feature id="number"/>
               <feature id="case"/>
 
-              <token postag_regexp="yes" postag="adj.*:[fp]:v_dav.*"/>
+              <token postag_regexp="yes" postag="(adj|pron).*:[fp]:v_dav.*"/>
               <token postag_regexp="yes" postag="noun:[fp]:v_dav.*" inflected="yes">причина</token>
             </unify>
          </pattern>
@@ -2309,13 +2309,14 @@ $Id$
               <token regexp="yes" inflected="yes">йти|гуляти|бігти|бігати|їхати|рухатися</token>
               <marker>
               <token>по</token>
-              <token postag_regexp="yes" postag="adj.*:v_dav.*" />
+              <token postag_regexp="yes" postag="(adj|pron).*:v_dav.*" />
               <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">вулиця|дорога|шлях|берег|місто</token>
               </marker>
          </pattern>
-         <message>Краще: <suggestion><match no="3" postag_regexp="yes" postag="(adj.*):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="4" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
+         <message>Краще: <suggestion><match no="3" postag_regexp="yes" postag="(.*):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="4" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
          <example type="incorrect" correction="широкою вулицею">бігти <marker>по широкій вулиці</marker></example>
          <example type="incorrect" correction="гарним містом">гуляти <marker>по гарному місту</marker></example>
+         <example type="incorrect" correction="цією дорогою">гуляти <marker>по цій дорозі</marker></example>
          <example type="correct">бігти широкою вулицею</example>
        </rule>
 

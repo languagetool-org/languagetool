@@ -117,7 +117,7 @@ $Id$
                 <pattern>
                     <token>згідно</token>
                     <marker>
-                    <token postag_regexp="yes" postag="(noun|adj|prep).*">
+                    <token postag_regexp="yes" postag="(noun|pron|adj|prep).*">
                         <exception regexp="yes">з|зі|із</exception>
                     </token>
                     </marker>
@@ -135,8 +135,8 @@ $Id$
                 <pattern>
                     <token inflected="yes" regexp="yes">навчати|навчити</token>
                   <marker>
-                    <token postag_regexp="yes" postag="adj.*v_dav.*" min="0" max="1"/>
-                    <token postag_regexp="yes" postag="(noun|pronoun).*:v_dav.*">
+                    <token postag_regexp="yes" postag="(adj|pron).*v_dav.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="(noun|pron).*:v_dav.*">
                         <exception postag_regexp="yes" postag=".*:v_(naz|rod|zna|oru).*"/>
                     </token>
                   </marker>
@@ -266,11 +266,13 @@ $Id$
                 <pattern>
                     <token postag_regexp="yes" postag="(noun|pron).*v_zna.*"/>
                     <marker>
-                    <token postag_regexp="yes" postag="impers.*"><exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано</exception></token>
-                    <token postag_regexp="yes" postag="adj.*v_oru.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="impers.*"><exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception></token>
+                    <token postag_regexp="yes" postag="(adj|pron).*v_oru.*" min="0" max="1">
+                      <exception regexp="yes">тим|таким</exception>
+                    </token>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*">
-                      <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;adv&gt;"/>
-                      <exception>тим</exception>
+                      <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;(adv|insert)&gt;"/>
+                      <exception regexp="yes">тим|таким</exception>
                     </token>
                     <!-- TODO: особа-діяч може бути не лише :ist
                     <token postag_regexp="yes" postag="(noun|pron).*v_oru.*"/>
@@ -285,6 +287,7 @@ $Id$
                 <example type="correct">церковні терміни використано тією мірою</example>
                 <example type="correct">це викликано тим</example>
                 <example type="correct">його обрано президентом</example>
+                <example type="correct">документ виписано таким чином</example>
                 <example type="incorrect">Справу <marker>порушено прокурором</marker></example>
                 <example type="incorrect">Справу <marker>порушено генеральним прокурором</marker></example>
                 <!-- TODO: див. вище
