@@ -11526,7 +11526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern case_sensitive="yes">
                     <!-- "250-jährige ununterbrochene Geschichte" -->
                     <token regexp='yes'>\d+-jährige[srnm]?</token>
-                    <token regexp='yes'>[a-zöäü].+</token>
+                    <token regexp='yes'>[a-zöäü].+<exception>im</exception></token>
                     <token regexp='yes'>[A-ZÖÄÜ].+</token>
                 </antipattern>
                 <pattern case_sensitive='yes'>
@@ -11537,6 +11537,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="jähr" regexp_replace="Jähr"/></suggestion>?</message>
                 <example type='incorrect' correction="10-Jährige">Als <marker>10-jährige</marker> gewann sie den Vorlesewettbewerb.</example>
+                <example type='incorrect' correction="17-Jährigen">Die Lage veranlasste den <marker>17-jährigen</marker> im Jahr 1869 auszuwandern.</example>
                 <example type='correct'>Als <marker>10-Jährige</marker> gewann sie den Vorlesewettbewerb.</example>
                 <example type='correct'>Sie blickt auf eine <marker>250-jährige</marker> ununterbrochene Geschichte zurück.</example>
                 <example type='correct'>Watt forderte jedoch ein <marker>14-jähriges</marker> Liefermonopol.</example>
