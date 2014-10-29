@@ -25,11 +25,9 @@ import java.util.List;
 /**
  * Create a Morfologik binary dictionary from plain text data.
  */
-final class POSDictionaryBuilder extends DictionaryBuilder {
-
-
+public final class POSDictionaryBuilder extends DictionaryBuilder {
   
-  POSDictionaryBuilder(File infoFile) throws IOException {
+  public POSDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
   }
 
@@ -44,7 +42,7 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
     }
   }
 
-  File build(File dictFile) throws Exception {
+  public File build(File dictFile) throws Exception {
     File tempFile = File.createTempFile(POSDictionaryBuilder.class.getSimpleName(), ".txt");
     try {
       List<String> tab2morphOptions = getTab2MorphOptions(dictFile, tempFile);
@@ -55,7 +53,4 @@ final class POSDictionaryBuilder extends DictionaryBuilder {
       tempFile.delete();
     }
   }
- 
-
-
 }
