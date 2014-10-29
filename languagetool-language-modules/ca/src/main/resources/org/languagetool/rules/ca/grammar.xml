@@ -4355,6 +4355,21 @@ $Id$
             <example type="correct">Estaven en marxa</example>           
             <example type="correct">Hi havia moltes coses en joc.</example>
         </rule>
+        <rule id="SER_ESTAR_LLUNY" name="*ser/estar lluny de pensar-ho">
+            <pattern>
+                <marker>
+                    <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
+                </marker>
+                <token>lluny</token>
+                <token regexp="yes">de|d'</token>
+                <token regexp="yes">ser|ésser|esser|haver|creure|pensar|fer|admetre|acceptar|opinar|dir</token>
+            </pattern>
+            <message>En sentit figurat, és preferible usar el verb 'estar'.</message>
+            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="V.$1">estar</match></suggestion>
+            <example type="incorrect" correction="Estan"><marker>Són</marker> lluny de creure-ho.</example>
+            <example type="incorrect" correction="Estaven"><marker>Eren</marker> lluny de ser-ho.</example>
+            <example type="correct">Sorry for my bad English.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="FALTA_CONDICIONAL" name="si hagués volgut, ho *hagués/hauria aconseguit">
         <rule>
