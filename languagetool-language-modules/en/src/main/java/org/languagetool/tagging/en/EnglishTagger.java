@@ -30,10 +30,15 @@ import org.languagetool.tagging.BaseTagger;
  * @author Marcin Milkowski
  */
 public class EnglishTagger extends BaseTagger {
-
+  private String fileName = "/en/english.dict";
+  
+  public void setFileName(String fileName) {
+      this.fileName = fileName;
+  }
+  
   @Override
   public final String getFileName() {
-    return "/en/english.dict";    
+    return this.fileName;    
   }
   
   public EnglishTagger() {
