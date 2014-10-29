@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.096 2014-09-04 22:14:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.097 2014-10-29 15:00:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1238,6 +1238,36 @@ $Id: grammar.xml,v 1.096 2014-09-04 22:14:00 marcoagpinto Exp $
       <message>Substituir «enquanto que» por <suggestion>enquanto</suggestion>.</message>
       <example type="incorrect">O Miguel estudava <marker>enquanto que</marker> os amigos brincavam.</example>
       <example type="correct">O Miguel estudava <marker>enquanto</marker> os amigos brincavam.</example>
+    </rule>
+
+
+
+    <!-- EQUIPE: NA/EM/NUMA/SUA/NOSSA/VOSSA/TUA EQUIPE -> equipa -->
+    <rule id="EQUIPE" name="equipa">
+      <pattern>
+        <token regexp="yes">na|em|numa|sua|nossa|vossa|tua</token>
+        <marker>
+        	<token>equipe</token>
+        </marker>
+      </pattern>
+      <message>Substituir «equipe» por <suggestion>equipa</suggestion>.</message>
+      <example type="incorrect">Devemos trabalhar em <marker>equipe</marker>.</example>
+      <example type="correct">Devemos trabalhar em <marker>equipa</marker>.</example>
+    </rule>
+
+
+
+    <!-- EQUIPES: NAS/EM/NUMAS/SUAS/NOSSAS/VOSSAS/TUAS EQUIPES -> equipas -->
+    <rule id="EQUIPEs" name="equipas">
+      <pattern>
+        <token regexp="yes">nas|em|numas|suas|nossas|vossas|tuas</token>
+        <marker>
+        	<token>equipes</token>
+        </marker>
+      </pattern>
+      <message>Substituir «equipes» por <suggestion>equipas</suggestion>.</message>
+      <example type="incorrect">As nossas <marker>equipes</marker> são boas.</example>
+      <example type="correct">As nossas <marker>equipas</marker> são boas.</example>
     </rule>
 
 
