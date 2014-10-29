@@ -80,8 +80,8 @@ class HomophoneOccurrenceDumper extends LuceneLanguageModel {
   }
 
   private void run(String homophonePath) throws IOException {
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     System.err.println("Loading homophones from " + homophonePath + ", minimum occurrence: " + MIN_COUNT);
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
     Map<String,ConfusionProbabilityRule.ConfusionSet> map = confusionSetLoader.loadConfusionSet(inputStream);
     Set<String> confusionTerms = map.keySet();
