@@ -17202,7 +17202,16 @@ $Id$
         </rule>
     </category>
     <category name="B) Opcions de tipografia">
-         <rule id="PUNTS_SUSPENSIUS" name="Exigeix el caràcter de punts suspensius" default="off">
+        <rule id="ESPAI_PERCENT" name="espai abans de tant per cent (%)">
+            <pattern>
+                <token regexp="yes">[\d.,]+%</token>
+            </pattern>
+            <message>Falta un espai.</message>
+            <suggestion><match no="1" regexp_match="(.+)%" regexp_replace="$1 %"/></suggestion> <!-- using "narrow no-break space" -->
+            <example type="incorrect" correction="23,5 %">Pagà un <marker>23,5%</marker>.</example>
+            <example type="correct">Pagà un 25 %.</example>
+        </rule>
+        <rule id="PUNTS_SUSPENSIUS" name="Exigeix el caràcter de punts suspensius" default="off">
             <pattern>
                 <token>.</token>
                 <token>.</token>
@@ -28039,7 +28048,7 @@ $Id$
                 <token inflected="yes">trobar</token>
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">situar|dividir</token>
             </pattern>
-            <message>És preferible usar el verb "estar".</message>
+            <message>Probablement val més usar el verb "estar".</message>
             <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estar</match> \3</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/trobarse</url>
             <example type="incorrect" correction="Estava situat"><marker>Es trobava situat</marker> dalt d'un penyal.</example>
