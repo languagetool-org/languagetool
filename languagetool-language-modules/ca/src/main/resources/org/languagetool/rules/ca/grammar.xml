@@ -23925,6 +23925,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ALQUILAR" name="alquilar">
+            <pattern>
+                <token inflected="yes">alquilar</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">llogar</match></suggestion>? 'Alquilar' és correcte com a terme de química.</message>
+            <short>Possible error</short>            
+            <example type="incorrect" correction="Llogà"><marker>Alquilà</marker> una habitació a València</example>
+            <example type="correct">Llogà una habitació.</example>
+        </rule>
         <rulegroup id="SOVINTEJAR_FREQUENTAR" name="sovintejar/freqüentar">
             <rule>
                 <pattern>
@@ -28024,6 +28033,20 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="TROBAR_SE_ESTAR_SITUAT" name="trobar-se/estar situat...">
+            <pattern>
+                <token>es</token>
+                <token inflected="yes">trobar</token>
+                <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">situar|dividir</token>
+            </pattern>
+            <message>És preferible usar el verb "estar".</message>
+            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estar</match> \3</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/trobarse</url>
+            <example type="incorrect" correction="Estava situat"><marker>Es trobava situat</marker> dalt d'un penyal.</example>
+            <example type="incorrect" correction="Estaven situats"><marker>Es trobaven situats</marker> dalt d'un penyal.</example>
+            <example type="incorrect" correction="Està situada"><marker>Es troba situada</marker> dalt d'un penyal.</example>
+            <example type="correct">Estava situat dalt d'un penyal.</example>
+        </rule>
         <rule id="JA_SIA_O" name="ja sia... o... / sia... o...">
             <pattern>
                 <token>ja</token>
