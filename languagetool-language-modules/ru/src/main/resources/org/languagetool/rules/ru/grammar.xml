@@ -3279,7 +3279,8 @@ $Id$
             <example type="incorrect">Там <marker>в течение реки</marker> много изгибов.</example>
             <example type="correct">Там в течении реки много изгибов.</example>
         </rule>
-        <rule id="V_TECHENIЕ" name="Словосочетание «в течение времени»">
+        <rulegroup id="V_TECHENIЕ" name="Словосочетание «в течение времени»">
+          <rule>  
             <pattern>
                 <token>в</token>
                 <token>течении</token>
@@ -3289,7 +3290,21 @@ $Id$
             <short>В течение (времени, часа, ...)</short>
             <example type="incorrect">Работа должна быть выполнена <marker>в течении часа</marker>.</example>
             <example type="correct">Работа должна быть выполнена в течение часа.</example>
-        </rule>
+          </rule>
+           <rule>  
+            <pattern>
+                <token>в</token>
+                <token>течении</token>
+                <token regexp= "yes" >[0-9]*</token>
+                <token inflected="yes" regexp= "yes">час|минута|секунда|день|календарный|рабочий|неделя|месяц|год|столетие|тысячелетие</token>
+            </pattern>
+            <message>Должно быть: <suggestion>\1 течение \3 \4</suggestion></message>
+            <short>В течение (времени, часа, ...)</short>
+            <example type="incorrect">Работа должна быть выполнена <marker>в течении 10 дней</marker>.</example>
+            <example type="incorrect">Работа должна быть выполнена <marker>в течении 10 календарных</marker> дней.</example>
+            <example type="correct">Работа должна быть выполнена в течение 10 дней.</example>
+          </rule>
+        </rulegroup>
         <rule id="V_PRODOLJENIЕ" name="Словосочетание «в продолжение (отрезка времени)»">
             <pattern>
                 <token>в</token>
