@@ -4362,13 +4362,14 @@ $Id$
                 </marker>
                 <token>lluny</token>
                 <token regexp="yes">de|d'</token>
-                <token regexp="yes">ser|ésser|esser|haver|creure|pensar|fer|admetre|acceptar|opinar|dir</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <!-- <token regexp="yes">ser|ésser|esser|haver|creure|pensar|fer|admetre|acceptar|opinar|dir</token> -->
             </pattern>
             <message>En sentit figurat, és preferible usar el verb 'estar'.</message>
             <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="V.$1">estar</match></suggestion>
             <example type="incorrect" correction="Estan"><marker>Són</marker> lluny de creure-ho.</example>
             <example type="incorrect" correction="Estaven"><marker>Eren</marker> lluny de ser-ho.</example>
-            <example type="correct">Sorry for my bad English.</example>
+            <example type="correct">Estan lluny de pensar-ho.</example>
         </rule>
     </rulegroup>
     <rulegroup id="FALTA_CONDICIONAL" name="si hagués volgut, ho *hagués/hauria aconseguit">
@@ -6668,7 +6669,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="CS|RG" postag_regexp="yes" skip="-1">quan<exception postag="V.[SIN].*" postag_regexp="yes" scope="next"/><exception postag="repeated"/><exception regexp="yes" scope="next">.*[=&lt;&gt;].*</exception></token>
+                        <token postag="CS|RG" postag_regexp="yes" skip="-1">quan<exception postag="V.[SIN].*" postag_regexp="yes" scope="next"/><exception postag="repeated"/><exception regexp="yes" scope="next">.*[=&lt;&gt;].*</exception><exception scope="previous">en</exception></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
@@ -6697,7 +6698,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token skip="-1">quan<exception postag="V.[SI].*" postag_regexp="yes" scope="next"/><exception regexp="yes" scope="next">.*[=&lt;&gt;].*</exception></token>
+                        <token skip="-1">quan<exception postag="V.[SI].*" postag_regexp="yes" scope="next"/><exception regexp="yes" scope="next">.*[=&lt;&gt;].*</exception><exception scope="previous">en</exception></token>
                     </marker>
                     <token skip="-1" regexp="yes">[,;]</token>
                     <token postag="V.[SI].*" postag_regexp="yes" skip="-1"><exception postag="V.[SI].*" postag_regexp="yes" scope="next"/></token>
@@ -8062,6 +8063,17 @@ $Id$
     </category>
     <category name="Z) Confusions" type="grammar">
         <rule id="EN_QUAN" name="en quan">
+            <antipattern> <!-- another rule -->
+                <token regexp="yes">de|en<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                <token regexp="yes">quant?|tant?|vegada|volta</token>
+                <token>en</token>
+                <token>quan</token>
+            </antipattern>
+            <antipattern> <!-- another rule -->
+                <token>en</token>
+                <token>quan</token>
+                <token>a</token>
+            </antipattern>
             <pattern>
                 <token>en<exception inflected="yes" scope="previous">centrar</exception></token>
                 <token>quan</token>
@@ -22865,7 +22877,7 @@ $Id$
         <rule id="DE_QUAN_EN_QUAN_DE_TANT_EN_TANT" name="*de quan en quan/de tant en tant">
             <pattern>
                 <token regexp="yes">de|en<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
-                <token regexp="yes">quant?|tant?</token>
+                <token regexp="yes">quant?|tant?|vegada|volta</token>
                 <token>en</token>
                 <token regexp="yes">quant?|tant?</token>
             </pattern>
