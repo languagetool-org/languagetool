@@ -8062,6 +8062,19 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="CATALPA_CATALA" name="catalpa/català">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">gènere|arbre</exception></token>
+                <marker>
+                    <token>catalpa</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>català</suggestion>? "Catalpa" és un gènere de plantes.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="català">És del Govern <marker>catalpa</marker>.</example>
+            <example type="incorrect" correction="Català">Institut <marker>Catalpa</marker>.</example>
+            <example type="correct">Govern català.</example>
+        </rule>
         <rule id="EN_QUAN" name="en quan">
             <antipattern> <!-- another rule -->
                 <token regexp="yes">de|en<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
@@ -28791,7 +28804,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">versió|tren|reunió|novel·la|edició|capítol|partit|revisió|etapa</token>
+                    <token regexp="yes" inflected="yes">destí|destinació|versió|tren|reunió|novel·la|edició|capítol|partit|revisió|etapa</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
