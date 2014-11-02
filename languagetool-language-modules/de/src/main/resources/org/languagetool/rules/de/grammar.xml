@@ -3597,13 +3597,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token negate="yes">zu</token>
                 <marker>
-                    <token>spät</token>
+                    <token regexp="yes">spät(en?)?</token>
                 </marker>
-                <token regexp="yes">mich|dich|uns|jemanden</token>
+                <token regexp="yes">mich|dich|uns|jemanden|euch|ihn</token>
                 <token>aus</token>
             </pattern>
             <message>Meinten Sie <suggestion>späht</suggestion> (Form von spähen)?</message>
-            <example type="incorrect">Google <marker>spät</marker> mich aus.</example>
+            <example type="incorrect" correction="späht">Google <marker>spät</marker> mich aus.</example>
             <example type="correct">Google späht mich aus.</example>
             <example type="correct">Aber es war auch bereits zu spät mich anders zu entscheiden.</example>
         </rule>
@@ -3670,6 +3670,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="KATHEDER" name="Mögliche Wortverwechslung: Katheder/Katheter">
             <!-- TODO: False pos. vermeiden -->
+            <antipattern>
+                <token>vom</token>
+                <token>Katheder</token>
+                <token>herab</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">verkünden</token>
+                <token>vom</token>
+                <token>Katheder</token>
+            </antipattern>
+            <antipattern>
+                <token>vom</token>
+                <token>Katheder</token>
+                <token inflected="yes">verkünden</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">Katheder</token>
             </pattern>
@@ -3678,6 +3693,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Mögliche Wortverwechslung</short>
             <example type="incorrect" correction="Katheters">Anleitung zum Einführen eines <marker>Katheders</marker></example>
             <example type="correct">Anleitung zum Einführen eines <marker>Katheters</marker></example>
+            <example type="correct">Er predigt gerne vom <marker>Katheder</marker> herab.</example>
+            <example type="correct">Er verkündet vom <marker>Katheder</marker> allerhand.</example>
         </rule>
         <rule id="GEISEL_DER_MENSCHHEIT" name="Mögliche Wortverwechslung: Geisel (Geißel) der Menschheit">
             <pattern>
