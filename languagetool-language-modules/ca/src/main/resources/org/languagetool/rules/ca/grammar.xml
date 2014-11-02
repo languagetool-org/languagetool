@@ -17567,20 +17567,22 @@ $Id$
                 <example type="incorrect" correction="°C">Fa una temperatura de 25 <marker>ºC</marker>.</example>
                 <example type="correct">Fa 25°C.</example>
             </rule>
+        </rulegroup>
+        <rulegroup id="ORDINALS" name="escriptura dels ordinals (1r, 2n...) ">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*ª<exception regexp="yes">[DM]ª</exception></token>
                 </pattern>
-                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1a"/></suggestion> (sing.) o <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1es"/></suggestion> (pl.).</message>
+                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)ª" regexp_replace="$1a"/></suggestion> (sing.).</message>
                 <short>Error tipogràfic</short>
-                <example type="incorrect" correction="25a|25es">En la posició <marker>25ª</marker>.</example>
+                <example type="incorrect" correction="25a">En la posició <marker>25ª</marker>.</example>
                 <example type="correct">En la 14a posició.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">\d+[eè]n(a|es)</token>
                 </pattern>
-                <message> Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)[eè]n(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
+                <message>Per a indicar ordinals (fem.), useu <suggestion><match no="1" regexp_match="(.*)[eè]n(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="25a">En la posició <marker>25ena</marker>.</example>
                 <example type="incorrect" correction="25es"><marker>25enes</marker>.</example>
@@ -17590,10 +17592,62 @@ $Id$
                 <pattern>
                     <token regexp="yes">\d+[eè]ns</token>
                 </pattern>
-                <message> Per a indicar ordinals (masc. pl.), useu <suggestion><match no="1" regexp_match="(.*)[eè]ns" regexp_replace="$1ns"/></suggestion>.</message>
+                <message>Per a indicar ordinals (masc. pl.), useu <suggestion><match no="1" regexp_match="(.*)[eè]ns" regexp_replace="$1ns"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="25ns">Els <marker>25ens</marker> classificats.</example>
                 <example type="correct">En la 14a posició.</example>
+            </rule>
+            <rule>
+                <antipattern> <!-- avoid false alarms in French quotations, quite common in Wikipedia -->
+                    <marker>
+                        <token>1er</token>
+                        <token regexp="yes">au|et|colloque|livre|chasseurs|régiment|épisode|salon|cahier|janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">le|du|au|des|et</token>
+                        <token>1er</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">1er|2on|3er|4rt</token>
+                </pattern>
+                <message>Per a indicar ordinal (masc. sing.), useu <suggestion><match no="1" regexp_match="([1234]).(.)" regexp_replace="$1$2"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="4t">El <marker>4rt</marker>.</example>
+                <example type="incorrect" correction="1r">El <marker>1er</marker>.</example>
+                <example type="correct">1er janvier</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(1er|2on|3er|4rt)s</token>
+                </pattern>
+                <message>Per a indicar ordinal (masc. pl.), useu <suggestion><match no="1" regexp_match="([1234]).(..)" regexp_replace="$1$2"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="4ts">Els <marker>4rts</marker>.</example>
+                <example type="incorrect" correction="1rs">els <marker>1ers</marker></example>
+                <example type="correct">Els 2ns.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(1e?r|2o?n|3e?r|4r?t)a</token>
+                </pattern>
+                <message>Per a indicar ordinal (fem. sing.), useu <suggestion><match no="1" regexp_match="([1234]).*" regexp_replace="$1a"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="4a">La <marker>4rta</marker>.</example>
+                <example type="incorrect" correction="1a">La <marker>1ra</marker> jornada.</example>
+                <example type="correct">La 4a jornada.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(1e?r|2o?n|3e?r|4r?t)es</token>
+                </pattern>
+                <message>Per a indicar ordinal (fem. pl.), useu <suggestion><match no="1" regexp_match="([1234]).*" regexp_replace="$1es"/></suggestion>.</message>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction="4es">Les <marker>4rtes</marker>.</example>
+                <example type="incorrect" correction="1es">Les <marker>1res</marker> jornades.</example>
+                <example type="correct">Les 4es jornades.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KELVIN" name="kelvin (no graus)">
