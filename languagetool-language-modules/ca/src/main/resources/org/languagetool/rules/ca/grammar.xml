@@ -17215,7 +17215,7 @@ $Id$
         </rule>
     </category>
     <category name="B) Opcions de tipografia">
-        <rule id="ESPAI_PERCENT" name="espai abans de tant per cent (%)">
+        <rule id="PERCENT_AMB_ESPAI" name="tant per cent amb espai abans (3 %)" default="off">
             <pattern>
                 <token regexp="yes">[\d.,]+%</token>
             </pattern>
@@ -17223,6 +17223,16 @@ $Id$
             <suggestion><match no="1" regexp_match="(.+)%" regexp_replace="$1 %"/></suggestion> <!-- using "narrow no-break space" -->
             <example type="incorrect" correction="23,5 %">Pagà un <marker>23,5%</marker>.</example>
             <example type="correct">Pagà un 25 %.</example>
+        </rule>
+        <rule id="PERCENT_SENSE_ESPAI" name="tant per cent sense espai abans (3%)" default="off">
+            <pattern>
+                <token regexp="yes">[\d.,]+</token>
+                <token>%</token>
+            </pattern>
+            <message>Sobra un espai.</message>
+            <suggestion>\1\2</suggestion> <!-- using "narrow no-break space" -->
+            <example type="incorrect" correction="23,5%">Pagà un <marker>23,5 %</marker>.</example>
+            <example type="correct">Pagà un 25%.</example>
         </rule>
         <rule id="PUNTS_SUSPENSIUS" name="Exigeix el caràcter de punts suspensius" default="off">
             <pattern>
