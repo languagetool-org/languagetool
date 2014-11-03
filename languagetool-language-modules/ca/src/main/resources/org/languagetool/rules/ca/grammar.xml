@@ -17591,12 +17591,14 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">\d+[eè]n(a|es)</token>
+                    <token regexp="yes">\d+[eè]?n(a|es)</token>
                 </pattern>
-                <message>Per a indicar ordinals (fem.), useu <suggestion><match no="1" regexp_match="(.*)[eè]n(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
+                <message>Per a indicar ordinals (fem.), useu <suggestion><match no="1" regexp_match="(\d+)[eè]?n(a|es)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="25a">En la posició <marker>25ena</marker>.</example>
+                <example type="incorrect" correction="25a">En la posició <marker>25na</marker>.</example>
                 <example type="incorrect" correction="25es"><marker>25enes</marker>.</example>
+                <example type="incorrect" correction="25es"><marker>25nes</marker>.</example>
                 <example type="correct">En la 14a posició.</example>
             </rule>
             <rule>
