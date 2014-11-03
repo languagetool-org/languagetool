@@ -2253,7 +2253,7 @@ $Id$
             </rule>
              <rule id="CONCORDANCA_GRIS" name="errors freqüents: gris/grisa">
                 <pattern case_sensitive="yes">
-                    <token postag="N.F[SN].*|_GN_FS" postag_regexp="yes"/>
+                    <token postag="N.F[SN].*|_GN_FS" postag_regexp="yes"><exception postag="_GN_MS"/></token>
                     <marker>
                         <token>gris</token>
                     </marker> 
@@ -2261,11 +2261,12 @@ $Id$
                 <message>Possible error de concordança.</message>
                 <suggestion><match no="3" postag="AQ.*" postag_regexp="yes" postag_replace="AQ.[FC][SN]."/></suggestion>
                 <example type="incorrect" correction="grisa">Un lloc de gent <marker>gris</marker>.</example>
-                <!-- <example type="incorrect" correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
                 <example type="correct">La substància grisa.</example>
                 <example type="correct">Voltor comú.</example>
+                <example type="correct">No té cap component gris.</example>
                 <!-- provenen d'un lloc de naixença comú 
                 per un ideal d'emancipació comú-->
+                <!-- <example type="incorrect" correction="comuna">Un cau de gent <marker>comú</marker>.</example> -->
             </rule>
             <rule id="ESTRATEGA" name="estratega">
                 <pattern>
@@ -2289,6 +2290,15 @@ $Id$
                 <example type="correct">Una gran estratega.</example>
             </rule>
             <rule id="COMU_COMUNA" name="comú/comuna">
+                <antipattern>
+                    <marker>
+                        <token>tipus</token>
+                        <token regexp="yes">de|d'</token>
+                        <token postag="NCF.*" postag_regexp="yes"/>
+                        <token regexp="yes">més|molt|tan</token>
+                        <token postag="AQ.M[PS]." postag_regexp="yes" inflected="yes">comú</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <unify>
                     <feature id="nombre"/>
@@ -2307,6 +2317,7 @@ $Id$
                 <example type="incorrect" correction="comuna">De la manera més <marker>comú</marker>.</example>
                 <example type="incorrect" correction="comunes">Són formes molt <marker>comuns</marker>.</example>
                 <example type="correct">La forma més comuna.</example>
+                <example type="correct">el tipus d'imatge més comú.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PEDENT_CORRENT" name="pendent, corrent (nom masculí)">
