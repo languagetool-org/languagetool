@@ -8075,6 +8075,20 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="NO_MES_NOMES" name="no més/només">
+            <pattern>
+                <marker>
+                    <token>no</token>
+                    <token>més</token>
+                </marker>
+                <token><exception regexp="yes">de|d'</exception><exception postag="AQ.*|RG" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>només</suggestion>?</message>
+            <example type="incorrect"><marker>No més</marker> quatre.</example>
+            <example type="incorrect">Ha quedat <marker>no més</marker> quart.</example>
+            <example type="correct">No més de quatre.</example>
+            <example type="correct">No més gran que un camió.</example>
+        </rule>
         <rule id="CATALPA_CATALA" name="catalpa/català">
             <pattern>
                 <token postag="N.*" postag_regexp="yes"><exception regexp="yes" inflected="yes">gènere|arbre</exception></token>
@@ -9739,7 +9753,7 @@ $Id$
                     <token regexp="yes">fluïd(a|es)|fluïts?</token>
                 </marker>
             </pattern>
-            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)[ïÏ][DdTt](.*)" regexp_replace="$1id$2" /></suggestion>. "<match no="1"/>" és correcte com a participi de "fluir".</message>
+            <message>¿Volíeu dir <suggestion><match no="2" regexp_match="(.+)[ïÏ][DdTt](.*)" regexp_replace="$1id$2" /></suggestion>. "<match no="2"/>" és correcte com a participi de "fluir".</message>
             <short>Error ortogràfic</short>
             <example type="incorrect" correction="fluida">És <marker>fluïda</marker></example>
             <example type="incorrect" correction="fluid">És <marker>fluït</marker></example>
@@ -23930,6 +23944,19 @@ $Id$
         </rule>
     </category>   
     <category name="Ordenació incorrecta" type="style">
+        <rule id="A_DRET_I_A_TORT" name="a dret i a tort">
+            <pattern>
+                <token>a</token>
+                <token>dret</token>
+                <token>i</token>
+                <token>a</token>
+                <token>tort</token>
+            </pattern>
+            <message>Ordre inusual.</message>
+            <suggestion>a tort i a dret</suggestion>
+            <example type="incorrect"><marker>a dret i a tort</marker>.</example>
+            <example type="correct">A tort i a dret.</example>
+        </rule>
         <rulegroup id="MES_VAL" name="*més val/val més">
             <rule>
                 <pattern>
@@ -25356,7 +25383,8 @@ $Id$
             <pattern>
                 <marker>
                     <token inflected="yes">seguir</token>
-                    <token>l'</token>
+                    <token regexp="yes">l'|la</token>
+                    <token postag="AQ.*" postag_regexp="yes" min="0"/>
                     <token>estela</token>
                 </marker>
             </pattern>
@@ -30733,7 +30761,7 @@ $Id$
             <example type="incorrect" correction="afligit|contristat">Estava <marker>apenat</marker>.</example>
             <example type="correct">Afligit</example>
         </rule>
-        <rule id="APOLTRONARSE" name="apoltronar-se">
+        <rule id="APOLTRONARSE" name="apoltronar-se" default="off">
             <pattern>
                 <token inflected="yes">apoltronar</token>
             </pattern>
