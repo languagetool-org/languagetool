@@ -58,8 +58,10 @@ public class RuleCreator {
     Map<String,ConfusionProbabilityRule.ConfusionSet> confusionSetMap = confusionSetLoader.loadConfusionSet(inputStream);
     initMaps(homophoneOccurrences);
     int groupCount = 0;
-    System.out.println("<rules lang='en'>\n");
-    System.out.println("<category name='Auto-generated rules'>\n");
+    if (XML_MODE) {
+      System.out.println("<rules lang='en'>\n");
+      System.out.println("<category name='Auto-generated rules'>\n");
+    }
     for (Map.Entry<String, ConfusionProbabilityRule.ConfusionSet> entry : confusionSetMap.entrySet()) {
       System.err.println(" === " + entry + " === ");
       List<OccurrenceInfo> infos = occurrenceInfos.get(entry.getKey());
@@ -70,7 +72,9 @@ public class RuleCreator {
       Set cleanSet = new HashSet<>(entry.getValue().getSet());
       cleanSet.remove(entry.getKey());
       String name = StringUtils.join(cleanSet, "/") + " -> " + entry.getKey();
-      System.out.println("<rulegroup id='R" + groupCount + "' name=\"" + StringTools.escapeXML(name) + "\">\n");
+      if (XML_MODE) {
+        System.out.println("<rulegroup id='R" + groupCount + "' name=\"" + StringTools.escapeXML(name) + "\">\n");
+      }
       groupCount++;
       for (OccurrenceInfo occurrenceInfo : infos) {
         String[] parts = occurrenceInfo.ngram.split(" ");
@@ -81,10 +85,14 @@ public class RuleCreator {
           printRule(occurrenceInfo, parts, variant);
         }
       }
-      System.out.println("</rulegroup>\n");
+      if (XML_MODE) {
+        System.out.println("</rulegroup>\n");
+      }
     }
-    System.out.println("</category>");
-    System.out.println("</rules>");
+    if (XML_MODE) {
+      System.out.println("</category>");
+      System.out.println("</rules>");
+    }
     System.err.println("Done. Wrote " + ruleCount + " rules.");
     System.err.println("Rules ignored because of different tokenization: " + tokenFilteredRules);
     System.err.println("Rules ignored because of error probability limit (" + minErrorProb + "): " + probFilteredRules);
@@ -125,10 +133,10 @@ public class RuleCreator {
                       "  </rule>\n\n", variantErrorProb, occurrenceInfo.occurrence,
                                        StringTools.escapeXML(parts[0]), StringTools.escapeXML(variant), StringTools.escapeXML(parts[2]),
                                        StringTools.escapeXML(term), StringTools.escapeXML(variantPhrase), StringTools.escapeXML(termPhrase));
-      ruleCount++;
     } else {
-      System.out.printf(Locale.ENGLISH, "%.3f\t%s\t%s\n", variantErrorProb, variantPhrase, parts[0]);
+      System.out.printf(Locale.ENGLISH, "%.2f\t%s\t%s\n", variantErrorProb, variantPhrase, term);
     }
+    ruleCount++;
   }
 
   private void initMaps(File homophoneOccurrenceFile) throws FileNotFoundException {
