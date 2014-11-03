@@ -32,6 +32,9 @@ public class PasswordAuthenticator extends Authenticator {
 
   @Override
   protected PasswordAuthentication getPasswordAuthentication() {
+    if (getRequestingURL() == null) {
+      return null;
+    }
     String userInfo = getRequestingURL().getUserInfo();
     if (StringTools.isEmpty(userInfo)) {
       return null;
