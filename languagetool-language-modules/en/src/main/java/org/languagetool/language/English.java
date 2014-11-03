@@ -83,10 +83,6 @@ public class English extends Language implements AutoCloseable {
   public void setName(final String name) {
     this.name = name;
   }
-  
-  public void setTagger(Tagger tagger) {
-      this.tagger = tagger;
-  }
 
   @Override
   public final String getShortName() {
@@ -99,7 +95,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new EnglishTagger();
     }
