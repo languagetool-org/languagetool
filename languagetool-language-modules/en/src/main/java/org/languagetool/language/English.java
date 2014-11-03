@@ -95,7 +95,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new EnglishTagger();
     }
