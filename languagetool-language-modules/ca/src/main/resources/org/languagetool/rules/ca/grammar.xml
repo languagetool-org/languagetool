@@ -17800,20 +17800,6 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token><exception regexp="yes">[-–—]</exception></token>
-                        <token spacebefore="yes" regexp="yes">[?!:;]</token>
-                    </marker>
-                </pattern>
-                <message>Sobra un espai.</message>
-                <suggestion><match no="1"/><match no="2"/></suggestion>
-                <short>Error de puntuació</short>
-                <example type="incorrect" correction="dir?">¿Vols <marker>dir ?</marker></example>
-                <example type="incorrect" correction="dir:">Ell va <marker>dir :</marker> vine!</example>
-                <example type="correct">¿què importa?...</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
                         <token regexp="yes">[?!]</token>
                         <token postag="SENT_END">.</token>
                     </marker>
@@ -17874,32 +17860,6 @@ $Id$
                 <short>Error de puntuació</short>
                 <example type="incorrect" correction="…">Cotxes, avions<marker>,…</marker></example>
                 <example type="correct">φ1(x1, x2,…, xn)</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token regexp="yes">[¿¡]</token>
-                        <token spacebefore="yes"/>
-                    </marker>
-                </pattern>
-                <message>Sobra un espai.</message>
-                <suggestion><match no="1"/><match no="2"/></suggestion>
-                <short>Error de puntuació</short>
-                <example type="incorrect" correction="¿Estàs"><marker>¿ Estàs</marker> segur?</example>
-                <example type="correct">¿Estàs segur?</example>
-            </rule>
-            <rule id="ESPAI_DARRERE_PUNTICOMA" name="espai darrere de punt i coma">
-                <pattern>
-                    <marker>
-                        <token>;</token>
-                        <token spacebefore="no"><exception regexp="yes">\s+</exception></token>
-                    </marker>
-                </pattern>
-                <message>Falta un espai.</message>
-                <suggestion><match no="1"/> <match no="2"/></suggestion>
-                <short>Error de puntuació</short>
-                <example type="incorrect" correction="; però">Vingué<marker>;però</marker> se n'anà!</example>
-                <example type="correct">Vingué; però se n'anà!</example>
             </rule>
     	</rulegroup>
         <rulegroup id="ESPAI_DARRERE_DOSPUNTS" name="espai darrere de dos punts">
@@ -18177,6 +18137,92 @@ $Id$
                 <short>Sobra un espai</short>
                 <example type="incorrect" correction="veure's"><marker>veure' s</marker> així.</example>
                 <example type="correct">4º 5' N</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/> <!-- <exception regexp="yes">[-–—]</exception> -->
+                        <token spacebefore="yes" regexp="yes">[?!:;’”»]</token>
+                    </marker>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion><match no="1"/><match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="dir?">¿Vols <marker>dir ?</marker></example>
+                <example type="incorrect" correction="dir:">Ell va <marker>dir :</marker> vine!</example>
+                <example type="correct">¿què importa?...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[¿¡‘“«]</token>
+                        <token spacebefore="yes"/>
+                    </marker>
+                </pattern>
+                <message>Sobra un espai.</message>
+                <suggestion><match no="1"/><match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="¿Estàs"><marker>¿ Estàs</marker> segur?</example>
+                <example type="correct">¿Estàs segur?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">"</token>
+                    <token spacebefore="yes"></token>
+                </pattern>
+                <message>Sobra un espai</message>
+                <suggestion>\1 \2\3</suggestion>
+                <suggestion>\1\2 \3</suggestion>
+                <example type="incorrect" correction='que "sí|que" sí'>Dic <marker>que " sí</marker>".</example>
+                <example type="correct">Dic que "sí".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>"</token>
+                    <token spacebefore="yes"></token>
+                </pattern>
+                <message>Sobra un espai</message>
+                <suggestion>\1\2\3</suggestion>
+                <example type="incorrect" correction='"Sí'><marker>" Sí</marker>", va dir.</example>
+                <example type="correct">Dic que "sí".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                        <token spacebefore="yes">"</token>
+                    </marker>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Sobra un espai</message>
+                <suggestion>\1\2</suggestion>
+                <example type="incorrect" correction='Sí"'>"<marker>Sí "</marker>, va dir.</example>
+                <example type="correct">Dic que "sí".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token postag="SENT_END" spacebefore="yes">"</token>
+                </pattern>
+                <message>Sobra un espai</message>
+                <suggestion>\1\2</suggestion>
+                <example type="incorrect" correction='Sí"'>"<marker>Sí "</marker></example>
+                <example type="correct">"Ara sí"</example>
+            </rule>
+            <rule id="ESPAI_DARRERE_PUNTICOMA" name="espai darrere de punt i coma">
+                <pattern>
+                    <marker>
+                        <token>;</token>
+                        <token spacebefore="no"><exception regexp="yes">\s+</exception></token>
+                    </marker>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <short>Error de puntuació</short>
+                <example type="incorrect" correction="; però">Vingué<marker>;però</marker> se n'anà!</example>
+                <example type="correct">Vingué; però se n'anà!</example>
             </rule>
         </rulegroup>
         <rule id="ESPAI_EN_UNITATS" name="espai en unitats">
@@ -20816,7 +20862,7 @@ $Id$
         </rule>
         <rule id="CARA_A" name="*cara a/de cara a">    
             <pattern>
-                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir</exception><exception regexp="yes">de|la|tan|seva|seua|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
+                <token><exception inflected="yes" regexp="yes">plantar|fer|tenir|posar</exception><exception regexp="yes">de|la|tan|seva|seua|aquesta|aquella|aqueixa|esta|eixa|mateixa</exception></token>
                 <marker>
                     <token>cara</token>
                     <token>a</token>
@@ -20833,6 +20879,7 @@ $Id$
             <example type="correct">Planta cara a tots els arrogants</example>
             <example type="correct">Mostra sempre la mateixa cara a la Terra.</example>
             <example type="correct">aquesta doctrina, tan cara a sant Pau,</example>
+            <example type="correct">Vull posar cara als creadors.</example>
             <!-- <example type="correct">aquesta doctrina, cara a sant Pau,</example> -->
         </rule>
         <rule id="DE_CARES_A" name="de cares a">
@@ -26022,7 +26069,7 @@ $Id$
 	                </marker>
 	                <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">res|nom|pla|causa|origen|veritat|jo|secret|misteri</token>
 	            </pattern>
-	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= treure la son, suscitar)?</message>
+	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
 	            <short>Possible error</short>
@@ -26037,7 +26084,7 @@ $Id$
 	                </marker>
 	                <token>que</token>
 	            </pattern>
-	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= treure la son, suscitar)?</message>
+	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
 	            <short>Possible error</short>
