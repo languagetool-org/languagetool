@@ -58,6 +58,7 @@ $Id$
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|kg|Hz|[kM]Hz|°[FC]|K">
     <!ENTITY excepcions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu">
+    <!ENTITY exceptions_hostatge "dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
 ]>
     
@@ -6401,7 +6402,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -8075,6 +8076,35 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="HOSTATGE_OSTATGE" name="hostatge/ostatge">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_hostatge;</exception></token>
+                <marker>
+                    <token postag="NCMS000" skip="-1">hostatge<exception scope="previous" regexp="yes" inflected="yes">donar|demanar|sol·licitar|oferir</exception><exception scope="next" regexp="yes" inflected="yes">&exceptions_hostatge;</exception></token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ostatge</suggestion> (=persona retinguda) o <suggestion>hoste</suggestion> (biologia)? Correcte en el sentit de "allotjament".</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">És un <marker>hostatge</marker>.</example>
+            <example type="correct">Ofereix hostatge a tothom.</example>
+            <example type="correct">La segona planta era l'hostatge del mossèn</example>
+            <!-- Pagar per l'hostatge. -->
+        </rule>
+        <rule id="HOSTATGES_OSTATGES" name="hostatges/ostatges">
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_hostatge;</exception></token>
+                <marker>
+                    <token postag="NCMP000" skip="-1">hostatges<exception scope="next" regexp="yes" inflected="yes">&exceptions_hostatge;</exception></token>
+                </marker>
+                <token postag="SENT_END"/>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>ostatges</suggestion> (=persones retingudes) o <suggestion>hostes</suggestion> (biologia)? Correcte en el sentit de "allotjaments".</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">L'alliberament dels <marker>hostatges</marker>.</example>
+            <example type="correct">Eren hostatges de luxe.</example>
+            <example type="correct">Hostatges oberts a la nit per als caminants.</example>
+        </rule>
         <rule id="NO_MES_NOMES" name="no més/només">
             <antipattern>
                 <marker>
