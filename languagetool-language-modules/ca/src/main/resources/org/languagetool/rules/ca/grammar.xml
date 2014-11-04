@@ -8076,18 +8076,30 @@ $Id$
     </category>
     <category name="Z) Confusions" type="grammar">
         <rule id="NO_MES_NOMES" name="no més/només">
+            <antipattern>
+                <marker>
+                    <token>si</token>
+                    <token>no</token>
+                    <token>més</token>
+                    <token regexp="yes">[,.;]</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>no</token>
                     <token>més</token>
                 </marker>
-                <token><exception regexp="yes">de|d'</exception><exception postag="AQ.*|RG" postag_regexp="yes"/></token>
+                <token><exception regexp="yes">de|d'|que</exception><exception postag="AQ.*|RG|V.P.*|.*LOC_ADV.*|.*LOC_ADJ.*" postag_regexp="yes"/></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>només</suggestion>?</message>
             <example type="incorrect"><marker>No més</marker> quatre.</example>
             <example type="incorrect">Ha quedat <marker>no més</marker> quart.</example>
+            <example type="incorrect">Si <marker>no més</marker> vols això.</example>
             <example type="correct">No més de quatre.</example>
             <example type="correct">No més gran que un camió.</example>
+            <example type="correct">No més tard del maig.</example>
+            <example type="correct">Però no més que ahir.</example>
+            <example type="correct">era tan efectiu, si no més, del que haurien assolit ells</example>
         </rule>
         <rule id="CATALPA_CATALA" name="catalpa/català">
             <pattern>
