@@ -54,7 +54,8 @@ public class AtDXmlSerializer {
     }
     sb.append("  <error>\n");
     sb.append("    <string>").append(escapeXML(errorText)).append("</string>\n");
-    String cleanMessage = match.getShortMessage() != null ?
+    boolean hasShortMessage = match.getShortMessage() != null && match.getShortMessage().length() > 0;
+    String cleanMessage = hasShortMessage ?
             match.getShortMessage() : match.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'");
     sb.append("    <description>").append(escapeXML(cleanMessage)).append("</description>\n");
     String preContext = getPreContext(text, match.getFromPos());
