@@ -58,7 +58,7 @@ $Id$
     <!ENTITY femeni_inusual "amor|ardor|candor|clamor|color|dolor|error|estridor|estupor|fervor|fragor|fulgor|furor|honor|horror|humor|rigor|rubor|rumor|sabor|sopor|temor|terror|valor|vigor">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|kg|Hz|[kM]Hz|°[FC]|K">
     <!ENTITY excepcions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu">
-    <!ENTITY exceptions_hostatge "dieta|luxe|viatger|turista|caminant|obrir|planta">
+    <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
 ]>
     
@@ -8076,6 +8076,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z) Confusions" type="grammar">
+        <rule id="EN_AMB" name="en/amb anterioritat">
+            <pattern>
+                <token>en</token>
+                <token regexp="yes">anterioritat|posterioritat</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>amb \2</suggestion>?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Ho va fer <marker>en anterioritat</marker>.</example>
+            <example type="correct">Ho va fer amb posterioritat.</example>
+        </rule>
         <rule id="HOSTATGE_OSTATGE" name="hostatge/ostatge">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_hostatge;</exception></token>
@@ -18169,6 +18179,12 @@ $Id$
                 <example type="correct">4º 5' N</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">[-–—]</token>
+                        <token>?</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token/> <!-- <exception regexp="yes">[-–—]</exception> -->
@@ -18224,7 +18240,7 @@ $Id$
                         <token/>
                         <token spacebefore="yes">"</token>
                     </marker>
-                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                    <token postag="_PUNCT.*" postag_regexp="yes"><exception regexp="yes">[(¡¿'\-–—]</exception><exception postag="_trespunts"/></token>
                 </pattern>
                 <message>Sobra un espai</message>
                 <suggestion>\1\2</suggestion>
