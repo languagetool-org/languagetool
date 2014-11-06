@@ -24158,6 +24158,49 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="CELEBRAR_CONTRACTE" name="*celebrar/signar/subscriure un contracte">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">celebrar</token>
+                    </marker>
+                    <token inflected="yes">contracte</token>
+                </pattern>
+                <message>Els contractes se subscriuen o se signen.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">subscriure</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">signar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">firmar</match></suggestion>
+                <example type="incorrect" correction="Subscrigueren|Subscriviren|Signaren|Firmaren"><marker>Celebraren</marker> un contracte.</example>
+                <example type="correct">Van subscriure un contracte.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">contracte</token>
+                    <marker>
+                        <token inflected="yes">celebrar</token>
+                    </marker>
+                </pattern>
+                <message>Els contractes se subscriuen o se signen.</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">subscriure</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">signar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">firmar</match></suggestion>
+                <example type="incorrect" correction="subscrits|signats|firmats">Dels contractes <marker>celebrats</marker>.</example>
+                <example type="correct">Dels contractes subscrits.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="3">celebració</token>
+                    </marker>
+                    <token inflected="yes">contracte</token>
+                </pattern>
+                <message>Els contractes se subscriuen o se signen.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">subscripció</match></suggestion>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">signatura</match></suggestion>
+                <example type="incorrect" correction="subscripció|signatura">La <marker>celebració</marker> del contracte.</example>
+                <example type="correct">Van subscriure un contracte.</example>
+            </rule>
+        </rulegroup>
         <rule id="ALQUILAR" name="alquilar">
             <pattern>
                 <token inflected="yes">alquilar</token>
@@ -31578,6 +31621,7 @@ $Id$
                         <token postag="DA..P." postag_regexp="yes"></token>
                         <token>que</token>
                     </marker>
+                    <token min="0">no</token>
                     <token>hi</token>
                     <token inflected="yes">haver</token>
                     <token><exception>.</exception></token>
@@ -31587,6 +31631,7 @@ $Id$
                 <url>http://esadir.cat/entrades/fitxa/node/pronrel</url>
                 <short>Reviseu la construcció de relatiu</short>
                 <example type='incorrect' correction="entre les quals">Unes obres <marker>entre les que</marker> hi havia les seves.</example>
+                <example type='incorrect' correction="entre les quals">Unes obres <marker>entre les que</marker> no hi havia les seves.</example>
                 <example type='correct'>Unes obres entre les quals hi havia les seves.</example>
             </rule>
         </rulegroup>
