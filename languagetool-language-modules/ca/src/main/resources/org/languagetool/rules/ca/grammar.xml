@@ -8075,7 +8075,20 @@ $Id$
             </rule>
         </rulegroup>
     </category>
-    <category name="Z) Confusions" type="grammar">
+    <category name="Z2) Errors de traductor automàtic">
+        <rule id="COM_EL_QUAL" name="com el *qual/que">
+            <pattern>
+                <token>com</token>
+                <token regexp="yes">el|la|els|les</token>
+                <token regexp="yes">quals?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>\1 \2 que</suggestion>?</message>
+            <short>Error de traducció automàtica</short>
+            <example type="incorrect" correction="com la que">Un una casa <marker>com la qual</marker> tenen ells.</example>
+            <example type="correct">Una casa com la que tenen ells.</example>
+        </rule>
+    </category>
+    <category name="Z1) Confusions" type="grammar">
         <rule id="EN_AMB" name="en/amb anterioritat">
             <pattern>
                 <token>en</token>
