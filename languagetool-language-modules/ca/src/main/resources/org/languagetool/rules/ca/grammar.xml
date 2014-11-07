@@ -6402,7 +6402,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -8089,6 +8089,17 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="DE_QUAL" name="*de/del qual">
+            <pattern>
+                <token><exception postag="DA.*" postag_regexp="yes"/><exception>tal</exception></token>
+                <token regexp="yes">quals?</token>
+            </pattern>
+            <message>Falta un article davant de "\2".</message>
+            <example type="incorrect"><marker>de quals</marker>.</example>
+            <example type="correct">dels quals</example>
+            <example type="correct">tal qual</example>
+            <example type="correct">en els quals</example>
+        </rule>
         <rule id="EN_AMB" name="en/amb anterioritat">
             <pattern>
                 <token>en</token>
