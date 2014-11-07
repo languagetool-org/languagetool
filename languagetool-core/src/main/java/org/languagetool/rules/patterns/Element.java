@@ -138,7 +138,7 @@ public class Element implements Cloneable {
    * @param token AnalyzedToken to check matching against
    * @return True if token matches, false otherwise.
    */
-  final boolean isMatched(final AnalyzedToken token) {
+  public final boolean isMatched(final AnalyzedToken token) {
     if (testWhitespace && !isWhitespaceBefore(token)) {
       return false;
     }
