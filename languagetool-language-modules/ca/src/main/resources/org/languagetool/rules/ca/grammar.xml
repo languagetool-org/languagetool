@@ -5639,7 +5639,7 @@ $Id$
         <rule id="SI_QUE" name="*sí m'agrada/sí que m'agrada">
             <pattern>
                 <marker>
-                    <token>sí<exception postag="_GN_MS"/></token>
+                    <token>sí<exception postag="_GN_MS"/><exception regexp="yes" scope="previous">entre|en|de|amb|per|sobre</exception></token>
                 </marker>
                 <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                 <token postag="V.[MIS].*" postag_regexp="yes"/>
@@ -5652,6 +5652,7 @@ $Id$
             <example type="incorrect"><marker>Sí</marker> se li'n pot donar un.</example>
             <example type="correct">Tu sí que hauries respost bé.</example>
             <example type="correct">El sí va acompanyat de dubtes.</example>
+            <example type="correct">I què si nosaltres volem.</example>
         </rule>
     </category>
     <category name="Z) Conjuncions" type="grammar">
@@ -6402,7 +6403,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -25442,7 +25443,7 @@ $Id$
                 <marker>
                     <token inflected="yes">plànol</token>
                 </marker>
-                <token inflected="yes" regexp="yes">.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric</token>
+                <token inflected="yes" regexp="yes">mediàtic|.*econòmic|.*social|.*polític|abstracte|personal|professional|vertical|horitzontal|oblic|teòric</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">pla</match></suggestion>? Exemples d'ús correcte: un plànol de Xàtiva, un plànol del castell. </message>
             <url>http://esadir.cat/entrades/fitxa/id/2157</url>
