@@ -61,7 +61,7 @@ $Id$
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
 ]>
-    
+
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <unification feature="nombre">
         <equivalence type="S">
@@ -5878,6 +5878,14 @@ $Id$
             <example type="correct">haurà de determinar-se conforme al que disposi la legislació belga</example>
         </rule>
         <rulegroup id="SINO_SI_NO" name="sinó/si no">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">o|i</token>
+                    <token min="0">,</token>
+                    <token>si</token>
+                    <token>no</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -12475,7 +12483,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>l'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*|_GV_" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>la <match no="2"></match></suggestion>
@@ -12500,7 +12508,7 @@ $Id$
                     <marker>
                         <token>l'</token>
                         <and>
-                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host<exception regexp="yes">&mots_femenins_apostrofen;</exception></token>
+                            <token postag="_GN_FS" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception></token>
                             <token postag="_GN_MS" />
                         </and>
                     </marker>
@@ -12522,7 +12530,7 @@ $Id$
             <rule>
                 <pattern>
                     <token>n'</token>
-                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
+                    <token postag="N.F.*|A..F.*|_GN_F." postag_regexp="yes" regexp="yes">h?[ui].+|host|ouija<exception regexp="yes">&mots_femenins_apostrofen;</exception><exception postag="_GN_M.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>na <match no="2"></match></suggestion>
@@ -12537,7 +12545,7 @@ $Id$
                 </antipattern>
                 <pattern>
                     <token>la<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
-                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI<exception regexp="yes">host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
+                    <token regexp="yes">h?[aeoàèéíòóú].*|h?[ui][^aeiouàèéíòóúüï]+([aeiou]s?|[ei]n)|urbs|URSS|UJI<exception regexp="yes">ouija|host|ira|inxa|[aeiou]|efa|hac|ela|ema|en|ena|ene|er|erra|erre|essa|una|&mots_HAC_ASPIRADA;</exception><exception postag="hac_aspirada|mot_foraster|UNKNOWN|NP..000" postag_regexp="yes"/><exception regexp="yes">(?-i)Haia|UdA</exception></token>
                 </pattern>
                 <message>Cal apostrofar.</message>
                 <suggestion>l'<match no="2"></match></suggestion>
