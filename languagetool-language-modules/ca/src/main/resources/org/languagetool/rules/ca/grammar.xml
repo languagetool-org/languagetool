@@ -28097,18 +28097,40 @@ $Id$
         <rulegroup id="ET_SEMBLA" name="*et sembla? / et sembla bé?">
             <rule>
                 <pattern>
-                    <token negate="yes">què</token>
-                    <token postag="P0.{6}|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                    <token><exception regexp="yes">què|no</exception></token>
                     <marker>
+                        <token postag="P0.{6}|PP3CP000|PP3CSD00" postag_regexp="yes"/>
                         <token inflected="yes" regexp="yes">parèixer|semblar</token>
                     </marker>
                     <token>?</token>
                 </pattern>
-                <message>Expressió incorrecta. Cal dir: <suggestion><match no="3"/> bé</suggestion></message>
-                <example type="incorrect" correction="sembla bé">Vindré demà, et <marker>sembla</marker>?</example>
-                <example type="incorrect" correction="pareix bé">Vindré demà, us <marker>pareix</marker>?</example>
-                <example type="incorrect" correction="pareix bé">Vindré demà, li <marker>pareix</marker>?</example>
-                <example type="incorrect" correction="pareix bé">Vindré demà, els <marker>pareix</marker>?</example>
+                <message>Expressió incorrecta.</message>
+                <suggestion>\2 \3 bé</suggestion>
+                <suggestion>no <match no="2" postag="P.(.).(.).*" postag_regexp="yes" postag_replace="VMIP$1$200">trobar</match></suggestion>
+                <example type="incorrect" correction="et sembla bé|no trobes">Vindré demà, <marker>et sembla</marker>?</example>
+                <example type="incorrect" correction="us pareix bé|no trobeu">Vindré demà, <marker>us pareix</marker>?</example>
+                <example type="incorrect" correction="li pareix bé|no troba">Vindré demà, <marker>li pareix</marker>?</example>
+                <example type="incorrect" correction="els pareix bé|no troben">Vindré demà, <marker>els pareix</marker>?</example>
+                <example type="correct">Què et sembla?</example>
+                <example type="correct">Els pareix bé?</example>
+                <example type="correct">No ho sembla?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token postag="P0.{6}|PP3CP000|PP3CSD00" postag_regexp="yes"/>
+                        <token inflected="yes" regexp="yes">parèixer|semblar</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Expressió incorrecta.</message>
+                <suggestion>\2 \3 bé</suggestion>
+                <suggestion><match no="2" postag="P.(.).(.).*" postag_regexp="yes" postag_replace="VMIP$1$200">trobar</match></suggestion>
+                <example type="incorrect" correction="et sembla bé|trobes">Vindré demà, no <marker>et sembla</marker>?</example>
+                <example type="incorrect" correction="us pareix bé|trobeu">Vindré demà, no <marker>us pareix</marker>?</example>
+                <example type="incorrect" correction="li pareix bé|troba">Vindré demà, no <marker>li pareix</marker>?</example>
+                <example type="incorrect" correction="els pareix bé|troben">Vindré demà, no <marker>els pareix</marker>?</example>
                 <example type="correct">Què et sembla?</example>
                 <example type="correct">Els pareix bé?</example>
                 <example type="correct">No ho sembla?</example>
