@@ -6824,16 +6824,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://www.duden.de/rechtschreibung/mal</url>
             <rule>
                 <pattern>
+                    <token><exception regexp="yes">nur|schon|bereits</exception></token><!-- Hinweis auf Betonung -->
                     <marker>
                         <token postag="ZAL"/>
                         <token>mal</token>
                     </marker>
                     <token><exception postag="ZAL"/></token>
                 </pattern>
-                <message>&getrennt;: <suggestion>\1<match no="2" case_conversion="alllower"/></suggestion> sollte meist zusammen geschrieben werden, außer wenn das Wort 'Mal' besonders betont werden soll.</message>
+                <message>&getrennt;: <suggestion>\2<match no="3" case_conversion="alllower"/></suggestion> sollte meist zusammen geschrieben werden, außer wenn das Wort 'Mal' besonders betont werden soll.</message>
                 <short>&getrennt;.</short>
                 <example type="incorrect" correction="achtmal">Wir haben es <marker>acht mal</marker> versucht.</example>
                 <example type="correct">Wir haben es <marker>achtmal</marker> versucht.</example>
+                <example type="correct">Das haben wir doch schon <marker>drei Mal</marker> besprochen!</example>
             </rule>
             <rule>
                 <pattern>
