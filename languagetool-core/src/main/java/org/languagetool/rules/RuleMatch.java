@@ -204,7 +204,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }  
 
   /**
-   * A shorter human-readable explanation describing the error or {@code null}
+   * A shorter human-readable explanation describing the error or an empty string
    * if no such explanation is available.
    * @see #getMessage()
    */
