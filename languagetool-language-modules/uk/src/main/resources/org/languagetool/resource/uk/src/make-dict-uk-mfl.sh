@@ -36,7 +36,7 @@ if [ "$2" != "-x" ]; then
 
 echo -e "\nGenerating POS dictionary"
 
-grep -h "^[^#].*[a-z]" tagged.*.txt | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
+grep -h "^[^#].*[a-z]" tagged.main.txt | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
 $MFL_CMD tab2morph -i all.tagged.tmp | \
 $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict 2>&1 | decode
 

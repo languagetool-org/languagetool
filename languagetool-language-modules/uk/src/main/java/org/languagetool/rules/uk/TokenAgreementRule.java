@@ -345,9 +345,8 @@ public class TokenAgreementRule extends Rule {
     if( tokenString.equals("їх") ) {
       msg += ". Можливо тут потрібно присвійний займенник «їхній»?";
       try {
-        String yihPostag = posTag.replaceFirst("^pron:pers:p:3:", "pron:p:");
-        String newYihPostag = yihPostag.replaceFirst(":v_[a-z]+", requiredPostTagsRegEx);
-        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "pron:m:v_naz", "їхній"), newYihPostag, true);
+        String newYihPostag = "adj:p" + requiredPostTagsRegEx + ".*";
+        String[] synthesized = ukrainianSynthesizer.synthesize(new AnalyzedToken("їхній", "adj:m:v_naz:&pron", "їхній"), newYihPostag, true);
         suggestions.addAll( Arrays.asList(synthesized) );
       } catch (IOException e) {
         throw new RuntimeException(e);

@@ -10,10 +10,10 @@ FLAGS="-f"
 make -C $spell_uk_dir/src/Dictionary uk_words.tag && \
 make -C $spell_uk_dir/src/Affix uk_affix.tag && \
 $spell_uk_dir/bin/tag/mk_pos_dict.py && \
-./make-dict-uk-mfl.sh $FLAGS && \
-mv -f *.dict ukrainian_tags.txt ../ && \
 echo "Running regression diffs..." && \
 sort tagged.main.txt | uniq -d > tagged.main.dups.txt && \
 sort tagged.main.txt | uniq -u > tagged.main.uniq.txt && \
-diff tagged.main.uniq.txt.bak tagged.main.uniq.txt > tu.diff
-diff tagged.main.dups.txt.bak tagged.main.dups.txt > td.diff
+(diff tagged.main.uniq.txt.bak tagged.main.uniq.txt > tu.diff || /bin/true) && \
+(diff tagged.main.dups.txt.bak tagged.main.dups.txt > td.diff || /bin/true) && \
+./make-dict-uk-mfl.sh $FLAGS && \
+mv -f *.dict ukrainian_tags.txt ../

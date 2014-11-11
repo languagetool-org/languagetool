@@ -1303,11 +1303,12 @@ $Id$
        <rule>
          <pattern>
               <token>за</token>
-              <token postag_regexp="yes" postag="pron.*"/>
+              <token postag_regexp="yes" postag="(adj|pron).*"/>
               <token>рахунок</token>
          </pattern>
-         <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(pron:.*)v_zna(.*)" postag_replace="$1v_oru$2"/> коштом</suggestion></message>
+         <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(.*)v_zna(.*)" postag_replace="$1v_oru$2"/> коштом</suggestion></message>
          <example type="incorrect" correction="своїм коштом"><marker>за свій рахунок</marker></example>
+         <example type="incorrect" correction="їхнім коштом"><marker>за їхній рахунок</marker></example>
          <example type="correct">коштом держави</example>
        </rule>
        <rule>
@@ -1353,12 +1354,13 @@ $Id$
             <marker>
               <token>в</token>
             </marker>
-            <token postag_regexp="yes" postag="pron.*v_zna.*"></token>
+            <token postag_regexp="yes" postag="(adj|pron).*v_zna.*"></token>
             <token>честь</token>
          </pattern>
          <message>Правильно: <suggestion>на</suggestion> чиюсь честь</message>
          <url>http://mova.kreschatic.kiev.ua/11.php</url>
          <example type="incorrect"><marker>В</marker> його честь назвали шпиталь</example>
+         <example type="incorrect"><marker>В</marker> їхню честь влаштували бенкет</example>
          <example type="correct">На його честь назвали шпиталь</example>
        </rule>
        <rule>
@@ -2320,6 +2322,7 @@ $Id$
          <example type="correct">бігти широкою вулицею</example>
        </rule>
 
+<!--
        <rule>
          <pattern>
               <token regexp="yes">сам|сама|саме</token>
@@ -2331,6 +2334,7 @@ $Id$
          <example type="incorrect" correction="сама собою|сама із себе"><marker>сама по собі</marker></example>
          <example type="correct">сам собою</example>
        </rule>
+-->
        <rule>
          <pattern>
               <token>по</token>
