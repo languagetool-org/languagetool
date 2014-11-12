@@ -2417,6 +2417,13 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_NOMS_COLLECTIUS" name="concordances en noms col·lectius">
+            <antipattern>
+                <marker>
+                    <token>parella</token>
+                    <token>de</token>
+                    <token>fet</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">parella?</token>
@@ -2430,6 +2437,7 @@ $Id$
                 <example type="correct">un parell d'estufes de butà</example>
                 <example type="correct">un grup de teatre</example>
                 <example type="correct">un parell d'engegada alt</example>
+                <example type="correct">Són parella de fet.</example>
             </rule>
             <rule id="CONFUSIO_NOMBRE" name="Confusions de nombre: catequesis, diesis">
                 <pattern>
@@ -18378,6 +18386,21 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="COMPTE_ALIE" name="per compte *aliè/d'altri">
+            <pattern>
+                <token>per</token>
+                <token skip="3">compte</token>
+                <marker>
+                    <token>aliè</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>d'altri</suggestion>
+            <example type="incorrect" correction="d'altri">Per compte propi o <marker>aliè</marker>.</example>
+            <example type="incorrect" correction="d'altri">Per compte propi o compte <marker>aliè</marker>.</example>
+            <example type="incorrect" correction="d'altri">Per compte propi o per compte <marker>aliè</marker>.</example>
+            <example type="correct">Per compte d'altri.</example>
+        </rule>
         <rule id="EL_GAT_A_LAIGUA" name="*emportar-se el gat a l'aigua">
             <pattern>
                 <marker>
@@ -23775,6 +23798,17 @@ $Id$
             
         </rulegroup>        
     </category>
+    <category name="D1) Llenguatge administratiu" default="off" type="style">
+        <rule id="EVITA_FUTUR_OBLIGACIO" name="Revisa futur d'obligació">
+            <pattern>
+                <token postag="V.IF3.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Eviteu el futur per a indicar obligació.</message>
+            <suggestion><match no="1" postag="(V.I)F(3.*)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+            <example type="incorrect" correction="És"><marker>Serà</marker> obligatori fer-ho així.</example>
+            <example type="correct">És obligatori.</example>
+        </rule>
+    </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
         <!-- També: en/amb referència a -->
@@ -24195,7 +24229,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">celebrar</token>
+                        <token inflected="yes" skip="4">celebrar</token>
                     </marker>
                     <token inflected="yes">contracte</token>
                 </pattern>
@@ -24208,7 +24242,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="3">contracte</token>
+                    <token inflected="yes" skip="4">contracte</token>
                     <marker>
                         <token inflected="yes">celebrar</token>
                     </marker>
