@@ -5784,6 +5784,10 @@ though, and has since been slightly modified)-->
         <!-- <example type="correct">L’étoile à neutrons peut <marker>même être</marker> remplacée par un trou noir.</example> -->
       </rule>
       <rule name="féminin suivi du masculin">
+        <antipattern>
+          <token>avenue</token>
+          <token regexp="yes" postag="Z [em] .*" postag_regexp="yes">(?-i)\p{Lu}.*</token>
+        </antipattern>
         <pattern>
           <token postag="[DJ] f .*" postag_regexp="yes" skip="1">
             <exception postag="[NJ] [me] .*|V .*" postag_regexp="yes"/>
@@ -5834,6 +5838,7 @@ though, and has since been slightly modified)-->
         <example type="correct">L’une des sept unités de base.</example>
         <example type="correct">une des neuf provinces.</example>
         <example type="correct">Les bonnes gens.</example>
+        <example type="correct">J’habite 10 avenue Constantin Arnaud.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <pattern>
