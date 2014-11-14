@@ -3427,15 +3427,15 @@ $Id$
             </rule>
         </rulegroup>        
 
-        <rulegroup default="on" id="Prep_Soglasno" name="Предлог «согласно»">
+        <rulegroup default="on" id="Prep_Soglasno" name="Предлоги «согласно», «благодаря», «вопреки»">
             <rule>
                 <pattern>
-                    <token>согласно</token>
+                    <token regexp= "yes" >согласно|благодаря|вопреки</token>
                     <token postag="NN:.*:.*:R" postag_regexp="yes">
                         <exception postag="NN:.*:.*:D" postag_regexp="yes"></exception>
                     </token>
                 </pattern>
-                <message>Предлог «согласно» должен употребляться с дательным падежом (согласно чему), а не с родительным (согласно чего):
+                <message>Этот предлог должен употребляться с дательным падежом (<match no="1"></match> чему), а не с родительным (<match no="1"></match> чего):
                     <suggestion>
                         <match no="1"></match> 
                         <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match>
@@ -3443,7 +3443,11 @@ $Id$
                 </message>
                 <short>Требуется дательный падеж.</short>
                 <example type="correct">Отправление поезда согласно расписанию.</example>
+                <example type="correct">Скорость марсоходов увеличится благодаря системе автономной навигации.</example>
+                 <example type="correct">Вопреки утверждению ФАС дефицит топлива возможен.</example>
                 <example type="incorrect">Отправление поезда <marker>согласно расписания</marker>.</example>
+                <example type="incorrect">Скорость марсоходов увеличится <marker>благодаря системы</marker> автономной навигации.</example>
+                <example type="incorrect"><marker>Вопреки утверждения</marker> ФАС дефицит топлива возможен.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="Use_prep_O" name="Предлог «о»">
