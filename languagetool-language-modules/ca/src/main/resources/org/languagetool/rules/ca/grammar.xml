@@ -17347,11 +17347,12 @@ $Id$
         <rule id="PERCENT_SENSE_ESPAI" name="tant per cent sense espai abans (3%)" default="on">
             <pattern>
                 <token regexp="yes">[\d.,]+</token>
-                <token>%</token>
+                <token spacebefore="yes">%</token>
             </pattern>
             <message>Sobra un espai.</message>
             <suggestion>\1\2</suggestion> <!-- using "narrow no-break space" -->
             <example type="incorrect" correction="23,5%">Pagà un <marker>23,5 %</marker>.</example>
+            <example type="correct">és 1.-2.%.</example>
             <example type="correct">Pagà un 25%.</example>
         </rule>
         <rule id="PUNTS_SUSPENSIUS" name="Exigeix el caràcter de punts suspensius" default="off">
