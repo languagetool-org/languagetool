@@ -1,18 +1,31 @@
 #!/bin/sh
 
-BASE="../../../../../../../../../../"
+BASE="../../../../../../../../../.."
 BASE1="$BASE/languagetool-commandline/target/classes"
 BASE2="$BASE/languagetool-core/target/classes"
 BASE3="$BASE/languagetool-language-modules/en/target/classes"
 BASE4="$BASE/languagetool-language-modules/uk/target/classes"
 
-#LIBDIR="$BASE/languagetool-standalone/target/LanguageTool-2.2-SNAPSHOT/LanguageTool-2.2-SNAPSHOT/libs"
+
+LT_DIR=`ls $BASE/languagetool-standalone/target/LanguageTool-?.*-SNAPSHOT`
+LIBDIR="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR/libs"
 #LIBS=`ls $LIBDIR | tr '\n' ':'`
 
-CPATH=.libs/lucene-gosen-ipadic.jar:libs/ictclas4j.jar:libs/cjftransform.jar:libs/jwordsplitter.jar:libs/commons-logging.jar:libs/segment.jar:libs/morfologik-fsa.jar:libs/morfologik-speller.jar:libs/morfologik-stemming.jar:libs/commons-lang.jar
+echo "libs: $LIBDIR"
 
+CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform.jar:$LIBDIR/jwordsplitter.jar:$LIBDIR/commons-logging.jar:$LIBDIR/segment.jar:$LIBDIR/morfologik-fsa.jar:$LIBDIR/morfologik-speller.jar:$LIBDIR/morfologik-stemming.jar:$LIBDIR/commons-lang.jar
+
+# Profiling
+
+# For JVisualVM
 #JAVA_OPTS="-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
 #JAVA_OPTS="-Xverify:none"
+
+# For JMC
+#JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=tmp/dumponexit.jfr"
+
+#export PATH=/usr/java/jdk1.8.0_20/bin:$PATH
+
 
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"
 #RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,EUPHONY,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE"
@@ -20,7 +33,7 @@ RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_R
 RULES_TO_IGNORE_FOR_GROUPED="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_MIXED_ALPHABETS,UK_SIMPLE_REPLACE,INVALID_DATE,YEAR_20001,DATE_WEEKDAY1"
 #RULES_DONE="BILSHE_WITH_NUMERICS,COMMA_BEFORE_BUT,INSERTED_WORDS_NO_COMMA"
 
-if [ echo "$@" | grep -q "\--group-rules" ]; then
+if echo "$@" | grep -q "\--group-rules"; then
   GROUP_RULES=1
 fi
 

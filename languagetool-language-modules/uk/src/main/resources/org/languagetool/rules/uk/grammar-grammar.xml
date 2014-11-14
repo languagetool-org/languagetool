@@ -261,6 +261,76 @@ $Id$
             </rule>
         </rulegroup>
 
+        <rulegroup name="Узгодженість роду іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC_GENDER">
+            <rule>
+                <pattern>
+                   <marker>
+                    <token>півтора</token>
+                   </marker>
+                   <token postag_regexp="yes" postag="noun:f:.*">
+                      <exception postag_regexp="yes" postag="noun:[nm]:(nv|v_rod).*"/>
+                   </token>
+                </pattern>
+                <message>В жіночому роді правильно: <suggestion>півтори</suggestion></message>
+                <example type="incorrect"><marker>півтора</marker> доби</example>
+                <example type="incorrect"><marker>півтора</marker> тисячі</example>
+                <example type="correct">півтори доби</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token regexp="yes">півтор[аи]</token>
+                   <marker>
+                     <token postag_regexp="yes" postag="noun:p:.*">
+                        <exception postag_regexp="yes" postag="noun:[nmf]:(nv|v_rod).*"/>
+                        <exception>рази</exception>
+                     </token>
+                   </marker>
+                </pattern>
+                <message>Після «півтора» треба вживати родовий однини: <suggestion><match no="2" postag_regexp="yes" postag="noun:[mnf]:v_rod.*"/></suggestion></message>
+                <example type="incorrect" correction="відра">півтора <marker>відер</marker></example>
+                <example type="incorrect" correction="сотні">півтори <marker>сотень</marker></example>
+                <example type="incorrect" correction="мільярда">півтора <marker>мільярди</marker></example>
+                <example type="correct">півтора літра</example>
+                <example type="correct">півтора рази</example>
+                <example type="correct">півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
+            </rule>
+            <rule>
+                <pattern>
+                   <token>півтора</token>
+                   <marker>
+                     <token postag_regexp="yes" postag="noun:[mn]:.*">
+                        <exception postag_regexp="yes" postag="noun:[nmfp]:(nv|v_rod).*"/>
+                        <exception>рази</exception>
+                     </token>
+                   </marker>
+                </pattern>
+                <message>Після «півтора» треба вживати родовий однини: <suggestion><match no="2" postag_regexp="yes" postag="(noun:.):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
+                <example type="incorrect" correction="копальника">півтора <marker>копальнику</marker></example>
+                <example type="incorrect" correction="відра">півтора <marker>відрі</marker></example>
+                <example type="correct">півтора літра</example>
+                <example type="correct">півтора рази</example>
+                <example type="correct">півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
+            </rule>
+            <rule>
+                <pattern>
+                   <marker>
+                     <token>півтори</token>
+                   </marker>
+                   <token postag_regexp="yes" postag="noun:[mn]:.*">
+                      <exception postag_regexp="yes" postag="noun:[fp]:(nv|v_rod).*"/>
+                   </token>
+                </pattern>
+                <message>В чоловічому та середньому роді правильно: «<suggestion>півтора</suggestion>»</message>
+                <example type="incorrect"><marker>півтори</marker> відра</example>
+                <example type="incorrect"><marker>півтори</marker> кухля</example>
+                <example type="correct">півтора відра</example>
+                <example type="correct">півтори доби</example>
+                <example type="correct">півтора кухля</example>
+                <example type="correct">півтори сотні</example> <!-- ingore this mistake here, it'll be caght by rule above -->
+            </rule>
+        </rulegroup>
+
+
         <rulegroup name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи" id="PASSIVE_PREDICATE">
             <rule>
                 <pattern>
