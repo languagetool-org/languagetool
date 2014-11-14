@@ -26,7 +26,7 @@ import java.util.List;
  * Create a Morfologik binary dictionary from plain text data.
  * @since public since 2.8
  */
-final class POSDictionaryBuilder extends DictionaryBuilder {
+public final class POSDictionaryBuilder extends DictionaryBuilder {
 
   public POSDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
