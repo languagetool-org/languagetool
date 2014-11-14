@@ -161,6 +161,9 @@ public class LanguageManagerDialog implements ActionListener {
       } else {
           ruleFile = Tools.openFileDialog(owner, new XMLFileFilter());
       }
+      if (ruleFile == null) {
+        return; // dialog was canceled
+      }
       if (config != null) {
         config.setExternalRuleDirectory(ruleFile.getParent());
         try {
