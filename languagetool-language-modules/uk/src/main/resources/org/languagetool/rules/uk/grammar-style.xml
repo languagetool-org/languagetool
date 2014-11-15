@@ -654,6 +654,283 @@ $Id$
 
     </rulegroup>
 
+    <rulegroup id="NETOCHNE_VZHYVANNYA" name="Неточне вживання слів">
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">виборний</token>
+                   <token inflected="yes">кампанія</token>
+               </marker>
+           </pattern>
+           <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>виборча кампанія</suggestion>?</message>
+           <short>Правильно «виборча кампанія»</short>
+           <example type="incorrect"><marker>Виборна кампанія</marker> пройшла успішно.</example>
+           <example type="correct">Виборча кампанія пройшла успішно.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">виборчий</token>
+                   <token inflected="yes">посада</token>
+               </marker>
+           </pattern>
+           <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>виборна посада</suggestion>?</message>
+           <short>Правильно «виборна посада»</short>
+           <example type="incorrect"><marker>Виборча посада</marker> визначається голосуванням.</example>
+           <example type="correct">Виборна посада визначається голосуванням.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">жилий</token>
+                   <token inflected="yes">будівництво</token>
+               </marker>
+           </pattern>
+           <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>житлове будівництво</suggestion>?</message>
+           <short>Правильно «житлове будівництво»</short>
+           <example type="incorrect">Постанова про індивідуальне <marker>жиле будівництво</marker>.</example>
+           <example type="correct">Постанова про індивідуальне житлове будівництво.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">громадянський</token>
+                   <token inflected="yes">транспорт</token>
+               </marker>
+           </pattern>
+           <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>громадський транспорт</suggestion>?</message>
+           <short>Правильно «громадський транспорт»</short>
+           <example type="incorrect"><marker>Громадянський транспорт</marker> став через снігопад.</example>
+           <example type="correct">Громадський транспорт став через снігопад.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <token inflected="yes" regexp="yes">яскравий|гарячий|змінний|надновий|коливання|атмосфера|температура|спектр|енергія|формування|формувати|сформувати</token>
+               <marker>
+                   <token inflected="yes">зірка</token>
+               </marker>
+           </pattern>
+           <message>Краще: <suggestion>зоря</suggestion></message>
+           <example type="incorrect">яскравіша <marker>зірка</marker></example>
+           <example type="correct">п'ятикутна зірка</example>
+           <example type="correct">яскравіша зоря</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token>вилитий</token> <!-- TODO: inflected ? -->
+               </marker>
+                   <token postag_regexp="yes" postag="adj.*" min="0" max="1"/>
+                   <token postag_regexp="yes" postag="(noun:.*ist|pron).*"></token>
+           </pattern>
+           <message>Краще: <suggestion>викапаний</suggestion></message>
+           <example type="incorrect"><marker>вилитий</marker> живий Йозеф Швейк</example>
+           <example type="incorrect"><marker>вилитий</marker> я у молодості</example>
+           <example type="correct">вилитий у бронзі</example>
+           <example type="correct">вилитий бруд</example>
+       </rule>
+       <rule>
+           <pattern>
+               <token>як</token>
+               <marker>
+                   <token>вилитий</token>
+               </marker>
+           </pattern>
+           <message>Краще: <suggestion>викапаний</suggestion></message>
+           <example type="incorrect">як <marker>вилитий</marker></example>
+           <example type="correct">як викапаний</example>
+       </rule>
+
+       <rule>
+           <pattern>
+             <marker>
+               <token inflected="yes">економічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">двигун|технологія</token>
+               <token min="0" postag_regexp="yes" postag="(adj|pron).*"/>
+               <token postag_regexp="yes" postag="noun.*"><exception regexp="yes">країни|ціноутворення</exception></token>
+           </pattern>
+           <message>Правильно: <suggestion>економний</suggestion></message>
+           <example type="correct">економічну політику</example>
+           <example type="correct">став економічним двигуном ціноутворення</example>
+           <example type="correct">став економічним двигуном великого ціноутворення</example>
+           <example type="correct">став економічним двигуном всієї країни</example>
+       </rule>
+       <rule>
+           <pattern>
+             <marker>
+               <token inflected="yes">економічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">двигун|технологія</token>
+           </pattern>
+           <message>Правильно: <suggestion>економний</suggestion></message>
+           <example type="incorrect">поставили <marker>економічний</marker> двигун</example>
+           <example type="correct">поставили економний двигун</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">виключення</token>
+                   <token>з</token>
+                   <token>правила</token>
+               </marker>
+           </pattern>
+           <message>Неточно вжите слово. Ви мали на увазі <suggestion>виняток з правила</suggestion>?</message>
+           <short>Правильно «виняток з правила»</short>
+           <example type="incorrect">Це слово - <marker>виключення з правила</marker>.</example>
+           <example type="correct">Це слово - виняток з правила.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">засіб</token>
+                   <token inflected="yes">життя</token>
+               </marker>
+           </pattern>
+           <message>Неточно вжите слово. Ви мали на увазі <suggestion>спосіб життя</suggestion>?</message>
+           <short>Правильно «спосіб життя»</short>
+           <example type="incorrect">Вона веде активний <marker>засіб життя</marker>.</example>
+           <example type="correct">Вона веде активний спосіб життя.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes">погроза</token>
+                   <token>вибуху</token>
+               </marker>
+           </pattern>
+           <message>Неточно вжите слово. Ви мали на увазі <suggestion>загроза вибуху</suggestion>?</message>
+           <short>Правильно «загроза вибуху»</short>
+           <example type="incorrect"><marker>Погроза вибуху</marker> стала причиною евакуювання.</example>
+           <example type="correct">Загроза вибуху стала причиною евакуювання.</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <token inflected="yes" regexp="yes">збільшувати|збільшити|збільшуватися|збільшитися|зменшувати|зменшити|зменшуватися|зменшитися|збільшення|зменшення</token>
+               <marker>
+                   <token inflected="yes">термін</token>
+               </marker>
+           </pattern>
+           <message>Неточно вжите слово. Ви мали на увазі <suggestion>строк</suggestion>?</message>
+           <short>Правильно: строк</short>
+           <example type="incorrect">Зменшиться <marker>термін</marker> виборчої кампанії</example>
+           <example type="correct">Зменшиться строк виборної кампанії</example>
+       </rule>
+
+       <rule>
+           <pattern>
+               <token inflected="yes" regexp="yes">заряджений|елементарний|віртуальний|фундаментальний</token>
+               <marker>
+                   <token inflected="yes">частка</token>
+               </marker>
+           </pattern>
+           <message>Неточно вжите слово. Ви мали на увазі <suggestion>частинка</suggestion>?</message>
+           <short>Правльно: строк</short>
+           <example type="incorrect">всі елементарні <marker>частки</marker></example>
+           <example type="correct">всі елементарні частинки</example>
+           <example type="correct">всі частки майна</example>
+       </rule>
+
+       <rule>
+           <pattern>
+             <marker>
+               <token inflected="yes">металічний</token>
+             </marker>
+               <token inflected="yes" regexp="yes">конструкція|опалубка|руда|сітка|спіраль|стружка|термопара|гроші|відходи|порошок|покрив|виробництво|підшипник</token>
+           </pattern>
+           <message>Правильно: <suggestion>металевий</suggestion></message>
+           <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
+           <example type="incorrect"><marker>металічної</marker> руди</example>
+           <example type="correct">металевої руди</example>
+           <example type="correct">металічного присмаку</example>
+       </rule>
+       <rule>
+           <pattern>
+             <marker>
+               <token inflected="yes">металевий</token>
+             </marker>
+               <token inflected="yes" regexp="yes">провідність|зв'язок|блиск|водень|кристал|присмак</token>
+           </pattern>
+           <message>Правильно: <suggestion>металічний</suggestion></message>
+           <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
+           <example type="incorrect"><marker>металевого</marker> блиску</example>
+           <example type="correct">металічного блиску</example>
+           <example type="correct">металевої руди</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">дощовий</token>
+          </marker>
+            <token inflected="yes" regexp="yes">(день|тиждень|місяць|рік|весна|літо|осінь|зима|погода)</token>
+         </pattern>
+         <message>Правильно: <suggestion>дощовитий</suggestion></message>
+         <url>http://mova.kreschatic.kiev.ua/13.php</url>
+         <example type="incorrect"><marker>Дощове</marker> літо</example>
+         <example type="correct">Дощові хмари</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <token inflected="yes" regexp="yes">науковий|вчений</token>
+           <marker>
+            <token>степінь</token>
+          </marker>
+         </pattern>
+         <message>Правильно: <suggestion>ступінь</suggestion></message>
+         <example type="incorrect">Науковий <marker>степінь</marker></example>
+         <example type="correct">Піднесення до степеня</example>
+         <example type="correct">Науковий ступінь</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <marker>
+              <token inflected="yes">громадянський</token>
+            </marker>
+            <token inflected="yes">шлюб</token>
+         </pattern>
+         <message>Правильно: <suggestion>цивільний</suggestion> шлюб</message>
+         <url>http://mova.kreschatic.kiev.ua/12.php</url>
+         <example type="incorrect"><marker>Громадянський</marker> шлюб: за і проти</example>
+         <example type="correct">Цивільний шлюб: за і проти</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">вірний</token>
+          </marker>
+            <token inflected="yes">спосіб</token>
+         </pattern>
+         <message>Правильно: <suggestion>надійний</suggestion></message>
+         <example type="incorrect"><marker>Вірний</marker> спосіб</example>
+         <example type="correct">Вірний джура</example>
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+            <token inflected="yes">вірний</token>
+          </marker>
+            <token inflected="yes" regexp="yes">результат|відповідь|рішення</token>
+         </pattern>
+         <message>Правильно: <suggestion>правильний</suggestion></message>
+         <example type="incorrect"><marker>Вірна</marker> відповідь</example>
+         <example type="correct">Вірна дружина</example>
+       </rule>
+
+    </rulegroup>
+
   </category>
 
 </rules>
