@@ -1134,6 +1134,7 @@ $Id$
             </rule>
             
         </rulegroup>
+       
         <rulegroup default="on" id="NEIZVESTNO_KTO" name="Цельные выражения: «неизвестно кто», ...">
             <!-- Запятая не ставится в цельных выражениях:
             неизвестно кто,
@@ -2633,7 +2634,19 @@ $Id$
                 </example>
             </rule>
         </rulegroup>
-        
+         <rulegroup default="on" id="NE_PREDSTAVL_VOZM" name="Цельные выражения: «не представляется возможным»">
+            <rule>
+                <pattern>
+                    <token>не</token>
+                    <token>предоставляется</token>
+                    <token>возможным</token>
+                </pattern>
+                <message>Словосочетание<suggestion>\1 представляется \3</suggestion>.</message>
+                <short>Цельное выражение.</short>
+                <example type="correct">Количество лошадиных сил определить не представляется возможным.</example>
+                <example type="incorrect">Количество лошадиных сил определить <marker>не предоставляется возможным</marker>.</example>
+            </rule>
+        </rulegroup>
         
         <rulegroup default="on" id="V_K_S" name="Беглая гласная в предлогах: «в», «к», «с», «без», «из» ...">
             <rule>
