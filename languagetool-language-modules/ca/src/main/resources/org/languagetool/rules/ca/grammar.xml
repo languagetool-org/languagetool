@@ -12862,6 +12862,18 @@ $Id$
         <!-- This rulegroup would be unnecessary if LibreOffice/OpenOffice tokenized the words containing hyphens like LanguageTool -->
             <rule>
                 <pattern>
+                    <token>sots</token>
+                    <token>-</token>
+                    <token regexp="yes" inflected="yes">campió|campionat</token>
+                </pattern>
+                <message>Cal dir <suggestion>sub<match no="3"/></suggestion>.</message>
+                <short>Error ortogràfic</short>
+                <example type="incorrect" correction="subcampionats">Els <marker>sots-campionats</marker></example>
+                <example type="incorrect" correction="subcampiones">Les <marker>sots-campiones</marker></example>
+                <example type="correct">El subcampió</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>poca</token>
                     <token>-</token>
                     <token>vergonya</token>
