@@ -36,7 +36,7 @@ $Id$
           <marker>
            <token inflected="yes" regexp="yes">приймати|прийняти|приймавший</token>
           </marker>
-           <token min="0" postag_regexp="yes" postag="adj.*"/>
+           <token postag_regexp="yes" postag="adj.*" min="0"/>
            <token>участь</token>
           </pattern>
          <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion>.</message>
@@ -47,7 +47,7 @@ $Id$
        <rule>
          <pattern>
           <marker>
-           <token inflected="yes" regexp="yes">приймати|прийняти|приймавший</token>
+           <token inflected="yes" regexp="yes">приймати|прийняти|приймавший|прийнятий</token>
           </marker>
            <token>на</token>
            <token>себе</token>
@@ -61,7 +61,7 @@ $Id$
           <marker>
            <token inflected="yes" regexp="yes">приймати|прийняти|приймавший|прийнятий</token>
           </marker>
-           <token postag_regexp="yes" postag="pron.*" min="0" max="1"/>
+           <token postag_regexp="yes" postag="(pron|adv).*" min="0" max="2"/>
            <token>до</token>
            <token regexp="yes">уваги|відома|серця</token>
           </pattern>
@@ -70,6 +70,7 @@ $Id$
          <example type="incorrect"><marker>прийматиме</marker> до відома</example>
          <example type="incorrect"><marker>приймати</marker> до уваги</example>
          <example type="incorrect"><marker>приймати</marker> це до уваги</example>
+         <example type="incorrect"><marker>приймав</marker> близько до серця</example>
          <!-- TODO:
          <example type="incorrect"><marker>приймати</marker> цей факт до уваги</example>
          -->
@@ -78,63 +79,47 @@ $Id$
        <rule>
          <pattern>
             <token inflected="yes" regexp="yes">прийняти|приймати|прийнятий|приймавший</token>
-            <token regexp="yes">міри|міру|міра</token>
+            <token postag_regexp="yes" postag="adj.*" min="0"/>
+            <token inflected="yes">міра
+              <exception postag_regexp="yes" postag=".*;adv&gt;.*"/>
+            </token>
          </pattern>
          <message>Правильно: <suggestion><match no="1" postag="verb.*" postag_regexp="yes">вживати</match> заходів</suggestion></message>
          <example type="incorrect"><marker>Прийняти міри</marker> щодо цього.</example>
          <example type="incorrect"><marker>Прийняли міри</marker>, щоб цього не сталося.</example>
          <example type="incorrect"><marker>Приймуть міри</marker>, щоб цього не сталося.</example>
+         <example type="incorrect"><marker>Приймуть невідкладні міри</marker>, щоб цього не сталося.</example>
+         <example type="correct">Приняли повною мірою ці санкції.</example>
          <example type="correct">Приняли мірою ваги кілограм.</example>
        </rule>
 
        <rule>
          <pattern>
-           <token inflected="yes" regexp="yes">уявляти|уявити|уявлявший</token>
-           <token>з</token>
+           <token inflected="yes" regexp="yes">уявляти|уявити|представляти</token>
+           <token regexp="yes">і?з</token>
            <token>себе</token>
           </pattern>
          <message>Правильно: <suggestion>являти собою</suggestion>, <suggestion>бути</suggestion>, <suggestion>становити</suggestion>.</message>
          <example type="incorrect">Рід <marker>уявляє з себе</marker> справді щось стале</example>
+         <example type="incorrect">Він <marker>представляв із себе</marker> справді щось унікальне</example>
          <example type="correct">Рід є справді щось стале</example>
        </rule>
-
-        <rule>
+       <rule>
          <pattern>
-              <token inflected="yes" regexp="yes">представляти|представлявший</token>
+              <token inflected="yes">представляти</token>
               <token>собою</token>
          </pattern>
-         <message>Правильно: <suggestion>являти собою</suggestion>, <suggestion>становити собою</suggestion></message>
+         <message>Правильно: <suggestion>являти собою</suggestion>, <suggestion>бути</suggestion>, <suggestion>становити собою</suggestion></message>
          <example type="incorrect">Він <marker>представляв собою</marker> великий монумент.</example>
          <example type="correct">Він являв собою великий монумент</example>
        </rule>
 
-       <!--  TODO: fix all examples
-       <rule>
-         <pattern>
-            <token inflected="yes">бути</token>
-            <token inflected="yes" postag_regexp="yes" postag="adj:.:(v_oru|v_naz).*" skip="0">правий
-            	<exception scope="current" postag_regexp="yes" postag="verb:inf.*"/>
-            	<exception scope="next" regexp="yes">рукою|на|сказати</exception>
-            </token>
-         </pattern>
-         <message>Правильно: <suggestion><match no="1" postag="verb:.*" postag_regexp="yes">мати</match> рацію</suggestion></message>
-         <example type="incorrect" correction="мав рацію">Він <marker>був правий</marker></example>
-         <example type="incorrect">Вона <marker>була права</marker></example>
-         <example type="incorrect">Він <marker>був правий</marker></example>
-         <example type="incorrect">Він <marker>буде правим</marker></example>
-         <example type="correct">В нього не буде права сказати «ні»</example>
-         <example type="correct">В нього не буде права на це</example>
-         <example type="correct">Він був правою рукою майстра</example>
-         <example type="correct">Він мав рацію</example>
-       </rule>
-        -->
-
-       <!-- користуватися -> мати -->
        <rule>
          <pattern>
            <token inflected="yes" regexp="yes">користуватися|користувавшийся</token>
+           <token postag_regexp="yes" postag="adj.*" min="0"/>
            <token>попитом</token>
-          </pattern>
+         </pattern>
          <message>Правильно: <suggestion>мати попит</suggestion>.</message>
          <example type="incorrect"><marker>користуватися попитом</marker></example>
          <example type="correct"><marker>мав попит</marker></example>
@@ -143,7 +128,7 @@ $Id$
        <rule>
            <pattern>
                <marker>
-                   <token inflected="yes" regexp="yes">вступати|вступити|вступаючий|вступивший</token>
+                   <token inflected="yes" regexp="yes">вступати|вступити|вступаючий</token>
                    <token>в</token>
                    <token>силу</token>
                </marker>
@@ -159,17 +144,28 @@ $Id$
        <rule>
          <pattern>
             <token inflected="yes" regexp="yes">.*хворіти|.*хворівший</token>
-            <token postag_regexp="yes" postag="noun:.:v_oru.*"></token>
+            <marker>
+            <!--
+            <token postag_regexp="yes" postag="adj:.:v_oru.*" min="0"/>
+            -->
+            <token postag_regexp="yes" postag="noun:.:v_oru.*">
+              <exception regexp="yes">дивом|чудом|протягом|часом</exception>
+            </token>
+            </marker>
          </pattern>
-         <message>Правильно: <suggestion><match no="1"/> на <match no="2" postag_regexp="yes" postag="(noun:.*):v_oru(.*)" postag_replace="$1:v_zna$2"></match></suggestion></message>
-         <example type="incorrect" correction="хворіє на ангіну">Він <marker>хворіє ангіною</marker></example>
+         <message>Правильно: <suggestion>на <match no="2" postag_regexp="yes" postag="(noun:.*):v_oru(.*)" postag_replace="$1:v_zna$2"/></suggestion></message>
+         <example type="incorrect" correction="на ангіну">Він хворіє <marker>ангіною</marker></example>
+         <!--
+         <example type="incorrect" correction="на страшну ангіну">Він хворіє <marker>страшною ангіною</marker></example>
+         -->
          <example type="correct">Він хворіє на ангіну</example>
+         <example type="correct">Він не захворів дивом</example>
        </rule>
 
        <rule>
          <pattern>
             <marker>
-            <token inflected="yes" regexp="yes">рахувати|рахувавший</token>
+              <token inflected="yes" regexp="yes">рахувати|рахуватися|рахувавший</token>
             </marker>
             <token>,</token>
             <token>що</token>
@@ -178,6 +174,9 @@ $Id$
          <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
          <example type="incorrect">Він <marker>рахував</marker>, що все буде гаразд.</example>
          <example type="correct">Він вважав, що все буде гаразд.</example>
+         <!-- TODO: fix
+         <example type="correct">Він вважав, що з ним рахуються, що він є головним.</example>
+         -->
        </rule>
 
        <rule>
@@ -193,6 +192,8 @@ $Id$
          <example type="correct">Йдеться про наслідки перемовин.</example>
        </rule>
 
+<!--
+Є «по правді» в старих словниках
        <rule>
          <pattern>
             <token inflected="yes">говорити</token>
@@ -216,6 +217,7 @@ $Id$
          <example type="incorrect">Він <marker>дав їй знати</marker></example>
          <example type="correct">Він їй повідомив</example>
        </rule>
+-->
 
        <rule>
          <pattern>
@@ -224,7 +226,8 @@ $Id$
             </marker>
             <token>гроші</token>
          </pattern>
-         <message>Правильно: <suggestion><match no="1" postag="verb.*" postag_regexp="yes">переказувати</match></suggestion> гроші</message>
+         <message>Правильно: <suggestion><match no="1" postag="verb.*" postag_regexp="yes">переказувати</match></suggestion></message>
+         <suggestion><match no="1" postag="verb.*" postag_regexp="yes">пересилати</match></suggestion>
          <url>http://mova.kreschatic.kiev.ua/10.php</url>
          <example type="incorrect">Він часто <marker>переводить</marker> гроші додому.</example>
          <example type="correct">Він часто переказує гроші додому.</example>
@@ -233,11 +236,11 @@ $Id$
        <rule>
          <pattern>
            <marker>
-            <token inflected="yes" regexp="yes">потискувати|потискати|потиснути</token>
+            <token inflected="yes" regexp="yes">потискувати|потискати|потиснути|пожимати</token>
           </marker>
             <token inflected="yes">плече</token>
          </pattern>
-         <message>Правильно: <suggestion>знизувати</suggestion> плечима</message>
+         <message>Правильно: <suggestion>знизувати</suggestion>, <suggestion>здвигати</suggestion>, <suggestion>стинати</suggestion>, <suggestion>стискати</suggestion>, </message>
          <example type="incorrect">Він лише <marker>потиснув</marker> плечима</example>
          <example type="correct">Він лише знизав плечима</example>
        </rule>
@@ -247,7 +250,7 @@ $Id$
            <marker>
             <token inflected="yes" regexp="yes" skip="1">розділяти|розділити|розділивши</token>
            </marker>
-            <token inflected="yes" regexp="yes">думка|погляди|позиція|оптимізм|тривога|почуття|радість</token>
+            <token inflected="yes" regexp="yes">думка|погляди|позиція|оптимізм|песимізм|сумнів|тривога|почуття|радість</token>
          </pattern>
          <message>Правильно: <suggestion>поділяти</suggestion></message>
          <example type="incorrect">Всі <marker>розділяли</marker> мою радість</example>
@@ -259,7 +262,7 @@ $Id$
             <token inflected="yes">вести</token>
             <token>себе</token>
          </pattern>
-         <message>Правильно: <suggestion>поводитися</suggestion></message>
+         <message>Правильно: <suggestion>поводитися</suggestion>, <suggestion>триматися</suggestion></message>
          <example type="incorrect">Він <marker>вів себе</marker> достойним чином</example>
          <example type="correct">Він поводився гідно</example>
        </rule>
@@ -267,9 +270,9 @@ $Id$
        <rule>
          <pattern>
            <marker>
-            <token inflected="yes" regexp="yes" skip="1">здавати|здати|здававший</token>
-          </marker>
-            <token inflected="yes" regexp="yes">екзамен|іспит|тест</token>
+            <token inflected="yes" regexp="yes" skip="1">здавати|здати|здававший|зданий</token>
+           </marker>
+           <token inflected="yes" regexp="yes">екзамен|іспит|тест</token>
          </pattern>
          <message>Правильно: <suggestion>складати</suggestion></message>
          <example type="incorrect">Він <marker>здав</marker> екзамен</example>
@@ -301,18 +304,6 @@ $Id$
 
        <rule>
          <pattern>
-           <marker>
-           <token>вибачаюсь</token>
-           </marker>
-           <token>,</token>
-           <token>що</token>
-          </pattern>
-         <message>Правильно: <suggestion>вибачайте</suggestion>, <suggestion>вибачте</suggestion>, <suggestion>даруйте</suggestion>, <suggestion>пробачте</suggestion>.</message>
-         <example type="incorrect"><marker>Вибачаюсь</marker>, що не зміг до вас зайти</example>
-         <example type="correct">Вибачте, що не зміг до вас зайти</example>
-       </rule>
-       <rule>
-         <pattern>
           <marker>
             <token>вибачаюсь</token>
           </marker>
@@ -325,7 +316,7 @@ $Id$
 
        <rule>
          <pattern>
-              <token inflected="yes" regexp="yes">давати|віддавати</token>
+              <token inflected="yes" regexp="yes">давати|дати|віддавати|віддати</token>
               <token>собі</token>
               <token>звіт</token>
          </pattern>
@@ -352,7 +343,7 @@ $Id$
        <rule>
            <pattern>
                <marker>
-                   <token inflected="yes" regexp="yes">збивати|збити|збитий</token>
+                   <token inflected="yes" regexp="yes">збивати|збити|збиватися|збитися|збитий</token>
                    <token postag_regexp="yes" postag="(noun|pron).*" min="0" max="1"/>
                    <token>з</token>
                    <token>толку</token>
@@ -363,6 +354,8 @@ $Id$
            <example type="correct">Він її спантеличив</example>
        </rule>
 
+<!--
+є в словниках
        <rule>
            <pattern>
                <marker>
@@ -380,6 +373,7 @@ $Id$
            <example type="incorrect">Він <marker>був в стані це зробити</marker>.</example>
            <example type="correct">Він не міг цього зробити</example>
        </rule>
+-->
 
        <rule>
            <pattern>
@@ -389,9 +383,21 @@ $Id$
                    <token>себе</token>
                </marker>
            </pattern>
-           <message>Краще: <suggestion>гніватися</suggestion>, <suggestion>розпалюватися</suggestion>, <suggestion>дратуватися</suggestion>, <suggestion>лютувати</suggestion>, <suggestion>утрачати самовладання</suggestion>, <suggestion>нетямитися</suggestion>, <suggestion>аж із себе (із шкури) вилазити</suggestion>, <suggestion>із себе пнутися</suggestion>, <suggestion>аж на місці цибати</suggestion></message>
+           <message>Краще: <suggestion>гніватися</suggestion>, <suggestion>розпалюватися</suggestion>, <suggestion>дратуватися</suggestion>, <suggestion>лютувати</suggestion>, <suggestion>нетямитися</suggestion>, <suggestion>утрачати самовладання</suggestion>, <suggestion>аж із себе (із шкури) вилазити</suggestion>, <suggestion>із себе пнутися</suggestion>, <suggestion>аж на місці цибати</suggestion></message>
            <example type="incorrect">Він <marker>вийшов з себе</marker>.</example>
            <example type="correct">Він розгнівався</example>
+       </rule>
+       <rule>
+           <pattern>
+               <marker>
+                   <token inflected="yes" regexp="yes">вивести|виводити</token>
+                   <token>з</token>
+                   <token>себе</token>
+               </marker>
+           </pattern>
+           <message>Краще: <suggestion>гнівати</suggestion>, <suggestion>допікати</suggestion>, <suggestion>дратувати</suggestion>, <suggestion>лютити</suggestion>, <suggestion>дозоляти</suggestion>, <suggestion>уривати терпець (кому)</suggestion>, <suggestion>виводити з рівноваги</suggestion>, <suggestion>осатанити</suggestion></message>
+           <example type="incorrect">Його <marker>вивели з себе</marker>.</example>
+           <example type="correct">Його розгнівали</example>
        </rule>
 
        <rule>
@@ -422,7 +428,7 @@ $Id$
          <example type="incorrect"><marker>заживали</marker> його рани довго</example>
          <example type="correct">загоювалися його рани довго</example>
        </rule>
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">рана|шов|шво</token>
               <token postag_regexp="yes" postag="(adv|pron).*" min="0" max="1"/>
@@ -435,7 +441,7 @@ $Id$
          <example type="correct">його рани довго загоювалися</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">підводити|підвести|підводячи|підведений</token>
               <token inflected="yes">підсумок</token>
@@ -455,6 +461,12 @@ $Id$
                </marker>
            </pattern>
            <message>Краще: <suggestion>давати (робити) лад</suggestion>, <suggestion>доводити до ладу</suggestion>, <suggestion>упорядковувати</suggestion>, <suggestion>доводити до ума (до розуму)</suggestion></message>
+           <suggestion>оправляти</suggestion>
+           <suggestion>облагоджувати</suggestion>
+           <suggestion>опоряджати</suggestion>
+           <suggestion>припоряджати</suggestion>
+           <suggestion>порати</suggestion>
+           <suggestion>прибирати</suggestion>
            <example type="incorrect">Він <marker>привів свою квартиру в порядок</marker>.</example>
            <example type="correct">Він довів до ладу свою квартиру</example>
        </rule>
@@ -466,21 +478,27 @@ $Id$
                    <token>місце</token>
                </marker>
            </pattern>
-           <message>Краще: <suggestion>бути</suggestion>, <suggestion>бутувати</suggestion>, <suggestion>перебувати</suggestion>, <suggestion>існувати</suggestion
-           >, <suggestion>діятися</suggestion>, <suggestion>ставатися</suggestion>, <suggestion>траплятися</suggestion></message>
+           <message>Краще: <suggestion>бути</suggestion></message>
+           <suggestion>відбуватися</suggestion>
+           <suggestion>діятися</suggestion>
+           <suggestion>ставатися</suggestion>
+           <suggestion>траплятися</suggestion>
+           <suggestion>бутувати</suggestion>
+           <suggestion>перебувати</suggestion>
+           <suggestion>існувати</suggestion>
            <example type="incorrect">Зараз <marker>має місце</marker> спроба провести таку гру.</example>
            <example type="correct">Зараз відбувається спроба провести таку гру</example>
        </rule>
+
        <rule>
          <pattern>
            <marker>
             <token inflected="yes" regexp="yes">носити|носивши</token>
            </marker>
             <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
-            <token>характер</token>
+            <token regexp="yes">характер|назву|ім'я|звання</token>
          </pattern>
          <message>Правильно: <suggestion>мати</suggestion></message>
-         <url>http://slovopedia.org.ua/34/53405/33275.html</url>
          <example type="incorrect">Розмова <marker>носить</marker> односторонній характер</example>
          <example type="incorrect">Розмова <marker>носитиме</marker> характер піар-заходу</example>
          <example type="correct">Розмова має односторонній характер</example>
@@ -491,10 +509,6 @@ $Id$
            <marker>
             <token inflected="yes" regexp="yes" skip="2">присвоювати|присвоїти|присвоєний</token>
            </marker>
-<!--
-            <token postag_regexp="yes" postag="pron.*" min="0" max="2"/>
-            <token min="0" max="2"/>
--->
             <token>звання</token>
          </pattern>
          <message>Правильно: <suggestion>надати</suggestion>, <suggestion>надавати</suggestion></message>
@@ -507,6 +521,14 @@ $Id$
        </rule>
 
        <rule>
+         <antipattern>
+         <!--
+           <token inflected="yes" regexp="yes">знімати|зняти|знятий|знімавший</token>
+           -->
+           <token regexp="yes">житло|квартиру|помешкання|офіс</token>
+           <token>на</token>
+           <token>відео</token>
+         </antipattern>
          <pattern>
            <marker>
             <token inflected="yes" regexp="yes">знімати|зняти|знятий|знімавший</token>
@@ -515,13 +537,13 @@ $Id$
          </pattern>
          <message>Правильно: <suggestion>наймати</suggestion>, <suggestion>винаймати</suggestion>, <suggestion>найняти</suggestion></message>
          <example type="incorrect"><marker>Знімати</marker> житло у Києві стало значно дорожче</example>
-<!-- TODO:         <example type="correct">Знімати житло на відео</example> -->
+         <example type="correct">знімати житло на відео</example>
          <example type="correct">Знімати на відео</example>
        </rule>
 
        <rule>
          <pattern>
-              <token inflected="yes" regexp="yes">кидатися|кинутися|кинувшийся</token>
+              <token inflected="yes" regexp="yes">кидатися|кинутися</token>
               <token regexp="yes">[ув]</token>
               <token regexp="yes">око|очі|вічі</token>
          </pattern>
@@ -538,7 +560,7 @@ $Id$
               <token regexp="yes">[ву]</token>
               <token>спокої</token>
          </pattern>
-         <message>Краще: <suggestion>дати спокій</suggestion></message>
+         <message>Краще: <suggestion>давати спокій</suggestion></message>
          <example type="incorrect">світ <marker>залишив його у спокої</marker></example>
          <example type="incorrect">світ <marker>залишив у спокої</marker> їх усіх</example>
          <example type="correct">світ дав йому спокій</example>
@@ -563,15 +585,16 @@ $Id$
           <marker>
             <token inflected="yes" regexp="yes">поступати|поступити|поступивший</token>
           </marker>
-          <token skip="1">до</token>
+          <token regexp="yes" skip="1">[ву]|до</token>
           <token inflected="yes" regexp="yes">університет|інститут|технікум|училище|школу|виш|вуз</token>
          </pattern>
          <message>Правильно: <suggestion>вступати</suggestion></message>
+         <suggestion>іти</suggestion>
          <example type="incorrect">Він <marker>поступив</marker> до військового училища.</example>
          <example type="correct">Він поступив негарно</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">вести|вівший</token>
               <token>переписку</token>
@@ -581,7 +604,7 @@ $Id$
          <example type="correct">Вона листувалася.</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token regexp="yes">добре|файно|гарно|погано|кепсько</token>
               <token inflected="yes" regexp="yes">виглядати|виглядаючий</token>
@@ -592,7 +615,7 @@ $Id$
          <example type="correct">Він має поганий вигляд</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">нести|понести|понісший</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
@@ -604,8 +627,7 @@ $Id$
          <example type="incorrect">Вони <marker>понесли втрат</marker></example>
          <example type="correct">Вони зазнали втрат</example>
        </rule>
-
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">наносити|нанести|нанісший</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
@@ -616,7 +638,7 @@ $Id$
          <example type="correct">Терористи підривають мости, щоб завдати збитків</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">наносити|нанести|нанісший|нанесений</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
@@ -627,7 +649,7 @@ $Id$
          <example type="correct">ЗСУ завдали нищівного удару терористам</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes" regexp="yes">прикладати|прикласти|прикладений|приклавший</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
@@ -638,7 +660,7 @@ $Id$
          <example type="correct">довелося докласти значних зусиль</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
            <marker>
               <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
@@ -650,7 +672,7 @@ $Id$
          <example type="incorrect">вони <marker>розбили</marker> великий намет</example>
          <example type="correct">вони поставили великий намет</example>
        </rule>
-        <rule>
+       <rule>
          <pattern>
            <marker>
               <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
@@ -662,7 +684,7 @@ $Id$
          <example type="incorrect">вони <marker>розбили табір</marker></example>
          <example type="correct">вони стали табором</example>
        </rule>
-        <rule>
+       <rule>
          <pattern>
            <marker>
               <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
@@ -673,17 +695,6 @@ $Id$
          <message>Правильно: <suggestion>посадити</suggestion></message>
          <example type="incorrect">вони <marker>розбили</marker> великий парк</example>
          <example type="correct">вони посадили великий парк</example>
-       </rule>
-
-       <rule>
-         <pattern>
-            <token inflected="yes" regexp="yes">носити|носячи|носивши</token>
-            <token>назву</token>
-         </pattern>
-         <message>Правильно: <suggestion>мати назву</suggestion>, <suggestion>називатися</suggestion>, <suggestion>зватися</suggestion>, <suggestion>іменуватися</suggestion></message>
-         <url>http://slovopedia.org.ua/34/53405/33275.html</url>
-         <example type="incorrect">Вулиця <marker>носить назву</marker> Героїв Небесної Сотні</example>
-         <example type="correct">Вулиця має назву Героїв Небесної Сотні</example>
        </rule>
 
        <rule>
@@ -709,14 +720,26 @@ $Id$
 
        <rule>
          <pattern>
-            <token inflected="yes" regexp="yes">знущатися|знущання</token>
+            <token inflected="yes" regexp="yes">.*знущатися|знущання</token>
             <marker>
-            <token>над</token>
+              <token>над</token>
             </marker>
          </pattern>
          <message>Правильно: <suggestion>з (кого/чого)</suggestion></message>
          <example type="incorrect">вона знущалася <marker>над</marker> ним</example>
          <example type="correct">вона знущалася з нього</example>
+       </rule>
+
+       <rule>
+         <pattern>
+            <marker>
+              <token inflected="yes">правити</token>
+            </marker>
+            <token inflected="yes">бал</token>
+         </pattern>
+         <message>Правильно: <suggestion>заправляти</suggestion></message>
+         <example type="incorrect">вона <marker>правила</marker> бал</example>
+         <example type="correct">вона заправляла бал</example>
        </rule>
 
 
@@ -2064,11 +2087,12 @@ $Id$
        </rule>
        <rule>
          <pattern>
-              <token>по</token>
+              <token>по<exception scope="previous" inflected="yes" regexp="yes">бити|вдарити</exception></token>
               <token regexp="yes">ціні|цінах</token>
          </pattern>
          <message>Правильно: <suggestion>за ціною</suggestion></message>
          <example type="incorrect"><marker>по ціні</marker></example>
+         <example type="correct">бити по цінах</example>
          <example type="correct">за ціною</example>
        </rule>
        <rule>
