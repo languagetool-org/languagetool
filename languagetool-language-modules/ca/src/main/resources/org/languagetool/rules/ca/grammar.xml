@@ -29987,6 +29987,17 @@ $Id$
         </rule>
     </category>      
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="VIRGUERIA" name="virgueria">
+            <pattern>
+                <token inflected="yes">virgueria</token>
+            </pattern>
+            <message>Col·loquialisme admès només per alguns diccionaris.</message> 
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">filigrana</match></suggestion>
+            <suggestion><match no="1" postag="(NC.*)" postag_regexp="yes" postag_replace="$1">floritura</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="filigranes|floritures">Quantes <marker>virgueries</marker>!</example>
+            <example type="correct">filigranes</example>
+        </rule>
         <rule id="TENIR_DE" name="Informal: «tenir de» + infinitiu">
             <antipattern>
                 <marker>
