@@ -8348,19 +8348,19 @@ $Id$
         <rule id="CONTAR_COMPTAR_AMB" name="contar/comptar amb">
             <antipattern>
                 <marker>
-                <token skip="1">amb</token>
-                <token regexp="yes">detall|enginy|gràcia</token>
+                    <token skip="1">amb</token>
+                    <token regexp="yes">detall|enginy|gràcia</token>
                 </marker>
             </antipattern>
             <pattern>
                 <marker>
                     <token inflected="yes">contar<exception scope="previous" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
-                    <token>amb</token>
                 </marker>
+                <token>amb</token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comptar</match></suggestion> en comptes de \1 (=relatar)?</message>
-            <example type="incorrect" correction="Compta"><marker>Conta amb</marker> 3.000 habitants.</example>
-            <example type="incorrect" correction="compta">Ell <marker>conta amb</marker> el nostre suport.</example>
+            <example type="incorrect" correction="Compta"><marker>Conta</marker> amb 3.000 habitants.</example>
+            <example type="incorrect" correction="compta">Ell <marker>conta</marker> amb el nostre suport.</example>
             <example type="correct">Li conta amb qui havia fugit.</example>
             <example type="correct">Les hi ha contades amb tot detall.</example>
         </rule>
