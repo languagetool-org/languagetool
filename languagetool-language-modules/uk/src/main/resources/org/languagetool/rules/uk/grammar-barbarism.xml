@@ -742,7 +742,83 @@ $Id$
          <example type="correct">вона заправляла бал</example>
        </rule>
 
+       <rule>
+         <pattern>
+            <token inflected="yes">виключити</token>
+            <token regexp="yes">і?з</token>
+            <token>числа</token>
+         </pattern>
+         <message>Правильно: <suggestion>вилучити з</suggestion></message>
+         <example type="incorrect"><marker>виключили з числа</marker> свят</example>
+         <example type="correct">вилучили зі свят</example>
+       </rule>
 
+       <rule>
+         <pattern>
+            <token regexp="yes" inflected="yes">хотіти|хотітися|необхідно|потрібно|слід|варто|корисно|важливо</token>
+            <token postag_regexp="yes" postag="adv.*" min="0"/>
+            <marker>
+              <token>відмітити</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>зазначити</suggestion></message>
+         <example type="incorrect">хочеться також <marker>відмітити</marker></example>
+         <example type="correct">відмітити час початку</example>
+         <example type="correct">хочеться також зазначити</example>
+       </rule>
+
+<!--TODO: як вловити правильний вжиток відміняти: змінювати??? -->
+       <rule>
+         <antipattern>
+           <token regexp="yes" inflected="yes" skip="-1">відміняти|відмінятися|відмінити|відмінитися|відміна|відмінений</token>
+           <token regexp="yes" inflected="yes">дієслово|іменник|прикметник|речення</token>
+         </antipattern>
+         <antipattern>
+           <token regexp="yes" inflected="yes" skip="-1">дієслово|іменник|прикметник|речення</token>
+           <token regexp="yes" inflected="yes">відміняти|відмінятися|відмінити|відмінитися|відміна|відмінений</token>
+         </antipattern>
+         <antipattern>
+           <token regexp="yes" inflected="yes">перший|другий|третій|четвертий|на</token>
+           <token inflected="yes">відміна</token>
+         </antipattern>
+         <pattern>
+           <token regexp="yes" inflected="yes">відміняти|відмінятися|відмінити|відмінитися|відміна|відмінений</token>
+         </pattern>
+         <message>Правильно: <suggestion>скасовувати</suggestion>, <suggestion>касувати</suggestion>, <suggestion>зносити</suggestion>, <suggestion>анулювати</suggestion></message>
+         <example type="incorrect">закон було <marker>відмінено</marker></example>
+         <example type="incorrect"><marker>відмінили</marker> збори</example>
+         <example type="incorrect"><marker>відміняються</marker> податки</example>
+         <example type="correct">до першої відміни відносяться</example>
+         <example type="correct">відміна в речення</example>
+         <example type="correct">на відміну від</example>
+         <example type="correct">дієслова відміняються</example>
+       </rule>
+
+<!--
+       <rule>
+         <pattern>
+           <marker>
+             <token inflected="yes">рахуватися</token>
+             <token regexp="yes">з|із|зі</token>
+           </marker>
+           <token><exception>реальністю</exception></token>
+         </pattern>
+         <message>Правильно: <suggestion>зважати на</suggestion>, <suggestion>брати до уваги</suggestion></message>
+         <example type="incorrect"><marker>рахуючись з</marker> фактом</example>
+         <example type="correct">зважаючи на факт</example>
+         <example type="correct">рахуючись місцями</example>
+       </rule>
+       <rule>
+         <pattern>
+           <token inflected="yes">рахуватися</token>
+           <token regexp="yes">з|із</token>
+           <token>реальністю</token>
+         </pattern>
+         <message>Правильно: <suggestion>дивитися правді в вічі</suggestion></message>
+         <example type="incorrect"><marker>рахуючись з реальністю</marker></example>
+         <example type="correct">рахуючись місцями</example>
+       </rule>
+-->
        <!-- прикметники -->
 
        <!-- любий -->
@@ -847,7 +923,7 @@ $Id$
          <example type="correct">Воєнний стан</example>
        </rule>
 
-        <rule>
+       <rule>
          <pattern>
               <token inflected="yes">грецький</token>
               <token inflected="yes">горіх</token>
@@ -855,6 +931,38 @@ $Id$
          <message>Правильно: <suggestion>волоський горіх</suggestion></message>
          <example type="incorrect"><marker>грецького горіха</marker></example>
          <example type="correct">волоського горіха</example>
+       </rule>
+
+       <rule>
+         <pattern>
+              <token regexp="yes">старше|молодше</token>
+              <marker>
+                <token postag_regexp="yes" postag="(noun|pron).*:v_rod.*">
+                  <exception postag_regexp="yes" postag="(noun|pron).*:n:(v_naz|v_zna).*"></exception>
+                </token>
+              </marker>
+         </pattern>
+         <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="(.*):v_rod(.*)" postag_replace="$1:v_zna$2"/></suggestion></message>
+         <suggestion>від <match no="2"/></suggestion>
+         <suggestion>ніж <match no="2" postag_regexp="yes" postag="(.*):v_rod(.*)" postag_replace="$1:v_naz$2"/></suggestion>
+         <example type="incorrect" correction="за сестру|від сестри|ніж сестра">старше <marker>сестри</marker> на 3 роки</example>
+         <example type="incorrect" correction="за місто|від міста|ніж місто">старше <marker>міста</marker> на 3 роки</example>
+         <example type="correct">старше за сестру</example>
+         <example type="correct">старше покоління</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <marker>
+              <token>в</token>
+              <token>подальшому</token>
+           </marker>
+           <token><exception postag_regexp="yes" postag=".*:v_mis.*"/></token>
+         </pattern>
+         <message>Краще: <suggestion>надалі</suggestion></message>
+         <example type="incorrect">що <marker>в подальшому</marker> стало підставою</example>
+         <example type="correct">в подальшому розвитку</example> <!-- TODO: в подальшому розвитку -> дальшому розвитку ??? -->
+         <example type="correct">що надалі стало підставою</example>
        </rule>
 
 
@@ -1256,6 +1364,17 @@ $Id$
          <message>Правильно: <suggestion>нестями</suggestion>, <suggestion>зануди</suggestion>, <suggestion>одуріння</suggestion>, <suggestion>упаду</suggestion></message>
          <example type="incorrect">я до <marker>одурі</marker> щаслива</example>
          <example type="correct">я до одуріння щаслива</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <token>в</token>
+           <token>кінцевому</token>
+           <token>рахунку</token>
+         </pattern>
+         <message>Правильно: <suggestion>кінець кінцем</suggestion>, <suggestion>зрештою</suggestion>, <suggestion>у кінцевому (в остаточному) результаті (підсумку)</suggestion>, <suggestion>у загальному підсумку</suggestion></message>
+         <example type="incorrect"><marker>в кінцевому рахунку</marker> він лишився ні з чим</example>
+         <example type="correct">в кінцевому підсумку він лишився ні з чим</example>
        </rule>
 
        <!-- прийменники -->
@@ -1692,7 +1811,20 @@ $Id$
          <example type="incorrect"><marker>Більш усього</marker> він любив футбол.</example>
          <example type="correct">Найбільше він любив футбол.</example>
        </rule>
-
+<!--
+       <rule>
+         <pattern>
+            <marker>
+              <token>більше</token>
+              <token>того</token>
+            </marker>
+         </pattern>
+         <message>Правильно: <suggestion>ще ж і надто</suggestion>, <suggestion>ще й надто</suggestion>, <suggestion>ще й більш (від) того</suggestion>, <suggestion>навіть/ба більш(е)</suggestion></message>
+         <example type="incorrect"><marker>Більше всього</marker> він любив футбол.</example>
+         <example type="incorrect"><marker>Більш усього</marker> він любив футбол.</example>
+         <example type="correct">Найбільше він любив футбол.</example>
+       </rule>
+-->
        <rule>
         <pattern>
             <marker>
@@ -1809,6 +1941,16 @@ $Id$
          <message>Правильно: <suggestion>якщо є охота (бажання)</suggestion>, <suggestion>якщо (коли) маєш (маєте) бажання (охоту)</suggestion></message>
          <example type="incorrect"><marker>При бажанні</marker> Блохін може залишитися в Динамо</example>
          <example type="correct">Якщо Блохін має бажання він може залишитися в Динамо</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <token>при</token>
+           <token>умові</token>
+         </pattern>
+         <message>Правильно: <suggestion>за умови</suggestion></message>
+         <example type="incorrect"><marker>при умові</marker> створення</example>
+         <example type="correct">за умови створення</example>
        </rule>
 
         <rule>
