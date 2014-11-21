@@ -2817,9 +2817,10 @@ $Id$
         <rule default="on" id="Verb_and_PREP" name="Глагол и предлог">
             <pattern case_sensitive="yes">
                 <!--              PREP VB:.*    -->
+                <!--              excluded prep "по" for another rule    -->
                 <token postag="PREP">
                     <exception negate_pos="yes" postag="PREP"></exception>
-                    <exception regexp="yes">спустя|ради|[А-ЯЁ][А-ЯЁ]*</exception>
+                    <exception regexp="yes">спустя|ради|по|[А-ЯЁ][А-ЯЁ]*</exception>
                 </token>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception>
@@ -3306,15 +3307,15 @@ $Id$
             <example type="incorrect">Они <marker>равноправны друг другу</marker>.</example>
         </rule>
         
-        <rule default="on" id="pouchastvovat" name="Правописание «поучаствовать»">
+        <rule default="on" id="pouchastvovat" name="Правописание «поучаствовать», ...">
             <pattern case_sensitive="no">       
                 <token>по</token>
-                <token inflected="yes" >участвовать</token>
+                <token postag="VB:.*" postag_regexp="yes" ><exception postag="VB:.*" postag_regexp="yes" negate_pos="yes" ></exception></token>
             </pattern>
             <message>Пишется слитно: <suggestion>\1\2</suggestion></message>
             <short>Пишется слитно</short>
             <example type="correct">Южнокорейский консорциум может поучаствовать в проекте.</example>
-            <example type="incorrect">- Южнокорейский консорциум может <marker>по участвовать</marker> в проекте.</example>
+            <example type="incorrect">Южнокорейский консорциум может <marker>по участвовать</marker> в проекте.</example>
         </rule>
         
         <rule id="V_TECHENII" name="Словосочетание «в течении реки»">
