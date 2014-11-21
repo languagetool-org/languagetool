@@ -771,15 +771,20 @@ $Id$
        <rule>
          <antipattern>
            <token regexp="yes" inflected="yes" skip="-1">відміняти|відмінятися|відмінити|відмінитися|відміна|відмінений</token>
-           <token regexp="yes" inflected="yes">дієслово|іменник|прикметник|речення</token>
+           <token regexp="yes" inflected="yes">дієслово|іменник|прикметник|речення|відмінок</token>
          </antipattern>
          <antipattern>
-           <token regexp="yes" inflected="yes" skip="-1">дієслово|іменник|прикметник|речення</token>
+           <token regexp="yes" inflected="yes" skip="-1">дієслово|іменник|прикметник|речення|відмінок</token>
            <token regexp="yes" inflected="yes">відміняти|відмінятися|відмінити|відмінитися|відміна|відмінений</token>
          </antipattern>
          <antipattern>
-           <token regexp="yes" inflected="yes">перший|другий|третій|четвертий|на</token>
+           <token regexp="yes" inflected="yes">перший|другий|третій|четвертий</token>
            <token inflected="yes">відміна</token>
+         </antipattern>
+         <antipattern>
+           <token>на</token>
+           <token skip="3">відміну</token>
+           <token regexp="yes">від|од</token>
          </antipattern>
          <pattern>
            <token regexp="yes" inflected="yes">відміняти|відмінятися|відмінити|відмінитися|відміна|відмінений</token>
@@ -790,8 +795,10 @@ $Id$
          <example type="incorrect"><marker>відміняються</marker> податки</example>
          <example type="correct">до першої відміни відносяться</example>
          <example type="correct">відміна в речення</example>
-         <example type="correct">на відміну від</example>
          <example type="correct">дієслова відміняються</example>
+         <example type="correct">на відміну від</example>
+         <example type="correct">на відміну, скажімо, від них</example>
+         <example type="correct">на відміну хоча б від Ялти</example>
        </rule>
 
 <!--
@@ -939,6 +946,7 @@ $Id$
               <marker>
                 <token postag_regexp="yes" postag="(noun|pron).*:v_rod.*">
                   <exception postag_regexp="yes" postag="(noun|pron).*:n:(v_naz|v_zna).*"></exception>
+                  <exception>років</exception>
                 </token>
               </marker>
          </pattern>
@@ -2435,24 +2443,23 @@ $Id$
        <rule>
          <pattern>
               <token>по</token>
-              <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">пошта|телефон|інтернет</token>
+              <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">пошта|телефон|інтернет|мережа</token>
          </pattern>
          <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
-         <example type="incorrect" correction="поштою">отримувати <marker>по пошті</marker></example>
-         <example type="incorrect" correction="телефоном">звертатися <marker>по телефону</marker></example>
+         <suggestion>через <match no="2" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+         <example type="incorrect" correction="поштою|через пошту">отримувати <marker>по пошті</marker></example>
+         <example type="incorrect" correction="телефоном|через телефон">звертатися <marker>по телефону</marker></example>
          <example type="correct">поштою</example>
        </rule>
        <rule>
          <pattern>
               <token>по</token>
               <token postag_regexp="yes" postag="adj.*:v_dav.*" />
-              <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">пошта|телефон|інтернет</token>
+              <token postag_regexp="yes" postag="noun:.:v_dav.*" regexp="yes" inflected="yes">пошта|телефон|інтернет|мережа</token>
          </pattern>
          <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj.*):v_dav(.*)" postag_replace="$1:v_oru$2"/> <match no="3" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_oru$2"/></suggestion></message>
-         <example type="incorrect" correction="електронною поштою">надсилати <marker>по електронній пошті</marker></example>
-         <!--
-         <example type="incorrect" correction="фіксованим телефоном"><marker>по фіксованому телефону</marker></example>
-         -->
+         <suggestion>через <match no="2" postag_regexp="yes" postag="(adj.*):v_dav(.*)" postag_replace="$1:v_zna$2"/> <match no="3" postag_regexp="yes" postag="(noun:.):v_dav(.*)" postag_replace="$1:v_zna$2"/></suggestion>
+         <example type="incorrect" correction="електронною поштою|через електронну пошту">надсилати <marker>по електронній пошті</marker></example>
          <example type="correct">електронною поштою</example>
        </rule>
 

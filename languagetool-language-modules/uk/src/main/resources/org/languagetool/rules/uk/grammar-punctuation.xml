@@ -51,7 +51,7 @@ $Id$
         <rulegroup id="INSERTED_WORDS_NO_COMMA" name="вставні слова, напр., «мабуть», «щоправда», виділяються комами">
             <rule>
                 <pattern>
-                    <token regexp="yes">мабуть|врешті|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
+                    <token regexp="yes">мабуть|по-перше|по-друге|по-третє|щоправда|о?крім того|а втім</token>
                     <token negate="yes" regexp="yes">[\p{Punct}–—»]</token>
                 </pattern>
                 <message>Відсутня права кома: <suggestion>\1, \2</suggestion>.</message>
@@ -61,7 +61,7 @@ $Id$
             <rule>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">[\p{Punct}–—\(«АаІій]<exception postag="SENT_START"></exception></token>
-                    <token regexp="yes">мабуть|врешті|щоправда|о?крім того|втім</token>
+                    <token regexp="yes">мабуть|щоправда|о?крім того|втім</token>
                 </pattern>
                 <message>Відсутня ліва кома: <suggestion>\1, \2</suggestion>.</message>
                 <example type="correct">Мабуть, це водій.</example>

@@ -106,6 +106,83 @@
          -->
     </rule>
 
+    <rulegroup name="Прийменник та вигук о" id="PREP_AND_EXCL_O">
+      <rule>
+        <pattern>
+          <marker>
+            <token>о</token>
+          </marker>
+          <token postag_regexp="yes" postag=".*(v_zna|v_mis).*"/>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/prep:rv_zna:rv_mis]"
+            >шарпнув <marker>о</marker> двері</example>
+        <example type="untouched">о, люди!</example>
+        <example type="untouched">о мамо!</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>о</token>
+          </marker>
+          <token regexp="yes">[,!]|ти|ви</token>
+        </pattern>
+        <disambig postag="excl"/>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/excl]"
+            ><marker>о</marker>, море!</example>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/excl]"
+            ><marker>о</marker> ти!</example>
+        <example type="untouched">грюкнув о двері</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <token>о</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj.*" min="0"/>
+          <token postag_regexp="yes" postag=".*v_kly.*"/>
+        </pattern>
+        <disambig postag="excl"/>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/excl]"
+            ><marker>о</marker> люди!</example>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/excl]"
+            ><marker>о</marker> бідні люди!</example>
+        <example type="untouched">грюкнув о двері</example>
+      </rule>
+      <rule>
+        <pattern>
+          <marker>
+            <and>
+              <token postag="excl">о</token>
+              <token postag_regexp="yes" postag="prep.*">о</token>
+            </and>
+          </marker>
+          <!--
+          <token postag_regexp="yes" postag=".*(v_naz|v_rod|v_dav|v_oru).*"/>
+          -->
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/prep:rv_zna:rv_mis]"
+            >стусонув <marker>о</marker> двері</example>
+        <example type="ambiguous"
+            inputform="о[о/excl,о/prep:rv_zna:rv_mis]"
+            outputform="о[о/prep:rv_zna:rv_mis]"
+            ><marker>о</marker> тримати</example> <!-- treat prep/excl + verb as prep + verb so we can trigger error -->
+      </rule>
+    </rulegroup>
+
 <!--
     <rule name="Прийменник/прислівник перед дієсловом — прислівник" id="PREP_ADV_BEFORE_VERB">
         <pattern>
