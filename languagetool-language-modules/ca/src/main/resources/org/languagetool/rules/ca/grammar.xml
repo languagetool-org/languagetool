@@ -6420,7 +6420,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -27867,7 +27867,7 @@ $Id$
                         <token regexp="yes">ordres?</token>
                     </marker>
                     <token skip="1">de</token>
-                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà</token>
+                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa</token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/></suggestion>?</message>
                 <url>http://esadir.cat/entrades/fitxa/id/2575</url>
@@ -31214,7 +31214,7 @@ $Id$
                 <marker>
                     <token postag="P.*" postag_regexp="yes">es</token>
                 </marker>
-                <token postag="V.*[^NGP].*" postag_regexp="yes" regexp="yes">s.*|c[ei].*</token>
+                <token postag="V.[SI].3.*" postag_regexp="yes" regexp="yes">s.*|c[ei].*</token>
             </pattern>
             <message>Davant del so de 's' és recomanable usar la forma plena.</message>
             <suggestion>se</suggestion>
@@ -31222,6 +31222,8 @@ $Id$
             <short>Usem la forma plena</short>
             <example type="incorrect" correction="se">Això <marker>es</marker> celebra.</example>
             <example type="correct">Això <marker>se</marker> celebra.</example>
+            <example type="correct">Ell es substituït per un altre.</example> <!-- another error: es/és -->
+            <example type="correct">es sabem</example> <!-- another error: es/ens -->
         </rule>
         <rule id="EVITA_INFINITIUS_INDRE" name="Evita infinitius i noms en -vindre, -tindre" default="on">
             <pattern>
