@@ -122,7 +122,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new XmlRuleDisambiguator(new English());
     }
