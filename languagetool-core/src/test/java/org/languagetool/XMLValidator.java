@@ -229,19 +229,21 @@ public final class XMLValidator {
   }
 
   private void validateInternal(InputStream xml, URL xmlSchema) throws SAXException, IOException {
-    final SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    final Schema schema = sf.newSchema(xmlSchema);
-    final Validator validator = schema.newValidator();
-    validator.setErrorHandler(new ErrorHandler());
+    final Validator validator = getValidator(xmlSchema);
     validator.validate(new StreamSource(xml));
   }
 
   private void validateInternal(Source xmlSrc, URL xmlSchema) throws SAXException, IOException {
+    final Validator validator = getValidator(xmlSchema);
+    validator.validate(xmlSrc);
+  }
+
+  private Validator getValidator(URL xmlSchema) throws SAXException {
     final SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     final Schema schema = sf.newSchema(xmlSchema);
     final Validator validator = schema.newValidator();
     validator.setErrorHandler(new ErrorHandler());
-    validator.validate(xmlSrc);
+    return validator;
   }
 
   /**

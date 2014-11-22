@@ -88,7 +88,7 @@ public class HunspellRule extends SpellingCheckRule {
 
     // starting with the first token to skip the zero-length START_SENT
     int len = sentence.getTokens()[1].getStartPos();
-    for (int i = 0; i< tokens.length; i++) {
+    for (int i = 0; i < tokens.length; i++) {
       String word = tokens[i];
       if (ignoreWord(Arrays.asList(tokens), i) || ignoreWord(word)) {
         len += word.length() + 1;
