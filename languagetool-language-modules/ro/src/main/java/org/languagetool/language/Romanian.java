@@ -60,7 +60,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -94,7 +94,7 @@ public class Romanian extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Ionuț Păduraru");
+    Contributor contributor = new Contributor("Ionuț Păduraru");
     contributor.setUrl("http://www.archeus.ro");
     return new Contributor[] { contributor };
   }
@@ -117,7 +117,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public final Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new RomanianSynthesizer();
     }
@@ -125,7 +125,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public final Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new XmlRuleDisambiguator(new Romanian());
     }
@@ -133,7 +133,7 @@ public class Romanian extends Language {
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new RomanianWordTokenizer();
     }

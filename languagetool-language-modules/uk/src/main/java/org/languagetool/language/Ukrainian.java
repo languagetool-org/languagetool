@@ -72,7 +72,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -121,7 +121,7 @@ public class Ukrainian extends Language {
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new UkrainianWordTokenizer();
     }

@@ -31,18 +31,18 @@ import org.languagetool.rules.en.NewZealandReplaceRule;
 public class NewZealandEnglish extends English {
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"NZ"};
   }
 
   @Override
-  public final String getName() {
+  public String getName() {
     return "English (New Zealand)";
   }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> rules = new ArrayList<>();
+    List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     // New Zealand English speller...
     rules.add(new MorfologikNewZealandSpellerRule(messages, this));

@@ -47,17 +47,17 @@ public class Persian extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
   @Override
-  public final String getShortName() {
+  public String getShortName() {
     return "fa";
   }
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"IR", "AF"};
   }
   
@@ -70,7 +70,7 @@ public class Persian extends Language {
   }
 
   @Override
-  public final WordTokenizer getWordTokenizer() {
+  public WordTokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new PersianWordTokenizer();
     }
@@ -78,7 +78,7 @@ public class Persian extends Language {
   }
 
   @Override
-  public final Contributor[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return new Contributor[] {
         new Contributor("Reza1615"),
         new Contributor("Alireza Eskandarpour Shoferi"),

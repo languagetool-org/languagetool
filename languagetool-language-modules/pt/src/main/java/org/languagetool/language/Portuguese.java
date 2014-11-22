@@ -47,7 +47,7 @@ public class Portuguese extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -68,7 +68,7 @@ public class Portuguese extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Marco A.G. Pinto");
+    Contributor contributor = new Contributor("Marco A.G. Pinto");
     contributor.setUrl("http://www.marcoagpinto.com/");
     return new Contributor[] { contributor };
   }

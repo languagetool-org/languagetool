@@ -64,7 +64,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -85,7 +85,7 @@ public class Catalan extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    return new Contributor[] {new Contributor("Ricard Roca"), new Contributor("Jaume Ortolà") };
+    return new Contributor[] { new Contributor("Ricard Roca"), new Contributor("Jaume Ortolà") };
   }
 
   @Override
@@ -114,7 +114,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new CatalanTagger();
     }
@@ -122,7 +122,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public final Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new CatalanSynthesizer();
     }
@@ -130,7 +130,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -146,7 +146,7 @@ public class Catalan extends Language {
   }  
   
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new CatalanWordTokenizer();
     }

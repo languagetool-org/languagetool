@@ -61,7 +61,7 @@ public class Polish extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -92,7 +92,7 @@ public class Polish extends Language {
   }
 
   @Override
-  public final WordTokenizer getWordTokenizer() {
+  public WordTokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new PolishWordTokenizer();
     }

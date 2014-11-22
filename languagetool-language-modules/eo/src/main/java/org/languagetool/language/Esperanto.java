@@ -42,7 +42,7 @@ public class Esperanto extends Language {
   private String name = "Esperanto";
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -50,7 +50,7 @@ public class Esperanto extends Language {
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new EsperantoWordTokenizer();
     }
@@ -63,7 +63,7 @@ public class Esperanto extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -84,7 +84,7 @@ public class Esperanto extends Language {
   }
 
   @Override
-  public final Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new XmlRuleDisambiguator(new Esperanto());
     }

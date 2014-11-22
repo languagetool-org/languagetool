@@ -45,17 +45,17 @@ public class Danish extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
   @Override
-  public final String getShortName() {
+  public String getShortName() {
     return "da";
   }
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"DK"};
   }
   
@@ -70,7 +70,7 @@ public class Danish extends Language {
   }
   
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new DanishTagger();
     }
@@ -86,7 +86,7 @@ public class Danish extends Language {
   }
   
   @Override
-  public final Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new XmlRuleDisambiguator(new Danish());
     }
@@ -94,7 +94,7 @@ public class Danish extends Language {
   }
 
   @Override
-  public final Contributor[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Esben Aaberg"), new Contributor("Henrik Bendt") };
   }
 

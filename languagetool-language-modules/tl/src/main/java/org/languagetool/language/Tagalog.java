@@ -50,7 +50,7 @@ public class Tagalog extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -65,7 +65,7 @@ public class Tagalog extends Language {
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -73,7 +73,7 @@ public class Tagalog extends Language {
   }
 
   @Override
-  public final WordTokenizer getWordTokenizer() {
+  public WordTokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new TagalogWordTokenizer();
     }
@@ -90,9 +90,9 @@ public class Tagalog extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor1 = new Contributor("Nathaniel Oco");
+    Contributor contributor1 = new Contributor("Nathaniel Oco");
     contributor1.setUrl("http://www.dlsu.edu.ph/research/centers/adric/nlp/");
-    final Contributor contributor2 = new Contributor("Allan Borra");
+    Contributor contributor2 = new Contributor("Allan Borra");
     contributor2.setUrl("http://www.dlsu.edu.ph/research/centers/adric/nlp/faculty/borra.asp");
     return new Contributor[] { contributor1, contributor2 };
   }

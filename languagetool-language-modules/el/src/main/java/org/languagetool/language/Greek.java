@@ -51,7 +51,7 @@ public class Greek extends Language {
   private String name = "Greek";
 
   @Override
-  public final String getShortName() {
+  public String getShortName() {
     return "el";
   }
 
@@ -61,17 +61,17 @@ public class Greek extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"GR"};
   }
 
   @Override
-  public final Contributor[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return new Contributor[]{
             new Contributor("Panagiotis Minos")
     };
@@ -92,7 +92,7 @@ public class Greek extends Language {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new GreekTagger();
     }
@@ -100,7 +100,7 @@ public class Greek extends Language {
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -108,12 +108,12 @@ public class Greek extends Language {
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     return new GreekWordTokenizer();
   }
 
   @Override
-  public final Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new GreekSynthesizer();
     }

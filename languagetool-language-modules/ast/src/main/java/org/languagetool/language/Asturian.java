@@ -43,7 +43,7 @@ public class Asturian extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -83,7 +83,7 @@ public class Asturian extends Language {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new AsturianTagger();
     }

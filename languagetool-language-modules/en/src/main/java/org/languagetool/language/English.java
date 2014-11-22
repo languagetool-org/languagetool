@@ -67,7 +67,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -80,12 +80,12 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
   @Override
-  public final String getShortName() {
+  public String getShortName() {
     return "en";
   }
 
@@ -114,7 +114,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new EnglishSynthesizer();
     }
@@ -130,7 +130,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final WordTokenizer getWordTokenizer() {
+  public WordTokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new EnglishWordTokenizer();
     }
@@ -146,7 +146,7 @@ public class English extends Language implements AutoCloseable {
   }
 
   @Override
-  public final Contributor[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return new Contributor[] { Contributors.MARCIN_MILKOWSKI, Contributors.DANIEL_NABER };
   }
 

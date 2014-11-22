@@ -47,7 +47,7 @@ public class Slovak extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -97,7 +97,7 @@ public class Slovak extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Zdenko Podobný");
+    Contributor contributor = new Contributor("Zdenko Podobný");
     contributor.setUrl("http://sk-spell.sk.cx");
     return new Contributor[] { contributor };
   }

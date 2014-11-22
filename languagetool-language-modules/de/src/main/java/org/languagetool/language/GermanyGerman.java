@@ -40,7 +40,7 @@ public class GermanyGerman extends German {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages));
+    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages));
     rules.add(new GermanSpellerRule(messages, this));
     return rules;
   }

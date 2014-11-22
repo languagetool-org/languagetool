@@ -41,17 +41,17 @@ public class Tamil extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
   @Override
-  public final String getShortName() {
+  public String getShortName() {
     return "ta";
   }
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"IN"};
   }
   
@@ -64,7 +64,7 @@ public class Tamil extends Language {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new TamilTagger();
     }
@@ -72,7 +72,7 @@ public class Tamil extends Language {
   }
 
   @Override
-  public final Contributor[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return new Contributor[] {new Contributor("Elanjelian Venugopal")};
   }
 

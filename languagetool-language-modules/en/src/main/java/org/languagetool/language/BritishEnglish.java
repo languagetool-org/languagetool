@@ -31,7 +31,7 @@ import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 public class BritishEnglish extends English {
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"GB"};
   }
 
@@ -42,7 +42,7 @@ public class BritishEnglish extends English {
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> rules = new ArrayList<>();
+    List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     // specific to British English:
     rules.add(new BritishReplaceRule(messages));

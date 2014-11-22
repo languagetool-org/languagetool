@@ -30,18 +30,18 @@ import org.languagetool.rules.en.MorfologikSouthAfricanSpellerRule;
 public class SouthAfricanEnglish extends English {
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"ZA"};
   }
 
   @Override
-  public final String getName() {
+  public String getName() {
     return "English (South African)";
   }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> rules = new ArrayList<>();
+    List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     // South African English speller...
     rules.add(new MorfologikSouthAfricanSpellerRule(messages, this));

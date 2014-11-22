@@ -52,7 +52,7 @@ public class Spanish extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -97,7 +97,7 @@ public class Spanish extends Language {
   }
   
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new SpanishWordTokenizer();
     }
@@ -105,7 +105,7 @@ public class Spanish extends Language {
   }
   
   @Override
-  public final Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new SpanishSynthesizer();
     }
@@ -113,7 +113,7 @@ public class Spanish extends Language {
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -122,7 +122,7 @@ public class Spanish extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Juan Martorell");
+    Contributor contributor = new Contributor("Juan Martorell");
     contributor.setUrl("http://languagetool-es.blogspot.com/");
     return new Contributor[] { contributor };
   }

@@ -49,7 +49,7 @@ public class Breton extends Language {
   private String name = "Breton";
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -57,7 +57,7 @@ public class Breton extends Language {
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new BretonWordTokenizer();
     }
@@ -70,7 +70,7 @@ public class Breton extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -93,7 +93,7 @@ public class Breton extends Language {
   }
 
   @Override
-  public final Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new XmlRuleDisambiguator(new Breton());
     }
@@ -102,9 +102,8 @@ public class Breton extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributorFulup = new Contributor("Fulup Jakez");
     return new Contributor[] {
-        Contributors.DOMINIQUE_PELLE, contributorFulup
+        Contributors.DOMINIQUE_PELLE, new Contributor("Fulup Jakez")
     };
   }
 

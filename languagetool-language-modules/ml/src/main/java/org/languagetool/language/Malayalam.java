@@ -46,17 +46,17 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
   @Override
-  public final String getShortName() {
+  public String getShortName() {
     return "ml";
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new MalayalamWordTokenizer();
     }
@@ -64,12 +64,12 @@ public class Malayalam extends Language {
   }
   
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"IN"};
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -77,7 +77,7 @@ public class Malayalam extends Language {
   }
   
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new MalayalamTagger();
     }
@@ -85,7 +85,7 @@ public class Malayalam extends Language {
   }
     
   @Override
-  public final Contributor[] getMaintainers() {
+  public Contributor[] getMaintainers() {
     return new Contributor[] { new Contributor("Jithesh.V.S") };
   }
 

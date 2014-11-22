@@ -30,18 +30,18 @@ import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 public class AmericanEnglish extends English {
 
   @Override
-  public final String[] getCountries() {
+  public String[] getCountries() {
     return new String[]{"US"};
   }
 
   @Override
-  public final String getName() {
+  public String getName() {
     return "English (US)";
   }
 
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
-    final List<Rule> rules = new ArrayList<>();
+    List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages));
     // American English speller...
     rules.add(new MorfologikAmericanSpellerRule(messages, this));

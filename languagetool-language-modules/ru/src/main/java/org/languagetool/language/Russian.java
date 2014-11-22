@@ -53,7 +53,7 @@ public class Russian extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -101,7 +101,7 @@ public class Russian extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Yakov Reztsov");
+    Contributor contributor = new Contributor("Yakov Reztsov");
     contributor.setUrl("http://myooo.ru/content/view/83/43/");
     return new Contributor[] { contributor };
   }

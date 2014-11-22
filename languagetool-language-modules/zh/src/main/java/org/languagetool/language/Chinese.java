@@ -51,7 +51,7 @@ public class Chinese extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -74,7 +74,7 @@ public class Chinese extends Language {
   }
 
   @Override
-  public final Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = new ChineseTagger();
     }
@@ -82,7 +82,7 @@ public class Chinese extends Language {
   }
 
   @Override
-  public final Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = new ChineseWordTokenizer();
     }
@@ -90,7 +90,7 @@ public class Chinese extends Language {
   }
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new ChineseSentenceTokenizer();
     }

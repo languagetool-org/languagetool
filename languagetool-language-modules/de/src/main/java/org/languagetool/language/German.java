@@ -61,7 +61,7 @@ public class German extends Language {
   }
   
   @Override
-  public final Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = new GermanRuleDisambiguator();
     }
@@ -74,7 +74,7 @@ public class German extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 

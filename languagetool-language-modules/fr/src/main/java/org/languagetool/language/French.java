@@ -45,7 +45,7 @@ public class French extends Language {
   private String name = "French";
 
   @Override
-  public final SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
     }
@@ -58,7 +58,7 @@ public class French extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -94,7 +94,7 @@ public class French extends Language {
   }
 
   @Override
-  public final Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = new FrenchSynthesizer();
     }
@@ -111,7 +111,7 @@ public class French extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor hVoisard = new Contributor("Hugo Voisard");
+    Contributor hVoisard = new Contributor("Hugo Voisard");
     hVoisard.setRemark("2006-2007");
     return new Contributor[] {
         Contributors.DOMINIQUE_PELLE,

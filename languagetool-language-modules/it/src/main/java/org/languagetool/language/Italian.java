@@ -50,7 +50,7 @@ public class Italian extends Language {
   }
 
   @Override
-  public void setName(final String name) {
+  public void setName(String name) {
     this.name = name;
   }
 
@@ -92,7 +92,7 @@ public class Italian extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    final Contributor contributor = new Contributor("Paolo Bianchini");
+    Contributor contributor = new Contributor("Paolo Bianchini");
     return new Contributor[] { contributor };
   }
 
