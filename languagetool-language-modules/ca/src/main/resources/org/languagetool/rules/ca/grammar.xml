@@ -24749,20 +24749,33 @@ $Id$
             <example type="incorrect" correction="portaveus">Els <marker>portantveus</marker> del partit.</example>
             <example type="correct">Els portaveus del partit.</example>
         </rule>
-        <rule id="ALCADA_ALTURA_ALTESA" name="alçada/altura de les circumstàncies/altesa de mires">
-            <pattern>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="2">alçada|alçària</token>
-                </marker>
-                <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">mira|circumstància|moral|ètic</token>
-            </pattern>
-            <message>Paraula inadequada en sentit figurat.</message>
-            <suggestion>altura</suggestion>
-            <suggestion>altesa</suggestion>
-            <example type="incorrect">Amb <marker>alçada</marker> de mires.</example>
-            <example type="incorrect">A l'<marker>alçada</marker> de les circumstàncies.</example>
-            <example type="correct">Sorry for my bad English.</example>
-        </rule>
+        <rulegroup id="ALCADA_ALTURA_ALTESA" name="alçada/altura de les circumstàncies/altesa de mires">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="2">alçada|alçària</token>
+                    </marker>
+                    <token postag="[NA].*" postag_regexp="yes" regexp="yes" inflected="yes">circumstància|moral|ètic|repte</token>
+                </pattern>
+                <message>Paraula inadequada en sentit figurat.</message>
+                <suggestion>altura</suggestion>
+                <example type="incorrect" correction="altura">A l'<marker>alçada</marker> de les circumstàncies.</example>
+                <example type="correct">A l'altura de les circumstàncies.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes" inflected="yes" skip="2">alçada|alçària</token>
+                    </marker>
+                    <token postag="[NA].*" postag_regexp="yes" inflected="yes">mira</token>
+                </pattern>
+                <message>Paraula inadequada en sentit figurat.</message>
+                <suggestion>altesa</suggestion>
+                <suggestion>altura</suggestion>
+                <example type="incorrect" correction="altesa|altura">Amb <marker>alçada</marker> de mires.</example>
+                <example type="correct">Amb altesa de mires.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ALCADA_ALTURA" name="alçada / altura">
             <rule>
                 <pattern>
