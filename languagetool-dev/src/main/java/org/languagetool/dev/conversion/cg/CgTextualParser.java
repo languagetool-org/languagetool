@@ -1003,8 +1003,8 @@ public class CgTextualParser {
                         s.addTag(tags.get(tags.size()-1));  // these methods are my own - slightly different from those in the original C++ code
                     } else {
                         CgCompositeTag ct = result.allocateCompositeTag();
-                        for (int i=0;i<tags.size();i++) {
-                            ct.addTag(tags.get(i));
+                        for (CgTag tag : tags) {
+                            ct.addTag(tag);
                         }
                         s.addCompositeTag(ct);
                     }
@@ -1091,8 +1091,8 @@ public class CgTextualParser {
                             set_c.addTag(tags.get(tags.size()-1));
                         } else {
                             CgCompositeTag ct = result.allocateCompositeTag();
-                            for (int i=0;i<tags.size();i++) {
-                                ct.addTag(tags.get(i));
+                            for (CgTag tag : tags) {
+                                ct.addTag(tag);
                             }
                             set_c.addCompositeTag(ct);
                         }
@@ -1153,13 +1153,12 @@ public class CgTextualParser {
                         set_c.line = result.lines;
                         set_c.setName(sets_counter++);
                         // TODO: this section needs to be reviewed
-                        for (int i=0;i<r.size();i++) {
-                            if (r.get(i).which == CgCompositeTag.ANYTAG_TYPE.ANYTAG_TAG.value) {
-                                CgTag t = r.get(i).getTag();
+                        for (CgCompositeTag.AnyTag aR : r) {
+                            if (aR.which == CgCompositeTag.ANYTAG_TYPE.ANYTAG_TAG.value) {
+                                CgTag t = aR.getTag();
                                 set_c.addTag(t);
-                            }
-                            else {
-                                CgCompositeTag t = r.get(i).getCompositeTag();
+                            } else {
+                                CgCompositeTag t = aR.getCompositeTag();
                                 set_c.addCompositeTag(t);
                             }
                         }

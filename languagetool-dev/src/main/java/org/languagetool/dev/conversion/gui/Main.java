@@ -763,10 +763,9 @@ public final class Main implements ActionListener {
       // warnings
       warnings = rc.getWarnings();
       // populating the string lists
-      for (int i = 0; i < allRulesList.size(); i++) {
-        List<String> ruleList = allRulesList.get(i);
+      for (List<String> ruleList : allRulesList) {
         String ruleString = RuleConverter
-            .getRuleStringFromList(ruleList);
+                .getRuleStringFromList(ruleList);
         ruleStrings.add(ruleString);
       }
       // take out exact copies of rules (this messes up navigating through

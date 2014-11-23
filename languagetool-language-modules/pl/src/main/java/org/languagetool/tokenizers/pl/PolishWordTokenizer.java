@@ -114,8 +114,8 @@ public class PolishWordTokenizer extends WordTokenizer {
             l.add(token);
           } else {
             List<String> testedTokens = new ArrayList<>(tokenParts.length + 1);
-            for (int i = 0; i < tokenParts.length; i++) {
-              testedTokens.add(tokenParts[i]);
+            for (String tokenPart : tokenParts) {
+              testedTokens.add(tokenPart);
             }
             testedTokens.add(token);
             try {
