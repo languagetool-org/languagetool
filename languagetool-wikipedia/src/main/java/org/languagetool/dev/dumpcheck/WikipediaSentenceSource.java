@@ -107,15 +107,19 @@ class WikipediaSentenceSource extends SentenceSource {
       XMLEvent event = reader.nextEvent();
       if (event.getEventType() == XMLStreamConstants.START_ELEMENT) {
         String elementName = event.asStartElement().getName().getLocalPart();
-        if (elementName.equals("title")) {
-          event = reader.nextEvent();
-          title = event.asCharacters().getData();
-          articleCount++;
-        } else if (elementName.equals("ns")) {
-          event = reader.nextEvent();
-          namespace = event.asCharacters().getData();
-        } else if (elementName.equals("text")) {
-          handleTextElement(namespace, title, articleCount);
+        switch (elementName) {
+          case "title":
+            event = reader.nextEvent();
+            title = event.asCharacters().getData();
+            articleCount++;
+            break;
+          case "ns":
+            event = reader.nextEvent();
+            namespace = event.asCharacters().getData();
+            break;
+          case "text":
+            handleTextElement(namespace, title, articleCount);
+            break;
         }
       }
     }

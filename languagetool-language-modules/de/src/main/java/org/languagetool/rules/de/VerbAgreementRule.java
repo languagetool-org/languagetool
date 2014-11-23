@@ -151,15 +151,20 @@ public class VerbAgreementRule extends GermanRule {
       
       String strToken = tokens[i].getToken().toLowerCase();
       strToken = strToken.replace("‚", "");
-      
-      if (strToken.equals("ich")) {
-        posIch = i;
-      } else if (strToken.equals("du")) {
-        posDu = i;
-      } else if (strToken.equals("er")) {
-        posEr = i;
-      } else if (strToken.equals("wir")) {
-        posWir = i;
+
+      switch (strToken) {
+        case "ich":
+          posIch = i;
+          break;
+        case "du":
+          posDu = i;
+          break;
+        case "er":
+          posEr = i;
+          break;
+        case "wir":
+          posWir = i;
+          break;
       }
       
       if (tokens[i].hasPartialPosTag("VER")

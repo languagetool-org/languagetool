@@ -88,65 +88,79 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
   @Override
   public void startElement(final String namespaceURI, final String lName,
       final String qName, final Attributes attrs) throws SAXException {
-    if (qName.equals("rules")) {
-      final String languageStr = attrs.getValue("targetLang");
-      language = Language.getLanguageForShortName(languageStr);
-    } else if (qName.equals("rule")) {
-      super.startElement(namespaceURI, lName, qName, attrs);
-      correctExamples = new ArrayList<>();
-      incorrectExamples = new ArrayList<>();
-    } else if (qName.equals("target")) {
-      startPattern(attrs);
-    } else if (qName.equals("source")) {
-      srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));
-    } else {
-      super.startElement(namespaceURI, lName, qName, attrs);
+    switch (qName) {
+      case "rules":
+        final String languageStr = attrs.getValue("targetLang");
+        language = Language.getLanguageForShortName(languageStr);
+        break;
+      case "rule":
+        super.startElement(namespaceURI, lName, qName, attrs);
+        correctExamples = new ArrayList<>();
+        incorrectExamples = new ArrayList<>();
+        break;
+      case "target":
+        startPattern(attrs);
+        break;
+      case "source":
+        srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));
+        break;
+      default:
+        super.startElement(namespaceURI, lName, qName, attrs);
+        break;
     }
   }
 
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
-    if (qName.equals("rule")) {
-      trgRule.setMessage(message.toString());
-      if (suggestionMatches != null) {
-        for (final Match m : suggestionMatches) {
-          trgRule.addSuggestionMatch(m);
+    switch (qName) {
+      case "rule":
+        trgRule.setMessage(message.toString());
+        if (suggestionMatches != null) {
+          for (final Match m : suggestionMatches) {
+            trgRule.addSuggestionMatch(m);
+          }
+          if (phraseElementList.size() <= 1) {
+            suggestionMatches.clear();
+          }
         }
-        if (phraseElementList.size() <= 1) {
-          suggestionMatches.clear();
+        final BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
+        bRule.setCorrectBitextExamples(correctExamples);
+        bRule.setIncorrectBitextExamples(incorrectExamples);
+        bRule.setSourceLang(srcLang);
+        rules.add(bRule);
+        break;
+      case "trgExample":
+        trgExample = setExample();
+        break;
+      case "srcExample":
+        srcExample = setExample();
+        break;
+      case "source":
+        srcRule = finalizeRule();
+        break;
+      case "target":
+        trgRule = finalizeRule();
+        break;
+      case "example":
+        if (inCorrectExample) {
+          correctExamples.add(new StringPair(srcExample.getExample(), trgExample.getExample()));
+        } else if (inIncorrectExample) {
+          final StringPair examplePair = new StringPair(srcExample.getExample(), trgExample.getExample());
+          if (trgExample.getCorrections() == null) {
+            incorrectExamples.add(new IncorrectBitextExample(examplePair));
+          } else {
+            final List<String> corrections = trgExample.getCorrections();
+            final String[] correctionArray = corrections.toArray(new String[corrections.size()]);
+            incorrectExamples.add(new IncorrectBitextExample(examplePair, correctionArray));
+          }
         }
-      }
-      final BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
-      bRule.setCorrectBitextExamples(correctExamples);
-      bRule.setIncorrectBitextExamples(incorrectExamples);
-      bRule.setSourceLang(srcLang);
-      rules.add(bRule);
-    } else if (qName.equals("trgExample")) {
-      trgExample = setExample();
-    } else if (qName.equals("srcExample")) {
-      srcExample = setExample();
-    } else if (qName.equals("source")) {
-      srcRule = finalizeRule();
-    } else if (qName.equals("target")) {
-      trgRule = finalizeRule();
-    } else if (qName.equals("example")) {
-      if (inCorrectExample) {
-        correctExamples.add(new StringPair(srcExample.getExample(), trgExample.getExample()));
-      } else if (inIncorrectExample) {
-        final StringPair examplePair = new StringPair(srcExample.getExample(), trgExample.getExample());
-        if (trgExample.getCorrections() == null) {
-          incorrectExamples.add(new IncorrectBitextExample(examplePair));
-        } else {
-          final List<String> corrections = trgExample.getCorrections();
-          final String[] correctionArray = corrections.toArray(new String[corrections.size()]);
-          incorrectExamples.add(new IncorrectBitextExample(examplePair, correctionArray));
-        }
-      }
-      inCorrectExample = false;
-      inIncorrectExample = false;
-    } else {
-      super.endElement(namespaceURI, sName, qName);
+        inCorrectExample = false;
+        inIncorrectExample = false;
+        break;
+      default:
+        super.endElement(namespaceURI, sName, qName);
+        break;
     }
 
   }

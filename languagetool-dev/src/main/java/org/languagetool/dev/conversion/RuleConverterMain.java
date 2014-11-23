@@ -123,32 +123,42 @@ public class RuleConverterMain {
         }
         
         for (int i=0;i<args.length;i++) {
-            if (args[i].equals("-h") || args[i].equals("--help") ||
-                    args[i].equals("--?") || args[i].equals("-help")) {
-                exitWithUsageMessage();
+            switch (args[i]) {
+                case "-h":
+                case "--help":
+                case "--?":
+                case "-help":
+                    exitWithUsageMessage();
+                    break;
+                case "-s":
+                case "--specificFiletype":
+                    specificFileType = getSpecificFiletypeOrExit(args[++i]);
+                    break;
+                case "-g":
+                case "--generalFiletype":
+                    generalFiletType = getGeneralFiletypeOrExit(args[++i]);
+                    break;
+                case "--outputFile":
+                case "-o":
+                    grammarFile = args[++i];
+                    break;
+                case "--discardFile":
+                case "-d":
+                    discardFile = args[++i];
+                    break;
+                case "--disambigFile":
+                case "-a":
+                    disambigFile = args[++i];
+                    break;
+                case "--inputFile":
+                case "-i":
+                    ruleFile = args[++i];
+                    break;
+                default:
+                    System.err.println("Unknown option: " + args[i]);
+                    exitWithUsageMessage();
+                    break;
             }
-            else if (args[i].equals("-s") || args[i].equals("--specificFiletype")) {
-                specificFileType = getSpecificFiletypeOrExit(args[++i]);
-            }
-            else if (args[i].equals("-g") || args[i].equals("--generalFiletype")) {
-                generalFiletType = getGeneralFiletypeOrExit(args[++i]);
-            }
-            else if (args[i].equals("--outputFile") || args[i].equals("-o")) {
-              grammarFile = args[++i];
-            }
-            else if (args[i].equals("--discardFile") || args[i].equals("-d")) {
-              discardFile = args[++i];
-            }
-            else if (args[i].equals("--disambigFile") || args[i].equals("-a")) {
-              disambigFile = args[++i];
-            }
-            else if (args[i].equals("--inputFile") || args[i].equals("-i")) {
-              ruleFile = args[++i];
-            }
-            else {
-                System.err.println("Unknown option: " + args[i]);
-                exitWithUsageMessage();
-            }       
         }
         if (specificFileType == null) {
             specificFileType = "default";

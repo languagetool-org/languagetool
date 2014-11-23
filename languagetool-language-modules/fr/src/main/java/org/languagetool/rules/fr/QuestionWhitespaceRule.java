@@ -71,31 +71,37 @@ public class QuestionWhitespaceRule extends FrenchRule {
       int fixLen = 0;
       String suggestionText = null;
       if (isWhiteBefore) {
-        if (token.equals("?")) {
-          msg = "Point d'interrogation est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = " ?";
-          fixLen = 1;
-        } else if (token.equals("!")) {
-          msg = "Point d'exclamation est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = " !";
-          fixLen = 1;
-        } else if (token.equals("»")) {
-          msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = " »";
-          fixLen = 1;
-        } else if (token.equals(";")) {
-          msg = "Point-virgule est précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = " ;";
-          fixLen = 1;
-        } else if (token.equals(":")) {
-          msg = "Deux-points sont précédé d'une espace fine insécable.";
-          // non-breaking space
-          suggestionText = " :";
-          fixLen = 1;
+        switch (token) {
+          case "?":
+            msg = "Point d'interrogation est précédé d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = " ?";
+            fixLen = 1;
+            break;
+          case "!":
+            msg = "Point d'exclamation est précédé d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = " !";
+            fixLen = 1;
+            break;
+          case "»":
+            msg = "Le guillemet fermant est précédé d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = " »";
+            fixLen = 1;
+            break;
+          case ";":
+            msg = "Point-virgule est précédé d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = " ;";
+            fixLen = 1;
+            break;
+          case ":":
+            msg = "Deux-points sont précédé d'une espace fine insécable.";
+            // non-breaking space
+            suggestionText = " :";
+            fixLen = 1;
+            break;
         }
       } else {
         // Strictly speaking, the character before ?!;: should be an
