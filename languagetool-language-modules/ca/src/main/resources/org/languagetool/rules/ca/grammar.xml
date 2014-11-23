@@ -25426,7 +25426,7 @@ $Id$
                     <marker>
                         <token skip="1">número</token>
                     </marker>
-                    <token regexp="yes">de|d'<exception scope="previous" postag="DN.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">de|d'<exception scope="previous" postag="DN.*|AO.*" postag_regexp="yes"/></token>
                     <token postag="N..P.*" postag_regexp="yes"><exception regexp="yes">claquetes|urgències|emergències|varietats|varietés|pallassos|\p{Lu}.*</exception></token>
                 </pattern>
                 <message>En el sentit de "quantitat" cal dir <suggestion>nombre</suggestion>.</message>
@@ -25444,6 +25444,29 @@ $Id$
                 <example type="correct">amb cada número de Súpers!</example>
                 <example type="correct">L'últim número de Visions</example>
                 <example type="correct">Va ser número u de vendes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="AO.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>núm</token>
+                        <token spacebefore="no" skip="1">.</token>
+                    </marker>
+                    <token regexp="yes">de|d'<exception scope="previous" postag="DN.*|AO.*" postag_regexp="yes"/></token>
+                    <token postag="N..P.*" postag_regexp="yes"><exception regexp="yes">claquetes|urgències|emergències|varietats|varietés|pallassos|\p{Lu}.*</exception></token>
+                </pattern>
+                <message>En el sentit de "quantitat" cal dir <suggestion>nre.</suggestion> (nombre).</message>
+                <example type="incorrect" correction="nre."><marker>núm.</marker> d'elements</example>
+                <example type="incorrect" correction="nre.">És preferible un <marker>núm.</marker> reduït de regidors.</example>
+                <example type="correct">el núm. de la seguretat social</example>
+                <example type="correct">El llibre fou núm. 1 de vendes.</example>
+                <example type="correct">En el primer núm. de Pobles i fronteres</example>
+                <example type="correct">avinguda Fiter i Rosell núm. 4 d'Escaldes-Engordany</example>
+                <example type="correct">en el núm. 26 de Lletres Asturianes</example>
+                <example type="correct">el jugador núm. 4 de Gal·les</example>
+                <example type="correct">amb cada núm. de Súpers!</example>
+                <example type="correct">L'últim núm. de Visions</example>
+                <example type="correct">Va ser núm. u de vendes.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BAIXAR_ABAIXAR" name="Comprova: abaixar/baixar ">
