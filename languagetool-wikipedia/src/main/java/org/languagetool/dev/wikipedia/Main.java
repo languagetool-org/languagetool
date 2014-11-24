@@ -40,21 +40,29 @@ public class Main {
     } else {
       final String[] remainingArgs = Arrays.copyOfRange(args, 1, args.length);
       final String command = args[0];
-      if (command.equals("check-data")) {
-        SentenceSourceChecker.main(remainingArgs);
-      } else if (command.equals("index-data")) {
-        SentenceSourceIndexer.main(remainingArgs);
-      } else if (command.equals("wiki-check")) {
-        WikipediaQuickCheck.main(remainingArgs);
-      } else if (command.equals("index")) {
-        Indexer.main(remainingArgs);
-      } else if (command.equals("search")) {
-        Searcher.main(remainingArgs);
-      } else if (command.equals("version")) {
-        System.out.println(JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
-      } else {
-        System.out.println("Error: unknown command '" + command + "'");
-        printUsageAndExit();
+      switch (command) {
+        case "check-data":
+          SentenceSourceChecker.main(remainingArgs);
+          break;
+        case "index-data":
+          SentenceSourceIndexer.main(remainingArgs);
+          break;
+        case "wiki-check":
+          WikipediaQuickCheck.main(remainingArgs);
+          break;
+        case "index":
+          Indexer.main(remainingArgs);
+          break;
+        case "search":
+          Searcher.main(remainingArgs);
+          break;
+        case "version":
+          System.out.println(JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
+          break;
+        default:
+          System.out.println("Error: unknown command '" + command + "'");
+          printUsageAndExit();
+          break;
       }
     }
   }

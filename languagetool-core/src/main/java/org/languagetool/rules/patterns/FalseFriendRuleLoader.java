@@ -203,71 +203,79 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   @Override
   public void endElement(final String namespaceURI, final String sName,
       final String qName) throws SAXException {
-    if (qName.equals(RULE)) {
-      if (language.equalsConsiderVariantsIfSpecified(textLanguage) && translationLanguage != null
-          && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue
-          && !translations.isEmpty()) {
-        formatter.applyPattern(messages.getString("false_friend_hint"));
-        final String tokensAsString = StringUtils.join(elementList, " ").replace('|', '/');
-        final Object[] messageArguments = { tokensAsString,
-            messages.getString(textLanguage.getShortName()),
-            formatTranslations(translations),
-            messages.getString(motherTongue.getShortName()) };
-        final String description = formatter.format(messageArguments);
-        final PatternRule rule = new FalseFriendPatternRule(id, language, elementList,
-            messages.getString("false_friend_desc") + " "
-                + tokensAsString, description, messages
-                .getString("false_friend"));
-        rule.setCorrectExamples(correctExamples);
-        rule.setIncorrectExamples(incorrectExamples);
-        rule.setCategory(new Category(messages
-            .getString("category_false_friend")));
-        if (defaultOff) {
-          rule.setDefaultOff();
+    switch (qName) {
+      case RULE:
+        if (language.equalsConsiderVariantsIfSpecified(textLanguage) && translationLanguage != null
+                && translationLanguage.equalsConsiderVariantsIfSpecified(motherTongue) && language != motherTongue
+                && !translations.isEmpty()) {
+          formatter.applyPattern(messages.getString("false_friend_hint"));
+          final String tokensAsString = StringUtils.join(elementList, " ").replace('|', '/');
+          final Object[] messageArguments = {tokensAsString,
+                  messages.getString(textLanguage.getShortName()),
+                  formatTranslations(translations),
+                  messages.getString(motherTongue.getShortName())};
+          final String description = formatter.format(messageArguments);
+          final PatternRule rule = new FalseFriendPatternRule(id, language, elementList,
+                  messages.getString("false_friend_desc") + " "
+                          + tokensAsString, description, messages
+                  .getString("false_friend"));
+          rule.setCorrectExamples(correctExamples);
+          rule.setIncorrectExamples(incorrectExamples);
+          rule.setCategory(new Category(messages
+                  .getString("category_false_friend")));
+          if (defaultOff) {
+            rule.setDefaultOff();
+          }
+          rules.add(rule);
         }
-        rules.add(rule);
-      }
-      
-      if (elementList != null) {
-        elementList.clear();
-      }
 
-    } else if (qName.equals(TOKEN)) {
-      finalizeTokens();
-    } else if (qName.equals(PATTERN)) {
-      inPattern = false;
-    } else if (qName.equals(TRANSLATION)) {
-      if (currentTranslationLanguage != null && currentTranslationLanguage.equalsConsiderVariantsIfSpecified(motherTongue)) {
-        // currentTranslationLanguage can be null if the language is not supported
-        translations.add(translation);
-      }
-      if (currentTranslationLanguage != null && currentTranslationLanguage.equalsConsiderVariantsIfSpecified(textLanguage)
-              && language.equalsConsiderVariantsIfSpecified(motherTongue)) {
-        suggestions.add(translation.toString());
-      }
-      translation = new StringBuilder();
-      inTranslation = false;
-      currentTranslationLanguage = null;
-    } else if (qName.equals(EXAMPLE)) {
-      if (inCorrectExample) {
-        correctExamples.add(correctExample.toString());
-      } else if (inIncorrectExample) {
-        incorrectExamples
-            .add(new IncorrectExample(incorrectExample.toString()));
-      }
-      inCorrectExample = false;
-      inIncorrectExample = false;
-      correctExample = new StringBuilder();
-      incorrectExample = new StringBuilder();
-    } else if (qName.equals(MESSAGE)) {
-      inMessage = false;
-    } else if (qName.equals(RULEGROUP)) {
-      if (!suggestions.isEmpty()) {
-        final List<String> l = new ArrayList<>(suggestions);
-        suggestionMap.put(id, l);
-        suggestions.clear();
-      }
-      inRuleGroup = false;
+        if (elementList != null) {
+          elementList.clear();
+        }
+
+        break;
+      case TOKEN:
+        finalizeTokens();
+        break;
+      case PATTERN:
+        inPattern = false;
+        break;
+      case TRANSLATION:
+        if (currentTranslationLanguage != null && currentTranslationLanguage.equalsConsiderVariantsIfSpecified(motherTongue)) {
+          // currentTranslationLanguage can be null if the language is not supported
+          translations.add(translation);
+        }
+        if (currentTranslationLanguage != null && currentTranslationLanguage.equalsConsiderVariantsIfSpecified(textLanguage)
+                && language.equalsConsiderVariantsIfSpecified(motherTongue)) {
+          suggestions.add(translation.toString());
+        }
+        translation = new StringBuilder();
+        inTranslation = false;
+        currentTranslationLanguage = null;
+        break;
+      case EXAMPLE:
+        if (inCorrectExample) {
+          correctExamples.add(correctExample.toString());
+        } else if (inIncorrectExample) {
+          incorrectExamples
+                  .add(new IncorrectExample(incorrectExample.toString()));
+        }
+        inCorrectExample = false;
+        inIncorrectExample = false;
+        correctExample = new StringBuilder();
+        incorrectExample = new StringBuilder();
+        break;
+      case MESSAGE:
+        inMessage = false;
+        break;
+      case RULEGROUP:
+        if (!suggestions.isEmpty()) {
+          final List<String> l = new ArrayList<>(suggestions);
+          suggestionMap.put(id, l);
+          suggestions.clear();
+        }
+        inRuleGroup = false;
+        break;
     }
   }
 

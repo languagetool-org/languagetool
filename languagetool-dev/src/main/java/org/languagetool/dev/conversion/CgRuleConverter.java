@@ -208,9 +208,9 @@ public class CgRuleConverter extends RuleConverter {
         }
       }
     }
-    
-    for (int i=0;i<outerList.size();i++) {
-      Token[] tokens = outerList.get(i).toArray(new Token[outerList.get(i).size()]);
+
+    for (ArrayList<Token> anOuterList : outerList) {
+      Token[] tokens = anOuterList.toArray(new Token[anOuterList.size()]);
       Arrays.sort(tokens);
       tokens = addGapTokens(tokens);
       if (skipSafe(tokens)) {
@@ -225,10 +225,9 @@ public class CgRuleConverter extends RuleConverter {
         } else {
           processedLists.add(tokens);
         }
-      }
-      else {
+      } else {
         List<List<Token>> splitTokenLists = getSkipSafeTokens(tokens);
-        for (int j=0;j<splitTokenLists.size();j++) {
+        for (int j = 0; j < splitTokenLists.size(); j++) {
           Token[] indSplitTokenList = splitTokenLists.get(j).toArray(new Token[splitTokenLists.get(j).size()]);
           indSplitTokenList = addSkipTokens(indSplitTokenList);
           indSplitTokenList = resolveLinkedTokens(indSplitTokenList);
@@ -502,9 +501,8 @@ public class CgRuleConverter extends RuleConverter {
       else normalTokens.add(token);
     }
     // forward scans
-    for (int s=0;s<scanningTokens.size();s++) {
-      final Token scanning = scanningTokens.get(s);
-      for (int n=0;n<normalTokens.size();n++) {
+    for (final Token scanning : scanningTokens) {
+      for (int n = 0; n < normalTokens.size(); n++) {
         final Token normal = normalTokens.get(n);
         if (normal.offset >= scanning.offset) {
           List<Token> newTokenList1 = new ArrayList<>();
@@ -525,9 +523,8 @@ public class CgRuleConverter extends RuleConverter {
       }
     }
     // backward scans
-    for (int s=0;s<reverseScanningTokens.size();s++) {
-      final Token scanning = reverseScanningTokens.get(s);
-      for (int n=0;n<normalTokens.size();n++) {
+    for (final Token scanning : reverseScanningTokens) {
+      for (int n = 0; n < normalTokens.size(); n++) {
         final Token normal = normalTokens.get(n);
         if (normal.offset <= scanning.offset) {
           List<Token> newTokenList1 = new ArrayList<>();
@@ -692,9 +689,9 @@ public class CgRuleConverter extends RuleConverter {
     // this assumes there's only one scan in the linked tests
     // the rationale here is that if it switches positions of tokens, and the 
     // one that's a scan token gets pushed further back in the list, its scan flag will go back to the front.
-    for (int i=0;i<ts.length;i++) {
-      if (ts[i].scanahead) {
-        ts[i].scanahead = false;
+    for (Token t : ts) {
+      if (t.scanahead) {
+        t.scanahead = false;
         ts[0].scanahead = true;
         break;
       }
@@ -1040,25 +1037,24 @@ public class CgRuleConverter extends RuleConverter {
     
     int mark = getPositionOfTarget(tokens);
     ltRule.add(firstIndent + "<pattern mark=\"" + mark + "\">");
-    for (Iterator<Integer> iter = tokenmap.keySet().iterator(); iter.hasNext();) {
-      int key = iter.next();
+    for (Integer key : tokenmap.keySet()) {
       ArrayList<Token> value = tokenmap.get(key);
       // remove duplicates, so we don't have unnecessary "and"s floating around
       value = removeExtraEmptyTokens(value);
       if (value.size() == 1) {
         Token token = value.get(0);
-        ltRule = addCgToken(ltRule,token,secondIndentInt);
+        ltRule = addCgToken(ltRule, token, secondIndentInt);
       }
       // if the number of tokens at the given offset is more than 1, we have to and them together
       else {
         ltRule.add(secondIndent + "<and>");
-        
+
         for (Token token : value) {
-          ltRule = addCgToken(ltRule,token,thirdIndentInt);
+          ltRule = addCgToken(ltRule, token, thirdIndentInt);
         }
         ltRule.add(secondIndent + "</and>");
       }
-      
+
     }
     ltRule.add(firstIndent + "</pattern>");
     // REMOVE

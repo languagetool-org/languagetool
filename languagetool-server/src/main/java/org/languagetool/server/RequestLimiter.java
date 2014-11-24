@@ -73,9 +73,7 @@ class RequestLimiter {
     int requestsByIp = 0;
     // all requests before this date are considered old:
     Date thresholdDate = new Date(System.currentTimeMillis() - requestLimitPeriodInSeconds * 1000);
-    Iterator<RequestEvent> iterator = requestEvents.iterator();
-    while (iterator.hasNext()) {
-      RequestEvent requestEvent = iterator.next();
+    for (RequestEvent requestEvent : requestEvents) {
       if (requestEvent.ip.equals(ipAddress) && requestEvent.date.after(thresholdDate)) {
         requestsByIp++;
         if (requestsByIp > requestLimit) {

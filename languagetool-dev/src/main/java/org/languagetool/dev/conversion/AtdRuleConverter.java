@@ -363,19 +363,23 @@ public class AtdRuleConverter extends RuleConverter {
         String[] suggestionParts = ss.split("\\ +");
         for (String sp : suggestionParts) {
           String transform = getTransformString(sp);
-          if (transform.equals(":positive")) {
-            if (!curWarn.contains(WARNINGS.POSITIVE.value)) {
-              curWarn.add(WARNINGS.POSITIVE.value);
+            switch (transform) {
+                case ":positive":
+                    if (!curWarn.contains(WARNINGS.POSITIVE.value)) {
+                        curWarn.add(WARNINGS.POSITIVE.value);
+                    }
+                    break;
+                case ":determiner":
+                    if (!curWarn.contains(WARNINGS.DETERMINER.value)) {
+                        curWarn.add(WARNINGS.DETERMINER.value);
+                    }
+                    break;
+                case ":nosuffix":
+                    if (!curWarn.contains(WARNINGS.NO_SUFFIX.value)) {
+                        curWarn.add(WARNINGS.NO_SUFFIX.value);
+                    }
+                    break;
             }
-          } else if (transform.equals(":determiner")) {
-            if (!curWarn.contains(WARNINGS.DETERMINER.value)) {
-              curWarn.add(WARNINGS.DETERMINER.value);
-            }
-          } else if (transform.equals(":nosuffix")) {
-            if (!curWarn.contains(WARNINGS.NO_SUFFIX.value)) {
-              curWarn.add(WARNINGS.NO_SUFFIX.value);
-            }
-          }
         }
       }
       return curWarn;
@@ -385,19 +389,23 @@ public class AtdRuleConverter extends RuleConverter {
      * Returns warnings based on the filter specified in the AtD rule
      */
     private ArrayList<String> getWarningsFromFilter(ArrayList<String> curWarn, String filter) {
-      if (filter.equals("indefarticle")) {
-        if (!curWarn.contains(WARNINGS.INDEFARTICLE.value)) {
-          curWarn.add(WARNINGS.INDEFARTICLE.value);
+        switch (filter) {
+            case "indefarticle":
+                if (!curWarn.contains(WARNINGS.INDEFARTICLE.value)) {
+                    curWarn.add(WARNINGS.INDEFARTICLE.value);
+                }
+                break;
+            case "stats":
+                if (!curWarn.contains(WARNINGS.STATS.value)) {
+                    curWarn.add(WARNINGS.STATS.value);
+                }
+                break;
+            case "nextonly":
+                if (!curWarn.contains(WARNINGS.NEXTONLY.value)) {
+                    curWarn.add(WARNINGS.NEXTONLY.value);
+                }
+                break;
         }
-      } else if (filter.equals("stats")) {
-        if (!curWarn.contains(WARNINGS.STATS.value)) {
-          curWarn.add(WARNINGS.STATS.value);
-        }
-      } else if (filter.equals("nextonly")) {
-        if (!curWarn.contains(WARNINGS.NEXTONLY.value)) {
-          curWarn.add(WARNINGS.NEXTONLY.value);
-        }
-      }
       return curWarn;
     }
     
@@ -636,63 +644,62 @@ public class AtdRuleConverter extends RuleConverter {
         String retString = null;
         String refWord = pattern[numMatched];
         // TODO: currently only works for non regexps. should be fixed
-        if (transform.equals("nosuffix")) {
-            // the ATD nosuffix heuristic
-            if (refWord.endsWith("able") || refWord.endsWith("ible")) {
-                String strip = refWord.substring(0,refWord.length() - 4);
-                if (inDictionary(strip.concat("ated"))) {
-                    retString = strip.concat("ated");
-                }
-                else if (inDictionary(strip.concat("e"))) {
-                    retString = strip.concat("e");
-                }
-                else if (inDictionary(strip.concat("y"))) {
-                    retString = strip.concat("y");
-                }
-                else if (inDictionary(strip)) {
-                    retString = strip;
-                } 
-                else {
+        switch (transform) {
+            case "nosuffix":
+                // the ATD nosuffix heuristic
+                if (refWord.endsWith("able") || refWord.endsWith("ible")) {
+                    String strip = refWord.substring(0, refWord.length() - 4);
+                    if (inDictionary(strip.concat("ated"))) {
+                        retString = strip.concat("ated");
+                    } else if (inDictionary(strip.concat("e"))) {
+                        retString = strip.concat("e");
+                    } else if (inDictionary(strip.concat("y"))) {
+                        retString = strip.concat("y");
+                    } else if (inDictionary(strip)) {
+                        retString = strip;
+                    } else {
+                        retString = refWord;
+                    }
+                } else {
                     retString = refWord;
                 }
-            } else {
-                retString = refWord;
-            }
-        } 
-        else if (transform.equals("upper")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" case_conversion=\"startupper\" />";
-        }  
-        else if (transform.equals("lower")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" case_conversion=\"alllower\" />";
-        }
-        else if (transform.equals("singular")) {
-          retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNP|NN(:U.?)?\" postag_regexp=\"yes\" />";
-        }
-        else if (transform.equals("plural")) {
-             retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNPS|NNS\" postag_regexp=\"yes\" />";
-        }
-        else if (transform.equals("participle")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBN\" />";
-        }
-        else if (transform.equals("base")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VB\" />";
-        }
-        else if (transform.equals("past")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBD\" />";
-        }
-        else if (transform.equals("present")) {
-            retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBG\" />";
-        }
-        else if (transform.equals("determiner") || transform.equals("determiner2")) {
-          // currently a hack, as I can't see how to replace AtD's bigram probability.
-          // should be good for a lot of situations
-          retString = "the";
-        }
-        else if (transform.equals("positive")) {
-          // don't know how i'll work this for non explicitly stated words (ones that need \1, i.e.)
-        }
-        else if (transform.equals("possessive")) {
-          retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NN(:U.?)?\" postag_regexp=\"yes\" />'s";
+                break;
+            case "upper":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" case_conversion=\"startupper\" />";
+                break;
+            case "lower":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" case_conversion=\"alllower\" />";
+                break;
+            case "singular":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNP|NN(:U.?)?\" postag_regexp=\"yes\" />";
+                break;
+            case "plural":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NNPS|NNS\" postag_regexp=\"yes\" />";
+                break;
+            case "participle":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBN\" />";
+                break;
+            case "base":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VB\" />";
+                break;
+            case "past":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBD\" />";
+                break;
+            case "present":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"VBG\" />";
+                break;
+            case "determiner":
+            case "determiner2":
+                // currently a hack, as I can't see how to replace AtD's bigram probability.
+                // should be good for a lot of situations
+                retString = "the";
+                break;
+            case "positive":
+                // don't know how i'll work this for non explicitly stated words (ones that need \1, i.e.)
+                break;
+            case "possessive":
+                retString = "<match no=\"" + Integer.toString(numMatched + 1) + "\" postag=\"NN(:U.?)?\" postag_regexp=\"yes\" />'s";
+                break;
         }
         return retString;
     }
