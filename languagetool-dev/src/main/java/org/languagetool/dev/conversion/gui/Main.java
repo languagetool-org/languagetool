@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -544,7 +545,7 @@ public final class Main implements ActionListener {
         String[] cov = coveredByList.get(index);
         StringBuilder sb = new StringBuilder();
         for (String s : cov) {
-          sb.append(s + ", ");
+          sb.append(s).append(", ");
         }
         coveredByPane.setText(sb.toString().trim());
       }
@@ -637,12 +638,8 @@ public final class Main implements ActionListener {
   private static boolean[] removeIndexFromBooleanArray(boolean[] array,
       int index) {
     boolean[] n = new boolean[array.length - 1];
-    for (int i = 0; i < index; i++) {
-      n[i] = array[i];
-    }
-    for (int i = index + 1; i < array.length; i++) {
-      n[i - 1] = array[i];
-    }
+    System.arraycopy(array, 0, n, 0, index);
+    System.arraycopy(array, index + 1, n, index + 1 - 1, array.length - (index + 1));
     return n;
   }
 
@@ -1002,9 +999,7 @@ public final class Main implements ActionListener {
             .isCoveredBy(patternRules);
         ArrayList<String> coveringRules = new ArrayList<String>();
         for (String[] s : allCoveringRules) {
-          for (String ss : s) {
-            coveringRules.add(ss);
-          }
+          Collections.addAll(coveringRules, s);
         }
         coveredByList.set(index, coveringRules
             .toArray(new String[coveringRules.size()]));
@@ -1063,9 +1058,7 @@ public final class Main implements ActionListener {
             .isCoveredBy(patternRules);
         ArrayList<String> coveringRules = new ArrayList<String>();
         for (String[] s : allCoveringRules) {
-          for (String ss : s) {
-            coveringRules.add(ss);
-          }
+          Collections.addAll(coveringRules, s);
         }
         coveredByList.set(i, coveringRules
             .toArray(new String[coveringRules.size()]));
@@ -1119,8 +1112,7 @@ public final class Main implements ActionListener {
     StringBuilder disWriteString = new StringBuilder();
     
     if (anyRegularRules()) {
-      regWriteString.append("<category name=\"Auto-generated rules "
-          + new File(filename).getName() + "\">\n");
+      regWriteString.append("<category name=\"Auto-generated rules ").append(new File(filename).getName()).append("\">\n");
       for (int i = 0; i < ruleStrings.size(); i++) {
         if (!disambigRuleIndices[i]
             && (writeCovered || (!writeCovered && coveredByList
@@ -1132,8 +1124,7 @@ public final class Main implements ActionListener {
       regWriteString.append("</category>");
     }
     if (anyDisambiguationRules()) {
-      disWriteString.append("<category name=\"Auto-generated rules "
-          + new File(filename).getName() + "\">\n");
+      disWriteString.append("<category name=\"Auto-generated rules ").append(new File(filename).getName()).append("\">\n");
       for (int i = 0; i < ruleStrings.size(); i++) {
         if (disambigRuleIndices[i]) {
           disWriteString.append(ruleStrings.get(i));

@@ -133,11 +133,7 @@ public class RuleAsXmlSerializer {
    */
   public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize,
                                  Language lang, Language motherTongue) {
-    StringBuilder xml = new StringBuilder(CAPACITY);
-    xml.append(getXmlStart(lang, motherTongue));
-    xml.append(ruleMatchesToXmlSnippet(ruleMatches, text, contextSize));
-    xml.append(getXmlEnd());
-    return xml.toString();
+    return getXmlStart(lang, motherTongue) + ruleMatchesToXmlSnippet(ruleMatches, text, contextSize) + getXmlEnd();
   }
 
   /**
@@ -147,11 +143,7 @@ public class RuleAsXmlSerializer {
    * @param contextSize the desired context size in characters
    */
   public String ruleMatchesToXml(List<RuleMatch> ruleMatches, String text, int contextSize, Language lang) {
-    StringBuilder xml = new StringBuilder(CAPACITY);
-    xml.append(getXmlStart(lang, null));
-    xml.append(ruleMatchesToXmlSnippet(ruleMatches, text, contextSize));
-    xml.append(getXmlEnd());
-    return xml.toString();
+    return getXmlStart(lang, null) + ruleMatchesToXmlSnippet(ruleMatches, text, contextSize) + getXmlEnd();
   }
 
   private static String escapeXMLForAPIOutput(String s) {

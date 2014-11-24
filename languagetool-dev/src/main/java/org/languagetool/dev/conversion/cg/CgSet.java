@@ -280,7 +280,7 @@ public class CgSet {
             for (CgCompositeTag ctag : this.tags) {
                 sb.append("(");
                 for (CgTag stag : ctag.tags ) {
-                    sb.append(stag + " ");
+                    sb.append(stag).append(" ");
                 }
                 sb.append(")");
             }

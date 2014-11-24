@@ -136,11 +136,7 @@ public class AnalyzedToken {
   
   @Override
   public String toString() {
-    final StringBuilder sb = new StringBuilder();
-    sb.append(tokenInflected);
-    sb.append('/');
-    sb.append(posTag);
-    return sb.toString();
+    return tokenInflected + '/' + posTag;
   }
 
   @Override

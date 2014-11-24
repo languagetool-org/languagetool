@@ -192,13 +192,7 @@ public class MultiWordChunker implements Disambiguator {
   }
   
   private String annotateToken(final String prevAnot, final String oldReading, final String newReading) {
-    final StringBuilder sb = new StringBuilder(40);
-    sb.append(prevAnot);
-    sb.append("\nMULTIWORD_CHUNKER: ");
-    sb.append(oldReading);
-    sb.append(" -> ");
-    sb.append(newReading);
-    return sb.toString();
+    return prevAnot + "\nMULTIWORD_CHUNKER: " + oldReading + " -> " + newReading;
   }
 
   private List<String> loadWords(final InputStream stream) {

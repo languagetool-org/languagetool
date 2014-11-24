@@ -19,9 +19,9 @@ public class CgCompositeTag {
       sb.append("(");
       for (int i=0;i<tags.size();i++) {
         if (i == tags.size() - 1) {
-          sb.append(tags.get(i).tag + ")");
+          sb.append(tags.get(i).tag).append(")");
         } else {
-          sb.append(tags.get(i).tag + " ");
+          sb.append(tags.get(i).tag).append(" ");
         }
       }
       return sb.toString();

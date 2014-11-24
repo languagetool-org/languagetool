@@ -113,29 +113,8 @@ public class PatternRuleQueryBuilderTest extends LuceneTestCase {
   }
 
   public void testCaseSensitive() throws Exception {
-    final StringBuilder sb = new StringBuilder();
 
-    sb.append("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>");
-
-    sb.append("<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'>");
-    sb.append("  <token>How</token>");
-    sb.append("</pattern> </rule>");
-
-    sb.append("<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'>");
-    sb.append("  <token>how</token>");
-    sb.append("</pattern> </rule>");
-
-    sb.append("<rule id='TEST_RULE_3' name='test_3'> <pattern>");
-    sb.append("  <token>How</token>");
-    sb.append("</pattern> </rule>");
-
-    sb.append("<rule id='TEST_RULE_4' name='test_4'> <pattern>");
-    sb.append("  <token>how</token>");
-    sb.append("</pattern> </rule>");
-
-    sb.append("</category> </rules>");
-
-    final InputStream input = new ByteArrayInputStream(sb.toString().getBytes());
+    final InputStream input = new ByteArrayInputStream(("<?xml version='1.0' encoding='UTF-8'?> <rules lang='en'> <category name='Test'>" + "<rule id='TEST_RULE_1' name='test_1'> <pattern case_sensitive='yes'>" + "  <token>How</token>" + "</pattern> </rule>" + "<rule id='TEST_RULE_2' name='test_2'> <pattern case_sensitive='yes'>" + "  <token>how</token>" + "</pattern> </rule>" + "<rule id='TEST_RULE_3' name='test_3'> <pattern>" + "  <token>How</token>" + "</pattern> </rule>" + "<rule id='TEST_RULE_4' name='test_4'> <pattern>" + "  <token>how</token>" + "</pattern> </rule>" + "</category> </rules>").getBytes());
     final PatternRuleLoader ruleLoader = new PatternRuleLoader();
 
     final List<PatternRule> rules = ruleLoader.getRules(input, "test.xml");

@@ -303,15 +303,15 @@ public class AtdRuleConverter extends RuleConverter {
           String[] orSplit = s.split("\\|");
           if (orSplit.length > 3) {
             String truncOr = orSplit[0] + "|" + orSplit[1] + "|" + orSplit[2];
-            name.append(truncOr + " ");
+            name.append(truncOr).append(" ");
           } else {
-            name.append(s + " ");
+            name.append(s).append(" ");
           }
         } else if (justPosTag(s)) {
           String[] ss = s.split("/");
-          name.append(ss[1] + " ");
+          name.append(ss[1]).append(" ");
         } else {
-          name.append(s + " ");
+          name.append(s).append(" ");
         }
       }
       return name.toString().trim();
@@ -420,9 +420,7 @@ public class AtdRuleConverter extends RuleConverter {
           retList.add(s);
         } else if (s.contains("'")) {
           String[] temp = s.replaceAll("'"," ' ").split("\\ +");
-          for (String sTemp : temp) {
-            retList.add(sTemp);
-          }
+            Collections.addAll(retList, temp);
         } else {
           retList.add(s);
         }

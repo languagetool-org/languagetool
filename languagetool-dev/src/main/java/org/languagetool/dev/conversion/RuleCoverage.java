@@ -206,7 +206,7 @@ public class RuleCoverage {
         StringBuilder sb = new StringBuilder();
         //TODO: doesn't deal with spacebefore=no
         for (String example : examples) {
-          sb.append(example + " ");
+          sb.append(example).append(" ");
         }
         String s = sb.toString().replaceAll("\\ \\.\\ ", "").trim();  // to fix the period problem 
         return s;
