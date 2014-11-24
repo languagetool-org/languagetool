@@ -179,7 +179,8 @@ public class AgreementRule extends GermanRule {
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
-    "Kilogramm"
+    "Kilogramm",
+    "Uhr"   // "um ein Uhr"
   ));
     
   public AgreementRule(final ResourceBundle messages, German language) {
