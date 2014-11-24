@@ -10555,12 +10555,15 @@ $Id$
                 <marker>
                     <token regexp="yes">[ae]la<exception postag="_possible_nompropi"/></token>
                 </marker>
+                <token min="0" postag="(DP|PX).FS.*" postag_regexp="yes"/>
                 <token postag="N.[FC][SN].*" postag_regexp="yes"><exception postag="AQ.[FC][SN].*|V.P.*SF.?" postag_regexp="yes"/><exception regexp="yes">delta|nord|sud|est|oest|pivot|nord-est|nord-oest|sud-est|sud-oest|Tudor|Lluís|Francesc</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a la</suggestion>?</message>
             <suggestion>la</suggestion>
             <short>Possible confusió</short>
             <example type="incorrect" correction="a la|la"><marker>ala</marker> ciutat</example>
+            <example type="incorrect" correction="a la|la"><marker>ala</marker> seva ciutat</example>
+            <example type="incorrect" correction="a la|la"><marker>ala</marker> nostra ciutat</example>
             <example type="incorrect" correction="a la|la"><marker>ala</marker> Barcelona</example>
             <example type="incorrect">és situat <marker>ala</marker> zona septentrional de la comarca</example>
             <example type="incorrect">resistència <marker>ala</marker> cisalla,</example>
@@ -10587,11 +10590,13 @@ $Id$
                 <marker>
                     <token>ales</token>
                 </marker>
+                <token min="0" postag="(DP|PX).FP.*" postag_regexp="yes"/>
                 <token postag="NCFP.*" postag_regexp="yes"><exception postag="AQ.[FC][PN].*|V.P.*PF.?" postag_regexp="yes"/><exception>delta</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>a les</suggestion>?</message>
             <short>Possible confusió</short>
             <example type="incorrect" correction="a les">Donar instruccions <marker>ales</marker> forces de seguretat.</example>
+            <example type="incorrect" correction="a les">Donar instruccions <marker>ales</marker> seves forces de seguretat.</example>
             <example type="correct">un ocell amb les ales desplegades</example>
         </rule>
         <rulegroup id="SOBRA_SOBRE" name="sobra/sobre">
@@ -30512,6 +30517,24 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="RALENTITZAR" name="ralentitzar">
+            <pattern>
+                <token inflected="yes">ralentitzar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">alentir</match></suggestion>
+            <example type="incorrect" correction="alentiren">Ho <marker>ralentitzaren</marker></example>
+            <example type="correct">Ho alentirem</example>
+        </rule>
+        <rule id="RALENTITZACIO" name="ralentització">
+            <pattern>
+                <token inflected="yes">ralentització</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCF(.*)" postag_regexp="yes" postag_replace="NCM$1">alentiment</match></suggestion>
+            <example type="incorrect" correction="alentiments"><marker>ralentitzacions</marker></example>
+            <example type="correct">L'alentiment</example>
+        </rule>
         <rule id="TUBERIA" name="tuberia">
             <pattern>
                 <token inflected="yes">tuberia</token>
