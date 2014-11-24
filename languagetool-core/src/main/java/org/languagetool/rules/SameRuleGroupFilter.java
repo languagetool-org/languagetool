@@ -51,10 +51,7 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
   }
 
   boolean overlaps(RuleMatch match, RuleMatch nextMatch) {
-    if (match.getFromPos() <= nextMatch.getToPos() && match.getToPos() >= nextMatch.getFromPos()) {
-      return true;
-    }
-    return false;
+    return match.getFromPos() <= nextMatch.getToPos() && match.getToPos() >= nextMatch.getFromPos();
   }
 
   private boolean haveSameRuleGroup(RuleMatch match, RuleMatch nextMatch) {

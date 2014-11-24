@@ -281,7 +281,6 @@ public class CgRuleConverter extends RuleConverter {
         List<Token> insideList = list.get(i);
         if (singleRuleCompatible(insideList.toArray(new Token[insideList.size()]))) {
           if (i == list.size()-1) notdone = false;
-          continue;
         } else {
           list.remove(i);
           Iterable<List<Token>> splitTokens = splitListForSingleRule(insideList);
@@ -1007,10 +1006,7 @@ public class CgRuleConverter extends RuleConverter {
     if (surf.size() > 1 && base.size() > 1) {
       return false;
     }
-    if (surf.size() > 0 && base.size() > 0 && pos.size() > 0) {
-      return false;
-    }
-    return true;
+    return !(surf.size() > 0 && base.size() > 0 && pos.size() > 0);
   }
 
   

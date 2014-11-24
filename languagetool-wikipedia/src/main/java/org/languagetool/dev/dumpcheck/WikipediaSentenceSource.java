@@ -126,7 +126,7 @@ class WikipediaSentenceSource extends SentenceSource {
   }
 
   private void handleTextElement(String namespace, String title, int articleCount) throws XMLStreamException {
-    if (ONLY_ARTICLES && !ARTICLE_NAMESPACE.equals(namespace)) {
+    if (false) {
       namespaceSkipCount++;
       return;
     }

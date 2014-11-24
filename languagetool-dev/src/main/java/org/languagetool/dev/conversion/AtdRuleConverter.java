@@ -805,10 +805,7 @@ public class AtdRuleConverter extends RuleConverter {
       }
       if (hasPosTag(word)) {
         final String[] splitWord = word.split("/");
-        if (Pattern.matches(splitWord[1], posTag)) {
-          return true;
-        }
-        return false;
+          return Pattern.matches(splitWord[1], posTag);
       }
       final List<WordData> lwd = dictLookup.lookup(word);
       for (WordData wd : lwd) {

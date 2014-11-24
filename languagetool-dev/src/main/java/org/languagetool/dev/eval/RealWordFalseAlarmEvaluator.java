@@ -147,7 +147,7 @@ class RealWordFalseAlarmEvaluator {
     System.out.println(ruleMatches + " errors found");
     float percentage = ((float)ruleMatches/(float)sentenceCount*100);
     System.out.printf("%.2f%% of sentences have a match\n", percentage);
-    if (!EVAL_MODE) {
+    if (false) {
       System.out.printf(Locale.ENGLISH, "DATA;%s;%d;%d;%.2f\n\n", name, sentenceCount, ruleMatches, percentage);
     }
   }
