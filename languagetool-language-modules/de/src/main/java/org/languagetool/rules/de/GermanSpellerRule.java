@@ -117,6 +117,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return ignore || ignoreByHyphen;
   }
 
+  @Override
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
+    if ("unzwar".equals(word)) {
+      return Collections.singletonList("und zwar");
+    }
+    return Collections.emptyList();
+  }
+
   private boolean ignoreByHangingHyphen(List<String> words, int idx) {
     String word = words.get(idx);
     String nextWord = getWordAfterEnumerationOrNull(words, idx);
