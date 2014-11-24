@@ -17788,7 +17788,7 @@ $Id$
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">1er|2on|3er|4rt</token>
+                    <token regexp="yes">1er|2on|3er|4a?rt</token>
                 </pattern>
                 <message>Per a indicar ordinal (masc. sing.), useu <suggestion><match no="1" regexp_match="([1234]).(.)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
@@ -17798,7 +17798,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(1er|2on|3er|4rt)s</token>
+                    <token regexp="yes">(1er|2on|3er|4a?rt)s</token>
                 </pattern>
                 <message>Per a indicar ordinal (masc. pl.), useu <suggestion><match no="1" regexp_match="([1234]).(..)" regexp_replace="$1$2"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
@@ -17808,17 +17808,18 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(1e?r|2o?n|3e?r|4r?t)a</token>
+                    <token regexp="yes">(1e?r|2o?n|3e?r|4a?r?t)a</token>
                 </pattern>
                 <message>Per a indicar ordinal (fem. sing.), useu <suggestion><match no="1" regexp_match="([1234]).*" regexp_replace="$1a"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
                 <example type="incorrect" correction="4a">La <marker>4rta</marker>.</example>
+                <example type="incorrect" correction="4a">La <marker>4arta</marker>.</example>
                 <example type="incorrect" correction="1a">La <marker>1ra</marker> jornada.</example>
                 <example type="correct">La 4a jornada.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(1e?r|2o?n|3e?r|4r?t)es</token>
+                    <token regexp="yes">(1e?r|2o?n|3e?r|4a?r?t)es</token>
                 </pattern>
                 <message>Per a indicar ordinal (fem. pl.), useu <suggestion><match no="1" regexp_match="([1234]).*" regexp_replace="$1es"/></suggestion>.</message>
                 <short>Error tipogràfic</short>
