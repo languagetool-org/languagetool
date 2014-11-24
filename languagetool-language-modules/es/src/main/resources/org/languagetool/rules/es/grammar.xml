@@ -127,6 +127,20 @@ $Id$
       </rule>
     </rulegroup>
 
+    <rule id="HA_INFINITIVO" name="*ha/a + infinitivo">
+        <pattern>
+            <marker>
+                <token>ha</token>
+            </marker>
+            <token postag="V.N.*|N.*|AQ.*" postag_regexp="yes"><exception postag="V.P.*" postag_regexp="yes"/></token>
+        </pattern>
+        <message>Si es una preposición, se escribe <suggestion>a</suggestion>.</message>
+        <example type="incorrect">Lo ha vuelto <marker>ha</marker> hacer.</example>
+        <example type="incorrect">Volver <marker>ha</marker> casa.</example>
+        <example type="correct">Lo ha dicho.</example>
+        <example type="correct">Lo ha claramente dicho.</example>
+    </rule>
+    
     <!--AH_INF  ah acabar-->
 
     <rule id="AH_INF" name="ah + infinitivo (a)">
