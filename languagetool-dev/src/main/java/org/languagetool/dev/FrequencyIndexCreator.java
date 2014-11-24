@@ -152,10 +152,7 @@ public class FrequencyIndexCreator {
         return false;
       }
       String tag2 = idx + 5 <= text.length() ? text.substring(idx, idx + 5) : ""; // _END_
-      if (tag2.equals(LanguageModel.GOOGLE_SENTENCE_END)) {
-        return false;
-      }
-      return true;
+      return !tag2.equals(LanguageModel.GOOGLE_SENTENCE_END);
     }
   }
 

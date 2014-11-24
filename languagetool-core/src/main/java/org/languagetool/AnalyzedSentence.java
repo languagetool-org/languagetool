@@ -305,9 +305,7 @@ public class AnalyzedSentence {
       return false;
     if (tokenSet != null && !tokenSet.equals(other.tokenSet))
       return false;
-    if (lemmaSet != null && !lemmaSet.equals(other.lemmaSet))
-      return false;
-    return true;
+    return !(lemmaSet != null && !lemmaSet.equals(other.lemmaSet));
   }
 
   @Override

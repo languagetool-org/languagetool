@@ -2082,7 +2082,7 @@ public class CgTextualParser {
                 ++index;
                 result.lines += SKIPWS((char)0,(char)0);
             }
-            if (!(rule.dep_test_head != null)) {
+            if (rule.dep_test_head == null) {
                 System.err.println("Error: missing dependency target on line " + result.lines);
                 System.exit(1);
             }
@@ -2185,10 +2185,7 @@ public class CgTextualParser {
         if (inArray[position-1] == '"' && inArray[position+offset+1] == '"') {
             return true;
         }
-        if (inArray[position-1] == '<' && inArray[position+offset+1] == '>') {
-            return true;
-        }
-        return false;
+        return inArray[position - 1] == '<' && inArray[position + offset + 1] == '>';
     }
     
     private boolean ISCHR(int position, int offset, char c, char d) {

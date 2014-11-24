@@ -781,11 +781,7 @@ public final class Main implements ActionListener {
 
       for (int i = 0; i < ruleObjects.size(); i++) {
         Object ruleObject = ruleObjects.get(i);
-        if (rc.isDisambiguationRule(ruleObject)) {
-          disambigRuleIndices[i] = true;
-        } else {
-          disambigRuleIndices[i] = false;
-        }
+        disambigRuleIndices[i] = rc.isDisambiguationRule(ruleObject);
         coveredByList.add(new String[0]);
       }
 
@@ -1121,7 +1117,7 @@ public final class Main implements ActionListener {
     
     if (anyRegularRules()) {
       regWriteString.append("<category name=\"Auto-generated rules "
-          + new File(filename).getName() + "\">\n");
+              + new File(filename).getName() + "\">\n");
       for (int i = 0; i < ruleStrings.size(); i++) {
         if (!disambigRuleIndices[i]
             && (writeCovered || (!writeCovered && coveredByList
@@ -1134,7 +1130,7 @@ public final class Main implements ActionListener {
     }
     if (anyDisambiguationRules()) {
       disWriteString.append("<category name=\"Auto-generated rules "
-          + new File(filename).getName() + "\">\n");
+              + new File(filename).getName() + "\">\n");
       for (int i = 0; i < ruleStrings.size(); i++) {
         if (disambigRuleIndices[i]) {
           disWriteString.append(ruleStrings.get(i));

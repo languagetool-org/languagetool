@@ -617,10 +617,7 @@ public class JLanguageTool {
       return true;
     }
     Category category = rule.getCategory();
-    if (category != null && disabledCategories.contains(category.getName())) {
-      return true;
-    }
-    return false;
+    return category != null && disabledCategories.contains(category.getName());
   }
 
   /**

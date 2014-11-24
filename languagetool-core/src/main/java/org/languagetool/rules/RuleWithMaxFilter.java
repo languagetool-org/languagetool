@@ -57,10 +57,7 @@ public class RuleWithMaxFilter implements RuleMatchFilter {
   }
 
   final boolean includes(final RuleMatch match, final RuleMatch nextMatch) {
-    if (match.getFromPos() <= nextMatch.getFromPos() && match.getToPos() >= nextMatch.getToPos()) {
-      return true;
-    }
-    return false;
+    return match.getFromPos() <= nextMatch.getFromPos() && match.getToPos() >= nextMatch.getToPos();
   }
 
   private boolean haveSameRule(final RuleMatch match, final RuleMatch nextMatch) {
