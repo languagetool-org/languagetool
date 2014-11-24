@@ -97,10 +97,10 @@ public class PatternTestTools {
           // Detect exception that can't possibly be matched.
           if ( !element.getString().isEmpty()
                   && !exception.getString().isEmpty()
-                  && element.getNegation()   == false
-                  && element.isInflected()   == false
-                  && exception.getNegation() == false
-                  && exception.isInflected() == false
+                  && !element.getNegation()
+                  && !element.isInflected()
+                  && !exception.getNegation()
+                  && !exception.isInflected()
                   && element.getSkipNext() == 0
                   && element.isCaseSensitive() == exception.isCaseSensitive()) {
 
