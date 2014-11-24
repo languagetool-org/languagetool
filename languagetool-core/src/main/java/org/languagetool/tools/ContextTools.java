@@ -99,14 +99,7 @@ public class ContextTools {
     }
     final StringBuilder marker = getMarker(fromPos, toPos, text.length() + prefix.length());
     // now build context string plus marker:
-    final StringBuilder sb = new StringBuilder();
-    sb.append(prefix);
-    sb.append(text.substring(startContent, endContent));
-    sb.append(postfix);
-    sb.append('\n');
-    sb.append(markerPrefix);
-    sb.append(marker.substring(startContent, endContent));
-    return sb.toString();
+    return prefix + text.substring(startContent, endContent) + postfix + '\n' + markerPrefix + marker.substring(startContent, endContent);
   }
 
   /**

@@ -193,13 +193,7 @@ public final class TestTools {
   }
 
   private static String getAsString(AnalyzedToken analyzedToken) {
-    final StringBuilder readingStr = new StringBuilder();
-    readingStr.append(analyzedToken.getToken());
-    readingStr.append("/[");
-    readingStr.append(analyzedToken.getLemma());
-    readingStr.append(']');
-    readingStr.append(analyzedToken.getPOSTag());
-    return readingStr.toString();
+    return analyzedToken.getToken() + "/[" + analyzedToken.getLemma() + ']' + analyzedToken.getPOSTag();
   }
 
   private static List<String> getNoWhitespaceTokens(List<String> tokens) {

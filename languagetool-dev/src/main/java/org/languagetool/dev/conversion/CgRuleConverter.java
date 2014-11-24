@@ -1470,16 +1470,16 @@ public class CgRuleConverter extends RuleConverter {
     public String toString() {
       StringBuilder sb = new StringBuilder();
       for (String postag : this.postags) {
-        sb.append(postag + " ");
+        sb.append(postag).append(" ");
       }
       for (String baseform : this.baseforms) {
-        sb.append(baseform + " ");
+        sb.append(baseform).append(" ");
       }
       for (String surfaceform : this.surfaceforms) {
-        sb.append(surfaceform + " ");
+        sb.append(surfaceform).append(" ");
       }
       for (CgCompositeTag ctag : this.compositeTags) {
-        sb.append(ctag.toString() + " ");
+        sb.append(ctag.toString()).append(" ");
       }
       return sb.toString();
     }
@@ -1543,12 +1543,8 @@ public class CgRuleConverter extends RuleConverter {
     String postagString = glueWords(postags);
     postagString = "(".concat(postagString).concat(")");
     String postagRegexp = toStringRegexpFormat(postagString);
-    
-    StringBuilder sb = new StringBuilder();
-    sb.append("(?!");
-    sb.append(postagRegexp);
-    sb.append(").*");
-    return sb.toString();
+
+    return "(?!" + postagRegexp + ").*";
   }
   
   public static String filterTarget(CgSet target, int targetNo) {
@@ -1566,14 +1562,14 @@ public class CgRuleConverter extends RuleConverter {
     
     // assumes there can't be both lemmas and postags
     if (lemmas.length > 0) {
-      sb.append("<disambig action=\"filter\"><match no=\"" + targetNo + "\">" + glueWords(lemmas) + "</match></disambig>");
+      sb.append("<disambig action=\"filter\"><match no=\"").append(targetNo).append("\">").append(glueWords(lemmas)).append("</match></disambig>");
     }
     if (postags.length > 0) {
       String postagRegexp = "";
       if (isRegex(glueWords(postags))) {
         postagRegexp = " postag_regexp=\"yes\"";
       }
-      sb.append("<disambig postag=\"" + glueWords(postags) + "\"" + postagRegexp + "/>");
+      sb.append("<disambig postag=\"").append(glueWords(postags)).append("\"").append(postagRegexp).append("/>");
     }
     
     return sb.toString();
@@ -1596,10 +1592,10 @@ public class CgRuleConverter extends RuleConverter {
     }
     
     if (lemmas.length > 0) {
-      sb.append("lemma=" + glueWords(lemmas));
+      sb.append("lemma=").append(glueWords(lemmas));
     }
     if (postags.length > 0) {
-      sb.append("pos=\"" + glueWords(postags) + "\"");
+      sb.append("pos=\"").append(glueWords(postags)).append("\"");
     }
     
     sb.append("/>");
@@ -1642,7 +1638,7 @@ public class CgRuleConverter extends RuleConverter {
     // The simplest possible way to do this
     StringBuilder sb = new StringBuilder();
     for (String pos : postags) {
-      sb.append(pos + "|");
+      sb.append(pos).append("|");
     }
     String ret = sb.toString();
     return ret.substring(0,ret.length() - 1);

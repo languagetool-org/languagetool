@@ -37,7 +37,7 @@ public class AtDXmlSerializer {
   public String ruleMatchesToXml(List<RuleMatch> matches, String text) {
     StringBuilder sb = new StringBuilder();
     sb.append("<results>\n");
-    sb.append("<!-- Server: LanguageTool " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ") -->\n");
+    sb.append("<!-- Server: LanguageTool " + JLanguageTool.VERSION + " (").append(JLanguageTool.BUILD_DATE).append(") -->\n");
     for (RuleMatch match : matches) {
       addRuleMatch(sb, match, text);
     }
