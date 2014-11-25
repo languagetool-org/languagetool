@@ -20420,28 +20420,19 @@ $Id$
             <example type="incorrect"><marker>a mig termini</marker></example>
             <example type="correct">a mitjà termini</example>
         </rule>
-        <rulegroup id="PESAT_PESANT" name="pesat_pesant">
-            <rule>
-                <pattern>
-                    <token>pesos</token>
-                    <token>pesats</token>
-                </pattern>
-                <message>Cal dir: <suggestion>pesos pesants</suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>pesos pesats</marker></example>
-                <example type="correct">pesos pesants</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>pes</token>
-                    <token>pesat</token>
-                </pattern>
-                <message>Cal dir: <suggestion>pes pesant</suggestion>.</message>
-                <short>Expressió incorrecta</short>
-                <example type="incorrect"><marker>pes pesat</marker></example>
-                <example type="correct">pes pesant</example>
-            </rule>
-        </rulegroup>    
+        <rule id="PESAT_PESANT" name="pesat_pesant">
+            <pattern>
+                <token inflected="yes" regexp="yes">pes|indústria|metall</token>
+                <token postag="AQ.*" postag_regexp="yes" inflected="yes">pesat</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>\1 <match no="2" postag="AQ..([SP])." postag_regexp="yes" postag_replace="AQ0C$10">pesant</match></suggestion>
+            <example type="incorrect" correction="pesos pesants"><marker>pesos pesats</marker></example>
+            <example type="incorrect" correction="pes pesant"><marker>pes pesat</marker></example>
+            <example type="incorrect" correction="indústria pesant"><marker>indústria pesada</marker></example>
+            <example type="incorrect" correction="metalls pesants"><marker>metalls pesats</marker></example>
+            <example type="correct">pesos pesants</example>
+        </rule>
         <rule id="RESPECTE_AMB" name="respecte amb">
             <pattern>
                 <marker>
