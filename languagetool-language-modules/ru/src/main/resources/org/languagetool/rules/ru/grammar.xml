@@ -853,9 +853,10 @@ $Id$
                 <example type="incorrect">Эта работа, <marker>конечно</marker> представляет огромную научную ценность.</example>
             </rule>
             <rule>
+                <!--  Слово "однако" в начале предложения всегда не является вводным, поэтому исключено из списка -->
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"></token>
-                    <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Однако</token>
+                    <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется</token>
                     <token negate="yes" regexp="yes">[\p{Punct}]</token>
                 </pattern>
                 <message>Пропущена запятая:<suggestion>\2, \3</suggestion>.</message>
