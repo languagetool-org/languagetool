@@ -8120,6 +8120,36 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rulegroup id="ESPOSA_ES_POSA" name="*esposa/es posa a punt">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">esposar</token>
+                    </marker>
+                    <token regexp="yes">en|d'|a|de</token>
+                    <token regexp="yes">marxa|acord|punt|escena|ordre|joc|cara|cul|esquena</token>
+                </pattern>
+                <message>Possible confusió</message>
+                <suggestion><match no="1" regexp_match="([Ee]s)(.+)" regexp_replace="$1 $2"/></suggestion>
+                <example type="incorrect" correction="Es posaren"><marker>Esposaren</marker> en marxa.</example>
+                <example type="incorrect" correction="es posin">No hi ha manera que <marker>esposin</marker> d'acord.</example>
+                <example type="correct">Es posaren en marxa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">esposar</token>
+                    </marker>
+                    <token>a</token>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Possible confusió</message>
+                <suggestion><match no="1" regexp_match="([Ee]s)(.+)" regexp_replace="$1 $2"/></suggestion>
+                <example type="incorrect" correction="Es posaren"><marker>Esposaren</marker> a treballar.</example>
+                <example type="incorrect" correction="es posin">No hi ha manera que <marker>esposin</marker> a treballar.</example>
+                <example type="correct">Es posaren en marxa.</example>
+            </rule>
+        </rulegroup>
         <rule id="CAL_A_DIR" name="*cal/val a dir">
             <pattern>
                 <token>cal</token>
@@ -31311,6 +31341,33 @@ $Id$
         </rule>
     </category>
     <category name="Sintaxi" type="grammar">
+        <!-- <rule id="FRASE_INCOMPLETA" name="frase incompleta: falta verb darrere 'que'">
+            <antipattern>
+                <marker>
+                    <token>que</token>
+                    <token regexp="yes">sí|no</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">meitat|millor|pitjor|més|menys|abans|igual|mateix|altre</exception></token>
+                <marker>
+                    <token skip="-1">que<exception scope="next" postag="V.[SI].*" postag_regexp="yes"/><exception scope="previous" regexp="yes">encara|bé</exception></token>
+                    <token postag="SENT_END"><exception>…</exception><exception postag="_trespunts"/></token>
+                </marker>
+            </pattern>
+            <message>Frase probablement incompleta.</message>
+            <example type="incorrect">Crec <marker>que la cosa així.</marker></example>
+            <example type="incorrect">M'agrada això <marker>que allò.</marker></example>
+            <example type="incorrect">per evitar <marker>que ferides profundes.</marker></example>
+            <example type="incorrect">Si fos així, et diria <marker>que.</marker></example>
+            <example type="correct">Crec que la cosa és així.</example>
+            <example type="correct">Crec que és més gran que ample.</example>
+            <example type="correct">Et diria que...</example>
+            <example type="correct">Et diria que…</example>
+            <example type="correct">Tant pot ser que sí com que no.</example>
+            <example type="correct">Et diria que sí.</example>
+            <example type="correct">Abans això que allò.</example>
+        </rule> -->
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern>
                 <token regexp="yes" skip="1">probablement|potser<exception scope="next" regexp="yes">que|quan|perquè|si</exception><exception scope="previous">quan</exception></token>
