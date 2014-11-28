@@ -28745,6 +28745,11 @@ $Id$
             <example type="correct">aquest any</example>
         </rule>
         <rulegroup id="PORTA_UNA_HORA" name="porta una hora/fa una hora">
+            <antipattern>
+                <token postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" />
+                <token>va</token>
+                <token regexp="yes">portar|dur</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
@@ -28814,7 +28819,7 @@ $Id$
                 <url>http://esadir.cat/entrades/fitxa/id/2178</url>
                 <short>Expressió preferible</short>
                 <example type="incorrect" correction="Fa més d' una hora (que ...)"><marker>Porta més d'una hora</marker> dient-ho</example>
-                <example type="correct">tots els anomenats portaven una segona vida</example>
+                <example type="correct">Allò li va portar més de tres anys de feina.</example>
             </rule>
             <rule>
                 <pattern>
