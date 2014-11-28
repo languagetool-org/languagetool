@@ -28801,6 +28801,24 @@ $Id$
                 <pattern>
                     <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
                     <marker>
+                        <token postag="V.[IN].*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">més|menys</token>
+                        <token regexp="yes">de|d'</token>
+                        <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+                    </marker>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion><match no="2" postag="(V.[IN])(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> \3 \4 <match no="5" include_skipped="all"/> <match no="6"/> (que ...)</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2178</url>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="Fa més d' una hora (que ...)"><marker>Porta més d'una hora</marker> dient-ho</example>
+                <example type="correct">tots els anomenats portaven una segona vida</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <marker>
                         <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.I[IP].*" postag_regexp="yes"/></token>
                         <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
                         <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
@@ -28841,6 +28859,24 @@ $Id$
                 <example type="correct">Dura dos dies.</example>
                 <example type="correct">tots els anomenats portaven una segona vida</example>
                 <example type="correct">La primavera porta dies càlids i flors que fan goig.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes" /></token>
+                    <marker>
+                        <token postag="V.S.*" postag_regexp="yes" inflected="yes" regexp="yes">portar|dur<exception inflected="yes">durar</exception><exception postag="V.IS.*" postag_regexp="yes"/></token>
+                        <token regexp="yes">més|menys</token>
+                        <token regexp="yes">de|d'</token>
+                        <token postag="D[NI].*" postag_regexp="yes" skip="1"><exception>cada</exception></token>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes" regexp="yes">&unitats_temps;|temps|temporada</token>
+                    </marker>
+                </pattern>
+                <message>Val més usar una altra expressió.</message>
+                <suggestion><match no="2" postag="(V.S)(.)...(.)" postag_regexp="yes" postag_replace="$1$2[30][S0].$3">fer</match> \3 \4 <match no="5" include_skipped="all"/> <match no="6"/> (que ...)</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2178</url>
+                <short>Expressió preferible</short>
+                <example type="incorrect" correction="fes més d' una hora (que ...)">Quan <marker>portés més d'una hora</marker> dient-ho</example>
+                <example type="correct">tots els anomenats portaven una segona vida</example>
             </rule>
          </rulegroup>
         <!-- per fer: porta mitja hora/molt (de) temps/ un any -->
