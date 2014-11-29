@@ -447,30 +447,30 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.+[aei]</token>
                     <marker>
+                        <token regexp="yes">.+[aei]</token>
                         <token>-li</token>
                         <token>'ls</token>
                     </marker>
                 </pattern>
                 <message>Forma pròpia del valencià.</message>
-                <suggestion>'ls-hi</suggestion>
+                <suggestion><match no="1"/>'ls-hi</suggestion>
                 <short>Forma valenciana</short>
-                <example type="incorrect">Dóna<marker>-li'ls</marker>.</example>
+                <example type="incorrect" correction="Dóna'ls-hi"><marker>Dóna-li'ls</marker>.</example>
                 <example type="correct">Dóna'ls-hi.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">.+[^aei]</token>
                     <marker>
+                        <token regexp="yes">.+[^aei]</token>
                         <token>-li</token>
                         <token>'ls</token>
                     </marker>
                 </pattern>
                 <message>Forma pròpia del valencià.</message>
-                <suggestion>-los-hi</suggestion>
+                <suggestion><match no="1"/>-los-hi</suggestion>
                 <short>Forma valenciana</short>
-                <example type="incorrect">Donar<marker>-li'ls</marker>.</example>
+                <example type="incorrect" correction="Donar-los-hi"><marker>Donar-li'ls</marker>.</example>
                 <example type="correct">Donar-los-hi.</example>
             </rule>
             <rule>
@@ -2495,8 +2495,8 @@ $Id$
                     </unify>
                 </pattern>
                 <message>Error de concordança.</message>
-                <suggestion>\1l qual</suggestion>
-                <suggestion>\1ls quals</suggestion>
+                <suggestion><match no="1"/>l qual</suggestion>
+                <suggestion><match no="1"/>ls quals</suggestion>
                 <short>Error de concordança</short>
                 <example type="incorrect" correction="del qual|dels quals"><marker>del quals</marker>.</example>
                 <example type="correct">Dels quals parla</example>
@@ -13270,9 +13270,10 @@ $Id$
                     <token>per</token>
                     <token>els<exception postag="_possible_nompropi"/></token>
                 </pattern>
-                <message>Cal escriure: <suggestion>pels</suggestion>, <suggestion>per als</suggestion>.</message>
-                <short>Error gramatical</short>
-                <example type="incorrect"><marker>per els</marker> camins</example>
+                <message>Error gramatical.</message>
+                <suggestion>pels</suggestion>
+                <suggestion>per als</suggestion>
+                <example type="incorrect" correction="pels|per als"><marker>per els</marker> camins</example>
                 <example type="correct"><marker>pels</marker> camins</example>
             </rule>
             <rule>
@@ -20889,7 +20890,9 @@ $Id$
                     <token regexp="yes">la|les</token>
                     <token postag="DN.*|DI.*" postag_regexp="yes"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>cap a</suggestion>, <suggestion>pels volts de</suggestion>, <suggestion>devers</suggestion>?</message>
+                <message>¿Volíeu dir <suggestion>cap a</suggestion>?</message>
+                <suggestion>pels volts de</suggestion>
+                <suggestion>devers</suggestion>
                 <example type="incorrect"><marker>a això de</marker> les deu</example>
                 <example type="incorrect"><marker>a això de</marker> la una</example>
             </rule>
@@ -24012,7 +24015,8 @@ $Id$
                 <token>dures</token>
                 <token>penes</token>
             </pattern>
-            <message>Val més dir: <suggestion>amb prou feines</suggestion>, <suggestion>amb penes i treballs</suggestion>.</message>
+            <message>Val més dir: <suggestion>amb prou feines</suggestion>.</message>
+            <suggestion>amb penes i treballs</suggestion>
             <short>Expressió incorrecta</short>
             <example type="incorrect"><marker>a dures penes</marker></example>
             <example type="correct">amb prou feines</example>
@@ -24100,7 +24104,8 @@ $Id$
                     <token>amb</token>
                     <token>els</token>
                 </pattern>
-                <message>Cal dir <suggestion>en comparació dels</suggestion>, <suggestion>per comparació als</suggestion>.</message>
+                <message>Cal dir <suggestion>en comparació dels</suggestion>.</message>
+                <suggestion>per comparació als</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>en comparació amb els</marker> teus, el meu és més bonic</example>
                 <example type="correct"><marker>en comparació dels</marker> teus, el meu és més bonic</example>
@@ -24150,7 +24155,8 @@ $Id$
                     <token>a</token>
                     <token spacebefore="no">ls</token>
                 </pattern>
-                <message>Cal dir <suggestion>en comparació dels</suggestion>, <suggestion>per comparació als</suggestion>.</message>
+                <message>Cal dir <suggestion>en comparació dels</suggestion>.</message>
+                <suggestion>per comparació als</suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>en comparació als</marker> teus, el meu és més bonic</example>
                 <example type="correct"><marker>en comparació dels</marker> teus, el meu és més bonic</example>
@@ -24162,7 +24168,8 @@ $Id$
                     <token>a</token>
                     <token regexp="yes">[aeiouàéèíóòúh].*</token>
                 </pattern>
-                <message>Cal dir <suggestion>en comparació d'<match no="4"></match></suggestion>, <suggestion>per comparació a <match no="4"/></suggestion>.</message>
+                <message>Cal dir <suggestion>en comparació d'<match no="4"></match></suggestion>.</message>
+                <suggestion>per comparació a <match no="4"/></suggestion>
                 <short>Expressió incorrecta</short>
                 <example type="incorrect"><marker>en comparació a aquesta</marker>, la teva casa és més bonica</example>
                 <example type="correct"><marker>en comparació d'aquesta</marker>, la teva casa és més bonica</example>
