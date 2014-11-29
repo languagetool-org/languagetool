@@ -90,28 +90,6 @@ $Id$
             </rule>
         </rulegroup>
 
-        <!-- TODO: work on this
-        <rulegroup name="Узгодженість відмінків з перехідними дієсловами" id="CONSISTENCY_VIDM_VERB">
-            <rule>
-                <pattern>
-                    <token postag_regexp="yes" postag="verb:.*:tran.*">
-                      <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:tran.*"/>
-                    </token>
-                    <marker>
-                    <token postag_regexp="yes" postag="(noun|adj|pron).*">
-                        <exception postag_regexp="yes" postag="(noun|adj|pron).*:v_zna.*"></exception>
-                    </token>
-                    </marker>
-                </pattern>
-                <message>Після перехідного дієслова має йти знахідний відмінок</message>
-                <example type="correct">знайти коня</example>
-                <example type="correct">читати книжку</example>
-                <example type="correct">споживати при цьому</example>
-                <example type="incorrect">знайти <marker>коню</marker></example>
-                <example type="incorrect">читати <marker>книжкою</marker></example>
-            </rule>
-        </rulegroup>
-        -->
         <rulegroup name="Узгодженість відмінків з прийменниками" id="CONSISTENCY_VIDM_prep">
             <rule>
                 <pattern>
@@ -133,9 +111,9 @@ $Id$
         <rulegroup name="Узгодженість відмінків з дієсловами" id="CONSISTENCY_VIDM_AFTER_VERBS">
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">навчати|навчити</token>
+                  <token inflected="yes" regexp="yes">навчати|навчити</token>
                   <marker>
-                    <token postag_regexp="yes" postag="(adj|pron).*v_dav.*" min="0" max="1"/>
+                    <token postag_regexp="yes" postag="(adj|pron).*v_dav.*" min="0"/>
                     <token postag_regexp="yes" postag="(noun|pron).*:v_dav.*">
                         <exception postag_regexp="yes" postag=".*:v_(naz|rod|zna|oru).*"/>
                     </token>
@@ -156,36 +134,26 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/№]</exception></token>
+                    <token postag_regexp="yes" postag="adj.*" min="0"/>
                     <marker>
-<!--
-                        <token postag_regexp="yes" postag="noun:m:.*">
-                            <exception postag_regexp="yes" postag="(noun|adj):p:.*"/>
-                            <exception postag_regexp="yes" postag="pron.*"/>
-                            <exception regexp="yes">тис|року|роком|Закону|чверті|січня|лютого|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня</exception>
-                        </token>
--->
                         <token postag_regexp="yes" postag="noun:m:v_rod.*" regexp="yes">.*[ая]
-                        <!--
-                            <exception negate_pos="yes" postag_regexp="yes" postag="noun:.*"/>
-                        -->
                             <exception postag_regexp="yes" postag="noun:p:v_naz.*"/>
                             <exception regexp="yes">січня|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня</exception>
                         </token>
                     </marker>
                 </pattern>
-                <message>Після числівника що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="2" postag="noun:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
+                <message>Після числівника що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="3" postag="noun:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
                 <example type="incorrect">двадцять три <marker>вулика</marker></example>
                 <example type="incorrect">24 <marker>тижня</marker></example>
-                <example type="incorrect">обидва <marker>автомобіля</marker></example>
+                <example type="incorrect" correction="автомобілі">обидва <marker>автомобіля</marker></example>
+                <example type="incorrect" correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
                 <example type="correct">двадцять три вулики</example>
                 <example type="correct">двадцять три дні</example>
                 <example type="correct">три чверті</example>
                 <example type="correct">співвласника ДБК-3 Петра Шелюка</example>
                 <example type="correct">1/2 шилінга</example>
                 <example type="correct">після поразки 0:2 Базилевича</example>
-                <!-- TODO
                 <example type="correct">три головні завдання</example>
-                -->
                 <example type="correct">2,2 мільйона</example>
                 <example type="correct">три століття</example>
                 <example type="correct">три роки тому</example>
@@ -202,6 +170,7 @@ $Id$
                       <exception scope="previous" regexp="yes">[:./№«]</exception>
                       <exception regexp="yes">(1[0-9]{3}|20[0-2][0-9])</exception>
                     </token>
+                    <token postag_regexp="yes" postag="adj.*" min="0"/>
                     <marker>
                         <!--
                         <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">.*[бвгґджйзклмнпрстфхцчшщ]ь?
@@ -214,7 +183,7 @@ $Id$
                         <token postag_regexp="yes" postag="noun:m:v_naz.*" regexp="yes">(нано|мікро|мілі|дека|кіло|мега|гіга|тера|пета)?(герц|байт|бар|бер|ват|вольт|солдат|децибел|рентген|моль|мікрон|грам|аршин|лат|карат)</token>
                     </marker>
                 </pattern>
-                <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="2" postag="noun:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
+                <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
                 <!--
                 <example type="incorrect" correction="грамів">сто <marker>грам</marker></example>
                 <example type="incorrect" correction="грамів">100 <marker>грам</marker></example>
@@ -222,6 +191,7 @@ $Id$
                 <example type="incorrect" correction="байтів">10 <marker>байт</marker></example>
                 <example type="incorrect" correction="мілібарів">10 <marker>мілібар</marker></example>
                 <example type="incorrect" correction="солдатів">дві сотні <marker>солдат</marker></example>
+                <example type="incorrect" correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
                 <example type="correct">хвилин за 10 спікер увійшов</example>
                 <example type="correct">до 16 вхід заборонено</example>
                 <example type="correct">в 40 став наймолодшим</example>
@@ -258,6 +228,47 @@ $Id$
                 <example type="incorrect" correction="тонн">10 <marker>тон</marker></example>
                 <example type="correct">10 тонн</example>
                 <example type="correct">10 тонів</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <token regexp="yes">.*,[1-46-9]+</token> <!-- ,5 - виняток: 4,5 роки може читатися як «чотири з половиною роки» -->
+                  <marker>
+                    <token postag_regexp="yes" postag="noun:.:.*">
+                      <exception postag_regexp="yes" postag="noun:[mfn]:(v_rod|nv).*"/>
+                      <exception regexp="yes">тис|рази</exception>
+                    </token>
+                  </marker>
+                </pattern>
+                <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
+                <example type="incorrect" correction="кілограма">2,4 <marker>кілограми</marker></example>
+                <example type="correct">33,77 тонни</example>
+                <example type="correct">2,19 бала</example>
+                <example type="correct">33,77 мм</example>
+                <example type="correct">33,77 тис</example>
+                <example type="correct">33,5 роки</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <token postag_regexp="yes" postag="num.*"/>
+                  <token regexp="yes">десятих|сотих|третіх|треті|четвертих|чверті</token>
+                  <marker>
+                    <token postag_regexp="yes" postag="noun:.:.*">
+                      <exception postag_regexp="yes" postag="noun:[mfn]:(v_rod|nv).*"/>
+                      <exception postag_regexp="yes" postag="noun:.*:ist.*"/>
+                      <exception regexp="yes">місць|потужностей|інвестицій</exception>
+                    </token>
+                  </marker>
+                </pattern>
+                <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
+                <example type="incorrect" correction="відсотка">два десятих <marker>відсотки</marker></example>
+                <example type="incorrect" correction="відсотка">дві третіх <marker>відсотки</marker></example>
+                <example type="correct">два десятих відсотка</example>
+                <example type="correct">через десяті руки</example>
+                <example type="correct">дві десятих мм</example>
+                <example type="correct">три чверті місць</example>
+                <example type="correct">три чверті громадян</example>
             </rule>
         </rulegroup>
 
@@ -372,8 +383,8 @@ $Id$
                     <marker>
                     <token postag_regexp="yes" postag="verb:rev.*"><exception inflected="yes" regexp="yes">виявитися|видаватися|залишатися|оставатися|вважатися</exception></token>
                     <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
-                    <token postag_regexp="yes" postag="noun.*v_oru.*:pers.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
-                    <- TODO: особа-діяч може бути не лише :pers
+                    <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
+                    <- TODO: особа-діяч може бути не лише :ist
                     <token postag_regexp="yes" postag="noun.*v_oru.*"/>
                     ->
                     </marker>

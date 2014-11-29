@@ -33,13 +33,13 @@ $Id$
        <!-- приймати -> брати -->
        <rule>
          <pattern>
-          <marker>
-           <token inflected="yes" regexp="yes">приймати|прийняти|приймавший</token>
-          </marker>
+           <marker>
+             <token inflected="yes" regexp="yes">приймати|прийняти|приймавший</token>
+           </marker>
            <token postag_regexp="yes" postag="adj.*" min="0"/>
            <token>участь</token>
-          </pattern>
-         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion>.</message>
+         </pattern>
+         <message>Правильно: <suggestion>брати</suggestion>, <suggestion>взяти</suggestion></message>
          <example type="incorrect"><marker>приймав</marker> участь</example>
          <example type="incorrect"><marker>приймав</marker> активну участь</example>
          <example type="correct">брав участь</example>
@@ -755,6 +755,33 @@ $Id$
 
        <rule>
          <pattern>
+           <marker>
+             <token inflected="yes">притримуватися</token>
+           </marker>
+           <!--
+           <token postag="part" min="0"/> б, би…
+           -->
+           <token postag_regexp="yes" postag=".*:v_rod.*"/>
+         </pattern>
+         <message>Правильно: <suggestion>дотримуватися</suggestion>, <suggestion>триматися</suggestion></message>
+         <example type="incorrect">необхідно <marker>притримуватися</marker> нейтралітету</example>
+         <example type="correct">притримуватися за брильця</example>
+         <example type="correct">притримувалися кошти</example>
+       </rule>
+       <rule>
+         <pattern>
+           <token postag_regexp="yes" postag=".*:v_rod.*"/>
+           <marker>
+             <token inflected="yes">притримуватися</token>
+           </marker>
+         </pattern>
+         <message>Правильно: <suggestion>дотримуватися</suggestion>, <suggestion>триматися</suggestion></message>
+         <example type="incorrect">подібної думки <marker>притримувався</marker> і президент</example>
+         <example type="correct">подібної думки дотримувався і президент</example>
+       </rule>
+
+       <rule>
+         <pattern>
             <token regexp="yes" inflected="yes">хотіти|хотітися|необхідно|потрібно|слід|варто|корисно|важливо</token>
             <token postag_regexp="yes" postag="adv.*" min="0"/>
             <marker>
@@ -1393,6 +1420,17 @@ $Id$
          <example type="correct">в кінцевому підсумку він лишився ні з чим</example>
        </rule>
 
+       <rule>
+         <pattern>
+           <token inflected="yes" postag_regexp="yes" postag="noun:f:.*">дача</token>
+           <token postag_regexp="yes" postag="(adj|pron).*" min="0"/>
+           <token regexp="yes" inflected="yes">свідчення|пояснення|хабар|згода</token>
+         </pattern>
+         <message>Правильно: <suggestion>давання <match no="2"/> <match no="3"/></suggestion>, <suggestion><match no="2"/> <match no="3"/></suggestion></message>
+         <example type="incorrect" correction="давання їм хабара|їм хабара">з приводу <marker>дачі їм хабара</marker> він лишився ні з чим</example>
+         <example type="correct">на генеральській дачі</example>
+       </rule>
+
        <!-- прийменники -->
 
       <rule>
@@ -1445,11 +1483,10 @@ $Id$
               <token regexp="yes">грибами|ягодами|брусницею|журавлиною|суницею|ожиною|хлібом</token>
            </pattern>
            <message>Якщо йдеться про мету руху, вживаємо прийменник «по»</message>
-<!--           <suggestion>по <match no="2" postag_regexp="yes" postag="(noun:.:)v_oru(.*)" postag_replace="$1v_naz$2"></match></suggestion> -->
-           <suggestion>по <match no="2"/></suggestion>
+           <suggestion>по <match no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_naz$2"/> <match no="3" postag_regexp="yes" postag="(noun:.:)v_oru(.*)" postag_replace="$1v_naz$2"/></suggestion>
            <short>Правильно «по гриби», «по ягоди»…</short>
-<!--           <example type="incorrect" correction="по гриби">Піти <marker>за грибами</marker>.</example> -->
-           <example type="incorrect">Піти <marker>за грибами</marker>.</example>
+           <example type="incorrect" correction="по білі гриби">Піти <marker>за білими грибами</marker>.</example>
+           <example type="incorrect" correction="по гриби">Піти <marker>за грибами</marker>.</example>
            <example type="correct">Піти по гриби.</example>
            <example type="correct">стояти у черзі за хлібом</example>
        </rule>

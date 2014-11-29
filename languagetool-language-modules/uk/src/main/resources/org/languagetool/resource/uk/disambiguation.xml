@@ -13,10 +13,38 @@
         </pattern>
         <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
         <example type="ambiguous" 
-            inputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz,любий/adj:f:v_naz]" 
-            outputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz]">Агов <marker>Люба</marker></example>
+            inputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz:ist,любий/adj:f:v_naz]" 
+            outputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz:ist]">Агов <marker>Люба</marker></example>
         <example type="untouched">Тоді почалася Друга світова війна.</example>
         <example type="untouched">Знати про Курську дугу.</example>
+    </rule>
+
+    <rule name="Лютого" id="LYUTYI">
+        <pattern>
+          <token regexp="yes">[1-9]|[12][0-9]</token>
+          <marker>
+            <token>лютого</token>
+          </marker>
+        </pattern>
+        <disambig><match no="2" postag="noun.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="лютого[&lt;/S&gt;,лютий/adj:m:v_rod:compb,лютий/adj:m:v_zna:compb,лютий/adj:n:v_rod:compb,лютий/noun:m:v_rod,лютий/noun:m:v_zna]"
+            outputform="лютого[&lt;/S&gt;,лютий/noun:m:v_rod,лютий/noun:m:v_zna]">23 <marker>лютого</marker></example>
+        <example type="untouched">такого лютого морозу</example>
+    </rule>
+
+    <rule name="Лютого2" id="LYUTYI2">
+        <pattern>
+          <marker>
+            <token inflected="yes">лютий</token>
+          </marker>
+          <token regexp="yes">[0-9]+</token>
+        </pattern>
+        <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="лютому[лютий/adj:m:v_dav:compb,лютий/adj:m:v_mis:compb,лютий/adj:n:v_dav:compb,лютий/adj:n:v_mis:compb,лютий/noun:m:v_dav,лютий/noun:m:v_mis]"
+            outputform="лютому[лютий/noun:m:v_dav,лютий/noun:m:v_mis]">в <marker>лютому</marker> 2014</example>
+        <example type="untouched">лютого морозу</example>
     </rule>
 
     <rule name="Прикметники без порівняльного ступеня" id="NON_COMPARATIVE">
