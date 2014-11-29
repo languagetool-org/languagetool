@@ -20,7 +20,7 @@ package org.languagetool.rules.patterns;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,6 +33,8 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.Match.CaseConversion;
+import org.languagetool.rules.patterns.Match.IncludeRange;
 
 public class PatternRuleMatcherTest {
 
@@ -130,6 +132,25 @@ public class PatternRuleMatcherTest {
     assertThat(matches.length, is(2));
     assertPosition(matches[0], 0, 5);
     assertPosition(matches[1], 10, 15);
+  }
+
+  @Test
+  public void testZeroMinOccurrencesWithSuggestion() throws Exception {
+    final Element elementB = makeElement("b");
+    elementB.setMinOccurrence(0);
+    
+    List<Element> elements = Arrays.asList(makeElement("a"), elementB, makeElement("c"));
+    PatternRule rule = new PatternRule("", new Demo(), elements, "my description", "<suggestion>\\1 \\2 \\3</suggestion>", "short message");
+    PatternRuleMatcher matcher = new PatternRuleMatcher(rule, false);
+    
+    // we need to add this line to trigger proper replacement but I am not sure why :(
+    rule.addSuggestionMatch(new Match(null, null, false, null, null, CaseConversion.NONE, false, false, IncludeRange.NONE));
+    
+    RuleMatch[] matches = getMatches("a b c", matcher);
+    assertEquals(Arrays.asList("a b c"), matches[0].getSuggestedReplacements());
+
+    RuleMatch[] matches2 = getMatches("a c", matcher);
+    assertEquals(Arrays.asList("a c"), matches2[0].getSuggestedReplacements());
   }
 
   @Test

@@ -289,17 +289,28 @@ class PatternRuleMatcher extends AbstractPatternRulePerformer {
         if (j + 1 < positions.size()) {
           nextTokenPos = firstMatchTok + repTokenPos + positions.get(j + 1);
         }
+
         //final List<Match> suggestionMatches = rule.getSuggestionMatches();
         if (suggestionMatches != null) {
           if (matchCounter < suggestionMatches.size()) {
             numbersToMatches[j] = matchCounter;
             if (suggestionMatches.get(matchCounter) != null) {
-              final String[] matches = concatMatches(matchCounter, j,
-                  firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches);
+              
+              // if token is optional remove it from suggestions
+              final String[] matches = j >= positions.size() || positions.get(j) != 0
+                   ? concatMatches(matchCounter, j,
+                       firstMatchTok + repTokenPos, tokenReadings, nextTokenPos, suggestionMatches)
+                   : new String[] { "" };
               final String leftSide = errorMessage.substring(0, backslashPos);
               final String rightSide = errorMessage.substring(backslashPos + numLen);
               if (matches.length == 1) {
-                errorMessage = leftSide + matches[0] + rightSide;
+                // if we removed optional token from suggestion squeeze two spaces into one
+                if( matches[0].length() == 0 && leftSide.endsWith(" ") && rightSide.startsWith(" ") ){
+                  errorMessage = leftSide.substring(0, leftSide.length()-1) + rightSide;
+                }
+                else {
+                  errorMessage = leftSide + matches[0] + rightSide;
+                }
               } else {
                 errorMessage = formatMultipleSynthesis(matches, leftSide,
                     rightSide);
