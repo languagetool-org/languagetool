@@ -8817,6 +8817,30 @@ $Id$
                 <example type="correct">Les adreces IP.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="LS" name="*ls/els/les">
+            <rule>
+                <pattern>
+                    <token regexp="yes">a|de|pe|e</token>
+                    <token spacebefore="yes">ls</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\1\2</suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="dels">És <marker>de ls</marker> millors.</example>
+                <example type="correct">És dels millors.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ls<exception scope="previous" regexp="yes">a|de|pe|e</exception></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+                <suggestion>les</suggestion>
+                <suggestion>la</suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Els|Les|La"><marker>Ls</marker> millors.</example>
+                <example type="incorrect" correction="els|les|la">Són <marker>ls</marker> que m'agraden.</example>
+                <example type="correct">Els millors.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="L" name="*l/el/la/l'">
 <!--             <antipattern>
                 <marker>
@@ -8827,7 +8851,7 @@ $Id$
             <rule>
                 <pattern>
                     <token spacebefore="yes">l<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">.*\d|/</exception></token>
-                    <token postag="N.*|A.*|V.*" postag_regexp="yes"/>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="3" postag="DT" /></suggestion>?</message>
                 <short>Possible confusió</short>
@@ -8841,12 +8865,37 @@ $Id$
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>l</token>
-                    <token postag="N.*|A.*|V.*" postag_regexp="yes"/>
+                    <token postag="N.*|A.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion><match no="3" postag="DT" /></suggestion>?</message>
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="L'església|Les esglésies"><marker>L església</marker>.</example>
                 <example type="correct">L'"eix".</example>
+                <example type="correct">La L representa la inductància.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">l<exception postag="_possible_nompropi"/><exception scope="previous" regexp="yes">.*\d|/</exception></token>
+                    <token><exception postag="[NA].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>el <match no="3"/></suggestion>?</message>
+                <suggestion>la <match no="3"/></suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="el que|la que">És <marker>l que</marker> m'interessa.</example>
+                <example type="correct">Vull 100 l que no arriben.</example>
+                <example type="correct">Abans del que creus.</example>
+                <example type="correct">La L representa la inductància.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token>l</token>
+                    <token><exception postag="[NA].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>El <match no="3" /></suggestion>?</message>
+                <suggestion>La <match no="3" /></suggestion>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="El que|La que"><marker>L que</marker> m'interessa.</example>
                 <example type="correct">La L representa la inductància.</example>
             </rule>
             <rule id="L_A_LA" name="l a/la">
