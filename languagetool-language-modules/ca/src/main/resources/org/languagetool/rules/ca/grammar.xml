@@ -8120,6 +8120,19 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="EL_MATEIX" name="*en mateix/en el mateix">
+            <pattern>
+                <token postag="SPS00"><exception postag="RG"/></token>
+                <marker>
+                    <token inflected="yes">mateix</token>
+                </marker>
+            </pattern>
+            <message>Falta un article.</message>
+            <suggestion><match no="2" postag=".+([MF][PS]).+" postag_regexp="yes" postag_replace="DA0$10">el</match> \2</suggestion>
+            <example type="incorrect" correction="la mateixa">Amb <marker>mateixa</marker> il·lusió de sempre.</example>
+            <example type="incorrect" correction="les mateixes">De <marker>mateixes</marker> fonts.</example>
+            <example type="correct">Dins mateix de la casa.</example>
+        </rule>
         <rulegroup id="ESPOSA_ES_POSA" name="*esposa/es posa a punt">
             <rule>
                 <pattern>
@@ -29403,7 +29416,7 @@ $Id$
             <rule>
                 <pattern>
                     <token inflected="yes">proper</token>
-                    <token regexp="yes" inflected="yes">destí|destinació|versió|tren|reunió|novel·la|edició|capítol|partit|revisió|etapa</token>
+                    <token regexp="yes" inflected="yes">entrega|lliurament|destí|destinació|versió|tren|reunió|novel·la|edició|capítol|partit|revisió|etapa</token>
                 </pattern>
                 <message>En aquest cas val més evitar l'adjectiu "<match no="1"/>".</message>
                 <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pròxim</match> <match no="2"/></suggestion>
