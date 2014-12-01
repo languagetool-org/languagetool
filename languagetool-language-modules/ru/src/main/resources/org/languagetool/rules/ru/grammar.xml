@@ -247,13 +247,34 @@ $Id$
                 <token inflected="yes">автобиография</token>
             </pattern>
             <message>Логическая ошибка: <suggestion>\2</suggestion>?</message>
-         
-            <short>Логическая ошибка.</short>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
             <example type="incorrect">Автор написал <marker>свою автобиографию</marker>.</example>
             <example type="correct">Автор написал автобиографию.</example>
         </rule>
-                
-        
+        <rule id="Logical_vidajuschijsja_as" name="Логические ошибки «выдающийся ас»">
+            <pattern>
+                <token regexp="yes" inflected="yes">выдающийся|лучший</token>
+                <token inflected="yes">ас</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>\2</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect">Этот лётчик - <marker>выдающийся ас</marker>.</example>
+            <example type="correct">Этот лётчик - ас.</example>
+        </rule>              
+        <rule id="Logical_biographia_gizni" name="Логические ошибки «биография жизни»">
+            <pattern>
+                <token inflected="yes">биография</token>
+                <token inflected="yes">жизнь</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect"><marker>Биографии жизни</marker> различных людей.</example>
+            <example type="correct">Биографии различных людей.</example>
+        </rule>              
+              
         
         <rule id="Logical_podnjal_tost" name="Логические ошибки «поднял тост»">
             <pattern>
