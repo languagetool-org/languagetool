@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.GermanyGerman;
@@ -38,7 +37,7 @@ public class SpellingCheckRuleTest extends TestCase {
 
     final List<RuleMatch> matches2 = langTool.check("Das ist ein Tibbfehla");
     assertEquals(1, matches2.size());
-    Assert.assertEquals(GermanSpellerRule.RULE_ID, matches2.get(0).getRule().getId());
+    assertEquals(GermanSpellerRule.RULE_ID, matches2.get(0).getRule().getId());
   }
 
 }

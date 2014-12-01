@@ -146,7 +146,7 @@ public class JLanguageTool {
     ONLYNONPARA
   }
   
-  private static List<File> temporaryFiles = new ArrayList<>();
+  private static final List<File> temporaryFiles = new ArrayList<>();
   
   /**
    * Create a JLanguageTool and setup the built-in Java rules for the
