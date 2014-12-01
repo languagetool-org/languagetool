@@ -139,7 +139,7 @@ public class PatternRuleMatcherTest {
     final Element elementB = makeElement("b");
     elementB.setMinOccurrence(0);
     
-    List<Element> elements = Arrays.asList(makeElement("a"), elementB, makeElement("c"));
+    List<Element> elements = Arrays.asList(makeElement("a"), elementB, makeElement("c"));   // regex: a b? c
     PatternRule rule = new PatternRule("", new Demo(), elements, "my description", "<suggestion>\\1 \\2 \\3</suggestion>", "short message");
     PatternRuleMatcher matcher = new PatternRuleMatcher(rule, false);
     
