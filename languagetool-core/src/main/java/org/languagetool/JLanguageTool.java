@@ -28,8 +28,6 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.SuggestionExtractor;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -346,37 +344,14 @@ public class JLanguageTool {
    */
   public void addRule(final Rule rule) {
     userRules.add(rule);
-    final SuggestionExtractor extractor = new SuggestionExtractor();
-    final List<String> suggestionTokens = extractor.getSuggestionTokens(rule, language);
-    final List<Rule> allActiveRules = getAllActiveRules();
-    addIgnoreWords(suggestionTokens, allActiveRules);
-  }
-
-  private void addIgnoreWords(List<String> ignoreWords, List<Rule> allActiveRules) {
-    for (Rule activeRule : allActiveRules) {
-      if (activeRule instanceof SpellingCheckRule) {
-        ((SpellingCheckRule)activeRule).addIgnoreTokens(ignoreWords);
-      }
-    }
-  }
-
-  private void setIgnoreWords(List<String> ignoreWords, List<Rule> allActiveRules) {
-    for (Rule activeRule : allActiveRules) {
-      if (activeRule instanceof SpellingCheckRule) {
-        ((SpellingCheckRule)activeRule).resetIgnoreTokens();
-        ((SpellingCheckRule)activeRule).addIgnoreTokens(ignoreWords);
-      }
-    }
   }
 
   /**
    * Disable a given rule so the check methods like {@link #check(String)} won't use it.
-   * Use {@link #disableRules(java.util.List)} if you want to disable more than one rule.
    * @param ruleId the id of the rule to disable - no error will be thrown if the id does not exist
    */
   public void disableRule(final String ruleId) {
     disabledRules.add(ruleId);
-    reInitSpellCheckIgnoreWords();
   }
 
   /**
@@ -386,24 +361,6 @@ public class JLanguageTool {
    */
   public void disableRules(final List<String> ruleIds) {
     disabledRules.addAll(ruleIds);
-    reInitSpellCheckIgnoreWords();
-  }
-
-  private void reInitSpellCheckIgnoreWords() {
-    final List<Rule> allActiveRules = getAllActiveRules();
-    final List<String> ignoreTokens = getAllIgnoreWords(allActiveRules);
-    setIgnoreWords(ignoreTokens, allActiveRules);
-  }
-
-  private List<String> getAllIgnoreWords(List<Rule> allActiveRules) {
-    final List<String> suggestionTokens = new ArrayList<>();
-    for (Rule activeRule : allActiveRules) {
-      if (activeRule instanceof PatternRule) {
-        final SuggestionExtractor extractor = new SuggestionExtractor();
-        suggestionTokens.addAll(extractor.getSuggestionTokens(activeRule, language));
-      }
-    }
-    return suggestionTokens;
   }
 
   /**
@@ -413,7 +370,6 @@ public class JLanguageTool {
    */
   public void disableCategory(final String categoryName) {
     disabledCategories.add(categoryName);
-    reInitSpellCheckIgnoreWords();
   }
 
   /**
