@@ -22525,6 +22525,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
             </rule>
         </rulegroup>
+        <rule id="AUFS_VERB" name="aufs + Verb (kleingeschrieben)">
+            <pattern>
+                <token>aufs</token>
+                <marker>
+                    <token postag='VER:INF:SFT'></token>
+                </marker>
+            </pattern>
+            <message>Wenn '<match no="2"/>' hier als Nomen genutzt wird, muss es großgeschrieben werden.</message>
+            <example type='incorrect'>Er müsste sich aufs <marker>lernen</marker> konzentrieren.</example>
+            <example type='correct'>Er müsste sich aufs <marker>Lernen</marker> konzentrieren.</example>
+        </rule>
         <rulegroup id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)'">
             <rule>
                 <pattern case_sensitive="yes">
