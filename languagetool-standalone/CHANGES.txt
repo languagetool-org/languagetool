@@ -62,6 +62,16 @@ LanguageTool Change Log
      proper parameter for the server; now it's fixed
     -fixed problem with improper positions for some bitext rules (issue #218)
 
+-GUI:
+    -A new 'errorColors' setting has been added to the languagetool.cfg configuration
+     file. It can be used to set the background color of errors. For example,
+     errorColors=typographical:#b8b8ff, style:#ffb8b8
+     will show 'typographical' errors with a blue background and 'style' errors
+     with a red background in the upper part of the LT window. 'typographical' and
+     'style' are the types that are set in grammar.xml as "type=...".
+     There's no user interface yet to configure these colors. Note that you should
+     only edit the languagetool.cfg file when LT is not running.
+
 Internal:
     -Words are not ignored anymore by the spell checker just because they occur in
      a rule's suggestion. If you want the spell checker to ignore words globally, add

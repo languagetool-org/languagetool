@@ -109,8 +109,6 @@ class LanguageToolSupport {
   private final List<Span> documentSpans;
 
   private JLanguageTool languageTool;
-  private HighlightPainter redPainter;  // a red color highlight painter for marking spelling errors  
-  private HighlightPainter bluePainter;  // a blue color highlight painter for marking grammar errors
   private ScheduledExecutorService checkExecutor;
   private MouseListener mouseListener;
   private ActionListener actionListener;
@@ -315,9 +313,6 @@ class LanguageToolSupport {
      * This makes the first check feel much faster:
      */    
     reloadLanguageTool(defaultLanguage);
-
-    redPainter = new HighlightPainter(Color.red);
-    bluePainter = new HighlightPainter(Color.blue);
 
     checkExecutor = new ScheduledThreadPoolExecutor(1, new ThreadFactory() {
       @Override
@@ -816,9 +811,7 @@ class LanguageToolSupport {
 
   private void removeHighlights() {
     for (Highlighter.Highlight hl : textComponent.getHighlighter().getHighlights()) {
-      if (hl.getPainter() == redPainter || hl.getPainter() == bluePainter) {
-        textComponent.getHighlighter().removeHighlight(hl);
-      }
+      textComponent.getHighlighter().removeHighlight(hl);
     }
   }
 
@@ -886,33 +879,19 @@ class LanguageToolSupport {
     removeHighlights();
 
     Highlighter h = textComponent.getHighlighter();
-    List<Span> spellErrors = new ArrayList<>();
-    List<Span> grammarErrors = new ArrayList<>();
 
     for (Span span : documentSpans) {
       if (span.start == span.end) {
         continue;
       }
-      if (ITSIssueType.Misspelling.equals(span.rule.getLocQualityIssueType())) {
-        spellErrors.add(span);
-      } else {
-        grammarErrors.add(span);
-      }
-    }
-
-    for (Span span : grammarErrors) {
       try {
         if (span.start < span.end) { //to avoid the BadLocationException
-          h.addHighlight(span.start, span.end, bluePainter);
-        }
-      } catch (BadLocationException ex) {
-        ex.printStackTrace();
-      }
-    }
-    for (Span span : spellErrors) {
-      try {
-        if (span.start < span.end) { //to avoid the BadLocationException
-          h.addHighlight(span.start, span.end, redPainter);
+          ITSIssueType issueType = span.rule.getLocQualityIssueType();
+          Color colorForIssueType = getConfig().getErrorColors().get(issueType);
+          Color bgColor = colorForIssueType != null ? colorForIssueType : null;
+          Color underlineColor = ITSIssueType.Misspelling.equals(span.rule.getLocQualityIssueType()) ? Color.red : Color.blue;
+          HighlightPainter painter = new HighlightPainter(bgColor, underlineColor);
+          h.addHighlight(span.start, span.end, painter);
         }
       } catch (BadLocationException ex) {
         ex.printStackTrace();
@@ -931,12 +910,20 @@ class LanguageToolSupport {
     private static final BasicStroke OO_STROKE3 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{3.0f, 5.0f}, 6);
     private static final BasicStroke ZIGZAG_STROKE1 = new BasicStroke(1.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1.0f, 1.0f}, 0);
 
-    private HighlightPainter(Color color) {
-      super(color);
+    private final Color underlineColor;
+    private final Color backgroundColor;
+
+    private HighlightPainter(Color backgroundColor, Color underlineColor) {
+      super(backgroundColor);
+      this.backgroundColor = backgroundColor;
+      this.underlineColor = underlineColor;
     }
 
     @Override
     public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds, JTextComponent c, View view) {
+      if (backgroundColor != null) {
+        super.paintLayer(g, offs0, offs1, bounds, c, view);
+      }
       Rectangle rect;
 
       if (offs0 == view.getStartOffset() && offs1 == view.getEndOffset()) {
@@ -955,7 +942,7 @@ class LanguageToolSupport {
       }
 
       if (rect != null) {
-        Color color = getColor();
+        Color color = underlineColor;
 
         if (color == null) {
           g.setColor(c.getSelectionColor());

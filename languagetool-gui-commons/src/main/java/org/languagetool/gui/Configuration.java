@@ -18,12 +18,16 @@
  */
 package org.languagetool.gui;
 
+import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.StringTools;
 
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Configuration like list of disabled rule IDs, server mode etc.
@@ -52,13 +56,15 @@ public class Configuration {
   private static final String FONT_STYLE_CONFIG_KEY = "font.style";
   private static final String FONT_SIZE_CONFIG_KEY = "font.size";
   private static final String LF_NAME_CONFIG_KEY = "lookAndFeelName";
+  private static final String ERROR_COLORS_CONFIG_KEY = "errorColors";
 
   private static final String DELIMITER = ",";
   private static final String EXTERNAL_RULE_DIRECTORY = "extRulesDirectory";
 
-  private File configFile;
-  private final HashMap<String, String> configForOtherLangs = new HashMap<>();
+  private final Map<String, String> configForOtherLangs = new HashMap<>();
+  private final Map<ITSIssueType, Color> errorColors = new HashMap<>();
 
+  private File configFile;
   private Set<String> disabledRuleIds = new HashSet<>();
   private Set<String> enabledRuleIds = new HashSet<>();
   private Set<String> disabledCategoryNames = new HashSet<>();
@@ -331,6 +337,13 @@ public class Configuration {
     this.lookAndFeelName = lookAndFeelName;
   }
 
+  /**
+   * @since 2.8
+   */
+  public Map<ITSIssueType, Color> getErrorColors() {
+    return errorColors;
+  }
+
   private void loadConfiguration(final Language lang) throws IOException {
 
     final String qualifier = getQualifier(lang);
@@ -382,12 +395,30 @@ public class Configuration {
       if (extRules != null) {
         externalRuleDirectory = extRules;
       }
-      
+
+      String colorsString = (String) props.get(ERROR_COLORS_CONFIG_KEY);
+      parseErrorColors(colorsString);
+
       //store config for other languages
       loadConfigForOtherLanguages(lang, props);
       
     } catch (final FileNotFoundException e) {
       // file not found: okay, leave disabledRuleIds empty
+    }
+  }
+
+  private void parseErrorColors(String colorsString) {
+    if (StringUtils.isNotEmpty(colorsString)) {
+      String[] typeToColorList = colorsString.split(",\\s*");
+      for (String typeToColor : typeToColorList) {
+        String[] typeAndColor = typeToColor.split(":");
+        if (typeAndColor.length != 2) {
+          throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
+        }
+        ITSIssueType type = ITSIssueType.getIssueType(typeAndColor[0]);
+        String hexColor = typeAndColor[1];
+        errorColors.put(type, Color.decode(hexColor));
+      }
     }
   }
 
@@ -458,6 +489,13 @@ public class Configuration {
     if (externalRuleDirectory != null) {
       props.setProperty(EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
     }
+    StringBuilder sb = new StringBuilder();
+    for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
+      String rgb = Integer.toHexString(entry.getValue().getRGB());
+      rgb = rgb.substring(2, rgb.length());
+      sb.append(entry.getKey()).append(":").append("#").append(rgb).append(", ");
+    }
+    props.setProperty(ERROR_COLORS_CONFIG_KEY, sb.toString());
 
     for (final String key : configForOtherLangs.keySet()) {
       props.setProperty(key, configForOtherLangs.get(key));

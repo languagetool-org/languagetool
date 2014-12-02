@@ -231,7 +231,7 @@ public abstract class Rule {
    * @since 2.5
    */
   public void setLocQualityIssueType(ITSIssueType locQualityIssueType) {
-    this.locQualityIssueType = locQualityIssueType;
+    this.locQualityIssueType = Objects.requireNonNull(locQualityIssueType);
   }
 
   /**
