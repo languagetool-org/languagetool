@@ -11586,7 +11586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp='yes'>\d+-Jährige[srnm]?</token>
                     </marker>
-                    <token regexp='yes'>[A-ZÖÄÜ].+</token> <!-- wir erkennen nicht alle Nomen, also so... -->
+                    <token regexp='yes'>[A-ZÖÄÜ].+<exception>Geld</exception></token> <!-- wir erkennen nicht alle Nomen, also so... -->
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="Jähr" regexp_replace="jähr"/></suggestion>?</message>
                 <example type='incorrect' correction="13-jährige">Das <marker>13-Jährige</marker> Mädchen gewann den Vorlesewettbewerb.</example>
@@ -11654,7 +11654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token postag="VER:INF:.+" postag_regexp="yes" regexp="yes">[a-zäöüß]+<exception postag="ADJ:GEN:SIN:.+" postag_regexp="yes"/><exception regexp="yes">einen|einigen|sieben|sein</exception></token>
                     </marker>
-                    <token postag=".*:GEN:.*" postag_regexp="yes"><exception postag="SUB:NOM:.+" postag_regexp="yes"/></token>
+                    <token postag=".*:GEN:.*" postag_regexp="yes"><exception postag="SUB:NOM:.+" postag_regexp="yes"/><exception>gebliebenen</exception></token>
                 </pattern>
                 <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion> hier als substantiviertes Verb gebraucht wird und dementsprechend großgeschrieben werden muss.</message>
                 <short>&prgk;.</short>
@@ -11662,6 +11662,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Ich möchte das <marker>erstellen</marker>.</example>
                 <example type="correct">Durch das <marker>Importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="correct">Du musst das <marker>importieren</marker>, damit du die Funktion benutzen kannst.</example>
+                <example type="correct">Hinter dem <marker>erhalten</marker> gebliebenen Giebel.</example>
                 <example type="incorrect" correction="Importieren">Durch das <marker>importieren</marker> der Klassen ist es möglich, auf die Funktionen zuzugreifen.</example>
                 <example type="incorrect" correction="Löschen">Das <marker>löschen</marker> der temporären Dateien ist empfehlenswert.</example>
                 <example type="incorrect" correction="Berühren">Das <marker>berühren</marker> der Figüren mit den Pfoten ist verboten.</example>
@@ -22535,6 +22536,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Wenn '<match no="2"/>' hier als Nomen genutzt wird, muss es großgeschrieben werden.</message>
             <example type='incorrect'>Er müsste sich aufs <marker>lernen</marker> konzentrieren.</example>
             <example type='correct'>Er müsste sich aufs <marker>Lernen</marker> konzentrieren.</example>
+        </rule>
+        <rule id="AUFS_GLEICHE" name="aufs + Verb (kleingeschrieben)">
+            <pattern>
+                <token>aufs</token>
+                <marker>
+                    <token case_sensitive="yes">gleiche</token>
+                </marker>
+                <token negate_pos="yes" postag="SUB:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>In der Wendung 'aufs Gleiche rauskommen' wird <suggestion>Gleiche</suggestion> großgeschrieben.</message>
+            <example type='incorrect'>Das kommt aufs <marker>gleiche</marker> raus.</example>
+            <example type='correct'>Das kommt aufs <marker>Gleiche</marker> raus.</example>
+            <example type='correct'>Aufs <marker>gleiche</marker> Pferd setzen.</example>
         </rule>
         <rulegroup id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)'">
             <rule>

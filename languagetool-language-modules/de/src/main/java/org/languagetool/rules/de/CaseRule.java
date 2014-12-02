@@ -383,6 +383,9 @@ public class CaseRule extends GermanRule {
     myExceptionPhrases.add("Russischen Reichs");
     myExceptionPhrases.add("Russischen Reiches");
     myExceptionPhrases.add("Tel Aviv");
+    myExceptionPhrases.add("Dreißigjährige Krieg");
+    myExceptionPhrases.add("Dreißigjährigen Kriegs");
+    myExceptionPhrases.add("Dreißigjährigen Krieges");
     myExceptionPhrases.add("Erster Weltkrieg");
     myExceptionPhrases.add("Ersten Weltkriegs");
     myExceptionPhrases.add("Ersten Weltkrieg");
