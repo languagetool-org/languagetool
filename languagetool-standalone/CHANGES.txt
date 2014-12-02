@@ -5,6 +5,17 @@ LanguageTool Change Log
 -Asturian:
     -removed dependency on Hunspell, now uses Morfologik for spell checking
 
+-English:
+    -new filter to be used for matching the part-of-speech of parts of words, e.g.:
+         <pattern>
+             <token regexp="yes">in.*</token>
+         </pattern>
+         <filter class="org.languagetool.rules.en.EnglishPartialPosTagFilter"
+                 args="no:1 regexp:in(.*) postag_regexp:JJ"/>
+     This will only keep matches for words that start with 'in' and where the
+     part after the 'in' is an adjective (POS tag 'JJ'). The 'no:1' is the token
+     position, i.e. here the first (and only) matching <token> is referred to.
+
 -German:
     -added and improved a few rules
 

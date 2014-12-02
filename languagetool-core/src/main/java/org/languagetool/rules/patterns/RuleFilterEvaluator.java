@@ -47,12 +47,12 @@ class RuleFilterEvaluator {
     Map<String,String> result = new HashMap<>();
     String[] arguments = filterArgs.split("\\s+");
     for (String arg : arguments) {
-      String[] keyVal = arg.split(":");
-      if (keyVal.length != 2) {
+      int delimPos = arg.indexOf(':');
+      if (delimPos == -1) {
         throw new RuntimeException("Invalid syntax for key/value, expected 'key:value', got: '" + arg + "'");
       }
-      String key = keyVal[0];
-      String val = keyVal[1];
+      String key = arg.substring(0, delimPos);
+      String val = arg.substring(delimPos + 1);
       if (val.startsWith("\\")) {
         int refNumber = Integer.parseInt(val.replace("\\", ""));
         if (refNumber > tokenPositions.size()) {

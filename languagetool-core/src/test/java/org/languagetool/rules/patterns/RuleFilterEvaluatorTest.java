@@ -46,6 +46,16 @@ public class RuleFilterEvaluatorTest {
     assertThat(map.size(), is(2));
   }
 
+  @Test
+  public void testGetResolvedArgumentsWithColon() throws Exception {
+    AnalyzedTokenReadings[] readingsList = {
+            new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
+    };
+    Map<String,String> map = eval.getResolvedArguments("regex:(?:foo[xyz])bar", readingsList, Arrays.asList(1, 1));
+    assertThat(map.get("regex"), is("(?:foo[xyz])bar"));
+    assertThat(map.size(), is(1));
+  }
+
   @Test(expected = RuntimeException.class)
   public void testDuplicateKey() throws Exception {
     AnalyzedTokenReadings[] readingsList = {

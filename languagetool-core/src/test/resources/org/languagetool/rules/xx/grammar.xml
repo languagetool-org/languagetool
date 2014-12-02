@@ -672,6 +672,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect"><marker>dfg dfg test</marker></example>
             <example type="incorrect"><marker>dfg dfg dfg test</marker></example>
         </rule>
+
+        <rule id="test_partialPosTagFilter" name="Test for PartialPosTagFilter">
+            <pattern>
+                <token regexp="yes">(in|un).*</token>
+            </pattern>
+            <filter class="org.languagetool.rules.DemoPartialPosTagFilter" args="no:1 regexp:(?:in|un)(.*) postag_regexp:JJ"/>
+            <message>Approved adjective, but not-approved prefix. Use 'not' + adjective</message>
+            <example type="incorrect">That's <marker>inaccurate</marker>.</example>
+            <example type="correct">That's <marker>not accurate</marker>.</example>
+            <example type="correct">That's <marker>insomething</marker>.</example>
+        </rule>
+        <rule id="test_partialPosTagFilter_with_regex" name="Test for PartialPosTagFilter">
+            <pattern>
+                <token regexp="yes">(in|un).*</token>
+            </pattern>
+            <filter class="org.languagetool.rules.DemoPartialPosTagFilter" args="no:1 regexp:(?:in|un)(.*) postag_regexp:J[XJ]"/>
+            <message>Approved adjective, but not-approved prefix. Use 'not' + adjective</message>
+            <example type="incorrect">That's <marker>inaccurate</marker>.</example>
+            <example type="correct">That's <marker>not accurate</marker>.</example>
+            <example type="correct">That's <marker>insomething</marker>.</example>
+        </rule>
+
         <!-- FIXME: not sure how to deal with \1 referring to <token max="2"/> ... probably
         there might be different uses here, with a space or without it... right now
         we simply match only the first token, and match include_skipped="yes" does not
