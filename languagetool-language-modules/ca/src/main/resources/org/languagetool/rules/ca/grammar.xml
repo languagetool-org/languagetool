@@ -28030,7 +28030,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token regexp="yes">ordres?</token>                    
-                    <token inflected="yes" regexp="yes">&ordes;|&ordes_invariable;</token>
+                        <token inflected="yes" regexp="yes">&ordes;|&ordes_invariable;</token>
                     </marker>
                 </pattern>
                 <message>En el sentit de 'societat religiosa' cal dir: <suggestion><match no="1" regexp_match="([Oo]rd)r(e.*)" regexp_replace="$1$2"/> <match no="2" postag="AQ0.(.)." postag_regexp="yes" postag_replace="AQ0[MC]$10"/></suggestion>.</message>
@@ -28059,7 +28059,7 @@ $Id$
                 <pattern>
                     <marker>
                         <token postag="_GN_F." postag_regexp="yes" regexp="yes">ordes?</token>                    
-                    <token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">&ordes;</token>
+                        <token postag="AQ0[FC].*" postag_regexp="yes" inflected="yes" regexp="yes">&ordes;</token>
                     </marker>
                 </pattern>
                 <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
@@ -28070,6 +28070,19 @@ $Id$
                 <example type="correct">de l'Orde militar de Montesa</example>
                 <example type="correct">de l'orde jesuïta</example>
                 <example type="correct">d'ordes majors</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="_GN_F." postag_regexp="yes" regexp="yes">ordes?</token>  
+                    </marker>
+                    <token skip="1">de</token>
+                    <token regexp="yes">temple|sant|cavalleri(a|es)|Cartoixa|Cister|Malta|Canadà|Montesa</token>
+                </pattern>
+                <message>En el sentit de "societat de religiosos" o de "ritu cristià", "orde" és masculí.</message>
+                <url>http://esadir.cat/entrades/fitxa/id/2575</url>
+                <example type="incorrect">Les <marker>ordes</marker> de cavalleria</example>
+                <example type="correct">Els ordes de cavalleria.</example>
             </rule>
             <rule>
                 <pattern>
