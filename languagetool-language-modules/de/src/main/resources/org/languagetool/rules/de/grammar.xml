@@ -11545,6 +11545,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Groß- und Kleinschreibung -->
     <!-- ====================================================================== -->
     <category name="Groß-/Kleinschreibung">
+        <!-- too many false alarms, we need a list of uppercase multiwords first ("Vereinigte Staaten" etc.")
+        <rule id="ADJ_NOMEN" name="Groß-/Kleinschreibung: das Deutsche (deutsche) Volk">
+            <pattern>
+                <token postag="SENT_START" negate_pos="yes"/>
+                <marker>
+                    <token postag_regexp="yes" postag="SUB:.*:ADJ" regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].*</token>
+                </marker>
+                <token postag_regexp="yes" postag="SUB:.*"></token>
+            </pattern>
+            <message>FIXME</message>
+        </rule>
+        -->
         <rulegroup id="JAEHRIG" name="x-jährig/Jährig">
             <url>http://www.korrekturen.de/kurz_erklaert/schreibweise_von_ziffern_mit_-jaehrig_und_-jaehrige.shtml</url>
             <rule>
@@ -22517,7 +22529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">etwas|nichts</token>
+                    <token regexp="yes" case_sensitive="no">etwas|nichts</token>
                     <marker>
                         <token postag="ADJ:NOM:SIN:NEU:(GRU|KOM):IND" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -22533,6 +22545,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Wichtiges">Beiträge die etwas <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
                 <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
                 <example type="incorrect" correction="Besseres">Ich habe etwas <marker>besseres</marker> zu tun.</example>
+                <example type="incorrect" correction="Großes">Nichts <marker>großes</marker> geschah.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
