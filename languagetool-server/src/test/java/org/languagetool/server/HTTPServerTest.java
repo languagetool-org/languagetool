@@ -67,8 +67,8 @@ public class HTTPServerTest {
     assertTrue(check(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
     final String result = check(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
-    assertTrue(result.contains("UPPERCASE_SENTENCE_START"));
-    assertTrue(result.contains("WIEDER_WILLEN"));
+    assertTrue("Got result without 'UPPERCASE_SENTENCE_START': " + result, result.contains("UPPERCASE_SENTENCE_START"));
+    assertTrue("Got result without 'WIEDER_WILLEN': " + result, result.contains("WIEDER_WILLEN"));
     assertTrue("Expected special chars, got: '" + result + "'",
             result.contains("\u00f6\u00e4\u00fc\u00df"));   // special chars are intact
     final XMLValidator validator = new XMLValidator();
