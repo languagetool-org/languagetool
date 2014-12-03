@@ -9572,12 +9572,13 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="fa_x_temps2" name="fa tres anys, molt de temps">
     <!--  segona passada de la regla: per a evitar les excepcions de Verbs 
-    TODO: Això va dir Fuster fa més de 35 anys.-->
+    TODO: Això va dir Fuster fa més de 35 anys.
+|NP..SP.*  PI0CS000| -->
         <rule>
             <pattern>
-                <token><exception postag="PI0CS000|NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">què|quant</exception></token>
+                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">què|quant</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="12">fer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="12">fer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes">segons?|minuts?|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|(tri|quadri|se)mestres?|anys?|lustres?|dècad(a|es)|segles?|mil·lennis?|moments?|instants?|temps|estona</token>
             </pattern>
@@ -9585,8 +9586,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="PI0CS000|NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
-                <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
+                <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="12">fer<exception scope="next" regexp="yes">que|en</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes">,</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
                 <marker>
                     <token regexp="yes">segons?|minuts?|hor(a|es)|di(a|es)|setman(a|es)|mes|mesos|(tri|quadri|se)mestres?|anys?|lustres?|dècad(a|es)|segles?|mil·lennis?|moments?|instants?|temps|estona</token>
                 </marker>          
@@ -9597,7 +9598,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token><exception postag="NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
                 <marker>
-                    <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                    <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception postag=".*LOC_ADV.*" postag_regexp="yes"/><exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
                 </marker>
                 <token regexp="yes">molt|poc</token>
             </pattern>
@@ -9605,8 +9606,8 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token><exception postag="NP..SP.*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
-                <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.*" postag_regexp="yes" scope="next"/></token>
+                <token><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes" regexp="yes">[^'-].+</exception></token>
+                <token postag="V.I[PI]3S0.?" postag_regexp="yes" inflected="yes" skip="1">fer<exception scope="next" regexp="yes">,|que|en</exception><exception postag="V.[MSI].*|_GV_" postag_regexp="yes" scope="next"/></token>
                 <marker>
                     <token regexp="yes">molt|poc</token>    
                 </marker>
