@@ -133,8 +133,32 @@ $Id$
         <rulegroup name="Узгодженість числа іменників з числівниками" id="CONSISTENCY_NOUN_NUMERIC">
             <rule>
                 <pattern>
-                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/№]</exception></token>
-                    <token postag_regexp="yes" postag="adj.*" min="0"/>
+                  <token postag_regexp="yes" postag="num.*"/>
+                  <token regexp="yes">десятих|сотих|третіх|треті|четвертих|чверті</token>
+                  <marker>
+                    <token postag_regexp="yes" postag="noun:.:.*">
+                      <exception postag_regexp="yes" postag="noun:[mfn]:(v_rod|nv).*"/>
+                      <exception postag_regexp="yes" postag="noun:.*:ist.*"/>
+                      <exception regexp="yes">біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|.*господарств</exception>
+                    </token>
+                  </marker>
+                </pattern>
+                <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
+                <example type="incorrect" correction="відсотка">два десятих <marker>відсотки</marker></example>
+                <example type="incorrect" correction="відсотка">дві третіх <marker>відсотки</marker></example>
+                <example type="correct">два десятих відсотка</example>
+                <example type="correct">через десяті руки</example>
+                <example type="correct">дві десятих мм</example>
+                <example type="correct">три чверті місць</example>
+                <example type="correct">три чверті громадян</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,№-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/№]</exception></token>
+                    <token postag_regexp="yes" postag="adj.*" min="0">
+                      <exception regexp="yes">третіх|четвертих</exception>
+                    </token>
                     <marker>
                         <token postag_regexp="yes" postag="noun:m:v_rod.*" regexp="yes">.*[ая]
                             <exception postag_regexp="yes" postag="noun:p:v_naz.*"/>
@@ -157,6 +181,7 @@ $Id$
                 <example type="correct">2,2 мільйона</example>
                 <example type="correct">три століття</example>
                 <example type="correct">три роки тому</example>
+                <example type="correct">дві третіх шлунка</example>
                 <example type="correct">1992 року</example>
                 <example type="correct">три тис. грн.</example>
                 <example type="correct">3 липня 1998р.</example>
@@ -235,40 +260,17 @@ $Id$
                   <marker>
                     <token postag_regexp="yes" postag="noun:.:.*">
                       <exception postag_regexp="yes" postag="noun:[mfn]:(v_rod|nv).*"/>
-                      <exception regexp="yes">тис|рази</exception>
+                      <exception regexp="yes">тис|рази|куб|кал</exception>
                     </token>
                   </marker>
                 </pattern>
-                <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
-                <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
+                <message>Після десяткового дробу іменник має стояти в родовому відмінку однини: <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion></message>
                 <example type="incorrect" correction="кілограма">2,4 <marker>кілограми</marker></example>
                 <example type="correct">33,77 тонни</example>
                 <example type="correct">2,19 бала</example>
                 <example type="correct">33,77 мм</example>
                 <example type="correct">33,77 тис</example>
                 <example type="correct">33,5 роки</example>
-            </rule>
-            <rule>
-                <pattern>
-                  <token postag_regexp="yes" postag="num.*"/>
-                  <token regexp="yes">десятих|сотих|третіх|треті|четвертих|чверті</token>
-                  <marker>
-                    <token postag_regexp="yes" postag="noun:.:.*">
-                      <exception postag_regexp="yes" postag="noun:[mfn]:(v_rod|nv).*"/>
-                      <exception postag_regexp="yes" postag="noun:.*:ist.*"/>
-                      <exception regexp="yes">місць|потужностей|інвестицій</exception>
-                    </token>
-                  </marker>
-                </pattern>
-                <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
-                <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
-                <example type="incorrect" correction="відсотка">два десятих <marker>відсотки</marker></example>
-                <example type="incorrect" correction="відсотка">дві третіх <marker>відсотки</marker></example>
-                <example type="correct">два десятих відсотка</example>
-                <example type="correct">через десяті руки</example>
-                <example type="correct">дві десятих мм</example>
-                <example type="correct">три чверті місць</example>
-                <example type="correct">три чверті громадян</example>
             </rule>
         </rulegroup>
 
