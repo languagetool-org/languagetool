@@ -10273,27 +10273,61 @@ $Id$
             <example type="incorrect">els riscos d'<marker>abans d'ahir</marker>.</example>
             <example type="correct">els riscos d'abans-d'ahir.</example>
         </rule>
-        <rule id="LAS" name="*las/les">
-            <pattern>
-                <token><exception regexp="yes" inflected="yes">ai|sentir|trobar|quedar</exception></token>
-                <marker>
-                    <token>las<exception postag="_GN_MS|.*NP.*" postag_regexp="yes"/></token>
-                </marker>
-                <token><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
-                <!-- <token postag="NC[FC][PN].*|_GN_FP|AQ.[FC][PN].|V.[SI].*|_GV_" postag_regexp="yes"/> -->
-            </pattern>
-            <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
-            <short>Possible confusió</short>
-            <example type="incorrect" correction="Les"><marker>Las</marker> dones són així.</example>
-            <example type="incorrect" correction="Les"><marker>Las</marker> fotografies antigues.</example>
-            <example type="incorrect" correction="Les"><marker>Las</marker> antigues il·lusions.</example>
-            <example type="incorrect" correction="les">Em va agafar <marker>las</marker> mans.</example>
-            <example type="incorrect" correction="les">Independentment de qui <marker>las</marker> haja generades.</example>
-            <example type="correct">Ai las!, em sentia las.</example>
-            <example type="correct">Vaig veure aquell cos las.</example>
-            <example type="correct">El cos li va quedar completament las.</example>
-            <example type="correct">Ve de Las Palmas o de Las Vegas.</example>
-        </rule>
+        <rulegroup id="LAS" name="las/les">
+            <rule id="LAS1" name="*las/les + paraula desconeguda">
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">ai|sentir|trobar|quedar</exception></token>
+                    <marker>
+                        <token>las<exception postag="_GN_MS|.*NP.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token><exception postag="_PUNCT.*|[NAVSRPD].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Les"><marker>Las</marker> mujeres son así.</example>
+                <example type="incorrect" correction="les">Quien <marker>las</marker> haya hecho.</example>
+                <example type="correct">Ai las!, em sentia las.</example>
+                <example type="correct">Vaig veure aquell cos las.</example>
+                <example type="correct">El cos li va quedar completament las.</example>
+                <example type="correct">Ve de Las Palmas o de Las Vegas.</example>
+            </rule>
+            <rule id="LAS2" name="*las/les + femení plural o verb">
+                <pattern>
+                    <!-- <token><exception regexp="yes" inflected="yes">ai|sentir|trobar|quedar</exception></token> -->
+                    <marker>
+                        <token>las<exception postag="_GN_MS|.*NP.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="NC[CF][NP].*|_GN_FP|AQ.[CF][NP].|V.P..PF.|V.[SI].*|_GV_" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="Les"><marker>Las</marker> dones són així.</example>
+                <example type="incorrect" correction="Les"><marker>Las</marker> destacades.</example>
+                <example type="incorrect" correction="Les"><marker>Las</marker> fotografies antigues.</example>
+                <example type="incorrect" correction="les">Va sentir <marker>las</marker> antigues il·lusions.</example>
+                <example type="incorrect" correction="les">Independentment de qui <marker>las</marker> haja generades.</example>
+                <example type="correct">Ai las!, em sentia las.</example>
+                <example type="correct">Vaig veure aquell cos las.</example>
+                <example type="correct">El cos li va quedar completament las.</example>
+                <example type="correct">Ve de Las Palmas o de Las Vegas.</example>
+            </rule>
+            <rule id="LAS3" name="*las/les + altres paraules conegudes">
+                <pattern>
+                    <token><exception regexp="yes" inflected="yes">ai|sentir|trobar|quedar</exception></token>
+                    <marker>
+                        <token>las<exception postag="_GN_MS|.*NP.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="[NAVSRPD].*" postag_regexp="yes"><exception postag="_PUNCT.*|NC[CF][NP].*|_GN_FP|AQ.[CF][NP].|V.P..PF.|V.[SI].*|_GV_" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>les</suggestion> en lloc de "las" (adj. masc. sing.)?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="les">Em va agafar <marker>las</marker> mans.</example>
+                <example type="correct">Ai las!, em sentia las.</example>
+                <example type="correct">Vaig veure aquell cos las.</example>
+                <example type="correct">El cos li va quedar completament las.</example>
+                <example type="correct">Ve de Las Palmas o de Las Vegas.</example>
+            </rule>
+        </rulegroup>
 <!--     MOLT DIFÍCIL DE DIFERENCIAR    
          <rule id="CA_LA" name="cala/ca la">
             <pattern>
