@@ -828,6 +828,22 @@ $Id$
          <example type="correct">на відміну хоча б від Ялти</example>
        </rule>
 
+       <rule>
+         <pattern>
+          <!-- <token>пропади</token> -->
+           <token>пропадом</token>
+         </pattern>
+         <message>Правильно: <suggestion>щоб ти зслиз!</suggestion></message>
+         <suggestion>Бодай ти нагло зслиз!</suggestion>
+         <suggestion>Нехай тебе лизень лизне (злиже)!</suggestion>
+         <suggestion>Бодай тебе з корінням вигладило!</suggestion>
+         <suggestion>Щоб ти приймом пропав!</suggestion>
+         <suggestion>Нехай за тобою заклекоче!</suggestion>
+         <suggestion>Щоб ти тямився!</suggestion>
+         <example type="incorrect">пропади ти <marker>пропадом</marker></example>
+         <example type="correct">щоб ти слиз</example>
+       </rule>
+
 <!--
        <rule>
          <pattern>
@@ -1429,6 +1445,25 @@ $Id$
          <message>Правильно: <suggestion>давання <match no="2"/> <match no="3"/></suggestion>, <suggestion><match no="2"/> <match no="3"/></suggestion></message>
          <example type="incorrect" correction="давання їм хабара|їм хабара">з приводу <marker>дачі їм хабара</marker> він лишився ні з чим</example>
          <example type="correct">на генеральській дачі</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <token>лопнуло</token>
+           <token>терпіння</token>
+         </pattern>
+         <message>Правильно: <suggestion>урвався терпець</suggestion></message>
+         <example type="incorrect">у нього <marker>лопнуло терпіння</marker></example>
+         <example type="correct">у нього урвався терпець</example>
+       </rule>
+       <rule>
+         <pattern>
+           <token>терпіння</token>
+           <token>лопнуло</token>
+         </pattern>
+         <message>Правильно: <suggestion>терпець урвався</suggestion></message>
+         <example type="incorrect"><marker>терпіння лопнуло</marker></example>
+         <example type="correct">у нього терпець урвався</example>
        </rule>
 
        <!-- прийменники -->
@@ -2038,7 +2073,7 @@ $Id$
        <rule>
          <pattern>
               <token>по</token>
-              <token regexp="yes" postag_regexp="yes" inflected="yes" postag="noun:p:v_mis.*">понеділок|вівторок|середа|четвер|п'ятниця|субота|неділя|свято|вихідний</token>
+              <token regexp="yes" postag_regexp="yes" inflected="yes" postag="noun:p:v_mis.*">понеділок|вівторок|середа|четвер|п'ятниця|субота|неділя|вихідний</token>
          </pattern>
          <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(.*):v_mis.*" postag_replace="$1:v_oru.*"
          /></suggestion>, <suggestion>у <match no="2" postag_regexp="yes" postag="noun:p:v_mis.*" postag_replace="noun:[mf]:v_zna.*"
@@ -2050,6 +2085,15 @@ $Id$
          <example type="incorrect"><marker>по п'ятницях</marker></example>
          <example type="incorrect"><marker>по вихідних</marker></example>
          <example type="correct">щоп'ятниці</example>
+       </rule>
+       <rule>
+         <pattern>
+              <token>по</token>
+              <token>святах</token>
+         </pattern>
+         <message>Правильно: <suggestion>на свята</suggestion>, <suggestion>у свята</suggestion>, <suggestion>святами</suggestion></message>
+         <example type="incorrect"><marker>по святах</marker></example>
+         <example type="correct">на свята</example>
        </rule>
 
        <rule>
