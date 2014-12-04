@@ -290,22 +290,21 @@ public final class Tools {
    * @param enabledRules ids of rules to be enabled (by default all are enabled)
    * @param useEnabledOnly if set to {@code true}, if set to {@code true}, disable all rules except those enabled explicitly.
    * @return the list of rules to be used.
+   * @since 2.8
    */
   public static List<BitextRule> selectBitextRules(final List<BitextRule> bRules, final List<String> disabledRules, final List<String> enabledRules, boolean useEnabledOnly) {
     List<BitextRule> newBRules = new ArrayList<>(bRules.size());
     newBRules.addAll(bRules);
+    List<BitextRule> rulesToDisable = new ArrayList<>();
     if (useEnabledOnly) {
-      List<BitextRule> rulesToBeDisabled = new ArrayList<>();
       for (final String enabledRule : enabledRules) {
         for (BitextRule b : bRules) {
           if (!b.getId().equals(enabledRule)) {
-            rulesToBeDisabled.add(b);
+            rulesToDisable.add(b);
           }
         }
       }
-      newBRules.removeAll(rulesToBeDisabled);
     } else {
-      List<BitextRule> rulesToDisable = new ArrayList<>();
       for (final String disabledRule : disabledRules) {
         for (final BitextRule b : newBRules) {
           if (b.getId().equals(disabledRule)) {
@@ -313,8 +312,8 @@ public final class Tools {
           }
         }
       }
-      newBRules.removeAll(rulesToDisable);
     }
+    newBRules.removeAll(rulesToDisable);
     return newBRules;
   }
 
