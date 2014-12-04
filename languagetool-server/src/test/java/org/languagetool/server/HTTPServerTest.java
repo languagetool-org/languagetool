@@ -150,6 +150,14 @@ public class HTTPServerTest {
             english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
     assertTrue(result4.contains("EN_A_VS_AN"));
     assertFalse(result4.contains("BERATE"));
+
+    //check disabling bitext rules:
+    String result5 = bitextCheckDisabled(polish, english, "a", "To jest okropnie długi tekst, naprawdę!", nothing);
+    assertTrue(result5.contains("TRANSLATION_LENGTH"));
+
+    final String[] disableTranslationLen = {"TRANSLATION_LENGTH"};
+    String result6 = bitextCheckDisabled(polish, english, "a", "This is a very long text. Really!", disableTranslationLen);
+    assertFalse(result6.contains("TRANSLATION_LENGTH"));
   }
 
   @Test
@@ -222,6 +230,20 @@ public class HTTPServerTest {
     urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
     if (motherTongue != null) {
       urlOptions += "&motherTongue=" + motherTongue.getShortName();
+    }
+    final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
+    return HTTPTools.checkAtUrl(url);
+  }
+
+  private String bitextCheckDisabled(Language lang, Language motherTongue, String sourceText, String text, String[] disabled) throws IOException {
+    String urlOptions = "/?language=" + lang.getShortName();
+    urlOptions += "&srctext=" + URLEncoder.encode(sourceText, "UTF-8");
+    urlOptions += "&text=" + URLEncoder.encode(text, "UTF-8"); // latin1 is not enough for languages like polish, romanian, etc
+    if (motherTongue != null) {
+      urlOptions += "&motherTongue=" + motherTongue.getShortName();
+    }
+    if (disabled.length > 0) {
+      urlOptions += "&disabled=" + StringUtils.join(disabled, ",");
     }
     final URL url = new URL("http://localhost:" + HTTPTools.getDefaultPort() + urlOptions);
     return HTTPTools.checkAtUrl(url);

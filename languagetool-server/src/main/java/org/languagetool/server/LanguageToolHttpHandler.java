@@ -425,7 +425,8 @@ class LanguageToolHttpHandler implements HttpHandler {
           motherTongue + " and target language " + lang.getShortNameWithCountryAndVariant());
       final JLanguageTool sourceLt = getLanguageToolInstance(motherTongue, null, params);
       final JLanguageTool targetLt = getLanguageToolInstance(lang, null, params);
-      final List<BitextRule> bRules = Tools.getBitextRules(motherTongue, lang);
+      final List<BitextRule> bRules = Tools.selectBitextRules(Tools.getBitextRules(motherTongue, lang),
+          params.disabledRules, params.enabledRules, params.useEnabledOnly);
       return Tools.checkBitext(sourceText, text, sourceLt, targetLt, bRules);
     }
   }
