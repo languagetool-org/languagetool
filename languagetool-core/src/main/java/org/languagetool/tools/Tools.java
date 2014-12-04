@@ -63,8 +63,23 @@ public final class Tools {
             trgLt.getAllRules(), 0, 0, 1, trg, trgText, null);
     for (BitextRule bRule : bRules) {
       final RuleMatch[] curMatch = bRule.match(srcText, trgText);
-      if (curMatch != null) {
-        ruleMatches.addAll(Arrays.asList(curMatch));
+      if (curMatch != null && curMatch.length > 0) {
+        // adjust positions for bitext rules
+        for (RuleMatch match : curMatch) {
+          if (match.getColumn() < 0) {
+            match.setColumn(1);
+          }
+          if (match.getEndColumn() < 0) {
+            match.setEndColumn(trg.length());
+          }
+          if (match.getLine() < 0) {
+            match.setLine(1);
+          }
+          if (match.getEndLine() < 0) {
+            match.setEndLine(1);
+          }
+          ruleMatches.add(match);
+        }
       }
     }
     return ruleMatches;

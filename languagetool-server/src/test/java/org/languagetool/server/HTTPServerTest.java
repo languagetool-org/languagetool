@@ -154,6 +154,7 @@ public class HTTPServerTest {
     //check disabling bitext rules:
     String result5 = bitextCheckDisabled(polish, english, "a", "To jest okropnie długi tekst, naprawdę!", nothing);
     assertTrue(result5.contains("TRANSLATION_LENGTH"));
+    assertFalse(result5.contains("-2"));
 
     final String[] disableTranslationLen = {"TRANSLATION_LENGTH"};
     String result6 = bitextCheckDisabled(polish, english, "a", "This is a very long text. Really!", disableTranslationLen);
