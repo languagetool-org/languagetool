@@ -131,7 +131,7 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
 
       String originalTokenStr = tokenReadings.getToken();
-      if (ignoreTaggedWords && tokenReadings.isTagged()) {
+      if (ignoreTaggedWords && isTagged(tokenReadings)) {
         continue;
       }
       String tokenString = cleanup(originalTokenStr);
@@ -169,6 +169,15 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  /**
+   * This method allows to override which tags will mark token as tagged
+   * @param tokenReadings
+   * @return returns true if token has valid tag
+   */
+  protected boolean isTagged(AnalyzedTokenReadings tokenReadings) {
+    return tokenReadings.isTagged();
   }
 
   private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings,
