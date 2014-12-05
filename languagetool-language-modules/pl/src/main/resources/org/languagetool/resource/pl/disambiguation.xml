@@ -1439,6 +1439,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="koło[koło/prep:gen,koło/qub,koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]" outputform="koło[koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]">Choć to jest trochę błędne <marker>koło</marker>, bo z drugiej strony trzeba być sobą.</example>
     </rule>
 
+    <rule id="KOLO_LADA_NOM_NIE_PREP_2" name="koło, lada, poza jako rzeczownik">
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="case"/><feature id="number"/><feature id="gender"/>
+                    <token regexp="yes">koło|lada|poza</token>
+                    <token postag="adj.*|pact.*" postag_regexp="yes"/>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="koło[koło/prep:gen,koło/qub,koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]" outputform="koło[koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]">To jest <marker>koło</marker> zamachowe gospodarki!</example>
+    </rule>
+
+
     <rule id="MIAST_NIE_PREP" name="miast jako rzeczownik">
         <pattern>
             <marker><token>miast</token></marker>
