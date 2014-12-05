@@ -70,7 +70,7 @@ public final class Tools {
             match.setColumn(1);
           }
           if (match.getEndColumn() < 0) {
-            match.setEndColumn(trg.length());
+            match.setEndColumn(trg.length() + 1); // we count from 0
           }
           if (match.getLine() < 0) {
             match.setLine(1);
