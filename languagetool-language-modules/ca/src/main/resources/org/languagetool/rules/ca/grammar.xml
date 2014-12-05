@@ -4715,18 +4715,21 @@ $Id$
         <rulegroup id="SENSE_NO" name="sense que ningú *no">
             <rule>
                 <pattern>
-                    <token skip="1">sense</token>
+                    <token>sense</token>
+                    <token min="0" postag="V.N.*" postag_regexp="yes"/>
                     <token>que</token>
                     <marker>
                         <token regexp="yes">res|cap|ningú|gens|enlloc|mai|tampoc</token>
                         <token>no</token>
                     </marker>
                 </pattern>
-                <message>No cal duplicar la negació.</message>
-                <suggestion>\3</suggestion>
+                <message>No s'ha de duplicar la negació.</message>
+                <suggestion>\4</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
                 <example type="incorrect" correction="ningú">Sense deixar que <marker>ningú no</marker> ho vegi</example>
+                                <example type="incorrect" correction="ningú">Sense que <marker>ningú no</marker> ho vegi</example>
                 <example type="correct">sense que ningú ho vegi</example>
+                <example type="correct">Un procés sense repetició que mai no s'atura.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4736,7 +4739,7 @@ $Id$
                         <token>no</token>
                     </marker>
                 </pattern>
-                <message>No cal duplicar la negació.</message>
+                <message>No s'ha de duplicar la negació.</message>
                 <suggestion>sense que</suggestion>
                 <url>http://esadir.cat/gramatica/sintaxi/advnegdlbneg</url>
                 <example type="incorrect" correction="Sense que"><marker>Sense que no</marker> ho vegi ningú.</example>
@@ -19390,13 +19393,20 @@ $Id$
             <example type="correct">acusament de recepció</example>
         </rule>
         <rule id="A_LES_CLARES" name="*a les clares">
+            <antipattern>
+                <marker>
+                    <token>clares</token>
+                    <token>d'</token>
+                    <token>ou</token>
+                </marker>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>a</token>
                     <token>les</token>
                     <token>clares</token>
                 </marker>
-                <token><exception postag="NC[FC][PN].*" postag_regexp="yes"/></token>
+                <token><exception postag="NC[FC][PN].*" postag_regexp="yes"/><exception>batudes</exception></token>
             </pattern>
             <message>Expressió incorrecta</message>
             <suggestion>clar i ras</suggestion>
@@ -29085,12 +29095,15 @@ $Id$
         <rule id="PUNT_I_FINAL" name="punt i final">
             <pattern>
                 <token>punt</token>
+                <token min="0">-</token>
                 <token>i</token>
+                <token min="0">-</token>
                 <token>final</token>
             </pattern>
             <message>Expressió preferible.</message>
             <suggestion>punt final</suggestion>
             <example type="incorrect">Hi van posar <marker>punt i final</marker>.</example>
+            <example type="incorrect">Hi van posar el <marker>punt-i-final</marker>.</example>
         <example type="correct">Hi van posar punt final.</example>
         </rule>
         <rule id="DE_LA_NIT_AL_MATI" name="de la nit al matí">
