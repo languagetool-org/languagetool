@@ -24,7 +24,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.tagging.uk.IPOSTag;
 
 /**
  * A rule that matches words which should not be used and suggests correct ones
@@ -46,6 +50,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
   public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
+    setIgnoreTaggedWords();
   }
 
   @Override
@@ -67,6 +72,24 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
   public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " - помилкове слово, виправлення: "
         + StringUtils.join(replacements, ", ") + ".";
+  }
+
+  @Override
+  protected boolean isTagged(AnalyzedTokenReadings tokenReadings) {
+    for (AnalyzedToken token: tokenReadings.getReadings()) {
+      String posTag = token.getPOSTag();
+      if (isGoodPosTag(posTag)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  
+  private boolean isGoodPosTag(String posTag) {
+    return posTag != null
+        && ! JLanguageTool.PARAGRAPH_END_TAGNAME.equals(posTag)
+        && ! JLanguageTool.SENTENCE_END_TAGNAME.equals(posTag)
+        && ! posTag.contains(IPOSTag.bad.getText());
   }
 
   @Override

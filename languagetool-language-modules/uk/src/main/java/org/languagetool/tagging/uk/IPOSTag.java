@@ -30,6 +30,7 @@ public enum IPOSTag {
   dieprysl("dieprysl"),
   predic("predic"),
   insert("insert"),
+  bad("bad"),
   unknown("unknown");
 
   private final String text;
