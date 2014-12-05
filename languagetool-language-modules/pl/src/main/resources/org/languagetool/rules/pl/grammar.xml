@@ -446,16 +446,29 @@ $Id$
                                 <example type="correct">Trzeba to będzie sparzyć kipiątkiem i podrzucić kurom...</example>
 						</rule>
 				</rulegroup>
-                <rule id="BEZOKOLICZNIKI" name="Dwa bezokoliczniki bez przecinka">
+                <rulegroup id="BEZOKOLICZNIKI" name="Dwa bezokoliczniki bez przecinka">
+                    <rule>
                     <pattern>
-                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|przestać|zacząć|nauczyć|pomóc|iść|musieć|pozwolić|próbować|przestawać|dać</exception></token>
+                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|przestać|zacząć|nauczyć|pomóc|iść|musieć|pozwolić|próbować|przestawać|dać|usiłować</exception></token>
                         <token postag='verb:inf.*' postag_regexp='yes'></token>
                     </pattern>
                     <message>Dwa bezokoliczniki nierozdzielone przecinkiem. Czy chodziło o <suggestion><match no="1"/>, <match no="2"/></suggestion>?</message>
                     <short>Błąd interpunkcyjny</short>
                     <example type='incorrect'><marker>Zrobić wywiercić</marker> dziurę.</example>
                     <example type='correct'>Zrobić, wywiercić dziurę.</example>
-                </rule>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|przestać|zacząć|nauczyć|pomóc|iść|musieć|pozwolić|próbować|przestawać|dać|usiłować</exception></token>
+                            <token>się</token>
+                            <token postag='verb:inf.*' postag_regexp='yes'></token>
+                        </pattern>
+                        <message>Dwa bezokoliczniki nierozdzielone przecinkiem. Czy chodziło o <suggestion><match no="1"/>, <match no="2"/> <match no="3"/></suggestion> lub <suggestion><match no="1"/> <match no="2"/>, <match no="3"/></suggestion>?</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example type='incorrect'>Muszę <marker>pozbyć się wyeliminować</marker> pryszcze.</example>
+                        <example type='correct'>Muszę pozbyć się, wyeliminować pryszcze.</example>
+                    </rule>
+                </rulegroup>
                 <rule id="MULTISPOJNIKI" name="Brak przecinka przed „a więc”, „a mianowicie”...">
                     <pattern>
                             <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
@@ -15430,7 +15443,7 @@ $Id$
 				</rulegroup>
 				<rule id="ZWIAZKU_Z_TYM" name="„związku z tym” (w związku z tym)">
 						<pattern>
-								<token><exception regexp="yes" scope="previous">w|do|żadnego|jakiegokolwiek|ma|miały|bez|przy|po|na</exception><exception regexp="yes">w|do|żadnego|ma|bez|przy|po|na</exception><exception inflected='yes'>mieć</exception></token>
+								<token><exception regexp="yes" scope="previous">w|do|żadnego|jakiegokolwiek|ma|miały|bez|przy|po|na</exception><exception regexp="yes">w|do|żadnego|ma|bez|przy|po|na</exception><exception inflected='yes' regexp="yes">mieć|brak</exception></token>
 								<marker>
 										<token>związku</token>
 								</marker>

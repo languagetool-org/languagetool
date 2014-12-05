@@ -981,6 +981,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="ślubić"/></disambig>
     </rule>
 
+    <rule name="tęczy" id="TECZYC">
+        <pattern>
+            <marker><token inflected="yes">tęczyć</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="tęczyć"/></disambig>
+    </rule>
+
     <rule name="wieczor" id="wieczor">
         <pattern>
             <marker><token inflected="yes">wieczor</token></marker>
@@ -1092,6 +1099,15 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="unify"/>
     </rule>
 
+    <rule name="przybrać postać" id="PRZYBRAC_POSTAC">
+        <pattern>
+            <token skip="3" inflected="yes">przybrać</token>
+            <marker>
+                <token>postać</token>
+            </marker>
+        </pattern>
+        <disambig postag="subst:sg:acc:f"/>
+    </rule>
 
     <rule id="LA_PREP_GEN" name="la to nie prep:gen (z Doroszewskiego)">
         <pattern>
