@@ -104,6 +104,12 @@ $Id$
             <example type="correct">És del 2015.</example>
         </rule>
         <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
+            <antipattern>
+                <marker>
+                    <token>Washington</token>
+                    <token>DC</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- "Dilluns, 7 d'octubre de 2014" -->
@@ -136,6 +142,7 @@ $Id$
                 <message>Aquesta data no és un <match no="1" case_conversion="alllower"/> sinó un {realDay}.</message>
                 <example type='incorrect'><marker>Dilluns, 7 d'octubre del 2014</marker></example>
                 <example type='correct'><marker>Dimarts, 7 d'octubre del 2014</marker></example>
+                <example type='correct'><marker>Washington DC, 7 d'octubre del 2014</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -6423,7 +6430,7 @@ $Id$
                     <marker>
                         <token>com<exception postag="allow_com"/></token>
                     </marker>
-                    <token regexp="yes">municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
+                    <token regexp="yes">avantatges?|municipi|excepci(ó|ons)|exemples?|causa|causes|ostatges?|conseqüènci(a|es)|hereus?|herev(a|es)|alternativ(a|es)|parts?|ciutad(à|ans|anes|ana)|objectius?|resultats?|titulars?|correct(e|a|es)|instruments?|senyals?|exemples?|autors?|president[ae]?s?|representants?|actors?|actrius?|cantants?|origen|orígens<exception regexp="yes">(?-i)Ciutadà|Ciutadans</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>com a</suggestion>.</message>
                 <url>http://esadir.cat/gramatica/sintaxi/advcomcoma</url>
@@ -9968,7 +9975,7 @@ $Id$
         </rule>
         <rule id="FLUIDA" name="fluïda/fluida">
             <pattern>
-                <token><exception postag="VA.*" postag_regexp="yes"/></token>
+                <token><exception postag="VA.*" postag_regexp="yes"/><exception>havent</exception></token>
                 <marker>
                     <token regexp="yes">fluïd(a|es)|fluïts?</token>
                 </marker>
@@ -10650,7 +10657,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">el|un|seu</exception></token>
+                    <token><exception regexp="yes">e?l|un|seu</exception></token>
                     <marker>
                         <token>perquè</token>
                     </marker>
@@ -10665,6 +10672,7 @@ $Id$
                 <example type="incorrect" correction="per què">Jo els diré <marker>perquè</marker>.</example>
                 <example type="incorrect" correction="per què">I això <marker>perquè</marker>?</example>
                 <example type="correct">No en sabíem el perquè.</example>
+                <example type="correct">En comptes del perquè.</example>
                 <example type="correct">Sí, perquè... ens agrada molt.</example>
             </rule>
             <rule id="EL_PER_QUE" name="el per què">
@@ -21763,7 +21771,7 @@ $Id$
         </rulegroup>    
         <rule id="AL_TEMPS_QUE" name="al temps que">
             <pattern>
-                <token><exception regexp="yes" inflected="yes">cap|fins|per|quant|superior|inferior|gràcies|proporcional|referència|igual|corresponent|referir|correspondre|equivaler</exception></token>
+                <token><exception regexp="yes" inflected="yes">cap|fins|per|quant|superior|inferior|gràcies|proporcional|referència|igual|corresponent|referir|correspondre|equivaler|limitar|adaptar|adaptació|remuntar|deure|referent|lligar|mercè</exception></token>
                 <marker>
                     <token>a</token>
                     <token spacebefore="no">l</token>
@@ -23736,7 +23744,7 @@ $Id$
                         <token>l</token>
                         <token>poc</token>
                     </marker>
-                    <token postag="P.*|V.[^P].*" postag_regexp="yes"/>
+                    <token postag="P.*|V.[^P].*" postag_regexp="yes"><exception>que</exception></token>
             </pattern>
             <message>Expressió incorrecta</message>
             <suggestion>al cap de poc</suggestion>
@@ -23745,6 +23753,7 @@ $Id$
             <example type="incorrect">i <marker>al poc</marker> ixen al carrer</example>
             <example type="correct">ho va atribuir al poc temps amb què ho prepararen</example>
             <example type="correct">Fou degut al poc temps de preparació</example>
+            <example type="correct">Per al poc que va quedar.</example>
         </rule>
         <rule id="DONAR_LABAST" name="*donar a l'abast/donar l'abast">
             <pattern>
@@ -23760,13 +23769,18 @@ $Id$
         </rule>
         <rule id="DONAR_ABAST" name="*donar abast/donar l'abast">
             <pattern>
-                <token inflected="yes" skip="2">donar</token>
-                <token>abast<exception scope="previous">l'</exception></token>
+                <token inflected="yes">donar</token>
+                <token min="0" postag="RG"/>
+                <marker>
+                    <token>abast</token>
+                </marker>
+                <token>a</token>
             </pattern>
-            <message>Cal dir <suggestion><match no="1" include_skipped="all"></match> l'<match no="2"/></suggestion>.</message>
+            <message>Cal dir <suggestion>l'abast</suggestion>.</message>
             <short>Expressió incorrecta</short>
-            <example type="incorrect" correction="dono mai l'abast">No <marker>dono mai abast</marker>.</example>
-            <example type="correct">No dono l'abast</example>
+            <example type="incorrect" correction="l'abast">No dono <marker>abast</marker> a les necessitats.</example>
+            <example type="incorrect" correction="l'abast">No dono mai <marker>abast</marker> a les necessitats.</example>
+            <example type="correct">No dono mai l'abast a tot.</example>
         </rule>
         <rule id="SORTIR_EFECTE" name="*sortir efecte">
             <pattern>
@@ -25120,7 +25134,7 @@ $Id$
             <rule>
                 <pattern>
                     <or>
-                        <token postag="SPS00|.*LOC_PREP.*|V.[^P].*|_GV_" postag_regexp="yes"/>
+                        <token postag="SPS00|.*LOC_PREP.*|V.[^P].*|_GV_" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
                         <token regexp="yes">vaig|vas|vares|va|vam|vàrem|vau|vàreu|van|varen</token>
                     </or>
                     <marker>
@@ -25132,6 +25146,8 @@ $Id$
                 <!-- <example type="incorrect" correction="anul·lar">Li va <marker>anular</marker> el gol.</example> -->
                 <example type="incorrect" correction="anul·lar">Joan va <marker>anular</marker> els articles dels estatuts.</example>
                 <example type="correct">el dit anular</example>
+                <example type="correct">Eclipsi anular del sol.</example>
+                <example type="correct">és l'estructura anular</example>
             </rule>
             <rule>
                 <pattern>
@@ -26547,6 +26563,19 @@ $Id$
 	        </rule>
         </rulegroup>
         <rulegroup id="FALLAR" name="fallar">
+            <antipattern>
+                <marker>
+                    <token>la</token>
+                    <token>falla</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>les</token>
+                    <token>falles</token>
+                </marker>
+            </antipattern>
+            
             <rule>
                 <pattern>
                     <marker>
@@ -26554,7 +26583,9 @@ $Id$
                     </marker>
                     <token inflected="yes" regexp="yes">sentència|veredicte|premi|tribunal|jutge|jurat|favor</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="[Ff]all(.*)" regexp_replace="dict$1"/></suggestion>?</message>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictaminar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pronunciar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentenciar</match></suggestion>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adjudicar</match></suggestion>
@@ -26572,7 +26603,9 @@ $Id$
                         <token inflected="yes">fallar</token>
                     </marker>                
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="2" regexp_match="[Ff]all(.*)" regexp_replace="dict$1"/></suggestion>?</message>
+                <message>Possible castellanisme.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictaminar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dictar</match></suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">pronunciar</match></suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sentenciar</match></suggestion>
                 <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">adjudicar</match></suggestion>
