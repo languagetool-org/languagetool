@@ -274,7 +274,19 @@ $Id$
             <example type="incorrect"><marker>Биографии жизни</marker> различных людей.</example>
             <example type="correct">Биографии различных людей.</example>
         </rule>              
-              
+                     
+        <rule id="Logical_kurica_nasijivaet_jajca" name="Логические ошибки «курица насиживает яйца»">
+            <pattern>
+                <token inflected="yes">курица</token>
+                <token>высиживает</token>
+                <token inflected="yes">яйцо</token>
+            </pattern>
+            <message>Логическая ошибка. <suggestion>\1 насиживает \</suggestion>.</message>
+            
+            <short>Логическая ошибка.</short>
+            <example type="incorrect"><marker>курица высиживает яйца</marker></example>
+            <example type="correct">курица насиживает яйца</example>
+        </rule>        
               
                      
         <rule id="Logical_govorite_vopros" name="Логические ошибки «говорите вопрос»">
