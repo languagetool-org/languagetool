@@ -7362,7 +7362,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
                     <marker>
-                        <token>a<exception scope="previous" regexp="yes">cara|relació|equivalent|por|ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent</exception></token>
+                        <token>a<exception scope="previous" regexp="yes">entorn|cara|relació|equivalent|por|ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent</exception></token>
                         <token>l'</token>
                         <token>any</token>
                         <token regexp="yes">\d{1,4}</token>
@@ -7385,7 +7385,7 @@ $Id$
                 <pattern>
                     <token skip="-1">a<exception scope="next" inflected="yes" regexp="yes">remuntar|correspondre</exception></token>
                     <marker>
-                        <token>a<exception scope="previous" regexp="yes">cara|relació|equivalent|por|ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent</exception></token>
+                        <token>a<exception scope="previous" regexp="yes">entorn|cara|relació|equivalent|por|ací|aquí|quant|fins|per|cap|respecte|\d+</exception><exception scope="previous" postag="DN.*" postag_regexp="yes"/><exception scope="previous" inflected="yes" regexp="yes">atribuir|arribar|posposar|passar|traslladar|posterior.*|anterior.*|correspondre|corresponent|remuntar|any|avançar|entrar|referir|proper|pròxim|pertànyer|remetre|previ|referència|referent</exception></token>
                         <token>l'</token>
                         <token>any</token>
                         <token regexp="yes">\d{1,4}</token>
@@ -16314,6 +16314,10 @@ $Id$
                 <example type="correct">Déu te guard</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>l'</token>
+                    <token spacebefore="no">halo</token>
+                </antipattern>
                 <pattern>
                     <!-- <token postag="V.*|P[P0].*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception></token> -->
                     <marker>
@@ -16326,7 +16330,8 @@ $Id$
                 <short>Cal usar la forma reforçada.</short>
                 <example type="incorrect" correction="es hala">Ell <marker>s'hala</marker> una barra.</example>
                 <example type="incorrect" correction="es hala">Això <marker>se hala</marker> una barra.</example>
-                <example type="correct">Això s'ionitza.</example>       
+                <example type="correct">Això s'ionitza.</example>
+                <example type="correct">L'halo va ser eliminat</example>
             </rule>
             <rule>
                 <pattern>
