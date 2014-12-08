@@ -61,7 +61,7 @@ public class UkrainianTaggerTest extends TestCase {
 
 
     TestTools.myAssert("Справу порушено судом", 
-      "Справу/[справа]noun:f:v_zna -- порушено/[порушити]impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",
+      "Справу/[справа]noun:f:v_zna -- порушено/[порушити]verb:impers -- судом/[суд]noun:m:v_oru|судом/[судома]noun:p:v_rod",
        tokenizer, tagger);
        
     String expected = 

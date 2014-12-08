@@ -27,6 +27,7 @@ $Id$
     <!ENTITY weekdays "понеділок|вівторлк|середа|четвер|п'ятниця|субота|неділя">
     <!ENTITY months "січень|лютий|березень|квітень|травень|червень|липень|серпень|вересень|жовтень|листопад|грудень|січня|лютого|березня|квітня|травня|червня|липня|серпня|вересня|жовтня|листопада|грудня">
     <!ENTITY abbrevMonths "січ|лют|бер|кві|тра|чер|лип|сер|вер|жов|лис|гру">
+    <!ENTITY hours "перший|другий|третій|четвертий|п'ятий|шостий|сьомий|восьмий|дев'ятий|десятий|одинадцятий|дванадцятий|тринадцятий|чотирнадцятий|п'ятнадцятий|шістнадцятий|сімнадцятий|вісімнадцятий|дев'ятнадцятий">
 ]>
 
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -266,6 +267,7 @@ $Id$
                 </pattern>
                 <message>Після десяткового дробу іменник має стояти в родовому відмінку однини: <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion></message>
                 <example type="incorrect" correction="кілограма">2,4 <marker>кілограми</marker></example>
+                <example type="incorrect" correction="мільйона">2,4 <marker>мільйони</marker></example>
                 <example type="correct">33,77 тонни</example>
                 <example type="correct">2,19 бала</example>
                 <example type="correct">33,77 мм</example>
@@ -344,12 +346,135 @@ $Id$
         </rulegroup>
 
 
+        <rulegroup name="Час" id="TIME">
+          <rule>
+            <pattern>
+              <token>пів</token>
+              <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
+            </pattern>
+            <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna"/></suggestion></message>
+            <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod"/></suggestion>
+            <example type="incorrect" correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
+            <example type="correct">пів на першу приїхав і він</example>
+          </rule>
+
+          <rule>
+            <pattern>
+              <marker>
+                <token regexp="yes">[ву]</token>
+              </marker>
+              <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
+              <token>годині</token>
+            </pattern>
+            <message>Правильно: <suggestion>о</suggestion></message>
+            <example type="incorrect">аж <marker>у</marker> третій годині ночі</example>
+            <example type="correct">аж о третій годині ночі</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>
+                <token regexp="yes">[ву]</token>
+              </marker>
+              <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
+              <token>годині</token>
+            </pattern>
+            <message>Правильно: <suggestion>о</suggestion></message>
+            <example type="incorrect">аж <marker>у</marker> 10-й годині ночі</example>
+            <example type="correct">аж о 5-ій годині ночі</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[ву]</token>
+              <token postag_regexp="yes" postag="num.*"/>
+              <token>годин</token>
+              <token postag_regexp="yes" postag="num.*"/>
+              <token postag_regexp="yes" postag="num.*" min="0"/>
+              <token>хвилин</token>
+            </pattern>
+            <message>Правильно: <suggestion>о <match no="2"/> <match no="3"/>і <match no="4"/> <match no="5"/> <match no="6"/></suggestion></message>
+            <suggestion><match no="2"/> <match no="3"/> до <match no="4"/></suggestion>
+            <example type="incorrect"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
+            <example type="correct">п'ять хвилин на дев'яту</example>
+          </rule>
+
+          <rule>
+            <pattern>
+<!--
+              <token postag_regexp="yes" postag="num.*"/>
+-->
+              <token postag_regexp="yes" postag="adj:f:v_mis.*" regexp="yes" inflected="yes">&hours;</token>
+              <token>годині</token>
+              <marker>
+                <token postag_regexp="yes" postag="num.*" min="0"/>
+                <token postag_regexp="yes" postag="adj.*"/>
+                <token>хвилині</token>
+              </marker>
+            </pattern>
+            <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
+            <example type="incorrect">о першій годині <marker>двадцятій хвилині</marker></example>
+            <example type="incorrect">о першій годині <marker>тридцять п'ятій хвилині</marker></example>
+            <example type="correct">о першій годині двадцять п'ять хвилин</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token regexp="yes">[1-9]-і?й|[12][0-9]-і?й</token>
+              <token>годині</token>
+              <marker>
+                <token postag_regexp="yes" postag="num.*" min="0"/>
+                <token postag_regexp="yes" postag="adj.*"/>
+                <token>хвилині</token>
+              </marker>
+            </pattern>
+            <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
+            <example type="incorrect">о 10-й годині <marker>двадцять п'ятій хвилині</marker></example>
+            <example type="correct">о 10-й годині двадцять п'ять хвилин</example>
+          </rule>
+          <rule>
+            <pattern>
+              <token>без</token>
+              <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
+              <token min="0">хвилин</token>
+              <token postag_regexp="yes" postag="adj:f:v_naz.*" regexp="yes" inflected="yes">&hours;</token>
+            </pattern>
+            <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
+            <suggestion><match no="2" postag_regexp="yes" postag="numr:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
+            <example type="incorrect" correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
+            <example type="incorrect"><marker>без двадцяти хвилин третя</marker></example>
+            <example type="incorrect"><marker>без двадцяти двох хвилин сьома</marker></example>
+            <example type="correct">за десять хвилин третя</example>
+          </rule>
+          <rule>
+            <antipattern>
+              <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
+              <token regexp="yes">половини|треті|чверті|частини</token>
+            </antipattern>
+            <pattern>
+              <token postag_regexp="yes" postag="num.*" min="1" max="2"/>
+              <token>хвилин</token>
+              <marker>
+                <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
+              </marker>
+            </pattern>
+            <!-- TODO: use java code to get previous hour?? -->
+            <message>Правильно: <suggestion>по [<match no="3" postag_regexp="yes" postag="adj:f:v_mis.*"/> - 1 година]</suggestion></message>
+            <suggestion>на <match no="3" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion>
+            <example type="incorrect" correction="по [третій - 1 година]|на третю">п'ять хвилин <marker>третьої</marker></example>
+            <example type="incorrect">5 хвилин <marker>дев'ятої</marker></example>
+            <example type="incorrect">двадцять п'ять хвилин <marker>сьомої</marker></example>
+            <example type="correct">п'ять хвилин по восьмій</example>
+            <example type="correct">п'ять хвилин на дев'яту</example>
+            <example type="correct">11 хвилин другої половини зустрічі</example>
+            <example type="correct">11 хвилин сьомої частини</example>
+          </rule>
+        </rulegroup>
+
+
         <rulegroup name="Пасивний предикат або пасивний атрибут (ev. апозиція) з інструменталем дієвої особи" id="PASSIVE_PREDICATE">
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="(noun|pron).*v_zna.*"/>
                     <marker>
-                    <token postag_regexp="yes" postag="impers.*"><exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception></token>
+                    <token postag_regexp="yes" postag="verb:impers.*"><exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception></token>
                     <token postag_regexp="yes" postag="(adj|pron).*v_oru.*" min="0" max="1">
                       <exception regexp="yes">тим|таким</exception>
                     </token>
