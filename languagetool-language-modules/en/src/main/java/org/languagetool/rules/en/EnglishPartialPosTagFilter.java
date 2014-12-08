@@ -18,28 +18,39 @@
  */
 package org.languagetool.rules.en;
 
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.language.English;
 import org.languagetool.rules.PartialPosTagFilter;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 /**
+ * A {@link PartialPosTagFilter} for English that also runs the disambiguator. Note
+ * that the disambiguator is called with a single token, so only rules
+ * will apply that have a single {@code <match>} element.
+ *
  * @since 2.8
  */
 public class EnglishPartialPosTagFilter extends PartialPosTagFilter {
 
   private final Tagger tagger = new English().getTagger();
+  private final Disambiguator disambiguator = new English().getDisambiguator();
 
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {
     try {
-      return tagger.tag(Collections.singletonList(token));
+      List<AnalyzedTokenReadings> tags = tagger.tag(Collections.singletonList(token));
+      AnalyzedTokenReadings[] atr = tags.toArray(new AnalyzedTokenReadings[tags.size()]);
+      AnalyzedSentence disambiguated = disambiguator.disambiguate(new AnalyzedSentence(atr));
+      return Arrays.asList(disambiguated.getTokens());
     } catch (IOException e) {
-      throw new RuntimeException("Could not tag '" + token + "'", e);
+      throw new RuntimeException("Could not tag and disambiguate '" + token + "'", e);
     }
   }
 }
