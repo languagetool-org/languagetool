@@ -298,7 +298,7 @@ $Id$
             <example type="incorrect"><marker>самый гигантский</marker></example>
             <example type="correct">самый большой</example>
         </rule>          
-                     
+                                         
         <rule id="Logical_govorite_vopros" name="Логические ошибки «говорите вопрос»">
             <pattern>
                 <token inflected="yes">говорить</token>
@@ -1426,6 +1426,32 @@ $Id$
         
     </category>
     <category name="Грамматика">
+        
+        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более интереснее»">
+            <pattern>
+                <token>более</token>
+                <token postag="ADJ_Sup"></token>
+            </pattern>
+            <message>Грамматическая ошибка. <suggestion>\2</suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example type="incorrect"><marker>более умнее</marker></example>
+            <example type="correct">более интересный</example>
+            <example type="correct">умнее</example>
+        </rule>          
+        <rule id="grammar_blagodarja_dat" name="«Благодаря» + дательный падеж">
+            <pattern>
+                <token>благодаря</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:R"></token>
+            </pattern>
+            <message>Требуется дательный падеж: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):R" postag_replace="NN:($1):($2):D" /></suggestion>.</message>
+            
+            <short>Дательный падеж.</short>
+            <example type="incorrect"><marker>Благодаря предупреждения</marker> мы избежали неприятностей.</example>
+            <example type="correct">Благодаря своевременному предупреждению мы избежали неприятностей.</example>
+            <example type="correct">Благодаря предупреждению мы избежали неприятностей.</example>    
+        </rule>  
+        
         
         <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
             <rule>
