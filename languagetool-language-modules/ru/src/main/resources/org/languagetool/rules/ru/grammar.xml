@@ -1430,7 +1430,7 @@ $Id$
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более интереснее»">
             <pattern>
                 <token>более</token>
-                <token postag="ADJ_Sup"></token>
+                <token postag="ADJ_Sup"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception></token>
             </pattern>
             <message>Грамматическая ошибка: <suggestion>\2</suggestion>.</message>
             
@@ -2563,7 +2563,7 @@ $Id$
                     <token>,</token>
                     <token>как</token>
                 </pattern>
-                <message>Оборот:<suggestion>не \2 \3\4 \5</suggestion>.</message>
+                <message>Оборот: <suggestion>не \2 \3\4 \5</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Был это не кто иной, как наш мастер.</example>
                 <example type="incorrect">Был это <marker>ни кто иной, как</marker> наш мастер.</example>
@@ -2575,7 +2575,7 @@ $Id$
                     <token regexp="yes">иной|иное</token>
                     <token>как</token>
                 </pattern>
-                <message>Оборот:<suggestion>не \2 \3, \4</suggestion>.</message>
+                <message>Оборот: <suggestion>не \2 \3, \4</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Был это не кто иной, как наш мастер.</example>
                 <example type="incorrect">Был это <marker>ни кто иной как</marker> наш мастер.</example>
@@ -2587,7 +2587,7 @@ $Id$
                     <token regexp="yes">иной|иное|другой|другое</token>
                     <token>не</token>
                 </pattern>
-                <message>Оборот:<suggestion>ни\2 \3 \4</suggestion>.</message>
+                <message>Оборот: <suggestion>ни\2 \3 \4</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Ничто иное не могло бы его испугать.</example>
                 <example type="correct">Ничто другое не могло бы его испугать.</example>
@@ -2602,7 +2602,7 @@ $Id$
                     <token regexp="yes">иной|иное|другой|другое</token>
                     <token>не</token>
                 </pattern>
-                <message>Оборот:<suggestion>
+                <message>Оборот: <suggestion>
                         <match no="1" regexp_match="(не|Не)(кто|что)" regexp_replace="ни$2"></match> 
                         <match no="2"></match> 
                         <match no="3"></match>
@@ -2635,7 +2635,7 @@ $Id$
                     <token>щекотливая</token>
                     <token>дилемма</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>щекотливый вопрос</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>щекотливый вопрос</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">щекотливый вопрос</example>
                 <example type="incorrect">
@@ -2649,7 +2649,7 @@ $Id$
                     <token>одну</token>
                     <token>дуду</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 \2 один голос</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 \2 один голос</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Вся пресса поёт в один голос.</example>
                 <example type="incorrect">Вся пресса <marker>поёт в одну дуду</marker>.</example>
@@ -2662,7 +2662,7 @@ $Id$
                     <token>в</token>
                     <token>грязь</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 ударить \3 \4 \5</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 ударить \3 \4 \5</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">не ударить лицом в грязь</example>
                 <example type="incorrect">
@@ -2676,7 +2676,7 @@ $Id$
                     <token>и</token>
                     <token>сердце</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>предложил \2 \3 \4</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>предложил \2 \3 \4</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">предложил руку и сердце</example>
                 <example type="incorrect">
@@ -2688,7 +2688,7 @@ $Id$
                     <token>избиение</token>
                     <token>грешников</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 младенцев</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 младенцев</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">избиение младенцев</example>
                 <example type="incorrect">
@@ -2701,7 +2701,7 @@ $Id$
                     <token>закадычная</token>
                     <token>подруга</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>лучшая \2</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>лучшая \2</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">Она - лучшая подруга.</example>
                 <example type="incorrect">Она - <marker>закадычная подруга</marker>.</example>
@@ -2712,7 +2712,7 @@ $Id$
                     <token>до</token>
                     <token>костей</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 \2 нитки</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 \2 нитки</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">промокли до нитки</example>
                 <example type="incorrect">
@@ -2725,7 +2725,7 @@ $Id$
                     <token>до</token>
                     <token>нитки</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 \2 костей</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 \2 костей</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">замёрзли до костей</example>
                 <example type="incorrect">
@@ -2738,7 +2738,7 @@ $Id$
                     <token>до</token>
                     <token>нитки</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 \2 костей</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 \2 костей</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">промёрзли до костей</example>
                 <example type="incorrect">
@@ -2753,7 +2753,7 @@ $Id$
                     <token>в</token>
                     <token>пустыне</token>
                 </pattern>
-                <message>Фразеологизм:<suggestion>\1 вопиющего \4 \5</suggestion>.</message>
+                <message>Фразеологизм: <suggestion>\1 вопиющего \4 \5</suggestion>.</message>
                 <short>Ошибка.</short>
                 <example type="correct">глас вопиющего в пустыне</example>
                 <example type="incorrect">
@@ -2766,13 +2766,38 @@ $Id$
             <pattern>
                 <token>более-менее</token>
             </pattern>
-            <message>Устойчивое выражение<suggestion>более или менее</suggestion>.</message>
+            <message>Устойчивое выражение: <suggestion>более или менее</suggestion>.</message>
             
             <short>Устойчивое выражение.</short>
             <example type="incorrect"><marker>Более-менее</marker>.</example>
             <example type="correct">Более или менее.</example>
         </rule> 
-                            
+        
+        <rulegroup id="NI_NA_GRAN" name="Цельное выражение «ни на гран»">
+         <rule>
+            <pattern>
+                <token>ни</token>
+                <token>на</token>
+                <token>грамм</token>
+            </pattern>
+            <message>Цельное выражение: <suggestion>ни на гран</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>            
+            <short>Цельное выражение.</short>
+            <example type="incorrect"><marker>ни на грамм</marker></example>
+            <example type="correct">ни на гран</example>
+         </rule>
+             <rule>
+            <pattern>
+                <token>ни</token>
+                <token>грамма</token>
+            </pattern>
+            <message>Цельное выражение: <suggestion>ни грана</suggestion>.</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%93%D1%80%D0%B0%D0%BD</url>
+            <short>Цельное выражение.</short>
+            <example type="incorrect"><marker>ни грамма</marker></example>
+            <example type="correct">ни грана</example>
+         </rule>  
+        </rulegroup>                    
         
          <rulegroup default="on" id="NE_PREDSTAVL_VOZM" name="Цельные выражения: «не представляется возможным»">
             <rule>
