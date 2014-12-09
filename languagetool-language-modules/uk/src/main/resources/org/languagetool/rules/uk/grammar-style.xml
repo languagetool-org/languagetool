@@ -45,7 +45,7 @@ $Id$
                     </token>
                   </unify>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
+                <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion>най-</suggestion></message>
                 <example type="correct">Самий цвіт</example>
                 <example type="correct">Сама прийшла</example>
                 <example type="correct">Саме такий</example>
@@ -81,7 +81,8 @@ $Id$
                     </token>
                   </unify>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з <suggestion>най-</suggestion></message>
+                <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion><match no="2" postag_regexp="yes"
+                                         postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
                 <example type="correct">Сама прийшла</example>
                 <example type="correct">Саме такий</example>
                 <example type="correct">Саме кращий</example>
@@ -97,7 +98,7 @@ $Id$
                         <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
                     </token>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
+                <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
                                          postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
                 <example type="correct">Самий цвіт</example>
                 <example type="correct">Саме такий</example>
@@ -125,7 +126,7 @@ $Id$
                   </unify>
                     <token regexp="yes">[—–-]</token>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
+                <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
                                          postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
                 <example type="correct">Самий цвіт</example>
                 <example type="correct">Сама прийшла</example>
@@ -154,7 +155,7 @@ $Id$
                     <token>,</token>
                     <token regexp="yes">що|який</token>
                 </pattern>
-                <message>Замість «самий» + прикметник тре вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
+                <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
                                          postag="(adj.*:)comp[br](.*)" postag_replace="$1super$2"/></suggestion></message>
                 <example type="correct">Самий цвіт</example>
                 <example type="correct">Сама прийшла до нього</example>
@@ -175,7 +176,7 @@ $Id$
                     <token inflected="yes" regexp="yes">перший|найперший</token>
                   </unify>
                 </pattern>
-                <message>Замість «самий перший» тре вживати найвищу ступінь: <suggestion>найперший</suggestion></message>
+                <message>Замість «самий перший» треба вживати найвищу ступінь: <suggestion>найперший</suggestion></message>
                 <example type="incorrect"><marker>Самий перший</marker>.</example>
                 <example type="correct">самі першими втікали</example>
                 <example type="correct">найперший</example>
@@ -201,7 +202,7 @@ $Id$
                     <token>більш</token>
                     <token postag_regexp="yes" postag="adj.*"/>
                 </pattern>
-                <message>Замість «більш» + прикметник тре вживати -іший</message>
+                <message>Замість «більш» + прикметник треба вживати -іший</message>
                 <example type="incorrect"><marker>Більш високий</marker>.</example>
                 <example type="incorrect"><marker>Більш світла</marker>.</example>
             </rule>
@@ -337,7 +338,7 @@ $Id$
             <!-- прийменник: в -> у -->
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">.*[юу]</exception></token>
+                    <token><exception regexp="yes">.*[аеєиіїоюуя]</exception></token>
                     <marker>
                         <token>в</token>
                     </marker>
@@ -348,10 +349,13 @@ $Id$
                 <example type="incorrect"><marker>в</marker> вівторок.</example>
                 <example type="incorrect"><marker>В</marker> вольєрі сталася пожежа.</example>
                 <example type="incorrect">Наприклад, <marker>в</marker> фанерних будинках.</example>
+                <!-- conflicts with "сингулярності в квантовій"
                 <example type="incorrect">Сьогодні <marker>в</marker> Львові.</example>
+                -->
                 <example type="correct">у вівторок.</example>
                 <example type="correct">Сьогодні у Львові.</example>
                 <example type="correct">перевагу в швидкості</example>
+                <example type="correct">сингулярності в квантовій</example>
             </rule>
             <rule>
                 <pattern>
@@ -484,13 +488,28 @@ $Id$
                     </marker>
                     <token regexp="yes">([уеіаоиeioa].*|11?)</token>
                 </pattern>
-                <message>Між двома голосними варто писати й: \1 <suggestion>й</suggestion> \3</message>
+                <message>Між двома голосними варто писати й: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
-                <example type="correct">Марко й Іван.</example>
                 <example type="incorrect">Марко <marker>і</marker> Іван.</example>
                 <example type="incorrect">2 <marker>і</marker> 1.</example>
+                <example type="incorrect">увійти <marker>і</marker> обідати</example>
+                <example type="correct">Марко й Іван.</example>
             </rule>
-            
+
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*[иіїi]</token>
+                    <marker>
+                        <token>і</token>
+                    </marker>
+                    <token regexp="yes">[^йїюя].*</token>
+                </pattern>
+                <message>Після голосної зі звуком і/и варто писати й або та: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
+                <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
+                <example type="incorrect">увійти <marker>і</marker> обідати</example>
+                <example type="correct">сісти і їхати</example>
+            </rule>
+
             <!-- сполучники зі/із/з -->
             <rule>
                 <pattern>
