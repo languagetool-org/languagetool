@@ -13717,6 +13717,24 @@ $Id$
                 <example type="correct">La possessió de Son Torrella.</example>
                 <!-- destaquen son Vivot, son Bordils i son Ramis d'Inca.  -->
             </rule>
+            <rule> <!-- cas especial: darrere d'adjectius neutres -->
+                <pattern>
+                    <token postag="_GN_.S" postag_regexp="yes"/>
+                    <and>
+                        <token postag="_GN_MS"/>
+                        <token postag="_GN_FS"/>
+                    </and>
+                    <marker>
+                        <token>son</token>
+                    </marker>
+                </pattern>
+                <message>Si és del verb 'ser', cal accentuar.</message>
+                <suggestion>són</suggestion>
+                <short>Accent diacrític</short>
+                <example type="incorrect">Els de l'administració central <marker>son</marker> molt superiors.</example>
+                <example type="correct">La increïble son que tenia.</example>
+                <!--<example type="correct">L'especial son que tenia.</example>-->
+            </rule>
         </rulegroup>
         <rulegroup id="PEL_PELS" name="pel/pèl">
             <rule>
