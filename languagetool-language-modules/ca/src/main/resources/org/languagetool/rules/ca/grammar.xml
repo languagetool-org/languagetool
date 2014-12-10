@@ -24110,6 +24110,62 @@ $Id$
             <example type="correct">És obligatori.</example>
         </rule>
     </category>
+    <category name="C5) Formes normatives discutides: coresponsable, ressituar" type="style">
+        <rulegroup id="FORMES_NORMATIVES" name="Usa formes normatives (AVL, IEC): coresponsable, ressituar" default="on">
+            <rule id="CORRESPONSABLE" name="Exigeix 'coresponsable' (i derivats)"> 
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">corresponsable|corresponsabilitat|corresponsabilitzar|corresponsabilització</token>
+                    </marker>
+                </pattern>
+                <message>Normativament (IEC, AVL) s'escriu amb una r, però l'ortografia és discutida.</message>
+                <suggestion><match no="1" regexp_match="(..[Rr])[Rr](.+)" regexp_replace="$1$2"/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/coresponsable</url>
+                <short>Ortografia discutida</short>
+                <example type="incorrect" correction="coresponsabilitzà"><marker>corresponsabilitzà</marker></example>
+                <example type="incorrect" correction="coresponsabilitats"><marker>corresponsabilitats</marker></example>
+                <example type="correct">La coresponsabilitat.</example>
+            </rule>
+            <rule id="RESITUAR" name="Exigeix 'ressituar'"> 
+                <pattern>
+                    <marker>
+                        <token inflected="yes">resituar</token>
+                    </marker>
+                </pattern>
+                <message>Normativament (IEC, AVL) s'escriu amb dues s, però l'ortografia és discutida.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ressituar</match></suggestion>
+                <short>Ortografia discutida</short>
+                <example type="incorrect" correction="ressituats"><marker>resituats</marker></example>
+                <example type="correct">ressituats.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="FORMES_NO_NORMATIVES" name="Usa formes no normatives: corresponsable, resituar" default="on">
+            <rule id="CORESPONSABLE" name="Exigeix 'corresponsable' (i derivats)"> 
+                <pattern>
+                    <marker>
+                        <token regexp="yes" inflected="yes">coresponsable|coresponsabilitat|coresponsabilitzar|coresponsabilització</token>
+                    </marker>
+                </pattern>
+                <message>Normativament (IEC, AVL) s'escriu amb una r, però l'ortografia és discutida.</message>                <suggestion><match no="1" regexp_match="(..)([Rr])(.+)" regexp_replace="$1$2$2$3"/></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/coresponsable</url>
+                <short>Ortografia discutida</short>
+                <example type="incorrect" correction="corresponsabilitzà"><marker>coresponsabilitzà</marker></example>
+                <example type="incorrect" correction="corresponsabilitats"><marker>coresponsabilitats</marker></example>
+                <example type="correct">La corrsponsabilitat.</example>
+            </rule>
+            <rule id="RESSITUAR" name="Exigeix 'resituar'"> 
+                <pattern>
+                    <marker>
+                        <token inflected="yes">ressituar</token>
+                    </marker>
+                </pattern>
+                <message>Normativament (IEC, AVL) s'escriu amb dues s, però l'ortografia és discutida.</message>                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">resituar</match></suggestion>
+                <short>Ortografia discutida</short>
+                <example type="incorrect" correction="resituats"><marker>ressituats</marker></example>
+                <example type="correct">resituats.</example>
+            </rule>
+        </rulegroup>
+    </category>
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
         <!-- També: en/amb referència a -->
@@ -30382,8 +30438,43 @@ $Id$
             <example type="incorrect">sense desmerèixer els anteriors, <marker>tot incloent</marker>-hi el muntatge de la Fura dels Baus</example>
             <example type="correct">sense desmerèixer els anteriors, incloent-hi el muntatge de la Fura dels Baus</example>
         </rule>
-    </category>      
+    </category> 
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="DESCEREBRAT" name="descerebrat">
+            <pattern>
+                <token inflected="yes">descerebrat</token>
+            </pattern>
+            <message>Col·loquialisme. Existeix com a terme tècnic en neurologia (Termcat).</message> 
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">eixelebrat</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="VMP00$2$10">esbojarrar</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect" correction="eixelebrades|esbojarrades"><marker>descerebrades</marker>!</example>
+            <example type="correct">Quina esbojarrada.</example>
+        </rule>
+        <rule id="PAPANATISME" name="papanatisme">
+            <pattern>
+                <token inflected="yes">papanatisme</token>
+            </pattern>
+            <message>Col·loquialisme admès només per alguns diccionaris.</message> 
+            <suggestion>simplisme</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/papanatisme</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect">Quin <marker>papanatisme</marker>!</example>
+            <example type="correct">Quin ximplet</example>
+        </rule>
+        <rule id="PAPANATES" name="papanates">
+            <pattern>
+                <token inflected="yes">papanates</token>
+            </pattern>
+            <message>Col·loquialisme admès només per alguns diccionaris.</message> 
+            <suggestion>ximplet</suggestion>
+            <suggestion>tanoca</suggestion>
+            <suggestion>totxo</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/papanates</url>
+            <short>Lleguatge col·loquial</short>
+            <example type="incorrect">Quin <marker>papanates</marker>!</example>
+            <example type="correct">Quin ximplet</example>
+        </rule>
         <rule id="VIRGUERIA" name="virgueria">
             <pattern>
                 <token inflected="yes">virgueria</token>
