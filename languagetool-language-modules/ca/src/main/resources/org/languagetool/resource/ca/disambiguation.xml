@@ -572,12 +572,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!--  paraules comunes que no solen ser adjectiu gairebé mai -->
         <pattern>
             <marker>
-                <token regexp="yes">les|música|músiques|refés</token>
+                <token regexp="yes">les|música|músiques|refés|manera|maneres</token>
             </marker>
         </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="[^A].*"></match>
-        </disambig>
+        <disambig action="filter" postag="[^A].*"/>
     </rule>
     <rule id="noNom2" name="FA LA no nom">
         <pattern>
@@ -4634,7 +4632,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GV_"/></disambig>
         </rule>
     </rulegroup>
-    <rulegroup id="ERA" name="era (nom)">
+    <rulegroup id="era_nom" name="era, ens (nom)">
         <rule>
             <pattern>
                 <unify>
@@ -4642,12 +4640,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="genere"/>
                     <token postag="D[^R].*|A.*|V.P.*" postag_regexp="yes"/>
                     <marker>    
-                        <token postag="N.*" postag_regexp="yes">era</token>
+                        <token postag="N.*" postag_regexp="yes" regexp="yes">era|ens</token>
                     </marker> 
                 </unify>
                 <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
             </pattern>
-            <disambig action="filter" postag="[^V].*" />
+            <disambig action="filter" postag="N.*|_GN_.*" />
         </rule>
         <rule>
             <pattern>
@@ -4661,7 +4659,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     </marker>
                 </unify>
             </pattern>
-            <disambig action="filter" postag="[^V].*" />
+            <disambig action="filter" postag="N.*|_GN_.*" />
         </rule>
     </rulegroup>
     <rule id="JA_JA" name="ja: no conjunció. Excepcions?">
