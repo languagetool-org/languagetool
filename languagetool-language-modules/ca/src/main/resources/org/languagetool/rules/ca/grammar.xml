@@ -28925,6 +28925,22 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="A_MEITAT_DE" name="a meitat de/a mitjan">
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>meitat</token>
+                    <token regexp="yes">de|d'</token>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token postag="A.*|N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Expressió preferible</message>
+            <suggestion>a mitjan \5</suggestion>
+            <example type="incorrect" correction="A mitjan segle"><marker>A meitat del segle</marker>.</example>
+            <example type="incorrect" correction="A mitjan camí"><marker>A meitat de camí</marker>.</example>
+            <example type="correct">A la meitat del segle.</example>
+        </rule>
         <rule id="COLZE_A_COLZE" name="colze a colze">
             <pattern>
                 <token>colze</token>
