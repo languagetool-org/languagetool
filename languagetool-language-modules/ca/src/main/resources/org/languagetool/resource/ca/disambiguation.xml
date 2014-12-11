@@ -3260,6 +3260,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rule id="duc" name="duc verb o nom">
+        <pattern>
+            <token inflected="yes">ser</token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">ducs?</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="[^V].*"></disambig>
+    </rule>
     <rule id="la_seu" name="la seu: no verb">
         <pattern>
             <token>la</token>
@@ -4625,7 +4634,37 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GV_"/></disambig>
         </rule>
     </rulegroup>
-     <rule id="JA_JA" name="ja: no conjunció. Excepcions?">
+    <rulegroup id="ERA" name="era (nom)">
+        <rule>
+            <pattern>
+                <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                    <token postag="D[^R].*|A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>    
+                        <token postag="N.*" postag_regexp="yes">era</token>
+                    </marker> 
+                </unify>
+                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="[^V].*" />
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.[MSI].*|_GV_" postag_regexp="yes" skip="6"><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                <unify>
+                <feature id="nombre"/>
+                <feature id="genere"/>
+                    <token max="4" postag="D[^R].*|A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes">era</token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="[^V].*" />
+        </rule>
+    </rulegroup>
+    <rule id="JA_JA" name="ja: no conjunció. Excepcions?">
         <pattern>
             <marker>
                 <token>ja</token>
@@ -4633,7 +4672,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception>que</exception></token>
         </pattern>
         <disambig action="filter" postag="[^C].*" />
-    </rule> 
+    </rule>
     <rule id="infinitiu_o_nom0" name="infinitiu o nom (previ)">
         <pattern>
             <marker>
@@ -7012,7 +7051,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception regexp="yes">no|que|ja|perquè|encara|com</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
             <marker>
                 <and>
-                    <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">sabeu|tornés</exception></token> <!--tens|plana. Exception: rates -->
+                    <token postag="AQ.*" postag_regexp="yes"><exception regexp="yes">sabeu|tornés|bufa</exception></token> <!--tens|plana. Exception: rates -->
                     <token postag="V.[SI].*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -9458,7 +9497,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <rule id="nNom2" name="no nom si no ha concordat">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|duc|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">jeia|estaria|estaries|grossa|ros|suau|sobre|publicà|allò|parla|parles|deixa|deixes|torna|tornes|sabeu|seré|joves?|caus?|meritoris?|meritòri(a|es)|seca|resulta|porta|fou|grans?|surt|era|verticals?<exception postag="_GN_.*" postag_regexp="yes"/></token>
                 <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
             </and>
         </pattern>
