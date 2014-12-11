@@ -43,6 +43,7 @@ public class AccentuationCheckRuleTest extends TestCase {
 
     // correct sentences:
     //assertCorrect("A ponent continua la serra de Fontpobra");
+    assertCorrect("Per tant, espero ansiós.");
     assertCorrect("M'espero qualsevol cosa.");
     assertCorrect("Carrega de nou l'arxiu.");
     assertCorrect("Espero d'ell moltes coses");

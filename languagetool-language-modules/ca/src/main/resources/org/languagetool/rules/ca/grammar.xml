@@ -2588,7 +2588,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant</exception><exception regexp="yes">.*%</exception></token>
+                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|diada|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant</exception><exception regexp="yes">.*%</exception></token>
                         <token min="0">no</token>
                         <token postag="VM[IS].3P.." postag_regexp="yes"><exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">ser|poder|deure|caldre|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</exception></token>
                     </marker>
@@ -5766,7 +5766,7 @@ $Id$
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception>número</exception></token>
                     <marker>
                         <token>u</token>
                     </marker>
@@ -5776,6 +5776,7 @@ $Id$
                 <short>Conjunció 'o'</short>
                 <example type="incorrect">França <marker>u</marker> Itàlia.</example>
                 <example type="correct">França o Itàlia</example>
+                <example type="correct">Fou número u oficial</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -12280,7 +12281,19 @@ $Id$
                 <example type="incorrect">Anaven <marker>per amb</marker> ell.</example>
                 <example type="correct">Per a ell sí.</example>
             </rule> -->
-        </rulegroup>   
+        </rulegroup>
+        <rule id="NO_REPETIT" name="'no' repetit">
+            <pattern>
+                <token>no</token>
+                <token postag="RG"><exception regexp="yes">sols|solament|només</exception></token>
+                <token>no</token>
+            </pattern>
+            <message>Repetició probablement incorrecta.</message>
+            <suggestion>\2 \3</suggestion>
+            <suggestion>\1 \2</suggestion>
+            <example type="incorrect" correction="pràcticament no|no pràcticament"><marker>no pràcticament no</marker>.</example>
+            <example type="correct">No només no</example>
+        </rule>
         <!-- <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes"/></token>
@@ -27692,6 +27705,12 @@ $Id$
             <example type="correct">sorprengué pel moment extremadament dramàtic en què tingué lloc.</example>
         </rule>
         <rule id="COMPLERT_COMPLET" name="complert/complet">
+            <!-- <antipattern>
+                <marker>
+                    <token regexp="yes">\d{1,3}</token>
+                    <token>complerts</token>
+                </marker>
+            </antipattern> -->
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes" skip="-1"><exception scope="next" regexp="yes">disposici(ó|ons)|lleis?|terminis?|pronòstics?|deures?|obligaci(ó|ons)|promes(a|es)|objectius?|anys?|missió|desigs?|desitjos|mes|mesos|setman(a|es)|tràmits?|somnis?</exception><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
                 <marker>
@@ -27700,6 +27719,7 @@ $Id$
                 <token postag="SENT_END"/>
             </pattern>
             <message>Si no és del verb <match no="2" postag="(V.+)" postag_regexp="yes" postag_replace="V.N.*"/>, cal dir <suggestion><match no="2" regexp_match="(.*)omplert(.*)" regexp_replace="$1omplet$2"></match></suggestion>.</message>
+            <short>Possible confusió</short>
             <example type="incorrect" correction="completa">La família <marker>complerta</marker>.</example>
             <example type="incorrect" correction="incomplet">és un llibre <marker>incomplert</marker>.</example>
             <example type="incorrect" correction="complet">Any platònic: període de temps en el qual l'eix de la terra descriu un cercle <marker>complert</marker>.</example>

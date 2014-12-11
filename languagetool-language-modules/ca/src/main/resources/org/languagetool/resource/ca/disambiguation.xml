@@ -1177,7 +1177,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd lemma="donat que" pos="LOC_CONJ"/><wd lemma="donat que" pos="LOC_CONJ"/></disambig>
         </rule>
-    </rulegroup>  
+    </rulegroup>
+    <rulegroup id="abreviacions" name="abreviacions">
+        <rule>
+            <pattern>
+                <token>p</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="yes" regexp="yes">[adeopbnmi]|abs|ex</token>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="add"><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;/LOC_ADV&gt;"/></disambig>
+        </rule>
+        <rule id="abreviacions_punt" name="abreviacions seguides de punt">
+            <pattern>
+                <marker>
+                    <token postag="Y"/>
+                </marker>    
+                <token spacebefore="no">.<exception postag="SENT_END"/></token>
+            </pattern>
+        <disambig action="filter" postag="Y"></disambig>
+    </rule>
+    </rulegroup>
     <rulegroup id="sigui_qui_sigui" name="sigui qui sigui">
         <rule>
             <pattern>
@@ -1316,15 +1336,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="remove"><wd pos="RG"></wd></disambig>
-    </rule>
-    <rule id="abreviacions" name="abreviacions seguides de punt">
-        <pattern>
-            <marker>
-                <token postag="Y"/>
-            </marker>    
-            <token spacebefore="no">.<exception postag="SENT_END"/></token>
-        </pattern>
-        <disambig action="filter" postag="Y"></disambig>
     </rule>
     <rulegroup id="darrera" name="permet 'darrera' en alguns casos">
         <rule>
@@ -2544,6 +2555,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token>estat</token>
                 <marker>
                     <token regexp="yes">membre|nació</token>
+                </marker>
+            </pattern>
+            <disambig action="replace" postag="AQ0MS0" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>país</token>
+                <marker>
+                    <token>membre</token>
                 </marker>
             </pattern>
             <disambig action="replace" postag="AQ0MS0" />
@@ -4019,6 +4039,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
+    <rule id="cal_no_sols" name="caldre no sols">
+        <pattern>
+            <token inflected="yes">caldre</token>
+            <token>no</token>
+            <marker>
+                <token>sols</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="RG"></disambig>
+    </rule>
+    
     <rulegroup id="POT" name="pot/pots/vol/vols + infinitiu">
         <rule>
             <pattern>
@@ -8702,6 +8733,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
     	</pattern>
     	<disambig action="filter" postag="[^V].*"/>
     </rule>
+    <rule id="darreres" name="darreres (adj. no nom)">
+        <pattern>
+            <token postag="_GN_FP">darreres</token> 
+        </pattern>
+        <disambig action="filter" postag="[^N].*"/>
+    </rule>    
     <rule id="en_ma" name="en mà">
         <pattern>
             <marker>

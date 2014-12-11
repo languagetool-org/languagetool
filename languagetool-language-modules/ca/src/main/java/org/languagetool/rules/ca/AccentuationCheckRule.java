@@ -246,6 +246,7 @@ public class AccentuationCheckRule extends CatalanRule {
         }
         // circumstancies extraordinàries
         else if (!token.equals("pronuncia")
+            && !token.equals("espero")
             && !token.equals("pronuncies")
             && !token.equals("venia")
             && !token.equals("venies")
