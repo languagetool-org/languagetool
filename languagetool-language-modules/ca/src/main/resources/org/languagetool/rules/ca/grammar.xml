@@ -18694,6 +18694,26 @@ $Id$
             <example type="incorrect" correction="22.50 h">A les <marker>22:50 h</marker>.</example>
             <example type="correct">A les 22.30 h.</example>
         </rule>
+        <rule id="PUNT_FINAL" name="falta el punt final en frases llargues">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">[.!?]</token>
+                    <token postag="SENT_END" regexp="yes">['"’”»]</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token min="20"></token>
+                <marker>
+                    <token postag="SENT_END"><exception regexp="yes">[.!?:]</exception></token>
+                </marker>
+            </pattern>
+            <message>Falta un punt al final de la frase, si no és un títol.</message>
+            <suggestion>\21.</suggestion>
+            <short>Falta un punt</short>
+            <example type="incorrect" correction="error.">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
+            <example type="correct">Aquesta frase és curta, podria ser un títol</example>
+            <example type="correct">«Aquesta frase, a més de ser llarga, sí que acaba amb punt, encara que el punt va abans de les cometes de tancament.»</example>
+        </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="TINGUEM_FESTA_PAU" name="tinguem la festa en pau">
