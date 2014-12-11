@@ -2248,6 +2248,7 @@ $Id$
             </rule>
             <rule id="MOLT_DE_MOLTA" name="molt de/molta">
                 <pattern>
+                    <token><exception inflected="yes" regexp="yes">canviar|deixar</exception></token>
                     <marker>
                         <token>molt</token>
                         <token regexp="yes">de|d'</token>
@@ -2255,10 +2256,12 @@ $Id$
                     <token postag="N.FS.*" postag_regexp="yes"><exception postag="N.[MC]S.*" postag_regexp="yes"/></token> 
                 </pattern>
                 <message>¿Volíeu dir <suggestion>molta</suggestion>?</message>
-                <suggestion>molta <match no="2"/></suggestion>
+                <suggestion>molta <match no="3"/></suggestion>
                 <example type="incorrect" correction="molta|molta de">Tenia <marker>molt de</marker> sort.</example>
                 <example type="correct">Tenia molt de son pare.</example>
                 <example type="correct">Allò requeria molt de valor.</example>
+                <example type="correct">No espero que canviï molt d'opinió.</example>
+                <example type="correct">Ho han deixat molt de banda.</example>
             </rule>
              <rule id="CONCORDANCA_GRIS" name="errors freqüents: gris/grisa">
                 <pattern case_sensitive="yes">
@@ -3615,6 +3618,7 @@ $Id$
                 <example type="incorrect" correction="quedar">En deuen <marker>quedat</marker> tres.</example>
                 <example type="correct">En deuen quedar tres.</example>
                 <example type="correct">La reclamació de rendes degudes segueix els tràmits.</example>
+                <example type="correct">Deu escollits del clergat responen</example>
             </rule>
         </rulegroup>
         <rulegroup id="HAVER_PARTICIPI_HAVER_IMPERSONAL" name="Comprova: «haver» + participi / «haver-hi» impersonal">
@@ -3861,6 +3865,7 @@ $Id$
                 <example type="correct">Feia olor a resclosit</example> <!-- activa regla GUST_A -->
                 <example type="correct">Converteix a indexat</example>
                 <example type="correct">Canvia a sentit antihorari</example>
+                <example type="correct">No està subjecte a publicitat comunitària.</example>
             </rule>
             <rule>
                 <pattern>
@@ -8416,6 +8421,7 @@ $Id$
                 <short>Possible confusió</short>
                 <example type="incorrect" correction="hàbitat|habitant">Del seu <marker>habitat</marker>.</example>
                 <example type="incorrect" correction="hàbitats|habitants">Alguns <marker>habitats</marker> es manifesten.</example>
+                <example type="incorrect" correction="hàbitats|habitants">Els <marker>habitats</marker> de la comarca.</example>
                 <example type="correct">Alguns habitats pels romans.</example>
                 <example type="correct">Tots habitats.</example>
             </rule>
@@ -18292,6 +18298,17 @@ $Id$
                 <example type="correct">col·laboració</example>
             </rule>
         </rulegroup>
+        <rule id="GUIO_INCORRECTE" name="Caràcter de guió incorrecte (u+2500)">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token regexp="yes">.*─.*</token>
+                </marker>
+            </pattern>
+            <message>Caràcter incorrecte</message>
+            <suggestion><match no="1" regexp_match="(.*)─(.*)" regexp_replace="$1—$2"/></suggestion>
+            <example type="incorrect" correction="—va">És ell <marker>─va</marker> dir.</example>
+            <example type="correct">És ell -va dir.</example>
+        </rule>
         <rule id="ELA_GEMINADA_2CHAR" name="Ela geminada: evita la codificació de dos caràcters">
             <pattern case_sensitive="no">
                 <marker>
@@ -20147,28 +20164,17 @@ $Id$
                 <example type="correct">Només caldria</example>
             </rule>
         </rulegroup>
-        <rule id="A_SOVINT" name="a sovint">
-            <pattern>
-                <token>a</token>
-                <token>sovint</token>
-            </pattern>
-            <message>Cal dir: <suggestion>sovint</suggestion>.</message>
-            <suggestion>tot sovint</suggestion>
-            <short>Expressió incorrecta</short>
-            <example type="incorrect" correction="sovint|tot sovint"><marker>a sovint</marker></example>
-            <example type="correct">sovint</example>
-        </rule>
-    	<rule id="COLZE_A_COLZE" name="colze a colze">
+        <rule id="COLZE_AMB_COLZE" name="colze amb colze">
 		    <pattern>
 		        <token>colze</token>
-		        <token regexp="yes">a|amb</token>
+		        <token>amb</token>
 		        <token>colze</token>
 		    </pattern>
 		    <message>Expressió incorrecta.</message>
 		    <suggestion>braç a braç</suggestion>
 		    <suggestion>de costat</suggestion>
 		    <suggestion>amb familiaritat</suggestion>
-		    <example type="incorrect"><marker>colze a colze</marker></example>
+		    <example type="incorrect"><marker>colze amb colze</marker></example>
 		    <example type="correct">de costat</example>
 		</rule>
     	<rule id="ERRA_QUE_ERRA" name="erra que erra">
@@ -28847,6 +28853,31 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="COLZE_A_COLZE" name="colze a colze">
+            <pattern>
+                <token>colze</token>
+                <token>a</token>
+                <token>colze</token>
+            </pattern>
+            <message>Expressió admesa només per alguns diccionaris.</message>
+            <suggestion>braç a braç</suggestion>
+            <suggestion>de costat</suggestion>
+            <suggestion>amb familiaritat</suggestion>
+            <short>Expressió preferible</short>
+            <example type="incorrect"><marker>colze a colze</marker></example>
+            <example type="correct">de costat</example>
+        </rule>
+        <rule id="A_SOVINT" name="a sovint">
+            <pattern>
+                <token>a</token>
+                <token>sovint</token>
+            </pattern>
+            <message>Expressió preferible</message> 
+            <suggestion>sovint</suggestion>
+            <suggestion>tot sovint</suggestion>
+            <example type="incorrect" correction="sovint|tot sovint"><marker>a sovint</marker></example>
+            <example type="correct">sovint</example>
+        </rule>
         <rule id="TROBAR_SE_ESTAR_SITUAT" name="trobar-se/estar situat...">
             <pattern>
                 <token>es</token>
@@ -30491,7 +30522,7 @@ $Id$
         <rule id="TENIR_DE" name="Informal: «tenir de» + infinitiu">
             <antipattern>
                 <marker>
-                    <token postag="NC.*" postag_regexp="yes" skip="3"><exception scope="next" postag="V.[IS].*" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes" skip="5"><exception scope="next" postag="V.[IS].*" postag_regexp="yes"/></token>
                     <token skip="4">que</token>
                     <token inflected="yes">tenir</token>
                 </marker>
@@ -30527,6 +30558,7 @@ $Id$
             <example type="correct">menys necessitat tindrà de fer-se l'important</example> 
             <example type="correct">¿Quines possibilitats tenies de sortir-te'n?</example>
             <example type="correct">més poques ganes tenia d'anar-hi.</example>
+            <example type="correct">la manera tan subtil i ben pensada que tenien de cantar</example>
         </rule>
         <rule id="BACALLAR" name="bacallar/bacallà">
             <pattern>

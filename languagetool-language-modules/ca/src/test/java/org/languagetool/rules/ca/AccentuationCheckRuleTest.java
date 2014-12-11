@@ -108,7 +108,6 @@ public class AccentuationCheckRuleTest extends TestCase {
     // assertIncorrect("Va deixar els nens atonits."); del v. "atonir" (=esbalair)
     assertIncorrect("La sureda ocupa amplies extensions en la muntanya.");
     assertIncorrect("Féu una magnifica digitació.");
-    assertIncorrect("Els habitats de la comarca.");
     assertIncorrect("La magnifica conservació del palau.");
 
     final RuleMatch[] matches = rule
