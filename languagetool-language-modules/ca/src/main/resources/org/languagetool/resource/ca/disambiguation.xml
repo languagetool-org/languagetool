@@ -579,6 +579,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <match no="1" postag_regexp="yes" postag="[^A].*"></match>
         </disambig>
     </rule>
+    <rule id="noNom2" name="FA LA no nom">
+        <pattern>
+            <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">el|un|aquest|algun</exception></token>
+            <marker>
+                <token postag="NC.*" postag_regexp="yes" regexp="yes">fa|la</token>
+            </marker>
+            <token><exception regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</exception></token>
+        </pattern>
+        <disambig action="filter" postag="[^N].*"/>
+    </rule>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
         <rule id="temps_ha" name="temps ha (locució adverbial)">
@@ -2110,16 +2120,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <example type="untouched">És <marker>la</marker> major concentració mundial de cotxes.</example>
         </rule>
     </rulegroup>
-    <rule id="noNom2" name="FA LA no nom">
-        <pattern>
-            <token><exception postag="D[DAI]0MS0" postag_regexp="yes" regexp="yes">el|un|aquest|algun</exception></token>
-            <marker>
-                <token postag="NC.*" postag_regexp="yes" regexp="yes">fa|la</token>                
-            </marker>
-            <token><exception regexp="yes">menor|major|sostingut|bemoll|diesi|becaire</exception></token>
-        </pattern>
-        <disambig action="filter" postag="[^N].*"/>
-    </rule>
     <rule id="fer_nVerbConjug" name="no sol ser verb conjugar: fer">
         <!--  paraules comunes que no solen ser verb gairebé mai -->
         <pattern>
