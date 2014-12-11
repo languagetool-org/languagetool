@@ -340,6 +340,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </pattern>
                 <disambig action="add"><wd pos="AO0CN0"/></disambig>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>-</token>
+                    <marker>
+                        <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
+                    </marker>
+                </pattern>
+                <disambig action="add"><wd pos="AO0CN0"/></disambig>
+            </rule>
+            
             <!-- excepcions als numerals romans -->
             <rule>
                 <pattern case_sensitive="yes">
@@ -1195,6 +1205,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">.</token>
             </pattern>
             <disambig action="add"><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;LOC_ADV&gt;"/><wd pos="&lt;/LOC_ADV&gt;"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>p</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="add"><wd pos="NCFS000" lemma="pàgina"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">\d+</token>
+                <marker>
+                    <token>p</token>
+                </marker>
+                <token spacebefore="no">.</token>
+            </pattern>
+            <disambig action="add"><wd pos="NCFN000" lemma="pàgina"/></disambig>
         </rule>
         <rule id="abreviacions_punt" name="abreviacions seguides de punt">
             <pattern>
@@ -7043,7 +7073,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="A.*|N.*"/>
     </rule>
-    
     <rule id="adj_punct" name="adjectiu no verb abans de puntuació"> <!-- Però: Quants anys tens, Ricard? ¿Quina edat tens..., seixanta-vuit?-->
         <pattern>
             <token><exception regexp="yes">no|que|ja|perquè|encara|com</exception><exception postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00" postag_regexp="yes"/></token>
