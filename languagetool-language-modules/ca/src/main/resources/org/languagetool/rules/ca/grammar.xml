@@ -2815,6 +2815,13 @@ $Id$
     </category>
     <category name="Possessius" type="grammar">
         <rulegroup id="POSSESSIU_SENSE_ARTICLE" name="possessiu sense article: de meua casa">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/><exception inflected="yes">fer</exception><exception>tan</exception></token> 
@@ -2862,6 +2869,7 @@ $Id$
                 <message>Falta un article.</message>
                 <example type="incorrect">desplaçant <marker>seus</marker> anteriors alfabets</example>
                 <example type="correct">desplaçant els seus anteriors alfabets</example>
+                <example type="correct">Considera com a seves diverses illes</example>
                 <example type="correct">Publica la Passió de Nostre Senyor Jesucrist.</example>
             </rule>
             <rule>
@@ -11777,6 +11785,14 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="DALT" name="*d'alt/dalt">
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token regexp="yes">és|era</token>
+                    <token>d'</token>
+                    <token>alt</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">a|fins|de|allà|allí|ací|aquí</token>
@@ -11792,7 +11808,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">metres?|centímetres?|m|cm</token>
+                    <token><exception regexp="yes">metres?|centímetres?|m|cm</exception></token>
                     <marker>
                         <token>d'</token>
                         <token>alt</token>
@@ -11806,7 +11822,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token negate="yes" regexp="yes">metres?|centímetres?|m|cm</token>
+                    <token><exception regexp="yes">metres?|centímetres?|m|cm</exception></token>
                     <marker>
                         <token>d'</token>
                         <token>alt</token>
@@ -13844,7 +13860,7 @@ $Id$
                         <token>pe</token>
                         <token regexp="yes">ls?</token>
                     </marker>
-                    <token postag="_PUNCT.*|SPS00|RG" postag_regexp="yes"><exception regexp="yes">["'«“\[]|de|d'|\p{Lu}.+|damunt|fins</exception><exception postag="RG_anteposat|AQ.*|_GN_M." postag_regexp="yes"/></token>
+                    <token postag="_PUNCT.*|SPS00|RG" postag_regexp="yes"><exception regexp="yes">['"‘“«\[]|de|d'|\p{Lu}.+|damunt|fins</exception><exception postag="RG_anteposat|AQ.*|_GN_M." postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si és nom, cal accentuar-lo.</message>
                 <suggestion>pè<match no="2"/></suggestion>
@@ -20113,6 +20129,20 @@ $Id$
             <short>Possible confusió</short>
             <example type="incorrect" correction="amb compte">Cal anar sempre <marker>amb comte</marker></example>
             <example type="correct">Cal anar amb compte</example>
+        </rule>
+        <rule id="PASSAR_CONTES" name="passar *contes/comptes">
+            <pattern>
+                <token inflected="yes">passar</token>
+                <token min="0">els</token>
+                <marker>
+                    <token>contes</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>comptes</suggestion>?</message>
+            <short>Possible confusió.</short>
+            <example type="incorrect">Passen <marker>contes</marker>.</example>
+            <example type="incorrect">Passen els <marker>contes</marker>.</example>
+            <example type="correct">Passem comptes.</example>
         </rule>
         <rule id="DE_PERDUTS_AL_RIU" name="*de perduts al riu">
             <pattern>
