@@ -127,7 +127,11 @@ class DictionaryBuilder {
   }
 
   protected String getOption(String option) {
-    return props.getProperty(option).trim();
+    String property = props.getProperty(option);
+    if (property == null) {
+      return null;
+    }
+    return property.trim();
   }
 
   protected boolean hasOption(String option) {
