@@ -236,6 +236,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
               }
             }
           }
+          // avoid two consecutive nouns
           if (matchPostagRegexp(tokens[i - j], NOM)) {
             cNt[level]++;
             isPrevNoun = true;
@@ -245,7 +246,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           } else {
             isPrevNoun = false;
           }
-          // avoid two consecutive nouns
           if (matchPostagRegexp(tokens[i - j], DET_CS)) {
             if (matchPostagRegexp(tokens[i - j + 1], NOM_MS)) {
               cDMS[level]++;

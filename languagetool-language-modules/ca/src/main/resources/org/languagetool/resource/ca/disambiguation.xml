@@ -1209,12 +1209,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">[np]</token>
+                    <token>p</token>
                 </marker>
                 <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </pattern>
-            <disambig action="add"><wd pos="NCFS000"/></disambig>
+            <disambig action="add"><wd pos="NCFS000" lemma="pàgina"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -1225,6 +1225,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token spacebefore="no">.</token>
             </pattern>
             <disambig action="add"><wd pos="NCFN000" lemma="pàgina"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>n</token>
+                </marker>
+                <token spacebefore="no">.</token>
+                <token regexp="yes">\d+</token>
+            </pattern>
+            <disambig action="add"><wd pos="NCCN000" /></disambig> <!-- nota o número -->
         </rule>
         <rule id="abreviacions_punt" name="abreviacions seguides de punt">
             <pattern>
