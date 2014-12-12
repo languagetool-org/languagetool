@@ -1209,12 +1209,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token>p</token>
+                    <token regexp="yes">[np]</token>
                 </marker>
                 <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </pattern>
-            <disambig action="add"><wd pos="NCFS000" lemma="pàgina"/></disambig>
+            <disambig action="add"><wd pos="NCFS000"/></disambig>
         </rule>
         <rule>
             <pattern>
@@ -4670,16 +4670,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <feature id="genere"/>
                     <token postag="D[^R].*|A.*|V.P.*" postag_regexp="yes"/>
                     <marker>    
-                        <token postag="N.*" postag_regexp="yes" regexp="yes">era|ens</token>
+                        <token postag="N.*" postag_regexp="yes">era</token>
                     </marker> 
                 </unify>
-                <token postag="V.[MSI].*|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
+                <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[MSI].*" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*" />
         </rule>
         <rule>
             <pattern>
-                <token postag="V.[MSI].*|_GV_" postag_regexp="yes" skip="6"><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
+                <token postag="SENT_START" skip="-1"><exception scope="next">que</exception></token>
+                <token postag="V.[MSI].*|_GV_" postag_regexp="yes" skip="6"><exception negate_pos="yes" postag="V.[MSI].*|_GV_" postag_regexp="yes"/><exception scope="next" regexp="yes">com|perquè|que|/</exception><exception postag="_PUNCT.*|C.*|PR.*|PT.*|DT.*|.*LOC_CONJ.*|_loc_unavegada" postag_regexp="yes" scope="next"/></token>
                 <unify>
                 <feature id="nombre"/>
                 <feature id="genere"/>
