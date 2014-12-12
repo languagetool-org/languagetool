@@ -811,7 +811,9 @@ class LanguageToolSupport {
 
   private void removeHighlights() {
     for (Highlighter.Highlight hl : textComponent.getHighlighter().getHighlights()) {
-      textComponent.getHighlighter().removeHighlight(hl);
+      if (hl.getPainter() instanceof HighlightPainter) {
+        textComponent.getHighlighter().removeHighlight(hl);
+      }
     }
   }
 
