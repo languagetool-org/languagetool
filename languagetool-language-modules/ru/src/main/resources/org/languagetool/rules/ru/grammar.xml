@@ -310,13 +310,14 @@ $Id$
         <rule id="Logical_kurica_nasijivaet_jajca" name="Логические ошибки «курица насиживает яйца»">
             <pattern>
                 <token inflected="yes">курица</token>
-                <token>высиживает</token>
+                <token inflected="yes">высиживать</token>
                 <token inflected="yes">яйцо</token>
             </pattern>
-            <message>Логическая ошибка. <suggestion>\1 насиживает \3</suggestion>.</message>
+            <message>Логическая ошибка. <suggestion><match no="1" /> <match no="2" regexp_match="(высиж)(.*)" regexp_replace="насиж$2" /> <match no="3" /></suggestion>.</message>
             
             <short>Логическая ошибка.</short>
             <example type="incorrect"><marker>курица высиживает яйца</marker></example>
+            <example type="incorrect"><marker>курица высиживала яйца</marker></example>
             <example type="correct">курица насиживает яйца</example>
         </rule>        
         <rule id="Logical_samij_gigantskij" name="Логические ошибки «самый гигантский»">
@@ -3621,7 +3622,7 @@ $Id$
                 <example type="incorrect">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="Num_plus_Noun" name="Сочетание числительных с  существительными">
+        <rulegroup default="on" id="Num_plus_Noun" name="Сочетание числительных с существительными">
             <rule>
                 <pattern>
                     <token regexp="yes">[1-9]+</token>
