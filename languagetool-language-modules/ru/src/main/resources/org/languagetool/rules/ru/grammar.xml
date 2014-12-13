@@ -280,8 +280,6 @@ $Id$
                 <token>дипломат</token>
             </pattern>
             <message>Ошибка перевода: <suggestion>профессиональный \2</suggestion>?</message>
-
-            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
             <short>Ошибка перевода.</short>
             <example type="incorrect"><marker>Карьерный дипломат</marker> – это человек, получивший специальное дипломатическое образование.</example>
             <example type="correct">Профессиональный дипломат – это человек, получивший специальное дипломатическое образование.</example>
@@ -289,20 +287,21 @@ $Id$
         <rulegroup id="Logical_komandirovochnij" name="Логические ошибки «командировочный/командированный»">
          <rule>         
             <pattern>
-                <token>командированное</token>
+                <token inflected="yes">командировать</token>
                 <token inflected="yes">удостоверение</token>
             </pattern>
-            <message>Логическая ошибка: <suggestion>командировачное \2</suggestion>?</message>
+            <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(командированн)(.*)" regexp_replace="командировачн$2" /> <match no="2" /></suggestion>?</message>
                <short>Логическая ошибка.</short>
             <example type="incorrect"><marker>командированное удостоверение</marker></example>
+            <example type="incorrect"><marker>командированного удостоверения</marker></example>            
             <example type="correct">командировачное удостоверение</example>
         </rule>
           <rule>         
             <pattern>
-                <token>командировачный</token>
+                <token inflected="yes">командировачный</token>
                 <token inflected="yes">сотрудник</token>
             </pattern>
-            <message>Логическая ошибка: <suggestion>командированный \2</suggestion>?</message>
+            <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(командировачн)(.*)" regexp_replace="командированн$2" /> <match no="2" /></suggestion>?</message>
                <short>Логическая ошибка.</short>
             <example type="incorrect"><marker>командировачный сотрудник</marker></example>
             <example type="correct">командированный сотрудник</example>
