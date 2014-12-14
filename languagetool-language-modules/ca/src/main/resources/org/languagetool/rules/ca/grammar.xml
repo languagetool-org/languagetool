@@ -24694,6 +24694,16 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ATERRADOR" name="aterrador/aterridor">
+            <pattern>
+                <token inflected="yes">aterrador</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">aterridor</match></suggestion>, (= que causa terror).</message>
+            <url>http://esadir.cat/entrades/fitxa/id/2572</url>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="aterridora">Una descripció <marker>aterradora</marker>.</example>
+            <example type="correct">una descripció aterridora</example>
+        </rule>
         <rulegroup id="CELEBRAR_CONTRACTE" name="*celebrar/signar/subscriure un contracte">
             <rule>
                 <pattern>
