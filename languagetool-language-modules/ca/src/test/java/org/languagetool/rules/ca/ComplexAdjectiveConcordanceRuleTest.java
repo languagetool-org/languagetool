@@ -62,6 +62,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("amb alguns motllurats de guixeria classicitzants");
+    assertCorrect("amb alguns motllurats de guixeria classicitzant");
+    assertCorrect("amb alguns motllurats de guixeria retallats");
+    assertCorrect("amb alguns motllurats de guixeria retallada");
     assertCorrect("a confondre en un mateix amor amics i enemics");
     assertCorrect("En l'eix esquerra-dreta.");
     assertCorrect("podrien també esdevenir correlacionades"); 
@@ -164,6 +168,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    assertIncorrect("amb alguns motllurats de guixeria retallat");
+    assertIncorrect("amb alguns motllurats de guixeria retallades");
     assertIncorrect("Aquella va ser la seva peça mestre.");
     assertIncorrect("La petició de tramitar el cas per lesions dolosa.");
     // policia i justícia són més usualment femenins, encara que poden ser masculins
@@ -171,7 +177,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertIncorrect("amb rigor i honor barrejades.");
     assertIncorrect("hi ha hagut una certa recuperació (3,2%), efecte en part de la descongestió madrilenya cap a les províncies limítrofs de Toledo i Guadalajara.");
     assertIncorrect("Son molt boniques");
-    assertIncorrect("La casa destrossat");
+    //assertIncorrect("La casa destrossat"); ambigu
     assertIncorrect("pantalons curt o llargs");
     assertIncorrect("sota les grans persianes de color verd recalcada");
     assertIncorrect("sota les grans persianes de color verd recalcat");
