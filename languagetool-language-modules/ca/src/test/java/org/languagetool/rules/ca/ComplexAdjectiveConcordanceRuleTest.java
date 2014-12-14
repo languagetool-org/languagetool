@@ -168,6 +168,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    //assertIncorrect("vaig posar mans a l'obra: a dins de casa mateix vaig cavar un sot per enterrar");
     assertIncorrect("amb alguns motllurats de guixeria retallat");
     assertIncorrect("amb alguns motllurats de guixeria retallades");
     assertIncorrect("Aquella va ser la seva peça mestre.");

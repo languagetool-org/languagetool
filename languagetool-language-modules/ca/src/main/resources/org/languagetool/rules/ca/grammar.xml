@@ -28232,12 +28232,25 @@ $Id$
                 <marker>
                     <token>enteniment</token>
                 </marker>
-                <token>entre</token>
+                <token regexp="yes">entre|amb</token>
             </pattern>
             <message>¿Volíeu dir: <suggestion>entesa</suggestion> (= acord) en comptes de "enteniment" (= seny)?</message>
             <short>Possible confusió</short>
             <example type="incorrect">cal un <marker>enteniment</marker> entre generacions</example>
             <example type="correct">entesa entre</example>
+        </rule>
+        <rule id="MANCA_ENTENIMENT_ENTESA" name="manca d'*enteniment/entesa">
+            <pattern>
+                <token regexp="yes">falta|manca</token>
+                <token>d'</token>
+                <marker>
+                    <token>enteniment</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir: <suggestion>entesa</suggestion> (= acord) en comptes de "enteniment" (= seny)?</message>
+            <short>Possible confusió</short>
+            <example type="incorrect">Hi ha una manca d'<marker>enteniment</marker>.</example>
+            <example type="correct">Hi ha una manca d'entesa</example>
         </rule>
         <rulegroup id="RATLLAR" name="*ratllar/vorejar">
             <rule>
