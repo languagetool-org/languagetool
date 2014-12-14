@@ -18703,17 +18703,19 @@ $Id$
                 </marker>
             </antipattern>
             <pattern>
+                <token regexp="yes">\p{Lu}.*</token>
                 <token min="20"></token>
                 <marker>
                     <token postag="SENT_END"><exception regexp="yes">[.!?:…]</exception></token>
                 </marker>
             </pattern>
             <message>Falta un punt al final de la frase, si no és un títol.</message>
-            <suggestion>\21.</suggestion>
+            <suggestion>\22.</suggestion>
             <short>Falta un punt</short>
             <example type="incorrect" correction="error.">Aquesta és una frase llarga que no té punt al final i per tant és segur que hi ha un <marker>error</marker></example>
             <example type="correct">Aquesta frase és curta, podria ser un títol</example>
             <example type="correct">«Aquesta frase, a més de ser llarga, sí que acaba amb punt, encara que el punt va abans de les cometes de tancament.»</example>
+            <example type="correct">aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a erònia</example>
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
