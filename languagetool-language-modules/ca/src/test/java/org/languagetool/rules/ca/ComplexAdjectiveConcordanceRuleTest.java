@@ -62,11 +62,14 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("per a dur a terme tota la lectura i escriptura requerides");
+    assertCorrect("al camí va trobar una branca de roure sòlida");
     assertCorrect("Tesis doctorals");
     assertCorrect("Va veure una cara rosada i arrugada, una boca sense dents oberta");
     assertCorrect("la vista en el magnífic ocell de potes i bec vermells");
     assertCorrect("-Maleït ximple! -va exclamar Tom");
-    assertCorrect("-Així, ¿viatges sola? -va dir");
+//    assertCorrect("-Així, ¿viatges sola? -va dir");
+    //i ronda amagat pels carrers:
     assertCorrect("amb alguns motllurats de guixeria classicitzants");
     assertCorrect("amb alguns motllurats de guixeria classicitzant");
     assertCorrect("amb alguns motllurats de guixeria retallats");
