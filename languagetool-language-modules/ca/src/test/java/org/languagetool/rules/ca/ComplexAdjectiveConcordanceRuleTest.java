@@ -62,6 +62,11 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("Tesis doctorals");
+    assertCorrect("Va veure una cara rosada i arrugada, una boca sense dents oberta");
+    assertCorrect("la vista en el magnífic ocell de potes i bec vermells");
+    assertCorrect("-Maleït ximple! -va exclamar Tom");
+    assertCorrect("-Així, ¿viatges sola? -va dir");
     assertCorrect("amb alguns motllurats de guixeria classicitzants");
     assertCorrect("amb alguns motllurats de guixeria classicitzant");
     assertCorrect("amb alguns motllurats de guixeria retallats");
@@ -168,7 +173,8 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
-    //assertIncorrect("vaig posar mans a l'obra: a dins de casa mateix vaig cavar un sot per enterrar");
+    assertIncorrect("Tesis doctoral");
+    assertIncorrect("vaig posar mans a l'obra: a dins de casa mateix vaig cavar un sot per enterrar");
     assertIncorrect("amb alguns motllurats de guixeria retallat");
     assertIncorrect("amb alguns motllurats de guixeria retallades");
     assertIncorrect("Aquella va ser la seva peça mestre.");
