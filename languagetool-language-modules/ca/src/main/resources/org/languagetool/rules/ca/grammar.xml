@@ -23171,19 +23171,34 @@ $Id$
             <example type="correct"><marker>Cal no oblidar</marker> que les coses són així.</example>
             <example type="incorrect" correction="convé no oblidar"> una realitat que <marker>no convé oblidar</marker>.</example>
         </rule>
-        <rule id="NO_CAL_PERDRE_DE_VISTA" name="no cal perdre de vista">
-            <pattern>
-                <token regexp="yes">no|tampoc</token>
-                <token>cal</token>
-                <token>perdre</token>
-                <token>de</token>
-                <token>vista</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>cal no perdre de vista</suggestion>?</message>
-            <suggestion>\1 s'ha de perdre de vista</suggestion>
-            <example type="incorrect" correction="Cal no perdre de vista|No s'ha de perdre de vista"><marker>No cal perdre de vista</marker></example>
-            <example type="correct">cal no perdre de vista</example>
-        </rule>
+        <rulegroup id="NO_CAL_PERDRE_DE_VISTA" name="no cal perdre de vista">
+            <rule>
+                <pattern>
+                    <token regexp="yes">no|tampoc</token>
+                    <token regexp="yes">cal|calia|caldrà</token>
+                    <token>perdre</token>
+                    <token>de</token>
+                    <token>vista</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\2 no perdre de vista</suggestion>?</message>
+                <suggestion>\1 s'ha de perdre de vista</suggestion>
+                <example type="incorrect" correction="Cal no perdre de vista|No s'ha de perdre de vista"><marker>No cal perdre de vista</marker></example>
+                <example type="correct">cal no perdre de vista</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">no|tampoc</token>
+                    <token regexp="yes">cal|calia|caldrà</token>
+                    <token>perdre</token>
+                    <token postag="P.*" postag_regexp="yes" regexp="yes">['-].*</token>
+                    <token>de</token>
+                    <token>vista</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>\2 no perdre\4 de vista</suggestion>?</message>
+                <example type="incorrect" correction="Caldrà no perdre'ls de vista"><marker>No caldrà perdre'ls de vista</marker></example>
+                <example type="correct">cal no perdre de vista</example>
+            </rule>
+        </rulegroup>
         <rule id="A_LOBJECTE_DE" name="a l'objecte de">
             <pattern>
                 <marker>
