@@ -377,9 +377,9 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           continue goToNextToken;
         }
         // exceptions: un cop, una volta, una vegada...
-        if (((prevPrevToken.equals("un") && (prevToken.equals("cop") || prevToken
-            .equals("colp"))) || (prevPrevToken.equals("una") && (prevToken
-            .equals("volta") || prevToken.equals("vegada"))))) {
+        if ((((prevPrevToken.equals("un") || prevPrevToken.equals("altre")) && (prevToken.equals("cop") || prevToken.equals("colp"))) 
+            || ((prevPrevToken.equals("una") || prevPrevToken.equals("altra")) && (prevToken.equals("volta") || prevToken.equals("vegada"))))
+            ) {
           continue goToNextToken;
         }
         // exceptions: segur que, just a
