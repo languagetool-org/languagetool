@@ -410,6 +410,18 @@ $Id$
                 <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
                 <example type="correct">Он надел рубашку.</example>
             </rule>   
+             <rule>      
+                <pattern>
+                    <token>обул</token>
+                    <token inflected="yes" regexp="yes">обувь|сапог|босоножки|туфли|ботинок</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion>надел \2</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Он <marker>обул сапоги</marker>.</example>
+                <example type="correct">Он надел сапоги.</example>
+            </rule>  
+            
             <rule>      
                 <pattern>
                     <token>надел</token>
@@ -421,7 +433,7 @@ $Id$
                 <example type="incorrect">Он <marker>надел Ивана</marker>.</example>
                 <example type="correct">Он надел майку.</example>
                 <example type="correct">Он одел Ивана.</example>
-            </rule>       
+            </rule>        
         </rulegroup>
         
         <rule id="Linguistics_hrabry" name="Лингвистические ошибки «храбрая (или смелая) мысль, решение, идея»">
