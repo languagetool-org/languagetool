@@ -817,6 +817,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig> 
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>a</token>
+                    <token>fons</token>
+                </marker>
+                <token><exception regexp="yes">perdut</exception></token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig> 
+        </rule>
         <!--  Locucions adverbials-->
         <rule id="loc_adv3paraules" name="locució adverbial 3 paraules">
             <pattern>
@@ -8738,6 +8748,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!-- El riu passa engorjat. Viatges sola. Ronda amagat. -->
         <rule>
             <pattern>
+                <token><exception postag="D[^R]..S." postag_regexp="yes"/></token>
                 <marker>
                     <and>
                         <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
@@ -8747,9 +8758,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="A...S.|V.P..S.." postag_regexp="yes"/> 
             </pattern>
             <disambig action="remove" postag="NC.*"/>       
+            <example type="untouched">Allí brolla una deu càrstica.</example>
         </rule>
         <rule> <!-- hi ha cap cas? -->
             <pattern>
+                <token><exception postag="D[^R]..P." postag_regexp="yes"/></token>
                 <marker>
                     <and>
                         <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
