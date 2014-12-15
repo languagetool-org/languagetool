@@ -61,6 +61,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    //assertCorrect("Es van somriure l'una a l'altra encara dretes, suades i panteixants,");
     assertCorrect("despres de la revolta contra el poder pontifici iniciada a Bolonya");
     assertCorrect("-Així, ¿viatges sola? -va dir");
     assertCorrect("El riu passa engorjat en aquest sector ");

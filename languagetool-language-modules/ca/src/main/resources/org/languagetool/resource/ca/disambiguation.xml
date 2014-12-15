@@ -2107,14 +2107,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
+                <token>l'</token>
                 <token>una</token>
                 <marker>
-                    <token regexp="yes">a|e|u</token>
+                    <token>a</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="SPS00" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>una</token>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes" regexp="yes">a|e|u</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*" />
         </rule>
-        
     </rulegroup>
     <rule id="ara_no_conjuncio" name="ara (adverbi no conjunció)"> <!-- ¿És necessari en algun cas? -->
         <pattern>
