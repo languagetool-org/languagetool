@@ -104,7 +104,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|i|o|ni"); // |\\d+%?|%
   private static final Pattern STOP_COUNT = Pattern.compile(";");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
-  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb");
+  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|d'|en|sobre|a|entre|per|pe|amb|sense");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
   private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
@@ -242,7 +242,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           if (matchPostagRegexp(tokens[i - j], NOM)) {
             cNt[level]++;
             isPrevNoun = true;
-            initializeApparitions();
+            //initializeApparitions();
           } else {
             isPrevNoun = false;
           }
@@ -430,7 +430,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         j = 1;
         boolean keepCount = true;
         while (i - j > 0 && keepCount) {
-          if (gnPattern != null && matchPostagRegexp(tokens[i - j], NOM_DET)
+          if (matchPostagRegexp(tokens[i - j], NOM_DET)
               && matchPostagRegexp(tokens[i - j], gnPattern)) {
             continue goToNextToken; // there is a previous agreeing noun
           } else if (!matchPostagRegexp(tokens[i - j], _GN_)
@@ -462,7 +462,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           initializeApparitions();
           while (i - j > 0 && keepCounting(tokens[i - j])) {
             // there is a previous agreeing noun
-            if (matchPostagRegexp(tokens[i - j], NOM)
+            if (matchPostagRegexp(tokens[i - j], NOM_DET)
                 && matchPostagRegexp(tokens[i - j], substPattern)) {
               continue goToNextToken; 
             // there is a previous agreeing adjective (in a nominal group)
@@ -515,6 +515,10 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   }
 
   private void updateApparitions(AnalyzedTokenReadings aTr) {
+    if (matchPostagRegexp(aTr, NOM) || matchPostagRegexp(aTr, ADJECTIU)) {
+      initializeApparitions();
+      return;
+    }
     adverbAppeared |= matchPostagRegexp(aTr, ADVERBI);
     conjunctionAppeared |= matchPostagRegexp(aTr, CONJUNCIO);
     punctuationAppeared |= matchPostagRegexp(aTr, PUNTUACIO);

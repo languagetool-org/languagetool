@@ -50,7 +50,6 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     /* d'una banda tossut i, de l'altra, del tot inepte
      * principis mascle i femella de la foscor//els elements reproductors mascle
      * i femella// les formigues mascle i femella
-     *  de barba i cabellera blanques
      */
     /*
      * multiwords: en aparença, en essència,per essència, amb excés,en repòs,
@@ -62,14 +61,29 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("-Així, ¿viatges sola? -va dir");
+    assertCorrect("El riu passa engorjat en aquest sector ");
+    assertCorrect("i ronda amagat pels carrers");
+    assertCorrect("Setmanari il·lustrat d'art, literatura i actualitats fundat a Barcelona");
+    assertCorrect("Entitat oficial de crèdit a mitjà i llarg termini constituïda l'any 1920");
+    assertCorrect("edificacions superposades d'època romana republicanes i imperials");
+    assertCorrect("Fou un dels primers barris de barraques sorgit després del 1939");
+    assertCorrect("i el premi a la investigació mèdica atorgat per la Funadació");
+    assertCorrect("no arriben als 300 mm de pluja anuals");
+    assertCorrect("un dibuix de colors vius d'un noi ben plantat i una noia preciosa drets");
+    assertCorrect("de la captura i l'assassinat recents");
+    //assertCorrect(", la captura i l'assassinat recents"); //desambiguar "la captura"
+    assertCorrect("donar estocades sense ordre ni concert mal dirigides");
+    assertCorrect("trobarien un dels nanos mort de fred");
+    assertCorrect("aquest text, el més antic de l'obra fins ara conegut");
+    assertCorrect("va reaccionar, la molt astuta, així");
+    assertCorrect("Són de barba i cabellera blanques");
     assertCorrect("per a dur a terme tota la lectura i escriptura requerides");
     assertCorrect("al camí va trobar una branca de roure sòlida");
     assertCorrect("Tesis doctorals");
     assertCorrect("Va veure una cara rosada i arrugada, una boca sense dents oberta");
     assertCorrect("la vista en el magnífic ocell de potes i bec vermells");
     assertCorrect("-Maleït ximple! -va exclamar Tom");
-//    assertCorrect("-Així, ¿viatges sola? -va dir");
-    //i ronda amagat pels carrers:
     assertCorrect("amb alguns motllurats de guixeria classicitzants");
     assertCorrect("amb alguns motllurats de guixeria classicitzant");
     assertCorrect("amb alguns motllurats de guixeria retallats");
@@ -176,6 +190,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    assertIncorrect("és tan ple d'urgències, tan ple de desitjós materials");
     assertIncorrect("Tesis doctoral");
     assertIncorrect("vaig posar mans a l'obra: a dins de casa mateix vaig cavar un sot per enterrar");
     assertIncorrect("amb alguns motllurats de guixeria retallat");
