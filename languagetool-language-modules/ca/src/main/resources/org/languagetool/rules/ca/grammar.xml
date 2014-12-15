@@ -4661,26 +4661,43 @@ $Id$
                 <example type="correct">Les tals germanes no vingueren.</example>
             </rule>
         </rulegroup>
-        <rule id="VARIS" name="varis com a determinant">
-            <pattern>
-                <marker>
-                    <token regexp="yes">varis|vàries</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes"></token>
-            </pattern>
-            <message>Incorrecte amb valor quantitatiu o indefinit.</message>
-            <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="AQ0$1P0" setpos="yes">divers</match></suggestion>
-            <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
-            <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
-            <suggestion>diferents</suggestion>
-            <url>http://esadir.cat/entrades/fitxa/id/2370</url>
-            <example type="incorrect" correction="diverses|algunes|unes quantes|diferents">Hi ha <marker>vàries</marker> solucions.</example>
-            <example type="incorrect" correction="diversos|alguns|uns quants|diferents">Te <marker>varis</marker> subtemes</example>
-            <example type="correct">Hi ha <marker>diverses</marker> solucions.</example>
-            <!-- Val a dir que varis d'aquests apartaments
-            sense un alambí o varis.
-            De bestieses, n'ha fet vàries al llarg de la vida -->
-        </rule>
+        <rulegroup id="VARIS" name="varis com a determinant">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="AQ.*" postag_regexp="yes" regexp="yes">varis|vàries</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Incorrecte amb valor quantitatiu o indefinit.</message>
+                <suggestion><match no="1" postag="AQ.(.).*" postag_regexp="yes" postag_replace="AQ0$1P0" setpos="yes">divers</match></suggestion>
+                <suggestion><match no="1" postag="AQ.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
+                <suggestion><match no="1" postag="AQ.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="1" postag="AQ.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
+                <suggestion>diferents</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2370</url>
+                <example type="incorrect" correction="diverses|algunes|unes quantes|diferents">Hi ha <marker>vàries</marker> solucions.</example>
+                <example type="correct">Hi ha <marker>diverses</marker> solucions.</example>
+                <!-- Val a dir que varis d'aquests apartaments
+                sense un alambí o varis.
+                De bestieses, n'ha fet vàries al llarg de la vida -->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">varis|vàries</token>
+                    </marker>
+                    <token postag="N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Incorrecte amb valor quantitatiu o indefinit.</message>
+                <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="AQ0$1P0" setpos="yes">divers</match></suggestion>
+                <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">algun</match></suggestion>
+                <suggestion><match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">un</match> <match no="2" postag="N.(.).*" postag_regexp="yes" postag_replace="DI0$1P0" setpos="yes">quant</match></suggestion>
+                <suggestion>diferents</suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/2370</url>
+                <example type="incorrect" correction="diversos|alguns|uns quants|diferents">Te <marker>varis</marker> subtemes</example>
+                <example type="correct">Hi ha diverses solucions.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOMBRES_ROMANS" name="comprova nombres romans" type="misspelling">
             <rule>
                 <pattern case_sensitive="yes">

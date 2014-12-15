@@ -444,16 +444,15 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         // Necessary condition: previous token is a non-agreeing noun
         // or it is adjective or adverb (not preceded by verb)
         // /*&& !matchPostagRegexp(tokens[i],NOM)*/
-        if (!(((matchPostagRegexp(tokens[i - 1], NOM) && !matchPostagRegexp(
-            tokens[i - 1], substPattern)) || (i > 2
-            && ((matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(
-                tokens[i - 1], adjPattern))
-                || matchPostagRegexp(tokens[i - 1], ADVERBIS_ACCEPTATS) || matchPostagRegexp(
-                  tokens[i - 1], LOC_ADV))
-            && !matchPostagRegexp(tokens[i - 2], VERB) && !matchPostagRegexp(
-              tokens[i - 3], VERB))))) {
+        if ((matchPostagRegexp(tokens[i - 1], NOM) && !matchPostagRegexp(tokens[i - 1], substPattern))
+            || (i>2 && matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], adjPattern))
+            || (i>2 && matchPostagRegexp(tokens[i - 1], ADVERBIS_ACCEPTATS) && !matchPostagRegexp(tokens[i - 2], VERB) && !matchPostagRegexp(tokens[i - 2], PREPOSICIONS))
+            || (i>3 && matchPostagRegexp(tokens[i - 1], LOC_ADV) && matchPostagRegexp(tokens[i - 2], LOC_ADV) && !matchPostagRegexp(tokens[i - 3], VERB) && !matchPostagRegexp(tokens[i - 3], PREPOSICIONS))
+            ) {
+          
+        } else {
           continue goToNextToken;
-        }
+        }        
 
         // Adjective can't be singular. The rule matches
         if (!(isPlural && matchPostagRegexp(tokens[i], ADJECTIU_S))) {

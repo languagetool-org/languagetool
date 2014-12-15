@@ -801,7 +801,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token>en</token>
                     <token regexp="yes">forma|perill</token>
                 </marker>
-                <token><exception regexp="yes">de|d'</exception><exception postag="AQ.[FC]S.*|VMP..SF." postag_regexp="yes"/></token>
+                <token><exception regexp="yes">de|d'|part</exception><exception postag="AQ.[FC]S.*|VMP..SF." postag_regexp="yes"/></token>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
             <example type="untouched">És <marker>en forma</marker> hexagonal.</example>
@@ -5510,6 +5510,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <disambig action="filter" postag="SP.*"/>
     </rule>
     <rulegroup id="FORCA" name="força: nom, adjectiu, adverbi">
+        <rule> <!-- amb força indestructible, de força major -->
+            <pattern>
+                <token postag="SPS00"></token>
+                <marker>
+                    <token postag="NCFS000">força</token>
+                </marker>
+                <token postag="AQ.[FC]S.|V.P..SF." postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"/>
+        </rule>
         <rule> <!-- Donem preferència a l'adjectiu en casos ambigus: força comuns-->
             <pattern>
                 <token><exception postag="D[^R].FS." postag_regexp="yes"/></token>
@@ -7087,7 +7097,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">oi|queda|baixa|porto|troba|trobes|fan|ara|esper|vau|he|deixa|deixes|sap|pren|allò|breu|sec|personal|fou|crec|davant|darrere|damunt|davall|sota|ve|tornés|seré|estic|som|sou|amples?|creix|fem|res|si|bé|perquè|però|dins|real|era|eres|dius?<exception postag="_GN.*" postag_regexp="yes" /></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">oi|queda|formi|baixa|porto|troba|trobes|fan|ara|esper|vau|he|deixa|deixes|sap|pren|allò|breu|sec|personal|fou|crec|davant|darrere|damunt|davall|sota|ve|tornés|seré|estic|som|sou|amples?|creix|fem|res|si|bé|perquè|però|dins|real|era|eres|dius?<exception postag="_GN.*" postag_regexp="yes" /></token>
                     <token postag="[AVRIPC].*" postag_regexp="yes"></token>
                 </and>
             </marker>
