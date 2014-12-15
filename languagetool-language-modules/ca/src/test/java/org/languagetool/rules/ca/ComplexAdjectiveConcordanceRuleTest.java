@@ -61,6 +61,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      * exterminades
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
+    assertCorrect("despres de la revolta contra el poder pontifici iniciada a Bolonya");
     assertCorrect("-Així, ¿viatges sola? -va dir");
     assertCorrect("El riu passa engorjat en aquest sector ");
     assertCorrect("i ronda amagat pels carrers");
@@ -73,6 +74,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("un dibuix de colors vius d'un noi ben plantat i una noia preciosa drets");
     assertCorrect("de la captura i l'assassinat recents");
     //assertCorrect(", la captura i l'assassinat recents"); //desambiguar "la captura"
+    //assertCorrect("la revolta contra el poder pontifici iniciada a Bolonya"); //desambiguar "la revolta"
     assertCorrect("donar estocades sense ordre ni concert mal dirigides");
     assertCorrect("trobarien un dels nanos mort de fred");
     assertCorrect("aquest text, el més antic de l'obra fins ara conegut");
