@@ -95,7 +95,7 @@ $Id$
 
        <rule>
          <pattern>
-           <token inflected="yes" regexp="yes">уявляти|уявити|представляти</token>
+           <token inflected="yes" regexp="yes">уявляти|уявити|являти|представляти</token>
            <token regexp="yes">і?з</token>
            <token>себе</token>
           </pattern>
@@ -177,6 +177,30 @@ $Id$
          <!-- TODO: fix
          <example type="correct">Він вважав, що з ним рахуються, що він є головним.</example>
          -->
+       </rule>
+       <rule>
+         <pattern>
+           <marker>
+             <token inflected="yes">рахуватися</token>
+               <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
+               <token postag_regexp="yes" postag="noun.*v_oru.*">
+                 <exception postag_regexp="yes" postag="adv.*"/>
+                 <exception regexp="yes">десятками|сотнями|тисячами|мільйонами|мільярдами</exception>
+               </token>
+           </marker>
+         </pattern>
+         <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="verb.*" postag_replace="$0:v-u">вважатися</match> за <match no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/> <match no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+         <!--
+         <suggestion>мати за <match no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_naz$2"/> <match no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_naz$2"/></suggestion>
+         -->
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
+         <example type="incorrect" correction="Вважатись за депутата|Вважатися за депутата"><marker>Рахуватися депутатом</marker></example>
+         <!--
+         <example type="incorrect" correction="вважавсь за торгівельний осередок|вважався за торгівельний осередок"><marker>рахувався торгівельним осередком</marker></example>
+         -->
+         <example type="incorrect"><marker>рахувався торгівельним осередком</marker></example>
+         <example type="correct">рахувалися разом</example>
+         <example type="correct">витрати рахувалися мільйонами</example>
        </rule>
 
        <rule>
@@ -572,7 +596,7 @@ $Id$
               <token postag_regexp="yes" postag="(pron|noun).*" min="0" max="1"/>
               <token>голову</token>
          </pattern>
-         <message>Краще: <suggestion>морочити, ламати, сушити собі голову (мозок)</suggestion>, <suggestion>мізкувати, крутити мозком над чим</suggestion>, <suggestion>морочитися коло чого, над чим</suggestion></message>
+         <message>Краще: <suggestion>морочити, сушити, клопотати собі голову (мозок)</suggestion>, <suggestion>мізкувати, крутити мозком над чим</suggestion>, <suggestion>морочитися коло чого, над чим</suggestion></message>
          <example type="incorrect">він довго <marker>ламав собі голову</marker></example>
          <!-- TODO:
          <example type="incorrect">він довго <marker>ламав собі над цим голову</marker></example>
@@ -1089,12 +1113,25 @@ $Id$
 
        <rule>
          <pattern>
-            <token>один</token>
+            <token inflected="yes" postag_regexp="yes" postag="numr:.:v_naz">один</token>
+            <token inflected="yes" postag_regexp="yes" postag="adj.*v_(dav|rod|oru).*">другий</token>
+         </pattern>
+         <message>Правильно: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="adj:(.):.*" postag_replace="numr:$1:v_dav">один</match></suggestion></message>
+         <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
+         <example type="incorrect" correction="один одному"><marker>один другому</marker> допомагають.</example>
+         <example type="incorrect" correction="одна одній"><marker>одна другій</marker> допомагають.</example>
+         <example type="correct">Один одному допомагають.</example>
+       </rule>
+       <rule>
+         <pattern>
+            <token inflected="yes" postag_regexp="yes" postag="numr:.:v_naz">один</token>
+            <token postag_regexp="yes" postag="prep.*"/>
             <token inflected="yes">другий</token>
          </pattern>
-         <message>Правильно: <suggestion>один <match no="1" postag="numr.*" postag_regexp="yes">один</match></suggestion></message>
+         <message>Правильно: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="adj:([mfn]:v_...).*" postag_replace="numr:$1">один</match></suggestion></message>
          <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
-         <example type="incorrect"><marker>Один другому</marker> допомагають.</example>
+         <example type="incorrect" correction="один коло одного"><marker>один коло другого</marker></example>
+         <example type="incorrect" correction="одне коло одного"><marker>одне коло другого</marker></example>
          <example type="correct">Один одному допомагають.</example>
        </rule>
 
@@ -1641,6 +1678,10 @@ $Id$
          <example type="correct">ліки проти усяких хвороб</example>
        </rule>
 
+<!--
+ "Виходячи з цього" - нормально. Пор. англ. proceeding from this; нім. ausgehen: Я виходжу з таких міркувань
+  - ich gehe von folgenden Erwägungen aus; фр. partir: partir d'un principe - виходити з якого-небудь принципу.
+
        <rule>
          <pattern>
            <marker>
@@ -1656,6 +1697,7 @@ $Id$
          <example type="correct">Виходячи з вокзалу</example>
          <example type="correct">На підставі цих міркувань</example>
        </rule>
+-->
 
       <rule>
           <pattern>
@@ -2011,6 +2053,10 @@ $Id$
          <example type="correct">Якщо Блохін має бажання він може залишитися в Динамо</example>
        </rule>
 
+<!-- не помилка:
+"При умові" - прийнятне. Дехто з пуристів наполягає, що має бути лише "за умови", але "при" вживаємо в укр. мові
+ на позначення просторового сусідства (при дорозі), тому перенесення зі значенням іншого сусідства (в часі,
+  як додаткової умови тощо) цілком виправдане. Я радше писав би "за умови" й не зловживав би з "при", але це не помилка.
        <rule>
          <pattern>
            <token>при</token>
@@ -2020,7 +2066,7 @@ $Id$
          <example type="incorrect"><marker>при умові</marker> створення</example>
          <example type="correct">за умови створення</example>
        </rule>
-
+-->
         <rule>
          <pattern>
               <token regexp="yes">зі?</token>

@@ -61,6 +61,7 @@ public class TokenAgreementRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("хто їде на заробітки за кордон")).length);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("піти в президенти")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("піти межі люди")).length);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("що то була за людина")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("що за людина")).length);

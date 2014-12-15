@@ -175,7 +175,7 @@ public class TokenAgreementRule extends Rule {
           }
         }
 
-        if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") ) {
+        if( prep.equalsIgnoreCase("в") || prep.equalsIgnoreCase("у") || prep.equals("межи") || prep.equals("між") ) {
           if( hasRequiredPosTag(Arrays.asList("p:v_naz"), tokenReadings) ) {  //TODO: only for subset: президенти/депутати/мери/гості... or by verb піти/йти/балотуватися/записатися...
             reqTokenReadings = null;
             continue;

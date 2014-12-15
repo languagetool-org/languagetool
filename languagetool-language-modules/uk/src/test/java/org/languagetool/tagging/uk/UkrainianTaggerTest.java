@@ -42,7 +42,7 @@ public class UkrainianTaggerTest extends TestCase {
   
   public void testTagger() throws IOException {
     TestTools.myAssert("300 р. до н. е.", 
-      "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:nv|до/[до]prep:rv_rod -- н/[null]null -- е/[null]null",
+      "300/[300]number -- р/[р]unknown:abbr -- до/[до]noun:n:nv|до/[до]prep:rv_rod -- н/[null]null -- е/[е]excl",
        tokenizer, tagger);
 
     TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
@@ -67,7 +67,7 @@ public class UkrainianTaggerTest extends TestCase {
     String expected = 
       "Майже/[майже]adv -- два/[два]numr:m:v_naz|два/[два]numr:m:v_zna|два/[два]numr:n:v_naz|два/[два]numr:n:v_zna -- роки/[рік]noun:p:v_naz|роки/[рік]noun:p:v_zna"
     + " -- тому/[той]pron:m:v_dav|тому/[той]pron:m:v_mis|тому/[той]pron:n:v_dav|тому/[той]pron:n:v_mis|тому/[том]noun:m:v_dav|тому/[том]noun:m:v_mis|тому/[том]noun:m:v_rod"
-    + " -- Люба/[Люба]noun:f:v_naz:ist|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru -- із/[із]prep:rv_rod:rv_zna:rv_oru"
+    + " -- Люба/[Люба]noun:f:v_naz:ist|Люба/[любий]adj:f:v_naz -- разом/[раз]noun:m:v_oru|разом/[разом]adv -- із/[із]prep:rv_rod:rv_zna:rv_oru"
     + " -- чоловіком/[чоловік]noun:m:v_oru:ist -- Степаном/[Степан]noun:m:v_oru:ist -- виїхали/[виїхати]verb:past:m:perf -- туди/[туди]adv"
     + " -- на/[на]excl|на/[на]part|на/[на]prep:rv_zna:rv_mis -- "
     + "проживання/[проживання]noun:n:v_naz|проживання/[проживання]noun:n:v_rod|проживання/[проживання]noun:n:v_zna|проживання/[проживання]noun:p:v_naz|проживання/[проживання]noun:p:v_zna";

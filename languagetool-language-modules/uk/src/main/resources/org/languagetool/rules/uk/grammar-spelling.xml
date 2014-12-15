@@ -27,7 +27,6 @@ $Id$
     <category name="Орфографія">
 
 	<rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
-		
 		<rule>   
 			<pattern>
 		     <marker>
@@ -44,7 +43,6 @@ $Id$
 		    <example type="incorrect" correction="напіввагон">Зелений <marker>напів вагон</marker></example>
 		    <example type="correct">У цього овоча напівгіркий присмак.</example>
 		</rule>
-	
 	</rulegroup>
 
 	<rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
@@ -78,9 +76,20 @@ $Id$
 		    <example type="incorrect">Вартість квитка – <marker>пів юаня</marker>.</example>
 		    <example type="correct">Вартість квитка – пів'юаня.</example>
 		</rule>
-	
 	</rulegroup>
 
-    </category>
+    <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag=".*:alt.*"/>
+        </pattern>
+        <message>Слово написане не за чинним правописом</message>
+        <example type="incorrect"><marker>проєкту</marker></example>
+        <example type="incorrect"><marker>хемія</marker></example>
+        <example type="correct">проекту</example>
+      </rule>
+    </rulegroup>
+
+  </category>
 
 </rules>
