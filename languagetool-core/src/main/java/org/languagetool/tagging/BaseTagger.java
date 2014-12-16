@@ -72,57 +72,51 @@ public abstract class BaseTagger implements Tagger {
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
       throws IOException {
-    List<AnalyzedToken> taggerTokens;
-    List<AnalyzedToken> lowerTaggerTokens;
-    List<AnalyzedToken> upperTaggerTokens;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
     final IStemmer dictLookup = new DictionaryLookup(getDictionary());
-
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(conversionLocale);
-      taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
-      lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
-      final boolean isLowercase = word.equals(lowerWord);
-      final boolean isMixedCase = StringTools.isMixedCase(word);
-
-      //normal case
-      addTokens(taggerTokens, l);
-
-      //tag non-lowercase (alluppercase or startuppercase), but not mixedcase word with lowercase word tags
-      if (!isLowercase && !isMixedCase) {
-        addTokens(lowerTaggerTokens, l);
-      }
-
-      //tag lowercase word with startuppercase word tags
-      if (tagLowercaseWithUppercase) {
-        if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
-          if (isLowercase) {
-            upperTaggerTokens = asAnalyzedTokenList(word,
-                dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
-            if (!upperTaggerTokens.isEmpty()) {
-              addTokens(upperTaggerTokens, l);
-            }
-          }
-        }
-      }
-
-      // Additional language-dependent-tagging
-      if (l.isEmpty()) {
-        List<AnalyzedToken> additionalTaggedTokens = additionalTags(word);
-        addTokens(additionalTaggedTokens, l);
-      }
-
-      if (l.isEmpty()) {
-        l.add(new AnalyzedToken(word, null, null));
-      }
-
+      final List<AnalyzedToken> l = getAnalyzedTokens(dictLookup, word);
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
-
     return tokenReadings;
+  }
+
+  private List<AnalyzedToken> getAnalyzedTokens(IStemmer dictLookup, String word) {
+    final List<AnalyzedToken> result = new ArrayList<>();
+    final String lowerWord = word.toLowerCase(conversionLocale);
+    final boolean isLowercase = word.equals(lowerWord);
+    final boolean isMixedCase = StringTools.isMixedCase(word);
+    List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
+    List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
+    //normal case:
+    addTokens(taggerTokens, result);
+    //tag non-lowercase (alluppercase or startuppercase), but not mixedcase word with lowercase word tags:
+    if (!isLowercase && !isMixedCase) {
+      addTokens(lowerTaggerTokens, result);
+    }
+    //tag lowercase word with startuppercase word tags:
+    if (tagLowercaseWithUppercase) {
+      if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
+        if (isLowercase) {
+          List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenList(word,
+              dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
+          if (!upperTaggerTokens.isEmpty()) {
+            addTokens(upperTaggerTokens, result);
+          }
+        }
+      }
+    }
+    // Additional language-dependent-tagging:
+    if (result.isEmpty()) {
+      List<AnalyzedToken> additionalTaggedTokens = additionalTags(word);
+      addTokens(additionalTaggedTokens, result);
+    }
+    if (result.isEmpty()) {
+      result.add(new AnalyzedToken(word, null, null));
+    }
+    return result;
   }
 
   protected List<AnalyzedToken> asAnalyzedTokenList(final String word, final List<WordData> wdList) {
