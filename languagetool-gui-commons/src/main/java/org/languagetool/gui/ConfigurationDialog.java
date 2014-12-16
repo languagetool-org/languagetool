@@ -45,6 +45,7 @@ import java.util.List;
 public class ConfigurationDialog implements ActionListener {
 
   private static final String NO_MOTHER_TONGUE = "---";
+  private static final int MAX_PORT = 65536;
 
   private final ResourceBundle messages;
   private final Configuration original;
@@ -55,7 +56,7 @@ public class ConfigurationDialog implements ActionListener {
   private JButton okButton;
   private JButton cancelButton;
   private JDialog dialog;
-  private JComboBox motherTongueBox;
+  private JComboBox<String> motherTongueBox;
   private JCheckBox serverCheckbox;
   private JTextField serverPortField;
   private JTree configTree;
@@ -72,7 +73,7 @@ public class ConfigurationDialog implements ActionListener {
   private DefaultMutableTreeNode createTree(List<Rule> rules) {
     DefaultMutableTreeNode root = new DefaultMutableTreeNode("Rules");
     String lastRuleId = null;
-    TreeMap<String, DefaultMutableTreeNode> parents = new TreeMap<>();
+    Map<String, DefaultMutableTreeNode> parents = new TreeMap<>();
     for (final Rule rule : rules) {
       if (!parents.containsKey(rule.getCategory().getName())) {
         boolean enabled = true;
@@ -277,8 +278,8 @@ public class ConfigurationDialog implements ActionListener {
       public void actionPerformed(ActionEvent e) {
         TreeNode root = (TreeNode) configTree.getModel().getRoot();
         TreePath parent = new TreePath(root);
-        for (Enumeration categ = root.children(); categ.hasMoreElements();) {
-          TreeNode n = (TreeNode) categ.nextElement();
+        for (Enumeration cat = root.children(); cat.hasMoreElements();) {
+          TreeNode n = (TreeNode) cat.nextElement();
           TreePath child = parent.pathByAddingChild(n);
           configTree.expandPath(child);
         }
@@ -305,7 +306,7 @@ public class ConfigurationDialog implements ActionListener {
 
     final JPanel motherTonguePanel = new JPanel();
     motherTonguePanel.add(new JLabel(messages.getString("guiMotherTongue")), cons);
-    motherTongueBox = new JComboBox(getPossibleMotherTongues());
+    motherTongueBox = new JComboBox<>(getPossibleMotherTongues());
     if (config.getMotherTongue() != null) {
       motherTongueBox.setSelectedItem(config.getMotherTongue().getTranslatedName(messages));
     }
@@ -378,7 +379,7 @@ public class ConfigurationDialog implements ActionListener {
         public void changedUpdate(DocumentEvent e) {
           try {
             int serverPort = Integer.parseInt(serverPortField.getText());
-            if (serverPort > -1 && serverPort < 65536) {
+            if (serverPort > -1 && serverPort < MAX_PORT) {
               serverPortField.setForeground(null);
               config.setServerPort(serverPort);
             } else {
@@ -473,13 +474,13 @@ public class ConfigurationDialog implements ActionListener {
     dialog.setVisible(true);
   }
 
-  private Object[] getPossibleMotherTongues() {
-    final List<Object> motherTongues = new ArrayList<>();
+  private String[] getPossibleMotherTongues() {
+    final List<String> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
     for (final Language lang : Language.REAL_LANGUAGES) {
      motherTongues.add(lang.getTranslatedName(messages));
     }
-    return motherTongues.toArray();
+    return motherTongues.toArray(new String[motherTongues.size()]);
   }
 
   @Override
@@ -497,9 +498,7 @@ public class ConfigurationDialog implements ActionListener {
   /**
    * Get the Language object for the given localized language name.
    * 
-   * @param languageName
-   *          e.g. <code>English</code> or <code>German</code> (case is
-   *          significant)
+   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
    * @return a Language object or <code>null</code>
    */
   private Language getLanguageForLocalizedName(final String languageName) {
