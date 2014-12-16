@@ -276,10 +276,10 @@ $Id$
         </rule>              
         <rule id="translate_carreer_diplomat" name="Ошибки перевода «карьерный дипломат»">
             <pattern>
-                <token>карьерный</token>
-                <token>дипломат</token>
+                <token inflected="yes" >карьерный</token>
+                <token inflected="yes" >дипломат</token>
             </pattern>
-            <message>Ошибка перевода: <suggestion>профессиональный \2</suggestion>?</message>
+            <message>Ошибка перевода: <suggestion><match no="1" regexp_match="([Кк]арьерн)(.*)" regexp_replace="профессиональн$2" /> <match no="2" /></suggestion>?</message>
             <short>Ошибка перевода.</short>
             <example type="incorrect"><marker>Карьерный дипломат</marker> – это человек, получивший специальное дипломатическое образование.</example>
             <example type="correct">Профессиональный дипломат – это человек, получивший специальное дипломатическое образование.</example>
