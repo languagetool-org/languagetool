@@ -46,4 +46,9 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
     return "/nl/spelling/ignore.txt";
   }
 
+  @Override
+  protected String getProhibitFileName() {
+    return "/nl/spelling/prohibit.txt";
+  }
+
 }

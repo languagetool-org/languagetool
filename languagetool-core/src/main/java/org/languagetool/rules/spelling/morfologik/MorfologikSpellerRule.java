@@ -156,7 +156,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   protected List<RuleMatch> getRuleMatches(final String word, final int startPos) throws IOException {
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (isMisspelled(speller1, word)) {
+    if (isMisspelled(speller1, word) || isProhibited(word)) {
       final RuleMatch ruleMatch = new RuleMatch(this, startPos, startPos
           + word.length(), messages.getString("spelling"),
           messages.getString("desc_spelling_short"));
@@ -168,6 +168,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
       suggestions.addAll(getAdditionalSuggestions(suggestions, word));
       if (!suggestions.isEmpty()) {
+        filterSuggestions(suggestions);
         ruleMatch.setSuggestedReplacements(orderSuggestions(suggestions, word));
       }
       ruleMatches.add(ruleMatch);

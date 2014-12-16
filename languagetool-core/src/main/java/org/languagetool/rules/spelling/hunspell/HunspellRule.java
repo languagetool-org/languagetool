@@ -94,11 +94,7 @@ public class HunspellRule extends SpellingCheckRule {
         len += word.length() + 1;
         continue;
       }
-      boolean isAlphabetic = true;
-      if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
-        isAlphabetic = Character.isAlphabetic(word.charAt(0));
-      }
-      if (isAlphabetic && !word.equals("--") && hunspellDict.misspelled(word)) {
+      if (isMisspelled(word)) {
         final RuleMatch ruleMatch = new RuleMatch(this,
             len, len + word.length(),
             messages.getString("spelling"),
@@ -107,6 +103,7 @@ public class HunspellRule extends SpellingCheckRule {
         suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
         suggestions.addAll(getAdditionalSuggestions(suggestions, word));
         if (!suggestions.isEmpty()) {
+          filterSuggestions(suggestions);
           ruleMatch.setSuggestedReplacements(suggestions);
         }
         ruleMatches.add(ruleMatch);
@@ -115,6 +112,21 @@ public class HunspellRule extends SpellingCheckRule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isMisspelled(String word) {
+    boolean isAlphabetic = true;
+    if (word.length() == 1) { // hunspell dictionaries usually do not contain punctuation
+      isAlphabetic = Character.isAlphabetic(word.charAt(0));
+    }
+    return (isAlphabetic && !word.equals("--") && hunspellDict.misspelled(word)) || isProhibited(removeTrailingDot(word));
+  }
+
+  private String removeTrailingDot(String word) {
+    if (word.endsWith(".")) {
+      return word.substring(0, word.length()-1);
+    }
+    return word;
   }
 
   public List<String> getSuggestions(String word) throws IOException {

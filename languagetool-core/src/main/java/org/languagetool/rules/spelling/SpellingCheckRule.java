@@ -52,8 +52,10 @@ public abstract class SpellingCheckRule extends Rule {
   protected final Language language;
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
+  private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
 
   private final Set<String> wordsToBeIgnored = new HashSet<>();
+  private final Set<String> wordsToBeProhibited = new HashSet<>();
 
   private boolean wordsWithDotsPresent = false;
   private boolean considerIgnoreWords = true;
@@ -198,7 +200,8 @@ public abstract class SpellingCheckRule extends Rule {
   }
   
   protected void init() throws IOException {
-    loadFileIfExists(getIgnoreFileName());
+    loadWordsToBeIgnored(getIgnoreFileName());
+    loadWordsToBeProhibited(getProhibitFileName());
   }
 
   /** @since 2.7 */
@@ -206,15 +209,41 @@ public abstract class SpellingCheckRule extends Rule {
     return language.getShortName() + SPELLING_IGNORE_FILE;
   }
 
-  private void loadFileIfExists(String filename) throws IOException {
-    final boolean ignoreFileExists = JLanguageTool.getDataBroker().resourceExists(filename);
-    if (!ignoreFileExists) {
-      return;
+  /**
+   * Get the name of the prohibit file, which lists words not to be accepted, even
+   * when the spell checker would accept them.
+   * @since 2.8
+   */
+  protected String getProhibitFileName() {
+    return language.getShortName() + SPELLING_PROHIBIT_FILE;
+  }
+
+  /**
+   * Whether the word is prohibited, i.e. whether it should be marked as a spelling
+   * error even if the spell checker would accept it. (This is useful to improve our spell
+   * checker without waiting for the upstream checker to be updated.)
+   * @since 2.8
+   */
+  protected boolean isProhibited(String word) {
+    return wordsToBeProhibited.contains(word);
+  }
+
+  /**
+   * Remove prohibited words from suggestions.
+   * @since 2.8
+   */
+  protected void filterSuggestions(List<String> suggestions) {
+    for (int i = 0; i < suggestions.size(); i++) {
+      if (isProhibited(suggestions.get(i))) {
+        suggestions.remove(i);
+      }
     }
-    loadWordsToBeIgnored(filename);
   }
 
   private void loadWordsToBeIgnored(String ignoreFile) throws IOException {
+    if (!JLanguageTool.getDataBroker().resourceExists(ignoreFile)) {
+      return;
+    }
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(ignoreFile)) {
       try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
         while (scanner.hasNextLine()) {
@@ -233,6 +262,24 @@ public abstract class SpellingCheckRule extends Rule {
           if (line.endsWith(".")) {
             wordsWithDotsPresent = true;
           }
+        }
+      }
+    }
+  }
+
+  private void loadWordsToBeProhibited(String prohibitFile) throws IOException {
+    if (!JLanguageTool.getDataBroker().resourceExists(prohibitFile)) {
+      return;
+    }
+    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(prohibitFile)) {
+      try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
+        while (scanner.hasNextLine()) {
+          String line = scanner.nextLine();
+          boolean isComment = line.startsWith("#");
+          if (isComment) {
+            continue;
+          }
+          wordsToBeProhibited.add(line);
         }
       }
     }
