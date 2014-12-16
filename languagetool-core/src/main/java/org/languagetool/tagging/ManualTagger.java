@@ -40,7 +40,7 @@ import org.languagetool.tools.StringTools;
  * @author Daniel Naber
  * @see ManualSynthesizer
  */
-public class ManualTagger {
+public class ManualTagger implements WordTagger {
 
   private final Map<String, List<LookedUpTerm>> mapping;
 
@@ -95,6 +95,14 @@ public class ManualTagger {
       }
     }
     return map;
+  }
+
+  @Override
+  public List<TaggedWord> tag(String word) {
+    //
+    // TODO
+    //
+    return null;
   }
 
   private class LookedUpTerm {
