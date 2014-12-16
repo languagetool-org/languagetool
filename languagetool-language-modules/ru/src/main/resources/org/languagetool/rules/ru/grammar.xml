@@ -401,10 +401,10 @@ $Id$
             <!-- TODO скрытый/скрытный   -->
             <rule>      
                 <pattern>
-                    <token>одел</token>
+                    <token inflected="yes">одеть</token>
                     <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки|майка|носок|обувь|туфли|сапоги|ботинки|сарафан</token>
                 </pattern>
-                <message>Логическая ошибка: <suggestion>надел \2</suggestion>?</message>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(од)(.*)" regexp_replace="над$2" /> <match no="2"  /></suggestion>?</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
                 <short>Логическая ошибка.</short>
                 <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
@@ -445,10 +445,10 @@ $Id$
             </rule>  
             <rule>      
                 <pattern>
-                    <token>надел</token>
+                    <token inflected="yes" >надел</token>
                     <token postag="NNN:.*|NNP:.*|NNF:.*" postag_regexp="yes"><exception regexp="yes">майк[уи]</exception></token>
                 </pattern>
-                <message>Логическая ошибка: <suggestion>одел \2</suggestion>?</message>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(над)(.*)" regexp_replace="од$2" /> <match no="2"  /></suggestion>?</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
                 <short>Логическая ошибка.</short>
                 <example type="incorrect">Он <marker>надел Ивана</marker>.</example>
@@ -459,10 +459,10 @@ $Id$
         
         <rule id="Linguistics_hrabry" name="Лингвистические ошибки «храбрая (или смелая) мысль, решение, идея»">
             <pattern>
-                <token>храбрая</token>
+                <token inflected="yes" >храбрый</token>
                 <token regexp="yes">мысль|решение|идея</token>
             </pattern>
-            <message>Лингвистическая ошибка: <suggestion>смелая \2</suggestion>?</message>
+            <message>Лингвистическая ошибка: <suggestion><match no="1" regexp_match="(храбр)(.*)" regexp_replace="смел$2" /> <match no="2"  /></suggestion>?</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0</url>
             <short>Лингвистическая ошибка.</short>
             <example type="incorrect">Это <marker>храбрая идея</marker>.</example>
