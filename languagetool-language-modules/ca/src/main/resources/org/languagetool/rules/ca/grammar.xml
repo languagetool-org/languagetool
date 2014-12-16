@@ -18183,6 +18183,16 @@ $Id$
                 <example type="correct">Som a l'any 2000.</example>
             </rule>
         </rulegroup>
+        <rule id="COMA_ETC" name="coma abans de 'etc.'">
+            <pattern>
+                <token><exception regexp="yes">[,;]|llarg</exception></token>
+                <token regexp="yes">etc|etcètera</token>
+            </pattern>
+            <message>Probablement falta una coma</message>
+            <suggestion>\1, \2</suggestion>
+            <example type="incorrect" correction="verd, etc">Roig, blau, <marker>verd etc</marker>.</example>
+            <example type="correct">Roig, blau, verd i un llarg etc.</example>
+        </rule>
         <rulegroup id="PUNTUACIO_INCORRECTA" name="combinacions de puntuació incorrectes">
             <rule id="TRESPUNTS_PUNT" name="tres punts + punt">
                 <pattern>

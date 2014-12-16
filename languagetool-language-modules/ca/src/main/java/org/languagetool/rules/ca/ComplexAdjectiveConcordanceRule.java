@@ -110,6 +110,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
   private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
   private static final Pattern EXCEPCIONS_PREVIA = Pattern.compile("termes?|paraul(a|es)|mots?|vocables?|expressi(ó|ons)|noms?|tipus|denominaci(ó|ons)");
   private static final Pattern EXCEPCIONS_PREVIA_POSTAG = Pattern.compile("_loc_meitat");
+  private static final Pattern TOPONIM = Pattern.compile("NP..G..");
+  private static final Pattern ORDINAL = Pattern.compile("AO.*");
 
   boolean adverbAppeared = false;
   boolean conjunctionAppeared = false;
@@ -164,7 +166,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         Pattern adjPattern = null;
         Matcher isUpperCase = UPPERCASE.matcher(token);
 
-        // Some exceptions
+        // SOME EXCEPTIONS
         // per molt lleuger
         if (prevPrevToken.equals("per") && prevToken.equals("molt")) {
           continue goToNextToken;
@@ -173,6 +175,83 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         if (i < tokens.length - 2 && token.equalsIgnoreCase("esquerra")
             && (nextToken.equals("-") || nextToken.equals("/"))
             && tokens[i + 2].getToken().equalsIgnoreCase("dreta")) {
+          continue goToNextToken;
+        }
+        
+        // exception: noun (or adj) plural + two or more adjectives
+        if (i < tokens.length - 2) {
+          Matcher pCoordina = COORDINACIO.matcher(nextToken);
+          if (pCoordina.matches()) {
+            if (((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(
+                tokens[i - 1], ADJECTIU_MP))
+                && matchPostagRegexp(tokens[i], ADJECTIU_MS) && matchPostagRegexp(
+                  tokens[i + 2], ADJECTIU_MS))
+                || ((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(
+                    tokens[i - 1], ADJECTIU_MP))
+                    && matchPostagRegexp(tokens[i], ADJECTIU_MP) && matchPostagRegexp(
+                      tokens[i + 2], ADJECTIU_MP))
+                || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(
+                    tokens[i - 1], ADJECTIU_FP))
+                    && matchPostagRegexp(tokens[i], ADJECTIU_FS) && matchPostagRegexp(
+                      tokens[i + 2], ADJECTIU_FS))
+                || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(
+                    tokens[i - 1], ADJECTIU_FP))
+                    && matchPostagRegexp(tokens[i], ADJECTIU_FP) && matchPostagRegexp(
+                      tokens[i + 2], ADJECTIU_FP))) {
+              continue goToNextToken;
+            }
+          }
+        }
+        // exception: termes, paraules, etc.
+        if (matchRegexp(prevToken, EXCEPCIONS_PREVIA)) {
+          continue goToNextToken;
+        }
+        // exceptions: la meitat mascles
+        if (matchPostagRegexp(tokens[i - 1], EXCEPCIONS_PREVIA_POSTAG)) {
+          continue goToNextToken;
+        }
+        // exceptions: llevat de, tret de, majúsucula inicial
+        if ((((token.equals("tret") || token.equals("llevat")) && (nextToken
+            .equals("de") || nextToken.equals("que")))
+            || token.equals("primer")
+            || token.equals("junts")
+            || token.equals("plegats") || isUpperCase.matches())) {
+          continue goToNextToken;
+        }
+        // exceptions: atès, atesos..., donat, donats...
+        if (matchRegexp(token, EXCEPCIONS_PARTICIPI)) {
+          continue goToNextToken;
+        }
+        // exceptions: un cop, una volta, una vegada...
+        if ((((prevPrevToken.equals("un") || prevPrevToken.equals("altre")) && (prevToken.equals("cop") || prevToken.equals("colp"))) 
+            || ((prevPrevToken.equals("una") || prevPrevToken.equals("altra") || prevPrevToken.equals("aquesta")) && (prevToken.equals("volta") || prevToken.equals("vegada"))))
+            ) {
+          continue goToNextToken;
+        }
+        
+        // exceptions: per primera vegada...
+        if (i > 2 && tokens[i - 2].getToken().equalsIgnoreCase("per")
+            && matchPostagRegexp(tokens[i - 1], ORDINAL)
+            && (prevToken.equals("volta") || prevToken.equals("vegada")
+                || prevToken.equals("cop") || prevToken.equals("colp"))) {
+          continue goToNextToken;
+        }
+
+        // exceptions: segur que, just a
+        if (i < tokens.length - 1) {
+          if ((token.equals("segur") || token.equals("major") || token
+              .equals("menor")) && nextToken.equals("que")) {
+            continue goToNextToken;
+          }
+        }
+        // exceptions: sota mateix, dins mateix,
+        if (token.equals("mateix") && matchPostagRegexp(tokens[i - 1], ADVERBI)) {
+          continue goToNextToken;
+        }
+        
+        // exceptions: a França mateix
+        if (token.equals("mateix") && matchPostagRegexp(tokens[i - 1], TOPONIM)
+            && prevPrevToken.equals("a")) {
           continue goToNextToken;
         }
 
@@ -330,69 +409,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         // there is no noun, (no determinant --> && cDtotal==0)
         if (cNtotal == 0 && cDtotal == 0) { 
           continue goToNextToken;
-        }
-
-        // exception: noun (or adj) plural + two or more adjectives
-        if (i < tokens.length - 2) {
-          Matcher pCoordina = COORDINACIO.matcher(nextToken);
-          if (pCoordina.matches()) {
-            if (((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(
-                tokens[i - 1], ADJECTIU_MP))
-                && matchPostagRegexp(tokens[i], ADJECTIU_MS) && matchPostagRegexp(
-                  tokens[i + 2], ADJECTIU_MS))
-                || ((matchPostagRegexp(tokens[i - 1], NOM_MP) || matchPostagRegexp(
-                    tokens[i - 1], ADJECTIU_MP))
-                    && matchPostagRegexp(tokens[i], ADJECTIU_MP) && matchPostagRegexp(
-                      tokens[i + 2], ADJECTIU_MP))
-                || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(
-                    tokens[i - 1], ADJECTIU_FP))
-                    && matchPostagRegexp(tokens[i], ADJECTIU_FS) && matchPostagRegexp(
-                      tokens[i + 2], ADJECTIU_FS))
-                || ((matchPostagRegexp(tokens[i - 1], NOM_FP) || matchPostagRegexp(
-                    tokens[i - 1], ADJECTIU_FP))
-                    && matchPostagRegexp(tokens[i], ADJECTIU_FP) && matchPostagRegexp(
-                      tokens[i + 2], ADJECTIU_FP))) {
-              continue goToNextToken;
-            }
-          }
-        }
-        // exception: termes, paraules, etc.
-        if (matchRegexp(prevToken, EXCEPCIONS_PREVIA)) {
-          continue goToNextToken;
-        }
-        // exceptions: la meitat mascles
-        if (matchPostagRegexp(tokens[i - 1], EXCEPCIONS_PREVIA_POSTAG)) {
-          continue goToNextToken;
-        }
-        // exceptions: llevat de, tret de, majúsucula inicial
-        if ((((token.equals("tret") || token.equals("llevat")) && (nextToken
-            .equals("de") || nextToken.equals("que")))
-            || token.equals("primer")
-            || token.equals("junts")
-            || token.equals("plegats") || isUpperCase.matches())) {
-          continue goToNextToken;
-        }
-        // exceptions: atès, atesos..., donat, donats...
-        if (matchRegexp(token, EXCEPCIONS_PARTICIPI)) {
-          continue goToNextToken;
-        }
-        // exceptions: un cop, una volta, una vegada...
-        if ((((prevPrevToken.equals("un") || prevPrevToken.equals("altre")) && (prevToken.equals("cop") || prevToken.equals("colp"))) 
-            || ((prevPrevToken.equals("una") || prevPrevToken.equals("altra")) && (prevToken.equals("volta") || prevToken.equals("vegada"))))
-            ) {
-          continue goToNextToken;
-        }
-        // exceptions: segur que, just a
-        if (i < tokens.length - 1) {
-          if ((token.equals("segur") || token.equals("major") || token
-              .equals("menor")) && nextToken.equals("que")) {
-            continue goToNextToken;
-          }
-        }
-        // exceptions: sota mateix, dins mateix,
-        if (token.equals("mateix") && matchPostagRegexp(tokens[i - 1], ADVERBI)) {
-          continue goToNextToken;
-        }
+        }        
 
         // patterns according to the analyzed adjective 
         if (matchPostagRegexp(tokens[i], ADJECTIU_CS)) {
@@ -445,7 +462,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         // or it is adjective or adverb (not preceded by verb)
         // /*&& !matchPostagRegexp(tokens[i],NOM)*/
         if ((matchPostagRegexp(tokens[i - 1], NOM) && !matchPostagRegexp(tokens[i - 1], substPattern))
-            || (i>2 && matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], adjPattern))
+            || (matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], gnPattern))
+            || (matchPostagRegexp(tokens[i - 1], ADJECTIU) && !matchPostagRegexp(tokens[i - 1], adjPattern))
             || (i>2 && matchPostagRegexp(tokens[i - 1], ADVERBIS_ACCEPTATS) && !matchPostagRegexp(tokens[i - 2], VERB) && !matchPostagRegexp(tokens[i - 2], PREPOSICIONS))
             || (i>3 && matchPostagRegexp(tokens[i - 1], LOC_ADV) && matchPostagRegexp(tokens[i - 2], LOC_ADV) && !matchPostagRegexp(tokens[i - 3], VERB) && !matchPostagRegexp(tokens[i - 3], PREPOSICIONS))
             ) {
@@ -461,12 +479,12 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
           initializeApparitions();
           while (i - j > 0 && keepCounting(tokens[i - j])) {
             // there is a previous agreeing noun
-            if (matchPostagRegexp(tokens[i - j], NOM_DET)
+            if (!matchPostagRegexp(tokens[i - j], _GN_)
+                && matchPostagRegexp(tokens[i - j], NOM_DET)
                 && matchPostagRegexp(tokens[i - j], substPattern)) {
               continue goToNextToken; 
-            // there is a previous agreeing adjective (in a nominal group)
-            } else if (matchPostagRegexp(tokens[i - j], ADJECTIU)
-                && matchPostagRegexp(tokens[i - j], gnPattern)) {
+            // there is a previous agreeing adjective (in a nominal group) 
+            } else if ( matchPostagRegexp(tokens[i - j], gnPattern)) {
               continue goToNextToken;
             // if there is no nominal group, it requires noun
             } /*else if (!matchPostagRegexp(tokens[i - j], _GN_) 
@@ -504,7 +522,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         || matchRegexp(aTr.getToken(), KEEP_COUNT2) || matchPostagRegexp(aTr,
           ADVERBIS_ACCEPTATS))
         && !matchRegexp(aTr.getToken(), STOP_COUNT) 
-        && !matchPostagRegexp(aTr, GV);
+        && (!matchPostagRegexp(aTr, GV) || matchPostagRegexp(aTr, _GN_));
   }
 
   private void initializeApparitions() {

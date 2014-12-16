@@ -43,6 +43,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
 
     // correct sentences:
     
+    //de l'altra més neguitós
+    //per primera vegada documentat
+    //en alguns casos documentat
+    //en tot cas poc honesta
     //amb la mirada de cadascun dels homes clavada en la de l'adversari
     //de fer una torre o fortificació bo i al·legant que això
     // a confondre en un mateix amor amics i enemics
@@ -62,6 +66,12 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
      */
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
     //assertCorrect("Es van somriure l'una a l'altra encara dretes, suades i panteixants,");
+//    assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    assertCorrect("les causes per primera vegada explicades");
+    assertCorrect("per les causes explicades fa molt difícil");
+    assertCorrect("a França mateix");
+    assertCorrect("tenen moltes més dificultats");
+    assertCorrect("l'endeutament que generà fou força elevat");
     assertCorrect("el text de més àmplia i persistent influència");
     assertCorrect("el text de més àmplia influència");
     assertCorrect("Ell i jo som una altra vegada partidaris del rei"); 
@@ -77,8 +87,9 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("no arriben als 300 mm de pluja anuals");
     assertCorrect("un dibuix de colors vius d'un noi ben plantat i una noia preciosa drets");
     assertCorrect("de la captura i l'assassinat recents");
-    //assertCorrect(", la captura i l'assassinat recents"); //desambiguar "la captura"
-    //assertCorrect("la revolta contra el poder pontifici iniciada a Bolonya"); //desambiguar "la revolta"
+    assertCorrect("la captura i l'assassinat recents"); //desambiguar "la captura"
+    assertCorrect("era la defensa i seguretat mútues");
+    assertCorrect("la revolta contra el poder pontifici iniciada a Bolonya"); //desambiguar "la revolta"
     assertCorrect("donar estocades sense ordre ni concert mal dirigides");
     assertCorrect("trobarien un dels nanos mort de fred");
     assertCorrect("aquest text, el més antic de l'obra fins ara conegut");
@@ -196,6 +207,10 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     assertCorrect("Era un home força misteriós");
 
     // errors:
+    assertIncorrect("França mateix ho necessita.");
+    assertIncorrect("recull de llegendes i cançons populars en part inventats per ell");
+    assertIncorrect("amb dos conjunts territorial diferents entre si");
+    assertIncorrect("per mitjà de gàmetes haploides obtingudes per meiosi");
     assertIncorrect("és tan ple d'urgències, tan ple de desitjós materials");
     assertIncorrect("Tesis doctoral");
     assertIncorrect("vaig posar mans a l'obra: a dins de casa mateix vaig cavar un sot per enterrar");
