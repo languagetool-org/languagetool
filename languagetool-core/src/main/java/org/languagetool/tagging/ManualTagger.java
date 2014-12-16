@@ -61,10 +61,9 @@ public class ManualTagger {
       return null;
     }
     final List<String> plainResult = new ArrayList<>();
-    for (final Object element : l) {
-      final LookedUpTerm lookedUpTerm = (LookedUpTerm) element;
-      plainResult.add(lookedUpTerm.baseform);
-      plainResult.add(lookedUpTerm.posTags);
+    for (LookedUpTerm element : l) {
+      plainResult.add(element.baseform);
+      plainResult.add(element.posTags);
     }
     if (plainResult.isEmpty()) {
       return null;
