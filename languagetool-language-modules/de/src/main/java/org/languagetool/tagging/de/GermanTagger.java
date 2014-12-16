@@ -175,28 +175,27 @@ public class GermanTagger implements Tagger {
       final List<WordData> posTagsFromDict = morfologik.lookup(word);
       if (posTagsFromUserDict != null && !posTagsFromDict.isEmpty()) {
         final String[] allPosTags = new String[posTagsFromUserDict.length + posTagsFromDict.size() * 2];
-        int i = 0;
-        for (WordData wd : posTagsFromDict) {
-          allPosTags[i] = wd.getStem().toString();
-          allPosTags[i + 1] = wd.getTag().toString();
-          i = i + 2;
-        }
+        getPosTags(posTagsFromDict, allPosTags);
         System.arraycopy(posTagsFromUserDict, 0, allPosTags, posTagsFromDict.size() * 2, posTagsFromUserDict.length);
         return allPosTags;
       } else if (posTagsFromUserDict == null && !posTagsFromDict.isEmpty()) {
         final String[] allPosTags = new String[posTagsFromDict.size() * 2];
-        int i = 0;
-        for (WordData wd : posTagsFromDict) {
-          allPosTags[i] = wd.getStem().toString();
-          allPosTags[i + 1] = wd.getTag().toString();
-          i = i + 2;
-        }
+        getPosTags(posTagsFromDict, allPosTags);
         return allPosTags;
       } else {
         return posTagsFromUserDict;
       }
     } catch (Exception e) {
       throw new RuntimeException("Error looking up word '" + word + "'", e);
+    }
+  }
+
+  private void getPosTags(List<WordData> posTagsFromDict, String[] allPosTags) {
+    int i = 0;
+    for (WordData wd : posTagsFromDict) {
+      allPosTags[i] = wd.getStem().toString();
+      allPosTags[i + 1] = wd.getTag().toString();
+      i = i + 2;
     }
   }
 
