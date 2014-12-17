@@ -495,7 +495,7 @@ $Id$
         </rulegroup>
     </category>
     <category name="A3) Vocabulari d'ús restringit" type="style">    
-        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: mitat, depòsit, depositar">
+        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: mitat, depòsit, depositar, servici">
             <rule>
                 <pattern>
                     <token regexp="yes">mitats?</token>
@@ -513,7 +513,16 @@ $Id$
                 <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
                 <example type="incorrect" correction="dipòsits">Van omplir els <marker>depòsits</marker>.</example>
                 <example type="correct">Hi dipositarem.</example>
-            </rule>     
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">servici</token>
+                </pattern>
+                <message>Terme valencià.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>
+                <example type="incorrect" correction="serveis">Els <marker>servicis</marker></example>
+                <example type="correct">serveis</example>
+            </rule>  
         </rulegroup>
         <rulegroup id="VOCABULARI_BALEAR" name="Evita vocabulari balear: novia, galleta, esser, posader">
             <rule>
@@ -5643,6 +5652,23 @@ $Id$
                 <example type="correct">M'agrada tant!</example>
                 <example type="correct">I aquesta calavera tan... tan guapa</example>
                 <example type="correct">És tan "real"</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tant<exception postag="allow_tant"/></token>
+                    </marker>
+                    <token>a</token>
+                    <token>prop</token>
+                    <token regexp="yes">de|d'</token>
+                </pattern>
+                <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
+                <short>Confusió</short>
+                <example type="incorrect">Era <marker>tant</marker> a prop d'ell.</example>
+                <example type="incorrect">Cal anar <marker>tant</marker> a prop d'ell com sigui possible.</example>
+                <example type="incorrect">Juga <marker>tant</marker> a prop de la cistella com vol.</example>
+                <example type="correct">Neden tant a prop de la superfície com pel fons del mar.</example>
+                <example type="correct">És capaç de jugar tant a prop de la cistella com lluny.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADV_MENT" name="dos adverbis acabats en -ment">
@@ -13430,6 +13456,19 @@ $Id$
                 <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf5.htm</url>
                 <example type="incorrect" correction="francoprussiana">La guerra <marker>franc prussiana</marker>.</example>
                 <example type="correct">La guerra francoprussiana.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>centre<exception postag="_GN_MS"/></token>
+                    <token min="0">-</token>
+                    <token>Amèrica</token>
+                </pattern>
+                <message>Cal escriure-ho junt.</message>
+                <suggestion>Centreamèrica</suggestion>
+                <url>http://esadir.cat/Toponims/Top%C3%B2nims%20del%20m%C3%B3n/Am%C3%A8rica/Centream%C3%A8rica</url>
+                <example type="incorrect">Ve de <marker>Centre Amèrica</marker>.</example>
+                <example type="incorrect">Ve de <marker>Centre-amèrica</marker>.</example>
+                <example type="correct">Vol posar al centre Amèrica.</example>
             </rule>
         </rulegroup>      
         <rulegroup id="CONTRACCIONS" name="contraccions">
@@ -24737,7 +24776,7 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="4">celebrar</token>
                     </marker>
-                    <token inflected="yes">contracte</token>
+                    <token inflected="yes" regexp="yes">contracte|conveni</token>
                 </pattern>
                 <message>Els contractes se subscriuen o se signen.</message>
                 <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">subscriure</match></suggestion>
@@ -24748,7 +24787,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="4">contracte</token>
+                    <token inflected="yes" skip="4" regexp="yes">contracte|conveni</token>
                     <marker>
                         <token inflected="yes">celebrar</token>
                     </marker>
@@ -24765,7 +24804,7 @@ $Id$
                     <marker>
                         <token inflected="yes" skip="3">celebració</token>
                     </marker>
-                    <token inflected="yes">contracte</token>
+                    <token inflected="yes" regexp="yes">contracte|conveni</token>
                 </pattern>
                 <message>Els contractes se subscriuen o se signen.</message>
                 <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">subscripció</match></suggestion>
@@ -28218,6 +28257,19 @@ $Id$
                 <example type="incorrect" correction="mitjà">per <marker>medi</marker> de</example>
                 <example type="correct">per mitjà de</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">mitjà</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">marí|terrestre|aquàtic</token>
+                </pattern>
+                <message>Incorrecte en el sentit de "entorn, ambient".</message>
+                <suggestion><match no="1" postag="NC(.+)" postag_regexp="yes" postag_replace="NC$1">medi</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/medi</url>
+                <example type="incorrect" correction="medis">Els <marker>mitjans</marker> marins</example>
+                <example type="correct">El medi marí.</example>
+            </rule>
         </rulegroup>
         <rule id="EN_EL_SEU_CAS" name="en el seu cas">
             <pattern>
@@ -29068,7 +29120,7 @@ $Id$
         <rule id="JA_SIA_O" name="ja sia... o... / sia... o...">
             <pattern>
                 <token>ja</token>
-                <token regexp="yes">sigui|siga|sia</token>
+                <token regexp="yes">sigui|siga|sia|siguen|siguin|sien|fos|fóra</token>
                 <token skip="4"/>
                 <token>o</token>
             </pattern>

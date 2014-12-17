@@ -166,7 +166,7 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         Pattern adjPattern = null;
         Matcher isUpperCase = UPPERCASE.matcher(token);
 
-        // SOME EXCEPTIONS
+        /* SOME EXCEPTIONS */
         // per molt lleuger
         if (prevPrevToken.equals("per") && prevToken.equals("molt")) {
           continue goToNextToken;
@@ -177,7 +177,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
             && tokens[i + 2].getToken().equalsIgnoreCase("dreta")) {
           continue goToNextToken;
         }
-        
         // exception: noun (or adj) plural + two or more adjectives
         if (i < tokens.length - 2) {
           Matcher pCoordina = COORDINACIO.matcher(nextToken);
@@ -228,7 +227,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
             ) {
           continue goToNextToken;
         }
-        
         // exceptions: per primera vegada...
         if (i > 2 && tokens[i - 2].getToken().equalsIgnoreCase("per")
             && matchPostagRegexp(tokens[i - 1], ORDINAL)
@@ -236,7 +234,6 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
                 || prevToken.equals("cop") || prevToken.equals("colp"))) {
           continue goToNextToken;
         }
-
         // exceptions: segur que, just a
         if (i < tokens.length - 1) {
           if ((token.equals("segur") || token.equals("major") || token
@@ -248,14 +245,13 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         if (token.equals("mateix") && matchPostagRegexp(tokens[i - 1], ADVERBI)) {
           continue goToNextToken;
         }
-        
         // exceptions: a França mateix
         if (token.equals("mateix") && matchPostagRegexp(tokens[i - 1], TOPONIM)
             && prevPrevToken.equals("a")) {
           continue goToNextToken;
         }
 
-        // Counts nouns and determiners before the adjectives.
+        /* Count all nouns and determiners before the adjectives */
         // Takes care of acceptable combinations.
         int maxLevels = 4;
         int[] cNt = new int[maxLevels];
@@ -271,15 +267,8 @@ public class ComplexAdjectiveConcordanceRule extends CatalanRule {
         int[] cDFP = new int[maxLevels];
         int[] cN = new int[maxLevels];
         int[] cD = new int[maxLevels];
-        /*
-         * for (j = 0; j < maxLevels; j++) { cNt[j] = 0; cNMS[j] = 0; cNFS[j] =
-         * 0; cNMP[j] = 0; cNFP[j] = 0; cDMS[j] = 0; cDFS[j] = 0; cDMP[j] = 0;
-         * cDFP[j] = 0; cN[j] = 0; cD[j] = 0; }
-         */
-
         int level = 0;
         j = 1;
-        // boolean keepCounting = true;
         initializeApparitions();
         while (i - j > 0 && keepCounting(tokens[i - j]) && level < maxLevels) {
           if (!isPrevNoun) {
