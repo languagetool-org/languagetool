@@ -70,7 +70,7 @@ function run_full_test()
 
 
 SRC_BASE="$HOME/work/ukr/spelling/media"
-SRCS="tyzhden/td.txt um/um.txt dt.txt.clean vz/vz.txt ukrlit/ukr_lit.txt"
+SRCS="tyzhden/td.txt um/um.txt dt.txt.clean vz/vz.txt ukrlit/ukr_lit.txt mandela/mandela.txt"
 
 IDS_TO_CHECK="$@"
 

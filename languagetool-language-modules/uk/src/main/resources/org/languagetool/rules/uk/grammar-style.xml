@@ -214,12 +214,12 @@ $Id$
                 <!-- треба розбити всі варіанти з не-, щоб не пропонувати «понад»
                     <token><exception scope="previous">не</exception>більше</token>
                     -->
-                    <token>більше</token>
+                    <token regexp="yes">більше?</token>
                     <token postag_regexp="yes" postag="numr:.*v_rod">
                         <exception inflected="yes">один</exception>
                     </token>
                 </pattern>
-                <message>З числівником замість «більше» треба вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:v_zna"/></suggestion></message>
+                <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2" postag="numr:v_zna"/></suggestion></message>
                 <suggestion>більш як <match no="2" postag="numr:v_zna"/></suggestion>
                 <suggestion>більш ніж <match no="2" postag="numr:v_zna"/></suggestion>
                 <example type="correct">Більше одного</example>
@@ -230,10 +230,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>більше</token>
+                    <token regexp="yes">більше?</token>
                     <token postag="number"/>
                 </pattern>
-                <message>З числівником замість «більше» треба вживати «понад», або «ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
+                <message>З числівником замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
                 <suggestion>більш як <match no="2"/></suggestion>
                 <suggestion>більш ніж <match no="2"/></suggestion>
                 <example type="correct">Більш як 40</example>
@@ -242,10 +242,10 @@ $Id$
 
             <rule>
                 <pattern>
-                    <token>більше</token>
+                    <token regexp="yes">більше?</token>
                     <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:[mf]:v_rod">хвилина|година|день|доба|тиждень|місяць|рік</token>
                 </pattern>
-                <message>З іменником часу замість «більше» треба вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
+                <message>З іменником часу замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion></message>
                 <suggestion>більше як <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
                 <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
                 <example type="correct">Більше галасу</example>
