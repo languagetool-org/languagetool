@@ -518,8 +518,7 @@ $Id$
                 <pattern>
                     <token inflected="yes">servici</token>
                 </pattern>
-                <message>Terme valencià.</message>
-                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>
+                <message>Variant secundària de <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>.</message>
                 <example type="incorrect" correction="serveis">Els <marker>servicis</marker></example>
                 <example type="correct">serveis</example>
             </rule>  
@@ -11406,6 +11405,8 @@ $Id$
             <example type="correct">Li vaig fer un apunt.</example>
             <example type="correct">En faig un breu apunt.</example>
             <example type="correct">Últim apunt</example>
+            <!-- a partir del meu apunt
+            Tinc el meu a punt.  -->
         </rule>
         </rulegroup>    
         <rulegroup id="MOL_MOLT" name="*mol(s)/molt(s)">
@@ -18657,7 +18658,7 @@ $Id$
                         <token/>
                         <token spacebefore="yes">"</token>
                     </marker>
-                    <token postag="_PUNCT.*" postag_regexp="yes"><exception regexp="yes">[(¡¿'\-–—]</exception><exception postag="_trespunts"/></token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"><exception regexp="yes">[\[(¡¿'\-–—]</exception><exception postag="_trespunts"/></token>
                 </pattern>
                 <message>Sobra un espai</message>
                 <suggestion>\1\2</suggestion>
