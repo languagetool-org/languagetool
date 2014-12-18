@@ -17775,11 +17775,94 @@ $Id$
                         <token regexp="yes">[–‒-]</token>
                     </marker>
                 </pattern>
-                <message>Cal substituir els guionets per guió.</message>
+                <message>Cal substituir el guionet per guió.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
                 <example type="incorrect"><marker>--</marker></example>
                 <example type="correct"><marker>—</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">[–‒-]</token>
+                </pattern>
+                <message>Cal substituir el guionet per guió.</message>
+                <suggestion>—</suggestion>
+                <short>Error tipogràfic</short>
+                <example type="incorrect" correction=""><marker>-</marker> Primer punt de l'ordre del dia.</example>
+                <example type="correct">— Primer punt de l'ordre del dia.</example>
+            </rule>
+        </rulegroup>
+        <rule id="GUIO_ESPAI" name="Guió i espai en enumeracions" default="off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">[–‒-—]</token>
+                <token spacebefore="no"/>
+            </pattern>
+            <message>En enumeracions cal posar un espai després del guió.</message>
+            <suggestion>— \3</suggestion>
+            <short>Error tipogràfic</short>
+            <example type="incorrect" correction="— Influència"><marker>—Influència</marker> artística.</example>
+            <example type="correct"><marker>—</marker></example>
+        </rule>
+        <rule id="GUIO_SENSE_ESPAI" name="Guió sense espai en enumeracions" default="off">
+            <pattern>
+                <token postag="SENT_START"/>
+                <token regexp="yes">[–‒-—]</token>
+                <token spacebefore="yes"/>
+            </pattern>
+            <message>En diàlegs no es posa un espai després del guió.</message>
+            <suggestion>—\3</suggestion>
+            <short>Error tipogràfic</short>
+            <example type="incorrect" correction="—Vine"><marker>— Vine</marker>, corre!</example>
+            <example type="correct">—Vine</example>
+        </rule>
+        <rulegroup id="COMETES_TIPOGRÀFIQUES" name="Exigeix cometes tipogràfiques" default="on">
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">"</token>
+                    <token spacebefore="no"></token>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>“\2</suggestion>
+                <suggestion>«\2</suggestion>
+                <example type="incorrect" correction="“gran|«gran">És de <marker>"gran</marker> qualitat".</example>
+                <example type="correct">uniforme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="no">"</token>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>\1”</suggestion>
+                <suggestion>\1»</suggestion>
+                <example type="incorrect" correction="qualitat”|qualitat»">És de "gran <marker>qualitat"</marker>.</example>
+                <example type="correct">uniforme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token spacebefore="yes">'</token>
+                    <token spacebefore="no"></token>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>‘\2</suggestion>
+                <suggestion>“\2</suggestion>
+                <suggestion>«\2</suggestion>
+                <example type="incorrect" correction="‘gran|“gran|«gran">És de <marker>'gran</marker> qualitat'.</example>
+                <example type="correct">uniforme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="no">'</token>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>\1’</suggestion>
+                <suggestion>\1”</suggestion>
+                <suggestion>\1»</suggestion>
+                <example type="incorrect" correction="qualitat’|qualitat”|qualitat»">És de 'gran <marker>qualitat'</marker>.</example>
+                <example type="correct">uniforme.</example>
             </rule>
         </rulegroup>
     </category>
@@ -31858,13 +31941,13 @@ $Id$
                 <token inflected="yes">alcançar</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris, que val més evitar en llenguatge formal.</message>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">arribar</match> a</suggestion>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">assolir</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">aconseguir</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">atrapar</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">obtenir</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">abastar</match></suggestion>
-            <suggestion><match no="1" postag="(V.+)." postag_regexp="yes" postag_replace="$1.">atènyer</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">arribar</match> a</suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">assolir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">aconseguir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">atrapar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">obtenir</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">abastar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">atènyer</match></suggestion>
             <example type="incorrect">No <marker>alcançà</marker> el resultat</example>
             <example type="correct">No aconseguí el resultat</example>
         </rule>
