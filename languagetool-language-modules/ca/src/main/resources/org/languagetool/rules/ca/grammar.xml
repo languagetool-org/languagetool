@@ -495,30 +495,31 @@ $Id$
         </rulegroup>
     </category>
     <category name="A3) Vocabulari d'ús restringit" type="style">    
-        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: mitat, depòsit, depositar, servici">
+        <rulegroup id="VOCABULARI_VALENCIA" name="Evita vocabulari valencià: depòsit, depositar, servici">
             <rule>
                 <pattern>
-                    <token regexp="yes">mitats?</token>
+                    <token inflected="yes">depositar</token>
                 </pattern>
-                <message>Variant secundària de <suggestion><match no="1" regexp_match="mitat(.*)" regexp_replace="meitat$1"/></suggestion>.</message>
-                <example type="incorrect" correction="meitat">la <marker>mitat</marker> del peix.</example>
-                <example type="incorrect" correction="meitats">tres <marker>mitats</marker></example>
-                <example type="correct">La meitat del peix.</example>
+                <message>Variant valenciana.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dipositar</match></suggestion>
+                <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
+                <example type="correct">Hi van dipositar.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">depositar|depòsit</token>
+                    <token inflected="yes">depòsit</token>
                 </pattern>
-                <message>Variant secundària de <suggestion><match no="1" regexp_match="dep(.+)" regexp_replace="dip$1"/></suggestion>.</message>
-                <example type="incorrect" correction="dipositaren">Hi <marker>depositaren</marker>.</example>
-                <example type="incorrect" correction="dipòsits">Van omplir els <marker>depòsits</marker>.</example>
-                <example type="correct">Hi dipositarem.</example>
+                <message>Variant valenciana.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">dipòsit</match></suggestion>
+                <example type="incorrect" correction="dipòsits">Els <marker>depòsits</marker></example>
+                <example type="correct">dipòsits</example>
             </rule>
             <rule>
                 <pattern>
                     <token inflected="yes">servici</token>
                 </pattern>
-                <message>Variant secundària de <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>.</message>
+                <message>Variant valenciana.</message>
+                <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">servei</match></suggestion>
                 <example type="incorrect" correction="serveis">Els <marker>servicis</marker></example>
                 <example type="correct">serveis</example>
             </rule>  
@@ -17983,7 +17984,7 @@ $Id$
                 <example type="correct">(‘gran qualitat’)</example>
             </rule>
         </rulegroup>
-        <rule id="APOSTROF_TIPOGRAFIC" name="Exigeix l'apòstrof tipogràfic (’)">
+        <rule id="APOSTROF_TIPOGRAFIC" name="Exigeix l'apòstrof tipogràfic (’)" default="off">
             <pattern>
                 <token chunk="containsTypewriterApostrophe" regexp="yes">(.*)'(.*)<exception>'</exception></token>
             </pattern>
@@ -29117,12 +29118,22 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
+        <rule id="MITAT" name="mitat">
+            <pattern>
+                <token inflected="yes">mitat</token>
+            </pattern>
+            <message>Variant secundària.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">meitat</match></suggestion>
+            <example type="incorrect" correction="meitat">la <marker>mitat</marker> del peix.</example>
+            <example type="incorrect" correction="meitats">tres <marker>mitats</marker></example>
+            <example type="correct">La meitat del peix.</example>
+        </rule>
         <rulegroup id="ESCOLLIR_INCOATIU" name="escollir (conjugació incoativa)">
             <rule>
                 <pattern>
                    <token regexp="yes">(escoll)([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ieoa]?)([ns]?)<exception>escolleixes</exception></token>
                 </pattern>
-                <message>La forma incoativa és secundària, i no és recollida per tots els diccionaris.</message>
+                <message>La forma incoativa és secundària, i no és recollida per la majoria de diccionaris.</message>
                 <suggestion><match no="1" regexp_match="([Ee])scoll([ei]sc|[ei]squ|e?ixc|e?ixqu|e?ix)([ioae]?)([ns]?)" regexp_replace="$1scull$3$4"/></suggestion>
                 <short>Forma secundària</short>
                 <example type="incorrect" correction="Escullo"><marker>Escolleixo</marker></example>
