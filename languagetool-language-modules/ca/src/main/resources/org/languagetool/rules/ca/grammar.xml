@@ -17796,7 +17796,7 @@ $Id$
         <rule id="GUIO_ESPAI" name="Guió i espai en enumeracions" default="off">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">[–‒-—]</token>
+                <token regexp="yes">[–‒—-]</token>
                 <token spacebefore="no"/>
             </pattern>
             <message>En enumeracions cal posar un espai després del guió.</message>
@@ -17808,7 +17808,7 @@ $Id$
         <rule id="GUIO_SENSE_ESPAI" name="Guió sense espai en enumeracions" default="off">
             <pattern>
                 <token postag="SENT_START"/>
-                <token regexp="yes">[–‒-—]</token>
+                <token regexp="yes">[–‒—-]</token>
                 <token spacebefore="yes"/>
             </pattern>
             <message>En diàlegs no es posa un espai després del guió.</message>
@@ -17818,29 +17818,100 @@ $Id$
             <example type="correct">—Vine</example>
         </rule>
         <rulegroup id="COMETES_TIPOGRÀFIQUES" name="Exigeix cometes tipogràfiques" default="on">
-            <rule>
+            <!-- COMETES DOBLES -->
+            <rule> <!-- davant i darrere -->
+                <pattern>
+                    <token>"</token>
+                    <token spacebefore="no"/>
+                    <token spacebefore="no">"</token>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>“\2”</suggestion>
+                <suggestion>«\2»</suggestion>
+                <example type="incorrect" correction="“gran”|«gran»">És de <marker>"gran"</marker> qualitat.</example>
+                <example type="correct">“gran”</example>
+            </rule>
+            <rule> <!-- davant -->
                 <pattern>
                     <token spacebefore="yes">"</token>
-                    <token spacebefore="no"></token>
+                    <token spacebefore="no"/>
                 </pattern>
                 <message>Useu cometes tipogràfiques.</message>
                 <suggestion>“\2</suggestion>
                 <suggestion>«\2</suggestion>
                 <example type="incorrect" correction="“gran|«gran">És de <marker>"gran</marker> qualitat".</example>
-                <example type="correct">uniforme.</example>
+                <example type="correct">“gran qualitat”</example>
             </rule>
-            <rule>
+            <rule> <!-- darrere -->
                 <pattern>
-                    <token/>
-                    <token spacebefore="no">"</token>
+                    <token><exception>"</exception></token>
+                    <marker>
+                        <token><exception regexp="yes">[\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">"</token>
+                    </marker>
                 </pattern>
                 <message>Useu cometes tipogràfiques.</message>
-                <suggestion>\1”</suggestion>
-                <suggestion>\1»</suggestion>
+                <suggestion>\2”</suggestion>
+                <suggestion>\2»</suggestion>
                 <example type="incorrect" correction="qualitat”|qualitat»">És de "gran <marker>qualitat"</marker>.</example>
-                <example type="correct">uniforme.</example>
+                <example type="correct">De “gran qualitat”</example>
             </rule>
-            <rule>
+            <rule> <!-- principi de frase -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">[–‒—-]</token>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                        <token spacebefore="no"/> 
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>“\4</suggestion>
+                <suggestion>«\4</suggestion>
+                <example type="incorrect" correction="“Digues|«Digues">-<marker>"Digues</marker> què va passar".</example>
+                <example type="correct">-“Gran qualitat”</example>
+            </rule>
+            <rule> <!-- després de parèntesi-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[\[(¡¿]</token>
+                        <token spacebefore="no">"</token>
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>\1“</suggestion>
+                <suggestion>\1«</suggestion>
+                <example type="incorrect" correction="(“|(«"><marker>("</marker>gran qualitat").</example>
+                <example type="correct">(“gran qualitat”)</example>
+            </rule>
+            <rule> <!-- abans de parèntesi-->
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">"</token>
+                        <token spacebefore="no" regexp="yes">[\])!?]</token>
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>”\2</suggestion>
+                <suggestion>»\2</suggestion>
+                <example type="incorrect" correction="”)|»)">("gran qualitat<marker>")</marker>.</example>
+                <example type="correct">¿“Gran qualitat”?</example>
+            </rule>
+            <!-- COMETA SIMPLE -->
+            <rule> <!-- davat i darrere -->
+                <pattern>
+                    <token>'</token>
+                    <token spacebefore="no"/>
+                    <token spacebefore="no">'</token>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>‘\2’</suggestion>
+                <suggestion>“\2”</suggestion>
+                <suggestion>«\2»</suggestion>
+                <example type="incorrect" correction="‘gran’|“gran”|«gran»">És de <marker>'gran'</marker> qualitat.</example>
+                <example type="correct">És de ‘gran’ qualitat.</example>
+            </rule>
+            <rule> <!-- davant -->
                 <pattern>
                     <token spacebefore="yes">'</token>
                     <token spacebefore="no"></token>
@@ -17850,19 +17921,66 @@ $Id$
                 <suggestion>“\2</suggestion>
                 <suggestion>«\2</suggestion>
                 <example type="incorrect" correction="‘gran|“gran|«gran">És de <marker>'gran</marker> qualitat'.</example>
-                <example type="correct">uniforme.</example>
+                <example type="correct">De ‘gran qualitat’.</example>
             </rule>
-            <rule>
+            <rule> <!-- darrere -->
                 <pattern>
-                    <token/>
-                    <token spacebefore="no">'</token>
+                    <token><exception>'</exception></token>
+                    <marker>
+                        <token><exception regexp="yes">[\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
+                        <token spacebefore="no">'</token>
+                    </marker>
                 </pattern>
                 <message>Useu cometes tipogràfiques.</message>
-                <suggestion>\1’</suggestion>
-                <suggestion>\1”</suggestion>
-                <suggestion>\1»</suggestion>
+                <suggestion>\2’</suggestion>
+                <suggestion>\2”</suggestion>
+                <suggestion>\2»</suggestion>
                 <example type="incorrect" correction="qualitat’|qualitat”|qualitat»">És de 'gran <marker>qualitat'</marker>.</example>
-                <example type="correct">uniforme.</example>
+                <example type="correct">De ‘gran qualitat’.</example>
+            </rule>
+            <rule> <!-- prinicipi de frase -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">[–‒—-]</token>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                        <token spacebefore="no"/> 
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>‘\4</suggestion>
+                <suggestion>“\4</suggestion>
+                <suggestion>«\4</suggestion>
+                <example type="incorrect" correction="‘Digues|“Digues|«Digues">-<marker>'Digues</marker> què va passar'.</example>
+                <example type="correct">De ‘gran qualitat’.</example>
+            </rule>
+            <rule> <!-- després de parèntesi-->
+                <pattern>
+                    <marker>
+                        <token regexp="yes">[\[(¡¿]</token>
+                        <token spacebefore="no">'</token>
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>\1‘</suggestion>
+                <suggestion>\1“</suggestion>
+                <suggestion>\1«</suggestion>
+                <example type="incorrect" correction="(‘|(“|(«"><marker>('</marker>gran qualitat').</example>
+                <example type="correct">De ‘gran qualitat’.</example>
+            </rule>
+            <rule> <!-- abans de parèntesi-->
+                <pattern>
+                    <marker>
+                        <token spacebefore="no">'</token>
+                        <token spacebefore="no" regexp="yes">[\])!?]</token>
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>’\2</suggestion>
+                <suggestion>”\2</suggestion>
+                <suggestion>»\2</suggestion>
+                <example type="incorrect" correction="’)|”)|»)">('gran qualitat<marker>')</marker>.</example>
+                <example type="correct">(‘gran qualitat’)</example>
             </rule>
         </rulegroup>
     </category>
@@ -18308,13 +18426,15 @@ $Id$
         </rulegroup>
         <rule id="COMA_ETC" name="coma abans de 'etc.'">
             <pattern>
-                <token><exception regexp="yes">[,;]|llarg</exception></token>
-                <token regexp="yes">etc|etcètera</token>
+                <token><exception regexp="yes">[,;]|llarg|i</exception><exception postag="SENT_START"/></token>
+                <token regexp="yes">(?-i)etc|etcètera</token>
             </pattern>
             <message>Probablement falta una coma</message>
             <suggestion>\1, \2</suggestion>
             <example type="incorrect" correction="verd, etc">Roig, blau, <marker>verd etc</marker>.</example>
             <example type="correct">Roig, blau, verd i un llarg etc.</example>
+            <example type="correct">Etcètera.</example>
+            <example type="correct">I etcètera.</example>
         </rule>
         <rulegroup id="PUNTUACIO_INCORRECTA" name="combinacions de puntuació incorrectes">
             <rule id="TRESPUNTS_PUNT" name="tres punts + punt">
@@ -33115,6 +33235,7 @@ $Id$
                 <example type="correct">Fa falta un estudi més seriós.</example>
                 <example type="correct">Això va dir Fuster fa més de 35 anys.</example>
                 <example type="correct">El Japó entrà en una nova era.</example>
+                <example type="correct">L'actitud del rei provocà la configuració d'una aliança fins feia poc inimaginable.</example>
             </rule>
         </rulegroup>
         <rule id="FALTA_COMA_FRASE_CONDICIONAL" name="Coma en frase condicional" type="style">
