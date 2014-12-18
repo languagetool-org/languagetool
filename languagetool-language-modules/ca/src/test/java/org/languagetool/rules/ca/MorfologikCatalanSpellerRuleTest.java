@@ -96,6 +96,12 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("Bordo", matches[0].getSuggestedReplacements().get(2));
         assertEquals("Bordon", matches[0].getSuggestedReplacements().get(3));
         
+        matches = rule.match(langTool.getAnalyzedSentence("Mal'aysia"));
+        assertEquals(1, matches.length);
+        
+        matches = rule.match(langTool.getAnalyzedSentence("Mala’ysia"));
+        assertEquals(1, matches.length);
+        
         matches = rule.match(langTool.getAnalyzedSentence("Malaysia"));
         assertEquals(1, matches.length);
         assertEquals("Malàisia", matches[0].getSuggestedReplacements().get(0));
