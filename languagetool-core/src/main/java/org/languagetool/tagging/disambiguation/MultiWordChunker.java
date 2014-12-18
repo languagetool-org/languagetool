@@ -188,6 +188,7 @@ public class MultiWordChunker implements Disambiguator {
     newAtr.addReading(newReading);
     newAtr.setHistoricalAnnotations(
             annotateToken(prevAnot, old, newAtr.toString()));
+    newAtr.setChunkTags(oldReading.getChunkTags());
     return newAtr;
   }
   

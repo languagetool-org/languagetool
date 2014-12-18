@@ -39,7 +39,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 public class CatalanWordTokenizer extends WordTokenizer {
 
   //all possible forms of "pronoms febles" after a verb.
-  private static final String PF = "('en|'hi|'ho|'l|'ls|'m|'n|'ns|'s|'t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
+  private static final String PF = "(['’]en|['’]hi|['’]ho|['’]l|['’]ls|['’]m|['’]n|['’]ns|['’]s|['’]t|-el|-els|-em|-en|-ens|-hi|-ho|-l|-la|-les|-li|-lo|-los|-m|-me|-n|-ne|-nos|-s|-se|-t|-te|-us|-vos)";
 
   private final int maxPatterns = 11;
   private final Pattern[] patterns = new Pattern[maxPatterns];
@@ -52,9 +52,11 @@ public class CatalanWordTokenizer extends WordTokenizer {
   private static final Pattern ELA_GEMINADA = Pattern.compile("([aeiouàéèíóòúïü])l[.\u2022]l([aeiouàéèíóòúïü])",Pattern.UNICODE_CASE);
   private static final Pattern ELA_GEMINADA_UPPERCASE = Pattern.compile("([AEIOUÀÈÉÍÒÓÚÏÜ])L[.\u2022]L([AEIOUÀÈÉÍÒÓÚÏÜ])",Pattern.UNICODE_CASE);
   // apostrophe 
-  private static final Pattern APOSTROPHE = Pattern.compile("([\\p{L}])['’]([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_RECTE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_RODO = Pattern.compile("([\\p{L}])’([\\p{L}\"‘“«])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // apostrophe before number 1. Ex.: d'1 km, és l'1 de gener, és d'1.4 kg
-  private static final Pattern APOSTROPHE_1 = Pattern.compile("([dlDL])['’](\\d[\\d\\s\\.,]?)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_RECTE_1 = Pattern.compile("([dlDL])'(\\d[\\d\\s\\.,]?)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_RODO_1 = Pattern.compile("([dlDL])’(\\d[\\d\\s\\.,]?)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // nearby hyphens. Ex.: vint-i-quatre 
   private static final Pattern NEARBY_HYPHENS= Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // hyphens. Ex.: vint-i-quatre 
@@ -82,7 +84,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
     // It creates 2 tokens: <token>l'</token><token>home</token>
-    patterns[0] = Pattern.compile("^([lnmtsd]')([^'\\-]*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    patterns[0] = Pattern.compile("^([lnmtsd]['’])([^'\\-]*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     // Exceptions to (Match verb+1 pronom feble)
     // It creates 1 token: <token>qui-sap-lo</token>
@@ -90,22 +92,22 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
     // Match verb+3 pronoms febles (rare but possible!). Ex: Emporta-te'ls-hi.
     // It creates 4 tokens: <token>Emporta</token><token>-te</token><token>'ls</token><token>-hi</token>
-    patterns[2] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    patterns[2] = Pattern.compile("^([lnmtsd]['’])(.{2,})"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile("^(.{2,})"+PF+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     // Match verb+2 pronoms febles. Ex: Emporta-te'ls. 
     // It creates 3 tokens: <token>Emporta</token><token>-te</token><token>'ls</token>
-    patterns[4] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    patterns[4] = Pattern.compile("^([lnmtsd]['’])(.{2,})"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
     patterns[5] = Pattern.compile("^(.{2,})"+PF+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     // match verb+1 pronom feble. Ex: Emporta't, vés-hi, porta'm.
     // It creates 2 tokens: <token>Emporta</token><token>'t</token>
     // ^(.+[^cbfhjkovwyzCBFHJKOVWYZ])
-    patterns[6] = Pattern.compile("^([lnmtsd]')(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    patterns[6] = Pattern.compile("^([lnmtsd]['’])(.{2,})"+PF+"$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
     patterns[7] = Pattern.compile("^(.{2,})"+PF+"$",Pattern.UNICODE_CASE);
 
     // d'emportar
-    patterns[8] = Pattern.compile("^([lnmtsd]')(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    patterns[8] = Pattern.compile("^([lnmtsd]['’])(.*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     //contractions: al, als, pel, pels, del, dels, cal (!), cals (!) 
     patterns[9] = Pattern.compile("^(a|de|pe)(ls?)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -131,10 +133,14 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA\u0001\u0001$2");
     matcher=ELA_GEMINADA_UPPERCASE.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001ELA_GEMINADA_UPPERCASE\u0001\u0001$2");
-    matcher=APOSTROPHE.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS\u0001\u0001$2");
-    matcher=APOSTROPHE_1.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS\u0001\u0001$2");
+    matcher=APOSTROF_RECTE.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RECTE\u0001\u0001$2");
+    matcher=APOSTROF_RECTE_1.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RECTE\u0001\u0001$2");
+    matcher=APOSTROF_RODO.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RODO\u0001\u0001$2");
+    matcher=APOSTROF_RODO_1.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_APOS_RODO\u0001\u0001$2");
     matcher=NEARBY_HYPHENS.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_HYPHEN\u0001\u0001$2\u0001\u0001CA_HYPHEN\u0001\u0001$3");
     matcher=HYPHENS.matcher(auxText);
@@ -160,7 +166,8 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
     while (st.hasMoreElements()) {
       s = st.nextToken()
-              .replace("\u0001\u0001CA_APOS\u0001\u0001", "'")
+              .replace("\u0001\u0001CA_APOS_RECTE\u0001\u0001", "'")
+              .replace("\u0001\u0001CA_APOS_RODO\u0001\u0001", "’")
               .replace("\u0001\u0001CA_HYPHEN\u0001\u0001", "-")
               .replace("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", ".")
               .replace("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", ",")

@@ -17817,7 +17817,7 @@ $Id$
             <example type="incorrect" correction="—Vine"><marker>— Vine</marker>, corre!</example>
             <example type="correct">—Vine</example>
         </rule>
-        <rulegroup id="COMETES_TIPOGRÀFIQUES" name="Exigeix cometes tipogràfiques" default="on">
+        <rulegroup id="COMETES_TIPOGRAFIQUES" name="Exigeix cometes tipogràfiques" default="on">
             <!-- COMETES DOBLES -->
             <rule> <!-- davant i darrere -->
                 <pattern>
@@ -17983,6 +17983,16 @@ $Id$
                 <example type="correct">(‘gran qualitat’)</example>
             </rule>
         </rulegroup>
+        <rule id="APOSTROF_TIPOGRAFIC" name="Exigeix l'apòstrof tipogràfic (’)">
+            <pattern>
+                <token chunk="containsTypewriterApostrophe" regexp="yes">(.*)'(.*)<exception>'</exception></token>
+            </pattern>
+            <message>Useu l'apòstrof tipogràfic.</message>
+            <suggestion><match no="1" regexp_match="(.*)'(.*)" regexp_replace="$1’$2"/></suggestion>
+            <example type="incorrect" correction="L’"><marker>L'</marker>home</example>
+            <example type="incorrect" correction="’ns">Se<marker>'ns</marker> va explicar.</example>
+            <example type="correct">L’home</example>
+        </rule>
     </category>
     <category name="E) Majúscules i minúscules" type="typographical">
         <rulegroup id="PENINSULA_IBERICA" name="*península ibèrica/península Ibèrica">

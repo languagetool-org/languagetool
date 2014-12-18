@@ -31,6 +31,7 @@ import morfologik.stemming.IStemmer;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tools.StringTools;
@@ -51,7 +52,7 @@ public class CatalanTagger extends BaseTagger {
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
-  private static final Pattern NOUN = Pattern.compile("NC.+");
+  //private static final Pattern NOUN = Pattern.compile("NC.+");
 
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
@@ -89,6 +90,13 @@ public class CatalanTagger extends BaseTagger {
     final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
+      boolean containsTypewriterApostrophe=false;
+      if (word.length()>1) {
+        if (word.contains("'")) {
+          containsTypewriterApostrophe=true;  
+        }
+        word=word.replace("’", "'");
+      }
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(conversionLocale);
       final boolean isLowercase = word.equals(lowerWord);
@@ -121,7 +129,14 @@ public class CatalanTagger extends BaseTagger {
         l.add(new AnalyzedToken(word, null, null));
       }
 
-      tokenReadings.add(new AnalyzedTokenReadings(l, pos));
+      AnalyzedTokenReadings atr= new AnalyzedTokenReadings(l, pos);
+      if (containsTypewriterApostrophe) {
+        List<ChunkTag> listChunkTags = new ArrayList<>();
+        listChunkTags.add(new ChunkTag("containsTypewriterApostrophe"));
+        atr.setChunkTags(listChunkTags);
+      }
+      
+      tokenReadings.add(atr);
       pos += word.length();
     }
 
