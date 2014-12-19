@@ -39,17 +39,21 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("\"iv. This is a test sentence...\""));
     assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("»iv. This is a test sentence..."));
+    assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This"));
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This is"));
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("This is a test sentence"));
     assertEquals(0, matches.length);
+    //the previous sentence does not end in [.?!…]
+    matches = rule.match(langTool.getAnalyzedSentence("this is a sentence"));
+    assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence(""));
     assertEquals(0, matches.length);
     matches = rule.match(langTool.getAnalyzedSentence("http://www.languagetool.org"));
     assertEquals(0, matches.length);
-   
     
     // incorrect sentences:
     matches = rule.match(langTool.getAnalyzedSentence("this is a test sentence."));
@@ -60,9 +64,15 @@ public class UppercaseSentenceStartRuleTest extends TestCase {
     assertEquals(1, matches.length);
     assertEquals(0, matches[0].getFromPos());
     assertEquals(4, matches[0].getToPos());
-    //matches = rule.match(langTool.getAnalyzedSentence("'a"));
-    //assertEquals(1, matches.length);
-       
+    matches = rule.match(langTool.getAnalyzedSentence("'this is a sentence'."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("\"this is a sentence.\""));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("„this is a sentence."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("«this is a sentence."));
+    assertEquals(1, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("‘this is a sentence."));
+    assertEquals(1, matches.length);
   }
-
 }

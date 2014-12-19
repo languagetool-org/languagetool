@@ -38,7 +38,8 @@ public class UppercaseSentenceStartRule extends Rule {
 
   private static final Pattern NUMERALS_EN =
           Pattern.compile("[a-z]|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))$");
-  private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„»«“\\n]");
+  private static final Pattern WHITESPACE_OR_QUOTE = Pattern.compile("[ \"'„«»‘’“”\\n]"); //only ending quote is necessary?
+  private static final Pattern QUOTE_START = Pattern.compile("[\"'„»«“‘]");
   private static final Pattern SENTENCE_END1 = Pattern.compile("[.?!…]|");
   private static final Pattern SENTENCE_END2 = Pattern.compile("[.?!…]");
   private static final Pattern DUTCH_SPECIAL_CASE = Pattern.compile("k|m|n|r|s|t");
@@ -77,8 +78,7 @@ public class UppercaseSentenceStartRule extends Rule {
     String secondToken = null;
     String thirdToken = null;
     // ignore quote characters:
-    if (tokens.length >= 3
-        && ("'".equals(firstToken) || "\"".equals(firstToken) || "„".equals(firstToken))) {
+    if (tokens.length >= 3 && QUOTE_START.matcher(firstToken).matches()) {
       matchTokenPos = 2;
       secondToken = tokens[matchTokenPos].getToken();
     }
