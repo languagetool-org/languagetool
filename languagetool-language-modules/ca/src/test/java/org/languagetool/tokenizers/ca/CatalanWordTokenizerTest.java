@@ -47,6 +47,9 @@ public class CatalanWordTokenizerTest extends TestCase {
     tokens = wordTokenizer.tokenize("El tren Barcelona-València");
     assertEquals(tokens.size(), 7);
     assertEquals("[El,  , tren,  , Barcelona, -, València]", tokens.toString());
+    tokens = wordTokenizer.tokenize("No acabava d’entendre’l bé");
+    assertEquals(tokens.size(), 9);
+    assertEquals("[No,  , acabava,  , d’, entendre, ’l,  , bé]", tokens.toString());
     tokens = wordTokenizer.tokenize("N'hi ha vint-i-quatre");
     assertEquals(tokens.size(), 6);
     assertEquals("[N', hi,  , ha,  , vint-i-quatre]", tokens.toString());

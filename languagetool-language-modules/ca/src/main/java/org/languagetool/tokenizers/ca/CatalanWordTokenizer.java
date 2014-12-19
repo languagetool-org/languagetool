@@ -84,7 +84,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
 
     // Apostrophe at the beginning of a word. Ex.: l'home, s'estima, n'omple, hivern, etc.
     // It creates 2 tokens: <token>l'</token><token>home</token>
-    patterns[0] = Pattern.compile("^([lnmtsd]['’])([^'\\-]*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    patterns[0] = Pattern.compile("^([lnmtsd]['’])([^'’\\-]*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
     // Exceptions to (Match verb+1 pronom feble)
     // It creates 1 token: <token>qui-sap-lo</token>
