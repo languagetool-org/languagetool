@@ -181,7 +181,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     if (startSymbols[j].equals(endSymbols[j])) {
       precededByWhitespace = tokens[i - 1].isSentenceStart()
           || tokens[i].isWhitespaceBefore()
-          || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches();
+          || PUNCTUATION_NO_DOT.matcher(tokens[i - 1].getToken()).matches()
+          || Arrays.asList(startSymbols).contains(tokens[i - 1].getToken());
     }
     return precededByWhitespace;
   }
@@ -190,7 +191,8 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     boolean followedByWhitespace = true;
     if (i < tokens.length - 1 && startSymbols[j].equals(endSymbols[j])) {
       followedByWhitespace = tokens[i + 1].isWhitespaceBefore()
-              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches();
+              || PUNCTUATION.matcher(tokens[i + 1].getToken()).matches()
+              || Arrays.asList(endSymbols).contains(tokens[i + 1].getToken());
     }
     return followedByWhitespace;
   }

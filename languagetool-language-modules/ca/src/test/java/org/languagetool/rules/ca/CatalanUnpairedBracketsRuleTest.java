@@ -43,6 +43,9 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
   
   public void testRule() throws IOException {
     // correct sentences:
+    assertCorrect("«\"És així\" o no»");
+    assertCorrect("«\"És així\", va dir.»");
+    assertCorrect("«És \"així\" o no»");
     assertCorrect("(l'execució a mans d'\"especialistes\")");
     assertCorrect("\"Vine\", li va dir.");
     assertCorrect("(Una frase de prova).");

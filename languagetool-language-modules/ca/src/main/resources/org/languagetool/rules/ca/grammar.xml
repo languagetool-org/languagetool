@@ -17806,7 +17806,7 @@ $Id$
             <example type="incorrect" correction="— Influència"><marker>—Influència</marker> artística.</example>
             <example type="correct"><marker>—</marker></example>
         </rule>
-        <rule id="GUIO_SENSE_ESPAI" name="Guió sense espai en enumeracions" default="off">
+        <rule id="GUIO_SENSE_ESPAI" name="Guió sense espai en diàlegs" default="off">
             <pattern>
                 <token postag="SENT_START"/>
                 <token regexp="yes">[–‒—-]</token>
@@ -17847,7 +17847,7 @@ $Id$
                 <pattern>
                     <token><exception>"</exception></token>
                     <marker>
-                        <token><exception regexp="yes">[\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
+                        <token><exception regexp="yes">['‘«\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -17875,7 +17875,7 @@ $Id$
             <rule> <!-- després de parèntesi-->
                 <pattern>
                     <marker>
-                        <token regexp="yes">[\[(¡¿]</token>
+                        <token regexp="yes">['‘«\[(¡¿]</token>
                         <token spacebefore="no">"</token>
                     </marker>
                 </pattern>
@@ -17896,6 +17896,18 @@ $Id$
                 <suggestion>”\2</suggestion>
                 <suggestion>»\2</suggestion>
                 <example type="incorrect" correction="”)|»)">("gran qualitat<marker>")</marker>.</example>
+                <example type="correct">¿“Gran qualitat”?</example>
+            </rule>
+            <rule> <!-- cath all-->
+                <pattern>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>”</suggestion>
+                <suggestion>“</suggestion>
+                <example type="incorrect" correction="”|“"><marker>"</marker></example>
                 <example type="correct">¿“Gran qualitat”?</example>
             </rule>
             <!-- COMETA SIMPLE -->
@@ -17928,7 +17940,7 @@ $Id$
                 <pattern>
                     <token><exception>'</exception></token>
                     <marker>
-                        <token><exception regexp="yes">[\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
+                        <token><exception regexp="yes">["‘«“\[(¡¿–‒—-]</exception><exception postag="SENT_START"/></token>
                         <token spacebefore="no">'</token>
                     </marker>
                 </pattern>
@@ -17958,7 +17970,7 @@ $Id$
             <rule> <!-- després de parèntesi-->
                 <pattern>
                     <marker>
-                        <token regexp="yes">[\[(¡¿]</token>
+                        <token regexp="yes">["«“\[(¡¿]</token>
                         <token spacebefore="no">'</token>
                     </marker>
                 </pattern>
@@ -17982,6 +17994,18 @@ $Id$
                 <suggestion>»\2</suggestion>
                 <example type="incorrect" correction="’)|”)|»)">('gran qualitat<marker>')</marker>.</example>
                 <example type="correct">(‘gran qualitat’)</example>
+            </rule>
+            <rule> <!-- cath all-->
+                <pattern>
+                    <marker>
+                        <token>'</token>
+                    </marker>
+                </pattern>
+                <message>Useu cometes tipogràfiques.</message>
+                <suggestion>’</suggestion>
+                <suggestion>‘</suggestion>
+                <example type="incorrect" correction="’|‘"><marker>'</marker></example>
+                <example type="correct">¿“Gran qualitat”?</example>
             </rule>
         </rulegroup>
         <rule id="APOSTROF_TIPOGRAFIC" name="Exigeix l'apòstrof tipogràfic (’)" default="off">
@@ -18525,6 +18549,13 @@ $Id$
             </rule>
     	</rulegroup>
         <rulegroup id="ESPAI_DARRERE_DOSPUNTS" name="espai darrere de dos punts">
+            <antipattern>
+                <marker>
+                    <token>:</token>
+                    <token>-</token>
+                    <token>)</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception regexp="yes">[\d ,.]+</exception></token>
@@ -18818,6 +18849,13 @@ $Id$
                         <token>?</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">[;:]</token>
+                        <token>-</token>
+                        <token>)</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token/> <!-- <exception regexp="yes">[-–—]</exception> -->
@@ -18891,6 +18929,13 @@ $Id$
                 <example type="correct">"Ara sí"</example>
             </rule>
             <rule id="ESPAI_DARRERE_PUNTICOMA" name="espai darrere de punt i coma">
+                <antipattern>
+                    <marker>
+                        <token>;</token>
+                        <token>-</token>
+                        <token>)</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>;</token>
