@@ -43,10 +43,13 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
   
   public void testRule() throws IOException {
     // correct sentences:
+    assertCorrect("L'«home és així»");
+    assertCorrect("l'«home»");
     assertCorrect("«\"És així\" o no»");
     assertCorrect("«\"És així\", va dir.»");
     assertCorrect("«És \"així\" o no»");
     assertCorrect("(l'execució a mans d'\"especialistes\")");
+    assertCorrect("(L'\"especialista\")");
     assertCorrect("\"Vine\", li va dir.");
     assertCorrect("(Una frase de prova).");
     assertCorrect("Aquesta és la paraula 'prova'.");
@@ -88,6 +91,10 @@ public class CatalanUnpairedBracketsRuleTest extends TestCase {
     assertCorrect ("Porta-me'n cinquanta!");
 
     // incorrect sentences:
+    assertIncorrect("(L'\"especialista\"");
+    assertIncorrect("L'«home és així");
+    assertIncorrect("S'«esperava 'el' (segon) \"resultat\"");
+    assertIncorrect("l'«home");
     assertIncorrect("Ploraria.\"");
     assertIncorrect("Aquesta és l555’hora de les decisions.");
     assertIncorrect("Vine\", li va dir.");
