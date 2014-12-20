@@ -79,6 +79,10 @@ LanguageTool Change Log
      only edit the languagetool.cfg file when LT is not running.
 
 Internal:
+    -Bugfix: rules inside a rule group had not been activated if a previous
+     rule from the same rulegroup used default="off"
+    -If a rule group specifies default="off", the rules inside the rule group
+     may not also specify default="on"/"off".
     -Words are not ignored anymore by the spell checker just because they occur in
      a rule's suggestion. If you want the spell checker to ignore words globally, add
      them to hunspell/ignore.txt. To ignore them depending on the context, add a

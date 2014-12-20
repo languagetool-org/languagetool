@@ -51,6 +51,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
   private int subId;
 
   private boolean defaultOff;
+  private boolean ruleGroupDefaultOff;
   private boolean defaultOn;
 
   private String ruleGroupDescription;
@@ -122,10 +123,14 @@ public class PatternRuleHandler extends XMLRuleHandler {
           }
         }
 
-        if (!(inRuleGroup && defaultOff)) {
-          defaultOff = "off".equals(attrs.getValue(DEFAULT));
+        if (inRuleGroup && ruleGroupDefaultOff && attrs.getValue(DEFAULT) != null) {
+          throw new RuntimeException("Rule group " + ruleGroupId + " is off by default, thus rule " + id + " cannot specify 'default=...'");
         }
-        if (!(inRuleGroup && defaultOn)) {
+        if (inRuleGroup && ruleGroupDefaultOff) {
+          defaultOff = true;
+          defaultOn = false;  // false because the rule isn't on *explicitly*
+        } else {
+          defaultOff = "off".equals(attrs.getValue(DEFAULT));
           defaultOn = "on".equals(attrs.getValue(DEFAULT));
         }
 
@@ -237,8 +242,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case RULEGROUP:
         ruleGroupId = attrs.getValue(ID);
         ruleGroupDescription = attrs.getValue(NAME);
-        defaultOff = "off".equals(attrs.getValue(DEFAULT));
-        defaultOn = "on".equals(attrs.getValue(DEFAULT));
+        ruleGroupDefaultOff = "off".equals(attrs.getValue(DEFAULT));
         urlForRuleGroup = new StringBuilder();
         shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = true;
@@ -454,6 +458,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
           rulegroupAntiPatterns.clear();
         }
         antiPatternCounter = 0;
+        ruleGroupDefaultOff = false;
+        defaultOff = false;
+        defaultOn = false;
         break;
       case MARKER:
         if (inCorrectExample) {
