@@ -121,6 +121,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
     if ("unzwar".equals(word)) {
       return Collections.singletonList("und zwar");
+    } else if ("wieviel".equals(word)) {
+      return Collections.singletonList("wie viel");
+    } else if ("wieviele".equals(word)) {
+      return Collections.singletonList("wie viele");
+    } else if ("wievielen".equals(word)) {
+      return Collections.singletonList("wie vielen");
     }
     return Collections.emptyList();
   }
