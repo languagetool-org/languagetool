@@ -75,5 +75,53 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("Майже два роки тому Люба разом із чоловіком Степаном виїхали туди на проживання.",
         expected, tokenizer, tagger);
   }
+  
+  public void testDynamicTagging() throws IOException {
+    TestTools.myAssert("по-свинячому", "по-свинячому/[по-свинячому]adv", tokenizer, tagger);
+    TestTools.myAssert("по-сибірськи", "по-сибірськи/[по-сибірськи]adv", tokenizer, tagger);
+
+    TestTools.myAssert("давай-но", "давай-но/[давати]verb:impr:s:2:imperf", tokenizer, tagger);
+    TestTools.myAssert("дивіться-но", "дивіться-но/[дивитися]verb:rev:impr:p:2:imperf", tokenizer, tagger);
+
+    TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:m:v_naz:ist", tokenizer, tagger);
+
+    TestTools.myAssert("низенько-низенько", "низенько-низенько/[низенько-низенько]adv", tokenizer, tagger);
+    TestTools.myAssert("такого-сякого", "такого-сякого/[такий-сякий]adj:m:v_rod:&pron|такого-сякого/[такий-сякий]adj:m:v_zna:&pron|такого-сякого/[такий-сякий]adj:n:v_rod:&pron", tokenizer, tagger);
+
+//    TestTools.myAssert("лікар-гомеопат", "лікар-гомеопат/[лікар-гомеопат]noun:m:v_naz:ist", tokenizer, tagger);
+//    TestTools.myAssert("лікаря-гомеопата", "лікаря-гомеопата/[лікар-гомеопат]noun:m:v_rod:ist|лікаря-гомеопата/[лікар-гомеопат]noun:m:v_zna:ist", tokenizer, tagger);
+//    TestTools.myAssert("шмкр-гомеопат", "шмкр-гомеопат/[null]null", tokenizer, tagger);
+//    TestTools.myAssert("шмкр-ткр", "шмкр-ткр/[null]null", tokenizer, tagger);
+
+    TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ять-шість]numr:v_dav|п'яти-шести/[п'ять-шість]numr:v_mis|п'яти-шести/[п'ять-шість]numr:v_rod", tokenizer, tagger);
+
+    TestTools.myAssert("кава-еспресо", "кава-еспресо/[кава-еспресо]noun:f:v_naz", tokenizer, tagger);
+    TestTools.myAssert("кави-еспресо", "кави-еспресо/[кава-еспресо]noun:f:v_rod", tokenizer, tagger);
+    TestTools.myAssert("еспресо-машина", "еспресо-машина/[еспресо-машина]noun:f:v_naz", tokenizer, tagger);
+//    TestTools.myAssert("міста-фортеці", "міста-фортеці/[місто-фортеця]noun:n:v_rod|міста-фортеці/[місто-фортеця]noun:p:v_naz|міста-фортеці/[місто-фортеця]noun:p:v_zna", tokenizer, tagger);
+
+    TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:f:nv", tokenizer, tagger);
+//    TestTools.myAssert("Кубань-ріки", "Кубань-ріки/[Кубань-ріка]noun:f:v_rod", tokenizer, tagger);
+
+    TestTools.myAssert("паталого-анатомічний", "паталого-анатомічний/[паталого-анатомічний]adj:m:v_naz|паталого-анатомічний/[паталого-анатомічний]adj:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("паталого-гмкнх", "паталого-гмкнх/[null]null", tokenizer, tagger);
+    TestTools.myAssert("паталого-голова", "паталого-голова/[null]null", tokenizer, tagger);
+    TestTools.myAssert("паталога-анатомічний", "паталога-анатомічний/[null]null", tokenizer, tagger);
+    TestTools.myAssert("бірмюково-блакитний", "бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_naz|бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_zna", tokenizer, tagger);
+
+    // істота-неістота, неістота-істота
+//    TestTools.myAssert("красень-гол", "красень-гол/[красень-гол]noun:m:v_naz|красень-гол/[красень-гол]noun:m:v_zna", tokenizer, tagger);
+//    TestTools.myAssert("місто-побратим", "місто-побратим/[місто-побратим]noun:n:v_naz|місто-побратим/[місто-побратим]noun:n:v_zna", tokenizer, tagger);
+//    TestTools.myAssert("країни-господарі", "країни-господарі/[країна-господар]noun:p:v_naz|країни-господарі/[країна-господар]noun:p:v_zna", tokenizer, tagger);
+//    TestTools.myAssert("країну-господар", "країну-господар/[null]null", tokenizer, tagger);
+//    TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:p:v_rod:ist|депутатів-привидів/[депутат-привид]noun:p:v_zna:ist", tokenizer, tagger);
+    
+    // про рослин-людожерів, про соняха-гіганта
+    // змагання зі слалому-гіганту
+    // голосувати за Тимошенко-прем’єра
+    // шоу-бізнесові тусівки/штампи
+    // до боулінг-більярд клубу
+    // медіа-корпорації, рок-дідусів, інтернет-глядачів, горе-власника, флеш-інтерв’ю
+  }
 
 }

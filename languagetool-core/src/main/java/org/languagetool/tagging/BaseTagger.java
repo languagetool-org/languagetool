@@ -110,7 +110,7 @@ public abstract class BaseTagger implements Tagger {
     }
     // Additional language-dependent-tagging:
     if (result.isEmpty()) {
-      List<AnalyzedToken> additionalTaggedTokens = additionalTags(word);
+      List<AnalyzedToken> additionalTaggedTokens = additionalTags(word, dictLookup);
       addTokens(additionalTaggedTokens, result);
     }
     if (result.isEmpty()) {
@@ -163,10 +163,13 @@ public abstract class BaseTagger implements Tagger {
     tagLowercaseWithUppercase = false;
   }
 
-  /*
-   *  Additional tagging in some language-dependent circumstances
+  /**
+   * Allows additional tagging in some language-dependent circumstances
+   * @param word The word to tag
+   * @param stemmer The stemmer
+   * @return Returns list of analyzed tokens with additional tags
    */
-  public List<AnalyzedToken> additionalTags(String word) {
+  protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     return null;
   }
 
