@@ -425,12 +425,14 @@ $Id$
            <pattern>
                <marker>
                    <token inflected="yes" regexp="yes">вивести|виводити</token>
+                   <token postag_regexp="yes" postag="(pron|noun).*" min="0"/>
                    <token>з</token>
                    <token>себе</token>
                </marker>
            </pattern>
            <message>Краще: <suggestion>гнівати</suggestion>, <suggestion>допікати</suggestion>, <suggestion>дратувати</suggestion>, <suggestion>лютити</suggestion>, <suggestion>дозоляти</suggestion>, <suggestion>уривати терпець (кому)</suggestion>, <suggestion>виводити з рівноваги</suggestion>, <suggestion>осатанити</suggestion></message>
            <example type="incorrect">Його <marker>вивели з себе</marker>.</example>
+           <example type="incorrect"><marker>вивели його з себе</marker>.</example>
            <example type="correct">Його розгнівали</example>
        </rule>
 
