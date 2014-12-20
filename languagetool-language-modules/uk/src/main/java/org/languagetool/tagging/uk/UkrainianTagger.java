@@ -201,6 +201,11 @@ public class UkrainianTagger extends BaseTagger {
           }
           else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) && rightPosTag.startsWith(IPOSTag.noun.getText()) ) {
             String agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag);
+            if( agreedPosTag == null && rightPosTag.startsWith(IPOSTag.noun.getText()+":m:v_naz")
+                && (rightAnalyzedToken.getToken().equals("максимум")
+                || rightAnalyzedToken.getToken().equals("мінімум")) ) {
+              agreedPosTag = leftPosTag;
+            }
             if( agreedPosTag != null ) {
               newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
             }
@@ -219,23 +224,26 @@ public class UkrainianTagger extends BaseTagger {
     if( isPlural(leftPosTag) && ! isPlural(rightPosTag) )
       return null;
     
+    if( ! istotaNeistotaMatch(leftPosTag, rightPosTag) )
+      return null;
+    
     if( stdNounTagRegex.matcher(leftPosTag).matches() ) {
       // TODO: finish this
-//      if (stdNounTagRegex.matcher(rightPosTag).matches()) {
-//        String substring1 = leftPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
-//        String substring2 = rightPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
-//        if( substring1.equals(substring2) ) {
+      if (stdNounTagRegex.matcher(rightPosTag).matches()) {
+        String substring1 = leftPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
+        String substring2 = rightPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
+        if( substring1.equals(substring2) ) {
+          return leftPosTag;
 //          return istotaNeistota(leftPosTag, rightPosTag) ? leftPosTag : rightPosTag;
-//        }
+        }
 //        else if( istotaNeistotaNazZna(leftPosTag, rightPosTag) ) {
 //          return rightPosTag;
 //        }
 //        else if( istotaNeistotaNazZna(rightPosTag, leftPosTag) ) {
 //          return leftPosTag;
 //        }
-//      }
-//      else 
-      if( stdNounNvTagRegex.matcher(rightPosTag).matches()) {
+      }
+      else if( stdNounNvTagRegex.matcher(rightPosTag).matches()) {
         return leftPosTag;
       }
     }
@@ -250,6 +258,11 @@ public class UkrainianTagger extends BaseTagger {
 
   private static boolean istotaNeistota(String leftPosTag, String rightPosTag) {
     return leftPosTag.contains(":ist") && ! rightPosTag.contains(":ist");
+  }
+
+  private static boolean istotaNeistotaMatch(String leftPosTag, String rightPosTag) {
+    return leftPosTag.contains(":ist") && rightPosTag.contains(":ist")
+        || ! leftPosTag.contains(":ist") && ! rightPosTag.contains(":ist");
   }
 
   private static boolean istotaNeistotaNazZna(String leftPosTag, String rightPosTag) {

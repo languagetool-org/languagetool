@@ -88,17 +88,19 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("низенько-низенько", "низенько-низенько/[низенько-низенько]adv", tokenizer, tagger);
     TestTools.myAssert("такого-сякого", "такого-сякого/[такий-сякий]adj:m:v_rod:&pron|такого-сякого/[такий-сякий]adj:m:v_zna:&pron|такого-сякого/[такий-сякий]adj:n:v_rod:&pron", tokenizer, tagger);
 
-//    TestTools.myAssert("лікар-гомеопат", "лікар-гомеопат/[лікар-гомеопат]noun:m:v_naz:ist", tokenizer, tagger);
-//    TestTools.myAssert("лікаря-гомеопата", "лікаря-гомеопата/[лікар-гомеопат]noun:m:v_rod:ist|лікаря-гомеопата/[лікар-гомеопат]noun:m:v_zna:ist", tokenizer, tagger);
-//    TestTools.myAssert("шмкр-гомеопат", "шмкр-гомеопат/[null]null", tokenizer, tagger);
-//    TestTools.myAssert("шмкр-ткр", "шмкр-ткр/[null]null", tokenizer, tagger);
+    TestTools.myAssert("лікар-гомеопат", "лікар-гомеопат/[лікар-гомеопат]noun:m:v_naz:ist", tokenizer, tagger);
+    TestTools.myAssert("лікаря-гомеопата", "лікаря-гомеопата/[лікар-гомеопат]noun:m:v_rod:ist|лікаря-гомеопата/[лікар-гомеопат]noun:m:v_zna:ist", tokenizer, tagger);
+    TestTools.myAssert("шмкр-гомеопат", "шмкр-гомеопат/[null]null", tokenizer, tagger);
+    TestTools.myAssert("шмкр-ткр", "шмкр-ткр/[null]null", tokenizer, tagger);
 
     TestTools.myAssert("п'яти-шести", "п'яти-шести/[п'ять-шість]numr:v_dav|п'яти-шести/[п'ять-шість]numr:v_mis|п'яти-шести/[п'ять-шість]numr:v_rod", tokenizer, tagger);
 
     TestTools.myAssert("кава-еспресо", "кава-еспресо/[кава-еспресо]noun:f:v_naz", tokenizer, tagger);
     TestTools.myAssert("кави-еспресо", "кави-еспресо/[кава-еспресо]noun:f:v_rod", tokenizer, tagger);
     TestTools.myAssert("еспресо-машина", "еспресо-машина/[еспресо-машина]noun:f:v_naz", tokenizer, tagger);
-//    TestTools.myAssert("міста-фортеці", "міста-фортеці/[місто-фортеця]noun:n:v_rod|міста-фортеці/[місто-фортеця]noun:p:v_naz|міста-фортеці/[місто-фортеця]noun:p:v_zna", tokenizer, tagger);
+    TestTools.myAssert("програмою-максимум", "програмою-максимум/[програма-максимум]noun:f:v_oru", tokenizer, tagger);
+
+    TestTools.myAssert("міста-фортеці", "міста-фортеці/[місто-фортеця]noun:n:v_rod|міста-фортеці/[місто-фортеця]noun:p:v_naz|міста-фортеці/[місто-фортеця]noun:p:v_zna", tokenizer, tagger);
 
     TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:f:nv", tokenizer, tagger);
 //    TestTools.myAssert("Кубань-ріки", "Кубань-ріки/[Кубань-ріка]noun:f:v_rod", tokenizer, tagger);
@@ -110,18 +112,20 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("бірмюково-блакитний", "бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_naz|бірмюково-блакитний/[бірмюково-блакитний]adj:m:v_zna", tokenizer, tagger);
 
     // істота-неістота, неістота-істота
+//    TestTools.myAssert("бабці-Австрії", "бабці-Австрії/[null]null", tokenizer, tagger);
+
 //    TestTools.myAssert("красень-гол", "красень-гол/[красень-гол]noun:m:v_naz|красень-гол/[красень-гол]noun:m:v_zna", tokenizer, tagger);
 //    TestTools.myAssert("місто-побратим", "місто-побратим/[місто-побратим]noun:n:v_naz|місто-побратим/[місто-побратим]noun:n:v_zna", tokenizer, tagger);
 //    TestTools.myAssert("країни-господарі", "країни-господарі/[країна-господар]noun:p:v_naz|країни-господарі/[країна-господар]noun:p:v_zna", tokenizer, tagger);
 //    TestTools.myAssert("країну-господар", "країну-господар/[null]null", tokenizer, tagger);
 //    TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:p:v_rod:ist|депутатів-привидів/[депутат-привид]noun:p:v_zna:ist", tokenizer, tagger);
     
+    // про місяця-місяченька
+    // бабці-Австрії
     // про рослин-людожерів, про соняха-гіганта
     // змагання зі слалому-гіганту
     // голосувати за Тимошенко-прем’єра
-    // шоу-бізнесові тусівки/штампи
-    // до боулінг-більярд клубу
-    // медіа-корпорації, рок-дідусів, інтернет-глядачів, горе-власника, флеш-інтерв’ю
+    // рок-дідусів, інтернет-глядачів, флеш-інтерв’ю
   }
 
 }
