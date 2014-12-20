@@ -30,9 +30,10 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.CommaWhitespaceRule;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.MixedAlphabetsRule;
+import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
 import org.languagetool.rules.uk.SimpleReplaceRule;
+import org.languagetool.rules.uk.SimpleReplaceSoftRule;
 import org.languagetool.rules.uk.TokenAgreementRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
@@ -157,6 +158,7 @@ public class Ukrainian extends Language {
         new MultipleWhitespaceRule(messages, this),
         // specific to Ukrainian:
         new SimpleReplaceRule(messages),
+        new SimpleReplaceSoftRule(messages),
         new TokenAgreementRule(messages)
     );
   }
