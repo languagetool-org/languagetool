@@ -122,7 +122,7 @@ public class CatalanTagger extends BaseTagger {
       }
       // additional tagging with prefixes
       if (l.isEmpty() && !isMixedCase) {
-        addTokens(additionalTags(word), l);
+        addTokens(additionalTags(word, dictLookup), l);
       }
 
       if (l.isEmpty()) {
@@ -144,7 +144,7 @@ public class CatalanTagger extends BaseTagger {
   }
 
   @Override
-  public List<AnalyzedToken> additionalTags(String word) {
+  protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     final IStemmer dictLookup;
     try {
       dictLookup = new DictionaryLookup(getDictionary());
