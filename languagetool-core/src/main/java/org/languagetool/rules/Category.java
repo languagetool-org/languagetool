@@ -63,22 +63,21 @@ public class Category {
   
   @Override
   public String toString() {
-    return name + "(prio=" + priority + ")";
+    return name;
   }
 
   /**
    * Checks whether the category has been turned off
    * by default by the category author.
-   * @return True if the category is turned off by
-   * default.
+   * @return True if the category is turned off by default.
    */
   public final boolean isDefaultOff() {
     return defaultOff;
   }
   
   /**
-   * Turns the category by default off.   
-   **/
+   * Turns the category off by default.
+   */
   public final void setDefaultOff() {
     defaultOff = true;
   }
