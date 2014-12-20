@@ -136,29 +136,29 @@ public class HTTPServerTest {
     
     String resultEn = checkWithOptions(
             english, german, "This is an test. We will berate you.", twoRules, nothing, false);
-    assertTrue(resultEn.contains("EN_A_VS_AN"));
-    assertTrue(resultEn.contains("BERATE"));
+    assertTrue("Result: " + resultEn, resultEn.contains("EN_A_VS_AN"));
+    assertTrue("Result: " + resultEn, resultEn.contains("BERATE"));
 
     //check two disabled options
     String result3 = checkWithOptions(
             english, german, "This is an test. We will berate you.", nothing, twoRules, false);
-    assertFalse(result3.contains("EN_A_VS_AN"));
-    assertFalse(result3.contains("BERATE"));
+    assertFalse("Result: " + result3, result3.contains("EN_A_VS_AN"));
+    assertFalse("Result: " + result3, result3.contains("BERATE"));
     
     //two disabled, one enabled, so enabled wins
     String result4 = checkWithOptions(
             english, german, "This is an test. We will berate you.", disableAvsAn, twoRules, false);
-    assertTrue(result4.contains("EN_A_VS_AN"));
-    assertFalse(result4.contains("BERATE"));
+    assertTrue("Result: " + result4, result4.contains("EN_A_VS_AN"));
+    assertFalse("Result: " + result4, result4.contains("BERATE"));
 
     //check disabling bitext rules:
     String result5 = bitextCheckDisabled(polish, english, "a", "To jest okropnie długi tekst, naprawdę!", nothing);
-    assertTrue(result5.contains("TRANSLATION_LENGTH"));
-    assertFalse(result5.contains("-2"));
+    assertTrue("Result: " + result5, result5.contains("TRANSLATION_LENGTH"));
+    assertFalse("Result: " + result5, result5.contains("-2"));
 
     final String[] disableTranslationLen = {"TRANSLATION_LENGTH"};
     String result6 = bitextCheckDisabled(polish, english, "a", "This is a very long text. Really!", disableTranslationLen);
-    assertFalse(result6.contains("TRANSLATION_LENGTH"));
+    assertFalse("Result: " + result6, result6.contains("TRANSLATION_LENGTH"));
   }
 
   @Test
