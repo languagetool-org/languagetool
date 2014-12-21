@@ -179,6 +179,20 @@ $Id$
                 <example type="correct">Мощность ИБП составляет 500 В⋅А.</example>
             </rule>
         </rulegroup>
+          <rulegroup id="BOLSHAJA_POLOVINA" name="Словосочетание «большая/меньшая половина»">
+            <rule> 
+                <pattern>
+                    <token regexp="yes" >большая|меньшая</token>
+                    <token>половина</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>\1 часть</suggestion>?</message>
+          
+                <short>Логическая ошибка.</short>
+                <example type="incorrect"><marker>большая половина</marker></example>
+                <example type="correct">меньшая часть</example>
+            </rule>
+        </rulegroup>  
+            
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
