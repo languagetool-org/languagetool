@@ -15366,7 +15366,19 @@ $Id$
                 <example type="correct">amb un te</example>
             </rule>
         </rulegroup>    
-        <rulegroup id="ES" name="es/és">                
+        <rulegroup id="ES" name="es/és">
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token>ES</token>
+                    <token spacebefore="no">-</token>
+                </marker>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes">l'|els</token>
+                    <token>ES</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -16855,7 +16867,7 @@ $Id$
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
                     <marker>
-                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">nota|tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
+                        <token postag="V[^S][SI].*" postag_regexp="yes"><exception regexp="yes">single|nota|tema|taula|mapa|figura|vegeu|juny|sala</exception><exception regexp="yes">(?-i)Mateu|Romans</exception><exception inflected="yes" regexp="yes">ser|fer|sumar</exception></token>
                         <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">zero|set</exception></token>
                     </marker>
                     <token regexp="yes">[.;?!]</token>
@@ -19051,6 +19063,24 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="PER_SI_AIXO_FOS_POC" name="Per si això fos poc">
+            <pattern>
+                   <token>per</token>
+                   <token>si</token>
+                   <token>això</token>
+                   <token regexp='yes'>fos|fóra</token>
+                   <token>poc</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion>per acabar-ho d'adobar</suggestion>
+            <suggestion>per si no n'hi hagués prou</suggestion>
+            <suggestion>per a postres</suggestion>
+            <suggestion>a sobre</suggestion>
+            <suggestion>damunt</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/per_si_aixo_fos_poc</url>
+            <example type='incorrect'><marker>per si això fos poc</marker></example>
+            <example type='correct'>per acabar-ho d'adobar</example>
+        </rule>
         <rule id="TINGUEM_FESTA_PAU" name="tinguem la festa en pau">
             <pattern>
                 <token>Tinguem</token>
