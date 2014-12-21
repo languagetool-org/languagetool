@@ -10090,32 +10090,44 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
-                <token postag="DA.*" postag_regexp="yes"/>
-                <token postag="PX.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>        
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
-                <token postag="D[ADI].*" postag_regexp="yes"/>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="D[ADI].*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify> 
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
         <rule>
             <pattern>
                 <token postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"><exception>a</exception></token>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>     
             </pattern>
             <disambig action="add"><wd pos="complement"></wd></disambig>
         </rule>
@@ -10126,7 +10138,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="genere"/>
                     <feature id="nombre"/>
                     <and>
-                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token>
                         <token postag="complement" postag_regexp="yes"/>
                     </and>
                     <marker>
@@ -10142,7 +10154,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <feature id="genere"/>
                     <feature id="nombre"/>
                     <and>
-                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"/>
+                        <token postag="N.*|PI.*|PD.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes"/></token>
                         <token postag="complement" postag_regexp="yes"/>
                     </and>
                     <token postag="RG_anteposat"/>
@@ -10185,32 +10197,44 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <token>a</token>
-                <token postag="DA.*" postag_regexp="yes"/>
-                <token postag="PX.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <token postag="PX.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>        
             </pattern>
             <disambig action="add"><wd pos="complement_a"></wd></disambig>
         </rule>
         <rule>
             <pattern>
                 <token>a</token>
-                <token postag="D[ADI].*" postag_regexp="yes"/>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="D[ADI].*" postag_regexp="yes"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>        
             </pattern>
             <disambig action="add"><wd pos="complement_a"></wd></disambig>
         </rule>
         <rule>
             <pattern>
                 <token>a</token>
-                <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                <marker>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </marker>        
+                <unify>
+                    <feature id="genere"/>
+                    <feature id="nombre"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>        
             </pattern>
             <disambig action="add"><wd pos="complement_a"></wd></disambig>
         </rule>
