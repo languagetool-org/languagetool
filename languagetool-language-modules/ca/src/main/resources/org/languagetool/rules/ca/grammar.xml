@@ -6813,7 +6813,9 @@ $Id$
                 <example type="correct">És fals quan x=0.</example> 
                 <example type="correct">vull saber quan i perquè.</example>
                 <example type="correct">vull saber quan.</example>     
-                <example type="correct">com se sol fer quan hom fa temps d’una manera voluntària</example> 
+                <example type="correct">com se sol fer quan hom fa temps d’una manera voluntària</example>
+                <example type="correct">Quan Compromís entre a governar, passarà això.</example>
+                <example type="correct">Quan Compromís entre en les Corts, passarà això.</example>
             </rule>
             <rule>
                 <pattern>
@@ -25056,6 +25058,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="DESAFORAT" name="confusion of bed/bad">
+            <pattern>
+                <token postag="V.P.*" postag_regexp="yes" inflected="yes">desaforar<exception postag="_GV_" /></token>
+            </pattern>
+            <message>Correcte si és participi del verb desaforar. Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">desmesurat</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">boig</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">espantós</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">furiós</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="V.P..(.)(.)." postag_replace="AQ0$2$10">acèrrim</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.P.*)" postag_replace="$1">aferrissar</match></suggestion>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.P.*)" postag_replace="$1">acarnissar</match></suggestion>
+            <example type="incorrect" correction="desmesurats|boigs|bojos|espantosos|furiosos|acèrrims|aferrissats|acarnissats">Uns crits <marker>desaforats</marker>.</example>
+            <example type="correct">L'han desaforat.</example>
+            <example type="correct">Fou desaforat.</example>
+        </rule>
         <rule id="ATERRADOR" name="aterrador/aterridor">
             <pattern>
                 <token inflected="yes">aterrador</token>
@@ -27103,7 +27121,7 @@ $Id$
 	                <marker>
 	                    <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
 	                </marker>
-	                <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri</token>
+	                <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri</token>
 	            </pattern>
 	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
@@ -27127,6 +27145,20 @@ $Id$
 	            <example type="incorrect" correction="desvelà|descobrí|revelà">Li <marker>desvetllà</marker> que era ell.</example>
 	            <example type="correct">vol desvetllar interès</example>
 	        </rule>
+            <rule>
+                <pattern>
+                    <token postag="N.*" skip="2" postag_regexp="yes" inflected="yes" regexp="yes">detall|contingut|motiu|res|nom|pla|causa|origen|veritat|secret|misteri</token>
+                    <marker>
+                        <token inflected="yes" regexp="yes">desvetl?lar</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revelar</match></suggestion>
+                <short>Possible error</short>
+                <example type="incorrect" correction="desvelats|descoberts|revelats">Tots els misteris <marker>desvetllats</marker> per ell.</example>
+                <example type="correct">Desvetlla't, no ens rebutgis per sempre.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="FALLAR" name="fallar">
             <antipattern>

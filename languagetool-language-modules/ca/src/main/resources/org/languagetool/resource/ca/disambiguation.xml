@@ -2065,6 +2065,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^D].*"/>
         </rule>
     </rulegroup>
+    <rule id="excepcions_preposicions" name="entre a; entre en">
+        <pattern>
+            <marker>
+                <token>entre</token>
+            </marker>
+            <token regexp="yes">a|en</token>
+        </pattern>
+        <disambig action="filter" postag="V.*" />
+    </rule>
     <rulegroup id="preposicions" name="preposicions: sobre, contra, en">
         <rule>
             <pattern>
