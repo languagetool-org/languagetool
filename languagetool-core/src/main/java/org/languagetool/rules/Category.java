@@ -46,6 +46,7 @@ public class Category {
    * Create a new category with the given name and priority.
    * @param name name of the category
    * @param priority a value between 0 and 100 (inclusive)
+   * @deprecated priority will be removed, as it had not been used (deprecated since 2.8)
    */
   public Category(final String name, final int priority, Location location) {
     if (priority < 0 || priority > 100) {
@@ -58,6 +59,7 @@ public class Category {
 
   /**
    * @since 2.8
+   * @deprecated priority will be removed, as it had not been used (deprecated since 2.8)
    */
   Category(final String name, final int priority) {
     this(name, priority, Location.INTERNAL);
