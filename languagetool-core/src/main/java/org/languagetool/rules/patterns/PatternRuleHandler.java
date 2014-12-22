@@ -36,9 +36,11 @@ import org.xml.sax.SAXException;
 public class PatternRuleHandler extends XMLRuleHandler {
 
   public static final String TYPE = "type";
-  
+
   static final String MARKER_TAG = "<marker>";
   static final String PLEASE_SPELL_ME = "<pleasespellme/>";
+
+  private static final String EXTERNAL = "external";
 
   protected Category category;
   protected String categoryIssueType;
@@ -89,10 +91,12 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case "category":
         final String catName = attrs.getValue(NAME);
         final String priorityStr = attrs.getValue("priority");
+        Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
+                Category.Location.EXTERNAL : Category.Location.INTERNAL;
         if (priorityStr == null) {
-          category = new Category(catName);
+          category = new Category(catName, location);
         } else {
-          category = new Category(catName, Integer.parseInt(priorityStr));
+          category = new Category(catName, Integer.parseInt(priorityStr), location);
         }
         if ("off".equals(attrs.getValue(DEFAULT))) {
           category.setDefaultOff();

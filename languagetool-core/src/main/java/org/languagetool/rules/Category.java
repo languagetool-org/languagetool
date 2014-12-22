@@ -26,10 +26,20 @@ package org.languagetool.rules;
  */
 public class Category {
 
+  public enum Location {
+    /** The rules in this category are part of the main distribution of
+     * LanguageTool and are thus available on <a href="http://community.languagetool.org">community.languagetool.org</a>. */
+    INTERNAL,
+    /** The rules in this category are not part of the main distribution of LanguageTool. */
+    EXTERNAL
+  }
+
   private static final int DEFAULT_PRIORITY = 50;
   
   private final int priority;
   private final String name;
+  private final Location location;
+
   private boolean defaultOff;
 
   /**
@@ -37,12 +47,20 @@ public class Category {
    * @param name name of the category
    * @param priority a value between 0 and 100 (inclusive)
    */
-  public Category(final String name, final int priority) {
+  public Category(final String name, final int priority, Location location) {
     if (priority < 0 || priority > 100) {
       throw new IllegalArgumentException("priority must be in range 0 - 100: " + priority);
     }
     this.name = name;
     this.priority = priority;
+    this.location = location;
+  }
+
+  /**
+   * @since 2.8
+   */
+  Category(final String name, final int priority) {
+    this(name, priority, Location.INTERNAL);
   }
 
   /**
@@ -50,7 +68,16 @@ public class Category {
    * @param name name of the category
    */
   public Category(final String name) {
-    this(name, DEFAULT_PRIORITY);
+    this(name, Location.INTERNAL);
+  }
+
+  /**
+   * Create a new category with the default priority (50).
+   * @param name name of the category
+   * @since 2.8
+   */
+  public Category(String name, Location location) {
+    this(name, DEFAULT_PRIORITY, location);
   }
 
   public String getName() {
@@ -82,5 +109,11 @@ public class Category {
     defaultOff = true;
   }
 
-  
+  /**
+   * @since 2.8
+   */
+  public Location getLocation() {
+    return location;
+  }
+
 }

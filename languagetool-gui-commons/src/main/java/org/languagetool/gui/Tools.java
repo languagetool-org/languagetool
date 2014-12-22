@@ -35,6 +35,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.filechooser.FileFilter;
 import org.apache.commons.lang.StringUtils;
+import org.languagetool.rules.Category;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.FalseFriendPatternRule;
@@ -209,7 +210,9 @@ public class Tools {
     String exampleSentences = getExampleSentences(rule, messages);
     String url = "http://community.languagetool.org/rule/show/" + encodeUrl(rule)
             + "?lang=" + lang + "&amp;ref=standalone-gui";
-    String ruleDetailLink = rule instanceof FalseFriendPatternRule ? "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
+    boolean isExternal = rule.getCategory().getLocation() == Category.Location.EXTERNAL;
+    String ruleDetailLink = rule instanceof FalseFriendPatternRule || isExternal ?
+            "" : "<a href='" + url + "'>" + messages.getString("ruleDetailsLink") +"</a>";
     textPane.setText("<html>"
             + messageWithBold + exampleSentences + formatURL(rule.getUrl())
             + "<br><br>"
