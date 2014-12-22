@@ -25,9 +25,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
@@ -76,7 +73,6 @@ public class BretonTagger extends BaseTagger {
     List<AnalyzedToken> upperTaggerTokens;
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     Matcher matcher;
     for (String word : sentenceTokens) {
@@ -87,8 +83,8 @@ public class BretonTagger extends BaseTagger {
       for (;;) {
         final List<AnalyzedToken> l = new ArrayList<>();
         final String lowerWord = probeWord.toLowerCase(conversionLocale);
-        taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(probeWord));
-        lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
+        taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(probeWord));
+        lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
         final boolean isLowercase = probeWord.equals(lowerWord);
 
         // Normal case.
@@ -102,8 +98,8 @@ public class BretonTagger extends BaseTagger {
         // Uppercase.
         if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
           if (isLowercase) {
-            upperTaggerTokens = asAnalyzedTokenList(word,
-                dictLookup.lookup(StringTools.uppercaseFirstChar(probeWord)));
+            upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+                getWordTagger().tag(StringTools.uppercaseFirstChar(probeWord)));
             if (!upperTaggerTokens.isEmpty()) {
               addTokens(upperTaggerTokens, l);
             }

@@ -25,10 +25,8 @@ import java.util.List;
 import java.util.Locale;
 
 import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
 
+import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -41,6 +39,7 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class BaseTagger implements Tagger {
 
+  protected MorfologikTagger morfologikTagger;
   protected Locale conversionLocale = Locale.getDefault();
 
   private boolean tagLowercaseWithUppercase = true;
@@ -53,6 +52,13 @@ public abstract class BaseTagger implements Tagger {
 
   public void setLocale(Locale locale) {
     conversionLocale = locale;
+  }
+
+  protected MorfologikTagger getWordTagger() {
+    if (morfologikTagger == null) {
+      morfologikTagger = new MorfologikTagger(getFileName());
+    }
+    return morfologikTagger;
   }
 
   protected Dictionary getDictionary() throws IOException {
@@ -74,22 +80,28 @@ public abstract class BaseTagger implements Tagger {
       throws IOException {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
     for (String word : sentenceTokens) {
-      final List<AnalyzedToken> l = getAnalyzedTokens(dictLookup, word);
+      final List<AnalyzedToken> l = getAnalyzedTokens(word);
       tokenReadings.add(new AnalyzedTokenReadings(l, pos));
       pos += word.length();
     }
     return tokenReadings;
   }
 
-  private List<AnalyzedToken> getAnalyzedTokens(IStemmer dictLookup, String word) {
+  protected List<AnalyzedTokenReadings> tag(String token) throws IOException {
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    final List<AnalyzedToken> l = getAnalyzedTokens(token);
+    tokenReadings.add(new AnalyzedTokenReadings(l, 0));
+    return tokenReadings;
+  }
+
+  protected List<AnalyzedToken> getAnalyzedTokens(String word) {
     final List<AnalyzedToken> result = new ArrayList<>();
     final String lowerWord = word.toLowerCase(conversionLocale);
     final boolean isLowercase = word.equals(lowerWord);
     final boolean isMixedCase = StringTools.isMixedCase(word);
-    List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(word));
-    List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(lowerWord));
+    List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+    List<AnalyzedToken> lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
     //normal case:
     addTokens(taggerTokens, result);
     //tag non-lowercase (alluppercase or startuppercase), but not mixedcase word with lowercase word tags:
@@ -100,8 +112,8 @@ public abstract class BaseTagger implements Tagger {
     if (tagLowercaseWithUppercase) {
       if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
         if (isLowercase) {
-          List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenList(word,
-              dictLookup.lookup(StringTools.uppercaseFirstChar(word)));
+          List<AnalyzedToken> upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+              getWordTagger().tag(StringTools.uppercaseFirstChar(word)));
           if (!upperTaggerTokens.isEmpty()) {
             addTokens(upperTaggerTokens, result);
           }
@@ -110,7 +122,7 @@ public abstract class BaseTagger implements Tagger {
     }
     // Additional language-dependent-tagging:
     if (result.isEmpty()) {
-      List<AnalyzedToken> additionalTaggedTokens = additionalTags(word, dictLookup);
+      List<AnalyzedToken> additionalTaggedTokens = additionalTags(word, getWordTagger());
       addTokens(additionalTaggedTokens, result);
     }
     if (result.isEmpty()) {
@@ -127,6 +139,14 @@ public abstract class BaseTagger implements Tagger {
     return aTokenList;
   }
 
+  protected List<AnalyzedToken> asAnalyzedTokenListForTaggedWords(final String word, List<TaggedWord> taggedWords) {
+    final List<AnalyzedToken> aTokenList = new ArrayList<>();
+    for (TaggedWord taggedWord : taggedWords) {
+      aTokenList.add(asAnalyzedToken(word, taggedWord));
+    }
+    return aTokenList;
+  }
+
   protected AnalyzedToken asAnalyzedToken(final String word, final WordData wd) {
     String tag = StringTools.asString(wd.getTag());
     // Remove frequency data from tags (if exists)
@@ -138,6 +158,10 @@ public abstract class BaseTagger implements Tagger {
         word,
         tag,
         StringTools.asString(wd.getStem()));
+  }
+
+  private AnalyzedToken asAnalyzedToken(String word, TaggedWord taggedWord) {
+    return new AnalyzedToken(word, taggedWord.getPosTag(), taggedWord.getLemma());
   }
 
   //please do not make protected, this breaks other languages
@@ -166,10 +190,9 @@ public abstract class BaseTagger implements Tagger {
   /**
    * Allows additional tagging in some language-dependent circumstances
    * @param word The word to tag
-   * @param stemmer The stemmer
-   * @return Returns list of analyzed tokens with additional tags
+   * @return Returns list of analyzed tokens with additional tags, or {@code null}
    */
-  protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
+  protected List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
     return null;
   }
 

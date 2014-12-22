@@ -143,7 +143,6 @@ public class CatalanTagger extends BaseTagger {
     return tokenReadings;
   }
 
-  @Override
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     final IStemmer dictLookup;
     try {

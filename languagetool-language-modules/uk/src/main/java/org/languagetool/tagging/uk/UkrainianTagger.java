@@ -28,11 +28,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tagging.WordTagger;
 
 /** 
  * Ukrainian part-of-speech tagger.
@@ -81,7 +80,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   @Override
-  public List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
+  public List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
     if ( NUMBER.matcher(word).matches() ){
       List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText(), word));
@@ -101,11 +100,11 @@ public class UkrainianTagger extends BaseTagger {
       String rightWord = word.substring(dashIdx + 1);
       
       if( rightWord.equals("но") || rightWord.equals("бо") ) {
-        List<WordData> leftWdList = stemmer.lookup(leftWord);
+        List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
         if( leftWdList.isEmpty() )
           return null;
 
-        List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenList(leftWord, leftWdList);
+        List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenListForTaggedWords(leftWord, leftWdList);
         return verbImperNoBo(word, leftAnalyzedTokens);
       }
 
@@ -113,11 +112,11 @@ public class UkrainianTagger extends BaseTagger {
         rightWord += "й";
       }
       
-      List<WordData> wdList = stemmer.lookup(rightWord);
+      List<TaggedWord> wdList = wordTagger.tag(rightWord);
       if( wdList.isEmpty() )
         return null;
 
-      List<AnalyzedToken> rightAnalyzedTokens = asAnalyzedTokenList(rightWord, wdList);
+      List<AnalyzedToken> rightAnalyzedTokens = asAnalyzedTokenListForTaggedWords(rightWord, wdList);
 
       if( leftWord.equalsIgnoreCase("по") ) {
         if( rightWord.endsWith("ому") ) {
@@ -134,17 +133,17 @@ public class UkrainianTagger extends BaseTagger {
       }
 
       if( Character.isUpperCase(leftWord.charAt(0)) && cityAvenue.contains(rightWord) ) {
-        List<WordData> leftWdList = stemmer.lookup(leftWord);
+        List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
         if( leftWdList.isEmpty() )
           return null;
         
-        List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenList(leftWord, leftWdList);
+        List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenListForTaggedWords(leftWord, leftWdList);
         return cityAvenueMatch(word, leftAnalyzedTokens);
       }
 
-      List<WordData> leftWdList = stemmer.lookup(leftWord);
+      List<TaggedWord> leftWdList = wordTagger.tag(leftWord);
       if( ! leftWdList.isEmpty() ) {
-        List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenList(leftWord, leftWdList);
+        List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenListForTaggedWords(leftWord, leftWdList);
 
         List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
         if( tagMatch != null ) {

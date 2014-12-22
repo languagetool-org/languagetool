@@ -31,29 +31,39 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Tags a word using a Morfologik binary dictionary.
  * @since 2.8
  */
-public class MorfologikWordTagger implements WordTagger {
+public class MorfologikTagger implements WordTagger {
 
   private final URL dictUrl;
 
-  public MorfologikWordTagger(String dictPath) {
+  private Dictionary dictionary;
+
+  public MorfologikTagger(String dictPath) {
     dictUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Objects.requireNonNull(dictPath));
   }
 
-  MorfologikWordTagger(URL dictUrl) {
+  MorfologikTagger(URL dictUrl) {
     this.dictUrl = Objects.requireNonNull(dictUrl);
+  }
+
+  private synchronized Dictionary getDictionary() throws IOException {
+    if (dictionary == null) {
+      dictionary = Dictionary.read(dictUrl);
+    }
+    return dictionary;
   }
 
   @Override
   public List<TaggedWord> tag(String word) {
     List<TaggedWord> result = new ArrayList<>();
     try {
-      Dictionary dictionary = Dictionary.read(dictUrl);
-      IStemmer dictLookup = new DictionaryLookup(dictionary);
+      IStemmer dictLookup = new DictionaryLookup(getDictionary());
       List<WordData> lookup = dictLookup.lookup(word);
       for (WordData wordData : lookup) {
-        TaggedWord taggedWord = new TaggedWord(wordData.getStem().toString(), wordData.getTag().toString());
+        TaggedWord taggedWord = new TaggedWord(wordData.getStem() == null ? null : wordData.getStem().toString(),
+                                               wordData.getTag() == null ? null : wordData.getTag().toString());
         result.add(taggedWord);
       }
     } catch (IOException e) {

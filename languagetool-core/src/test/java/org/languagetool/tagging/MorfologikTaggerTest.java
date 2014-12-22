@@ -26,12 +26,12 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-public class MorfologikWordTaggerTest {
+public class MorfologikTaggerTest {
 
   @Test
   public void testTag() {
-    URL url = MorfologikWordTaggerTest.class.getResource("/org/languagetool/tagging/test.dict");
-    MorfologikWordTagger tagger = new MorfologikWordTagger(url);
+    URL url = MorfologikTaggerTest.class.getResource("/org/languagetool/tagging/test.dict");
+    MorfologikTagger tagger = new MorfologikTagger(url);
 
     List<TaggedWord> result1 = tagger.tag("lowercase");
     assertThat(result1.size(), is(2));

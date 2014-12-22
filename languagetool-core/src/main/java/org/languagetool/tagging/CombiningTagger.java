@@ -21,17 +21,25 @@ package org.languagetool.tagging;
 import java.util.List;
 
 /**
- * Find the potential part-of-speech tags (POS tags) for a word.
- * Implementations just look up the word in a text or binary file,
- * they will not consider the word's context.
+ * Tags a word using a Morfologik binary dictionary.
  * @since 2.8
  */
-public interface WordTagger {
+public class CombiningTagger implements WordTagger {
 
-  /**
-   * @param word the word to be tagged
-   * @return the possible POS tags, or an empty list
-   */
-  List<TaggedWord> tag(String word);
+  private final WordTagger tagger1;
+  private final WordTagger tagger2;
+
+  public CombiningTagger(WordTagger tagger1, WordTagger tagger2) {
+    this.tagger1 = tagger1;
+    this.tagger2 = tagger2;
+  }
+
+  @Override
+  public List<TaggedWord> tag(String word) {
+    //
+    // TODO
+    //
+    return null;
+  }
 
 }

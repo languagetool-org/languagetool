@@ -54,6 +54,7 @@ public class ManualTagger implements WordTagger {
    * @return an array with the baseform (at position 0, 2, ...) and the POS
    *         information (at position 1, 3, ...) or <code>null</code> if the
    *         word is unknown
+   * @deprecated use {@link #tag(String)} instead (note that it doesn't return null)
    */
   public String[] lookup(final String term) {
     final List<LookedUpTerm> l = mapping.get(term);
@@ -99,10 +100,12 @@ public class ManualTagger implements WordTagger {
 
   @Override
   public List<TaggedWord> tag(String word) {
-    //
-    // TODO
-    //
-    return null;
+    List<TaggedWord> result = new ArrayList<>();
+    List<LookedUpTerm> lookedUpTerms = mapping.get(word);
+    for (LookedUpTerm term : lookedUpTerms) {
+      result.add(new TaggedWord(term.baseform, term.posTags));
+    }
+    return result;
   }
 
   private class LookedUpTerm {

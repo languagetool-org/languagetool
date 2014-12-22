@@ -23,9 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
@@ -56,13 +53,12 @@ public class PolishTagger extends BaseTagger {
     List<AnalyzedToken> upperTaggerTokens;    
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    final IStemmer morfologik = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
       final String lowerWord = word.toLowerCase(plLocale);
-      taggerTokens = asAnalyzedTokenList(word, morfologik.lookup(word));
-      lowerTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(lowerWord));       
+      taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
+      lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
       final boolean isLowercase = word.equals(lowerWord);
 
       //normal case
@@ -76,8 +72,8 @@ public class PolishTagger extends BaseTagger {
       //uppercase
       if (lowerTaggerTokens.isEmpty() && taggerTokens.isEmpty()) {
         if (isLowercase) {
-          upperTaggerTokens = asAnalyzedTokenList(word, morfologik.lookup(StringTools
-              .uppercaseFirstChar(word)));
+          upperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
+              getWordTagger().tag(StringTools.uppercaseFirstChar(word)));
           if (!upperTaggerTokens.isEmpty()) {
             addTokens(upperTaggerTokens, l);
           } else {
