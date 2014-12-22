@@ -100,8 +100,7 @@ public final class TestTools {
     final List<String> noWhitespaceTokens = getNoWhitespaceTokens(tokens);
     final List<AnalyzedTokenReadings> output = tagger.tag(noWhitespaceTokens);
     final StringBuilder outputStr = new StringBuilder();
-    for (final Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter
-        .hasNext();) {
+    for (final Iterator<AnalyzedTokenReadings> iter = output.iterator(); iter.hasNext();) {
       final AnalyzedTokenReadings tokenReadings = iter.next();
       final List<String> readings = getAsStrings(tokenReadings);
       outputStr.append(StringTools.listToString(readings, "|"));

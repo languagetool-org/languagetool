@@ -180,7 +180,7 @@ public class CatalanTagger extends BaseTagger {
         if (posTag != null) {
           final Matcher m = VERB.matcher(posTag);
           if (m.matches()) {
-            String lemma=matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
           }
         }

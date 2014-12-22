@@ -49,7 +49,8 @@ import org.languagetool.tools.StringTools;
 public class BretonTagger extends BaseTagger {
 
   private static final Pattern patternSuffix = Pattern.compile("(?iu)(..+)-(mañ|se|hont)$");
-  private Locale conversionLocale = Locale.getDefault();
+
+  private final Locale conversionLocale = Locale.getDefault();
 
   @Override
   public final String getFileName() {

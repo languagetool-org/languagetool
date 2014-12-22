@@ -18,14 +18,7 @@
  */
 package org.languagetool.tagging.uk;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
@@ -50,14 +43,14 @@ public class UkrainianTagger extends BaseTagger {
   private static final int stdNounTagLen = stdNounTag.length();
   private static final Pattern stdNounTagRegex = Pattern.compile(stdNounTag + ".*");
   private static final Pattern stdNounNvTagRegex = Pattern.compile(IPOSTag.noun.getText() + ":.:nv");
-  private static final HashSet<String> dashPrefixes = new HashSet<String>(
+  private static final Set<String> dashPrefixes = new HashSet<>(
         Arrays.asList("віце", "екс", "лейб", "максі", "міді", "міні", "обер", "горе", "медіа"));
-  private static final HashSet<String> cityAvenue = new HashSet<String>(Arrays.asList("сіті", "авеню", "стріт", "штрассе"));
+  private static final Set<String> cityAvenue = new HashSet<>(Arrays.asList("сіті", "авеню", "стріт", "штрассе"));
 
   public static final Map<String, String> VIDMINKY_MAP;
 
   static {
-    HashMap<String, String> map = new HashMap<String, String>();
+    Map<String, String> map = new HashMap<>();
     map.put("v_naz", "називний");
     map.put("v_rod", "родовий");
     map.put("v_dav", "давальний");
@@ -161,7 +154,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private List<AnalyzedToken> cityAvenueMatch(String word, List<AnalyzedToken> leftAnalyzedTokens) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<AnalyzedToken>(leftAnalyzedTokens.size());
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
     
     for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
@@ -174,7 +167,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private List<AnalyzedToken> verbImperNoBo(String word, List<AnalyzedToken> leftAnalyzedTokens) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<AnalyzedToken>(leftAnalyzedTokens.size());
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
     
     for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
@@ -188,7 +181,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private List<AnalyzedToken> tagMatch(String word, List<AnalyzedToken> leftAnalyzedTokens, List<AnalyzedToken> rightAnalyzedTokens) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<AnalyzedToken>();
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
     
     for (AnalyzedToken leftAnalyzedToken : leftAnalyzedTokens) {
       String leftPosTag = leftAnalyzedToken.getPOSTag();
@@ -265,7 +258,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private List<AnalyzedToken> oAdjMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<AnalyzedToken>(analyzedTokens.size());
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
@@ -278,7 +271,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private List<AnalyzedToken> eksNounMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<AnalyzedToken>(analyzedTokens.size());
+    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
