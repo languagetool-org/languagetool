@@ -57,6 +57,11 @@ public class BretonTagger extends BaseTagger {
     return "/br/breton.dict";
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/br/added.txt";
+  }
+
   public BretonTagger() {
     super();
     setLocale(new Locale("br"));

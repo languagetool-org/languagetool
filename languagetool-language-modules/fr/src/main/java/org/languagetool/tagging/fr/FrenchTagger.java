@@ -34,7 +34,12 @@ public class FrenchTagger extends BaseTagger {
   public final String getFileName() {
     return "/fr/french.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/fr/added.txt";
+  }
+
   public FrenchTagger() {
     super();
     setLocale(Locale.FRENCH);

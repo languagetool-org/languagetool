@@ -65,6 +65,11 @@ public class RomanianTagger extends BaseTagger {
   }
 
   @Override
+  public String getManualAdditionsFileName() {
+    return null;  // TODO: make use of this
+  }
+
+  @Override
   public final List<AnalyzedTokenReadings> tag(
       final List<String> sentenceTokens) throws IOException {
     final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();

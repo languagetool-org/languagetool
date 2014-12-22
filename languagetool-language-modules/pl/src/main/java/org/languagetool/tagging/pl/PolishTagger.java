@@ -33,7 +33,6 @@ import org.languagetool.tools.StringTools;
  * 
  * @author Marcin Milkowski
  */
-
 public class PolishTagger extends BaseTagger {
 
   private static final String RESOURCE_FILENAME = "/pl/polish.dict";
@@ -43,6 +42,11 @@ public class PolishTagger extends BaseTagger {
   @Override
   public final String getFileName() {
     return RESOURCE_FILENAME;
+  }
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/pl/added.txt";
   }
 
   @Override

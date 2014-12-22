@@ -61,6 +61,11 @@ public class CatalanTagger extends BaseTagger {
     return DICT_FILENAME;
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return null;  // TODO: make use of this
+  }
+
   public CatalanTagger() {
     super();
     setLocale(new Locale("ca"));
@@ -211,7 +216,7 @@ public class CatalanTagger extends BaseTagger {
     if (word.contains("\u0140") || word.contains("\u013f")) {
       final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word,dictLookup.lookup(possibleWord));
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
       return taggerTokens;
     }
     return null;

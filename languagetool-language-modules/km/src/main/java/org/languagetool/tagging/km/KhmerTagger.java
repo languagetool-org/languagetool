@@ -24,8 +24,7 @@ import org.languagetool.tagging.BaseTagger;
 
 /** Khmer Part-of-speech tagger.
  * Based on part-of-speech lists in Public Domain.
- * see readme.txt for details, the POS tagset is
- * described in tagset.txt
+ * See readme.txt for details, the POS tagset is described in tagset.txt
  * 
  * @author Marcin Milkowski
  */
@@ -35,7 +34,12 @@ public class KhmerTagger extends BaseTagger {
   public final String getFileName() {
     return "/km/khmer.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/km/added.txt";
+  }
+
   public KhmerTagger() {
     super();
     setLocale(new Locale("km"));

@@ -25,12 +25,16 @@ import org.languagetool.tagging.BaseTagger;
 /** Slovak Part-of-speech tagger based on Russian Part-of-speech tagger.
  * @author Zdenko Podobný 
  */
-
 public class SlovakTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
     return "/sk/slovak.dict";
+  }
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/sk/added.txt";
   }
 
   public SlovakTagger() {

@@ -35,7 +35,12 @@ public class EnglishTagger extends BaseTagger {
   public final String getFileName() {
     return "/en/english.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/en/added.txt";
+  }
+
   public EnglishTagger() {
     super();
     setLocale(Locale.ENGLISH);

@@ -23,7 +23,7 @@ import java.util.Locale;
 import org.languagetool.tagging.BaseTagger;
 
 /** Swedish Part-of-speech tagger.
- * Based on DSSO. Will be expanded upon.
+ * Based on DSSO.
  */
 public class SwedishTagger extends BaseTagger {
 
@@ -31,7 +31,12 @@ public class SwedishTagger extends BaseTagger {
   public final String getFileName() {
     return "/sv/swedish.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/sv/added.txt";
+  }
+
   public SwedishTagger() {
     super();
     setLocale(new Locale("sv"));

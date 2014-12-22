@@ -34,6 +34,11 @@ public class MalayalamTagger extends BaseTagger {
     return "/ml/malayalam.dict";    
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ml/added.txt";
+  }
+
   public MalayalamTagger() {
     super();
     setLocale(new Locale("ml"));

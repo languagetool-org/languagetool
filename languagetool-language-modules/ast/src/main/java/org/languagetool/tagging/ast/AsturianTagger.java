@@ -33,7 +33,12 @@ public class AsturianTagger extends BaseTagger {
   public final String getFileName() {
     return "/ast/asturian.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ast/added.txt";
+  }
+
   public AsturianTagger() {
     super();
     setLocale(new Locale("ast"));

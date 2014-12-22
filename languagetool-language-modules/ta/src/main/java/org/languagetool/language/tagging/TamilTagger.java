@@ -33,6 +33,11 @@ public class TamilTagger extends BaseTagger {
     return "/ta/tamil.dict";
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ta/added.txt";
+  }
+
   public TamilTagger() {
     super();
   }

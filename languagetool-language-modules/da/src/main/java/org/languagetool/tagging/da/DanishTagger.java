@@ -33,7 +33,12 @@ public class DanishTagger extends BaseTagger {
   public final String getFileName() {
     return "/da/danish.dict";
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/da/added.txt";
+  }
+
   public DanishTagger() {
     super();
     setLocale(new Locale("da"));

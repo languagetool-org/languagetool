@@ -53,10 +53,9 @@ public abstract class BaseTagger implements Tagger {
 
   /**
    * Get the filename for manual additions, e.g., {@code /en/added.txt}, or {@code null}.
+   * @since 2.8
    */
-  public String getManualFileName() {
-    return null;
-  }
+  public abstract String getManualAdditionsFileName();
 
   public void setLocale(Locale locale) {
     conversionLocale = locale;
@@ -66,7 +65,7 @@ public abstract class BaseTagger implements Tagger {
     if (wordTagger == null) {
       MorfologikTagger morfologikTagger = new MorfologikTagger(getFileName());
       try {
-        String manualFileName = getManualFileName();
+        String manualFileName = getManualAdditionsFileName();
         if (manualFileName != null) {
           InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName);
           ManualTagger manualTagger = new ManualTagger(stream);
@@ -75,7 +74,7 @@ public abstract class BaseTagger implements Tagger {
           wordTagger = morfologikTagger;
         }
       } catch (IOException e) {
-        throw new RuntimeException("Could not load manual tagger data from " + getManualFileName(), e);
+        throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
       }
     }
     return wordTagger;

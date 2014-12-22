@@ -24,17 +24,20 @@ import org.languagetool.tagging.BaseTagger;
 
 /**  Part-of-speech tagger.
  * Russian dictionary originally developed by www.aot.ru and licensed under LGPL.
- * see readme.txt for details, the POS tagset is
- * described in tagset.txt
- * 
- *  */
+ * See readme.txt for details, the POS tagset is described in tagset.txt
+ */
 public class RussianTagger extends BaseTagger {
 
   @Override
   public final String getFileName() {
     return "/ru/russian.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ru/added.txt";
+  }
+
   public RussianTagger() {
     super();
     setLocale(new Locale("ru"));

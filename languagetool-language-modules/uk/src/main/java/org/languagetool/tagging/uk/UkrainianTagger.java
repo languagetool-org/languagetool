@@ -66,6 +66,11 @@ public class UkrainianTagger extends BaseTagger {
     return "/uk/ukrainian.dict";
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/uk/added.txt";
+  }
+
   public UkrainianTagger() {
     super();
     setLocale(new Locale("uk", "UA"));

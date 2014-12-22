@@ -50,7 +50,7 @@ public class GermanTagger extends BaseTagger {
   }
 
   @Override
-  public String getManualFileName() {
+  public String getManualAdditionsFileName() {
     return "/de/added.txt";
   }
 

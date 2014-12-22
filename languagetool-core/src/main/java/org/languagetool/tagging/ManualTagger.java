@@ -85,7 +85,7 @@ public class ManualTagger implements WordTagger {
         }
         final String[] parts = line.split("\t");
         if (parts.length != 3) {
-          throw new IOException("Unknown line format when loading manual tagger dictionary: " + line);
+          throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");
         }
         List<LookedUpTerm> terms = map.get(parts[0]);
         if (terms == null) {

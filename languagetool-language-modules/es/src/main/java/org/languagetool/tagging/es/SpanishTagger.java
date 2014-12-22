@@ -22,9 +22,8 @@ import java.util.Locale;
 
 import org.languagetool.tagging.BaseTagger;
 
-/** Spanish Tagger
- * 
- * Based on FreeLing tagger dictionary 
+/** Spanish Tagger.
+ * Based on FreeLing tagger dictionary
  * and Spanish Wikipedia corpus tagged with FreeLing.
  * 
  * @author Marcin Milkowski
@@ -35,7 +34,12 @@ public class SpanishTagger extends BaseTagger {
   public final String getFileName() {
     return "/es/spanish.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/es/added.txt";
+  }
+
   public SpanishTagger() {
     super();
     setLocale(new Locale("es"));

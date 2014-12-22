@@ -23,7 +23,6 @@ import java.util.Locale;
 import org.languagetool.tagging.BaseTagger;
 
 /** Galician Part-of-speech tagger.
- * Based on English tagger.
  *
  * @author Marcin Milkowski
  *
@@ -35,7 +34,12 @@ public class GalicianTagger extends BaseTagger {
   public final String getFileName() {
     return "/gl/galician.dict";    
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/gl/added.txt";
+  }
+
   public GalicianTagger() {
     super();
     setLocale(new Locale("gl"));

@@ -33,7 +33,12 @@ public class TagalogTagger extends BaseTagger {
   public final String getFileName() {
     return "/tl/tagalog.dict";
   }
-  
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/tl/added.txt";
+  }
+
   public TagalogTagger() {
     super();
     setLocale(Locale.ENGLISH);

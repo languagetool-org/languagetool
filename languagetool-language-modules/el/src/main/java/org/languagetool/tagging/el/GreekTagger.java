@@ -33,6 +33,11 @@ public class GreekTagger extends BaseTagger {
     return "/el/greek.dict";
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/el/added.txt";
+  }
+
   public GreekTagger() {
     super();
     setLocale(new Locale("el"));
