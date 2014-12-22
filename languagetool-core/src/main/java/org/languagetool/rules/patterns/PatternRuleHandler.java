@@ -98,7 +98,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         } else {
           category = new Category(catName, Integer.parseInt(priorityStr), location);
         }
-        if ("off".equals(attrs.getValue(DEFAULT))) {
+        if (OFF.equals(attrs.getValue(DEFAULT))) {
           category.setDefaultOff();
         }
         if (attrs.getValue(TYPE) != null) {
@@ -134,8 +134,8 @@ public class PatternRuleHandler extends XMLRuleHandler {
           defaultOff = true;
           defaultOn = false;  // false because the rule isn't on *explicitly*
         } else {
-          defaultOff = "off".equals(attrs.getValue(DEFAULT));
-          defaultOn = "on".equals(attrs.getValue(DEFAULT));
+          defaultOff = OFF.equals(attrs.getValue(DEFAULT));
+          defaultOn = ON.equals(attrs.getValue(DEFAULT));
         }
 
         correctExamples = new ArrayList<>();
@@ -246,7 +246,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
       case RULEGROUP:
         ruleGroupId = attrs.getValue(ID);
         ruleGroupDescription = attrs.getValue(NAME);
-        ruleGroupDefaultOff = "off".equals(attrs.getValue(DEFAULT));
+        ruleGroupDefaultOff = OFF.equals(attrs.getValue(DEFAULT));
         urlForRuleGroup = new StringBuilder();
         shortMessageForRuleGroup = new StringBuilder();
         inRuleGroup = true;

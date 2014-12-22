@@ -167,6 +167,8 @@ public class XMLRuleHandler extends DefaultHandler {
 
   /** Definitions of values in XML files. */
   protected static final String YES = "yes";
+  protected static final String OFF = "off";
+  protected static final String ON = "on";
   protected static final String POSTAG = "postag";
   protected static final String CHUNKTAG = "chunk";
   protected static final String POSTAG_REGEXP = "postag_regexp";
