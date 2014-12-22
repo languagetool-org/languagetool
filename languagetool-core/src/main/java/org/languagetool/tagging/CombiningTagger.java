@@ -18,10 +18,11 @@
  */
 package org.languagetool.tagging;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Tags a word using a Morfologik binary dictionary.
+ * Tags a word using two taggers, combining their results.
  * @since 2.8
  */
 public class CombiningTagger implements WordTagger {
@@ -36,10 +37,10 @@ public class CombiningTagger implements WordTagger {
 
   @Override
   public List<TaggedWord> tag(String word) {
-    //
-    // TODO
-    //
-    return null;
+    List<TaggedWord> result = new ArrayList<>();
+    result.addAll(tagger1.tag(word));
+    result.addAll(tagger2.tag(word));
+    return result;
   }
 
 }

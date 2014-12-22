@@ -102,8 +102,10 @@ public class ManualTagger implements WordTagger {
   public List<TaggedWord> tag(String word) {
     List<TaggedWord> result = new ArrayList<>();
     List<LookedUpTerm> lookedUpTerms = mapping.get(word);
-    for (LookedUpTerm term : lookedUpTerms) {
-      result.add(new TaggedWord(term.baseform, term.posTags));
+    if (lookedUpTerms != null) {
+      for (LookedUpTerm term : lookedUpTerms) {
+        result.add(new TaggedWord(term.baseform, term.posTags));
+      }
     }
     return result;
   }

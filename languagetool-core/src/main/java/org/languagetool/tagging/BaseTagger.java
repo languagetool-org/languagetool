@@ -19,6 +19,7 @@
 package org.languagetool.tagging;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,7 @@ import org.languagetool.tools.StringTools;
  */
 public abstract class BaseTagger implements Tagger {
 
-  protected MorfologikTagger morfologikTagger;
+  protected WordTagger wordTagger;
   protected Locale conversionLocale = Locale.getDefault();
 
   private boolean tagLowercaseWithUppercase = true;
@@ -50,15 +51,34 @@ public abstract class BaseTagger implements Tagger {
    */
   public abstract String getFileName();
 
+  /**
+   * Get the filename for manual additions, e.g., {@code /en/added.txt}, or {@code null}.
+   */
+  public String getManualFileName() {
+    return null;
+  }
+
   public void setLocale(Locale locale) {
     conversionLocale = locale;
   }
 
-  protected MorfologikTagger getWordTagger() {
-    if (morfologikTagger == null) {
-      morfologikTagger = new MorfologikTagger(getFileName());
+  protected WordTagger getWordTagger() {
+    if (wordTagger == null) {
+      MorfologikTagger morfologikTagger = new MorfologikTagger(getFileName());
+      try {
+        String manualFileName = getManualFileName();
+        if (manualFileName != null) {
+          InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName);
+          ManualTagger manualTagger = new ManualTagger(stream);
+          wordTagger = new CombiningTagger(morfologikTagger, manualTagger);
+        } else {
+          wordTagger = morfologikTagger;
+        }
+      } catch (IOException e) {
+        throw new RuntimeException("Could not load manual tagger data from " + getManualFileName(), e);
+      }
     }
-    return morfologikTagger;
+    return wordTagger;
   }
 
   protected Dictionary getDictionary() throws IOException {
