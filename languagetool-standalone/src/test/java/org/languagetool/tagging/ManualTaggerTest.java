@@ -18,18 +18,24 @@
  */
 package org.languagetool.tagging;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-public class ManualTaggerTest extends TestCase {
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+
+public class ManualTaggerTest {
 
   private static final String MANUAL_DICT_FILENAME = "/de/added.txt";
 
-  public void testManualTagger() throws IOException {
-    final ManualTagger tagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
+  @Test
+  public void testLookup() throws IOException {
+    ManualTagger tagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
     assertNull(tagger.lookup(""));
     assertNull(tagger.lookup("gibtsnicht"));
     
@@ -38,5 +44,17 @@ public class ManualTaggerTest extends TestCase {
     // lookup is case sensitive:
     assertNull(tagger.lookup("ableitungen"));
   }
-  
+
+  @Test
+  public void testTag() throws IOException {
+    ManualTagger tagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
+    assertThat(tagger.tag("").size(), is(0));
+    assertThat(tagger.tag("gibtsnicht").size(), is(0));
+
+    assertEquals("[Ableitung/SUB:NOM:PLU:FEM, Ableitung/SUB:GEN:PLU:FEM, Ableitung/SUB:DAT:PLU:FEM, Ableitung/SUB:AKK:PLU:FEM]",
+            tagger.tag("Ableitungen").toString());
+    // lookup is case sensitive:
+    assertThat(tagger.tag("ableitungen").size(), is(0));
+  }
+
 }

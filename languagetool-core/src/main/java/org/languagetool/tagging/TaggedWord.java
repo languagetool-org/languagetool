@@ -39,4 +39,9 @@ public class TaggedWord {
   public String getPosTag() {
     return posTag;
   }
+
+  @Override
+  public String toString() {
+    return lemma + "/" + posTag;
+  }
 }
