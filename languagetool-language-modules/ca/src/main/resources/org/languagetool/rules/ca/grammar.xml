@@ -18104,15 +18104,18 @@ $Id$
                     <marker>
                         <token regexp="yes">(?-i)Gener|Febrer|Març|Abril|Maig|Juny|Juliol|Agost|Setembre|Octubre|Novembre|Desembre</token>
                     </marker>
-                    <token regexp="yes">de|d'</token> 
+                    <token regexp="yes" skip="1">de|d'</token>
+                    <token regexp="yes">\d{3,4}|any</token>
                 </pattern>
-                <message>En les dates els mesos de l'any s'escriuen en minúsucula: <suggestion><match no="3" case_conversion="alllower" /></suggestion>.</message>
+                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <suggestion><match no="3" case_conversion="alllower" /></suggestion>
                 <short>Majúscula incorrecta</short>
                 <example type="incorrect" correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
                 <example type="incorrect" correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
                 <example type="correct" correction="febrer">Des de<marker>Febrer</marker> del 2012</example>
                 <example type="correct">Abril de 1965.</example>
                 <example type="correct">els fets del Sis d'Octubre del 1934</example>
+                <example type="correct">el Premi de Narrativa 9 d’Octubre de Sant Vicent del Raspeig</example>
             </rule>
             <rule>
                 <pattern>
