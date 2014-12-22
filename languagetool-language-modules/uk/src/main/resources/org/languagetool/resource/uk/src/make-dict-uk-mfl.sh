@@ -28,7 +28,7 @@ MFL_CMD="java -jar $MFL_JAR_DIR/$MFL_JAR"
 #MFL_CMD="mfl"
 
 export LANG=POSIX
-#FSA_FLAGS="-f cfsa2"
+FSA_FLAGS="-f cfsa2"
 
 # grep -v ":bad"
 
