@@ -32,6 +32,39 @@ map["o"]="" # no such tags in Moby?
 #Technical mark
 map["\|"]=""	#delete this, unusable
 map["\?"]=""	#as above
+
+#exceptions to -ly adverbs:
+adj["early"]="yes"
+adj["wily"]="yes"
+adj["churchly"]="yes"
+adj["elderly"]="yes"
+adj["priestly"]="yes"
+adj["costly"]="yes"
+adj["uncousinly"]="yes"
+adj["sly"]="yes"
+adj["oily"]="yes"
+adj["steely"]="yes"
+adj["lonely"]="yes"
+adj["goodly"]="yes"
+adj["godly"]="yes"
+adj["ungodly"]="yes"
+adj["heavenly"]="yes"
+adj["earthly"]="yes"
+adj["homely"]="yes"
+adj["unholy"]="yes"
+adj["dastardly"]="yes"
+adj["spangly"]="yes"
+adj["girly"]="yes"
+adj["portly"]="yes"
+adj["trickly"]="yes"
+adj["unruly"]="yes"
+adj["smelly"]="yes"
+adj["measly"]="yes"
+adj["bubbly"]="yes"
+adj["burly"]="yes"
+adj["sparkly"]="yes"
+adj["fly"]="yes"
+
 }
 #additional rules: JJ & "er"_END_OF_WORD=JJR
 #additional rules: JJ & "est"_END_OF_WORD=JJS
@@ -61,7 +94,7 @@ split(adjective[2],jjs_forms)
 gsub(/\|/,"")
 mark=0
 total=0
-if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 for (n in jjr_forms) {
 	#if ($i"_END"!~/er_END/) 
 	if (jjr_forms[n]!~/\?|<|\.|!/)
@@ -212,7 +245,7 @@ print $1 "\t" $1 "\t"map["N"]
 	print $1 "\t" $1 "\t"map["v"]}
 
 /\tANtV/ {if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 		if (nns[$1]=="" || $1"_END"~/ics_END/) {
 			if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 		}
@@ -247,13 +280,13 @@ gsub(/\tvNA/,"\tNA")
 	
 /\tA$/ && !/[ ']/{	
 	if (JJR[$1]=="" && JJS[$1]=="")  {
-	if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"}
+	if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"}
 			#print $1 "\t" $1 "\t"map["A"]
 	 }
 
 /\t\|NA$/ && !/[ ']/ && !/^[0-9\.]+\t/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 	 }
 
 /\tpN$/ && !/[ ']/ {if (nns[$1]=="") {if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNNS"; else print $1 "\t" $1 "\tNNPS"}
@@ -267,12 +300,12 @@ gsub(/\tvNA/,"\tNA")
 	 }
 /\tAv$/ && !/[ ']/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 #	print $1 "\t" $1 "\t"map["v"]
 }
 /\t(AV|AVti|AVt)$/ && !/[ ']/{ #AVti - only two words: articulate, foliate
 	if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 #	print $1 "\t" $1 "\t"map["V"]
 #this is wrong, actually V = VBG & VBN
 }
@@ -280,18 +313,18 @@ gsub(/\tvNA/,"\tNA")
 
 /\t\|A$/ && !/[ ']/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 	 }
 
 /\t\|Av$/ && !/[ ']/{
 	if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 	
 	 }
 
 /\tAtNV$/ && !/[ ']/ {
 	if (JJR[$1]=="" && JJS[$1]=="")  
-			if ($1"_END"!~/ly_END/ || $1"_END"~/early_END/) print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
+			if ($1"_END"!~/ly_END/ || adj[$1]=="yes") print $1 "\t" $1 "\tJJ"; else print $1 "\t" $1 "\tRB"
 	if (nns[$1]=="" || $1"_END"~/ics_END/) {
 		if ($1!~/[A-Z]/) print $1 "\t" $1 "\tNN"; else print $1 "\t" $1 "\tNNP"
 		}

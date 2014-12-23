@@ -16,481 +16,6 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </equivalence>
     </unification>
 
-<!--  these just add temporary entries to the dictionary -->
-
-     <rule name="animate" id="ANIMATE">
-         <pattern><token>animate</token></pattern>
-         <disambig action="add"><wd lemma="animate" pos="JJ"/></disambig>
-     </rule>
-
-    <rule name="citrate" id="CITRATE">
-        <pattern><token>citrate</token></pattern>
-        <disambig action="replace"><wd pos="NN"/></disambig>
-    </rule>
-
-    <rule name="cooling" id="COOLING">
-        <pattern><token>cooling</token></pattern>
-        <disambig action="remove"><wd pos="NNS"/></disambig>
-    </rule>
-
-    <rule name="fooling" id="FOOLING">
-        <pattern><token>fooling</token></pattern>
-        <disambig action="remove"><wd pos="NNS"/></disambig>
-    </rule>
-
-    <rule name="oversupply" id="oversupply">
-        <pattern><token>oversupply</token></pattern>
-        <disambig action="add"><wd lemma="oversupply" pos="NN"/></disambig>
-    </rule>
-
-    <rule name="redesign" id="redesign">
-        <pattern><token>redesign</token></pattern>
-        <disambig action="add"><wd pos="NN"/></disambig>
-    </rule>
-
-    <rule name="teacher" id="TEACHER">
-        <pattern>
-            <token>teacher</token>
-        </pattern>
-        <disambig postag="NN"/>
-    </rule>
-
-      <rule name="someone" id="SOMEONE">
-        <pattern><token>someone</token></pattern>
-        <disambig action="add"><wd lemma="someone" pos="PRP"/></disambig>
-      </rule>
-      
-      <rule name="sometimes" id="SOMETIMES">
-        <pattern><token>sometimes</token></pattern>
-        <disambig action="remove"><wd pos="NNS"/></disambig>
-      </rule>
-      
-      <rulegroup name="overhead" id="OVERHEAD">
-      <rule>
-        <pattern><token>overhead</token></pattern>
-        <disambig action="add"><wd lemma="overhead" pos="RB"/></disambig>
-      </rule>
-      <rule>
-        <pattern><token>overhead</token></pattern>
-        <disambig action="add"><wd lemma="overhead" pos="JJ"/></disambig>
-      </rule>
-      </rulegroup>
-      
-      <rule name="deferment" id="DEFERMENT">
-        <pattern><token>deferment</token></pattern>
-        <disambig postag="NN:UN"/>
-      </rule>
-
-        <rule name="ENGLISH" id="ENGLISH">
-            <pattern case_sensitive="yes"><token>English</token></pattern>
-            <disambig action="remove"><wd pos="NN:U"/></disambig>
-        </rule>
-
-     <rule name="disjoint" id="DISJOINT">
-        <pattern><token>disjoint</token></pattern>
-        <disambig action="add"><wd pos="JJ"/></disambig>
-     </rule>
-      
-      <rulegroup name="mine" id="MINE_FIX_MISTAKE">
-      <rule>
-        <pattern><token>mine</token></pattern>
-        <disambig action="filter" postag="NN|VB.*"></disambig>
-      </rule>      
-      <rule>
-        <pattern><token>mine<exception scope="previous" regexp="yes">a|the</exception></token></pattern>
-        <disambig action="add"><wd lemma="I" pos="PRP"/></disambig>
-      </rule>
-      </rulegroup>
-
-      <rulegroup name="beneath" id="BENEATH_ADV">
-        <rule>
-          <pattern><token>beneath</token></pattern>
-          <disambig action="remove"><wd pos="JJ"/></disambig>
-        </rule>
-        <rule>
-          <pattern><token>beneath</token></pattern>
-          <disambig action="add"><wd lemma="beneath" pos="RB"/></disambig>
-        </rule>
-      </rulegroup>
-      
-      <rule name="believes" id="BELIEVES_FIX">
-      <pattern>
-        <token>believes</token>
-      </pattern>
-      <disambig action="remove"><wd pos="NNS"/></disambig>
-      </rule>
-      
-      <rule name="george" id="george_FIX"> <!-- ?! -->
-      <pattern>
-        <token>george</token>
-      </pattern>
-      <disambig action="remove"><wd pos="RB"/></disambig>
-      </rule>
-      
-      <rule name="gonna" id="GONNA">
-        <pattern>
-          <token>gonna</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBG" lemma="go"/></disambig>
-      </rule>
-      
-      <rule name="customer" id="CUSTOMER_FIX">
-        <pattern><token>customer</token></pattern>
-        <disambig action="remove"><wd pos="JJR"/></disambig>
-      </rule>
-      
-      <rule name="otherworldly" id="OTHERWORDLY_FIX">      
-        <pattern><token>otherworldly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="supporter" id="SUPPORTER_FIX">
-        <pattern><token>supporter</token></pattern>
-        <disambig action="remove"><wd pos="JJR"/></disambig>        
-      </rule>            
-      
-      <rule name="sometimes" id="SOMETIMES_FIX">
-        <pattern><token>sometimes</token></pattern>
-        <disambig action="remove"><wd pos="NNS"/></disambig>
-      </rule>
-      
-      <rule name="dig/dig" id="DIG_DIV_FIX">
-        <pattern><token inflected="yes" regexp="yes">di[vg]e?</token></pattern>
-        <disambig action="remove" postag="JJ.?"/>
-        <example type="ambiguous" inputform="digest[dig/JJS,digest/NN,digest/VB,digest/VBP]" outputform="digest[digest/NN,digest/VB,digest/VBP]"><marker>digest</marker>.</example>
-        <example type="ambiguous" inputform="divest[dive/JJS,divest/VB,divest/VBP]" outputform="divest[divest/VB,divest/VBP]"><marker>divest</marker>.</example>
-      </rule>
-      
-      <rule name="powerful" id="POWERFUL_FIX">
-        <pattern><token>powerful</token></pattern>
-        <disambig postag="JJ"/> <!-- remove RB -->
-      </rule>
-      
-      <rule name="orderly" id="ORDERLY_FIX">
-        <pattern><token>orderly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="orderly"/></disambig>
-      </rule>
-      
-      <rule name="conservative" id="conservative_FIX">
-        <pattern><token>conservative</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="conservative"/></disambig>
-      </rule>
-      
-      <rule name="liberal" id="liberal_FIX">
-        <pattern><token>liberal</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="liberal"/></disambig>
-      </rule>
-      
-      <rule name="paranoic" id="paranoic_FIX">
-        <pattern><token>paranoic</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="paranoic"/></disambig>
-      </rule>
-            
-      <rule name="rubbish" id="rubbish_FIX">
-        <pattern><token>rubbish</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="rubbish"/></disambig>
-      </rule>
-      
-      <rule name="pinky" id="pinky_FIX">
-        <pattern><token>pinky</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="pinky"/></disambig>
-      </rule>
-      
-      <rule name="weekly" id="WEEKLY_FIX">
-        <pattern><token>weekly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="weekly"/></disambig>
-      </rule>
-      
-      <rule name="monthly" id="monthly_FIX">
-        <pattern><token>monthly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="monthly"/></disambig>
-      </rule>
-      
-      <rule name="bimonthly" id="bimonthly_FIX">
-        <pattern><token>bimonthly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="bimonthly"/></disambig>
-      </rule>
-      
-      <rule name="unlikely" id="unlikely_FIX">
-        <pattern><token>unlikely</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="unlikely"/></disambig>
-      </rule>
-      
-      <rule name="jolly" id="jolly_FIX">
-        <pattern><token>jolly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="jolly"/></disambig>
-      </rule>
-      
-      <rule name="cowardly" id="cowardly_FIX">
-        <pattern><token>cowardly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="cowardly"/></disambig>
-      </rule>
-      
-      <rule name="manly" id="manly_FIX">
-        <pattern><token>manly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="manly"/></disambig>
-      </rule>
-
-      <rule name="loverly" id="loverly_FIX">
-        <pattern><token>loverly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="loverly"/></disambig>
-      </rule>
-      
-      <rule name="wily" id="WILY_FIX">
-        <pattern><token>wily</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="elderly" id="elderly_FIX">
-        <pattern><token>elderly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="priestly" id="priestly_FIX">
-        <pattern><token>priestly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="churchly" id="churchly_FIX">
-        <pattern><token>churchly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="costly" id="costly_FIX">
-        <pattern><token>costly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="uncousinly" id="uncousinly_FIX">
-        <pattern><token>uncousinly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="sly" id="SLY_FIX">
-        <pattern><token>sly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="oily" id="oily_FIX">
-        <pattern><token>oily</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="steely" id="steely_FIX">
-        <pattern><token>steely</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="lonely" id="lonely_FIX">
-        <pattern><token>lonely</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="goodly" id="goodly_FIX">
-        <pattern><token>goodly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="godly" id="godly_FIX">
-        <pattern><token>godly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="ungodly" id="ungodly_FIX">
-        <pattern><token>ungodly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="heavenly" id="heavenly_FIX">
-        <pattern><token>heavenly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="earthly" id="earthly_FIX">
-        <pattern><token>earthly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="homely" id="homely_FIX">
-        <pattern><token>homely</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-            
-      <rule name="unholy" id="unholy_FIX">
-        <pattern><token>unholy</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="dastardly" id="dastardly_FIX">
-        <pattern><token>dastardly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="spangly" id="spangly_FIX">
-        <pattern><token>spangly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="girly" id="girly_FIX">
-        <pattern><token>girly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="portly" id="portly_FIX">
-        <pattern><token>portly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="trickly" id="trickly_FIX">
-        <pattern><token>trickly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="unruly" id="unruly_FIX">
-        <pattern><token>unruly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="cuddly" id="cuddly_FIX">
-        <pattern><token>cuddly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="smelly" id="smelly_FIX">
-        <pattern><token>smelly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>                  
-
-      <rule name="measly" id="measly_FIX">
-        <pattern><token>measly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>                  
-
-      <rule name="bubbly" id="bubbly_FIX">
-        <pattern><token>bubbly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="burly" id="burly_FIX">
-        <pattern><token>burly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-
-      <rule name="sparkly" id="sparkly_FIX">
-        <pattern><token>sparkly</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>
-      
-      <rule name="watchable" id="watchable_FIX">
-        <pattern><token>watchable</token></pattern>
-        <disambig postag="JJ"/>
-      </rule>                             
-                      
-      <rulegroup name="fly" id="FLY_FIX">
-      <rule>
-        <pattern><token>fly</token></pattern>
-        <disambig action="add"><wd pos="JJ" lemma="fly"/></disambig>
-      </rule>
-      <rule>
-        <pattern><token>fly</token></pattern>
-        <disambig action="remove"><wd pos="RB"/></disambig>
-      </rule>
-      </rulegroup>
-      
-      <rule name="further" id="FURTHER_FIX">
-        <pattern><token>further</token></pattern>
-        <disambig action="remove"><wd pos="JJR" lemma="furth"/></disambig>
-      </rule>
-      
-      <rule name="clearly" id="clearly_FIX">
-        <pattern><token>clearly</token></pattern>
-        <disambig action="remove"><wd pos="JJ"/></disambig>        
-      </rule>
-
-       <rule name="Intel" id="INTEL">
-           <pattern case_sensitive="yes">
-               <marker><token>Intel</token></marker>
-           </pattern>
-           <disambig action="add"><wd pos="NNP"/></disambig>
-       </rule>
-
-    <rule id="VERBS_THAT_LT_DOES_NOT_KNOW-verb-base" name="Terms that LT does not know as base verbs (VB)">
-        <pattern>
-            <token>increment</token>
-        </pattern>
-        <disambig action="add"><wd pos="VB" lemma="increment"/></disambig>
-    </rule>
-    <rule id="increment_VBP" name="Terms that LT does not know as base verbs (VBP)">
-        <pattern>
-            <token>increment</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBP" lemma="increment"/></disambig>
-    </rule>
-    <rule id="VERBS_THAT_LT_DOES_NOT_KNOW-verb-3rdpers-singular" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
-        <pattern>
-            <token>increments</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBZ" lemma="increment"/></disambig>
-    </rule>
-    <rule id="incremented_vbd" name="Terms that LT does not know as base verbs (VBD)">
-        <pattern>
-            <token>incremented</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBD" lemma="increment"/></disambig>
-    </rule>
-    <rule id="incremented_vbn" name="Terms that LT does not know as base verbs (VBN)">
-        <pattern>
-            <token>incremented</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBN" lemma="increment"/></disambig>
-    </rule>
-    <rule id="incremented_vbg" name="VBG">
-        <pattern>
-            <token>incrementing</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBG" lemma="increment"/></disambig>
-    </rule>
-
-    <rule id="decrement_VB" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
-        <pattern>
-            <token>decrement</token>
-        </pattern>
-        <disambig action="add"><wd pos="VB" lemma="decrement"/></disambig>
-    </rule>
-    <rule id="decrement_VBP" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
-        <pattern>
-            <token>decrement</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBP" lemma="decrement"/></disambig>
-    </rule>
-    <rule id="decrement_VBZ" name="Terms that LT does not know as 3rd person singular verbs (VBZ)">
-        <pattern>
-            <token>decrements</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBZ" lemma="decrement"/></disambig>
-    </rule>
-    <rule id="decrement_VBD" name="decrement vbd">
-        <pattern>
-            <token>decremented</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBD" lemma="decrement"/></disambig>
-    </rule>
-    <rule id="decrement_VBN" name="decrement vbn">
-        <pattern>
-            <token>decremented</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBN" lemma="decrement"/></disambig>
-    </rule>
-    <rule id="decrement_VBG" name="decrement vbg">
-        <pattern>
-            <token>decrementing</token>
-        </pattern>
-        <disambig action="add"><wd pos="VBG" lemma="decrement"/></disambig>
-    </rule>
-
-
-    <!-- end of temporary entries -->
-
        <rule name="or" id="REMOVE_JJ_FOR_OR">
           <!-- work around strange dict entry -->
           <pattern case_sensitive="yes">
@@ -1305,7 +830,7 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
             <marker>
                 <token>are</token>
             </marker>
-            <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP" postag_regexp="yes"></token>
+            <token postag="JJ.*|VB[GN]|IN|DT|RB|PRP\$?" postag_regexp="yes"></token>
         </pattern>
         <disambig><match no="1" postag="VBP" postag_regexp="yes"></match></disambig>
         <example type="ambiguous" inputform="are[are/NN,be/VBP]" outputform="are[be/VBP]">What follows <marker>are</marker> the terms used by the Aikikai Foundation</example>
@@ -1412,6 +937,17 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
         </pattern>
         <disambig postag="NN"></disambig>
     </rule>
+    <rule name="the/a + mine = mine (noun)" id="MINE_NN">
+        <pattern>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <marker>
+                <token>mine</token>
+            </marker>
+        </pattern>
+        <disambig postag="NN"/>
+        <example type="untouched">It's mine!</example>
+        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/NN]">It's my <marker>mine</marker>!</example>
+    </rule>
     <rule name="be + mine (verb/pron) -&gt; mine (pron)" id="BE_MINE">
         <pattern>
             <token inflected="yes" skip="1">be</token>
@@ -1419,12 +955,12 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
                 <token>mine<exception scope="previous" negate_pos="yes" postag_regexp="yes" postag="RB.*|VB.*"/></token>
             </marker>
         </pattern>
-        <disambig postag="PRP"></disambig>
+        <disambig postag="PRP$"></disambig>
         <example type="untouched">This is a gold mine.</example>
-        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[I/PRP]">This is <marker>mine</marker>.</example>
-        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[I/PRP]">This is entirely <marker>mine</marker>.</example>
-        <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]"
-                     outputform="mine[I/PRP]">The bags to your left are <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">This is entirely <marker>mine</marker>.</example>
+        <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]"
+                     outputform="mine[mine/PRP$]">The bags to your left are <marker>mine</marker>.</example>
     </rule>
     
     <rulegroup id="CAN_WILL_MD" name="can/will/must as a modal verb">
@@ -3652,19 +3188,19 @@ $Id: disambiguation.xml,v 1.45 2010-09-25 11:55:08 milek_pl Exp $
 		<disambig><match no="2" postag="NNP?S" postag_regexp="yes"></match></disambig>
 	</rule>     
   
-    <rule id="VB_NNPRP_PRP" name="mine as PRP">
+    <rule id="VB_NNPRP_PRP" name="mine as PRP$">
       <pattern>
         <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
         <marker>
           <and>
             <token postag="NN"/>
-            <token postag="PRP"></token>
+            <token postag="PRP$"></token>
           </and>
         </marker>
       </pattern>
-      <disambig postag="PRP"/>
+      <disambig postag="PRP$"/>
       <example type="untouched">It's a coal mine.</example>
-      <example type="ambiguous" inputform="mine[I/PRP,mine/NN,mine/VB,mine/VBP]" outputform="mine[I/PRP]">It's <marker>mine</marker>.</example>
+      <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">It's <marker>mine</marker>.</example>
     </rule>
 
 		<rule id="VBP_NN_VBZ" name="company -> noun">
