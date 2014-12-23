@@ -478,6 +478,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="NCF.*|_GN_F.*"></disambig>
     </rule> -->
+    <rule id="noNom" name="no nom">
+        <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
+        <pattern>
+            <and>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas</token> 
+                <token postag="N.*" postag_regexp="yes" negate_pos="yes" />
+            </and>
+        </pattern>
+        <disambig>
+            <match no="1" postag_regexp="yes" postag="[^N].*"></match>
+        </disambig>
+    </rule>
     <rule id="ADVERBI_ANTEPOSAT" name="adverbi que es pot anteposar a adjectiu">
         <pattern>
             <token postag="RG" regexp="yes">mal|.+ment|molt|poc|moltíssim|poquíssim|tantíssim|tant|tan|aleshores|alhora|almanco|almenys|aviat|bastant|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
@@ -884,111 +896,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 </marker>
             </pattern>
             <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
-        </rule>
-        <rule id="anys_despres" name="anys/dies/hores/minuts... després">
-            <pattern>
-                <token postag="N.*" postag_regexp="yes"><exception postag="D[IN].*" postag_regexp="yes"/></token>
-                <marker>
-                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                    <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="mes_tard" name="més tard">
-            <pattern>
-                <token><exception postag="D[IN].*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&unitats_temps;</exception></token>
-                <marker>
-                    <token>més</token>
-                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="prou_mes_tard" name="prou més tard">
-            <pattern>
-                <marker>
-                    <token regexp="yes">prou|bastant|molt</token>
-                    <token>més</token>
-                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="anys_mes_tard" name="anys/dies/hores/minuts... més tard">
-            <pattern>
-                <token postag="N.*" postag_regexp="yes"><exception postag="D[IN].*" postag_regexp="yes"/></token>
-                <marker>
-                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                    <token>més</token>
-                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="uns_anys_mes_tard" name="uns anys/dies/hores/minuts... més tard">
-            <pattern>
-                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
-                <marker>
-                    <unify>
-                    <feature id="nombre"/>
-                    <feature id="genere"/>
-                        <token postag="D[IN].*" postag_regexp="yes"/>
-                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                    </unify>
-                    <token>més</token>
-                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="uns_anys_despres" name="anys/dies/hores/minuts... més tard">
-            <pattern>
-                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
-                <marker>
-                    <unify>
-                    <feature id="nombre"/>
-                    <feature id="genere"/>
-                        <token postag="D[IN].*" postag_regexp="yes"/>
-                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                    </unify>
-                    <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="uns_quants_anys_mes_tard" name="anys/dies/hores/minuts... més tard">
-            <pattern>
-                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
-                <marker>
-                    <unify>
-                    <feature id="nombre"/>
-                    <feature id="genere"/>
-                        <token postag="D[IN].*" postag_regexp="yes"/>
-                        <token postag="D[IN].*" postag_regexp="yes"/>
-                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                    </unify>
-                    <token>més</token>
-                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
-        </rule>
-        <rule id="uns_quants_anys_despres" name="anys/dies/hores/minuts... més tard">
-            <pattern>
-                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
-                <marker>
-                    <unify>
-                    <feature id="nombre"/>
-                    <feature id="genere"/>
-                        <token postag="D[IN].*" postag_regexp="yes"/>
-                        <token postag="D[IN].*" postag_regexp="yes"/>
-                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
-                    </unify>
-                    <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
         </rule>
         <rule id="havent_dinat" name="havent dinat">
             <pattern>
@@ -2154,18 +2061,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception regexp="yes">bé|,</exception></token>
         </pattern>
         <disambig action="remove" postag="CC" />
-    </rule>
-    <rule id="noNom" name="no nom">
-        <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
-        <pattern>
-            <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas</token> 
-                <token postag="N.*" postag_regexp="yes" negate_pos="yes" />
-            </and>
-        </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="[^N].*"></match>
-        </disambig>
     </rule>
     <rulegroup id="notes_musicals" name="notes musicals (nom)">
         <rule>
@@ -11145,27 +11040,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
 	    	<disambig action="immunize"/>
 	    </rule>
 	</rulegroup>
-    <rule id="uns__despres" name="uns ... després">
-        <pattern>
-            <marker>
-                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-            </marker>
-            <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
-            <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])<exception scope="previous" postag="C.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
-    </rule>
-    <rule id="uns__mestard" name="uns ... més tard">
-        <pattern>
-            <marker>
-                <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
-            </marker>
-            <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
-            <token>més</token>
-            <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
-        </pattern>
-        <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
-    </rule> 
 	<rulegroup id="allowed_repetitions" name="repeticions permeses">
 	<!-- girar el cap cap a l’altra persona -->
         <rule>
@@ -11289,5 +11163,133 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_allow_repeat"/></disambig>
         </rule>
-	</rulegroup>   
+	</rulegroup>
+    <rulegroup id="LOC_ADV_TEMPS" name="locacions adverbials de temps, sense filtrar">
+        <rule id="uns__despres" name="uns ... després">
+            <pattern>
+                <marker>
+                    <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
+                <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])<exception scope="previous" postag="C.*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="uns__mestard" name="uns ... més tard">
+            <pattern>
+                <marker>
+                    <token postag="D[IN].*" postag_regexp="yes" skip="3"><exception postag="LOC_ADV_TEMP"/><exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </marker>
+                <token regexp="yes" inflected="yes" skip="2">&unitats_temps;</token>
+                <token>més</token>
+                <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="anys_despres" name="anys/dies/hores/minuts... després">
+            <pattern>
+                <token postag="N.*|SPS00" postag_regexp="yes"><exception postag="D[IN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes" inflected="yes" postag="NC.P.*" postag_regexp="yes">&unitats_temps;</token>
+                    <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="mes_tard" name="més tard">
+            <pattern>
+                <token><exception postag="D[IN].*" postag_regexp="yes"/><exception regexp="yes" inflected="yes">&unitats_temps;</exception></token>
+                <marker>
+                    <token>més</token>
+                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="prou_mes_tard" name="prou més tard">
+            <pattern>
+                <marker>
+                    <token regexp="yes">prou|bastant|molt</token>
+                    <token>més</token>
+                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="anys_mes_tard" name="anys/dies/hores/minuts... més tard">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"><exception postag="D[IN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                    <token>més</token>
+                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="uns_anys_mes_tard" name="uns anys/dies/hores/minuts... més tard">
+            <pattern>
+                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                    </unify>
+                    <token>més</token>
+                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="uns_anys_despres" name="anys/dies/hores/minuts... més tard">
+            <pattern>
+                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                    </unify>
+                    <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="uns_quants_anys_mes_tard" name="anys/dies/hores/minuts... més tard">
+            <pattern>
+                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                    </unify>
+                    <token>més</token>
+                    <token regexp="yes">tard|avant|endavant|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+        <rule id="uns_quants_anys_despres" name="anys/dies/hores/minuts... més tard">
+            <pattern>
+                <token><exception postag="D[IN].*" postag_regexp="yes"/></token>
+                <marker>
+                    <unify>
+                    <feature id="nombre"/>
+                    <feature id="genere"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
+                        <token postag="D[IN].*" postag_regexp="yes"/>
+                        <token regexp="yes" inflected="yes">&unitats_temps;</token>
+                    </unify>
+                    <token regexp="yes">després|abans|(en|ar|endar)(rer[ea])</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/><wd pos="LOC_ADV_TEMP"/></disambig>
+        </rule>
+    </rulegroup>
 </rules>
