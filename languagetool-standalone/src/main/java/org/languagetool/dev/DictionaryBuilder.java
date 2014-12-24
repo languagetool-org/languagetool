@@ -54,9 +54,14 @@ class DictionaryBuilder {
   private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
   // Valid for tagger dictionaries (wordform_TAB_lemma_TAB_postag) or spelling dictionaries (wordform)
   private final Pattern pTaggerEntry = Pattern.compile("^([^\t]+).*$");
+  private String outputFilename;
 
   protected DictionaryBuilder(File infoFile) throws IOException {
     props.load(new FileInputStream(infoFile));
+  }
+  
+  protected void setOutputFilename(String outputFilename) {
+    this.outputFilename = outputFilename;
   }
 
   protected static void checkUsageOrExit(String className, String[] args) throws IOException {
@@ -118,7 +123,10 @@ class DictionaryBuilder {
   protected File buildDict(File tempFile, Language language) throws Exception {
     String suffix = language != null ?
             "-" + language.getShortNameWithCountryAndVariant() + ".dict" : ".dict";
-    File resultFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), suffix);
+    File resultFile = outputFilename != null
+        ? new File(outputFilename)
+        : File.createTempFile(DictionaryBuilder.class.getSimpleName(), suffix);
+        
     String[] buildToolOptions = {"-f", "cfsa2", "-i", tempFile.getAbsolutePath(), "-o", resultFile.getAbsolutePath()};
     System.out.println("Running Morfologik FSABuildTool.main with these options: " + Arrays.toString(buildToolOptions));
     FSABuildTool.main(buildToolOptions);

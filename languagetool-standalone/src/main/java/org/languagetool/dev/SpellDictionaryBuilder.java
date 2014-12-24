@@ -18,11 +18,23 @@
  */
 package org.languagetool.dev;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.util.List;
+import java.util.Scanner;
+
+import org.apache.commons.cli.BasicParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.Tokenizer;
-
-import java.io.*;
-import java.util.*;
 
 /**
  * Create a Morfologik spelling binary dictionary from plain text data.
@@ -33,14 +45,28 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     super(infoFile);
   }
 
+  protected static CommandLine parseArguments(String[] args) throws ParseException {
+    Options options = new Options();
+    Option option = new Option("o", true, "output file");
+    option.setRequired(true);
+    options.addOption(option);
+    
+    CommandLineParser parser = new BasicParser();
+    CommandLine cmd = parser.parse(options, args);
+    return cmd;
+  }
+  
   public static void main(String[] args) throws Exception {
-    checkUsageOrExit(SpellDictionaryBuilder.class.getSimpleName(), args);
+    CommandLine cmdLine = SpellDictionaryBuilder.parseArguments(args);
+    checkUsageOrExit(SpellDictionaryBuilder.class.getSimpleName(), cmdLine);
+    
     String languageCode = args[0];
     String plainTextFile = args[1];
     String infoFile = args[2];
     SpellDictionaryBuilder builder = new SpellDictionaryBuilder(new File(infoFile));
+    builder.setOutputFilename( cmdLine.getOptionValue("o") );
     
-    if (args.length == 4) {
+    if (args.length >= 4) {
       String freqListFile = args[3];
       builder.readFreqList(new File(freqListFile));
       builder.build(languageCode, builder.addFreqData(new File(plainTextFile)));
@@ -49,9 +75,10 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     }
   }
 
-  protected static void checkUsageOrExit(String className, String[] args) throws IOException {
-    if (args.length < 3 || args.length > 4) {
-      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> [frequencyList]");
+  protected static void checkUsageOrExit(String className, CommandLine cmdLine) throws IOException {
+    String[] args = cmdLine.getArgs();
+    if (args.length < 3 || args.length > 4 || ! cmdLine.hasOption("o")) {
+      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> [frequencyList] -o <outputFile>");
       System.out.println("   <languageCode> like 'en-US' or 'de-DE'");
       System.out.println("   <dictionary> is a plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
       System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
