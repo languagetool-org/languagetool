@@ -478,18 +478,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="NCF.*|_GN_F.*"></disambig>
     </rule> -->
-    <rule id="noNom" name="no nom">
-        <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
-        <pattern>
-            <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas</token> 
-                <token postag="N.*" postag_regexp="yes" negate_pos="yes" />
-            </and>
-        </pattern>
-        <disambig>
-            <match no="1" postag_regexp="yes" postag="[^N].*"></match>
-        </disambig>
-    </rule>
     <rule id="ADVERBI_ANTEPOSAT" name="adverbi que es pot anteposar a adjectiu">
         <pattern>
             <token postag="RG" regexp="yes">mal|.+ment|molt|poc|moltíssim|poquíssim|tantíssim|tant|tan|aleshores|alhora|almanco|almenys|aviat|bastant|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
@@ -2061,6 +2049,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token><exception regexp="yes">bé|,</exception></token>
         </pattern>
         <disambig action="remove" postag="CC" />
+    </rule>
+    <rule id="noNom" name="no nom">
+        <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
+        <pattern>
+            <and>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">ros|se|es|de|i|o|a|he|ha|hem|més|en|per|ni|no|menys|fas</token> 
+                <token postag="N.*" postag_regexp="yes" negate_pos="yes" />
+            </and>
+        </pattern>
+        <disambig>
+            <match no="1" postag_regexp="yes" postag="[^N].*"></match>
+        </disambig>
     </rule>
     <rulegroup id="notes_musicals" name="notes musicals (nom)">
         <rule>
