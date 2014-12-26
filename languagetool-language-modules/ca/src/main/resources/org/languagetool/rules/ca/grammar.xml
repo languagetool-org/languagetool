@@ -1557,6 +1557,12 @@ $Id$
          
         <rulegroup id="CONCORDANCES_PARTICIPI_ABSOLUT" name="concordança article determinat + grup nominal">
             <rule>
+                <antipattern>
+                    <marker>
+                        <token skip="3" postag="D[DAI].*" postag_regexp="yes"/>
+                        <token inflected="yes" regexp="yes">&estacions;|&mesos_any;|&parts_dia;|&unitats_temps;</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <!-- <token postag="[DANVPIYCR].*|SP.*|_.*|complement.*|.*LOC.*" postag_regexp="yes" negate_pos="yes"><exception regexp="yes">\d+</exception></token> -->
                     <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -1565,16 +1571,13 @@ $Id$
                             <feature id="nombre" />
                             <feature id="genere" />
                             <token postag="V.P00S..?" postag_regexp="yes"><exception postag="RG|V.[MSI].*|_GV_" postag_regexp="yes"/><exception inflected="yes" regexp="yes">anomenar|dir|titular|denominar|considerar</exception></token>
-                            <token postag="D[DAI].*" postag_regexp="yes"><exception postag="RG|_GV_" postag_regexp="yes"/><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
+                            <token postag="D[DAI].*" postag_regexp="yes"><exception postag="RG|_GV_|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
                         </unify>
                     </marker>
                     <!-- excloure totes les expressions temporals. 
                     Caldria fer-ho en Desambiguació!!
                     Falta: "els darrers vint anys, els caps de setmana... la major part, la majoria" -->
-                    <token regexp="yes" negate="yes">[\d-]+<exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|&mesos_any;</exception></token>
-                    <token><exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|&mesos_any;</exception></token> <!-- excepcions: una altra vegada, els caps de setmana... -->
-                    <token><exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana|&mesos_any;</exception></token>
-                    <token><exception inflected="yes" regexp="yes">vegada|volta|cop|any|dia|mes|segle|setmana</exception></token>
+                    <token><exception regexp="yes">[\d-]+</exception></token>
                 </pattern>
                 <message>Error de concordança.</message>
                 <short>Error de concordança</short>
@@ -1583,6 +1586,8 @@ $Id$
                 <example type="correct">Acabada la festa, se n'anaren.</example>
                 <example type="correct">Admeses la constant gravitacional G i la constant de Planck,</example>
                 <example type="correct">Donats un segment rectilini i un punt qualssevol</example>
+                <example type="correct">Atribuïda poc temps després a la dinastia dels Borbons,</example>
+                <example type="correct">Arribat la primavera passada</example>
                 <example type="correct">Explicava a tothom que li havien «embenat els ulls» i l'havien «ensibornat».</example>
             </rule>
             <rule> <!-- Per al cas: passats els anys -->
@@ -1594,7 +1599,7 @@ $Id$
                             <feature id="nombre" />
                             <feature id="genere" />
                             <token postag="V.P.*" postag_regexp="yes" inflected="yes" regexp="yes">transcórrer|passar<exception postag="V.[MSI].*" postag_regexp="yes"/></token>
-                            <token postag="D[DAI].*" postag_regexp="yes"><exception postag="RG|_GV_" postag_regexp="yes"/><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
+                            <token postag="D[DAI].*" postag_regexp="yes"><exception postag="RG|_GV_|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}[\p{Ll}·]*</exception></token>
                         </unify>
                     </marker>
                 </pattern>
