@@ -24,6 +24,7 @@ import org.languagetool.bitext.BitextReader;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tokenizers.SentenceTokenizer;
@@ -255,6 +256,9 @@ public final class CommandLineTools {
     System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
     final List<String> sentences = lt.sentenceTokenize(contents);
     for (Rule rule : rules) {
+      if (rule instanceof TextLevelRule) {
+        continue; // profile rules for sentences only
+      }
       int matchCount = 0;
       for (int k = 0; k < 10; k++) {
         final long startTime = System.currentTimeMillis();
