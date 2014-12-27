@@ -19107,6 +19107,17 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="MALAMENT_MAL" name="*malament/mal fet">
+            <pattern>
+                <token>malament</token>
+                <token postag="AQ.*|V.P.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>mal \2</suggestion>
+            <example type="incorrect" correction="mal alimentada">Està <marker>malament alimentada</marker>.</example>
+            <example type="correct">Està malament.</example>
+            <example type="correct">Està mal fet.</example>
+        </rule>
         <rule id="PER_SI_AIXO_FOS_POC" name="Per si això fos poc">
             <pattern>
                    <token>per</token>
