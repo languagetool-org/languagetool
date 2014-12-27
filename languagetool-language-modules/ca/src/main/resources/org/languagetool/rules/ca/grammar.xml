@@ -24811,34 +24811,6 @@ $Id$
             <example type="incorrect"><marker>a dures penes</marker></example>
             <example type="correct">amb prou feines</example>
         </rule>
-    	<rulegroup id="CAP_GENS" name="cap ganes/gens de ganes" default="off">
-            <!-- Alguns accepten 'cap' davant de nom no comptable abstracte -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>cap</token>
-                    </marker>
-                    <token regexp="yes">importància|interès|interés|estima</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>gens d'</suggestion>?</message>
-                <url>http://esadir.cat/gramatica/sintaxi/advquantit</url>
-                <example type="incorrect"><marker>cap</marker> importància</example>
-                <example type="correct">gens d'importància</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>cap</token>
-                    </marker>
-                    <token regexp="yes">simpatia|gana|ganes|respecte|vergonya|necessitat|gràcia|por|pena|pressa</token>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>gens de</suggestion>?</message>
-                <url>http://esadir.cat/gramatica/sintaxi/advquantit</url>
-                <example type="incorrect"><marker>cap</marker> respecte</example>
-                <example type="correct">gens de ganes</example>
-                <!--  no em fa gens de cas // en cap cas -->
-            </rule>
-        </rulegroup>
     	<rule id="TOT_I_AIXI" name="tot i així" default="off">
             <pattern>
                 <token>tot</token>
@@ -29426,6 +29398,53 @@ $Id$
         </rule>
     </category>
     <category name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="CAP_GENS" name="cap ganes/gens de ganes" default="on">
+            <!-- Alguns accepten 'cap' davant de nom no comptable abstracte -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>cap</token>
+                        <token regexp="yes">importància|interès|interés|estima</token>
+                    </marker>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion>gens d'\2</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/advquantit</url>
+                <example type="incorrect" correction="gens d'importància">No té <marker>cap importància</marker>.</example>
+                <example type="correct">gens d'importància</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>cap</token>
+                    </marker>
+                    <token regexp="yes">simpatia|gana|ganes|respecte|vergonya|necessitat|gràcia|por|pena|pressa</token>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion>gens de</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/advquantit</url>
+                <example type="incorrect" correction="gens de">Sense <marker>cap</marker> ganes.</example>
+                <example type="correct">gens de ganes</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">fer</token>
+                    <token min="0" max="2" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>cap</token>
+                    </marker>
+                    <token>cas</token>
+                </pattern>
+                <message>Expressió preferible.</message>
+                <suggestion>gens de</suggestion>
+                <url>http://esadir.cat/gramatica/sintaxi/advquantit</url>
+                <example type="incorrect" correction="gens de">No em fa <marker>cap</marker> cas.</example>
+                <example type="incorrect" correction="gens de">No em feia mai <marker>cap</marker> cas.</example>
+                <example type="correct">En cap cas</example>
+                <example type="correct">De cap cas</example>
+                <example type="correct">Cap cas</example>
+            </rule>
+        </rulegroup>
         <rule id="GAIRE_RES" name="gaire res">
             <pattern>
                 <marker>
