@@ -18756,6 +18756,21 @@ $Id$
             <example type="correct">Viu al núm. 25 del carrer Nou.</example>
             <example type="correct">Va ser l'any 453 dC, oi?</example>
         </rule>
+        <rule id="SEGLE" name="abreviatura de 'segle' amb punt">
+            <pattern>
+                <token><exception regexp="yes">[\d .,]+</exception></token>
+                <marker>
+                    <token>s</token>
+                    <token postag="AO0CN0"/>
+                </marker>
+            </pattern>
+            <message>Falta el punt en l'abreviatura.</message>
+            <suggestion>s. \3</suggestion>
+            <suggestion>segle \3</suggestion>
+            <example type="incorrect" correction="s. XVIII|segle XVIII">A començament del <marker>s XVIII</marker>.</example>
+            <example type="correct">En el segle XVIII.</example>
+            <example type="correct">Va tardar 50,4 s a arribar-hi.</example>
+        </rule>
         <!--  <rulegroup id="apostrof_cometes" name="Apòstrof i cometes">
 <rule>
 <pattern>
