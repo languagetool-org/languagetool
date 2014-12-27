@@ -276,7 +276,54 @@ $Id$
             <short>Тавтология.</short>
             <example type="incorrect">Этот лётчик - <marker>выдающийся ас</marker>.</example>
             <example type="correct">Этот лётчик - ас.</example>
-        </rule>              
+        </rule>
+        
+          <rule id="Tavtology_nebolshaja_gorstka" name="Тавтология «небольшая горстка»">
+            <pattern>
+                <token inflected="yes">небольшой</token>
+                <token inflected="yes">горстка</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion>\2</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect"><marker>небольшая горстка</marker></example>
+            <example type="correct">горстка</example>
+        </rule>                            
+        <rule id="Tavtology_kivnul_golovoj" name="Тавтология «кивнуть головой»">
+            <pattern>
+                <token inflected="yes">кивать</token>
+                <token inflected="yes">голова</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect"><marker>кивнул головой</marker></example>
+            <example type="correct">кивнул</example>
+        </rule>                            
+         <rule id="Tavtology_polnostju_zavershil" name="Тавтология «полностью завершил»">
+            <pattern>
+                <token regexp="yes"  inflected="yes">полностью|окончательно</token>
+                <token inflected="yes">завершить</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion>\2</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect"><marker>полностью завершил</marker></example>
+            <example type="correct">завершил</example>
+        </rule>                                            
+        <rule id="Tavtology_samij_edinstvennij" name="Тавтология «самый единственный»">
+            <pattern>
+                <token regexp="yes"  inflected="yes">несколько|два|самый</token>
+                <token inflected="yes">единственный</token>
+            </pattern>
+            <message>Языковая избыточность: <suggestion>\2</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect"><marker>самый единственный</marker></example>
+            <example type="correct">единственный</example>
+        </rule>                                           
+                                                                                                                                      
+                                                                              
         <rule id="Logical_biographia_gizni" name="Логические ошибки «биография жизни»">
             <pattern>
                 <token inflected="yes">биография</token>
