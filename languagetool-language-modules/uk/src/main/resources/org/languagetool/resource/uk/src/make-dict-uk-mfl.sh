@@ -55,16 +55,26 @@ fi
 
 if [ "$1" == "-f" ]; then
 #    spell_uk_dir="$HOME/work/ukr/spelling/spell-uk"
-#    
-#    if [ "$2" != "-x" ]; then
-#        make -C $spell_uk_dir regtest
-#    fi
-#    
-#    cat all_words.lst | encode | sort -u > all.tagged.tmp && \
 #    cat $spell_uk_dir/test/all_aspell.srt | encode | LC_ALL=C sort -u > all.tagged.tmp && \
 
+#    cat all_words.lst | encode | sort -u > all.tagged.tmp && \
+#    cat all.tagged.tmp | $MFL_CMD fsa_build $FSA_FLAGS -o uk_UA.dict && \
+#    mv uk_UA.dict ../hunspell/
+    
+    BASE="../../../../../../../../../.."
+    LT_DIR=`ls $BASE/languagetool-standalone/target/LanguageTool-?.*-SNAPSHOT`
+    LIBDIR="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR/libs"
+    for i in `ls $LIBDIR/*.jar`; do
+      LIBS=$LIBS:$i
+    done
+    LIBS=$LIBS:$BASE/languagetool-language-modules/uk/target/classes
+
+    #LT_STD_CP="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR//languagetool.jar"
+    LT_STD_CP=$BASE/languagetool-standalone/target/classes:$LIBS
+
     cat all_words.lst | encode | sort -u > all.tagged.tmp && \
-    cat all.tagged.tmp | $MFL_CMD fsa_build $FSA_FLAGS -o uk_UA.dict && \
+    java -cp $LT_STD_CP org.languagetool.dev.SpellDictionaryBuilder uk-UA all.tagged.tmp ../hunspell/uk_UA.info freq/uk_wordlist.xml -o uk_UA.dict
     mv uk_UA.dict ../hunspell/
+
     rm -f all.tagged.tmp
 fi
