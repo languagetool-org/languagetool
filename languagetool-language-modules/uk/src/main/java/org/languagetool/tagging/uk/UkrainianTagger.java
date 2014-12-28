@@ -44,7 +44,13 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern stdNounTagRegex = Pattern.compile(stdNounTag + ".*");
   private static final Pattern stdNounNvTagRegex = Pattern.compile(IPOSTag.noun.getText() + ":.:nv");
   private static final Set<String> dashPrefixes = new HashSet<>(
-        Arrays.asList("віце", "екс", "лейб", "максі", "міді", "міні", "обер", "горе", "медіа"));
+        Arrays.asList("віце", "екс", "лейб", "максі", "міді", "міні", "обер", 
+            "горе", "медіа", "бізнес", "інтернет", "блок", "арт", "історико", "гамма", "вакуум",
+            "генерал", "секс", "рок", "прес", "націонал", "соціал", "дизель", "фан", "експрес", "дельта",
+            "топ", "флеш", "топ", "піар", "джаз", "гей", "афльфа", "штаб", "чудо", "цар", "прем'єр", "ВІЛ", 
+            "крос", "веб", "гранд", "економ", "бета", "бас", "поп", "хеш", "фітнес", "спам", "салон", "ритм", "рентген",
+            "конференц", "контент", "кібер", "дизайн", "байкер", "фолк", "торент", "спаринг", "смарт", "панк", "офіс",
+            "онлайн", "люкс", "концепт", "допінг", "блюз"));
   private static final Set<String> cityAvenue = new HashSet<>(Arrays.asList("сіті", "авеню", "стріт", "штрассе"));
 
   public static final Map<String, String> VIDMINKY_MAP;
