@@ -408,13 +408,14 @@ $Id$
             <!-- в-/у- на початку слів -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">.*[вф]</token>
+                    <token regexp="yes">.*[^у][вф]</token>
                     <marker>
                         <token regexp="yes" postag_regexp="yes" postag=".*:v-u.*">в.+</token>
                     </marker>
                 </pattern>
                 <message>Після слів, що закінчуються на в, ф, краще вжити слово на у-: <suggestion><match no="2" regexp_match="в(.*)" regexp_replace="у$1"/></suggestion></message>
                 <example type="incorrect" correction="ураз">біль пройшов <marker>враз</marker></example>
+                <example type="correct">був вже</example>
                 <example type="correct">біль пройде враз</example>
                 <example type="correct">біль пройшов ураз</example>
                 <example type="correct">приїхав в Україну</example>
