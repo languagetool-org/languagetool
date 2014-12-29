@@ -45,7 +45,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     super(infoFile);
   }
 
-  protected static CommandLine parseArguments(String[] args) throws ParseException {
+  private static CommandLine parseArguments(String[] args) throws ParseException {
     Options options = new Options();
     Option option = new Option("o", true, "output file");
     option.setRequired(true);
@@ -64,7 +64,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     String plainTextFile = args[1];
     String infoFile = args[2];
     SpellDictionaryBuilder builder = new SpellDictionaryBuilder(new File(infoFile));
-    builder.setOutputFilename( cmdLine.getOptionValue("o") );
+    builder.setOutputFilename(cmdLine.getOptionValue("o"));
     
     if (args.length >= 4) {
       String freqListFile = args[3];
@@ -75,7 +75,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     }
   }
 
-  protected static void checkUsageOrExit(String className, CommandLine cmdLine) throws IOException {
+  private static void checkUsageOrExit(String className, CommandLine cmdLine) throws IOException {
     String[] args = cmdLine.getArgs();
     if (args.length < 3 || args.length > 4 || ! cmdLine.hasOption("o")) {
       System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> [frequencyList] -o <outputFile>");
