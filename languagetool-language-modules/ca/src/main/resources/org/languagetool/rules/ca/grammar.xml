@@ -20911,6 +20911,12 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="FER_SE_AMB" name="fer-se amb">
+            <antipattern>
+                <marker>
+                    <token>acord</token>
+                    <token>amb</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                 	<marker>
@@ -20933,6 +20939,7 @@ $Id$
                 <example type="incorrect"><marker>Es va fer amb</marker> el poder.</example>
                 <example type="incorrect"><marker>Ens vam fer amb</marker> el poder.</example>
                 <example type="correct">Es va fer extensiva amb plans d'acció territorial.</example>
+                <example type="correct">Es fa d'acord amb el pes polític de cada partit.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26803,11 +26810,16 @@ $Id$
                     <token postag="V.P.*" postag_regexp="yes" inflected="yes">descabellar</token> 
                 </marker>
             </pattern>
-            <message>Correcte en el sentit de "desordenar els cabells". Incorrecte si volíeu dir <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desgavellar</match></suggestion>.</message>
+            <message>Correcte en el sentit de "desordenar els cabells". Incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desbaratar</match></suggestion>
+            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desgavellar</match></suggestion>
+            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">esgavellar</match></suggestion>
+            <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desficaciar</match></suggestion>
             <suggestion><match no="1" postag="(VMP.*)" postag_regexp="yes" postag_replace="$1">desballestar</match></suggestion>
+            <suggestion><match no="1" postag="VMP..(.)(.)." postag_regexp="yes" postag_replace="AQ.$2$1.">destarifat</match></suggestion>
             <suggestion>sense cap ni peus</suggestion>
             <short>Possible error</short>
-            <example type="incorrect" correction="desgavellades|desballestades|sense cap ni peus">Té unes idees <marker>descabellades</marker>.</example>
+            <example type="incorrect" correction="desbaratades|desgavellades|esgavellades|desficaciades|desballestades|destarifades|sense cap ni peus">Té unes idees <marker>descabellades</marker>.</example>
             <example type="correct">Té idees desgavellades.</example>
         </rule>
         <rulegroup id="CORRERIA" name="*correria / correguda,incursió,escapada,volta">
