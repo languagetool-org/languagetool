@@ -11812,6 +11812,35 @@ $Id$
                 <example type="incorrect" correction="àvies">Són les nostres <marker>avies</marker>.</example>
                 <example type="correct">Els avies al carrer.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>les</token>
+                    <marker>
+                        <token skip="2">diferencies</token>
+                    </marker>
+                    <token>entre</token>
+                </pattern>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>diferències</suggestion>
+                <short>Cal accentuar</short>
+                <example type="incorrect" correction="diferències">Les <marker>diferencies</marker> entre els uns i els altres.</example>
+                <example type="incorrect" correction="diferències">Les <marker>diferencies</marker> de criteri entre els uns i els altres.</example>
+                <example type="correct">Si no les diferencies, és un problema</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>la</token>
+                    <marker>
+                        <token skip="2">diferencia</token>
+                    </marker>
+                    <token>entre</token>
+                </pattern>
+                <message>Si és nom, cal accentuar.</message>
+                <suggestion>diferència</suggestion>
+                <short>Cal accentuar</short>
+                <example type="incorrect" correction="diferència">Salvada la <marker>diferencia</marker> de temps entre els uns i els altres.</example>
+                <example type="correct">Això no la diferencia de les altres.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->

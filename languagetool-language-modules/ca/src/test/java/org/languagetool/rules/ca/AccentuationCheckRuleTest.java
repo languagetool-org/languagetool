@@ -87,6 +87,7 @@ public class AccentuationCheckRuleTest extends TestCase {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    assertIncorrect("Les continues al·lusions a la victòria.");
     assertIncorrect("De positiva influencia en ell.");
     assertIncorrect("tren de llarga distancia");
 //    assertIncorrect("com la nostra pròpia desgracia");
