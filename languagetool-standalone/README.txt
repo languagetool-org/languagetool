@@ -1,30 +1,29 @@
-LanguageTool, a proof-reading tool for English, German, Polish,
-Chinese, French, Dutch, Russian, Italian, Danish and more languages
+LanguageTool, a proof-reading tool for English, Spanish, German,
+Polish, Chinese, French, Russian, Italian, Dutch and more languages
 (see http://www.languagetool.org/languages/ for a list)
 
 Copyright (C) 2005-2014 the LanguageTool community and
   Daniel Naber (www.danielnaber.de)
 
-Version 2.8-SNAPSHOT, 2014-xx-yy
+Version 2.8, 2014-12-30
 Homepage: http://www.languagetool.org
 
 Requirements:
  -Java 7 or later (Oracle Java or IcedTea; GIJ is not supported)
- -For OpenOffice.org/LibreOffice integration: OpenOffice 3.0.1 or later
-  or LibreOffice. We recommend LibreOffice 3.5.4 (or later) or
-  Apache OpenOffice 3.4.1 (or later) because they contain an
-  important bug fix.
+ -For OpenOffice.org/LibreOffice integration:
+  -LibreOffice 3.5.4 (or later) or
+  -Apache OpenOffice 3.4.1 (or later)
 
 Usage:
  -To integrate LanguageTool into OpenOffice.org or LibreOffice, you
   can use two methods:
  
- 1. Double-click LanguageTool-2.7.oxt. The extension should
+ 1. Double-click LanguageTool-2.8.oxt. The extension should
   start installing. Follow the on-screen instructions.
  
  2. If the above method doesn't work, call Tools > Extension 
   Manager > Add... in OpenOffice.org/LibreOffice and browse for the
-  LanguageTool-2.7.oxt file. 
+  LanguageTool-2.8.oxt file.
   
   Close and restart OpenOffice.org/LibreOffice Writer. Remember to close
   the QuickStarter as well if you use it. Type text with
@@ -57,7 +56,8 @@ Usage:
   or call 'java -jar languagetool.jar'
 
  -To check plain text files from the command line, use:
-  java -jar languagetool-commandline.jar <filename>
+  java -jar languagetool-commandline.jar -l xx <filename>
+  (with xx being the code for your language, e.g. 'en' for English)
 
 ------------------------------------------------
 
