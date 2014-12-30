@@ -147,7 +147,7 @@ License:
  German:
  The German data for part-of-speech tagging is taken from Morphy
  (http://www.wolfganglezius.de/doku.php?id=cl:morphy)
- under Creative Commons Attribution-Share Alike 3.0
+ under Creative Commons Attribution-Share Alike 4.0
 
  Greek:
  The Greek dictionary only contains very few test entries for now,
