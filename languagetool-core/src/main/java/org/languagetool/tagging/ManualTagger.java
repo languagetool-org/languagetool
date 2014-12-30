@@ -54,7 +54,7 @@ public class ManualTagger implements WordTagger {
    * @return an array with the baseform (at position 0, 2, ...) and the POS
    *         information (at position 1, 3, ...) or <code>null</code> if the
    *         word is unknown
-   * @deprecated use {@link #tag(String)} instead (note that it doesn't return null)
+   * @deprecated use {@link #tag(String)} instead (note that it doesn't return null) (deprecated since 2.8)
    */
   public String[] lookup(final String term) {
     final List<LookedUpTerm> l = mapping.get(term);
