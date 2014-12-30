@@ -5,7 +5,20 @@ LanguageTool Change Log
 -Asturian:
     -removed dependency on Hunspell, now uses Morfologik for spell checking
 
+-Breton:
+    -added and improved a few rules
+
+-Catalan:
+    -updated dictionary
+    -added and improved rules
+    -fixed false alarms
+
+-Dutch:
+    -added and improved many rules
+
 -English:
+    -some new rules (thanks to Nick Hough)
+    -updated the tagger and synthesizer dictionaries, fixing issue #202
     -new filter to be used for matching the part-of-speech of parts of words, e.g.:
          <pattern>
              <token regexp="yes">in.*</token>
@@ -15,14 +28,10 @@ LanguageTool Change Log
      This will only keep matches for words that start with 'in' and where the
      part after the 'in' is an adjective (POS tag 'JJ'). The 'no:1' is the token
      position, i.e. here the first (and only) matching <token> is referred to.
-    -some new rules (thanks to Nick Hough)
-    -updated the tagger and synthesizer dictionaries, fixing issue #202
 
--Catalan:
-    -updated dictionary
-    -added and improved rules
-    -fixed false alarms
-    
+-French:
+    -added and improved a few rules
+
 -German:
     -added and improved a few rules
 
@@ -61,24 +70,26 @@ LanguageTool Change Log
      to your categories to prevent the rule link to community.languagetool.org from
      appearing in our stand-alone GUI (the link would not work for rules that are not part
      of the main distribution of LT). (Github issue #223)
+    -If a rule group specifies default="off", the rules inside the rule group
+     may not also specify default="on"/"off".
 
 -API:
-    -removed classes and methods that had been deprecated since 2.7 or longer
+    -Removed classes and methods that had been deprecated since 2.7 or longer
 
 -Embedded server:
-    -the config file options 'requestLimit' and 'requestLimitPeriodInSeconds' can
+    -The config file options 'requestLimit' and 'requestLimitPeriodInSeconds' can
      now also be used for the HTTP server (not just for the HTTPS server)
-    -new config file option 'trustXForwardForHeader': set this to 'true' if you
+    -New config file option 'trustXForwardForHeader': set this to 'true' if you
      run the server behind a reverse proxy and want the request limit to
      work on the original IP addresses provided by the 'X-forwarded-for' HTTP header,
      usually set by the proxy. If you run behind a proxy but don't set this
      property to true, one user can use all the requests so other users will
      also get an error message because of the request limit.
-    -fix response of After the Deadline mode: <description>...</description> was
+    -Fix response of After the Deadline mode: <description>...</description> was
      sometimes empty, confusing the text check in WordPress
-    -bitext rules were not disabled properly, even if they were specified with a
+    -Bitext rules were not disabled properly, even if they were specified with a
      proper parameter for the server; now it's fixed
-    -fixed problem with improper positions for some bitext rules (issue #218)
+    -Fixed problem with improper positions for some bitext rules (issue #218)
 
 -GUI:
     -A new 'errorColors' setting has been added to the languagetool.cfg configuration
@@ -93,8 +104,6 @@ LanguageTool Change Log
 Internal:
     -Bugfix: rules inside a rule group had not been activated if a previous
      rule from the same rulegroup used default="off"
-    -If a rule group specifies default="off", the rules inside the rule group
-     may not also specify default="on"/"off".
     -Words are not ignored anymore by the spell checker just because they occur in
      a rule's suggestion. If you want the spell checker to ignore words globally, add
      them to hunspell/ignore.txt. To ignore them depending on the context, add a
@@ -107,7 +116,7 @@ Internal:
      spell checker to ignore words.
     -The part-of-speech tagger for most languages can now be extended by adding entries
      to the file org/languagetool/resource/XX/added.txt (XX being the language code).
-     The format is "fullform baseform postags", three columns separated by tabs.
+     The format is "fullform baseform postag", three columns separated by tabs.
      This makes it easier for users (and developers) to extend the POS tagger, as they
      don't need to export, modify, and re-create the binary dictionary for every change.
 
