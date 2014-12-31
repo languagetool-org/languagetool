@@ -19,8 +19,8 @@
 package org.languagetool.dev.eval;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.Language;
+import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
@@ -30,12 +30,19 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Evaluate the quality of the language detection.
+ * Evaluate the quality of our language detection.
  * @since 2.9
  */
 class LanguageDetectionEval {
 
+    private final LanguageIdentifier languageIdentifier;
+
+    private int totalInputs = 0;
     private int totalFailures = 0;
+
+    public LanguageDetectionEval() throws IOException {
+        languageIdentifier = new LanguageIdentifier();
+    }
 
     private void evaluate(Language language) throws IOException {
         if (language.isVariant()) {
@@ -45,7 +52,7 @@ class LanguageDetectionEval {
         InputStream stream = LanguageDetectionEval.class.getResourceAsStream(evalTextFile);
         System.out.println("=== " + language + " ===");
         if (stream == null) {
-            System.out.println("No eval data for " + language);
+            throw new RuntimeException("No eval data found for " + language);
         } else {
             int minChars = 0;
             int failures = 0;
@@ -66,13 +73,19 @@ class LanguageDetectionEval {
         }
     }
 
-    private static int getShortestCorrectDetection(String line, Language expectedLanguage) {
+    private int getShortestCorrectDetection(String line, Language expectedLanguage) {
+        totalInputs++;
         String[] tokens = line.split("\\s+");
         for (int i = tokens.length; i > 0; i--) {
             String text = StringTools.listToString(Arrays.asList(tokens).subList(0, i), " ");
-            LanguageIdentifier identifier = new LanguageIdentifier(text);
-            String detectedLang = identifier.getLanguage();
-            if (!detectedLang.equals(expectedLanguage.getShortName())) {
+            Language detectedLangObj = languageIdentifier.detectLanguage(text);
+            String detectedLang = null;
+            if (detectedLangObj != null) {
+                detectedLang = detectedLangObj.getShortName();
+            }
+            if (detectedLang == null && i == tokens.length) {
+                throw new DetectionException("Detection failed for '" + line + "', detected <null>");
+            } else if (detectedLang != null && !expectedLanguage.getShortName().equals(detectedLang)) {
                 if (i == tokens.length) {
                     throw new DetectionException("Detection failed for '" + line + "', detected " + detectedLang);
                 } else {
@@ -86,7 +99,7 @@ class LanguageDetectionEval {
         return tokens[0].length();
     }
 
-    private static int getTextLength(String[] tokens, int tokenPos) {
+    private int getTextLength(String[] tokens, int tokenPos) {
         int i = 0;
         int charCount = 0;
         for (String token : tokens) {
@@ -98,7 +111,7 @@ class LanguageDetectionEval {
         return charCount;
     }
 
-    private static List<String> getLines(InputStream stream) throws IOException {
+    private List<String> getLines(InputStream stream) throws IOException {
         List<String> lines = IOUtils.readLines(stream, "utf-8");
         List<String> result = new ArrayList<>();
         for (String line : lines) {
@@ -116,11 +129,12 @@ class LanguageDetectionEval {
             eval.evaluate(language);
         }
         long endTime = System.currentTimeMillis();
+        System.out.println();
         System.out.println("Time: " + (endTime-startTime)+ "ms");
-        System.out.println("Total detection failures: " + eval.totalFailures);
+        System.out.println("Total detection failures: " + eval.totalFailures + "/" + eval.totalInputs);
     }
 
-    static class DetectionException extends RuntimeException {
+    class DetectionException extends RuntimeException {
         public DetectionException(String s) {
             super(s);
         }
