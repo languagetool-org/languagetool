@@ -56,6 +56,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final LinkedBlockingQueue<Runnable> workQueue;
   private final ExecutorService executorService;
   private final LanguageIdentifier identifier;
+  private final Set<String> ownIps;
 
   private long maxCheckTimeMillis = -1;
   private int maxTextLength = Integer.MAX_VALUE;
@@ -63,7 +64,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private boolean afterTheDeadlineMode;
   private Language afterTheDeadlineLanguage;
   private File languageModelDir;
-  private Set<String> ownIps;
   private boolean trustXForwardForHeader = false;
   
   /**

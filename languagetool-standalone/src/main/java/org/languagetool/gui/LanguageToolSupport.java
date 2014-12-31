@@ -90,6 +90,7 @@ import org.languagetool.rules.RuleMatch;
 class LanguageToolSupport {
 
   static final String CONFIG_FILE = ".languagetool.cfg";
+
   //maximum entries in the activate rule menu.
   //If entries' number is bigger, create per category submenus
   //can set to 0 to always create category submenus
@@ -99,6 +100,7 @@ class LanguageToolSupport {
   //maximum category menu entries, if more create a More submenu
   private static final int MAX_CATEGORIES_PER_MENU = 12;
 
+  private final UndoRedoSupport undo;
   private final LanguageIdentifier langIdentifier;
   private final JFrame frame;
   private final JTextComponent textComponent;
@@ -118,7 +120,6 @@ class LanguageToolSupport {
   private boolean backgroundCheckEnabled = true;
   private Configuration config;
   private boolean mustDetectLanguage = false;
-  private final UndoRedoSupport undo;
 
   /**
    * LanguageTool support for a JTextComponent
