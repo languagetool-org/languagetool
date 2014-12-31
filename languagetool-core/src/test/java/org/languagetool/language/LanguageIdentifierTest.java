@@ -29,7 +29,7 @@ import static org.junit.Assert.*;
 public class LanguageIdentifierTest {
 
   @Test
-  public void testDetection() throws IOException {
+  public void testDetection() {
     LanguageIdentifier identifier = new LanguageIdentifier(Arrays.asList("en", "de"));
     assertNull(identifier.detectLanguageCode(""));
     assertNull(identifier.detectLanguageCode("X"));
@@ -37,7 +37,7 @@ public class LanguageIdentifierTest {
     assertThat(identifier.detectLanguageCode("Das ist ein deutscher Text"), is("de"));
   }
 
-  @Test(expected = IOException.class)
+  @Test(expected = RuntimeException.class)
   public void testInvalidLanguage() throws IOException {
     new LanguageIdentifier(Arrays.asList("ZZ"));
   }

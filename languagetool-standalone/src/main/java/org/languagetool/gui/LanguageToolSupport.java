@@ -73,14 +73,13 @@ import javax.swing.text.Position;
 import javax.swing.text.View;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
+import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.tools.LanguageIdentifierTools;
 
 /**
  * Support for associating a LanguageTool instance and a JTextComponent
@@ -100,6 +99,7 @@ class LanguageToolSupport {
   //maximum category menu entries, if more create a More submenu
   private static final int MAX_CATEGORIES_PER_MENU = 12;
 
+  private final LanguageIdentifier langIdentifier;
   private final JFrame frame;
   private final JTextComponent textComponent;
   private final EventListenerList listenerList = new EventListenerList();
@@ -139,6 +139,7 @@ class LanguageToolSupport {
     ruleMatches = new ArrayList<>();
     documentSpans = new ArrayList<>();    
     this.undo = support;
+    this.langIdentifier = new LanguageIdentifier();
     init();
   }
 
@@ -291,9 +292,6 @@ class LanguageToolSupport {
   }
 
   private void init() {
-    //load language autodetection profiles
-    LanguageIdentifierTools.addLtProfiles();
-
     try {
       config = new Configuration(new File(System.getProperty("user.home")), CONFIG_FILE, null);
     } catch (IOException ex) {
@@ -734,11 +732,8 @@ class LanguageToolSupport {
   }
 
   Language autoDetectLanguage(String text) {
-    final LanguageIdentifier langIdentifier = new LanguageIdentifier(text);
-    Language lang;
-    try {
-      lang = Language.getLanguageForShortName(langIdentifier.getLanguage());
-    } catch (IllegalArgumentException e) {
+    Language lang = langIdentifier.detectLanguage(text);
+    if (lang == null) {
       lang = Language.getLanguageForLocale(Locale.getDefault());
     }
     if (lang.hasVariant()) {

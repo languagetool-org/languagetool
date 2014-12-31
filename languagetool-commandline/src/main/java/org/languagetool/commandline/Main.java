@@ -18,12 +18,12 @@
  */
 package org.languagetool.commandline;
 
-import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.English;
+import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.JnaTools;
@@ -544,16 +544,14 @@ class Main {
     }
   }
 
-  // for language auto detect
   private static Language detectLanguageOfFile(final String filename, final String encoding) throws IOException {
     final String text = StringTools.readStream(new FileInputStream(filename), encoding);
     return detectLanguageOfString(text);
   }
 
   private static Language detectLanguageOfString(final String text) {
-    final LanguageIdentifier identifier = new LanguageIdentifier(text);
-    final Language lang = Language.getLanguageForShortName(identifier.getLanguage());
-    return lang;
+    LanguageIdentifier identifier = new LanguageIdentifier();
+    return identifier.detectLanguage(text);
   }
 
 }

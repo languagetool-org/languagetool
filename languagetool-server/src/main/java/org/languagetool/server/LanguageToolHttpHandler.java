@@ -25,10 +25,10 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.tika.language.LanguageIdentifier;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
+import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.tools.RuleAsXmlSerializer;
@@ -55,6 +55,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final RequestLimiter requestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
   private final ExecutorService executorService;
+  private final LanguageIdentifier identifier;
 
   private long maxCheckTimeMillis = -1;
   private int maxTextLength = Integer.MAX_VALUE;
@@ -79,6 +80,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.workQueue = workQueue;
     this.executorService = Executors.newCachedThreadPool();
     this.ownIps = getServersOwnIps();
+    this.identifier = new LanguageIdentifier();
   }
 
   /** @since 2.6 */
@@ -290,18 +292,14 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
   }
 
-  private static Language detectLanguageOfString(final String text, final String fallbackLanguage) {
+  private Language detectLanguageOfString(final String text, final String fallbackLanguage) {
     // TODO: use identifier.isReasonablyCertain() - but make sure it works!
     if (text.length() < MIN_LENGTH_FOR_AUTO_DETECTION && fallbackLanguage != null) {
       print("Auto-detected language of text with length " + text.length() + " is not reasonably certain, using '" + fallbackLanguage + "' as fallback");
       return Language.getLanguageForShortName(fallbackLanguage);
     }
-    
-    final LanguageIdentifier identifier = new LanguageIdentifier(text);
-    Language lang;
-    try {
-      lang = Language.getLanguageForShortName(identifier.getLanguage());
-    } catch (IllegalArgumentException e) {
+    Language lang = identifier.detectLanguage(text);
+    if (lang == null) {
       // fall back to English
       lang = Language.getLanguageForLocale(Locale.ENGLISH);
     }

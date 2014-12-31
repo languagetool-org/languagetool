@@ -57,17 +57,21 @@ public class LanguageIdentifier {
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
 
-  public LanguageIdentifier() throws IOException {
+  public LanguageIdentifier() {
     this(getLanguageNames());
   }
 
-  LanguageIdentifier(List<String> langNames) throws IOException {
-    List<LanguageProfile> profiles = loadProfiles(langNames);
-    languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
-            .minimalConfidence(MINIMAL_CONFIDENCE)
-            .withProfiles(profiles)
-            .build();
-    textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
+  LanguageIdentifier(List<String> langNames) {
+    try {
+      List<LanguageProfile> profiles = loadProfiles(langNames);
+      languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
+              .minimalConfidence(MINIMAL_CONFIDENCE)
+              .withProfiles(profiles)
+              .build();
+      textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
+    } catch (IOException e) {
+      throw new RuntimeException("Could not set up language identifier", e);
+    }
   }
 
   private static List<String> getLanguageNames() {

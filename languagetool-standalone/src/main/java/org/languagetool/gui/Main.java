@@ -27,7 +27,6 @@ import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;
 import org.languagetool.server.PortBindingException;
 import org.languagetool.tools.JnaTools;
-import org.languagetool.tools.LanguageIdentifierTools;
 import org.languagetool.tools.StringTools;
 
 import javax.swing.*;
@@ -98,7 +97,6 @@ public final class Main {
   private FontChooser fontChooserDialog;
 
   private Main() {
-    LanguageIdentifierTools.addLtProfiles();
     messages = JLanguageTool.getMessageBundle();
   }
 

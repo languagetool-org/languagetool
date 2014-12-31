@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.eval;
 
-import org.apache.tika.io.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;

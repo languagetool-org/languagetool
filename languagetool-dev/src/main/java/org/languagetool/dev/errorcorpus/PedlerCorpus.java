@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.errorcorpus;
 
-import org.apache.tika.io.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 

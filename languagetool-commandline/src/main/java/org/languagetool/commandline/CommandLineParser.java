@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.PrintStream;
 
 import org.languagetool.Language;
-import org.languagetool.tools.LanguageIdentifierTools;
 
 /**
  * Parser for the command line arguments.
@@ -42,8 +41,6 @@ public class CommandLineParser {
       } else if (args[i].equals("-h") || args[i].equals("-help") || args[i].equals("--help") || args[i].equals("--?")) {
         options.setPrintUsage(true);
       } else if (args[i].equals("-adl") || args[i].equals("--autoDetect")) {    // set autoDetect flag
-        // also initialize the other language profiles for the LanguageIdentifier
-        LanguageIdentifierTools.addLtProfiles();
         options.setAutoDetect(true);
       } else if (args[i].equals("-v") || args[i].equals("--verbose")) {
         options.setVerbose(true);
