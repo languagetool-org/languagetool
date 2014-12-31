@@ -31,112 +31,113 @@ import java.util.List;
 
 /**
  * Evaluate the quality of our language detection.
+ *
  * @since 2.9
  */
 class LanguageDetectionEval {
 
-    private final LanguageIdentifier languageIdentifier;
+  private final LanguageIdentifier languageIdentifier;
 
-    private int totalInputs = 0;
-    private int totalFailures = 0;
+  private int totalInputs = 0;
+  private int totalFailures = 0;
 
-    public LanguageDetectionEval() throws IOException {
-        languageIdentifier = new LanguageIdentifier();
+  public LanguageDetectionEval() throws IOException {
+    languageIdentifier = new LanguageIdentifier();
+  }
+
+  private void evaluate(Language language) throws IOException {
+    if (language.isVariant()) {
+      return;
     }
-
-    private void evaluate(Language language) throws IOException {
-        if (language.isVariant()) {
-            return;
+    String evalTextFile = "/org/languagetool/dev/eval/lang/" + language.getShortName() + ".txt";
+    InputStream stream = LanguageDetectionEval.class.getResourceAsStream(evalTextFile);
+    System.out.println("=== " + language + " ===");
+    if (stream == null) {
+      throw new RuntimeException("No eval data found for " + language);
+    } else {
+      int minChars = 0;
+      int failures = 0;
+      List<String> list = getLines(stream);
+      for (String line : list) {
+        try {
+          int minChar = getShortestCorrectDetection(line, language);
+          minChars += minChar;
+        } catch (DetectionException e) {
+          //System.out.println("FAIL: " + e.getMessage());
+          failures++;
         }
-        String evalTextFile = "/org/languagetool/dev/eval/lang/" + language.getShortName() + ".txt";
-        InputStream stream = LanguageDetectionEval.class.getResourceAsStream(evalTextFile);
-        System.out.println("=== " + language + " ===");
-        if (stream == null) {
-            throw new RuntimeException("No eval data found for " + language);
+      }
+      int avgMinChars = minChars / list.size();
+      System.out.println("Average minimum size still correctly detected: " + avgMinChars);
+      System.out.println("Detection failures: " + failures + " of " + list.size());
+      totalFailures += failures;
+    }
+  }
+
+  private int getShortestCorrectDetection(String line, Language expectedLanguage) {
+    totalInputs++;
+    String[] tokens = line.split("\\s+");
+    for (int i = tokens.length; i > 0; i--) {
+      String text = StringTools.listToString(Arrays.asList(tokens).subList(0, i), " ");
+      Language detectedLangObj = languageIdentifier.detectLanguage(text);
+      String detectedLang = null;
+      if (detectedLangObj != null) {
+        detectedLang = detectedLangObj.getShortName();
+      }
+      if (detectedLang == null && i == tokens.length) {
+        throw new DetectionException("Detection failed for '" + line + "', detected <null>");
+      } else if (detectedLang != null && !expectedLanguage.getShortName().equals(detectedLang)) {
+        if (i == tokens.length) {
+          throw new DetectionException("Detection failed for '" + line + "', detected " + detectedLang);
         } else {
-            int minChars = 0;
-            int failures = 0;
-            List<String> list = getLines(stream);
-            for (String line : list) {
-                try {
-                    int minChar = getShortestCorrectDetection(line, language);
-                    minChars += minChar;
-                } catch (DetectionException e) {
-                    //System.out.println("FAIL: " + e.getMessage());
-                    failures++;
-                }
-            }
-            int avgMinChars = minChars / list.size();
-            System.out.println("Average minimum size still correctly detected: " + avgMinChars);
-            System.out.println("Detection failures: " + failures + " of " + list.size());
-            totalFailures += failures;
+          int textLength = getTextLength(tokens, i + 1);
+          //System.out.println("TEXT     : " + line);
+          //System.out.println("TOO SHORT: " + text + " => " + detectedLang + " (" + textLength + ")");
+          return textLength;
         }
+      }
     }
+    return tokens[0].length();
+  }
 
-    private int getShortestCorrectDetection(String line, Language expectedLanguage) {
-        totalInputs++;
-        String[] tokens = line.split("\\s+");
-        for (int i = tokens.length; i > 0; i--) {
-            String text = StringTools.listToString(Arrays.asList(tokens).subList(0, i), " ");
-            Language detectedLangObj = languageIdentifier.detectLanguage(text);
-            String detectedLang = null;
-            if (detectedLangObj != null) {
-                detectedLang = detectedLangObj.getShortName();
-            }
-            if (detectedLang == null && i == tokens.length) {
-                throw new DetectionException("Detection failed for '" + line + "', detected <null>");
-            } else if (detectedLang != null && !expectedLanguage.getShortName().equals(detectedLang)) {
-                if (i == tokens.length) {
-                    throw new DetectionException("Detection failed for '" + line + "', detected " + detectedLang);
-                } else {
-                    int textLength = getTextLength(tokens, i + 1);
-                    //System.out.println("TEXT     : " + line);
-                    //System.out.println("TOO SHORT: " + text + " => " + detectedLang + " (" + textLength + ")");
-                    return textLength;
-                }
-            }
-        }
-        return tokens[0].length();
-    }
-
-    private int getTextLength(String[] tokens, int tokenPos) {
-        int i = 0;
-        int charCount = 0;
-        for (String token : tokens) {
-            if (i++ > tokenPos) {
-                return charCount;
-            }
-            charCount += token.length();
-        }
+  private int getTextLength(String[] tokens, int tokenPos) {
+    int i = 0;
+    int charCount = 0;
+    for (String token : tokens) {
+      if (i++ > tokenPos) {
         return charCount;
+      }
+      charCount += token.length();
     }
+    return charCount;
+  }
 
-    private List<String> getLines(InputStream stream) throws IOException {
-        List<String> lines = IOUtils.readLines(stream, "utf-8");
-        List<String> result = new ArrayList<>();
-        for (String line : lines) {
-            if (!line.startsWith("#")) {
-                result.add(line);
-            }
-        }
-        return result;
+  private List<String> getLines(InputStream stream) throws IOException {
+    List<String> lines = IOUtils.readLines(stream, "utf-8");
+    List<String> result = new ArrayList<>();
+    for (String line : lines) {
+      if (!line.startsWith("#")) {
+        result.add(line);
+      }
     }
+    return result;
+  }
 
-    public static void main(String[] args) throws IOException {
-        LanguageDetectionEval eval = new LanguageDetectionEval();
-        long startTime = System.currentTimeMillis();
-        for (Language language : Language.REAL_LANGUAGES) {
-            eval.evaluate(language);
-        }
-        long endTime = System.currentTimeMillis();
-        System.out.println();
-        System.out.println("Time: " + (endTime-startTime)+ "ms");
-        System.out.println("Total detection failures: " + eval.totalFailures + "/" + eval.totalInputs);
+  public static void main(String[] args) throws IOException {
+    LanguageDetectionEval eval = new LanguageDetectionEval();
+    long startTime = System.currentTimeMillis();
+    for (Language language : Language.REAL_LANGUAGES) {
+      eval.evaluate(language);
     }
+    long endTime = System.currentTimeMillis();
+    System.out.println();
+    System.out.println("Time: " + (endTime - startTime) + "ms");
+    System.out.println("Total detection failures: " + eval.totalFailures + "/" + eval.totalInputs);
+  }
 
-    class DetectionException extends RuntimeException {
-        public DetectionException(String s) {
-            super(s);
-        }
+  class DetectionException extends RuntimeException {
+    public DetectionException(String s) {
+      super(s);
     }
+  }
 }
