@@ -45,7 +45,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private static final String CONTENT_TYPE_VALUE = "text/xml; charset=UTF-8";
   private static final String ENCODING = "utf-8";
   private static final int CONTEXT_SIZE = 40; // characters
-  private static final int MIN_LENGTH_FOR_AUTO_DETECTION = 60;  // characters
 
   private static int handleCount = 0;
 
@@ -293,15 +292,9 @@ class LanguageToolHttpHandler implements HttpHandler {
   }
 
   private Language detectLanguageOfString(final String text, final String fallbackLanguage) {
-    // TODO: use identifier.isReasonablyCertain() - but make sure it works!
-    if (text.length() < MIN_LENGTH_FOR_AUTO_DETECTION && fallbackLanguage != null) {
-      print("Auto-detected language of text with length " + text.length() + " is not reasonably certain, using '" + fallbackLanguage + "' as fallback");
-      return Language.getLanguageForShortName(fallbackLanguage);
-    }
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
-      // fall back to English
-      lang = Language.getLanguageForLocale(Locale.ENGLISH);
+      lang = Language.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
     }
     if (lang.getDefaultLanguageVariant() != null) {
       lang = lang.getDefaultLanguageVariant();
