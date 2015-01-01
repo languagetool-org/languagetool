@@ -46,14 +46,22 @@ class MatchDatabase {
     }
   }
 
+  void updateRuleMatchPingDate(Language language, Date date) {
+    updateRuleMatchDate("pings", language, date);
+  }
+
   void updateRuleMatchCheckDate(Language language, Date date) {
-    String updateSql = "UPDATE feed_checks SET check_date = ? WHERE language_code = ?";
+    updateRuleMatchDate("feed_checks", language, date);
+  }
+
+  private void updateRuleMatchDate(String tableName, Language language, Date date) {
+    String updateSql = "UPDATE " + tableName + " SET check_date = ? WHERE language_code = ?";
     try (PreparedStatement updateSt = conn.prepareStatement(updateSql)) {
       updateSt.setTimestamp(1, new Timestamp(date.getTime()));
       updateSt.setString(2, language.getShortName());
       int affected = updateSt.executeUpdate();
       if (affected == 0) {
-        String insertSql = "INSERT INTO feed_checks (language_code, check_date) VALUES (?, ?)";
+        String insertSql = "INSERT INTO " + tableName + " (language_code, check_date) VALUES (?, ?)";
         try (PreparedStatement insertSt = conn.prepareStatement(insertSql)) {
           insertSt.setString(1, language.getShortName());
           insertSt.setTimestamp(2, new Timestamp(date.getTime()));
@@ -61,7 +69,7 @@ class MatchDatabase {
         }
       }
     } catch (SQLException e) {
-      throw new RuntimeException("Could not store check date for " + language + " to database", e);
+      throw new RuntimeException("Could not store date for " + language + " to database, table " + tableName, e);
     }
   }
 
@@ -124,6 +132,12 @@ class MatchDatabase {
    * Use this only for test cases - it's Derby-specific.
    */
   void createTables() throws SQLException {
+    try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE pings (" +
+            "  language_code VARCHAR(5) NOT NULL," +
+            "  ping_date TIMESTAMP NOT NULL" +
+            ")")) {
+      prepSt.executeUpdate();
+    }
     try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE feed_checks (" +
             "  language_code VARCHAR(5) NOT NULL," +
             "  check_date TIMESTAMP NOT NULL" +
@@ -174,6 +188,7 @@ class MatchDatabase {
   void dropTables() throws SQLException {
     dropTable("feed_matches");
     dropTable("feed_checks");
+    dropTable("pings");
   }
 
   private void dropTable(String tableName) {

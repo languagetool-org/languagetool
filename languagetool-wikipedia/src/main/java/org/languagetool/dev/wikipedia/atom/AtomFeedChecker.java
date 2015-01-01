@@ -162,6 +162,9 @@ class AtomFeedChecker {
       List<AtomFeedItem> items = new AtomFeedParser().getAtomFeedItems(xml);
       Collections.reverse(items);   // older items must come first so we iterate in the order in which the changes were made
       printDates(items, lastDateOfPreviousRun);
+      if (matchDatabase != null) {
+        matchDatabase.updateRuleMatchPingDate(language, new Date());
+      }
       for (AtomFeedItem item : items) {
         // Note: this skipping is not always exact:
         //   A resolution of one second may not be enough, considering the amount of changes happening,
