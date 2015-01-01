@@ -99,6 +99,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
 
+        <rule id="RAUSCH_AUSSCHLAGEN" name="Rausch ausschlagen (ausschlafen)">
+            <pattern case_sensitive='yes'>
+                <token regexp="yes">Rausch|Kater</token>
+                <marker>
+                    <token inflected="yes">ausschlagen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>ausschlafen</suggestion>?</message>
+            <example type='incorrect' correction="ausschlafen">Er muss erst seinen Rausch <marker>ausschlagen</marker>.</example>
+            <example type='correct'>Er muss erst seinen Rausch <marker>ausschlafen</marker>.</example>
+        </rule>
+        <rule id="VERSCHIEBEN_VERSCHRIEBEN" name="verschieben (verschrieben)">
+            <pattern case_sensitive='yes'>
+                <token negate="yes">zu</token>
+                <marker>
+                    <token>verschieben</token>
+                </marker>
+                <token inflected="yes">haben</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>verschrieben</suggestion>?</message>
+            <example type='incorrect' correction="verschrieben">Thomas, der sich der Entwicklung <marker>verschieben</marker> hat.</example>
+            <example type='correct'>Thomas, der sich der Entwicklung <marker>verschrieben</marker> hat.</example>
+            <example type='correct'>Sich selbst auf dem Schlachtfeld zu verschieben hat seinen Reiz.</example>
+        </rule>
         <rule id="GEBRAUCHTSPUREN" name="Gebrauchtspuren (Gebrauchsspuren)">
             <pattern case_sensitive='yes'>
                 <token regexp='yes'>Gebrauchtspur.*</token>
@@ -9104,6 +9128,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Redundanz -->
     <!-- ====================================================================== -->
     <category name="Redundanz">
+        <rulegroup id="UND_SOWIE" name="und sowie">
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token>und</token>
+                    <token>sowie</token>
+                </pattern>
+                <message>Mögliche Verdoppelung.</message>
+                <suggestion>und</suggestion>
+                <suggestion>sowie</suggestion>
+                <example type='incorrect' correction="und|sowie">Bund <marker>und sowie</marker> mehrerer Bundesländer kündigen Steuererhöhung an.</example>
+                <example type='correct'>Bund <marker>und</marker> mehrerer Bundesländer kündigen Steuererhöhung an.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive='yes'>
+                    <token>sowie</token>
+                    <token>und</token>
+                </pattern>
+                <message>Mögliche Verdoppelung.</message>
+                <suggestion>und</suggestion>
+                <suggestion>sowie</suggestion>
+                <example type='incorrect' correction="und|sowie">Bund <marker>sowie und</marker> mehrerer Bundesländer kündigen Steuererhöhung an.</example>
+                <example type='correct'>Bund <marker>und</marker> mehrerer Bundesländer kündigen Steuererhöhung an.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DOPPELUNG_YYXXER_JAHRE" name="Verdoppelung: 19XXer Jahre des zwanzigsten Jahrhunderts">
             <rule>
                 <pattern>
