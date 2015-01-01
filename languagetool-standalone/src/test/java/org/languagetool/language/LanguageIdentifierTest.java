@@ -22,19 +22,37 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 public class LanguageIdentifierTest {
 
+  private final LanguageIdentifier identifier = new LanguageIdentifier();
+
   @Test
   public void testDetection() {
-    LanguageIdentifier identifier = new LanguageIdentifier(Arrays.asList("en", "de"));
-    assertNull(identifier.detectLanguageCode(""));
-    assertNull(identifier.detectLanguageCode("X"));
-    assertThat(identifier.detectLanguageCode("This is an English text"), is("en"));
-    assertThat(identifier.detectLanguageCode("Das ist ein deutscher Text"), is("de"));
+    langAssert(null, "");
+    langAssert(null, "X");
+    langAssert("de", "Das ist ein deutscher Text");
+    langAssert("en", "This is an English text");
+    langAssert("fr", "Le mont Revard est un sommet du département français ...");
+    langAssert("km", "អ្នក\u200Bអាច\u200Bជួយ\u200Bលើក\u200Bស្ទួយ\u200Bវិគីភីឌាភាសាខ្មែរ\u200Bនេះ\u200Bឱ្យ\u200Bមាន\u200Bលក្ខណៈ");
+    langAssert("eo", "Imperiestraj pingvenoj manĝas ĉefe krustacojn kaj malgrandajn ...");
+  }
+
+  @Test
+  public void testKnownLimitations() {
+    // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
+    langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");
+    langAssert(null, "Dodro é un concello da provincia da Coruña pertencente á comarca do Sar ...");
+  }
+
+  private void langAssert(String expectedLangCode, String text) {
+    String detectedLangCode = identifier.detectLanguageCode(text);
+    if (!Objects.equals(expectedLangCode, detectedLangCode)) {
+      fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
+    }
   }
 
   @Test(expected = RuntimeException.class)
