@@ -134,7 +134,7 @@ class MatchDatabase {
   void createTables() throws SQLException {
     try (PreparedStatement prepSt = conn.prepareStatement("CREATE TABLE pings (" +
             "  language_code VARCHAR(5) NOT NULL," +
-            "  ping_date TIMESTAMP NOT NULL" +
+            "  check_date TIMESTAMP NOT NULL" +
             ")")) {
       prepSt.executeUpdate();
     }
