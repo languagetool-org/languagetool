@@ -18,13 +18,14 @@
  */
 package org.languagetool.dev.eval;
 
-import org.apache.commons.io.IOUtils;
+import com.google.common.io.CharStreams;
 import org.languagetool.Language;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +42,7 @@ class LanguageDetectionEval {
   private int totalInputs = 0;
   private int totalFailures = 0;
 
-  public LanguageDetectionEval() throws IOException {
+  public LanguageDetectionEval() {
     languageIdentifier = new LanguageIdentifier();
   }
 
@@ -113,7 +114,7 @@ class LanguageDetectionEval {
   }
 
   private List<String> getLines(InputStream stream) throws IOException {
-    List<String> lines = IOUtils.readLines(stream, "utf-8");
+    List<String> lines = CharStreams.readLines(new InputStreamReader(stream));
     List<String> result = new ArrayList<>();
     for (String line : lines) {
       if (!line.startsWith("#")) {
