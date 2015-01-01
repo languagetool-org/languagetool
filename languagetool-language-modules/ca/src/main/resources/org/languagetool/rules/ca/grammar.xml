@@ -12730,12 +12730,13 @@ $Id$
             <rule>
                 <pattern>
                     <token>d'</token>
-                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|h?uix.+|Iowa|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|(?-i)IU</exception></token>
+                    <token regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|ions|ionitza.+|h?uix.+|Iowa|Uialfàs|&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2;|(?-i)IU|(?-i)Iu</exception></token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>de <match no="2"></match></suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="de iogurt"><marker>d'iogurt</marker></example>
+                <example type="incorrect" correction="de hui"><marker>d'hui</marker></example>
                 <example type="incorrect" correction="de Iugoslàvia"><marker>d'Iugoslàvia</marker></example>
                 <example type="incorrect" correction="de iodització"><marker>d'iodització</marker></example>
                 <example type="correct">La Vall d'Uixó</example>
@@ -12743,20 +12744,23 @@ $Id$
                 <example type="correct">d'ionització</example>
                 <example type="correct">ve d'Iowa.</example>
                 <example type="correct">Fou expulsat d'IU.</example>
+                <example type="correct">Això és d'Iu.</example>
             </rule> 
             <rule>
                 <pattern>
                     <token>l'</token> <!-- exceptions: |&mots_HAC_ASPIRADA;|&mots_HAC_ASPIRADA2; -->
-                    <token postag="N.M.*|A..M.*" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+</exception><exception regexp="yes">(?-i)IEC</exception> </token>
+                    <token postag="N.M.*|A..M.*|RG" postag_regexp="yes" regexp="yes">h?[ui][aeoiàèéóòu].*<exception regexp="yes">ió|uix.+</exception><exception regexp="yes">(?-i)IEC|Iu</exception> </token>
                 </pattern>
                 <message>No s'apostrofa.</message>
                 <suggestion>el <match no="2"></match></suggestion>
                 <short>Error ortogràfic</short>
                 <example type="incorrect" correction="el iogurt"><marker>l'iogurt</marker></example>
                 <example type="incorrect" correction="el iugoslau"><marker>l'iugoslau</marker></example>
+                <example type="incorrect" correction="el hui"><marker>l'hui</marker></example>
                 <example type="correct">l'uixer</example>
                 <example type="correct">l'Uixó</example>
                 <example type="correct">l'IEC</example>
+                <example type="correct">M'ho va dir l'Iu.</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
