@@ -96,11 +96,9 @@ public class LanguageIdentifier {
     LanguageProfileReader profileReader = new LanguageProfileReader();
     List<LanguageProfile> profiles = profileReader.read(langNames);
     for (String externalLangName : externalLangNames) {
-      if (langNames.contains(externalLangName)) {
-        String profilePath = "/" + externalLangName + "/" + externalLangName + ".profile";
-        InputStream profile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(profilePath);
-        profiles.add(new LanguageProfileReader().read(profile));
-      }
+      String profilePath = "/" + externalLangName + "/" + externalLangName + ".profile";
+      InputStream profile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(profilePath);
+      profiles.add(new LanguageProfileReader().read(profile));
     }
     return profiles;
   }
