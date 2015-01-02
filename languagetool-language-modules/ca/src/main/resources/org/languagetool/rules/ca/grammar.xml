@@ -20634,19 +20634,6 @@ $Id$
             <example type="incorrect" correction="Perdut per perdut, m'agafo allà on puc|Perdut per perdut, la manta al coll"><marker>De perduts, al riu</marker>.</example>
             <example type="correct">Perdut per perdut, deixem-ho córrer.</example>
         </rule>
-        <rule id="PORTAR_LA_CONTRARIA" name="portar la *contrària/contra">
-            <pattern>
-                <token regexp="yes" skip="1" inflected="yes">portar|dur|fer</token>
-                <marker>
-                    <token>la</token>
-                    <token>contrària</token>
-                </marker>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>la contra</suggestion>
-            <example type="incorrect" correction="la contra">Deixa de dur-me <marker>la contrària</marker>.</example>
-            <example type="correct">No li facis la contra.</example>
-        </rule>
         <rulegroup id="FALTARIA_MES" name="faltaria més/només faltaria">
             <rule>
                 <pattern>
@@ -24717,6 +24704,19 @@ $Id$
     <category name="C4) Construccions desaconsellades per alguns manuals d'estil" default="off" type="style">
     <!-- Expressions condemnades per alguns manuals d'estil de manera no sempre justificada -->
         <!-- També: en/amb referència a -->
+        <rule id="PORTAR_LA_CONTRARIA" name="portar la *contrària/contra">
+            <pattern>
+                <token regexp="yes" skip="1" inflected="yes">portar|dur|fer</token>
+                <marker>
+                    <token>la</token>
+                    <token>contrària</token>
+                </marker>
+            </pattern>
+            <message>Expressió preferible.</message>
+            <suggestion>la contra</suggestion>
+            <example type="incorrect" correction="la contra">Deixa de dur-me <marker>la contrària</marker>.</example>
+            <example type="correct">No li facis la contra.</example>
+        </rule>
         <rule id="COM_A_MOLT" name="com a molt"> <!-- acceptat pel DIEC 2007 -->
             <pattern>
                 <marker>
