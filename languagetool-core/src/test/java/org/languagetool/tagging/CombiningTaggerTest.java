@@ -16,7 +16,7 @@ public class CombiningTaggerTest {
   public void testTag() throws Exception {
     ManualTagger tagger1 = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added1.txt"));
     ManualTagger tagger2 = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added2.txt"));
-    CombiningTagger tagger = new CombiningTagger(tagger1, tagger2);
+    CombiningTagger tagger = new CombiningTagger(tagger1, tagger2, false);
     assertThat(tagger.tag("nosuchword").size(), is(0));
     List<TaggedWord> result = tagger.tag("fullform");
     assertThat(result.size(), is(2));

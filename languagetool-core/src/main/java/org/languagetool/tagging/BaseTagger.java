@@ -56,6 +56,14 @@ public abstract class BaseTagger implements Tagger {
    * @since 2.8
    */
   public abstract String getManualAdditionsFileName();
+  
+  /**
+   * If true, dictionary tags will be overwritten by manual tags
+   * @since 2.9
+   */
+  public boolean overwriteWithManualTagger(){
+    return false;
+  }
 
   public void setLocale(Locale locale) {
     conversionLocale = locale;
@@ -69,7 +77,7 @@ public abstract class BaseTagger implements Tagger {
         if (manualFileName != null) {
           InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(manualFileName);
           ManualTagger manualTagger = new ManualTagger(stream);
-          wordTagger = new CombiningTagger(morfologikTagger, manualTagger);
+          wordTagger = new CombiningTagger(morfologikTagger, manualTagger, overwriteWithManualTagger());
         } else {
           wordTagger = morfologikTagger;
         }

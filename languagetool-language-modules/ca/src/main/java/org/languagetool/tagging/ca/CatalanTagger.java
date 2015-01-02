@@ -67,6 +67,11 @@ public class CatalanTagger extends BaseTagger {
     setLocale(new Locale("ca"));
     dontTagLowercaseWithUppercase();
   }
+  
+  @Override
+  public boolean overwriteWithManualTagger(){
+    return true;
+  }
 
   @Override
   public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)

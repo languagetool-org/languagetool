@@ -29,17 +29,21 @@ public class CombiningTagger implements WordTagger {
 
   private final WordTagger tagger1;
   private final WordTagger tagger2;
+  private boolean overwriteWithSecondTagger=false;
 
-  public CombiningTagger(WordTagger tagger1, WordTagger tagger2) {
+  public CombiningTagger(WordTagger tagger1, WordTagger tagger2, boolean overwrite) {
     this.tagger1 = tagger1;
     this.tagger2 = tagger2;
+    this.overwriteWithSecondTagger=overwrite;
   }
 
   @Override
   public List<TaggedWord> tag(String word) {
     List<TaggedWord> result = new ArrayList<>();
-    result.addAll(tagger1.tag(word));
     result.addAll(tagger2.tag(word));
+    if (!(overwriteWithSecondTagger && result.size()>0)) {
+      result.addAll(tagger1.tag(word));
+    }
     return result;
   }
 
