@@ -30,11 +30,8 @@ import morfologik.stemming.IStemmer;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
-import org.languagetool.tagging.ManualTagger;
-import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tools.StringTools;
 
 /**
