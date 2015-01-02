@@ -34,6 +34,7 @@ import org.languagetool.tagging.WordTagger;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+  private static final String TAG_ANIM = ":anim";
   private static final String VERB_TAG_FOR_REV_IMPR = IPOSTag.verb.getText()+":rev:impr";
   private static final String VERB_TAG_FOR_IMPR = IPOSTag.verb.getText()+":impr";
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = IPOSTag.adj.getText() + ":m:v_mis";
@@ -270,12 +271,12 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private static boolean istotaNeistota(String leftPosTag, String rightPosTag) {
-    return leftPosTag.contains(":ist") && ! rightPosTag.contains(":ist");
+    return leftPosTag.contains(TAG_ANIM) && ! rightPosTag.contains(TAG_ANIM);
   }
 
   private static boolean istotaNeistotaMatch(String leftPosTag, String rightPosTag) {
-    return leftPosTag.contains(":ist") && rightPosTag.contains(":ist")
-        || ! leftPosTag.contains(":ist") && ! rightPosTag.contains(":ist");
+    return leftPosTag.contains(TAG_ANIM) && rightPosTag.contains(TAG_ANIM)
+        || ! leftPosTag.contains(TAG_ANIM) && ! rightPosTag.contains(TAG_ANIM);
   }
 
   private static boolean istotaNeistotaNazZna(String leftPosTag, String rightPosTag) {

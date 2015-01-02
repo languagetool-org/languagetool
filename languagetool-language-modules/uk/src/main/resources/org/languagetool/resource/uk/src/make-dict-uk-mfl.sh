@@ -78,3 +78,5 @@ if [ "$1" == "-f" ]; then
 
     rm -f all.tagged.tmp
 fi
+
+rm -f all_words.lst
