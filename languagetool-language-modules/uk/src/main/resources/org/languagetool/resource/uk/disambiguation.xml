@@ -7,16 +7,77 @@
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
     <!-- TODO: взяти до уваги прикметники, напр. Друга Світова тощо -->
-    <rule name="Слова з великої літери в середині речення - це іменники" id="PROPER_NOUN_INSIDE_SENTENCE">
+    <rule name="Люба великої літери в середині речення - ім'я" id="LUBA_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">
-            <token regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+<exception scope="previous" postag="SENT_START"/><exception regexp="yes">Друга|Другої|Другій|Другу|Другою|Курську|Курська|Донецьку|Донецька|Луганська|Луганську|Золота|Золоті</exception></token>
+          <and>
+            <token inflected="yes" postag_regexp="yes" postag="noun.*">Люба
+              <exception scope="previous" postag="SENT_START"/>
+              <exception scope="previous" regexp="yes">[«„]</exception>
+              <!--
+              <exception regexp="yes">Друга|Другої|Другій|Другу|Другою|Курську|Курська|Донецьку|Донецька|Луганська|Луганську|Золота|Золоті</exception>
+              -->
+            </token>
+            <token postag_regexp="yes" postag="adj.*"/>
+          </and>
         </pattern>
         <disambig><match no="1" postag="noun.*" postag_regexp="yes"/></disambig>
         <example type="ambiguous" 
             inputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz:ist,любий/adj:f:v_naz]" 
             outputform="Люба[&lt;/S&gt;,Люба/noun:f:v_naz:ist]">Агов <marker>Люба</marker></example>
         <example type="untouched">Тоді почалася Друга світова війна.</example>
+        <example type="untouched">«Люба формула.</example>
+    </rule>
+
+    <rule name="Едгар По" id="EDGAR_PO">
+        <pattern case_sensitive="yes">
+          <token inflected="yes">Едгар</token>
+          <marker>
+            <token>По</token>
+          </marker>
+        </pattern>
+        <disambig><match no="1" postag="noun:m:nv:ist"/></disambig>
+        <example type="ambiguous" 
+            inputform="По[&lt;/S&gt;,по/prep:rv_mis:rv_zna]" 
+            outputform="По[&lt;/S&gt;,по/noun:m:nv:ist,по/noun:m:nv:ist]">Знали Едгара <marker>По</marker></example>
+        <example type="untouched">Едгара по полю.</example>
+    </rule>
+    
+    <rule name="Слова з великої літери в середині речення - це іменники або прикметники" id="PROPER_NOUN_INSIDE_SENTENCE">
+        <pattern case_sensitive="yes">
+          <and>
+            <token regexp="yes" postag_regexp="yes" postag="(noun|adj).*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
+              <exception scope="previous" postag="SENT_START"/>
+              <exception scope="previous" regexp="yes">[«„]</exception>
+            </token>
+            <token postag_regexp="yes" postag="(verb|prep|adv).*"/>
+          </and>
+        </pattern>
+        <disambig><match no="1" postag="(noun|adj).*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="Іди[Іда/noun:f:v_rod:ist,іти/verb:impr:s:2:imperf]" 
+            outputform="Іди[Іда/noun:f:v_rod:ist]">До <marker>Іди</marker> прийшли гості.</example>
+        <example type="untouched">Тоді почалася Друга світова війна.</example>
         <example type="untouched">Знати про Курську дугу.</example>
+        <example type="untouched">«Люба формула.</example>
+        <example type="untouched">То є Більш всього.</example>
+    </rule>
+    
+    <!-- тимчасовий манівець для невідомих власних імен після прийменника, що збігаються з дієсловом -->
+    <rule name="Слова після прийменника з великої літери в середині речення - це іменники" id="PREP_PROPER_NOUN_INSIDE_SENTENCE">
+        <pattern case_sensitive="yes">
+          <token postag_regexp="yes" postag="prep.*"/>
+          <marker>
+            <token regexp="yes" postag_regexp="yes" postag="verb.*">[А-ЯІЇЄҐ][а-яіїєґ'-]+
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <disambig><match no="1" postag="noun:unknown"/></disambig>
+        <example type="ambiguous" 
+            inputform="Чули[чути/verb:past:p:imperf]" 
+            outputform="Чули[чути/noun:unknown]">Приїхали до <marker>Чули</marker>.</example>
+        <example type="untouched">Вони все чули.</example>
+        <example type="untouched">Чули її добре.</example>
     </rule>
 
     <rule name="Лютого" id="LYUTYI">

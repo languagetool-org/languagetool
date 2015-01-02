@@ -44,6 +44,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final char DECIMAL_COMMA_SUBST = '_'; // some unused character to hide comma in decimal number temporary for tokenizer run
+  private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final char DATE_DOT_SUBST = '\u0001'; // some unused character to hide dot in date temporary for tokenizer run
 
   public UkrainianWordTokenizer() {
   }
@@ -52,6 +54,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   public List<String> tokenize(String text) {
     text = cleanup(text);
     text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1" + DECIMAL_COMMA_SUBST + "$2");
+    text = DATE_PATTERN.matcher(text).replaceAll("$1" + DATE_DOT_SUBST + "$2" + DATE_DOT_SUBST + "$3");
 
     List<String> tokenList = new ArrayList<>();
     StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
@@ -59,6 +62,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
     while (st.hasMoreElements()) {
       String token = st.nextToken();
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
+      token = token.replace(DATE_DOT_SUBST, '.');
       tokenList.add( token );
     }
 

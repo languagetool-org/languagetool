@@ -39,6 +39,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = IPOSTag.adj.getText() + ":m:v_mis";
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = IPOSTag.adj.getText() + ":m:v_naz";
   private static final Pattern NUMBER = Pattern.compile("[+-]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?");
+  private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final String stdNounTag = IPOSTag.noun.getText() + ":.:v_";
   private static final int stdNounTagLen = stdNounTag.length();
   private static final Pattern stdNounTagRegex = Pattern.compile(stdNounTag + ".*");
@@ -85,12 +86,18 @@ public class UkrainianTagger extends BaseTagger {
 
   @Override
   public List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
-    if ( NUMBER.matcher(word).matches() ){
+    if ( NUMBER.matcher(word).matches() ) {
       List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
       additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText(), word));
       return additionalTaggedTokens;
     }
-    
+
+    if ( DATE.matcher(word).matches() ) {
+      List<AnalyzedToken> additionalTaggedTokens  = new ArrayList<>();
+      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.date.getText(), word));
+      return additionalTaggedTokens;
+    }
+
     if ( word.contains("-") ) {
       int dashIdx = word.lastIndexOf('-');
       if( dashIdx == 0 || dashIdx == word.length() - 1 )

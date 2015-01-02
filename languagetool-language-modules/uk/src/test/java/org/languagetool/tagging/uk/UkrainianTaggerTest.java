@@ -48,6 +48,8 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("101,234", "101,234/[101,234]number", tokenizer, tagger);
     TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
 
+    TestTools.myAssert("14.07.2001", "14.07.2001/[14.07.2001]date", tokenizer, tagger);
+
     // one-way case sensitivity
     TestTools.myAssert("києві", "києві/[кий]noun:m:v_dav", tokenizer, tagger);
     TestTools.myAssert("Києві", "Києві/[Київ]noun:m:v_mis|Києві/[кий]noun:m:v_dav", tokenizer, tagger);

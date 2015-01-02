@@ -110,6 +110,16 @@ public class TokenAgreementRuleTest {
     assertEquals(1, match.length);
     List<String> suggestedReplacements = match[0].getSuggestedReplacements();
     assertTrue("Did not find «їхній»: " + suggestedReplacements, suggestedReplacements.contains("їхнім"));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("по церковним канонам"));
+    // check match positions:
+    assertEquals(1, matches.length);
+
+//    matches = rule.match(langTool.getAnalyzedSentence("колега з Мінську"));
+//    System.out.println(langTool.getAnalyzedSentence("колега з Мінську"));
+//    // check match positions:
+//    assertEquals(1, matches.length);
+
   }
 
 }

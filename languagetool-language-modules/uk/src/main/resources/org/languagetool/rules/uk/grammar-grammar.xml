@@ -140,7 +140,7 @@ $Id$
                     <token postag_regexp="yes" postag="noun:.:.*">
                       <exception postag_regexp="yes" postag="noun:[mfn]:(v_rod|nv).*"/>
                       <exception postag_regexp="yes" postag="noun:.*:ist.*"/>
-                      <exception regexp="yes">біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|.*господарств|країн|країн-.*</exception>
+                      <exception regexp="yes">біографій|витрат|голосів|грошей|занять|заяв|інвестицій|локомотивів|мінус|місць|плюс|потреб|потужностей|рейсів|сімей|смертей|фірм|шлюбів|творів|.*господарств|експонатів|країн|країн-.*</exception>
                     </token>
                   </marker>
                 </pattern>
@@ -157,7 +157,10 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,№-]*[2-9]?[234]<exception scope="previous" regexp="yes">[:/№]</exception></token>
+                    <token regexp="yes">два|дві|обидва|обидві|три|чотири|[^,№-]*[2-9]?[234]
+                      <exception postag="date"/>
+                      <exception scope="previous" regexp="yes">[:/№]</exception>
+                    </token>
                     <token postag_regexp="yes" postag="adj.*" min="0">
                       <exception regexp="yes">третіх|четвертих</exception>
                     </token>
@@ -481,7 +484,7 @@ $Id$
                     </token>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:ist.*|pron.*v_oru.*">
                       <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;(adv|insert)&gt;"/>
-                      <exception regexp="yes">тим|таким</exception>
+                      <exception regexp="yes">тим|таким|персоною</exception>
                     </token>
                     <!-- TODO: особа-діяч може бути не лише :ist
                     <token postag_regexp="yes" postag="(noun|pron).*v_oru.*"/>

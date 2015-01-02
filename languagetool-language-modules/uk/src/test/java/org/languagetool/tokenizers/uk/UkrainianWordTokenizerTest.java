@@ -45,6 +45,9 @@ public class UkrainianWordTokenizerTest extends TestCase {
 
     testList = w.tokenize("надійшло 84,46 мільйона");
     assertEquals(Arrays.asList("надійшло", " ", "84,46", " ", "мільйона"), testList);
+
+    testList = w.tokenize("сталося 14.07.2001 вночі");
+    assertEquals(Arrays.asList("сталося", " ", "14.07.2001", " ", "вночі"), testList);
   }
 
 }

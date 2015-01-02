@@ -28,43 +28,6 @@ $Id$
     <rulegroup name="Самий з прикметниками" id="SAMYI">
         <!-- TODO: якщо робити це правило загальним фальшивих помилок більше ніж правильних позначень,
                    тож поки що обмежимося лише двома більш-менш стабільними випадками 
-    
-            <rule>
-                <pattern>
-                  <unify>
-                   <feature id="gender"/>
-                   <feature id="number"/>
-                   <feature id="case"/>
-                      
-                    <token inflected="yes">самий
-                        <exception scope="previous" regexp="yes" inflected="yes">(який|такий|отой|той|цей|же?|чим|лише)</exception>
-                    </token>
-                    <token postag_regexp="yes" postag="adj:.*:(comp).*">
-                        <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
-                        <exception regexp="yes">(дуже|мала)</exception>
-                    </token>
-                  </unify>
-                </pattern>
-                <message>Замість «самий» + прикметник треба вживати найвищу ступінь з <suggestion>най-</suggestion></message>
-                <example>Самий цвіт</example>
-                <example>Сама прийшла</example>
-                <example>Саме такий</example>
-                <example>Саме вони</example>
-                <example>представник саме романтичного націоналізму</example>
-                <example>вирізняється саме гострою конкуренцією</example>
-                <example>частину галузі становить саме чорна металургія</example>
-                <example>Ті ж самі пісні</example>
-                <example>пояснюється саме дуже високим відсотком людей</example>
-                <example>повідомляти самого великого князя</example>
-                <example>вона й сама мала би зректися посади</example>
-                <example>вона й сама зрозуміла це</example>
-                <example>з цим самим білим піском</example>
-                <example>лише самих економічних санкцій</example>
-                <example correction="X"><marker>Самий кращий</marker>.</example>
-                <example correction="X"><marker>Сама гірша</marker>.</example>
-                <example correction="X"><marker>Самий сильний</marker>.</example>
-                <example correction="X"><marker>Сама тривала</marker>.</example>
-            </rule>
             -->
             <rule>
                 <pattern>
@@ -78,6 +41,7 @@ $Id$
                     </token>
                     <token postag_regexp="yes" postag="adj.*:(compr).*">
                         <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                   </unify>
                 </pattern>
@@ -96,6 +60,7 @@ $Id$
                     </token>
                     <token postag_regexp="yes" postag="adj.*:v_(naz|zna).*:comp.*">
                         <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
+                        <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                 </pattern>
                 <message>Замість «самий» + прикметник треба вживати найвищу ступінь з най-: <suggestion><match no="2" postag_regexp="yes"
@@ -149,6 +114,7 @@ $Id$
                     <token postag_regexp="yes" postag="adj.*:(comp).*">
                         <exception postag_regexp="yes" postag="(pron|noun|verb).*"></exception>
                         <exception regexp="yes">(дуже|мала)</exception>
+                        <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
                     </token>
                     </marker>
                   </unify>
@@ -173,13 +139,17 @@ $Id$
                     <token inflected="yes">самий
                         <exception scope="previous" regexp="yes" inflected="yes">(той|же?|чим)</exception>
                     </token>
-                    <token inflected="yes" regexp="yes">перший|найперший</token>
+                    <token inflected="yes" regexp="yes">перший|найперший
+                      <exception case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</exception>
+                    </token>
                   </unify>
                 </pattern>
                 <message>Замість «самий перший» треба вживати найвищу ступінь: <suggestion>найперший</suggestion></message>
                 <example correction="Найперший"><marker>Самий перший</marker>.</example>
                 <example>самі першими втікали</example>
                 <example>найперший</example>
+                <example>Та сама Перша кінна армія</example>
+                <example>На самому Першому Національному пояснили</example>
             </rule>
         </rulegroup>
 
@@ -211,10 +181,9 @@ $Id$
         <rulegroup name="Більш з числівниками та іменниками часу" id="BILSHE_WITH_TIME_NOUNS">
             <rule>
                 <pattern>
-                <!-- треба розбити всі варіанти з не-, щоб не пропонувати «понад»
-                    <token><exception scope="previous">не</exception>більше</token>
-                    -->
-                    <token regexp="yes">більше?</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">багато|великий
+                      <exception scope="previous">не</exception>
+                    </token>
                     <token postag_regexp="yes" postag="numr:.*v_rod">
                         <exception inflected="yes">один</exception>
                     </token>
@@ -223,21 +192,39 @@ $Id$
                 <suggestion>більш як <match no="2" postag="numr:v_zna"/></suggestion>
                 <suggestion>більш ніж <match no="2" postag="numr:v_zna"/></suggestion>
                 <example>Більше одного</example>
-<!--
                 <example>цюпка не більше шести кроків вдовж</example>
--->
                 <example correction="понад сто|більш як сто|більш ніж сто"><marker>більше ста</marker>.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">більше?</token>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">багато|великий
+                      <exception scope="previous">не</exception>
+                    </token>
                     <token postag="number"/>
                 </pattern>
-                <message>З числівником замість «більше» краще вживати «понад», або «ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
+                <message>З числівником замість «більше» краще вживати «понад», або «більше ніж/як»: <suggestion>понад <match no="2"/></suggestion></message>
                 <suggestion>більш як <match no="2"/></suggestion>
                 <suggestion>більш ніж <match no="2"/></suggestion>
                 <example>Більш як 40</example>
                 <example correction="понад 500|більш як 500|більш ніж 500"><marker>більше 500</marker>.</example>
+                <example type="incorrect"><marker>більшими 2,000</marker> слів.</example>
+                <example type="incorrect">«<marker>Більше 10%</marker> людей</example>
+                <example type="correct">Не більше 40</example>
+                <example type="correct">Щонайбільше 40</example>
+            </rule>
+            <rule>
+                <pattern>
+                  <token>не</token>
+                  <marker>
+                    <token regexp="yes" inflected="yes" postag_regexp="yes" postag="(adv|adj).*compr.*">багато|великий</token>
+                    <token postag_regexp="yes" postag="numr:.*v_rod|number"/>
+                  </marker>
+                </pattern>
+                <message>З числівником замість «не більше» краще вживати «не більше ніж/як»: <suggestion><match no="2"/> як</suggestion></message>
+                <suggestion>більш ніж <match no="2"/></suggestion>
+                <example type="correct">не більш як 40</example>
+                <example type="incorrect">не <marker>більшими п'яти</marker> слів</example>
+                <example type="incorrect">не <marker>більшими 2,000</marker> слів</example>
             </rule>
 
             <rule>
@@ -949,6 +936,55 @@ $Id$
          <message>Правильно: <suggestion>правильний</suggestion></message>
          <example correction="Правильний"><marker>Вірна</marker> відповідь</example>
          <example>Вірна дружина</example>
+       </rule>
+
+       <rule>
+         <pattern>
+          <marker>
+            <token inflected="yes">воєнний</token>
+          </marker>
+          <token inflected="yes" regexp="yes">присяга|форма|справа|трибунал|училище|частина|звання|лікар</token>
+         </pattern>
+         <message>Правильно: <suggestion>військовий</suggestion></message>
+         <example type="incorrect">Пішов до <marker>воєнного</marker> училища.</example>
+         <example type="correct">Воєнний стан</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <unify>
+             <feature id="gender"/>
+             <feature id="number"/>
+             <feature id="case"/>
+     
+               <marker>
+                 <token inflected="yes">військовий</token>
+               </marker>
+               <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога</token>
+           </unify>
+         </pattern>
+         <message>Правильно: <suggestion>воєнний</suggestion></message>
+         <example type="incorrect"><marker>військовий</marker> репортаж</example>
+         <example type="correct">військовий аташе</example>
+         <example type="correct">російські військові час від часу</example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <unify>
+             <feature id="gender"/>
+             <feature id="number"/>
+             <feature id="case"/>
+     
+               <token inflected="yes" regexp="yes">бакалійний|виновий|сувенірний|купецький|книжковий|різноманітні|в|у</token>
+               <marker>
+                 <token inflected="yes">лавка</token>
+               </marker>
+           </unify>
+         </pattern>
+         <message>Правильно: <suggestion><match no="2" postag="noun.*" postag_regexp="yes">крамниця</match></suggestion></message>
+         <example type="incorrect" correction="крамниці">бакалійної <marker>лавки</marker></example>
+         <example type="correct">паркова лавка</example>
        </rule>
 
     </rulegroup>
