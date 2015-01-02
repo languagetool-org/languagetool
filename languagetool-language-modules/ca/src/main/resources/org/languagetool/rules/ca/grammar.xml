@@ -19140,6 +19140,20 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="AIXECAR_CAP" name="*aixecar cap/ aixecar el cap">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">aixecar|alçar</token>
+                    <token>cap</token>
+                </marker>
+                <token postag="_PUNCT.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>\1 el cap</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/aixecar_cap</url>
+            <example type="incorrect" correction="aixequen el cap">No <marker>aixequen cap</marker>.</example>
+            <example type="correct">De seguida s'aixeca cap a l'est.</example>
+        </rule>
         <rule id="MALAMENT_MAL" name="*malament/mal fet">
             <pattern>
                 <token>malament</token>
