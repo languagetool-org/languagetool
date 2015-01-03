@@ -117,6 +117,8 @@ public class LanguageIdentifier {
   private String detectLanguageCode(String text) {
     TextObject textObject = textObjectFactory.forText(text);
     Optional<String> lang = languageDetector.detect(textObject);
+    // comment in for debugging:
+    //System.out.println(languageDetector.getProbabilities(textObject));
     if (lang.isPresent()) {
       if ("zh-cn".equals(lang.get()) || "zh-tw".equals(lang.get())) {
         return "zh";
