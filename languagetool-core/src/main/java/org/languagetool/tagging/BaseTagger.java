@@ -58,10 +58,11 @@ public abstract class BaseTagger implements Tagger {
   public abstract String getManualAdditionsFileName();
   
   /**
-   * If true, dictionary tags will be overwritten by manual tags
+   * If true, tags from the binary dictionary (*.dict) will be overwritten by manual tags
+   * from the plain text dictionary.
    * @since 2.9
    */
-  public boolean overwriteWithManualTagger(){
+  public boolean overwriteWithManualTagger() {
     return false;
   }
 

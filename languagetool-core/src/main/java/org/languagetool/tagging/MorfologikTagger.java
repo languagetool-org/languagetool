@@ -62,18 +62,18 @@ public class MorfologikTagger implements WordTagger {
       IStemmer dictLookup = new DictionaryLookup(getDictionary());
       List<WordData> lookup = dictLookup.lookup(word);
       for (WordData wordData : lookup) {
-        String tag=wordData.getTag() == null ? null : wordData.getTag().toString();
+        String tag = wordData.getTag() == null ? null : wordData.getTag().toString();
         // Remove frequency data from tags (if exists)
         // The frequency data is in the last byte after a separator
-        if (dictionary.metadata.isFrequencyIncluded() && tag != null && tag.length()>2) {
-          tag = tag.substring(0, tag.length()-2);
+        if (dictionary.metadata.isFrequencyIncluded() && tag != null && tag.length() > 2) {
+          tag = tag.substring(0, tag.length() - 2);
         }
-        TaggedWord taggedWord = new TaggedWord(wordData.getStem() == null ? null : wordData.getStem().toString(),
-                                               tag);
+        String stem = wordData.getStem() == null ? null : wordData.getStem().toString();
+        TaggedWord taggedWord = new TaggedWord(stem, tag);
         result.add(taggedWord);
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Could not tag word '" + word + "'", e);
     }
     return result;
   }

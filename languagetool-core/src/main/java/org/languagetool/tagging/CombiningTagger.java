@@ -29,19 +29,25 @@ public class CombiningTagger implements WordTagger {
 
   private final WordTagger tagger1;
   private final WordTagger tagger2;
-  private boolean overwriteWithSecondTagger=false;
+  private final boolean overwriteWithSecondTagger;
 
-  public CombiningTagger(WordTagger tagger1, WordTagger tagger2, boolean overwrite) {
+  /**
+   * @param tagger1 typically the tagger that takes its data from the binary file
+   * @param tagger2 typically the tagger that takes its data from the plain text file {@code added.txt}
+   * @param overwriteWithSecondTagger if set to {@code true}, only the second tagger's result will be
+   *                                  used if both taggers can tag that word
+   */
+  public CombiningTagger(WordTagger tagger1, WordTagger tagger2, boolean overwriteWithSecondTagger) {
     this.tagger1 = tagger1;
     this.tagger2 = tagger2;
-    this.overwriteWithSecondTagger=overwrite;
+    this.overwriteWithSecondTagger = overwriteWithSecondTagger;
   }
 
   @Override
   public List<TaggedWord> tag(String word) {
     List<TaggedWord> result = new ArrayList<>();
     result.addAll(tagger2.tag(word));
-    if (!(overwriteWithSecondTagger && result.size()>0)) {
+    if (!(overwriteWithSecondTagger && result.size() > 0)) {
       result.addAll(tagger1.tag(word));
     }
     return result;
