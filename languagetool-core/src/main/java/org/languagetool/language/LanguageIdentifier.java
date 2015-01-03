@@ -49,21 +49,17 @@ public class LanguageIdentifier {
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
-  private static final List<String> ignoreLangNames = Arrays.asList("ast", "gl");
+  private static final List<String> ignoreLangCodes = Arrays.asList("ast", "gl");
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
-  private static final List<String> externalLangNames = Arrays.asList("km", "eo");
+  private static final List<String> externalLangCodes = Arrays.asList("km", "eo");
 
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
 
   public LanguageIdentifier() {
-    this(getLanguageNames());
-  }
-
-  LanguageIdentifier(List<String> langNames) {
     try {
-      List<LanguageProfile> profiles = loadProfiles(langNames);
+      List<LanguageProfile> profiles = loadProfiles(getLanguageCodes());
       languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
               .minimalConfidence(MINIMAL_CONFIDENCE)
               .withProfiles(profiles)
@@ -74,29 +70,29 @@ public class LanguageIdentifier {
     }
   }
 
-  private static List<String> getLanguageNames() {
-    List<String> langNames = new ArrayList<>();
+  private static List<String> getLanguageCodes() {
+    List<String> langCodes = new ArrayList<>();
     for (Language lang : Language.REAL_LANGUAGES) {
       String langCode = lang.getShortName();
-      boolean ignore = lang.isVariant() || ignoreLangNames.contains(langCode) || externalLangNames.contains(langCode);
+      boolean ignore = lang.isVariant() || ignoreLangCodes.contains(langCode) || externalLangCodes.contains(langCode);
       if (ignore) {
         continue;
       }
       if ("zh".equals(langCode)) {
-        langNames.add("zh-cn");
-        langNames.add("zh-tw");
+        langCodes.add("zh-cn");
+        langCodes.add("zh-tw");
       } else {
-        langNames.add(langCode);
+        langCodes.add(langCode);
       }
     }
-    return langNames;
+    return langCodes;
   }
 
-  private List<LanguageProfile> loadProfiles(List<String> langNames) throws IOException {
+  private List<LanguageProfile> loadProfiles(List<String> langCodes) throws IOException {
     LanguageProfileReader profileReader = new LanguageProfileReader();
-    List<LanguageProfile> profiles = profileReader.read(langNames);
-    for (String externalLangName : externalLangNames) {
-      String profilePath = "/" + externalLangName + "/" + externalLangName + ".profile";
+    List<LanguageProfile> profiles = profileReader.read(langCodes);
+    for (String externalLangCode : externalLangCodes) {
+      String profilePath = "/" + externalLangCode + "/" + externalLangCode + ".profile";
       InputStream profile = JLanguageTool.getDataBroker().getFromResourceDirAsStream(profilePath);
       profiles.add(new LanguageProfileReader().read(profile));
     }
@@ -118,7 +114,7 @@ public class LanguageIdentifier {
   /**
    * @return language or {@code null} if language could not be identified
    */
-  String detectLanguageCode(String text) {
+  private String detectLanguageCode(String text) {
     TextObject textObject = textObjectFactory.forText(text);
     Optional<String> lang = languageDetector.detect(textObject);
     if (lang.isPresent()) {

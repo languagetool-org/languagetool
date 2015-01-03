@@ -19,9 +19,8 @@
 package org.languagetool.language;
 
 import org.junit.Test;
+import org.languagetool.Language;
 
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static org.junit.Assert.*;
@@ -77,14 +76,11 @@ public class LanguageIdentifierTest {
   }
 
   private void langAssert(String expectedLangCode, String text) {
-    String detectedLangCode = identifier.detectLanguageCode(text);
-    if (!Objects.equals(expectedLangCode, detectedLangCode)) {
-      fail("Got '" + detectedLangCode + "', expected '" + expectedLangCode + "' for '" + text + "'");
+    Language expectedLang = expectedLangCode != null ? Language.getLanguageForShortName(expectedLangCode) : null;
+    Language detectedLang = identifier.detectLanguage(text);
+    if (!Objects.equals(expectedLang, detectedLang)) {
+      fail("Got '" + detectedLang + "', expected '" + expectedLangCode + "' for '" + text + "'");
     }
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testInvalidLanguage() throws IOException {
-    new LanguageIdentifier(Arrays.asList("ZZ"));
-  }
 }
