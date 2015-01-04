@@ -8859,7 +8859,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>z</token>
-										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|[\p{L}&amp;&amp;[^aeiouyąę]]+|w(?:p[rł]|t[oó]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwow(?:a|em)|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|[\p{L}&amp;&amp;[^aeiouyąę]]+|w(?:p[rł]|t[oó]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>\1e \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8875,7 +8875,7 @@ $Id$
 								<pattern>
 										<token>z</token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwowa|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|[\p{L}&amp;&amp;[^aeiouyąę]]+|w(?:p[rł]|t[óo]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
+										<token regexp="yes">s[wftśsrłndpgklcbmżń].+|[zśźż][wftśsrłndpgklzcbmżń].+|[rs]z[wftśsrłndwpgklzcbmżń].+|[wf][wftśwpgzcbmżń].+|wk[^ł].+|f[dsk].+|wd[^zię].+|ws[^ze].+|Lwow(?:a|em)|mną|mnie|snu<exception regexp="yes">[\&quot;„]|ZSRR|ZSL|S[PL]D|Schengen|[\p{L}&amp;&amp;[^aeiouyąę]]+|w(?:p[rł]|t[óo]|cz|za|do|cho|gr|ści).*</exception><exception postag="UNKNOWN"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>ze \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8887,7 +8887,7 @@ $Id$
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwowa|mną|mnie|snu|łzami|łzą|łba|czter.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|trz.+|dw.+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba|czter.+<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"/><exception postag="verb.*" postag_regexp="yes"/></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
@@ -8896,13 +8896,14 @@ $Id$
 								<example type="correct">Dostaniesz ze trzy tysiące premii za ten donos.</example>
 								<example type="correct">Nawet Horacy drwił ze &quot;szkodliwego hazardu&quot;.</example>
 								<example type="correct">Żegnaliśmy go ze łzami.</example>
+                                <example type="correct">To trzydzieści miast, ze Lwowem włącznie.</example>
 								<example correction="z Łodzi" type="incorrect">Ludwik ma kochankę <marker>ze Łodzi</marker>.</example>
 						</rule>
 						<rule>
 								<pattern>
 										<token>ze<exception scope="previous" spacebefore="no" regexp="yes">&apost;</exception></token>
 										<token regexp="yes">[\&quot;„]</token>
-										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwowa|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
+										<token negate="yes" regexp="yes">[wszśźż].+|[Sr]z[wftśsrłndpgklzcbmżń].+|Lwow(?:a|em)|mną|mnie|snu|łzami|łzą|łba<exception regexp="yes">[\&quot;„]|[\p{L}&amp;&amp;[^aeiouyąę]]+</exception><exception postag="UNKNOWN"></exception></token>
 								</pattern>
 								<message>Prawdopodobnie ten przyimek należy zapisać tak: <suggestion>z \2\3</suggestion>.</message>
 								<short>Błąd fonetyczny</short>
