@@ -11636,6 +11636,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rule id="BIEGEN_UND_BRECHEN" name="auf biegen und brechen (Biegen und Brechen)">
+            <pattern case_sensitive="yes">
+                <token case_sensitive="no">auf</token>
+                <marker>
+                    <token>biegen</token>
+                    <token regexp="yes">und|oder</token>
+                    <token>brechen</token>
+                </marker>
+            </pattern>
+            <message>In der festen Wendung wird <suggestion>Biegen \3 Brechen</suggestion> großgeschrieben.</message>
+            <example type="incorrect" correction="Biegen oder Brechen">Die Sozialdemokratie aber will die Befragung auf <marker>biegen oder brechen</marker> erzwingen.</example>
+            <example type="correct">Die Sozialdemokratie aber will die Befragung auf <marker>Biegen oder Brechen</marker> erzwingen.</example>
+        </rule>
         <rulegroup id="JAEHRIG" name="x-jährig/Jährig">
             <url>http://www.korrekturen.de/kurz_erklaert/schreibweise_von_ziffern_mit_-jaehrig_und_-jaehrige.shtml</url>
             <rule>
