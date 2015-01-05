@@ -11636,6 +11636,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rule id="AM_XSTEN" name="am Schnellsten etc. (schnellesten)">
+            <antipattern>
+                <token inflected="yes" skip="2">fehlen</token>
+                <token>am</token>
+                <token>Nötigsten</token>
+            </antipattern>
+            <pattern case_sensitive="yes">
+                <token>am</token>
+                <marker>
+                    <token regexp="yes" postag_regexp="yes" postag="SUB:.*:ADJ">[A-ZÖÄÜ].*sten<exception>Ersten</exception></token>
+                </marker>
+            </pattern>
+            <message>"am" + Superlativ wird kleingeschrieben, wenn man danach mit "wie?" fragen kann.</message>
+            <suggestion><match no="2" case_conversion="startlower"/></suggestion>
+            <url>http://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung#K74</url>
+            <example type="incorrect" correction="schnellsten">So geht es am <marker>Schnellsten</marker>.</example>
+            <example type="correct">So geht es am <marker>schnellsten</marker>.</example>
+            <example type="correct">Die Rechnung muss am <marker>Ersten</marker> des Monats beglichen werden.</example>
+            <example type="correct">Es fehlte ihnen am <marker>Nötigsten</marker>.</example>
+            <example type="triggers_error">Am liebsten fummelt sie am <marker>Liebsten</marker> herum.</example>
+        </rule>
         <rule id="BIEGEN_UND_BRECHEN" name="auf biegen und brechen (Biegen und Brechen)">
             <pattern case_sensitive="yes">
                 <token case_sensitive="no">auf</token>
