@@ -99,9 +99,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
 
+        <rule id="GENANT" name="genant (genannt)">
+            <pattern>
+                <token regexp="yes">genant(e|er|es|en|em)?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="genant" regexp_replace="genannt"/></suggestion>, das Partizip von 'nennen'?</message>
+            <example type='incorrect' correction="genannt">Seit seiner Kindheit wurde er Tom <marker>genant</marker>.</example>
+            <example type='correct'>Seit seiner Kindheit wurde er Tom <marker>genannt</marker>.</example>
+        </rule>
         <rule id="CHRISTI_HIMMELPFAD" name="Christi Himmelpfad (Himmelfahrt)">
             <pattern>
-                <token regexp="yes">Christi</token>
+                <token>Christi</token>
                 <token inflected="yes">Himmelpfad</token>
             </pattern>
             <message>Meinten Sie den Feiertag <suggestion>Christi Himmelfahrt</suggestion>?</message>
@@ -4619,7 +4627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token regexp="yes">karikative[rns]?</token>
                 </marker>
-                <token regexp="yes" inflected="yes">Ader|Akt|Aktivität|Angebot|Anstalt|Arbeit|Aufgabe|Ausrichtung|Bemühung|Bereich|Betätigung|Charakter|Dienst|Einrichtung|Einrichtung|Engagement|Engagements|Events|Fürsorge|Geste|Hilfe|Hilfe|Hilfsorganisation|Hilfswerk|Institutionen|Jobs|Mission|Organisation|Projekt|Sammler|Sammlung|Sektor|Spende|Stiftung|Tätigkeit|Träger|Unternehmung|Veranstaltung|Verban|Verein|Vereinigung|Wirken|Wohnheim|Zahlung|Zweck</token>
+                <token regexp="yes" inflected="yes">Ader|Akt|Aktivität|Angebot|Anstalt|Arbeit|Aufgabe|Ausrichtung|Bemühung|Bereich|Betätigung|Charakter|Dienst|Einrichtung|Engagement|Events|Fürsorge|Geste|Hilfe|Hilfsorganisation|Hilfswerk|Institutionen|Jobs|Mission|Organisation|Projekt|Sammler|Sammlung|Sektor|Spende|Stiftung|Tätigkeit|Träger|Unternehmung|Veranstaltung|Verband|Verein|Vereinigung|Wirken|Wohnheim|Zahlung|Zweck</token>
             </pattern>
             <message>&verw;Meinten Sie <suggestion><match no="1" regexp_match="arikativ" regexp_replace="aritativ"/></suggestion> (wohltätig, humanitär)? 'Karikativ' bedeutet 'nach Art einer Karikatur'.</message>
             <url>http://www.korrekturen.de/beliebte_fehler/karikativ.shtml</url>
