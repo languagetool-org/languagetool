@@ -248,8 +248,7 @@ public abstract class SpellingCheckRule extends Rule {
       try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
         while (scanner.hasNextLine()) {
           final String line = scanner.nextLine();
-          final boolean isComment = line.startsWith("#");
-          if (isComment) {
+          if (isComment(line)) {
             continue;
           }
           failOnSpace(ignoreFile, line);
@@ -276,8 +275,7 @@ public abstract class SpellingCheckRule extends Rule {
       try (Scanner scanner = new Scanner(inputStream, "utf-8")) {
         while (scanner.hasNextLine()) {
           String line = scanner.nextLine();
-          boolean isComment = line.startsWith("#");
-          if (isComment) {
+          if (isComment(line)) {
             continue;
           }
           failOnSpace(prohibitFile, line);
@@ -287,9 +285,13 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  private void failOnSpace(String prohibitFile, String line) {
+  private boolean isComment(String line) {
+    return line.startsWith("#");
+  }
+
+  private void failOnSpace(String fileName, String line) {
     if (line.contains(" ")) {
-      throw new RuntimeException("No space expected in " + prohibitFile + ": '" + line + "'");
+      throw new RuntimeException("No space expected in " + fileName + ": '" + line + "'");
     }
   }
 
