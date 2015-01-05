@@ -15237,6 +15237,1717 @@ USA
             </rule>
         </rulegroup>
     </category>
+    <category name="Plain English" type="style" default="off">
+        <!-- main source http://en.wikipedia.org/wiki/List_of_plain_English_words_and_phrases -->
+        <!-- some rules belonging to other categories included -->
+        <!-- xxx marks optional edge tokens that cause an error if uncommented -->
+
+        <rule id="ABUNDANCE" name="abundance">
+            <pattern>
+                <token>abundance</token>
+            </pattern>
+            <message>Use <suggestion>enough</suggestion> or <suggestion>plenty</suggestion>, or give specific amount.</message>
+            <example correction="enough|plenty" type="incorrect">There is an <marker>abundance</marker> of flowers in the meadow.</example>
+            <example type="correct">The meadow of full of flowers.</example>
+        </rule>
+
+        <rule id="ACCEDE_TO" name="accede to (give in)">
+            <pattern>
+                <token inflected="yes">accede</token>
+                <token>to</token>
+            </pattern>
+            <message>Unless it is a throne that is acceded to, change into <suggestion>allow, agree to or give in to</suggestion>.</message>
+            <example type="incorrect">He <marker>acceded to</marker> our demands.</example>
+            <example type="correct">He gave in to our demands.</example>
+        </rule>
+
+        <rule id="ACCELERATE" name="accelerate">
+            <pattern>
+                <token inflected="yes">accelerate</token>
+            </pattern>
+            <message> Technical. Elsewhere replace with <suggestion>speed up</suggestion>.</message>
+            <example type="incorrect">The car <marker>accelerated</marker> from traffic lights</example>
+            <example type="correct">The car <marker>sped up</marker> from traffic lights</example>
+        </rule>
+
+        <rule id="ACCENTUATE" name="accentuate">
+            <pattern>
+                <token inflected="yes">accentuate</token>
+            </pattern>
+            <message> Replace with <suggestion>stress</suggestion> or <suggestion>emphasize</suggestion>.</message>
+            <example type="incorrect">The harsh light <marker>accentuated</marker> the ruggedness of the landscape.</example>
+            <example type="correct">The harsh light <marker>emphasized</marker> the ruggedness of the landscape.</example>
+        </rule>
+
+        <rule id="ACCOMMODATION" name="accommodation">
+            <pattern>
+                <token inflected="yes">accommodation</token>
+            </pattern>
+            <message><suggestion>room</suggestion>.</message>
+            <example type="incorrect"><marker>Accommodation</marker> available.</example>
+            <example type="correct"><marker>Room</marker> available.</example>
+        </rule>
+
+        <rule id="ACCOMPANY" name="accompany">
+            <pattern>
+                <token inflected="yes">accompany</token>
+            </pattern>
+            <message>If not in musical context, use <suggestion>go with</suggestion> or <suggestion>with</suggestion>.</message>
+            <example type="incorrect">You need to <marker>accompany</marker> him.</example>
+            <example type="correct">You need to <marker>go with</marker> him.</example>
+        </rule>
+
+        <rule id="ACCOMPLISH" name="verb accomplish (do, archive, finish)">
+            <pattern>
+                <token postag="[^J][^J]" postag_regexp="yes" inflected="yes">accomplish</token>
+            </pattern>
+            <message>Try one of: <suggestion>do</suggestion> or <suggestion>achive</suggestion> or <suggestion>finish</suggestion>.</message>
+            <example correction="Do|Achive|Finish" type="incorrect"><marker>Accomplish</marker> your work!</example>
+            <!-- <example correction="done" type="incorrect">This work is <marker>accomplished</marker>.</example> -->
+            <example type="correct">He is an accomplished musician.</example>
+        </rule>
+
+        <!-- accorded: given-->
+        <!-- accordingly – Thus, so (as sentence adverb) -->
+
+        <rule id="ACCRUE" name="verb accrue">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">accrue</token>
+            </pattern>
+            <message>Use <suggestion>add</suggestion> or <suggestion>gain</suggestion>.</message>
+            <example correction="add|gain" type="incorrect">The deposit <marker>accrued</marker> interest.</example>
+            <example type="correct">The deposit gained interest.</example>
+        </rule>
+
+        <rule id="ACCURATE" name="accurate">
+            <pattern>
+                <token>accurate</token>
+            </pattern>
+            <message>If it is not about aiming, use <suggestion>right</suggestion>; also <suggestion>detailed</suggestion> or <suggestion>correct</suggestion>.</message>
+            <example correction="right|detailed|correct" type="incorrect">We need <marker>accurate</marker> information.</example>
+            <example type="correct">We need right and detailed information.</example>
+        </rule>
+
+        <!-- acquiesce – Agree -->
+
+        <!-- acquire – get, develop -->
+        <rule id="ACQUIRE" name="verb acquire (get, develop)">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">acquire</token>
+            </pattern>
+            <message>A simple <suggestion>get</suggestion> is enough most of the time, sometimes <suggestion>develop</suggestion>.</message>
+            <example type="incorrect">He <marker>acquired</marker> all the tools he needed.</example>
+            <example type="correct">He <marker>got</marker> all the tools he needed.</example>
+        </rule>
+
+        <!-- additional – Extra -->
+        <!-- address – Discuss -->
+        <!-- addressees – You -->
+        <!-- adjacent to – Next to -->
+        <!-- adjustment – Change, alteration -->
+        <!-- admissible – Allowed, accepted -->
+        <!-- advantageous – Helpful -->
+        <!-- adversely impact on – Hurt, set back -->
+        <!-- advise – Tell -->
+        <!-- afford an opportunity – Allow, let -->
+        <!-- aggregate – Total -->
+        <!-- alleviate – Ease, reduce -->
+        <!-- allocate – Divide -->
+        <!-- all of – All -->
+
+        <!-- all things considered -->
+        <rule id="ALL_THINGS_CONSIDERED" name="all things considered (omit)">
+            <pattern>
+                <token>all</token>
+                <token>things</token>
+                <token>considered</token>
+                <token>,</token>
+            </pattern>
+            <message>Remove as unnecessary.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example type="incorrect"><marker>All things considered,</marker> Connecticut's woodlands are in better shape now than ever before.</example>
+            <example type="correct"><marker></marker>Connecticut's woodlands are in better shape now than ever before.</example>
+        </rule>
+
+
+        <!-- along the lines of – like -->
+        <rule id="ALONG_THE_LINES_OF" name="along the lines of (like)">
+            <pattern>
+                <token>along</token>
+                <token>the</token>
+                <token>lines</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>like</suggestion>?.</message>
+            <example correction="like" type="incorrect">I think my point is very much <marker>along the lines of</marker> his.</example>
+            <example type="correct">I think my point is very much <marker>like</marker> his.</example>
+        </rule>
+
+        <!-- alternatively – Or -->
+        <!-- ameliorate – Improve, help -->
+        <!-- an absence of – No, none -->
+        <!-- and particularly – Particularly -->
+        <!-- and/or – Use either "and" or "or." -->
+        <!-- anticipate – Expect -->
+        <!-- a number of – Some -->
+        <!-- applicant – You -->
+        <!-- application – Use -->
+        <!-- apparent – Clear, plain -->
+        <!-- apprehend – Arrest -->
+        <!-- appreciable – Many -->
+        <!-- appropriate – Proper, right -->
+        <!-- approximate – About -->
+        <!-- arrive onboard – Arrive -->
+
+        <!-- as a matter of fact - in fact, actually -->
+        <rule id="AS_A_MATTER_OF_FACT" name="as a matter of fact (in fact, actually, omit) ">
+            <pattern>
+                <token>as</token>
+                <token>a</token>
+                <token>matter</token>
+                <token>of</token>
+                <token>fact</token>
+            </pattern>
+            <message>Replace with less wordy <suggestion>in fact</suggestion> or <suggestion>actually</suggestion>, or remove completely.</message>
+            <example correction="In fact|Actually" type="incorrect"><marker>As a matter of fact</marker>, dry-bulb temperature indicates the amount of heat in the air.</example>
+            <example type="correct">Actually, dry-bulb temperature indicates the amount of heat in the air.</example>
+        </rule>
+
+        <!-- as a means of – To -->
+        <!-- ascertain – Find out, learn -->
+
+        <!-- as per our telephone conversation of this date – As we discussed this afternoon -->
+        <rule id="AS_PER" name="as per (as, in accordance with) ">
+            <pattern>
+                <token>as</token>
+                <token>per</token>
+            </pattern>
+            <message>Business jargon meaning <suggestion>in accordance with</suggestion>. Replace with <suggestion>as</suggestion> or modify the sentence.</message>
+            <url>http://grammarist.com/usage/as-per/</url>
+            <example correction="In accordance with|As" type="incorrect"><marker>As per</marker> usual, he came late to work.</example>
+            <example type="correct"><marker>As</marker> usual, he came late to work.</example>
+        </rule>
+
+        <!-- as prescribed by – In, under -->
+
+
+        <!-- as far as ... is concerned – (Omit) -->
+        <!-- <rule default="off" id="AS_FAR_AS_X_IS_CONCERNED" name="as far as ... is concerned (omit)"> -->
+        <!-- <pattern> -->
+        <!-- <token min="0">,</token> -->
+        <!-- <token>as</token> -->
+        <!-- <token>far</token> -->
+        <!-- <token skip="-1">as<exception scope="next">and</exception></token> -->
+        <!-- <token>as</token> -->
+        <!-- <token inflected="yes">I</token> -->
+        <!-- <token inflected="yes">am</token> -->
+        <!-- <token>concerned</token> -->
+        <!-- <token min="0">,</token> -->
+        <!-- </pattern> -->
+        <!-- <message>Remove as unnecessary.</message> -->
+        <!-- <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url> -->
+        <!-- <example correction="" type="incorrect"><marker>As far as I am concerned,</marker> there is no need for further protection of woodlands.</example> -->
+        <!-- <example type="correct">There is no need for further protection of woodlands.</example> -->
+        <!-- </rule> -->
+
+
+        <!-- as to– Of, on, with, for, to, by, in, into -->
+
+        <!-- as yet, as of yet – Yet -->
+        <!-- <rule id="AS_OF_YET" name="as yet, as of yet (yet, still, so far)"> -->
+        <!-- <pattern> -->
+        <!-- <token>as</token> -->
+        <!-- <token min="0">of</token> -->
+        <!-- <token>yet</token> -->
+        <!-- </pattern> -->
+        <!-- <message>Wordy. Consider <suggestion>yet</suggestion>, <suggestion>still</suggestion>, or <suggestion>so far</suggestion>.</message> -->
+        <!-- <url>http://grammarist.com/usage/as-yet-as-of-yet/</url> -->
+        <!-- <example correction="yet" type="incorrect">The place was sold for an <marker>as of yet</marker> unknown sum.</example> -->
+        <!-- <example type="correct">The place was sold for a <marker>still</marker> unknown sum.</example> -->
+        <!-- </rule> -->
+
+        <!-- assist, assistance – Help -->
+        <rule id="ASSIST_ASSISTANCE" name="assist, assistance (help)">
+            <pattern>
+                <token inflected="yes" regexp="yes">assist|assistance</token>
+            </pattern>
+            <message>Did you mean simpler <suggestion>help</suggestion>?</message>
+            <example correction="help" type="incorrect">Do you need any <marker>assistance</marker>?</example>
+            <example type="correct">Do you need any <marker>help</marker>?</example>
+            <example correction="help" type="incorrect">May I <marker>assist</marker> you?</example>
+            <example type="correct">May I <marker>help</marker> you?</example>
+        </rule>
+
+        <!-- at all times - always -->
+        <rule id="AT_ALL_TIMES" name="at all times (always) ">
+            <pattern>
+                <token>at</token>
+                <token>all</token>
+                <token>times</token>
+            </pattern>
+            <message>Simply, <suggestion>always</suggestion>. Pay attention to place in the sentence.</message>
+            <example type="incorrect">Kingfisher can be found near water <marker>at all times</marker></example>
+            <example type="correct">Kingfisher can always be found near water.</example>
+        </rule>
+
+        <!-- at its discretion – Can, may -->
+        <!-- attain – Meet -->
+        <!-- attempt – Try -->
+
+        <!-- at the present time, at this time, at this point in time, at the moment – now (currently) -->
+        <rulegroup id="TIME_NOW" name="at the present time, at this time, at this point in time, at the moment (now, currently)">
+            <rule>
+                <pattern>
+                    <token>at</token>
+                    <token>the</token>
+                    <token>present</token>
+                    <token>time</token>
+                </pattern>
+                <message>Use <suggestion>now</suggestion>, <suggestion>for now</suggestion>, or if you really must, <suggestion>currently</suggestion></message>
+                <example correction="Now|For now|Currently" type="incorrect"><marker>At the present time</marker>, this Wiki is experimental.</example>
+                <example type="correct"><marker>For now</marker>, this Wiki is experimental.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>at</token>
+                    <token>this</token>
+                    <token>time</token>
+                </pattern>
+                <message>Use "now", or if you really must "currently". Sometimes a specific time is meant and "then" is better.</message>
+                <example type="incorrect"><marker>At this time</marker>, Churchill was serving as Chancellor of the Exchequer</example>
+                <example type="correct">Churchill was then serving as Chancellor of the Exchequer</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>at</token>
+                    <token>this</token>
+                    <token>point</token>
+                    <token>in</token>
+                    <token>time</token>
+                </pattern>
+                <message>Use <suggestion>now</suggestion>, or if you really must <suggestion>currently</suggestion></message>
+                <example type="incorrect">This document has no formal standing <marker>at this point in time</marker>.</example>
+                <example type="correct">This document has no formal standing now.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>at</token>
+                    <token>the</token>
+                    <token>moment</token>
+                </pattern>
+                <message>Use <suggestion>now</suggestion>, or if you really must <suggestion>currently</suggestion></message>
+                <example type="incorrect"><marker>At the moment</marker>, I am taking a leave of absence from my work.</example>
+                <example type="correct"><marker>Now</marker>, I am taking a leave of absence from my work.</example>
+            </rule>
+        </rulegroup>
+
+
+        <!-- at your earliest convenience – As soon as you can -->
+        <rule id="AT_YOUR_EARLIEST_CONVENIENCE" name="at your earliest convenience (as soon as you can)">
+            <pattern>
+                <token>at</token>
+                <token>your</token>
+                <token>earliest</token>
+                <token>convenience</token>
+            </pattern>
+            <message>Overly formal. Did you mean <suggestion>as soon as you can</suggestion>?</message>
+            <example correction="as soon as you can" type="incorrect">Please come <marker>at your earliest convenience</marker>.</example>
+            <example type="correct">Please come <marker>as soon as you can</marker>.</example>
+        </rule>
+
+        <!-- authorize – Allow, let -->
+
+
+        <!-- basis, on a – (omit) -->
+        <!-- on a daily basis - daily -->
+        <!-- on a X basis - Xly (where X is an adjective) -->
+        <rule id="BASIS_ON_A" name="on a x basis">
+            <pattern>
+                <token>on</token>
+                <token>a</token>
+                <token/>
+                <token>basis</token>
+            </pattern>
+            <message>Replace with the proper adverbial form of <suggestion>\3ly</suggestion>.</message>
+            <url>http://grammarist.com/usage/basis/</url>
+            <example correction="regularly" type="incorrect">We have been coming here <marker>on a regular basis</marker> for years.</example>
+            <example type="correct">We have been coming here <marker>regularly</marker> for years.</example>
+        </rule>
+
+        <!-- on the basis of – by, from -->
+
+        <!-- be advised – (omit) -->
+        <rule id="BE_ADVISED" name="be advised">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">be</token>
+                <token>advised</token>
+            </pattern>
+            <message>Remove wordy "\1 \2"</message>
+            <example type="incorrect">You <marker>are advised</marker> look after your belongings.</example>
+            <example type="correct">Look after your belongings.</example>
+        </rule>
+
+        <!-- attributable to – Because -->
+        <!-- because of the fact that – because, since -->
+        <!-- by reason of – because -->
+        <!-- due to the fact that – because, since -->
+        <!-- in light of the fact that – because -->
+        <!-- owing to the fact that – because, since -->
+        <!-- reason ... is because – because -->
+        <!-- whereas – because, since ??? not-->
+        <rulegroup id="BECAUSE" name="">
+            <rule>
+                <!-- attibutable to -->
+                <pattern>
+                    <token>attributable</token>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean <suggestion>because of</suggestion>?</message>
+                <example type="incorrect">His lack of conversation is <marker>attributable to</marker> his shyness.</example>
+                <example type="correct">His lack of conversation is <marker>because of</marker> his shyness.</example>
+            </rule>
+            <!-- <rule> -->
+            <!-- because of the fact that -->
+            <!-- <pattern> -->
+            <!-- <token>because</token> -->
+            <!-- <token>of</token> -->
+            <!-- <token>the</token> -->
+            <!-- <token>fact</token> -->
+            <!-- <token>that</token> -->
+            <!-- </pattern> -->
+            <!-- <message>Did you mean <suggestion>because</suggestion> or <suggestion>since</suggestion>?</message> -->
+            <!-- <example type="incorrect">Snape disliked them. This could be <marker>because of the fact that</marker> the Weasley twins were trouble-makers.</example> -->
+            <!-- <example type="correct">Snape disliked them. This could be <marker>because</marker> the Weasley twins were trouble-makers.</example> -->
+            <!-- </rule> -->
+            <rule>
+                <!-- by virtue of the fact, in light of the fact -->
+                <pattern>
+                    <token regexp="yes">in|by</token>
+                    <token regexp="yes">light|virtue</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>fact</token>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion>because</suggestion> or <suggestion>since</suggestion>?</message>
+                <example type="incorrect">Nader had to cancel his planned invasion <marker>in light of the fact that</marker> the Abdali Afghans had rebelled and invaded Khorasan.</example>
+                <example type="correct">Nader had to cancel his planned invasion <marker>because</marker> the Abdali Afghans had rebelled and invaded Khorasan.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>by</token>
+                    <token>reason</token>
+                    <token>of</token>
+                    <token>insanity</token>
+                </antipattern>
+                <pattern>
+                    <token>by</token>
+                    <token>reason</token>
+                    <token>of</token>
+                </pattern>
+                <message>Legal term "by reason of insanity" is influencing the use. Did you mean <suggestion>because of</suggestion>?</message>
+                <example type="incorrect">A national emergency exists <marker>by reason of</marker> the terrorist attacks.</example>
+                <example type="correct">A national emergency exists <marker>because of</marker> the terrorist attacks.</example>
+            </rule>
+            <rule>
+                <!-- due to the fact that -->
+                <pattern>
+                    <token>due</token>
+                    <token>to</token>
+                    <token>the</token>
+                    <token>fact</token>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion>because</suggestion>?</message>
+                <example type="incorrect">These two syndromes are usually referred to under one name, Wernicke–Korsakoff syndrome, <marker>due to the fact that</marker> they are part of the same etiology.</example>
+                <example type="correct">These two syndromes are usually referred to under one name, Wernicke–Korsakoff syndrome, <marker>becaue</marker> they are part of the same etiology.</example>
+            </rule>
+            <rule>
+                <!-- owing to the fact that -->
+                <pattern>
+                    <token>owing</token>
+                    <token>to</token>
+                    <token>the</token>
+                    <token>fact</token>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion>because</suggestion>?</message>
+                <example type="incorrect">The Stoors also had their own dialect of Hobbitish, <marker>owing to the fact that</marker> they spent some time in Dunland.</example>
+                <example type="correct">The Stoors also had their own dialect of Hobbitish, <marker>because</marker> they spent some time in Dunland.</example>
+            </rule>
+            <!-- <rule> -->
+            <!-- reason ... is because -->
+            <!-- <pattern> -->
+            <!-- <token>the</token> -->
+            <!-- <token skip="-1">reason<exception scope="next">and</exception></token> -->
+            <!-- <token></token> -->
+            <!-- <token>is</token> -->
+            <!-- <token>because</token> -->
+            <!-- </pattern> -->
+            <!-- <message>Did you mean <suggestion>because</suggestion>?</message> -->
+            <!-- <example type="incorrect"><marker>The reason</marker> there’s a hole in the screen door is because I tripped over the cat on my way out.</example> -->
+            <!-- <example type="correct">There’s a hole in the screen door because I tripped over the cat on my way out.</example> -->
+            <!-- </rule> -->
+        </rulegroup>
+
+
+        <!-- beg – ask -->
+
+
+        <!-- belated – late -->
+        <rule id="BELATED" name="belated (late)">
+            <pattern>
+                <token>belated</token>
+            </pattern>
+            <message>Outdated. Did you mean <suggestion>late</suggestion>?</message>
+            <example correction="late" type="incorrect">They are on a <marker>belated</marker> honeymoon.</example>
+            <example type="correct">They are on a <marker>late</marker> honeymoon.</example>
+        </rule>
+
+        <!-- beneficial – helpful, useful -->
+        <!-- bestow – give, award -->
+
+        <!-- by means of – by, with, through -->
+        <rule id="BY_MEANS_OF" name="by means of (by, with, through)">
+            <pattern>
+                <token>by</token>
+                <token>means</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>by</suggestion>, <suggestion>with</suggestion> or <suggestion>through</suggestion>?</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="by|with|through" type="incorrect">Major forest areas are coming back <marker>by means of</marker> natural processes.</example>
+            <example type="correct">Major forest areas are coming back <marker>through</marker> natural processes.</example>
+            <example correction="by|with|through" type="incorrect">I opened the bottle <marker>by means of</marker> a bottle opener.</example>
+            <example type="correct">I opened the bottle <marker>with</marker> a bottle opener.</example>
+        </rule>
+
+        <!-- by virtue of – by, under -->
+        <!-- beverage – drink -->
+        <!-- capability – ability -->
+        <!-- caveat – warning -->
+        <!-- cease – stop -->
+        <!-- chauffeur – driver -->
+
+        <!-- clearly, obviously – (omit) -->
+        <rule id="CLEARLY_OR_OBVIOUSLY" name="clearly, obviously">
+            <pattern>
+                <token regexp="yes">clearly|obviously</token>
+            </pattern>
+            <message>Remove wordy "\1"</message>
+            <example type="incorrect"><marker>Obviously</marker>, this is it.</example>
+            <example type="correct">This is it.</example>
+            <example type="incorrect">We have <marker>clearly</marker> arrived.</example>
+            <example type="correct">We have arrived.</example>
+        </rule>
+
+        <!-- close proximity – near -->
+        <!-- combat environment – combat -->
+        <!-- combined – joint -->
+        <!-- commence – Begin or start -->
+        <!-- completely revoke – revoke -->
+        <!-- comply with – follow -->
+        <!-- complete – fill in -->
+        <!-- component part – -->
+        <!-- comprise – form -->
+        <!-- conceal – hide -->
+        <!-- concerning – about, on -->
+        <!-- consensus, of opinion, consensus, general – consensus -->
+        <!-- consequently – so -->
+        <!-- consolidate – join, merge -->
+        <!-- constitutes – is, forms, makes up -->
+        <!-- contains – has -->
+        <!-- convene – meet -->
+        <!-- corridor – hall -->
+
+        <!-- currently – (omit), now -->
+        <rule id="CURRENTLY" name="currently">
+            <pattern>
+                <token>currently</token>
+            </pattern>
+            <message>Omit or replace with <suggestion>now</suggestion></message>
+            <example correction="now" type="incorrect">I am <marker>currently</marker> employed.</example>
+            <example type="correct">I am now employed.</example>
+        </rule>
+
+        <!-- deem – believe, think -->
+        <!-- delete – cut, drop -->
+        <!-- demonstrate – prove, show -->
+        <!-- depart – leave, go -->
+        <!-- designate – choose, name -->
+        <!-- desire – want, wish -->
+        <!-- determine – decide, figure, find -->
+        <!-- disclose – show -->
+        <!-- discontinue – drop, stop -->
+        <!-- disseminate – give, issue, pass, send -->
+        <!-- does not have – lacks -->
+        <!-- does not include – excludes, omits -->
+
+        <!-- duly (authorized, signed) – (omit) -->
+        <!-- during the period, during the time that – during, while -->
+
+        <!-- each and every – (omit) -->
+        <rule id="EACH_AND_EVERY_NOUN" name="each and every (every)">
+            <!-- more general pattern than in rule EACH_AND_EVERY -->
+            <pattern>
+                <token>each</token>
+                <token>and</token>
+                <token>every</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <message>Replace with <suggestion>\3 \4</suggestion></message>
+            <example correction="every door" type="incorrect">You better check <marker>each and every door</marker>.</example>
+            <example type="correct">You better check <marker>every door</marker>.</example>
+        </rule>
+
+        <!-- early beginnings) – beginnings, early days -->
+        <!-- each...apiece) – each -->
+        <!-- economical – cheap -->
+        <!-- effect modifications – make changes -->
+        <!-- elect – chose, pick -->
+        <!-- eliminate – cut, drop, end -->
+        <!-- else but, else than) – but -->
+        <!-- elucidate – explain -->
+        <!-- emphasize – stress -->
+        <!-- employ – use -->
+        <!-- enclosed please find – I have enclosed -->
+        <!-- encounter – meet -->
+        <!-- endeavor – try -->
+
+        <!-- end (result, product) – omit -->
+        <rule id="END_RESULT_OR_PRODUCT" name="end result or product">
+            <pattern>
+                <token>end</token>
+                <token regexp="yes">result|product</token>
+            </pattern>
+            <message>Remove repetitive "\1" with <suggestion>\2</suggestion></message>
+            <example correction="result" type="incorrect">The <marker>end result</marker> is clear.</example>
+            <example type="correct">The result is clear.</example>
+        </rule>
+
+        <!-- enquiry – question -->
+        <!-- ensure – make sure -->
+        <!-- entitlement – right -->
+        <!-- enumerate – count -->
+        <!-- equally as – equally -->
+        <!-- equipments – equipment -->
+        <!-- equitable – fair -->
+        <!-- equivalent – equal -->
+        <!-- establish – set up, prove, show -->
+        <!-- evaluate – test, check -->
+        <!-- evidenced – showed -->
+        <!-- evident – (omit), clear -->
+        <!-- evince – show, prove -->
+        <!-- excluding – except -->
+        <!-- exclusively – only -->
+        <!-- exhibit – show -->
+        <!-- expedite – hurry -->
+        <!-- expeditious – fast, quick -->
+        <!-- expend – spend -->
+        <!-- expertise – ability -->
+        <!-- expiration – end -->
+        <!-- facilitate – ease, help -->
+        <!-- feasible – workable -->
+        <!-- females – women -->
+        <!-- finalize – complete, finish -->
+        <!-- first(ly), second(ly), third(ly) – first, second, third -->
+        <!-- first and foremost – first -->
+        <!-- following – after -->
+        <!-- for a period of – for -->
+        <!-- for example,______etc. – for example, such as -->
+        <!-- forfeit – lose, give up -->
+        <!-- formulate – plan -->
+
+        <!-- for all intents and purposes -->
+        <rule id="FOR_ALL_INTENTS_AND_PURPOSES" name="for all intents and purposes (omit)">
+            <pattern>
+                <!-- <token min="0">,</token> -->
+                <token>for</token>
+                <token>all</token>
+                <token>intents</token>
+                <token>and</token>
+                <token>purposes</token>
+                <!-- <token min="0">,</token> -->
+            </pattern>
+            <message>See if you could remove this phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example type="incorrect">The era in which we must aggressively defend our woodlands has, <marker>for all intents and purposes</marker>, passed.</example>
+            <example type="correct">The era in which we must aggressively defend our woodlands has<marker></marker> passed.</example>
+        </rule>
+
+        <!-- for the most part -->
+        <rule id="FOR_THE_MOST_PART" name="for the most part (omit)">
+            <pattern>
+                <!-- <token min="0">,</token> -->
+                <token>for</token>
+                <token>the</token>
+                <token>most</token>
+                <token>part</token>
+                <!-- <token min="0">,</token> xxx-->
+            </pattern>
+            <message>See if you could remove this phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect"><marker>For the most part</marker> people's suspicions are based on a misunderstanding of the facts.</example>
+            <example type="correct"><marker></marker>People's suspicions are based on a misunderstanding of the facts.</example>
+        </rule>
+
+
+        <!-- for the purpose of, – to , for -->
+        <rule id="FOR_THE_PURPOSE_OF" name="for the purpose of (to, for)">
+            <pattern>
+                <token>for</token>
+                <token>the</token>
+                <token>purpose</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>to</suggestion> or <suggestion>for</suggestion>?</message>
+            <url>http://grammarist.com/usage/for-the-purpose-of/</url>
+            <example correction="to|for" type="incorrect">Commercial shows are one-off projects put on <marker>for the purpose of</marker> making money.</example>
+            <example type="correct">Commercial shows are one-off projects put on <marker>to</marker> make money.</example>
+            <example correction="to|for" type="incorrect">She created an account <marker>for the purpose of</marker> asking questions at the forum.</example>
+            <example type="correct">She created an account <marker>for</marker> asking questions at the forum.</example>
+        </rule>
+
+
+        <!-- forward – send -->
+        <!-- frequently – often -->
+        <!-- function – act, role, work -->
+        <!-- furnish – give, send -->
+
+        <!-- have the ability to - can -->
+        <rule id="HAVE_THE_ABILITY_TO" name="have the ability to (be able to, can)">
+            <!-- fix in rule ARE_ABLE_TO: ass inflected="yes" to verb-->
+            <pattern>
+                <token inflected="yes">have</token>
+                <token>the</token>
+                <token>ability</token>
+                <token>to</token>
+            </pattern>
+            <message>Did you mean <suggestion>can</suggestion>?</message>
+            <example correction="can" type="incorrect">The toddle <marker>has the ability to</marker> walk.</example>
+            <example type="correct">The toddle <marker>can</marker> walk.</example>
+        </rule>
+
+        <!-- have a tendency to - tends -->
+        <rule id="HAVE_A_TENDENCY" name="have a tendency (tends)">
+            <pattern>
+                <token inflected="yes">have</token>
+                <token>a</token>
+                <token>tendency</token>
+            </pattern>
+            <message>Did you mean <suggestion>tends</suggestion>?</message>
+            <example correction="tends" type="incorrect">This policy <marker>has a tendency</marker> to isolate some communities.</example>
+            <example type="correct">This policy <marker>tends</marker> to isolate some communities.</example>
+        </rule>
+
+        <!-- has a duty to – must -->
+        <!-- has a requirement for – needs -->
+        <!-- herein, heretofore, herewith, thereof, wherefore, wherein –(omit) -->
+        <!-- honest truth – truth -->
+        <!-- however – but, yet -->
+        <!-- identical – same -->
+        <!-- identify –find, name -->
+        <!-- identify with –agree, understand -->
+        <!-- if and when – use either word; not both -->
+        <!-- immediately – at once -->
+        <!-- impacted – affected,changed -->
+        <!-- implement – carry out, start -->
+        <!-- in accordance with – by, under -->
+        <!-- in addition – also, besides, too -->
+        <!-- in all likelihood – probably -->
+        <!-- in an effort to – to -->
+        <!-- inasmuch – since -->
+
+        <!-- in a manner of speaking -->
+        <rule id="IN_A_MANNER_OF_SPEAKING" name="in a manner of speaking (omit)">
+            <pattern>
+                <!-- <token min="0">,</token> -->
+                <token>in</token>
+                <token>a</token>
+                <token>manner</token>
+                <token>of</token>
+                <token>speaking</token>
+                <!-- <token min="0">,</token> xxx-->
+            </pattern>
+            <message>See if you could remove this phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect">The policy has, <marker>in a manner of speaking</marker>, begun to Balkanize the more rural parts of our state.</example>
+            <example type="correct">The policy has<marker></marker> begun to Balkanize the more rural parts of our state.</example>
+        </rule>
+
+        <!-- in between – between -->
+
+        <!-- in a very real sense (omit) -->
+        <rule id="IN_A_VERY_REAL_SENSE" name="in a very real sense (omit)">
+            <pattern>
+                <!-- <token min="0">,</token> -->
+                <token>in</token>
+                <token>a</token>
+                <token>very</token>
+                <token>real</token>
+                <token>sense</token>
+                <!-- <token min="0">,</token> xxx-->
+            </pattern>
+            <message>See if you could remove this phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect"><marker>In a very real sense</marker>, this policy works to the detriment of those it is supposed to help.</example>
+            <example type="correct"><marker></marker>This policy works to the detriment of those it is supposed to help.</example>
+        </rule>
+
+
+        <!-- inception – start -->
+        <!-- in connection with – with, about -->
+        <!-- incumbent upon – must -->
+        <!-- indicate – say, state, or show -->
+        <!-- indication – sign -->
+        <!-- individual – person -->
+
+        <!-- in excess of – more than -->
+        <rule id="in_excess_of" name="in excess of (more than, over, exceeding)">
+            <pattern>
+                <token>in</token>
+                <token>excess</token>
+                <token>of</token>
+            </pattern>
+            <message>Better with <suggestion>more than</suggestion>, <suggestion>over</suggestion>, or <suggestion>exceeding</suggestion></message>
+            <url>http://grammarist.com/usage/in-excess-of/</url>
+            <example correction="more than|over|exceeding" type="incorrect">Her three albums have sold <marker>in excess of</marker> 17 million copies worldwide</example>
+            <example type="correct">Her three albums have sold <marker>more than</marker> 17 million copies worldwide</example>
+        </rule>
+
+        <!-- in favor of – for -->
+        <!-- initial – first -->
+        <!-- initiate – start -->
+        <!-- in lieu of – instead -->
+
+        <!-- in many cases – often -->
+
+        <!-- in my opinion (omit) -->
+        <rule id="IN_MY_OPINION" name="in my opinion (omit)">
+            <pattern>
+                <!-- <token min="0">,</token> -->
+                <token>in</token>
+                <token>my</token>
+                <token>opinion</token>
+                <!-- <token min="0">,</token> xxx-->
+            </pattern>
+            <message>See if you could remove this phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect"><marker>In my opinion</marker>, this wasteful policy ought to be revoked.</example>
+            <example type="correct"><marker></marker>This wasteful policy ought to be revoked.</example>
+        </rule>
+
+
+        <!-- in order that – for, so -->
+
+        <!-- in order to – to (duplicate)-->
+        <!-- <rule id="IN_ORDER_TO" name="in order to (to)"> -->
+        <!-- <pattern> -->
+        <!-- <token>in</token> -->
+        <!-- <token>order</token> -->
+        <!-- <token>to</token> -->
+        <!-- </pattern> -->
+        <!-- <message>Did you mean <suggestion>to</suggestion>?</message> -->
+        <!-- <example correction="to" type="incorrect">She stood <marker>in order to</marker> see over the crowd.</example> -->
+        <!-- <example type="correct">She stood <marker>to</marker> see over the crowd.</example> -->
+        <!-- </rule> -->
+
+        <!-- inquire – person -->
+
+        <!-- in regard(s) to – regarding, about, concerning, on -->
+        <rulegroup id="IN_REGARD_OR_REGARDS_TO" name="in/with regard(s) to (regarding, about, concerning, to)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|with</token>
+                    <token>regards</token>
+                    <token>to</token>
+                </pattern>
+                <message>Regards with "s" is correct only in salutations despite common misuse. Did you mean <suggestion>in regard to</suggestion>, or even better: <suggestion>regarding</suggestion>, <suggestion>concerning</suggestion>, or <suggestion>about</suggestion>?</message>
+                <example correction="in regard to|regarding|concerning|about" type="incorrect">This reply is <marker>in regards to</marker> your message earlier this week.</example>
+                <example type="correct">This reply is <marker>concerning</marker> your message earlier this week.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|with</token>
+                    <token>regard</token>
+                    <token>to</token>
+                </pattern>
+                <message>Standard English and not outright wrong, but did you mean <suggestion>regarding</suggestion>, <suggestion>concerning</suggestion>, or <suggestion>about</suggestion>?</message>
+                <example correction="regarding|concerning|about" type="incorrect">This reply is <marker>in regard to</marker> your message earlier this week.</example>
+                <example type="correct">This reply is <marker>concerning</marker> your message earlier this week.</example>
+            </rule>
+        </rulegroup>
+        <!-- in relation to – about, with, to -->
+        <!-- in some instances – sometimes -->
+        <!-- inside of – inside -->
+        <!-- institute legal proceedings against, bring action against – sue -->
+        <!-- inter alia – (omit) -->
+        <!-- interface – meet, work with -->
+
+
+        <!-- in term of – in terms of ; common error-->
+        <rule id="IN_TERM_OF" name="in term of (in terms of)">
+            <pattern>
+                <token>in</token>
+                <token>term</token>
+                <token>of</token>
+            </pattern>
+            <message>The phrase is always written <suggestion>in terms of</suggestion>.</message>
+            <url>http://xaivierchia.blogspot.com/2011/02/common-mistakes-in-terms-of-vs-in-term.html</url>
+            <example correction="in terms of" type="incorrect">Femininity is still defined <marker>in term of</marker> beauty.</example>
+            <example type="correct">Femininity is still defined in terms of beauty.</example>
+        </rule>
+
+        <!-- in terms of – in, for -->
+        <rule id="IN_TERMS_OF" name="in terms of (in, for)">
+            <pattern>
+                <token>in</token>
+                <token>terms</token>
+                <token>of</token>
+            </pattern>
+            <message>Change to <suggestion>in</suggestion> or <suggestion>for</suggestion>".</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/in-terms-of/</url>
+            <example correction="in|for" type="incorrect">Disclaimers vary <marker>in terms of</marker> their uniformity.</example>
+            <example type="correct">Disclaimers vary <marker>in</marker> their uniformity.</example>
+        </rule>
+
+        <!-- interpose no objection – don't object -->
+
+        <rulegroup id="DESPITE_THE_FACT" name="despite the fact that, in spite of the fact that (although, though)">
+            <rule>
+                <!-- despite the fact that – although -->
+                <pattern>
+                    <token>despite</token>
+                    <token>the</token>
+                    <token>fact</token>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion>although</suggestion>, <suggestion>even though</suggestion> or <suggestion>though</suggestion>?</message>
+                <url>http://www.englishgrammar.org/spite-3/</url>
+                <example correction="although|even though|though" type="incorrect">He still loves her <marker>despite the fact that</marker> she cheated on him.</example>
+                <example type="correct">He still loves her <marker>even though</marker> she cheated on him.</example>
+            </rule>
+            <rule>
+                <!-- in spite of the fact that - although, though -->
+                <pattern>
+                    <token>in</token>
+                    <token>spite</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>fact</token>
+                    <token>that</token>
+                </pattern>
+                <message>Did you mean <suggestion>although</suggestion>, <suggestion>even though</suggestion> or <suggestion>though</suggestion>?</message>
+                <url>http://www.englishgrammar.org/spite-3/</url>
+                <example correction="although|even though|though" type="incorrect">He still loves her <marker>in spite of the fact that</marker> she cheated on him.</example>
+                <example type="correct">He still loves her <marker>even though</marker> she cheated on him.</example>
+            </rule>
+        </rulegroup>
+
+
+        <!-- in the affirmative - yes, affirmatively -->
+        <rule id="IN_THE_AFFIRMATIVE" name="in the affirmative (yes, affirmatively)">
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token>affirmative</token>
+            </pattern>
+            <message>Change to <suggestion>yes</suggestion> or <suggestion>affirmatively</suggestion>.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/in-the-affirmative/</url>
+            <example correction="yes|affirmatively" type="incorrect">The poll asked average Israelis if they support such a program, and 82 percent responded <marker>in the affirmative</marker>.</example>
+            <example type="correct">The poll asked average Israelis if they support such a program, and 82 percent responded <marker>yes</marker>.</example>
+        </rule>
+
+        <!-- in the amount of – for -->
+
+        <!-- case of, in the – (omit) -->
+        <!-- in the case of – about, to -->
+        <rule id="IN_THE_CASE_OF" name="in the case of (about, to)">
+            <pattern>
+                <!-- <token min="0">,</token> -->
+                <token>in</token>
+                <token>the</token>
+                <token>case</token>
+                <token>of</token>
+                <!-- <token min="0">,</token> -->
+            </pattern>
+            <message>Change to <suggestion>about</suggestion> or <suggestion>to</suggestion> and change the word order of the sentence.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="About|To" type="incorrect"><marker>In the case of</marker> this particular policy, citizens of northeast Connecticut became very upset.</example>
+            <example type="correct">Citizens of northeast Connecticut became very upset <marker>about</marker>this particular policy.</example>
+            <example correction="About|To" type="incorrect"><marker>In the case of</marker> this woman, we'll not grant permission.</example>
+            <example type="correct">We'll not grant permission <marker>to</marker> to this woman.</example>
+        </rule>
+
+
+        <!-- in the event of – if -->
+        <!-- in the event that – if, in case -->
+        <rule id="IN_THE_EVENT" name="in the event of, in the event that (if, in case)">
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token>event</token>
+                <token regexp="yes">of|that</token>
+            </pattern>
+            <message>Did you mean <suggestion>if</suggestion> or <suggestion>in case of</suggestion>?</message>
+            <example correction="If|In case of" type="incorrect"><marker>In the event that</marker> I can't come back by seven, you can eat without me.</example>
+            <example type="correct"><marker>If</marker> I can't come back by seven, you can eat without me.</example>
+
+            <example correction="If|In case of" type="incorrect"><marker>In the event of</marker> rain, the race will be canceled.</example>
+            <example correction="If|In case of" type="incorrect"><marker>In the event that</marker> it rains, the race will be canceled.</example>
+            <example type="correct"><marker>If</marker> it rains, the race will be canceled.</example>
+        </rule>
+
+        <!-- in the final analysis - finally -->
+        <rule id="IN_THE_FINAL_ANALYSIS" name="in the final or last or ultimate analysis (finally, in conclusion)">
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token regexp="yes">final|last|ultimate</token>
+                <token>analysis</token>
+            </pattern>
+            <message>Did you mean <suggestion>finally</suggestion> or <suggestion>in conclusion</suggestion>? You could remove the phase, too.</message>
+            <example correction="Finally|In conclusion" type="incorrect"><marker>In the final analysis</marker>, it is their war.</example>
+            <example type="correct"><marker>Finally</marker>, it is their war.</example>
+            <example correction="Finally|In conclusion" type="incorrect"><marker>In the ultimate analysis</marker>, only the jury can strip a man of his liberty or his life.</example>
+            <example type="correct"><marker>In conclusion</marker>, only the jury can strip a man of his liberty or his life.</example>
+        </rule>
+
+
+        <!-- in the nature of – like -->
+        <rule id="IN_THE_NATURE_OF" name="in the nature of (like)">
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token>nature</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>like</suggestion>"?</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="like" type="incorrect">Something <marker>in the nature of</marker> a repeal may soon take place.</example>
+            <example type="correct">Something <marker>like</marker> a repeal may soon take place.</example>
+        </rule>
+
+        <!-- in the near future – shortly, soon -->
+
+        <!-- in the neighborhood of - about -->
+        <rule id="IN_THE_NEIGHBORHOOD_OF" name="in the neighborhood of (about)">
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token>neighborhood</token>
+                <token>of</token>
+            </pattern>
+            <message>Can be used as <suggestion>almost</suggestion>, <suggestion>approximately</suggestion>, <suggestion>more or less</suggestion>, <suggestion>around</suggestion>. Often <suggestion>about</suggestion>.</message>
+            <example correction="almost|approximately|more or less|around|about" type="incorrect">They searched for the keys <marker>in the neighborhood of</marker> the playground.</example>
+            <example type="correct">They searched for the keys <marker>around</marker> the playground.</example>
+            <example correction="almost|approximately|more or less|around|about" type="incorrect">Residents planted 1200 trees in one day <marker>in the neighborhood of</marker> Ballard.</example>
+            <example type="correct">Residents planted 1200 trees in one day <marker>around</marker> Ballard.</example>
+        </rule>
+
+
+        <!-- in the process of – (omit) -->
+        <rule id="IN_THE_PROCESS_OF" name="in the process of">
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token>process</token>
+                <token>of</token>
+            </pattern>
+            <message>Remove empty phrase "\1 \2 \3 \4" when it means "currently".</message>
+            <url>http://grammarist.com/usage/in-the-process-of/</url>
+            <example correction="" type="incorrect">The work is <marker>in the process of</marker> getting done.</example>
+            <example type="correct">The work is getting done.</example>
+        </rule>
+
+        <!-- in view of – since -->
+        <!-- in view of the above – so -->
+        <!-- irregardless – regardless -->
+        <!-- is applicable to – applies to -->
+        <!-- is authorized to – may -->
+        <!-- is in consonance with – agrees with, follows -->
+        <!-- is responsible for – (omit) handles -->
+
+        <!-- it is – (omit) -->
+        <!-- it is essential – must, need to -->
+        <!-- it is requested – please, we request, I request -->
+        <!-- it is important to add that, in this regard it is of significance that,
+        it may be recalled that, it is interesting to point out that – (omit) -->
+
+        <!-- it appears – seems -->
+        <!-- it seems that -->
+        <rule id="IT_SEEMS_OR_APPEARS_THAT" name="it seems that (omit)">
+            <pattern>
+                <token>it</token>
+                <token regexp="yes">seems|appears</token>
+                <token>that</token>
+            </pattern>
+            <message>Remove empty phrase "\1 \2 \3 \4"</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect"><marker>It seems that</marker> they can't wait to get rid of this one.</example>
+            <example type="correct"><marker></marker>They can't wait to get rid of this one.</example>
+        </rule>
+
+        <!-- liaison – discussion -->
+        <!-- -ly (doubtless, fast, ill, much, seldom, thus) – (omit) -->
+        <!-- last will and testament – will -->
+        <!-- magnitude – size -->
+        <!-- maintain – keep, support -->
+
+        <!-- in the majority of instances – usually -->
+        <!-- majority – most (except for voting) -->
+        <rule id="MAJORITY" name="majority (most, usually) when not voting">
+            <pattern>
+                <!-- <token min="0">the</token> -->
+                <token>majority</token>
+            </pattern>
+            <message>Majority in the sense of "more than half" is used with countable nouns only (esp. when voting); for uncountable nouns, use <suggestion>most</suggestion> or <suggestion>usually</suggestion>.</message>
+            <example correction="Most|Usually" type="incorrect"><marker>Majority</marker> of the world is covered with water.</example>
+            <example type="correct"><marker>Most</marker> of the world is covered with water.</example>
+        </rule>
+
+        <!-- make a mockery of – (omit) -->
+
+        <!-- make decisions about - decide on -->
+        <rule id="MAKE_DECISIONS_ABOUT" name="make decisions about (decide on)">
+            <pattern>
+                <token>make</token>
+                <token inflected="yes">decision</token>
+                <token>about</token>
+            </pattern>
+            <message>Did you mean <suggestion>decide on</suggestion>?</message>
+            <example correction="decide on" type="incorrect">The school board will <marker>make decision about</marker> the first day of school.</example>
+            <example type="correct">The school board will <marker>decide on</marker> the first day of school.</example>
+        </rule>
+
+        <!-- make an attempt, make an effort – try -->
+        <!-- make reference to – refer -->
+        <!-- maximum – greatest, largest, most -->
+        <!-- mental attitude – attitude -->
+        <!-- merge together – merge -->
+        <!-- methodology – method -->
+        <!-- minimize – decrease, method -->
+        <!-- minimum – least, smallest -->
+        <!-- modify – change -->
+        <!-- monitor – check, watch -->
+        <!-- month + of + year – March 2013 -->
+        <!-- moreover – what's more -->
+        <!-- multiple – many -->
+        <!-- nature, of a – (omit) -->
+        <!-- necessitate – cause, need -->
+        <!-- nevertheless – still, besides, even so -->
+        <!-- notify – let know, tell -->
+
+        <!-- not able – unable -->
+        <rule id="NOT_ABLE" name="not able (unable)">
+            <pattern>
+                <token>not</token>
+                <token>able</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>unable</suggestion>?</message>
+            <example correction="unable" type="incorrect">He was <marker>not able</marker> to join the meeting.</example>
+            <example type="correct">He was <marker>unable</marker> to join the meeting.</example>
+        </rule>
+
+        <!-- not accept – reject -->
+        <rule id="NOT_ACCEPT" name="not accept (reject)">
+            <pattern>
+                <token>not</token>
+                <token inflected="yes">accept</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>reject</suggestion>?</message>
+            <example correction="reject" type="incorrect">He does <marker>not accept</marker> the proposal.</example>
+            <example type="correct">He <marker>rejects</marker> the proposal.</example>
+        </rule>
+
+        <!-- not certain – uncertain -->
+        <rule id="NOT_CERTAIN" name="not certain (uncertain)">
+            <pattern>
+                <token>not</token>
+                <token>certain</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>uncertain</suggestion>?</message>
+            <example correction="uncertain" type="incorrect">Future is <marker>not certain</marker>.</example>
+            <example type="correct">Future is <marker>uncertain</marker>.</example>
+        </rule>
+
+        <!-- not unlike – similar, alike : litote -->
+        <rule id="NOT_UNLIKE" name="not unlike (similar, alike)">
+            <pattern>
+                <token>not</token>
+                <token>unlike</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>similar</suggestion> or <suggestion>alike</suggestion>?</message>
+            <example correction="similar|alike" type="incorrect">Sisters were <marker>not unlike</marker>.</example>
+            <example type="correct">Sisters were <marker>alike</marker>.</example>
+        </rule>
+
+
+        <!-- not many – few -->
+        <rule id="NOT_MANY" name="not many (few)">
+            <pattern>
+                <token>not</token>
+                <token>many</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>few</suggestion>?</message>
+            <example correction="Few" type="incorrect"><marker>Not many</marker> people know this.</example>
+            <example type="correct"><marker>Few</marker> people know this.</example>
+        </rule>
+
+        <!-- not often – seldom, rare, rarely -->
+        <rule id="NOT_VERY_OFTEN" name="not often, not very often (seldom. rare, rarely)">
+            <pattern>
+                <token>not</token>
+                <token min="0">very</token>
+                <token>often</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>seldom</suggestion>, <suggestion>rare</suggestion> or <suggestion>rarely</suggestion>?</message>
+            <example correction="seldom|rare|rarely" type="incorrect">It is <marker>not very often</marker> that a hotel exceeds your expectations.</example>
+            <example type="correct">It is <marker>rare</marker> that a hotel exceeds your expectations.</example>
+        </rule>
+
+        <!-- not the same – different -->
+        <rule id="NOT_THE_SAME" name="not the same (different)">
+            <pattern>
+                <token>not</token>
+                <token>the</token>
+                <token>same</token>
+            </pattern>
+            <message>Avoid using "not". Did you mean <suggestion>different</suggestion>?</message>
+            <example correction="different" type="incorrect">The taste is <marker>not the same</marker>.</example>
+            <example type="correct">The taste is <marker>different</marker>.</example>
+        </rule>
+
+        <!-- not...unless, not...except – only if -->
+        <!-- not...until – only when -->
+        <!-- not later than 10 May – by 10 May, before 11 May not later than 1600 by 1600 -->
+        <!-- notwithstanding – in spite of, still -->
+        <!-- now comes – (omit) -->
+        <!-- null and void – use either "null" or "void" -->
+        <!-- numerous – many -->
+        <!-- objective – aim, goal -->
+        <!-- obligate – bind, compel -->
+        <!-- observe – see on a _________basis (omit) -->
+
+        <!-- obtain – get -->
+        <rule id="OBTAIN" name="obtain (get)">
+            <pattern>
+                <token inflected="yes">obtain</token>
+            </pattern>
+            <message>Did you mean simpler <suggestion>get</suggestion>?</message>
+            <example correction="get" type="incorrect">We need to <marker>obtain</marker> visas.</example>
+            <example type="correct">We need to <marker>get</marker> visas.</example>
+        </rule>
+
+        <!-- off of – off -->
+        <!-- on request – if you ask -->
+        <!-- on the contrary – but, so -->
+        <!-- on the grounds that – (omit) -->
+
+        <!-- on the occasion of - when -->
+        <rule id="ON_THE_OCCASION_OF" name="on the occasion of (on, when, because of)">
+            <pattern>
+                <token>on</token>
+                <token>the</token>
+                <token>occasion</token>
+                <token>of</token>
+            </pattern>
+            <message>Did you mean <suggestion>on</suggestion>? Try also <suggestion>when</suggestion> and <suggestion>because of</suggestion>.</message>
+            <example correction="on|when|because of" type="incorrect">I was congratulated <marker>on the occasion of</marker> my son's birthday.</example>
+            <example type="correct">I was congratulated <marker>on</marker> my son's birthday.</example>
+        </rule>
+
+        <!-- on the other hand – (omit); -->
+        <rule id="ON_THE_OTHER_HAND" name="on the other hand (omit, but, yet)">
+            <pattern>
+                <token>on</token>
+                <token>the</token>
+                <token>other</token>
+                <token>hand</token>
+            </pattern>
+            <message>Avoid completely or try <suggestion>but</suggestion>, <suggestion>yet</suggestion></message>
+            <example correction="But|Yet" type="incorrect">It was quite a good bargain. <marker>On the other hand</marker>, do we really need one?</example>
+            <example type="correct">It was quite a good bargain, <marker>but</marker> do we really need one?</example>
+        </rule>
+
+        <!-- on the part of – by -->
+
+        <!-- on two separate occasions - twice -->
+        <rule id="ON_TWO_SEPARATE_OCCASIONS" name="on two separate occasions (twice)">
+            <pattern>
+                <token>on</token>
+                <token>two</token>
+                <token>separate</token>
+                <token>occasions</token>
+            </pattern>
+            <message>Did you mean <suggestion>twice</suggestion>?</message>
+            <example correction="twice" type="incorrect">I stayed here <marker>on two separate occasions</marker>.</example>
+            <example type="correct">I stayed here <marker>twice</marker>.</example>
+        </rule>
+
+
+        <!-- operate – run, use, work -->
+        <!-- optimum – best, greatest, most -->
+        <!-- option – choice, way -->
+        <!-- orientate – orient -->
+        <!-- ...out (calculate, cancel, distribute, segregate, separate) – omit -->
+        <!-- outside of – outside -->
+        <!-- overall (unless it means the garment) – (omit) -->
+
+        <!-- <rule id="OVERALL" name="overall, not the garment, but sentence adverb"> -->
+        <!-- <pattern> -->
+        <!-- <token postag="BB" postag_regexp="yes">overall</token> -->
+        <!-- </pattern> -->
+        <!-- <message>Remove wordy \1</message> -->
+        <!-- <example type="incorrect"><marker>Overall</marker>, we are happy.</example> -->
+        <!-- <example type="correct">We are happy.</example> -->
+        <!-- </rule> -->
+
+        <!-- oversight -->
+        <!-- parameters – limits ??? perimeters???-->
+        <!-- participate – take part -->
+        <!-- particulars – details -->
+        <!-- pass away – die -->
+        <!-- per annum – a year -->
+        <!-- perchance – perhaps -->
+        <!-- perform – do -->
+        <!-- permit – let -->
+        <!-- pertaining to – about, of, on -->
+        <!-- perspire – sweat -->
+        <!-- peruse – read -->
+        <!-- PIN number – PIN -->
+        <!-- place – put -->
+        <!-- portion – part -->
+        <!-- possess – have, own -->
+        <!-- point in time, particular point in time – time, point, now, moment -->
+        <!-- potentiality – potential -->
+        <!-- practicable – practical -->
+        <!-- preclude – prevent -->
+        <!-- preowned – used -->
+
+        <!-- preliminary to, previous to, previously, prior to – before -->
+        <!-- preparatory to – to prepare for -->
+        <!-- prioritize – rank; -->
+        <!-- proceed – do, go ahead, try -->
+        <!-- procure – (omit) -->
+        <!-- proficiency – skill -->
+        <!-- promulgate – issue, publish -->
+        <!-- provide – give, offer, say -->
+        <!-- provided that – if -->
+        <!-- provide guidance for – guide -->
+        <!-- purchase – buy -->
+        <!-- pursuant to – by, following, per, under; -->
+        <!-- out, as required by -->
+
+        <!-- whether or not – whether -->
+        <!-- the question as to whether, a question of whether – whether-->
+        <rulegroup id="QUESTION_X_WHETHER" name="question as to whether, question of whether (question whether)">
+            <rule>
+                <pattern>
+                    <token min="0" regexp="yes">the|a</token>
+                    <token>question</token>
+                    <token>as</token>
+                    <token>to</token>
+                    <token>whether</token>
+                </pattern>
+                <message>Verbose. Use <suggestion>wheather</suggestion>.</message>
+                <url>http://www.dailywritingtips.com/whether-to-use-whether-or-if/</url>
+                <example correction="Wheather" type="incorrect"><marker>The question as to whether</marker> it will do any good hasn’t been determined.</example>
+                <example type="correct"><marker>Wheather</marker> it will do any good hasn’t been determined.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token min="0" regexp="yes">the|a</token>
+                    <token>question</token>
+                    <token>of</token>
+                    <token>whether</token>
+                </pattern>
+                <message>Verbose. Use <suggestion>question wheather</suggestion>.</message>
+                <url>http://www.dailywritingtips.com/whether-to-use-whether-or-if/</url>
+                <example correction="question wheather" type="incorrect">There is <marker>a question of whether</marker> we need to be there or not.</example>
+                <example type="correct">There is <marker>question whether</marker> we need to be there or not.</example>
+            </rule>
+            <!-- <rule> -->
+            <!-- <pattern> -->
+            <!-- <token>whether</token> -->
+            <!-- <token>or</token> -->
+            <!-- <token>not</token> -->
+            <!-- </pattern> -->
+            <!-- <message>Verbose. Use <suggestion>wheather</suggestion>.</message> -->
+            <!-- <example correction="wheather" type="incorrect">We do not know <marker>whether or not</marker> we need to be there.</example> -->
+            <!-- <example type="correct">We do not know <marker>whether</marker> we need to be there.</example> -->
+            <!-- </rule> -->
+        </rulegroup>
+
+        <!-- quite puzzling – baffling -->
+
+        <!-- refer back – refer -->
+        <!-- reflect – say, show -->
+        <!-- regard as being – regard as -->
+        <rule id="REGARD_AS_BEING" name="regard as being (regard as)">
+            <pattern>
+                <token inflected="yes">regard</token>
+                <token>as</token>
+                <token>being</token>
+            </pattern>
+            <message>Word "being" is redundant. Use <suggestion>\1 \2</suggestion>.</message>
+            <example correction="regard as" type="incorrect">What industries do you <marker>regard as being</marker> highly competitive?</example>
+            <example type="correct">What industries do you <marker>regard as</marker> highly competitive?</example>
+        </rule>
+        <!-- regarding – about, of, on -->
+        <!-- relative to – about, on -->
+        <!-- relocate – move -->
+
+        <!-- remain – stay -->
+        <rule id="REMAIN" name="remain (stay)">
+            <pattern>
+                <token inflected="yes">regard</token>
+                <token>as</token>
+                <token>being</token>
+            </pattern>
+            <message>Word "being" is redundant. Use <suggestion>\1 \2</suggestion>.</message>
+            <example correction="regard as" type="incorrect">What industries do you <marker>regard as being</marker> highly competitive?</example>
+            <example type="correct">What industries do you <marker>regard as</marker> highly competitive?</example>
+        </rule>
+
+        <!-- remainder – rest -->
+        <!-- remuneration – pay, payment -->
+        <!-- render – give, make -->
+        <!-- represents – is -->
+        <!-- request – ask -->
+        <!-- require – must, need -->
+        <!-- requirement – need, -->
+        <!-- reside, residence – live, house -->
+        <!-- respectively – (omit) -->
+        <!-- retain – keep -->
+        <!-- retire – go to bed -->
+        <!-- said, some, such, same – the, this, that -->
+        <!-- selection – choice -->
+        <!-- set forth in – in -->
+        <!-- shall – must -->
+        <!-- should you wish – if you want -->
+        <!-- similar to – like -->
+
+        <!-- solicit – ask for, request -->
+        <rule id="SOLICIT_FOR" name="solicit for">
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">solicit</token>
+                <token>for</token>
+            </pattern>
+            <message>Avoid. Use <suggestion>asking for</suggestion>.</message>
+            <example correction="asking for" type="incorrect">We are <marker>soliciting for</marker> suggestions.</example>
+            <example type="correct">We are <marker>asking for</marker> suggestions.</example>
+        </rule>
+
+        <!-- sooner rather than later - soon, now -->
+        <rule id="SOONER_RATHER_THAN_LATER" name="sooner rather than later (soon, now)">
+            <pattern>
+                <token>sooner</token>
+                <token>rather</token>
+                <token>than</token>
+                <token>later</token>
+            </pattern>
+            <message>Try <suggestion>soon</suggestion> or <suggestion>now</suggestion> meaning <suggestion>sooner than expected</suggestion>.</message>
+            <url>http://grammarist.com/usage/sooner-rather-than-later/</url>
+            <example correction="soon|now|sooner than expected" type="incorrect">I believe that spring will be here <marker>sooner rather than later</marker>.</example>
+            <example type="correct">I believe that spring will be here <marker>soon</marker>.</example>
+        </rule>
+
+        <!-- state-of-the-art – latest -->
+        <rulegroup id="STATE-OF-THE-ART" name="state-of-the-art">
+            <rule>
+                <pattern>
+                    <token>state-of-the-art</token>
+                </pattern>
+                <message>Use <suggestion>latest</suggestion>.</message>
+                <example correction="latest" type="incorrect">Many covet for a <marker>state-of-the-art</marker> cell phone.</example>
+                <example type="correct">Many covet for a <marker>latest</marker> cell phone.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>state</token>
+                    <token>of</token>
+                    <token>the</token>
+                    <token>art</token>
+                </pattern>
+                <message>Use <suggestion>latest</suggestion>.</message>
+                <example correction="latest" type="incorrect">Many covet for a <marker>state of the art</marker> cell phone.</example>
+                <example type="correct">Many covet for a <marker>latest</marker> cell phone.</example>
+            </rule>
+        </rulegroup>
+
+        <!-- strategize – plan -->
+        <!-- subject – the, this, your -->
+        <!-- submit – give, send -->
+        <!-- subsequent, subsequently, subsequent to –later, next, after, then -->
+        <!-- substantial – large, much -->
+        <!-- successfully complete – complete, pass -->
+
+        <!-- sufficient – enough -->
+        <rule id="SUFFICIENT" name="sufficient (enough)">
+            <pattern>
+                <token>sufficient</token>
+            </pattern>
+            <message>Use <suggestion>enough</suggestion>.</message>
+            <example correction="enough" type="incorrect">That is <marker>sufficient</marker> reason.</example>
+            <example type="correct">That is reason <marker>enough</marker>.</example>
+            <example correction="enough" type="incorrect">He was adding more until it was <marker>sufficient</marker>.</example>
+            <example type="correct">He was adding more until it was <marker>enough</marker>.</example>
+        </rule>
+
+        <!-- take action to – (omit) -->
+        <rule id="TAKE_ACTION_TO" name="take action to (omit)">
+            <pattern>
+                <token inflected="yes">take</token>
+                <token>action</token>
+                <token>to</token>
+            </pattern>
+            <message>Remove as verbose.</message>
+            <example correction="" type="incorrect"><marker>Take action to</marker> fight climate change.</example>
+            <example type="correct">Fight climate change.</example>
+        </rule>
+
+        <!-- terminate – end, stop -->
+        <!-- than was formerly the case – now -->
+
+        <!-- that exists -->
+        <rule id="THAT_EXISTS" name="that exists (omit)">
+            <pattern>
+                <token>that</token>
+                <token>exists</token>
+            </pattern>
+            <message>Try removing the phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect">The fear <marker>that exists</marker> among many people that we are losing our woodlands is uncalled for.</example>
+            <example type="correct">The fear <marker></marker> among many people that we are losing our woodlands is uncalled for.</example>
+        </rule>
+
+        <!-- the level of water rose - the water rose -->
+        <!-- the month of – (omit) -->
+
+        <!-- AssertionFailedError -->
+        <!-- the people who are located in - the people in -->
+        <!-- the pie that is located in - the pie in !!!-->
+        <!-- <rule id="IS_LOCATED_IN" name="who/that is located in (in)">-->
+        <!-- <pattern> -->
+        <!-- <token regexp="yes">who|that</token> -->
+        <!-- <token inflected="yes">are</token> -->
+        <!-- <token>located</token> -->
+        <!-- <token>in</token> -->
+        <!-- </pattern> -->
+        <!-- <message>Use <suggestion>in</suggestion>.</message> -->
+        <!-- <example correction="in" type="incorrect">Can I accept orders from buyers <marker>who are located in</marker> other countries?</example> -->
+        <!-- <example type="correct">Can I accept orders from buyers <marker>in</marker> other countries?</example> -->
+        <!-- <example correction="in" type="incorrect">Acn9 is a novel protein of gluconeogenesis <marker>that is located in</marker> the mitochondrial intermembrane space.</example> -->
+        <!-- <example type="correct">Acn9 is a novel protein of gluconeogenesis <marker>in</marker> the mitochondrial intermembrane space.</example> -->
+        <!-- </rule> -->
+
+
+        <!-- there are – (omit) -->
+        <!-- therefore – thus, so -->
+        <!-- therein – there -->
+        <!-- there is – (omit) -->
+
+        <!-- the undersigned – I -->
+        <rule id="THE_UNDERSIGNED" name="the undersigned (I, me, we)">
+            <pattern>
+                <token>the</token>
+                <token>undersigned</token>
+            </pattern>
+            <message>Legalese. Did you mean <suggestion>I</suggestion>, <suggestion>me</suggestion> or <suggestion>we</suggestion>?</message>
+            <url>http://www.businesswritingblog.com/business_writing/2009/02/who-is-the-undersigned-me-.html</url>
+            <example correction="" type="incorrect">Please contact <marker>the undersigned</marker>.</example>
+            <example type="correct">Please call <marker>me</marker> me on this number.</example>
+        </rule>
+
+        <!-- the use of – (omit) -->
+        <!-- this activity, command – us, we -->
+        <!-- timely – prompt -->
+        <!-- time period – (either one) -->
+        <!-- to be violative of – violate -->
+        <!-- took advantage of – preyed -->
+        <!-- to wit – (omit) -->
+        <!-- transpire – happen -->
+        <!-- transmit – send -->
+
+        <!-- type of – (omit) -->
+        <rule id="TYPE_OF" name="that exists (omit)">
+            <pattern>
+                <token>type</token>
+                <token>of</token>
+            </pattern>
+            <message>Try removing the phrase "\1 \2".</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect">Legislators need to be more careful of the <marker>type of</marker> policy they propose.</example>
+            <example type="correct">Legislators need to be more careful of the <marker></marker> policy they propose.</example>
+        </rule>
+
+        <!-- under the provisions of – under -->
+
+        <!-- until such time as – until -->
+        <rule id="UNTIL_SUCH_TIME_AS" name="until such time as (until)">
+            <pattern>
+                <token>until</token>
+                <token>such</token>
+                <token>time</token>
+                <token>as</token>
+            </pattern>
+            <message>Use <suggestion>until</suggestion>.</message>
+            <example correction="until" type="incorrect">He may keep the key <marker>until such time as</marker> he resigns.</example>
+            <example type="correct">He may keep the key <marker>until</marker> he resigns.</example>
+        </rule>
+
+
+        <!-- utilize, utilization – use -->
+        <!-- validate – confirm -->
+        <!-- variation – change -->
+        <!-- various different – "various" or "different" -->
+        <!-- very – (omit) -->
+        <!-- very angry – enraged -->
+        <!-- viable – practical, workable -->
+        <!-- warrant – call for, permit -->
+        <!-- we are in receipt of – we've received -->
+
+
+        <!-- whosoever, whomsoever – whoever, whomever -->
+
+        <!-- what I mean to say is -->
+        <rule id="WHAT_I_MEAN_TO_SAY_IS_THAT" name="what I mean to say is that (omit)">
+            <pattern>
+                <token>what</token>
+                <token inflected="yes">I</token>
+                <token inflected="yes">mean</token>
+                <token>to</token>
+                <token>say</token>
+                <token>is</token>
+                <token>that</token>
+                <!-- <token min="0">that</token> xxx-->
+            </pattern>
+            <message>Try removing the phrase.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example correction="" type="incorrect"><marker>What I mean to say is that</marker> well intentioned lawmakers sometimes make fools of themselves.</example>
+            <example type="correct"><marker></marker>Well intentioned lawmakers sometimes make fools of themselves.</example>
+        </rule>
+
+        <!-- with a view to – by, from -->
+
+        <!-- with reference to, with regard to – about, of, on, for -->
+        <rule id="WITH_REFERENCE_OR_REGARD_TO" name="with reference to, with regard to (about, of, on, for)">
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">reference|regard</token>
+                <token>to</token>
+            </pattern>
+            <message>Replace with shorter <suggestion>about</suggestion>, <suggestion>of</suggestion>, <suggestion>on</suggestion>, or <suggestion>for</suggestion></message>
+            <example correction="about|of|on|for" type="incorrect">Statement <marker>in reference to</marker> the book.</example>
+            <example type="correct">Statement <marker>on</marker> the book.</example>
+            <example correction="about|of|on|for" type="incorrect">What shall we do <marker>in regard to</marker> the dinner?</example>
+            <example type="correct">What shall we do <marker>about</marker> the dinner?</example>
+        </rule>
+
+        <!-- with respect to – on, about -->
+        <!-- with the exception of – except for -->
+        <!-- with the minimum of delay – quickly (or say when) -->
+        <!-- witnessed – saw -->
+
+        <!-- worthwhile -->
+        <rule id="WORTHWHILE" name="worthwhile is weak">
+            <pattern>
+                <token postag="JJ">worthwhile</token>
+            </pattern>
+            <message>Weak word. Use something stronger like <suggestion>valuable</suggestion>.</message>
+            <example type="incorrect">It was a <marker>worthwhile</marker> endeavor.</example>
+            <example type="correct">It was a valuable endeavor.</example>
+        </rule>
+
+        <!-- you are requested – please -->
+        <rule id="YOU_ARE_REQUESTED" name="you are requested (please)">
+            <pattern>
+                <token>you</token>
+                <token>are</token>
+                <token>requested</token>
+                <token>to</token>
+            </pattern>
+            <message>Replace with <suggestion>please</suggestion></message>
+            <example correction="please" type="incorrect"><marker>you are requested to</marker> sit down.</example>
+            <example type="correct">Please sit down.</example>
+        </rule>
+
+        <!-- your attention is drawn – please see, please note -->
+        <!-- draw to your attention - point out -->
+        <rulegroup id="DRAW_ATTENTION" name="your attention is drawn, draw to your attention (please see, please note, point out)">
+            <rule>
+                <pattern>
+                    <token>your</token>
+                    <token>attention</token>
+                    <token>is</token>
+                    <token>drawn</token>
+                    <token></token>
+                </pattern>
+                <message>Replace with <suggestion>please see</suggestion> or <suggestion>please note</suggestion></message>
+                <example correction="Please see|Please note" type="incorrect"><marker>Your attention is drawn to</marker> the last page.</example>
+                <example type="correct"><marker>Please see</marker> the last page.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>draw</token>
+                    <token>your</token>
+                    <token>attention</token>
+                    <token>to</token>
+                </pattern>
+                <message>Replace with <suggestion>point out</suggestion>.</message>
+                <example correction="point out" type="incorrect">We'd like to <marker>draw your attention to</marker> the last picture.</example>
+                <example correction="point out" type="correct">We'd like to <marker>point out</marker> the last picture.</example>
+            </rule>
+        </rulegroup>
+
+        <!-- your office – you -->
+        <!-- / (slash) – and, or -->
+
+        <rule id="REFERRING_BACK" name="Legal jargon referring to previous text">
+            <pattern>
+                <token regexp="yes">above-mentioned|abovementioned|above-listed|abovelisted|beforementioned|before-mentioned|aforementioned|afore-mentioned</token>
+            </pattern>
+            <message>Leaglese. Bad form in any normal text. Remove and explain. Use <suggestion>this</suggestion> or <suggestion>these</suggestion>.</message>
+            <example type="incorrect">The <marker>above-mentioned</marker> fact is important.</example>
+            <example type="incorrect">The <marker>abovementioned</marker> fact is important.</example>
+            <example type="incorrect">The <marker>above-listed</marker> points must not be forgotten.</example>
+            <example type="incorrect">The <marker>abovelisted</marker> points must not be forgotten.</example>
+            <example type="incorrect">The <marker>before-mentioned</marker> fact is important.</example>
+            <example type="incorrect">The <marker>beforementioned</marker> fact is important.</example>
+            <example type="incorrect">The <marker>afore-mentioned</marker> fact is important.</example>
+            <example type="incorrect">The <marker>aforementioned</marker> fact is important.</example>
+            <example type="correct">Like I mentioned before, it is important not to follow rules blindly</example>
+            <example type="correct">This fact is important.</example>
+        </rule>
+
+
+        <rule id="THE_TRUTH_OR_FACT_IS" name="Starting sentence with 'The truth/fact is'.">
+            <pattern case_sensitive="yes">
+                <token postag="SENT_START"/>
+                <token>The</token>
+                <token regexp="yes">truth|fact</token>
+                <token>is</token>
+            </pattern>
+            <message>Remove. Just say what the truth or fact is.</message>
+            <example type="incorrect"><marker>The truth is</marker>, this is annoying.</example>
+            <example type="correct">This is annoying.</example>
+            <example type="incorrect"><marker>The fact is</marker>, they are not here.</example>
+            <example type="correct">They are not here.</example>
+        </rule>
+
+        <!-- tired intensifiers - use sparingly -->
+        <!-- really, very, quite, extremely, severely -->
+        <rule default="off" id="TIRED_INTENSIFIERS" name="really, very, quite, extremely, severely (use sparingly)">
+            <pattern>
+                <token regexp="yes">really|very|quite|extremely|severely</token>
+            </pattern>
+            <message>Intensifier that does not intensify "\1". Use sparingly.</message>
+            <url>http://grammar.ccc.commnet.edu/grammar/concise.htm</url>
+            <example type="incorrect">The band is <marker>very</marker> irritating.</example>
+            <example type="correct">The band is <marker>mind-jarringly</marker> irritating.</example>
+        </rule>
+    </category>
     <!-- This rule is useful only for lowercase only text after machine translation. I leave it in the
     file because it's not so bad for such input but it shouldn't be even visible in the config dialog.
     Maybe it should go some repository online?
