@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
 
@@ -69,6 +70,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
+  @Ignore("this test isn't stable due to https://github.com/optimaize/language-detector/issues/14")   // TODO: re-activate
   public void testKnownLimitations() {
     // not activated because it impairs detection of Spanish, so ast and gl may be mis-detected:
     langAssert("es", "L'Iberorrománicu o Iberromance ye un subgrupu de llingües romances que posiblemente ...");  // ast
