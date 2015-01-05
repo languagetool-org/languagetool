@@ -1701,6 +1701,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">die|eine|[mds]eine|ihre|unsere|eure</token>
+                    <marker>
+                        <token>Email</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>E-Mail</suggestion> (elektronische Post) statt 'Email' (Schmelzüberzug)?</message>
+                <short>Möglicher Tippfehler</short>
+                <example type="incorrect" correction="E-Mail">Er schickt mir eine <marker>Email</marker>.</example>
+                <example type="incorrect" correction="E-Mail">Schicke mir eine <marker>Email</marker>.</example>
+                <example type="correct">Er schickt mir eine <marker>E-Mail</marker>.</example>
+                <example type="correct">Das ist <marker>Email</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token skip="-1">Email</token>
                     </marker>
@@ -1752,9 +1766,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email\-?([aA]dresse|[aA]account|[aA]nwendung|[cC]lient|[kK]ontakt|[pP]ostf[aä]ch|[pP]rogramm).*</token>
+                    <token regexp="yes">eMail.+|e\-Mail.+|e\-mail.+|E\-mail.+|Email\-?([aA]dresse|[aA]account|[aA]nwendung|[cC]lient|[kK]ontakt|[pP]ostf[aä]ch|[pP]rogramm|[sS]oftware).*</token>
                 </pattern>
-                <message>Meinten Sie <suggestion><match no="1" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>?</message>
+                <message>Meinten Sie <suggestion><match no="1" regexp_match=".*ail(.*)" regexp_replace="E-Mail$1"/></suggestion>? (E-Mail = elektronische Post, Email = Schmelzüberzug)</message>
                 <short>Möglicher Tippfehler</short>
                 <example type="incorrect" correction="E-Mail-Adresse">Das ist meine <marker>eMail-Adresse</marker>.</example>
                 <example type="incorrect" correction="E-Mail-Adressen">Das sind meine <marker>Email-Adressen</marker>.</example>
@@ -1778,7 +1792,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes">per</token>
                     <marker>
                         <token regexp="yes">e\-?mail</token>
-                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?</token>
+                        <token regexp="yes">Adressen?|Programme?n?s?|Anwendunge?n?|Cliente?n?s?|Software</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>E-Mail-<match no="3" case_conversion="startupper"/></suggestion>?</message>
