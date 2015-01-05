@@ -252,6 +252,7 @@ public abstract class SpellingCheckRule extends Rule {
           if (isComment) {
             continue;
           }
+          failOnSpace(ignoreFile, line);
           if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
             // hack: Swiss German doesn't use "ß" but always "ss" - replace this, otherwise
             // misspellings (from Swiss point-of-view) like "äußere" wouldn't be found:
@@ -279,9 +280,16 @@ public abstract class SpellingCheckRule extends Rule {
           if (isComment) {
             continue;
           }
+          failOnSpace(prohibitFile, line);
           wordsToBeProhibited.add(line);
         }
       }
+    }
+  }
+
+  private void failOnSpace(String prohibitFile, String line) {
+    if (line.contains(" ")) {
+      throw new RuntimeException("No space expected in " + prohibitFile + ": '" + line + "'");
     }
   }
 
