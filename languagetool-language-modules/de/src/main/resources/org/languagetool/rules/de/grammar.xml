@@ -90,9 +90,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY verbendirekterede "befehlen|behaupten|denken|fragen|rufen|sagen|versichern|flüstern">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
     <!ENTITY fragewoerter "inwiefern|wann|warum|was|wem|wen|wer|weshalb|weswegen|wie|wieso|wo|wodurch|woher|wohin|wonach|woran|worauf|woraus|worüber|worunter|wozu">
+    <!--
+    for local testing of an external file - also see below:
+    <!ENTITY UserRules SYSTEM "file:///lt/git/languagetool/languagetool-language-modules/de/src/main/resources/org/languagetool/rules/de/grammar-test.xml">
+    -->
 ]>
 
 <rules lang="de" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <!--
+    for local testing of an external file (also see above):
+    &UserRules;
+    -->
 
     <!-- ====================================================================== -->
     <!-- Tippfehler -->
@@ -22663,13 +22672,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type='correct'>Das kommt aufs <marker>Gleiche</marker> raus.</example>
             <example type='correct'>Aufs <marker>gleiche</marker> Pferd setzen.</example>
         </rule>
-        <rulegroup id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)'">
+        <rulegroup id="ETWAS_GUTES" name="Groß-/Kleinschreibung: 'etwas/nichts gutes (Gutes)' etc.">
+            <url>http://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung#K72</url>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes" case_sensitive="no">etwas|nichts</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:NEU:(GRU|KOM):IND" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
                     <token><exception postag="SUB:NOM:SIN:NEU"/></token>
                 </pattern>
@@ -22684,14 +22694,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts <marker>gutes</marker>.</example>
                 <example type="incorrect" correction="Besseres">Ich habe etwas <marker>besseres</marker> zu tun.</example>
                 <example type="incorrect" correction="Großes">Nichts <marker>großes</marker> geschah.</example>
+                <example type="incorrect" correction="Passendes">Ich brauche noch etwas <marker>passendes</marker> zum Anziehen.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
                     <token regexp="yes">etwas|nichts</token>
-                    <token regexp="yes">sehr|besonders|allzu|ziemlich</token>
+                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|recht</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:NEU:GRU:IND" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
+                        <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
                     <token><exception postag="SUB:NOM:SIN:NEU"/></token>
                 </pattern>
@@ -22701,6 +22712,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct">Beiträge, die etwas sehr <marker>Wichtiges</marker> über den Spielverlauf verraten, bitte kennzeichnen.</example>
                 <example type="incorrect" correction="Wichtiges">Beiträge die etwas sehr <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
                 <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts allzu <marker>gutes</marker>.</example>
+                <example type="incorrect" correction="Passendes">Da findet sich nichts wirklich <marker>passendes</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALLES_GUTE" name="Groß-/Kleinschreibung: 'alles gute (Gute)' [Glückwunschformel]">
