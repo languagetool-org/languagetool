@@ -339,6 +339,8 @@ public class CaseRule extends GermanRule {
   private static final Set<String> myExceptionPhrases = new HashSet<>();
   static {
     // use proper upper/lowercase spelling here:
+    myExceptionPhrases.add("Gleicher unter Gleichen");
+    myExceptionPhrases.add("Jung und Alt");
     myExceptionPhrases.add("Arabische Halbinsel");
     myExceptionPhrases.add("Arabischen Halbinsel");
     myExceptionPhrases.add("Naher Osten");
