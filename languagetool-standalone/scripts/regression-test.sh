@@ -38,8 +38,8 @@ rm $TEMP_FILE
 
 if [ -e ../../regression-test-output.log.bak ]
 then
-  CMD="diff -u ../../regression-test-output.log.bak ../../regression-test-output.log | colordiff | less -R"
-  $CMD | less
+  CMD="diff -u ../../regression-test-output.log.bak ../../regression-test-output.log"
+  $CMD | colordiff | less -R
   echo "========================================================================================================"
   echo "Run '$CMD' to see the diff again."
 else
