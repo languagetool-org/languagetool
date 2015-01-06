@@ -8475,7 +8475,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token postag="PX.*|DD.*|DA.*|DI.*" postag_regexp="yes"><exception regexp="yes">tots?</exception></token>
+                    <token postag="PX.*|DD.*|DA.*|DI.*" postag_regexp="yes"><exception regexp="yes">tots?</exception><exception postag="RG"/></token>
                     <marker>
                         <token regexp="yes">habitats?</token>
                     </marker>
@@ -8489,6 +8489,7 @@ $Id$
                 <example type="incorrect" correction="hàbitats|habitants">Els <marker>habitats</marker> de la comarca.</example>
                 <example type="correct">Alguns habitats pels romans.</example>
                 <example type="correct">Tots habitats.</example>
+                <example type="correct">En llocs remots i poc habitats.</example>
             </rule>
         </rulegroup>
         <rule id="ESPASSA" name="espassa/espasa">
@@ -25137,6 +25138,16 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RAIL" name="raïl/rail">
+            <pattern>
+                <token inflected="yes">raïl<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCM$1000">rail</match></suggestion> (=carril)? Raïl és sinònim d'arrel.</message>
+            <short>Possible confusió</short>
+            <example type="incorrect" correction="rails">Rodes i <marker>raïls</marker>.</example>
+            <example type="incorrect" correction="rails">Les rodes i els <marker>raïls</marker>.</example>
+            <example type="correct">Les raïls de l'abre</example>
+        </rule>
         <rule id="DESAFORAT" name="confusion of bed/bad">
             <pattern>
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes">desaforar<exception postag="_GV_" /></token>
@@ -33026,6 +33037,18 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="ENTRE_ELS_QUE" name="entre els *que/quals destaca">
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token>Entre</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>d'</token>
+                    <token>entre</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception inflected="yes">diferència</exception></token>
@@ -33036,7 +33059,7 @@ $Id$
                     </marker>
                     <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">destacar|trobar|incloure</token>
-                    <token><exception>.</exception></token>
+                    <token><exception regexp="yes">[.,]|a|en</exception></token>
                 </pattern>
                 <message>Construcció probablement incorrecta.</message>
                 <suggestion>\2 \3 quals</suggestion>
@@ -33057,8 +33080,7 @@ $Id$
                     <token min="0" max="3" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN" postag_regexp="yes"/>
                     <token postag="VA.*" postag_regexp="yes"></token>
                     <token inflected="yes" regexp="yes">destacar|trobar|haver</token>
-                    <token><exception>.</exception></token>
-                </pattern>
+                    <token><exception regexp="yes">[.,]|a|en</exception></token>                </pattern>
                 <message>Construcció probablement incorrecta.</message>
                 <suggestion>\1 \2 quals</suggestion>
                 <url>http://esadir.cat/entrades/fitxa/node/pronrel</url>
@@ -33076,7 +33098,7 @@ $Id$
                     <token min="0">no</token>
                     <token>hi</token>
                     <token inflected="yes">haver</token>
-                    <token><exception>.</exception></token>
+                    <token><exception regexp="yes">[.,]|a|en</exception></token>
                 </pattern>
                 <message>Construcció probablement incorrecta.</message>
                 <suggestion>\1 \2 quals</suggestion>
@@ -33085,6 +33107,7 @@ $Id$
                 <example type='incorrect' correction="entre les quals">Unes obres <marker>entre les que</marker> hi havia les seves.</example>
                 <example type='incorrect' correction="entre les quals">Unes obres <marker>entre les que</marker> no hi havia les seves.</example>
                 <example type='correct'>Unes obres entre les quals hi havia les seves.</example>
+                <example type='correct'>Unes cases entre les que hi havia a la zona.</example>
             </rule>
         </rulegroup>
         <rule id="ELS_QUE_INFINITIU" name="els que + infinitiu">
