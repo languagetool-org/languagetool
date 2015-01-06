@@ -11645,6 +11645,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
+            <pattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <marker>
+                    <token case_sensitive="yes" postag="VER:INF:NON" regexp="yes">[a-zöäü].*</token>
+                </marker>
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="s$" regexp_replace="" /> das) und muss dann großgeschrieben werden.</message>
+            <example type="incorrect" correction="Essen">Aber ans <marker>essen</marker> hat er nicht mehr gedacht.</example>
+            <example type="correct">Aber ans <marker>Trinken</marker> hat er nicht mehr gedacht.</example>
+        </rule>
+        <rule id="AM_KLEINES_NOMEN" name="am/beim/... + kleingeschr. Nomen">
+            <pattern>
+                <token regexp="yes">am|beim|hinterm|überm|unterm|vorm</token>
+                <marker>
+                    <token case_sensitive="yes" postag="VER:INF:NON" regexp="yes">[a-zöäü].*<exception regexp="yes">gleichen|heißen|testweisen</exception></token>
+                </marker>
+                <token><exception postag="SUB:NOM:SIN:(NEU|MAS)" postag_regexp="yes" /></token>
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (\1 = <match no="1" regexp_match="m$" regexp_replace="" /> dem) und muss dann großgeschrieben werden.</message>
+            <example type="incorrect" correction="Essen">Aber überm <marker>essen</marker> hat er das Trinken vergessen.</example>
+            <example type="correct">Aber überm <marker>Essen</marker> hat er das Trinken vergessen.</example>
+        </rule>
         <rule id="AM_XSTEN" name="am Schnellsten etc. (schnellesten)">
             <antipattern>
                 <token inflected="yes" skip="2">fehlen</token>
