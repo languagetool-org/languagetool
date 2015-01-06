@@ -22677,7 +22677,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes" case_sensitive="no">etwas|nichts</token>
+                    <token regexp="yes" case_sensitive="no">etwas|nichts|alles|viel|wenig</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -22695,11 +22695,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Besseres">Ich habe etwas <marker>besseres</marker> zu tun.</example>
                 <example type="incorrect" correction="Großes">Nichts <marker>großes</marker> geschah.</example>
                 <example type="incorrect" correction="Passendes">Ich brauche noch etwas <marker>passendes</marker> zum Anziehen.</example>
+                <example type="incorrect" correction="Kluges">Bei dem Meeting wurde viel <marker>kluges</marker> gesagt.</example>
+                <example type="incorrect" correction="Kluges">Bei dem Meeting wurde nur wenig <marker>kluges</marker> gesagt.</example>
+                <example type="correct">Die Kirche weist eine Sakristei aus Spätgotik und ein nur wenig <marker>jüngeres</marker> Haus auf.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">etwas|nichts</token>
+                    <token regexp="yes">etwas|nichts|alles|viel|wenig</token>
                     <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|recht</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
@@ -22713,6 +22716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect" correction="Wichtiges">Beiträge die etwas sehr <marker>wichtiges</marker> über den Spielverlauf verraten bitte kennzeichnen.</example>
                 <example type="incorrect" correction="Gutes">Dahinter verbirgt sich nichts allzu <marker>gutes</marker>.</example>
                 <example type="incorrect" correction="Passendes">Da findet sich nichts wirklich <marker>passendes</marker>.</example>
+                <example type="incorrect" correction="Passendes">Da findet sich wenig wirklich <marker>passendes</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALLES_GUTE" name="Groß-/Kleinschreibung: 'alles gute (Gute)' [Glückwunschformel]">
