@@ -9388,11 +9388,21 @@ $Id$
 				</rule>
 		</category>
 		<category name="Wyrazy modne i nadużywane" type="style">
+                <rule id="DESTYNACJA" name="„destynacja” (cel podróży)">
+                    <pattern>
+                        <marker><token inflected="yes">destynacja</token></marker>
+                    </pattern>
+                    <message>Pretensjonalna kalka z angielskiego. Lepiej: <suggestion>cel podróży</suggestion>, <suggestion>miejsce</suggestion>.</message>
+                    <url>http://pszetfurnia.blogspot.com/2008/08/destynacja-tunezja.html</url>
+                    <short>Kalka z angielskiego</short>
+                    <example type="incorrect" correction="cel podróży|miejsce">Najmodniejsze <marker>destynacje</marker> w tym roku to Małkinia, Pcim i Tłuszcz.</example>
+                    <example type="correct">Najmodniejsze cele podróży to Małkinia, Pcim i Tłuszcz.</example>
+                </rule>
                 <rule id="KONCEPT" name="„koncept” (pojęcie)">
                     <pattern>
                         <marker><token inflected="yes">koncept</token></marker>
                     </pattern>
-                    <message>Ten termin jest często nadużywane (kalka z angielskiego). Poprawnie: <suggestion><match no="1" postag="(.*):m3" postag_replace="$1:n2">pojęcie</match></suggestion> (wyjątkiem jest sytuacja, gdy mowa o konceptach w poezji barokowej).</message>
+                    <message>Ten termin jest często nadużywany (kalka z angielskiego). Poprawnie: <suggestion><match no="1" postag="(.*):m3" postag_replace="$1:n2">pojęcie</match></suggestion> (wyjątkiem jest sytuacja, gdy mowa o konceptach w poezji barokowej).</message>
                     <short>Kalka z angielskiego</short>
                     <example type="incorrect">Zdefiniujmy najpierw podstawowe <marker>koncepty</marker>.</example>
                     <example type="correct">Zdefiniujmy najpierw podstawowe <marker>pojęcia</marker>.</example>
@@ -10207,22 +10217,159 @@ $Id$
                         <example type='correct'>Byłem w Rudzie Śląskiej.</example>
                     </rule>
                 </rulegroup>
-
-				<rulegroup default="off" id="PL_CAPITALIZE" name="Poprawianie wyrazów małymi literami („kraków”)">
-						<rule>
-								<pattern case_sensitive="yes">
-										<and>
-												<token inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</token>
-												<token regexp="yes">\p{Ll}+</token>
-										</and>
-								</pattern>
-								<message>Wyraz \1 powinien być napisany wielką literą: <suggestion><match case_conversion="startupper" no="1"></match></suggestion>.</message>
-								<example correction="Krakowie" type="incorrect">Mieszkam w <marker>krakowie</marker>.</example>
-								<example type="correct">Mieszkam w Krakowie.</example>
-						</rule>
-				</rulegroup>
+                <rulegroup id="DNI_TYGODNIA" name="Pisownia dni tygodnia małymi literami (z wyjątkiem szczególnych świąt)">
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                        <unify>
+                            <feature id="case"/><feature id="gender"/><feature id="number"/>
+                            <token inflected="yes">wielki<exception regexp="yes">(?-iu)w.*</exception></token>
+                            <token inflected="yes" regexp="yes">piątek|czwartek|sobota<exception regexp="yes">(?-iu)[pcs].*</exception></token>
+                        </unify>
+                        </marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                            <unify>
+                                <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                <token inflected="yes">środa<exception regexp="yes">(?-iu)[ś].*</exception></token>
+                                <token inflected="yes">popielcowy<exception regexp="yes">(?-iu)p.*</exception></token>
+                            </unify>
+                        </marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                            <unify>
+                                <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                <token inflected="yes">niedziela<exception regexp="yes">(?-iu)[n].*</exception></token>
+                                <token inflected="yes" regexp="yes">palmowy|wielkanocny<exception regexp="yes">(?-iu)[pw].*</exception></token>
+                            </unify>
+                        </marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                                <token inflected="yes">niedziela<exception regexp="yes">(?-iu)[n].*</exception></token>
+                                <token>Miłosierdzia</token>
+                                <token>Bożego</token>
+                        </marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                            <unify>
+                                <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                <token inflected="yes">poniedziałek<exception regexp="yes">(?-iu)[p].*</exception></token>
+                                <token inflected="yes">wielkanocny<exception regexp="yes">(?-iu)w.*</exception></token>
+                            </unify>
+                        </marker>
+                    </antipattern>
+                    <rule>
+                    <pattern>
+                        <token case_sensitive="yes" regexp="yes">\p{Ll}{1,}</token>
+                        <marker>
+                        <token case_sensitive="yes" regexp="yes" inflected="yes">poniedziałek|wtorek|środa|czwartek|piątek|sobota|niedziela<exception regexp="yes">(?-iu)\p{Ll}.*</exception></token>
+                        </marker>
+                    </pattern>
+                    <message>Nazwy dni tygodnia piszemy małą literą: <suggestion><match no="2" case_conversion="alllower"/></suggestion></message>
+                    <url>http://sjp.pwn.pl/zasady/Nazwy-dni-tygodnia;629422.html</url>
+                    <short>Błąd pisowni małą i wielką literą</short>
+                    <example type="correct">To się stało w Wielki Piątek.</example>
+                    <example type="correct">Poniedziałek to idealny początek tygodnia.</example>
+                    <example type="correct">To się zdarzyło w Środę Popielcową albo Niedzielę Palmową, sam nie pamiętam.</example>
+                    <example type="correct">Niebawem będzie Niedziela Miłosierdzia Bożego.</example>
+                    <example type="incorrect" correction="piątek">Robimy dorsza co <marker>Piątek</marker>.</example>
+                </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <unify>
+                                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                    <token inflected="yes">wielki</token>
+                                    <token inflected="yes" regexp="yes">piątek|czwartek|sobota</token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Nazwę tego święta piszemy wielką literą: <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion></message>
+                        <url>http://sjp.pwn.pl/zasady/Nazwy-dni-tygodnia;629422.html</url>
+                        <short>Błąd pisowni małą i wielką literą</short>
+                        <example type="correct">To się stało w Wielki Piątek.</example>
+                        <example type="incorrect" correction="Wielki Piątek">To się stało w <marker>wielki piątek</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <unify>
+                                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                    <token inflected="yes">środa</token>
+                                    <token inflected="yes">popielcowy</token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Nazwę tego święta piszemy wielką literą: <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion></message>
+                        <url>http://sjp.pwn.pl/zasady/Nazwy-dni-tygodnia;629422.html</url>
+                        <short>Błąd pisowni małą i wielką literą</short>
+                        <example type="correct">To się stało w Środę Popielcową.</example>
+                        <example type="incorrect" correction="Środę Popielcową">To się stało w <marker>środę popielcową</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <unify>
+                                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                    <token inflected="yes">niedziela</token>
+                                    <token inflected="yes" regexp="yes">palmowy|wielkanocny</token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Nazwę tego święta piszemy wielką literą: <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion></message>
+                        <url>http://sjp.pwn.pl/zasady/Nazwy-dni-tygodnia;629422.html</url>
+                        <short>Błąd pisowni małą i wielką literą</short>
+                        <example type="correct">To się stało w Niedzielę Palmową.</example>
+                        <example type="incorrect" correction="Niedzielę Palmową">To się stało w <marker>niedzielę palmową</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <unify>
+                                    <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                    <token inflected="yes">poniedziałek</token>
+                                    <token inflected="yes">wielkanocny</token>
+                                </unify>
+                            </marker>
+                        </pattern>
+                        <message>Nazwę tego święta piszemy wielką literą: <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion></message>
+                        <url>http://sjp.pwn.pl/zasady/Nazwy-dni-tygodnia;629422.html</url>
+                        <short>Błąd pisowni małą i wielką literą</short>
+                        <example type="correct">To się stało w lany poniedziałek.</example>
+                        <example type="incorrect" correction="Poniedziałek Wielkanocny">To się stało w <marker>poniedziałek wielkanocny</marker>.</example>
+                    </rule>
+                    <rule>
+                        <pattern case_sensitive="yes">
+                            <marker>
+                                <token inflected="yes">niedziela</token>
+                                <token>miłosierdzia</token>
+                                <token>bożego</token>
+                            </marker>
+                        </pattern>
+                        <message>Nazwę tego święta piszemy wielką literą: <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion></message>
+                        <url>http://pl.wikipedia.org/wiki/Niedziela_Mi%C5%82osierdzia_Bo%C5%BCego</url>
+                        <short>Błąd pisowni małą i wielką literą</short>
+                        <example type="correct">To się stało w Niedzielę Miłosierdzia Bożego.</example>
+                        <example type="incorrect" correction="Niedzielę Miłosierdzia Bożego">To się stało w <marker>niedzielę miłosierdzia bożego</marker>.</example>
+                    </rule>
+            </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="O_JEJ" name="„o jej!” (ojej)">
+                <pattern>
+                    <token>o</token>
+                    <token>jej</token>
+                    <token>!</token>
+                </pattern>
+                <message>Prawdopodobny błąd ortograficzny. Czy chodziło o <suggestion>ojej</suggestion> (=oj)?</message>
+                <url>http://sjp.pl/ojej</url>
+                <short>Błąd ortograficzny</short>
+                <example type='incorrect'><marker>O jej!</marker></example>
+                <example type='correct'>Ojej!</example>
+            </rule>
             <rule id="ROB_TA_CO_CHCE_TA" name="„rób ta, co chce ta” (róbta, co chceta)">
                 <pattern>
                     <token>rób</token>
