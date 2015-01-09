@@ -11705,6 +11705,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token regexp="yes">[A-ZÖÄÜ]+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token/>
+                <token regexp="yes">[0-9]+</token>
+                <token>.</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <marker>
@@ -11717,6 +11728,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Aber ans <marker>Trinken</marker> hat er nicht mehr gedacht.</example>
             <example type="incorrect" correction="Schwarze">Das trifft ins <marker>schwarze</marker>.</example>
             <example type="correct">Das Raumschiff flog ins <marker>schwarze</marker> Loch.</example>
+            <example type="correct">Sie konnten ungehindert ins <marker>reiche</marker> Babylon einziehen.</example>
+            <example type="correct">Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
         </rule>
         <rule id="AM_KLEINES_NOMEN" name="am/beim/... + kleingeschr. Nomen">
             <pattern>
