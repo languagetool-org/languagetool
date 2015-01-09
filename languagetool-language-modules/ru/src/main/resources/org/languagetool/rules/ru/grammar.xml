@@ -118,7 +118,7 @@ $Id$
                     <token>оказалось</token>
                 </pattern>
                  
-                <message>Имелось в виду <suggestion>/1 поверку /3</suggestion>?</message>
+                <message>Имелось в виду <suggestion>\1 поверку \3</suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example type="incorrect"><marker>На проверку оказалось</marker>, что была допущена ошибка.</example>
                 <example type="correct">На поверку оказалось, что была допущена ошибка.</example>
@@ -134,11 +134,24 @@ $Id$
                     <token>значения</token>
                 </pattern>
                  
-                <message>Имелось в виду <suggestion>/1 /2 никакой роли</suggestion>?</message>
+                <message>Имелось в виду <suggestion>\1 \2 никакой роли</suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example type="incorrect">Это <marker>не играет никакого значения</marker>.</example>
                 <example type="correct">Это не играет никакой роли.</example>
-            </rule>          
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>не</token>
+                    <token>имеет</token>
+                    <token>никакой</token>
+                    <token>роли</token>
+                </pattern>
+                 
+                <message>Имелось в виду <suggestion>\1 \2 никакого значения</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Это <marker>не имеет никакой роли</marker>.</example>
+                <example type="correct">Это не имеет никакого значения.</example>
+            </rule>                    
         </rulegroup>
 
 	<rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
