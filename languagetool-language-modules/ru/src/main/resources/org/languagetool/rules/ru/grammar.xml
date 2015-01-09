@@ -110,6 +110,37 @@ $Id$
           
         </rulegroup>
 
+	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
+            <rule> 
+                <pattern>
+                    <token>на</token>
+                    <token>проверку</token>
+                    <token>оказалось</token>
+                </pattern>
+                 
+                <message>Имелось в виду <suggestion>/1 поверку /3</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect"><marker>На проверку оказалось</marker>, что была допущена ошибка.</example>
+                <example type="correct">На поверку оказалось, что была допущена ошибка.</example>
+                <example type="correct">Сдайте тетради на проверку!</example>
+            </rule>          
+        </rulegroup>
+        <rulegroup id="nе_igraet_nikakogo_znachenija" name="Логические ошибки «не играет никакой роли/не играет никакого значения»">
+            <rule> 
+                <pattern>
+                    <token>не</token>
+                    <token>играет</token>
+                    <token>никакого</token>
+                    <token>значения</token>
+                </pattern>
+                 
+                <message>Имелось в виду <suggestion>/1 /2 никакой роли</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Это <marker>не играет никакого значения</marker>.</example>
+                <example type="correct">Это не играет никакой роли.</example>
+            </rule>          
+        </rulegroup>
+
 	<rulegroup id="KVT.H" name="Обозначение физических величин «кВт⋅ч»">
             <rule> 
                 <pattern>
