@@ -11697,11 +11697,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
                     <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes</token>
                 </marker>
-                <token><exception postag="SUB:NOM:SIN:NEU*" postag_regexp="yes" /></token>
+                <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein und muss dann großgeschrieben werden.</message>
             <example type="incorrect" correction="Zweites">wurde am 10. März 1963 als <marker>zweites</marker> von vier Kindern geboren</example>
             <example type="correct">Als <marker>Erstes</marker> prüfen wir die Stromzufuhr.</example>
+            <example type="correct">Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
             <pattern>
