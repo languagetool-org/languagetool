@@ -242,12 +242,20 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(apreh|apr|carv|compr|corpr|def|dep|desapr|desp|despr|depr|empr|exp|malpr|malv|mampr|of|repr|retrov|rev|salpr|sobrepr|sorpr|susp|ullpr)én</token>
+                    <token regexp="yes">(apreh|apr|carv|compr|corpr|def|dep|desapr|desp|despr|depr|empr|exp|malpr|malv|mampr|of|repr|retrov|salpr|sobrepr|sorpr|susp|ullpr)én</token>
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)én" regexp_replace="$1èn"></match></suggestion>
                 <example type="incorrect">Ell <marker>aprén</marker>.</example>
                 <example type="correct">Ell <marker>aprèn</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>revén</token>
+                </pattern>
+                <message>Si és del v. revendre, cal escriure <suggestion>revèn</suggestion>. Correcte si és imperatiu del v. revenir.</message>
+                <example type="incorrect" correction="revèn">Ell <marker>revén</marker> la moto.</example>
+                <example type="correct">Ell la <marker>revèn</marker>.</example>
             </rule>
             <rule>
                 <pattern>
