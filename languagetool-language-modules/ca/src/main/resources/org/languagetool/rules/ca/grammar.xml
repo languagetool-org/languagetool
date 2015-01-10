@@ -11470,11 +11470,12 @@ $Id$
         <rulegroup id="CONFUSIONS_B_V" name="confusions b/v: proba/prova">
             <rule id="PROBA" name="proba/prova">
                 <pattern>
-                    <token>proba</token>
+                    <token regexp="yes">proba|probes|probe</token>
                 </pattern>
-                <message>Si és del verb "provar", cal escriure <suggestion>prova</suggestion>.</message>
+                <message>Si és del verb "provar", cal escriure <suggestion><match no="1" regexp_match="(.*)[Bb](.*)" regexp_replace="$1v$2"/></suggestion>. Correcte si és l'adjectiu "probe -a" (= que té probitat).</message>
                 <short>Possible confusió</short>
-                <example type="incorrect">Ell ho <marker>proba</marker> tot.</example>
+                <example type="incorrect" correction="prova">Ell ho <marker>proba</marker> tot.</example>
+                <example type="incorrect" correction="proves">És la primera volta que se'n troben <marker>probes</marker>.</example>
                 <example type="correct">Ell ho <marker>prova</marker> tot.</example>
             </rule>
             <rule id="AL_VELL_MIG" name="al *vell/bell mig">
