@@ -480,7 +480,20 @@ $Id$
             <short>Тавтология.</short>
             <example type="incorrect"><marker>Биографии жизни</marker> различных людей.</example>
             <example type="correct">Биографии различных людей.</example>
-        </rule>              
+        </rule>
+                                                                                
+        <rule id="Logical_prignul_s_parashuta" name="Логические ошибки «прыгать с парашюта»">
+            <pattern>
+                <token inflected="yes">прыгнуть</token>
+                <token>с</token>
+                <token>парашюта</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>\1 \2 парашютом</suggestion>?</message>
+               <short>Логическая ошибка.</short>
+            <example type="incorrect">Он <marker>прыгнул с парашюта</marker>.</example>
+            <example type="correct">Она прыгнула с парашютом.</example>
+        </rule>  
+                                    
         <rule id="translate_carreer_diplomat" name="Ошибки перевода «карьерный дипломат»">
             <pattern>
                 <token inflected="yes" >карьерный</token>
@@ -617,6 +630,17 @@ $Id$
                 <example type="incorrect">Он <marker>одел рубашку</marker>.</example>
                 <example type="correct">Он надел рубашку.</example>
             </rule>  
+            <rule>      
+                <pattern>
+                    <token inflected="yes">переодеть</token>
+                    <token inflected="yes" regexp="yes">рубашка|одежда|платье|юбка|пальто|куртка|брюки|майка|носок|обувь|туфли|сапоги|ботинки|сарафан</token>
+                </pattern>
+                <message>Логическая ошибка: <suggestion><match no="1" regexp_match="(переоде)(.*)" regexp_replace="поменя$2" /> <match no="2"  /></suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9F%D0%B0%D1%80%D0%BE%D0%BD%D0%B8%D0%BC%D0%B8%D1%8F</url>
+                <short>Логическая ошибка.</short>
+                <example type="incorrect">Она <marker>переодела платье</marker>.</example>
+                <example type="correct">Она поменяла платье.</example>
+            </rule>
             <rule>      
                 <pattern>
                     <token>раздел</token>
