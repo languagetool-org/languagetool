@@ -122,6 +122,8 @@ gsub(/[,<]/,"")
 gsub(/{[a-zA-Z:0-9_]+}/,"")
 gsub(/[0-9]\.[0-9]/,"")
 gsub(/[0-9]+ /,"")
+#systematic error in infl.txt for some gerunds:
+$0 = gensub(/(ling N\?: [a-z]+ling$)/, "\\1s", "g", $0)
 for (i=3;i<=NF;i++) {
 #	print ">>" $i
 #	print "NF=" NF, "string is:" $0
