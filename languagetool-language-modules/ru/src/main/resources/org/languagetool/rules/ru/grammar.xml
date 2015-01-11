@@ -288,7 +288,8 @@ $Id$
                 <example type="correct">Она ускорит затянувшееся решение проблемы.</example>
             </rule>
         </rulegroup>
-        <rule id="Logical_podorojali_ceny" name="Логические ошибки «подорожали цены»">
+        <rulegroup id="Logical_podorojali_ceny" name="Логические ошибки «подорожали цены»">
+          <rule>  
             <pattern>
                 <token>подорожали</token>
                 <token>цены</token>
@@ -298,7 +299,31 @@ $Id$
             <short>Логическая ошибка.</short>
             <example type="incorrect">На рынке <marker>подорожали цены</marker></example>
             <example type="correct">На рынке цены выросли</example>
-        </rule>
+          </rule>
+          <rule>
+            <pattern>
+                <token>дешёвая</token>
+                <token>стоимость</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>низкая стоимость</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect"><marker>дешёвая стоимость</marker></example>
+            <example type="correct">низкая стоимость</example>
+          </rule>
+           <rule>
+            <pattern>
+                <token>дорогая</token>
+                <token>стоимость</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>высокая стоимость</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%BE%D0%B3%D0%B8%D0%BA%D0%B0</url>
+            <short>Логическая ошибка.</short>
+            <example type="incorrect"><marker>дорогая стоимость</marker></example>
+            <example type="correct">высокая стоимость</example>
+          </rule>
+        </rulegroup>
+        
         <rule id="Logical_svoja_avtobiographija" name="Логические ошибки «своя автобиография»">
             <pattern>
                 <token inflected="yes">свой</token>
@@ -321,6 +346,55 @@ $Id$
             <example type="incorrect">Этот лётчик - <marker>выдающийся ас</marker>.</example>
             <example type="correct">Этот лётчик - ас.</example>
         </rule>
+        
+        <rule id="Logical_sobiratsya_vmeste" name="Логические ошибки «собираться вместе»">
+            <pattern>
+                <token inflected="yes">собираться</token>
+                <token>вместе</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect">Мы здесь <marker>собираемся вместе</marker>.</example>
+            <example type="correct">Мы собираемся здесь.</example>
+        </rule>
+          <rule id="Logical_sochetatsja_vmeste" name="Логические ошибки «сочетаться вместе»">
+            <pattern>
+                <token inflected="yes">сочетаться</token>
+                <token>вместе</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect">Эти три букета хорошо <marker>сочетаются вместе</marker>.</example>
+            <example type="correct">Эти три букета хорошо сочетаются.</example>
+        </rule>
+         <rule id="Logical_segodnyashnij_den" name="Логические ошибки «сегодняшний день»">
+            <pattern>
+                <token>сегодняшний</token>
+                <token>день</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>сегодня</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect">Ситуация на <marker>сегодняшний день</marker>.</example>
+            <example type="correct">Ситуация на сегодня.</example>
+        </rule>
+        
+        <rule id="Logical_sosedstvovat_drug_s_drugom" name="Логические ошибки «соседствовать друг с другом»">
+            <pattern>
+                <token inflected="yes">соседствовать</token>
+                <token>друг</token>
+                <token>с</token>
+                <token>другом</token>
+            </pattern>
+            <message>Логическая ошибка: <suggestion>\1</suggestion>?</message>
+            <url>http://ru.wikipedia.org/wiki/%D0%A2%D0%B0%D0%B2%D1%82%D0%BE%D0%BB%D0%BE%D0%B3%D0%B8%D1%8F_%28%D1%80%D0%B8%D1%82%D0%BE%D1%80%D0%B8%D0%BA%D0%B0%29</url>
+            <short>Тавтология.</short>
+            <example type="incorrect">Они <marker>соседствовали друг с другом</marker> на фотографии.</example>
+            <example type="correct">Они соседствовали на фотографии.</example>
+        </rule>
+        
         
           <rule id="Tavtology_nebolshaja_gorstka" name="Тавтология «небольшая горстка»">
             <pattern>
