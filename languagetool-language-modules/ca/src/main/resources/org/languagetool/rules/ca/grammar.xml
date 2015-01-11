@@ -61,6 +61,7 @@ $Id$
     <!ENTITY excepcions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu">
     <!ENTITY exceptions_hostatge "edifici|dieta|luxe|viatger|turista|caminant|obrir|planta">
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
+    <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
 ]>
 
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -8205,6 +8206,16 @@ $Id$
         </rulegroup>
     </category>
     <category name="Z2) Errors de traductor automàtic">
+        <rule id="DOBLE_BAIX" name="doble baix/contrabaix">
+            <pattern>
+                <token>doble</token>
+                <token>baix</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>contrabaix</suggestion>?</message>
+            <short>Error de traducció automàtica</short>
+            <example type="incorrect" correction="contrabaix">Tocava el <marker>doble baix</marker>.</example>
+            <example type="correct">El contrabaix</example>
+        </rule>
         <rulegroup id="ESTAFIS_TIMES" name="New York Estafis/Times">
             <rule>
                 <pattern>
@@ -11824,11 +11835,12 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token>aixi</token>
+                    <token regexp="yes">aixis?</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>així</suggestion> en lloc de "aixi" (v. aixar)?</message>
+                <message>¿Volíeu dir <suggestion>així</suggestion> en lloc de "\1" (v. aixar)?</message>
                 <short>Falta un accent</short>
-                <example type="incorrect"><marker>aixi</marker></example>
+                <example type="incorrect" correction="Així"><marker>Aixi</marker></example>
+                <example type="incorrect" correction="Així"><marker>Aixis</marker></example>
                 <example type="correct">així</example>
             </rule>
             <rule>
@@ -25202,6 +25214,34 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="TASSA_TAXA" name="tassa / taxa">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" skip="4">tassa</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">&context_TAXA;</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">taxa</match></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="taxa">La <marker>tassa</marker> de desocupació</example>
+                <example type="incorrect" correction="taxes">Les <marker>tasses</marker> d'interés</example>
+                <example type="incorrect" correction="taxes">Les <marker>tasses</marker> i índexs espesrats</example>
+                <example type="correct">La taxa d'atur.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="4">&context_TAXA;</token>
+                    <marker>
+                        <token inflected="yes">tassa</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="2" postag="(N.*)" postag_regexp="yes" postag_replace="$1">taxa</match></suggestion>?</message>
+                <short>Possible confusió</short>
+                <example type="incorrect" correction="taxes">No volien augmentar les <marker>tasses</marker>.</example>
+                <example type="correct">Van apujar les taxes.</example>
+            </rule>
+        </rulegroup>
         <rule id="RAIL" name="raïl/rail">
             <pattern>
                 <token inflected="yes">raïl<exception postag="_GN_.*" postag_regexp="yes"/></token>
