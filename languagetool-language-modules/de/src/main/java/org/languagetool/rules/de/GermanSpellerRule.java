@@ -127,6 +127,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("wie viele");
     } else if ("wievielen".equals(word)) {
       return Collections.singletonList("wie vielen");
+    } else if ("vorteilen".equals(word)) {
+      return Collections.singletonList("Vorteilen");
     }
     return Collections.emptyList();
   }
