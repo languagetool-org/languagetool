@@ -174,7 +174,6 @@ public class MultiWordChunker implements Disambiguator {
               if (lenCounter == len) {
                 break;
               }
-
             }
             j++;
             finalLen = j;
