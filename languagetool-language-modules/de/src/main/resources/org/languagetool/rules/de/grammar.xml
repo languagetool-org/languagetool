@@ -11646,6 +11646,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
+            <pattern>
+                <token>ein</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">drittel|viertel|fünftel|sechstel|siebtel|achtel|neuntel|zehntel|elftel|zwölftel</token>
+                </marker>
+                <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier als Substantiv benutzt zu werden und wird dann großgeschrieben.</message>
+            <example type="incorrect" correction="Fünftel">Ein <marker>fünftel</marker> vom Ganzen</example>
+            <example type="correct">Es kostet eine <marker>drittel</marker> Million.</example>
+        </rule>
         <rule id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
             <pattern>
                 <token inflected="yes" skip="3">leisten</token>
