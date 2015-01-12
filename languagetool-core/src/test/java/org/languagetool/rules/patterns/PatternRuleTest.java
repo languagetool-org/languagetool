@@ -171,6 +171,20 @@ public class PatternRuleTest extends TestCase {
         PatternTestTools.warnIfRegexpSyntaxNotKosher(antiPattern.getElements(),
             antiPattern.getId(), antiPattern.getSubId(), lang);
       }
+      if (rule.getCorrectExamples().size() == 0) {
+        boolean correctionExists = false;
+        for (IncorrectExample incorrectExample : rule.getIncorrectExamples()) {
+          if (incorrectExample.getCorrections().size() > 0) {
+            correctionExists = true;
+            break;
+          }
+        }
+        if (!correctionExists) {
+          fail("Rule " + rule.getId() + "[" + rule.getSubId() + "]" + " in language " + lang
+                  + " needs at least one <example> of type='incorrect' and with a 'correction' attribute"
+                  + " or one <example> of type='correct'.");
+        }
+      }
     }
     testGrammarRulesFromXML(rules, languageTool, allRulesLanguageTool, lang);
     System.out.println(rules.size() + " rules tested.");
@@ -232,7 +246,7 @@ public class PatternRuleTest extends TestCase {
   public void testGrammarRulesFromXML(final List<PatternRule> rules,
                                        final JLanguageTool languageTool,
                                        final JLanguageTool allRulesLanguageTool, final Language lang) throws IOException {
-    final HashMap<String, PatternRule> complexRules = new HashMap<>();
+    final Map<String, PatternRule> complexRules = new HashMap<>();
     for (final PatternRule rule : rules) {
       testCorrectSentences(languageTool, allRulesLanguageTool, lang, rule);
       testBadSentences(languageTool, allRulesLanguageTool, lang, complexRules, rule);
@@ -291,7 +305,7 @@ public class PatternRuleTest extends TestCase {
           fail(lang + " rule " + rule.getId() + "[" + rule.getSubId() + "]" + ":\n\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
                   + "Errors found   : " + matches.size() + "\n"
-                  + "Message: " + rule.getMessage() + "\n" + sb.toString() + "\nMatches: " + matches);
+                  + "Message: " + rule.getMessage() + "\n" + sb + "\nMatches: " + matches);
         }
         assertEquals(lang
                 + ": Incorrect match position markup (start) for rule " + rule + ", sentence: " + badSentence,
