@@ -26323,10 +26323,10 @@ $Id$
             <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">babau</match></suggestion>
             <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bajà</match></suggestion>
             <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">talòs</match></suggestion>
+            <suggestion><match no="1" postag=".+([SP]).+" postag_regexp="yes" postag_replace="AQ0M$10">bovo</match></suggestion>
             <short>Possible error</short>
-            <example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos">Pareixen <marker>bobos</marker>.</example>
-            <example type="incorrect" correction="beneit|badoc|babau|bajà|talòs">Pareix <marker>bobo</marker>.</example>
-            <example type="correct">Ets un simple.</example>
+            <example type="incorrect" correction="beneits|badocs|babaus|bajans|talossos|bovos">Pareixen <marker>bobos</marker>.</example>
+            <example type="incorrect" correction="beneit|badoc|babau|bajà|talòs|bovo">Pareix <marker>bobo</marker>.</example>
         </rule>
         <rulegroup id="LLIURAR" name="lliurar/deslliurar">
             <antipattern>
@@ -31326,6 +31326,9 @@ $Id$
             <suggestion>ximplet</suggestion>
             <suggestion>tanoca</suggestion>
             <suggestion>totxo</suggestion>
+            <suggestion>bajoc</suggestion>
+            <suggestion>sòmines</suggestion>
+            <suggestion>babau</suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/papanates</url>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect">Quin <marker>papanates</marker>!</example>
@@ -31592,6 +31595,7 @@ $Id$
             <suggestion>eixelebrat</suggestion>
             <suggestion>barroer</suggestion>
             <suggestion>animalot</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/carcamal</url>
             <short>Lleguatge col·loquial</short>
             <example type="incorrect">Quin <marker>carcamal</marker>!</example>
             <example type="correct">Quin animal!</example>
@@ -31769,12 +31773,12 @@ $Id$
 		</rule>
 		<rule id="PARPALL" name="parpall">
 		    <pattern>
-		        <token regexp="yes">parpalls?</token>
+		        <token inflected="yes" regexp="yes">parpall|parpalla</token>
 		    </pattern>
-		    <message>En registres formals val més dir: <suggestion><match no="1" postag="NCM(.*)" postag_regexp="yes" postag_replace="NCF$1">parpella</match></suggestion>.</message>
+		    <message>En registres formals val més dir: <suggestion><match no="1" postag="NC.(.*)" postag_regexp="yes" postag_replace="NCF$1">parpella</match></suggestion>.</message>
             <short>Llenguatge col·loquial</short>
 		    <example type="incorrect" correction="parpella"><marker>parpall</marker></example>
-		    <example type="correct">parpella</example>
+            <example type="incorrect" correction="parpelles"><marker>parpalles</marker></example>
 		</rule>
 		<rule id="VORE" name="vore">
 		    <pattern>
@@ -31895,9 +31899,9 @@ $Id$
             <example type="incorrect" correction="gasiveries|mesquineses|garreperies|avarícies"><marker>tacanyeries</marker></example>
             <example type="correct">gasiveria</example>
         </rule>
-        <rule id="XAVACANERIA" name="xavacaneria, xavacanada, grosseria">
+        <rule id="XAVACANERIA" name="xavacaneria, xavacanada">
             <pattern>
-                <token inflected="yes" regexp="yes">xavacaneria|xavacanada|grosseria</token>
+                <token inflected="yes" regexp="yes">xavacaneria|xavacanada</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" postag="NC.(.).*" postag_regexp="yes" postag_replace="NCF$1.*">grolleria</match></suggestion> 
@@ -31906,6 +31910,18 @@ $Id$
             <short>Forma preferible</short>
             <example type="incorrect" correction="grolleries|barroeries|matusseries">Són <marker>xavacanades</marker>.</example>
             <example type="correct">Són coses xarones.</example>
+        </rule>
+        <rule id="XAVACA" name="xavacà">
+            <pattern>
+                <token inflected="yes">xavacà</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="AQ.(..)." postag_regexp="yes" postag_replace="AQ.$1.">xaró</match></suggestion> 
+            <suggestion><match no="1" postag="AQ..(.)." postag_regexp="yes" postag_replace="AQ.C$1.">vulgar</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(..)." postag_regexp="yes" postag_replace="AQ.$1.">groller</match></suggestion>
+            <short>Forma preferible</short>
+            <example type="incorrect" correction="xarons|vulgars|grollers">Són <marker>xavacans</marker>.</example>
+            <example type="incorrect" correction="xarona|vulgar|grollera">És <marker>xavacana</marker>.</example>
         </rule>
         <rulegroup id="NO_TENIR_DESPERDICI" name="no tenir desperdici">
             <rule>
@@ -32357,6 +32373,17 @@ $Id$
             <suggestion>(divertir-se)</suggestion>
             <example type="incorrect"><marker>disfrutar</marker></example>
             <example type="correct">gaudir</example>
+        </rule>
+        <rule id="FER_EXPLOSIONAR" name="explosionar">
+            <pattern>
+                <token inflected="yes">fer</token>
+                <token>explosionar</token>
+            </pattern>
+            <message>S'usa sense el verb "fer".</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">explosionar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/explosionar</url>
+            <example correction="explosionar">Va <marker>fer explosionar</marker></example>
+            <example correction="Explosionà"><marker>Féu explosionar</marker></example>
         </rule>
         <rule id="EXPLOSIONAR" name="explosionar">
             <pattern>
