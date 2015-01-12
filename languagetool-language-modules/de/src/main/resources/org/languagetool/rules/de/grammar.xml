@@ -11658,16 +11658,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Fünftel">Ein <marker>fünftel</marker> vom Ganzen</example>
             <example type="correct">Es kostet eine <marker>drittel</marker> Million.</example>
         </rule>
-        <rule id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
-            <pattern>
-                <token inflected="yes" skip="3">leisten</token>
-                <marker>
-                    <token case_sensitive="yes">folge</token>
-                </marker>
-            </pattern>
-            <message>In der Wendung '(einer Sache) Folge leisten' wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
-            <example correction="Folge">Ich leiste der Anweisung <marker>folge</marker>.</example>
-        </rule>
+        <rulegroup id="FOLGE_LEISTEN" name="leiste ... folge (Folge)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">folge</token>
+                    </marker>
+                    <token>leisten</token>
+                </pattern>
+                <message>In der Wendung '(einer Sache) Folge leisten' wird <suggestion><match no="1" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
+                <example correction="Folge">Ich werde der Anweisung <marker>folge</marker> leisten.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="3">leisten</token>
+                    <marker>
+                        <token case_sensitive="yes">folge</token>
+                    </marker>
+                </pattern>
+                <message>In der Wendung '(einer Sache) Folge leisten' wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
+                <example correction="Folge">Ich leiste der Anweisung <marker>folge</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DU_DICH" name="Du dich (Du Dich, du dich)">
             <rule>
                 <pattern case_sensitive="yes">
@@ -11756,7 +11768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <token postag="ADJ:.*" postag_regexp="yes"></token>
-                <token regexp="yes">[A-ZÖÄÜ]+</token>
+                <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
