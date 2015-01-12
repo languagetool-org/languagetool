@@ -59,6 +59,7 @@ public class CaseRule extends GermanRule {
     nounIndicators.add("mein");
     nounIndicators.add("dein");
     nounIndicators.add("euer");
+    nounIndicators.add("unser");
     //indicator.add("ihres");
     //indicator.add("ihren");
   }
