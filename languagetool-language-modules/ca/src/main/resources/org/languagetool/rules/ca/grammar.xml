@@ -32303,15 +32303,6 @@ $Id$
             <example type="incorrect" correction="col·lidí"><marker>col·lisionà</marker></example>
             <example type="correct">col·lidir</example>
         </rule>
-        <rule id="DESPEDIDA" name="despedida">
-            <pattern>
-                <token inflected="yes">despedida</token>
-            </pattern>
-            <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion><match no="1" regexp_match="despedid[ae](s?)" regexp_replace="comiat$1" /></suggestion>
-            <example type="incorrect" correction="comiat">Fou la seva <marker>despedida</marker></example>
-            <example type="correct">s'acomiadà</example>
-        </rule>
         <rule id="ANTORXA" name="antorxa">
             <pattern>
                 <token inflected="yes">antorxa</token>
@@ -32328,18 +32319,25 @@ $Id$
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" regexp_match="ante(.+)" regexp_replace="avant$1" /></suggestion>
             <example type="incorrect" correction="avantpassades">Les nostres <marker>antepassades</marker>.</example>
-            <example type="correct">Els avantpassats</example>
         </rule>
         <rule id="DESPEDIR" name="despedir">
             <pattern>
-                <token inflected="yes">despedir</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">despedir</token>
             </pattern>
             <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">acomiadar</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">despatxar</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">dir</match> adéu</suggestion>
-            <example type="incorrect">es <marker>despedí</marker></example>
-            <example type="correct">s'acomiadà</example>
+            <example type="incorrect" correction="acomiadà|despatxà|digué adéu">es <marker>despedí</marker></example>
+        </rule>
+        <rule id="DESPEDIDA" name="despedida">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">despedida</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">comiat</match></suggestion>
+            <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCM$1000">acomiadament</match></suggestion>
+            <example correction="comiats|acomiadaments">Les <marker>despedides</marker></example>
         </rule>
         <rule id="AMURALLAR" name="amurallar">
             <pattern>
@@ -32395,15 +32393,25 @@ $Id$
             <example type="incorrect" correction="Féu explotar|Féu esclatar"><marker>Explosionà</marker></example>
             <example type="correct">la féu esclatar</example>
         </rule>
-        <rule id="ABORREGAR" name="aborregar">
-            <pattern>
-                <token inflected="yes">aborregar</token>
-            </pattern>
-            <message>Paraula admesa només en alguns diccionaris.</message>
-            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">amoltonar</match></suggestion>
-            <example type="incorrect" correction="amoltonaren">s'<marker>aborregaren</marker></example>
-            <example type="correct">S'amoltonaven.</example>
-        </rule>
+        <rulegroup id="ABORREGAR" name="aborregar">
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="V.*" inflected="yes">aborregar</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">amoltonar</match></suggestion>
+                <example type="incorrect" correction="amoltonaren">s'<marker>aborregaren</marker></example>
+                <example type="correct">S'amoltonaven.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag_regexp="yes" postag="N.*" inflected="yes">aborregament</token>
+                </pattern>
+                <message>Paraula admesa només en alguns diccionaris.</message>
+                <suggestion><match no="1" postag="(N.+)" postag_regexp="yes" postag_replace="$1">amoltonament</match></suggestion>
+                <example type="incorrect" correction="amoltonament">Quin <marker>aborregament</marker>!</example>
+            </rule>
+        </rulegroup>
         <rule id="AFINCAR" name="afincar">
             <pattern>
                 <token inflected="yes">afincar</token>
