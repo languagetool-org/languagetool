@@ -524,6 +524,10 @@ public class CaseRule extends GermanRule {
         if (i < tokens.length - 1) {
           // avoid false alarm for "Das haben wir getan." etc:
           nextTokenIsPersonalPronoun = tokens[i + 1].hasPartialPosTag("PRO:PER") || tokens[i + 1].getToken().equals("Sie");
+          if (tokens[i + 1].hasLemma("lassen")) {
+            // avoid false alarm for "Ihr sollt mich das wissen lassen."
+            continue;
+          }
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
       }

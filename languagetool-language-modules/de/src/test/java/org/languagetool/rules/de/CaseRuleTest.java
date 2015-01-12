@@ -70,6 +70,8 @@ public class CaseRuleTest extends TestCase {
     assertGood("Er wird etwas so Verrücktes träumen.");
     assertGood("Tom ist etwas über dreißig.");
     assertGood("Diese Angriffe bleiben im Verborgenen.");
+    assertGood("Ihr sollt mich das wissen lassen.");
+    assertGood("Wenn er mich das rechtzeitig wissen lässt, gerne.");
     assertBad("Tom ist etwas über Dreißig.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
