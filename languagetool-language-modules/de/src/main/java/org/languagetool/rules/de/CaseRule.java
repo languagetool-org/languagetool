@@ -54,14 +54,11 @@ public class CaseRule extends GermanRule {
   static {
     nounIndicators.add("das");
     nounIndicators.add("sein");
-    //indicator.add("seines");    // TODO: ?
-    //nounIndicators.add("ihr");    // would cause false alarm e.g. "Auf ihr stehen die Ruinen..."
+    //nounIndicators.add("ihr");    // would cause false alarm e.g. "Auf ihr stehen die Ruinen...", "Ich dachte, dass ihr kommen würdet.", "Ich verdanke ihr meinen Erfolg."
     nounIndicators.add("mein");
     nounIndicators.add("dein");
     nounIndicators.add("euer");
     nounIndicators.add("unser");
-    //indicator.add("ihres");
-    //indicator.add("ihren");
   }
   
   private static final Set<String> sentenceStartExceptions = new HashSet<>();
@@ -76,214 +73,213 @@ public class CaseRule extends GermanRule {
     sentenceStartExceptions.add("»");
     sentenceStartExceptions.add(".");
   }
-  
-  private static final Set<String> exceptions = new HashSet<>();
-  static {
-    /*
-     * These are words that Morphy only knows as non-nouns. The proper
-     * solution is to add all those to our Morphy data, but as a simple
-     * workaround to avoid false alarms, these words can be added here.
-     */
-    exceptions.add("Abseits");
-    exceptions.add("Beschäftigter");
-    exceptions.add("Beschäftigte");
-    exceptions.add("Beschäftigten");
-    exceptions.add("Üblichen");
-    exceptions.add("Bekannter");
-    exceptions.add("Bekannte");
-    exceptions.add("Tel");  // Tel. = Telefon
-    exceptions.add("Unschuldiger");
-    exceptions.add("Vorgesetzter");
-    exceptions.add("Abs");   // Abs. = Abkürzung für Absatz, Absender, ...
-    exceptions.add("Klappe");
-    exceptions.add("Vorfahre");
-    exceptions.add("Mittler");
-    exceptions.add("Hr");   // Hr. = Abkürzung für Herr
-    exceptions.add("Schwarz");
-    exceptions.add("Genese");
-    exceptions.add("Rosa");
-    exceptions.add("Auftrieb");
-    exceptions.add("Zuschnitt");
-    exceptions.add("Geschossen");
-    exceptions.add("Vortrieb");
-    exceptions.add("Abtrieb");
-    exceptions.add("Gesandter");
-    exceptions.add("Durchfahrt");
-    exceptions.add("Durchgriff");
-    exceptions.add("Überfahrt");
-    exceptions.add("Zeche");
-    exceptions.add("Sparte");
-    exceptions.add("Sparten");
-    exceptions.add("Heiliger");
-    exceptions.add("Reisender");
-    exceptions.add("Hochdeutsch");
-    exceptions.add("Pest");
-    exceptions.add("Schwinge");
-    exceptions.add("Verlies");
-    exceptions.add("Nachfolge");
-    exceptions.add("Stift");
-    exceptions.add("Belange");
-    exceptions.add("Geistlicher");
-    exceptions.add("Jenseits");
-    exceptions.add("Abends");
-    exceptions.add("Abgeordneter");
-    exceptions.add("Angestellter");
-    exceptions.add("Liberaler");
-    exceptions.add("Abriss");
-    exceptions.add("Ahne");
-    exceptions.add("Ähnlichem");
-    exceptions.add("Ähnliches");   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
-    exceptions.add("Allerlei");
-    exceptions.add("Anklang");
-    exceptions.add("Anstrich");
-    exceptions.add("Armes");
-    exceptions.add("Aus");    // "vor dem Aus stehen"
-    exceptions.add("Ausdrücke");
-    exceptions.add("Auswüchsen");
-    exceptions.add("Bände");
-    exceptions.add("Bänden");
-    exceptions.add("Beauftragter");
-    exceptions.add("Belange");
-    exceptions.add("besonderes");   // je nach Kontext groß (TODO): "etwas Besonderes" 
-    exceptions.add("Biss");
-    exceptions.add("De");    // "De Morgan" etc
-    exceptions.add("Dr");
-    exceptions.add("Durcheinander");
-    exceptions.add("Eindrücke");
-    exceptions.add("Erwachsener");
-    exceptions.add("Flöße");
-    exceptions.add("Folgendes");   // je nach Kontext groß (TODO)...
-    exceptions.add("Fort");
-    exceptions.add("Fraß");
-    exceptions.add("Für");      // "das Für und Wider"
-    exceptions.add("Genüge");
-    exceptions.add("Gläubiger");
-    exceptions.add("Goldener");    // Goldener Schnitt
-    exceptions.add("Guten");    // das Kap der Guten Hoffnung
-    exceptions.add("Hechte");
-    exceptions.add("Herzöge");
-    exceptions.add("Herzögen");
-    exceptions.add("Hinfahrt");
-    exceptions.add("Hundert");   // je nach Kontext groß (TODO) 
-    exceptions.add("Ihnen");
-    exceptions.add("Ihr");
-    exceptions.add("Ihre");
-    exceptions.add("Ihrem");
-    exceptions.add("Ihren");
-    exceptions.add("Ihrer");
-    exceptions.add("Ihres");
-    exceptions.add("Infrarot");
-    exceptions.add("Jenseits");
-    exceptions.add("Jugendlicher");
-    exceptions.add("Jünger");
-    exceptions.add("Klaue");
-    exceptions.add("Kleine");    // der Kleine Bär
-    exceptions.add("Konditional");
-    exceptions.add("Krähe");
-    exceptions.add("Kurzem");
-    exceptions.add("Landwirtschaft");
-    exceptions.add("Langem");
-    exceptions.add("Längerem");
-    exceptions.add("Las");   // Las Vegas, nicht "lesen"
-    exceptions.add("Le");    // "Le Monde" etc
-    exceptions.add("Letzt");
-    exceptions.add("Letzt");      // "zu guter Letzt"
-    exceptions.add("Letztere");
-    exceptions.add("Letzterer");
-    exceptions.add("Letzteres");
-    exceptions.add("Link");
-    exceptions.add("Links");
-    exceptions.add("Löhne");
-    exceptions.add("Luden");
-    exceptions.add("Mitfahrt");
-    exceptions.add("Mr");
-    exceptions.add("Mrd");
-    exceptions.add("Mrs");
-    exceptions.add("Nachfrage");
-    exceptions.add("Nachts");   // "des Nachts", "eines Nachts"
-    exceptions.add("Nähte");
-    exceptions.add("Nähten");
-    exceptions.add("Neuem");
-    exceptions.add("Nr");
-    exceptions.add("Nutze");   // zu Nutze
-    exceptions.add("Obdachloser");
-    exceptions.add("Oder");   // der Fluss
-    exceptions.add("Patsche");
-    exceptions.add("Pfiffe");
-    exceptions.add("Pfiffen");
-    exceptions.add("Prof");
-    exceptions.add("Puste");
-    exceptions.add("Sachverständiger");
-    exceptions.add("Sankt");
-    exceptions.add("Scheine");
-    exceptions.add("Scheiße");
-    exceptions.add("Schuft");
-    exceptions.add("Schufte");
-    exceptions.add("Schuld");
-    exceptions.add("Schwärme");
-    exceptions.add("Schwarzes");    // Schwarzes Brett
-    exceptions.add("Sie");
-    exceptions.add("Spitz");
-    exceptions.add("St");   // Paris St. Germain
-    exceptions.add("Stereotyp");
-    exceptions.add("Störe");
-    exceptions.add("Tausend");   // je nach Kontext groß (TODO) 
-    exceptions.add("Toter");
-    exceptions.add("tun");   // "Sie müssen das tun"
-    exceptions.add("Übrigen");   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
-    exceptions.add("Unvorhergesehenes");   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
-    exceptions.add("Verantwortlicher");
-    exceptions.add("Verwandter");
-    exceptions.add("Vielfaches");
-    exceptions.add("Vorsitzender");
-    exceptions.add("Fraktionsvorsitzender");
-    exceptions.add("Weitem");
-    exceptions.add("Weiteres");
-    exceptions.add("Wicht");
-    exceptions.add("Wichtiges");
-    exceptions.add("Wider");    // "das Für und Wider"
-    exceptions.add("Wild");
-    exceptions.add("Zeche");
-    exceptions.add("Zusage");
-    exceptions.add("Zwinge");
-    exceptions.add("Tertiär");  // geologischer Zeitabschnitt
 
-    exceptions.add("Erster");   // "er wurde Erster im Langlauf"
-    exceptions.add("Zweiter");
-    exceptions.add("Dritter");
-    exceptions.add("Vierter");
-    exceptions.add("Fünfter");
-    exceptions.add("Sechster");
-    exceptions.add("Siebter");
-    exceptions.add("Achter");
-    exceptions.add("Neunter");
-    exceptions.add("Erste");   // "sie wurde Erste im Langlauf"
-    exceptions.add("Zweite");
-    exceptions.add("Dritte");
-    exceptions.add("Vierte");
-    exceptions.add("Fünfte");
-    exceptions.add("Sechste");
-    exceptions.add("Siebte");
-    exceptions.add("Achte");
-    exceptions.add("Neunte");
+  /*
+   * These are words that Morphy only knows as non-nouns. The proper
+   * solution is to add all those to our Morphy data, but as a simple
+   * workaround to avoid false alarms, these words can be added here.
+   */
+  private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+    "Abseits",
+    "Beschäftigter",
+    "Beschäftigte",
+    "Beschäftigten",
+    "Üblichen",
+    "Bekannter",
+    "Bekannte",
+    "Tel",  // Tel. = Telefon
+    "Unschuldiger",
+    "Vorgesetzter",
+    "Abs",   // Abs. = Abkürzung für Absatz, Absender, ...
+    "Klappe",
+    "Vorfahre",
+    "Mittler",
+    "Hr",   // Hr. = Abkürzung für Herr
+    "Schwarz",
+    "Genese",
+    "Rosa",
+    "Auftrieb",
+    "Zuschnitt",
+    "Geschossen",
+    "Vortrieb",
+    "Abtrieb",
+    "Gesandter",
+    "Durchfahrt",
+    "Durchgriff",
+    "Überfahrt",
+    "Zeche",
+    "Sparte",
+    "Sparten",
+    "Heiliger",
+    "Reisender",
+    "Hochdeutsch",
+    "Pest",
+    "Schwinge",
+    "Verlies",
+    "Nachfolge",
+    "Stift",
+    "Belange",
+    "Geistlicher",
+    "Jenseits",
+    "Abends",
+    "Abgeordneter",
+    "Angestellter",
+    "Liberaler",
+    "Abriss",
+    "Ahne",
+    "Ähnlichem",
+    "Ähnliches",   // je nach Kontext groß (TODO), z.B. "Er hat Ähnliches erlebt" 
+    "Allerlei",
+    "Anklang",
+    "Anstrich",
+    "Armes",
+    "Aus",    // "vor dem Aus stehen"
+    "Ausdrücke",
+    "Auswüchsen",
+    "Bände",
+    "Bänden",
+    "Beauftragter",
+    "Belange",
+    "besonderes",   // je nach Kontext groß (TODO): "etwas Besonderes" 
+    "Biss",
+    "De",    // "De Morgan" etc
+    "Dr",
+    "Durcheinander",
+    "Eindrücke",
+    "Erwachsener",
+    "Flöße",
+    "Folgendes",   // je nach Kontext groß (TODO)...
+    "Fort",
+    "Fraß",
+    "Für",      // "das Für und Wider"
+    "Genüge",
+    "Gläubiger",
+    "Goldener",    // Goldener Schnitt
+    "Guten",    // das Kap der Guten Hoffnung
+    "Hechte",
+    "Herzöge",
+    "Herzögen",
+    "Hinfahrt",
+    "Hundert",   // je nach Kontext groß (TODO) 
+    "Ihnen",
+    "Ihr",
+    "Ihre",
+    "Ihrem",
+    "Ihren",
+    "Ihrer",
+    "Ihres",
+    "Infrarot",
+    "Jenseits",
+    "Jugendlicher",
+    "Jünger",
+    "Klaue",
+    "Kleine",    // der Kleine Bär
+    "Konditional",
+    "Krähe",
+    "Kurzem",
+    "Landwirtschaft",
+    "Langem",
+    "Längerem",
+    "Las",   // Las Vegas, nicht "lesen"
+    "Le",    // "Le Monde" etc
+    "Letzt",
+    "Letzt",      // "zu guter Letzt"
+    "Letztere",
+    "Letzterer",
+    "Letzteres",
+    "Link",
+    "Links",
+    "Löhne",
+    "Luden",
+    "Mitfahrt",
+    "Mr",
+    "Mrd",
+    "Mrs",
+    "Nachfrage",
+    "Nachts",   // "des Nachts", "eines Nachts"
+    "Nähte",
+    "Nähten",
+    "Neuem",
+    "Nr",
+    "Nutze",   // zu Nutze
+    "Obdachloser",
+    "Oder",   // der Fluss
+    "Patsche",
+    "Pfiffe",
+    "Pfiffen",
+    "Prof",
+    "Puste",
+    "Sachverständiger",
+    "Sankt",
+    "Scheine",
+    "Scheiße",
+    "Schuft",
+    "Schufte",
+    "Schuld",
+    "Schwärme",
+    "Schwarzes",    // Schwarzes Brett
+    "Sie",
+    "Spitz",
+    "St",   // Paris St. Germain
+    "Stereotyp",
+    "Störe",
+    "Tausend",   // je nach Kontext groß (TODO) 
+    "Toter",
+    "tun",   // "Sie müssen das tun"
+    "Übrigen",   // je nach Kontext groß (TODO), z.B. "im Übrigen" 
+    "Unvorhergesehenes",   // je nach Kontext groß (TODO), z.B. "etwas Unvorhergesehenes" 
+    "Verantwortlicher",
+    "Verwandter",
+    "Vielfaches",
+    "Vorsitzender",
+    "Fraktionsvorsitzender",
+    "Weitem",
+    "Weiteres",
+    "Wicht",
+    "Wichtiges",
+    "Wider",    // "das Für und Wider"
+    "Wild",
+    "Zeche",
+    "Zusage",
+    "Zwinge",
+    "Tertiär",  // geologischer Zeitabschnitt
+
+    "Erster",   // "er wurde Erster im Langlauf"
+    "Zweiter",
+    "Dritter",
+    "Vierter",
+    "Fünfter",
+    "Sechster",
+    "Siebter",
+    "Achter",
+    "Neunter",
+    "Erste",   // "sie wurde Erste im Langlauf"
+    "Zweite",
+    "Dritte",
+    "Vierte",
+    "Fünfte",
+    "Sechste",
+    "Siebte",
+    "Achte",
+    "Neunte",
 
     // Änderungen an der Rechtschreibreform 2006 erlauben hier Großschreibung:
-    exceptions.add("Dein");
-    exceptions.add("Deine");
-    exceptions.add("Deinem");
-    exceptions.add("Deinen");
-    exceptions.add("Deiner");
-    exceptions.add("Deines");
-    exceptions.add("Dich");
-    exceptions.add("Dir");
-    exceptions.add("Du");
-    exceptions.add("Euch");
-    exceptions.add("Euer");
-    exceptions.add("Eure");
-    exceptions.add("Eurem");
-    exceptions.add("Euren");
-    exceptions.add("Eures");
-  }
+    "Dein",
+    "Deine",
+    "Deinem",
+    "Deinen",
+    "Deiner",
+    "Deines",
+    "Dich",
+    "Dir",
+    "Du",
+    "Euch",
+    "Euer",
+    "Eure",
+    "Eurem",
+    "Euren",
+    "Eures"
+  ));
   
   private static final Set<String> languages = new HashSet<>();
     static {
