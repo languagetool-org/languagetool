@@ -11646,6 +11646,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rulegroup id="DU_DICH" name="Du dich (Du Dich, du dich)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Du</token>
+                    <token>dich</token>
+                </pattern>
+                <message>Uneinheitliche Schreibung von 'Du' und 'Dich'</message>
+                <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <suggestion><match no="1" case_conversion="startlower"/> <match no="2" case_conversion="startlower"/></suggestion>
+                <example type="incorrect" correction="Du Dich|du dich">Kannst <marker>Du dich</marker> erinnern?</example>
+                <example type="correct">Kannst <marker>Du Dich</marker> erinnern?</example>
+                <example type="correct">Kannst <marker>du dich</marker> erinnern?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>du</token>
+                    <token>Dich</token>
+                </pattern>
+                <message>Uneinheitliche Schreibung von 'Du' und 'Dich'</message>
+                <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
+                <suggestion><match no="1" case_conversion="startlower"/> <match no="2" case_conversion="startlower"/></suggestion>
+                <example type="incorrect" correction="Du Dich|du dich">Kannst <marker>du Dich</marker> erinnern?</example>
+                <example type="correct">Kannst <marker>Du Dich</marker> erinnern?</example>
+                <example type="correct">Kannst <marker>du dich</marker> erinnern?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WORTPAAR" name="jung und alt (Jung und Alt)">
             <url>http://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung#K72</url>
             <rule>
