@@ -46,13 +46,48 @@ public class CatalanDisambiguatorTest extends DisambiguationRuleTest {
   public void testChunker() throws IOException {
     TestTools
     .myAssert(
-        "A costa d'ell",
-        "/[null]SENT_START A/[a]NCFS000|A/[a]SPS00|a/[a costa d']<LOC_PREP>  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[a costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
+        "et al.",
+        "/[null]SENT_START et/[et al.]<LOC_ADV>|et/[tu]P020S000|et/[tu]PP2CS000  /[null]null a/[a]NCFS000|a/[a]SPS00 l/[litre]Y ./[et al.]</LOC_ADV>",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "Al marge d'aquells",
+        "/[null]SENT_START A/[a]NCFS000|A/[a]SPS00|A/[al marge d']<LOC_PREP> l/[litre]Y  /[null]null marge/[marge]NCMS000  /[null]null d'/[al marge d']</LOC_PREP>|d'/[de]SPS00 aquells/[aquell]DD0MP0|aquells/[aquell]PD0MP000",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+    .myAssert(
+        "L'Aquila",
+        "/[null]SENT_START L'/[L'Aquila]<NPFSG00>|L'/[el]DA0CS0|L'/[ell]PP3CSA00 Aquila/[L'Aquila]</NPFSG00>",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools
         .myAssert(
+            "Al després-dinar",
+            "/[null]SENT_START A/[a]NCFS000|A/[a]SPS00|A/[al després-dinar]<LOC_ADV> l/[litre]Y  /[null]null després/[desprendre]VMP00SM0|després/[després]RG -/[null]null dinar/[al després-dinar]</LOC_ADV>|dinar/[dinar]NCMS000|dinar/[dinar]VMN00000",
+            tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+        .myAssert(
+            "d'una vegada",
+            "/[null]SENT_START d'/[d'una vegada]<LOC_ADV>|d'/[de]SPS00 una/[un]DI0FS0|una/[un]PI0FS000  /[null]null vegada/[d'una vegada]</LOC_ADV>|vegada/[vegada]NCFS000",
+            tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+        .myAssert(
+            "D'una vegada",
+            "/[null]SENT_START D'/[d'una vegada]<LOC_ADV>|D'/[de]SPS00 una/[un]DI0FS0|una/[un]PI0FS000  /[null]null vegada/[d'una vegada]</LOC_ADV>|vegada/[vegada]NCFS000",
+            tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+        .myAssert(
+            "Puerta del Sol",
+            "/[null]SENT_START Puerta/[Puerta del Sol]<NPFSG00>  /[null]null de/[de]NCFS000|de/[de]SPS00 l/[litre]Y  /[null]null Sol/[Puerta del Sol]</NPFSG00>|Sol/[Sol]NPCNSP0|Sol/[Sol]NPMSSP0|Sol/[sol]AQ0MS0|Sol/[sol]NCMS000|Sol/[solar]VMIP1S0B|Sol/[soler]VMIP3S00|Sol/[soler]VMM02S00",
+            tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+        .myAssert(
+            "A costa d'ell",
+            "/[null]SENT_START A/[a costa d']<LOC_PREP>|A/[a]NCFS000|A/[a]SPS00  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[a costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
+            tokenizer, sentenceTokenizer, tagger, disambiguator);
+    TestTools
+        .myAssert(
             "A costa d’ell",
-            "/[null]SENT_START A/[a]NCFS000|A/[a]SPS00|a/[a costa d']<LOC_PREP>  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[a costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
+            "/[null]SENT_START A/[a costa d']<LOC_PREP>|A/[a]NCFS000|A/[a]SPS00  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[a costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
             tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 }

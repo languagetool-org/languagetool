@@ -139,7 +139,14 @@ public class MultiWordChunker implements Disambiguator {
 
     for (int i = 0; i < anTokens.length; i++) {
       String tok = output[i].getToken();
-      // If it is a capitalized word, second time try with lowercase word.
+      if (tok.length()<1) {
+        continue;
+      }
+      // If the second token is not whitespace, concatenate it
+      if (i + 1 < anTokens.length && !anTokens[i+1].isWhitespace()) {
+        tok=tok.concat(output[i+1].getToken());
+      }
+      // If it is a capitalized word, the second time try with lowercase word.
       int myCount = 0;
       while (myCount < 2) {
         final StringBuilder tokens = new StringBuilder();
@@ -157,46 +164,46 @@ public class MultiWordChunker implements Disambiguator {
               }
               final String toks = tokens.toString();
               if (mFull.containsKey(toks)) {
-                output[i] = prepareNewReading(toks, tok, output[i], false);
+                output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
                 output[finalLen] = prepareNewReading(toks,
                     anTokens[finalLen].getToken(), output[finalLen], true);
               }
+            } else {
+              tokens.append(' ');
               lenCounter++;
               if (lenCounter == len) {
                 break;
               }
-              tokens.append(' ');
+
             }
             j++;
             finalLen = j;
-          }
+          } 
         }
 
-        if (mStartNoSpace.containsKey(tok)) {
-          final int len = mStartNoSpace.get(tok);
-          if (i + len <= anTokens.length) {
-            for (int j = i; j < i + len; j++) {
-              if ((j == i) && (myCount == 1)) {
-                tokens.append(anTokens[j].getToken().toLowerCase());
-              } else {
-                tokens.append(anTokens[j].getToken());
-              }
-              final String toks = tokens.toString();
-              if (mFull.containsKey(toks)) {
-                output[i] = prepareNewReading(toks, tok, output[i], false);
-                output[i + len - 1] = prepareNewReading(toks, anTokens[i + len
-                    - 1].getToken(), output[i + len - 1], true);
-
-              }
+        if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
+          int j = i;
+          while (j < anTokens.length && !anTokens[j].isWhitespace()) {
+            if ((j == i) && (myCount == 1)) {
+              tokens.append(anTokens[j].getToken().toLowerCase());
+            } else {
+              tokens.append(anTokens[j].getToken());
             }
+            final String toks = tokens.toString();
+            if (mFull.containsKey(toks)) {
+              output[i] = prepareNewReading(toks, anTokens[i].getToken(),
+                  output[i], false);
+              output[j] = prepareNewReading(toks, anTokens[j].getToken(),
+                  output[j], true);
+            }
+            j++;
           }
         }
         // If it is a capitalized word, try with lowercase word.
         myCount++;
-        if (bAllowFirstCapitalized && StringTools.isCapitalizedWord(tok)) {
-          if (myCount == 1) {
+        if (bAllowFirstCapitalized && StringTools.isCapitalizedWord(tok) 
+            && myCount == 1) {
             tok = tok.toLowerCase();
-          }
         } else {
           myCount = 2;
         }
