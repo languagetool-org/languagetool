@@ -181,7 +181,7 @@ public class PatternRuleTest extends TestCase {
         }
         if (!correctionExists) {
           fail("Rule " + rule.getId() + "[" + rule.getSubId() + "]" + " in language " + lang
-                  + " needs at least one <example> of type='incorrect' and with a 'correction' attribute"
+                  + " needs at least one <example> with a 'correction' attribute"
                   + " or one <example> of type='correct'.");
         }
       }

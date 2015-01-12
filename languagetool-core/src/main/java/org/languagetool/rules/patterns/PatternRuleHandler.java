@@ -193,16 +193,21 @@ public class PatternRuleHandler extends XMLRuleHandler {
         setExceptions(attrs);
         break;
       case EXAMPLE:
-        if (attrs.getValue(TYPE).equals("correct")) {
+        String typeVal = attrs.getValue(TYPE);
+        if ("correct".equals(typeVal)) {
           inCorrectExample = true;
           correctExample = new StringBuilder();
-        } else if (attrs.getValue(TYPE).equals("incorrect")) {
+        } else if ("incorrect".equals(typeVal) || attrs.getValue("correction") != null) {
           inIncorrectExample = true;
           incorrectExample = new StringBuilder();
           exampleCorrection = new StringBuilder();
           if (attrs.getValue("correction") != null) {
             exampleCorrection.append(attrs.getValue("correction"));
           }
+        } else if ("triggers_error".equals(typeVal)) {
+          // ignore
+        } else {
+          throw new RuntimeException("Example in rule " + id + "[" + subId + "] needs a 'type' or a 'correction' attribute");
         }
         break;
       case "filter":
