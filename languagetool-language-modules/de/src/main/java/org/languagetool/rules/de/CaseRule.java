@@ -516,16 +516,10 @@ public class CaseRule extends GermanRule {
       }
       final AnalyzedTokenReadings analyzedToken = tokens[i];
       final String token = analyzedToken.getToken();
-      List<AnalyzedToken> readings = analyzedToken.getReadings();
-      
+
       boolean isBaseform = analyzedToken.getReadingsLength() >= 1 && analyzedToken.hasLemma(token);
-      if ((readings == null || analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
+      if ((analyzedToken.getAnalyzedToken(0).getPOSTag() == null || GermanHelper.hasReadingOfType(analyzedToken, GermanToken.POSType.VERB))
           && isBaseform) {
-        // no match, e.g. for "Groß": try if there's a match for the lowercased word:
-        AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
-        if (lowercaseReadings != null) {
-          readings = lowercaseReadings.getReadings();
-        }
         boolean nextTokenIsPersonalPronoun = false;
         if (i < tokens.length - 1) {
           // avoid false alarm for "Das haben wir getan." etc:
@@ -534,9 +528,6 @@ public class CaseRule extends GermanRule {
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
       }
       prevTokenIsDas = nounIndicators.contains(tokens[i].getToken().toLowerCase());
-      if (readings == null) {
-        continue;
-      }
       if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
         continue;
       }
