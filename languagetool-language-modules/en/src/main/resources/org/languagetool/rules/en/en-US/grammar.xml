@@ -1,9 +1,9 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css"
 title="Easy editing stylesheet" ?>
 <!--
-British English Grammar and Typo Rules for LanguageTool
+American English Grammar and Typo Rules for LanguageTool
 See tagset.txt for the meaning of the POS tags
 Copyright (C) 2012 Marcin Miłkowski (http://www.languagetool.org)
 
@@ -25,22 +25,22 @@ USA
 <!--suppress CheckTagEmptyBody -->
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <!-- ====================================================================== -->
-  <!-- Possible typos -->
-  <!-- ====================================================================== -->
-<category name="Possible Typo" type="misspelling">
-      <rule id="ANY_MORE" name="any more (anymore)">        
-          <pattern>
-          <marker>
-             <token>any</token>
-             <token>more</token>
-          </marker>
-          <token><exception regexp="yes">of|than</exception><exception postag="NN.*" postag_regexp="yes"/></token>
-          </pattern>
-          <message>Did you mean <suggestion>\1\2</suggestion>?</message>
-          <url>http://www.whichenglish.com/Better-English-Grammar/Online-Usage-Letter-A.html</url>
-          <short>Possible typo</short>
-          <example type="incorrect" correction="anymore">I couldn't find my way around in it <marker>any more</marker>.</example>
-      </rule>
-</category>
+    <!-- ====================================================================== -->
+    <!-- Possible typos -->
+    <!-- ====================================================================== -->
+    <category name="Possible Typo" type="misspelling">
+          <rule id="ANY_MORE" name="any more (anymore)">
+              <pattern>
+                  <marker>
+                     <token>any</token>
+                     <token>more</token>
+                  </marker>
+                  <token><exception regexp="yes">of|than</exception><exception postag="NN.*" postag_regexp="yes"/></token>
+              </pattern>
+              <message>Did you mean <suggestion>\1\2</suggestion>?</message>
+              <url>http://www.whichenglish.com/Better-English-Grammar/Online-Usage-Letter-A.html</url>
+              <short>Possible typo</short>
+              <example type="incorrect" correction="anymore">I couldn't find my way around in it <marker>any more</marker>.</example>
+          </rule>
+    </category>
 </rules>
