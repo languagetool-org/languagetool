@@ -40,19 +40,19 @@ public class CatalanDisambiguatorTest extends DisambiguationRuleTest {
       tagger = new CatalanTagger();
       tokenizer = new CatalanWordTokenizer();
       sentenceTokenizer = new SRXSentenceTokenizer(new Catalan());
-      disambiguator = new MultiWordChunker("/ca/multiwords.txt");
+      disambiguator = new MultiWordChunker("/ca/multiwords.txt", true);
     }
     
   public void testChunker() throws IOException {
     TestTools
     .myAssert(
         "A costa d'ell",
-        "/[null]SENT_START A/[A costa d']<LOC_PREP>|A/[a]NCFS000|A/[a]SPS00  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[A costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
+        "/[null]SENT_START A/[a]NCFS000|A/[a]SPS00|a/[a costa d']<LOC_PREP>  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[a costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
     TestTools
         .myAssert(
             "A costa d’ell",
-            "/[null]SENT_START A/[A costa d']<LOC_PREP>|A/[a]NCFS000|A/[a]SPS00  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[A costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
+            "/[null]SENT_START A/[a]NCFS000|A/[a]SPS00|a/[a costa d']<LOC_PREP>  /[null]null costa/[costa]NCFS000|costa/[costar]VMIP3S00|costa/[costar]VMM02S00  /[null]null d'/[a costa d']</LOC_PREP>|d'/[de]SPS00 ell/[ell]PP3MS000",
             tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
 }

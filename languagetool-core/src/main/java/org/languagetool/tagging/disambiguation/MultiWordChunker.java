@@ -23,6 +23,7 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.tools.StringTools;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,10 +43,28 @@ public class MultiWordChunker implements Disambiguator {
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
   private Map<String, String> mFull;
-
+  
+  private boolean bAllowFirstCapitalized=false;
+  
+  /**
+   * @param filename
+   *          file text with multiwords and tags
+   */
   public MultiWordChunker(final String filename) {
     super();
     this.filename = filename;
+  }
+  
+  /**
+   * @param filename
+   *          file text with multiwords and tags
+   * @param bAllowFirstUpperCase
+   *          if set to {@code true}, first word of the multiword can be capitalized
+   */
+  public MultiWordChunker(final String filename, boolean allowFirstCapitalized) {
+    super();
+    this.filename = filename;
+    bAllowFirstCapitalized = allowFirstCapitalized;
   }
   
   /*
@@ -119,53 +138,72 @@ public class MultiWordChunker implements Disambiguator {
     final AnalyzedTokenReadings[] output = anTokens;
 
     for (int i = 0; i < anTokens.length; i++) {
-      final String tok = output[i].getToken();
-      final StringBuilder tokens = new StringBuilder();
-
-      int finalLen = 0;
-      if (mStartSpace.containsKey(tok)) {
-        final int len = mStartSpace.get(tok);
-        int j = i;
-        int lenCounter = 0;
-        while (j < anTokens.length) {
-          if (!anTokens[j].isWhitespace()) {
-            tokens.append(anTokens[j].getToken());
-            final String toks = tokens.toString();
-            if (mFull.containsKey(toks)) {
-              output[i] = prepareNewReading(toks, tok, output[i], false);
-              output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(),
-                      output[finalLen], true);
+      String tok = output[i].getToken();
+      // If it is a capitalized word, second time try with lowercase word.
+      int myCount = 0;
+      while (myCount < 2) {
+        final StringBuilder tokens = new StringBuilder();
+        int finalLen = 0;
+        if (mStartSpace.containsKey(tok)) {
+          final int len = mStartSpace.get(tok);
+          int j = i;
+          int lenCounter = 0;
+          while (j < anTokens.length) {
+            if (!anTokens[j].isWhitespace()) {
+              if ((j == i) && (myCount == 1)) {
+                tokens.append(anTokens[j].getToken().toLowerCase());
+              } else {
+                tokens.append(anTokens[j].getToken());
+              }
+              final String toks = tokens.toString();
+              if (mFull.containsKey(toks)) {
+                output[i] = prepareNewReading(toks, tok, output[i], false);
+                output[finalLen] = prepareNewReading(toks,
+                    anTokens[finalLen].getToken(), output[finalLen], true);
+              }
+              lenCounter++;
+              if (lenCounter == len) {
+                break;
+              }
+              tokens.append(' ');
             }
-            lenCounter++;
-            if (lenCounter == len) {
-              break;
-            }
-            tokens.append(' ');
+            j++;
+            finalLen = j;
           }
-          j++;
-          finalLen = j;
         }
-      }
 
-      if (mStartNoSpace.containsKey(tok)) {
-        final int len = mStartNoSpace.get(tok);
-        if (i + len <= anTokens.length) {
-          for (int j = i; j < i + len; j++) {
-            tokens.append(anTokens[j].getToken());
-            final String toks = tokens.toString();
-            if (mFull.containsKey(toks)) {
-              output[i] = prepareNewReading(toks, tok, output[i], false);
-              output[i + len - 1] = prepareNewReading(toks, anTokens
-                      [i + len - 1].getToken(), output[i + len -1], true);
+        if (mStartNoSpace.containsKey(tok)) {
+          final int len = mStartNoSpace.get(tok);
+          if (i + len <= anTokens.length) {
+            for (int j = i; j < i + len; j++) {
+              if ((j == i) && (myCount == 1)) {
+                tokens.append(anTokens[j].getToken().toLowerCase());
+              } else {
+                tokens.append(anTokens[j].getToken());
+              }
+              final String toks = tokens.toString();
+              if (mFull.containsKey(toks)) {
+                output[i] = prepareNewReading(toks, tok, output[i], false);
+                output[i + len - 1] = prepareNewReading(toks, anTokens[i + len
+                    - 1].getToken(), output[i + len - 1], true);
 
+              }
             }
           }
+        }
+        // If it is a capitalized word, try with lowercase word.
+        myCount++;
+        if (bAllowFirstCapitalized && StringTools.isCapitalizedWord(tok)) {
+          if (myCount == 1) {
+            tok = tok.toLowerCase();
+          }
+        } else {
+          myCount = 2;
         }
       }
     }
     return new AnalyzedSentence(output);
   }
-
 
   private AnalyzedTokenReadings prepareNewReading(final String tokens, final String tok, final AnalyzedTokenReadings token, final boolean isLast) {
     final StringBuilder sb = new StringBuilder();
