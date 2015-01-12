@@ -531,7 +531,6 @@ public class CaseRule extends GermanRule {
       if (hasNounReading(analyzedToken)) {  // it's the spell checker's task to check that nouns are uppercase
         continue;
       }
-      // TODO: this lookup should only happen once:
       AnalyzedTokenReadings lowercaseReadings = tagger.lookup(token.toLowerCase());
       if (analyzedToken.getAnalyzedToken(0).getPOSTag() == null && lowercaseReadings == null) {
         continue;
