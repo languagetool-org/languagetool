@@ -21896,7 +21896,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes" case_sensitive="no">etwas|nichts|alles|viel|wenig</token>
+                    <token regexp="yes" case_sensitive="no">etwas|nichts|alles|viel|wenig|genug</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -21920,8 +21920,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <token><exception regexp="yes">[eE]in</exception></token>
-                    <token regexp="yes">etwas|nichts|alles|viel|wenig</token>
-                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|recht</token>
+                    <token regexp="yes">etwas|nichts|alles|viel|wenig|genug</token>
+                    <token regexp="yes">sehr|besonders|allzu|ziemlich|wirklich|recht|echt</token>
                     <marker>
                         <token postag="(ADJ:NOM:SIN:NEU:(GRU|KOM):IND)|(PA1:AKK:.*)" postag_regexp="yes" regexp="yes">[a-zäöü].+es<exception>anderes</exception></token>
                     </marker>
@@ -21934,6 +21934,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Gutes">Dahinter verbirgt sich nichts allzu <marker>gutes</marker>.</example>
                 <example correction="Passendes">Da findet sich nichts wirklich <marker>passendes</marker>.</example>
                 <example correction="Passendes">Da findet sich wenig wirklich <marker>passendes</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>manches</token>
+                    <marker>
+                        <token case_sensitive="yes" postag="ADJ:NOM:.*" postag_regexp="yes" regexp="yes">[a-zäöü].+e</token>
+                    </marker>
+                    <token><exception postag="SUB:NOM:SIN:NEU"/></token>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion> hier großgeschrieben werden muss.</message>
+                <short>&prgk;.</short>
+                <example correction="Schöne">Manches <marker>schöne</marker> war dabei.</example>
+                <example type="correct">Manches <marker>schöne</marker> Haus war dabei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ALLES_GUTE" name="Groß-/Kleinschreibung: 'alles gute (Gute)' [Glückwunschformel]">
