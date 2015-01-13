@@ -11418,7 +11418,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="VOM_KLEINES_NOMEN" name="vom + kleingeschr. Nomen">
             <pattern>
-                <token regexp="yes">vom</token>
+                <token>vom</token>
                 <marker>
                     <token case_sensitive="yes" postag="VER:INF:SFT" regexp="yes">[a-zöäü].*<exception regexp="yes">offenbaren|einen</exception></token>
                 </marker>
@@ -21858,38 +21858,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Die SPD meuchelt aus <marker>Versehen</marker> ihren Chef.</example>
             <example type="incorrect">Die SPD meuchelt aus <marker>versehen</marker> ihren Chef.</example>
         </rule>
-        <rulegroup id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden (Laufenden) halten'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token inflected="yes">halten</token>
-                    <token regexp="yes">mich|[dD]ich|[sS]ie|[eE]uch|uns|ihn|jemand(en)?|einen</token>
-                    <token>auf</token>
-                    <token>dem</token>
-                    <marker>
-                        <token>laufenden</token>
-                    </marker>
-                </pattern>
-                <message>&inwend;'jmd. auf dem Laufenden halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example type="correct">Bitte halte mich auf dem <marker>Laufenden</marker>.</example>
-                <example type="incorrect">Bitte halte mich auf dem <marker>laufenden</marker></example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[aA]uf</token>
-                    <token>dem</token>
-                    <marker>
-                        <token skip="1">laufenden<exception postag="SENT_END" scope="next"/></token>
-                    </marker>
-                    <token inflected="yes">halten</token>
-                </pattern>
-                <message>&inwend;'jmd. auf dem Laufenden halten' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
-                <short>&prgk;.</short>
-                <example type="correct">Auf dem <marker>laufenden</marker> Band läuft das schmutzige Geschirr in die Spülmaschine.</example>
-                <example correction="Laufenden">Bitte versucht mich auf dem <marker>laufenden</marker> zu halten.</example>
-                <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
-            </rule>
-        </rulegroup>
+        <rule id="AUF_DEM_LAUFENDEN" name="Groß-/Kleinschreibung: 'auf dem laufenden (Laufenden) halten'">
+            <pattern>
+                <token>auf</token>
+                <token>dem</token>
+                <marker>
+                    <token case_sensitive="yes">laufenden</token>
+                </marker>
+                <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
+            </pattern>
+            <message>&inwend;'auf dem Laufenden bleiben' wird <suggestion>Laufenden</suggestion> großgeschrieben.</message>
+            <example correction="Laufenden">Man muss immer auf dem <marker>laufenden</marker> bleiben.</example>
+            <example correction="Laufenden">Bitte halte mich auf dem <marker>laufenden</marker>.</example>
+            <example correction="Laufenden">Bitte versucht mich auf dem <marker>laufenden</marker> zu halten.</example>
+            <example correction="Laufenden">Wir werden dich auf dem <marker>laufenden</marker> halten.</example>
+            <example type="correct">Er stand auf dem <marker>laufenden</marker> Karussell.</example>
+        </rule>
         <rule id="AUFS_VERB" name="aufs + Verb (kleingeschrieben)">
             <pattern>
                 <token>aufs</token>
