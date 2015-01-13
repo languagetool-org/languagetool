@@ -24,7 +24,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -236,7 +237,7 @@ public class Tools {
     }
   }
 
-  private static String getExampleSentences(Rule rule,  ResourceBundle messages) {
+  private static String getExampleSentences(Rule rule, ResourceBundle messages) {
     StringBuilder examples = new StringBuilder(200);
     java.util.List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     if (incorrectExamples.size() > 0) {
@@ -249,6 +250,15 @@ public class Tools {
       String correctExample = correctExamples.iterator().next();
       String sentence = correctExample.replace("<marker>", "<span style='background-color:#80ff80'>").replace("</marker>", "</span>");
       examples.append("<br/>").append(sentence).append("&nbsp;<span style='color:green'>✓</span>");
+    } else if (incorrectExamples.size() > 0) {
+      IncorrectExample incorrectExample = incorrectExamples.iterator().next();
+      List<String> corrections = incorrectExample.getCorrections();
+      if (corrections != null && corrections.size() > 0) {
+        String incorrectSentence = incorrectExamples.iterator().next().getExample();
+        String correctedSentence = incorrectSentence.replaceAll("<marker>.*?</marker>",
+                "<span style='background-color:#80ff80'>" + corrections.get(0) + "</span>");
+        examples.append("<br/>").append(correctedSentence).append("&nbsp;<span style='color:green'>✓</span>");
+      }
     }
     if (examples.length() > 0) {
       examples.insert(0, "<br/><br/>" + messages.getString("guiExamples"));
