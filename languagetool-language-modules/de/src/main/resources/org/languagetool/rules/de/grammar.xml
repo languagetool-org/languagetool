@@ -11252,6 +11252,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>FIXME</message>
         </rule>
         -->
+        <rule id="EIN_KLEINES_NOMEN" name="ein klopfen (Klopfen) etc.">
+            <pattern>
+                <token>ein</token>
+                <token postag_regexp="yes" postag="ADJ:.*" min="0"/>
+                <marker>
+                    <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+</token>
+                </marker>
+            </pattern>
+            <message><suggestion><match no="3" case_conversion="startupper"/></suggestion> scheint hier als Substantiv benutzt zu werden und wird dann großgeschrieben.</message>
+            <example correction="Klopfen">Ein <marker>klopfen</marker> erfüllte den Raum.</example>
+            <example correction="Klopfen">Ein starkes <marker>klopfen</marker> erfüllte den Raum.</example>
+        </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
                 <token>ein</token>
