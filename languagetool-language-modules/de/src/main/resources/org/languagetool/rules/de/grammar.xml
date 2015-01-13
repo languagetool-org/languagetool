@@ -11427,6 +11427,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (vom = von dem) und muss dann großgeschrieben werden.</message>
             <example correction="Sammeln">Damals lebten die Menschen vom <marker>sammeln</marker>.</example>
         </rule>
+        <rule id="AM_VERB_KLEIN" name="vom + kleingeschr. Nomen">
+            <pattern>
+                <token>am</token>
+                <marker>
+                    <token case_sensitive="yes" postag="VER:INF:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*
+                        <exception regexp="yes">offenbaren|einen</exception>
+                        <exception postag_regexp="yes" postag="ADJ:.*"/>
+                    </token>
+                </marker>
+            </pattern>
+            <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (am = an dem) und muss dann großgeschrieben werden.</message>
+            <url>http://www.duden.de/sprachwissen/rechtschreibregeln/Gro%C3%9F-%20und%20Kleinschreibung#K82</url>
+            <example correction="Arbeiten">Sie hat Spaß am <marker>arbeiten</marker>.</example>
+            <example correction="Essen">Alle sind am <marker>essen</marker>.</example>
+            <example type="correct">Am <marker>leeren</marker> Tisch verstummt die Unterhaltung.</example>
+        </rule>
         <rule id="AM_XSTEN" name="am Schnellsten etc. (schnellesten)">
             <antipattern>
                 <token inflected="yes" skip="2">fehlen</token>
