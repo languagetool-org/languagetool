@@ -66,8 +66,8 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     SpellDictionaryBuilder builder = new SpellDictionaryBuilder(new File(infoFile));
     builder.setOutputFilename(cmdLine.getOptionValue("o"));
     
-    if (args.length >= 4) {
-      String freqListFile = args[3];
+    String freqListFile = args[3];
+    if (!freqListFile.equals("-")) {
       builder.readFreqList(new File(freqListFile));
       builder.build(languageCode, builder.addFreqData(new File(plainTextFile)));
     } else {
@@ -77,12 +77,12 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
 
   private static void checkUsageOrExit(String className, CommandLine cmdLine) throws IOException {
     String[] args = cmdLine.getArgs();
-    if (args.length < 3 || args.length > 4 || ! cmdLine.hasOption("o")) {
-      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> [frequencyList] -o <outputFile>");
+    if (args.length < 4 || ! cmdLine.hasOption("o")) {
+      System.out.println("Usage: " + className + " <languageCode> <dictionary> <infoFile> <frequencyList> -o <outputFile>");
       System.out.println("   <languageCode> like 'en-US' or 'de-DE'");
       System.out.println("   <dictionary> is a plain text dictionary file, e.g. created from a Hunspell dictionary by 'unmunch'");
       System.out.println("   <infoFile> is the *.info properties file, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
-      System.out.println("   [frequencyList] is the *.xml file with a frequency wordlist, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
+      System.out.println("   <frequencyList> is the *.xml file with a frequency wordlist or '-' for no frequency list, see http://wiki.languagetool.org/developing-a-tagger-dictionary");
       System.exit(1);
     }
     File dictFile = new File(args[2]);
