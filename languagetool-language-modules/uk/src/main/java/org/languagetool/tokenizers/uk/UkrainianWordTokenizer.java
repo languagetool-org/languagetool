@@ -70,7 +70,11 @@ public class UkrainianWordTokenizer implements Tokenizer {
   }
 
   private static String cleanup(String text) {
-    return text.replace("\u0301", "").replace("\u00AD", "").replace('’', '\'').replace('ʼ', '\'');
+    text = text.replace('’', '\'').replace('ʼ', '\'');
+    if( text.contains("\u0301") || text.contains("\u00AD") ) {
+      text = text.replace("\u0301", "").replace("\u00AD", "");
+    }
+    return text;
   }
-  
+
 }
