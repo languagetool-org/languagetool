@@ -33,7 +33,6 @@ $Id$
       </pattern>
       <message> Felaktig sammanskrivning. Menade du <suggestion>efter hand</suggestion>?</message>
       <example correction="efter hand">Det visade sig <marker>efterhand</marker> att orden borde särskrivas.</example>
-      <example type="correct">Det visade sig <marker>efter hand</marker> att orden borde särskrivas.</example>
     </rule>
   </category>
   <category name="Sammanskrivning rekomenderas">
@@ -44,7 +43,6 @@ $Id$
       </pattern>
       <message>Enligt tt-språket och svenska språknämnden bör ordet "<suggestion>alltmer</suggestion>" ej särskrivas.</message>
       <example correction="alltmer">Det blir <marker>allt mer</marker> vanligt att folk särskriver.</example>
-      <example type="correct">Det blir <marker>alltmer</marker> vanligt att folk särskriver.</example>
     </rule>
   </category>
   <!-- ====================================================================== -->
@@ -57,7 +55,6 @@ $Id$
         <token>fl</token>
       </pattern>
       <message> Denna förkortning skrivs i regel med punkter: <suggestion>m.fl.</suggestion>. </message>
-      <example type="correct">Vi tar med oss Maria, Jens, Sara <marker>m.fl.</marker> och åker till Jönköping.</example>
       <example correction="m.fl.">Vi tar med oss Maria, Jens, Sara <marker>m fl</marker> och åker till Jönköping.</example>
     </rule>
     <rule default="off" id="T_EX"
@@ -106,7 +103,6 @@ $Id$
         </pattern>
         <message>Innan titlar bör det stå <suggestion>förre \2 \3</suggestion> och inte förra \2 \3. Detta är oavsätt om det är en kvinna eller man som innehaft posten.</message>
         <example correction="Förre chefen på"><marker>Förra chefen på</marker> Arla var en trevlig prick.</example>
-        <example type="correct"><marker>Förre chefen på</marker> Arla var en trevlig prick.</example>
       </rule>
     </rulegroup>
     <rule id="EJ_INNAN_ATT"
@@ -117,7 +113,6 @@ $Id$
       </pattern>
       <message>Infinitivmärket "att" bör inte förekomma efter <suggestion>\1</suggestion>.</message>
       <example correction="brukade">Han <marker>brukade att</marker> komma sent.</example>
-      <example type="correct">Han <marker>brukade</marker> komma sent.</example>
     </rule>   
     <rule id="JJ.OCH_t-ord" name="Rätt böjning på adjektivet">
       <pattern>
@@ -128,7 +123,6 @@ $Id$
         <token postag="NN:OF:S.*" postag_regexp="yes"/>
       </pattern>
       <message> Adjektivet "\2" är böjt i positiv neutrum och borde då föregås av ordet "ett" istället för "en" alternativt böjas i positiv utrum. <suggestion>ett \2 \3</suggestion></message>
-      <example type="correct"> Det var <marker>ett mörkt rum</marker>. </example>
       <example correction="ett mörkt rum"> Det var <marker>en mörkt rum</marker>. </example>
     </rule>
     <!-- Ett försök att fånga upp anföringsverb som ska föregås av ett kommatecken -->
@@ -151,7 +145,6 @@ $Id$
         <token postag="NN.*" postag_regexp="yes"/>
       </pattern>
       <message>Denna ordföljd är ofta otydlig, försök med att flytta "till" efter substantivet eller byt ut det mot ytterligare. Dvs. prova att skriva <suggestion>\1 \3 \2</suggestion>.</message>
-      <example type="correct">Det är nog bäst att du får <marker>en klubba till</marker>.</example>
       <example correction="en klubba till">Det är nog bäst att du får <marker>en till klubba</marker>.</example>
     </rule>
   </category>
@@ -164,7 +157,6 @@ $Id$
         <token>överrens</token>
       </pattern>
       <message>Du menar sannolikt <suggestion>överens</suggestion>.</message>
-      <example type="correct"> Flickorna kom <marker>överens</marker>. </example>
       <example correction="överens"> Flickorna kom <marker>överrens</marker>. </example>
     </rule>
     <rule id="MASERA" name="mas_era">
@@ -172,7 +164,6 @@ $Id$
         <token>masera</token>
       </pattern>
       <message>Du menar sannolikt <suggestion>massera</suggestion> om du inte skriver om masarnas era förstås.</message>
-      <example type="correct">Kan du <marker>massera</marker> mig?</example>
       <example correction="massera">Kan du <marker>masera</marker> mig?</example>
     </rule>
   </category>
@@ -281,7 +272,6 @@ begå självmord eller "ta sitt liv"
       </pattern>
       <message>Undvik att blanda tva konstruktioner. Skriv hellre <suggestion>\1 \2 \3 och \5</suggestion> än \1 \2 \3 \4 \5.</message>
       <example correction="Mellan klockan två och fyra"><marker>Mellan klockan två till fyra</marker>.</example>
-      <example type="correct"><marker>Mellan klockan två och fyra</marker>.</example>
     </rule>
     <rule id="TA_SJALVMORD" name="Ta_sjalvmord">
       <pattern case_sensitive="no">
@@ -312,7 +302,6 @@ begå självmord eller "ta sitt liv"
         <token>grad</token>
       </pattern>
       <message>Använd hellre <suggestion>i hög grad</suggestion> än "i stor grad".</message>
-      <example type="correct">Affärens kunder är <marker>i hög grad</marker> nöjda med servicen.</example>
       <example correction="i hög grad">Affärens kunder är <marker>i stor grad</marker> nöjda med servicen.</example>
     </rule>
     <rule id="KLAGOMAL_MOT"
@@ -323,7 +312,6 @@ begå självmord eller "ta sitt liv"
       </pattern>
       <message>Du framför <suggestion>klagomål mot</suggestion> någon, inte över.</message>
       <example correction="klagomål mot">Maria framförde sina <marker>klagomål över</marker> socialen.</example>
-      <example type="correct">Maria framförde sina <marker>klagomål mot</marker> socialen.</example>
     </rule>
     <rule id="ANGRA_PA_ATT" name="Ångra på att &gt; Ångra att">
       <pattern case_sensitive="no">
@@ -333,7 +321,6 @@ begå självmord eller "ta sitt liv"
       </pattern>
       <message>Du ångrar inte "på" något utan du ångrar något. Skriv därför inte "\1 \2 \3" utan skriv <suggestion>\1 \3</suggestion>.</message>
       <example correction="ångrade att">Hon <marker>ångrade på att</marker> hon suttit ensam hemma den fredagen.</example>
-      <example type="correct">Hon <marker>ångrade att</marker> hon suttit ensam hemma den fredagen.</example>
     </rule>
   </category>
 </rules>
