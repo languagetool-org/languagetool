@@ -2637,13 +2637,19 @@ $Id$
             <rule>
                 <!-- навстречу насчёт   -->
                 <pattern case_sensitive="no">
+                    <marker>
                     <token>на</token>
-                    <token regexp="yes">встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
+                    <token regexp="yes" >встречу|счёт|счет</token>  <!--<exception scope="next" postag_regexp="yes" postag="*.:R"></exception>  в-->
+                    </marker>
+                    <token>
+                        <exception  postag="PREP"></exception>
+                    </token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
                 <example type="correct">Они шли <marker>навстречу</marker> друг другу.</example>
-             <!--   <example type="correct">Деньги переведены <marker>на счёт</marker> в банке.</example>  -->
+                <example type="correct">Деньги переведены <marker>на счёт</marker> в банке.</example>
+                <example type="correct">Я иду <marker>на встречу</marker> с другом.</example>
                 <example type="correct">Тебе следует быть осторожным <marker>насчёт</marker> того, чтобы пойти в поход.</example>
                 <example type="incorrect">Они шли <marker>на встречу</marker> друг другу.</example>
                 <example type="incorrect">Тебе следует быть осторожным <marker>на счёт</marker> того, чтобы пойти в поход.</example>
