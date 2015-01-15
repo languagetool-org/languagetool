@@ -3006,7 +3006,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="braterstwa[braterstwo/subst:pl:acc:n2,braterstwo/subst:pl:acc:p1,braterstwo/subst:pl:gen:p1,braterstwo/subst:pl:nom:n2,braterstwo/subst:pl:voc:n2,braterstwo/subst:sg:gen:n2]"
                  outputform="braterstwa[braterstwo/subst:pl:gen:p1,braterstwo/subst:sg:gen:n2]">Nie ma <marker>braterstwa</marker>.</example>
-        <example type="untouched">Nic nie jest skrytego, co by nie miało być objawiono.</example>
+        <example type="untouched">Nic nie jest skrytego, co by nie miało być objawione.</example>
+    </rule>
+
+    <rule id="GEN_IMPS" name="Dopełniacz przed czasownikiem wymagającym dopełniacza w formie bezosobowej">
+        <pattern>
+            <marker><token postag=".*gen.*" postag_regexp="yes"/></marker>
+            <token regexp="yes">używano|przestrzegano|wymagano</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Miejscami używano także krów.</example>
+        <example type="ambiguous" inputform="Pieczęci[pieczęć/subst:pl:gen:f,pieczęć/subst:sg:dat:f,pieczęć/subst:sg:gen:f,pieczęć/subst:sg:loc:f,pieczęć/subst:sg:voc:f]"
+                 outputform="Pieczęci[pieczęć/subst:pl:gen:f,pieczęć/subst:sg:gen:f]"><marker>Pieczęci</marker> używano dosyć często.</example>
     </rule>
 
     <rule id="ADV_COM_NIZ" name="niż po przysłówku w stopniu wyższym">
