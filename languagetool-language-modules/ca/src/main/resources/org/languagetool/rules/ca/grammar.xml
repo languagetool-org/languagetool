@@ -2024,7 +2024,7 @@ $Id$
                     <unify negate="yes">
                     <feature id="nombre"/>
                     <feature id="genere"/>
-                        <token inflected="yes">ell</token>
+                        <token postag="PP.*" postag_regexp="yes" inflected="yes">ell</token>
                         <marker>
                             <token inflected="yes">mateix</token>
                         </marker>
@@ -2317,8 +2317,14 @@ $Id$
                 <example type="correct">Una gran estratega.</example>
             </rule>
             <rule id="L_ESTRATEGA" name="l'estratega">
+                <antipattern>
+                    <marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                        <token>gran</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token>l'</token>
+                    <token regexp="yes">l'|gran</token>
                     <marker>
                         <token>estratega</token>
                     </marker>
@@ -2326,6 +2332,7 @@ $Id$
                 <message>Possible error de concordança. Correcte si és femení.</message>
                 <suggestion>estrateg</suggestion>
                 <example correction="estrateg">L'<marker>estratega</marker>.</example>
+                <example correction="estrateg">Gran <marker>estratega</marker>!</example>
                 <example type="correct">Una gran estratega.</example>
             </rule>
             <rule id="COMU_COMUNA" name="comú/comuna">
@@ -4194,7 +4201,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">donar<exception scope="next">curs</exception></token>
+                        <token inflected="yes" skip="3">donar<exception scope="next">curs</exception><exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token regexp="yes">fàstic|ràbia|por|llàstima|set|calor|pena<exception postag="DN.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -4209,7 +4216,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3">donar<exception postag="_reflexiu"/></token>
+                        <token inflected="yes" skip="3">donar<exception postag="_reflexiu"/><exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token>vergonya</token>
                 </pattern>
@@ -4223,9 +4230,9 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3" postag="V.[^M].*" postag_regexp="yes">donar</token>
+                        <token inflected="yes" skip="3" postag="V.[^M].*" postag_regexp="yes">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit<exception scope="previous">a</exception></token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.[^M].*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
@@ -4233,13 +4240,14 @@ $Id$
                 <example correction="fer">Va <marker>donar</marker>-li molts petons</example>
                 <example type="correct">feia petons</example>
                 <example type="correct">Ha donat tema a goigs.</example>
+                <example type="correct">Ha donat tema a goigs.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="3" postag="V.M.*" postag_regexp="yes">donar<exception postag="V.[^M].*" postag_regexp="yes"/></token>
+                        <token inflected="yes" skip="3" postag="V.M.*" postag_regexp="yes">donar<exception postag="V.[^M].*" postag_regexp="yes"/><exception scope="next" postag="SPS00"/></token>
                     </marker>
-                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit<exception scope="previous">a</exception></token>
+                    <token regexp="yes" inflected="yes">salt|bot|tombarella|passejada|petó|bes|besada|pessic|abraçada|goig|gir|pel·lícula|batxillerat|concert|recital|impressió|xiulit</token>
                 </pattern>
                 <message>Cal dir: <suggestion><match no="1" postag="(V.M.*)." postag_regexp="yes" postag_replace="$1.">fer</match></suggestion></message>
                 <url>http://esadir.cat/entrades/fitxa/id/4086</url>
@@ -4251,7 +4259,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="2">donar</token>
+                        <token inflected="yes" skip="2">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token postag="D..MS.*" postag_regexp="yes"/>
                     <token>pas</token>
@@ -4266,7 +4274,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" skip="2">donar</token>
+                        <token inflected="yes" skip="2">donar<exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token>passos</token>
                 </pattern>
@@ -4279,7 +4287,7 @@ $Id$
             <rule>
                 <pattern>
                     <marker>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="3">fer<exception scope="next" postag="SPS00"/></token>
                     </marker>
                     <token regexp="yes" inflected="yes">bufetada|mastegot|galtada|clatellada|garrotada|puntada|puntelló|clatellot|coça|calbot|bescollada|punyalada</token>
                 </pattern>
@@ -5618,7 +5626,7 @@ $Id$
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="A.*|V.P.*" postag_regexp="yes" skip="10"/>
+                    <token postag="A.*|V.P.*" postag_regexp="yes" skip="3"/>
                     <token>com</token>
                     <token inflected="yes">de</token>
                     <token postag="NC.*" postag_regexp="yes"/>
@@ -18723,7 +18731,7 @@ $Id$
                     <token><exception regexp="yes">[\d ,.]+</exception></token>
                     <marker>
                         <token regexp="yes">:</token>
-                        <token spacebefore="no"><exception regexp="yes">\s+</exception></token>
+                        <token spacebefore="no"><exception regexp="yes">\s+|\)|\]</exception></token>
                     </marker>
                 </pattern>
                 <message>Falta un espai.</message>
@@ -18732,6 +18740,7 @@ $Id$
                 <example correction=": Vine">Llavors va dir<marker>:Vine</marker>!</example>
                 <example type="correct">Escala 10.000:1</example>
                 <example type="correct">Escala 2,55:1</example>
+                <example type="correct">(Llavors digué:)</example>
             </rule>
             <rule>
                 <pattern>
