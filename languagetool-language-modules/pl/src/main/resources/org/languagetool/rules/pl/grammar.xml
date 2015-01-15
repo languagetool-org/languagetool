@@ -3413,6 +3413,14 @@ $Id$
                         <example type="correct">(W Bytomiu w XIII w.)</example>
 				</rule>
 				<rule id="KROPKA_W_CUDZYSLOWIE" name="Kropka w cudzysłowie">
+                        <antipattern>
+                            <marker>
+                            <token>.</token>
+                            <token regexp="yes">[\w]</token>
+                            <token>.</token>
+                            <token>”</token>
+                            </marker>
+                        </antipattern>
 						<pattern>
 								<token><exception>„</exception></token>
 								<token><exception regexp="yes">proc|r|itd|itp|cdn|jw|n.e|w|nn|n|red|s</exception></token>
@@ -3426,6 +3434,7 @@ $Id$
 						<example correction="”.">„Całe zdanie jest w cudzysłowie<marker>.”</marker></example>
 						<example type="correct">„Całe zdanie jest w nawiasie”.</example>
 						<example type="correct">Skrót „gr.”</example>
+                        <example type="correct">„Poczta polowa W.P.”</example>
 				</rule>
                 <rule id="KROPKA_PRZED_PRZECINKIEM" name="Zbędna kropka przed przecinkiem">
                   <pattern>
@@ -5153,6 +5162,10 @@ $Id$
 				</rule>
 				<rulegroup id="PREP_CASUS" name="Przyimki z nieodpowiednimi przypadkami">
 						<rule>
+                                <antipattern>    <!-- reguła: MIMO_CHODEM ma lepszą sugestię -->
+                                    <token>mimo</token>
+                                    <token>chodem</token>
+                                </antipattern>
 								<pattern>
 										<token postag="prep:gen.*" postag_regexp="yes"><exception regexp="yes">doń|(?:za)?miast|[zw]ewnątrz</exception><exception postag="prep:(?!gen).*|adv" postag_regexp="yes"/></token>
 										<marker>
@@ -10359,6 +10372,17 @@ $Id$
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="MIMO_CHODEM" name="„mimo chodem” (mimochodem)">
+                <pattern>
+                    <token>mimo</token>
+                    <token>chodem</token>
+                </pattern>
+                <message>Błąd ortograficzny. Ten wyraz pisze się łącznie: <suggestion><match no="1"/><match no="2"/></suggestion>.</message>
+                <url>http://sjp.pl/mimochodem</url>
+                <short>Błąd ortograficzny</short>
+                <example type='incorrect'>On wspomina o tym <marker>mimo chodem</marker>.</example>
+                <example type='correct'>On wspomina o tym mimochodem.</example>
+            </rule>
             <rule id="O_JEJ" name="„o jej!” (ojej)">
                 <pattern>
                     <token>o</token>

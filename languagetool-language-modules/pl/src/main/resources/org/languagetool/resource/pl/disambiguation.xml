@@ -1469,6 +1469,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="koło[koło/prep:gen,koło/qub,koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]" outputform="koło[koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]">To jest <marker>koło</marker> zamachowe gospodarki!</example>
     </rule>
 
+    <rule id="PRZYJAZNI_POLSKO_RADZIECKIEJ" name="przyjaźni jako rzeczownik">
+        <pattern>
+            <marker><token>przyjaźni</token></marker>
+            <token>polsko</token>
+            <token>-</token>
+        </pattern>
+        <disambig action="filter" postag="subst:.*:f"/>
+        <example type="untouched">On się przyjaźni z dżdżownicą.</example>
+        <example type="ambiguous" inputform="przyjaźni[przyjazny/adj:pl:nom.voc:m1.p1:pos,przyjaźnić/verb:fin:sg:ter:imperf:refl,przyjaźny/adj:pl:nom.voc:m1.p1:pos,przyjaźń/subst:pl:gen:f,przyjaźń/subst:sg:dat:f,przyjaźń/subst:sg:gen:f,przyjaźń/subst:sg:loc:f,przyjaźń/subst:sg:voc:f]"
+                 outputform="przyjaźni[przyjaźń/subst:pl:gen:f,przyjaźń/subst:sg:dat:f,przyjaźń/subst:sg:gen:f,przyjaźń/subst:sg:loc:f,przyjaźń/subst:sg:voc:f]">Miesiąc <marker>przyjaźni</marker> polsko-radzieckiej</example>
+    </rule>
+
 
     <rule id="MIAST_NIE_PREP" name="miast jako rzeczownik">
         <pattern>
