@@ -1469,6 +1469,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="koło[koło/prep:gen,koło/qub,koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]" outputform="koło[koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]">To jest <marker>koło</marker> zamachowe gospodarki!</example>
     </rule>
 
+    <rule id="KOLO_MIEJSCOWOSC" name="Koło jako nazwa miejscowości">
+        <pattern case_sensitive="yes">
+            <marker><token postag="subst:sg:.*:n2" postag_regexp="yes">Koło</token></marker>
+            <token>,</token>
+            <token regexp="yes">\p{Lu}\p{Ll}+</token>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Mieszkam koło Grójca.</example>
+        <example type="ambiguous" inputform="Koło[Koło/subst:sg:acc:n2,Koło/subst:sg:nom:n2,Koło/subst:sg:voc:n2,koło/prep:gen,koło/qub,koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]"
+                 outputform="Koło[Koło/subst:sg:acc:n2,Koło/subst:sg:nom:n2,Koło/subst:sg:voc:n2,koło/subst:sg:acc:n2,koło/subst:sg:nom:n2,koło/subst:sg:voc:n2]">Będzin (Bendzin), Grodno, Kalisz,	<marker>Koło</marker>, Lipno.</example>
+    </rule>
+
     <rule id="PRZYJAZNI_POLSKO_RADZIECKIEJ" name="przyjaźni jako rzeczownik">
         <pattern>
             <marker><token>przyjaźni</token></marker>
