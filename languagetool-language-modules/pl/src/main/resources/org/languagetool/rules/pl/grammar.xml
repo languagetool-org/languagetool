@@ -536,6 +536,18 @@ $Id$
 								<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
 								<example correction="tam, mimo że">Poszedłem <marker>tam mimo, że</marker> nie chciałem.</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <token><exception postag="SENT_START"></exception><exception regexp="yes">&interp;</exception></token>
+                            <token regexp="yes">ile|oraz|szczególnie|pomimo|mimo|ledwie|prawie|ledwo|chyba</token>
+                            <token>,</token>
+                            <token>iż</token>
+                        </pattern>
+                        <message>Spójników złożonych nie rozdziela się, a przecinek stawia się przed nimi: <suggestion>\1, \2 iż</suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
+                        <example correction="tam, mimo iż">Poszedłem <marker>tam mimo, iż</marker> nie chciałem.</example>
+                    </rule>
 						<rule>
 								<pattern>
 										<token postag="SENT_START"></token>
@@ -550,7 +562,21 @@ $Id$
 								<example type="correct">Mimo że nie chciałem, poszedłem tam.</example>
 								<example correction="Mimo że"><marker>Mimo, że</marker> nie chciałem, poszedłem tam.</example>
 						</rule>
-						<rule>
+                    <rule>
+                        <pattern>
+                            <token postag="SENT_START"></token>
+                            <marker>
+                                <token regexp="yes">ile|oraz|szczególnie|pomimo|mimo|ledwie|prawie|ledwo|chyba</token>
+                                <token>,</token>
+                                <token>iż</token>
+                            </marker>
+                        </pattern>
+                        <message>Spójników złożonych nie rozdziela się: <suggestion>\2 iż</suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example type="correct">Mimo że nie chciałem, poszedłem tam.</example>
+                        <example correction="Mimo iż"><marker>Mimo, iż</marker> nie chciałem, poszedłem tam.</example>
+                    </rule>
+                    <rule>
 								<pattern>
 										<token regexp="yes">&interp_conj;</token>
 										<token regexp="yes">ile|jako|oraz|szczególnie|tylko|zwłaszcza|pomimo|mimo|ledwie|niby|prawie|ledwo|chyba</token>
@@ -564,6 +590,20 @@ $Id$
 								<example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
 								<example correction="mimo że">Poszedłem tam, mimo<marker>, że</marker> nie chciałem.</example>
 						</rule>
+                    <rule>
+                        <pattern>
+                            <token regexp="yes">&interp_conj;</token>
+                            <token regexp="yes">ile|oraz|szczególnie|pomimo|mimo|ledwie|prawie|ledwo|chyba</token>
+                            <marker>
+                                <token>,</token>
+                                <token>iż</token>
+                            </marker>
+                        </pattern>
+                        <message>Spójników złożonych nie rozdziela się: <suggestion>\2 iż</suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example type="correct">Poszedłem tam, mimo że nie chciałem.</example>
+                        <example correction="mimo iż">Poszedłem tam, mimo<marker>, iż</marker> nie chciałem.</example>
+                    </rule>
 						<!-- FIXME: tu trzeba wykrywać w ogóle brak przecinka, a nie jego pozycję
 		<rule>
 			<pattern>

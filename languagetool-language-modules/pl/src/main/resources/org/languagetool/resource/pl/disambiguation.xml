@@ -2340,7 +2340,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było dosyć <marker>ludzi</marker>.</example>
     </rule>
     
-    <rule id="STAŁY_ADJ" name="stały wzrost itp.">
+    <rule id="STALY_ADJ" name="stały wzrost itp.">
         <pattern>
             <unify>
                 <feature id="case"><type id="nom"/><type id="acc"/><type id="voc"/></feature>
@@ -2354,6 +2354,29 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="stały[stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:nonrefl,stać/verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:perf:refl,stały/adj:sg:acc:m3:pos,stały/adj:sg:nom.voc:m1.m2.m3:pos]"
                  outputform="stały[stały/adj:sg:acc:m3:pos,stały/adj:sg:nom.voc:m1.m2.m3:pos]">Trzeba jednak stwierdzić <marker>stały</marker> wzrost zainteresowania radzieckich naukowców omawianą problematyką.</example>
         <example type="untouched">Tam stały czołgi.</example>
+    </rule>
+
+    <rule id="LACZY_NIZ_DZIELI_1" name="łączy jako czasownik">
+        <pattern>
+            <marker>
+            <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">łączy</token>
+            <token>niż</token>
+            <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">dzieli</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="LACZY_NIZ_DZIELI_2" name="łączy jako czasownik">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">łączy</token>
+                <token>,</token>
+                <token>niż</token>
+                <token postag="verb:fin:sg:ter:imperf:refl.nonrefl">dzieli</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="NUM_SUBST_GEN" name="gen po num">
