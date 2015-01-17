@@ -275,16 +275,12 @@ public class PatternRuleTest extends TestCase {
     List<PatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
     for (IncorrectExample origBadExample : badSentences) {
       // enable indentation use
-      final String origBadSentence = origBadExample.getExample().replaceAll(
-          "[\\n\\t]+", "");
-      final List<String> suggestedCorrections = origBadExample
-          .getCorrections();
+      final String origBadSentence = origBadExample.getExample().replaceAll("[\\n\\t]+", "");
+      final List<String> suggestedCorrections = origBadExample.getCorrections();
       final int expectedMatchStart = origBadSentence.indexOf("<marker>");
-      final int expectedMatchEnd = origBadSentence.indexOf("</marker>")
-          - "<marker>".length();
+      final int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
       if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
-        fail(lang
-            + ": No error position markup ('<marker>...</marker>') in bad example in rule " + rule);
+        fail(lang + ": No error position markup ('<marker>...</marker>') in bad example in rule " + rule);
       }
       final String badSentence = cleanXML(origBadSentence);
       assertTrue(badSentence.trim().length() > 0);
