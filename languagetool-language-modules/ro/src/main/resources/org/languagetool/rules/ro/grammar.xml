@@ -102,9 +102,9 @@ Version: $Id$
                 <example type="correct">Recensământ <marker>al populației</marker>.</example>
                 <example correction="al populației|la populație">ceea ce a fost <marker>al populație</marker> dat.</example>
                 <example type="correct">Mergem <marker>la piață</marker>.</example>
-                <example type="incorrect">Mergem <marker>al piață</marker>.</example>
+                <example correction="al pieței|la piață">Mergem <marker>al piață</marker>.</example>
                 <example type="correct">Mergem <marker>la film</marker>.</example>
-                <example type="incorrect">Mergem <marker>al film</marker>.</example>
+                <example correction="al filmului|la film">Mergem <marker>al film</marker>.</example>
                 <example type="correct">Mergem <marker>la mai</marker> multe filme.</example>
                 <example type="correct">Este <marker>al mai</marker> multor filme.</example>
                 <example type="correct">Este <marker>al tău</marker>.</example>
@@ -127,7 +127,7 @@ Version: $Id$
                 </pattern>
                 <message>Ați dorit să scrieți <suggestion>\1 de \3</suggestion>?</message>
                 <short>Greșeală de exprimare</short>
-                <example type="incorrect">Cum <marker>și ce unde</marker> se vor obține datele.</example>
+                <example correction="și de unde">Cum <marker>și ce unde</marker> se vor obține datele.</example>
                 <example type="correct">Cum <marker>și de unde</marker> se vor obține datele.</example>
             </rule>
         </rulegroup>
@@ -207,7 +207,7 @@ Version: $Id$
                 </pattern>
                 <message>Ați dorit să scrieți <suggestion>\1 \3</suggestion> sau <suggestion>\2 \3</suggestion></message>
                 <short>Posibilă greșeală.</short>
-                <example type="incorrect">Au găsit <marker>un o altă</marker> ordine.</example>
+                <example correction="un altă|o altă">Au găsit <marker>un o altă</marker> ordine.</example>
                 <example type="correct">Au găsit o altă ordine.</example>
                 <example type="correct">Se va folosi un O pentru om și un M pentru animal.</example>
                 <!-- false alarm <example type="correct">Se pronunță ca un o lung.</example> -->
@@ -361,7 +361,7 @@ Version: $Id$
             </pattern>
             <message>Ați dorit să scrieți <suggestion>să</suggestion>?</message>
             <example type="correct">Se pot oferi <marker>să</marker> facă multe.</example>
-            <example type="incorrect">Se pot oferi <marker>sa</marker> facă multe.</example>
+            <example correction="să">Se pot oferi <marker>sa</marker> facă multe.</example>
         </rule>
         <rule id="VREA_SA_FACA_MULTE" name="sa - să. Ex: vrea sa/să facă">
             <pattern>
@@ -605,8 +605,8 @@ Version: $Id$
             <message>Pentru sensul „a da de știre” folosiți „sfară”, nu „sfoară”: <suggestion>\1 sfară \3 \4</suggestion>.</message>
             <short>Greșeală de exprimare.</short>
             <example type="correct">A dat sfară în țară că va demisiona.</example>
-            <example type="incorrect">A vrut să <marker>dea sfoară în țară</marker> că va nu este de aceeași părere.</example>
-            <example type="incorrect">A vrut să <marker>dea sfoară în târg</marker> că va nu este de aceeași părere.</example>
+            <example correction="dea sfară în țară">A vrut să <marker>dea sfoară în țară</marker> că va nu este de aceeași părere.</example>
+            <example correction="dea sfară în târg">A vrut să <marker>dea sfoară în târg</marker> că va nu este de aceeași părere.</example>
         </rule>
         <rulegroup id="CARE__PE_CARE" name="Care/pe care">
             <rule id="CARE_PE_CARE__CARTEA_CARE_TI-AM" name="(s ac art) + care ți-am + (v part)">
@@ -625,7 +625,7 @@ Version: $Id$
                 </pattern>
                 <message>În acest context formularea corectă este <suggestion>pe care</suggestion>.</message>
                 <example type="correct">Cartea <marker>pe care</marker> ți-am dat-o.</example>
-                <example type="incorrect">Cartea <marker>care</marker> ți-am dat-o.</example>
+                <example correction="pe care">Cartea <marker>care</marker> ți-am dat-o.</example>
 
                 <example type="correct">S-a ivit pe cer steaua <marker>care</marker> i-a călăuzit pe cei trei.</example>
                 <example correction="pe care">Ea nu intră decât pe ușa <marker>care</marker> i-am deschis-o.</example>
@@ -696,11 +696,11 @@ Version: $Id$
             </pattern>
             <message>Dezacord. Ați dorit să scrieți <suggestion><match no="2" postag_regexp="yes" postag="V0s1000cz0|V0s2000cz0|V0s3000cz0|V0p1000cz0|V0p2000cz0|V0p3000cz0"></match></suggestion>?</message>
             <short>Greșeală de exprimare</short>
-            <example type="incorrect">Să <marker>vorbește</marker> frumos.</example>
+            <example correction="vorbească|vorbesc|vorbești|vorbim|vorbiți">Să <marker>vorbește</marker> frumos.</example>
             <example type="correct">Să <marker>vorbesc</marker> frumos.</example>
             <example type="correct">Să <marker>vorbească</marker> frumos.</example>
             <example type="correct">Să <marker>vorbim</marker> frumos.</example>
-            <example type="incorrect" reason="el dorea să asmute câinii">El dorea să <marker>asmute</marker> câinii.</example>
+            <example correction="asmut|asmută|asmuți|asmuțim|asmuțiți" reason="el dorea să asmute câinii">El dorea să <marker>asmute</marker> câinii.</example>
         </rule>
         <rule id="ESTE_CU_SIGURANTA" name="este cu sigurantă">
             <pattern>
@@ -713,7 +713,7 @@ Version: $Id$
             <message>Ați dorit să scrieți <suggestion>\1 sigur că</suggestion> sau <suggestion>cu siguranță că</suggestion>?</message>
             <short>Greșeală de exprimare</short>
 
-            <example type="incorrect"><marker>E cu siguranță că</marker> va veni.</example>
+            <example correction="E sigur că|Cu siguranță că"><marker>E cu siguranță că</marker> va veni.</example>
             <example type="correct"><marker>Cu siguranță că</marker> va veni.</example>
             <example type="correct"><marker>Sigur că</marker> va veni.</example>
         </rule>
@@ -731,14 +731,14 @@ Version: $Id$
             </pattern>
             <message>Ați dorit să scrieți <suggestion>să \5</suggestion>?</message>
             <short>Greșeală de exprimare</short>
-            <example type="incorrect">E bine <marker>ca să pleci</marker> mâine.</example>
+            <example correction="să pleci">E bine <marker>ca să pleci</marker> mâine.</example>
 
-            <example type="incorrect">E bine <marker>ca să plecăm</marker> mâine.</example>
-            <example type="incorrect">E bine <marker>ca să plecați</marker> mâine.</example>
-            <example type="incorrect">E bine <marker>ca să plece</marker> mâine.</example>
+            <example correction="să plecăm">E bine <marker>ca să plecăm</marker> mâine.</example>
+            <example correction="să plecați">E bine <marker>ca să plecați</marker> mâine.</example>
+            <example correction="să plece">E bine <marker>ca să plece</marker> mâine.</example>
 
             <example type="correct">E bine <marker>să pleci</marker> mâine.</example>
-            <example type="incorrect">Este esențial <marker>ca să contribui</marker>.</example>
+            <example correction="să contribui">Este esențial <marker>ca să contribui</marker>.</example>
             <example type="correct">Este esențial <marker>să contribui</marker>.</example>
             <example correction="să poată">Este suficient <marker>ca să poată</marker> fi categorisită.</example>
             <example correction="să existe">Este necesar <marker>ca să existe</marker> un înalt nivel de dezvolare.</example>
@@ -757,7 +757,7 @@ Version: $Id$
 
             <message>Ați dorit să scrieți <suggestion>a</suggestion> ceea ce?</message>
             <short>Greșeală de exprimare</short>
-            <example type="incorrect">Consecințele <marker>ale</marker> ceea ce a făcut.</example>
+            <example correction="a">Consecințele <marker>ale</marker> ceea ce a făcut.</example>
             <example type="correct">Consecințele <marker>a</marker> ceea ce a făcut.</example>
 
         </rule>
@@ -852,7 +852,7 @@ Version: $Id$
                 <message>"decât atât" este greșit, formularea corectă este <suggestion>atât</suggestion></message>
                 <short>"decât atât" este greșit.</short>
 
-                <example type="incorrect">A făcut <marker>decât atât</marker> cât a putut.</example>
+                <example correction="atât">A făcut <marker>decât atât</marker> cât a putut.</example>
                 <example type="correct">A făcut atât cât a putut.</example>
                 <example type="correct">Nu a făcut <marker>decât atât</marker> cât a putut.</example>
                 <example type="correct">N-a făcut <marker>decât atât</marker> cât a putut.</example>
@@ -884,7 +884,7 @@ Version: $Id$
             <short>Greșeală gramaticală</short>
             <example type="correct"><marker>O</marker> masă</example>
 
-            <example type="incorrect"><marker>Un</marker> masă</example>
+            <example correction="O"><marker>Un</marker> masă</example>
         </rule>
 
         <rule id="ACEASTA_SF_ACEASTA_SF" name="această + (subst fem neart) - această + (subst fem art)">
@@ -899,7 +899,7 @@ Version: $Id$
                     no="2" postag="Sfs3anc000" /></suggestion></message>
             <short>"Această" cere substantiv nearticulat.</short>
             <example type="correct">Această <marker>carte</marker> este a mea.</example>
-            <example type="incorrect">Această <marker>cartea</marker> este a mea.</example>
+            <example correction="carte">Această <marker>cartea</marker> este a mea.</example>
 
         </rule>
 
@@ -916,7 +916,7 @@ Version: $Id$
             <message>Ați vrut să folosiți substantivul articulat <suggestion><match no="2" postag="Sfs3aac000"></match></suggestion></message>
             <short>Greșeală gramaticală</short>
             <example type="correct"><marker>Cartea</marker> este a mea.</example>
-            <example type="incorrect"><marker>Carte</marker> este a mea.</example>
+            <example correction="Carta|Cartea"><marker>Carte</marker> este a mea.</example>
         </rule>
 
         <rule id="O_SUBST_ART_TERMINAT_IN_A" name="o + (subst fem art) - o + (subst fem neart)">
@@ -1672,7 +1672,7 @@ Version: $Id$
             </pattern>
             <message>"triumvivat" implică alianța a trei conducători</message>
             <short>Pleonasm</short>
-            <example type="incorrect">Regiunea era sub influența unui <marker>triumvirat din trei</marker> persoane importante.</example>
+            <example correction="">Regiunea era sub influența unui <marker>triumvirat din trei</marker> persoane importante.</example>
             <example type="correct">Regiunea era sub influența unui triumvirat foarte vechi.</example>
         </rule>
         <rule id="INTOARCE_TIMPUL_INAPOI" name="a întoarce timpul înapoi">
@@ -1830,7 +1830,7 @@ Version: $Id$
             </pattern>
             <message>Ați vrut să scrieți <suggestion>\1 grea</suggestion>?</message>
             <short>Pleonasm</short>
-            <example type="incorrect">Este o <marker>muncă laborioasă</marker>.</example>
+            <example correction="muncă grea">Este o <marker>muncă laborioasă</marker>.</example>
 
             <example type="correct">Este o <marker>muncă grea</marker>.</example>
         </rule>
@@ -2165,10 +2165,10 @@ Version: $Id$
 
                 <message>Ați vrut să scrieți <suggestion><match no="1"></match></suggestion> sau <suggestion><match no="1" postag="(.*)" postag_regexp="yes">deschidere</match></suggestion>?</message>
                 <short>Pleonasm</short>
-                <example type="incorrect"><marker>Inaugurarea oficială a</marker> acestor clădiri.</example>
-                <example type="incorrect"><marker>Inaugurarea oficială a</marker> câtorva clădiri.</example>
+                <example correction="Inaugurarea|Deschiderea"><marker>Inaugurarea oficială a</marker> acestor clădiri.</example>
+                <example correction="Inaugurarea|Deschiderea"><marker>Inaugurarea oficială a</marker> câtorva clădiri.</example>
 
-                <example type="incorrect"><marker>Inaugurarea oficială  a</marker> câtorva mici dar importante clădiri.</example>
+                <example correction="Inaugurarea|Deschiderea"><marker>Inaugurarea oficială  a</marker> câtorva mici dar importante clădiri.</example>
                 <example type="correct"><marker>Inaugurarea</marker> acestor clădiri.</example>
             </rule>
 
@@ -2461,7 +2461,7 @@ Version: $Id$
             </pattern>
             <message>Pleonasm sau exprimare greșită. Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
             <short>Pleonasm</short>
-            <example type="incorrect">A fost lansată chiar de ziua <marker>echidistant egală</marker> din punct de vedere temporal între cele momente.</example>
+            <example correction="echidistant">A fost lansată chiar de ziua <marker>echidistant egală</marker> din punct de vedere temporal între cele momente.</example>
             <example type="correct">Aceste linii sunt <marker>echidistante</marker>.</example>
         </rule>
         <rule id="DUNE_DE_NISIP" name="dune de nisip">
@@ -2938,7 +2938,7 @@ Version: $Id$
                 </pattern>
                 <message>Pleonasm. Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
                 <short>Pleonasm</short>
-                <example type="incorrect">A fost <marker>fundamentat pe baze</marker> greșite.</example>
+                <example correction="fundamentat">A fost <marker>fundamentat pe baze</marker> greșite.</example>
                 <example type="correct">A fost <marker>fundamentat</marker> greșit.</example>
             </rule>
             <rule>
@@ -2950,7 +2950,7 @@ Version: $Id$
                 </pattern>
                 <message>Ați vrut să scrieți <suggestion>\1</suggestion>?</message>
                 <short>Pleonasm</short>
-                <example type="incorrect">A fost <marker>fundamentat pe o bază</marker> greșită.</example>
+                <example correction="fundamentat">A fost <marker>fundamentat pe o bază</marker> greșită.</example>
                 <example type="correct">A fost <marker>fundamentat</marker> greșit.</example>
             </rule>
         </rulegroup>
@@ -3785,7 +3785,7 @@ Version: $Id$
             </pattern>
             <message>Pleonasm. Ar fi bine să reformulați, ortografia se referă la scrierea corectă a unui limbi.</message>
             <short>Pleonasm</short>
-            <example type="incorrect">El a ținut cont de <marker>ortografia corectă</marker>.</example>
+            <example correction="">El a ținut cont de <marker>ortografia corectă</marker>.</example>
             <example type="correct">El a ținut cont de <marker>ortografie</marker>.</example>
         </rule>
         <rule id="INCLUSIV_SI" name="inclusiv și">
@@ -4560,7 +4560,7 @@ Version: $Id$
             </pattern>
             <message>Cuvintele «înfățișare» și «aspect» sunt sinonime.</message>
             <short>Pleonasm</short>
-            <example type="incorrect">Avea o <marker>înfățișare cu aspect</marker> neîngrijit.</example>
+            <example correction="">Avea o <marker>înfățișare cu aspect</marker> neîngrijit.</example>
             <example type="correct">Avea o <marker>aspect</marker> neîngrijit.</example>
         </rule>
         <rule id="LA_FEL_CA" name="la fel ca">
@@ -4799,7 +4799,7 @@ Version: $Id$
             </pattern>
             <message>Pleonasm. ECRANIZA = A turna un film...</message>
             <short>Pleonasm</short>
-            <example type="incorrect">A <marker>ecranizat un film</marker> nou.</example>
+            <example correction="">A <marker>ecranizat un film</marker> nou.</example>
             <example type="correct">A <marker>turnat un film</marker> nou.</example>
         </rule>
         <rule id="GOALE_SI_FARA_SENS" name="goale și fără sens">
@@ -4886,7 +4886,7 @@ Version: $Id$
             <message>Ați dorit să scrieți </message>
             <short>Plenasm</short>
             <example type="correct">Astăzi ne-a prezentat <marker>în primă audiție</marker> o compoziție a sa.</example>
-            <example type="incorrect">Astăzi am <marker>ascultat în primă audiție</marker> o compoziție a sa.</example>
+            <example correction="">Astăzi am <marker>ascultat în primă audiție</marker> o compoziție a sa.</example>
         </rule>
     </category>
 
@@ -4899,12 +4899,12 @@ Version: $Id$
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
             <example type="correct"><marker>Mica cetate</marker> este foarte frumoasă.</example>
-            <!--  <example type="incorrect"><marker>Biserica care</marker> se află după deal este nouă.</example>  -->
+            <!--  <example correction=""><marker>Biserica care</marker> se află după deal este nouă.</example>  -->
             <example type="correct"><marker>Biserica catolică</marker> este foarte răspândită.</example>
-            <example type="incorrect"><marker>Mica carte</marker> este foarte frumoasă.</example>
-            <example type="incorrect"><marker>Mica cămilă</marker> este foarte frumoasă.</example>
-            <example type="incorrect">Această <marker>mică camilă</marker> este foarte frumoasă.</example>
-            <example type="incorrect">Aceasta este o <marker>politică care</marker> enervează electoratul.</example>
+            <example correction=""><marker>Mica carte</marker> este foarte frumoasă.</example>
+            <example correction=""><marker>Mica cămilă</marker> este foarte frumoasă.</example>
+            <example correction="">Această <marker>mică camilă</marker> este foarte frumoasă.</example>
+            <example correction="">Aceasta este o <marker>politică care</marker> enervează electoratul.</example>
             <example type="correct">Regret că nu sunt de acord <marker>colegii mei</marker>. </example>
             <example type="incorrect">De data asta <marker>pleca către</marker> exterior.</example>
             <example type="correct">A studiat opera lui Ion <marker>Luca Caragiale</marker></example>
@@ -4916,12 +4916,12 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect"><marker>Nico colaborase</marker> cu toți</example>
+            <example correction=""><marker>Nico colaborase</marker> cu toți</example>
             <example type="correct"><marker>Nico a colaborat</marker> cu toți</example>
-            <example type="incorrect"><marker>Bunica cunoscuse</marker> multă lume</example>
+            <example correction=""><marker>Bunica cunoscuse</marker> multă lume</example>
             <example type="correct"><marker>Bunica a cunoscut</marker> multă lume</example>
-            <example type="incorrect">Regret <marker>că colegii</marker> mei nu sunt de acord.</example>
-            <example type="incorrect"><marker>Ca consilier</marker> are noi responsabilități.</example>
+            <example correction="">Regret <marker>că colegii</marker> mei nu sunt de acord.</example>
+            <example correction=""><marker>Ca consilier</marker> are noi responsabilități.</example>
         </rule>
         <rule id="CACOFONIE__CU_RU" name="cacofonie: ...cu ru...">
             <pattern>
@@ -4930,7 +4930,7 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect">Am venit <marker>cu rugămintea</marker> de a-mi motiva absențele. </example>
+            <example correction="">Am venit <marker>cu rugămintea</marker> de a-mi motiva absențele. </example>
             <example type="correct">Am venit <marker>cu o rugăminte</marker> de a-mi motiva absențele. </example>
         </rule>
         <rule id="CACOFONIE__CU_CU" name="cacofonie: ...cu cu...">
@@ -4940,7 +4940,7 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect">Mă privește <marker>cu curiozitate</marker>.</example>
+            <example correction="">Mă privește <marker>cu curiozitate</marker>.</example>
             <example type="correct">Mă privește <marker>cu vădită curiozitate</marker>.</example>
         </rule>
         <rule id="CACOFONIE__CI_CI" name="cacofonie: ...ci ci...">
@@ -4950,9 +4950,9 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect">Nu a fost el <marker>ci cineva</marker> din afară.</example>
+            <example correction="">Nu a fost el <marker>ci cineva</marker> din afară.</example>
             <example type="correct">Nu a fost el <marker>ci o persoană</marker> din afară.</example>
-            <example type="incorrect">Trebuie <marker>ca cineva</marker> să răspundă.</example>
+            <example correction="">Trebuie <marker>ca cineva</marker> să răspundă.</example>
         </rule>
         <rule id="CACOFONIE__LA" name="cacofonie: ...la la...">
             <pattern>
@@ -4961,7 +4961,7 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect">Astăzi facem ora de chimie <marker>la laborator</marker>.</example>
+            <example correction="">Astăzi facem ora de chimie <marker>la laborator</marker>.</example>
             <example type="correct">Astăzi facem ora de chimie <marker>în laborator</marker>.</example>
         </rule>
         <rule id="CACOFONIE__VA" name="cacofonie: ...va va...">
@@ -4971,7 +4971,7 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect"><marker>Undeva valea</marker> se îngusta.</example>
+            <example correction=""><marker>Undeva valea</marker> se îngusta.</example>
             <example type="correct"><marker>Undeva se îngusta valea</marker>.</example>
         </rule>
         <rule id="CACOFONIE__PUL_A" name="cacofonie: ...pul a...">
@@ -4981,11 +4981,11 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect">Cu <marker>timpul a</marker> înțeles  toate problemele.</example>
+            <example correction="">Cu <marker>timpul a</marker> înțeles  toate problemele.</example>
             <example type="correct"><marker>In timp, a</marker> înțeles toate problemele.</example>
-            <example type="incorrect">În <marker>timpul acesta</marker> vorbea profesorul.</example>
+            <example correction="">În <marker>timpul acesta</marker> vorbea profesorul.</example>
             <example type="correct"><marker>În acest timp</marker>, vorbea profesorul.</example>
-            <example type="incorrect"><marker>Tipul acela</marker> nu-mi place.</example>
+            <example correction=""><marker>Tipul acela</marker> nu-mi place.</example>
             <example type="correct"><marker>Acel tip</marker> nu-mi place.</example>
         </rule>
         <rule id="CACOFONIE__TA_TA" name="cacofonie: ...ta ta...">
@@ -4995,7 +4995,7 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect"><marker>Fata ta</marker> nu este aici.</example>
+            <example correction=""><marker>Fata ta</marker> nu este aici.</example>
             <example type="correct">A <marker>ta fată</marker> nu este aici.</example>
         </rule>
         <rulegroup id="CACOFONIE__MA_MA" name="cacofonie: ...ma ma...">
@@ -5006,7 +5006,7 @@ Version: $Id$
                 </pattern>
                 <message>Cacofonie: încercați să evitați astfel de formulări.</message>
                 <short>Cacofonie</short>
-                <example type="incorrect">A plecat și <marker>ultima mașină</marker>.</example>
+                <example correction="">A plecat și <marker>ultima mașină</marker>.</example>
                 <example type="correct">A plecat și <marker>ultima dintre mașini</marker>.</example>
             </rule>
             <rule>
@@ -5016,7 +5016,7 @@ Version: $Id$
                 </pattern>
                 <message>Cacofonie: încercați să evitați astfel de formulări.</message>
                 <short>Cacofonie</short>
-                <example type="incorrect">A luat o <marker>ultimă măsură</marker>.</example>
+                <example correction="">A luat o <marker>ultimă măsură</marker>.</example>
                 <example type="correct">A luat <marker>încă o măsură, ultima</marker>.</example>
             </rule>
         </rulegroup>
@@ -5027,7 +5027,7 @@ Version: $Id$
             </pattern>
             <message>Cacofonie: încercați să evitați astfel de formulări.</message>
             <short>Cacofonie</short>
-            <example type="incorrect">Știu <marker>unde depune</marker> Maria cererea.</example>
+            <example correction="">Știu <marker>unde depune</marker> Maria cererea.</example>
             <example type="correct">Știu <marker>unde Maria depune</marker> cererea.</example>
         </rule>
         <rulegroup id="CACOFONIE__BA" name="cacofonie: ...bă bă...">
@@ -5038,7 +5038,7 @@ Version: $Id$
                 </pattern>
                 <message>Cacofonie: încercați să evitați astfel de formulări.</message>
                 <short>Cacofonie</short>
-                <example type="incorrect">O <marker>babă bătea</marker> cânepa.</example>
+                <example correction="">O <marker>babă bătea</marker> cânepa.</example>
                 <example type="correct">O <marker>babă</marker> cânepa bătea.</example>
             </rule>
             <rule>
@@ -5048,7 +5048,7 @@ Version: $Id$
                 </pattern>
                 <message>Cacofonie: încercați să evitați astfel de formulări.</message>
                 <short>Cacofonie</short>
-                <example type="incorrect"><marker>Roaba bate</marker> pisica.</example>
+                <example correction=""><marker>Roaba bate</marker> pisica.</example>
                 <example type="correct"><marker>Roaba aceea bate</marker> pisica.</example>
             </rule>
         </rulegroup>
@@ -5840,7 +5840,7 @@ Version: $Id$
             <example correction="20 de pagini">Doar <marker>20 pagini</marker> din lucrare erau ale lui.</example>
             <example correction="22 de minute">Tonul se schimbă la fiecare <marker>22 minute</marker>.</example>
             <example correction="200 de minute">Tonul se schimbă la fiecare <marker>200 minute</marker>.</example>
-            <example type="incorrect">Războiul a durat <marker>2000 ani</marker>.</example>
+            <example correction="2000 de ani">Războiul a durat <marker>2000 ani</marker>.</example>
 
             <example type="correct">Războiul a durat 2001 ani.</example>
             <example type="correct">Războiul a durat 201 ani.</example>

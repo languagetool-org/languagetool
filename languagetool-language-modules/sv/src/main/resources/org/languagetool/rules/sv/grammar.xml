@@ -92,7 +92,7 @@ $Id$
       </pattern>
       <message> Adjektivet är böjt i positiv utrum (\2) och borde då föregås av ordet "en" istället för "ett" alternativt böjas i positiv neutrum. Menade du: <suggestion>en \2 \3</suggestion>.</message>
       <example type="correct"> Det var <marker>en mörk kväll</marker>. </example>
-      <example type="incorrect"> Det var <marker>ett mörk kväll</marker>. </example>
+      <example correction="en mörk kväll"> Det var <marker>ett mörk kväll</marker>. </example>
     </rule>
     <rulegroup id="FORRE_INNAN_TITEL" name="Förre innan titel">
       <rule>
@@ -176,7 +176,7 @@ $Id$
       </pattern>
       <message>I dessa uttryck används ordet måtto (från måtta) och inte motto (som betyder ung. slagord)</message>
       <example type="correct">Alla hinder bör <marker>i möjligaste måtto</marker> undanröjas.</example>
-      <example type="incorrect">Alla hinder bör <marker>i möjligaste motto</marker> undanröjas.</example>
+      <example correction="">Alla hinder bör <marker>i möjligaste motto</marker> undanröjas.</example>
     </rule>
   </category>
   <!-- ====================================================================== -->
@@ -223,7 +223,7 @@ $Id$
             regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)"
             regexp_replace="$1:$2"></match></suggestion> </message>
       <example type="correct">Med det nya API:s fördelar, kan du hitta nya lösningar.</example>
-      <example type="incorrect">Med det nya <marker>APIs</marker> fördelar, kan du hitta nya lösningar.</example>
+      <example correction="API:s">Med det nya <marker>APIs</marker> fördelar, kan du hitta nya lösningar.</example>
     </rule>
     <rule id="Ordningstal" name="Ordningstal">
       <pattern>
@@ -232,7 +232,7 @@ $Id$
       <message>Siffror med ändelser binds ihop med ett kolon: <suggestion><match
             no="1" regexp_match="^(1|2|[\d]*[12])(a|e)" regexp_replace="$1:$2"></match></suggestion></message>
       <example type="correct">Hon kom på 2:a plats</example>
-      <example type="incorrect">Hon kom på <marker>2a</marker> plats</example>
+      <example correction="2:a">Hon kom på <marker>2a</marker> plats</example>
     </rule>
     <rule id="Ordningstal2" name="Ordningstal2">
       <pattern>
@@ -242,7 +242,7 @@ $Id$
             no="1" regexp_match="^([3-90]|[\d]*[3-90])([ae])"
             regexp_replace="$1:$2"></match></suggestion></message>      
       <example type="correct">Han kom på 5:e plats</example>
-      <example type="incorrect">Han kom på <marker>5e</marker> plats</example>
+      <example correction="5:e">Han kom på <marker>5e</marker> plats</example>
     </rule>
   </category>
 <!--================================================
