@@ -21,6 +21,7 @@ package org.languagetool.rules.patterns;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -412,9 +413,13 @@ public class PatternRuleHandler extends XMLRuleHandler {
           correctExamples.add(correctExample.toString());
         } else if (inIncorrectExample) {
           final IncorrectExample example;
-          final String[] corrections = exampleCorrection.toString().split("\\|");
-          if (corrections.length > 0 && corrections[0].length() > 0) {
-            example = new IncorrectExample(incorrectExample.toString(), corrections);
+          final List<String> corrections = new ArrayList<>();
+          corrections.addAll(Arrays.asList(exampleCorrection.toString().split("\\|")));
+          if (corrections.size() > 0 && corrections.get(0).length() > 0) {
+            if (exampleCorrection.toString().endsWith("|")) {  // split() will ignore trailing empty items
+              corrections.add("");
+            }
+            example = new IncorrectExample(incorrectExample.toString(), corrections.toArray(new String[corrections.size()]));
           } else {
             example = new IncorrectExample(incorrectExample.toString());
           }
