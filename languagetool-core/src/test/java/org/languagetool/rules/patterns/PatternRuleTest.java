@@ -316,7 +316,7 @@ public class PatternRuleTest extends TestCase {
           );
           assertEquals(lang + ": Incorrect suggestions: "
               + suggestedCorrections.toString() + " != "
-              + matches.get(0).getSuggestedReplacements() + " for rule " + rule + " on input: " + badSentence,
+              + matches.get(0).getSuggestedReplacements() + " for rule " + rule + "[" + rule.getSubId() + "] on input: " + badSentence,
               suggestedCorrections, matches.get(0).getSuggestedReplacements());
         }
         // make sure the suggested correction doesn't produce an error:
