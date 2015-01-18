@@ -59,9 +59,9 @@ public abstract class Language {
   
   private static List<Language> externalLanguages = new ArrayList<>();
 
-  private boolean isExternalLanguage = false;
+  private final List<String> externalRuleFiles = new ArrayList<>();
 
-  private List<String> externalRuleFiles = new ArrayList<>();
+  private boolean isExternalLanguage = false;
   private List<PatternRule> patternRules;
   
   /**
@@ -146,8 +146,8 @@ public abstract class Language {
   private static final SentenceTokenizer SENTENCE_TOKENIZER = new SimpleSentenceTokenizer();
   private static final WordTokenizer WORD_TOKENIZER = new WordTokenizer();
   
-  private UnifierConfiguration unifierConfiguration = new UnifierConfiguration();
-  private UnifierConfiguration disambiguationUnifierConfiguration = new UnifierConfiguration();
+  private final UnifierConfiguration unifierConfiguration = new UnifierConfiguration();
+  private final UnifierConfiguration disambiguationUnifierConfiguration = new UnifierConfiguration();
 
   // -------------------------------------------------------------------------
 
