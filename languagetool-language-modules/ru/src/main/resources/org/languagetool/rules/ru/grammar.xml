@@ -222,7 +222,7 @@ $Id$
                 <example type="correct">Мощность ИБП составляет 500 В⋅А.</example>
             </rule>
         </rulegroup>
-          <rulegroup id="BOLSHAJA_POLOVINA" name="Словосочетание «большая/меньшая половина»">
+        <rulegroup id="BOLSHAJA_POLOVINA" name="Словосочетание «большая/меньшая половина»">
             <rule> 
                 <pattern>
                     <token regexp="yes" >большая|меньшая</token>
@@ -235,7 +235,20 @@ $Id$
                 <example type="correct">меньшая часть</example>
             </rule>
         </rulegroup>  
-            
+        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Словосочетание «прогноз на будущее»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes" >прогноз</token>
+                    <token>на</token>
+                    <token>будущее</token>                  
+                </pattern>
+                <message>Имелось в виду <suggestion>\1</suggestion>?</message>
+                <short>Тавтология.</short>
+                <example correction="прогноз">Метеоагенство составило <marker>прогноз на будущее</marker>.</example>
+                <example type="correct">Метеоагенство составило прогноз.</example>
+            </rule>
+        </rulegroup>  
+                        
         <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
             <rule> 
                 <pattern>
