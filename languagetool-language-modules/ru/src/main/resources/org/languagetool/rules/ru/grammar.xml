@@ -3974,6 +3974,22 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
+        
+          <rulegroup default="on" id="predstavlat_soboj" name="Разговорный стиль «представлять из себя»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">представлять</token>
+                    <token>из</token>
+                    <token>себя</token>
+                </pattern>
+                <message>Разговорный стиль: <suggestion>\1 собой</suggestion>.</message>
+                <short>Разговорный вариант</short>
+                <example type="correct">Летопись представляет собой запись событий.</example>
+                <example correction="">Летопись <marker>представляет из себя</marker> запись событий.</example>
+            </rule>
+        </rulegroup>
+      
+        
         <rulegroup default="on" id="Num_plus_Noun" name="Сочетание числительных с существительными">
             <rule>
                 <pattern>
@@ -4125,11 +4141,7 @@ $Id$
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
-                    <suggestion>
-                        <match no="1"></match> в <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match>
-                    </suggestion>
-                </message>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> в <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example type="correct">Он убедился в надёжности системы.</example>
                 <example correction="">Он <marker>убедился о надёжности</marker> системы.</example>
