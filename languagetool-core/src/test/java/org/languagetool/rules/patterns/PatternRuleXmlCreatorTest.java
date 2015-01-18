@@ -38,7 +38,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
             "  <message>Did you mean <suggestion><match no=\"1\"/> fuu bah</suggestion>?</message>\n" +
             "  <url>http://fake-server.org/foo-bar-error-explained</url>\n" +
             "  <example type=\"correct\">This is <marker>fuu bah</marker>.</example>\n" +
-            "  <example correction=\"foo fuu bah\" type=\"incorrect\">This is <marker>foo bar</marker>.</example>\n" +
+            "  <example correction=\"foo fuu bah\">This is <marker>foo bar</marker>.</example>\n" +
             "</rule>", xml);
   }
 
