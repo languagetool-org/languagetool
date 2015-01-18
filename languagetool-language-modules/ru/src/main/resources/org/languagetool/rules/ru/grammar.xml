@@ -272,7 +272,33 @@ $Id$
                 <example correction="близкий друг">Он - <marker>ближний друг</marker>.</example>
                 <example type="correct">Он - близкий друг.</example>
             </rule>
-        </rulegroup> 
+        </rulegroup>
+        
+                  
+        <rulegroup id="Stolko_mnogo" name="Словосочетания «столько много»">
+            <rule> 
+                <pattern>
+                    <token>столько</token>
+                    <token>много</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>так \2</suggestion>?</message>
+
+                <short>Логическая ошибка.</short>
+                <example correction="Так много"><marker>Столько много</marker> товара!</example>
+                <example type="correct">Так много товара!</example>
+            </rule>
+             <rule> 
+                <pattern>
+                    <token>сколько</token>
+                    <token>много</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>как \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="Как много"><marker>Сколько много</marker> товара?</example>
+                <example type="correct">Как много товара?</example>
+            </rule>
+        </rulegroup>
+                   
         <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки «он решит эту затянувшуюся проблему»">
             <rule> 
                 <pattern>
