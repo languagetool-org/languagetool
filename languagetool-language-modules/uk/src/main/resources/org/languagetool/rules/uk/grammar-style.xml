@@ -60,10 +60,10 @@ $Id$
                 <example type="correct">вона й сама зрозуміла це</example>
                 <example type="correct">з цим самим білим піском</example>
                 <example type="correct">лише самих економічних санкцій</example>
-                <example type="incorrect"><marker>Самий кращий</marker>.</example>
-                <example type="incorrect"><marker>Сама гірша</marker>.</example>
-                <example type="incorrect"><marker>Самий сильний</marker>.</example>
-                <example type="incorrect"><marker>Сама тривала</marker>.</example>
+                <example correction="X"><marker>Самий кращий</marker>.</example>
+                <example correction="X"><marker>Сама гірша</marker>.</example>
+                <example correction="X"><marker>Самий сильний</marker>.</example>
+                <example correction="X"><marker>Сама тривала</marker>.</example>
             </rule>
             -->
             <rule>
@@ -86,8 +86,8 @@ $Id$
                 <example type="correct">Сама прийшла</example>
                 <example type="correct">Саме такий</example>
                 <example type="correct">Саме кращий</example>
-                <example type="incorrect"><marker>Самий кращий</marker>.</example>
-                <example type="incorrect"><marker>Сама гірша</marker>.</example>
+                <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
+                <example correction="Найгірша|Найпоганіша|Щонайгірша|Якнайгірша"><marker>Сама гірша</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -104,8 +104,8 @@ $Id$
                 <example type="correct">Саме такий</example>
                 <example type="correct">той самий страшний сон</example>
                 <example type="correct">лише самих економічних санкцій</example>
-                <example type="incorrect"><marker>Самий кращий</marker>.</example>
-                <example type="incorrect">Він — <marker>самий сильний</marker>.</example>
+                <example correction="Найкращий|Найкращого|Щонайкращий|Щонайкращого|Якнайкращий|Якнайкращого"><marker>Самий кращий</marker>.</example>
+                <example correction="найсильніший|найсильнішого">Він — <marker>самий сильний</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -133,7 +133,7 @@ $Id$
                 <example type="correct">Саме такий</example>
                 <example type="correct">Саме вони</example>
                 <example type="correct">представник саме романтичного націоналізму</example>
-                <example type="incorrect" correction="Найкраще|Щонайкраще|Якнайкраще"><marker>Саме краще</marker> — ливарний цех.</example>
+                <example correction="Найкраще|Щонайкраще|Якнайкраще"><marker>Саме краще</marker> — ливарний цех.</example>
             </rule>
             <rule>
                 <pattern>
@@ -162,7 +162,7 @@ $Id$
                 <example type="correct">Саме такий</example>
                 <example type="correct">Саме вони</example>
                 <example type="correct">представник саме романтичного націоналізму</example>
-                <example type="incorrect" correction="Найкраще|Щонайкраще|Якнайкраще"><marker>Саме краще</marker>, що в нас є.</example>
+                <example correction="Найкраще|Щонайкраще|Якнайкраще"><marker>Саме краще</marker>, що в нас є.</example>
             </rule>
             <rule>
                 <pattern>
@@ -177,7 +177,7 @@ $Id$
                   </unify>
                 </pattern>
                 <message>Замість «самий перший» треба вживати найвищу ступінь: <suggestion>найперший</suggestion></message>
-                <example type="incorrect"><marker>Самий перший</marker>.</example>
+                <example correction="Найперший"><marker>Самий перший</marker>.</example>
                 <example type="correct">самі першими втікали</example>
                 <example type="correct">найперший</example>
             </rule>
@@ -190,7 +190,7 @@ $Id$
                     <token postag_regexp="yes" postag="adj.*:compr.*"/>
                 </pattern>
                 <message>Замість «більш» + вищий ступінь прикметника треба вживати «більш» + нульова форма прикметника</message>
-                <example type="incorrect"><marker>Більш світліший</marker>.</example>
+                <example correction=""><marker>Більш світліший</marker>.</example>
                 <example type="correct">Більш світлий.</example>
             </rule>
         </rulegroup>
@@ -203,8 +203,8 @@ $Id$
                     <token postag_regexp="yes" postag="adj.*"/>
                 </pattern>
                 <message>Замість «більш» + прикметник треба вживати -іший</message>
-                <example type="incorrect"><marker>Більш високий</marker>.</example>
-                <example type="incorrect"><marker>Більш світла</marker>.</example>
+                <example correction="X"><marker>Більш високий</marker>.</example>
+                <example correction="X"><marker>Більш світла</marker>.</example>
             </rule>
         </rulegroup>
 -->
@@ -226,7 +226,7 @@ $Id$
 <!--
                 <example type="correct">цюпка не більше шести кроків вдовж</example>
 -->
-                <example type="incorrect" correction="понад сто|більш як сто|більш ніж сто"><marker>більше ста</marker>.</example>
+                <example correction="понад сто|більш як сто|більш ніж сто"><marker>більше ста</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -237,7 +237,7 @@ $Id$
                 <suggestion>більш як <match no="2"/></suggestion>
                 <suggestion>більш ніж <match no="2"/></suggestion>
                 <example type="correct">Більш як 40</example>
-                <example type="incorrect" correction="понад 500|більш як 500|більш ніж 500"><marker>більше 500</marker>.</example>
+                <example correction="понад 500|більш як 500|більш ніж 500"><marker>більше 500</marker>.</example>
             </rule>
 
             <rule>
@@ -250,11 +250,11 @@ $Id$
                 <suggestion>більше ніж <match no="2" postag_regexp="yes" postag="(noun:[mf]):v_rod" postag_replace="$1:v_zna"/></suggestion>
                 <example type="correct">Більше галасу</example>
                 <example type="correct">Більше одного</example>
-                <example type="incorrect" correction="понад тиждень|більше як тиждень|більше ніж тиждень"><marker>більше тижня</marker>.</example>
-                <example type="incorrect" correction="понад хвилину|більше як хвилину|більше ніж хвилину"><marker>більше хвилини</marker>.</example>
-                <example type="incorrect" correction="понад добу|більше як добу|більше ніж добу"><marker>більше доби</marker>.</example>
+                <example correction="понад тиждень|більше як тиждень|більше ніж тиждень"><marker>більше тижня</marker>.</example>
+                <example correction="понад хвилину|більше як хвилину|більше ніж хвилину"><marker>більше хвилини</marker>.</example>
+                <example correction="понад добу|більше як добу|більше ніж добу"><marker>більше доби</marker>.</example>
                 <!-- TODO: fix the correction
-                <example type="incorrect" correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
+                <example correction="понад рік|більше як рік"><marker>більше року</marker>.</example>
                 -->
             </rule>
     </rulegroup>
@@ -271,8 +271,8 @@ $Id$
                 <message>Правильно: <suggestion>більш ніж</suggestion>, <suggestion>більш як</suggestion></message>
                 <example type="correct">Понад сто років</example>
                 <example type="correct">Через сто років</example>
-                <example type="incorrect" correction="більш ніж|більш як">Через <marker>понад</marker> сто років.</example>
-                <example type="incorrect" correction="більш ніж|більш як">За <marker>понад</marker> сто років.</example>
+                <example correction="більш ніж|більш як">Через <marker>понад</marker> сто років.</example>
+                <example correction="більш ніж|більш як">За <marker>понад</marker> сто років.</example>
             </rule>
     </rulegroup>
 -->
@@ -287,7 +287,7 @@ $Id$
            <message>Канцеляризм, краще: <suggestion>стільки</suggestion>, <suggestion>так</suggestion>, <suggestion>такий</suggestion>, <suggestion>такою мірою (в такій мірі, так сильно)</suggestion></message>
            <url>http://r2u.org.ua/s?w=настолько&amp;dicts=1</url>
            <short>Краще: стільки, так, такий, такою мірою</short>
-           <example type="incorrect"><marker>настільки</marker> ж драматичний ефект</example>
+           <example correction="X"><marker>настільки</marker> ж драматичний ефект</example>
            <example type="correct">такий же драматичний ефект</example>
        </rule>   
        <rule>   
@@ -298,7 +298,7 @@ $Id$
            </pattern>
            <message>Канцеляризм, краще: <suggestion>скільки</suggestion>, <suggestion>як</suggestion>, <suggestion>який</suggestion>, <suggestion>якою мірою (в якій мірі, як сильно)</suggestion></message>
            <url>http://r2u.org.ua/s?w=насколько&amp;dicts=1</url>
-           <example type="incorrect"><marker>наскільки</marker> ж драматичний ефект</example>
+           <example correction="X"><marker>наскільки</marker> ж драматичний ефект</example>
            <example type="correct">який же драматичний ефект</example>
        </rule>   
        <rule>   
@@ -311,7 +311,7 @@ $Id$
            </pattern>
            <message>Краще: <suggestion>здебільшого</suggestion>, <suggestion>здебільш</suggestion>, <suggestion>здебільша</suggestion></message>
            <short>Краще «здебільшого»</short>
-           <example type="incorrect"><marker>У більшості випадків</marker> це не проблема.</example>
+           <example correction="X"><marker>У більшості випадків</marker> це не проблема.</example>
            <example type="correct">Здебільшого це не проблема</example>
        </rule>   
     </rulegroup>
@@ -332,7 +332,7 @@ $Id$
                 <example type="correct">Стіг у степу.</example>
                 <example type="correct">скинув в 0</example>
                 <example type="correct">Однотипний апарат в музеї Монако</example>
-                <example type="incorrect">Стіг <marker>в</marker> степу.</example>
+                <example correction="у">Стіг <marker>в</marker> степу.</example>
             </rule>
         -->
             <!-- прийменник: в -> у -->
@@ -346,11 +346,11 @@ $Id$
                 </pattern>
                 <message>Перед словами, що починаються на в, ф або збігом приголосних із в, ф пишемо у: <suggestion>у</suggestion> \2</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
-                <example type="incorrect"><marker>в</marker> вівторок.</example>
-                <example type="incorrect"><marker>В</marker> вольєрі сталася пожежа.</example>
-                <example type="incorrect">Наприклад, <marker>в</marker> фанерних будинках.</example>
+                <example correction="у"><marker>в</marker> вівторок.</example>
+                <example correction="У"><marker>В</marker> вольєрі сталася пожежа.</example>
+                <example correction="у">Наприклад, <marker>в</marker> фанерних будинках.</example>
                 <!-- conflicts with "сингулярності в квантовій"
-                <example type="incorrect">Сьогодні <marker>в</marker> Львові.</example>
+                <example correction="X">Сьогодні <marker>в</marker> Львові.</example>
                 -->
                 <example type="correct">у вівторок.</example>
                 <example type="correct">Сьогодні у Львові.</example>
@@ -369,8 +369,8 @@ $Id$
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example type="correct">В будинку сталася пожежа.</example>
                 <example type="correct">В установі сталася пожежа.</example>
-                <example type="incorrect"><marker>В</marker> приміщенні сталася пожежа.</example>
-                <example type="incorrect"><marker>В</marker> 88 році там сталася пожежа.</example>
+                <example correction="У"><marker>В</marker> приміщенні сталася пожежа.</example>
+                <example correction="У"><marker>В</marker> 88 році там сталася пожежа.</example>
             </rule>
             <rule>
                 <pattern>
@@ -384,8 +384,8 @@ $Id$
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
                 <example type="correct">Звичайно, у закладі.</example>
                 <example type="correct">Звичайно, в закладі.</example>
-                <example type="incorrect">Наприклад, <marker>в</marker> простих визарах.</example>
-                <example type="incorrect">Наприклад, <marker>в</marker> 80 років.</example>
+                <example correction="у">Наприклад, <marker>в</marker> простих визарах.</example>
+                <example correction="у">Наприклад, <marker>в</marker> 80 років.</example>
             </rule>
 
             <!-- прийменник: у -> в -->
@@ -399,8 +399,8 @@ $Id$
                 </pattern>
                 <message>На початку речення перед нейотованими голосними варто писати В: <suggestion>В</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/11.html</url>
-                <example type="incorrect"><marker>У</marker> Україні.</example>
-                <example type="incorrect"><marker>У</marker> арт-проекту.</example>
+                <example correction="В"><marker>У</marker> Україні.</example>
+                <example correction="В"><marker>У</marker> арт-проекту.</example>
                 <example type="correct">В Україні.</example>
                 <example type="correct">В їхніх.</example>
             </rule>
@@ -414,7 +414,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Після слів, що закінчуються на в, ф, краще вжити слово на у-: <suggestion><match no="2" regexp_match="в(.*)" regexp_replace="у$1"/></suggestion></message>
-                <example type="incorrect" correction="ураз">біль пройшов <marker>враз</marker></example>
+                <example correction="ураз">біль пройшов <marker>враз</marker></example>
                 <example type="correct">був вже</example>
                 <example type="correct">біль пройде враз</example>
                 <example type="correct">біль пройшов ураз</example>
@@ -429,7 +429,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Після слів, що закінчуються на у, ю, краще вжити слово на в-: <suggestion><match no="2" regexp_match="у(.*)" regexp_replace="в$1"/></suggestion></message>
-                <example type="incorrect" correction="вмить">він побачив куму <marker>умить</marker></example>
+                <example correction="вмить">він побачив куму <marker>умить</marker></example>
                 <example type="correct">він побачив кумів умить</example>
                 <example type="correct">він побачив куму вмить</example>
                 <example type="correct">зі списку у місцевій раді</example>
@@ -449,7 +449,7 @@ $Id$
                 </pattern>
                 <message>На початку речення треба писати «і»: \1 <suggestion>і</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
-                <example type="incorrect"><marker>Й</marker> долом геть собі село понад водою простяглось.</example>
+                <example correction="й|та"><marker>Й</marker> долом геть собі село понад водою простяглось.</example>
                 <example type="correct">І долом геть собі село понад водою простяглось</example>
             </rule>
             <rule>
@@ -463,8 +463,8 @@ $Id$
                 <message>Після приголосної або після паузи треба писати «і»: \1 <suggestion>і</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
                 <example type="correct">Пам’ять і серце</example>
-                <example type="incorrect">Пам’ять <marker>й</marker> серце.</example>
-                <example type="incorrect">1 <marker>й</marker> 3.</example>
+                <example correction="й|та">Пам’ять <marker>й</marker> серце.</example>
+                <example correction="X">1 <marker>й</marker> 3.</example>
             </rule>
             -->
             <rule>
@@ -477,8 +477,8 @@ $Id$
                 <message>Перед й, ї, є, я, ю треба писати і: <suggestion>і</suggestion> \2</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
                 <example type="correct">Хто і як?</example>
-                <example type="incorrect">Хто <marker>й</marker> як?</example>
-                <example type="incorrect">Йому <marker>й</marker> їй?</example>
+                <example correction="і">Хто <marker>й</marker> як?</example>
+                <example correction="і">Йому <marker>й</marker> їй?</example>
             </rule>
 
             <rule>
@@ -491,9 +491,9 @@ $Id$
                 </pattern>
                 <message>Між двома голосними варто писати й: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
-                <example type="incorrect">Марко <marker>і</marker> Іван.</example>
-                <example type="incorrect">2 <marker>і</marker> 1.</example>
-                <example type="incorrect">увійти <marker>і</marker> обідати</example>
+                <example correction="й|та">Марко <marker>і</marker> Іван.</example>
+                <example correction="й|та">2 <marker>і</marker> 1.</example>
+                <example correction="й|та">увійти <marker>і</marker> обідати</example>
                 <example type="correct">Марко й Іван.</example>
             </rule>
 
@@ -507,7 +507,7 @@ $Id$
                 </pattern>
                 <message>Після голосної зі звуком і/и варто писати й або та: \1 <suggestion>й</suggestion> \3, \1 <suggestion>та</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
-                <example type="incorrect">увійти <marker>і</marker> обідати</example>
+                <example correction="й|та">увійти <marker>і</marker> обідати</example>
                 <example type="correct">сісти і їхати</example>
             </rule>
 
@@ -524,8 +524,8 @@ $Id$
                 <example type="correct">Потяг з Австрії.</example>
                 <example type="correct">Родина із шести осіб.</example>
                 <example type="correct">Один із яскравих.</example>
-                <example type="incorrect">Потяг <marker>зі</marker> Австрії.</example>
-                <example type="incorrect">Потяг <marker>із</marker> Австрії.</example>
+                <example correction="з">Потяг <marker>зі</marker> Австрії.</example>
+                <example correction="з">Потяг <marker>із</marker> Австрії.</example>
             </rule>
             <rule>
                 <pattern>
@@ -538,7 +538,7 @@ $Id$
                 <message>Після голосної та на початку речення перед приголосною (крім с, ш) вживаємо з: <suggestion>з</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
                 <example type="correct">3 її приходом</example>
-                <example type="incorrect"><marker>Із</marker> її приходом.</example>
+                <example correction="З"><marker>Із</marker> її приходом.</example>
             </rule>
             <!--
             <rule>
@@ -553,7 +553,7 @@ $Id$
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
                 <example type="correct">Плугатарі з плугами</example>
                 <example type="correct">свій погляд я з любов’ю повертав</example>
-                <example type="incorrect">свій погляд я <marker>із</marker> любов’ю повертав.</example>
+                <example correction="X">свій погляд я <marker>із</marker> любов’ю повертав.</example>
                 <example type="correct">Пішли зі мною</example>
             </rule>
             -->
@@ -569,8 +569,8 @@ $Id$
                 <message>Після голосної перед свистячими і шиплячими пишемо із: \1 <suggestion>із</suggestion> \3</message>
                 <url>http://vlada.kiev.ua/pravopys/pravXXI/13.html</url>
                 <example type="correct">Родина із шести осіб</example>
-                <example type="incorrect">Родина <marker>з</marker> шести осіб.</example>
-                <example type="incorrect">Родина <marker>зі</marker> шести осіб.</example>
+                <example correction="X">Родина <marker>з</marker> шести осіб.</example>
+                <example correction="X">Родина <marker>зі</marker> шести осіб.</example>
             </rule>
             -->
             <rule>
@@ -588,8 +588,8 @@ $Id$
                 <example type="correct">Висновок із цього.</example>
                 <example type="correct">Балада зі знаком запитання.</example>
                 <example type="correct">Організація з США підкуплена.</example>
-                <example type="incorrect">Бере книжку <marker>із</marker> стола.</example>
-                <example type="incorrect">Бере книжку <marker>з</marker> стола.</example>
+                <example correction="зі">Бере книжку <marker>із</marker> стола.</example>
+                <example correction="зі">Бере книжку <marker>з</marker> стола.</example>
             </rule>
     </rulegroup>
 
@@ -610,7 +610,7 @@ $Id$
            </pattern>
            <message>Надлишковість засобів, що використовуються для передачі змісту. Ви мали на увазі <suggestion>прем'єра</suggestion>?</message>
            <short>Правильно «прем'єра»</short>
-           <example type="incorrect" correction="Прем'єра"><marker>Перша прем'єра</marker> відбулася місяць тому.</example>
+           <example correction="Прем'єра"><marker>Перша прем'єра</marker> відбулася місяць тому.</example>
            <example type="correct">Прем'єра відбулася місяць тому.</example>
            <example type="correct">На першому прем'єрі висів страшний злочин.</example>
        </rule>
@@ -624,7 +624,7 @@ $Id$
            </pattern>
            <message>Надлишковість засобів, що використовуються для передачі змісту. Ви мали на увазі <suggestion>дебют</suggestion>?</message>
            <short>Правильно «дебют»</short>
-           <example type="incorrect" correction="дебют">Це її <marker>перший дебют</marker> на сцені.</example>
+           <example correction="дебют">Це її <marker>перший дебют</marker> на сцені.</example>
            <example type="correct">Це її дебют на сцені.</example>
        </rule>   
 
@@ -637,7 +637,7 @@ $Id$
            </pattern>
            <message>Надлишковість засобів, що використовуються для передачі змісту. Ви мали на увазі <suggestion>пріоритет</suggestion>?</message>
            <short>Правильно «пріоритет»</short>
-           <example type="incorrect" correction="пріоритет">На сьогодні це <marker>головний пріоритет</marker>.</example>
+           <example correction="пріоритет">На сьогодні це <marker>головний пріоритет</marker>.</example>
            <example type="correct">На сьогодні це пріоритет.</example>
        </rule>   
 
@@ -650,7 +650,7 @@ $Id$
            </pattern>
            <message>Надлишковість засобів, що використовуються для передачі змісту. Ви мали на увазі <suggestion>дублювати</suggestion>?</message>
            <short>Правильно «дублювати»</short>
-           <example type="incorrect">Не треба <marker>двічі дублювати</marker> цей текст.</example>
+           <example correction="дублювати">Не треба <marker>двічі дублювати</marker> цей текст.</example>
            <example type="correct">Не треба дублювати цей текст.</example>
        </rule>   
 
@@ -660,7 +660,7 @@ $Id$
             <token inflected="yes">половина</token>
          </pattern>
          <message>Правильно: <suggestion>більша частина</suggestion>, <suggestion>більш ніж половина</suggestion></message>
-         <example type="incorrect"><marker>Більшої половини</marker> класу</example>
+         <example correction="Більша частина|Більш ніж половина"><marker>Більшої половини</marker> класу</example>
          <example type="correct">Більш ніж половина</example>
        </rule>
        <rule>
@@ -669,7 +669,7 @@ $Id$
            <token inflected="yes">вакансія</token>
           </pattern>
          <message>Правильно: <suggestion><match no="1"/></suggestion>.</message>
-         <example type="incorrect"><marker>Вільної вакансії</marker></example>
+         <example correction="Вільної"><marker>Вільної вакансії</marker></example>
          <example type="correct"><marker>вакансію</marker></example>
        </rule>
 
@@ -685,7 +685,7 @@ $Id$
            </pattern>
            <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>виборча кампанія</suggestion>?</message>
            <short>Правильно «виборча кампанія»</short>
-           <example type="incorrect"><marker>Виборна кампанія</marker> пройшла успішно.</example>
+           <example correction="Виборча кампанія"><marker>Виборна кампанія</marker> пройшла успішно.</example>
            <example type="correct">Виборча кампанія пройшла успішно.</example>
        </rule>
 
@@ -698,7 +698,7 @@ $Id$
            </pattern>
            <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>виборна посада</suggestion>?</message>
            <short>Правильно «виборна посада»</short>
-           <example type="incorrect"><marker>Виборча посада</marker> визначається голосуванням.</example>
+           <example correction="Виборна посада"><marker>Виборча посада</marker> визначається голосуванням.</example>
            <example type="correct">Виборна посада визначається голосуванням.</example>
        </rule>
 
@@ -711,7 +711,7 @@ $Id$
            </pattern>
            <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>житлове будівництво</suggestion>?</message>
            <short>Правильно «житлове будівництво»</short>
-           <example type="incorrect">Постанова про індивідуальне <marker>жиле будівництво</marker>.</example>
+           <example correction="житлове будівництво">Постанова про індивідуальне <marker>жиле будівництво</marker>.</example>
            <example type="correct">Постанова про індивідуальне житлове будівництво.</example>
        </rule>
 
@@ -724,7 +724,7 @@ $Id$
            </pattern>
            <message>Близькі за звучанням, але різні за значенням слова. Ви мали на увазі <suggestion>громадський транспорт</suggestion>?</message>
            <short>Правильно «громадський транспорт»</short>
-           <example type="incorrect"><marker>Громадянський транспорт</marker> став через снігопад.</example>
+           <example correction="Громадський транспорт"><marker>Громадянський транспорт</marker> став через снігопад.</example>
            <example type="correct">Громадський транспорт став через снігопад.</example>
        </rule>
 
@@ -736,7 +736,7 @@ $Id$
                </marker>
            </pattern>
            <message>Краще: <suggestion>зоря</suggestion></message>
-           <example type="incorrect">яскравіша <marker>зірка</marker></example>
+           <example correction="зоря">яскравіша <marker>зірка</marker></example>
            <example type="correct">п'ятикутна зірка</example>
            <example type="correct">яскравіша зоря</example>
        </rule>
@@ -750,8 +750,8 @@ $Id$
                    <token postag_regexp="yes" postag="(noun:.*ist|pron).*"></token>
            </pattern>
            <message>Краще: <suggestion>викапаний</suggestion></message>
-           <example type="incorrect"><marker>вилитий</marker> живий Йозеф Швейк</example>
-           <example type="incorrect"><marker>вилитий</marker> я у молодості</example>
+           <example correction="викапаний"><marker>вилитий</marker> живий Йозеф Швейк</example>
+           <example correction="викапаний"><marker>вилитий</marker> я у молодості</example>
            <example type="correct">вилитий у бронзі</example>
            <example type="correct">вилитий бруд</example>
        </rule>
@@ -763,7 +763,7 @@ $Id$
                </marker>
            </pattern>
            <message>Краще: <suggestion>викапаний</suggestion></message>
-           <example type="incorrect">як <marker>вилитий</marker></example>
+           <example correction="викапаний">як <marker>вилитий</marker></example>
            <example type="correct">як викапаний</example>
        </rule>
 
@@ -790,7 +790,7 @@ $Id$
                <token inflected="yes" regexp="yes">двигун|технологія</token>
            </pattern>
            <message>Правильно: <suggestion>економний</suggestion></message>
-           <example type="incorrect">поставили <marker>економічний</marker> двигун</example>
+           <example correction="економний">поставили <marker>економічний</marker> двигун</example>
            <example type="correct">поставили економний двигун</example>
        </rule>
 
@@ -804,7 +804,7 @@ $Id$
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>виняток з правила</suggestion>?</message>
            <short>Правильно «виняток з правила»</short>
-           <example type="incorrect">Це слово - <marker>виключення з правила</marker>.</example>
+           <example correction="виняток з правила">Це слово - <marker>виключення з правила</marker>.</example>
            <example type="correct">Це слово - виняток з правила.</example>
        </rule>
 
@@ -817,7 +817,7 @@ $Id$
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>спосіб життя</suggestion>?</message>
            <short>Правильно «спосіб життя»</short>
-           <example type="incorrect">Вона веде активний <marker>засіб життя</marker>.</example>
+           <example correction="спосіб життя">Вона веде активний <marker>засіб життя</marker>.</example>
            <example type="correct">Вона веде активний спосіб життя.</example>
        </rule>
 
@@ -830,7 +830,7 @@ $Id$
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>загроза вибуху</suggestion>?</message>
            <short>Правильно «загроза вибуху»</short>
-           <example type="incorrect"><marker>Погроза вибуху</marker> стала причиною евакуювання.</example>
+           <example correction="Загроза вибуху"><marker>Погроза вибуху</marker> стала причиною евакуювання.</example>
            <example type="correct">Загроза вибуху стала причиною евакуювання.</example>
        </rule>
 
@@ -844,7 +844,7 @@ $Id$
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>строк</suggestion>?</message>
            <short>Правильно: строк</short>
-           <example type="incorrect">Зменшиться <marker>термін</marker> виборчої кампанії</example>
+           <example correction="частинка">Зменшиться <marker>термін</marker> виборчої кампанії</example>
            <example type="correct">Зменшиться строк виборної кампанії</example>
        </rule>
 -->
@@ -857,7 +857,7 @@ $Id$
            </pattern>
            <message>Неточно вжите слово. Ви мали на увазі <suggestion>частинка</suggestion>?</message>
            <short>Правльно: строк</short>
-           <example type="incorrect">всі елементарні <marker>частки</marker></example>
+           <example correction="частинка">всі елементарні <marker>частки</marker></example>
            <example type="correct">всі елементарні частинки</example>
            <example type="correct">всі частки майна</example>
        </rule>
@@ -871,7 +871,7 @@ $Id$
            </pattern>
            <message>Правильно: <suggestion>металевий</suggestion></message>
            <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
-           <example type="incorrect"><marker>металічної</marker> руди</example>
+           <example correction="металевий"><marker>металічної</marker> руди</example>
            <example type="correct">металевої руди</example>
            <example type="correct">металічного присмаку</example>
        </rule>
@@ -884,7 +884,7 @@ $Id$
            </pattern>
            <message>Правильно: <suggestion>металічний</suggestion></message>
            <url>http://msu.kharkov.ua/tc/cons/metal.html</url>
-           <example type="incorrect"><marker>металевого</marker> блиску</example>
+           <example correction="металічний"><marker>металевого</marker> блиску</example>
            <example type="correct">металічного блиску</example>
            <example type="correct">металевої руди</example>
        </rule>
@@ -898,7 +898,7 @@ $Id$
          </pattern>
          <message>Правильно: <suggestion>дощовитий</suggestion></message>
          <url>http://mova.kreschatic.kiev.ua/13.php</url>
-         <example type="incorrect"><marker>Дощове</marker> літо</example>
+         <example correction="Дощовитий"><marker>Дощове</marker> літо</example>
          <example type="correct">Дощові хмари</example>
        </rule>
 
@@ -910,7 +910,7 @@ $Id$
           </marker>
          </pattern>
          <message>Правильно: <suggestion>ступінь</suggestion></message>
-         <example type="incorrect">Науковий <marker>степінь</marker></example>
+         <example correction="ступінь">Науковий <marker>степінь</marker></example>
          <example type="correct">Піднесення до степеня</example>
          <example type="correct">Науковий ступінь</example>
        </rule>
@@ -924,7 +924,7 @@ $Id$
          </pattern>
          <message>Правильно: <suggestion>цивільний</suggestion> шлюб</message>
          <url>http://mova.kreschatic.kiev.ua/12.php</url>
-         <example type="incorrect"><marker>Громадянський</marker> шлюб: за і проти</example>
+         <example correction="Цивільний"><marker>Громадянський</marker> шлюб: за і проти</example>
          <example type="correct">Цивільний шлюб: за і проти</example>
        </rule>
 
@@ -936,7 +936,7 @@ $Id$
             <token inflected="yes">спосіб</token>
          </pattern>
          <message>Правильно: <suggestion>надійний</suggestion></message>
-         <example type="incorrect"><marker>Вірний</marker> спосіб</example>
+         <example correction="Надійний"><marker>Вірний</marker> спосіб</example>
          <example type="correct">Вірний джура</example>
        </rule>
        <rule>
@@ -947,7 +947,7 @@ $Id$
             <token inflected="yes" regexp="yes">результат|відповідь|рішення</token>
          </pattern>
          <message>Правильно: <suggestion>правильний</suggestion></message>
-         <example type="incorrect"><marker>Вірна</marker> відповідь</example>
+         <example correction="Правильний"><marker>Вірна</marker> відповідь</example>
          <example type="correct">Вірна дружина</example>
        </rule>
 

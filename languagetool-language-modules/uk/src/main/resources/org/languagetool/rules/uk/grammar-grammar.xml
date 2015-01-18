@@ -63,8 +63,8 @@ $Id$
                 <example type="correct">не залишається нічого іншого, крім чекати.</example>
                 <example type="correct">Наїхали на Мела Гібсона</example>
                 <example type="correct">заради скажемо</example>
-                <example type="incorrect">Їм треба <marker>в їхати</marker>.</example>
-                <example type="incorrect"><marker>для будь</marker> кого</example>
+                <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
+                <example correction="будь"><marker>для будь</marker> кого</example>
             </rule>
             <rule>
                 <pattern>
@@ -85,9 +85,9 @@ $Id$
                 <example type="correct">Чи варто їм таке писати?</example>
                 <example type="correct">Чи варто було їм таке писати?</example>
                 <example type="correct">Треба буде таке писати</example>
-                <example type="incorrect">Повинен <marker>писатиме</marker>.</example>
-                <example type="incorrect">Треба <marker>писав</marker>.</example>
-                <example type="incorrect">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
+                <example correction="писати">Повинен <marker>писатиме</marker>.</example>
+                <example correction="писати">Треба <marker>писав</marker>.</example>
+                <example correction="сподіватись">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
             </rule>
         </rulegroup>
 
@@ -102,8 +102,8 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Згідно з чим</message>
-                <example type="incorrect">згідно <marker>статуту</marker></example>
-                <example type="incorrect">згідно <marker>до</marker> правила</example>
+                <example correction="">згідно <marker>статуту</marker></example>
+                <example correction="">згідно <marker>до</marker> правила</example>
                 <example type="correct">згідно зі статутом</example>
                 <example type="correct">згідно з правилом</example>
             </rule>
@@ -121,9 +121,9 @@ $Id$
                   </marker>
                 </pattern>
                 <message>Навчати чого</message>
-                <example type="incorrect">навчати <marker>математиці</marker></example>
-                <example type="incorrect">навчати <marker>елементарній математиці</marker></example>
-                <example type="incorrect">навчали <marker>улюбленому заняттю</marker></example>
+                <example correction="">навчати <marker>математиці</marker></example>
+                <example correction="">навчати <marker>елементарній математиці</marker></example>
+                <example correction="">навчали <marker>улюбленому заняттю</marker></example>
                 <example type="correct">навчати математики</example>
                 <example type="correct">навчати елементарної математики</example>
                 <example type="correct">навчати фаху</example>
@@ -146,8 +146,8 @@ $Id$
                 </pattern>
                 <message>Після дробового числівника іменник має стояти в родовому відмінку множини</message>
                 <suggestion><match no="3" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion>
-                <example type="incorrect" correction="відсотка">два десятих <marker>відсотки</marker></example>
-                <example type="incorrect" correction="відсотка">дві третіх <marker>відсотки</marker></example>
+                <example correction="відсотка">два десятих <marker>відсотки</marker></example>
+                <example correction="відсотка">дві третіх <marker>відсотки</marker></example>
                 <example type="correct">два десятих відсотка</example>
                 <example type="correct">через десяті руки</example>
                 <example type="correct">дві третіх країн-членів</example>
@@ -169,10 +169,10 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Після числівника що закінчується на 2-4 іменник має стояти в називному відмінку множини: <suggestion><match no="3" postag="noun:p:v_naz.*" postag_regexp="yes"/></suggestion></message>
-                <example type="incorrect">двадцять три <marker>вулика</marker></example>
-                <example type="incorrect">24 <marker>тижня</marker></example>
-                <example type="incorrect" correction="автомобілі">обидва <marker>автомобіля</marker></example>
-                <example type="incorrect" correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
+                <example correction="вулики">двадцять три <marker>вулика</marker></example>
+                <example correction="тижні">24 <marker>тижня</marker></example>
+                <example correction="автомобілі">обидва <marker>автомобіля</marker></example>
+                <example correction="автомобілі">обидва синіх <marker>автомобіля</marker></example>
                 <example type="correct">двадцять три вулики</example>
                 <example type="correct">двадцять три дні</example>
                 <example type="correct">три чверті</example>
@@ -212,13 +212,13 @@ $Id$
                 </pattern>
                 <message>Після числівника що закінчується на 5-9 або 0 іменник має стояти в родовому відмінку множини: <suggestion><match no="3" postag="noun:p:v_rod.*" postag_regexp="yes"/></suggestion></message>
                 <!--
-                <example type="incorrect" correction="грамів">сто <marker>грам</marker></example>
-                <example type="incorrect" correction="грамів">100 <marker>грам</marker></example>
+                <example correction="грамів">сто <marker>грам</marker></example>
+                <example correction="грамів">100 <marker>грам</marker></example>
                 -->
-                <example type="incorrect" correction="байтів">10 <marker>байт</marker></example>
-                <example type="incorrect" correction="мілібарів">10 <marker>мілібар</marker></example>
-                <example type="incorrect" correction="солдатів">дві сотні <marker>солдат</marker></example>
-                <example type="incorrect" correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
+                <example correction="байтів">10 <marker>байт</marker></example>
+                <example correction="мілібарів">10 <marker>мілібар</marker></example>
+                <example correction="солдатів">дві сотні <marker>солдат</marker></example>
+                <example correction="солдатів">дві сотні хоробрих <marker>солдат</marker></example>
                 <example type="correct">хвилин за 10 спікер увійшов</example>
                 <example type="correct">до 16 вхід заборонено</example>
                 <example type="correct">в 40 став наймолодшим</example>
@@ -251,8 +251,8 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Ви мали на увазі: <suggestion><match no="2"/>н</suggestion>?</message>
-                <example type="incorrect" correction="кілотонн">10 <marker>кілотон</marker></example>
-                <example type="incorrect" correction="тонн">10 <marker>тон</marker></example>
+                <example correction="кілотонн">10 <marker>кілотон</marker></example>
+                <example correction="тонн">10 <marker>тон</marker></example>
                 <example type="correct">10 тонн</example>
                 <example type="correct">10 тонів</example>
             </rule>
@@ -267,8 +267,8 @@ $Id$
                   </marker>
                 </pattern>
                 <message>Після десяткового дробу іменник має стояти в родовому відмінку однини: <suggestion><match no="2" postag_regexp="yes" postag="(.*):.:v_...(.*)" postag_replace="$1:[mnf]:v_rod$2"/></suggestion></message>
-                <example type="incorrect" correction="кілограма">2,4 <marker>кілограми</marker></example>
-                <example type="incorrect" correction="мільйона">2,4 <marker>мільйони</marker></example>
+                <example correction="кілограма">2,4 <marker>кілограми</marker></example>
+                <example correction="мільйона">2,4 <marker>мільйони</marker></example>
                 <example type="correct">33,77 тонни</example>
                 <example type="correct">2,19 бала</example>
                 <example type="correct">33,77 мм</example>
@@ -288,8 +288,8 @@ $Id$
                    </token>
                 </pattern>
                 <message>В жіночому роді правильно: <suggestion>півтори</suggestion></message>
-                <example type="incorrect"><marker>півтора</marker> доби</example>
-                <example type="incorrect"><marker>півтора</marker> тисячі</example>
+                <example correction="півтори"><marker>півтора</marker> доби</example>
+                <example correction="півтори"><marker>півтора</marker> тисячі</example>
                 <example type="correct">півтори доби</example>
             </rule>
             <rule>
@@ -303,9 +303,9 @@ $Id$
                    </marker>
                 </pattern>
                 <message>Після «півтора» треба вживати родовий однини: <suggestion><match no="2" postag_regexp="yes" postag="noun:[mnf]:v_rod.*"/></suggestion></message>
-                <example type="incorrect" correction="відра">півтора <marker>відер</marker></example>
-                <example type="incorrect" correction="сотні">півтори <marker>сотень</marker></example>
-                <example type="incorrect" correction="мільярда">півтора <marker>мільярди</marker></example>
+                <example correction="відра">півтора <marker>відер</marker></example>
+                <example correction="сотні">півтори <marker>сотень</marker></example>
+                <example correction="мільярда">півтора <marker>мільярди</marker></example>
                 <example type="correct">півтора літра</example>
                 <example type="correct">півтора рази</example>
                 <example type="correct">півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
@@ -321,8 +321,8 @@ $Id$
                    </marker>
                 </pattern>
                 <message>Після «півтора» треба вживати родовий однини: <suggestion><match no="2" postag_regexp="yes" postag="(noun:.):v_...(.*)" postag_replace="$1:v_rod$2"/></suggestion></message>
-                <example type="incorrect" correction="копальника">півтора <marker>копальнику</marker></example>
-                <example type="incorrect" correction="відра">півтора <marker>відрі</marker></example>
+                <example correction="копальника">півтора <marker>копальнику</marker></example>
+                <example correction="відра">півтора <marker>відрі</marker></example>
                 <example type="correct">півтора літра</example>
                 <example type="correct">півтора рази</example>
                 <example type="correct">півтора тисячі</example> <!-- ingore this mistake here, it'll be caght by rule above -->
@@ -337,8 +337,8 @@ $Id$
                    </token>
                 </pattern>
                 <message>В чоловічому та середньому роді правильно: «<suggestion>півтора</suggestion>»</message>
-                <example type="incorrect"><marker>півтори</marker> відра</example>
-                <example type="incorrect"><marker>півтори</marker> кухля</example>
+                <example correction="півтора"><marker>півтори</marker> відра</example>
+                <example correction="півтора"><marker>півтори</marker> кухля</example>
                 <example type="correct">півтора відра</example>
                 <example type="correct">півтори доби</example>
                 <example type="correct">півтора кухля</example>
@@ -355,7 +355,7 @@ $Id$
             </pattern>
             <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna"/></suggestion></message>
             <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod"/></suggestion>
-            <example type="incorrect" correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
+            <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
             <example type="correct">пів на першу приїхав і він</example>
           </rule>
 
@@ -368,7 +368,7 @@ $Id$
               <token>годині</token>
             </pattern>
             <message>Правильно: <suggestion>о</suggestion></message>
-            <example type="incorrect">аж <marker>у</marker> третій годині ночі</example>
+            <example correction="о">аж <marker>у</marker> третій годині ночі</example>
             <example type="correct">аж о третій годині ночі</example>
           </rule>
           <rule>
@@ -380,7 +380,7 @@ $Id$
               <token>годині</token>
             </pattern>
             <message>Правильно: <suggestion>о</suggestion></message>
-            <example type="incorrect">аж <marker>у</marker> 10-й годині ночі</example>
+            <example correction="о">аж <marker>у</marker> 10-й годині ночі</example>
             <example type="correct">аж о 5-ій годині ночі</example>
           </rule>
           <rule>
@@ -394,7 +394,7 @@ $Id$
             </pattern>
             <message>Правильно: <suggestion>о <match no="2"/> <match no="3"/>і <match no="4"/> <match no="5"/> <match no="6"/></suggestion></message>
             <suggestion><match no="2"/> <match no="3"/> до <match no="4"/></suggestion>
-            <example type="incorrect"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
+            <example correction="о п'ять годині двадцять п'ять хвилин|п'ять годин до двадцять"><marker>в п'ять годин двадцять п'ять хвилин</marker></example>
             <example type="correct">п'ять хвилин на дев'яту</example>
           </rule>
 
@@ -412,8 +412,8 @@ $Id$
               </marker>
             </pattern>
             <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
-            <example type="incorrect">о першій годині <marker>двадцятій хвилині</marker></example>
-            <example type="incorrect">о першій годині <marker>тридцять п'ятій хвилині</marker></example>
+            <example correction="…надцять хвилин">о першій годині <marker>двадцятій хвилині</marker></example>
+            <example correction="…надцять хвилин">о першій годині <marker>тридцять п'ятій хвилині</marker></example>
             <example type="correct">о першій годині двадцять п'ять хвилин</example>
           </rule>
           <rule>
@@ -427,7 +427,7 @@ $Id$
               </marker>
             </pattern>
             <message>Правильно: <suggestion>…надцять хвилин</suggestion></message>
-            <example type="incorrect">о 10-й годині <marker>двадцять п'ятій хвилині</marker></example>
+            <example correction="…надцять хвилин">о 10-й годині <marker>двадцять п'ятій хвилині</marker></example>
             <example type="correct">о 10-й годині двадцять п'ять хвилин</example>
           </rule>
           <rule>
@@ -439,9 +439,9 @@ $Id$
             </pattern>
             <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
             <suggestion><match no="2" postag_regexp="yes" postag="numr:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
-            <example type="incorrect" correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
-            <example type="incorrect"><marker>без двадцяти хвилин третя</marker></example>
-            <example type="incorrect"><marker>без двадцяти двох хвилин сьома</marker></example>
+            <example correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
+            <example correction="за двадцятеро хвилин третя|за двадцять хвилин третя|двадцятеро хвилин до третьої|двадцять хвилин до третьої"><marker>без двадцяти хвилин третя</marker></example>
+            <example correction="за двоє хвилин сьома|двоє хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
             <example type="correct">за десять хвилин третя</example>
           </rule>
           <rule>
@@ -459,9 +459,9 @@ $Id$
             <!-- TODO: use java code to get previous hour?? -->
             <message>Правильно: <suggestion>по [<match no="3" postag_regexp="yes" postag="adj:f:v_mis.*"/> - 1 година]</suggestion></message>
             <suggestion>на <match no="3" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion>
-            <example type="incorrect" correction="по [третій - 1 година]|на третю">п'ять хвилин <marker>третьої</marker></example>
-            <example type="incorrect">5 хвилин <marker>дев'ятої</marker></example>
-            <example type="incorrect">двадцять п'ять хвилин <marker>сьомої</marker></example>
+            <example correction="по [третій - 1 година]|на третю">п'ять хвилин <marker>третьої</marker></example>
+            <example correction="по [дев'ятій - 1 година]|на дев'яту">5 хвилин <marker>дев'ятої</marker></example>
+            <example correction="по [сьомій - 1 година]|на сьому">двадцять п'ять хвилин <marker>сьомої</marker></example>
             <example type="correct">п'ять хвилин по восьмій</example>
             <example type="correct">п'ять хвилин на дев'яту</example>
             <example type="correct">11 хвилин другої половини зустрічі</example>
@@ -497,13 +497,13 @@ $Id$
                 <example type="correct">це викликано тим</example>
                 <example type="correct">його обрано президентом</example>
                 <example type="correct">документ виписано таким чином</example>
-                <example type="incorrect">Справу <marker>порушено прокурором</marker></example>
-                <example type="incorrect">Справу <marker>порушено генеральним прокурором</marker></example>
+                <example correction="">Справу <marker>порушено прокурором</marker></example>
+                <example correction="">Справу <marker>порушено генеральним прокурором</marker></example>
                 <!-- TODO: див. вище
-                <example type="incorrect">Справу <marker>порушено судом</marker></example>
+                <example correction="">Справу <marker>порушено судом</marker></example>
                 <example type="incorrect">Справу <marker>порушено міським судом</marker></example>
                 -->
-                <example type="incorrect">Користувача <marker>авторизовано адміністратором</marker></example>
+                <example correction="">Користувача <marker>авторизовано адміністратором</marker></example>
             </rule>
 <!-- потребує складного аналізу, інакше створює багато фальшивих помилок
             <rule>
@@ -597,7 +597,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Місяць \2 має лише 30 днів.</message>
-                <example type='incorrect'>Це трапилося <marker>31 листопада</marker> 2014 р.</example>
+                <example correction="">Це трапилося <marker>31 листопада</marker> 2014 р.</example>
                 <example type='correct'>Це трапилося <marker>30 листопада</marker> 2014 р.</example>
             </rule>
             <rule>
@@ -608,7 +608,7 @@ $Id$
                     </marker>
                 </pattern>
                 <message>Лютий має 28 днів або 29 днів у переступному році.</message>
-                <example type='incorrect'>Це трапилося <marker>30 лютого</marker> 2014 р.</example>
+                <example correction="">Це трапилося <marker>30 лютого</marker> 2014 р.</example>
                 <example type='correct'>Це трапилося <marker>28 лютого</marker> 2014 р.</example>
             </rule>
         </rulegroup>
@@ -621,7 +621,7 @@ $Id$
             <message>Можливо <suggestion><match no="1"/> <match no="2" regexp_match="200" regexp_replace="20"/></suggestion>?</message>
             <short>Помилка друку?</short>
             <example type="correct">Мою поїздку запланували на травень 2014 р.</example>
-            <example type="incorrect" correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
+            <example correction="травень 2014">Мою поїздку запланували на <marker>травень 20014</marker> р.</example>
         </rule>
 
         <rulegroup id="DATE_WEEKDAY1" name="День тижня не відповідає даті">   
@@ -636,8 +636,8 @@ $Id$
                 </pattern>
                 <filter class="org.languagetool.rules.uk.DateCheckFilter" args="year:\5 month:\4 day:\3 weekDay:\1"/>
                 <message>Днем тижня \3 \4 \5 є не \1, а {realDay}.</message>
-                <example type='incorrect'>Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
-                <example type='incorrect'>Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
+                <example correction="">Конференція відбудеться в <marker>понеділок, 7 жовтня 2014</marker> р.</example>
+                <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
                 <example type='correct'>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
                 <example type='correct'>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
             </rule>
