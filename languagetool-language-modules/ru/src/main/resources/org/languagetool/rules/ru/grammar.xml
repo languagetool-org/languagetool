@@ -4001,14 +4001,7 @@ $Id$
                         <exception>лет</exception>
                     </token>
                 </pattern>
-                <message>Существительное с дробным числительным должно употребляться в единственном числе (например 35,5 процента), а не во множественном (35,5 процентов):
-                    <suggestion>
-                        <match no="1"></match>
-                        <match no="2"></match>
-                        <match no="3"></match> 
-                        <match no="4" postag="NN:(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match>
-                    </suggestion>
-                </message>
+                <message>Существительное с дробным числительным должно употребляться в единственном числе (например 35,5 процента), а не во множественном (35,5 процентов):<suggestion><match no="1"></match><match no="2"></match><match no="3"></match> <match no="4" postag="NN:(.*):PL:R" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Требуется единственное число.</short>
                 <example type="correct">35,5 процента.</example>
@@ -4026,10 +4019,7 @@ $Id$
                     </token>
                 </pattern>
                 <message>Этот предлог должен употребляться с дательным падежом (<match no="1"></match> чему), а не с родительным (<match no="1"></match> чего):
-                    <suggestion>
-                        <match no="1"></match> 
-                        <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match>
-                    </suggestion>
+                    <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):R" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>
                 </message>
                 <short>Требуется дательный падеж.</short>
                 <example type="correct">Отправление поезда согласно расписанию.</example>
@@ -4082,9 +4072,7 @@ $Id$
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
-                    <suggestion>
-                        <match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match>
-                    </suggestion>
+                    <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion>
                 </message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example type="correct">Указать на ошибку.</example>
@@ -4108,12 +4096,7 @@ $Id$
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
-                    <suggestion>
-                        <match no="1"></match> 
-                        <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match>
-                    </suggestion>
-                </message>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example type="correct">Он советовал покупку.</example>
                 <example correction="">Он <marker>советовал о покупке</marker>.</example>
@@ -4125,11 +4108,7 @@ $Id$
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
-                    <suggestion>
-                        <match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match>
-                    </suggestion>
-                </message>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example type="correct">Он надеялся на удачу.</example>
                 <example correction="">Он <marker>надеялся об удаче</marker>.</example>
@@ -4154,12 +4133,7 @@ $Id$
                     <token regexp="yes">о|об</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:
-                    <suggestion>
-                        <match no="1"></match> 
-                        <match no="2"></match> для <match no="3" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match>
-                    </suggestion>
-                </message>
+                <message>Глагол \1 с предлогом «о» не употребляется. Возможная замена:<suggestion><match no="1"></match> <match no="2"></match> для <match no="4" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
                 <short>С предлогом «о» не употребляется.</short>
                 <example type="correct">Он принял меры для безопасности.</example>
                 <example correction="">Он <marker>принял меры о безопасности</marker>.</example>
@@ -4299,9 +4273,7 @@ $Id$
                     <exception negate_pos="yes" postag="NNN:.*" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Имя пишется с большой буквы: <suggestion>
-                    <match no="1" case_conversion="startupper"></match>
-                </suggestion>
+            <message>Имя пишется с большой буквы: <suggestion><match no="1" case_conversion="startupper"></match></suggestion>
             </message>
             <url>http://ru.wikipedia.org/wiki/%D0%97%D0%B0%D0%B3%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D0%B1%D1%83%D0%BA%D0%B2%D0%B0</url>
             <short>Заглавные буквы.</short>
@@ -4403,8 +4375,7 @@ $Id$
                 <message>Несклоняемые существительные, обозначающие лиц, относятся к мужскому или женскому роду в зависимости от пола обозначаемого лица</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Портье – мужского рода</short>
-                <example correction="">
-                    <marker>Старое портье</marker> давно работает в нашем отеле.</example>
+                <example correction=""><marker>Старое портье</marker> давно работает в нашем отеле.</example>
                 <example type="correct">Старый портье давно работает в нашем отеле.</example>
             </rule>
             
@@ -4448,8 +4419,7 @@ $Id$
                 <message>Несклоняемые существительные, обозначающие лиц, относятся к мужскому или женскому роду в зависимости от пола обозначаемого лица</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Рантье – мужского рода</short>
-                <example correction="">
-                    <marker>Старое рантье</marker> любит деньги.</example>
+                <example correction=""><marker>Старое рантье</marker> любит деньги.</example>
                 <example type="correct">Старый рантье любит деньги.</example>
             </rule>           
         </rulegroup>
@@ -4481,8 +4451,7 @@ $Id$
                 <message>Род иноязычных аббревиатур определяется по смыслу</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>УЕФА – мужского рода</short>
-                <example correction="">
-                    <marker>УЕФА объявила</marker> о реформе.</example>
+                <example correction=""><marker>УЕФА объявила</marker> о реформе.</example>
                 <example type="correct">УЕФА объявил о реформе.</example>
             </rule>            
             
@@ -4496,8 +4465,7 @@ $Id$
                 <message>Род иноязычных аббревиатур определяется по смыслу</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>ФБР – среднего рода</short>
-                <example correction="">
-                    <marker>ФБР наградил</marker> агента Смита.</example>
+                <example correction=""><marker>ФБР наградил</marker> агента Смита.</example>
                 <example type="correct">ФБР наградило агента Смита.</example>
             </rule>
             
@@ -4511,8 +4479,7 @@ $Id$
                 <message>Род иноязычных аббревиатур определяется по смыслу</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>ЦРУ – среднего рода</short>
-                <example correction="">
-                    <marker>ЦРУ определила</marker> его местонахождение.</example>
+                <example correction=""><marker>ЦРУ определила</marker> его местонахождение.</example>
                 <example type="correct">ЦРУ определило его местонахождение.</example>
             </rule>
             
@@ -4543,8 +4510,7 @@ $Id$
                 <message>Несклоняемые существительные, обозначающие одушевлённые предметы, птиц, животных, относятся к мужскому роду</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Колибри – мужского рода</short>
-                <example correction="">
-                    <marker>Крошечное колибри</marker> порхает около цветка.</example>
+                <example correction=""><marker>Крошечное колибри</marker> порхает около цветка.</example>
                 <example type="correct">Крошечный колибри порхает около цветка.</example>
             </rule>
             
@@ -4558,8 +4524,7 @@ $Id$
                 <message>Несклоняемые существительные, обозначающие одушевлённые предметы, птиц, животных, относятся к мужскому роду</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Шимпанзе – мужского рода</short>
-                <example correction="">
-                    <marker>Старое шимпанзе</marker> – вожак стаи.</example>
+                <example correction=""><marker>Старое шимпанзе</marker> – вожак стаи.</example>
                 <example type="correct">Старый шимпанзе – вожак стаи.</example>
             </rule>
             
@@ -4589,8 +4554,7 @@ $Id$
                 <message>Род несклоняемых существительных, обозначающих географические названия, определяется по роду существительного - родового понятия</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Майями - мужского рода (город)</short>
-                <example correction="">
-                    <marker>Майами залито</marker> солнцем.</example>
+                <example correction=""><marker>Майами залито</marker> солнцем.</example>
                 <example type="correct">Майами залит солнцем.</example>
             </rule>
             
@@ -4619,8 +4583,7 @@ $Id$
                 <message>Род несклоняемых существительных, обозначающих географические названия, определяется по роду существительного - родового понятия</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Хуанхэ - женского рода (река)</short>
-                <example correction="">
-                    <marker>Хуанхэ подвержено</marker> наводнениям.</example>
+                <example correction=""><marker>Хуанхэ подвержено</marker> наводнениям.</example>
                 <example type="correct">Хуанхэ подвержена наводнениям.</example>
             </rule>
             
@@ -4656,8 +4619,7 @@ $Id$
                 <message>Сказуемое должно стоять в той же форме, что и подлежащее</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5</url>
                 <short>Ошибка в согласовании</short>
-                <example correction="">
-                    <marker>Молодёжь собрались</marker> у костра.</example>
+                <example correction=""><marker>Молодёжь собрались</marker> у костра.</example>
                 <example type="correct">Молодёжь собралась у костра.</example>
             </rule>
             
@@ -4671,8 +4633,7 @@ $Id$
                 <message>Сказуемое должно стоять в той же форме, что и подлежащее</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B3%D0%BB%D0%B0%D1%81%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5</url>
                 <short>Ошибка в согласовании</short>
-                <example correction="">
-                    <marker>Группа пришли</marker> на лекцию в полном составе.</example>
+                <example correction=""><marker>Группа пришли</marker> на лекцию в полном составе.</example>
                 <example type="correct">Группа пришла на лекцию в полном составе.</example>
             </rule>            
         </rulegroup>
@@ -4688,8 +4649,7 @@ $Id$
                 <message>Ошибка в употреблении падежа, нужен творительный падеж: заведующая чем?</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A3%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D0%B5%D0%BD%D0%B8%D0%B5_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>
                 <short>Ошибка в управлении</short>
-                <example correction="">
-                    <marker>Заведующая детсада</marker> собрала совещание.</example>
+                <example correction=""><marker>Заведующая детсада</marker> собрала совещание.</example>
                 <example type="correct">Заведующая детсадом собрала совещание.</example>
             </rule>
             
@@ -4743,8 +4703,7 @@ $Id$
                 <message>Названия лиц по профессии, должности, званию сохраняют форму мужского рода  даже тогда, когда относятся к женщине</message>          
                 <url>http://ru.wikipedia.org/wiki/%D0%A0%D0%BE%D0%B4_%28%D0%BB%D0%B8%D0%BD%D0%B3%D0%B2%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%29</url>           
                 <short>Требуется мужской род.</short>
-                <example correction="">
-                    <marker>Лаборантка</marker> Иванова в отпуске.</example>
+                <example correction=""><marker>Лаборантка</marker> Иванова в отпуске.</example>
                 <example type="correct">Лаборант Иванова в отпуске.</example>
             </rule>
             
