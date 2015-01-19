@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Vermeiden Sie die 1. Vergangenheit (Präteritum). Schreiben Sie in der 2. Vergangenheit. Verwenden Sie das Perfekt.</message>
             <short>1. Vergangenheit vermeiden</short>
             <example correction="">Ich <marker>ging</marker> einkaufen.</example>
-            <example type='correct'>Ich bin einkaufen gegangen.</example>
+            <example>Ich bin einkaufen gegangen.</example>
         </rule>
 
         <rule id="METAPHERN" name="Leichte Sprache: Metaphern">
@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Verwenden Sie keine schwierigen Begriffe. Vermeiden Sie Metaphern und bildhafte Sprache.</message>
             <short>Metaphern vermeiden</short>
-            <example type='correct'>Sie haben ihm damit geschadet.</example>
+            <example>Sie haben ihm damit geschadet.</example>
             <example correction="">Sie erwiesen ihm einen <marker>Bärendienst</marker>.</example>
             <example correction="">Sie erwiesen ihm <marker>Bärendienste</marker>.</example>
         </rule>
@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Benutzen Sie keine Fußnoten. Erklären Sie alles gleich im Text.</message>
             <short>Fußnoten vermeiden.</short>
             <example correction=""><marker>Hallo¹</marker></example>
-            <example type='correct'>Hallo, hier steht mehr</example>
+            <example>Hallo, hier steht mehr</example>
         </rule>
 
         <rule id="VERNEINUNG" name="Leichte Sprache: Verneinungen">
@@ -76,7 +76,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Wenn möglich, keine Verneinungen benutzen.</message>
             <short>Verneinungen vermeiden.</short>
             <example correction="">Peter will <marker>nicht länger bleiben</marker>.</example>
-            <example type='correct'>Peter will gehen.</example>
+            <example>Peter will gehen.</example>
         </rule>
         
         <rule id="LANGES_WORT" name="Leichte Sprache: Langes Wort">
@@ -84,7 +84,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">\p{L}{14,}</token>
             </pattern>
             <message>Dieses Wort hat mehr als dreizehn Buchstaben. Benutzen Sie kurze Wörter.</message>
-            <example type="correct">Die Schifffahrt auf der Donau ist beliebt.</example>
+            <example>Die Schifffahrt auf der Donau ist beliebt.</example>
             <example correction="">Die <marker>Donaudampfschifffahrt</marker> ist beliebt.</example>
         </rule>
 
@@ -94,7 +94,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{Lu}{2,}</token>
                 </pattern>
                 <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example type="correct">Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
+                <example>Das <marker>Köchelverzeichnis</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
                 <example correction="">Das <marker>KV</marker> ist ein Verzeichnis der Kompositionen von Mozart.</example>
             </rule>
             <rule>
@@ -104,7 +104,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{L}</token><token>.</token>
                 </pattern>
                 <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example type="correct">Die Sozialdemokratische Partei Deutschlands.</example>
+                <example>Die Sozialdemokratische Partei Deutschlands.</example>
                 <example correction="">Die <marker>S.P.D.</marker></example>
             </rule>
             <rule>
@@ -112,7 +112,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="ABK:.*"><exception regexp="yes">\p{L}</exception></token>
                 </pattern>
                 <message>Abkürzung gefunden. Verzichten Sie auf Abkürzungen.</message>
-                <example type="correct">Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
+                <example>Wir brauchen Milch, Eier <marker>und so weiter</marker>.</example>
                 <example correction="">Wir brauchen Milch, Eier <marker>usw</marker>.</example>
             </rule>
         </rulegroup>
@@ -124,7 +124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="PA2:PRD:.*|VER:PA2:.*"/>
                 </pattern>
                 <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
-                <example type="correct">Jemand feuerte den Manager.</example>
+                <example>Jemand feuerte den Manager.</example>
                 <example correction="">Der Manager <marker>wurde gefeuert</marker>.</example>
             </rule>
             <rule>
@@ -133,7 +133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
                 <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
-                <example type="correct">Sie feuerten den Manager.</example>
+                <example>Sie feuerten den Manager.</example>
                 <example correction="">Als der Manager <marker>gefeuert wurde</marker>.</example>
             </rule>
             <!--
@@ -144,7 +144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" postag_regexp="yes" postag="VER:AUX:.*"><exception>,</exception>werden</token>
                 </pattern>
                 <message>In diesem Satz haben Sie das Passiv verwendet. Benutzen Sie aktive Wörter.</message>
-                <example type="correct">Sie mahnten den Manager ab und feuerten ihn.</example>
+                <example>Sie mahnten den Manager ab und feuerten ihn.</example>
                 <example type="incorrect">Als der Manager <marker>abgemahnt und gefeuert wurde</marker>.</example>
             </rule>
             -->
@@ -160,7 +160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
-                <example type="correct">Der Sattel von dem Fahrrad.</example>
+                <example>Der Sattel von dem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>des Fahrrads</marker>.</example>
             </rule>
             <rule>
@@ -172,7 +172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Genitiv gefunden. Vermeiden Sie den Genitiv.</message>
-                <example type="correct">Der Sattel von deinem Fahrrad.</example>
+                <example>Der Sattel von deinem Fahrrad.</example>
                 <example correction="">Der Sattel <marker>deines Fahrrads</marker>.</example>
                 <!-- Vorschlag: Verwenden Sie statt dessen den Dativ. -->
             </rule>
@@ -186,7 +186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate_pos="yes" postag_regexp="yes" postag="VER:.*"/>
                 </pattern>
                 <message>Indirekte Rede gefunden. Benutzen Sie direkte Rede.</message>
-                <example type="correct">Er sagte: ich bin 30 Jahre alt.</example>
+                <example>Er sagte: ich bin 30 Jahre alt.</example>
                 <example correction="">Er <marker>sagte, er</marker> sei 30 Jahre alt.</example>
             </rule>
         </rulegroup>
@@ -202,7 +202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </pattern>
                 <message>Konjunktiv gefunden. Vermeiden Sie den Konjunktiv.</message>
-                <example type="correct">Angeblich sind sie bereit.</example>
+                <example>Angeblich sind sie bereit.</example>
                 <example correction="">Man <marker>sei</marker> bereit.</example>
             </rule>
         </rulegroup>
@@ -212,8 +212,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">(M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3}))|(m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3}))<exception>cm</exception></token>
             </pattern>
             <message>Römische Zahl gefunden. Benutzen Sie arabische Zahlen.</message>
-            <example type="correct">Stufe 4</example>
-            <example type="correct">Das ist 4 cm lang.</example>
+            <example>Stufe 4</example>
+            <example>Das ist 4 cm lang.</example>
             <example correction="">Stufe <marker>IV</marker></example>
             <example correction="">Stufe <marker>vii</marker></example>
         </rule>
@@ -224,7 +224,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="yes" regexp="yes">\p{N}{3,}</token>
                 </pattern>
                 <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
-                <example type="correct">Sehr viele Menschen</example>
+                <example>Sehr viele Menschen</example>
                 <example correction="">Bis zu <marker>100000</marker> Menschen</example>
             </rule>
             <rule>
@@ -234,7 +234,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">\p{N}{3}</token>
                 </pattern>
                 <message>Hohe Zahl gefunden. Vermeiden Sie hohe Zahlen.</message>
-                <example type="correct">Sehr viele Menschen</example>
+                <example>Sehr viele Menschen</example>
                 <example correction=""><marker>100.000</marker> Menschen</example>
             </rule>
             <rule>
@@ -244,7 +244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">\p{N}+</token>
                 </pattern>
                 <message>Kommazahl gefunden. Vermeiden Sie Kommazahlen.</message>
-                <example type="correct">Etwa 4</example>
+                <example>Etwa 4</example>
                 <example correction=""><marker>3,91</marker></example>
             </rule>
             <rule>
@@ -252,7 +252,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">\p{N}+%</token>
                 </pattern>
                 <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
-                <example type="correct">14 Prozent</example>
+                <example>14 Prozent</example>
                 <example correction=""><marker>14%</marker></example>
             </rule>
             <rule>
@@ -261,7 +261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>%</token>
                 </pattern>
                 <message>Prozentzahl gefunden. Vermeiden Sie Prozentzahlen.</message>
-                <example type="correct">14 Prozent</example>
+                <example>14 Prozent</example>
                 <example correction=""><marker>14 %</marker></example>
             </rule>
         </rulegroup>
@@ -271,7 +271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="ZAL"/>
             </pattern>
             <message>Zahlwort gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie Zahlen schreiben? Meistens sind Ziffern leichter als Worte.</message>
-            <example type="correct">Es waren 7 Leute da.</example>
+            <example>Es waren 7 Leute da.</example>
             <example correction="">Es waren <marker>sieben</marker> Leute da.</example>
         </rule>
 
@@ -283,7 +283,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(Januar|Februar|März|April|Mai|Juni|Juli|August|September|Oktober|November|Dezember)</token>
                 </pattern>
                 <message>Datum mit Monatsnamen gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example type="correct">Am 31.1. geht es los.</example>
+                <example>Am 31.1. geht es los.</example>
                 <example correction="">Am <marker>31. Januar</marker> geht es los.</example>
             </rule>
             <rule>
@@ -295,7 +295,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no" regexp="yes">(19|20)?\p{N}{2}</token>
                 </pattern>
                 <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example type="correct">Am 31. Januar 2011 geht es los.</example>
+                <example>Am 31. Januar 2011 geht es los.</example>
                 <example correction="">Am <marker>31.01.2011</marker> geht es los.</example>
             </rule>
             <rule>
@@ -306,7 +306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token spacebefore="no">.</token>
                 </pattern>
                 <message>Datumsangabe gefunden. Fragen Sie die Prüfer und Prüferinnen: Wie sollen Sie ein Datum schreiben?</message>
-                <example type="correct">Am 31. Januar geht es los.</example>
+                <example>Am 31. Januar geht es los.</example>
                 <example correction="">Am <marker>31.01.</marker> geht es los.</example>
             </rule>
         </rulegroup>
@@ -317,7 +317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(&klamauf;|&klamzu;|&anfauf;|&anfzu;|&amp;|[*†§…;'"])</token>
                 </pattern>
                 <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
-                <example type="correct">Hier steht was, und noch was...</example>
+                <example>Hier steht was, und noch was...</example>
                 <example correction="">Hier steht was <marker>(</marker>und noch was...</example>
             </rule>
             <rule>
@@ -325,7 +325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>%<exception scope="previous" regexp="yes">\p{N}+</exception></token>
                 </pattern>
                 <message>Sonderzeichen gefunden. Vermeiden Sie Sonderzeichen.</message>
-                <example type="correct">Erhöhung um einige Prozent</example>
+                <example>Erhöhung um einige Prozent</example>
                 <example correction="">Erhöhung um einige <marker>%</marker></example>
             </rule>
         </rulegroup>
@@ -352,7 +352,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Langer Satz gefunden: Dieser Satz hat mehr als 12 Wörter.</message>
-                <example type="correct">Das hier ist ein kurzer Satz.</example>
+                <example>Das hier ist ein kurzer Satz.</example>
                 <example correction="">Das hier ist kein kurzer Satz, sondern eher was längeres mal <marker>zum Testen.</marker></example>
             </rule>
         </rulegroup>

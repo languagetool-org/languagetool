@@ -64,7 +64,7 @@ $Id$
         <token>ex</token>
       </pattern>
       <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
-      <example type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
       <example correction="t.ex."> Vi tar <marker>t ex</marker> fem myror och fyra elefanter. </example>
     </rule>
     <rule default="off" id="TEX"
@@ -73,7 +73,7 @@ $Id$
         <token>tex</token>
       </pattern>
       <message> Denna förkortning skrivs i regel med punkter: <suggestion>t.ex.</suggestion>. </message>
-      <example type="correct"> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
+      <example> Vi tar <marker>t.ex.</marker> fem myror och fyra elefanter. </example>
       <example correction="t.ex."> Vi tar <marker>tex</marker> fem myror och fyra elefanter. </example>
     </rule>
   </category>
@@ -134,7 +134,7 @@ $Id$
         </marker>
       </pattern>
       <message>Kommatecken ska sättas ut innan anföringsverb, dvs. <suggestion>, \2 \3</suggestion></message>
-      <example type="correct">Det var finfint<marker>, sade Johan</marker>.</example>
+      <example>Det var finfint<marker>, sade Johan</marker>.</example>
       <example correction=", sade Johan">Det var finfint<marker> sade Johan</marker>.</example>
     </rule>
     <rule id="EnKlubbaTill" name="Klumpiga ordföljder 1">
@@ -174,7 +174,7 @@ $Id$
         <token>motto</token>
       </pattern>
       <message>I dessa uttryck används ordet måtto (från måtta) och inte motto (som betyder ung. slagord)</message>
-      <example type="correct">Alla hinder bör <marker>i möjligaste måtto</marker> undanröjas.</example>
+      <example>Alla hinder bör <marker>i möjligaste måtto</marker> undanröjas.</example>
       <example correction="">Alla hinder bör <marker>i möjligaste motto</marker> undanröjas.</example>
     </rule>
   </category>
@@ -193,7 +193,7 @@ $Id$
       <example correction="ad hoc|ad acta|ad notam">
         <marker>ad foobar</marker>
       </example>
-      <example type="correct">ad acta</example>
+      <example>ad acta</example>
     </rule>
     <rule id="LOS" name="los ...">
       <pattern>
@@ -205,7 +205,7 @@ $Id$
         </token>
       </pattern>
       <message>Menar du "<suggestion>loss</suggestion>" som i släpp taget om, eller är det en del av ett namn.</message>
-      <example type="correct">Los Angeles</example>
+      <example>Los Angeles</example>
       <example correction="Loss"><marker>Los</marker> Foobar</example>
     </rule>
   </category>
@@ -221,7 +221,7 @@ $Id$
             no="1"
             regexp_match="^(\p{Lu}{2}+[i]*\p{Lu}+)([\p{L}&amp;&amp;[^\p{Lu}]]{1,4}+)"
             regexp_replace="$1:$2"></match></suggestion> </message>
-      <example type="correct">Med det nya API:s fördelar, kan du hitta nya lösningar.</example>
+      <example>Med det nya API:s fördelar, kan du hitta nya lösningar.</example>
       <example correction="API:s">Med det nya <marker>APIs</marker> fördelar, kan du hitta nya lösningar.</example>
     </rule>
     <rule id="Ordningstal" name="Ordningstal">
@@ -230,7 +230,7 @@ $Id$
       </pattern>
       <message>Siffror med ändelser binds ihop med ett kolon: <suggestion><match
             no="1" regexp_match="^(1|2|[\d]*[12])(a|e)" regexp_replace="$1:$2"></match></suggestion></message>
-      <example type="correct">Hon kom på 2:a plats</example>
+      <example>Hon kom på 2:a plats</example>
       <example correction="2:a">Hon kom på <marker>2a</marker> plats</example>
     </rule>
     <rule id="Ordningstal2" name="Ordningstal2">
@@ -240,7 +240,7 @@ $Id$
       <message>Siffror med ändelser binds ihop med ett kolon: <suggestion><match
             no="1" regexp_match="^([3-90]|[\d]*[3-90])([ae])"
             regexp_replace="$1:$2"></match></suggestion></message>      
-      <example type="correct">Han kom på 5:e plats</example>
+      <example>Han kom på 5:e plats</example>
       <example correction="5:e">Han kom på <marker>5e</marker> plats</example>
     </rule>
   </category>
@@ -258,8 +258,8 @@ begå självmord eller "ta sitt liv"
       </pattern>
       <message>Undvik att blanda konstruktioner. Planer om borde vara <suggestion>planer på</suggestion> eller <suggestion>drömmar om</suggestion>.</message>
       <example correction="planer på|drömmar om">Hon hade stora <marker>planer om</marker> det nya systemet.</example>
-      <example type="correct">Hon hade stora <marker>drömmar om</marker> det nya systemet</example>
-      <example type="correct">Hon hade stora <marker>planer på</marker> förändringar.</example>
+      <example>Hon hade stora <marker>drömmar om</marker> det nya systemet</example>
+      <example>Hon hade stora <marker>planer på</marker> förändringar.</example>
     </rule>
     <rule id="MELLAN_TILL" name="Mellan klockan fem till tio">
       <pattern case_sensitive="no">
@@ -279,7 +279,7 @@ begå självmord eller "ta sitt liv"
       </pattern>
       <message>Undvik att blanda konstruktioner. "Ta självmord" borde vara <suggestion>begå självmord</suggestion>, <suggestion>ta ditt liv</suggestion> eller <suggestion>ta sitt liv</suggestion>.</message>
       <example correction="begå självmord|ta ditt liv|ta sitt liv">Har du nagonsin funderat pa att <marker>ta självmord</marker>.</example>
-      <example type="correct">Har du nagonsin funderat pa att <marker>begå självmord</marker>.</example>
+      <example>Har du nagonsin funderat pa att <marker>begå självmord</marker>.</example>
     </rule>
     <rule id="MELLAN_SYD_TILL_NORD" name="Mellan syd till nord">
       <pattern>
@@ -290,7 +290,7 @@ begå självmord eller "ta sitt liv"
       </pattern>
       <message>Undvik att blanda konstruktioner. Använd antingen <suggestion>mellan \2 och \4</suggestion> eller <suggestion>från \2 till \4</suggestion></message>
       <example correction="Mellan Stockholm och Skara|Från Stockholm till Skara"><marker>Mellan Stockholm till Skara</marker> finns inget intressant.</example>
-      <example type="correct"><marker>Mellan Stockholm och Skara</marker> finns inget intressant.</example>
+      <example><marker>Mellan Stockholm och Skara</marker> finns inget intressant.</example>
     </rule>
     <rule id="I_STOR_GRAD" name="I stor grad &gt; i hög grad">
       <pattern case_sensitive="no">

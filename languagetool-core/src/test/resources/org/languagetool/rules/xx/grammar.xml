@@ -119,7 +119,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> fuu bah</suggestion>?</message>
             <url>http://fake-server.org/foo-bar-error-explained</url>
-            <example type="correct">This is <marker>fuu bah</marker>.</example>
+            <example>This is <marker>fuu bah</marker>.</example>
             <example correction="foo fuu bah">This is <marker>foo bar</marker>.</example>
         </rule>
         <rule id="DEMO_RULE_OFF" name="off by default" default="off">
@@ -127,7 +127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>foosomething</token>
             </pattern>
             <message>This rule is off by default</message>
-            <example type="correct">This is <marker>foo different</marker>.</example>
+            <example>This is <marker>foo different</marker>.</example>
             <example correction="">This is <marker>foosomething</marker>.</example>
         </rule>
         <rule id="DEMO_RULE_ANTIPATTERN" name="Find 'foo bar' but not 'not this'">
@@ -140,9 +140,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>bar</token>
             </pattern>
             <message>Did you mean <suggestion>foo</suggestion>?</message>
-            <example type="correct">This is <marker>fuu bah</marker>.</example>
+            <example>This is <marker>fuu bah</marker>.</example>
             <example correction="foo">This is <marker>foo bar</marker>.</example>
-            <example type="correct">This is <marker>foo bar</marker>, but this is not.</example>
+            <example>This is <marker>foo bar</marker>, but this is not.</example>
         </rule>
         <rulegroup id="GROUP_WITH_URL" name="rule group with url">
             <url>http://fake-server.org/rule-group-url</url>
@@ -153,7 +153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>msg1</message>
                 <example correction=""><marker>fake1</marker></example>
-                <example type="correct">fake2</example>
+                <example>fake2</example>
             </rule>
             <rule>
                 <pattern>
@@ -163,7 +163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://fake-server.org/rule-group-url-overwrite</url>
                 <short>overwriting short message</short>
                 <example correction=""><marker>fake1</marker></example>
-                <example type="correct">fake2</example>
+                <example>fake2</example>
             </rule>
             <rule>
                 <pattern>
@@ -171,7 +171,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>msg3</message>
                 <example correction=""><marker>fake1</marker></example>
-                <example type="correct">fake2</example>
+                <example>fake2</example>
             </rule>
         </rulegroup>        
         <rulegroup id="OR_GROUPS" name="OR groups">
@@ -189,10 +189,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>b d</marker></example>
                 <example correction=""><marker>c d</marker></example>
                 <example correction="">a <marker>b d</marker></example>
-                <example type="correct">d a</example>
-                <example type="correct">c a</example>
-                <example type="correct">c b</example>
-                <example type="correct">a b c</example>
+                <example>d a</example>
+                <example>c a</example>
+                <example>c b</example>
+                <example>a b c</example>
             </rule>
             <rule>
                 <pattern>
@@ -213,10 +213,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>a g z</marker></example>
                 <example correction=""><marker>b d y</marker></example>
                 <example correction="">a <marker>b h z</marker></example>
-                <example type="correct">d a d</example>
-                <example type="correct">c a c</example>
-                <example type="correct">y b y</example>
-                <example type="correct">z b a</example>
+                <example>d a d</example>
+                <example>c a c</example>
+                <example>y b y</example>
+                <example>z b a</example>
             </rule>
         </rulegroup>
         <rule id="DEMO_CHUNK_RULE" name="Rule with chunk attribute">
@@ -225,7 +225,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token chunk="B-NP-singular"/>
             </pattern>
             <message>Did you mean <suggestion>foo bar</suggestion>?</message>
-            <example type="correct">This is <marker>foo bar</marker>.</example>
+            <example>This is <marker>foo bar</marker>.</example>
             <example correction="foo bar">This is <marker>foo chunkbar</marker>.</example>
         </rule>
         <rule id="API_OUTPUT_TEST_RULE" name="Find 'foo bar'">
@@ -236,7 +236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>fuu bah</suggestion>?</message>
-            <example type="correct">This is ach <marker>fuu bah</marker>.</example>
+            <example>This is ach <marker>fuu bah</marker>.</example>
             <example correction="fuu bah">This is ach <marker>thosnaíos-sa</marker>.</example>
         </rule>
         <rule id="NEGATION_TOKEN" name="test negation">
@@ -247,7 +247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>test</message>
-            <example type="correct">a small <marker>test</marker></example>
+            <example>a small <marker>test</marker></example>
             <example correction="">a small <marker>toast</marker></example>
         </rule>
     </category>
@@ -259,7 +259,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <phraseref idref="DUMMY_VB1"/>
             </pattern>
             <message>Error!</message>
-            <example type="correct">foo bar</example>
+            <example>foo bar</example>
             <example correction=""><marker>foo go</marker></example>
             <example correction=""><marker>foo go</marker> bar</example>
             <example correction=""><marker>foo goa</marker> bar</example>
@@ -270,7 +270,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>there</token>
             </pattern>
             <message>This is the matched text: <match no="1"/><match no="2"/></message>
-            <example type="correct">go here</example>
+            <example>go here</example>
             <example correction=""><marker>first goes last there</marker>, please!</example>
         </rule>
         <rule id="test_include" name="test two includeblocks" type="characters">
@@ -278,7 +278,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <phraseref idref="TEST_INCLUDE"/>
             </pattern>
             <message>Matched: <suggestion>test <match no="1"/>trala</suggestion></message>
-            <example type="correct">Any string.</example>
+            <example>Any string.</example>
             <example correction="test beginning first go last endtrala">Some words, <marker>beginning first go last end</marker></example>
         </rule>
         <rule id="test_include_and_skip" name="test two includeblocks">
@@ -288,7 +288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>word</token>
             </pattern>
             <message>Matched: <suggestion><match no="1"/> test</suggestion></message>
-            <example type="correct">Any string.</example>
+            <example>Any string.</example>
             <example correction="any test">Some words, <marker>any word beginning first go last end word</marker></example>
         </rule>
         <!--  why should this work this way? two phraserefs generate a logical
@@ -299,7 +299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <phraseref idref="SINGLE_TOKEN"/>
             </pattern>
             <message>Matched: <match no="1"/></message>
-            <example type="correct">Any string.</example>
+            <example>Any string.</example>
             <example correction="">First words and <marker>first go last</marker></example>
         </rule>
         <rule id="test_and_operator" name="test logical AND">
@@ -315,11 +315,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>test</token>
             </pattern>
             <message>Matched: <match no="1"/></message>
-            <example type="correct">CB test</example>
-            <example type="correct">ABC test</example>
+            <example>CB test</example>
+            <example>ABC test</example>
             <example correction=""><marker>ABCD</marker> test</example>
             <example correction=""><marker>ABEED</marker> test</example>
-            <example type="correct"><marker>ABED</marker> test</example>
+            <example><marker>ABED</marker> test</example>
         </rule>
         <rule id="test_match_ref" name="testing match element...">
             <pattern>
@@ -329,8 +329,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Found \1 \2 \3.</message>
             <example correction=""><marker>Step by step</marker>.</example>
-            <example type="correct">blabla</example>
-            <example type="correct">Steb by step</example>
+            <example>blabla</example>
+            <example>Steb by step</example>
         </rule>
         <rule id="test_match_ref_superb" name="testing match element on steroids...">
             <pattern>
@@ -339,10 +339,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><match no="0"/>on</token>
             </pattern>
             <message>Found \1 \2 \3.</message>
-            <example type="correct"><marker>Step by step</marker>.</example>
+            <example><marker>Step by step</marker>.</example>
             <example correction=""><marker>Step by stepon</marker>.</example>
-            <example type="correct">blabla</example>
-            <example type="correct">Steb by step</example>
+            <example>blabla</example>
+            <example>Steb by step</example>
         </rule>
         <rulegroup id="test_matching_tokens" name="test parseInt conversion1">
             <rule>
@@ -359,7 +359,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>10</token>
                 </pattern>
                 <message>I suggest: <suggestion><match no="10"/> blahblah</suggestion>.</message>
-                <example type="correct">blah</example>
+                <example>blah</example>
                 <example correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
             </rule>
             <rule>
@@ -376,7 +376,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>10</token>
                 </pattern>
                 <message>I suggest: <suggestion>\10 blahblah</suggestion>.</message>
-                <example type="correct">blah</example>
+                <example>blah</example>
                 <example correction="10 blahblah"><marker>1 2 3 4 5 6 7 8 9 10</marker>.</example>
             </rule>
         </rulegroup>
@@ -386,7 +386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>cafe</token>
             </pattern>
             <message>This name should be uppercase: <suggestion>New <match case_conversion="startupper" no="1" regexp_match="[Nn]ew-(.*)" regexp_replace="$1"/> Cafe</suggestion></message>
-            <example type="correct">New York Cafe</example>
+            <example>New York Cafe</example>
             <example correction="New York Cafe">This is a new coffeshop in the middle of nowhere called <marker>new-york cafe</marker>.</example>
         </rule>
         <rule id="test_unification" name="Test unification of character case">
@@ -403,7 +403,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Warning: \1 \2 \3!</message>
             <example correction="">abc <marker>New York</marker></example>
-            <example type="correct">abc new York</example>
+            <example>abc new York</example>
         </rule>
         <rule id="test_unification_negate" name="Test negated unification of character case">
             <pattern case_sensitive="yes">
@@ -422,7 +422,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">abc <marker>new York</marker></example>
             <example correction="">abc <marker>New york</marker></example>
             <example correction="">abc <marker>new york</marker></example>
-            <example type="correct">abc New York</example>
+            <example>abc New York</example>
         </rule>
         <rule id="test_unification_phrase" name="Test unification of characters' case via phrase">
             <pattern case_sensitive="yes">
@@ -433,7 +433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Warning: \1 \2 \3!</message>
             <example correction="">abc <marker>New York</marker></example>
-            <example type="correct">abc new York</example>
+            <example>abc new York</example>
         </rule>
         <rule id="test_include_skipped" name="Test inclusion of skipped tokens">
             <pattern>
@@ -442,7 +442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Warning: <suggestion><match no="1" include_skipped="all"/> xyz</suggestion></message>
             <example correction="abc def ghi xyz">This is <marker>abc def ghi end</marker>.</example>
-            <example type="correct">foobar</example>
+            <example>foobar</example>
         </rule>
         <rule id="test_unification_skipping" name="Test unification and skipping">
             <pattern case_sensitive="yes">
@@ -459,7 +459,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Abc Def">This is <marker>Test1 Abc Def Xyz end</marker>.</example>
             <!-- skipped elements are NOT unified -->
             <example correction="Abc def">This is <marker>Test1 Abc def Xyz end</marker>.</example>
-            <example type="correct">This is Test1 abc Cde End.</example>
+            <example>This is Test1 abc Cde End.</example>
         </rule>
         <rulegroup id="test_spacebefore" name="Test spacebefore on exceptions">
             <rule>
@@ -468,7 +468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>blah</token>
                 </pattern>
                 <message>This is a dummy message 1.</message>
-                <example type="correct">Dogs' blah blah</example>
+                <example>Dogs' blah blah</example>
                 <example correction="">Dogs <marker>blah blah</marker></example>
             </rule>
             <rule type="duplication">
@@ -477,7 +477,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>blah</token>
                 </pattern>
                 <message>This is a dummy message 2.</message>
-                <example type="correct">Dogs 'blah blah</example>
+                <example>Dogs 'blah blah</example>
                 <example correction="">Dogs <marker>blah blah</marker></example>
             </rule>
         </rulegroup>
@@ -493,7 +493,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </unify>
                 </pattern>
                 <message>blabla</message>
-                <example type="correct">det_sing_masc</example>
+                <example>det_sing_masc</example>
                 <example correction=""><marker>det_sing_masc adj_sing_masc subst_plur_fem</marker></example>
                 <example correction=""><marker>det_sing_fem adj_sing_masc subst_plur_fem</marker></example>
                 <example correction=""><marker>det_sing_fem adj_sing_fem subst_plur_fem</marker></example>
@@ -513,7 +513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>blah or</suggestion>
                 <suggestion>blah xor</suggestion>
                 <example correction="blah or|blah xor"><marker>blah and</marker> blah</example>
-                <example type="correct">blah or blah</example>
+                <example>blah or blah</example>
             </rule>
             <rule>
                 <pattern>
@@ -526,7 +526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Incorrect expression: <suggestion>blah or</suggestion></message>
                 <suggestion>blah xor</suggestion>
                 <example correction="blah or|blah xor"><marker>blah and</marker> blah</example>
-                <example type="correct">blah or blah</example>
+                <example>blah or blah</example>
             </rule>
             <rule>
                 <pattern>
@@ -539,7 +539,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Incorrect expression: <suggestion><match no="1"/> or</suggestion></message>
                 <suggestion>blah <match no="1"/></suggestion>
                 <example correction="blah or|blah blah"><marker>blah and</marker> blah</example>
-                <example type="correct">blah or blah</example>
+                <example>blah or blah</example>
             </rule>
         </rulegroup>
         </category>
@@ -549,7 +549,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="2">blah</token>
             </pattern>
             <message>Incorrect expression. Whatever</message>
-            <example type="correct">Blah?</example>
+            <example>Blah?</example>
             <example correction=""><marker>Blah blah</marker> foo.</example>
         </rule>
         <rule id="TEST_MAX_OCCURRENCE" name="Test whether maxOccurrence is handled correctly">
@@ -557,7 +557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token max="2">blah</token>
             </pattern>
             <message>Incorrect expression. Whatever</message>
-            <example type="correct">lah?</example>
+            <example>lah?</example>
             <!-- cannot test this, as we get two rule matches here:
                 <example correction=""><marker>Blah blah</marker> foo.</example>
             -->
@@ -570,8 +570,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>c</token>
             </pattern>
             <message>Incorrect expression. Whatever</message>
-            <example type="correct">a b c</example>
-            <example type="correct">a c</example>
+            <example>a b c</example>
+            <example>a c</example>
             <example correction=""><marker>a B b B c</marker></example>
             <example correction=""><marker>a b b b c</marker></example>
             <example correction=""><marker>a b b c</marker></example>
@@ -587,10 +587,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>c</token>
             </pattern>
             <message>Incorrect expression. Whatever</message>
-            <example type="correct">a b c</example>
-            <example type="correct">a c</example>
+            <example>a b c</example>
+            <example>a c</example>
             <!-- 'B' is uppercase, so the condition 2 in AND should exclude it -->
-            <example type="correct"><marker>a B b b c</marker></example>
+            <example><marker>a B b b c</marker></example>
             <example correction=""><marker>a b b b c</marker></example>
             <example correction=""><marker>a b b b c</marker></example>
             <example correction=""><marker>a b b c</marker></example>
@@ -608,9 +608,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>c</token>
                 </pattern>
                 <message>Incorrect expression. Whatever</message>
-                <example type="correct">a b c</example>
-                <example type="correct">a c</example>
-                <example type="correct"><marker>a B b b c</marker></example>
+                <example>a b c</example>
+                <example>a c</example>
+                <example><marker>a B b b c</marker></example>
                 <example correction=""><marker>a b b b c</marker></example>
                 <example correction=""><marker>a b b b c</marker></example>
                 <example correction=""><marker>a b b c</marker></example>
@@ -634,7 +634,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">abc <marker>New York</marker></example>
             <example correction="">abc <marker>Really New York</marker></example>
             <example correction="">abc <marker>Absolutely Really New York</marker></example>
-            <example type="correct">abc new York</example>
+            <example>abc new York</example>
         </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -649,10 +649,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Warning: \1 \2 \3!</message>
-                <example type="correct">abc <marker>New York</marker></example>
+                <example>abc <marker>New York</marker></example>
                 <example correction="">abc <marker>Really New York</marker></example>
                 <example correction="">abc <marker>Absolutely Really New York</marker></example>
-                <example type="correct">abc new York</example>
+                <example>abc new York</example>
             </rule>
         </rulegroup>
         <rule id="test_OR_with_min_max" name="Test OR with token min/max">
@@ -664,8 +664,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>test</token>
             </pattern>
             <message>.</message>
-            <example type="correct">dfg abc</example>
-            <example type="correct">abc dfg</example>
+            <example>dfg abc</example>
+            <example>abc dfg</example>
             <example correction=""><marker>abc test</marker></example>
             <example correction=""><marker>dfg test</marker></example>
             <example correction=""><marker>abc abc test</marker></example>
@@ -680,8 +680,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <filter class="org.languagetool.rules.DemoPartialPosTagFilter" args="no:1 regexp:(?:in|un)(.*) postag_regexp:JJ"/>
             <message>Approved adjective, but not-approved prefix. Use 'not' + adjective</message>
             <example correction="">That's <marker>inaccurate</marker>.</example>
-            <example type="correct">That's <marker>not accurate</marker>.</example>
-            <example type="correct">That's <marker>insomething</marker>.</example>
+            <example>That's <marker>not accurate</marker>.</example>
+            <example>That's <marker>insomething</marker>.</example>
         </rule>
         <rule id="test_partialPosTagFilter_with_regex" name="Test for PartialPosTagFilter">
             <pattern>
@@ -690,8 +690,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <filter class="org.languagetool.rules.DemoPartialPosTagFilter" args="no:1 regexp:(?:in|un)(.*) postag_regexp:J[XJ]"/>
             <message>Approved adjective, but not-approved prefix. Use 'not' + adjective</message>
             <example correction="">That's <marker>inaccurate</marker>.</example>
-            <example type="correct">That's <marker>not accurate</marker>.</example>
-            <example type="correct">That's <marker>insomething</marker>.</example>
+            <example>That's <marker>not accurate</marker>.</example>
+            <example>That's <marker>insomething</marker>.</example>
         </rule>
 
         <!-- FIXME: not sure how to deal with \1 referring to <token max="2"/> ... probably
@@ -705,7 +705,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Whatever</message>
             <suggestion>\1\2</suggestion>
-            <example type="correct">abcdfg</example>
+            <example>abcdfg</example>
             <example correction="abcdfg">Test <marker>abc dfg</marker>.</example>
             <example correction="abcabcdfg">Test <marker>abc abc dfg</marker>.</example>
         </rule>
