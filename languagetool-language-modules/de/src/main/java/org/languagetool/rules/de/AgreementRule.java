@@ -214,8 +214,10 @@ public class AgreementRule extends GermanRule {
       if (posToken != null && posToken.equals(JLanguageTool.SENTENCE_START_TAGNAME)) {
         continue;
       }
-      //AnalyzedGermanToken analyzedToken = new AnalyzedGermanToken(tokens[i]);
-      
+      if (tokens[i].isImmunized()) {
+        continue;
+      }
+
       final AnalyzedTokenReadings tokenReadings = tokens[i];
       final boolean relevantPronoun = isRelevantPronoun(tokens, i);
      
@@ -376,6 +378,9 @@ public class AgreementRule extends GermanRule {
   private RuleMatch checkDetNounAgreement(final AnalyzedTokenReadings token1,
       final AnalyzedTokenReadings token2) {
     if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
+      return null;
+    }
+    if (token2.isImmunized()) {
       return null;
     }
     final Set<String> set1 = getAgreementCategories(token1);
