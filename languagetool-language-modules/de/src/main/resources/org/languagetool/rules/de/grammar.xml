@@ -11266,10 +11266,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token case_sensitive="yes" postag="VER:INF:SFT" regexp="yes">[a-zöäü].*<exception regexp="yes">offenbaren|einen</exception></token>
                 </marker>
-                <token><exception postag="SUB:NOM:SIN:(NEU|MAS).*" postag_regexp="yes" /></token>
+                <token negate="yes" regexp='yes'>[A-ZÖÄÜ].+</token> <!-- wir erkennen nicht alle Nomen, also so... -->
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein (vom = von dem) und muss dann großgeschrieben werden.</message>
             <example correction="Sammeln">Damals lebten die Menschen vom <marker>sammeln</marker>.</example>
+            <example>Ein Hut, der vom deutschen Bundespräsidenten übergeben wird.</example>
         </rule>
         <rule id="AM_VERB_KLEIN" name="vom + kleingeschr. Nomen">
             <pattern>
