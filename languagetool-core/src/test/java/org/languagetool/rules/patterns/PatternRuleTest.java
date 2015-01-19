@@ -271,6 +271,10 @@ public class PatternRuleTest extends TestCase {
   private void testBadSentences(JLanguageTool languageTool, JLanguageTool allRulesLanguageTool, Language lang,
                                 Map<String, PatternRule> complexRules, PatternRule rule) throws IOException {
     final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
+    if (badSentences.size() == 0) {
+      // TODO: comment in
+      //fail("No incorrect examples found for rule " + rule + "[" + rule.getSubId() + "]");
+    }
     // necessary for XML Pattern rules containing <or>
     List<PatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
     for (IncorrectExample origBadExample : badSentences) {
