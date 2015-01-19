@@ -120,7 +120,7 @@ public class DisambiguationRuleTest extends TestCase {
           //in AnalyzedSentence, and during equal test they are set for the
           //left-hand side
           assertEquals("The untouched example (" + goodSentence + ") for " + lang.getName() +
-              " rule " + id +"["+ rule.getSubId() +"] was touched!",
+              " rule " + rule + "] was touched!",
               sent.toString(), rule.replace(sentToReplace).toString());
         }
       }

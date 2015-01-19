@@ -180,7 +180,7 @@ public class PatternRuleTest extends TestCase {
           }
         }
         if (!correctionExists) {
-          fail("Rule " + rule.getId() + "[" + rule.getSubId() + "]" + " in language " + lang
+          fail("Rule " + rule + " in language " + lang
                   + " needs at least one <example> with a 'correction' attribute"
                   + " or one <example> of type='correct'.");
         }
@@ -273,7 +273,7 @@ public class PatternRuleTest extends TestCase {
     final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
     if (badSentences.size() == 0) {
       // TODO: comment in
-      //fail("No incorrect examples found for rule " + rule + "[" + rule.getSubId() + "]");
+      //fail("No incorrect examples found for rule " + rule);
     }
     // necessary for XML Pattern rules containing <or>
     List<PatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
@@ -302,7 +302,7 @@ public class PatternRuleTest extends TestCase {
           for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
             sb.append(" ").append(atr.toString());
           }
-          fail(lang + " rule " + rule.getId() + "[" + rule.getSubId() + "]" + ":\n\"" + badSentence + "\"\n"
+          fail(lang + " rule " + rule + ":\n\"" + badSentence + "\"\n"
                   + "Errors expected: 1\n"
                   + "Errors found   : " + matches.size() + "\n"
                   + "Message: " + rule.getMessage() + "\n" + sb + "\nMatches: " + matches);
@@ -393,12 +393,12 @@ public class PatternRuleTest extends TestCase {
         boolean expectedEmptyCorrection = expectedCorrections.size() == 1 && expectedCorrections.get(0).length() == 0;
         assertTrue(lang + ": Incorrect suggestions: "
                         + expectedCorrections.toString() + " != "
-                        + " <no suggestion> for rule " + rule + "[" + rule.getSubId() + "] on input: " + sentence,
+                        + " <no suggestion> for rule " + rule + " on input: " + sentence,
                 expectedEmptyCorrection);
       } else {
         assertEquals(lang + ": Incorrect suggestions: "
                         + expectedCorrections.toString() + " != "
-                        + realSuggestions + " for rule " + rule + "[" + rule.getSubId() + "] on input: " + sentence,
+                        + realSuggestions + " for rule " + rule + " on input: " + sentence,
                 expectedCorrections, realSuggestions);
       }
     }
