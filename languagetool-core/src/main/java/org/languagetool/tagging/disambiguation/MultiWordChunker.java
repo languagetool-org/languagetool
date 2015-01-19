@@ -169,8 +169,10 @@ public class MultiWordChunker implements Disambiguator {
                     anTokens[finalLen].getToken(), output[finalLen], true);
               }
             } else {
-              tokens.append(' ');
-              lenCounter++;
+              if (j>1 && !anTokens[j-1].isWhitespace()) { //avoid multiple whitespaces
+                tokens.append(' ');
+                lenCounter++;
+              }
               if (lenCounter == len) {
                 break;
               }

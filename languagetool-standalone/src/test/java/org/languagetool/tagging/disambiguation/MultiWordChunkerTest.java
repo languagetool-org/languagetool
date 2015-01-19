@@ -19,10 +19,12 @@
 package org.languagetool.tagging.disambiguation;
 
 import junit.framework.TestCase;
+
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
+import org.languagetool.language.Ukrainian;
 
 public class MultiWordChunkerTest extends TestCase {
 
@@ -35,4 +37,14 @@ public class MultiWordChunkerTest extends TestCase {
     assertTrue(tokens[4].getReadings().toString().contains("<ELLIPSIS>"));
     assertTrue(tokens[6].getReadings().toString().contains("</ELLIPSIS>"));
   }
+  
+  public void testDisambiguateMultiSpace() throws Exception {
+      final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
+      final JLanguageTool lt = new JLanguageTool(new Ukrainian());
+      final AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
+      final AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+      final AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+      assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+      assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
+    }
 }
