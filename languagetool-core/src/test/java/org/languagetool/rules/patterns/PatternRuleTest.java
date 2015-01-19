@@ -276,7 +276,7 @@ public class PatternRuleTest extends TestCase {
     for (IncorrectExample origBadExample : badSentences) {
       // enable indentation use
       final String origBadSentence = origBadExample.getExample().replaceAll("[\\n\\t]+", "");
-      final List<String> suggestedCorrections = origBadExample.getCorrections();
+      final List<String> expectedCorrections = origBadExample.getCorrections();
       final int expectedMatchStart = origBadSentence.indexOf("<marker>");
       final int expectedMatchEnd = origBadSentence.indexOf("</marker>") - "<marker>".length();
       if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
@@ -310,15 +310,7 @@ public class PatternRuleTest extends TestCase {
                 + ": Incorrect match position markup (end) for rule " + rule + ", sentence: " + badSentence,
                 expectedMatchEnd, matches.get(0).getToPos());
         // make sure suggestion is what we expect it to be
-        if (suggestedCorrections != null && suggestedCorrections.size() > 0) {
-          assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
-            rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>")
-          );
-          assertEquals(lang + ": Incorrect suggestions: "
-              + suggestedCorrections.toString() + " != "
-              + matches.get(0).getSuggestedReplacements() + " for rule " + rule + "[" + rule.getSubId() + "] on input: " + badSentence,
-              suggestedCorrections, matches.get(0).getSuggestedReplacements());
-        }
+        assertSuggestions(badSentence, lang, expectedCorrections, rule, matches);
         // make sure the suggested correction doesn't produce an error:
         if (matches.get(0).getSuggestedReplacements().size() > 0) {
           final int fromPos = matches.get(0).getFromPos();
@@ -356,8 +348,8 @@ public class PatternRuleTest extends TestCase {
                   expectedMatchStart, matches.get(0).getFromPos());
           assertEquals(lang + ": Incorrect match position markup (end) for rule " + rule,
                   expectedMatchEnd, matches.get(0).getToPos());
-          assertSuggestions(suggestedCorrections, lang, matches, rule);
-          assertSuggestionsDoNotCreateErrors(languageTool, rule, badSentence, matches);
+          assertSuggestions(badSentence, lang, expectedCorrections, rule, matches);
+          assertSuggestionsDoNotCreateErrors(badSentence, languageTool, rule, matches);
         }
       }
 
@@ -385,16 +377,30 @@ public class PatternRuleTest extends TestCase {
     }
   }
 
-  private void assertSuggestions(List<String> suggestedCorrections, Language lang, List<RuleMatch> matches, Rule rule) {
-    if (suggestedCorrections != null && suggestedCorrections.size() > 0) {
-      final boolean isExpectedSuggestion = suggestedCorrections.equals(matches.get(0).getSuggestedReplacements());
-      assertTrue(lang + ": Incorrect suggestions: "
-              + suggestedCorrections.toString() + " != " + matches.get(0).getSuggestedReplacements()
-              + " for rule " + rule, isExpectedSuggestion);
+  private void assertSuggestions(String sentence, Language lang, List<String> expectedCorrections, PatternRule rule, List<RuleMatch> matches) {
+    if (expectedCorrections != null && expectedCorrections.size() > 0) {
+      boolean expectedNonEmptyCorrection = expectedCorrections.get(0).length() > 0;
+      if (expectedNonEmptyCorrection) {
+        assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
+                rule.getMessage().contains("<suggestion>") || rule.getSuggestionsOutMsg().contains("<suggestion>"));
+      }
+      List<String> realSuggestions = matches.get(0).getSuggestedReplacements();
+      if (realSuggestions.size() == 0) {
+        boolean expectedEmptyCorrection = expectedCorrections.size() == 1 && expectedCorrections.get(0).length() == 0;
+        assertTrue(lang + ": Incorrect suggestions: "
+                        + expectedCorrections.toString() + " != "
+                        + " <no suggestion> for rule " + rule + "[" + rule.getSubId() + "] on input: " + sentence,
+                expectedEmptyCorrection);
+      } else {
+        assertEquals(lang + ": Incorrect suggestions: "
+                        + expectedCorrections.toString() + " != "
+                        + realSuggestions + " for rule " + rule + "[" + rule.getSubId() + "] on input: " + sentence,
+                expectedCorrections, realSuggestions);
+      }
     }
   }
 
-  private void assertSuggestionsDoNotCreateErrors(JLanguageTool languageTool, PatternRule rule, String badSentence, List<RuleMatch> matches) throws IOException {
+  private void assertSuggestionsDoNotCreateErrors(String badSentence, JLanguageTool languageTool, PatternRule rule, List<RuleMatch> matches) throws IOException {
     if (matches.get(0).getSuggestedReplacements().size() > 0) {
       final int fromPos = matches.get(0).getFromPos();
       final int toPos = matches.get(0).getToPos();

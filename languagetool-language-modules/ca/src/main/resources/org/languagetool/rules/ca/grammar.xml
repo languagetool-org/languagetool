@@ -1073,7 +1073,7 @@ $Id$
                 <suggestion><match no="1" postag="DA.MP.*" postag_regexp="yes" /> <match no="2" postag="PX.[MC]P.*" postag_regexp="yes" /></suggestion>
                 <suggestion><match no="1" postag="DA.FS.*" postag_regexp="yes" /> <match no="2" postag="PX.FS.*" postag_regexp="yes" /></suggestion>
                 <suggestion><match no="1" postag="DA.FP.*" postag_regexp="yes" /> <match no="2" postag="PX.[FC]P.*" postag_regexp="yes" /></suggestion>
-                <example correction=""><marker>Els teves</marker> culleres.</example>
+                <example correction="El teu|Els teus|La teua|La teva|Les teues|Les teves"><marker>Els teves</marker> culleres.</example>
                 <example type="correct">Les teves culleres.</example>
             </rule>
         </rulegroup>
@@ -1468,7 +1468,7 @@ $Id$
                 <short>Error de concordança</short>
                 <example correction="comptada excepció|comptades excepcions">En <marker>comptats excepcions</marker>.</example>
                 <example correction="comptada excepció|comptades excepcions">En <marker>comptat excepcions</marker>.</example>
-                <example correction="">Amb <marker>desballestades cadira</marker>.</example>
+                <example correction="desballestada cadira|desballestades cadires">Amb <marker>desballestades cadira</marker>.</example>
                 <example type="correct">En comptades excepcions.</example>
                 <example type="correct">Ha destacat excepcions.</example>
                 <example type="correct">Passat Palautordera, aparegué en la meva imaginació</example>
@@ -1866,7 +1866,7 @@ $Id$
                 <suggestion>seva</suggestion>
                 <suggestion>seua</suggestion>
                 <short>Concordança de gènere o nombre dubtosa</short>
-                <example correction="">La <marker>seu</marker> cullera.</example>
+                <example correction="seva|seua">La <marker>seu</marker> cullera.</example>
                 <example type="correct">La seva cullera.</example>
             </rule>
             <!-- id="LES_SEUS" name="Concordança dubtosa «les seus»"-->
@@ -1882,7 +1882,7 @@ $Id$
                  <suggestion>seves</suggestion>
                  <suggestion>seues</suggestion>
                 <short>Concordança de gènere o nombre dubtosa</short>
-                <example correction="">Les <marker>seus</marker> culleres.</example>
+                <example correction="seves|seues">Les <marker>seus</marker> culleres.</example>
                 <example type="correct">Les seves culleres.</example>
             </rule>
         </rulegroup>
@@ -2084,9 +2084,9 @@ $Id$
                     <token>part</token>
                 </pattern>
                 <message>Error de concordança de gènere.</message>
-                 <suggestion>altra</suggestion>
+                <suggestion>altra</suggestion>
                 <short>Error de concordança</short>
-                <example correction="">Per <marker>altre</marker> part.</example>
+                <example correction="altra">Per <marker>altre</marker> part.</example>
                 <example type="correct">Per altra part.</example>
             </rule>
             <rule>
@@ -2106,7 +2106,7 @@ $Id$
                 <message>Error de concordança.</message>
                 <suggestion>esquerre</suggestion>
                 <short>Error de concordança</short>
-                <example correction="">El braç <marker>esquerra</marker>.</example>
+                <example correction="esquerre">El braç <marker>esquerra</marker>.</example>
                 <example type="correct">El braç esquerre.</example>
                 <example type="correct">En la part esquerra.</example>
                 <example type="correct">En l'eix esquerra-dreta.</example>
@@ -2121,7 +2121,7 @@ $Id$
                 <message>Error de concordança.</message>
                 <suggestion>esquerra</suggestion>
                 <short>Error de concordança</short>
-                <example correction="">La cama <marker>esquerre</marker>.</example>
+                <example correction="esquerra">La cama <marker>esquerre</marker>.</example>
                 <example type="correct">La cama esquerra.</example>
                 <example type="correct">El llum esquerre.</example>
             </rule>
@@ -2136,7 +2136,7 @@ $Id$
                 </pattern>
                 <message>Error de concordança</message>
                 <suggestion>esquerra</suggestion>
-                <example correction="">Ni a dreta ni a <marker>esquerre</marker>.</example>
+                <example correction="esquerra">Ni a dreta ni a <marker>esquerre</marker>.</example>
                 <example type="correct">De dreta i d'esquerra</example>
             </rule>
             <rule>
@@ -2150,8 +2150,8 @@ $Id$
                 </pattern>
                 <message>Error de concordança</message>
                 <suggestion>esquerra</suggestion>
-                <example correction="">Ni d'<marker>esquerre</marker> ni de dreta.</example>
-                <example correction="">Per l'<marker>esquerre</marker> i per la dreta.</example>
+                <example correction="esquerra">Ni d'<marker>esquerre</marker> ni de dreta.</example>
+                <example correction="esquerra">Per l'<marker>esquerre</marker> i per la dreta.</example>
                 <example type="correct">A l'esquerra i a la dreta</example>
             </rule>
             <rule id="ALTRE_ALTRA_PART" name="altre/altra part">
@@ -3940,7 +3940,7 @@ $Id$
                 <message>Si és del v. "haver", s'escriu amb hac.</message>
                 <suggestion>h<match no="3" case_conversion="startlower"></match></suggestion>
                 <short>Haver s'escriu amb hac</short>
-                <example correction="">Tant com <marker>a</marker> pogut.</example>
+                <example correction="ha">Tant com <marker>a</marker> pogut.</example>
                 <example type="correct">Tant com ha pogut.</example>
             </rule>
             <rule>
@@ -3954,7 +3954,7 @@ $Id$
                 <message>Si és del v. "haver", s'escriu amb hac.</message>
                 <suggestion>h<match no="1" case_conversion="startlower"></match></suggestion>
                 <short>Haver s'escriu amb hac</short>
-                <example correction="">Jo <marker>e</marker> de fer.</example>
+                <example correction="he">Jo <marker>e</marker> de fer.</example>
                 <example type="correct">Jo he de fer.</example>
             </rule>
         </rulegroup>
@@ -3982,7 +3982,7 @@ $Id$
                 <message>¿Volíeu dir <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"></match></suggestion>?</message>
                 <short>Falta un infinitiu</short>
                 <example correction="córrer">Vam <marker>corre</marker>.</example>
-                <example correction="">Vam, inicialment, <marker>pensa</marker> que sí.</example>
+                <example correction="pensar">Vam, inicialment, <marker>pensa</marker> que sí.</example>
                 <example type="correct">Vam córrer.</example>
                 <example type="correct">vam "descobrir"</example>
                 <example type="correct">vam, inicialment, pensar</example>
@@ -4901,7 +4901,7 @@ $Id$
             </pattern>
             <message>Val més dir <suggestion>en<match no="5"/></suggestion>.</message>
             <example correction="endins">de portes <marker>cap a dins</marker></example>
-            <example correction="">de llavis <marker>cap a fora</marker></example>
+            <example correction="enfora">de llavis <marker>cap a fora</marker></example>
             <example type="correct">de portes endins</example>
             <example type="correct">de dins cap a fora</example>
             <example type="correct">Impedeix de mirar cap a fora.</example>
@@ -11737,7 +11737,7 @@ $Id$
                 <message>Probablement falta un accent</message>
                 <suggestion>renúncia</suggestion>
                 <short>Falta un accent</short>
-                <example correction="">La <marker>renuncia</marker> a la corona.</example>
+                <example correction="renúncia">La <marker>renuncia</marker> a la corona.</example>
                 <example type="correct">La renúncia a la corona.</example>
             </rule>
             <rule>
@@ -11826,7 +11826,7 @@ $Id$
                 </pattern>
                 <message>¿Volíeu dir <suggestion>arròs</suggestion> en lloc de "arrós" (v. arrossar)?</message>
                 <short>Porta accent obert</short>
-                <example correction=""><marker>Arrós</marker>.</example>
+                <example correction="Arròs"><marker>Arrós</marker>.</example>
                 <example type="correct">Arròs.</example>
             </rule>
             <rule>
@@ -11835,7 +11835,7 @@ $Id$
                 </pattern>
                 <message>¿Volíeu dir <suggestion>això</suggestion> en lloc de "aixo" (v. aixar)?</message>
                 <short>Falta un accent</short>
-                <example correction=""><marker>aixo</marker></example>
+                <example correction="això"><marker>aixo</marker></example>
                 <example type="correct">Això</example>
             </rule>
             <rule>
@@ -14447,9 +14447,9 @@ $Id$
                 <message>S'accentua quan és nom.</message>
                 <suggestion><match no="3" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
-                <example correction="">Tinc quatre <marker>nets</marker>.</example>
-                <example correction="">Tinc 5 <marker>netes</marker>.</example>
-                <example correction="">Tinc dues <marker>netes</marker>.</example>
+                <example correction="néts">Tinc quatre <marker>nets</marker>.</example>
+                <example correction="nétes">Tinc 5 <marker>netes</marker>.</example>
+                <example correction="nétes">Tinc dues <marker>netes</marker>.</example>
                 <example type="correct">Tinc quatre néts.</example>
                 <example type="correct">Un castell de 3 de 9 net.</example>
                 <example type="correct">Un quinze net, trenta net.</example>
@@ -14466,7 +14466,7 @@ $Id$
                 <message>S'accentua quan és nom.</message>
                 <suggestion><match no="2" regexp_match="ne(.+)" regexp_replace="né$1"/></suggestion>
                 <short>S'accentua quan és nom</short>
-                <example correction="">El <marker>net</marker> d'ell.</example>
+                <example correction="nét">El <marker>net</marker> d'ell.</example>
                 <example type="correct">El nét d'ell.</example>
             </rule>
             <rule>
@@ -16538,7 +16538,7 @@ $Id$
                 </pattern>
                 <message>Cal usar la forma plena: <suggestion><match no="2" regexp_match="[Ee]([^e])" regexp_replace="$1e"></match></suggestion>.</message>
                 <short>Cal usar la forma plena</short>
-                <example correction="">Això <marker>es</marker> t'omple.</example>
+                <example correction="se">Això <marker>es</marker> t'omple.</example>
                 <example type="correct">Això se t'omple de gent.</example>
                 <example type="correct">Així es que si no canvia la cosa.</example>
             </rule>
@@ -17915,7 +17915,7 @@ $Id$
                 <message>Cal substituir el guionet per guió.</message>
                 <suggestion>—</suggestion>
                 <short>Error tipogràfic</short>
-                <example correction=""><marker>-</marker> Primer punt de l'ordre del dia.</example>
+                <example correction="—"><marker>-</marker> Primer punt de l'ordre del dia.</example>
                 <example type="correct">— Primer punt de l'ordre del dia.</example>
             </rule>
         </rulegroup>
@@ -28495,7 +28495,7 @@ $Id$
                 </pattern>
                 <message>¿Volíeu dir <suggestion>mitjà</suggestion>?</message>
                 <short>Possible error</short>
-                <example correction="">És el terme <marker>mig</marker> ponderat.</example>
+                <example correction="mitjà">És el terme <marker>mig</marker> ponderat.</example>
                 <example type="correct">amb un ull mig aclucat</example>
             </rule>
              <rule>

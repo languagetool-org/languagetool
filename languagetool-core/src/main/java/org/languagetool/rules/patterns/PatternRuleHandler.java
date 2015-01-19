@@ -415,7 +415,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
           final IncorrectExample example;
           final List<String> corrections = new ArrayList<>();
           corrections.addAll(Arrays.asList(exampleCorrection.toString().split("\\|")));
-          if (corrections.size() > 0 && corrections.get(0).length() > 0) {
+          if (corrections.size() > 0) {
             if (exampleCorrection.toString().endsWith("|")) {  // split() will ignore trailing empty items
               corrections.add("");
             }
