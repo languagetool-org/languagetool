@@ -195,10 +195,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case EXAMPLE:
         String typeVal = attrs.getValue(TYPE);
-        if ("correct".equals(typeVal)) {
-          inCorrectExample = true;
-          correctExample = new StringBuilder();
-        } else if ("incorrect".equals(typeVal) || attrs.getValue("correction") != null) {
+        if ("incorrect".equals(typeVal) || attrs.getValue("correction") != null) {
           inIncorrectExample = true;
           incorrectExample = new StringBuilder();
           exampleCorrection = new StringBuilder();
@@ -208,7 +205,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
         } else if ("triggers_error".equals(typeVal)) {
           // ignore
         } else {
-          throw new RuntimeException("Example in rule " + id + "[" + subId + "] needs a 'type' or a 'correction' attribute");
+          // no attribute implies the sentence is a correct example
+          inCorrectExample = true;
+          correctExample = new StringBuilder();
         }
         break;
       case "filter":
