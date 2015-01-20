@@ -114,8 +114,8 @@ public class JLanguageTool {
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<String> disabledCategories = new HashSet<>();
 
-  private Language language;
-  private Language motherTongue;
+  private final Language language;
+  private final Language motherTongue;
 
   private PrintStream printStream;
 
