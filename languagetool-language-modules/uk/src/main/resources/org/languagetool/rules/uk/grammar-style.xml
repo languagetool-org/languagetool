@@ -207,10 +207,10 @@ $Id$
                 <suggestion>більш ніж <match no="2"/></suggestion>
                 <example>Більш як 40</example>
                 <example correction="понад 500|більш як 500|більш ніж 500"><marker>більше 500</marker>.</example>
-                <example type="incorrect"><marker>більшими 2,000</marker> слів.</example>
-                <example type="incorrect">«<marker>Більше 10%</marker> людей</example>
-                <example type="correct">Не більше 40</example>
-                <example type="correct">Щонайбільше 40</example>
+                <example correction="понад 2,000|більш як 2,000|більш ніж 2,000"><marker>більшими 2,000</marker> слів.</example>
+                <example correction="Понад 10%|Більш як 10%|Більш ніж 10%">«<marker>Більше 10%</marker> людей</example>
+                <example>Не більше 40</example>
+                <example>Щонайбільше 40</example>
             </rule>
             <rule>
                 <pattern>
@@ -220,11 +220,11 @@ $Id$
                     <token postag_regexp="yes" postag="numr:.*v_rod|number"/>
                   </marker>
                 </pattern>
-                <message>З числівником замість «не більше» краще вживати «не більше ніж/як»: <suggestion><match no="2"/> як</suggestion></message>
-                <suggestion>більш ніж <match no="2"/></suggestion>
+                <message>З числівником замість «не більше» краще вживати «не більше ніж/як»: <suggestion><match no="2"/> як <match no="3"/></suggestion></message>
+                <suggestion>більш ніж <match no="3"/></suggestion>
                 <example type="correct">не більш як 40</example>
-                <example type="incorrect">не <marker>більшими п'яти</marker> слів</example>
-                <example type="incorrect">не <marker>більшими 2,000</marker> слів</example>
+                <example correction="більшими як п'яти|більш ніж п'яти">не <marker>більшими п'яти</marker> слів</example> <!-- TODO: -->
+                <example correction="більшими як 2,000|більш ніж 2,000">не <marker>більшими 2,000</marker> слів</example>
             </rule>
 
             <rule>
@@ -472,7 +472,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">.*[уеїіаоєяиюeyuioa234]</token>
                     <marker>
-                        <token>і</token>
+                        <token case_sensitive="yes">і</token>
                     </marker>
                     <token regexp="yes">([уеіаоиeioa].*|11?)</token>
                 </pattern>
@@ -488,7 +488,7 @@ $Id$
                 <pattern>
                     <token regexp="yes">.*[иіїi]</token>
                     <marker>
-                        <token>і</token>
+                        <token case_sensitive="yes">і</token>
                     </marker>
                     <token regexp="yes">[^йїюя].*</token>
                 </pattern>
@@ -943,10 +943,10 @@ $Id$
           <marker>
             <token inflected="yes">воєнний</token>
           </marker>
-          <token inflected="yes" regexp="yes">присяга|форма|справа|трибунал|училище|частина|звання|лікар</token>
+          <token inflected="yes" regexp="yes">присяга|трибунал|училище|частина|звання|лікар</token>
          </pattern>
          <message>Правильно: <suggestion>військовий</suggestion></message>
-         <example type="incorrect">Пішов до <marker>воєнного</marker> училища.</example>
+         <example correction="військовий">Пішов до <marker>воєнного</marker> училища.</example>
          <example type="correct">Воєнний стан</example>
        </rule>
 
@@ -964,7 +964,7 @@ $Id$
            </unify>
          </pattern>
          <message>Правильно: <suggestion>воєнний</suggestion></message>
-         <example type="incorrect"><marker>військовий</marker> репортаж</example>
+         <example correction="воєнний"><marker>військовий</marker> репортаж</example>
          <example type="correct">військовий аташе</example>
          <example type="correct">російські військові час від часу</example>
        </rule>
