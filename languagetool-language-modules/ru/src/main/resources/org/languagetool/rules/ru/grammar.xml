@@ -3456,17 +3456,11 @@ $Id$
                     <exception postag="ADJ:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлог «к» предполагает употребление прилагательного в дательном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
-            </message>
+            <message>Предлог «к» предполагает употребление прилагательного в дательном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:D"></match></suggestion> или
+            <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется дательный падеж.</short>
             <example>Он подошёл к зелёному дому.</example>
-            <example correction="">Он подошёл <marker>к зелёный</marker> дому.</example>
+            <example correction="к зелёному|зелёный">Он подошёл <marker>к зелёный</marker> дому.</example>
         </rule>
         
         <rule default="on" id="PREP_Nad_and_Noun" name="Предлоги «над», «перед»  и существительное">
@@ -3479,17 +3473,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлоги «над» и «перед» предполагают употребление существительного в творительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется творительный падеж.</short>
             <example>Перед закатом.</example>
-            <example correction="">
-                <marker>Перед закат</marker>.</example>
+            <example correction="Перед закатом|Закат"><marker>Перед закат</marker>.</example>
         </rule>
         <rule default="on" id="PREP_Nad_and_ADJ" name="Предлоги «над», «перед» и прилагательное">
             <pattern>
@@ -3501,17 +3490,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлоги «над» и «перед» предполагают употребление прилагательного  в творительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется творительный падеж.</short>
             <example>Перед багровым закатом.</example>
-            <example correction="">
-                <marker>Перед багровый</marker> закатом.</example>
+            <example correction="Перед багровым|Багровый"><marker>Перед багровый</marker> закатом.</example>
         </rule>
         
         
@@ -3525,16 +3509,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлоги «сквозь» и «через» предполагают употребление существительного в винительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется винительный падеж.</short>
             <example>Луч света попал сквозь окно в комнату.</example>
-            <example correction="">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
+            <example correction="сквозь окно|окном">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
         </rule>
         <rule default="on" id="PREP_cherez_and_ADJ" name="Предлоги «сквозь», «через» и прилагательное">
             <pattern>
@@ -3546,16 +3526,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлоги «сквозь» и «через» предполагают употребление прилагательного в винительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется винительный падеж.</short>
             <example>Луч света попал сквозь стеклянное окно в комнату.</example>
-            <example correction="">Луч света попал <marker>сквозь стеклянному</marker> окно в комнату.</example>
+            <example correction="сквозь стеклянного|сквозь стеклянное|сквозь стеклянный|стеклянному">Луч света попал <marker>сквозь стеклянному</marker> окно в комнату.</example>
         </rule>
         
         <rule default="on" id="PREP_Pri_and_Noun" name="Предлог «при» и существительное">
@@ -3568,16 +3544,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление существительного в предложном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:P"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется предложный падеж.</short>
             <example>Лаборатория была создана при центре.</example>
-            <example correction="">Лаборатория была создана <marker>при центр</marker>.</example>
+            <example correction="при центре|центр">Лаборатория была создана <marker>при центр</marker>.</example>
         </rule>
         <rule default="on" id="PREP_Pri_and_ADJ" name="Предлог «при» и прилагательное">
             <pattern>
@@ -3590,16 +3562,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлог «при» предполагает употребление прилагательного в предложном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:P"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется предложный падеж.</short>
             <example>Лаборатория была создана при исследовательском центре.</example>
-            <example correction="">Лаборатория была создана <marker>при исследовательский</marker> центре.</example>
+            <example correction="при исследовательском|исследовательский">Лаборатория была создана <marker>при исследовательский</marker> центре.</example>
         </rule>
         
         <rule default="on" id="PREP_U_and_Noun" name="Предлоги «у», «без», ...  и существительное">
@@ -3612,16 +3580,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлог \1 предполагает употребление существительного в родительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется родительный падеж.</short>
             <example>Заросший пруд у опушки леса.</example>
-            <example correction="">Заросший пруд <marker>у опушка</marker> леса.</example>
+            <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
         </rule>
         <rule default="on" id="PREP_U_and_ADJ" name="Предлоги «у», «без», ... и прилагательное">
             <pattern>
@@ -3633,16 +3597,12 @@ $Id$
                 </token>
             </pattern>
             <message>Предлог \1 предполагает употребление прилагательного  в родительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match>
-                </suggestion> или <suggestion>
-                    <match no="2"></match>
-                </suggestion>
+                <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:R"></match></suggestion> или
+                <suggestion><match no="2"></match></suggestion>
             </message>
             <short>Требуется родительный падеж.</short>
             <example>Заросший пруд у лесной опушки.</example>
-            <example correction="">Заросший пруд <marker>у лесную</marker> опушки.</example>
+            <example correction="у лесной|лесную">Заросший пруд <marker>у лесную</marker> опушки.</example>
         </rule>
         
         
@@ -3656,16 +3616,10 @@ $Id$
                 </token>
             </pattern>
             <message>Существительное \1 предполагает употребление зависимого слова в творительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match>
-                </suggestion>
-            </message>
+                <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion></message>
             <short>Требуется творительный падеж.</short>
-            <example>
-                <marker>Управляющий предприятием</marker> общественного питания.</example>
-            <example correction="">
-                <marker>Управляющий предприятия</marker> общественного питания.</example>
+            <example><marker>Управляющий предприятием</marker> общественного питания.</example>
+            <example correction="Управляющий предприятием|Управляющий предприятиями|Управляющий предприятьем|Управляющий предприятьями"><marker>Управляющий предприятия</marker> общественного питания.</example>
         </rule>
         
         <rule default="on" id="vopreki_NN" name="Предлог «вопреки» + существительное">
@@ -3677,17 +3631,10 @@ $Id$
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message> \1 предполагает употребление зависимого слова в творительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match>
-                </suggestion>
-            </message>
+            <message> \1 предполагает употребление зависимого слова в творительном падеже:<suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion></message>
             <short>Требуется дательный падеж.</short>
-            <example>
-                <marker>Вопреки предположениям</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
-            <example correction="">
-                <marker>Вопреки предположений</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
+            <example><marker>Вопреки предположениям</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
+            <example correction="Вопреки предположениям|Вопреки предположеньям"><marker>Вопреки предположений</marker> о том, что изменения ожидаются довольно скоро, объявлены более отдалённые сроки их вступления в силу.</example>
         </rule>
         
         <rule default="on" id="zaslujivat_NN" name="Словосочетание: «заслуживать» + существительное">
@@ -3699,15 +3646,10 @@ $Id$
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message> \1 предполагает употребление зависимого слова в родительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match>
-                </suggestion>
-            </message>
+            <message> \1 предполагает употребление зависимого слова в родительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:R"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
             <example>Кто может <marker>заслуживать доверия</marker> в этом вопросе?</example>
-            <example correction="">Кто может <marker>заслуживать доверие</marker> в этом вопросе?</example>
+            <example correction="заслуживать доверия|заслуживать доверья">Кто может <marker>заслуживать доверие</marker> в этом вопросе?</example>
         </rule>
         <rule default="on" id="zaslujit_NN" name="Словосочетание: «заслужить» + существительное">
             <pattern case_sensitive="no">
@@ -3718,15 +3660,10 @@ $Id$
                     <exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message> \1 предполагает употребление зависимого слова в винительном падеже:
-                <suggestion>
-                    <match no="1"></match> 
-                    <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match>
-                </suggestion>
-            </message>
+            <message> \1 предполагает употребление зависимого слова в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion></message>
             <short>Требуется винительный падеж.</short>
             <example>Кто может <marker>заслужить доверие</marker> в этом вопросе?</example>
-            <example correction="">Кто может <marker>заслужить доверию</marker> в этом вопросе?</example>
+            <example correction="заслужить доверие|заслужить доверье">Кто может <marker>заслужить доверию</marker> в этом вопросе?</example>
         </rule>
         
         
@@ -3737,9 +3674,7 @@ $Id$
                 <token>друг</token>
                 <token>другу</token>
             </pattern>
-            <message>   
-                <suggestion>\1 \2 с другом</suggestion>
-            </message>
+            <message><suggestion>\1 \2 с другом</suggestion></message>
             <short>Равноправны друг c другом</short>
             <example>Равноправны друг c другом.</example>
             <example correction="равноправны друг с другом">Они <marker>равноправны друг другу</marker>.</example>
@@ -3832,10 +3767,8 @@ $Id$
                 <message>"Выйти замуж" употребляется только со словами женского рода:<suggestion>\1 женился</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
                 <short>Требуется женский род.</short>
-                <example>
-                    <marker>Дочка вышла замуж</marker>.</example>
-                <example correction="Сын женился">
-                    <marker>Сын вышел замуж</marker>.</example>
+                <example><marker>Дочка вышла замуж</marker>.</example>
+                <example correction="Сын женился"><marker>Сын вышел замуж</marker>.</example>
             </rule>
             
             <rule>
@@ -3847,10 +3780,8 @@ $Id$
                 <message>"Жениться" употребляется только со словами мужскгого рода:<suggestion>\1 вышла замуж</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>               
                 <short>Требуется мужской род.</short>
-                <example>
-                    <marker>Он женился</marker>.</example>
-                <example correction="Она вышла замуж">
-                    <marker>Она женилась</marker>.</example>
+                <example><marker>Он женился</marker>.</example>
+                <example correction="Она вышла замуж"><marker>Она женилась</marker>.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="no">
@@ -3861,10 +3792,8 @@ $Id$
                 <message>"Жениться" употребляется только со словами мужскгого рода:<suggestion>\1 вышла замуж</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>
                 <short>Требуется мужской род.</short>
-                <example>
-                    <marker>Сын женился</marker>.</example>
-                <example correction="Дочка вышла замуж">
-                    <marker>Дочка женилась</marker>.</example>
+                <example><marker>Сын женился</marker>.</example>
+                <example correction="Дочка вышла замуж"><marker>Дочка женилась</marker>.</example>
             </rule>
         </rulegroup>     
         
