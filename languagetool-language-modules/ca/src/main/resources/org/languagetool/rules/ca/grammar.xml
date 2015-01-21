@@ -17814,23 +17814,47 @@ $Id$
         </rule>
     </category>
     <category name="B) Opcions de tipografia">
-        <rule id="PERCENT_AMB_ESPAI" name="tant per cent amb espai abans (3 %)" default="off">
+        <rule id="EVITA_INTERROGACIO_INICIAL" name="Evita el signe d'interrogació inicial" default="off">
             <pattern>
-                <token regexp="yes">[\d.,]+%</token>
+                <token>¿</token>
+                <token/>
             </pattern>
-            <message>Falta un espai.</message>
-            <suggestion><match no="1" regexp_match="(.+)%" regexp_replace="$1 %"/></suggestion> <!-- using "narrow no-break space" -->
+            <message>No useu el signe d'interrogació inicial.</message>
+            <suggestion>\2</suggestion>
+            <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf2.htm</url>
+            <example correction="És"><marker>¿És</marker> així?</example>
+            <example>És així?</example>
+        </rule>
+        <rule id="EVITA_EXCLAMACIO_INICIAL" name="Evita el signe d'exclamació inicial" default="off">
+            <pattern>
+                <token>¡</token>
+                <token/>
+            </pattern>
+            <message>No useu el signe d'exclamació inicial.</message>
+            <suggestion>\2</suggestion>
+            <url>http://www.iecat.net/institucio/seccions/Filologica/llenguacatalana/documentsnormatius/docsf2.htm</url>
+            <example correction="És"><marker>¡És</marker> així!</example>
+            <example>És així!</example>
+        </rule>
+        <rule id="PERCENT_AMB_ESPAI" name="tant per cent amb espai fi abans (3 %)" default="off">
+            <pattern>
+                <token regexp="yes">[\d.,]+[%‰‱]</token>
+            </pattern>
+            <message>Falta un espai fi.</message>
+            <suggestion><match no="1" regexp_match="(.+)([%‰‱])" regexp_replace="$1 $2"/></suggestion> <!-- using "narrow no-break space" -->
             <example correction="23,5 %">Pagà un <marker>23,5%</marker>.</example>
+            <example correction="23,5 ‱">Pagà un <marker>23,5‱</marker>.</example>
             <example>Pagà un 25 %.</example>
         </rule>
         <rule id="PERCENT_SENSE_ESPAI" name="tant per cent sense espai abans (3%)" default="on">
             <pattern>
                 <token regexp="yes">[\d.,]+</token>
-                <token spacebefore="yes">%</token>
+                <token spacebefore="yes" regexp="yes">[%‰‱]</token>
             </pattern>
             <message>Sobra un espai.</message>
-            <suggestion>\1\2</suggestion> <!-- using "narrow no-break space" -->
+            <suggestion>\1\2</suggestion>
             <example correction="23,5%">Pagà un <marker>23,5 %</marker>.</example>
+            <example correction="23,5‰">Pagà un <marker>23,5 ‰</marker>.</example>
             <example>és 1.-2.%.</example>
             <example>Pagà un 25%.</example>
         </rule>
