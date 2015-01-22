@@ -17836,6 +17836,59 @@ $Id$
         </rule>
     </category>
     <category name="B) Opcions de tipografia">
+        <rulegroup id="PRIORITZAR_COMETES" name="Prioritza els tipus de cometes: «“‘...’”».">
+            <!-- 1r cas: usar “ sense que hi hagi « -->
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+                    <marker>
+                        <token>“</token>
+                    </marker>
+                </pattern>
+                <message>Useu primer les cometes baixes.</message>
+                <suggestion>«</suggestion>
+                <example correction="«">Diu que <marker>“</marker>sí”.</example>
+                <example>«Diu que “sí”».</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+                    <marker>
+                        <token>”</token>
+                    </marker>
+                </pattern>
+                <message>Useu primer les cometes baixes.</message>
+                <suggestion>»</suggestion>
+                <example correction="»">Diu que “sí<marker>”</marker>.</example>
+                <example>«Diu que “sí”».</example>
+            </rule>
+            <!-- <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next">«</exception></token>
+                    <marker>
+                        <token>"</token>
+                    </marker>
+                </pattern>
+                <message>Useu primer les cometes baixes.</message>
+                <suggestion>«</suggestion>
+                <suggestion>»</suggestion>
+                <example correction="«|»">Diu que <marker>"</marker>sí.</example>
+                <example>«Diu que "sí"».</example>
+            </rule> -->
+            <!-- 2n cas: usar ‘ abans de « o “ -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="-1">‘<exception scope="next">’</exception></token>
+                        <token regexp="yes">[«“]</token>
+                    </marker>
+                </pattern>
+                <message>Prioritzeu bé les cometes.</message>
+                <suggestion><match no="2"/><match no="1" include_skipped="following"/> <match no="1"/></suggestion>
+                <example correction="«Diu que ‘"><marker>‘Diu que «</marker>sí».’</example>
+                <example>«Diu que "sí"».</example>
+            </rule>
+        </rulegroup>
         <rule id="EVITA_INTERROGACIO_INICIAL" name="Evita el signe d'interrogació inicial" default="off">
             <pattern>
                 <token>¿</token>
