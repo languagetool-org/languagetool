@@ -33,7 +33,7 @@ import org.languagetool.tokenizers.Tokenizer;
  * @author Andriy Rysin
  */
 public class UkrainianWordTokenizer implements Tokenizer {
-  private static final String SPLIT_CHARS = "\u0020\u00A0\u115f\u1160\u1680" 
+  private static final String SPLIT_CHARS = "\u0020\u115f\u1160\u1680" 
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" 
         + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
         + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
@@ -43,9 +43,15 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA_PATTERN = Pattern.compile("([\\d]),([\\d])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char DECIMAL_COMMA_SUBST = '_'; // some unused character to hide comma in decimal number temporary for tokenizer run
+  private static final char DECIMAL_COMMA_SUBST = '\u0001'; // some unused character to hide comma in decimal number temporary for tokenizer run
+  // dates
   private static final Pattern DATE_PATTERN = Pattern.compile("([\\d]{2})\\.([\\d]{2})\\.([\\d]{4})", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final char DATE_DOT_SUBST = '\u0001'; // some unused character to hide dot in date temporary for tokenizer run
+  private static final char DATE_DOT_SUBST = '\u0002'; // some unused character to hide dot in date temporary for tokenizer run
+  // braces in words
+  private static final Pattern BRACE_IN_WORD_PATTERN = Pattern.compile("([а-яіїєґ'])\\(([а-яіїєґ']+)\\)", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final char LEFT_BRACE_SUBST = '\u0003';
+  private static final char RIGHT_BRACE_SUBST = '\u0004';
+
 
   public UkrainianWordTokenizer() {
   }
@@ -53,16 +59,30 @@ public class UkrainianWordTokenizer implements Tokenizer {
   @Override
   public List<String> tokenize(String text) {
     text = cleanup(text);
-    text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1" + DECIMAL_COMMA_SUBST + "$2");
-    text = DATE_PATTERN.matcher(text).replaceAll("$1" + DATE_DOT_SUBST + "$2" + DATE_DOT_SUBST + "$3");
+    
+    if( text.contains(",") ) {
+      text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll("$1" + DECIMAL_COMMA_SUBST + "$2");
+    }
+    
+    if( text.contains(".") ) {
+      text = DATE_PATTERN.matcher(text).replaceAll("$1" + DATE_DOT_SUBST + "$2" + DATE_DOT_SUBST + "$3");
+    }
 
+    if( text.contains("(") ) {
+      text = BRACE_IN_WORD_PATTERN.matcher(text).replaceAll("$1" + LEFT_BRACE_SUBST + "$2" + RIGHT_BRACE_SUBST);
+    }
+    
     List<String> tokenList = new ArrayList<>();
     StringTokenizer st = new StringTokenizer(text, SPLIT_CHARS, true);
 
     while (st.hasMoreElements()) {
       String token = st.nextToken();
+      
       token = token.replace(DECIMAL_COMMA_SUBST, ',');
       token = token.replace(DATE_DOT_SUBST, '.');
+      token = token.replace(LEFT_BRACE_SUBST, '(');
+      token = token.replace(RIGHT_BRACE_SUBST, ')');
+
       tokenList.add( token );
     }
 
@@ -71,9 +91,15 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static String cleanup(String text) {
     text = text.replace('’', '\'').replace('ʼ', '\'');
-    if( text.contains("\u0301") || text.contains("\u00AD") ) {
-      text = text.replace("\u0301", "").replace("\u00AD", "");
-    }
+
+//    if( text.contains("\u0301") || text.contains("\u00AD") ) {
+//      text = text.replace("\u0301", "").replace("\u00AD", "");
+//    }
+
+//    while( text.contains("\u0301") || text.contains("\u00AD") ) {
+//      text = IGNORE_CHARS_PATTERN.matcher(text).replaceAll("$1$3");
+//    }
+
     return text;
   }
 

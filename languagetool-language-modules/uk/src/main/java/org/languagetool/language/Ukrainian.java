@@ -62,6 +62,10 @@ public class Ukrainian extends Language {
   private Disambiguator disambiguator;
   private String name = "Ukrainian";
 
+  public Ukrainian() {
+    setIgnoredCharactersRegex("[\u00AD\u0301]");
+  }
+
   @Override
   public Locale getLocale() {
     return new Locale(getShortName());

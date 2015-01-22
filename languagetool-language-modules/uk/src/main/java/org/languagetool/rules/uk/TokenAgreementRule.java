@@ -287,7 +287,14 @@ public class TokenAgreementRule extends Rule {
     for(AnalyzedToken token: tokenReadings) {
       String posTag = token.getPOSTag();
 
-      if( posTag == null || posTag.contains(NO_VIDMINOK_SUBSTR) )
+      if( posTag == null ) {
+        if( tokenReadings.getReadingsLength() == 1) 
+          return true;
+        
+        continue;
+      }
+      
+      if( posTag.contains(NO_VIDMINOK_SUBSTR) )
         return true;
 
       if( posTag.contains(VIDMINOK_SUBSTR) ) {
@@ -334,7 +341,7 @@ public class TokenAgreementRule extends Rule {
     ArrayList<String> foundVidminkyNames = new ArrayList<String>();
     for(AnalyzedToken token: tokenReadings) {
       String posTag2 = token.getPOSTag();
-      if( posTag2.contains(VIDMINOK_SUBSTR) ) {
+      if( posTag2 != null && posTag2.contains(VIDMINOK_SUBSTR) ) {
         foundVidminkyNames.add(UkrainianTagger.VIDMINKY_MAP.get(posTag2.replaceFirst("^.*"+VIDMINOK_REGEX+".*$", "$1")));
       }
     }
