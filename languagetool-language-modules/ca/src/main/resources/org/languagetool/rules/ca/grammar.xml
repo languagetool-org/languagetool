@@ -17854,20 +17854,20 @@ $Id$
             </antipattern>
             <antipattern> <!-- hores -->
                 <marker>
-                    <token regexp="yes">[12]?\d\.\d{2}</token>
-                    <token regexp="yes">h|hores</token>
+                    <token regexp="yes">[012]?\d\.\d{2}</token>
+                    <token regexp="yes">h|hores|am|pm</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes" skip="2">[12]?\d\.\d{2}</token>
+                    <token regexp="yes" skip="2">[012]?\d\.\d{2}</token>
                     <token regexp="yes">&parts_dia;</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
                     <token>les</token>
-                    <token regexp="yes">[12]?\d\.\d{2}</token>
+                    <token regexp="yes">[012]?\d\.\d{2}</token>
                 </marker>
             </antipattern>
             <antipattern> <!-- taules -->
@@ -17923,6 +17923,7 @@ $Id$
                 <example>Hi arribaren a les 17.40 h.</example>
                 <example>Hi arribaren a les 17.40h.</example>
                 <example>Els art. 5.4 i 5.6.</example>
+                <example>Gn 4,9.27 – Gènesi, capítol 4, versets 9 i 27</example> 
             </rule>
             <rule>
                 <pattern>
@@ -17931,6 +17932,7 @@ $Id$
                 <message>Per a separar els decimals, useu una coma.</message>
                 <suggestion><match no="1" regexp_match="(.+),(...)\.(.+)" regexp_replace="$1.$2,$3"/></suggestion>
                 <example correction="9.349,5"><marker>9,349.5</marker></example>
+                <example>Gn 4,9.27 – Gènesi, capítol 4, versets 9 i 27</example>
             </rule>
             <rule>
                 <pattern>
@@ -17994,7 +17996,7 @@ $Id$
                 <example>«Diu que "sí"».</example>
             </rule>
         </rulegroup>
-        <rule id="EVITA_INTERROGACIO_INICIAL" name="Evita el signe d'interrogació inicial" default="off">
+        <rule id="EVITA_INTERROGACIO_INICIAL" name="Evita sempre el signe d'interrogació inicial" default="off">
             <pattern>
                 <token>¿</token>
                 <token/>
@@ -18005,7 +18007,7 @@ $Id$
             <example correction="És"><marker>¿És</marker> així?</example>
             <example>És així?</example>
         </rule>
-        <rule id="EVITA_EXCLAMACIO_INICIAL" name="Evita el signe d'exclamació inicial" default="off">
+        <rule id="EVITA_EXCLAMACIO_INICIAL" name="Evita sempre el signe d'exclamació inicial" default="off">
             <pattern>
                 <token>¡</token>
                 <token/>
@@ -19397,7 +19399,7 @@ $Id$
         </rulegroup>
         <rule id="PUNT_EN_HORES" name="*22:30 h/22.30 h">
             <pattern>
-                <token regexp="yes">[12]\d</token>
+                <token regexp="yes">[012]\d</token>
                 <token regexp="yes">[,:]</token>
                 <token regexp="yes">[12345]\d</token>
                 <token regexp="yes">h|hores</token>
@@ -24555,7 +24557,7 @@ $Id$
                     <marker>
                         <token>a</token>
                         <token>les</token>
-                        <token postag="DN.*|DI.*" postag_regexp="yes"><exception regexp="yes">[12]?\d(.[0-5]\d)?</exception></token>
+                        <token postag="DN.*|DI.*" postag_regexp="yes"><exception regexp="yes">[012]?\d(.[0-5]\d)?</exception></token>
                         <token>hores</token>
                     </marker>
                     <token><exception>que</exception></token>
