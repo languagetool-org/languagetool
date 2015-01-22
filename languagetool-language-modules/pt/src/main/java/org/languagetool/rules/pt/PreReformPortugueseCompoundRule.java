@@ -36,7 +36,7 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
             "Esta palavra é hifenizada.",
             "Esta palavra é escrita em conjunto.",
             "Esta palavra é uma palavra ou com um hífen.");
-    super.setShort("Juntos grafias de palavras");
+    super.setShort("Esta palavra é hifenizada.");
   }
 
 
@@ -47,6 +47,6 @@ public class PreReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   public String getDescription() {
-    return "Juntos ortografia de palavras, por exemplo 'CD-ROM' em vez de 'CD ROM'";
+    return "Esta palavra é hifenizada. Por exemplo 'CD-ROM' em vez de 'CD ROM'";
   }
 }
