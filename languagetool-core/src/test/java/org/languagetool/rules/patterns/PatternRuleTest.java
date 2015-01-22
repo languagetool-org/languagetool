@@ -272,8 +272,7 @@ public class PatternRuleTest extends TestCase {
                                 Map<String, PatternRule> complexRules, PatternRule rule) throws IOException {
     final List<IncorrectExample> badSentences = rule.getIncorrectExamples();
     if (badSentences.size() == 0) {
-      // TODO: comment in
-      //fail("No incorrect examples found for rule " + rule);
+      fail("No incorrect examples found for rule " + rule);
     }
     // necessary for XML Pattern rules containing <or>
     List<PatternRule> rules = allRulesLanguageTool.getPatternRulesByIdAndSubId(rule.getId(), rule.getSubId());
