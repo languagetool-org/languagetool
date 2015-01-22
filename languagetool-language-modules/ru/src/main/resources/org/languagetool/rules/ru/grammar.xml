@@ -3817,7 +3817,45 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-        
+   
+       <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать+предлог»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">комментировать</token>
+                    <token postag="PREP"></token>
+                </pattern>
+                <message>Дополнение должно быть без предлога.</message>
+                <short>Дополнение должно быть без предлога</short>
+                <example>Диктор комментирует это событие.</example>
+                <example correction="">диктор <marker>комментирует об</marker> этом событии.</example>
+            </rule>
+        </rulegroup>        
+         <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать+существительное»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">манкировать</token>
+                    <token postag="NN:.*:V" postag_regexp="yes"></token>
+                </pattern>
+                <message>Существительное должно быть в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion>.</message>
+                <short>Требуется творительный падеж</short>
+                <example>манкировать обязанностями</example>
+                <example correction="манкировать обязанностями"><marker>манкировать обязанности</marker></example>
+            </rule>
+        </rulegroup>        
+          <rulegroup default="on" id="pretenzia_na" name="Словосочетание «претензия на»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">претензия</token>
+                    <token>на</token>
+                    <token postag="NN:.*:V" postag_regexp="yes"></token>
+                </pattern>
+                <message>Нужен предлог «к»: <suggestion><match no="1"></match> к <match no="3" postag="NN:(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:D"></match></suggestion>.</message>
+                <short>Требуется творительный падеж</short>
+                <example>Пришла претензия к качеству товара.</example>
+                <example correction="претензия к качеству">Пришла <marker>претензия на качество</marker> товара.</example>
+            </rule>
+        </rulegroup>            
+                       
           <rulegroup default="on" id="predstavlat_soboj" name="Разговорный стиль «представлять из себя»">
             <rule>
                 <pattern>
