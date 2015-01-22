@@ -81,11 +81,17 @@ $Id$
     <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
       <rule>
         <pattern>
-          <token postag_regexp="yes" postag=".*:alt.*"/>
+          <token postag_regexp="yes" postag=".*:alt.*">
+             <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|SENT_START" />
+          </token>
         </pattern>
         <message>Слово написане не за чинним правописом</message>
         <example correction=""><marker>проєкту</marker></example>
         <example correction=""><marker>хемія</marker></example>
+        <example>проекту</example>
+        <!-- TODO: fix marker position -->
+        <example correction=""><marker>хе́мі</marker>я</example>
+        <example>хоче прорости</example>
         <example>проекту</example>
       </rule>
     </rulegroup>

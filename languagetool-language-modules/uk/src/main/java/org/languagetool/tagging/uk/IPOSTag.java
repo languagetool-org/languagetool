@@ -56,4 +56,16 @@ public enum IPOSTag {
     return posTag != null && posTag.contains(postagMatch);
   }
 
+  public static boolean startsWith(String posTagPrefix, IPOSTag... posTags) {
+    if( posTagPrefix == null )
+      return false;
+    
+    for (IPOSTag posTag: posTags) {
+      if( posTagPrefix.startsWith(posTag.getText()) )
+        return true;
+    }
+    
+    return false;
+  }
+
 }

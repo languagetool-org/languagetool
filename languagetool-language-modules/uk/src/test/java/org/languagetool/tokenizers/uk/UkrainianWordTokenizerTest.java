@@ -31,8 +31,11 @@ public class UkrainianWordTokenizerTest extends TestCase {
     List<String> testList = w.tokenize("Вони прийшли додому.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "додому", "."), testList);
 
-    testList = w.tokenize("Вони\u0301 при\u00ADйшли пʼятими зів’ялими.");
+    testList = w.tokenize("Вони прийшли пʼятими зів’ялими.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "п'ятими", " ", "зів'ялими", "."), testList);
+
+//    testList = w.tokenize("Вони\u0301 при\u00ADйшли пʼя\u0301тими зів’я\u00ADлими.");
+//    assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "п'ятими", " ", "зів'ялими", "."), testList);
 
     testList = w.tokenize("Засідав І.Єрмолюк.");
     assertEquals(Arrays.asList("Засідав", " ", "І", ".", "Єрмолюк", "."), testList);
@@ -48,6 +51,12 @@ public class UkrainianWordTokenizerTest extends TestCase {
 
     testList = w.tokenize("сталося 14.07.2001 вночі");
     assertEquals(Arrays.asList("сталося", " ", "14.07.2001", " ", "вночі"), testList);
+
+    testList = w.tokenize("я українець(сміється");
+    assertEquals(Arrays.asList("я", " ", "українець", "(", "сміється"), testList);
+        
+    testList = w.tokenize("ОУН(б) та КП(б)У");
+    assertEquals(Arrays.asList("ОУН(б)", " ", "та", " ", "КП(б)У"), testList);
   }
 
 }

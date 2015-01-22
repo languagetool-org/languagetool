@@ -64,6 +64,7 @@ function run_full_test()
   else
     run_lt $SRC $ID
     diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
+    mv compounds-unknown.txt tmp/compounds-unknown.$ID.txt
   fi
   echo "Done [$ID]"
 }
@@ -89,7 +90,7 @@ if [ "$IDS_TO_CHECK" == "0" ]; then
     SRC=text4.txt
     echo "Checking $SRC [$ID]"
 
-    RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE,WHITESPACE_RULE,UK_SIMPLE_REPLACE"
+    RULES_TO_IGNORE="MORFOLOGIK_RULE_UK_UA,COMMA_PARENTHESIS_WHITESPACE" #,WHITESPACE_RULE,UK_SIMPLE_REPLACE"
 
     run_lt $SRC $ID
 

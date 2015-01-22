@@ -19,9 +19,15 @@
 package org.languagetool.tagging.disambiguation.rules.uk;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
@@ -47,14 +53,14 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
     sentenceTokenizer = new SRXSentenceTokenizer(new Ukrainian());
     disambiguator = new UkrainianHybridDisambiguator();
     demoDisambiguator = new DemoDisambiguator();
-    chunker = new MultiWordChunker("/uk/multiwords.txt");
+    chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   }
 
   public void testRules() throws Exception {
     testDisambiguationRulesFromXML();
   }
 
-  public void testChunker() throws IOException {
+  public void testDisambiguator() throws IOException {
 
     TestTools.myAssert("Танцювати до впаду", 
       "/[null]SENT_START Танцювати/[танцювати]verb:inf:imperf  /[null]null до/[до впаду]<adv>|до/[до]prep:rv_rod  /[null]null " +
@@ -70,6 +76,18 @@ public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
        tokenizer, sentenceTokenizer, tagger, disambiguator);
       
   }
+  
+  public void testChunker() throws Exception {
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("Для  годиться.");
+    AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+    AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+    
+    assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+    assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
+  }
+  
+
 }
 
 

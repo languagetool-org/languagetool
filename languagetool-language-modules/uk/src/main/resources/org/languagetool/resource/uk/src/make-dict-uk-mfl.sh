@@ -1,6 +1,11 @@
 #/bin/sh
 
 export PATH=$PATH:~/bin
+
+# Use Oracle's JDK
+export PATH=/usr/java/latest/bin:$PATH
+export JAVA_HOME=/usr/java/latest
+
 DICT_ENCODING=cp1251
 #DICT_ENCODING=
 
@@ -32,23 +37,30 @@ FSA_FLAGS="-f cfsa2"
 
 # grep -v ":bad"
 
+
+sed -r "/adjp/ s/:&adj//" tagged.main.txt | sed -r "/adjp/ s/adjp:....:..../adj/" > tagged.main.txt2
+
+TAGGED_DICT="tagged.main.txt2"
+#TAGGED_DICT="tagged.main.txt"
+
+
 if [ "$2" != "-x" ]; then
 
-echo -e "\nGenerating POS dictionary"
+  echo -e "\nGenerating POS dictionary"
 
-grep -h "^[^#].*[a-z]" tagged.main.txt | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
-$MFL_CMD tab2morph -i all.tagged.tmp | \
-$MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict 2>&1 | decode
+  grep -h "^[^#].*[a-z]" $TAGGED_DICT | encode | tr ' ' '\t' | sort -u > all.tagged.tmp
 
-echo -e "\nGenerating synthesizer dictionary"
+  ( $MFL_CMD tab2morph -i all.tagged.tmp | \
+  $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian.dict 2>&1 | decode && \
+  mv -f ukrainian.dict ../ ) 2>&1 > fsa_build.out &
 
-cat all.tagged.tmp | awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' | \
-$MFL_CMD tab2morph | \
-$MFL_CMD fsa_build $FSA_FLAGS -o ukrainian_synth.dict
+  echo -e "\nGenerating synthesizer dictionary"
 
-rm -f all.tagged.tmp
-
-grep "^[^# ].*[a-z]" tagged.main.txt | awk '{ print $3 }' | sort | uniq > ukrainian_tags.txt
+  ( cat all.tagged.tmp | awk -F '\t' '{print $2"|"$3"\t"$1"\t"}' | \
+  $MFL_CMD tab2morph | \
+  $MFL_CMD fsa_build $FSA_FLAGS -o ukrainian_synth.dict 2>&1 && \
+  grep "^[^# ].*[a-z]" $TAGGED_DICT | awk '{ print $3 }' | sort | uniq > ukrainian_tags.txt && \
+  mv -f ukrainian_synth.dict ukrainian_tags.txt ../ ) 2>&1 > fsa_build2.out  &
 
 fi
 
@@ -72,11 +84,16 @@ if [ "$1" == "-f" ]; then
     #LT_STD_CP="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR//languagetool.jar"
     LT_STD_CP=$BASE/languagetool-standalone/target/classes:$LIBS
 
-    cat all_words.lst | encode | sort -u > all.tagged.tmp && \
-    java -cp $LT_STD_CP org.languagetool.dev.SpellDictionaryBuilder uk-UA all.tagged.tmp ../hunspell/uk_UA.info freq/uk_wordlist.xml -o uk_UA.dict
-    mv uk_UA.dict ../hunspell/
+    (cat all_words.lst | encode | sort -u > all.words.tmp && \
+    java -cp $LT_STD_CP org.languagetool.dev.SpellDictionaryBuilder uk-UA all.words.tmp ../hunspell/uk_UA.info freq/uk_wordlist.xml -o uk_UA.dict 2>&1 > fsa_spell.out && \
+    mv uk_UA.dict ../hunspell/ ) &
 
-    rm -f all.tagged.tmp
 fi
 
-rm -f all_words.lst
+echo "Waiting for all threads to finish"
+wait
+
+rm -f all.words.tmp
+rm -f all.tagged.tmp
+#rm -f all_words.lst
+rm -f tagged.main.txt2

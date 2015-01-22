@@ -18,7 +18,8 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -100,6 +101,8 @@ public class TokenAgreementRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("по нервам"));
     // check match positions:
     assertEquals(1, matches.length);
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(9, matches[0].getToPos());
     assertEquals(Arrays.asList("нервах", "нерви"), matches[0].getSuggestedReplacements());
     
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("в п'ятьом людям")).length);
@@ -120,6 +123,29 @@ public class TokenAgreementRuleTest {
 //    // check match positions:
 //    assertEquals(1, matches.length);
 
+  }
+  
+  @Test
+  public void testSpecialChars() throws IOException {
+    TokenAgreementRule rule = new TokenAgreementRule(TestTools.getMessages("uk"));
+
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("по не́рвам, по мо\u00ADстам, по воротам"));
+    // check match positions:
+    assertEquals(3, matches.length);
+    
+    assertEquals(3, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+    assertEquals(Arrays.asList("нервах", "нерви"), matches[0].getSuggestedReplacements());
+//    assertEquals(3, matches[1].getFromPos());
+
+    assertEquals(15, matches[1].getFromPos());
+    assertEquals(Arrays.asList("мостах", "мости"), matches[1].getSuggestedReplacements());
+//    assertEquals(1, matches[1].getFromPos());
+
+    assertEquals(27, matches[2].getFromPos());
+    assertEquals(Arrays.asList("воротах", "ворота"), matches[2].getSuggestedReplacements());
   }
 
 }

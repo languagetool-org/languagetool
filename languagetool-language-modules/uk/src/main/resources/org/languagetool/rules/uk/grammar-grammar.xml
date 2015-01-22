@@ -484,7 +484,7 @@ $Id$
                     </token>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:anim.*|pron.*v_oru.*">
                       <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;(adv|insert)&gt;"/>
-                      <exception regexp="yes">тим|таким|персоною</exception>
+                      <exception regexp="yes">тим|таким|персоною|днями|цими</exception>
                     </token>
                     <!-- TODO: особа-діяч може бути не лише :anim
                     <token postag_regexp="yes" postag="(noun|pron).*v_oru.*"/>
@@ -508,31 +508,6 @@ $Id$
                 -->
                 <example correction="">Користувача <marker>авторизовано адміністратором</marker></example>
             </rule>
-<!-- потребує складного аналізу, інакше створює багато фальшивих помилок
-            <rule>
-                <pattern>
-                    <marker>
-                    <token postag_regexp="yes" postag="verb:rev.*"><exception inflected="yes" regexp="yes">виявитися|видаватися|залишатися|оставатися|вважатися</exception></token>
-                    <token postag_regexp="yes" postag="adj:.*v_oru.*" min="0" max="1"/>
-                    <token postag_regexp="yes" postag="noun.*v_oru.*:anim.*"><exception postag_regexp="yes" postag="noun.*v_oru$"/></token>
-                    <- TODO: особа-діяч може бути не лише :anim
-                    <token postag_regexp="yes" postag="noun.*v_oru.*"/>
-                    ->
-                    </marker>
-                </pattern>
-                <message>Невластива мові конструкція: пасивний предикат</message>
-                <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
-                <example>Він виявився учасником тендера</example>
-                <example>Опікується цим питанням</example>
-                <example>Залишається авторитетом</example>
-                <example>Видається провісником</example>
-                <example>Зосереджується головним чином</example>
-
-                <example type="incorrect">Закон <marker>вноситься королем</marker></example>
-                <example type="incorrect">Обсяги <marker>визначаються замовником</marker></example>
-                <example type="incorrect">Книжки <marker>пишуться автором</marker></example>
-            </rule>
--->
         </rulegroup>
 <!--
         <rulegroup name="Узгодженість" id="CONISTENCY">

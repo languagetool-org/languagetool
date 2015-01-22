@@ -145,19 +145,17 @@ $Id$
          <pattern>
             <token inflected="yes" regexp="yes">.*хворіти|.*хворівший</token>
             <marker>
-            <!--
             <token postag_regexp="yes" postag="adj:.:v_oru.*" min="0"/>
-            -->
             <token postag_regexp="yes" postag="noun:.:v_oru.*">
-              <exception regexp="yes">дивом|чудом|протягом|часом</exception>
+              <exception postag_regexp="yes" postag="noun:.:v_naz.*"/>
+              <exception regexp="yes">дивом|чудом|протягом|часом|сім'ями</exception>
             </token>
             </marker>
          </pattern>
-         <message>Правильно: <suggestion>на <match no="2" postag_regexp="yes" postag="(noun:.*):v_oru(.*)" postag_replace="$1:v_zna$2"/></suggestion></message>
+         <message>Правильно: <suggestion>на <match no="2" postag_regexp="yes" postag="(adj:.*):v_oru(.*)" postag_replace="$1:v_zna$2"/> <match no="3" postag_regexp="yes" postag="(noun:.*):v_oru(.*)" postag_replace="$1:v_zna$2"/></suggestion></message>
          <example correction="на ангіну">Він хворіє <marker>ангіною</marker></example>
-         <!--
          <example correction="на страшну ангіну">Він хворіє <marker>страшною ангіною</marker></example>
-         -->
+         <example>тяжко хворіла пані Анка</example>
          <example>Він хворіє на ангіну</example>
          <example>Він не захворів дивом</example>
        </rule>
@@ -184,7 +182,7 @@ $Id$
              <token inflected="yes">рахуватися</token>
                <token postag_regexp="yes" postag="adj.*v_oru.*" min="0"/>
                <token postag_regexp="yes" postag="noun.*v_oru.*">
-                 <exception postag_regexp="yes" postag="adv.*"/>
+                 <exception postag_regexp="yes" postag="(adv|noun:.*v_naz).*"/>
                  <exception regexp="yes">десятками|сотнями|тисячами|мільйонами|мільярдами</exception>
                </token>
            </marker>
@@ -201,6 +199,7 @@ $Id$
          <example correction="вважавсь за торгівельне осередок|вважавсь за торгівельний осередок|вважавсь за торгівельного осередок|вважався за торгівельне осередок|вважався за торгівельний осередок|вважався за торгівельного осередок"><marker>рахувався торгівельним осередком</marker></example>
          <example>рахувалися разом</example>
          <example>витрати рахувалися мільйонами</example>
+         <example>Але чи рахувалася ФРН із позицією</example>
        </rule>
 
        <rule>
@@ -677,7 +676,7 @@ $Id$
 
        <rule>
          <pattern>
-              <token inflected="yes" regexp="yes">наносити|нанести|нанісший|нанесений</token>
+              <token inflected="yes" regexp="yes">наносити|нанести|нанісший|нанесений|нанесення</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>удар</token>
          </pattern>
@@ -688,7 +687,7 @@ $Id$
 
        <rule>
          <pattern>
-              <token inflected="yes" regexp="yes">прикладати|прикласти|прикладений|приклавший</token>
+              <token inflected="yes" regexp="yes">прикладати|прикласти|прикладений|прикладення|прикладання</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>зусилля</token>
          </pattern>
@@ -700,7 +699,7 @@ $Id$
        <rule>
          <pattern>
            <marker>
-              <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
+              <token inflected="yes" regexp="yes">розбивати|розбити|розбивання|розбиття</token>
            </marker>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token regexp="yes">намет|палатку|шатро</token>
@@ -712,7 +711,7 @@ $Id$
        <rule>
          <pattern>
            <marker>
-              <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
+              <token inflected="yes" regexp="yes">розбивати|розбити|розбивання|розбиття</token>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>табір</token>
            </marker>
@@ -724,7 +723,7 @@ $Id$
        <rule>
          <pattern>
            <marker>
-              <token inflected="yes" regexp="yes">розбивати|розбити|розбивший|розбивавший</token>
+              <token inflected="yes" regexp="yes">розбивати|розбити|розбивання|розбиття</token>
            </marker>
               <token postag_regexp="yes" postag="(adj|pron).*" min="0" max="1"/>
               <token>парк</token>
@@ -737,7 +736,7 @@ $Id$
        <rule>
          <pattern>
            <marker>
-            <token inflected="yes" regexp="yes">піднімати|підняти|піднімавший</token>
+            <token inflected="yes" regexp="yes">піднімати|підняти|піднямання|підняття</token>
            </marker>
             <token>тост</token>
          </pattern>
@@ -1047,13 +1046,18 @@ $Id$
        <rule>
          <pattern>
            <marker>
-              <token>в</token>
+              <token regexp="yes">[ву]</token>
               <token>подальшому</token>
            </marker>
-           <token><exception postag_regexp="yes" postag=".*:v_mis.*"/></token>
+           <or>
+             <token><exception postag_regexp="yes" postag=".*:[mn]:v_mis.*"/></token>
+             <token postag_regexp="yes" postag="^noun.*:nv.*:abbr.*"/>
+           </or>
          </pattern>
          <message>Краще: <suggestion>надалі</suggestion></message>
          <example correction="надалі">що <marker>в подальшому</marker> стало підставою</example>
+         <example correction="надалі">а <marker>в подальшому</marker> машина працювала бездоганно</example>
+         <example correction="надалі">а <marker>у подальшому</marker> НБУ</example>
          <example>в подальшому розвитку</example> <!-- TODO: в подальшому розвитку -> дальшому розвитку ??? -->
          <example>що надалі стало підставою</example>
        </rule>
@@ -1516,6 +1520,49 @@ $Id$
          <example>у нього терпець урвався</example>
        </rule>
 
+       <rule>
+         <pattern>
+           <token regexp="yes">[ву]</token>
+           <token>бігах</token>
+         </pattern>
+         <message>Правильно: <suggestion>на втіках</suggestion>, <suggestion>в мандрах</suggestion></message>
+         <example correction="на втіках|в мандрах">він був <marker>у бігах</marker></example>
+       </rule>
+<!--  Пропоновані варіанти гірші
+       <rule>
+         <pattern>
+           <token inflected="yes">злоба</token>
+           <token>дня</token>
+         </pattern>
+         <message>Краще: <suggestion>пекуче питання</suggestion>, <suggestion>нагальне питання</suggestion></message>
+         <example type="incorrect">тему підказала <marker>злоба дня</marker></example>
+         <example type="correct">тему підказало пекуче питання</example>
+       </rule>
+-->
+       <rule>
+         <pattern>
+           <token>на</token>
+           <token>авось</token>
+         </pattern>
+         <message>Правильно: <suggestion>навмання</suggestion>, <suggestion>на щастя</suggestion></message>
+         <suggestion>на відчай</suggestion>
+         <suggestion>на пропаде</suggestion>
+         <suggestion>на щасливого долю</suggestion>
+         <suggestion>на дастьбі(г)</suggestion>
+         <suggestion>на гала(й) на бала(й)</suggestion>
+         <example correction="навмання|на щастя|на відчай|на пропаде|на щасливого долю|на дастьбі(г)|на гала(й) на бала(й)">він спробував <marker>на авось</marker></example>
+       </rule>
+
+       <rule>
+         <pattern>
+           <token inflected="yes">тримати</token>
+           <token>в</token>
+           <token>умі</token>
+         </pattern>
+         <message>Краще: <suggestion>пам'ятати</suggestion>, <suggestion>тримати в пам'яті</suggestion></message>
+         <example correction="пам'ятати|тримати в пам'яті">Це теж <marker>тримаємо в умі</marker></example>
+       </rule>
+
        <!-- прийменники -->
 
       <rule>
@@ -1568,7 +1615,11 @@ $Id$
               <token regexp="yes">грибами|ягодами|брусницею|журавлиною|суницею|ожиною|хлібом</token>
            </pattern>
            <message>Якщо йдеться про мету руху, вживаємо прийменник «по»</message>
-           <suggestion>по <match no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_naz$2"/> <match no="3" postag_regexp="yes" postag="(noun:.:)v_oru(.*)" postag_replace="$1v_naz$2"/></suggestion>
+           <suggestion>по <match no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_naz$2"/> <match no="3" postag_regexp="yes" postag="(noun:.:)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion>
+           <!-- TODO: use v_zna but remove anim version -->
+           <!--
+           <suggestion>по <match no="2" postag_regexp="yes" postag="(adj:.:)v_oru(.*)" postag_replace="$1v_zna$2"/> <match no="3" postag_regexp="yes" postag="(noun:.:)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion>
+           -->
            <short>Правильно «по гриби», «по ягоди»…</short>
            <example correction="по білі гриби">Піти <marker>за білими грибами</marker>.</example>
            <example correction="по гриби">Піти <marker>за грибами</marker>.</example>
@@ -1991,7 +2042,9 @@ $Id$
              <token>числі</token>
            </marker>
            <token postag_regexp="yes" postag="num.*" min="0"/>
-           <token postag_regexp="yes" postag="(noun|adj).*:v_rod.*"/>
+           <token postag_regexp="yes" postag="(noun|adj).*:v_rod.*">
+             <exception>Пі</exception>
+           </token>
          </pattern>
          <message>Правильно: <suggestion>серед</suggestion>, <suggestion>поміж</suggestion></message>
          <example correction="серед|поміж"><marker>в числі</marker> яких</example>
@@ -1999,6 +2052,7 @@ $Id$
          <example correction="серед|поміж"><marker>у числі</marker> двох найкращих</example>
          <example>серед яких</example>
          <example>у числі 13 є дві цифри</example>
+         <example>в числі Пі</example>
        </rule>
 
         <rule>
@@ -2155,7 +2209,7 @@ $Id$
          <example correction="вихідними|у вихідний|у вихідного|щовихідного" correction="вихідними|у вихідний|щовихідного"><marker>по вихідних</marker></example>
          -->
          <example correction="п'ятницями|у п'ятницю|щоп'ятниці"><marker>по п'ятницях</marker></example>
-         <example correction="вихідними|у вихідний|у вихідного|щовихідного"><marker>по вихідних</marker></example>
+         <example correction="вихідними|у вихідний|щовихідного"><marker>по вихідних</marker></example>
          <example>щоп'ятниці</example>
        </rule>
        <rule>

@@ -33,7 +33,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 
 public class UkrainianHybridDisambiguator implements Disambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
+  private final Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt", true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
 
   /**
