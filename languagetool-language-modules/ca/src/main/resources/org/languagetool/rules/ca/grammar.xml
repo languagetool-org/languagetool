@@ -17845,13 +17845,19 @@ $Id$
     <category name="B) Opcions de tipografia">
     <!-- TODO: separador de milers: coma o espai fi -->
         <rulegroup id="USA_COMA_DECIMALS" name="Usa la coma i no el punt en nombres decimals" default="on">
-            <antipattern> <!-- Numeració d'apartats a principi de frase -->
+            <antipattern> <!-- més d'un punt -->
+                <marker>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token spacebefore="no">.<exception postag="SENT_END"/></token>
+                </marker>
+            </antipattern>
+  <!--           <antipattern> 2.1)
                 <marker>
                     <token postag="SENT_START"/>
                     <token regexp="yes">\d+\.\d+</token>
-                    <token regexp="yes">\.|\)</token>
+                    <token spacebefore="no">)</token>
                 </marker>
-            </antipattern>
+            </antipattern> -->
             <antipattern> <!-- hores -->
                 <marker>
                     <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
@@ -17886,25 +17892,18 @@ $Id$
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">arts?|fig|caps?|ap|s</token>
-                    <token>.</token>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§</token>
+                    <token min="0">.</token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">arts?|fig|caps?|ap|s</token>
-                    <token>.</token>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§</token>
+                    <token min="0">.</token>
                     <token regexp="yes">\d+\.\d+</token>
                     <token regexp="yes">i|o|,</token>
                     <token regexp="yes">\d+\.\d+</token>
-                </marker>
-            </antipattern>
-            <antipattern> <!-- més d'un punt -->
-                <marker>
-                    <token regexp="yes">\d+\.\d+</token>
-                    <token spacebefore="no">.</token>
-                    <token regexp="yes" spacebefore="no">\d+</token>
                 </marker>
             </antipattern>
             <rule>
@@ -17914,6 +17913,7 @@ $Id$
                 <message>Per a separar els decimals, useu una coma.</message>
                 <suggestion><match no="1" regexp_match="(.+)\.(.+)" regexp_replace="$1,$2"/></suggestion>
                 <example correction="9,5"><marker>9.5</marker></example>
+                <example correction="9,5">És de <marker>9.5</marker>.</example>
                 <example correction="9349,5"><marker>9349.5</marker></example>
                 <example correction="1 999 349,56"><marker>1 999 349.56</marker></example>
                 <example>1.231</example>
@@ -17923,6 +17923,7 @@ $Id$
                 <example>Hi arribaren a les 17.40 h.</example>
                 <example>Hi arribaren a les 17.40h.</example>
                 <example>Els art. 5.4 i 5.6.</example>
+                <example>La versió 2.4.x és la més nova.</example>
                 <example>Gn 4,9.27 – Gènesi, capítol 4, versets 9 i 27</example> 
             </rule>
             <rule>
