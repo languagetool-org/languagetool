@@ -16994,6 +16994,13 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PRONOM_FEBLE_EN" name="Comprovacions del pronom feble 'en'">
+            <antipattern> <!-- més d'un punt -->
+                <marker>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">\d+</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="-1"><exception postag="PP3CN000" scope="next" inflected="yes">en</exception></token>
@@ -17838,6 +17845,68 @@ $Id$
     <category name="B) Opcions de tipografia">
     <!-- TODO: separador de milers: coma o espai fi -->
         <rulegroup id="USA_COMA_DECIMALS" name="Usa la coma i no el punt en nombres decimals" default="on">
+            <antipattern> <!-- Numeració d'apartats a principi de frase -->
+                <marker>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token regexp="yes">\.|\)</token>
+                </marker>
+            </antipattern>
+            <antipattern> <!-- hores -->
+                <marker>
+                    <token regexp="yes">[12]?\d\.\d{2}</token>
+                    <token regexp="yes">h|hores</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes" skip="2">[12]?\d\.\d{2}</token>
+                    <token regexp="yes">&parts_dia;</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>les</token>
+                    <token regexp="yes">[12]?\d\.\d{2}</token>
+                </marker>
+            </antipattern>
+            <antipattern> <!-- taules -->
+                <marker>
+                    <token inflected="yes" regexp="yes">resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token regexp="yes">i|o|,</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">arts?|fig|caps?|ap|s</token>
+                    <token>.</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">arts?|fig|caps?|ap|s</token>
+                    <token>.</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token regexp="yes">i|o|,</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern> <!-- més d'un punt -->
+                <marker>
+                    <token regexp="yes">\d+\.\d+</token>
+                    <token spacebefore="no">.</token>
+                    <token regexp="yes" spacebefore="no">\d+</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes">(\d+|\d{1,3}([ &#8239;&#160;]\d\d\d)+)\.\d+<exception regexp="yes">\d{1,3}(\.\d\d\d)+</exception></token>
@@ -17849,6 +17918,11 @@ $Id$
                 <example correction="1 999 349,56"><marker>1 999 349.56</marker></example>
                 <example>1.231</example>
                 <example>1.231.437</example>
+                <example>Les taules 5.7 i 5.8.</example>
+                <example>A les 5.40 de la matinada.</example>
+                <example>Hi arribaren a les 17.40 h.</example>
+                <example>Hi arribaren a les 17.40h.</example>
+                <example>Els art. 5.4 i 5.6.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21403,7 +21477,7 @@ $Id$
         </rule>
         <rule id="PESAT_PESANT" name="pesat_pesant">
             <pattern>
-                <token inflected="yes" regexp="yes">aigua|pes|indústria|metall</token>
+                <token inflected="yes" regexp="yes">aigua|pes|indústria|metall|maquinària</token>
                 <token postag="AQ.*" postag_regexp="yes" inflected="yes">pesat</token>
             </pattern>
             <message>Expressió incorrecta.</message>
