@@ -3830,7 +3830,7 @@ $Id$
                 <example correction="">диктор <marker>комментирует об</marker> этом событии.</example>
             </rule>
         </rulegroup>        
-         <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать+существительное»">
+        <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать+существительное»">
             <rule>
                 <pattern>
                     <token inflected="yes">манкировать</token>
@@ -3841,8 +3841,19 @@ $Id$
                 <example>манкировать обязанностями</example>
                 <example correction="манкировать обязанностями"><marker>манкировать обязанности</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">манкировать</token>
+                    <token postag="PADJ:.*:V" postag_regexp="yes"></token>
+                    <token postag="NN:.*:V" postag_regexp="yes"></token>
+                </pattern>
+                <message>Существительное должно быть в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="PADJ:(.*):V" postag_regexp="yes" postag_replace="PADJ:$1:T"></match> <match no="3" postag="NN:(.*):(.*):V" postag_regexp="yes" postag_replace="NN:$1:$2:T"></match></suggestion>.</message>
+                <short>Требуется творительный падеж</short>
+                <example>манкировать своими обязанностями</example>
+                <example correction="манкировать своими обязанностями"><marker>манкировать свои обязанности</marker></example>
+            </rule>
         </rulegroup>        
-          <rulegroup default="on" id="pretenzia_na" name="Словосочетание «претензия на»">
+        <rulegroup default="on" id="pretenzia_na" name="Словосочетание «претензия на»">
             <rule>
                 <pattern>
                     <token inflected="yes">претензия</token>
