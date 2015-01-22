@@ -31,6 +31,7 @@ import org.languagetool.rules.patterns.PatternRuleLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,6 +41,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.jar.Manifest;
+import java.util.regex.Pattern;
 
 /**
  * The main class used for checking text against different rules:
@@ -737,14 +739,19 @@ public class JLanguageTool {
   }
 
   private Map<Integer, String> replaceSoftHyphens(List<String> tokens) {
-    final Map<Integer, String> softHyphenTokens = new HashMap<>();
+    Pattern ignoredCharacterRegex = language.getIgnoredCharactersRegex();
+    
+    final Map<Integer, String> ignoredCharsTokens = new HashMap<>();
+    if( ignoredCharacterRegex == null )
+      return ignoredCharsTokens;
+    
     for (int i = 0; i < tokens.size(); i++) {
-      if (tokens.get(i).indexOf('\u00ad') != -1) {
-        softHyphenTokens.put(i, tokens.get(i));
-        tokens.set(i, tokens.get(i).replaceAll("\u00ad", ""));
+      if ( ignoredCharacterRegex.matcher(tokens.get(i)).find() ) {
+        ignoredCharsTokens.put(i, tokens.get(i));
+        tokens.set(i, ignoredCharacterRegex.matcher(tokens.get(i)).replaceAll(""));
       }
     }
-    return softHyphenTokens;
+    return ignoredCharsTokens;
   }
 
   /**

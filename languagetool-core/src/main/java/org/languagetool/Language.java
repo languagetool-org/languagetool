@@ -43,6 +43,7 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Base class for any supported language (English, German, etc). Language classes
@@ -62,6 +63,7 @@ public abstract class Language {
   private final List<String> externalRuleFiles = new ArrayList<>();
 
   private boolean isExternalLanguage = false;
+  private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");
   private List<PatternRule> patternRules;
   
   /**
@@ -714,6 +716,22 @@ public abstract class Language {
 
   private boolean hasCountry() {
     return getCountries().length == 1;
+  }
+
+  /**
+   * @return Return compiled regular expression to ignore inside tokens
+   */
+  public Pattern getIgnoredCharactersRegex() {
+    return ignoredCharactersRegex;
+  }
+
+  /**
+   * Sets the regular expression (usually set of chars) to ignore inside tokens 
+   * By default only soft hyphen (\u00AD) is ignored
+   * @since 2.9
+   */
+  public void setIgnoredCharactersRegex(String ignoredCharactersRegex) {
+    this.ignoredCharactersRegex = Pattern.compile(ignoredCharactersRegex);
   }
 
 }
