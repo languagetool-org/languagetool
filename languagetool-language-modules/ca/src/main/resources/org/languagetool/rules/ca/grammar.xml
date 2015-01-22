@@ -31487,6 +31487,23 @@ $Id$
         </rule>
     </category>
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="FARRAGOS" name="farragós">
+            <pattern>
+                <token inflected="yes">farragós</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">confús</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">enrevessat</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">embullar</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">carregós</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">pesat</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">feixuc</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">embolicar</match></suggestion>
+            <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="V.P..$2$1.">complicar</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">desmanegat</match></suggestion>
+            <short>Lleguatge col·loquial</short>
+            <example correction="confusa|enrevessada|embullada|carregosa|pesada|feixuga|embolicada|complicada|desmanegada">Una prosa <marker>farragosa</marker>!</example>
+        </rule>
         <rule id="DESCEREBRAT" name="descerebrat">
             <pattern>
                 <token inflected="yes">descerebrat</token>
