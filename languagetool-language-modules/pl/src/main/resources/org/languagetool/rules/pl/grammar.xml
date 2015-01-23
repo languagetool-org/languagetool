@@ -9413,6 +9413,30 @@ $Id$
 				</rule>
 		</category>
 		<category name="Wyrazy modne i nadużywane" type="style">
+                <rulegroup id="VS" name="„vs” (kontra)">
+                 <rule>
+                    <pattern>
+                        <token>vs</token>
+                        <token>.</token>
+                    </pattern>
+                    <message>Zbędna kalka z angielskiego. Po polsku funkcjonuje już inny przyimek o tym samym znaczeniu, też zapożyczony z łaciny: <suggestion>kontra</suggestion>.</message>
+                    <short>Kalka z angielskiego</short>
+                    <example>Mickiewicz kontra Słowacki</example>
+                    <example correction="kontra">Mickiewicz <marker>vs.</marker> Słowacki</example>
+                </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                            <token>vs</token>
+                            </marker>
+                            <token><exception>.</exception></token>
+                        </pattern>
+                        <message>Zbędna kalka z angielskiego. Po polsku funkcjonuje już inny przyimek o tym samym znaczeniu, też zapożyczony z łaciny: <suggestion>kontra</suggestion>.</message>
+                        <short>Kalka z angielskiego</short>
+                        <example>Mickiewicz kontra Słowacki</example>
+                        <example correction="kontra">Mickiewicz <marker>vs</marker> Słowacki</example>
+                    </rule>
+                </rulegroup>
                 <rule id="DESTYNACJA" name="„destynacja” (cel podróży)">
                     <pattern>
                         <marker><token inflected="yes">destynacja</token></marker>
