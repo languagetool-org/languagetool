@@ -18475,7 +18475,7 @@ $Id$
     <category name="Z) Errors de tipografia i puntuació" type="typographical">
         <rule id="EVITA_APOSTROF_DECIMALS" name="Evita l'apòstrof per a indicar nombres decimals">
             <pattern>
-                <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+</token>
+                <token regexp="yes">\d+|\d{1,3}([\. &#8239;&#160;]\d\d\d)+<exception scope="previous" regexp="yes">.*[º°]</exception></token>
                 <token spacebefore="no" regexp="yes">['`’‘]</token>
                 <token spacebefore="no" regexp="yes">\d+</token>
             </pattern>
@@ -18486,6 +18486,7 @@ $Id$
             <example correction="1.999.349,5"><marker>1.999.349'5</marker></example>
             <example correction="1 999 349,5"><marker>1 999 349'5</marker></example>
             <example>1.23'2</example>
+            <example>41° 22'44.</example>
         </rule>
         <rulegroup id="AC_DC" name="format preferible: aC, dC">
             <url>http://esadir.cat/convencions/tipografia/abreviacions/llistaabreviacions</url>
