@@ -63,6 +63,7 @@ $Id$
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
     <!ENTITY context_TAXA "a?baixar|acceleració|acceptació|alcohol.*|anual|a?pujar|atur|augment|augmentar|bit|canvi|consum|convergència|conversió|creixement|dada|defunció|descomptar|descompte|desocupació|disminució|disminuir|duana|fecunditat|flux|impost|incidència|índex|interès|IPC|mensual|migració|mortalitat|mutació|natalitat|nupcialitat|reacció|recuperació|rendiment|renovació|reposició|retorn|supervivència|transferència|vacant|velocitat">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
+    <!ENTITY llibres_biblia "Gn|Ex|Lv|Nm|Dt|Jos|Jt|Rt|1Sa|2Sa|1Re|2Re|1Cr|2Cr|Esd|Ne|Est|Jb|Sl|Pr|Coh|Ct|Is|Jr|Lm|Ez|Dn|Os|Jl|Am|Ab|Jon|Mi|Na|Ha|So|Ag|Za|Ml|Mt|Mc|Lc|Jn|Ac|Rm|1Co|2Co|Ga|Ef|Fl|Col|1Te|2Te|1Tm|2Tm|Tt|Flm|He|Jm|1Pe|2Pe|1Jn|2Jn|3Jn|Jud|Ap|Estgr|Jdt|Tb|1Ma|2Ma|Sv|Sir|Ba|EpJr|Dngr|Dngr3|Dngr13|Dngr14|Man|3Esr|4Esr|Sl151|Lao|SIH">
 ]>
 
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
@@ -17851,13 +17852,13 @@ $Id$
                     <token spacebefore="no">.<exception postag="SENT_END"/></token>
                 </marker>
             </antipattern>
-  <!--           <antipattern> 2.1)
+            <antipattern> <!-- Enumeració a principi de frase -->
                 <marker>
                     <token postag="SENT_START"/>
                     <token regexp="yes">\d+\.\d+</token>
-                    <token spacebefore="no">)</token>
+                    <token spacebefore="no" regexp="yes">\)|\.</token>
                 </marker>
-            </antipattern> -->
+            </antipattern>
             <antipattern> <!-- hores -->
                 <marker>
                     <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
@@ -17876,7 +17877,7 @@ $Id$
                     <token regexp="yes">([01]?[0-9]|2[0-4])\.\d{2}</token>
                 </marker>
             </antipattern>
-            <antipattern> <!-- taules -->
+            <antipattern> <!-- taules, etc  -->
                 <marker>
                     <token inflected="yes" regexp="yes">resolució|decret|llei|secció|capítol|apartat|partida|taula|imatge|fotografia|gràfica?|foto|mapa|punt|article|veure|figura</token>
                     <token regexp="yes">\d+\.\d+</token>
@@ -17892,17 +17893,23 @@ $Id$
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§</token>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf</token>
                     <token min="0">.</token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
             <antipattern>
                 <marker>
-                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§</token>
+                    <token regexp="yes">arts?|fig|caps?|ap|s|v|veg|§|cf</token>
                     <token min="0">.</token>
                     <token regexp="yes">\d+\.\d+</token>
                     <token regexp="yes">i|o|,</token>
+                    <token regexp="yes">\d+\.\d+</token>
+                </marker>
+            </antipattern>
+            <antipattern> <!--  llibres de la Bíblia -->
+                <marker>
+                    <token regexp="yes" skip="4">&llibres_biblia;</token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
@@ -17919,6 +17926,8 @@ $Id$
                 <example>1.231</example>
                 <example>1.231.437</example>
                 <example>Les taules 5.7 i 5.8.</example>
+                <example>Is 3,1-5.9 és Isaïes, capítol 3, del verset 1 al 5 i verset 9.</example>
+                <example>1.0. Introducció.</example>
                 <example>A les 5.40 de la matinada.</example>
                 <example>Hi arribaren a les 17.40 h.</example>
                 <example>Hi arribaren a les 17.40h.</example>
@@ -17933,7 +17942,6 @@ $Id$
                 <message>Per a separar els decimals, useu una coma.</message>
                 <suggestion><match no="1" regexp_match="(.+),(...)\.(.+)" regexp_replace="$1.$2,$3"/></suggestion>
                 <example correction="9.349,5"><marker>9,349.5</marker></example>
-                <example>Gn 4,9.27 – Gènesi, capítol 4, versets 9 i 27</example>
             </rule>
             <rule>
                 <pattern>
