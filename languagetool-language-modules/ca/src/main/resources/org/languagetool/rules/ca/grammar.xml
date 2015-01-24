@@ -18555,6 +18555,35 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">[º°]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Símbols incorrectes de graus, minuts i segons.</message>
+                <suggestion><match no="1"/>°&#8239;<match no="3"/>′&#8239;<match no="5"/>″</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="25°&#8239;29,1′&#8239;49″"><marker>25 º 29,1' 49"</marker>.</example>
+                <example correction="25°&#8239;29′&#8239;49″"><marker>25 º 29' 49'</marker>.</example>
+                <example>25° 29′ 34″</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">[º°]</token>
+                    <token regexp="yes">[\d., ]+</token>
+                    <token regexp="yes">["'′`]</token>
+                </pattern>
+                <message>Símbols incorrectes de graus i minuts.</message>
+                <suggestion><match no="1"/>°&#8239;<match no="3"/>′</suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="25°&#8239;29′"><marker>25 º 29'</marker>.</example>
+                <example>25° 29′</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">[\d., ]+[º°][\d., ]+</token>
                     <token regexp="yes">["'′`]</token>
                     <token regexp="yes">[\d., ]+</token>
