@@ -3852,7 +3852,23 @@ $Id$
                 <example>манкировать своими обязанностями</example>
                 <example correction="манкировать своими обязанностями"><marker>манкировать свои обязанности</marker></example>
             </rule>
+        </rulegroup>
+        <rulegroup default="on" id="reczenzija_na" name="Словосочетание «рецензия о»">
+            <rule>
+                <pattern>
+                    <token inflected="yes">рецензия</token>
+                    <token>о</token>
+                    <token postag="NN:.*:P" postag_regexp="yes"></token>
+                </pattern>
+                <message>Рецензия пишется на какое-либо произведение: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):P" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion>.</message>
+                <short>Требуется предлог «на»</short>
+                <example>рецензия на произведение</example>
+                <example correction="рецензия на произведение|рецензия на произведенье"><marker>рецензия о произведении</marker></example>
+            </rule>
+            
         </rulegroup>        
+                
+                                
         <rulegroup default="on" id="pretenzia_na" name="Словосочетание «претензия на»">
             <rule>
                 <pattern>
