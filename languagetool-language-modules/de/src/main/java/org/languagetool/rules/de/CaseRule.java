@@ -526,6 +526,10 @@ public class CaseRule extends GermanRule {
             // avoid false alarm for "Ihr sollt mich das wissen lassen."
             continue;
           }
+          if (tokens[i + 1].isSentenceEnd()) {
+            // avoid false alarm for "So sollte das funktionieren." (might also remove true alarms...)
+            continue;
+          }
         }
         potentiallyAddLowercaseMatch(ruleMatches, tokens[i], prevTokenIsDas, token, nextTokenIsPersonalPronoun);
       }
