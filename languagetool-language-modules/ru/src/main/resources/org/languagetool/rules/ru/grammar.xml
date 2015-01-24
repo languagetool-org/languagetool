@@ -260,7 +260,20 @@ $Id$
                 <example correction="большая часть"><marker>большая половина</marker></example>
                 <example>меньшая часть</example>
             </rule>
-        </rulegroup>  
+        </rulegroup>
+           <rulegroup id="SPUSKATSJA_VNIZ" name="Словосочетание «спускаться вниз»">
+            <rule> 
+                <pattern>
+                    <token regexp="yes" inflected="yes" >спускаться|подниматься</token>
+                    <token regexp="yes" >вниз|вверх</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>\1</suggestion>?</message>
+          
+                <short>Логическая ошибка.</short>
+                <example correction="спускался">Он <marker>спускался вниз</marker> по лестнице.</example>
+                <example>Он спускался по лестнице.</example>
+            </rule>
+        </rulegroup>    
         <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Словосочетание «прогноз на будущее»">
             <rule> 
                 <pattern>
@@ -1865,6 +1878,29 @@ $Id$
             <example>более интересный</example>
             <example>умнее</example>
         </rule>
+        
+        <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
+            <pattern>
+                <token inflected="yes">скучать</token>
+                <token>за</token>
+            </pattern>
+            <message>Скорей всего требуется предлог «о» или «по».</message>         
+            <short>Нужен предлог «о» или «по».</short>
+            <example correction=""><marker>Скучаю за</marker> другом.</example>
+            <example>Скучаю по другу.</example>
+        </rule>
+        
+         <rule id="oplachivat_prep" name="Грамматические ошибки «оплачивать за ... »">
+            <pattern>
+                <token inflected="yes" regexp="yes">оплатить|оплачивать</token>
+                <token postag="PREP"></token>
+            </pattern>
+            <message>Предлог не нужен.</message>         
+            <short>Предлог не нужен.</short>
+            <example correction=""><marker>Оплатить за</marker> проезд.</example>
+            <example>Оплачивать проезд.</example>
+        </rule>
+        
          <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
            <rule>
              <pattern>
