@@ -1901,6 +1901,28 @@ $Id$
             <example>Оплачивать проезд.</example>
         </rule>
         
+         <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
+           <rule>
+             <pattern>
+                <token inflected="yes" regexp="yes">ругать</token>
+                <token postag="PREP"></token>
+            </pattern>
+            <message>Предлог не нужен.</message>         
+            <short>Предлог не нужен.</short>
+            <example correction="">Тренер <marker>ругал на</marker> футболиста.</example>
+            <example>Тренер ругал футболиста.</example>
+          </rule>
+          <rule>
+             <pattern>
+                <token inflected="yes" regexp="yes">ругаться</token>
+                <token>на</token>
+            </pattern>
+            <message>В данном контексте предлог «на» недопустим. Возможная замена - предлог «с/со».</message>         
+            <short>Требуется предлог «с/со».</short>
+            <example correction="">Тренер <marker>ругался на</marker> футболиста.</example>
+            <example>Тренер ругался с футболистом.</example>
+          </rule>
+        </rulegroup>
          <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
            <rule>
              <pattern>
@@ -1956,7 +1978,17 @@ $Id$
             <example>Благодаря своевременному предупреждению мы избежали неприятностей.</example>
             <example>Благодаря предупреждению мы избежали неприятностей.</example>
         </rule>  
-        
+         <rule id="grammar_soobrazno_dat" name="«Сообразно» + дательный падеж">
+            <pattern>
+                <token>сообразно</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:R"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Требуется дательный падеж: <suggestion><match no="1"/> <match no="2" postag_regexp="yes" postag="NN:(.*):(.*):R" postag_replace="NN:($1):($2):D" /></suggestion>.</message>
+            
+            <short>Дательный падеж.</short>
+            <example correction="сообразно взглядам">Он ведёт себя <marker>сообразно взглядов</marker> общества.</example>
+            <example>Он ведёт себя сообразно взглядам.</example>
+        </rule>  
         
         <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
             <rule>
