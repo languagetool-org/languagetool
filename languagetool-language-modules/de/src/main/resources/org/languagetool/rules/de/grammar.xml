@@ -23015,17 +23015,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         -->
-        <rule id="DAS_DASS" name=", das dass (, dass das)">
-            <pattern>
-                <token>,</token>
-                <marker>
-                    <token regexp="yes">der|die|das</token>
-                    <token>dass</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie <suggestion>dass das</suggestion>?</message>
-            <example correction="dass das">Gut, <marker>das dass</marker> heute besser klappt.</example>
-        </rule>
+        <rulegroup id="DAS_DASS" name=", das dass (, dass das)">
+            <url>http://www.das-dass.de</url>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token regexp="yes">der|die|das</token>
+                        <token>dass</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>dass das</suggestion>?</message>
+                <example correction="dass das">Gut, <marker>das dass</marker> heute besser klappt.</example>
+            </rule>
+            <rule default="off">
+                <pattern>
+                    <token><exception case_sensitive="yes" regexp="yes">[A-ZÖÄÜ].+</exception></token><!-- da wir nicht alle Nomen kennen lieber so -->
+                    <token>,</token>
+                    <marker>
+                        <token regexp="yes">das</token>
+                    </marker>
+                    <token>das</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>dass</suggestion>? Wenn hier 'dieses', 'jenes' oder 'welches' stehen könnte, ist 'das' aber korrekt.</message>
+                <example correction="dass">Ich glaube kaum, <marker>das</marker> das reicht.</example>
+                <example type="triggers_error">Es wird ein optisches Gitter vorgeschaltet, <marker>das</marker> das einfallende Licht aufspaltet</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BEI_OHNE_DATIV" name="Grammatik: 'bei/entsprechend' ohne Dativ">
             <rule>
                 <pattern>
