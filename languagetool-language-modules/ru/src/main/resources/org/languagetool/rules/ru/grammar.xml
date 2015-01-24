@@ -124,6 +124,32 @@ $Id$
                 <example>Сдайте тетради на проверку!</example>
             </rule>          
         </rulegroup>
+        <rulegroup id="uroven_uvelichilsja" name="Логические ошибки «уровень повысился/увеличился»">
+            <!-- TODO:   добавить    <token min="0" max="3"></token>  -->          
+            <rule> 
+                <pattern>
+                    <token>уровень</token>
+                    <token></token>
+                    <token>увеличился</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion>\1 \2 повысился</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="Уровень воды повысился"><marker>Уровень воды увеличился</marker>.</example>
+                <example>Уровень воды в озере повысился.</example>
+            </rule>
+             <rule> 
+                <pattern>
+                    <token>уровень</token>
+                    <token></token>
+                    <token>уменьшился</token>
+                </pattern>             
+                <message>Имелось в виду: <suggestion>\1 \2 понизился</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="Уровень воды понизился"><marker>Уровень воды уменьшился</marker>.</example>
+                <example>Уровень воды в озере понизился.</example>
+            </rule>                    
+        </rulegroup>
+        
         <rulegroup id="nе_igraet_nikakogo_znachenija" name="Логические ошибки «не играет никакой роли/не играет никакого значения»">
             <rule> 
                 <pattern>
@@ -1827,18 +1853,61 @@ $Id$
     </category>
     <category name="Грамматика">
         
-        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более интереснее»">
+        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более(менее) интереснее, ...»">
             <pattern>
-                <token>более</token>
+                <token regexp="yes">более|менее</token>
                 <token postag="ADJ_Sup"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception></token>
             </pattern>
-            <message>Грамматическая ошибка: <suggestion>\2</suggestion>.</message>
+            <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="ADJ" postag_replace="ADJ:.*:Nom" /></suggestion>.</message>
             
             <short>Грамматическая ошибка.</short>
-            <example correction="умнее"><marker>более умнее</marker></example>
+            <example correction="более умная|более умное|более умные|более умный"><marker>более умнее</marker></example>
             <example>более интересный</example>
             <example>умнее</example>
-        </rule>          
+        </rule>
+         <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
+           <rule>
+             <pattern>
+                <token inflected="yes">знать</token>
+                <token>цену</token>
+                <token postag_regexp="yes" postag="NN:.*:.*:R"></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" /> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):R" postag_replace="NN:$1:$2:D" /></suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example correction="знал цену слову">Он <marker>знал цену слова</marker>.</example>
+            <example>Он знал цену слову.</example>
+          </rule>
+          <rule>
+             <pattern>
+                <token inflected="yes">знать</token>
+                <token>цену</token>
+                <token postag_regexp="yes" postag="PADJ:.*:.*|ADJ:.*:.*"></token>
+                <token postag_regexp="yes" postag="NN:.*:.*:R"></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" /> <match no="3" /> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):R" postag_replace="NN:$1:$2:D" /></suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example correction="знала цену своей красоте">Она <marker>знала цену своей красоты</marker>.</example>
+            <example>Она знала цену своей красоте.</example>
+          </rule>
+          <!--  возможно много ложных срабатываний из-за двусмысленности фразы
+          <rule>
+             <pattern>
+                <token inflected="yes">знать</token>
+                <token>её</token>               
+                <token>цену</token>
+               
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1" /> ей <match no="3" /></suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example correction="знают ей цену">Они <marker>знают её цену</marker>.</example>
+            <example>Они знают eй цену.</example>
+          </rule>    
+          -->
+        </rulegroup>
+                     
         <rule id="grammar_blagodarja_dat" name="«Благодаря» + дательный падеж">
             <pattern>
                 <token>благодаря</token>
