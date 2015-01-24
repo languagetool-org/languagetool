@@ -119,16 +119,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
-    if ("unzwar".equals(word)) {
+    String w = word.replaceFirst("\\.$", "");
+    if ("unzwar".equals(w)) {
       return Collections.singletonList("und zwar");
-    } else if ("wieviel".equals(word)) {
+    } else if ("wieviel".equals(w)) {
       return Collections.singletonList("wie viel");
-    } else if ("wieviele".equals(word)) {
+    } else if ("wieviele".equals(w)) {
       return Collections.singletonList("wie viele");
-    } else if ("wievielen".equals(word)) {
+    } else if ("wievielen".equals(w)) {
       return Collections.singletonList("wie vielen");
-    } else if ("vorteilen".equals(word)) {
+    } else if ("vorteilen".equals(w)) {
       return Collections.singletonList("Vorteilen");
+    } else if ("Trons".equals(w)) {
+      return Collections.singletonList("Trance");
     }
     return Collections.emptyList();
   }
