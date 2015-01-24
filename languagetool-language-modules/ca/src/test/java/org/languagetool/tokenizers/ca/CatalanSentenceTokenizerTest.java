@@ -71,6 +71,7 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("de Sant Nicolau (del s. XII; cor gòtic del s. XIV) i de Sant ");
     testSplit("Va ser el 5è. classificat.");
     testSplit("Va ser el 5è. ", "I l'altre el 4t.");
+    testSplit("Art. 2.1: Són obligats els...");
 
     // Exception to abbreviations
     testSplit("Ell és el número u. ", "Jo el dos.");
