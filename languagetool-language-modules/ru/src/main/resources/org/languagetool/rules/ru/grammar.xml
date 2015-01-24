@@ -1904,7 +1904,7 @@ $Id$
          <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
            <rule>
              <pattern>
-                <token inflected="yes" regexp="yes">ругать</token>
+                <token inflected="yes">ругать</token>
                 <token postag="PREP"></token>
             </pattern>
             <message>Предлог не нужен.</message>         
@@ -1914,7 +1914,7 @@ $Id$
           </rule>
           <rule>
              <pattern>
-                <token inflected="yes" regexp="yes">ругаться</token>
+                <token inflected="yes" >ругаться</token>
                 <token>на</token>
             </pattern>
             <message>В данном контексте предлог «на» недопустим. Возможная замена - предлог «с/со».</message>         
@@ -1989,7 +1989,17 @@ $Id$
             <example correction="сообразно взглядам">Он ведёт себя <marker>сообразно взглядов</marker> общества.</example>
             <example>Он ведёт себя сообразно взглядам.</example>
         </rule>  
-        
+        <rule id="grammar_v_sootvetstvii" name="«В соответствии с» ">
+            <pattern>
+                <token>в</token>
+                <token>соответствии</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:D"><exception  postag="NN:.*:.*:T" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> с <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):D" postag_replace="NN:($1):($2):T" /></suggestion>.</message>     
+            <short>Грамматическая ошибка.</short>
+            <example correction="в соответствии с графиком">Отпуск предоставляется <marker>в соответствии графику</marker>.</example>
+            <example>Отпуск предоставляется в соответствии с графиком.</example>
+        </rule>  
         <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
             <rule>
                 <pattern>
