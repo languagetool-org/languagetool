@@ -80,6 +80,7 @@ public class CaseRule extends GermanRule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final Set<String> exceptions = new HashSet<>(Arrays.asList(
+    "Äußeres",
     "Abseits",
     "Beschäftigter",
     "Beschäftigte",
