@@ -361,8 +361,8 @@ $Id$
                                     <token>jest</token>
                                 </antipattern>
 								<pattern>
-										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać|dość|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"></exception></token>
-										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception scope="current">może</exception></token>
+										<token postag="pred" skip="-1"><exception postag="subst:.*|adj.*|ppron.*|verb:inf.*|verb:bedzie.*|adv:.*|prep.*|qub|conj|comp|&lt;/TO_(ZNACZY|JEST)&gt;" postag_regexp="yes" scope="current"></exception><exception scope="current" regexp="yes">może|widać|dość|wolno</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+										<token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
 										<token regexp="yes">&interp_conj;</token>
 								</pattern>
 								<message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
@@ -382,6 +382,27 @@ $Id$
                                 <example>Nie sposób jest być eleganckim.</example>
                                 <example>Nawet z postawy jego żołnierzy nie można tego było wywnioskować.</example>
 						</rule>
+                        <rule>              <!-- jak/co widać na początku zdania -->
+                            <antipattern>
+                                <token>widać</token>
+                                <token min="0" max="3" postag="siebie|qub|ppron.*|prep.*|adv|comp|conj|subst.*|adj.*" postag_regexp="yes"><exception postag="comp:comma"/></token>
+                                <marker>
+                                    <token regexp="yes">było(?:by)?</token>
+                                </marker>
+                            </antipattern>
+                            <pattern>
+                                <token regexp="yes">co|jak</token>
+                                <marker>
+                                    <token skip="-1">widać<exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/></token>
+                                    <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"/><exception scope="current">może</exception></token>
+                                    <token regexp="yes">&interp_conj;</token>
+                                </marker>
+                            </pattern>
+                            <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
+                            <short>Błąd interpunkcyjny</short>
+                            <example correction="">Jak <marker>widać istnieje wiele innych wyjaśnień tego zjawiska.</marker></example>
+                            <example>— Mój przyjacielu — odparł — ty widać nie wiesz, co to rozrywka na tym świecie.</example>
+                        </rule>
                         <rule>
                               <pattern>                   
                                 <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception>widać</exception></token>
@@ -397,6 +418,19 @@ $Id$
                               <example correction="">Teorię, która <marker>opisywałoby wszystkie jego własności można znaleźć tylko w podręcznikach.</marker></example>
                               <example>Śniło się widać biedakowi, że trzymał w ręku wielkoluda Pandafilando.</example>
                               <example>Rad nierad poszedłem do szkoły.</example>
+                        </rule>
+                        <rule>
+                            <pattern>
+                                <token postag="pred|verb:.*(sg|pl).*|verb:imps.*|pcon:imperf.*|pant:perf.*" postag_regexp="yes" skip="-1"><exception postag="subst:.*|adj.[\.:][mn\.:].*|ppron.*|verb:inf.*|verb:bedzie.*|adv:com|prep.*|qub|conj|comp" postag_regexp="yes" scope="current"></exception><exception regexp="yes" scope="current">może|było|byłoby</exception><exception postag="SENT_END|&lt;ELLIPSIS&gt;|interp:comma|comp:comma" postag_regexp="yes" scope="next"/><exception>widać</exception></token>
+                                <marker>
+                                    <token regexp="yes">co|jak</token>
+                                </marker>
+                                <token>widać</token>
+                            </pattern>
+                            <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”). Prawdopodobnie powinno być: <suggestion>, \2</suggestion>.</message>
+                            <short>Błąd interpunkcyjny</short>
+                            <example>Trzeba kupić wino, można narwać owoców w ogrodzie.</example>
+                            <example correction=", co">Istnieje wiele innych wyjaśnień<marker> co</marker> widać na przykładzie.</example>
                         </rule>
 						<rule>
                             <antipattern> <!-- będzie ... dokonywał -->
