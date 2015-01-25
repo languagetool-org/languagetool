@@ -1912,7 +1912,7 @@ $Id$
         <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более(менее) интереснее, ...»">
             <pattern>
                 <token regexp="yes">более|менее</token>
-                <token postag="ADJ_Sup"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception></token>
+                <token postag="ADJ_Sup"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception>уже</exception></token>
             </pattern>
             <message>Грамматическая ошибка: <suggestion><match no="1" /> <match no="2" postag_regexp="yes" postag="ADJ" postag_replace="ADJ:.*:Nom" /></suggestion>.</message>
             
@@ -2032,6 +2032,7 @@ $Id$
             <example correction="сообразно взглядам">Он ведёт себя <marker>сообразно взглядов</marker> общества.</example>
             <example>Он ведёт себя сообразно взглядам.</example>
         </rule>  
+        
         <rule id="grammar_v_sootvetstvii" name="«В соответствии с» ">
             <pattern>
                 <token>в</token>
@@ -2042,7 +2043,33 @@ $Id$
             <short>Грамматическая ошибка.</short>
             <example correction="в соответствии с графиком">Отпуск предоставляется <marker>в соответствии графику</marker>.</example>
             <example>Отпуск предоставляется в соответствии с графиком.</example>
-        </rule>  
+        </rule> 
+        
+         <rulegroup id="toska_toskovat" name="«Тоска/тосковать + ...» ">
+           <rule>    
+            <pattern>
+                <token inflected="yes">тоска</token>
+                <token>по</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:P"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):P" postag_replace="NN:$1:$2:D" /></suggestion>.</message>     
+            <short>Грамматическая ошибка.</short>
+            <example correction="Тоска по дому"><marker>Тоска по доме</marker>.</example>
+            <example>Тоска по дому.</example>
+           </rule>
+           <rule>    
+            <pattern>
+                <token inflected="yes">тосковать</token>
+                <token>по</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:P"><exception  postag="NN:.*:.*:D" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):P" postag_replace="NN:$1:$2:D" /></suggestion>.</message>     
+            <short>Грамматическая ошибка.</short>
+            <example correction="Тосковать по дому"><marker>Тосковать по доме</marker>.</example>
+            <example>Тосковать по дому.</example>
+           </rule>
+        </rulegroup>
+           
         <rulegroup default="on" id="SoglasovanieP" name="Согласование падежей">
             <rule>
                 <pattern>
