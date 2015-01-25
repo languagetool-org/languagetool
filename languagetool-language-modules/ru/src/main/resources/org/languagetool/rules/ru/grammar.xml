@@ -1961,10 +1961,22 @@ $Id$
                 <token inflected="yes" >ругаться</token>
                 <token>на</token>
             </pattern>
-            <message>В данном контексте предлог «на» недопустим. Возможная замена - предлог «с/со».</message>         
+            <message>В данном контексте предлог «на» недопустим. Возможная замена - использовать предлог «с/со» или глагол «ругать» без предлога.</message>         
             <short>Требуется предлог «с/со».</short>
             <example correction="">Тренер <marker>ругался на</marker> футболиста.</example>
             <example>Тренер ругался с футболистом.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="udivlyatsja_na" name="Грамматические ошибки «удивляться на ...»">
+          <rule>
+             <pattern>
+                <token inflected="yes" >удивляться</token>
+                <token>на</token>
+            </pattern>
+            <message>В данном контексте предлог «на» недопустим.</message>         
+            <short>Предлог не нужен.</short>
+            <example correction="">Я <marker>удивляюсь на</marker> тебя.</example>
+            <example>Я тебе удивляюсь.</example>
           </rule>
         </rulegroup>
          <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
@@ -4058,7 +4070,29 @@ $Id$
                 <example>Диктор комментирует это событие.</example>
                 <example correction="">диктор <marker>комментирует об</marker> этом событии.</example>
             </rule>
-        </rulegroup>        
+        </rulegroup>   
+        <rulegroup default="on" id="ugasno_krasivij" name="Словосочетание «ужаснр красивый»">
+            <rule>
+                <pattern>
+                    <token>ужасно</token>
+                    <token inflected="yes">хороший</token>
+                </pattern>
+                <message>Слово ужасно не может употребляться со словами, имеющими положительную окраску: <suggestion>очень \2</suggestion>.</message>
+                <short>Грамматическая ошибка.</short>
+                <example>Она очень хороша.</example>
+                <example correction="очень хороша">Она <marker>ужасно хороша</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ужасно</token>
+                    <token inflected="yes">красивый</token>
+                </pattern>
+                <message>Слово ужасно не может употребляться со словами, имеющими положительную окраску: <suggestion>очень \2</suggestion>.</message>
+                <short>Грамматическая ошибка.</short>
+                <example>Она очень красива.</example>
+                <example correction="очень красива">Она <marker>ужасно красива</marker>.</example>
+            </rule>
+        </rulegroup>      
         <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать+существительное»">
             <rule>
                 <pattern>
