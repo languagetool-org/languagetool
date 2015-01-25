@@ -4058,7 +4058,20 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-   
+       <rulegroup default="on" id="noun_genitive_3" name="Более 3 существительных в родительном падеже подряд.">
+            <rule>
+                <pattern>
+                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
+                    <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
+                </pattern>
+                <message>Более 3 существительных в родительном падеже подряд. Перефразируйте предложение.</message>
+                <short>Перефразируйте предложение.</short>
+                <example>Кнопка выбора пути файла для сохранения цвета фона.</example>
+                <example correction="">Кнопка <marker>выбора файла сохранения цвета</marker>.</example>
+            </rule>
+        </rulegroup>   
        <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать+предлог»">
             <rule>
                 <pattern>
