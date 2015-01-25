@@ -17909,7 +17909,8 @@ $Id$
             </antipattern>
             <antipattern> <!--  llibres de la Bíblia -->
                 <marker>
-                    <token regexp="yes" skip="4">&llibres_biblia;</token>
+                    <token regexp="yes">(?-i)&llibres_biblia;</token>
+                    <token min="0" max="4" regexp="yes">[\d.,-]+<exception regexp="yes">\d+\.\d+</exception></token>
                     <token regexp="yes">\d+\.\d+</token>
                 </marker>
             </antipattern>
