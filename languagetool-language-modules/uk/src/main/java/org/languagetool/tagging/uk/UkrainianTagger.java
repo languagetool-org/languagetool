@@ -52,6 +52,7 @@ import org.languagetool.tagging.WordTagger;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+  private static final String DEBUG_COMPOUNDS_PROPERTY = "org.languagetool.tagging.uk.UkrainianTagger.debugCompounds";
   private static final String TAG_ANIM = ":anim";
   private static final String VERB_TAG_FOR_REV_IMPR = IPOSTag.verb.getText()+":rev:impr";
   private static final String VERB_TAG_FOR_IMPR = IPOSTag.verb.getText()+":impr";
@@ -69,6 +70,7 @@ public class UkrainianTagger extends BaseTagger {
 
   public static final Map<String, String> VIDMINKY_MAP;
   private static final Map<String, List<String>> NUMR_ENDING_MAP;
+  private BufferedWriter compoundDebugWriter; 
 
   static {
     Map<String, String> map = new LinkedHashMap<>();
@@ -124,15 +126,17 @@ public class UkrainianTagger extends BaseTagger {
     setLocale(new Locale("uk", "UA"));
     dontTagLowercaseWithUppercase();
     
-    debugCompounds();
+    if( Boolean.valueOf( System.getProperty(DEBUG_COMPOUNDS_PROPERTY) ) ) {
+      debugCompounds();
+    }
   }
-  private BufferedWriter writer; 
+
   private void debugCompounds() {
     Path newFile = Paths.get("compounds-unknown.txt");
     try {
        Files.deleteIfExists(newFile);
        newFile = Files.createFile(newFile);
-       writer = Files.newBufferedWriter(newFile, Charset.defaultCharset());
+       compoundDebugWriter = Files.newBufferedWriter(newFile, Charset.defaultCharset());
      } catch (IOException ex) {
        throw new RuntimeException(ex);
      }
@@ -293,10 +297,13 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private void debug_compound_write(String word) {
+    if( compoundDebugWriter == null )
+      return;
+    
     try {
-      writer.append(word);
-      writer.newLine();
-      writer.flush();
+      compoundDebugWriter.append(word);
+      compoundDebugWriter.newLine();
+      compoundDebugWriter.flush();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
