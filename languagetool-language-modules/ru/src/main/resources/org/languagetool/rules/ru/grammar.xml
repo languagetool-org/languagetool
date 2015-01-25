@@ -124,6 +124,22 @@ $Id$
                 <example>Сдайте тетради на проверку!</example>
             </rule>          
         </rulegroup>
+        
+	<rulegroup id="obschie_toscki_soprikosnovenija" name="Логические ошибки «общие точки соприкосновения»">
+            <rule> 
+                <pattern>
+                    <token inflected="yes">общий</token>
+                    <token inflected="yes">точка</token>
+                    <token>соприкосновения</token>
+                </pattern>               
+                <message>Избыточность: <suggestion>\2 \3</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="точки соприкосновения">Они нашли <marker>общие точки соприкосновения</marker>.</example>
+                <example>Они нашли  точки соприкосновения.</example>
+            </rule>          
+        </rulegroup>
+        
+        
         <rulegroup id="uroven_uvelichilsja" name="Логические ошибки «уровень повысился/увеличился»">
             <!-- TODO:   добавить    <token min="0" max="3"></token>  -->          
             <rule> 
@@ -149,6 +165,33 @@ $Id$
                 <example>Уровень воды в озере понизился.</example>
             </rule>                    
         </rulegroup>
+        
+        
+        <rulegroup id="urovnjat_uravnjat" name="Логические ошибки «уровнять/уравнять»">
+            <!-- TODO:  добавить inflected  -->          
+            <rule> 
+                <pattern>
+                   <token>уравнять</token>
+                   <token regexp="yes">грядку|дорогу|землю</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion>уровнять \2</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="уровнять дорогу"><marker>уравнять дорогу</marker></example>
+                <example>уровнять дорогу</example>
+            </rule>
+              <rule> 
+                <pattern>
+                   <token>уровнять</token>
+                   <token>в</token>
+                   <token regexp="yes">весе|правах</token>
+                </pattern>
+                <message>Имелось в виду: <suggestion>уравнять \2 \3</suggestion>?</message>
+                <short>Логическая ошибка.</short>
+                <example correction="уравнять в правах"><marker>уровнять в правах</marker></example>
+                <example>уравнять в правах</example>
+            </rule>                     
+        </rulegroup>
+        
         
         <rulegroup id="nе_igraet_nikakogo_znachenija" name="Логические ошибки «не играет никакой роли/не играет никакого значения»">
             <rule> 
