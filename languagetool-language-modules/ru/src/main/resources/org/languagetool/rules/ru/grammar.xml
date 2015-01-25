@@ -168,24 +168,24 @@ $Id$
         
         
         <rulegroup id="urovnjat_uravnjat" name="Логические ошибки «уровнять/уравнять»">
-            <!-- TODO:  добавить inflected  -->          
+                
             <rule> 
                 <pattern>
-                   <token>уравнять</token>
+                   <token inflected="yes">уравнять</token>
                    <token regexp="yes">грядку|дорогу|землю</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion>уровнять \2</suggestion>?</message>
+                <message>Имелось в виду: <suggestion><match no="1" regexp_match="(.*)(вня)(.*)" regexp_replace="уро$2$3" /> <match no="2" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="уровнять дорогу"><marker>уравнять дорогу</marker></example>
                 <example>уровнять дорогу</example>
             </rule>
               <rule> 
                 <pattern>
-                   <token>уровнять</token>
+                   <token inflected="yes" >уровнять</token>
                    <token>в</token>
-                   <token regexp="yes">весе|правах</token>
+                   <token regexp="yes" >весе|правах</token>
                 </pattern>
-                <message>Имелось в виду: <suggestion>уравнять \2 \3</suggestion>?</message>
+                <message>Имелось в виду: <suggestion><match no="1" regexp_match="(.*)(вня)(.*)" regexp_replace="ура$2$3" /> <match no="2" /> <match no="3" /></suggestion>?</message>
                 <short>Логическая ошибка.</short>
                 <example correction="уравнять в правах"><marker>уровнять в правах</marker></example>
                 <example>уравнять в правах</example>
@@ -1935,13 +1935,14 @@ $Id$
         
          <rule id="oplachivat_prep" name="Грамматические ошибки «оплачивать за ... »">
             <pattern>
-                <token inflected="yes" regexp="yes">оплатить|оплачивать</token>
+                <token inflected="yes" regexp="yes">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
                 <token postag="PREP"></token>
             </pattern>
             <message>Предлог не нужен.</message>         
             <short>Предлог не нужен.</short>
             <example correction=""><marker>Оплатить за</marker> проезд.</example>
             <example>Оплачивать проезд.</example>
+            <example>Счёт должен быть оплачен к первому числу следующего месяца.</example>           
         </rule>
         
          <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
@@ -2043,6 +2044,17 @@ $Id$
             <short>Грамматическая ошибка.</short>
             <example correction="в соответствии с графиком">Отпуск предоставляется <marker>в соответствии графику</marker>.</example>
             <example>Отпуск предоставляется в соответствии с графиком.</example>
+        </rule> 
+        <rule id="grammar_uverennost_v" name="«Уверенность в ...» ">
+            <pattern>
+                <token>уверенность</token>
+                <token>в</token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:V"><exception  postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):V" postag_replace="NN:($1):($2):P" /></suggestion>.</message>     
+            <short>Грамматическая ошибка.</short>
+            <example correction="уверенность в силах"><marker>уверенность в силы</marker>.</example>
+            <example>уверенность в силах</example>
         </rule> 
         
          <rulegroup id="toska_toskovat" name="«Тоска/тосковать + ...» ">
