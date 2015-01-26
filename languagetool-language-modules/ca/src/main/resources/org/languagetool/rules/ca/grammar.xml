@@ -20211,15 +20211,15 @@ $Id$
                 </marker>
             </pattern>
             <message>Expressió incorrecta</message>
-            <suggestion><match no="1"/> nerviós com una mala cosa</suggestion>
             <suggestion><match no="1"/> molt nerviós</suggestion>
             <suggestion><match no="1"/> fet un sac de nervis</suggestion>
-            <suggestion><match no="1" postag="V.(.*)" postag_regexp="yes" postag_replace="VM$1">tenir</match> els nervis de punta</suggestion>
+            <suggestion><match no="1"/> nerviós com una mala cosa</suggestion>
+            <suggestion><match no="1" postag="V.([SI].*)" postag_regexp="yes" postag_replace="VM$1">tenir</match> els nervis de punta</suggestion>
             <suggestion><match no="1"/> crispat</suggestion>
             <suggestion><match no="1"/> alterat</suggestion>
             <suggestion><match no="1"/> histèric</suggestion>
             <suggestion><match no="1"/> sulfurat</suggestion>
-            <example correction="estava nerviós com una mala cosa|estava molt nerviós|estava fet un sac de nervis|tenia els nervis de punta|estava crispat|estava alterat|estava histèric|estava sulfurat"><marker>estava dels nervis</marker></example>
+            <example correction="estava molt nerviós|estava fet un sac de nervis|estava nerviós com una mala cosa|tenia els nervis de punta|estava crispat|estava alterat|estava histèric|estava sulfurat"><marker>estava dels nervis</marker></example>
             <example>estar molt nerviós</example>
         </rule>
         <rule id="POSAR_DELS_NERVIS" name="estar dels nervis">
@@ -20232,13 +20232,15 @@ $Id$
                 </marker>
             </pattern>
             <message>Expressió incorrecta</message>
-            <suggestion><match no="1"/> nerviós com una mala cosa</suggestion>
+            
             <suggestion><match no="1"/> molt nerviós</suggestion>
             <suggestion><match no="1"/> els nervis de punta</suggestion>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> posar malalt</suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">crispar</match></suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sulfurar</match></suggestion>
             <suggestion><match no="1"/> histèric</suggestion>
-            <example correction="posava nerviós com una mala cosa|posava molt nerviós|posava els nervis de punta|crispava|sulfurava|posava histèric">Em <marker>posava dels nervis</marker>.</example>
+            <example correction="posava molt nerviós|posava els nervis de punta|feia posar malalt|crispava|sulfurava|posava histèric">Em <marker>posava dels nervis</marker>.</example>
+            <example correction="posa molt nerviós|posa els nervis de punta|fa posar malalt|crispa|sulfura|posa histèric">Em <marker>posa dels nervis</marker>.</example>
             <example>Em posava molt nerviós.</example>
         </rule>
         <rule id="AMPLE_DE_BANDA" name="*ample/amplada de banda">
