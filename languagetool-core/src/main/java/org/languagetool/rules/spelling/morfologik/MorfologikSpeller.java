@@ -20,13 +20,11 @@ package org.languagetool.rules.spelling.morfologik;
 
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
-
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.CharacterCodingException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,12 +42,7 @@ public class MorfologikSpeller {
    * @param filename path in classpath to morfologik dictionary
    */
   public MorfologikSpeller(String filename, int maxEditDistance) throws IOException {
-    if (maxEditDistance <= 0) {
-      throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
-    }
-    final URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename);
-    dictionary = Dictionary.read(url);
-    speller = new Speller(dictionary, maxEditDistance);
+    this(Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename)), maxEditDistance);
   }
 
   /**
@@ -58,6 +51,15 @@ public class MorfologikSpeller {
    */
   public MorfologikSpeller(String filename) throws IOException {
     this(filename, 1);
+  }
+
+  /** @since 2.9 */
+  MorfologikSpeller(Dictionary dictionary, int maxEditDistance) {
+    if (maxEditDistance <= 0) {
+      throw new RuntimeException("maxEditDistance must be > 0: " + maxEditDistance);
+    }
+    this.dictionary = dictionary;
+    speller = new Speller(dictionary, maxEditDistance);
   }
 
   public boolean isMisspelled(String word) {

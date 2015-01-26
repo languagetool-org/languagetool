@@ -49,7 +49,9 @@ public class MorfologikSpellerTest {
     MorfologikSpeller spellerDist1 = new MorfologikSpeller("/xx/spelling/test.dict", 1);
     MorfologikSpeller spellerDist2 = new MorfologikSpeller("/xx/spelling/test.dict", 2);
 
+    assertThat(spellerDist1.getSuggestions("wordone").toString(), is("[]"));
     assertThat(spellerDist1.getSuggestions("wordonex").toString(), is("[wordone]"));
+    assertThat(spellerDist2.getSuggestions("wordone").toString(), is("[]"));
     assertThat(spellerDist2.getSuggestions("wordonex").toString(), is("[wordone]"));
 
     assertThat(spellerDist1.getSuggestions("wordonix").toString(), is("[]"));
