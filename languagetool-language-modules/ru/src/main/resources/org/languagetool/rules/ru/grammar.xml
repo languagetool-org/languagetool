@@ -4135,12 +4135,12 @@ $Id$
                 <pattern>
                     <token inflected="yes">рецензия</token>
                     <token>о</token>
-                    <token postag="NN:.*:P" postag_regexp="yes"></token>
+                    <token postag="NN:.*:P" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:P" /></token>
                 </pattern>
                 <message>Рецензия пишется на какое-либо произведение: <suggestion><match no="1"></match> на <match no="3" postag="NN:(.*):(.*):P" postag_regexp="yes" postag_replace="NN:$1:$2:V"></match></suggestion>.</message>
                 <short>Требуется предлог «на»</short>
                 <example>рецензия на произведение</example>
-                <example correction="рецензия на произведение|рецензия на произведенье"><marker>рецензия о произведении</marker></example>
+                <example correction="рецензия на произведение|рецензия на произведенье">Это <marker>рецензия о произведении</marker>.</example>
             </rule>
             
         </rulegroup>        
