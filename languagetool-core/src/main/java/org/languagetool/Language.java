@@ -63,7 +63,7 @@ public abstract class Language {
   private final List<String> externalRuleFiles = new ArrayList<>();
 
   private boolean isExternalLanguage = false;
-  private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");
+  private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   private List<PatternRule> patternRules;
   
   /**
@@ -720,14 +720,15 @@ public abstract class Language {
 
   /**
    * @return Return compiled regular expression to ignore inside tokens
+   * @since 2.9
    */
   public Pattern getIgnoredCharactersRegex() {
     return ignoredCharactersRegex;
   }
 
   /**
-   * Sets the regular expression (usually set of chars) to ignore inside tokens 
-   * By default only soft hyphen (\u00AD) is ignored
+   * Sets the regular expression (usually set of chars) to ignore inside tokens.
+   * By default only soft hyphen ({@code \u00AD}) is ignored.
    * @since 2.9
    */
   public void setIgnoredCharactersRegex(String ignoredCharactersRegex) {
