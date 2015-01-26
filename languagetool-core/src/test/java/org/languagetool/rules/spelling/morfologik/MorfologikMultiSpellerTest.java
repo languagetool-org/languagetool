@@ -21,7 +21,6 @@ package org.languagetool.rules.spelling.morfologik;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -63,12 +62,17 @@ public class MorfologikMultiSpellerTest {
   }
 
   @Test(expected = RuntimeException.class)
+  public void testInvalidFileName() throws IOException {
+    new MorfologikMultiSpeller("/xx/spelling/test.dict.README", "/xx/spelling/test2.txt", 1);
+  }
+
+  @Test(expected = RuntimeException.class)
   public void testInvalidFile() throws IOException {
-    new MorfologikMultiSpeller(Arrays.asList("/xx/spelling/test.dict.README"), 1);
+    new MorfologikMultiSpeller("/xx/spelling/no-such-file", "/xx/spelling/test2.txt", 1);
   }
 
   private MorfologikMultiSpeller getSpeller() throws IOException {
-    return new MorfologikMultiSpeller(Arrays.asList("/xx/spelling/test.dict", "/xx/spelling/test2.txt"), 1);
+    return new MorfologikMultiSpeller("/xx/spelling/test.dict", "/xx/spelling/test2.txt", 1);
   }
 
 }

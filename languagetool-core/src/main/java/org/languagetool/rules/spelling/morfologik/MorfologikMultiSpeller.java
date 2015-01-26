@@ -37,28 +37,45 @@ import java.util.List;
 public class MorfologikMultiSpeller {
 
   private final List<MorfologikSpeller> spellers = new ArrayList<>();
+  private final boolean convertsCase;
 
   /**
-   * @param paths paths in classpath to morfologik dictionaries, each one either a
-   *              plain text {@code .txt} file or a {@code .dict} binary Morfologik file
+   * @param binaryDictPath path in classpath to a {@code .dict} binary Morfologik file
+   * @param plainTextPath path in classpath to a plain text {@code .txt} file (like ignore.txt)
    * @param maxEditDistance maximum edit distance for accepting suggestions
    */
-  public MorfologikMultiSpeller(List<String> paths, int maxEditDistance) throws IOException {
-    for (String path : paths) {
-      MorfologikSpeller speller;
-      if (path.endsWith(".txt")) {
-        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
-          List<byte[]> lines = getLines(br);
-          Dictionary dictionary = getDictionary(lines);
-          speller = new MorfologikSpeller(dictionary, maxEditDistance);
+  public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, int maxEditDistance) throws IOException {
+    MorfologikSpeller speller = getBinaryDict(binaryDictPath, maxEditDistance);
+    spellers.add(speller);
+    convertsCase = speller.convertsCase();
+    String infoFile = binaryDictPath.replace(".dict", ".info");
+    MorfologikSpeller plainTextDict = getPlainTextDictOrNull(plainTextPath, infoFile, maxEditDistance);
+    if (plainTextDict != null) {
+      spellers.add(plainTextDict);
+    }
+  }
+
+  private MorfologikSpeller getBinaryDict(String binaryDictPath, int maxEditDistance) throws IOException {
+    if (binaryDictPath.endsWith(".dict")) {
+      return new MorfologikSpeller(binaryDictPath, maxEditDistance);
+    } else {
+      throw new RuntimeException("Unsupported dictionary, binary Morfologik file needs to have suffix .dict: " + binaryDictPath);
+    }
+  }
+
+  private MorfologikSpeller getPlainTextDictOrNull(String plainTextPath, String infoFile, int maxEditDistance) throws IOException {
+    if (plainTextPath.endsWith(".txt")) {
+      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath);
+      try (BufferedReader br = new BufferedReader(new InputStreamReader(stream, "utf-8"))) {
+        List<byte[]> lines = getLines(br);
+        if (lines.size() == 0) {
+          return null;
         }
-      } else if (path.endsWith(".dict")) {
-        speller = new MorfologikSpeller(path, maxEditDistance);
-      } else {
-        throw new RuntimeException("Unsupported dictionary, file needs to have suffix .txt (plain text) or .dict (binary Morfologik file): " + path);
+        Dictionary dictionary = getDictionary(lines, infoFile);
+        return new MorfologikSpeller(dictionary, maxEditDistance);
       }
-      spellers.add(speller);
+    } else {
+      throw new RuntimeException("Unsupported dictionary, plain text file needs to have suffix .txt: " + plainTextPath);
     }
   }
 
@@ -66,20 +83,19 @@ public class MorfologikMultiSpeller {
     List<byte[]> lines = new ArrayList<>();
     String line;
     while ((line = br.readLine()) != null) {
-      lines.add(line.getBytes("utf-8"));
+      if (!line.startsWith("#")) {
+        lines.add(line.getBytes("utf-8"));
+      }
     }
     return lines;
   }
 
-  private Dictionary getDictionary(List<byte[]> lines) throws IOException {
+  private Dictionary getDictionary(List<byte[]> lines, String infoFile) throws IOException {
     Collections.sort(lines, FSABuilder.LEXICAL_ORDERING);
     FSA fsa = FSABuilder.build(lines);
     ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
     ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
-    String metaData = "fsa.dict.separator=+\n" +
-                      "fsa.dict.encoding=utf-8\n";
-    ByteArrayInputStream metaDataStream = new ByteArrayInputStream(metaData.getBytes("utf-8"));
-    return Dictionary.readAndClose(fsaInStream, metaDataStream);
+    return Dictionary.readAndClose(fsaInStream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(infoFile));
   }
 
   /**
@@ -109,4 +125,14 @@ public class MorfologikMultiSpeller {
     }
     return result;
   }
+
+  /**
+   * Determines whether the dictionary uses case conversions.
+   * @return True when the speller uses spell conversions.
+   * @since 2.5
+   */
+  public boolean convertsCase() {
+    return convertsCase;
+  }
+
 }

@@ -35,8 +35,8 @@ import java.util.regex.Pattern;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   
-  protected MorfologikSpeller speller1;
-  protected MorfologikSpeller speller2;
+  protected MorfologikMultiSpeller speller1;
+  protected MorfologikMultiSpeller speller2;
   protected Locale conversionLocale;
 
   private boolean ignoreTaggedWords = false;
@@ -82,10 +82,22 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     final AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
     //lazy init
     if (speller1 == null) {
+      String binaryDict = null;
+      String plainTextDict = null;
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
-        speller1 = new MorfologikSpeller(getFileName(), 1);
-        speller2 = new MorfologikSpeller(getFileName(), 2);
-        setConvertsCase(speller1.convertsCase());
+        binaryDict = getFileName();
+      }
+      if (JLanguageTool.getDataBroker().resourceExists(getIgnoreFileName())) {
+        plainTextDict = getIgnoreFileName();
+      }
+      if (binaryDict != null) {
+        if (plainTextDict != null) {
+          speller1 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 1);
+          speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 2);
+          setConvertsCase(speller1.convertsCase());
+        } else {
+          throw new RuntimeException("Could not find ignore spell file in path: " + getIgnoreFileName());
+        }
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)
         // when we have the resources:
@@ -134,7 +146,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * @return true if the word is misspelled
    * @since 2.4
    */
-  protected boolean isMisspelled(MorfologikSpeller speller, String word) {
+  protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
     if (!speller.isMisspelled(word)) {
       return false;
     }

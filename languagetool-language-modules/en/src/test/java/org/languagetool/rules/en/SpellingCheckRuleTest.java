@@ -37,6 +37,10 @@ public class SpellingCheckRuleTest extends TestCase {
     final List<RuleMatch> matches2 = langTool.check("This is a real typoh.");
     assertEquals(1, matches2.size());
     assertEquals("MORFOLOGIK_RULE_EN_US", matches2.get(0).getRule().getId());
+
+    final List<RuleMatch> matches3 = langTool.check("This is anArtificialTestWordForLanguageTol.");  // note the typo
+    assertEquals(1, matches3.size());
+    assertEquals("[anArtificialTestWordForLanguageTool]", matches3.get(0).getSuggestedReplacements().toString());
   }
 
 }
