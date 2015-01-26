@@ -76,11 +76,9 @@ public class MorfologikSpeller {
       throw new RuntimeException(e);
     }
     // capitalize suggestions if necessary
-    if (dictionary.metadata.isConvertingCase()
-        && StringTools.startsWithUppercase(word)) {
+    if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
-        String uppercaseFirst = StringTools.uppercaseFirstChar(suggestions
-            .get(i));
+        String uppercaseFirst = StringTools.uppercaseFirstChar(suggestions.get(i));
         // remove capitalized duplicates
         int auxIndex = suggestions.indexOf(uppercaseFirst);
         if (auxIndex > i) {
