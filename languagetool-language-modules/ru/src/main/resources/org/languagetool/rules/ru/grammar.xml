@@ -2061,7 +2061,7 @@ $Id$
             <pattern>
                 <token>уверенность</token>
                 <token>в</token>
-                <token postag_regexp="yes"  postag="NN:.*:.*:V"><exception  postag="NN:.*:.*:P" postag_regexp="yes"></exception></token>
+                <token postag_regexp="yes"  postag="NN:.*:.*:V"><exception  postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception>том</exception></token>
             </pattern>
             <message>Грамматическая ошибка: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):V" postag_replace="NN:($1):($2):P" /></suggestion>.</message>     
             <short>Грамматическая ошибка.</short>
@@ -2555,7 +2555,7 @@ $Id$
             </rule>
         </rulegroup>
         
-                <rulegroup default="on" id="PREP_PNN" name="Правописание предлогов с местоимениями">
+        <rulegroup default="on" id="PREP_PNN" name="Правописание предлогов с местоимениями">
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
@@ -2658,13 +2658,13 @@ $Id$
             </rule>
         </rulegroup>
 
-        <rulegroup default="on" id="Para_NN" name="Числительное пара + существительное">
+        <rulegroup default="on" id="Para_NN" name="Числительное «пара» + существительное">
             <rule>
                 <pattern>
                     <token>пара</token>
                     <token regexp="yes">брюк|колготок|ножниц|ворот|кусачек|тисков|клещей|щипцов</token>
                 </pattern>
-                <message>Числительное пара не употребляется с существительными, существующими только в форме множественного числа: <suggestion>двое <match no="2"></match></suggestion>.</message>
+                <message>Числительное «пара» не употребляется с существительными, существующими только в форме множественного числа: <suggestion>двое <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example>двое брюк</example>
@@ -2672,7 +2672,7 @@ $Id$
             </rule>        
         </rulegroup>
         
-        <rulegroup default="on" id="dva_i_bolee" name="Два и более + существительное">
+        <rulegroup default="on" id="dva_i_bolee" name="«Два и более» + существительное">
             <rule>
                 <pattern>
                     <token regexp="yes">два|три|четыре</token>
@@ -2680,7 +2680,7 @@ $Id$
                     <token>более</token>
                     <token postag="NN:.*:.*:.*" postag_regexp="yes"><exception postag="NN:.*:Sin:R" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>В сочетаниях (два и более + существительное) управляемое существительное ставится в родительном падеже единственного числа: <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):.*:.*" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion>.</message>
+                <message>В сочетаниях «два и более» + существительное управляемое существительное ставится в родительном падеже единственного числа: <suggestion><match no="1"></match> <match no="2"></match> <match no="3"></match> <match no="4" postag="NN:(.*):.*:.*" postag_regexp="yes" postag_replace="NN:$1:Sin:R"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example>В задании может быть два и более варианта.</example>
@@ -2688,13 +2688,13 @@ $Id$
             </rule>
         </rulegroup>
 
-        <rulegroup default="on" id="Oba_obe" name="Числительные оба/обе">
+        <rulegroup default="on" id="Oba_obe" name="Числительные «оба/обе»">
             <rule>
                 <pattern>
                     <token regexp="yes">оба|обоих|обоим|обоими</token>
                     <token postag="NN:Fem:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Числительное оба (обоих, обоим, обоими) употребляется  только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2"></match></suggestion>.</message>
+                <message>Числительное «оба» (обоих, обоим, обоими) употребляется  только с существительными мужского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Fem:$1"></match> <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example>По обеим сторонам.</example>
@@ -2706,7 +2706,7 @@ $Id$
                     <token>обоих</token>
                     <token regexp="yes">ворот|часов</token>
                 </pattern>
-                <message>Числительное оба (обоих) не может употребляется с существительными, имеющими только форму множественного числа: <suggestion>у тех и у других <match no="3"></match></suggestion>.</message>
+                <message>Числительное «оба» (обоих) не может употребляется с существительными, имеющими только форму множественного числа: <suggestion>у тех и у других <match no="3"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example>Стража стояла у тех и у других ворот.</example>
@@ -2719,7 +2719,7 @@ $Id$
                     <token regexp="yes">обе|обеих|обеим|обеими</token>
                     <token postag="NN:Masc:.*" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:.*" postag_regexp="yes"></exception></token>
                 </pattern>
-                <message>Числительное обe (обеих, обеим, обеими) употребляется  только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2"></match></suggestion>.</message>
+                <message>Числительное «обe» (обеих, обеим, обеими) употребляется  только с существительными женского рода: <suggestion><match no="1" postag="Num:.*:(.*)" postag_regexp="yes" postag_replace="Num:Masc:$1"></match> <match no="2"></match></suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D0%B1%D0%B8%D1%80%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5_%D1%87%D0%B8%D1%81%D0%BB%D0%B8%D1%82%D0%B5%D0%BB%D1%8C%D0%BD%D0%BE%D0%B5</url>
                 <short>Грамматическая ошибка.</short>
                 <example>На обоих столах.</example>
@@ -3608,7 +3608,7 @@ $Id$
                 </marker>
            <!--     <token postag="SENT_END"></token>  -->
             </pattern>
-            <message>У местоимений 3 лица в косвенных падежах пишется начальная н, если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
+            <message>У местоимений 3 лица в косвенных падежах пишется начальная «н», если эти местоимения употребляются после предлогов: <suggestion>\1 н\2</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
             <short>Пропущена начальная буква «н»</short>
             <example>Он пошёл к нему.</example>
@@ -3622,7 +3622,7 @@ $Id$
                 <token regexp="yes">без|для|до|от</token>
                 <token >ней</token>
             </pattern>
-            <message>Нормативная форма - неё: <suggestion>\1 неё</suggestion>.</message>
+            <message>Нормативная форма - «неё»: <suggestion>\1 неё</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
             <short>Нормативная форма - неё</short>
             <example>Всё было сделано без неё</example>
@@ -4058,7 +4058,7 @@ $Id$
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-       <rulegroup default="on" id="noun_genitive_3" name="Более 3 существительных в родительном падеже подряд.">
+       <rulegroup default="on" id="noun_genitive_3" name="Более 4 существительных в родительном падеже подряд.">
             <rule>
                 <pattern>
                     <token postag="NN:.*:.*:R" postag_regexp="yes"><exception negate_pos="yes" postag_regexp="yes" postag="NN:.*:.*:R" /></token>
@@ -4067,7 +4067,7 @@ $Id$
                     <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
                     <token postag="NN:.*:.*:R" postag_regexp="yes"></token>
                 </pattern>
-                <message>Более 3 существительных в родительном падеже подряд. Перефразируйте предложение.</message>
+                <message>Более 4 существительных в родительном падеже подряд. Перефразируйте предложение.</message>
                 <short>Перефразируйте предложение.</short>
                 <example>Кнопка выбора пути файла для сохранения цвета фона.</example>
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
@@ -4085,13 +4085,13 @@ $Id$
                 <example correction="">диктор <marker>комментирует об</marker> этом событии.</example>
             </rule>
         </rulegroup>   
-        <rulegroup default="on" id="ugasno_krasivij" name="Словосочетание «ужаснр красивый»">
+        <rulegroup default="on" id="ugasno_krasivij" name="Словосочетание «ужасно красивый»">
             <rule>
                 <pattern>
                     <token>ужасно</token>
                     <token inflected="yes">хороший</token>
                 </pattern>
-                <message>Слово ужасно не может употребляться со словами, имеющими положительную окраску: <suggestion>очень \2</suggestion>.</message>
+                <message>Слово «ужасно» не может употребляться со словами, имеющими положительную окраску: <suggestion>очень \2</suggestion>.</message>
                 <short>Грамматическая ошибка.</short>
                 <example>Она очень хороша.</example>
                 <example correction="очень хороша">Она <marker>ужасно хороша</marker>.</example>
@@ -4101,7 +4101,7 @@ $Id$
                     <token>ужасно</token>
                     <token inflected="yes">красивый</token>
                 </pattern>
-                <message>Слово ужасно не может употребляться со словами, имеющими положительную окраску: <suggestion>очень \2</suggestion>.</message>
+                <message>Слово «ужасно» не может употребляться со словами, имеющими положительную окраску: <suggestion>очень \2</suggestion>.</message>
                 <short>Грамматическая ошибка.</short>
                 <example>Она очень красива.</example>
                 <example correction="очень красива">Она <marker>ужасно красива</marker>.</example>
@@ -4337,12 +4337,12 @@ $Id$
             
         </rulegroup>
         
-        <rule id="PT_BI" name="Причастие с частицей бы не употребляется.">
+        <rule id="PT_BI" name="Причастие с частицей «бы» не употребляется.">
             <pattern>
                 <token postag_regexp= "yes"  postag = "PT:.*"></token>
                 <token>бы</token>
             </pattern>
-            <message>Причастие с частицей бы не употребляется.</message>
+            <message>Причастие с частицей «бы» не употребляется.</message>
             <example correction="">Спит ум, может быть <marker>получивший бы</marker> внезапный родник великих свойств.</example>
             <example>Спит ум, может быть получивший  внезапный родник великих свойств.</example>
         </rule>
@@ -4448,7 +4448,7 @@ $Id$
                     <token></token>
                 </pattern>
                 <message>Слова нет в словаре LanguageTool.</message>
-                <url>http://www.aot.ru/demo/morph.html</url>
+                <url>http://www.languagetool.org/ru</url>
                 <short>Нет в словаре.</short>
                 <example>Проверка текста.</example>
                 <example>Проверка текста и т.п.</example>
