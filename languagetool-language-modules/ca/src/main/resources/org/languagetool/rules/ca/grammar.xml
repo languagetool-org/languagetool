@@ -8276,12 +8276,21 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="PAIS_VALENCIA" name="País Valècia/Valencià">
+            <pattern>
+                <token>País</token>
+                <token>València</token>
+            </pattern>
+            <message>Possible confusió</message>
+            <suggestion>País Valencià</suggestion>
+            <example correction="País Valencià">Visc al <marker>País València</marker>.</example>
+        </rule>
         <rule id="DEPRES" name="deprés/després">
             <pattern>
                 <token regexp="yes">deprés|deprès<exception postag="_GV_"/></token>
             </pattern>
-            <message>¿Volíeu dir <suggestion>després</suggestion>?</message>
-            <short>Possible confusió</short>
+            <message>Possible confusió</message>
+            <suggestion>després</suggestion>
             <example correction="Després"><marker>Deprès</marker> se'n va anar.</example>
             <example>He deprés molt amb aquest professor.</example>
         </rule>
