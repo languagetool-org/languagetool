@@ -108,6 +108,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category name="Mögliche Tippfehler">
 
+        <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir/dir/uns">
+            <pattern>
+                <token regexp="yes">mir</token>
+                <token regexp="yes">mir|dir|ihm|uns|euch|ihnen|meinem|deinem|seinem|unserem|eurem|ihrem</token>
+            </pattern>
+            <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \2</suggestion>?</message>
+            <example correction="mit dir">Ich will <marker>mir dir</marker> reden.</example>
+        </rule>
         <rule id="FINDER_GEWICKELT" name="um den Finder (Finger) gewickelt">
             <pattern>
                 <token>um</token>
