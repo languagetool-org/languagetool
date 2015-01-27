@@ -19,7 +19,7 @@
 package org.languagetool.rules.spelling.hunspell;
 
 import org.languagetool.Language;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -36,9 +36,9 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   private static final int MAX_SUGGESTIONS = 20;
   
   private final CompoundWordTokenizer wordSplitter;
-  private final MorfologikSpeller morfoSpeller;
+  private final MorfologikMultiSpeller morfoSpeller;
   
-  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer wordSplitter, MorfologikSpeller morfoSpeller) {
+  public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer wordSplitter, MorfologikMultiSpeller morfoSpeller) {
     super(messages, language);
     this.wordSplitter = wordSplitter;
     this.morfoSpeller = morfoSpeller;

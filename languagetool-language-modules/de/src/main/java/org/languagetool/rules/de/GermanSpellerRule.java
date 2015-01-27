@@ -23,7 +23,7 @@ import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 
 import java.io.IOException;
@@ -84,15 +84,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return RULE_ID;
   }
 
-  private static MorfologikSpeller getSpeller(Language language) {
+  private static MorfologikMultiSpeller getSpeller(Language language) {
     if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
     }
     try {
       final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
-        // spell data will not exist in LibreOffice/OpenOffice context 
-        return new MorfologikSpeller(morfoFile, MAX_EDIT_DISTANCE);
+        // spell data will not exist in LibreOffice/OpenOffice context
+        return new MorfologikMultiSpeller(morfoFile, "/de/hunspell/ignore.txt", MAX_EDIT_DISTANCE);
       } else {
         return null;
       }
