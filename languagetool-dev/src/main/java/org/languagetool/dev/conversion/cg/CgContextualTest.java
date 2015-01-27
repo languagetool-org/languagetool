@@ -7,7 +7,7 @@ public class CgContextualTest {
 
     public int line;
     public int name;
-    public HashSet<Integer> pos = new HashSet<Integer>();
+    public HashSet<Integer> pos = new HashSet<>();
     public int offset;
     public int relation;
     public int target;
@@ -18,7 +18,7 @@ public class CgContextualTest {
     public int next = 0;
     public int prev = 0;
     
-    public ArrayList<Integer> ors = new ArrayList<Integer>();
+    public ArrayList<Integer> ors = new ArrayList<>();
     
     public boolean isParentTest() {
       return !this.ors.isEmpty();
@@ -49,7 +49,7 @@ public class CgContextualTest {
         this.name = 0;
         this.offset = 0;
         this.target = 0;
-        this.pos = new HashSet<Integer>();
+        this.pos = new HashSet<>();
         this.relation = 0;
     }
     
@@ -61,7 +61,7 @@ public class CgContextualTest {
         this.name = 0;
         this.offset = 0;
         this.target = 0;
-        this.pos = new HashSet<Integer>();
+        this.pos = new HashSet<>();
         this.relation = 0;
       } else {
         this.barrier = test.barrier;
@@ -70,9 +70,9 @@ public class CgContextualTest {
         this.name = test.name;
         this.offset = test.offset;
         this.target = test.target;
-        this.pos = new HashSet<Integer>(test.pos);
+        this.pos = new HashSet<>(test.pos);
         this.relation = test.relation;
-        this.ors = new ArrayList<Integer>(test.ors);
+        this.ors = new ArrayList<>(test.ors);
       }
     }
     

@@ -7,7 +7,7 @@ import org.languagetool.dev.conversion.cg.CgStrings.KEYWORDS;
 
 public class CgRule {
 
-    public HashSet<Integer> flags = new HashSet<Integer>();
+    public HashSet<Integer> flags = new HashSet<>();
     public int line;
     public KEYWORDS type;
     public int wordform;
@@ -25,9 +25,9 @@ public class CgRule {
     
     public CgContextualTest dep_test_head;
     public CgContextualTest dep_target;
-    public HashSet<CgContextualTest> all_tests = new HashSet<CgContextualTest>();
-    public HashMap<Integer,CgContextualTest> test_map = new HashMap<Integer,CgContextualTest>();
-    public HashSet<CgContextualTest> test_heads = new HashSet<CgContextualTest>();
+    public HashSet<CgContextualTest> all_tests = new HashSet<>();
+    public HashMap<Integer,CgContextualTest> test_map = new HashMap<>();
+    public HashSet<CgContextualTest> test_heads = new HashSet<>();
     
     public String name;
     
@@ -40,7 +40,7 @@ public class CgRule {
     }
     
     public CgRule(CgRule rule) {
-      this.flags = new HashSet<Integer>(rule.flags);
+      this.flags = new HashSet<>(rule.flags);
       this.line = rule.line;
       this.type = rule.type;
       this.wordform = rule.wordform;
@@ -56,15 +56,15 @@ public class CgRule {
       this.maplist = new CgSet(rule.maplist);
       this.dep_target = new CgContextualTest(rule.dep_target);
       this.dep_test_head = new CgContextualTest(rule.dep_test_head);
-      this.all_tests = new HashSet<CgContextualTest>();
+      this.all_tests = new HashSet<>();
       for (CgContextualTest test : rule.all_tests) {
         this.all_tests.add(new CgContextualTest(test));
       }
-      this.test_map = new HashMap<Integer,CgContextualTest>();
+      this.test_map = new HashMap<>();
       for (Integer index : rule.test_map.keySet()) {
         this.test_map.put(index,new CgContextualTest(rule.test_map.get(index)));
       }
-      this.test_heads = new HashSet<CgContextualTest>();
+      this.test_heads = new HashSet<>();
       for (CgContextualTest test : rule.test_heads) {
         this.test_heads.add(new CgContextualTest(test));
       }

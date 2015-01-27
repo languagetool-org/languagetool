@@ -57,7 +57,7 @@ public class XmlView extends PlainView {
 
     static {
         // NOTE: the order is important!
-        patternColors = new LinkedHashMap<Pattern, Color>();
+        patternColors = new LinkedHashMap<>();
         patternColors
                 .put(Pattern.compile(TAG_PATTERN), new Color(63, 127, 127));
         patternColors.put(Pattern.compile(TAG_CDATA), Color.GRAY);
@@ -87,8 +87,8 @@ public class XmlView extends PlainView {
 
         Segment segment = getLineBuffer();
 
-        SortedMap<Integer, Integer> startMap = new TreeMap<Integer, Integer>();
-        SortedMap<Integer, Color> colorMap = new TreeMap<Integer, Color>();
+        SortedMap<Integer, Integer> startMap = new TreeMap<>();
+        SortedMap<Integer, Color> colorMap = new TreeMap<>();
 
         // Match all regexes on this snippet, store positions
         for (Map.Entry<Pattern, Color> entry : patternColors.entrySet()) {

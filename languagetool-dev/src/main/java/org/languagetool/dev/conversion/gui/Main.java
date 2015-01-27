@@ -754,7 +754,7 @@ public final class Main implements ActionListener {
       // lists of strings
       allRulesList = rc.getAllLtRules();
       // rules in LT format, as strings
-      ruleStrings = new ArrayList<String>();
+      ruleStrings = new ArrayList<>();
       // original rule strings
       originalRuleStrings = rc.getOriginalRuleStrings();
       // warnings
@@ -771,7 +771,7 @@ public final class Main implements ActionListener {
 
       disambigRuleIndices = new boolean[allRulesList.size()];
       // list of existing LT rules that cover the new rules
-      coveredByList = new ArrayList<String[]>();
+      coveredByList = new ArrayList<>();
       numberOfRules = allRulesList.size();
       numRulesPane.setText(Integer.toString(numberOfRules));
 
@@ -997,7 +997,7 @@ public final class Main implements ActionListener {
             .parsePatternRule(resultArea.getText());
         ArrayList<String[]> allCoveringRules = checker
             .isCoveredBy(patternRules);
-        ArrayList<String> coveringRules = new ArrayList<String>();
+        ArrayList<String> coveringRules = new ArrayList<>();
         for (String[] s : allCoveringRules) {
           Collections.addAll(coveringRules, s);
         }
@@ -1056,7 +1056,7 @@ public final class Main implements ActionListener {
             .parsePatternRule(ruleStrings.get(i));
         ArrayList<String[]> allCoveringRules = checker
             .isCoveredBy(patternRules);
-        ArrayList<String> coveringRules = new ArrayList<String>();
+        ArrayList<String> coveringRules = new ArrayList<>();
         for (String[] s : allCoveringRules) {
           Collections.addAll(coveringRules, s);
         }

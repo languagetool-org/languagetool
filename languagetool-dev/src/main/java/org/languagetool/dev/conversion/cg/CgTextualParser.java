@@ -46,7 +46,7 @@ public class CgTextualParser {
     private CgContextualTest currentTest;
     private CgContextualTest parentTest;
     private boolean inLinkedTest;
-    private ArrayList<Integer> linkedTests = new ArrayList<Integer>();
+    private ArrayList<Integer> linkedTests = new ArrayList<>();
     private boolean inParentTest;
     
     // constructor
@@ -972,7 +972,7 @@ public class CgTextualParser {
             if (notDone() && inArray[index] != ';' && inArray[index] != ')') {
                 if (inArray[index] == '(') {
                     ++index;
-                    ArrayList<CgTag> tags = new ArrayList<CgTag>();
+                    ArrayList<CgTag> tags = new ArrayList<>();
                     while (notDone() && inArray[index] != ';' && inArray[index] != ')') {
                         nindex = index;
                         if (inArray[nindex] == '"') {
@@ -1045,8 +1045,8 @@ public class CgTextualParser {
     }
     
     private CgSet parseSetInline(CgSet s) {
-        ArrayList<Integer> set_ops = new ArrayList<Integer>();
-        ArrayList<Integer> sets = new ArrayList<Integer>();
+        ArrayList<Integer> set_ops = new ArrayList<>();
+        ArrayList<Integer> sets = new ArrayList<>();
         
         boolean wantop = false;
         while (notDone() && inArray[index] != ';' && inArray[index] != ')') {
@@ -1058,7 +1058,7 @@ public class CgTextualParser {
                         CgSet set_c = result.allocateSet();
                         set_c.line = result.lines;
                         set_c.setName(sets_counter++);
-                        ArrayList<CgTag> tags = new ArrayList<CgTag>();
+                        ArrayList<CgTag> tags = new ArrayList<>();
                         
                         while (notDone() && inArray[index] != ';' && inArray[index] != ')') {
                             result.lines += SKIPWS(';',')');
@@ -1124,9 +1124,9 @@ public class CgTextualParser {
                         final HashSet<CgCompositeTag.AnyTag> a = result.getSet(sets.get(sets.size()-1)).getTagList(result);
                         final HashSet<CgCompositeTag.AnyTag> b = result.getSet(sets.get(sets.size()-2)).getTagList(result);
                     
-                        ArrayList<CgCompositeTag.AnyTag> r = new ArrayList<CgCompositeTag.AnyTag>();
+                        ArrayList<CgCompositeTag.AnyTag> r = new ArrayList<>();
                         if (set_ops.get(set_ops.size()-1) == STRINGS.S_SET_ISECT_U.value) {
-                            HashSet<CgCompositeTag.AnyTag> c = new HashSet<CgCompositeTag.AnyTag>();
+                            HashSet<CgCompositeTag.AnyTag> c = new HashSet<>();
                             c.addAll(a);
                             c.addAll(b);
                             for (CgCompositeTag.AnyTag itag : c) {
@@ -1444,7 +1444,7 @@ public class CgTextualParser {
             linkedTests.add(currentTest.hashCode());
             rule.test_map.put(currentTest.hashCode(), currentTest);
         } else {
-            linkedTests = new ArrayList<Integer>();
+            linkedTests = new ArrayList<>();
         }
         currentTest = new CgContextualTest();
         
@@ -1512,7 +1512,7 @@ public class CgTextualParser {
                 }
                 else {
                     inParentTest = false;
-                    linkedTests = new ArrayList<Integer>();
+                    linkedTests = new ArrayList<>();
                     break;
                 }
                 result.lines += SKIPWS((char)0,(char)0);
@@ -1650,7 +1650,7 @@ public class CgTextualParser {
             }
             rule.test_map.put(parentTest.hashCode(), parentTest);
             rule.test_heads.add(parentTest);    // parentTest should contain all the OR'ed child tests already
-            linkedTests = new ArrayList<Integer>();  // reset the linkedTests
+            linkedTests = new ArrayList<>();  // reset the linkedTests
         } 
         
         if (!inParentTest && !inLinkedTest && parentTest == null) {
@@ -1685,7 +1685,7 @@ public class CgTextualParser {
         parentTest = null;
         inParentTest = false;
         inLinkedTest= false;
-        linkedTests = new ArrayList<Integer>();
+        linkedTests = new ArrayList<>();
         return parseContextualTestList(rule);
     }
     

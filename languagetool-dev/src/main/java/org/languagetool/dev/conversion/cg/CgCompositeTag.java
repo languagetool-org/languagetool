@@ -11,8 +11,8 @@ public class CgCompositeTag {
     public boolean is_special;
     public int hash;
     public int number;
-    public HashSet<CgTag> tags_set = new HashSet<CgTag>();
-    public ArrayList<CgTag> tags = new ArrayList<CgTag>();
+    public HashSet<CgTag> tags_set = new HashSet<>();
+    public ArrayList<CgTag> tags = new ArrayList<>();
     
     public String toString() {
       StringBuilder sb = new StringBuilder();

@@ -18,7 +18,7 @@ public class CgTag {
     
     public CgTag() {
         this.tag = "";
-        this.type = new HashSet<Integer>();
+        this.type = new HashSet<>();
         this.hash = 0;
         this.plain_hash = 0;
         this.comparison_hash = 0;
@@ -26,7 +26,7 @@ public class CgTag {
     }
     
     public CgTag parseTagRaw(CgTag tag, String to) {
-        tag.type = new HashSet<Integer>();
+        tag.type = new HashSet<>();
         if (to.length() > 0) {
             String tmp = to;
             int len = tmp.length();
@@ -62,7 +62,7 @@ public class CgTag {
     
     public CgTag parseTag(CgTag tag, String to, CgGrammar grammar) {
         // some long and semi-complicated function in Tag.cpp that I'll probably eventually need to write
-        tag.type = new HashSet<Integer>();;
+        tag.type = new HashSet<>();;
         if (to != null && to.length() > 0) {
             char[] tmp = to.toCharArray();
             int tmpIndex = 0;

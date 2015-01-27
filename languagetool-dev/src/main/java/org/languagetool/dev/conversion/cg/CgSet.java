@@ -33,15 +33,15 @@ public class CgSet {
         this.hash = 0;
         this.name = null;
         this.setName(0);
-        this.type = new HashSet<Integer>();
+        this.type = new HashSet<>();
         this.chash = 0;
-        this.tags = new HashSet<CgCompositeTag>();
-        this.single_tags = new HashSet<CgTag>();
-        this.single_tags_hash = new HashSet<Integer>();
-        this.sets = new ArrayList<Integer>();
-        this.set_ops = new ArrayList<Integer>();
-        this.tags_list = new ArrayList<CgCompositeTag.AnyTag>();
-        this.ff_tags = new HashSet<CgTag>();
+        this.tags = new HashSet<>();
+        this.single_tags = new HashSet<>();
+        this.single_tags_hash = new HashSet<>();
+        this.sets = new ArrayList<>();
+        this.set_ops = new ArrayList<>();
+        this.tags_list = new ArrayList<>();
+        this.ff_tags = new HashSet<>();
     }
     
     // copy constructor
@@ -52,19 +52,19 @@ public class CgSet {
             this.hash = 0;
             this.name = null;
             this.setName(0);
-            this.type = new HashSet<Integer>();
+            this.type = new HashSet<>();
             this.chash = 0;
-            this.tags = new HashSet<CgCompositeTag>();
-            this.single_tags = new HashSet<CgTag>();
-            this.single_tags_hash = new HashSet<Integer>();
-            this.sets = new ArrayList<Integer>();
-            this.set_ops = new ArrayList<Integer>();
-            this.tags_list = new ArrayList<CgCompositeTag.AnyTag>();
-            this.ff_tags = new HashSet<CgTag>();
+            this.tags = new HashSet<>();
+            this.single_tags = new HashSet<>();
+            this.single_tags_hash = new HashSet<>();
+            this.sets = new ArrayList<>();
+            this.set_ops = new ArrayList<>();
+            this.tags_list = new ArrayList<>();
+            this.ff_tags = new HashSet<>();
       } else {
         this.tags_list = from.tags_list;  // i never use this anyway
-            this.tags = new HashSet<CgCompositeTag>(from.tags);
-            this.single_tags = new HashSet<CgTag>(from.single_tags);
+            this.tags = new HashSet<>(from.tags);
+            this.single_tags = new HashSet<>(from.single_tags);
             this.single_tags_hash = from.single_tags_hash;
             this.ff_tags = from.ff_tags;
             this.set_ops = from.set_ops;
@@ -83,7 +83,7 @@ public class CgSet {
     // Get methods used by CgRuleConverter class
     
     public CgCompositeTag[] getCompositeTags() {
-      ArrayList<CgCompositeTag> tags = new ArrayList<CgCompositeTag>();
+      ArrayList<CgCompositeTag> tags = new ArrayList<>();
       if (!this.tags.isEmpty()) {
         for (CgCompositeTag ctag : this.tags) {
           if (!CgRuleConverter.isCompositePostag(ctag)) {
@@ -95,7 +95,7 @@ public class CgSet {
     }
     
     public CgCompositeTag[] getCompositePostags() {
-      ArrayList<CgCompositeTag> postags = new ArrayList<CgCompositeTag>();
+      ArrayList<CgCompositeTag> postags = new ArrayList<>();
       if (!this.tags.isEmpty()) {
         for (CgCompositeTag ctag : this.tags) {
           if (CgRuleConverter.isCompositePostag(ctag)) {
@@ -107,7 +107,7 @@ public class CgSet {
     }
     
     public String[] getSingleTagPostagsString() {
-      ArrayList<String> postags = new ArrayList<String>();
+      ArrayList<String> postags = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           if (CgRuleConverter.isPostag(tag.tag)) {
@@ -119,7 +119,7 @@ public class CgSet {
     }
     
     public CgTag[] getSingleTagPostags() {
-      ArrayList<CgTag> postags = new ArrayList<CgTag>();
+      ArrayList<CgTag> postags = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           if (CgRuleConverter.isPostag(tag.tag)) postags.add(tag);
@@ -129,7 +129,7 @@ public class CgSet {
     }
     
     public String[] getSingleTagBaseformsString() {
-      ArrayList<String> forms = new ArrayList<String>();
+      ArrayList<String> forms = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           String tagtag = tag.tag;
@@ -140,7 +140,7 @@ public class CgSet {
     }
     
     public CgTag[] getSingleTagBaseforms() {
-      ArrayList<CgTag> forms = new ArrayList<CgTag>();
+      ArrayList<CgTag> forms = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           if (CgRuleConverter.isBaseForm(tag.tag)) forms.add(tag);
@@ -150,7 +150,7 @@ public class CgSet {
     }
     
     public String[] getSingleTagSurfaceformsString() {
-      ArrayList<String> forms = new ArrayList<String>();
+      ArrayList<String> forms = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           String tagtag = tag.tag;
@@ -161,7 +161,7 @@ public class CgSet {
     }
     
     public CgTag[] getSingleTagSurfaceforms() {
-      ArrayList<CgTag> forms = new ArrayList<CgTag>();
+      ArrayList<CgTag> forms = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           String tagtag = tag.tag;
@@ -172,7 +172,7 @@ public class CgSet {
     }
     
     public String[] getPostagsString() {
-      ArrayList<String> tags = new ArrayList<String>();
+      ArrayList<String> tags = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           if (CgRuleConverter.isPostag(tag.tag)) {
@@ -194,7 +194,7 @@ public class CgSet {
     // these should never really be used
     
     public ArrayList<String> getSurfaceFormsString(CgGrammar grammar) {
-      ArrayList<String> forms = new ArrayList<String>();
+      ArrayList<String> forms = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           String tagtag = tag.tag;
@@ -225,7 +225,7 @@ public class CgSet {
     }
     
     public ArrayList<String> getBaseformsString(CgGrammar grammar) {
-      ArrayList<String> forms = new ArrayList<String>();
+      ArrayList<String> forms = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           String tagtag = tag.tag;
@@ -256,7 +256,7 @@ public class CgSet {
     }
     
     public ArrayList<String> getPostagsString(CgGrammar grammar) {
-      ArrayList<String> postags = new ArrayList<String>();
+      ArrayList<String> postags = new ArrayList<>();
       if (!this.single_tags.isEmpty()) {
         for (CgTag tag : this.single_tags) {
           if (CgRuleConverter.isPostag(tag.tag)) {
@@ -330,7 +330,7 @@ public class CgSet {
     
     // AnyTags not handled too well here.
     public HashSet<CgCompositeTag.AnyTag> getTagList(final CgGrammar grammar) {
-        HashSet<CgCompositeTag.AnyTag> theTags = new HashSet<CgCompositeTag.AnyTag>();
+        HashSet<CgCompositeTag.AnyTag> theTags = new HashSet<>();
         if (sets.isEmpty()) {
             for (int i=0;i<sets.size();i++) {
                 HashSet<CgCompositeTag.AnyTag> recursiveTags = grammar.getSet(i).getTagList(grammar);

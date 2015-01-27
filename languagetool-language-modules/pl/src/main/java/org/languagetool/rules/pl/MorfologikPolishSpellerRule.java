@@ -181,7 +181,7 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
    * @return A list of pruned suggestions.
    */
     private List<String> pruneSuggestions(final List<String> suggestions) {
-      List<String> prunedSuggestions = new ArrayList<String>(suggestions.size());
+      List<String> prunedSuggestions = new ArrayList<>(suggestions.size());
       for (final String suggestion : suggestions) {
         if (suggestion.indexOf(' ') == -1) {
           prunedSuggestions.add(suggestion);

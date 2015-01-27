@@ -210,7 +210,7 @@ public abstract class RuleConverter {
      * Takes a file and returns it as a list of strings, blank lines omitted
      */
     public static ArrayList<String> fileToListNoBlanks(String filename) {
-        ArrayList<String> returnList = new ArrayList<String>();
+        ArrayList<String> returnList = new ArrayList<>();
         Scanner in = null;
         InputStream is;
         try {

@@ -20,42 +20,42 @@ public class CgGrammar {
     public double total_time;
     public int tag_any;
     
-    ArrayList<CgTag> single_tags_list = new ArrayList<CgTag>();
-    HashMap<Integer,CgTag> single_tags = new HashMap<Integer,CgTag>();
-    ArrayList<CgCompositeTag> tags_list = new ArrayList<CgCompositeTag>();
-    HashMap<Integer,CgCompositeTag> tags = new HashMap<Integer,CgCompositeTag>();
+    ArrayList<CgTag> single_tags_list = new ArrayList<>();
+    HashMap<Integer,CgTag> single_tags = new HashMap<>();
+    ArrayList<CgCompositeTag> tags_list = new ArrayList<>();
+    HashMap<Integer,CgCompositeTag> tags = new HashMap<>();
     
-    ArrayList<CgSet> sets_list = new ArrayList<CgSet>();
-    HashSet<CgSet> sets_all = new HashSet<CgSet>();
-    HashMap<Integer,CgSet> sets_by_name = new HashMap<Integer,CgSet>(); // indexed by a hash of the set's name
-    HashMap<Integer,Integer> set_name_seeds = new HashMap<Integer,Integer>();
-    HashMap<Integer,CgSet> sets_by_contents = new HashMap<Integer,CgSet>(); // indexed by a hash of the set's contents
-    HashMap<Integer,Integer> set_alias = new HashMap<Integer,Integer>();
-    HashMap<Integer,HashSet<Integer>> sets_by_tag = new HashMap<Integer,HashSet<Integer>>();
-    HashSet<Integer> sets_any = new HashSet<Integer>();
+    ArrayList<CgSet> sets_list = new ArrayList<>();
+    HashSet<CgSet> sets_all = new HashSet<>();
+    HashMap<Integer,CgSet> sets_by_name = new HashMap<>(); // indexed by a hash of the set's name
+    HashMap<Integer,Integer> set_name_seeds = new HashMap<>();
+    HashMap<Integer,CgSet> sets_by_contents = new HashMap<>(); // indexed by a hash of the set's contents
+    HashMap<Integer,Integer> set_alias = new HashMap<>();
+    HashMap<Integer,HashSet<Integer>> sets_by_tag = new HashMap<>();
+    HashSet<Integer> sets_any = new HashSet<>();
     
-    ArrayList<String> static_sets = new ArrayList<String>();
+    ArrayList<String> static_sets = new ArrayList<>();
     
-    ArrayList<CgContextualTest> template_list = new ArrayList<CgContextualTest>();
-    HashMap<Integer,CgContextualTest> templates = new HashMap<Integer,CgContextualTest>();
+    ArrayList<CgContextualTest> template_list = new ArrayList<>();
+    HashMap<Integer,CgContextualTest> templates = new HashMap<>();
     
-    HashMap<Integer,ArrayList<Integer>> rules_by_set = new HashMap<Integer,ArrayList<Integer>>();
-    HashMap<Integer,ArrayList<Integer>> rules_by_tag = new HashMap<Integer,ArrayList<Integer>>();
-    ArrayList<Integer> rules_any = new ArrayList<Integer>();
-    public ArrayList<CgRule> rule_by_number = new ArrayList<CgRule>();
-    public ArrayList<CgRule> rules = new ArrayList<CgRule>();
+    HashMap<Integer,ArrayList<Integer>> rules_by_set = new HashMap<>();
+    HashMap<Integer,ArrayList<Integer>> rules_by_tag = new HashMap<>();
+    ArrayList<Integer> rules_any = new ArrayList<>();
+    public ArrayList<CgRule> rule_by_number = new ArrayList<>();
+    public ArrayList<CgRule> rules = new ArrayList<>();
     
     ArrayList<Integer> preferred_targets;
-    HashMap<Integer,Integer> parentheses = new HashMap<Integer,Integer>();
-    HashMap<Integer,Integer> parentheses_reverse = new HashMap<Integer,Integer>();
+    HashMap<Integer,Integer> parentheses = new HashMap<>();
+    HashMap<Integer,Integer> parentheses_reverse = new HashMap<>();
     
-    HashMap<Integer,Integer> anchor_by_hash = new HashMap<Integer,Integer>();
-    HashMap<Integer,CgAnchor> anchor_by_line = new HashMap<Integer,CgAnchor>();
+    HashMap<Integer,Integer> anchor_by_hash = new HashMap<>();
+    HashMap<Integer,CgAnchor> anchor_by_line = new HashMap<>();
     
-    ArrayList<Integer> sections = new ArrayList<Integer>();
-    ArrayList<CgRule> before_sections = new ArrayList<CgRule>();    
-    ArrayList<CgRule> after_sections = new ArrayList<CgRule>();
-    ArrayList<CgRule> null_section = new ArrayList<CgRule>();
+    ArrayList<Integer> sections = new ArrayList<>();
+    ArrayList<CgRule> before_sections = new ArrayList<>();
+    ArrayList<CgRule> after_sections = new ArrayList<>();
+    ArrayList<CgRule> null_section = new ArrayList<>();
     
     CgSet delimiters;
     CgSet soft_delimiters;

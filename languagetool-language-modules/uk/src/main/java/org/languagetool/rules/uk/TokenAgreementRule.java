@@ -57,7 +57,7 @@ public class TokenAgreementRule extends Rule {
 
   private final Ukrainian ukrainian = new Ukrainian();
 
-  private final static Set<String> STREETS = new HashSet<String>(Arrays.asList(
+  private static final Set<String> STREETS = new HashSet<>(Arrays.asList(
       "Штрассе", "Авеню", "Стріт"
       ));
 
@@ -130,7 +130,7 @@ public class TokenAgreementRule extends Rule {
       if( reqTokenReadings == null )
         continue;
 
-      ArrayList<String> posTagsToFind = new ArrayList<String>();
+      ArrayList<String> posTagsToFind = new ArrayList<>();
 
       //      if( tokens.length > i+1 && Character.isUpperCase(tokenReadings.getAnalyzedToken(0).getToken().charAt(0))
       //        && hasRequiredPosTag(Arrays.asList("v_naz"), tokenReadings)
@@ -317,7 +317,7 @@ public class TokenAgreementRule extends Rule {
 
     Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
 
-    ArrayList<String> suggestions = new ArrayList<String>();
+    ArrayList<String> suggestions = new ArrayList<>();
     String oldPosTag = tokenReadings.getAnalyzedToken(0).getPOSTag();
     String requiredPostTagsRegEx = ":(" + StringUtils.join(posTagsToFind,"|") + ")";
     String posTag = oldPosTag.replaceFirst(":v_[a-z]+", requiredPostTagsRegEx);
@@ -333,12 +333,12 @@ public class TokenAgreementRule extends Rule {
       throw new RuntimeException(e);
     }
 
-    ArrayList<String> reqVidminkyNames = new ArrayList<String>();
+    ArrayList<String> reqVidminkyNames = new ArrayList<>();
     for (String vidm: posTagsToFind) {
       reqVidminkyNames.add(UkrainianTagger.VIDMINKY_MAP.get(vidm));
     }
 
-    ArrayList<String> foundVidminkyNames = new ArrayList<String>();
+    ArrayList<String> foundVidminkyNames = new ArrayList<>();
     for(AnalyzedToken token: tokenReadings) {
       String posTag2 = token.getPOSTag();
       if( posTag2 != null && posTag2.contains(VIDMINOK_SUBSTR) ) {
