@@ -218,7 +218,6 @@ public class Hunspell {
     public Dictionary getDictionary(String baseFileName)
             throws IOException {
 
-        // TODO: Detect if the dictionary files have changed and reload if they have.
         if (map.containsKey(baseFileName)) {
             return map.get(baseFileName);
 
