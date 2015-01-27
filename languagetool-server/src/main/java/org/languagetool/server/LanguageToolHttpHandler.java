@@ -481,7 +481,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     }
     final Configuration config = new Configuration(lang);
     if (!params.useQuerySettings && internalServer && config.getUseGUIConfig()) { // use the GUI config values
-      configureGUI(newLanguageTool, config);
+      configureFromGUI(newLanguageTool, config);
     }
     if (params.useQuerySettings) {
       Tools.selectRules(newLanguageTool, params.disabledRules, params.enabledRules, params.useEnabledOnly);
@@ -489,7 +489,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     return newLanguageTool;
   }
 
-  private void configureGUI(JLanguageTool langTool, Configuration config) {
+  private void configureFromGUI(JLanguageTool langTool, Configuration config) {
     print("Using options configured in the GUI");
     //TODO: add a parameter to config to set language
     final Set<String> disabledRules = config.getDisabledRuleIds();
