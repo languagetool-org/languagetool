@@ -32,6 +32,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Charsets;
+import com.google.common.io.Resources;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -184,12 +186,23 @@ public class HunspellRule extends SpellingCheckRule {
           wordChars = "(?![" + hunspellDict.getWordChars().replace("-", "\\-") + "])";
         }
 
-        hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL); // to make demo text check 4 times faster...
-        hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL_FX);
+        addIgnoreWords();
       }
     }
     nonWordPattern = Pattern.compile(wordChars + NON_ALPHABETIC);
     needsInit = false;
+  }
+
+  private void addIgnoreWords() throws IOException {
+    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL);
+    hunspellDict.addWord(SpellingCheckRule.LANGUAGETOOL_FX);
+    URL ignoreUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(getIgnoreFileName());
+    List<String> ignoreLines = Resources.readLines(ignoreUrl, Charsets.UTF_8);
+    for (String ignoreLine : ignoreLines) {
+      if (!ignoreLine.startsWith("#")) {
+        hunspellDict.addWord(ignoreLine);
+      }
+    }
   }
 
   private String getDictionaryPath(final String dicName,
