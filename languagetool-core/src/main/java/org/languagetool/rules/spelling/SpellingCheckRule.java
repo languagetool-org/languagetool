@@ -240,6 +240,8 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
+  // Actually (Morfologik|Hunspell)MultiSpeller should handle the ignore.txt, but there are special
+  // cases (words with a dot at the end) where that's not enough.
   private void loadWordsToBeIgnored(String ignoreFile) throws IOException {
     if (!JLanguageTool.getDataBroker().resourceExists(ignoreFile)) {
       return;
