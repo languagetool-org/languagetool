@@ -119,8 +119,7 @@ class MatchDatabase {
       prepSt.setLong(2, ruleMatch.getDiffId());
       prepSt.setString(3, ruleMatch.getLanguage().getShortName());
       prepSt.setString(4, ruleMatch.getTitle());
-      prepSt.setString(5, ruleMatch.getRule().getId());
-      // TODO: consider sub id?
+      prepSt.setString(5, ruleMatch.getRule().getId());  // I'm not sure whether we should also consider the sub id...
       prepSt.setString(6, ruleMatch.getErrorContext());
       return prepSt.executeUpdate();
     } catch (SQLException e) {

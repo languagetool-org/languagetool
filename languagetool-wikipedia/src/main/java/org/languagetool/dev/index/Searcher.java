@@ -143,7 +143,7 @@ public class Searcher {
       try {
         // using a TimeLimitingCollector is not enough, as it doesn't cover all time required to
         // search for a complicated regex, so interrupt the whole thread instead:
-        if (limitSearch) { //FIXME: I don't know a simpler way to achieve this
+        if (limitSearch) { // I don't know a simpler way to achieve this...
           searchThread.join(maxSearchTimeMillis);
         } else {
           searchThread.join(Integer.MAX_VALUE);

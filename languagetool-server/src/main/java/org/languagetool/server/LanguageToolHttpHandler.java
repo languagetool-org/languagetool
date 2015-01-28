@@ -491,7 +491,6 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void configureFromGUI(JLanguageTool langTool, Configuration config) {
     print("Using options configured in the GUI");
-    //TODO: add a parameter to config to set language
     final Set<String> disabledRules = config.getDisabledRuleIds();
     if (disabledRules != null) {
       for (final String ruleId : disabledRules) {
