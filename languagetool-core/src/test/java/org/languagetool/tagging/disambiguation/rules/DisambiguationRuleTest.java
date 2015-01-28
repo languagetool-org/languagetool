@@ -140,7 +140,7 @@ public class DisambiguationRuleTest extends TestCase {
           final String inputForms = example.getAmbiguous();
           assertTrue("No input form found for: " + id, inputForms != null);
           assertTrue(inputForms.trim().length() > 0);
-          assertTrue("Input and output forms for rule " + id + "are the same!",
+          assertTrue("Input and output forms for rule " + id + " are the same!",
               !outputForms.equals(inputForms));
           final AnalyzedSentence cleanInput = languageTool
               .getRawAnalyzedSentence(cleanXML(example.getExample()));
