@@ -41,7 +41,7 @@ public class Configuration {
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
 
-  private static final String CONFIG_FILE = "languagetool.properties";
+  private static final String CONFIG_FILE = ".languagetool.cfg";
 
   private static final String DISABLED_RULES_CONFIG_KEY = "disabledRules";
   private static final String ENABLED_RULES_CONFIG_KEY = "enabledRules";
