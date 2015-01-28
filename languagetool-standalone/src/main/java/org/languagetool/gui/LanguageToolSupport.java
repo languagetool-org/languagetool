@@ -224,13 +224,13 @@ class LanguageToolSupport {
     toEnable = new HashSet<>(languageTool.getDisabledCategories());
     toEnable.removeAll(common);
 
-    if(!toDisable.isEmpty()) {
+    if (!toDisable.isEmpty()) {
       languageTool.getDisabledCategories().addAll(toDisable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
       languageTool.disableRules(new ArrayList<String>());
       update = true;
     }
-    if(!toEnable.isEmpty()) {
+    if (!toEnable.isEmpty()) {
       languageTool.getDisabledCategories().removeAll(toEnable);
       // ugly hack to trigger reInitSpellCheckIgnoreWords()
       languageTool.disableRules(new ArrayList<String>());
@@ -246,7 +246,7 @@ class LanguageToolSupport {
       languageTool.enableRule(ruleName);
     }
 
-    if(update) {
+    if (update) {
       //FIXME
       //we could skip a full check if the user disabled but didn't enable rules
       checkImmediately(null);
@@ -300,7 +300,7 @@ class LanguageToolSupport {
     }
 
     Language defaultLanguage = config.getLanguage();
-    if(defaultLanguage == null) {
+    if (defaultLanguage == null) {
         defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
     }
 
@@ -462,14 +462,13 @@ class LanguageToolSupport {
 
   void disableRule(String ruleId) {
     Rule rule = this.getRuleForId(ruleId);
-    if(rule == null) {
+    if (rule == null) {
       //System.err.println("No rule with id: <"+ruleId+">");
       return;
     }
-    if(rule.isDefaultOff()) {
+    if (rule.isDefaultOff()) {
       config.getEnabledRuleIds().remove(ruleId);
-    }
-    else {
+    } else {
       config.getDisabledRuleIds().add(ruleId);
     }
     languageTool.disableRule(ruleId);
@@ -479,15 +478,14 @@ class LanguageToolSupport {
 
   void enableRule(String ruleId) {
     Rule rule = this.getRuleForId(ruleId);
-    if(rule == null) {
+    if (rule == null) {
       //System.err.println("No rule with id: <"+ruleId+">");
       return;
     }
-    if(rule.isDefaultOff()) {
+    if (rule.isDefaultOff()) {
       config.getEnabledRuleIds().add(ruleId);
       languageTool.enableDefaultOffRule(ruleId);
-    }
-    else {
+    } else {
       config.getDisabledRuleIds().remove(ruleId);
     }
     languageTool.enableRule(ruleId);
@@ -505,7 +503,7 @@ class LanguageToolSupport {
   }
 
   private void showPopup(MouseEvent event) {
-    if(documentSpans.isEmpty() && languageTool.getDisabledRules().isEmpty()) {
+    if (documentSpans.isEmpty() && languageTool.getDisabledRules().isEmpty()) {
       //No errors and no disabled Rules
       return;
     }
@@ -576,7 +574,7 @@ class LanguageToolSupport {
 
       @Override
       public void popupMenuCanceled(PopupMenuEvent e) {
-        if(span != null) {
+        if (span != null) {
           textComponent.setCaretPosition(span.start);
         }
       }
@@ -625,7 +623,7 @@ class LanguageToolSupport {
       parent.add(submenu);
       createRulesMenu(submenu, categories.get(category));
 
-      if(categories.keySet().size() <= MAX_CATEGORIES_PER_MENU) {
+      if (categories.keySet().size() <= MAX_CATEGORIES_PER_MENU) {
         continue;
       }
 
@@ -656,13 +654,13 @@ class LanguageToolSupport {
       });
       menu.add(ruleItem);
 
-      if(rules.size() <= MAX_RULES_PER_MENU) {
+      if (rules.size() <= MAX_RULES_PER_MENU) {
         continue;
       }
 
       //if menu contains MAX_RULES_PER_MENU-1, add a `more` menu
       //but only if the remain entries are more than one
-      if((count % (MAX_RULES_PER_MENU - 1) == 0)
+      if ((count % (MAX_RULES_PER_MENU - 1) == 0)
               && (rules.size() - count > 1)) {
         JMenu more = new JMenu(messages.getString("guiActivateRuleMoreRules"));
         menu.add(more);
@@ -695,7 +693,7 @@ class LanguageToolSupport {
     Document doc = this.textComponent.getDocument();
     if (doc != null) {
       try {
-        if(this.undo != null) {
+        if (this.undo != null) {
           this.undo.startCompoundEdit();
         }
         if (doc instanceof AbstractDocument) {
@@ -707,7 +705,7 @@ class LanguageToolSupport {
       } catch (BadLocationException e) {
         throw new IllegalArgumentException(e);
       } finally {
-        if(this.undo != null) {
+        if (this.undo != null) {
           this.undo.endCompoundEdit();
         }
       }
