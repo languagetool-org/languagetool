@@ -46,7 +46,6 @@ class DatabaseHandler extends ResultHandler {
   private final ContextTools contextTools;
   private final ContextTools smallContextTools;
 
-  private final PreparedStatement lookupSt;
   private final PreparedStatement insertSt;
   private final int batchSize;
   
@@ -55,8 +54,6 @@ class DatabaseHandler extends ResultHandler {
   DatabaseHandler(File propertiesFile, int maxSentences, int maxErrors) {
     super(maxSentences, maxErrors);
 
-    final String lookupSql = "SELECT id FROM corpus_match_hidden WHERE " +
-            "language_code = ? AND sourceuri = ? AND ruleid = ? AND small_error_context = ?";
     final String insertSql = "INSERT INTO corpus_match " +
             "(version, language_code, ruleid, rule_category, rule_subid, rule_description, message, error_context, small_error_context, corpus_date, " +
             "check_date, sourceuri, source_type, is_visible) "+
@@ -70,7 +67,6 @@ class DatabaseHandler extends ResultHandler {
       final String dbPassword = getProperty(dbProperties, "dbPassword");
       batchSize = Integer.decode(dbProperties.getProperty("batchSize", "1"));
       conn = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
-      lookupSt = conn.prepareStatement(lookupSql);
       insertSt = conn.prepareStatement(insertSql);
     } catch (SQLException | IOException e) {
       throw new RuntimeException(e);
@@ -101,11 +97,6 @@ class DatabaseHandler extends ResultHandler {
       final java.sql.Date nowDate = new java.sql.Date(new Date().getTime());
       for (RuleMatch match : ruleMatches) {
         final String smallContext = smallContextTools.getContext(match.getFromPos(), match.getToPos(), sentence.getText());
-        if (ruleIsMarkedHidden(language, sentence.getUrl(), match, smallContext, lookupSt)) {
-          System.out.println("Skipping match " + match.getRule().getId() + " for " + sentence.getTitle() + " as it is hidden");
-          continue;
-        }
-        
         insertSt.setString(1, language.getShortName());
         final Rule rule = match.getRule();
         insertSt.setString(2, rule.getId());
@@ -164,27 +155,6 @@ class DatabaseHandler extends ResultHandler {
     }
   }
 
-  // Whether a match has been marked as 'false alarm' or 'already fixed' by a user - in that
-  // case, we don't want to re-insert it into the list of matches.
-  private boolean ruleIsMarkedHidden(Language language, String url, RuleMatch match, String smallContext, PreparedStatement lookupSt) throws SQLException {
-    boolean ret = false;
-    // TODO: should we consider the subid?
-    lookupSt.setString(1, language.getShortName());
-    lookupSt.setString(2, url);
-    lookupSt.setString(3, match.getRule().getId());
-    lookupSt.setString(4, smallContext);
-    try (ResultSet resultSet = lookupSt.executeQuery()) {
-      try {
-        if (resultSet.isBeforeFirst()) {
-          ret = true;
-        }
-      } catch (SQLFeatureNotSupportedException e) {
-        ret = resultSet.next();
-      }
-    }
-    return ret;
-  }
-
   @Override
   public void close() throws Exception {
     if (insertSt != null) {
@@ -192,9 +162,6 @@ class DatabaseHandler extends ResultHandler {
         executeBatch();
       }
       insertSt.close();
-    }
-    if (lookupSt != null) {
-      lookupSt.close();
     }
     if (conn != null) {
       conn.close();
