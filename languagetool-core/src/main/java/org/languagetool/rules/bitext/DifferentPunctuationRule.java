@@ -29,6 +29,7 @@ import java.io.IOException;
  * Checks if the translation has the same ending punctuation as the source.
  * 
  * @author Marcin Miłkowski
+ * @since 2.9
  */
 public class DifferentPunctuationRule extends BitextRule {
 
