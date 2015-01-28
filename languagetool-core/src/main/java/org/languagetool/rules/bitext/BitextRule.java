@@ -40,7 +40,8 @@ import org.languagetool.rules.RuleMatch;
 public abstract class BitextRule extends Rule {
 
   public static List<Class<? extends BitextRule>> getRelevantRules() {
-    return Arrays.asList(DifferentLengthRule.class, SameTranslationRule.class);
+    return Arrays.asList(DifferentLengthRule.class, SameTranslationRule.class,
+        DifferentPunctuationRule.class);
   }
 
   private List<StringPair> correctExamples;
