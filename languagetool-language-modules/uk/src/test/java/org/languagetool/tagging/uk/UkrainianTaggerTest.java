@@ -92,7 +92,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("той-таки", "той-таки/[той-таки]pron:m:v_naz|той-таки/[той-таки]pron:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("буде-таки", "буде-таки/[бути]verb:pres:s:3:imperf", tokenizer, tagger);
 
-    TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:m:v_naz:anim", tokenizer, tagger);
+//    TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:m:v_naz:anim", tokenizer, tagger);
 
     // TODO: старий -> старший
     TestTools.myAssert("Алієва-старшого", "Алієва-старшого/[Алієв-старий]noun:m:v_rod:anim|Алієва-старшого/[Алієв-старий]noun:m:v_zna:anim", tokenizer, tagger);
