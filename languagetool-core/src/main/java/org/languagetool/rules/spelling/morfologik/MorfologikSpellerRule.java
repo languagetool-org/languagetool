@@ -87,8 +87,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (JLanguageTool.getDataBroker().resourceExists(getFileName())) {
         binaryDict = getFileName();
       }
-      if (JLanguageTool.getDataBroker().resourceExists(getIgnoreFileName())) {
-        plainTextDict = getIgnoreFileName();
+      if (JLanguageTool.getDataBroker().resourceExists(getSpellingFileName())) {
+        plainTextDict = getSpellingFileName();
       }
       if (binaryDict != null) {
         if (plainTextDict != null) {
@@ -96,7 +96,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           speller2 = new MorfologikMultiSpeller(binaryDict, plainTextDict, 2);
           setConvertsCase(speller1.convertsCase());
         } else {
-          throw new RuntimeException("Could not find ignore spell file in path: " + getIgnoreFileName());
+          throw new RuntimeException("Could not find ignore spell file in path: " + getSpellingFileName());
         }
       } else {
         // should not happen, as we only configure this rule (or rather its subclasses)

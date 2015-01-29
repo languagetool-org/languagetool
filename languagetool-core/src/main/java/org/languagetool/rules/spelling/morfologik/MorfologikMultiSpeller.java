@@ -41,7 +41,7 @@ public class MorfologikMultiSpeller {
 
   /**
    * @param binaryDictPath path in classpath to a {@code .dict} binary Morfologik file
-   * @param plainTextPath path in classpath to a plain text {@code .txt} file (like ignore.txt)
+   * @param plainTextPath path in classpath to a plain text {@code .txt} file (like spelling.txt)
    * @param maxEditDistance maximum edit distance for accepting suggestions
    */
   public MorfologikMultiSpeller(String binaryDictPath, String plainTextPath, int maxEditDistance) throws IOException {

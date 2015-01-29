@@ -52,6 +52,7 @@ public abstract class SpellingCheckRule extends Rule {
   protected final Language language;
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
+  private static final String SPELLING_FILE = "/hunspell/spelling.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
 
   private final Set<String> wordsToBeIgnored = new HashSet<>();
@@ -204,9 +205,23 @@ public abstract class SpellingCheckRule extends Rule {
     loadWordsToBeProhibited(getProhibitFileName());
   }
 
-  /** @since 2.7 */
+  /**
+   * Get the name of the ignore file, which lists words to be accepted, even
+   * when the spell checker would not accept them. Unlike with {@link #getSpellingFileName()}
+   * the words in this file will not be used for creating suggestions for misspelled words.
+   * @since 2.7
+   */
   protected String getIgnoreFileName() {
     return language.getShortName() + SPELLING_IGNORE_FILE;
+  }
+
+  /**
+   * Get the name of the spelling file, which lists words to be accepted
+   * and used for suggestions, even when the spell checker would not accept them.
+   * @since 2.9
+   */
+  protected String getSpellingFileName() {
+    return language.getShortName() + SPELLING_FILE;
   }
 
   /**
@@ -240,8 +255,6 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  // Actually (Morfologik|Hunspell)MultiSpeller should handle the ignore.txt, but there are special
-  // cases (words with a dot at the end) where that's not enough.
   private void loadWordsToBeIgnored(String ignoreFile) throws IOException {
     if (!JLanguageTool.getDataBroker().resourceExists(ignoreFile)) {
       return;

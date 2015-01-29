@@ -92,7 +92,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       final String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + ".dict";
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
-        return new MorfologikMultiSpeller(morfoFile, "/de/hunspell/ignore.txt", MAX_EDIT_DISTANCE);
+        return new MorfologikMultiSpeller(morfoFile, "/de/hunspell/spelling.txt", MAX_EDIT_DISTANCE);
       } else {
         return null;
       }

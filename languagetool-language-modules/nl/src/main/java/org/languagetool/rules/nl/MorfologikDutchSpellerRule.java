@@ -47,6 +47,11 @@ public final class MorfologikDutchSpellerRule extends MorfologikSpellerRule {
   }
 
   @Override
+  protected String getSpellingFileName() {
+    return "/nl/spelling/spelling.txt";
+  }
+
+  @Override
   protected String getProhibitFileName() {
     return "/nl/spelling/prohibit.txt";
   }
