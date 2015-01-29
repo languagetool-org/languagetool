@@ -5764,6 +5764,7 @@ zijdens 	van de kant van, door
 </rule>
 
 </category>
+
 <category name="Typisch Vlaams">
 
 <rule id="OT_BIJ_BEVEL" name="bij bevel">
@@ -5787,8 +5788,35 @@ zijdens 	van de kant van, door
   <token regexp="yes">barema|weddeschaal</token>
   </pattern>
   <message>Standaardtaal voor dit woord is <suggestion>loonschaal</suggestion> of <suggestion>salarisschaal</suggestion></message>
+  <url>http://taaladvies.net/taal/advies/vraag/1729/om_ter_hardst_om_het_hardst/</url>
   <example correction="loonschaal|salarisschaal">Ik ken zijn <marker>barema</marker> niet.</example>
   <example>Ik ken zijn <marker>loonschaal</marker> niet.</example>
+</rule>
+
+<rule id="OT_WACHTWOORD" name="paswoord/password => wachtwoord">
+  <pattern>
+  <token regexp="yes">paswoord|password</token>
+  </pattern>
+  <message>In het hele taalgebied wordt <suggestion>wachtwoord</suggestion> correct gevonden.</message>
+  <url>http://taaladvies.net/taal/advies/vraag/1709/paswoord_password_wachtwoord/</url>
+  <example correction="wachtwoord">Ik ken zijn <marker>password</marker> niet.</example>
+  <example>Ik ken zijn <marker>loonschaal</marker> niet.</example>
+</rule>
+
+<rule id="TaalTik_OM_TER_AJsn" name="Om ter hardst => om het hardst">
+  <!--
+  2014-08-23 TaalTik
+    regel werkt goed
+  -->
+  <pattern>
+  <token>om</token>
+  <marker>
+  <token>ter</token>
+</marker>
+  <token postag="AJsn"/>
+  </pattern>
+  <message>Standaardnederlands is \1 <suggestion>het</suggestion> \3 </message>
+  <example correction="het">Zij reden om <marker>ter</marker> hardst.</example>
 </rule>
 
 <rule id="TaalTik_MODALITEIT" name="Modaliteit">
