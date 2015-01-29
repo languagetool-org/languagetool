@@ -1640,6 +1640,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="lub[lub/comp:comma,lub/conj]">Objawy cofają się <marker>lub</marker> stają się bardzo łagodne.</example>
     </rule>
 
+    <rule name="lub bez wołacza" id="lub_1">
+        <pattern>
+            <token><exception postag=".*voc|SENT_START" postag_regexp="yes"></exception></token>
+            <marker><token>lub</token></marker>
+        </pattern>
+        <disambig action="filter" postag="conj|comp:comma"/>
+        <example type="untouched">Lub robić coś!</example>
+        <example type="untouched">Człowieku lub coś!</example>
+    </rule>
+
+
     <rule name="Bądź i lub jako spójnik w konstrukcji „bądź x, bądź y”" id="badz_koordynacja_2">
         <pattern>
             <marker><token regexp="yes">bądź|lub</token></marker>
@@ -1670,7 +1681,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Bądź pozdrowiony!</example>
         <example type="ambiguous" inputform="bądź[być/verb:impt:sg:sec:imperf:nonrefl,bądź/comp:comma,bądź/conj,bądź/qub]"
                  outputform="bądź[bądź/conj]">Dawkę leku powtarzamy co dwa <marker>bądź</marker> trzy tygodnie.</example>
-        <example type="ambiguous" inputform="lub[lub/comp:comma,lub/conj,lubić/verb:impt:sg:sec:imperf:nonrefl,lubić/verb:impt:sg:sec:imperf:refl.nonrefl]"
+        <example type="ambiguous" inputform="lub[lub/comp:comma,lub/conj]"
                  outputform="lub[lub/conj]">Dawkę leku powtarzamy co dwa <marker>lub</marker> trzy tygodnie.</example>
     </rule>
 
@@ -1693,8 +1704,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>że</token>
         </pattern>
         <disambig action="filter" postag="conj|comp:comma"/>
-        <example type="ambiguous" inputform="lub[lub/comp:comma,lub/conj,lubić/verb:impt:sg:sec:imperf:nonrefl,lubić/verb:impt:sg:sec:imperf:refl.nonrefl]"
-                 outputform="lub[lub/comp:comma,lub/conj]">że nawracają się na łożu śmierci <marker>lub</marker> że nie ma ateistów w okopach.</example>
+        <example type="ambiguous" inputform="Lecz[Lecz/comp:comma,lecz/conj,leczo/subst:pl:gen:n2,leczyć/verb:impt:sg:sec:imperf:refl.nonrefl]"
+                 outputform="Lecz[Lecz/comp:comma,lecz/conj]"><marker>Lecz</marker> że żaba była chora, nie chodziła do doktora.</example>
     </rule>
 
     <rule id="badz_ze" name="bądź że">
