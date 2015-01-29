@@ -4538,8 +4538,8 @@ $Id$
             <token postag="VMIC.*" postag_regexp="yes" inflected="yes">deure</token>
             <token postag="V.N.*" postag_regexp="yes"/>
         </pattern>
-        <message>Caldria dir: <suggestion><match no="1" postag="VMIC(.+)" postag_regexp="yes" postag_replace="VMII$1"/> <match no="2"/></suggestion> (probabilitat) o <suggestion><match no="1" regexp_match="[Dd]eu(.+)" regexp_replace="hau$1"/> de <match no="2"/></suggestion> (obligació).</message>
-        <short>Temps verbal incorrecte</short>
+        <message>És preferible dir: <suggestion><match no="1" postag="VMIC(.+)" postag_regexp="yes" postag_replace="VMII$1"/> <match no="2"/></suggestion> (probabilitat) o <suggestion><match no="1" regexp_match="[Dd]eu(.+)" regexp_replace="hau$1"/> de <match no="2"/></suggestion> (obligació).</message>
+        <short>Forma preferible</short>
         <example>Devien ser les tres.</example>
         <example correction="Devien ser|Haurien de ser"><marker>Deurien ser</marker> les tres.</example>
     </rule>
@@ -32087,6 +32087,24 @@ $Id$
     </category>
     <category name="C6) Evita paraules incloses només en alguns diccionaris" default="on" type="style">
         <!--  verbs valencians: caquejar -->
+        <rule id="TEMPLAT" name="templat">
+            <pattern>
+                <token inflected="yes">templat</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris en el sentit de 'ben plantat, atractiu'.</message>
+            <suggestion><match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="VMP..$2$1.">temperar</match></suggestion>
+            <suggestion>ben <match no="1" postag="AQ.(.)(.)." postag_regexp="yes" postag_replace="VMP..$2$1.">plantar</match></suggestion>
+            <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">atractiu</match></suggestion>
+            <example correction="temperades|ben plantades|atractives">Eren molt <marker>templades</marker>.</example>
+        </rule>
+        <rule id="SECAR" name="secar">
+            <pattern>
+                <token inflected="yes">secar</token>
+            </pattern>
+            <message>Paraula admesa només en alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">assecar</match></suggestion>
+            <example correction="Assecava"><marker>Secava</marker> els pernils.</example>
+        </rule>
         <rule id="RALENTITZAR" name="ralentitzar">
             <pattern>
                 <token inflected="yes">ralentitzar</token>
