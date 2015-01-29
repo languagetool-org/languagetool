@@ -38,6 +38,7 @@ import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
@@ -458,6 +459,9 @@ public abstract class Language {
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
       for (String fileName : getRuleFileNames()) {
         InputStream is = this.getClass().getResourceAsStream(fileName);
+        if (is == null) {                     // files loaded via the dialog
+          is = new FileInputStream(fileName);
+        }
         patternRules.addAll(ruleLoader.getRules(is, fileName));
       }
     }
