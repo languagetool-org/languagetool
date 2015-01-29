@@ -25474,6 +25474,18 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TREPAR" name="trepar/enfilar-se, grimpar">
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">trepar</token>
+                </marker>
+                <token inflected="yes">per</token>
+            </pattern>
+            <message>"Trepar" vol dir "foradar". És incorrecte en altres sentits.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">grimpar</match></suggestion>
+            <suggestion>(enfilar-se)</suggestion>
+            <example correction="grimpava|(enfilar-se)">Aquell <marker>trepava</marker> pel mur.</example>
+        </rule>
         <rulegroup id="TASSA_TAXA" name="tassa / taxa">
             <rule>
                 <pattern>
