@@ -23,7 +23,7 @@ $Id$
 -->
 <!DOCTYPE rules [
     <!ENTITY exceptions_AL_FRONT "(?-i)picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
-    <!ENTITY exceptions_BE "xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
+    <!ENTITY exceptions_BE "carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY excep_exceptions_BE "ben|prou|tan|que|si|ara|molt|per|i|o|ni|més|['-].+">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|cap|arribada|arribar|corresponent|proper|pròxim|inferior|superior|referència|següent|posterior|anterior|acostar|aproximar|apropar|correspondre">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena">   
@@ -15238,6 +15238,12 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="BE" name="be/bé">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">bé</token>
+                    <token inflected="yes" regexp="yes">moble|immoble</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                 	<token postag="SENT_START" skip="-1"><exception scope="next" regexp="yes" inflected="yes">&exceptions_BE;</exception></token>
@@ -15281,7 +15287,6 @@ $Id$
                 <example>Els porcs i els bens.</example>
                 <example>s'afegeix a la resta del suc on ha cuit la llana, barrejant-ho bé.</example>
                 <example>Coneixia aquell porc tan bé com Alfred</example>
-
             </rule>
             <rule>
                 <pattern>
@@ -33111,7 +33116,7 @@ $Id$
                         <token postag="NCFS000"><exception postag="V.[IS].*|_GV_" postag_regexp="yes"/><exception scope="previous">una</exception></token>
                         <token>alguna</token>
                     </marker>
-                    <token><exception postag="N.[FC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
+                    <token><exception postag="N.[FC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|de|d'</exception></token>
                 </pattern>
                 <message>Expressió incorrecta com a negació.</message>
                 <suggestion>cap <match no="1"/></suggestion>
@@ -33126,13 +33131,14 @@ $Id$
                         <token postag="NCMS000"><exception postag="V.[IS].*|_GV_" postag_regexp="yes"/><exception scope="previous">un</exception></token>
                         <token>algun</token>
                     </marker>
-                    <token><exception postag="N.[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+</exception></token>
+                    <token><exception postag="N.[MC][SN].*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.+|de|d'</exception></token>
                 </pattern>
                 <message>Expressió incorrecta com a negació.</message>
                 <suggestion>cap <match no="1"/></suggestion>
                 <short>Possible error</short>
                 <example correction="cap llibre">No hi ha <marker>llibre algun</marker> que ho aclarisca.</example>
                 <example>que es va fer un dia algun altre pacient</example>
+                <example>per si de cas algun d'ells</example>
             </rule>
         </rulegroup>
     	<rulegroup id="TEMPS_VERBALS_INADEQUATS" name="Temps verbals inadequats">
