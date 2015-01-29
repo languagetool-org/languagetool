@@ -41,6 +41,11 @@ public class DifferentPunctuationRuleTest extends TestCase {
         trgLangTool.getAnalyzedSentence("C'est la vie!"));
     assertEquals(0, matches.length);
 
+    matches = rule.match(
+        srcLangTool.getAnalyzedSentence("one sentence"),
+        trgLangTool.getAnalyzedSentence("jedno zdanie"));
+    assertEquals(0, matches.length);
+
     // incorrect sentences:
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("This this is a test sentence."),

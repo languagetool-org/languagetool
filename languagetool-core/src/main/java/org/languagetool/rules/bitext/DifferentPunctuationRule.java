@@ -57,10 +57,14 @@ public class DifferentPunctuationRule extends BitextRule {
 
       final AnalyzedTokenReadings[] translationTokens = targetText.getTokens();
       final AnalyzedTokenReadings[] sourceTokens = sourceText.getTokens();
-      if (!translationTokens[translationTokens.length - 1].getToken().
-          equals(sourceTokens[sourceTokens.length - 1].getToken())) {
-      final int len = translationTokens[translationTokens.length - 1].getStartPos() +
-          translationTokens[translationTokens.length - 1].getToken().length();
+      int lastTok = translationTokens.length - 1;
+      if ((".".equals(translationTokens[lastTok].getToken()) ||
+          "?".equals(translationTokens[lastTok].getToken()) ||
+          "!".equals(translationTokens[lastTok].getToken())) &&
+            !translationTokens[lastTok].getToken().equals
+              (sourceTokens[sourceTokens.length - 1].getToken())) {
+      final int len = translationTokens[lastTok].getStartPos() +
+          translationTokens[lastTok].getToken().length();
       return new RuleMatch[] { new RuleMatch(this, 1, len, getMessage()) };
     }
     return new RuleMatch[0];
