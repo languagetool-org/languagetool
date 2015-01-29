@@ -957,6 +957,11 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="łuno"/></disambig>
     </rule>
 
+    <rule name="mienia" id="mienia">
+        <pattern><token>mienia</token></pattern>
+        <disambig action="remove"><wd lemma="mieniać"/></disambig>
+    </rule>
+
     <rule name="możliwe" id="mozliwe"> <!-- niepotrzebny wpis z sjp -->
         <pattern>
             <marker><token inflected="yes">możliwe</token></marker>
@@ -1047,6 +1052,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>trochę</token>
         </pattern>
         <disambig action="remove"><wd lemma="trocha"/></disambig>
+    </rule>
+
+    <rule name="wzdłuż to nie wzdłużyć" id="WZDLUZ">
+        <pattern><token>wzdłuż</token></pattern>
+        <disambig action="remove"><wd lemma="wzdłużyć"/></disambig>
+    </rule>
+
+    <rule name="wręcz" id="WRECZ">
+        <pattern>
+            <token regexp="yes" inflected="yes">walczyć|walka</token>
+            <marker><token>wręcz</token></marker>
+        </pattern>
+        <disambig postag="adv"/>
     </rule>
 
     <rule name="umarły by usłyszał" id="subst_praet_by_praet">
