@@ -10080,7 +10080,7 @@ zich van de domme houden, van den domme houden
     </rule>
   </rulegroup> 
   
-  <rulegroup id="TaalTik_AAN_ZIJN_JAN_TREKKEN" name="Aan zijn jas trekken">
+  <rulegroup id="TaalTik_AAN_ZIJN_JAS_TREKKEN" name="Aan zijn jas trekken">
     <rule>
     <pattern>
       <token skip="1">aan</token>
@@ -11263,6 +11263,17 @@ zich van de domme houden, van den domme houden
     <example correction="wendt">Hoe je het ook <marker>went</marker> of keert: het is fout.</example>
   </rule>   
   
+  <rule id="TaalTik_INVALIDE_TOILET" name="Invalide toilet → invalidentoilet">
+    <!-- TaalTik, 2014-10-02, nieuw -->
+    <pattern>
+      <marker>
+	<token regexp="yes">(minder|in)valide</token>
+	<token postag="NN.*" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>U bedoelt vast: <suggestion>\1n\2</suggestion>.</message>    
+    <example correction="invalidentoilet">Het <marker>invalide toilet</marker> was net schoongemaakt.</example>
+  </rule>       
 </category>
 
 
