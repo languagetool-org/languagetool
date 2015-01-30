@@ -11246,12 +11246,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
                     <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes</token>
                 </marker>
-                <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /></token>
+                <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein und muss dann großgeschrieben werden.</message>
             <example correction="Zweites">wurde am 10. März 1963 als <marker>zweites</marker> von vier Kindern geboren</example>
             <example>Als <marker>Erstes</marker> prüfen wir die Stromzufuhr.</example>
             <example>Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
+            <example>Sie gilt zum Beispiel als <marker>erstes</marker> neugotisches Kunstwerk.</example>
         </rule>
         <rule id="ANS_KLEINES_NOMEN" name="ans/fürs/... + kleingeschr. Nomen">
             <antipattern>
@@ -13668,7 +13669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception regexp="yes">\(|,|;</exception></token>
                     <token regexp="yes">[dD]er</token>
                     <marker>
-                        <token regexp="yes">&massubklein;</token>
+                        <token regexp="yes">&massubklein;<exception>laut</exception></token>
                     </marker>
                     <token regexp="yes">der|einer|dieser</token>
                     <token postag="SUB:GEN:SIN:FEM"/>
@@ -13677,6 +13678,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Angriff">Der <marker>angriff</marker> der Person kam unerwartet.</example>
                 <example>Der Löwe, der <marker>laut</marker> der Sage zwei Köpfe hat, existiert nicht.</example>
+                <example>Der <marker>laut</marker> der Statistik für Konsum steigende Verbrauch.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
