@@ -131,7 +131,7 @@ $Id$
             <marker>
                 <token>ha</token>
             </marker>
-            <token postag="V.N.*|N.*|AQ.*" postag_regexp="yes"><exception postag="V.P.*" postag_regexp="yes"/><exception>de</exception></token>
+            <token postag="V.N.*|N.*|AQ.*" postag_regexp="yes"><exception postag="V.P.*" postag_regexp="yes"/><exception regexp="yes">de|menester|lugar</exception></token>
         </pattern>
         <message>Si es una preposición, se escribe <suggestion>a</suggestion>.</message>
         <example correction="a">Lo ha vuelto <marker>ha</marker> hacer.</example>
@@ -158,6 +158,30 @@ $Id$
 
     </rule>
 
+    <!-- HAZ_HAS Confusiones con el verbo hacer, ser y el sustantivo haz -->
+
+    <rulegroup id="HAZ_HAS" name="Hacer/ser, haz">
+
+      <!-- HAZ_PARTICIPIO Antes de un participio «Has» se escribe con «S». -->
+
+      <rule id="HAZ_PARTICIPIO">
+          <antipattern>
+              <token postag_regexp="yes" postag="D.*"></token>
+              <token>haz</token>
+          </antipattern>
+          <pattern case_sensitive="no">
+              <marker>
+                <token>haz</token>
+              </marker>
+              <token postag="V[ASM]P00.*" postag_regexp="yes"/>
+          </pattern>
+          <message>El verbo auxiliar se escribe con «s»: <suggestion>has</suggestion>.</message>
+          <short>El verbo auxiliar se escribe con «s»</short>
+          <example correction="Has"><marker>Haz</marker> agotado mi paciencia.</example>
+          <example>El haz dividido se proyecta en varios sitios.</example>
+      </rule>
+    </rulegroup>
+
     <!--VOY_HA_INF ir + ha + INF-->
 
     <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
@@ -174,6 +198,7 @@ $Id$
       <short>La preposición «a» se escribe sin «h»</short>
 
       <example correction="Voy a hablar"><marker>Voy ha hablar</marker> con ella.</example>
+
 
     </rule>
 
@@ -980,7 +1005,7 @@ $Id$
           <marker>
               <token inflected='yes' postag='V.[IS].3P.' postag_regexp='yes'>haber</token>
           </marker>
-          <token regexp='yes'>.+<exception postag='V.P.+' postag_regexp='yes'/></token>
+          <token regexp='yes'>.+<exception postag='V.P.+|PP3.*|UNKNOWN' postag_regexp='yes'/></token>
       </pattern>
       <message>Se conjuga el verbo Haber en plural para la tercera persona sólo si va seguido del participio de un verbo. <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion></message>
       <short>Verbo haber en plural sin participio.</short>
