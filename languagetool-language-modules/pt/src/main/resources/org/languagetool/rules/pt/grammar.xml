@@ -21,7 +21,7 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
-$Id: grammar.xml,v 1.101 2015-01-21 23:20:00 marcoagpinto Exp $
+$Id: grammar.xml,v 1.102 2015-01-30 16:30:00 marcoagpinto Exp $
 -->
 <rules lang="pt" xsi:noNamespaceSchemaLocation="../rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
@@ -1742,6 +1742,19 @@ $Id: grammar.xml,v 1.101 2015-01-21 23:20:00 marcoagpinto Exp $
 
 
 
+    <!-- PARA ALÉM DISSO além disso -->
+    <rule id="PARA_ALÉM_DISSO" name="além disso">
+      <pattern>
+        <token>para</token>
+        <token>além</token>
+        <token>disso</token>
+      </pattern>
+      <message>Substituir «para além disso» por <suggestion>além disso</suggestion>.</message>
+      <example correction="além disso">O que devo fazer <marker>para além disso</marker>?</example>
+    </rule>
+
+
+
     <!-- PARA DE pára de -->
     <rule id="PARA_DE" name="pára de">
       <pattern>
@@ -1781,6 +1794,18 @@ $Id: grammar.xml,v 1.101 2015-01-21 23:20:00 marcoagpinto Exp $
     </rule>
     
     
+
+    <!-- PIOR EDUCADO mais mal-educado -->
+    <rule id="PIOR_EDUCADO" name="mais mal educado">
+      <pattern>
+        <token>pior</token>
+        <token>educado</token>
+      </pattern>
+      <message>Substituir «pior educado» por <suggestion>mais mal-educado</suggestion>.</message>
+      <example correction="mais mal-educado">O Jorge é <marker>pior educado</marker> do que parecia.</example>
+    </rule>
+
+
 
     <!-- PODERIAM-SE poder-se-iam -->
     <rule id="PODERIAM-SE" name="poder-se-iam">
