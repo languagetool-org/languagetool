@@ -1054,6 +1054,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="trocha"/></disambig>
     </rule>
 
+    <rule name="księga gości" id="KSIEGA_GOSCI">
+        <pattern>
+            <token inflected="yes">księga</token>
+            <marker><token >gości</token></marker>
+        </pattern>
+        <disambig postag="subst:pl:gen:m1"/>
+    </rule>
+
+    <rule name="stała jako przymiotnik" id="STALA">
+        <pattern>
+            <token regexp="yes">wartość|ekspozycja|wystawa</token>
+            <marker><token>stała</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="stać"/></disambig>
+    </rule>
+
     <rule name="wzdłuż to nie wzdłużyć" id="WZDLUZ">
         <pattern><token>wzdłuż</token></pattern>
         <disambig action="remove"><wd lemma="wzdłużyć"/></disambig>
@@ -1065,6 +1081,18 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker><token>wręcz</token></marker>
         </pattern>
         <disambig postag="adv"/>
+    </rule>
+
+    <rule name="wybrania" id="wybrania">
+        <pattern>
+            <marker><token>wybrania</token></marker>
+            <token postag=".*:gen.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove"><wd lemma="wybraniać"/></disambig>
+        <example type="untouched">On wybrania wszystkie.</example>
+        <example type="ambiguous" inputform="wybrania[wybraniać/verb:fin:sg:ter:imperf:refl.nonrefl,wybrać/ger:sg:gen:n2:perf:aff:refl.nonrefl]" outputform="wybrania[wybrać/ger:sg:gen:n2:perf:aff:refl.nonrefl]">
+            Konieczność ponownego <marker>wybrania</marker> numeru.
+        </example>
     </rule>
 
     <rule name="umarły by usłyszał" id="subst_praet_by_praet">
