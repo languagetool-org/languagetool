@@ -1062,6 +1062,25 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="subst:pl:gen:m1"/>
     </rule>
 
+    <rule name="brać udział" id="BRAC_UDZIAL">
+        <pattern>
+            <marker>
+            <token inflected="yes" regexp="yes">wziąć|brać</token>
+            <token postag="subst:sg:acc:m3">udział</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="udział[udziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,udział/subst:sg:acc:m3,udział/subst:sg:nom:m3]"
+                 outputform="udział[udział/subst:sg:acc:m3]">Asystent biorący <marker>udział</marker> w badaniach</example>
+    </rule>
+
+    <rule name="mszy to nie mszyć" id="MSZY">
+        <pattern>
+            <marker><token>mszy</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="mszyć"/></disambig>
+    </rule>
+
     <rule name="stała jako przymiotnik" id="STALA">
         <pattern>
             <token regexp="yes">wartość|ekspozycja|wystawa</token>

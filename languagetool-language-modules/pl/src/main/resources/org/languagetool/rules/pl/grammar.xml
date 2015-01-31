@@ -3045,6 +3045,19 @@ $Id$
 						<example>To jest „przykład”.</example>
 				</rule>
                 <rule id="ZBEDNA_SPACJA_PRZED" type="whitespace" name="Zbędna spacja przed znakiem interpunkcyjnym (średnik, dwukropek)">
+                    <antipattern>
+                        <marker>
+                        <token spacebefore="yes" regexp="yes">[;:]</token>
+                        </marker>
+                        <token spacebefore="no" regexp="yes">[)\]]</token>
+                    </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token spacebefore="yes" regexp="yes">[;:]</token>
+                        </marker>
+                        <token spacebefore="no">-</token>
+                        <token spacebefore="no" regexp="yes">[)\]]</token>
+                    </antipattern>
                 <pattern>
                     <token/>
                     <token spacebefore="yes" regexp="yes">[;:]</token>
@@ -3053,6 +3066,8 @@ $Id$
                 <short>Zbędna spacja</short>
                 <example correction="zdanie;">To jest <marker>zdanie ;</marker> a to drugie.</example>
                 <example>To jest zdanie; a to drugie.</example>
+                    <example>A to jest emotikon :)</example>
+                    <example>A to jest emotikon ;-)</example>
                 </rule>
 				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
                     <rule>
