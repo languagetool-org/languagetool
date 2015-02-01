@@ -2008,6 +2008,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>Ni havis maltro por manĝi.</example>
       <example>Li studis kiamaniere la birdoj flugas.</example>
     </rule>
+    <rulegroup id="VTR_NAK" name="mankanta akuzativo">
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">sed|ĉar|tamen|kaj|aŭ|nek|neniam|ĉiam</token>
+          <token postag="V tr [ui]" postag_regexp="yes"/>
+          <marker><token postag="[ROA] nak.*|T nak .. . [ou]" postag_regexp="yes"/></marker>
+        </pattern>
+        <message>Ĉu vi fogesis akuzativon malantaŭ la transitiva verbo «\3»?</message>
+        <suggestion>\4n</suggestion>
+        <example correction="panon">Aĉetu <marker>pano</marker>!</example>
+        <example correction="tion">Lerni <marker>tio</marker> facilas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token postag="SENT_START"/>
+          <token min="0" max="1" regexp="yes">sed|ĉar|tamen|kaj|aŭ|nek|neniam|ĉiam</token>
+          <token postag="V tr [ui]" postag_regexp="yes"/>
+          <or>
+            <token regexp="yes">la|ambaŭ</token>
+            <token min="1" max="2" postag="N"/>
+          </or>
+          <marker><token postag="[OA] nak.*" postag_regexp="yes"/></marker>
+        </pattern>
+        <message>Ĉu vi fogesis akuzativon malantaŭ la transitiva verbo «\3»?</message>
+        <example correction="">Boligu la <marker>akvo</marker>!</example>
+        <example>Boligu la <marker>akvon</marker>!</example>
+        <example correction="">Aĉetu dek <marker>ovoj</marker>!</example>
+        <example>Aĉetu dek <marker>ovojn</marker>!</example>
+        <example correction="">Aĉetu dek du <marker>ovoj</marker>!</example>
+        <example>Aĉetu dek du <marker>ovojn</marker>!</example>
+      </rule>
+    </rulegroup>
     <rule id="NAK_NAK_VTR" name="mankanta akuzativo">
       <pattern>
         <token skip="2" postag="SENT_START">
