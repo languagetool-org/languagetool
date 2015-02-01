@@ -44,8 +44,18 @@ public class CatalanSentenceTokenizerTest extends TestCase {
     testSplit("Ja ho tinc! ", "Què vols dir?");
     testSplit("Us explicaré com va anar: ",
             "»La Maria va engegar el cotxe");
-    testSplit("diu que va dir. ",
-            "A mi em feia estrany.");    
+    testSplit("diu que va dir. ", "A mi em feia estrany.");
+    
+    // N.
+    testSplit("Vés-te’n. ", "A mi em feia estrany.");  
+    testSplit("Vés-te'n. ", "A mi em feia estrany.");
+    testSplit("VÉS-TE'N. ", "A mi em feia estrany.");
+    testSplit("Canten. ", "A mi em feia estrany.");
+    testSplit("Desprèn. ", "A mi em feia estrany.");
+    testSplit("(n. 3).");
+    testSplit(" n. 3");
+    testSplit("n. 3");
+    testSplit("(\"n. 3\".");
 
     // Initials
     testSplit("A l'atenció d'A. Comes.");
