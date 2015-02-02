@@ -33,7 +33,9 @@ import java.nio.charset.CharacterCodingException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class MorfologikGermanyGermanSpellerRuleTest {
 
@@ -56,7 +58,10 @@ public class MorfologikGermanyGermanSpellerRuleTest {
     URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
     Dictionary dictionary = Dictionary.read(fsaURL);
     Speller speller = new Speller(dictionary, 2);
-    System.out.println(speller.getFrequency("ich"));
+    assertThat(speller.getFrequency("der"), is(25));
+    assertThat(speller.getFrequency("Haus"), is(11));
+    assertThat(speller.getFrequency("schön"), is(9));
+    assertThat(speller.getFrequency("gippsnicht"), is(0));
   }
 
   @Test
@@ -66,12 +71,17 @@ public class MorfologikGermanyGermanSpellerRuleTest {
     Dictionary dictionary = Dictionary.read(fsaURL);
     Speller speller = new Speller(dictionary, 2);
     List<String> input = Arrays.asList((
-            // tiny subset from from https://de.wikipedia.org/wiki/Wikipedia:Liste_von_Tippfehlern
+            // tiny subset from https://de.wikipedia.org/wiki/Wikipedia:Liste_von_Tippfehlern
             "Abenteur Abhängikeit abzuschliessen agerufen Aktivitiäten Aktzeptanz " +
             "Algorhitmus Algoritmus aliiert allgmein Amtsitz änlich Anstoss atakieren begrüsst Bezeichnug chinesiche " +
-            "dannach Frima Fahrad Gebaüde gesammt " +
+            "dannach Frima Fahrad Gebaüde gesammt Schrifsteller seperat Septmber Staddteil Rhytmen rhytmisch Maschiene " +
+            "Lebensmittelgäschefte enstand großmutter Rytmus " +
+            // from user feedback:
+            "Vorstelungsgespräch Heißhunge-Attakcen evntl. langwalig Selbstportät Erdgeshoss " +
+            "kommmischeweise gegensatz Gesichte Suedkaukasus Englisch-sprachigige " +
             // from gutefrage.net:
-            "gerägelt Aufjedenfall ivh hällt daß woeder oderso anwalt").split(" "));
+            "gerägelt Aufjedenfall ivh hällt daß muß woeder oderso anwalt"
+        ).split(" "));
     for (String word : input) {
       check(word, speller);
     }
