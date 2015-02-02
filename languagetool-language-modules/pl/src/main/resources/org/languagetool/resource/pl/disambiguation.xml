@@ -906,6 +906,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
       <disambig action="remove"><wd lemma="gałęzić"/></disambig>
     </rule>
 
+    <rule name="gorzej to nie czasownik" id="GORZEJ">
+        <pattern>
+            <token regexp="yes">odrobinę|znacznie|nieco|coraz|jeszcze|trochę|dużo|zdecydowanie|stokroć|wiele|im|lub|niewiele</token>
+            <marker><token>gorzej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="gorzeć"/></disambig>
+    </rule>
+
     <rule name="jaka to nie jaka" id="JAKA_NIE_JAKA">
         <pattern>
             <token>,</token>
