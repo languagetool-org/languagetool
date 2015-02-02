@@ -196,7 +196,7 @@ class DictionaryBuilder {
             freqValuesApplied++;
           }
           if (freq < 0 || freq > 255) {
-            throw new RuntimeException("Frequency out of range (0-255): " + line);
+            throw new RuntimeException("Frequency out of range (0-255): " + freq + " in word " + key);
           }
           // Convert integers 0-255 to ranges A-Z, and write output 
           String freqChar = Character.toString((char) (FIRST_RANGE_CODE + freq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
