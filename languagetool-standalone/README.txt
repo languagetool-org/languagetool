@@ -85,7 +85,13 @@ License:
  http://languagetool.wikidot.com/adding-a-new-language-to-automatic-language-detection
  The Wikipedia-based training data can be downloaded from
  http://www.languagetool.org/download/language-training-data/
- 
+
+ Some language's spelling dictionaries contain frequency data. This is taken
+ from the Mozilla-B2G Gaia project (https://github.com/mozilla-b2g/gaia/) which
+ again takes it from Spell On It (http://www.spellonit.com/downloads/frequencies/).
+ The frequency data is released under Creative Commons Attribution 4.0
+ International License (http://creativecommons.org/licenses/by/4.0/).
+
  Asturian:
  The Asturian data for part-of-speech tagging are from the Freeling dictionary,
  licensed under GNU General Public License.
