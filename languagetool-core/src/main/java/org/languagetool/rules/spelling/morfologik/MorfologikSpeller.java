@@ -39,18 +39,18 @@ public class MorfologikSpeller {
 
   /**
    * Creates a speller with the given maximum edit distance.
-   * @param filename path in classpath to morfologik dictionary
+   * @param fileInClassPath path in classpath to morfologik dictionary
    */
-  public MorfologikSpeller(String filename, int maxEditDistance) throws IOException {
-    this(Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(filename)), maxEditDistance);
+  public MorfologikSpeller(String fileInClassPath, int maxEditDistance) throws IOException {
+    this(Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(fileInClassPath)), maxEditDistance);
   }
 
   /**
    * Creates a speller with a maximum edit distance of one.
-   * @param filename path in classpath to morfologik dictionary
+   * @param fileInClassPath path in classpath to morfologik dictionary
    */
-  public MorfologikSpeller(String filename) throws IOException {
-    this(filename, 1);
+  public MorfologikSpeller(String fileInClassPath) throws IOException {
+    this(fileInClassPath, 1);
   }
 
   /** @since 2.9 */
