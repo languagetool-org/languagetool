@@ -30,12 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -186,6 +181,8 @@ class DictionaryBuilder {
           new FileInputStream(dictFile.getAbsoluteFile()),
           getOption("fsa.dict.encoding")));
       String line;
+      int maxFreq = Collections.max(freqList.values());
+      double maxFreqLog = Math.log(maxFreq);
       while ((line = br.readLine()) != null) {
         Matcher m = pTaggerEntry.matcher(line);
         if (m.matches()) {
@@ -195,11 +192,16 @@ class DictionaryBuilder {
             freq = freqList.get(key);
             freqValuesApplied++;
           }
-          if (freq < 0 || freq > 255) {
-            throw new RuntimeException("Frequency out of range (0-255): " + freq + " in word " + key);
+          int normalizedFreq = 0;
+          if (freq > 0) {
+            double freqZeroToOne = Math.log(freq) / maxFreqLog;  // spread number better over the range
+            normalizedFreq = (int) (freqZeroToOne * (FREQ_RANGES_IN-1));  // 0 to 255
+          }
+          if (normalizedFreq < 0 || normalizedFreq > 255) {
+            throw new RuntimeException("Frequency out of range (0-255): " + normalizedFreq + " in word " + key);
           }
           // Convert integers 0-255 to ranges A-Z, and write output 
-          String freqChar = Character.toString((char) (FIRST_RANGE_CODE + freq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
+          String freqChar = Character.toString((char) (FIRST_RANGE_CODE + normalizedFreq*FREQ_RANGES_OUT/FREQ_RANGES_IN));
           bw.write(line + separator + freqChar + "\n");
         }
       }
