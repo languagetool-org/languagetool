@@ -18,12 +18,20 @@
  */
 package org.languagetool.rules.de;
 
+import morfologik.speller.Speller;
+import morfologik.stemming.Dictionary;
+import org.apache.commons.lang.StringUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.CharacterCodingException;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,4 +50,39 @@ public class MorfologikGermanyGermanSpellerRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Üperall äußerst böse Umlaute!")).length);
   }
   
+  @Test
+  @Ignore("testing for https://github.com/languagetool-org/languagetool/issues/236")
+  public void testFrequency() throws IOException {
+    URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
+    Dictionary dictionary = Dictionary.read(fsaURL);
+    Speller speller = new Speller(dictionary, 2);
+    System.out.println(speller.getFrequency("ich"));
+  }
+
+  @Test
+  @Ignore("help testing for https://github.com/morfologik/morfologik-stemming/issues/34")
+  public void testCommonMisspellings() throws IOException {
+    URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
+    Dictionary dictionary = Dictionary.read(fsaURL);
+    Speller speller = new Speller(dictionary, 2);
+    List<String> input = Arrays.asList((
+            // tiny subset from from https://de.wikipedia.org/wiki/Wikipedia:Liste_von_Tippfehlern
+            "Abenteur Abhängikeit abzuschliessen agerufen Aktivitiäten Aktzeptanz " +
+            "Algorhitmus Algoritmus aliiert allgmein Amtsitz änlich Anstoss atakieren begrüsst Bezeichnug chinesiche " +
+            "dannach Frima Fahrad Gebaüde gesammt " +
+            // from gutefrage.net:
+            "gerägelt Aufjedenfall ivh hällt daß woeder oderso anwalt").split(" "));
+    for (String word : input) {
+      check(word, speller);
+    }
+  }
+
+  private void check(String word, Speller speller) throws CharacterCodingException {
+    List<String> suggestions = speller.findReplacements(word);
+    /*if (suggestions.size() > 10) {
+      suggestions = suggestions.subList(0, 9);
+    }*/
+    System.out.println(word + ": " + StringUtils.join(suggestions, ", "));
+  }
+
 }
