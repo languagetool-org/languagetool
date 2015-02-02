@@ -2980,12 +2980,37 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>Will</token>
-          <token regexp="yes">Ferr?ell?<exception>Ferrell</exception></token>
+          <token regexp="yes">F[ae]rr?ell?<exception>Ferrell</exception></token>
         </pattern>
         <message>Écrivez <suggestion>Will Ferrell</suggestion> s’il s’agit de l’acteur américain.</message>
         <url>https://fr.wikipedia.org/wiki/Will_Ferrell</url>
         <example correction="Will Ferrell"><marker>Will Ferrel</marker> est né en 1967.</example>
-        <example>Will Ferrell est né en 1967.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Scarlett</token>
+          <token>Johansson</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">Scarlett?e?</token>
+          <token regexp="yes">Johanss?on</token>
+        </pattern>
+        <message>Écrivez <suggestion>Scarlett Johansson</suggestion> s’il s’agit de l’actrice américaine.</message>
+        <url>https://fr.wikipedia.org/wiki/Scarlett_Johansson</url>
+        <example correction="Scarlett Johansson"><marker>Scarlett Johanson</marker> est née en 1984.</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>Shia</token>
+          <token case_sensitive="yes">LaBeouf</token>
+        </antipattern>
+        <pattern>
+          <token regexp="yes">sc?ha?ia</token>
+          <token regexp="yes">L[ae]b[eé]?ouff?e?||L[ae]bœuff?e?|L[ae]boeuff?e?</token>
+        </pattern>
+        <message>Écrivez <suggestion>Shia LaBeouf</suggestion> s’il s’agit de l’acteur américain.</message>
+        <url>https://fr.wikipedia.org/wiki/Shia_LaBeouf</url>
+        <example correct="Shia LaBeouf"><marker>Shia LaBoeuf</marker> est un acteur américain.</example>
       </rule>
       <rule>
         <antipattern>
