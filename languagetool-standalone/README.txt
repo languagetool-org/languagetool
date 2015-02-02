@@ -80,12 +80,6 @@ License:
  
  See third-party-licenses/README.txt for the copyright of the external libraries
 
- Language detection (*.ngp):
- The process for automatic language detection is described at
- http://languagetool.wikidot.com/adding-a-new-language-to-automatic-language-detection
- The Wikipedia-based training data can be downloaded from
- http://www.languagetool.org/download/language-training-data/
-
  Some language's spelling dictionaries contain frequency data. This is taken
  from the Mozilla-B2G Gaia project (https://github.com/mozilla-b2g/gaia/) which
  again takes it from Spell On It (http://www.spellonit.com/downloads/frequencies/).
