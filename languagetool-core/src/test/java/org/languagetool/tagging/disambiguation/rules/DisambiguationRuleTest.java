@@ -43,7 +43,7 @@ import org.xml.sax.SAXException;
 public class DisambiguationRuleTest extends TestCase {
 
   /**
-   * To be called from standalone - calling it here in core doesn't make
+   * To be called from standalone or language modules - calling it here in core doesn't make
    * much sense actually as we don't have any languages.
    */
   public void testDisambiguationRulesFromXML() throws Exception {
