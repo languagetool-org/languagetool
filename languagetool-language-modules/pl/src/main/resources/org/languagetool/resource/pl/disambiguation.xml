@@ -914,6 +914,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="gorzeć"/></disambig>
     </rule>
 
+    <rule name="jadowicie to nie czasownik" id="JADOWICIE">
+        <pattern>
+            <marker><token>jadowicie</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="jadowić"/></disambig>
+    </rule>
+
     <rule name="jaka to nie jaka" id="JAKA_NIE_JAKA">
         <pattern>
             <token>,</token>
@@ -1080,6 +1087,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="udział[udziać/verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl,udział/subst:sg:acc:m3,udział/subst:sg:nom:m3]"
                  outputform="udział[udział/subst:sg:acc:m3]">Asystent biorący <marker>udział</marker> w badaniach</example>
+    </rule>
+
+    <rule name="wyraźnie to nie wyraźniej" id="WYRAZNIEJ">
+        <pattern>
+            <marker><token>wyraźniej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="wyraźnieć"/></disambig>
     </rule>
 
     <rule name="mszy to nie mszyć" id="MSZY">
@@ -2330,6 +2344,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Nie chcesz, to sobie tutaj babiej!</example>
         <example type="ambiguous" inputform="Babiej[babi/adj:sg:dat:f:pos,babi/adj:sg:gen:f:pos,babi/adj:sg:loc:f:pos,babieć/verb:impt:sg:sec:imperf:nonrefl]"
                  outputform="Babiej[babi/adj:sg:gen:f:pos]">Okolice <marker>Babiej</marker> Góry</example>
+    </rule>
+
+    <rule id="OKAZYWAC_UCZUC" name="okazywać + uczuć -> ger">
+        <pattern>
+            <token regexp="yes" inflected="yes">okazać|okazywać</token>
+            <marker><token>uczuć</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="uczuć"/></disambig>
     </rule>
 
     <rule id="NOWE_MYSLI" name="myśli to rzeczownik">
@@ -3823,7 +3845,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     
     <rule id="CIAZY_SUBST" name="ciąży jako genetiwus">
         <pattern>
-            <token regexp="yes" inflected="yes">oświadczenie|zakończenie|przerywanie|trymestr|zaawansowany|niechciany|niepożądany|zapobiegać|nieślubny|miesiąc|patologia|tydzień|okres</token>
+            <token regexp="yes" inflected="yes">oświadczenie|zakończenie|przery?wanie|trymestr|zaawansowany|niechciany|niepożądany|zapobiegać|nieślubny|miesiąc|patologia|tydzień|okres</token>
             <marker><token>ciąży</token></marker>
         </pattern>
         <disambig postag="subst:sg:gen:f"></disambig>
