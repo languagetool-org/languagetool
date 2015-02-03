@@ -37,7 +37,7 @@ import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
-public class UkrainianRuleDisambiguatorTest extends DisambiguationRuleTest {
+public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
   
   private UkrainianTagger tagger;
   private UkrainianWordTokenizer tokenizer;

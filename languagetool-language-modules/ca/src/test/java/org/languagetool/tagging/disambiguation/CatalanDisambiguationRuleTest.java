@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
 
-public class CatalanDisambiguatorTest extends DisambiguationRuleTest {
+public class CatalanDisambiguationRuleTest extends DisambiguationRuleTest {
       
     private CatalanTagger tagger;
     private CatalanWordTokenizer tokenizer;

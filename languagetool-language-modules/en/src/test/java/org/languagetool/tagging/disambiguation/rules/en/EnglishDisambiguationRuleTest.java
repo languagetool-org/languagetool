@@ -30,7 +30,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class EnglishRuleDisambiguatorTest extends DisambiguationRuleTest {
+public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
   
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;

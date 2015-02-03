@@ -28,7 +28,7 @@ import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class PolishDisambiguatorTest extends DisambiguationRuleTest {
+public class PolishDisambiguationRuleTest extends DisambiguationRuleTest {
       
     private PolishTagger tagger;
     private WordTokenizer tokenizer;
