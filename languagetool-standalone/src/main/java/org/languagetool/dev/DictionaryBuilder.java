@@ -192,7 +192,7 @@ class DictionaryBuilder {
             freq = freqList.get(key);
             freqValuesApplied++;
           }
-          int normalizedFreq = 0;
+          int normalizedFreq = freq;
           if (freq > 0 && maxFreq > 255) {
             double freqZeroToOne = Math.log(freq) / maxFreqLog;  // spread number better over the range
             normalizedFreq = (int) (freqZeroToOne * (FREQ_RANGES_IN-1));  // 0 to 255
