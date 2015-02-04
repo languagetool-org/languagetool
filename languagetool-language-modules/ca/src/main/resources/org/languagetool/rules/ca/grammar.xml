@@ -667,6 +667,7 @@ $Id$
                 <example>El pis dos.</example>
                 <example>havia de passar llista dues o tres vegades</example>
                 <example>Un milió dues-centes mil?</example>
+                <example>I quines dues!</example>
             </rule>
             <!-- art fem + numeral masculí-->
             <rule>
@@ -26511,34 +26512,50 @@ $Id$
             <example correction="suports|adhesions|acords">Sense <marker>recolzaments</marker> parlamentaris.</example>
             <example>Sense suport.</example>
         </rule>
-        <rule id="RECOLZAR" name="recolzar">
-            <pattern>
-                <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
-                <marker>
-                    <token inflected="yes" skip="-1">recolzar<exception scope="previous">hi</exception><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
-                </marker>
-                <token postag="SENT_END" />
-            </pattern>
-            <message>Incorrecte en el sentit de "donar suport".</message>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> suport a</suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> costat a</suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sostenir</match></suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">defensar</match></suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ajudar</match></suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abonar</match></suggestion>
-            <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">secundar</match></suggestion>
+        <rulegroup id="RECOLZAR" name="recolzar">
             <url>http://esadir.cat/entrades/fitxa/id/2235</url>
-            <example correction="donéssim suport a|féssim costat a|sostinguéssim|defenséssim|ajudéssim|abonéssim|secundéssim">No volia que <marker>recolzéssim</marker> al president.</example>
-            <example>Una teoria que recolza sobre fets indiscutibles.</example>
-            <example>Posa l'escala que recolzi a la paret.</example>
-            <example>Em vaig recolzar d'esquena en un arbre.</example>
-            <example>Ho feia recolzant-se en un estudi acadèmic més o menys fiable.</example>
-            <example>El meu convenciment recolzava damunt unes premisses.</example>
-            <example>i s'hi recolzen</example>
-            <example>el concepte en què recolza</example>
-            <example>recolzant-se en un bastó</example>
-            <example>El cap el recolzà al bagul</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" skip="-1"><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
+                    <marker>
+                        <token inflected="yes" skip="-1">recolzar<exception scope="previous">hi</exception><exception scope="next" postag="NP..G.." postag_regexp="yes"/><exception scope="next" regexp="yes" inflected="yes">&exceptions_RECOLZAR;</exception></token>
+                    </marker>
+                    <token postag="SENT_END" />
+                </pattern>
+                <message>Incorrecte en el sentit de "donar suport".</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> suport a</suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> costat a</suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">sostenir</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">defensar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">ajudar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">abonar</match></suggestion>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">secundar</match></suggestion>
+                <example correction="donéssim suport a|féssim costat a|sostinguéssim|defenséssim|ajudéssim|abonéssim|secundéssim">No volia que <marker>recolzéssim</marker> al president.</example>
+                <example>Una teoria que recolza sobre fets indiscutibles.</example>
+                <example>Posa l'escala que recolzi a la paret.</example>
+                <example>Em vaig recolzar d'esquena en un arbre.</example>
+                <example>Ho feia recolzant-se en un estudi acadèmic més o menys fiable.</example>
+                <example>El meu convenciment recolzava damunt unes premisses.</example>
+                <example>i s'hi recolzen</example>
+                <example>el concepte en què recolza</example>
+                <example>recolzant-se en un bastó</example>
+                <example>El cap el recolzà al bagul</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">recolzar</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes" />
+                </pattern>
+                <message>Incorrecte en el sentit de "donar suport".</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">defensar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">secundar</match></suggestion>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">donar</match> suport a</suggestion>
+                <suggestion><match no="1" postag="(V.[IS].*)" postag_regexp="yes" postag_replace="$1">fer</match> costat a</suggestion>
+                <example correction="defensa|secunda|dóna suport a|fa costat a">Renzi <marker>recolza</marker> donar més temps a Grècia </example>
+             </rule>
+        </rulegroup>
         <rule id="APURAR" name="apurar">
             <pattern>
                 <marker>
