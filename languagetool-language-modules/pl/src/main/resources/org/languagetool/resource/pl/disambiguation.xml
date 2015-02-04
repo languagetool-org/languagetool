@@ -3993,6 +3993,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                  outputform="śmieci[śmiecie/subst:pl:gen:n2,śmieć/subst:pl:gen:m2,śmieć/subst:pl:gen:m3]">Tu leży kupa <marker>śmieci</marker>.</example>
     </rule>
 
+    <rule id="WIEZI_BRONI_SUBST" name="więzi i broni jako subst">
+        <pattern>
+            <unify>
+                <feature id="number"/><feature id="case"/><feature id="gender"><type id="f"/></feature>
+                <token regexp="yes">więzi|broni</token>
+                <token postag="adj:.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="więzi[więzić/verb:fin:sg:ter:imperf:refl.nonrefl,więź/subst:pl:acc:f,więź/subst:pl:gen:f,więź/subst:pl:nom:f,więź/subst:pl:voc:f,więź/subst:sg:dat:f,więź/subst:sg:gen:f,więź/subst:sg:loc:f,więź/subst:sg:voc:f]"
+                 outputform="więzi[więź/subst:sg:dat:f,więź/subst:sg:gen:f,więź/subst:sg:loc:f]">Mam poczucie <marker>więzi</marker> grupowej.</example>
+    </rule>
+
     <rule id="WOLI_SUBST" name="woli jako genetiwus">
         <pattern>
             <token regexp="yes" inflected="yes">choroba|wolność|wybuch|siła|akt|słabość|potęga</token>
