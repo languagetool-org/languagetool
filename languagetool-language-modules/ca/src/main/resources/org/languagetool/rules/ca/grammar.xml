@@ -1315,6 +1315,7 @@ $Id$
                 <example>on té molt poc pes</example>
                 <example>Per a ambdues fou decisiva la seva intervenció</example>
                 <example>I per tant resta una tasca de recopilació</example>
+                <example>Quina creus que és la pròxima instrucció?</example>
                 <!-- <example>influí molt Assíria</example> -->
                 <!-- <example>ser admesos com a tals Alemanya, el Japó,</example> -->
             </rule>
@@ -32496,7 +32497,7 @@ $Id$
             <pattern>
                 <token regexp="yes">suboficials?</token>
             </pattern>
-            <message>Paraula admesa per alguns.</message>
+            <message>Paraula admesa només en alguns diccionaris.</message>
             <suggestion><match no="1" regexp_match="suboficial(.*)" regexp_replace="sotsoficial$1" /></suggestion>
             <example correction="sotsoficials"><marker>suboficials</marker></example>
             <example>sotsoficial</example>
@@ -33192,27 +33193,28 @@ $Id$
             </rule>
         </rulegroup>
     	<rulegroup id="TEMPS_VERBALS_INADEQUATS" name="Temps verbals inadequats">
-    		<rule id="PRES_SUBJ_EN_CONDICIONALS" name="Present de subjuntiu en frases condicionals: *si conegueu">
-    			<pattern>
-    				<token><exception regexp="yes">en|entre</exception></token>
-    				<token skip="2">si<exception scope="next" postag="VSSI.*|V.IP.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" inflected="yes">mateix</exception></token>
-    				<marker>
-    					<token postag="V.SP.*" postag_regexp="yes"><exception postag="VSSI.*|V.IP.*" postag_regexp="yes"/></token>
-    				</marker>
-    			</pattern>
-    			<message>Temps verbal incorrecte. Useu el present d'indicatiu.</message>
-    			<suggestion><match no="3" postag="(V.)S(P.*)." postag_regexp="yes" postag_replace="$1I$2."/></suggestion>
-    			<short>Temps verbal incorrecte</short>
-    			<example correction="coneixeu">Si <marker>conegueu</marker> algú que ho sàpiga, digueu-m'ho.</example>
-    			<example correction="deis|dieu">Si li ho <marker>digueu</marker> a algú.</example>
-    			<example>Si veniu, digueu quan.</example>
-    			<example>Si pensem en algú, ja us ho direm.</example>
-    			<example>per si mateixes, tinguin al seu abast un ventall ample</example>
-    			<example>que per si mateixes tinguin al seu abast</example>
-    			<example>ens apareixen com si fossin trapezis</example>
-    			<example>encara que els òrgans en si resultin perfectes en estructura</example>
-    			<example>encreuar entre si espècies diverses sigui un do especial</example>
-    		</rule>
+            <rule id="PRES_SUBJ_EN_CONDICIONALS" name="Present de subjuntiu en frases condicionals: *si conegueu">
+                <pattern>
+                    <token><exception regexp="yes">en|entre</exception></token>
+                    <token skip="2">si<exception scope="next" postag="VSSI.*|V.IP.*|_PUNCT.*" postag_regexp="yes"/><exception scope="next" inflected="yes">mateix</exception></token>
+                    <marker>
+                        <token postag="V.SP.*" postag_regexp="yes"><exception postag="VSSI.*|V.IP.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Temps verbal incorrecte. Useu el present d'indicatiu.</message>
+                <suggestion><match no="3" postag="(V.)S(P.*)." postag_regexp="yes" postag_replace="$1I$2."/></suggestion>
+                <short>Temps verbal incorrecte</short>
+                <example correction="coneixeu">Si <marker>conegueu</marker> algú que ho sàpiga, digueu-m'ho.</example>
+                <example correction="deis|dieu">Si li ho <marker>digueu</marker> a algú.</example>
+                <example>Si veniu, digueu quan.</example>
+                <example>Si pensem en algú, ja us ho direm.</example>
+                <example>per si mateixes, tinguin al seu abast un ventall ample</example>
+                <example>que per si mateixes tinguin al seu abast</example>
+                <example>ens apareixen com si fossin trapezis</example>
+                <example>encara que els òrgans en si resultin perfectes en estructura</example>
+                <example>encreuar entre si espècies diverses sigui un do especial</example>
+                <example>D'uns quants dies si el cometa acaba col·lidint.</example>
+            </rule>
     	</rulegroup>
     	<rulegroup id="ALLO_ADJECTIU" name="allò + adjectiu (valor abstractiu)">
     		<rule>
