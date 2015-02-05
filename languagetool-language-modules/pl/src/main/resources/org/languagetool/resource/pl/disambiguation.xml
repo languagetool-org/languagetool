@@ -3983,6 +3983,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="suć"/></disambig>
     </rule>
 
+    <rule id="SWOBODNIEJ" name="swobodniej to nie swobodnieć">
+        <pattern>
+            <marker><token>swobodniej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="swobodnieć"/></disambig>
+    </rule>
+
     <rule id="SMIECI_SUBST" name="śmieci jako genetiwus">
         <pattern>
             <token regexp="yes" inflected="yes">kupa|wysypisko|wywóz|segregacja|sterta|spalarnia|sortownia|wywózka|utylizacja|usypisko|hałda|worek|składowisko|kontener|tona|spalanie|stos</token>
@@ -4047,6 +4054,22 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
         </pattern>
         <disambig postag="subst:sg:gen:f"></disambig>
+    </rule>
+
+    <rule id="ZWYKLA_ADJ" name="zwykła jako przymiotnik">
+        <pattern>
+            <unify>
+                <feature id="number"><type id="sg"/></feature>
+                <feature id="gender"><type id="f"/></feature>
+                <feature id="case"/>
+                <token postag="subst:sg.*" postag_regexp="yes"/>
+                <token>zwykła</token>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="zwykła[zwyknąć/verb:praet:sg:f:ter:perf:nonrefl,zwykły/adj:sg:nom.voc:f:pos]"
+                 outputform="zwykła[zwykły/adj:sg:nom.voc:f:pos]">To jest akcja <marker>zwykła</marker> znanej korporacji.</example>
+        <example type="untouched">Ona zwykła robić na drutach.</example>
     </rule>
 
     <rule id="BOGACI_ADJ" name="bogaci + rzeczownik => przymiotnik">
