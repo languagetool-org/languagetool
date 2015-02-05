@@ -6262,7 +6262,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Un dra bennak</example>
       </rule>
     </rulegroup>
-
+    <rule id="NEP" name="nep + unander">
+      <pattern>
+        <token>nep</token>
+        <marker>
+          <token postag="N . p.*" postag_regexp="yes">
+            <exception postag="N . s.*" postag_regexp="yes"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Ne zlefe ket bezañ ur stumm lies goude ar ger «nep». (CHALM R2.4)</message>
+      <example correction="">Du-hont ne gresk nep <marker>gwez</marker>.</example>
+      <example>Du-hont ne gresk nep gwezenn.</example>
+    </rule>
     <rulegroup id="AR_BENNAK" name="ar + bennak">
       <rule>
         <pattern>
