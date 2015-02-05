@@ -24246,6 +24246,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>Runde</token>
                     <token postag="ZAL"/>
                 </antipattern>
+                <antipattern>
+                    <token>in</token>
+                    <token postag="ZAL"/>
+                    <token regexp="yes">Anfang|Mitte|Ende|&monate;</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
                 <pattern>
                     <token postag="ZAL"><exception postag="ART:.*" postag_regexp="yes"/><exception regexp="yes">erstens|zweitens|drittens</exception></token>
                     <marker>
@@ -24264,6 +24270,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wir haben hier drei <marker>Möglichkeiten</marker>.</example>
                 <example>Zwei <marker>Game</marker> Boys können verbunden werden.</example>
                 <example>Es war schon in Runde eins Endstation.</example>
+                <example>In zwei Anfang 2009 veröffentlichten Studien...</example>
+                <example>In zwei 2009 veröffentlichten Studien...</example>
             </rule>
             <rule>
                 <pattern>
