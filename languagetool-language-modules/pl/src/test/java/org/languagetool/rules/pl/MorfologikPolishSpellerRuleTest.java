@@ -79,6 +79,11 @@ public class MorfologikPolishSpellerRuleTest {
     assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(2));
     assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(3));
     assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(4));
+
+    // There should be a match, this is not a prefix!
+
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("premoc")).length);
+
   }
 
 }

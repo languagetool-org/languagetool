@@ -150,9 +150,10 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
       final String first = word.substring(0, i);
       final String second = word.substring(i, word.length());
       if (prefixes.contains(first.toLowerCase(conversionLocale))
-              && !isMisspelled(speller1, second)) {
+              && !isMisspelled(speller1, second)
+              && second.length() > first.length()) { // but not for short words such as "premoc"
         // ignore this match, it's fine
-        probablyCorrectWords.add(word);
+        probablyCorrectWords.add(word); // FIXME: some strange words are being accepted, like prekupa
       } else {
         testedTokens.clear();
         testedTokens.add(first);

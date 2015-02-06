@@ -3393,6 +3393,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="domowić"/></disambig>
     </rule>
 
+    <rule id="DOROSLA" name="osoba dorosła">
+        <pattern>
+            <token postag="subst:sg:nom:f">osoba</token>
+            <token postag="adj:sg:nom.voc:f:pos">dorosła</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="DOSTAWA" name="dostawa to nie dostawać">
         <pattern>
             <token>dostawa</token>
@@ -3468,6 +3476,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>Kali</token>
         </pattern>
         <disambig action="remove"><wd lemma="kalić"/></disambig>
+    </rule>
+
+    <rule id="SKALI" name="skali to skalić">
+        <pattern>
+            <marker><token>skali</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="skalić"/></disambig>
     </rule>
 
     <rule id="KREWNI" name="krewni to nie krewnić">
@@ -3734,6 +3749,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>wiśnie</token>
         </pattern>
         <disambig action="remove"><wd lemma="wisnąć"/></disambig>
+    </rule>
+
+    <rule id="WOLNIEJ" name="wolniej to nie wolnieć">
+        <pattern>
+            <marker><token>wolniej</token></marker>
+        </pattern>
+        <disambig postag="adv:com"/>
     </rule>
 
     <rule id="WONIA" name="woni(ą) to nie wonić">
@@ -7424,12 +7446,12 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="ign"/>
     </rule>
 
-    <rule id="DA_VINCI" name="Leonardo da Vinci -> ign">
+    <rule id="DA_VINCI" name="Leonardo da Vinci, viola da gamba -> ign">
         <pattern>
             <marker>
                 <token>da</token>
             </marker>
-            <token>Vinci</token>
+            <token regexp="yes">Vinci|gamba</token>
         </pattern>
         <disambig postag="ign"/>
     </rule>
