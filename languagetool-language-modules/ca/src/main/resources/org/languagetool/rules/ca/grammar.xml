@@ -29906,6 +29906,20 @@ $Id$
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
         </rule> -->
+        <rule id="PORTAR_UNA_VIDA" name="*portar/*dur/tenir/fer una vida" default="off">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">portar|dur</token>
+                </marker>
+                <token min="0" max="2" postag="DI.FS.|AQ.[FC]S." postag_regexp="yes"></token>
+                <token>vida</token>
+            </pattern>
+            <message>Val més usar una altra expressió</message>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">tenir</match></suggestion>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match></suggestion>
+            <example correction="Té|Fa"><marker>Porta</marker> una doble vida.</example>
+            <example correction="té|fa">Ell <marker>porta</marker> una vida tranquil·la.</example>
+        </rule>
         <rulegroup id="CAP_GENS" name="cap ganes/gens de ganes" default="on">
         <!-- Alguns accepten 'cap' davant de nom no comptable abstracte -->
             <antipattern>
