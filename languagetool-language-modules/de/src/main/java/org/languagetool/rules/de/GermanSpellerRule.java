@@ -122,6 +122,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     String w = word.replaceFirst("\\.$", "");
     if ("unzwar".equals(w)) {
       return Collections.singletonList("und zwar");
+    } else if ("desweiteren".equals(w)) {
+      return Collections.singletonList("des Weiteren");
     } else if ("wieviel".equals(w)) {
       return Collections.singletonList("wie viel");
     } else if ("wieviele".equals(w)) {
