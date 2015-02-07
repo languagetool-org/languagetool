@@ -168,12 +168,13 @@ $Id$
         <rulegroup id="DEMOSTRATIUS" name="demostratius 'este' i 'eixe'" >
              <rule id="EVITA_DEMOSTRATIUS_ESTE" name="Evita els demostratius 'este'">
                 <pattern>
-                    <token inflected="yes">este<exception postag="_possible_nompropi"/></token>
+                    <token postag="DD.*" postag_regexp="yes" inflected="yes">este<exception postag="_possible_nompropi"/></token>
                 </pattern>
                 <message>Useu demostratius reforçats.</message>
                 <suggestion><match no="1" postag="(DD.*)" postag_regexp="yes" postag_replace="$1">aquest</match></suggestion>
                 <example correction="Aquest"><marker>Este</marker> home</example>
                 <example correction="Aquestes"><marker>Estes</marker> dones</example>
+                <example correction="Aquest"><marker>Este</marker> nou nom fou considerat més adient</example>
                 <example>Carles de Borbó i d'Àustria-Este</example>
             </rule>
             <rule id="EVITA_DEMOSTRATIUS_EIXE" name="Evita els demostratius 'eixe'">
@@ -1453,6 +1454,7 @@ $Id$
                 <example>Mai no havia vist vidres de color.</example>
                 <example>Encara que hi ha hagut intents de vincular-los</example>
                 <example>que les fetes anys abans a Ferrer de Poblenou</example>
+                <example>Igualada deu la seva existència a les contradiccions.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7165,6 +7167,7 @@ $Id$
                 <example>malgrat el predomini de barcelonins (ço és de català oriental),</example>
                 <example>malgrat una llista que és francament limitadora</example>
                 <example>malgrat l'aprovació fa dos anys de la llei</example>
+                <example>Malgrat l'aparença, l'obra és medieval.</example>
             </rule>
             <rule id="MALGRAT_MALGRAT_TOT" name="malgrat / malgrat tot">
                 <pattern>
