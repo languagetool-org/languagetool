@@ -11224,7 +11224,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                		<token><exception>la</exception></token>
+                    <token><exception>la</exception></token>
                     <token inflected="yes" skip="2" regexp="yes">córrer|tenir<exception scope="next" regexp="yes">la|una</exception></token>
                     <marker>
                         <token>presa</token>
@@ -11264,6 +11264,18 @@ $Id$
                 <short>Possible confusió</short>
                 <example correction="pressa">sense <marker>presa</marker></example>
                 <example>sense pressa</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">presa|preses</token>
+                    </marker>
+                    <token>per</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" regexp_match="pres(.+)" regexp_replace="press$1"/></suggestion> (= desig de fer una cosa ràpidament)?</message>
+                <short>Possible confusió</short>
+                <example correction="presses">Hi havia <marker>preses</marker> per governar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOBRE_TOT_SOBRETOT" name="*sobre tot/sobretot">
@@ -22409,7 +22421,7 @@ $Id$
         <rulegroup id="UNA_VIDA_PER_ENDAVANT" name="Una vida *per endavant/al davant">
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="3" inflected="yes">repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca<exception scope="next" inflected="yes">passar</exception></token>
+                    <token regexp="yes" skip="3" inflected="yes">dia|nit|repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca<exception scope="next" inflected="yes">passar</exception></token>
                     <marker>
                         <token>per</token>
                         <token regexp="yes">endavant|davant</token>
@@ -22419,8 +22431,8 @@ $Id$
                 <url>http://esadir.cat/entrades/fitxa/node/per_davant</url>
                 <example correction="al davant">una vida <marker>per endavant</marker></example>
                 <example correction="al davant">Dos anys té <marker>per davant</marker></example>
+                <example correction="al davant">Tenia tota la nit <marker>per davant</marker>.</example>
                 <example correction="al davant">La feina que tenim ara <marker>per endavant</marker></example>
-                <example>una vida al davant</example>
             </rule>
             <rule>
                 <pattern>
@@ -22428,7 +22440,7 @@ $Id$
                         <token>per</token>
                         <token regexp="yes" skip="1">endavant|davant</token>
                     </marker>
-                    <token regexp="yes" skip="1" inflected="yes">repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca</token>
+                    <token regexp="yes" skip="1" inflected="yes">dia|nit|repte|vida|futur|camí|dies|any|mes|dècada|feina|faena|tasca</token>
                 </pattern>
                 <message>Probablement cal substituir-ho per <suggestion>al davant</suggestion> o eliminar-ho.</message>
                 <url>http://esadir.cat/entrades/fitxa/node/per_davant</url>
@@ -24764,21 +24776,6 @@ $Id$
             <short>Expressió incorrecta</short>
             <example correction="statu quo"><marker>estatus quo</marker></example>
             <example>statu quo</example>
-        </rule>
-        <rule id="VAGI_PER_ENDAVANT" name="*Vagi per (en)davant que">
-            <pattern>
-                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
-                <token regexp="yes">vagi|vaja</token>
-                <token>per</token>
-                <token regexp="yes">davant|endavant</token>
-                <token>que</token>
-            </pattern>
-            <message>Expressió incorrecta.</message>
-            <suggestion>Val a dir que</suggestion>
-            <suggestion>Cal advertir que</suggestion>
-            <suggestion>Primer de tot cal dir que</suggestion>
-            <example correction="Val a dir que|Cal advertir que|Primer de tot cal dir que"><marker>Vagi per endavant que</marker> estic en contra d'aquestes dues idees</example>
-            <example>val a dir que</example>
         </rule>
         <rulegroup id="UNA_VEGADA_I_UNA_ALTRA" name="una i altra vegada/una vegada i una altra">
             <rule>
@@ -29909,6 +29906,22 @@ $Id$
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
         </rule> -->
+        <rule id="VAGI_PER_ENDAVANT" name="*Vagi per (en)davant que">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token min="0" regexp="yes">que|i</token>
+                <token regexp="yes">vagi|vaja</token>
+                <token>per</token>
+                <token regexp="yes">davant|endavant</token>
+                <token>que</token>
+            </pattern>
+            <message>Expressió preferible.</message>
+            <suggestion>Cal advertir que</suggestion>
+            <suggestion>Primer de tot cal dir que</suggestion>
+            <example correction="Cal advertir que|Primer de tot cal dir que"><marker>Vagi per endavant que</marker> estic en contra d'aquestes dues idees</example>
+            <example correction="Cal advertir que|Primer de tot cal dir que"><marker>Que vaja per endavant que</marker> estic en contra d'aquestes dues idees</example>
+            <example>Guanyarà el partit l'equip que vagi per davant en el marcador.</example>
+        </rule>
         <rule id="PORTAR_UNA_VIDA" name="*portar/*dur/tenir/fer una vida" default="off">
             <pattern>
                 <marker>
