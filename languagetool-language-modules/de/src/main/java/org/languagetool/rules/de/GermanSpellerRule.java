@@ -132,6 +132,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Vorteilen");
     } else if ("Trons".equals(w)) {
       return Collections.singletonList("Trance");
+    } else if ("einzigste".equals(w)) {
+      return Collections.singletonList("einzige");
     }
     return Collections.emptyList();
   }
