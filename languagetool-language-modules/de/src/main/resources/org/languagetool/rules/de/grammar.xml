@@ -11262,6 +11262,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
+                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token postag="ADJ:.*" postag_regexp="yes"></token>
+                <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">ans|fürs|übers|unters|hinters|durchs|ins|vors</token>
                 <token/>
                 <token regexp="yes">[0-9]+</token>
                 <token>.</token>
@@ -11282,10 +11288,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Man kann die Nutzung des Geländes bis ins <marker>spätere</marker> 4. Jahrhundert belegen</example>
         </rule>
         <rule id="AM_KLEINES_NOMEN" name="am/beim/... + kleingeschr. Nomen">
-            <pattern>
+            <pattern case_sensitive="yes">
                 <token regexp="yes">am|beim|hinterm|überm|unterm|vorm</token>
                 <marker>
-                    <token case_sensitive="yes" postag="VER:INF:NON" regexp="yes">[a-zöäü].*<exception regexp="yes">gleichen|heißen|testweisen</exception></token>
+                    <token postag="VER:INF:NON" regexp="yes">[a-zöäü].*<exception regexp="yes">gleichen|heißen|testweisen</exception></token>
                 </marker>
                 <token><exception postag="SUB:NOM:SIN:(NEU|MAS)" postag_regexp="yes" /></token>
             </pattern>
@@ -11305,10 +11311,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ein Hut, der vom deutschen Bundespräsidenten übergeben wird.</example>
         </rule>
         <rule id="AM_VERB_KLEIN" name="vom + kleingeschr. Nomen">
-            <pattern>
-                <token>am</token>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[Aa]m</token>
                 <marker>
-                    <token case_sensitive="yes" postag="VER:INF:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*
+                    <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes">[a-zöäü].*
                         <exception regexp="yes">offenbaren|einen|achten</exception>
                         <exception postag_regexp="yes" postag="ADJ:.*"/>
                     </token>
