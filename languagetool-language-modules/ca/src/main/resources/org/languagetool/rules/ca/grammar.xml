@@ -11266,6 +11266,13 @@ $Id$
                 <example>sense pressa</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token postag="SPS00"/>
+                        <token min="0" postag="D..F.." postag_regexp="yes"/>
+                        <token regexp="yes">presa|preses</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">presa|preses</token>
@@ -11276,6 +11283,8 @@ $Id$
                 <message>¿Volíeu dir <suggestion><match no="1" regexp_match="pres(.+)" regexp_replace="press$1"/></suggestion> (= desig de fer una cosa ràpidament)?</message>
                 <short>Possible confusió</short>
                 <example correction="presses">Hi havia <marker>preses</marker> per governar.</example>
+                <example>es llança sobre la presa per engolir-ne els líquids</example>
+                <example>una mena de presa per subjectar l'oponent</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOBRE_TOT_SOBRETOT" name="*sobre tot/sobretot">
