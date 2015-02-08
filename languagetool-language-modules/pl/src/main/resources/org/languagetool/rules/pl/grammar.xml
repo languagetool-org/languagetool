@@ -487,7 +487,7 @@ $Id$
                             <token>spać</token>
                         </antipattern>
                     <pattern>
-                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|(:?za)?przestać|zacząć|zaczynać|nauczyć|pomóc|pomagać|iść|pójść|musieć|pozwolić|s?próbować|(:?za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić</exception></token>
+                        <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|(:?za)?przestać|zacząć|zaczynać|nauczyć|pomóc|pomagać|iść|pójść|musieć|pozwolić|s?próbować|(:?za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|(:?ze)?chcieć|potrafić|lubić|mieć</exception></token>
                         <token postag='verb:inf.*' postag_regexp='yes'></token>
                     </pattern>
                     <message>Dwa bezokoliczniki nierozdzielone przecinkiem. Czy chodziło o <suggestion><match no="1"/>, <match no="2"/></suggestion>?</message>
@@ -503,7 +503,7 @@ $Id$
                             <token>spać</token>
                         </antipattern>
                         <pattern>
-                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|dać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
+                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|[bd]ać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
                             <token>się</token>
                             <token postag='verb:inf.*' postag_regexp='yes'></token>
                         </pattern>
@@ -2970,6 +2970,15 @@ $Id$
     </rule>
     </category>
 		<category name="Błędy typograficzne" type="typographical">
+            <rule type="whitespace" id="SPACJA_TM_R" name="Zbędna spacja przed znakiem ™ i ®">
+                <pattern>
+                    <marker>
+                    <token/>
+                    <token regexp="yes" spacebefore="yes">[®™]</token></marker>
+                </pattern>
+                <message>Przed symbolami „®” i „™” nie stawia się spacji. Poprawnie: <suggestion>\1\2</suggestion></message>
+                <example correction="Cola®">To napój <marker>Cola ®</marker></example>
+            </rule>
 				<rulegroup type="whitespace" id="BRAK_SPACJI" name="Brak spacji po znakach interpunkcyjnych">
 						<rule>
                                 <antipattern>
