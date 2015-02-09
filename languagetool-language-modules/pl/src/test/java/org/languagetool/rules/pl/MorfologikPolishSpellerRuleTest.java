@@ -74,11 +74,11 @@ public class MorfologikPolishSpellerRuleTest {
     final RuleMatch[] prunedMatches = rule.match(langTool.getAnalyzedSentence("Clarkem"));
     assertEquals(1, prunedMatches.length);
     assertEquals(5, prunedMatches[0].getSuggestedReplacements().size());
-    assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(0));
-    assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(1));
-    assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(2));
-    assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(3));
-    assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(4));
+    assertEquals("Clarke", prunedMatches[0].getSuggestedReplacements().get(0));
+    assertEquals("Clarkiem", prunedMatches[0].getSuggestedReplacements().get(1));
+    assertEquals("Ciarkę", prunedMatches[0].getSuggestedReplacements().get(2));
+    assertEquals("Clarkom", prunedMatches[0].getSuggestedReplacements().get(3));
+    assertEquals("Czarkę", prunedMatches[0].getSuggestedReplacements().get(4));
 
     // There should be a match, this is not a prefix!
 

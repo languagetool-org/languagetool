@@ -20,12 +20,14 @@ package org.languagetool.rules.de;
 
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.German;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.net.URL;
@@ -50,6 +52,10 @@ public class MorfologikGermanyGermanSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Überall äußerst böse Umlaute!")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Üperall äußerst böse Umlaute!")).length);
+    
+    final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("daß"));
+    assertEquals(1, matches.length);
+    assertEquals("dass", matches[0].getSuggestedReplacements().get(0));
   }
   
   @Test
