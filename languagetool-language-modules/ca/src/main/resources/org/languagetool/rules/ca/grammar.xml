@@ -8298,11 +8298,11 @@ $Id$
     <category name="Z1) Confusions" type="grammar">
         <rule id="CONFUSIO_FUTUR_SUBJUNTIU" name="podria ser que *arribarem/arribàrem">
             <pattern>
-                <token postag="V.IC...." postag_regexp="yes"/>
+                <token postag="V.IC.*" postag_regexp="yes"/>
                 <token min="0" max="4" postag="RG|V.N.*" postag_regexp="yes"/>
                 <token skip="2">que</token>
                 <marker>
-                    <token postag="V.IF...." postag_regexp="yes" skip="2" regexp="yes">.*[aei]re[mu]</token>
+                    <token postag="V.IF.*" postag_regexp="yes" regexp="yes">.*[aei]re[mu]</token>
                 </marker>
             </pattern>
             <message>Probablement cal un verb en sunjuntiu.</message>
@@ -21602,7 +21602,7 @@ $Id$
         </rule>
         <rule id="PESAT_PESANT" name="pesat_pesant">
             <pattern>
-                <token inflected="yes" regexp="yes">aigua|pes|indústria|metall|maquinària</token>
+                <token inflected="yes" regexp="yes">aigua|pes|indústria|metall|maquinària|armament|arma</token>
                 <token postag="AQ.*" postag_regexp="yes" inflected="yes">pesat</token>
             </pattern>
             <message>Expressió incorrecta.</message>
