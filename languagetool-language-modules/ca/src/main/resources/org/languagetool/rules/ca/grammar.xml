@@ -8296,6 +8296,22 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="CONFUSIO_FUTUR_SUBJUNTIU" name="podria ser que *arribarem/arribàrem">
+            <pattern>
+                <token postag="V.IC...." postag_regexp="yes"/>
+                <token min="0" max="4" postag="RG|V.N.*" postag_regexp="yes"/>
+                <token skip="2">que</token>
+                <marker>
+                    <token postag="V.IF...." postag_regexp="yes" skip="2" regexp="yes">.*[aei]re[mu]</token>
+                </marker>
+            </pattern>
+            <message>Probablement cal un verb en sunjuntiu.</message>
+            <suggestion><match no="4" postag="V.IF(...)." postag_regexp="yes" postag_replace="V.SI$13"/></suggestion>
+            <example correction="complírem">Podria ser molt bé que no <marker>complirem</marker> les condicions.</example>
+            <example correction="arribàrem">Estaria bé que <marker>arribarem</marker> a un consens.</example>
+            <example>Podria ser que no compliren les condicions.</example>
+            <example>Pensaríeu que no tindreu sort en el futur.</example>
+        </rule>
         <rule id="PAIS_VALENCIA" name="País Valècia/Valencià">
             <pattern>
                 <token>País</token>
