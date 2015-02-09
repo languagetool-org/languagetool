@@ -328,7 +328,7 @@ $Id$
           <marker>
             <token inflected="yes" skip="1">вартувати</token>
           </marker>
-          <token postag_regexp="yes" postag="verb:inf.*"></token>
+          <token postag_regexp="yes" postag="verb(:rev)?:inf.*"></token>
          </pattern>
          <message>Правильно: <suggestion>варт</suggestion>, <suggestion>варто</suggestion>, <suggestion>треба</suggestion></message>
          <example correction="варт|варто|треба">Чи <marker>вартує</marker> так робити.</example>
@@ -362,15 +362,17 @@ $Id$
          <pattern>
            <marker>
             <token regexp="yes">давай(те)?</token>
-            <token postag_regexp="yes" postag="verb.*:futr.*"></token>
+            <token postag_regexp="yes" postag="verb.*:futr.*">
+              <exception inflected="yes">бути</exception>
+            </token>
            </marker>
          </pattern>
-         <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion>, <suggestion>нумо <match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion></message>
+         <message>Краще вжити наказовий спосіб дієслова: <suggestion><match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion>, <suggestion>нумо <match no="2" postag_regexp="yes" postag="verb(.*):futr:(.*)" postag_replace="verb$1:impr:$2"/></suggestion></message>
          <url>http://r2u.org.ua/node/216</url>
          <example correction="Заспіваймо|Нумо заспіваймо"><marker>Давайте заспіваємо</marker></example>
          <example correction="Пройдімось|Пройдімося|Нумо пройдімось|Нумо пройдімося"><marker>Давайте пройдемося</marker></example>
-         <example>Заспіваймо</example>
          <example>Давайте горілку</example>
+         <example>Давайте будем знов сміятись</example>
        </rule>
 
        <rule>
@@ -918,7 +920,7 @@ $Id$
            </marker>
            <token postag="noun.*" postag_regexp="yes">
                 <exception postag=".*:(v_kly|v_dav|nv).*" postag_regexp="yes"/>
-                <exception inflected="yes" regexp="yes">друзі|чадо|братик|сестричка|син|тато|мама|мати</exception>
+                <exception inflected="yes" regexp="yes">друзі|чадо|братик|сестричка|син|тато|татко|мама|мати|зять</exception>
           </token>
           </pattern>
          <message>Правильно: <suggestion>будь-який</suggestion>, <suggestion>перший кращий</suggestion>, <suggestion>усякий</suggestion>, <suggestion>кожний</suggestion>, часом також <suggestion>аби-який</suggestion>.</message>
@@ -940,7 +942,7 @@ $Id$
            </marker>
            <token postag="noun.*" postag_regexp="yes" case_sensitive="yes" regexp="yes">[а-яіїєґ].*
                 <exception postag=".*:(v_kly|v_dav|nv).*" postag_regexp="yes"/>
-                <exception inflected="yes" regexp="yes">друзі|чадо|братик|сестричка|син|тато|мама|мати</exception>
+                <exception inflected="yes" regexp="yes">друзі|чадо|братик|сестричка|син|тато|татко|мама|мати|зять</exception>
            </token>
           </pattern>
          <message>Правильно: <suggestion>будь-який</suggestion>, <suggestion>перший кращий</suggestion>, <suggestion>усякий</suggestion>, <suggestion>кожний</suggestion>, часом також <suggestion>аби-який</suggestion>.</message>
@@ -1028,7 +1030,7 @@ $Id$
               <token regexp="yes">старше|молодше</token>
               <marker>
                 <token postag_regexp="yes" postag="(noun|pron).*:(v_rod|nv).*">
-                  <exception postag_regexp="yes" postag="(noun|pron).*:n:(v_naz|v_zna|nv).*"></exception>
+                  <exception postag_regexp="yes" postag="(noun|pron).*:n:(v_naz|v_zna|nv).*|numr.*"></exception>
                   <exception>років</exception>
                 </token>
               </marker>
@@ -1041,6 +1043,7 @@ $Id$
          <example correction="За Родольфо|Від Родольфо|Ніж Родольфо">він старше <marker>Родольфо</marker> на 3 роки</example>
          <example>старше авто</example>
          <example>старше покоління</example>
+         <example>старше п'яти</example>
        </rule>
 
        <rule>
@@ -1195,7 +1198,7 @@ $Id$
             </marker>
          </pattern>
          <message>Правильно: <suggestion><match no="2" postag="noun.*" postag_regexp="yes">ймовірність</match></suggestion></message>
-         <example correction="ймовірності|ймовірність">Є висока <marker>вірогідність</marker> дощу.</example>
+         <example correction="ймовірність">Є висока <marker>вірогідність</marker> дощу.</example>
          <example>Є висока ймовірність дощу.</example>
        </rule>
        <rule>
@@ -2231,7 +2234,7 @@ $Id$
               <feature id="number"/>
               <feature id="case"/>
 -->
-              <token postag_regexp="yes" postag="((adj|pron).*:[fp]|numr):(v_dav|v_mis).*"/>
+              <token postag_regexp="yes" postag="((adj|pron|numr).*:[fp]):(v_dav|v_mis).*"/>
               <token postag_regexp="yes" postag="noun:[fp]:(v_dav|v_mis).*" inflected="yes">причина</token>
 <!--
             </unify>

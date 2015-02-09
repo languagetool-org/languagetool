@@ -142,6 +142,9 @@ public class TokenAgreementRule extends Rule {
       if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
         posTagsToFind.add("v_naz");
       }
+      if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("замість") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
+        posTagsToFind.add("v_naz");
+      }
 
       String reqPosTag = reqTokenReadings.getAnalyzedToken(0).getPOSTag();
 
@@ -342,7 +345,17 @@ public class TokenAgreementRule extends Rule {
     for(AnalyzedToken token: tokenReadings) {
       String posTag2 = token.getPOSTag();
       if( posTag2 != null && posTag2.contains(VIDMINOK_SUBSTR) ) {
-        foundVidminkyNames.add(UkrainianTagger.VIDMINKY_MAP.get(posTag2.replaceFirst("^.*"+VIDMINOK_REGEX+".*$", "$1")));
+        String vidmName = UkrainianTagger.VIDMINKY_MAP.get(posTag2.replaceFirst("^.*"+VIDMINOK_REGEX+".*$", "$1"));
+        if( foundVidminkyNames.contains(vidmName) ) {
+          if (posTag2.contains(":p:")) {
+            vidmName = vidmName + " (мн.)";
+            foundVidminkyNames.add(vidmName);
+          }
+          // else skip dup
+        }
+        else {
+          foundVidminkyNames.add(vidmName);
+        }
       }
     }
 
@@ -358,6 +371,27 @@ public class TokenAgreementRule extends Rule {
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
+    }
+    else if( reqTokenReadings.getToken().equalsIgnoreCase("о") ) {
+      for(AnalyzedToken token: tokenReadings.getReadings()) {
+        String posTag2 = token.getPOSTag();
+        if( posTag2.matches(".*:v_naz.*:anim.*") ) {
+          msg += ". Можливо тут «о» — це вигук і потрібно кличний відмінок?";
+          try {
+            String newPostag = posTag2.replace("v_naz", "v_kly");
+            String[] synthesized = ukrainianSynthesizer.synthesize(token, newPostag, false);
+            for (String string : synthesized) {
+              if( ! string.equals(token.getToken()) && ! suggestions.contains(synthesized) ) {
+                suggestions.addAll( Arrays.asList(synthesized) );
+              }
+            }
+            break;
+          } catch (IOException e) {
+            throw new RuntimeException(e);
+          }
+        }
+      }
+      
     }
         
     int pos = tokenReadings.getStartPos();

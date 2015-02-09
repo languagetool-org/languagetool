@@ -79,7 +79,7 @@ if [ "$1" == "-f" ]; then
     for i in `ls $LIBDIR/*.jar`; do
       LIBS=$LIBS:$i
     done
-    LIBS=$LIBS:$BASE/languagetool-language-modules/uk/target/classes
+    LIBS=$BASE/languagetool-language-modules/uk/target/classes:$BASE/languagetool-core/target/classes:$LIBS
 
     #LT_STD_CP="$BASE/languagetool-standalone/target/$LT_DIR/$LT_DIR//languagetool.jar"
     LT_STD_CP=$BASE/languagetool-standalone/target/classes:$LIBS

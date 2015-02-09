@@ -24,75 +24,88 @@ $Id$
 <rules lang="uk" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
-    <category name="Орфографія">
+  <category name="Орфографія">
 
-	<rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
-		<rule>   
-			<pattern>
-		     <marker>
-		        <token>напів</token>
-		        <!--
-		         <token inflected="yes" regexp="yes">гіркий|солодкий|маринований|оголений|одягнений|роздягнений|аристократ|лежачи|стоячи|сидячи</token>
-		        -->
-		        <token postag_regexp="yes" postag="(noun|adj|adv).*"></token>
-		     </marker>
-		    </pattern>
-		    <message>Слова з «напів» пишемо разом <suggestion>напів<match no="2"/></suggestion></message>
-		    <short>Правильно писати разом</short>
-		    <example correction="напівгіркий">У цього овоча <marker>напів гіркий</marker> присмак.</example>
-		    <example correction="напіввагон">Зелений <marker>напів вагон</marker></example>
-		    <example>У цього овоча напівгіркий присмак.</example>
-		</rule>
-	</rulegroup>
+    <rulegroup id="SLOVA_Z_NAPIV_RAZOM" name="Слова з напів- пишемо разом">
+      <rule>   
+        <pattern>
+         <marker>
+          <token>напів</token>
+          <token postag_regexp="yes" postag="(noun|adj|adv).*"></token>
+         </marker>
+        </pattern>
+        <message>Слова з «напів» пишемо разом <suggestion>напів<match no="2"/></suggestion></message>
+        <short>Правильно писати разом</short>
+        <example correction="напівгіркий">У цього овоча <marker>напів гіркий</marker> присмак.</example>
+        <example correction="напіввагон">Зелений <marker>напів вагон</marker></example>
+        <example>У цього овоча напівгіркий присмак.</example>
+      </rule>
+    </rulegroup>
 
-	<rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
-	    <!-- TODO: use proper noun tag to make it generic -->
-		<rule>   
-			<pattern>
-		     <marker>
-		        <token>пів</token>
-		         <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
-		     </marker>
-		    </pattern>
-		    <message>«пів» з усіма власними назвами пишемо через дефіс</message>
-		    <short>Правильно писати через дефіс</short>
-		    <example correction="">Снігопади паралізували <marker>пів Європи</marker>.</example>
-		    <example>Снігопади паралізували пів-Європи.</example>
-		</rule>
+    <rulegroup id="SLOVA_Z_RAZOM" name="Слова з префіксами разом">
+      <rule>   
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">([Аа]нти|[Гг]іпер|[Ее]кстра|[Кк]вазі|[Кк]онтр|[Пп]севдо|[Пп]ост|[Тт]ранс|[Уу]льтра)-[а-яіїєґ].*
+            <exception regexp="yes">[Кк]онтр-адмір.*</exception>
+          </token>
+        </pattern>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)-(.*)" regexp_replace="$1$2"/></suggestion></message>
+        <url>http://www.pravopys.net/#search=25-33</url>
+        <short>Правильно писати разом</short>
+        <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
+        <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
+        <example>анти-Забужко</example>
+      </rule>
+    </rulegroup>
 
-		<rule>   
-			<pattern>
-		     <marker>
-		        <token>пів</token>
-		        <token regexp="yes">[яюєї].*</token>
-		     </marker>
-		    </pattern>
-		    <message>«пів» із загальними назвами на я, ю, є, ї пишемо через апостроф. Ви мали на увазі <suggestion>пів'<match no="2"/></suggestion>?</message>
-		    <short>Правильно «пів'яблука» тощо</short>
-		    <example correction="пів'яблука">З'їсти <marker>пів яблука</marker>.</example>
-		    <example>З'їсти пів'яблука.</example>
-		    <example correction="Пів'їдальні"><marker>Пів їдальні</marker> займали столи.</example>
-		    <example>Пів'їдальні займали столи. </example>
-		    <example correction="пів'юаня">Вартість квитка – <marker>пів юаня</marker>.</example>
-		    <example>Вартість квитка – пів'юаня.</example>
-		</rule>
-	</rulegroup>
+    <rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
+      <!-- TODO: use proper noun tag to make it generic -->
+      <rule>   
+        <pattern>
+         <marker>
+          <token>пів</token>
+           <token regexp="yes">Європи|Києва|України|Польщі|Росії|Харкова|Америки|Австралії|Туреччини|Австрії|Відня|Китаю|Кореї|Франції|Іспанії|Італії|Угорщини|Москви|Казані|Швейцарії</token>
+         </marker>
+        </pattern>
+        <message>«пів» з усіма власними назвами пишемо через дефіс</message>
+        <short>Правильно писати через дефіс</short>
+        <example correction="">Снігопади паралізували <marker>пів Європи</marker>.</example>
+        <example>Снігопади паралізували пів-Європи.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+         <marker>
+          <token>пів</token>
+          <token regexp="yes">[яюєї].*</token>
+         </marker>
+        </pattern>
+        <message>«пів» із загальними назвами на я, ю, є, ї пишемо через апостроф. Ви мали на увазі <suggestion>пів'<match no="2"/></suggestion>?</message>
+        <short>Правильно «пів'яблука» тощо</short>
+        <example correction="пів'яблука">З'їсти <marker>пів яблука</marker>.</example>
+        <example>З'їсти пів'яблука.</example>
+        <example correction="Пів'їдальні"><marker>Пів їдальні</marker> займали столи.</example>
+        <example>Пів'їдальні займали столи. </example>
+        <example correction="пів'юаня">Вартість квитка – <marker>пів юаня</marker>.</example>
+        <example>Вартість квитка – пів'юаня.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
       <rule>
-        <pattern>
-          <token postag_regexp="yes" postag=".*:alt.*">
-             <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|SENT_START" />
-          </token>
-        </pattern>
-        <message>Слово написане не за чинним правописом</message>
-        <example correction=""><marker>проєкту</marker></example>
-        <example correction=""><marker>хемія</marker></example>
-        <example>проекту</example>
-        <!-- TODO: fix marker position -->
-        <example correction=""><marker>хе́мі</marker>я</example>
-        <example>хоче прорости</example>
-        <example>проекту</example>
+      <pattern>
+        <token postag_regexp="yes" postag=".*:alt.*">
+         <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|SENT_START" />
+        </token>
+      </pattern>
+      <message>Слово написане не за чинним правописом</message>
+      <example correction=""><marker>проєкту</marker></example>
+      <example correction=""><marker>хемія</marker></example>
+      <example>проекту</example>
+      <!-- TODO: fix marker position -->
+      <example correction=""><marker>хе́мі</marker>я</example>
+      <example>хоче прорости</example>
+      <example>проекту</example>
       </rule>
     </rulegroup>
 

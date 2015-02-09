@@ -36,6 +36,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedToken;
@@ -46,16 +47,20 @@ import org.languagetool.tagging.WordTagger;
 
 /** 
  * Ukrainian part-of-speech tagger.
- * See README for details, the POS tagset is
- * described in tagset.txt
+ * See README for details, the POS tagset is described in tagset.txt
  * 
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+  private static final String NV_TAG = ":nv";
+  private static final String COMPB_TAG = ":compb";
+//  private static final String V_U_TAG = ":v-u";
+  private static final Pattern EXTRA_TAGS = Pattern.compile("(:(v-u|np|ns|bad|slang|rare))+");
+//  private static final Pattern EXTRA_TAGS_DOUBLE = Pattern.compile("(:(nv|np|ns))+");
   private static final String DEBUG_COMPOUNDS_PROPERTY = "org.languagetool.tagging.uk.UkrainianTagger.debugCompounds";
   private static final String TAG_ANIM = ":anim";
-  private static final String VERB_TAG_FOR_REV_IMPR = IPOSTag.verb.getText()+":rev:impr";
-  private static final String VERB_TAG_FOR_IMPR = IPOSTag.verb.getText()+":impr";
+//  private static final String VERB_TAG_FOR_REV_IMPR = IPOSTag.verb.getText()+":rev:impr";
+//  private static final String VERB_TAG_FOR_IMPR = IPOSTag.verb.getText()+":impr";
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = IPOSTag.adj.getText() + ":m:v_mis";
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = IPOSTag.adj.getText() + ":m:v_naz";
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
@@ -64,13 +69,17 @@ public class UkrainianTagger extends BaseTagger {
   private static final String stdNounTag = IPOSTag.noun.getText() + ":.:v_";
   private static final int stdNounTagLen = stdNounTag.length();
   private static final Pattern stdNounTagRegex = Pattern.compile(stdNounTag + ".*");
-  private static final Pattern stdNounNvTagRegex = Pattern.compile(IPOSTag.noun.getText() + ".*:nv.*");
+//  private static final Pattern stdNounNvTagRegex = Pattern.compile(IPOSTag.noun.getText() + ".*:nv.*");
   private static final Set<String> dashPrefixes;
+  private static final Set<String> leftMasterSet;
   private static final Set<String> cityAvenue = new HashSet<>(Arrays.asList("сіті", "авеню", "стріт", "штрассе"));
-
+  private static final Map<String, String> rightPartsWithLeftTagMap = new HashMap<>();
+  private static final Set<String> slaveSet;
+  
   public static final Map<String, String> VIDMINKY_MAP;
   private static final Map<String, List<String>> NUMR_ENDING_MAP;
-  private BufferedWriter compoundDebugWriter; 
+  private BufferedWriter compoundUnknownDebugWriter;
+  private BufferedWriter compoundTaggedDebugWriter;
 
   static {
     Map<String, String> map = new LinkedHashMap<>();
@@ -85,7 +94,7 @@ public class UkrainianTagger extends BaseTagger {
 
     Map<String, List<String>> map2 = new HashMap<>();
     map2.put("й", Arrays.asList(":m:v_naz", ":m:v_zna"));
-    map2.put("го", Arrays.asList("m:v_rod", ":m:v_zna", ":n:v_rod"));
+    map2.put("го", Arrays.asList(":m:v_rod", ":m:v_zna", ":n:v_rod"));
     map2.put("му", Arrays.asList(":m:v_dav", ":m:v_mis", ":n:v_dav", ":n:v_mis", ":f:v_zna"));  // TODO: depends on the last digit
 //    map2.put("им", Arrays.asList(":m:v_oru", ":n:v_oru"));
 //    map2.put("ім", Arrays.asList(":m:v_mis", ":n:v_mis"));
@@ -99,12 +108,32 @@ public class UkrainianTagger extends BaseTagger {
 //    map2.put("тих", Arrays.asList(":p:v_rod", ":p:v_zna"));
     NUMR_ENDING_MAP = Collections.unmodifiableMap(map2);
     
+    rightPartsWithLeftTagMap.put("бо", "(verb(:rev)?:impr|.*pron|noun|adv|excl|part|predic).*");
+    rightPartsWithLeftTagMap.put("но", "(verb(:rev)?:(impr|futr)|excl).*"); 
+    rightPartsWithLeftTagMap.put("от", "(.*pron|adv|part).*"); 
+    rightPartsWithLeftTagMap.put("то", "(.*pron|noun|adv|part|conj).*"); 
+    rightPartsWithLeftTagMap.put("таки", "(verb(:rev)?:(futr|past|pres)|.*pron|noun|part|predic|insert).*"); 
+    
     try {
       InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_prefixes.txt");
       Scanner scanner = new Scanner(is,"UTF-8");
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
       dashPrefixes = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
+      
+      is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_left_master.txt");
+      scanner = new Scanner(is,"UTF-8");
+      text = scanner.useDelimiter("\\A").next();
+      scanner.close();
+      leftMasterSet = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
+
+      is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_slaves.txt");
+      scanner = new Scanner(is,"UTF-8");
+      text = scanner.useDelimiter("\\A").next();
+      scanner.close();
+      slaveSet = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
+      // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
+
     }
     catch(Exception e) {
       throw new RuntimeException(e);
@@ -131,17 +160,6 @@ public class UkrainianTagger extends BaseTagger {
     }
   }
 
-  private void debugCompounds() {
-    Path newFile = Paths.get("compounds-unknown.txt");
-    try {
-       Files.deleteIfExists(newFile);
-       newFile = Files.createFile(newFile);
-       compoundDebugWriter = Files.newBufferedWriter(newFile, Charset.defaultCharset());
-     } catch (IOException ex) {
-       throw new RuntimeException(ex);
-     }
-  }
-
   @Override
   public List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
     if ( NUMBER.matcher(word).matches() ) {
@@ -157,7 +175,10 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( word.contains("-") ) {
-      return guessCompoundTag(word);
+      List<AnalyzedToken> guessedCompoundTags = guessCompoundTag(word);
+      debug_compound_tagged_write(guessedCompoundTags);
+      
+      return guessedCompoundTags;
     }
     
     return null;
@@ -181,23 +202,19 @@ public class UkrainianTagger extends BaseTagger {
       leftWdList.addAll(wordTagger.tag(leftLowerCase));
     }
 
-    if( rightWord.equals("но") || rightWord.equals("бо") ) {
+    if( rightPartsWithLeftTagMap.containsKey(rightWord) ) {
       if( leftWdList.isEmpty() )
         return null;
 
-      List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenListForTaggedWords(leftWord, leftWdList);
-      return verbImperNoBo(word, leftAnalyzedTokens);
-    }
-
-    if( rightWord.equals("таки") ) {
-      if( leftWdList.isEmpty() )
-        return null;
-
+      String leftTagRegex = rightPartsWithLeftTagMap.get(rightWord);
+      
       List<AnalyzedToken> leftAnalyzedTokens = asAnalyzedTokenListForTaggedWords(leftWord, leftWdList);
       List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
       for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
         String posTag = analyzedToken.getPOSTag();
-        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
+        if( posTag.matches(leftTagRegex) ) {
+          newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
+        }
       }
       
       return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
@@ -245,7 +262,7 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if( dashPrefixes.contains( leftWord ) || dashPrefixes.contains( leftWord.toLowerCase() ) ) {
-      return eksNounMatch(word, rightAnalyzedTokens, leftWord);
+      return getNvPrefixNounMatch(word, rightAnalyzedTokens, leftWord);
     }
 
     if( word.startsWith("пів-") && Character.isUpperCase(word.charAt(4)) ) {
@@ -291,22 +308,9 @@ public class UkrainianTagger extends BaseTagger {
       return oAdjMatch(word, rightAnalyzedTokens, leftWord);
     }
 
-    debug_compound_write(word);
+    debug_compound_unknown_write(word);
     
     return null;
-  }
-
-  private void debug_compound_write(String word) {
-    if( compoundDebugWriter == null )
-      return;
-    
-    try {
-      compoundDebugWriter.append(word);
-      compoundDebugWriter.newLine();
-      compoundDebugWriter.flush();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   private List<AnalyzedToken> cityAvenueMatch(String word, List<AnalyzedToken> leftAnalyzedTokens) {
@@ -321,67 +325,111 @@ public class UkrainianTagger extends BaseTagger {
     
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
-
-  private List<AnalyzedToken> verbImperNoBo(String word, List<AnalyzedToken> leftAnalyzedTokens) {
-    List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(leftAnalyzedTokens.size());
-    
-    for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
-      String posTag = analyzedToken.getPOSTag();
-      if( posTag.startsWith( VERB_TAG_FOR_IMPR) 
-          || posTag.startsWith( VERB_TAG_FOR_REV_IMPR) ) {
-        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
-      }
-    }
-    
-    return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
-  }
-
-  private static String getGenderConj(String posTag) {
-    if( posTag.matches("(noun|adjp|numr):.:v_....*") )
-      return posTag.substring(5, 11);
-
-    if( posTag.matches("adj:.:v_....*") )
-      return posTag.substring(4, 10);
-    
-    return null;
-  }
   
   private List<AnalyzedToken> tagMatch(String word, List<AnalyzedToken> leftAnalyzedTokens, List<AnalyzedToken> rightAnalyzedTokens) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
+    List<AnalyzedToken> newAnalyzedTokensAnimInanim = new ArrayList<>();
     
- boolean anim_inanim = false;
+    String animInanimNotTagged = null;
     
     for (AnalyzedToken leftAnalyzedToken : leftAnalyzedTokens) {
       String leftPosTag = leftAnalyzedToken.getPOSTag();
+      
+      if( leftPosTag == null )
+        continue;
+
+      String leftPosTagExtra = "";
+      boolean leftNv = false;
+
+      if( leftPosTag.contains(NV_TAG) ) {
+        leftNv = true;
+        leftPosTag = leftPosTag.replace(NV_TAG, "");
+      }
+
+      Matcher matcher = EXTRA_TAGS.matcher(leftPosTag);
+      if( matcher.find() ) {
+        leftPosTagExtra += matcher.group();
+        leftPosTag = matcher.replaceAll("");
+      }
+      if( leftPosTag.contains(COMPB_TAG) ) {
+        leftPosTag = leftPosTag.replace(COMPB_TAG, "");
+      }
 
       for (AnalyzedToken rightAnalyzedToken : rightAnalyzedTokens) {
         String rightPosTag = rightAnalyzedToken.getPOSTag();
         
-        if( leftPosTag == null || rightPosTag == null )
+        if( rightPosTag == null )
           continue;
+
+        String extraNvTag = "";
+        boolean rightNv = false;
+        if( rightPosTag.contains(NV_TAG) ) {
+          rightNv = true;
+          
+          if( leftNv ) {
+            extraNvTag += NV_TAG;
+          }
+        }
+
+        Matcher matcherR = EXTRA_TAGS.matcher(rightPosTag);
+        if( matcherR.find() ) {
+          rightPosTag = matcherR.replaceAll("");
+        }
+        if( rightPosTag.contains(COMPB_TAG) ) {
+          rightPosTag = rightPosTag.replace(COMPB_TAG, "");
+        }
         
         if (leftPosTag.equals(rightPosTag) 
-            && (leftPosTag.startsWith(IPOSTag.numr.getText()) 
-                || leftPosTag.startsWith(IPOSTag.adv.getText()) 
-                || leftPosTag.startsWith(IPOSTag.adj.getText())) ) {
-          newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+            && IPOSTag.startsWith(leftPosTag, IPOSTag.numr, IPOSTag.adv, IPOSTag.adj, IPOSTag.excl, IPOSTag.verb) ) {
+          newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
         }
         // noun-noun
         else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) && rightPosTag.startsWith(IPOSTag.noun.getText()) ) {
-          String agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag);
+          String agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
 
-  if( agreedPosTag == null && ! istotaNeistotaMatch(leftPosTag, rightPosTag) ) {
-    anim_inanim = true;
-  }
-          
-          if( agreedPosTag == null && rightPosTag.startsWith(IPOSTag.noun.getText()+":m:v_naz")
-              && (rightAnalyzedToken.getToken().equals("максимум")
-                  || rightAnalyzedToken.getToken().equals("мінімум")) ) {
+          if( agreedPosTag == null 
+              && rightPosTag.startsWith(IPOSTag.noun.getText() + ":m:v_naz")
+              && isMinMax(rightAnalyzedToken.getToken()) ) {
             agreedPosTag = leftPosTag;
+          }
+
+          if( agreedPosTag == null && ! isSameAnimStatus(leftPosTag, rightPosTag) ) {
+
+            agreedPosTag = tryAnimInanim(leftPosTag, rightPosTag, leftAnalyzedToken.getLemma(), rightAnalyzedToken.getLemma(), leftNv, rightNv);
+            
+            if( agreedPosTag == null ) {
+              animInanimNotTagged = leftPosTag.contains(":anim") ? "anim-inanim" : "inanim-anim";
+            }
+            else {
+              newAnalyzedTokensAnimInanim.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+              continue;
+            }
           }
           
           if( agreedPosTag != null ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+            newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+          }
+        }
+        // numr-numr: один-два
+        else if ( leftPosTag.startsWith(IPOSTag.numr.getText()) && rightPosTag.startsWith(IPOSTag.numr.getText()) ) {
+            String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);
+            if( agreedPosTag != null ) {
+              newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+            }
+        }
+        // noun-numr match
+        else if ( IPOSTag.startsWith(leftPosTag, IPOSTag.noun) && IPOSTag.startsWith(rightPosTag, IPOSTag.numr) ) {
+          // gender tags match
+          String leftGenderConj = getGenderConj(leftPosTag);
+          if( leftGenderConj != null && leftGenderConj.equals(getGenderConj(rightPosTag)) ) {
+            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+          }
+          else {
+            // (with different gender tags): сотні (:p:) - дві (:f:)
+            String agreedPosTag = getNumAgreedPosTag(leftPosTag, rightPosTag, leftNv);
+            if( agreedPosTag != null ) {
+              newAnalyzedTokens.add(new AnalyzedToken(word, agreedPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+            }
           }
         }
         // noun-adj match: Буш-молодший, братів-православних, рік-два
@@ -389,74 +437,126 @@ public class UkrainianTagger extends BaseTagger {
             && IPOSTag.startsWith(rightPosTag, IPOSTag.adj, IPOSTag.numr) ) {
           String leftGenderConj = getGenderConj(leftPosTag);
           if( leftGenderConj != null && leftGenderConj.equals(getGenderConj(rightPosTag)) ) {
-            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
           }
         }
       }
     }
+    
+    if( newAnalyzedTokens.isEmpty() ) {
+      newAnalyzedTokens = newAnalyzedTokensAnimInanim;
+    }
 
- if( anim_inanim && newAnalyzedTokens.isEmpty() ) {
-   debug_compound_write(word + " anim-inanim");
- }
+    if( animInanimNotTagged != null && newAnalyzedTokens.isEmpty() ) {
+      debug_compound_unknown_write(word + " " + animInanimNotTagged);
+    }
     
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
 
-  private String getArgreedPosTag(String leftPosTag, String rightPosTag) {
+  private static boolean isMinMax(String rightToken) {
+    return rightToken.equals("максимум")
+        || rightToken.equals("мінімум");
+  }
+
+  private String tryAnimInanim(String leftPosTag, String rightPosTag, String leftLemma, String rightLemma, boolean leftNv, boolean rightNv) {
+    String agreedPosTag = null;
+    
+    // підприємство-банкрут
+    if( leftMasterSet.contains(leftLemma) ) {
+      if( leftPosTag.contains(TAG_ANIM) ) {
+        rightPosTag = rightPosTag.concat(TAG_ANIM);
+      }
+      else {
+        rightPosTag = rightPosTag.replace(TAG_ANIM, "");
+      }
+      
+      agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
+      
+      if( agreedPosTag == null ) {
+        if (! leftPosTag.contains(TAG_ANIM)) {
+          if (leftPosTag.matches(".*:[mnp]:v_zna.*") && rightPosTag.matches(".*:[mnp]:v_naz.*")
+              && ! leftNv && ! rightNv ) {
+            agreedPosTag = leftPosTag;
+          }
+        }
+      }
+      
+    }
+    // сонях-красень
+    else if ( slaveSet.contains(rightLemma) ) {
+      rightPosTag = rightPosTag.replace(":anim", "");
+      agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, false);
+      if( agreedPosTag == null ) {
+        if (! leftPosTag.contains(TAG_ANIM)) {
+          if (leftPosTag.matches(".*:[mnp]:v_zna.*") && rightPosTag.matches(".*:[mnp]:v_naz.*")
+              && getNum(leftPosTag).equals(getNum(rightPosTag))
+              && ! leftNv && ! rightNv ) {
+            agreedPosTag = leftPosTag;
+          }
+        }
+      }
+    }
+    // красень-сонях
+    else if ( slaveSet.contains(leftLemma) ) {
+      leftPosTag = leftPosTag.replace(":anim", "");
+      agreedPosTag = getArgreedPosTag(rightPosTag, leftPosTag, false);
+      if( agreedPosTag == null ) {
+        if (! rightPosTag.contains(TAG_ANIM)) {
+          if (rightPosTag.matches(".*:[mnp]:v_zna.*") && leftPosTag.matches(".*:[mnp]:v_naz.*")
+              && getNum(leftPosTag).equals(getNum(rightPosTag))
+              && ! leftNv && ! rightNv ) {
+            agreedPosTag = rightPosTag;
+          }
+        }
+      }
+    }
+    // else
+    // рослин-людожерів, слалому-гіганту, місяця-князя, депутатів-привидів
+    
+    return agreedPosTag;
+  }
+
+  // right part is numr
+  private String getNumAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
+    String agreedPosTag = null;
+    
+    if( leftPosTag.matches(".*:p:.*") && rightPosTag.matches(".*:[mfn]:.*")
+        || leftPosTag.matches(".*:[mfn]:.*") && rightPosTag.matches(".*:p:.*")) {
+      if( getConj(leftPosTag).equals(getConj(rightPosTag)) ) {
+        agreedPosTag = leftPosTag;
+      }
+    }
+    return agreedPosTag;
+  }
+  
+  private String getArgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
     if( isPlural(leftPosTag) && ! isPlural(rightPosTag)
         || ! isPlural(leftPosTag) && isPlural(rightPosTag) )
       return null;
     
-    if( ! istotaNeistotaMatch(leftPosTag, rightPosTag) )
+    if( ! isSameAnimStatus(leftPosTag, rightPosTag) )
       return null;
     
-//    if( stdNounNvTagRegex.matcher(leftPosTag).matches() ) {
-//      if( stdNounTagRegex.matcher(rightPosTag).matches() ) {
-//        return rightPosTag;
-//      }
-//    }
-//    else
-      if( stdNounTagRegex.matcher(leftPosTag).matches() ) {
-      // TODO: finish this
-//      if( stdNounNvTagRegex.matcher(rightPosTag).matches()) {
-//        return leftPosTag;
-//      }
-//      else 
+    if( stdNounTagRegex.matcher(leftPosTag).matches() ) {
       if (stdNounTagRegex.matcher(rightPosTag).matches()) {
         String substring1 = leftPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
         String substring2 = rightPosTag.substring(stdNounTagLen, stdNounTagLen + 3);
         if( substring1.equals(substring2) ) {
-          if( leftPosTag.contains(":nv") )
+          if( leftNv )
             return rightPosTag;
-          
+
           return leftPosTag;
-//          return istotaNeistota(leftPosTag, rightPosTag) ? leftPosTag : rightPosTag;
         }
-//        else if( istotaNeistotaNazZna(leftPosTag, rightPosTag) ) {
-//          return rightPosTag;
-//        }
-//        else if( istotaNeistotaNazZna(rightPosTag, leftPosTag) ) {
-//          return leftPosTag;
-//        }
       }
     }
 
     return null;
   }
 
-  private static boolean istotaNeistota(String leftPosTag, String rightPosTag) {
-    return leftPosTag.contains(TAG_ANIM) && ! rightPosTag.contains(TAG_ANIM);
-  }
-
-  private static boolean istotaNeistotaMatch(String leftPosTag, String rightPosTag) {
+  private static boolean isSameAnimStatus(String leftPosTag, String rightPosTag) {
     return leftPosTag.contains(TAG_ANIM) && rightPosTag.contains(TAG_ANIM)
         || ! leftPosTag.contains(TAG_ANIM) && ! rightPosTag.contains(TAG_ANIM);
-  }
-
-  private static boolean istotaNeistotaNazZna(String leftPosTag, String rightPosTag) {
-    return istotaNeistota(leftPosTag, rightPosTag)
-        && (isPlural(leftPosTag) && isPlural(rightPosTag) || rightPosTag.contains(":m:") || rightPosTag.contains(":n:")) 
-        && leftPosTag.contains(":v_naz") && rightPosTag.contains(":v_zna");
   }
 
   private static boolean isPlural(String posTag) {
@@ -476,7 +576,7 @@ public class UkrainianTagger extends BaseTagger {
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
 
-  private List<AnalyzedToken> eksNounMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
+  private List<AnalyzedToken> getNvPrefixNounMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(analyzedTokens.size());
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
@@ -501,4 +601,122 @@ public class UkrainianTagger extends BaseTagger {
     return null;
   }
 
+
+  private static String getGenderConj(String posTag) {
+    Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.:v_...).*").matcher(posTag);
+    if( pos4matcher.matches() )
+      return pos4matcher.group(2);
+
+    return null;
+  }
+
+  private static String getNumAndConj(String posTag) {
+    Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.:v_...).*").matcher(posTag);
+    if( pos4matcher.matches() ) {
+      String group = pos4matcher.group(2);
+      if( group.charAt(0) != 'p' ) {
+        group = "s" + group.substring(1);
+      }
+      return group;
+    }
+
+    return null;
+  }
+
+  private static String getNum(String posTag) {
+    Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.):v_.*").matcher(posTag);
+    if( pos4matcher.matches() ) {
+      String group = pos4matcher.group(2);
+      if( ! group.equals("p") ) {
+        group = "s";
+      }
+      return group;
+    }
+
+    return null;
+  }
+
+  private static String getConj(String posTag) {
+    Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):[mfnp]:(v_...).*").matcher(posTag);
+    if( pos4matcher.matches() )
+      return pos4matcher.group(2);
+
+    return null;
+  }
+
+
+  // methods for debugging compounds
+
+  private void debugCompounds() {
+    try {
+      Path unknownFile = Paths.get("compounds-unknown.txt");
+      Files.deleteIfExists(unknownFile);
+      unknownFile = Files.createFile(unknownFile);
+      compoundUnknownDebugWriter = Files.newBufferedWriter(unknownFile, Charset.defaultCharset());
+
+      Path taggedFile = Paths.get("compounds-tagged.txt");
+      Files.deleteIfExists(taggedFile);
+      taggedFile = Files.createFile(taggedFile);
+      compoundTaggedDebugWriter = Files.newBufferedWriter(taggedFile, Charset.defaultCharset());
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
+
+  private void debug_compound_unknown_write(String word) {
+    if( compoundUnknownDebugWriter == null )
+      return;
+    
+    try {
+      compoundUnknownDebugWriter.append(word);
+      compoundUnknownDebugWriter.newLine();
+      compoundUnknownDebugWriter.flush();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private void debug_compound_tagged_write(List<AnalyzedToken> guessedCompoundTags) {
+    if( compoundTaggedDebugWriter == null || guessedCompoundTags == null )
+      return;
+    
+    try {
+      String prevToken = "";
+      String prevLemma = "";
+      for (AnalyzedToken analyzedToken : guessedCompoundTags) {
+        String token = analyzedToken.getToken();
+        
+        boolean firstTag = false;
+        if (! prevToken.equals(token)) {
+          if( prevToken.length() > 0 ) {
+            compoundTaggedDebugWriter.append(";  ");
+            prevLemma = "";
+          }
+          compoundTaggedDebugWriter.append(token).append(" ");
+          prevToken = token;
+          firstTag = true;
+        }
+        
+        String lemma = analyzedToken.getLemma();
+
+        if (! prevLemma.equals(lemma)) {
+          if( prevLemma.length() > 0 ) {
+            compoundTaggedDebugWriter.append(", ");
+          }
+          compoundTaggedDebugWriter.append(lemma); //.append(" ");
+          prevLemma = lemma;
+          firstTag = true;
+        }
+
+        compoundTaggedDebugWriter.append(firstTag ? " " : "|").append(analyzedToken.getPOSTag());
+        firstTag = false;
+      }
+      compoundTaggedDebugWriter.newLine();
+      compoundTaggedDebugWriter.flush();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  
 }

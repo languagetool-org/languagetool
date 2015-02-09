@@ -39,7 +39,8 @@ function run_lt()
 {
   SRC="$1"
   ID="$2"
-    java $JAVA_OPTS -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE $SRC | \
+    java $JAVA_OPTS -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH -Dorg.languagetool.tagging.uk.UkrainianTagger.debugCompounds=true \
+       org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE $SRC | \
       sed -r "s/^[0-9]+\.\) //" | grep -vE "^Line|Suggestion" > checked$ID.out
 
 #    java -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE,$RULES_TO_FIX,$RULES_DONE $SRC | \
@@ -64,7 +65,8 @@ function run_full_test()
   else
     run_lt $SRC $ID
     diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
-    mv compounds-unknown.txt tmp/compounds-unknown.$ID.txt
+    mv compounds-unknown.txt tools/compounds-unknown.$ID.txt
+    mv compounds-tagged.txt tools/compounds-tagged.$ID.txt
   fi
   echo "Done [$ID]"
 }

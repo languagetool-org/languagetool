@@ -38,7 +38,7 @@ $Id$
         <rulegroup name="Узгодженість частин речення" id="CONSISTENCY_VERB">
             <rule>
                 <antipattern>
-                   <token regexp="yes">о?крім|замість|(за)?для|(за)?ради</token>
+                   <token regexp="yes">о?крім|замість|(за)?для|(за)?ради|замість</token>
                    <token postag_regexp="yes" postag="verb.*inf.*"/>
                 </antipattern>
                 <pattern>
@@ -79,7 +79,7 @@ $Id$
                     </token>
                     </marker>
                 </pattern>
-                <message>Дієслово після присудкового слова має йти інфінітивом: <suggestion><match no="2" postag_regexp="yes" postag="verb:inf.*"/></suggestion></message>
+                <message>Дієслово після присудкового слова має йти інфінітивом: <suggestion><match no="2" postag_regexp="yes" postag="verb(:rev)?:inf.*"/></suggestion></message>
                 <example>Повинен їхати</example>
                 <example>Йому треба писати</example>
                 <example>Чи варто їм таке писати?</example>
@@ -87,7 +87,7 @@ $Id$
                 <example>Треба буде таке писати</example>
                 <example correction="писати">Повинен <marker>писатиме</marker>.</example>
                 <example correction="писати">Треба <marker>писав</marker>.</example>
-                <example correction="сподіватись">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
+                <example correction="сподіватись|сподіватися">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
             </rule>
         </rulegroup>
 
@@ -440,8 +440,8 @@ $Id$
               <token min="0">хвилин</token>
               <token postag_regexp="yes" postag="adj:f:v_naz.*" regexp="yes" inflected="yes">&hours;</token>
             </pattern>
-            <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
-            <suggestion><match no="2" postag_regexp="yes" postag="numr:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
+            <message>Правильно: <suggestion>за <match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> <match no="4"/></suggestion></message>
+            <suggestion><match no="2" postag_regexp="yes" postag="numr:p:v_naz.*"/> <match no="3"/> до <match no="4" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
             <example correction="за десять третя|десять до третьої"><marker>без десяти третя</marker></example>
             <example correction="за двадцятеро хвилин третя|за двадцять хвилин третя|двадцятеро хвилин до третьої|двадцять хвилин до третьої"><marker>без двадцяти хвилин третя</marker></example>
             <example correction="за двоє хвилин сьома|двоє хвилин до сьомої"><marker>без двадцяти двох хвилин сьома</marker></example>
@@ -478,12 +478,15 @@ $Id$
                 <pattern>
                     <token postag_regexp="yes" postag="(noun|pron).*v_zna.*"/>
                     <marker>
-                    <token postag_regexp="yes" postag="verb:impers.*"><exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception></token>
+                    <token postag_regexp="yes" postag="verb:impers.*">
+                      <exception regexp="yes">визнано|названо|призначено|.*обрано|обумовлено|.*укомплектовано|зумовлено</exception>
+                    </token>
                     <token postag_regexp="yes" postag="(adj|pron).*v_oru.*" min="0" max="1">
                       <exception regexp="yes">тим|таким</exception>
                     </token>
                     <token postag_regexp="yes" postag="noun.*v_oru.*:anim.*|pron.*v_oru.*">
-                      <exception postag_regexp="yes" postag="noun.*v_oru$|&lt;(adv|insert)&gt;"/>
+                      <exception negate_pos="yes" postag_regexp="yes" postag="noun.*v_oru.*:anim.*|pron.*v_oru.*|SENT_END"/>
+                      <exception postag_regexp="yes" postag="&lt;(adv|insert)&gt;"/>
                       <exception regexp="yes">тим|таким|персоною|днями|цими</exception>
                     </token>
                     <!-- TODO: особа-діяч може бути не лише :anim
@@ -494,14 +497,16 @@ $Id$
                 <message>Невластива мові конструкція: пасивний предикат</message>
                 <url>http://kurylo.wikidot.com/3-nevlastyva-ukrainskii-movi-konstruktsiia:pasyvnyi-predykat</url>
                 <example>Користувача авторизовано</example>
+                <example>Листа написано Келлі</example>
                 <example>Справу порушено за фактом</example>
                 <example>Наказ підписано синьою ручкою</example>
                 <example>церковні терміни використано тією мірою</example>
                 <example>це викликано тим</example>
                 <example>його обрано президентом</example>
                 <example>документ виписано таким чином</example>
-                <example correction="">Справу <marker>порушено прокурором</marker></example>
-                <example correction="">Справу <marker>порушено генеральним прокурором</marker></example>
+                <example>Яку роль відведено Ульянченко</example>
+                 <example correction="">Справу <marker>порушено прокурором</marker>.</example>
+                <example correction="">Справу <marker>порушено генеральним прокурором</marker>.</example>
                 <!-- TODO: див. вище
                 <example correction="">Справу <marker>порушено судом</marker></example>
                 <example type="incorrect">Справу <marker>порушено міським судом</marker></example>

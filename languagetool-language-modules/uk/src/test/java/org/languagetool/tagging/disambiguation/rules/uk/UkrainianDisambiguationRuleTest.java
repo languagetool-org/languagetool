@@ -19,15 +19,12 @@
 package org.languagetool.tagging.disambiguation.rules.uk;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
-import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.MultiWordChunker;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
@@ -68,11 +65,11 @@ public class UkrainianDisambiguationRuleTest extends DisambiguationRuleTest {
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf  /[null]null Люба/[Люба]noun:f:v_naz:anim|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf  /[null]null Люба/[Люба]noun:f:v_naz:anim:fname|Люба/[любий]adj:f:v_naz  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, demoDisambiguator);
 
     TestTools.myAssert("Прийшла Люба додому.", 
-      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf  /[null]null Люба/[Люба]noun:f:v_naz:anim  /[null]null додому/[додому]adv ./[null]null",
+      "/[null]SENT_START Прийшла/[прийти]verb:past:f:perf  /[null]null Люба/[Люба]noun:f:v_naz:anim:fname  /[null]null додому/[додому]adv ./[null]null",
        tokenizer, sentenceTokenizer, tagger, disambiguator);
       
   }

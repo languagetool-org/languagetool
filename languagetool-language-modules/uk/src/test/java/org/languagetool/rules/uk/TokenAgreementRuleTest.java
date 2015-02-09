@@ -84,6 +84,7 @@ public class TokenAgreementRuleTest {
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до схід сонця"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до НАК «Надра України»"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("призвів до значною мірою демократичного середнього класу"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("Вони замість Андрій вибрали Юрій"))));
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("призвів до значною мірою демократичному середньому класу")).length);
 
@@ -113,7 +114,13 @@ public class TokenAgreementRuleTest {
     assertEquals(1, match.length);
     List<String> suggestedReplacements = match[0].getSuggestedReplacements();
     assertTrue("Did not find «їхній»: " + suggestedReplacements, suggestedReplacements.contains("їхнім"));
-    
+
+    analyzedSentence = langTool.getAnalyzedSentence("О дівчина!");
+    match = rule.match(analyzedSentence);
+    assertEquals(1, match.length);
+    suggestedReplacements = match[0].getSuggestedReplacements();
+    assertTrue("Did not find кличний «дівчино»: " + suggestedReplacements, suggestedReplacements.contains("дівчино"));
+
     matches = rule.match(langTool.getAnalyzedSentence("по церковним канонам"));
     // check match positions:
     assertEquals(1, matches.length);
