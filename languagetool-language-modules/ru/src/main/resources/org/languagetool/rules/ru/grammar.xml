@@ -1921,7 +1921,21 @@ $Id$
             <example>более интересный</example>
             <example>умнее</example>
         </rule>
-        
+       
+         <rule id="grammar_nemnogo_blednovat" name="Грамматические ошибки «немного бледноват»">
+            <pattern>
+                <token regexp="yes">немного|слегка|чуть-чуть</token>
+                <token postag="ADJ_Short:.*" postag_regexp="yes" regexp="yes">(.*)(оват)</token>
+            </pattern>
+            <message>Грамматическая ошибка: <suggestion><match no="2" /></suggestion>.</message>
+            
+            <short>Грамматическая ошибка.</short>
+            <example correction="бледноват">Мальчик <marker>немного бледноват</marker>.</example>
+            <example>Мальчик немного бледный.</example>
+            <example>Мальчик бледноват</example>
+        </rule>
+         
+           
         <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
             <pattern>
                 <token inflected="yes">скучать</token>
