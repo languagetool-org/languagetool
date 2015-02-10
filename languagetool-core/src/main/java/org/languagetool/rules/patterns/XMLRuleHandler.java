@@ -45,7 +45,47 @@ public class XMLRuleHandler extends DefaultHandler {
 
   public static final String ID = "id";
   public static final String NAME = "name";
-  
+
+  /** Definitions of values in XML files. */
+  protected static final String YES = "yes";
+  protected static final String OFF = "off";
+  protected static final String ON = "on";
+  protected static final String POSTAG = "postag";
+  protected static final String CHUNKTAG = "chunk";
+  protected static final String POSTAG_REGEXP = "postag_regexp";
+  protected static final String REGEXP = "regexp";
+  protected static final String NEGATE = "negate";
+  protected static final String INFLECTED = "inflected";
+  protected static final String NEGATE_POS = "negate_pos";
+  protected static final String MARKER = "marker";
+  protected static final String DEFAULT = "default";
+  protected static final String TYPE = "type";
+  protected static final String SPACEBEFORE = "spacebefore";
+  protected static final String EXAMPLE = "example";
+  protected static final String SCOPE = "scope";
+  protected static final String IGNORE = "ignore";
+  protected static final String SKIP = "skip";
+  protected static final String MIN = "min";
+  protected static final String MAX = "max";
+  protected static final String TOKEN = "token";
+  protected static final String FEATURE = "feature";
+  protected static final String UNIFY = "unify";
+  protected static final String UNIFY_IGNORE = "unify-ignore";
+  protected static final String AND = "and";
+  protected static final String OR = "or";
+  protected static final String EXCEPTION = "exception";
+  protected static final String CASE_SENSITIVE = "case_sensitive";
+  protected static final String PATTERN = "pattern";
+  protected static final String ANTIPATTERN = "antipattern";
+  protected static final String MATCH = "match";
+  protected static final String UNIFICATION = "unification";
+  protected static final String RULE = "rule";
+  protected static final String RULEGROUP = "rulegroup";
+  protected static final String NO = "no";
+  protected static final String PHRASES = "phrases";
+  protected static final String MESSAGE = "message";
+  protected static final String SUGGESTION = "suggestion";
+
   protected List<PatternRule> rules = new ArrayList<>();
   protected Language language;
 
@@ -104,16 +144,16 @@ public class XMLRuleHandler extends DefaultHandler {
   protected Boolean exceptionLevelCaseSensitive;
   protected boolean exceptionLevelCaseSet;
 
-  /** List of elements as specified by tokens. **/
+  /** List of elements as specified by tokens. */
   protected List<Element> elementList;
 
-  /** true when phraseref is the last element in the rule. **/
+  /** true when phraseref is the last element in the rule. */
   protected boolean lastPhrase;
 
-  /** ID reference to the phrase. **/
+  /** ID reference to the phrase. */
   protected String phraseIdRef;
 
-  /** Current phrase ID. **/
+  /** Current phrase ID. */
   protected String phraseId;
   protected int skipPos;
   protected int minOccurrence = 1;
@@ -130,13 +170,13 @@ public class XMLRuleHandler extends DefaultHandler {
   protected int endPositionCorrection;
   protected int tokenCounter;
 
-  /** Phrase store - elementLists keyed by phraseIds. **/
+  /** Phrase store - elementLists keyed by phraseIds. */
   protected Map<String, List<List<Element>>> phraseMap;
 
   /**
    * Logically forking element list, used for including multiple phrases in the
    * current one.
-   **/
+   */
   protected List<ArrayList<Element>> phraseElementList;
 
   protected int andGroupCounter;
@@ -164,46 +204,6 @@ public class XMLRuleHandler extends DefaultHandler {
   protected List<String> uTypeList;
 
   protected Map<String, List<String>> equivalenceFeatures;
-
-  /** Definitions of values in XML files. */
-  protected static final String YES = "yes";
-  protected static final String OFF = "off";
-  protected static final String ON = "on";
-  protected static final String POSTAG = "postag";
-  protected static final String CHUNKTAG = "chunk";
-  protected static final String POSTAG_REGEXP = "postag_regexp";
-  protected static final String REGEXP = "regexp";
-  protected static final String NEGATE = "negate";
-  protected static final String INFLECTED = "inflected";
-  protected static final String NEGATE_POS = "negate_pos";
-  protected static final String MARKER = "marker";
-  protected static final String DEFAULT = "default";
-  protected static final String TYPE = "type";
-  protected static final String SPACEBEFORE = "spacebefore";
-  protected static final String EXAMPLE = "example";
-  protected static final String SCOPE = "scope";
-  protected static final String IGNORE = "ignore";
-  protected static final String SKIP = "skip";
-  protected static final String MIN = "min";
-  protected static final String MAX = "max";
-  protected static final String TOKEN = "token";
-  protected static final String FEATURE = "feature";
-  protected static final String UNIFY = "unify";
-  protected static final String UNIFY_IGNORE = "unify-ignore";
-  protected static final String AND = "and";
-  protected static final String OR = "or";
-  protected static final String EXCEPTION = "exception";
-  protected static final String CASE_SENSITIVE = "case_sensitive";
-  protected static final String PATTERN = "pattern";
-  protected static final String ANTIPATTERN = "antipattern";
-  protected static final String MATCH = "match";
-  protected static final String UNIFICATION = "unification";
-  protected static final String RULE = "rule";
-  protected static final String RULEGROUP = "rulegroup";
-  protected static final String NO = "no";
-  protected static final String PHRASES = "phrases";
-  protected static final String MESSAGE = "message";
-  protected static final String SUGGESTION = "suggestion";
 
   public XMLRuleHandler() {
     elementList = new ArrayList<>();
@@ -439,8 +439,7 @@ public class XMLRuleHandler extends DefaultHandler {
       if (tokenLevelCaseSet) {
         tokenCase = tokenLevelCaseSensitive;
       }
-      tokenElement = new Element(elements
-          .toString(), tokenCase, regExpression, tokenInflected);
+      tokenElement = new Element(elements.toString(), tokenCase, regExpression, tokenInflected);
       exceptionSet = true;
     }
     tokenElement.setNegation(tokenNegated);
@@ -556,8 +555,7 @@ public class XMLRuleHandler extends DefaultHandler {
           tokenCase, regExpression, tokenInflected);
       tokenElement.setNegation(tokenNegated);
     } else {
-      tokenElement.setStringElement(elements
-          .toString());
+      tokenElement.setStringElement(elements.toString());
     }
 
     if (skipPos != 0) {
