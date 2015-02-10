@@ -281,8 +281,8 @@ public class MainTest extends AbstractSecurityTestCase {
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"10\" ruleId=\"EN_A_VS_AN\" " +
-        "msg=\"Use 'a' instead of 'an' if the following word doesn't start with a vowel sound, e.g. 'a sentence', " +
-        "'a university'\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
+        "msg=\"Use &apos;a&apos; instead of &apos;an&apos; if the following word doesn&apos;t start with a vowel sound, e.g. &apos;a sentence&apos;, " +
+        "&apos;a university&apos;\" replacements=\"a\" context=\"This is an test.  This is a test of of language tool.  ...\" " +
         "contextoffset=\"8\" offset=\"8\" errorlength=\"2\" category=\"Miscellaneous\" locqualityissuetype=\"misspelling\"/>"));
   }
 
@@ -315,7 +315,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") == 0);
     assertTrue(output.contains("<error fromy=\"0\" fromx=\"8\" toy=\"0\" tox=\"20\" ruleId=\"BRAK_PRZECINKA_KTORY\""));
     //This tests whether XML encoding is actually UTF-8:
-    assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: 'świnia, która'.\" replacements=\"świnia, która\" "));
+    assertTrue(output.contains("msg=\"Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: &apos;świnia, która&apos;.\" replacements=\"świnia, która\" "));
     assertTrue(output.contains("context=\"To jest świnia która się ślini."));
     assertTrue(output.contains("contextoffset=\"8\" offset=\"8\" errorlength=\"12\" category=\"Błędy interpunkcyjne\""));
   }
