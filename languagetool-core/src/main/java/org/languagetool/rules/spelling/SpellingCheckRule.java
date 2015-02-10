@@ -202,6 +202,7 @@ public abstract class SpellingCheckRule extends Rule {
   
   protected void init() throws IOException {
     loadWordsToBeIgnored(getIgnoreFileName());
+    loadWordsToBeIgnored(getSpellingFileName());
     loadWordsToBeProhibited(getProhibitFileName());
   }
 

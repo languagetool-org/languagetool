@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
+import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
@@ -29,6 +30,7 @@ import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
@@ -65,6 +67,23 @@ public class GermanSpellerRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Stil- und Grammatik gut")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Flasch- und Grammatikprüfung gut")).length);
     //assertEquals(1, rule.match(langTool.getAnalyzedSentence("Haupt- und Neben")).length);  // hunspell accepts this :-(
+  }
+
+  @Test
+  public void testIgnoreWord() throws Exception {
+    MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
+    assertTrue(rule.doIgnoreWord("Ligafußball"));  // from spelling.txt
+  }
+
+  private class MyGermanSpellerRule extends GermanSpellerRule {
+    MyGermanSpellerRule(ResourceBundle messages, German language) throws IOException {
+      super(messages, language);
+      init();
+    }
+    boolean doIgnoreWord(String word) throws IOException {
+      return super.ignoreWord(Arrays.asList(word), 0);
+    }
   }
 
   // note: copied from HunspellRuleTest
