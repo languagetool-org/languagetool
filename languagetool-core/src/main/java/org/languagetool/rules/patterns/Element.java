@@ -367,31 +367,6 @@ public class Element implements Cloneable {
 
   /**
    * Sets a string and/or pos exception for matching tokens.
-   * 
-   * @param token The string in the exception.
-   * @param regExp True if the string is specified as a regular expression.
-   * @param inflected True if the string is a base form (lemma).
-   * @param negation True if the exception is negated.
-   * @param scopeNext True if the exception scope is next tokens.
-   * @param scopePrevious True if the exception should match only a single previous token.
-   * @param posToken The part of the speech tag in the exception.
-   * @param posRegExp True if the POS is specified as a regular expression.
-   * @param posNegation True if the POS exception is negated.
-   */
-  public final void setStringPosException(
-      final String token, final boolean regExp, final boolean inflected,
-      final boolean negation, final boolean scopeNext, final boolean scopePrevious,
-      final String posToken, final boolean posRegExp, final boolean posNegation) {
-
-    final Element exception = new Element(token, caseSensitive, regExp, inflected);
-    exception.setNegation(negation);
-    exception.setPosElement(posToken, posRegExp, posNegation);
-    exception.exceptionValidNext = scopeNext;
-    setException(exception, scopePrevious);
-  }
-
-  /**
-   * Sets a string and/or pos exception for matching tokens.
    *
    * @param token The string in the exception.
    * @param regExp True if the string is specified as a regular expression.
@@ -402,19 +377,39 @@ public class Element implements Cloneable {
    * @param posToken The part of the speech tag in the exception.
    * @param posRegExp True if the POS is specified as a regular expression.
    * @param posNegation True if the POS exception is negated.
-   * @param caseSensitivity True if exception is case sensitive (in a different way than the whole token).
-   * @since 2.6
+   * @param caseSensitivity if null, use this element's setting for case sensitivity, otherwise the specified value
+   * @since 2.9
+   */
+  public final void setStringPosException(
+          final String token, final boolean regExp, final boolean inflected,
+          final boolean negation, final boolean scopeNext, final boolean scopePrevious,
+          final String posToken, final boolean posRegExp, final boolean posNegation, final Boolean caseSensitivity) {
+
+    final Element exception = new Element(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
+    exception.setNegation(negation);
+    exception.setPosElement(posToken, posRegExp, posNegation);
+    exception.exceptionValidNext = scopeNext;
+    setException(exception, scopePrevious);
+  }
+
+  /**
+   * @deprecated use {@link #setStringPosException(String, boolean, boolean, boolean, boolean, boolean, String, boolean, boolean, Boolean)} instead (deprecated since 2.9)
+   */
+  public final void setStringPosException(
+      final String token, final boolean regExp, final boolean inflected,
+      final boolean negation, final boolean scopeNext, final boolean scopePrevious,
+      final String posToken, final boolean posRegExp, final boolean posNegation) {
+    setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitive));
+  }
+
+  /**
+   * @deprecated use {@link #setStringPosException(String, boolean, boolean, boolean, boolean, boolean, String, boolean, boolean, Boolean)} instead (deprecated since 2.9)
    */
   public final void setStringPosException(
       final String token, final boolean regExp, final boolean inflected,
       final boolean negation, final boolean scopeNext, final boolean scopePrevious,
       final String posToken, final boolean posRegExp, final boolean posNegation, final boolean caseSensitivity) {
-
-    final Element exception = new Element(token, caseSensitivity, regExp, inflected);
-    exception.setNegation(negation);
-    exception.setPosElement(posToken, posRegExp, posNegation);
-    exception.exceptionValidNext = scopeNext;
-    setException(exception, scopePrevious);
+    setStringPosException(token, regExp, inflected, negation, scopeNext, scopePrevious, posToken, posRegExp, posNegation, Boolean.valueOf(caseSensitivity));
   }
 
 

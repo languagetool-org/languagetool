@@ -101,7 +101,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected boolean exceptionSpaceBefore;
   protected boolean exceptionSpaceBeforeSet;
 
-  protected boolean exceptionLevelCaseSensitive;
+  protected Boolean exceptionLevelCaseSensitive;
   protected boolean exceptionLevelCaseSet;
 
   /** List of elements as specified by tokens. **/
@@ -445,16 +445,11 @@ public class XMLRuleHandler extends DefaultHandler {
     }
     tokenElement.setNegation(tokenNegated);
     if (!StringTools.isEmpty(exceptions.toString()) || exceptionPosToken != null) {
-      if (exceptionLevelCaseSet) {
-        tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
-            exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
-      } else {
-        tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
-            exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
-            exceptionPosToken, exceptionPosRegExp, exceptionPosNegation);
-      }
+      tokenElement.setStringPosException(exceptions.toString(), exceptionStringRegExp,
+          exceptionStringInflected, exceptionStringNegation, exceptionValidNext, exceptionValidPrev,
+          exceptionPosToken, exceptionPosRegExp, exceptionPosNegation, exceptionLevelCaseSensitive);
       exceptionPosToken = null;
+      exceptionLevelCaseSensitive = null;
     }
     if (exceptionSpaceBeforeSet) {
       tokenElement.setExceptionSpaceBefore(exceptionSpaceBefore);

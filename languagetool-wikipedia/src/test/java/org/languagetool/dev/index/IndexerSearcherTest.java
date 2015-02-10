@@ -287,7 +287,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
   public void testWithException() throws Exception {
     createIndex("How to move back and fourth from linux to xmb?");
     final Element exceptionElem = new Element("forth|back", false, true, false);
-    exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false);
+    exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false, null);
     final List<Element> elements = Arrays.asList(
         new Element("move", false, false, false),
         exceptionElem
@@ -325,7 +325,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
   public void testWithOneElementWithException() throws Exception {
     createIndex("How to move back and fourth from linux to xmb?");
     final Element exceptionElem = new Element("", false, true, false);
-    exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false);
+    exceptionElem.setStringPosException("exception", false, false, false, false, false, "POS", false, false, null);
     final List<Element> elements = Arrays.asList(
         exceptionElem
         );
