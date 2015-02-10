@@ -381,8 +381,8 @@ public class TokenAgreementRule extends Rule {
             String newPostag = posTag2.replace("v_naz", "v_kly");
             String[] synthesized = ukrainianSynthesizer.synthesize(token, newPostag, false);
             for (String string : synthesized) {
-              if( ! string.equals(token.getToken()) && ! suggestions.contains(synthesized) ) {
-                suggestions.addAll( Arrays.asList(synthesized) );
+              if( ! string.equals(token.getToken()) && ! suggestions.contains(string) ) {
+                suggestions.add( string );
               }
             }
             break;

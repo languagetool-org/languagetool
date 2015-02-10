@@ -81,6 +81,8 @@ public class UkrainianTaggerTest extends TestCase {
   }
   
   public void testDynamicTagging() throws IOException {
+    TestTools.myAssert("г-г-г", "г-г-г/[null]null", tokenizer, tagger);
+    
     TestTools.myAssert("100-річному", "100-річному/[100-річний]adj:m:v_dav|100-річному/[100-річний]adj:m:v_mis|100-річному/[100-річний]adj:n:v_dav|100-річному/[100-річний]adj:n:v_mis", tokenizer, tagger);
     TestTools.myAssert("100-й", "100-й/[100-й]adj:m:v_naz|100-й/[100-й]adj:m:v_zna", tokenizer, tagger);
 
@@ -133,7 +135,8 @@ public class UkrainianTaggerTest extends TestCase {
     
     TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:m:v_naz|сонях-красень/[сонях-красень]noun:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:m:v_naz|красень-сонях/[красень-сонях]noun:m:v_zna", tokenizer, tagger);
-//    TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:p:v_rod:anim|депутатів-привидів/[депутат-привид]noun:p:v_zna:anim", tokenizer, tagger);
+    TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:p:v_rod:anim|депутатів-привидів/[депутат-привид]noun:p:v_zna:anim", tokenizer, tagger);
+    TestTools.myAssert("дівчата-зірочки", "дівчата-зірочки/[дівча-зірочка]noun:p:v_naz:anim", tokenizer, tagger);
 
     TestTools.myAssert("абзац-два", "абзац-два/[абзац-два]noun:m:v_naz|абзац-два/[абзац-два]noun:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("сотні-дві", "сотні-дві/[сотня-два]noun:p:v_naz|сотні-дві/[сотня-два]noun:p:v_zna", tokenizer, tagger);
@@ -166,7 +169,6 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("програмою-максимум", "програмою-максимум/[програма-максимум]noun:f:v_oru", tokenizer, tagger);
 
     TestTools.myAssert("Пенсильванія-авеню", "Пенсильванія-авеню/[Пенсильванія-авеню]noun:f:nv", tokenizer, tagger);
-//    TestTools.myAssert("Кубань-ріки", "Кубань-ріки/[Кубань-ріка]noun:f:v_rod", tokenizer, tagger);
 
     TestTools.myAssert("паталого-анатомічний", "паталого-анатомічний/[паталого-анатомічний]adj:m:v_naz|паталого-анатомічний/[паталого-анатомічний]adj:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("паталого-гмкнх", "паталого-гмкнх/[null]null", tokenizer, tagger);

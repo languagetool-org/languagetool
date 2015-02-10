@@ -20,9 +20,8 @@ CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform
 #JAVA_OPTS="-Xverify:none"
 
 # For JMC
-#JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=tmp/dumponexit.jfr"
-
-#export PATH=/usr/java/jdk1.8.0_20/bin:$PATH
+JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
+export PATH=/usr/java/latest/bin:$PATH
 
 
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"

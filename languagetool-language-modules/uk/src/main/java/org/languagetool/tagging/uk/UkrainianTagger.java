@@ -52,6 +52,7 @@ import org.languagetool.tagging.WordTagger;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
+  private static final Pattern GENDER_CONJ_REGEX = Pattern.compile("(noun|adjp?|numr):(.:v_...).*");
   private static final String NV_TAG = ":nv";
   private static final String COMPB_TAG = ":compb";
 //  private static final String V_U_TAG = ":v-u";
@@ -59,6 +60,14 @@ public class UkrainianTagger extends BaseTagger {
 //  private static final Pattern EXTRA_TAGS_DOUBLE = Pattern.compile("(:(nv|np|ns))+");
   private static final String DEBUG_COMPOUNDS_PROPERTY = "org.languagetool.tagging.uk.UkrainianTagger.debugCompounds";
   private static final String TAG_ANIM = ":anim";
+  
+  private static final Pattern MNP_NAZ_REGEX = Pattern.compile(".*:[mnp]:v_naz.*");
+  private static final Pattern MNP_ZNA_REGEX = Pattern.compile(".*:[mnp]:v_zna.*");
+  private static final Pattern MNP_ROD_REGEX = Pattern.compile(".*:[mnp]:v_rod.*");
+  private static final Pattern NOUN_SING_V_ROD_REGEX = Pattern.compile("noun:[mfn]:v_rod.*");
+  private static final Pattern NOUN_V_NAZ_REGEX = Pattern.compile("noun:.:v_naz.*");
+  private static final Pattern SING_REGEX_F = Pattern.compile(":[mfn]:");
+  
 //  private static final String VERB_TAG_FOR_REV_IMPR = IPOSTag.verb.getText()+":rev:impr";
 //  private static final String VERB_TAG_FOR_IMPR = IPOSTag.verb.getText()+":impr";
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = IPOSTag.adj.getText() + ":m:v_mis";
@@ -274,11 +283,11 @@ public class UkrainianTagger extends BaseTagger {
         if( rightPosTag == null )
           continue;
 
-        if( rightPosTag.matches("^noun:[mfn]:v_rod.*") ) {
+        if( NOUN_SING_V_ROD_REGEX.matcher(rightPosTag).matches() ) {
           for(String vid: VIDMINKY_MAP.keySet()) {
             if( vid.equals("v_kly") )
               continue;
-            String posTag = rightPosTag.replaceFirst("v_...", vid);
+            String posTag = rightPosTag.replace("v_rod", vid);
             newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
           }
         }
@@ -318,7 +327,7 @@ public class UkrainianTagger extends BaseTagger {
     
     for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
-      if( posTag.matches(IPOSTag.noun.getText() + ":.:v_naz.*") ) {
+      if( NOUN_V_NAZ_REGEX.matcher(posTag).matches() ) {
         newAnalyzedTokens.add(new AnalyzedToken(word, posTag.replaceFirst("v_naz", "nv"), word));
       }
     }
@@ -388,7 +397,7 @@ public class UkrainianTagger extends BaseTagger {
           String agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
 
           if( agreedPosTag == null 
-              && rightPosTag.startsWith(IPOSTag.noun.getText() + ":m:v_naz")
+              && rightPosTag.startsWith("noun:m:v_naz")
               && isMinMax(rightAnalyzedToken.getToken()) ) {
             agreedPosTag = leftPosTag;
           }
@@ -475,7 +484,13 @@ public class UkrainianTagger extends BaseTagger {
       
       if( agreedPosTag == null ) {
         if (! leftPosTag.contains(TAG_ANIM)) {
-          if (leftPosTag.matches(".*:[mnp]:v_zna.*") && rightPosTag.matches(".*:[mnp]:v_naz.*")
+          if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() && MNP_NAZ_REGEX.matcher(rightPosTag).matches()
+              && ! leftNv && ! rightNv ) {
+            agreedPosTag = leftPosTag;
+          }
+        }
+        else {
+          if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() && MNP_ROD_REGEX.matcher(rightPosTag).matches()
               && ! leftNv && ! rightNv ) {
             agreedPosTag = leftPosTag;
           }
@@ -489,7 +504,7 @@ public class UkrainianTagger extends BaseTagger {
       agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, false);
       if( agreedPosTag == null ) {
         if (! leftPosTag.contains(TAG_ANIM)) {
-          if (leftPosTag.matches(".*:[mnp]:v_zna.*") && rightPosTag.matches(".*:[mnp]:v_naz.*")
+          if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() && MNP_NAZ_REGEX.matcher(rightPosTag).matches()
               && getNum(leftPosTag).equals(getNum(rightPosTag))
               && ! leftNv && ! rightNv ) {
             agreedPosTag = leftPosTag;
@@ -503,7 +518,7 @@ public class UkrainianTagger extends BaseTagger {
       agreedPosTag = getArgreedPosTag(rightPosTag, leftPosTag, false);
       if( agreedPosTag == null ) {
         if (! rightPosTag.contains(TAG_ANIM)) {
-          if (rightPosTag.matches(".*:[mnp]:v_zna.*") && leftPosTag.matches(".*:[mnp]:v_naz.*")
+          if (MNP_ZNA_REGEX.matcher(rightPosTag).matches() && MNP_NAZ_REGEX.matcher(leftPosTag).matches()
               && getNum(leftPosTag).equals(getNum(rightPosTag))
               && ! leftNv && ! rightNv ) {
             agreedPosTag = rightPosTag;
@@ -521,8 +536,8 @@ public class UkrainianTagger extends BaseTagger {
   private String getNumAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
     String agreedPosTag = null;
     
-    if( leftPosTag.matches(".*:p:.*") && rightPosTag.matches(".*:[mfn]:.*")
-        || leftPosTag.matches(".*:[mfn]:.*") && rightPosTag.matches(".*:p:.*")) {
+    if( leftPosTag.contains(":p:") && SING_REGEX_F.matcher(rightPosTag).find()
+        || SING_REGEX_F.matcher(leftPosTag).find() && rightPosTag.contains(":p:")) {
       if( getConj(leftPosTag).equals(getConj(rightPosTag)) ) {
         agreedPosTag = leftPosTag;
       }
@@ -560,7 +575,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   private static boolean isPlural(String posTag) {
-    return posTag.startsWith(IPOSTag.noun.getText() + ":p:");
+    return posTag.startsWith("noun:p:");
   }
 
   private List<AnalyzedToken> oAdjMatch(String word, List<AnalyzedToken> analyzedTokens, String leftWord) {
@@ -603,25 +618,25 @@ public class UkrainianTagger extends BaseTagger {
 
 
   private static String getGenderConj(String posTag) {
-    Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.:v_...).*").matcher(posTag);
+    Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
     if( pos4matcher.matches() )
       return pos4matcher.group(2);
 
     return null;
   }
 
-  private static String getNumAndConj(String posTag) {
-    Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.:v_...).*").matcher(posTag);
-    if( pos4matcher.matches() ) {
-      String group = pos4matcher.group(2);
-      if( group.charAt(0) != 'p' ) {
-        group = "s" + group.substring(1);
-      }
-      return group;
-    }
-
-    return null;
-  }
+//  private static String getNumAndConj(String posTag) {
+//    Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
+//    if( pos4matcher.matches() ) {
+//      String group = pos4matcher.group(2);
+//      if( group.charAt(0) != 'p' ) {
+//        group = "s" + group.substring(1);
+//      }
+//      return group;
+//    }
+//
+//    return null;
+//  }
 
   private static String getNum(String posTag) {
     Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.):v_.*").matcher(posTag);
