@@ -37,7 +37,9 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   
   private final CompoundWordTokenizer wordSplitter;
   private final MorfologikMultiSpeller morfoSpeller;
-  
+
+  protected abstract void filterForLanguage(List<String> suggestions);
+
   public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer wordSplitter, MorfologikMultiSpeller morfoSpeller) {
     super(messages, language);
     this.wordSplitter = wordSplitter;
@@ -47,7 +49,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   /**
    * As a hunspell-based approach is too slow, we use Morfologik to create suggestions. As this
    * won't work for compounds not in the dictionary, we split the word and also get suggestions
-   * on the compound parts. In the end, all candidates are filtered against Hunspell again (which 
+   * on the compound parts. In the end, all candidates are filtered against Hunspell again (which
    * supports compounds).
    */
   @Override
@@ -95,6 +97,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     suggestions.addAll(0, noSplitSuggestions);
 
     filterDupes(suggestions);
+    filterForLanguage(suggestions);
     final List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);
     return sortedSuggestions.subList(0, Math.min(MAX_SUGGESTIONS, sortedSuggestions.size()));
   }

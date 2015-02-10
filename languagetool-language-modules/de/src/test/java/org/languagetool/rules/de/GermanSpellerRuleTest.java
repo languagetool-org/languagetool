@@ -32,6 +32,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
@@ -40,6 +41,7 @@ import static org.junit.Assert.assertTrue;
 public class GermanSpellerRuleTest {
 
   private static final GermanyGerman GERMAN_DE = new GermanyGerman();
+  private static final SwissGerman GERMAN_CH = new SwissGerman();
 
   @Test
   public void testSortSuggestion() throws Exception {
@@ -71,15 +73,20 @@ public class GermanSpellerRuleTest {
 
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {
-    MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertThat(rule.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+    MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(ruleGermany.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+    MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    assertThat(ruleSwiss.getSuggestions("Ligafußboll").toString(), is("[Ligafussball, Ligafussballs]"));
   }
 
   @Test
   public void testIgnoreWord() throws Exception {
-    MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
-    assertTrue(rule.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
-    assertTrue(rule.doIgnoreWord("Ligafußball"));  // from spelling.txt
+    MyGermanSpellerRule ruleGermany = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(ruleGermany.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
+    assertTrue(ruleGermany.doIgnoreWord("Ligafußball"));  // from spelling.txt
+    MyGermanSpellerRule ruleSwiss = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_CH);
+    assertTrue(ruleSwiss.doIgnoreWord("einPseudoWortFürLanguageToolTests"));
+    assertFalse(ruleSwiss.doIgnoreWord("Ligafußball"));  // 'ß' never accepted for Swiss
   }
 
   private class MyGermanSpellerRule extends GermanSpellerRule {

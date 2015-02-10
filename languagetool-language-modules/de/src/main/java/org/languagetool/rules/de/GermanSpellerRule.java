@@ -101,6 +101,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
+  @Override
+  protected void filterForLanguage(List<String> suggestions) {
+    if (language.getShortNameWithCountryAndVariant().equals("de-CH")) {
+      for (int i = 0; i < suggestions.size(); i++) {
+        String s = suggestions.get(i);
+        suggestions.set(i, s.replace("ß", "ss"));
+      }
+    }
+  }
+
   // Use hunspell-style replacements to get good suggestions for "heisse", namely "heiße" etc
   // TODO: remove this when the Morfologik speller can do this directly during tree iteration:
   @Override
