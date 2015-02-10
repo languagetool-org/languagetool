@@ -70,6 +70,12 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
+  public void testGetSuggestionsFromSpellingTxt() throws Exception {
+    MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertThat(rule.getSuggestions("Ligafußboll").toString(), is("[Ligafußball, Ligafußballs]"));  // from spelling.txt
+  }
+
+  @Test
   public void testIgnoreWord() throws Exception {
     MyGermanSpellerRule rule = new MyGermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
     assertTrue(rule.doIgnoreWord("einPseudoWortFürLanguageToolTests"));  // from ignore.txt
