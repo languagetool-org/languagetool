@@ -501,6 +501,7 @@ public class XMLRuleHandler extends DefaultHandler {
       tokenLevelCaseSet = true;
       tokenLevelCaseSensitive = YES.equals(attrs.getValue(CASE_SENSITIVE));
     } else {
+      tokenLevelCaseSensitive = false;
       tokenLevelCaseSet = false;
     }
   }
