@@ -992,14 +992,15 @@ $Id$
                             <pattern>
                                 <phraseref idref="NIE_INTERPUNKCJA"></phraseref>
                                 <token postag="conj"><exception regexp="yes">&conj;</exception><exception inflected="yes">to</exception><exception scope="previous" postag="comp:comma"/></token>
-                                <token>że</token>
+                                <token regexp="yes">że|iż</token>
                             </pattern>
-                            <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion>.</message>
+                            <message>Brak przecinka przed spójnikiem złożonym: <suggestion>\1, \2 \3</suggestion> (niekiedy poprawnie może być: <suggestion>\1 \2, \3</suggestion>).</message>
                             <short>Brak przecinka</short>
-                            <example correction="poszło, dość że">Nie wiadomo, o co im właściwie tam <marker>poszło dość że</marker> przez kilka minut za ścianą działo się piekło..</example>
+                            <example correction="poszło, dość że|poszło dość, że">Nie wiadomo, o co im właściwie tam <marker>poszło dość że</marker> przez kilka minut za ścianą działo się piekło..</example>
                             <example>Nie wiadomo, o co im właściwie tam poszło, dość że przez kilka minut za ścianą działo się piekło.</example>
                             <example>Serce mi mówi, że to nieosobliwe dla nas miejsce i że więcej nam potrzeba teraz użytku nóg.</example>
                             <example>Jeżeli czemu się dziwię, to że dotąd zachowywała się tak spokojnie.</example>
+                            <example correction="Zarzucano, jednak iż|Zarzucano jednak, iż"><marker>Zarzucano jednak iż</marker> jako program ma mało możliwości.</example>
                         </rule>
                         <rule>
                             <pattern>
