@@ -106,7 +106,7 @@ public class RuleAsXmlSerializer {
       int contextOffset = context.indexOf(startMarker);
       context = context.replaceFirst(startMarker, "");
       context = context.replaceAll("[\n\r]", " ");
-      xml.append(" context=\"").append(StringTools.escapeXML(context)).append('"')
+      xml.append(" context=\"").append(StringTools.escapeForXmlAttribute(context)).append('"')
               .append(" contextoffset=\"").append(contextOffset).append('"')
               .append(" offset=\"").append(match.getFromPos()).append('"')
               .append(" errorlength=\"").append(match.getToPos() - match.getFromPos()).append('"');
@@ -148,7 +148,7 @@ public class RuleAsXmlSerializer {
 
   private static String escapeXMLForAPIOutput(String s) {
     // this is simplified XML, i.e. put the "<error>" in one line:
-    return StringTools.escapeXML(s).replaceAll("[\n\r]", " ");
+    return StringTools.escapeForXmlAttribute(s).replaceAll("[\n\r]", " ");
   }
 
 }

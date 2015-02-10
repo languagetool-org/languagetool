@@ -18,6 +18,7 @@
  */
 package org.languagetool.tools;
 
+import com.google.common.xml.XmlEscapers;
 import org.languagetool.Language;
 
 import java.io.*;
@@ -263,6 +264,20 @@ public final class StringTools {
    */
   public static String escapeXML(final String s) {
     return escapeHTML(s);
+  }
+
+  /**
+   * @since 2.9
+   */
+  public static String escapeForXmlAttribute(final String s) {
+    return XmlEscapers.xmlAttributeEscaper().escape(s);
+  }
+
+  /**
+   * @since 2.9
+   */
+  public static String escapeForXmlContent(final String s) {
+    return XmlEscapers.xmlContentEscaper().escape(s);
   }
 
   /**

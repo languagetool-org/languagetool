@@ -24,7 +24,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
 
-import static org.languagetool.tools.StringTools.escapeXML;
+import static org.languagetool.tools.StringTools.escapeForXmlContent;
 
 /**
  * Return LanguageTool matches in the same XML format as After The Deadline.
@@ -53,30 +53,30 @@ public class AtDXmlSerializer {
       return;
     }
     sb.append("  <error>\n");
-    sb.append("    <string>").append(escapeXML(errorText)).append("</string>\n");
+    sb.append("    <string>").append(escapeForXmlContent(errorText)).append("</string>\n");
     boolean hasShortMessage = match.getShortMessage() != null && match.getShortMessage().length() > 0;
     String cleanMessage = hasShortMessage ?
             match.getShortMessage() : match.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'");
-    sb.append("    <description>").append(escapeXML(cleanMessage)).append("</description>\n");
+    sb.append("    <description>").append(escapeForXmlContent(cleanMessage)).append("</description>\n");
     String preContext = getPreContext(text, match.getFromPos());
     if (preContext.isEmpty()) {
       sb.append("    <precontext/>\n");
     } else {
-      sb.append("    <precontext>").append(escapeXML(preContext)).append("</precontext>\n");
+      sb.append("    <precontext>").append(escapeForXmlContent(preContext)).append("</precontext>\n");
     }
     if (match.getSuggestedReplacements().size() > 0) {
       sb.append("    <suggestions>\n");
       for (String suggestion : match.getSuggestedReplacements()) {
-        sb.append("      <option>").append(escapeXML(suggestion)).append("</option>\n");
+        sb.append("      <option>").append(escapeForXmlContent(suggestion)).append("</option>\n");
       }
       sb.append("    </suggestions>\n");
     }
     String type = match.getRule().isDictionaryBasedSpellingRule() ? "spelling" : "grammar";
-    sb.append("    <type>").append(escapeXML(type)).append("</type>\n");
+    sb.append("    <type>").append(escapeForXmlContent(type)).append("</type>\n");
     // TODO: we return the URL of external pages here, but WordPress/Jetpack shows the page
     // in a window that's too small, so we have to disable this very nice feature for now...
     //if (rule.getUrl() != null) {
-    //  sb.append("    <url>").append(escapeXML(rule.getUrl().toString())).append("</url>\n");
+    //  sb.append("    <url>").append(escapeForXmlContent(rule.getUrl().toString())).append("</url>\n");
     //}
     sb.append("  </error>\n");
   }

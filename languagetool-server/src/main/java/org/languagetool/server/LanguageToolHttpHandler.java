@@ -38,7 +38,7 @@ import org.languagetool.tools.Tools;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
-import static org.apache.commons.lang.StringEscapeUtils.escapeXml;
+import static org.languagetool.tools.StringTools.escapeForXmlContent;
 
 class LanguageToolHttpHandler implements HttpHandler {
 
@@ -147,7 +147,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       // so we consume the request now, even before checking for request limits:
       final Map<String, String> parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null && !requestLimiter.isAccessOkay(remoteAddress)) {
-        final String errorMessage = "Error: Access from " + StringTools.escapeXML(remoteAddress) +
+        final String errorMessage = "Error: Access from " + remoteAddress +
                 " denied - too many requests. Allowed maximum requests: " + requestLimiter.getRequestLimit() +
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
@@ -258,7 +258,7 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
     if (afterTheDeadlineMode) {
-      String xmlResponse = "<results><message>" + escapeXml(response) + "</message></results>";
+      String xmlResponse = "<results><message>" + escapeForXmlContent(response) + "</message></results>";
       httpExchange.sendResponseHeaders(returnCode, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
     } else {
