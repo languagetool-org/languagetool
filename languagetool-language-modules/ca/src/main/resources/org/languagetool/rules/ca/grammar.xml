@@ -19557,6 +19557,26 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="CALLAR_LA_BOCA" name="*callar la boca/callar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">callar</token>
+                    <token>la</token>
+                    <token>boca</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>\1</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> mutis</suggestion>
+            <suggestion>no <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">dir</match> ni piu</suggestion>
+            <suggestion>no <match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">badar</match> boca</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> moixoni</suggestion>
+            <suggestion>muts i a la gàbia</suggestion>
+            <suggestion>(mossegar-se) la llengua</suggestion>
+            <example correction="Calleu|Feu mutis|No digueu ni piu|No badeu boca|Feu moixoni|Muts i a la gàbia|(Mossegar-se) la llengua"><marker>Calleu la boca</marker>.</example>
+            <example correction="callessin|fessin mutis|no diguessin ni piu|no badessin boca|fessin moixoni|muts i a la gàbia|(mossegar-se) la llengua">Els va dir que <marker>callessin la boca</marker>.</example>
+            <example>De seguida s'aixeca cap a l'est.</example>
+        </rule>
         <rule id="AIXECAR_CAP" name="*aixecar cap/ aixecar el cap">
             <pattern>
                 <marker>
