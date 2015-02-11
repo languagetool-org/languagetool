@@ -3822,6 +3822,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filter" postag="adj.*"/>
     </rule>
 
+    <rule id="PELNIA_ZYCIA" name="pełnią życia/księżyca to rzeczownik">
+        <pattern>
+            <marker>
+                <token postag="subst:sg:inst:f">pełnią</token>
+                <token regexp="yes" postag=".*gen.*" postag_regexp="yes">życia|księżyca|szczęścia|władzy|praw</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="PELNIA_FUNKCJE" name="pełnią funkcję -> czasownik">
+        <pattern>
+            <marker>
+                <token postag="verb:fin:pl:ter:imperf:refl.nonrefl">pełnią</token>
+                <token regexp="yes" postag=".*acc|nom.*" postag_regexp="yes">funkcję|dyżur|rolę|wartę|służbę|misję|obowiązki</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="SWIECI" name="święci garnki -> nie czasownik">
         <pattern>
             <marker><token>święci</token></marker>
