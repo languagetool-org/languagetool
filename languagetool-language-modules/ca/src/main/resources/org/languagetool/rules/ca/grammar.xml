@@ -19575,7 +19575,20 @@ $Id$
             <suggestion>(mossegar-se) la llengua</suggestion>
             <example correction="Calleu|Feu mutis|No digueu ni piu|No badeu boca|Feu moixoni|Muts i a la gàbia|(Mossegar-se) la llengua"><marker>Calleu la boca</marker>.</example>
             <example correction="callessin|fessin mutis|no diguessin ni piu|no badessin boca|fessin moixoni|muts i a la gàbia|(mossegar-se) la llengua">Els va dir que <marker>callessin la boca</marker>.</example>
-            <example>De seguida s'aixeca cap a l'est.</example>
+        </rule>
+        <rule id="CALLAR_LOS_LA_BOCA" name="*callar-los la boca/fer-los callar/tapar-los la boca">
+            <pattern>
+                <marker>
+                    <token inflected="yes">callar</token>
+                    <token postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                    <token>la</token>
+                    <token>boca</token>
+                </marker>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">tapar</match>\2 la boca</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match>\2 callar</suggestion>
+            <example correction="tapar-nos la boca|fer-nos callar">Per a <marker>callar-nos la boca</marker>.</example>
         </rule>
         <rule id="AIXECAR_CAP" name="*aixecar cap/ aixecar el cap">
             <pattern>
