@@ -6461,197 +6461,197 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category name="Grammar" type="grammar">
-    <rule id="A_INFINITVE" name="a/the + infinitive">
-        <pattern>
-            <token regexp='yes'>a|an|the</token>
-            <token postag='VB|VBP' postag_regexp='yes'>
-                <exception regexp="yes">commit|remix</exception>
-                <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception>
+        <rule id="A_INFINITVE" name="a/the + infinitive">
+            <pattern>
+                <token regexp='yes'>a|an|the</token>
+                <token postag='VB|VBP' postag_regexp='yes'>
+                    <exception regexp="yes">commit|remix</exception>
+                    <exception postag='VB|VBP|SENT_END|PARA_END' postag_regexp='yes' negate_pos='yes'></exception>
+                </token>
+            </pattern>
+            <message>Probably a wrong construction: a/the + infinitive</message>
+            <example correction=""><marker>a compete</marker> catastrophe.</example>
+            <example correction=""><marker>a compete</marker></example>
+            <example>a complete catastrophe</example>
+            <example>a show</example>
+        </rule>
+        <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
+            <pattern>
+                <token inflected="yes">be</token>
+                <marker>
+                    <token>fined</token>
+                </marker>
+                <token>with</token>
+            </pattern>
+            <message>Did you mean <suggestion>fine</suggestion>?</message>
+            <example correction="fine">I'm <marker>fined</marker> with that.</example>
+            <example>I'm fine with that.</example>
+        </rule>
+        <rule id="VERY_THANKS_THANKS_A_LOT" name="very thanks (thanks a lot)">
+            <pattern>
+                <token>very</token>
+                <token>thanks</token>
+            </pattern>
+            <message>Did you mean <suggestion>thanks a lot</suggestion> or <suggestion>many thanks</suggestion>?</message>
+            <short>Non-standard phrase</short>
+            <example correction="Thanks a lot|Many thanks"><marker>Very thanks</marker>!</example>
+            <example>Thanks a lot!</example>
+        </rule>
+        <rulegroup id="BETWEEN_PRP" name="between he and… (between him and…)">
+          <rule>
+            <pattern>
+              <marker>
+                <token>between</token>
+                <token>he</token>
+              </marker>
+              <token>and</token>
+            </pattern>
+            <message>Incorrect form of the pronoun 'he'. Use: <suggestion>\1 him</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+            <example correction="between him">His opposition against homosexuality causes tension <marker>between he</marker> and his gay roommate, Davis.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>
+                <token>between</token>
+                <token>I</token>
+              </marker>
+              <token>and</token>
+            </pattern>
+            <message>Incorrect form of the pronoun 'I'. Use: <suggestion>\1 me</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+            <example correction="between me">His opposition against homosexuality causes tension <marker>between I</marker> and Davis.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>
+                <token>between</token>
+                <token>they</token>
+              </marker>
+              <token>and</token>
+            </pattern>
+            <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 them</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+            <example correction="between them">His opposition against homosexuality causes tension <marker>between they</marker> and Davis.</example>
+          </rule>
+          <rule>
+            <pattern>
+              <marker>
+                <token>between</token>
+                <token>she</token>
+              </marker>
+              <token>and</token>
+            </pattern>
+            <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 her</suggestion>.</message>
+            <short>Grammatical problem</short>
+            <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
+            <example correction="between her">His opposition against homosexuality causes tension <marker>between she</marker> and Davis.</example>
+          </rule>
+        </rulegroup>
+        <rulegroup id="IN_WHO" name="Preposition + who (whom)">
+        <rule>
+          <pattern>
+            <token postag="IN"><exception regexp="yes">out|like|ago</exception>
+            <exception scope="previous" regexp="yes">regardless|as</exception>
+            <exception scope="previous" postag="SENT_START"/>
             </token>
-        </pattern>
-        <message>Probably a wrong construction: a/the + infinitive</message>
-        <example correction=""><marker>a compete</marker> catastrophe.</example>
-        <example correction=""><marker>a compete</marker></example>
-        <example>a complete catastrophe</example>
-        <example>a show</example>
-    </rule>
-    <rule id="BE_FINED_WITH" name="be fined with (be fine with)">
+              <marker>
+                <token>who</token>
+              </marker>
+              <token><exception postag="PRP\$?|VB[ZD]|MD|W?DT|RB|NN.*|IN|CC|WP" postag_regexp="yes" />
+              <exception regexp="yes">['“"]|are|else|(?iu)\p{Lu}\p{Ll}+</exception></token>
+             </pattern>
+             <message>Did you mean <suggestion>whom</suggestion>?</message>
+             <url>http://www.grammar-monster.com/lessons/prepositions_object_of_a_preposition.htm</url>
+             <short>Possible typo</short>
+             <example>To whom do I send my transcripts?</example>
+             <example correction="whom">Who was with <marker>who</marker>?</example>
+             <example>I will give you a quick synopsis of who Sam is.</example>
+             <example>If you figure out who, let me know.</example>
+             <example>I can't think of who else.</example>
+        </rule>
+        <rule>
         <pattern>
-            <token inflected="yes">be</token>
-            <marker>
-                <token>fined</token>
-            </marker>
-            <token>with</token>
-        </pattern>
-        <message>Did you mean <suggestion>fine</suggestion>?</message>
-        <example correction="fine">I'm <marker>fined</marker> with that.</example>
-        <example>I'm fine with that.</example>
-    </rule>
-    <rule id="VERY_THANKS_THANKS_A_LOT" name="very thanks (thanks a lot)">
-    <pattern>
-        <token>very</token>
-        <token>thanks</token>
-    </pattern>
-    <message>Did you mean <suggestion>thanks a lot</suggestion> or <suggestion>many thanks</suggestion>?</message>
-    <short>Non-standard phrase</short>
-    <example correction="Thanks a lot|Many thanks"><marker>Very thanks</marker>!</example>
-    <example>Thanks a lot!</example>
-    </rule>
-    <rulegroup id="BETWEEN_PRP" name="between he and… (between him and…)">
-      <rule>
-        <pattern>
-          <marker>
-            <token>between</token>
-            <token>he</token>
-          </marker>
-          <token>and</token>
-        </pattern>
-        <message>Incorrect form of the pronoun 'he'. Use: <suggestion>\1 him</suggestion>.</message>
-        <short>Grammatical problem</short>
-        <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-        <example correction="between him">His opposition against homosexuality causes tension <marker>between he</marker> and his gay roommate, Davis.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token>between</token>
-            <token>I</token>
-          </marker>
-          <token>and</token>
-        </pattern>
-        <message>Incorrect form of the pronoun 'I'. Use: <suggestion>\1 me</suggestion>.</message>
-        <short>Grammatical problem</short>
-        <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-        <example correction="between me">His opposition against homosexuality causes tension <marker>between I</marker> and Davis.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token>between</token>
-            <token>they</token>
-          </marker>
-          <token>and</token>
-        </pattern>
-        <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 them</suggestion>.</message>
-        <short>Grammatical problem</short>
-        <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-        <example correction="between them">His opposition against homosexuality causes tension <marker>between they</marker> and Davis.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <marker>
-            <token>between</token>
-            <token>she</token>
-          </marker>
-          <token>and</token>
-        </pattern>
-        <message>Incorrect form of the pronoun '\2'. Use: <suggestion>\1 her</suggestion>.</message>
-        <short>Grammatical problem</short>
-        <example>His opposition against homosexuality causes tension between him and his gay roommate, Davis.</example>
-        <example correction="between her">His opposition against homosexuality causes tension <marker>between she</marker> and Davis.</example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="IN_WHO" name="Preposition + who (whom)">
-    <rule>
-      <pattern>
-        <token postag="IN"><exception regexp="yes">out|like|ago</exception>
-        <exception scope="previous" regexp="yes">regardless|as</exception>
-        <exception scope="previous" postag="SENT_START"/>
-        </token>
-          <marker>
-            <token>who</token>
-          </marker>
-          <token><exception postag="PRP\$?|VB[ZD]|MD|W?DT|RB|NN.*|IN|CC|WP" postag_regexp="yes" />
-          <exception regexp="yes">['“"]|are|else|(?iu)\p{Lu}\p{Ll}+</exception></token>
-         </pattern>
-         <message>Did you mean <suggestion>whom</suggestion>?</message>
-         <url>http://www.grammar-monster.com/lessons/prepositions_object_of_a_preposition.htm</url>
-         <short>Possible typo</short>
-         <example>To whom do I send my transcripts?</example>
-         <example correction="whom">Who was with <marker>who</marker>?</example>
-         <example>I will give you a quick synopsis of who Sam is.</example>
-         <example>If you figure out who, let me know.</example>
-         <example>I can't think of who else.</example>
-    </rule>
-    <rule>
-    <pattern>
-        <token postag="SENT_START"></token>
-        <token postag="IN"><exception regexp="yes">out|like|ago|for</exception></token>
-          <marker>
-            <token>who</token>
-          </marker>
-          <token postag="VB.|MD" postag_regexp="yes" />
-         </pattern>
-         <message>Did you mean <suggestion>whom</suggestion>?</message>
-         <url>http://www.grammar-monster.com/lessons/prepositions_object_of_a_preposition.htm</url>
-         <short>Possible typo</short>
-         <example>To whom do I send my transcripts?</example>
-         <example correction="whom">To <marker>who</marker> do I send my transcripts?</example>
-         <example correction="whom">Against <marker>who</marker> did you protest?</example>
-         <example>For who can be certain that suicide is not just one particular doorway to death - death being in and of itself irrefutably natural?</example>
-    </rule>
-    </rulegroup>
-    <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
-    <pattern>
-        <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
-        <marker>
-        <token>would</token>
-        <token>have</token>
-        <token postag="VBN"></token>
-        </marker>
-    </pattern>
-    <message>Did you mean <suggestion>had \4</suggestion>?</message>
-    <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
-    <short>Grammatical mistake</short>
-    <example correction="had known">If I <marker>would have known</marker> about the party, I would have gone to it.</example>
-    <example>If I had known about the party, I would have gone to it.</example>
-    <example>If I were you, I would have done the same thing.</example>
-    <example>And if looks could kill, Wally would have been dead.</example>
-    </rule>
-    <rulegroup id="FEWER_LESS" name="fewer with countable nouns (less)">
-    <rule>
-    <pattern>
-        <token postag="CD"/>
-        <token postag="NNS"/>
-        <token>or</token>
-        <marker>
-        <token>less</token>
-        </marker>
-    </pattern>
-    <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
-    <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
-    <short>Grammatical error</short>
-    <example correction="fewer">Ten items or <marker>less</marker></example>
-    <example>Ten items or fewer</example>
-    </rule>
-    <rule>
-        <antipattern>
-            <token regexp="yes">are|were<exception scope="previous">there</exception></token>
-            <token>more</token>
-            <token>or</token>
-            <marker>
-            <token>less</token>
-            </marker>
-        </antipattern>
-    <pattern>
-        <marker>
-        <token postag="JJR|RBR" postag_regexp="yes">less<exception scope="previous" regexp="yes">\d+%</exception></token>
-        </marker>
-        <token postag="NNS"><exception postag="JJ"/><exception regexp="yes">brains|taxes|resources</exception></token>
-    </pattern>
-    <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
-    <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
-    <short>Grammatical error</short>
-        <example correction="fewer">He has <marker>less</marker> items</example>
-        <example>He has fewer items.</example>
-        <example>Present-day students are more or less religious.</example>
-        <example>These are more or less plants.</example>
-        <example>85% less bananas</example>
-        <example> What the country needs is less taxes rather than more expenses.</example>
-        <example>Revenue less expenses</example>
-    </rule>
-    </rulegroup>
-          <rule id="WORST_THAN" name="worst (worse) than">
+            <token postag="SENT_START"></token>
+            <token postag="IN"><exception regexp="yes">out|like|ago|for</exception></token>
+              <marker>
+                <token>who</token>
+              </marker>
+              <token postag="VB.|MD" postag_regexp="yes" />
+             </pattern>
+             <message>Did you mean <suggestion>whom</suggestion>?</message>
+             <url>http://www.grammar-monster.com/lessons/prepositions_object_of_a_preposition.htm</url>
+             <short>Possible typo</short>
+             <example>To whom do I send my transcripts?</example>
+             <example correction="whom">To <marker>who</marker> do I send my transcripts?</example>
+             <example correction="whom">Against <marker>who</marker> did you protest?</example>
+             <example>For who can be certain that suicide is not just one particular doorway to death - death being in and of itself irrefutably natural?</example>
+        </rule>
+        </rulegroup>
+        <rule id="IF_WOULD_HAVE_VBN" name="if I would have (if I had)">
+            <pattern>
+                <token skip="5">if<exception scope="next" regexp="yes">had|could</exception><exception scope="next" postag="VBD"/></token>
+                <marker>
+                <token>would</token>
+                <token>have</token>
+                <token postag="VBN"></token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>had \4</suggestion>?</message>
+            <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
+            <short>Grammatical mistake</short>
+            <example correction="had known">If I <marker>would have known</marker> about the party, I would have gone to it.</example>
+            <example>If I had known about the party, I would have gone to it.</example>
+            <example>If I were you, I would have done the same thing.</example>
+            <example>And if looks could kill, Wally would have been dead.</example>
+        </rule>
+        <rulegroup id="FEWER_LESS" name="fewer with countable nouns (less)">
+            <rule>
+                <pattern>
+                    <token postag="CD"/>
+                    <token postag="NNS"/>
+                    <token>or</token>
+                    <marker>
+                    <token>less</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
+                <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
+                <short>Grammatical error</short>
+                <example correction="fewer">Ten items or <marker>less</marker></example>
+                <example>Ten items or fewer</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">are|were<exception scope="previous">there</exception></token>
+                    <token>more</token>
+                    <token>or</token>
+                    <marker>
+                    <token>less</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                <marker>
+                    <token postag="JJR|RBR" postag_regexp="yes">less<exception scope="previous" regexp="yes">\d+%</exception></token>
+                    </marker>
+                    <token postag="NNS"><exception postag="JJ"/><exception regexp="yes">brains|taxes|resources</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>fewer</suggestion>? The noun \2 is countable.</message>
+                <url>http://www3.telus.net/linguisticsissues/commonerrorsinenglish.html</url>
+                <short>Grammatical error</short>
+                <example correction="fewer">He has <marker>less</marker> items</example>
+                <example>He has fewer items.</example>
+                <example>Present-day students are more or less religious.</example>
+                <example>These are more or less plants.</example>
+                <example>85% less bananas</example>
+                <example> What the country needs is less taxes rather than more expenses.</example>
+                <example>Revenue less expenses</example>
+            </rule>
+        </rulegroup>
+        <rule id="WORST_THAN" name="worst (worse) than">
             <pattern>
                 <marker>
                     <token>worst</token>
