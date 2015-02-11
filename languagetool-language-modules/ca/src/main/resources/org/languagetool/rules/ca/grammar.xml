@@ -8296,6 +8296,24 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="RECORRENT_RECURRENT" name="recorrent/recurrent">
+            <antipattern>
+                <marker>
+                    <token regexp="yes" inflected="yes" skip="5">resoldre|arreglar|tapar|solucionar</token>
+                    <token>recorrent</token>
+                    <token>a</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">tema|qüestió|debat|idea|mite|motiu|passatge|problema|circumstància</token>
+                <marker>
+                    <token>recorrent</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>recurrent</suggestion>?</message>
+            <example correction="recurrent">És un debat <marker>recorrent</marker>.</example>
+            <example>va intentar resoldre el problema recorrent a la seva ajuda</example>
+        </rule>
         <rule id="CONFUSIO_FUTUR_SUBJUNTIU" name="podria ser que *arribarem/arribàrem">
             <pattern>
                 <token postag="V.IC.*" postag_regexp="yes"/>
