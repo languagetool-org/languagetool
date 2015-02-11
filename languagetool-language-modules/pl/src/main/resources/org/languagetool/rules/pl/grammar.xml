@@ -3084,6 +3084,17 @@ $Id$
                     <example>A to jest emotikon :)</example>
                     <example>A to jest emotikon ;-)</example>
                 </rule>
+                <rule id="BRAK_SPACJI_NAWIAS" name="Brak spacji przed nawiasem">
+                    <pattern>
+                        <marker>
+                            <token><exception postag="SENT_START"/></token>
+                            <token spacebefore="no" regexp="yes">[\(\[\{]</token>
+                        </marker>
+                    </pattern>
+                    <message>Brak spacji przed nawisem: <suggestion>\1 \2</suggestion>.</message>
+                    <example>(Tak już jest).</example>
+                    <example correction="test (">To jest <marker>test(</marker>prawdziwy).</example>
+                </rule>
 				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
                     <rule>
                         <pattern case_sensitive="yes">
