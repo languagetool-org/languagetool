@@ -19614,8 +19614,8 @@ $Id$
             <rule>
                 <pattern>
                     <token regexp="yes">[012]?\d</token>
-                    <token regexp="yes">[,:]</token>
-                    <token regexp="yes">[012345]\d</token>
+                    <token regexp="yes" spacebefore="no">[,:]</token>
+                    <token regexp="yes" spacebefore="no">[012345]\d</token>
                     <token regexp="yes">h|hores</token>
                 </pattern>
                 <message>En les expressions d'hores, usem el punt.</message>
@@ -19625,13 +19625,14 @@ $Id$
                 <example correction="22.50&#8239;h">A les <marker>22:50 h</marker>.</example>
                 <example correction="6.05&#8239;h">A les <marker>6:05 h</marker>.</example>
                 <example>A les 22.30 h.</example>
+                <example>L'ascenció dura 8, 10 hores.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">[012]?\d</token>
-                        <token regexp="yes">[,:]</token>
-                        <token regexp="yes" skip="2">[012345]\d</token>
+                        <token regexp="yes" spacebefore="no">[,:]</token>
+                        <token regexp="yes" skip="2" spacebefore="no">[012345]\d</token>
                     </marker>
                     <token regexp="yes" inflected="yes">&parts_dia;</token>
                 </pattern>
