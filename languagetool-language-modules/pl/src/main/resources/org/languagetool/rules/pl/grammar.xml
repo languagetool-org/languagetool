@@ -3085,16 +3085,62 @@ $Id$
                     <example>A to jest emotikon ;-)</example>
                 </rule>
                 <rule id="BRAK_SPACJI_NAWIAS" name="Brak spacji przed nawiasem">
+                    <antipattern>  <!-- stopnie utlenienia -->
+                        <token inflected="yes" regexp="yes">miedź|żelazo|siarka|srebro|ołów</token>
+                        <marker><token spacebefore="no">(</token></marker>
+                        <token case_sensitive="yes" regexp="yes">[IV]+</token>
+                        <token spacebefore="no">)</token>
+                    </antipattern>
+                    <antipattern>
+                        <marker>
+                        <token spacebefore="no">(</token>
+                        </marker>
+                        <token regexp="yes">.</token>
+                        <token spacebefore="no">)</token>
+                    </antipattern>
                     <pattern>
                         <marker>
-                            <token><exception postag="SENT_START"/></token>
+                            <token><exception postag="SENT_START"/><exception regexp="yes">[„»«\(\[\{]</exception></token>
                             <token spacebefore="no" regexp="yes">[\(\[\{]</token>
                         </marker>
                     </pattern>
                     <message>Brak spacji przed nawisem: <suggestion>\1 \2</suggestion>.</message>
                     <example>(Tak już jest).</example>
                     <example correction="test (">To jest <marker>test(</marker>prawdziwy).</example>
+                    <example>Składnia ((...)) może być także wykorzystana w wyrażeniach.</example>
+                    <example>„(...)”</example>
+                    <example>Posiadają zdolność redukcji azotanu srebra(I).</example>
+                    <example>Pan(i): </example>
                 </rule>
+                <rulegroup id="SPACJA_ZNAK_ROWNOSCI" name="Brak spacji wokół znaku równości">
+                    <rule>
+                    <pattern>
+                        <marker>
+                        <token spacebefore='no'>=<exception scope='previous'>(</exception><exception postag='SENT_START' scope='previous'></exception></token>
+                        <token></token>
+                        </marker>
+                    </pattern>
+                    <message>Brak spacji wokół znaku równości: <suggestion> <match no="1"/> <match no="2"/></suggestion></message>
+                    <example correction=" = 20">1 + 19<marker>=20</marker></example>
+                    <example correction=" = 20">1 + 19<marker>= 20</marker></example>
+                    <example>1 + 19 = 20</example>
+                    <example>zamek (= zapięcie)</example>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <marker>
+                                <token>=</token>
+                                <token spacebefore="no"></token>
+                            </marker>
+                        </pattern>
+                        <message>Brak spacji wokół znaku równości: <suggestion> <match no="1"/> <match no="2"/></suggestion></message>
+                        <example correction=" = 20">1 + 19<marker>=20</marker></example>
+                        <example correction=" = 20">1 + 19 <marker>=20</marker></example>
+                        <example>1 + 19 = 20</example>
+                        <example>zamek (= zapięcie)</example>
+                        <example correction=" = zapięcie">zamek (<marker>=zapięcie</marker>)</example>
+                    </rule>
+                </rulegroup>
 				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
                     <rule>
                         <pattern case_sensitive="yes">
