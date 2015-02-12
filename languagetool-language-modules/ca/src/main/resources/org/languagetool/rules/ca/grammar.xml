@@ -17359,14 +17359,20 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="HI_REDUNDANT" name="pronom 'hi' redundant">
+            <antipattern>
+                <marker>
+                    <token>hi</token>
+                    <token min="0" max="2" postag="V.*" postag_regexp="yes"><exception inflected="yes">haver</exception></token> 
+                    <token inflected="yes">haver</token>                
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token skip="3">on<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>hi</token>
                     </marker>
-                    <token><exception inflected="yes" regexp="yes">haver|ser</exception></token>
-                    <token><exception inflected="yes">haver</exception></token>
+                    <token><exception inflected="yes">ser</exception></token>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància</short>
@@ -17383,13 +17389,13 @@ $Id$
                     <marker>
                         <token>hi</token>
                     </marker>
-                    <token><exception inflected="yes">haver</exception></token>
-                    <token><exception inflected="yes">haver</exception></token>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància</short>
                 <example correction="">en què <marker>hi</marker> tinc la consulta</example>
                 <example>en què hi havia</example>
+                <example>en què hi podia haver</example>
+                <example>en què hi va poder haver</example>
                 <example>en la mesura en què hi tenia relació</example>
                 <example>Per què hi vols anar?</example>
             </rule>
@@ -17401,12 +17407,11 @@ $Id$
                     <marker>
                         <token>hi</token>
                     </marker>
-                    <token><exception inflected="yes">haver</exception></token>
-                    <token><exception inflected="yes">haver</exception></token>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància</short>
                 <example correction="">en els quals <marker>hi</marker> tinc la consulta</example>
+                <example>en els quals hi va haver</example>
                 <example>en els quals hi havia</example>
             </rule>
         </rulegroup>
