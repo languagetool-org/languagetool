@@ -17366,28 +17366,44 @@ $Id$
                     <token inflected="yes">haver</token>                
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token regexp="yes">haver|havent</token>
+                    <token min="0" postag="P.*" postag_regexp="yes" spacebefore="no"/>
+                    <token inflected="yes" spacebefore="no">hi</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token skip="4">on</token>
+                    <token>hi</token>
+                    <token inflected="yes">ser</token>
+                </marker>
+            </antipattern>
+            
             <rule>
                 <pattern>
-                    <token skip="3">on<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token skip="6">on<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>hi</token>
+                        <token inflected="yes">hi</token>
                     </marker>
-                    <token><exception inflected="yes">ser</exception></token>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància</short>
                 <example correction="">on <marker>hi</marker> tinc la consulta</example>
+                <example correction="">On els rebels poden instal·lar-s<marker>'hi</marker>.</example>
                 <example>on hi havia</example>
                 <example>on no hi pot haver material</example>
+                <example>on no poden haver-n'hi més de tres</example>
                 <example>al lloc on era, altres hi arrelen</example>
                 <example>on l’independentisme no hi era fins ara</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SPS00"><exception>per</exception></token>
-                    <token skip="3">què<exception scope="next" postag="_PUNCT.*" postag_regexp="yes"/><exception postag=".*LOC_CONJ.*" postag_regexp="yes"/></token>
+                    <token skip="6">què<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/><exception postag=".*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>hi</token>
+                        <token inflected="yes">hi</token>
                     </marker>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
@@ -17403,9 +17419,9 @@ $Id$
                 <pattern>
                     <token postag="SPS00"/>
                     <token postag="DA.*" postag_regexp="yes"/>
-                    <token skip="3" regexp="yes">quals?</token>
+                    <token skip="6" regexp="yes">quals?<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
-                        <token>hi</token>
+                        <token inflected="yes">hi</token>
                     </marker>
                 </pattern>
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
