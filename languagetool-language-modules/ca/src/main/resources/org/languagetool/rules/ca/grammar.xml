@@ -1393,6 +1393,7 @@ $Id$
                 <example correction="millor ciutat|millors ciutats">del rànking de <marker>millor ciutats</marker> de negocis</example>
                 <example correction="primera vegada|primeres vegades">Va ser formulat per <marker>primer vegada</marker>.</example>
                 <example correction="profunda crisi|profundes crisis">Va caure en una <marker>profunda crisis</marker>.</example>
+                <example correction="altra tasca|altres tasques">o qualsevol <marker>altre tasca</marker>.</example>
                 <example>apareixen amb els homes prehistòrics arades noves</example>
                 <example>Els adobs químics Can Gros.</example>
                 <example>Tens raó.</example>
@@ -4477,7 +4478,7 @@ $Id$
         <rule>
             <pattern>
                 <token postag="SENT_START"/>
-                <token skip="-1"><exception scope="next">si</exception><exception scope="next" postag="PR.*|CS.*|_loc_unavegada" postag_regexp="yes"/><exception scope="next" inflected="yes">tant_de_bo</exception>
+                <token skip="-1"><exception scope="next">si</exception><exception scope="next" postag="PR.*|CS.*|_loc_unavegada|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next" inflected="yes">tant_de_bo</exception>
                     <exception>si</exception><exception postag="PR.*|CS.*|_loc_unavegada" postag_regexp="yes"/><exception inflected="yes">tant_de_bo</exception></token>
                 <marker>
                     <token postag="VASI.*" postag_regexp="yes" inflected="yes" skip="-1">haver<exception>si</exception><exception postag="VAIC.*" postag_regexp="yes"/></token>
@@ -10203,6 +10204,28 @@ $Id$
             <short>Error ortogràfic</short>
             <example correction="probablement"><marker>provablement</marker></example>
             <example>probablement</example>
+        </rule>
+        <rule id="COMPLERTAMENT" name="complertament/completament">
+            <pattern>
+                <token>complertament</token>
+            </pattern>
+            <message>Possible confusió</message>
+            <suggestion>completament</suggestion>
+            <example correction="completament"><marker>complertament</marker></example>
+        </rule>
+        <rule id="DESAFORADAMENT" name="desaforadament">
+            <pattern>
+                <token>desaforadament</token>
+            </pattern>
+            <message>Paraula incorrecta</message>
+            <suggestion>desmesuradament</suggestion>
+            <suggestion>bojament</suggestion>
+            <suggestion>espantosament</suggestion>
+            <suggestion>furiosament</suggestion>
+            <suggestion>acèrrimament</suggestion>
+            <suggestion>aferrissadament</suggestion>
+            <suggestion>acarnissadament</suggestion>
+            <example correction="desmesuradament|bojament|espantosament|furiosament|acèrrimament|aferrissadament|acarnissadament"><marker>desaforadament</marker></example>
         </rule>
         <rule id="FLUIDA" name="fluïda/fluida">
             <pattern>
