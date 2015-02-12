@@ -4028,8 +4028,27 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">vares|varen<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="VM[^NGP].*" postag_regexp="yes"><exception postag="V.[NGP].*" postag_regexp="yes"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Falta un infinitiu, un gerundi o un participi.</message>
+                <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="3" postag="V.G.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="3" postag="V.P.*" postag_regexp="yes"/></suggestion>
+                <short>Falta un infinitiu, un gerundi o un participi</short>
+                <example correction="córrer|corrent|correguda|corregudes|corregut|correguts">Vares <marker>corre</marker> molt.</example>
+                <example correction="córrer|corrent|correguda|corregudes|corregut|correguts">Sé que vares <marker>corre</marker> molt.</example>
+                <example>amb les set vares esteses sota la tapa harmònica,</example>
+                <example>utilitzava vares d'ametler</example>
+                <example>El trombó de colissa o trombó de vares és</example>
+                <example>amb una mena de pinzells o vares ha originat l'arquetip</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SENT_START|CC" postag_regexp="yes" skip="-1"><exception postag="PR.*" postag_regexp="yes" scope="next"/><exception scope="next">perquè</exception></token>
-                    <token regexp="yes">vaig|vas|va|van|vares|varen<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token regexp="yes">vaig|vas|va|van<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VM[^NGP].*" postag_regexp="yes"><exception postag="V.[NGP].*" postag_regexp="yes"></exception></token>
                     </marker>
@@ -4040,17 +4059,28 @@ $Id$
                 <suggestion><match no="3" postag="V.P.*" postag_regexp="yes"/></suggestion>
                 <short>Falta un infinitiu, un gerundi o un participi</short>
                 <example correction="córrer|corrent|correguda|corregudes|corregut|correguts">Vaig <marker>corre</marker>.</example>
-                <example correction="córrer|corrent|correguda|corregudes|corregut|correguts">Vares <marker>corre</marker> molt.</example>
                 <example>Vaig córrer.</example>
                 <example>que el vas torni a tancar-se</example>
                 <example>els que hi van són vampirs.</example>
                 <example>no en va era nét d'Alfons VII de Castella.</example>
-                <example>amb les set vares esteses sota la tapa harmònica,</example>
-                <example>utilitzava vares d'ametler</example>
-                <example>El trombó de colissa o trombó de vares és</example>
-                <example>amb una mena de pinzells o vares ha originat l'arquetip</example>
-                <!-- <example correction="córrer|corrent|correguda|corregudes|corregut|correguts">Sé que vares <marker>corre</marker> molt.</example> -->
-                <!-- Lamenta que diumenge no va sortís ningú del govern espanyol.  -->
+                <!-- Lamenta que diumenge no va sortís ningú del govern espanyol.  
+                una processó de torxes que va recorregué tots els carrers-->
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="4"/>
+                    <token regexp="yes">vaig|vas|va|van<exception postag="_GN_MS|_GN_FP|complement|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="VM[^NGP].*" postag_regexp="yes"><exception postag="V.[NGP].*|V.IP.*" postag_regexp="yes"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Probablement falta un infinitiu.</message>
+                <suggestion><match no="3" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <example correction="sortir">Lamenta que diumenge no va <marker>sortís</marker> ningú del govern.</example>
+                <example correction="recórrer">Una processó de torxes que va <marker>recorregué</marker> tot el poble.</example>
+                <example>que el vas torni a tancar-se</example>
+                <example>els que hi van són vampirs.</example>
+                <example>no en va era nét d'Alfons VII de Castella.</example>
             </rule>
             <rule> <!-- Cal revisar tots els casos detingudament -->
                 <pattern>
