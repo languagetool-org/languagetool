@@ -67,6 +67,7 @@ public class ComplexAdjectiveConcordanceRuleTest extends TestCase {
     // (en especial si hi ha un adverbi entremig: en algun grau més distintes
     //assertCorrect("Es van somriure l'una a l'altra encara dretes, suades i panteixants,");
 //    assertCorrect("una combinació de dos o més metalls obtinguda generalment");
+    assertCorrect("Amb un termini d'execució de nou mesos aproximadament.");
     assertCorrect("les causes per primera vegada explicades");
     assertCorrect("per les causes explicades fa molt difícil");
     assertCorrect("a França mateix");

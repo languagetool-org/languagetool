@@ -25573,6 +25573,25 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RETEN" name="*retén/equip o brigada de guàrdia">
+            <pattern>
+                <token postag="D.*|SPS00" postag_regexp="yes"/>
+                <marker>
+                    <token>retén</token>
+                </marker>
+            </pattern>
+            <message>Només és correcte com a imperatiu del verb retenir.</message>
+            <suggestion>brigada de guàrdia</suggestion>
+            <suggestion>equip de guàrdia</suggestion>
+            <suggestion>brigada de reforç</suggestion>
+            <suggestion>brigada de control</suggestion>
+            <suggestion>brigada de vigilància</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/reten</url>
+            <example correction="brigada de guàrdia|equip de guàrdia|brigada de reforç|brigada de control|brigada de vigilància">Vés de seguida al <marker>retén</marker>.</example>
+            <example correction="brigada de guàrdia|equip de guàrdia|brigada de reforç|brigada de control|brigada de vigilància">El <marker>retén</marker> és allà.</example>
+            <example>retén-lo</example>
+            <example>Retén aquesta idea.</example>
+        </rule>
         <rule id="TREPAR" name="trepar/enfilar-se, grimpar">
             <pattern>
                 <marker>
