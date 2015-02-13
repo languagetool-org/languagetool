@@ -133,7 +133,7 @@ public class HTTPSServer extends Server {
     if (args.length == 0 || args.length > 7 || usageRequested(args)) {
       System.out.println("Usage: " + HTTPSServer.class.getSimpleName()
               + " --config propertyFile [--port|-p port] [--public]");
-      System.out.println("  --config file  a Java property file with values for:");
+      System.out.println("  --config file  a Java property file (one key=value entry per line) with values for:");
       System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
       System.out.println("                 'password' - the keystore's password");
       System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
