@@ -13755,6 +13755,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die <marker>Zentrale</marker>, in der das Telefon nicht stillsteht.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <!-- Mehrdeutig, lieber Fehlalarm vermeiden: -->
+                    <token>zeit</token>
+                    <token regexp="yes">des|eines|dieses|seines|meines|ihres|deines|unseres|eures</token>
+                    <token>Lebens</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[dD]ie</token>
                     <marker>
