@@ -3105,6 +3105,7 @@ $Id$
                         </marker>
                     </pattern>
                     <message>Brak spacji przed nawisem: <suggestion>\1 \2</suggestion>.</message>
+                    <short>Brak spacji</short>
                     <example>(Tak już jest).</example>
                     <example correction="test (">To jest <marker>test(</marker>prawdziwy).</example>
                     <example>Składnia ((...)) może być także wykorzystana w wyrażeniach.</example>
@@ -3116,29 +3117,33 @@ $Id$
                     <rule>
                     <pattern>
                         <marker>
-                        <token spacebefore='no'>=<exception scope='previous'>(</exception><exception postag='SENT_START' scope='previous'></exception></token>
-                        <token></token>
+                        <token spacebefore='no'>=<exception scope='previous' regexp="yes">[„'(=!&lt;&gt;]</exception><exception postag='SENT_START' scope='previous'></exception></token>
+                        <token><exception>=</exception></token>
                         </marker>
                     </pattern>
-                    <message>Brak spacji wokół znaku równości: <suggestion> <match no="1"/> <match no="2"/></suggestion></message>
-                    <example correction=" = 20">1 + 19<marker>=20</marker></example>
-                    <example correction=" = 20">1 + 19<marker>= 20</marker></example>
-                    <example>1 + 19 = 20</example>
-                    <example>zamek (= zapięcie)</example>
+                        <message>Brak spacji wokół znaku równości: <suggestion> <match no="1"/> <match no="2"/></suggestion></message>
+                        <short>Błąd typograficzny</short>
+                        <example correction=" = 20">1 + 19<marker>=20</marker></example>
+                        <example correction=" = 20">1 + 19<marker>= 20</marker></example>
+                        <example>1 + 19 = 20</example>
+                        <example>zamek (= zapięcie)</example>
+                        <example>Umożliwia posługiwanie się operatorami: '==', '!=', '&gt;', '&lt;', '&gt;=' i '&lt;='.</example>
                     </rule>
                     <rule>
                         <pattern>
                             <marker>
                                 <token>=</token>
-                                <token spacebefore="no"></token>
+                                <token spacebefore="no"><exception regexp="yes">[”'=]</exception></token>
                             </marker>
                         </pattern>
                         <message>Brak spacji wokół znaku równości: <suggestion> <match no="1"/> <match no="2"/></suggestion></message>
+                        <short>Błąd typograficzny</short>
                         <example correction=" = 20">1 + 19<marker>=20</marker></example>
                         <example correction=" = 20">1 + 19 <marker>=20</marker></example>
                         <example>1 + 19 = 20</example>
                         <example>zamek (= zapięcie)</example>
                         <example correction=" = zapięcie">zamek (<marker>=zapięcie</marker>)</example>
+                        <example>Umożliwia posługiwanie się operatorami: '==', '!=', '&gt;', '&lt;', '&gt;=' i '&lt;='.</example>
                     </rule>
                 </rulegroup>
 				<rulegroup id="MNOZENIE" name="Znak mnożenia „x” (×)">
@@ -10565,6 +10570,23 @@ $Id$
             </rulegroup>
 		</category>
 		<category name="Błędy ortograficzne" type="misspelling">
+            <rule id="KROTKO_TRWALY" name="„krótko trwały” (krótkotrwały)">
+                <pattern>
+                    <marker>
+                        <token>krótko<exception scope="previous" postag='.*:pl.*nom.*' postag_regexp='yes'/></token>
+                        <token>trwały</token>
+                    </marker>
+                    <token><exception postag='.*:pl.*nom.*' postag_regexp='yes'></exception></token>
+                </pattern>
+                <message>Czy chodziło o przymiotnik <suggestion><match no="1"/><match no="2"/></suggestion>? Pisze się go łącznie.</message>
+                <url>http://sjp.pl/kr%F3tkotrwa%B3y</url>
+                <short>Błąd ortograficzny</short>
+                <example correction="krótkotrwały">Ból jest <marker>krótko trwały</marker>.</example>
+                <example>Ból jest krótkotrwały.</example>
+                <example>Krotko trwaly spekulacje.</example>
+                <example>Ale tak naprawdę, krótko trwały te radości.</example>
+                <example>Te chwile krótko trwały.</example>
+            </rule>
             <rule id="MIMO_CHODEM" name="„mimo chodem” (mimochodem)">
                 <pattern>
                     <token>mimo</token>

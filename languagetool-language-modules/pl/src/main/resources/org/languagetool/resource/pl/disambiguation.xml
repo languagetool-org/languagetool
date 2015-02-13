@@ -1122,6 +1122,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker><token>wręcz</token></marker>
         </pattern>
         <disambig postag="adv"/>
+        <example type="untouched">Wręcz mi plik banknotów!</example>
+        <example type="ambiguous" inputform="wręcz[wręcz/adv,wręcz/qub,wręczyć/verb:impt:sg:sec:perf:refl.nonrefl]" outputform="wręcz[wręcz/adv]">Trwała walka <marker>wręcz</marker>.</example>
     </rule>
 
     <rule name="wybrania" id="wybrania">
@@ -3892,6 +3894,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig postag="subst:sg:gen:f"/>
     </rule>
+
+    <rule id="Burzy_subst_2" name="burzy jako genetiwus">
+        <pattern>
+            <marker><token>burzy</token></marker>
+            <token regexp="yes">mózgów|oklasków|Szekspira</token>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"/>
+    </rule>
     
     <rule id="CIAZY_SUBST" name="ciąży jako genetiwus">
         <pattern>
@@ -4084,6 +4094,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
         </pattern>
         <disambig action="unify"/>
+    </rule>
+
+    <rule id="WRECZ_QUB" name="walka wręcz ->adv">
+        <pattern>
+            <marker><token>wręcz</token></marker>
+            <token postag="adv.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
     </rule>
 
     <rule id="ZAZDROSCI_SUBST" name="zazdrości jako genetiwus">
