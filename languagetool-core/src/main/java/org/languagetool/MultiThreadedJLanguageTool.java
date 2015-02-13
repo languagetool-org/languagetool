@@ -26,6 +26,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
 
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.Rule;
@@ -41,6 +42,7 @@ import org.languagetool.rules.RuleMatch;
 public class MultiThreadedJLanguageTool extends JLanguageTool {
   
   private int threadPoolSize = -1;
+  private ExecutorService newFixedThreadPool;
 
   public MultiThreadedJLanguageTool(Language language) {
     super(language);
@@ -68,6 +70,9 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * Set the amount of threads to use for checking.
    */
   public void setThreadPoolSize(int threadPoolSize) {
+    if( newFixedThreadPool != null )
+      throw new IllegalStateException("Thread pool already initialized");
+    
     this.threadPoolSize = threadPoolSize;
   }
 
@@ -75,7 +80,17 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * @return a fixed size executor with the given number of threads
    */
   protected ExecutorService getExecutorService(int threads) {
-    return Executors.newFixedThreadPool(threads);
+    if( newFixedThreadPool == null ) {
+      newFixedThreadPool = Executors.newFixedThreadPool(threads, new ThreadFactory() {
+        @Override
+        public Thread newThread(Runnable r) {
+          Thread thread = new Thread(r);
+          thread.setDaemon(true); // so we don't have to shut down executor explicitly
+          return thread;
+        }
+      });
+    }
+    return newFixedThreadPool;
   }
   
   @Override
@@ -99,8 +114,6 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       }
     } catch (InterruptedException | ExecutionException e) {
       throw new RuntimeException(e);
-    } finally {
-      executorService.shutdownNow();
     }
     
     return ruleMatches;
