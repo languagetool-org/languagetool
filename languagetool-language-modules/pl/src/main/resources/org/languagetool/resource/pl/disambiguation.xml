@@ -3381,6 +3381,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="chęcić"/></disambig>
     </rule>
 
+    <rule id="CIEZEJ" name="ciężej to nie ciężeć">
+        <pattern>
+            <marker><token>ciężej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="ciężeć"/></disambig>
+    </rule>
+
     <rule id="DLUZEJ" name="dłużej to nie dłużeć">
         <pattern>
             <token>dłużej</token>
@@ -3731,6 +3738,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">urocz[yą]</token>
         </pattern>
         <disambig action="remove"><wd lemma="uroczyć"/></disambig>
+    </rule>
+
+    <rule id="WALNIE_VERB" name="walnie pięścią to walnąć">
+        <pattern>
+            <marker><token>walnie</token></marker>
+            <token>pięścią</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="walnie"/></disambig>
+    </rule>
+
+    <rule id="WALNIE_ADV_1" name="walnie przyczynić">
+        <pattern>
+            <marker><token skip="2" postag="adv:pos">walnie</token></marker>
+            <token inflected="yes">przyczynić</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="walnąć"/></disambig>
+    </rule>
+
+    <rule id="WALNIE_ADV_2" name="przyczynić walnie">
+        <pattern>
+            <token skip="4" inflected="yes">przyczynić</token>
+            <marker><token postag="adv:pos">walnie</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="walnąć"/></disambig>
+        <example type="untouched">On walnie pięścią.</example>
+        <example type="ambiguous" inputform="walnie[walnie/adv:pos,walnąć/verb:fin:sg:ter:perf:refl.nonrefl]" outputform="walnie[walnie/adv:pos]">Przyczynił się do tego <marker>walnie</marker> Jan Dzban.</example>
     </rule>
 
     <rule id="WARTA" name="warta to nie wartać">
@@ -7509,6 +7542,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="ign"/>
     </rule>
 
+    <rule id="HOT_DOG" name="hot dog">
+        <pattern>
+            <marker><token>hot</token></marker>
+            <token inflected="yes">dog</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="hot" pos="ign"/></disambig>
+    </rule>
+
     <rulegroup name="co innego" id="CO_INNEGO">
         <rule>
             <pattern>
@@ -7907,6 +7948,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">[wo]|[zn]a</token>
             <marker><token>nie</token></marker>
             <token>nie</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="KAVA_KAVA" name="kava kava"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>kava</token>
+            <marker><token>kava</token></marker>
         </pattern>
         <disambig action="immunize"/>
     </rule>
