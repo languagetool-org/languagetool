@@ -25683,6 +25683,18 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="FICAR_POSAR" name="ficar/posar">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">ficar</token>
+                </marker>
+                <token>en</token>
+                <token regexp="yes">dubte|qüestió</token>
+            </pattern>
+            <message>Verb inadequat.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">posar</match></suggestion>
+            <example correction="Posaren"><marker>Ficaren</marker> en dubte allò.</example>
+        </rule>
         <rule id="RETEN" name="*retén/equip o brigada de guàrdia">
             <pattern>
                 <token postag="D.*|SPS00" postag_regexp="yes"/>
