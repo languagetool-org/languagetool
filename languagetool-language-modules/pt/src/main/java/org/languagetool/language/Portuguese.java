@@ -68,9 +68,9 @@ public class Portuguese extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Marco A.G. Pinto");
-    contributor.setUrl("http://www.marcoagpinto.com/");
-    return new Contributor[] { contributor };
+    return new Contributor[] {
+            new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/")
+    };
   }
 
   @Override

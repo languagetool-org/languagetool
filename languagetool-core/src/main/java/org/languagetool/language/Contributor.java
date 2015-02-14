@@ -25,39 +25,31 @@ import java.util.Objects;
  * 
  * @author Daniel Naber
  */
-public class Contributor {
+public final class Contributor {
 
   private final String name;
-  private String remark;
-  private String url;
+  private final String url;
 
-  Contributor(String fullName) {
-    this.name = Objects.requireNonNull(fullName, "name cannot be null");
+  Contributor(String name, String url) {
+    this.name = Objects.requireNonNull(name, "name cannot be null");
+    this.url = url;
+  }
+
+  Contributor(String name) {
+    this(name, null);
   }
   
   public String getName() {
     return name;
   }
   
-  public String getRemark() {
-    return remark;
-  }
-
-  public void setRemark(final String remark) {
-    this.remark = remark;
-  }
-
   public String getUrl() {
     return url;
   }
 
-  public void setUrl(final String url) {
-    this.url = url;
-  }
-
   @Override
   public final String toString() {
-    return getName();
+    return name;
   }
 
 }

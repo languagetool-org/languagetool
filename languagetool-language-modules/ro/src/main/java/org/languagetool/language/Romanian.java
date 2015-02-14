@@ -94,9 +94,9 @@ public class Romanian extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Ionuț Păduraru");
-    contributor.setUrl("http://www.archeus.ro");
-    return new Contributor[] { contributor };
+    return new Contributor[] {
+            new Contributor("Ionuț Păduraru", "http://www.archeus.ro")
+    };
   }
 
   @Override

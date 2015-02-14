@@ -122,9 +122,9 @@ public class Spanish extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Juan Martorell");
-    contributor.setUrl("http://languagetool-es.blogspot.com/");
-    return new Contributor[] { contributor };
+    return new Contributor[] {
+            new Contributor("Juan Martorell", "http://languagetool-es.blogspot.com/")
+    };
   }
 
   @Override

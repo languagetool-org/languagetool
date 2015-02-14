@@ -142,8 +142,7 @@ public final class RuleOverview {
       // false friends:
       final int count = countFalseFriendRules(falseFriendRules, lang);
       System.out.print("<td valign=\"top\" align=\"right\">" + count + "</td>");
-      //System.out.print("<td valign=\"top\">" + (isAutoDetected(lang.getShortName()) ? "yes" : "-") + "</td>");
-      
+
       // activity:
       int commits = activity.getActivityFor(lang, 365/2);
       int width = (int) Math.max(commits * 0.5, 1);
@@ -276,24 +275,10 @@ public final class RuleOverview {
         if (contributor.getUrl() != null) {
           maintainerInfo.append("</a>");
         }
-        if (contributor.getRemark() != null) {
-          maintainerInfo.append("&nbsp;(" + contributor.getRemark() + ")");
-        }
       }
     }
     return maintainerInfo;
   }
-
-  /*private boolean isAutoDetected(String code) {
-    if (LanguageIdentifier.getSupportedLanguages().contains(code)) {
-      return true;
-    }
-    final Set<String> additionalCodes = new HashSet<String>(Arrays.asList(LanguageIdentifierTools.ADDITIONAL_LANGUAGES));
-    if (additionalCodes.contains(code)) {
-      return true;
-    }
-    return false;
-  }*/
 
   private class JavaFilter implements FileFilter {
 

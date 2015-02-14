@@ -111,12 +111,10 @@ public class French extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor hVoisard = new Contributor("Hugo Voisard");
-    hVoisard.setRemark("2006-2007");
     return new Contributor[] {
         Contributors.DOMINIQUE_PELLE,
         new Contributor("Agnes Souque"),
-        hVoisard
+        new Contributor("Hugo Voisard (2006-2007)")
     };
   }
 

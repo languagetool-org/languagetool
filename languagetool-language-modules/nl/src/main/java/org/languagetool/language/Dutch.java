@@ -121,11 +121,10 @@ public class Dutch extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor1 = new Contributor("OpenTaal");
-    contributor1.setUrl("http://www.opentaal.org");
-    Contributor contributor2 = new Contributor("TaalTik");
-    contributor2.setUrl("http://www.taaltik.nl");
-    return new Contributor[] { contributor1, contributor2 };
+    return new Contributor[] {
+            new Contributor("OpenTaal", "http://www.opentaal.org"),
+            new Contributor("TaalTik", "http://www.taaltik.nl")
+    };
   }
 
   @Override
