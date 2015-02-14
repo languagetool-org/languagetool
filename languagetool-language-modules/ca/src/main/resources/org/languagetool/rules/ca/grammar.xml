@@ -25703,6 +25703,32 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="ROTAR_GIRAR" name="rotar/girar">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" skip="7">rotar<exception></exception></token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">angle1|grau|girar|objecte|triangle|quadrat|polígon</token>
+                </pattern>
+                <message>Paraula incorrecta en aquest context</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
+                <short>Possible confusió</short>
+                <example correction="girar">Va <marker>rotar</marker> un angle de 180 graus.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="7">angle1|grau|girar|objecte|triangle|quadrat|polígon</token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" >rotar<exception></exception></token>
+                    </marker>
+                </pattern>
+                <message>Paraula incorrecta en aquest context</message>
+                <suggestion><match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="$1">girar</match></suggestion>
+                <short>Possible confusió</short>
+                <example correction="girar">Mesurar angles o <marker>rotar</marker> objectes.</example>
+            </rule>
+        </rulegroup>
         <rule id="FICAR_POSAR" name="ficar/posar">
             <pattern>
                 <marker>
