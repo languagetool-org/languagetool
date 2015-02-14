@@ -17375,14 +17375,23 @@ $Id$
             </antipattern>
             <antipattern>
                 <marker>
-                    <token skip="4" regexp="yes">on|què|quals?</token>
+                    <token skip="4">on</token>
                     <token>hi</token>
                     <token inflected="yes">ser</token>
                 </marker>
             </antipattern>
+            <antipattern>
+                <marker>
+                    <token>per</token>
+                    <token min="0">a</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token min="0" max="2" spacebefore="no"><exception>-hi</exception></token>
+                    <token>-hi</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token skip="6">on<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next">per</exception></token>
+                    <token skip="6">on<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">hi</token>
                     </marker>
@@ -17407,7 +17416,7 @@ $Id$
                 </antipattern>
                 <pattern>
                     <token postag="SPS00"><exception>per</exception></token>
-                    <token skip="6">què<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/><exception postag=".*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next">per</exception></token>
+                    <token skip="6">què<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/><exception postag=".*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">hi</token>
                     </marker>
@@ -17424,15 +17433,22 @@ $Id$
             <rule>
                 <antipattern>
                     <marker>
-                        <token>la</token>
-                        <token>qual</token>
-                        <token>cosa</token>
+                        <token regexp="yes">quals?</token>
+                        <token regexp="yes">cosa|motiu|raó</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">cosa|motiu|raó</token>
+                        <token inflected="yes">per</token>
+                        <token postag="DA.*" postag_regexp="yes"/>
+                        <token regexp="yes">quals?</token>
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token postag="SPS00"><exception regexp="yes">de|per|pe</exception></token>
+                    <token postag="SPS00"><exception regexp="yes">de</exception></token>
                     <token postag="DA.*" postag_regexp="yes"/>
-                    <token skip="6" regexp="yes">quals?<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/><exception scope="next">per</exception></token>
+                    <token skip="6" regexp="yes">quals?<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
                         <token inflected="yes">hi</token>
                     </marker>
@@ -17440,10 +17456,13 @@ $Id$
                 <message>Possible redundància. Potser cal eliminar el pronom feble.</message>
                 <short>Possible redundància</short>
                 <example correction="">en els quals <marker>hi</marker> tinc la consulta</example>
+                <example correction="">espais pels quals normalment no <marker>hi</marker> passa</example>
                 <example>en els quals hi va haver</example>
                 <example>en els quals hi havia</example>
                 <example>amb la qual cosa hom pot afegir-hi líquids fàcilment</example>
                 <example>No sé el motiu pel qual va anar-hi.</example>
+                <example>al qual podem tornar sempre per deixar-nos-hi sacsejar</example>
+                <example>Raó per la qual hom hi busca la sortida</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONFUSIONS_PRONOMS_FEBLES" name="confusions amb pronoms febles">
