@@ -79,19 +79,47 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   /**
    * @return a fixed size executor with the given number of threads
    */
-  protected ExecutorService getExecutorService(int threads) {
+  protected ExecutorService getExecutorService() {
     if( newFixedThreadPool == null ) {
-      newFixedThreadPool = Executors.newFixedThreadPool(threads, new ThreadFactory() {
-        @Override
-        public Thread newThread(Runnable r) {
-          Thread thread = new Thread(r);
-          thread.setDaemon(true); // so we don't have to shut down executor explicitly
-          return thread;
-        }
-      });
+      newFixedThreadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
     }
     return newFixedThreadPool;
   }
+  
+  @Override
+  protected List<AnalyzedSentence> analyzeSentences(List<String> sentences) throws IOException {
+    final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
+    
+    final ExecutorService executorService = getExecutorService();
+
+    int j = 0;
+    
+    List<Callable<AnalyzedSentence>> callables = new ArrayList<Callable<AnalyzedSentence>>();
+    for (final String sentence : sentences) {
+      AnalyzeSentenceCallable analyzeSentenceCallable = 
+          ++j < sentences.size() 
+            ? new AnalyzeSentenceCallable(sentence)
+            : new ParagraphEndAnalyzeSentenceCallable(sentence);
+      callables.add(analyzeSentenceCallable);
+    }
+    
+    try {
+      List<Future<AnalyzedSentence>> futures = executorService.invokeAll(callables);
+      for (Future<AnalyzedSentence> future : futures) {
+        AnalyzedSentence analyzedSentence = future.get();
+        rememberUnknownWords(analyzedSentence);
+        printIfVerbose(analyzedSentence.toString());
+        printIfVerbose(analyzedSentence.getAnnotations());
+        analyzedSentences.add(analyzedSentence);
+      }
+      
+    } catch (InterruptedException | ExecutionException e) {
+      throw new RuntimeException(e);
+    }
+    
+    return analyzedSentences;
+  }
+  
   
   @Override
   protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
@@ -102,12 +130,11 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     int columnCount = 1;
 
     final List<RuleMatch> ruleMatches = new ArrayList<>();
-    final int threads = getThreadPoolSize();
     
-    final ExecutorService executorService = getExecutorService(threads);
+    final ExecutorService executorService = getExecutorService();
     try {
       final List<Callable<List<RuleMatch>>> callables =
-              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount, threads);
+              createTextCheckCallables(paraMode, annotatedText, analyzedSentences, sentences, allRules, charCount, lineCount, columnCount);
       final List<Future<List<RuleMatch>>> futures = executorService.invokeAll(callables);
       for (Future<List<RuleMatch>> future : futures) {
         ruleMatches.addAll(future.get());
@@ -121,7 +148,8 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
   private List<Callable<List<RuleMatch>>> createTextCheckCallables(ParagraphHandling paraMode,
        AnnotatedText annotatedText, List<AnalyzedSentence> analyzedSentences, List<String> sentences, 
-       List<Rule> allRules, int charCount, int lineCount, int columnCount, int threads) {
+       List<Rule> allRules, int charCount, int lineCount, int columnCount) {
+    final int threads = getThreadPoolSize();
     final int totalRules = allRules.size();
     final int chunkSize = totalRules / threads;
     int firstItem = 0;
@@ -131,6 +159,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     // the rules than to split the text:
     for (int i = 0; i < threads; i++) {
       final List<Rule> subRules;
+      //TODO: make sure we don't split rules with same id so RuleGroupFilter still works
       if (i == threads - 1) {
         // make sure the last rules are not lost due to rounding issues:
         subRules = allRules.subList(firstItem, totalRules);
@@ -141,5 +170,42 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       firstItem = firstItem + chunkSize;
     }
     return callables;
+  }
+
+  private class AnalyzeSentenceCallable implements Callable<AnalyzedSentence> {
+    private final String sentence;
+
+    private AnalyzeSentenceCallable(String sentence) {
+      this.sentence = sentence;
+    }
+
+    @Override
+    public AnalyzedSentence call() throws Exception {
+      return getAnalyzedSentence(sentence);
+    }
+  }
+  
+  private final class ParagraphEndAnalyzeSentenceCallable extends AnalyzeSentenceCallable {
+    private ParagraphEndAnalyzeSentenceCallable(String sentence) {
+      super(sentence);
+    }
+
+    @Override
+    public AnalyzedSentence call() throws Exception {
+      AnalyzedSentence analyzedSentence = super.call();
+      AnalyzedTokenReadings[] anTokens = analyzedSentence.getTokens();
+      anTokens[anTokens.length - 1].setParagraphEnd();
+      analyzedSentence = new AnalyzedSentence(anTokens);  ///TODO: why???
+      return analyzedSentence;
+    }
+  }
+
+  private final static class DaemonThreadFactory implements ThreadFactory {
+    @Override
+    public Thread newThread(Runnable r) {
+      Thread thread = new Thread(r);
+      thread.setDaemon(true); // so we don't have to shut down executor explicitly
+      return thread;
+    }
   }
 }

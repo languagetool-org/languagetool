@@ -496,7 +496,7 @@ public class JLanguageTool {
     return analyzeSentences(sentences);
   }
   
-  private List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
+  protected List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     int j = 0;
@@ -627,7 +627,7 @@ public class JLanguageTool {
     return thisMatch;
   }
 
-  private void rememberUnknownWords(final AnalyzedSentence analyzedText) {
+  protected void rememberUnknownWords(final AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       final AnalyzedTokenReadings[] atr = analyzedText
           .getTokensWithoutWhitespace();
@@ -826,7 +826,7 @@ public class JLanguageTool {
     return sentenceCount;
   }
 
-  private void printIfVerbose(final String s) {
+  protected void printIfVerbose(final String s) {
     if (printStream != null) {
       printStream.println(s);
     }
