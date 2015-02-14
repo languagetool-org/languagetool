@@ -509,11 +509,17 @@ public class JLanguageTool {
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);
-      printIfVerbose(analyzedSentence.toString());
-      printIfVerbose(analyzedSentence.getAnnotations());
+      printSentenceInfo(analyzedSentence);
     }
     
     return analyzedSentences;
+  }
+
+  protected void printSentenceInfo(AnalyzedSentence analyzedSentence) {
+    if (printStream != null) {
+      printIfVerbose(analyzedSentence.toString());
+      printIfVerbose(analyzedSentence.getAnnotations());
+    }
   }
   
   protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,

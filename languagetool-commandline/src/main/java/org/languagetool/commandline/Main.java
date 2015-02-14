@@ -32,6 +32,7 @@ import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -372,24 +373,27 @@ class Main {
   private int handleLine(final int matchNo, final int lineOffset,
       final StringBuilder sb) throws IOException {
     int matches = matchNo;
+    String string = sb.toString();
+    string = StringTools.filterXML(string);
+    
     if (applySuggestions) {
-      System.out.print(Tools.correctText(StringTools.filterXML(sb.toString()),
+      System.out.print(Tools.correctText(string,
           lt));
     } else if (profileRules) {
-      matches += Tools.profileRulesOnLine(StringTools.filterXML(sb.toString()), 
+      matches += Tools.profileRulesOnLine(string, 
           lt, currentRule);
     } else if (!taggerOnly) {
       if (matches == 0) {
-        matches += CommandLineTools.checkText(StringTools.filterXML(sb.toString()), lt,
+        matches += CommandLineTools.checkText(string, lt,
             apiFormat, -1, lineOffset, matches,
             StringTools.XmlPrintMode.START_XML);
       } else {
-        matches += CommandLineTools.checkText(StringTools.filterXML(sb.toString()), lt,
+        matches += CommandLineTools.checkText(string, lt,
             apiFormat, -1, lineOffset, matches,
             StringTools.XmlPrintMode.CONTINUE_XML);
       }
     } else {
-      CommandLineTools.tagText(StringTools.filterXML(sb.toString()), lt);
+      CommandLineTools.tagText(string, lt);
     }
     return matches;
   }

@@ -108,8 +108,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
       for (Future<AnalyzedSentence> future : futures) {
         AnalyzedSentence analyzedSentence = future.get();
         rememberUnknownWords(analyzedSentence);
-        printIfVerbose(analyzedSentence.toString());
-        printIfVerbose(analyzedSentence.getAnnotations());
+        printSentenceInfo(analyzedSentence);
         analyzedSentences.add(analyzedSentence);
       }
       

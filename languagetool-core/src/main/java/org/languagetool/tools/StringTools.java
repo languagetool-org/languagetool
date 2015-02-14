@@ -436,8 +436,10 @@ public final class StringTools {
    */
   public static String filterXML(final String str) {
     String s = str;       
-    s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
-    s = XML_PATTERN.matcher(s).replaceAll("");
+    if( s.contains("<") ) { // don't run slow regex unless we have to
+      s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
+      s = XML_PATTERN.matcher(s).replaceAll("");
+    }
     return s;
   }
 
