@@ -4189,6 +4189,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Cały kraj się bogaci.</example>
     </rule>
 
+    <rule id="WIDMO" name="widmo światła -> nie widma">
+        <pattern>
+            <marker>
+                <token postag=".*nom.*|.*acc.*" postag_regexp="yes">widmo</token>
+                <token postag="subst:sg:gen:n2">światła</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
     <rule id="BYLA_SERIO" name="być serio">
         <pattern>
         <token inflected="yes">być</token>
@@ -4405,6 +4415,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rulegroup>
 
     <rulegroup id="PASA" name="pasa jako rzeczownik">
+        <rule id="PASA_SUBST" name="pasa jako genetivus">
+            <pattern>
+                <marker>
+                    <token postag="subst:sg:gen:m3">pasa</token>
+                    <token postag=".*sg.*gen.*" postag_regexp="yes" regexp="yes">ruchu|startowego|nadbrzeżnego|nadmorskiego|barkowego|transmisyjnego|betonowego|biodrowego|ochronnego|neutralnego|zieleni|drogi|jezdni|granicznego</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="untouched">Jasio pasa gąski.</example>
+        </rule>
+        <rule id="PASA_SUBST2" name="pasa jako genetivus">
+            <pattern>
+                <token regexp="yes" inflected="yes">zaciskać|zacisnąć|mistrzowski|zająć|popuścić|skórzany|zapiąć|wydzielić|szerokość|szeroki|sięgać|wydłużyć|zmiana</token>
+                <marker><token>pasa</token></marker>
+            </pattern>
+            <disambig postag="subst:sg:gen:m3"/>
+            <example type="untouched">Jasio pasa gąski.</example>
+            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                     outputform="pasa[pas/subst:sg:gen:m3]">Musimy zacisnąć <marker>pasa</marker>.</example>
+        </rule>
         <rule>
             <pattern>
                 <token>do</token>
@@ -4414,15 +4444,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig postag="subst:sg:gen:m3"></disambig>
             <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
                      outputform="pasa[pas/subst:sg:gen:m3]">Miała dekolt do samego <marker>pasa</marker>.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">zacisnąć|zaciskać</token>
-                <marker><token>pasa</token></marker>
-            </pattern>
-            <disambig postag="subst:sg:gen:m3"></disambig>
-            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                     outputform="pasa[pas/subst:sg:gen:m3]">Musimy zacisnąć <marker>pasa</marker>.</example>
         </rule>
         <rule>
             <pattern>
@@ -6882,7 +6903,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule name="al dente" id="al_dente">
         <pattern>
             <marker><token>al</token></marker>
-            <token>dente</token>
+            <token regexp="yes">dente|fresco</token>
         </pattern>
         <disambig postag="ign"/>
     </rule>
