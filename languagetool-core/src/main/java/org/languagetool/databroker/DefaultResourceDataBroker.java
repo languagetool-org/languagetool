@@ -44,9 +44,7 @@ import org.languagetool.JLanguageTool;
  * <li>{@code /res/grammarchecker/resourcedirname}</li>
  * </ul>
  *
- * In this case you have to invoke the methods
- * {@link ResourceDataBroker#setRulesDir(String)} and
- * {@link ResourceDataBroker#setResourceDir(String)} with following arguments:
+ * In this case you have to use the constructor with the following arguments:
  *
  * <ul>
  * <li>{@code /res/grammarchecker/rulesdirname}</li>
@@ -66,7 +64,7 @@ import org.languagetool.JLanguageTool;
  * /rules/de/grammar.xml} just invoke
  * {@link ResourceDataBroker#getFromRulesDirAsUrl(String)} and pass {@code
  * /de/grammar.xml} as a string. Note: The {@code /rules} directory's name isn't
- * passed, because its name might have changed. The same usage does apply for the
+ * passed because its name might have changed. The same usage does apply for the
  * {@code /resource} directory.
  *
  * @see ResourceDataBroker
@@ -79,13 +77,13 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * The directory's name of the grammar checker's resource directory. The
    * default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
    */
-  protected String resourceDir;
+  private final String resourceDir;
 
   /**
    * The directory's name of the grammar checker's rules directory. The
    * default value equals {@link ResourceDataBroker#RULES_DIR}.
    */
-  protected String rulesDir;
+  private final String rulesDir;
 
   /**
    * Instantiates this data broker with the default resource directory names
@@ -113,8 +111,8 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *            {@link ResourceDataBroker#RULES_DIR}.
    */
   public DefaultResourceDataBroker(final String resourceDir, final String rulesDir) {
-    this.setResourceDir(resourceDir);
-    this.setRulesDir(rulesDir);
+    this.resourceDir = (resourceDir == null) ? "" : resourceDir;
+    this.rulesDir = (rulesDir == null) ? "" : rulesDir;
   }
 
   /**
@@ -293,40 +291,12 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
-   * @param resourceDir
-   *            The directory's name of the grammar checker's resource
-   *            directory. The default value was
-   *            {@link ResourceDataBroker#RESOURCE_DIR}. Please let this
-   *            string start with {@code '/'} and use this character as path
-   *            separator. Don't set this character to the string's end. Valid
-   *            example value: {@code /subdir/furtherdir/resourcedir}.
-   */
-  @Override
-  public void setResourceDir(final String resourceDir) {
-    this.resourceDir = (resourceDir == null) ? "" : resourceDir;
-  }
-
-  /**
    * @return The directory's name of the grammar checker's rules directory.
    *         The default value equals {@link ResourceDataBroker#RULES_DIR}.
    */
   @Override
   public String getRulesDir() {
     return this.rulesDir;
-  }
-
-  /**
-   * @param rulesDir
-   *            The directory's name of the grammar checker's rules directory.
-   *            The default value was {@link ResourceDataBroker#RULES_DIR}.
-   *            Please let this string start with {@code '/'} and use this
-   *            character as path separator. Don't set this character to the
-   *            string's end. Valid example value: {@code
-   *            /subdir/furtherdir/rulesdir}.
-   */
-  @Override
-  public void setRulesDir(final String rulesDir) {
-    this.rulesDir = (rulesDir == null) ? "" : rulesDir;
   }
 
 }

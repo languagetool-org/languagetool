@@ -126,15 +126,6 @@ public interface ResourceDataBroker {
   public String getResourceDir();
 
   /**
-   * @param resourceDir The used directory path to the {@code /resource} directory.
-   *            Make sure that you comply with the following format when setting
-   *            this value:
-   *            <p>
-   *            {@code /subdir/furtherdir/resourcedir}
-   */
-  public void setResourceDir(String resourceDir);
-
-  /**
    * @return The currently set rules directory path as a string. Make sure
    *         that you comply with the following format when setting this value:
    *         <p>
@@ -142,12 +133,4 @@ public interface ResourceDataBroker {
    */
   public String getRulesDir();
 
-  /**
-   * @param rulesDir The used directory path to the {@code /rules} directory. Make
-   *            sure that you comply with the following format when setting this
-   *            value:
-   *            <p>
-   *            {@code /subdir/furtherdir/rulesdir}
-   */
-  public void setRulesDir(String rulesDir);
 }
