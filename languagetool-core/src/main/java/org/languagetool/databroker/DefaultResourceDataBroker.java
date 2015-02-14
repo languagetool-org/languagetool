@@ -160,19 +160,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    *         {@code resource} directory.
    */
   private String getCompleteResourceUrl(final String path) {
-    final StringBuilder completePath = new StringBuilder(resourceDir);
-
-    if (!resourceDir.endsWith("/") && !path.startsWith("/")) {
-      completePath.append('/');
-    }
-
-    if (resourceDir.endsWith("/") && path.startsWith("/") && path.length() > 1) {
-      completePath.append(path.substring(1));
-    } else {
-      completePath.append(path);
-    }
-
-    return completePath.toString();
+    return appendPath(resourceDir, path);
   }
 
   /**
@@ -224,18 +212,19 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return The full relative path to the resource including the path to the {@code rules} directory.
    */
   private String getCompleteRulesUrl(final String path) {
-    final StringBuilder completePath = new StringBuilder(rulesDir);
+    return appendPath(rulesDir, path);
+  }
 
-    if (!rulesDir.endsWith("/") && !path.startsWith("/")) {
+  private String appendPath(String baseDir, String path) {
+    final StringBuilder completePath = new StringBuilder(baseDir);
+    if (!this.rulesDir.endsWith("/") && !path.startsWith("/")) {
       completePath.append('/');
     }
-
-    if (rulesDir.endsWith("/") && path.startsWith("/") && path.length() > 1) {
+    if (this.rulesDir.endsWith("/") && path.startsWith("/") && path.length() > 1) {
       completePath.append(path.substring(1));
     } else {
       completePath.append(path);
     }
-
     return completePath.toString();
   }
 
