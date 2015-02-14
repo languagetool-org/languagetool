@@ -42,7 +42,7 @@ public class UnifierConfiguration {
   private final Map<String, List<String>> equivalenceFeatures;
 
   public UnifierConfiguration() {
-    // FIXME: workaround for issue #13
+    // workaround for issue #13
     equivalenceTypes = new ConcurrentHashMap<>();
     equivalenceFeatures = new ConcurrentHashMap<>();
   }
@@ -58,7 +58,7 @@ public class UnifierConfiguration {
    */
   public final void setEquivalence(final String feature, final String type,
                                    final Element elem) {
-    
+
     EquivalenceTypeLocator typeKey = new EquivalenceTypeLocator(feature, type);
     if (equivalenceTypes.containsKey(typeKey)) {
       return;
@@ -69,7 +69,7 @@ public class UnifierConfiguration {
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
     } else {
-      // FIXME: workaround for issue #13
+      // workaround for issue #13
       lTypes = new CopyOnWriteArrayList<>();
       equivalenceFeatures.put(feature, lTypes);
     }

@@ -82,7 +82,6 @@ public abstract class AdvancedWordRepeatRule extends Rule {
             isWord = false;
             break;
           }
-          // FIXME: too many false alarms here:
           final String lemma = analyzedToken.getLemma();
           if (lemma == null) {
             hasLemma = false;
