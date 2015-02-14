@@ -101,14 +101,10 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * Instantiates this data broker with the passed resource directory names.
    *
-   * @param resourceDir
-   *            The directory's name of the grammar checker's resource
-   *            directory. The default value equals
-   *            {@link ResourceDataBroker#RESOURCE_DIR}.
-   * @param rulesDir
-   *            The directory's name of the grammar checker's rules directory.
-   *            The default value equals
-   *            {@link ResourceDataBroker#RULES_DIR}.
+   * @param resourceDir The directory's name of the grammar checker's resource
+   *  directory. The default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
+   * @param rulesDir The directory's name of the grammar checker's rules directory.
+   *  The default value equals {@link ResourceDataBroker#RULES_DIR}.
    */
   public DefaultResourceDataBroker(final String resourceDir, final String rulesDir) {
     this.resourceDir = (resourceDir == null) ? "" : resourceDir;
@@ -129,7 +125,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public InputStream getFromResourceDirAsStream(final String path) {
-    final String completePath = this.getCompleteResourceUrl(path);
+    final String completePath = getCompleteResourceUrl(path);
     final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
@@ -149,7 +145,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public URL getFromResourceDirAsUrl(final String path) {
-    final String completePath = this.getCompleteResourceUrl(path);
+    final String completePath = getCompleteResourceUrl(path);
     final URL resource = ResourceDataBroker.class.getResource(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
@@ -159,21 +155,18 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * Concatenates the passed resource path with the currently set {@code
    * resource} directory path.
    *
-   * @param path
-   *            The relative path to a resource item inside of the {@code
-   *            resource} directory.
+   * @param path The relative path to a resource item inside of the {@code resource} directory.
    * @return The full relative path to the resource including the path to the
    *         {@code resource} directory.
    */
   private String getCompleteResourceUrl(final String path) {
-    final StringBuilder completePath = new StringBuilder(this.getResourceDir());
+    final StringBuilder completePath = new StringBuilder(resourceDir);
 
-    if (!this.getResourceDir().endsWith("/") && !(path.charAt(0)=='/')) {
+    if (!resourceDir.endsWith("/") && !path.startsWith("/")) {
       completePath.append('/');
     }
 
-    if (this.getResourceDir().endsWith("/") && (path.charAt(0)=='/')
-            && path.length() > 1) {
+    if (resourceDir.endsWith("/") && path.startsWith("/") && path.length() > 1) {
       completePath.append(path.substring(1));
     } else {
       completePath.append(path);
@@ -186,17 +179,15 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * See:
    * {@link ResourceDataBroker#getFromRulesDirAsStream(java.lang.String)}
    *
-   * @param path
-   *            The relative path to the item inside of the {@code /rules}
-   *            directory. Please start your path information with {@code /}
-   *            because it will be concatenated with the directory's name:
-   *            /rules<b>/yourpath</b>.
+   * @param path The relative path to the item inside of the {@code /rules}
+   *  directory. Please start your path information with {@code /} because it
+   *  will be concatenated with the directory's name: /rules<b>/yourpath</b>.
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
   @Override
   public InputStream getFromRulesDirAsStream(final String path) {
-    final String completePath = this.getCompleteRulesUrl(path);
+    final String completePath = getCompleteRulesUrl(path);
     final InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
@@ -205,17 +196,15 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   /**
    * See: {@link ResourceDataBroker#getFromRulesDirAsUrl(java.lang.String)}
    *
-   * @param path
-   *            The relative path to the item inside of the {@code /rules}
-   *            directory. Please start your path information with {@code /}
-   *            because it will be concatenated with the directory's name:
-   *            /rules<b>/yourpath</b>.
+   * @param path The relative path to the item inside of the {@code /rules}
+   *  directory. Please start your path information with {@code /} because it
+   *  will be concatenated with the directory's name: /rules<b>/yourpath</b>.
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
   @Override
   public URL getFromRulesDirAsUrl(final String path) {
-    final String completePath = this.getCompleteRulesUrl(path);
+    final String completePath = getCompleteRulesUrl(path);
     final URL resource = ResourceDataBroker.class.getResource(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
@@ -231,20 +220,17 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * Concatenates the passed resource path with the currently set {@code
    * rules} directory path.
    *
-   * @param path
-   *            The relative path to a resource item inside of the {@code
-   *            rules} directory.
-   * @return The full relative path to the resource including the path to the
-   *         {@code rules} directory.
+   * @param path The relative path to a resource item inside of the {@code rules} directory.
+   * @return The full relative path to the resource including the path to the {@code rules} directory.
    */
   private String getCompleteRulesUrl(final String path) {
-    final StringBuilder completePath = new StringBuilder(this.getRulesDir());
+    final StringBuilder completePath = new StringBuilder(rulesDir);
 
-    if (!this.getRulesDir().endsWith("/") && !(path.charAt(0)=='/')) {
+    if (!rulesDir.endsWith("/") && !path.startsWith("/")) {
       completePath.append('/');
     }
 
-    if (this.getRulesDir().endsWith("/") && (path.charAt(0)=='/') && path.length() > 1) {
+    if (rulesDir.endsWith("/") && path.startsWith("/") && path.length() > 1) {
       completePath.append(path.substring(1));
     } else {
       completePath.append(path);
@@ -262,7 +248,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public boolean resourceExists(String path) {
-    final String completePath = this.getCompleteResourceUrl(path);
+    final String completePath = getCompleteResourceUrl(path);
     return ResourceDataBroker.class.getResource(completePath) != null;
   }
   
@@ -275,19 +261,17 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public boolean ruleFileExists(String path) {
-    final String completePath = this.getCompleteRulesUrl(path);
+    final String completePath = getCompleteRulesUrl(path);
     return ResourceDataBroker.class.getResource(completePath) != null;
   }
 
-  
   /**
    * @return The directory's name of the grammar checker's resource directory.
-   *         The default value equals
-   *         {@link ResourceDataBroker#RESOURCE_DIR}.
+   *         The default value equals {@link ResourceDataBroker#RESOURCE_DIR}.
    */
   @Override
   public String getResourceDir() {
-    return this.resourceDir;
+    return resourceDir;
   }
 
   /**
@@ -296,7 +280,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    */
   @Override
   public String getRulesDir() {
-    return this.rulesDir;
+    return rulesDir;
   }
 
 }
