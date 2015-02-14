@@ -159,7 +159,7 @@ public class PatternRule extends AbstractPatternRule {
   }
 
   /** Reset complex status - used for testing. **/
-  public final void notComplexPhrase() {
+  final void notComplexPhrase() {
     isMemberOfDisjunctiveSet = false;
   }
 
@@ -182,12 +182,7 @@ public class PatternRule extends AbstractPatternRule {
    * @since 0.9.3
    */
   public final String toXML() {
-    final PatternRuleXmlCreator xmlCreator = new PatternRuleXmlCreator();
-    try {
-      return xmlCreator.toXML(new PatternRuleId(getId(), getSubId()), getLanguage());
-    } catch (IOException e) {
-      throw new RuntimeException("Could not return string representation of rule", e);
-    }
+    return new PatternRuleXmlCreator().toXML(new PatternRuleId(getId(), getSubId()), getLanguage());
   }
 
   @Override

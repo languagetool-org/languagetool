@@ -20,7 +20,6 @@
 package org.languagetool.rules.patterns;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -48,10 +47,6 @@ public class Unifier {
    */
   private final List<List<Map<String, Set<String>>>> tokSequenceEquivalences;
 
-  private boolean allFeatsIn;
-  private int tokCnt;
-  private int readingsCounter;
-
   /**
    * A Map for storing the equivalence types for features. Features are
    * specified as Strings, and map into types defined as maps from Strings to
@@ -69,26 +64,20 @@ public class Unifier {
    */
   private final List<Map<String, Set<String>>> equivalencesMatched;
 
+  private boolean allFeatsIn;
+  private int tokCnt;
+  private int readingsCounter;
 
-
-  /**
-   * Marks found interpretations in subsequent tokens.
-   */
+  // Marks found interpretations in subsequent tokens:
   private List<Boolean> featuresFound;
 
-  /**
-   * For checking the current token.
-   */
+  // For checking the current token:
   private List<Boolean> tmpFeaturesFound;
 
-  /**
-   * Maps that store equivalences to be removed or kept after every next token has been analyzed
-   */
+  // Maps that store equivalences to be removed or kept after every next token has been analyzed:
   private final Map<String, Set<String>> equivalencesToBeKept;
 
-  /**
-   * stores uFeatures to keep the same signature of some methods...
-   */
+  // stores uFeatures to keep the same signature of some methods...:
   private Map<String, List<String>> unificationFeats;
 
   private boolean inUnification;

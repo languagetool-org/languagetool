@@ -23,7 +23,7 @@ import org.apache.commons.lang.Validate;
 /**
  * A {@link PatternRule}'s id with an optional sub-id.
  */
-public class PatternRuleId {
+public final class PatternRuleId {
 
   private final String id;
   private final String subId;

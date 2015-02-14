@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Matches a pattern rule against text.
  */
-class PatternRuleMatcher extends AbstractPatternRulePerformer {
+final class PatternRuleMatcher extends AbstractPatternRulePerformer {
 
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";

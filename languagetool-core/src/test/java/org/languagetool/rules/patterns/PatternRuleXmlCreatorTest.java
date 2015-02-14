@@ -42,7 +42,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
             "</rule>", xml);
   }
 
-  public void testToXMLWithRuleGroup() throws IOException {
+  public void testToXMLWithRuleGroup() {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
@@ -53,7 +53,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<token>blah</token>"));
   }
 
-  public void testToXMLWithRuleGroupAndSubId1() throws IOException {
+  public void testToXMLWithRuleGroupAndSubId1() {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore", "1");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
@@ -62,7 +62,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<message>This is a dummy message 1.</message>"));
   }
 
-  public void testToXMLWithRuleGroupAndSubId2() throws IOException {
+  public void testToXMLWithRuleGroupAndSubId2() {
     PatternRuleId ruleId = new PatternRuleId("test_spacebefore", "2");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
@@ -71,7 +71,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
     assertTrue(xml.contains("<message>This is a dummy message 2.</message>"));
   }
 
-  public void testToXMLWithAntiPattern() throws IOException {
+  public void testToXMLWithAntiPattern() {
     PatternRuleId ruleId = new PatternRuleId("DEMO_RULE_ANTIPATTERN");
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     String xml = creator.toXML(ruleId, new Demo());
@@ -82,7 +82,7 @@ public class PatternRuleXmlCreatorTest extends TestCase {
             "  </antipattern>\n"));
   }
 
-  public void testToXMLInvalidRuleId() throws IOException {
+  public void testToXMLInvalidRuleId() {
     PatternRuleXmlCreator creator = new PatternRuleXmlCreator();
     PatternRuleId fakeRuleId = new PatternRuleId("FAKE_ID");
     try {

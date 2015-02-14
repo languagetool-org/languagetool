@@ -48,6 +48,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   public abstract String getFileName();
 
+  @Override
+  public abstract String getId();
+
   public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(new Category(messages.getString("category_typo")));
@@ -55,9 +58,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
-
-  @Override
-  public abstract String getId();
 
   @Override
   public String getDescription() {

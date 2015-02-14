@@ -36,17 +36,17 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   private static final Pattern SUGGESTION_PATTERN = Pattern.compile("<suggestion>(.*?)</suggestion>");
 
-  private int fromLine = -1;
-  private int column = -1;
-  private int offset = -1;
-  private int endLine = -1;
-  private int endColumn = -1;
-
   private final Rule rule;
   private final int fromPos;
   private final int toPos;
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
+
+  private int fromLine = -1;
+  private int column = -1;
+  private int offset = -1;
+  private int endLine = -1;
+  private int endColumn = -1;
 
   private List<String> suggestedReplacements = new ArrayList<>();
 

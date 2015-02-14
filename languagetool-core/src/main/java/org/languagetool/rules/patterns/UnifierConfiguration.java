@@ -19,6 +19,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -76,15 +77,15 @@ public class UnifierConfiguration {
     lTypes.add(type);
   }
 
-  public Map<String, List<String>> getEquivalenceFeatures() {
-    return equivalenceFeatures;
+  public Map<EquivalenceTypeLocator, Element> getEquivalenceTypes() {
+    return Collections.unmodifiableMap(equivalenceTypes);
   }
 
-  public Map<EquivalenceTypeLocator, Element> getEquivalenceTypes() {
-    return equivalenceTypes;
+  public Map<String, List<String>> getEquivalenceFeatures() {
+    return Collections.unmodifiableMap(equivalenceFeatures);
   }
 
   public Unifier createUnifier() {
-    return new Unifier(equivalenceTypes, equivalenceFeatures);
+    return new Unifier(getEquivalenceTypes(), getEquivalenceFeatures());
   }
 }

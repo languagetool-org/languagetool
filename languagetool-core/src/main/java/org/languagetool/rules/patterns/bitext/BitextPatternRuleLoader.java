@@ -21,6 +21,7 @@ package org.languagetool.rules.patterns.bitext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -176,7 +177,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     } else if (inIncorrectExample) {
       final String[] corrections = exampleCorrection.toString().split("\\|");
       if (corrections.length > 0 && corrections[0].length() > 0) {
-        example = new IncorrectExample(incorrectExample.toString(), corrections);
+        example = new IncorrectExample(incorrectExample.toString(), Arrays.asList(corrections));
       } else {
         example = new IncorrectExample(incorrectExample.toString());
       }

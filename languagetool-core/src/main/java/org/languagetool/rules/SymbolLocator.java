@@ -27,9 +27,9 @@ package org.languagetool.rules;
  */
 public class SymbolLocator {
 
-  String symbol;
-  int index;
-  int startPos;
+  private final String symbol;
+  private final int index;
+  private final int startPos;
 
   SymbolLocator(final String symbol, final int index, final int startPos) {
     this.symbol = symbol;
@@ -43,6 +43,16 @@ public class SymbolLocator {
    */
   public String getSymbol() {
     return symbol;
+  }
+
+  /** @since 2.9 */
+  int getIndex() {
+    return index;
+  }
+
+  /** @since 2.9 */
+  int getStartPos() {
+    return startPos;
   }
 
   @Override

@@ -20,14 +20,7 @@ package org.languagetool.synthesis;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tools.StringTools;
@@ -43,15 +36,16 @@ import org.languagetool.tools.StringTools;
  * @see ManualTagger  
  * @see BaseSynthesizer
  */
-public class ManualSynthesizer {
+public final class ManualSynthesizer {
 
   /** a map with the key composed by the lemma and POS (separated by "|"). The values are lists of inflected forms. */ 
   private final Map<String, List<String>> mapping;
-  private Set<String> possibleTags = new HashSet<>();
+  private final Set<String> possibleTags;
 
   public ManualSynthesizer(final InputStream inputStream) throws IOException {
-    mapping = loadMapping(inputStream, "utf8");
-    possibleTags = Collections.unmodifiableSet(possibleTags); // lock
+    MappingAndTags mappingAndTags = loadMapping(inputStream, "utf8");
+    mapping = mappingAndTags.mapping;
+    possibleTags = Collections.unmodifiableSet(mappingAndTags.tags); // lock
   }
 
   /**
@@ -72,8 +66,8 @@ public class ManualSynthesizer {
     return mapping.get(lemma + "|" + posTag);
   }
 
-  private Map<String, List<String>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final Map<String, List<String>> map = new HashMap<>();
+  private MappingAndTags loadMapping(final InputStream inputStream, final String encoding) throws IOException {
+    final MappingAndTags result = new MappingAndTags();
     try (Scanner scanner = new Scanner(inputStream, encoding)) {
       while (scanner.hasNextLine()) {
         final String line = scanner.nextLine();
@@ -85,14 +79,19 @@ public class ManualSynthesizer {
           throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);
         }
         final String key = parts[1] + "|" + parts[2];
-        if (!map.containsKey(key)) {
-          map.put(key, new ArrayList<String>());
+        if (!result.mapping.containsKey(key)) {
+          result.mapping.put(key, new ArrayList<String>());
         }
-        map.get(key).add(parts[0]);
-        possibleTags.add(parts[2]); // POS 
+        result.mapping.get(key).add(parts[0]);
+        result.tags.add(parts[2]); // POS
       }
     }
-    return map;
+    return result;
+  }
+
+  class MappingAndTags {
+    Map<String, List<String>> mapping = new HashMap<>();
+    Set<String> tags = new HashSet<>();
   }
 
 }

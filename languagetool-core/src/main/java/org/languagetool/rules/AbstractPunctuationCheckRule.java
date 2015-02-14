@@ -49,7 +49,7 @@ public abstract class AbstractPunctuationCheckRule extends Rule {
     return "Use of unusual combination of punctuation characters";
   }
 
-  protected abstract boolean isPunctsJoinOk(String tkns);
+  protected abstract boolean isPunctsJoinOk(String tokens);
 
   protected abstract boolean isPunctuation(String token);
 

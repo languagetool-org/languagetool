@@ -123,7 +123,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       }
     }
     for (final SymbolLocator sLoc : symbolStack) {
-      final RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.startPos, sLoc.symbol);
+      final RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol());
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
@@ -149,13 +149,13 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         if (i > 1 && endSymbols[j].equals(")")
                 && (numerals.matcher(tokens[i - 1].getToken()).matches()
                 && !(!symbolStack.empty()
-                && "(".equals(symbolStack.peek().symbol)))) {
+                && "(".equals(symbolStack.peek().getSymbol())))) {
         } else {
           if (symbolStack.empty()) {
             symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos));
             return true;
           } else {
-            if (symbolStack.peek().symbol.equals(startSymbols[j])) {
+            if (symbolStack.peek().getSymbol().equals(startSymbols[j])) {
               symbolStack.pop();
               return true;
             } else {
@@ -206,9 +206,9 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       final int index = findSymbolNum(symbol, endSymbols);
       if (index >= 0) {
         final SymbolLocator rLoc = ruleMatchStack.peek();
-        if (rLoc.symbol.equals(startSymbols[index])) {
-          if (ruleMatches.size() > rLoc.index) {
-            ruleMatches.remove(rLoc.index);
+        if (rLoc.getSymbol().equals(startSymbols[index])) {
+          if (ruleMatches.size() > rLoc.getIndex()) {
+            ruleMatches.remove(rLoc.getIndex());
             ruleMatchStack.pop();
             return null;
           }
