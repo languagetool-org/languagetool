@@ -34,6 +34,7 @@ import org.languagetool.Language;
 public class ElementMatcher {
 
   private final Element baseElement;
+
   private Element element;
   private List<ElementMatcher> andGroup;
   private boolean[] andGroupCheck;

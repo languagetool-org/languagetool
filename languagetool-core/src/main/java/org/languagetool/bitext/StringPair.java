@@ -22,9 +22,8 @@ package org.languagetool.bitext;
 /**
  * A convenience class to work with bitext strings.
  * @author Marcin Miłkowski
- *
  */
-public class StringPair {
+public final class StringPair {
 
   private final String sourceString;
   private final String targetString;

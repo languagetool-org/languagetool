@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -53,7 +54,7 @@ public class FalseFriendsAsBitextLoader {
     final List<PatternRule> rules2 = ruleLoader.getRules(JLanguageTool
             .getDataBroker().getFromRulesDirAsStream(filename),
             language, motherTongue);
-    final HashMap<String, PatternRule> srcRules = new HashMap<>();
+    final Map<String, PatternRule> srcRules = new HashMap<>();
     for (PatternRule rule : rules1) {
       srcRules.put(rule.getId(), rule);
     }

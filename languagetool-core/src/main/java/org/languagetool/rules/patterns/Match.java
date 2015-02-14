@@ -43,24 +43,21 @@ public class Match {
   }
 
   private final String posTag;
-  private boolean postagRegexp;
   private final boolean suppressMisspelled;
   private final String regexReplace;
   private final String posTagReplace;
   private final CaseConversion caseConversionType;
   private final IncludeRange includeSkipped;
 
-  /**
-   * True if this match element formats a statically defined lemma which is
-   * enclosed by the element, e.g., <tt>&lt;match...&gt;word&lt;/match&gt;</tt>.
-   */
+  private boolean postagRegexp;
+
+  // True if this match element formats a statically defined lemma which is
+  // enclosed by the element, e.g., <match...>word</match>:
   private boolean staticLemma;
 
   private String lemma;
 
-  /**
-   * True if this match element is used for formatting POS token.
-   */
+  // True if this match element is used for formatting POS token:
   private final boolean setPos;
 
   private int tokenRef;

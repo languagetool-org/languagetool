@@ -80,6 +80,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String MATCH = "match";
   protected static final String UNIFICATION = "unification";
   protected static final String RULE = "rule";
+  protected static final String RULES = "rules";
   protected static final String RULEGROUP = "rulegroup";
   protected static final String NO = "no";
   protected static final String PHRASES = "phrases";
