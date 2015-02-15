@@ -2300,6 +2300,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Dziękuję, wolę postać.</example>
     </rule>
 
+    <rule id="POSTAC_2" name="postać jako rzeczownik z przymiotnikiem">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="gender"><type id="f"/></feature><feature id="number"><type id="sg"/></feature>
+                <token>postać</token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="postać[postać/subst:sg:acc:f,postać/subst:sg:nom:f,postać/verb:inf:perf:nonrefl]"
+                 outputform="postać[postać/subst:sg:nom:f]">To <marker>postać</marker> historyczna.</example>
+        <example type="untouched">Dziękuję, wolę postać.</example>
+    </rule>
+
+
     <rule id="ON_ONA_MA" name="Ona/on ma...">
         <pattern>
             <token regexp="yes" postag="ppron3.*" postag_regexp="yes">ona?</token>
@@ -3534,6 +3549,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>młodzi</token>
         </pattern>
         <disambig action="remove"><wd lemma="młodzić"/></disambig>
+    </rule>
+
+    <rule id="MOCNIEJ" name="mocniej to nie mocnieć">
+        <pattern>
+            <marker><token>mocniej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="mocnieć"/></disambig>
     </rule>
 
     <rule id="NACZYN" name="naczyń to nie czasownik">
@@ -7046,6 +7068,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="p[pan/brev:pun,patrz/brev:pun,piętro/brev:pun,punkt/brev:pun]"
                  outputform="p[p]">Porządkowanie alfabetyczne ma postać: a, ą, ã, b, c, d, e, é, ë, f, g, h, i, j, k, l, ł, m, n, ń, o, ò, ó, ô, <marker>p</marker>, r, s, t, u, ù, w, y, z, ż.</example>
     </rule>
+    <rule name="skróty cytowane" id="nie_brev_pun_tylko_przywolanie">
+        <pattern>
+            <token regexp="yes">[«»„]</token>
+            <marker>
+            <token spacebefore="no" postag="brev:pun"/>
+            </marker>
+            <token spacebefore="no" regexp="yes">[”«»]</token>
+        </pattern>
+        <disambig action="remove" postag="brev:pun"/>
+        <example type="ambiguous" inputform="r[rok/brev:pun]" outputform="r[r]">Litera „<marker>r</marker>”</example>
+    </rule>
     <rule name="am jako wyraz niemiecki" id="AM_NIEM">
         <pattern case_sensitive="yes">
             <token regexp="yes">\p{Lu}\p{Ll}+</token>
@@ -7083,6 +7116,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="remove"><wd pos="brev:pun"/></disambig>
     </rule>
+
 
     <rule name="Center for" id="CENTER_FOR"> <!-- wyrażenie angielskie w polskim tekście -->
         <pattern case_sensitive="yes">
