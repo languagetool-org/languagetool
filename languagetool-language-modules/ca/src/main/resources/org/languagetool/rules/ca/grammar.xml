@@ -19650,7 +19650,7 @@ $Id$
                     <token regexp="yes">[012]?\d</token>
                     <token regexp="yes" spacebefore="no">[,:]</token>
                     <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token regexp="yes">h|hores</token>
+                    <token regexp="yes">h|hores|hrs</token>
                 </pattern>
                 <message>En les expressions d'hores, usem el punt.</message>
                 <suggestion>\1.\3&#8239;\4</suggestion>
@@ -32529,7 +32529,15 @@ $Id$
             <message>Paraula només admesa per alguns diccionaris.</message>
             <suggestion><match no="1" postag="(AQ.*)" postag_regexp="yes" postag_replace="$1">mentider</match></suggestion>
             <example correction="mentideres">Eren molt <marker>mentiroses</marker>.</example>
-            <example>mentideres</example>
+        </rule>
+        <rule id="MENTIRA" name="mentira">
+            <pattern>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">mentira</token>
+            </pattern>
+            <message>Paraula només admesa per alguns diccionaris.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">mentida</match></suggestion>
+            <example correction="mentida">És <marker>mentira</marker>.</example>
+            <example correction="mentida">És una enorme <marker>mentira</marker>.</example>
         </rule>
         <rule id="TACANYERIA" name="tacanyeria">
             <pattern>
