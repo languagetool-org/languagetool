@@ -11239,17 +11239,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="ALS_ERSTES" name="als erstes (Erstes) etc.">
+            <antipattern>
+                <token>als</token>
+                <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
+                <token>von</token>
+            </antipattern>
             <pattern>
                 <token>als</token>
                 <marker>
                     <!-- hier allgemein Adjekte zu matchen führt zu vielen Fehlalarmen,
                          z.B. bei "Amerikanische Küchen sind größer als japanische." -->
-                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes</token>
+                    <token regexp="yes" case_sensitive="yes">erstes|zweites|drittes|viertes|fünftes|sechstes|siebtes|achtes|neuntes|zehntes|elftes|zwölftes</token>
                 </marker>
                 <token regexp="yes" case_sensitive="yes">[a-zöäü]+<exception postag="ADJ:.*" postag_regexp="yes" /><exception postag="UNKNOWN"/></token>
             </pattern>
             <message><suggestion><match no="2" case_conversion="startupper"/></suggestion> scheint hier ein Nomen zu sein und muss dann großgeschrieben werden.</message>
-            <example correction="Zweites">wurde am 10. März 1963 als <marker>zweites</marker> von vier Kindern geboren</example>
+            <example correction="Zweites">Als <marker>zweites</marker> schreibt man die Zusammenfassung.</example>
+            <!--not sure: <example correction="Zweites">wurde am 10. März 1963 als <marker>zweites</marker> von vier Kindern geboren</example>-->
             <example>Als <marker>Erstes</marker> prüfen wir die Stromzufuhr.</example>
             <example>Gegründet 1899 als <marker>erstes</marker> japanisches Joint Venture...</example>
             <example>Sie gilt zum Beispiel als <marker>erstes</marker> neugotisches Kunstwerk.</example>
