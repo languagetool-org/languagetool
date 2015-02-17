@@ -52,7 +52,7 @@ public class Indexer implements AutoCloseable {
 
   static final String TITLE_FIELD_NAME = "title";
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_1;
+  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_3;
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
