@@ -17457,7 +17457,7 @@ $Id$
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token postag="SPS00"><exception regexp="yes">de</exception></token>
+                    <token postag="SPS00"><exception>de</exception></token>
                     <token postag="DA.*" postag_regexp="yes"/>
                     <token skip="6" regexp="yes">quals?<exception scope="next" postag="_PUNCT.*|C.*|.*LOC_CONJ.*" postag_regexp="yes"/></token>
                     <marker>
@@ -19716,6 +19716,18 @@ $Id$
         </rule>
     </category>
     <category name="Expressions incorrectes" type="grammar">
+        <rule id="OLORAR_MALAMENT" name="olorar malament">
+            <pattern>
+                <token postag="(V.[SI].*)" postag_regexp="yes" inflected="yes" regexp="yes">olorar|oldre</token>
+                <token regexp="yes">mal|malament</token>
+            </pattern>
+            <message>Expressió incorrecta</message>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> pudor</suggestion>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">fer</match> mala olor</suggestion>
+            <suggestion><match no="1" postag="(V.[SI].*)" postag_regexp="yes" postag_replace="$1">pudir</match></suggestion>
+            <example correction="fa pudor|fa mala olor|put">Això <marker>olora malament</marker>.</example>
+            <example correction="feia pudor|feia mala olor|pudia">Això <marker>olia malament</marker>.</example>
+        </rule>
         <rule id="CALLAR_LA_BOCA" name="*callar la boca/callar">
             <pattern>
                 <marker>
