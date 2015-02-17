@@ -8347,7 +8347,7 @@ $Id$
                 </marker>
             </antipattern>
             <pattern>
-                <token regexp="yes">tema|qüestió|debat|idea|mite|motiu|passatge|problema|circumstància</token>
+                <token regexp="yes">tema|qüestió|debat|idea|mite|motiu|passatge|problema|circumstància|conducta</token>
                 <marker>
                     <token>recorrent</token>
                 </marker>
@@ -12463,6 +12463,18 @@ $Id$
          </rulegroup>
     </category>
     <category name="Repeticions" type="duplication">
+        <rule id="REPETICIO_AIXO" name="repetició: això" type="style">
+            <pattern>
+                <token regexp="yes">malgrat|obstant|pesar|per|tot</token>
+                <token min="0" regexp="yes">de|d'|i</token>
+                <marker>
+                    <token skip="7">això</token>
+                    <token>això</token>
+                </marker>
+            </pattern>
+            <message>Repetició: possible redacció deficient</message>
+            <example correction="">No obstant <marker>això, això</marker> no era així.</example>
+        </rule>
         <rulegroup id="PHRASE_REPETITION" name="Repetició de dues paraules ('a la a la')">
             <!--  made more general-->
             <rule>
