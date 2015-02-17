@@ -45,11 +45,22 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   private ExecutorService newFixedThreadPool;
 
   public MultiThreadedJLanguageTool(Language language) {
-    super(language);
+    this(language, null);
   }
 
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
     super(language, motherTongue);
+    
+    threadPoolSize = getDefaultThreadCount();
+  }
+
+  private static int getDefaultThreadCount() {
+    String threadCountStr = System.getProperty("org.languagetool.thread_count", "-1");
+    int threadPoolSize = Integer.parseInt(threadCountStr);
+    if( threadPoolSize == -1 ) {
+      threadPoolSize = Runtime.getRuntime().availableProcessors();
+    }
+    return threadPoolSize;
   }
 
   /**
@@ -58,12 +69,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * @see #setThreadPoolSize(int)
    */
   protected int getThreadPoolSize() {
-    int poolSize = threadPoolSize;
-    if (poolSize <= 0) {
-      return Runtime.getRuntime().availableProcessors(); 
-    } else {
-      return poolSize;
-    }
+    return threadPoolSize;
   }
   
   /**
@@ -73,7 +79,12 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     if( newFixedThreadPool != null )
       throw new IllegalStateException("Thread pool already initialized");
     
-    this.threadPoolSize = threadPoolSize;
+    if( threadPoolSize >= 1 ) {
+      this.threadPoolSize = threadPoolSize;
+    }
+    else {
+      this.threadPoolSize = getDefaultThreadCount();
+    }
   }
 
   /**
