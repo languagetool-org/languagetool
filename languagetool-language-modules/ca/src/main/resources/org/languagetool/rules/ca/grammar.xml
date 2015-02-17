@@ -14705,6 +14705,20 @@ $Id$
                 <example correction="néts">Eren tots fills i <marker>nets</marker>.</example>
                 <example>És net de sabó.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">net</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>S'accentua quan és nom.</message>
+                <suggestion><match no="1" regexp_match="[Nn]e(.+)" regexp_replace="né$1"/></suggestion>
+                <example correction="Nét"><marker>Net</marker> de l'escriptor.</example>
+                <example correction="néta">Joana, <marker>neta</marker> del rei.</example>
+                <example>És net de sabó.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="MA" name="ma/mà"> <!-- exigir context: davant: article, adjectiu, preposició. O darrere: preposició... -->
             <rule>
