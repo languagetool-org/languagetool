@@ -102,9 +102,6 @@ public class WordRepeatBeginningRule extends Rule {
       lastToken = token;
     }
     
-    //TODO should we ignore repetitions involving multiple paragraphs?
-    //if (tokens[tokens.length - 1].isParaEnd()) beforeLastToken = "";
-    
     return toRuleMatchArray(ruleMatches);
   }
 
