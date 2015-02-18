@@ -245,16 +245,16 @@ public class Unifier {
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
           if (!UNIFY_IGNORE.equals(feat.getKey())) {
-              if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey())) {
-                if (equivalencesToBeKept.containsKey(feat.getKey())) {
-                  tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
-                } else {
-                  tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
-                }
+            if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey())) {
+              if (equivalencesToBeKept.containsKey(feat.getKey())) {
+                tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
+              } else {
+                tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
               }
-            } else {
-              tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
             }
+          } else {
+            tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
+          }
         }
       }
     }
@@ -345,16 +345,16 @@ public class Unifier {
         if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
           addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
         } else {
-        for (final Map.Entry<String, List<String>> feat : unificationFeats.entrySet()) {
+          for (final Map.Entry<String, List<String>> feat : unificationFeats.entrySet()) {
             if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey()) &&
-                tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).isEmpty()) {
+                    tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).isEmpty()) {
               featUnified = 0;
             } else {
               featUnified++;
             }
             if (featUnified == unificationFeats.entrySet().size()) {
               addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
-          }
+            }
           }
         }
       }
