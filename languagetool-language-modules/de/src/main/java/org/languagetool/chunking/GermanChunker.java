@@ -28,6 +28,9 @@ import java.util.regex.Pattern;
 import static org.languagetool.chunking.GermanChunker.PhraseType.*;
 
 /**
+ * A rule-based German chunker for noun phrases. Please note that this chunker
+ * has not been evaluated as a stand-alone chunker, it has only been used and tested
+ * in the context of LanguageTool's error detection rules.
  * @since 2.9
  */
 public class GermanChunker implements Chunker {
@@ -58,6 +61,34 @@ public class GermanChunker implements Chunker {
   }
   private static boolean debug = false;
 
+  /*
+   * REGEXES1 and REGEXES2 are OpenRegex (https:*github.com/knowitall/openregex) expressions.
+   * REGEXES1 roughly emulates the behavior of the OpenNLP chunker by tagging the first
+   * token of a noun phrase with B-NP and the remaining ones with I-NP.
+   * REGEXES2 builds on those annotations to find complex noun phrases.
+   *
+   * Syntax:
+   *    <string|regex|regexCS|chunk|pos|posregex|posre=value>
+   *       string: matches the token itself
+   *       regex: matches the token against a regular expression
+   *       regexCS: is like regex but case-sensitive
+   *       chunk: matches the token's chunk
+   *       pos: matches the token's POS tags
+   *       posregex: matches the token's POS tags against a regular expression
+   *       posre: is a synonym for posregex
+   *    <foo> is a short form of <string=foo>
+   *    <pos=X> will match tokens with POS tags that contain X as a substring
+   *
+   * Example to combine two conditions via logical AND:
+   *    <pos=ADJ & chunk=B-NP>
+   * Example: Quote a regular expression so OpenRegex doesn't get confused:
+   *    <posre='.*(NOM|AKK).*'>
+   *
+   * See SYNTAX_EXPANSION for strings that get expanded before interpreted by OpenRegex.
+   * The chunks are added to the existing chunks, unless the last argument of build() is
+   * true, in which case existing chunks get overwritten.
+   */
+  
   private static final List<RegularExpressionWithPhraseType> REGEXES1 = Arrays.asList(
       // "das Auto", "das schöne Auto", "das sehr schöne Auto", "die Pariser Innenstadt":
       build("(<posre=^ART.*>|<pos=PRO>)? <pos=ADV>* <pos=PA2>* <pos=ADJ>* <pos=SUB>+", NP),

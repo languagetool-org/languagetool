@@ -15,6 +15,14 @@ LanguageTool Change Log
 
 -German:
     -added a few new rules
+    -Added a new rule that checks for subject verb agreement. For now, only cases
+     with 'ist', 'sind', 'war', and 'waren' are supported. Example for errors that
+     are detected: 'Der Hund sind schön.', 'Die Autos ist schnell.'
+     To make this rule work, phrases are now unified in disambiguation.xml: for
+     example, 'Mann' in the phrase 'ein Mann' will only retain its nominative
+     reading (SUB:NOM:SIN:MAS), whereas it used to have also accusative and
+     dative readings (SUB:AKK:SIN:MAS, SUB:DAT:SIN:MAS).
+     (https://github.com/languagetool-org/languagetool/issues/233)
 
 -Polish:
     -added a few new rules
