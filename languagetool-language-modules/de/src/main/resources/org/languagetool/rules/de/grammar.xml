@@ -22774,7 +22774,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Im <marker>allgemeinen</marker> und umgangssprachlichen Sprachgebrauch ist das anders.</example>
             </rule>
         </rulegroup>
-        <!-- TODO: activate again
         <rulegroup id="DES_UEBLICHEN" name="Groß-/Kleinschreibung: 'des üblichen (Üblichen)'">
         <rule>
             <pattern case_sensitive="yes">
@@ -22807,7 +22806,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Im Rahmen des <marker>Üblichen</marker>.</example>
         </rule>
         </rulegroup>
-        -->
         <rulegroup id="LEID_TUN" name="Groß-/Kleinschreibung: 'tut mir Leid (leid)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -23546,7 +23544,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das ist für <marker>die schönen Männer</marker>.</example>
                 <example correction="">Das ist für <marker>den schönen Männern</marker>.</example>
             </rule>
-            <!-- TODO: commented out 2/2015 due to problem after activating unification in disambiguation.xml
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
@@ -23562,7 +23559,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
                     <marker>
                         <token regexp="yes">[Ddsm]?ein|euer|Euer|ihr|Ihr|unser</token>
-                        <token postag="SUB:DAT:SIN:MAS"><exception postag="SUB:AKK:SIN:NEU"/></token>
+                        <token postag="SUB:(NOM|DAT):SIN:MAS" postag_regexp="yes"><exception postag="SUB:AKK:SIN:NEU"/></token>
                     </marker>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Akkusativ.</message>
@@ -23575,7 +23572,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er führte einen Markenrechtsstreit für <marker>ein Berliner</marker> Verkehrsunternehmen.</example>
                 <example correction="">Das ist für <marker>mein Mann</marker>.</example>
             </rule>
-            -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
