@@ -27,7 +27,7 @@ final class TokenPredicate extends edu.washington.cs.knowitall.logic.Expression.
 
   private final boolean caseSensitive;
 
-  public TokenPredicate(String description, boolean caseSensitive) {
+  TokenPredicate(String description, boolean caseSensitive) {
     super(description);
     this.caseSensitive = caseSensitive;
   }
