@@ -742,9 +742,10 @@ public class JLanguageTool {
     Pattern ignoredCharacterRegex = language.getIgnoredCharactersRegex();
     
     final Map<Integer, String> ignoredCharsTokens = new HashMap<>();
-    if( ignoredCharacterRegex == null )
+    if (ignoredCharacterRegex == null) {
       return ignoredCharsTokens;
-    
+    }
+
     for (int i = 0; i < tokens.size(); i++) {
       if ( ignoredCharacterRegex.matcher(tokens.get(i)).find() ) {
         ignoredCharsTokens.put(i, tokens.get(i));
