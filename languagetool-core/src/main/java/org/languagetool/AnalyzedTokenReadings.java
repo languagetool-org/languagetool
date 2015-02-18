@@ -329,6 +329,11 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return startPos;
   }
 
+  /** @since 2.9 */
+  public final int getEndPos() {
+    return startPos + token.length();
+  }
+
   public final void setStartPos(final int position) {
     startPos = position;
   }

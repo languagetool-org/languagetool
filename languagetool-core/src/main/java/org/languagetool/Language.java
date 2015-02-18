@@ -353,6 +353,14 @@ public abstract class Language {
   }
 
   /**
+   * Get this language's chunker implementation or {@code null}.
+   * @since 2.9
+   */
+  public Chunker getPostDisambiguationChunker() {
+    return null;
+  }
+
+  /**
    * Get this language's part-of-speech synthesizer implementation or {@code null}.
    */
   public Synthesizer getSynthesizer() {

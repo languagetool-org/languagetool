@@ -439,7 +439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token skip="5">auf<exception scope="next" regexp="yes">,|\(|oder|und|aus|etwa|circa</exception></token>
                 </marker>
-                <token skip="2" postag_regexp="yes" postag="SUB:AKK.*"><exception scope="next" regexp="yes">,|\(|oder|und|aus</exception></token>
+                <token skip="2" postag_regexp="yes" postag="SUB:GEN.*"><exception scope="next" regexp="yes">,|\(|oder|und|aus</exception></token>
                 <token inflected="yes">entfernen</token>
             </pattern>
             <message>Meinten Sie <suggestion>aus</suggestion>?</message>
@@ -3400,8 +3400,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>dies</token>
                 </marker>
-                <token min="0" max="2" postag_regexp="yes" postag="ADJ:(NOM|AKK):(PLU|(SIN:FEM)).*|PRO:DEM:DAT:PLU:NEU:B/S"/>
-                <token postag_regexp="yes" postag="SUB:(NOM|AKK):(PLU|(SIN:FEM)).*"/>
+                <token min="0" max="2" postag_regexp="yes" postag="ADJ:(NOM|AKK):(PLU|(SIN:FEM)).*|PRO:DEM:DAT:PLU:(MAS|FEM|NEU):B/S"/>
+                <token postag_regexp="yes" postag="SUB:(NOM|AKK|DAT):(PLU|(SIN:FEM)).*"/>
             </pattern>
             <message>Meinten Sie <suggestion>die</suggestion>?</message>
             <example>Als er die Kritik äußerte, rief <marker>dies</marker> Kritik hervor.</example>
@@ -9146,8 +9146,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
-                        <exception postag="SUB:.+:NEU" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">.*zeichen|Antiteilchen|Brötchen|Eichhörnchen|Elementarteilchen|Jungfernhäutchen|Kaninchen|Kopfzerbrechen|Mädchen|München|Ohrläppchen|Veilchen|Weibchen</exception>
+                        <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
+                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -9162,7 +9162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token>weibliche</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:FEM" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+in
-                        <exception postag="SUB:.+:FEM" postag_regexp="yes" negate_pos="yes"/>
+                        <exception postag="(SUB:.+:FEM)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
                     </token>
                 </pattern>
                 <message>Die Endung '-in' beinhaltet bereits das Merkmal 'weiblich'. In manchen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschläge: <suggestion>\2</suggestion>, <suggestion>Frau</suggestion>, <suggestion>Mädchen</suggestion></message>
@@ -9174,7 +9174,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern case_sensitive="yes">
                     <token regexp="yes">weiblichen?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:PLU:FEM" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+innen
-                        <exception postag="SUB:.+:FEM" postag_regexp="yes" negate_pos="yes"/>
+                        <exception postag="(SUB:.+:FEM)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
                     </token>
                 </pattern>
                 <message>Die Endung '-innen' beinhaltet bereits das Merkmal 'weiblich'. In manchen Kontexten kann diese Formulierung deswegen redundant erscheinen. Vorschläge: <suggestion>\2</suggestion>, <suggestion>Frauen</suggestion>, <suggestion>Mädchen</suggestion></message>
@@ -9802,7 +9802,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>auf</token>
                     </marker>
-                    <token><exception postag_regexp="yes" postag=".*:DAT:.*"/></token>
+                    <token><exception postag_regexp="yes" postag=".*:(DAT|AKK):.*"/></token>
                 </pattern>
                 <message>Die Verwendung von 'auf' in der Bedeutung <suggestion>offen</suggestion> oder <suggestion>geöffnet</suggestion> ist umgangssprachlich.</message>
                 <example>Die Tür ist <marker>geöffnet</marker>.</example>
@@ -15218,7 +15218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tiefe</token>
                     </marker>
-                    <token postag="SUB:(.+):SIN:FEM" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="SUB:(.+):SIN:FEM|NPS" postag_regexp="yes" negate_pos="yes"/>
                 </pattern>
                 <message>&subanfang;<suggestion>Tiefe</suggestion>&subende;</message>
                 <short>&prgk;.</short>
@@ -22774,38 +22774,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Im <marker>allgemeinen</marker> und umgangssprachlichen Sprachgebrauch ist das anders.</example>
             </rule>
         </rulegroup>
+        <!-- TODO: activate again
         <rulegroup id="DES_UEBLICHEN" name="Groß-/Kleinschreibung: 'des üblichen (Üblichen)'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">des|vom</token>
-                    <marker>
-                        <token>üblichen</token>
-                    </marker>
-                    <token>
-                        <exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
-                        <exception regexp="yes">,|oder|und</exception>
-                        <exception postag_regexp="yes" postag="ADJ:.*"/>
-                    </token>
-                </pattern>
-                <message>&subanfang;<suggestion>Üblichen</suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Üblichen">Im Rahmen des <marker>üblichen</marker>.</example>
-                <example>Im Rahmen des <marker>üblichen</marker> Verfahrens.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">des|vom</token>
-                    <marker>
-                        <token>Üblichen</token>
-                    </marker>
-                    <token postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
-                </pattern>
-                <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
-                <short>&prgk;.</short>
-                <example correction="üblichen">Im Rahmen des <marker>Üblichen</marker> Verfahrens.</example>
-                <example>Im Rahmen des <marker>Üblichen</marker>.</example>
-            </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">des|vom</token>
+                <marker>
+                    <token>üblichen</token>
+                </marker>
+                <token>
+                    <exception postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
+                    <exception regexp="yes">,|oder|und</exception>
+                    <exception postag_regexp="yes" postag="ADJ:.*"/>
+                </token>
+            </pattern>
+            <message>&subanfang;<suggestion>Üblichen</suggestion>&subende;</message>
+            <short>&prgk;.</short>
+            <example correction="Üblichen">Im Rahmen des <marker>üblichen</marker>.</example>
+            <example>Im Rahmen des <marker>üblichen</marker> Verfahrens.</example>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">des|vom</token>
+                <marker>
+                    <token>Üblichen</token>
+                </marker>
+                <token postag_regexp="yes" postag="SUB:.*|UNKNOWN"/>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" case_conversion="startlower"/></suggestion>?</message>
+            <short>&prgk;.</short>
+            <example correction="üblichen">Im Rahmen des <marker>Üblichen</marker> Verfahrens.</example>
+            <example>Im Rahmen des <marker>Üblichen</marker>.</example>
+        </rule>
         </rulegroup>
+        -->
         <rulegroup id="LEID_TUN" name="Groß-/Kleinschreibung: 'tut mir Leid (leid)'">
             <rule>
                 <pattern case_sensitive="yes">
@@ -23288,7 +23290,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="ADJ:PRD:GRU"><exception postag=".*(IND|SOL)" postag_regexp="yes"/><exception regexp="yes">&meinkleinhausausnahmen;</exception></token>
                         <token postag="SUB:.*" postag_regexp="yes">
                             <exception postag="SUB:.*:ADJ" postag_regexp="yes" />
-                            <exception postag="SUB:.*" postag_regexp="yes" negate_pos="yes"/>
+                            <exception postag="SUB:.*|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
                         </token>
                     </marker>
                     <token><exception regexp="yes">genannten|bezeichneten</exception></token>
@@ -23544,6 +23546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Das ist für <marker>die schönen Männer</marker>.</example>
                 <example correction="">Das ist für <marker>den schönen Männern</marker>.</example>
             </rule>
+            <!-- TODO: commented out 2/2015 due to problem after activating unification in disambiguation.xml
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
@@ -23572,6 +23575,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Er führte einen Markenrechtsstreit für <marker>ein Berliner</marker> Verkehrsunternehmen.</example>
                 <example correction="">Das ist für <marker>mein Mann</marker>.</example>
             </rule>
+            -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">betreffend|durch|für|gegen|kontra|ohne|via|wider</token>
@@ -25324,21 +25328,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error"><marker>Strauß’</marker> Politik</example>
                 <example correction="Zirkus">Der Direktor des <marker>Zirkus'</marker> Krone</example>
                 <example correction="Hauses">Der Direktor des <marker>Haus'</marker> Krone</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SENT_START" skip="-1"><exception scope="next" spacebefore="yes">'</exception></token>
-                    <token>des</token>
-                    <marker>
-                        <token postag="SUB:NOM:SIN:MAS" regexp="yes">[A-Z][a-zäöüß]+ismus</token>
-                        <token regexp="yes">'|’</token>
-                    </marker>
-                </pattern>
-                <message>Auf '-ismus' endende Lehnwörter werden im Genitiv ohne Apostroph geschrieben: <suggestion>\3</suggestion>.</message>
-                <short>Falscher Apostroph?</short>
-                <example correction="Sozialismus">Damit sollte der Aufbau des <marker>Sozialismus'</marker> zur Vollendung gebracht werden.</example>
-                <example>Damit sollte der Aufbau des <marker>Sozialismus</marker> zur Vollendung gebracht werden.</example>
-                <example>Damit sollte der 'Aufbau des Sozialismus' zur Vollendung gebracht werden.</example>
             </rule>
         </rulegroup>
         <rule id="PUNKT_UND_KLAMMER" name="Zeichensetzung: Punkt und Klammer bei Aufzählungen, z.B. '1.)'" default="off">

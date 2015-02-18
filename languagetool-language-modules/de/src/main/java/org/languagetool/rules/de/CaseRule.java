@@ -556,11 +556,18 @@ public class CaseRule extends GermanRule {
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
     // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-    for (AnalyzedToken reading : readings) {
-      String posTag = reading.getPOSTag();
-      if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
-        return true;
+    try {
+      AnalyzedTokenReadings allReadings = tagger.lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
+      if (allReadings != null) {
+        for (AnalyzedToken reading : allReadings) {
+          String posTag = reading.getPOSTag();
+          if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
+            return true;
+          }
+        }
       }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not lookup " + readings.getToken(), e);
     }
     return false;
   }

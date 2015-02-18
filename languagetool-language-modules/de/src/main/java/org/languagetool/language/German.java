@@ -27,6 +27,8 @@ import java.util.ResourceBundle;
 import de.abelssoft.wordtools.jwordsplitter.AbstractWordSplitter;
 import de.abelssoft.wordtools.jwordsplitter.impl.GermanWordSplitter;
 import org.languagetool.Language;
+import org.languagetool.chunking.Chunker;
+import org.languagetool.chunking.GermanChunker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
@@ -51,6 +53,7 @@ public class German extends Language {
   private Synthesizer synthesizer;
   private SentenceTokenizer sentenceTokenizer;
   private Disambiguator disambiguator;
+  private GermanChunker chunker;
   private String name = "German";
   private CompoundWordTokenizer compoundTokenizer;
   private GermanCompoundTokenizer strictCompoundTokenizer;
@@ -66,6 +69,17 @@ public class German extends Language {
       disambiguator = new GermanRuleDisambiguator();
     }
     return disambiguator;
+  }
+
+  /**
+   * @since 2.9
+   */
+  @Override
+  public Chunker getPostDisambiguationChunker() {
+    if (chunker == null) {
+      chunker = new GermanChunker();
+    }
+    return chunker;
   }
 
   @Override
@@ -156,6 +170,7 @@ public class German extends Language {
             new CompoundRule(messages),
             new DashRule(messages),
             new VerbAgreementRule(messages, this),
+            new SubjectVerbAgreementRule(messages),
             new WordCoherencyRule(messages),
             new WiederVsWiderRule(messages)
     );

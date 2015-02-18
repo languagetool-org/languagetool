@@ -675,7 +675,11 @@ public class JLanguageTool {
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
-    return language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+    AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+    if (language.getPostDisambiguationChunker() != null) {
+      language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+    }
+    return analyzedSentence;
   }
 
   /**
