@@ -57,7 +57,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   private static int getDefaultThreadCount() {
     String threadCountStr = System.getProperty("org.languagetool.thread_count", "-1");
     int threadPoolSize = Integer.parseInt(threadCountStr);
-    if( threadPoolSize == -1 ) {
+    if (threadPoolSize == -1) {
       threadPoolSize = Runtime.getRuntime().availableProcessors();
     }
     return threadPoolSize;
@@ -76,10 +76,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * Set the amount of threads to use for checking.
    */
   public void setThreadPoolSize(int threadPoolSize) {
-    if( newFixedThreadPool != null )
+    if (newFixedThreadPool != null)
       throw new IllegalStateException("Thread pool already initialized");
     
-    if( threadPoolSize >= 1 ) {
+    if (threadPoolSize >= 1) {
       this.threadPoolSize = threadPoolSize;
     }
     else {
@@ -91,7 +91,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
    * @return a fixed size executor with the given number of threads
    */
   protected ExecutorService getExecutorService() {
-    if( newFixedThreadPool == null ) {
+    if (newFixedThreadPool == null) {
       newFixedThreadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
     }
     return newFixedThreadPool;
