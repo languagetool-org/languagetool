@@ -55,7 +55,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   private static int getDefaultThreadCount() {
-    String threadCountStr = System.getProperty("org.languagetool.thread_count", "-1");
+    String threadCountStr = System.getProperty("org.languagetool.thread_count_internal", "-1");
     int threadPoolSize = Integer.parseInt(threadCountStr);
     if (threadPoolSize == -1) {
       threadPoolSize = Runtime.getRuntime().availableProcessors();
