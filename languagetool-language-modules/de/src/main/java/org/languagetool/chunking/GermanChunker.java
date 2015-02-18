@@ -25,6 +25,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static org.languagetool.chunking.GermanChunker.PhraseType.*;
+
 /**
  * @since 2.9
  */
@@ -39,6 +41,36 @@ public class GermanChunker implements Chunker {
 
   private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS"));
   private static final TokenExpressionFactory factory = new TokenExpressionFactory(false);
+
+  private static final List<RegularExpressionWithPhraseType> regexes = Arrays.asList(
+      // "das Auto", "das schöne Auto", "das sehr schöne Auto", "die Pariser Innenstadt":
+      build("(<posre=^ART.*>|<pos=PRO>)? <pos=ADV>* <pos=PA2>* <pos=ADJ>* <pos=SUB>+", NP),
+      // "Mythen und Sagen":
+      build("<pos=SUB> (<und|oder>|(<bzw> <.>)) <pos=SUB>", NP),
+      // "ältesten und bekanntesten Maßnahmen":
+      build("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=PA2> <pos=SUB>", NP),
+      // "räumliche und zeitliche Abstände":
+      build("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=ADJ> <pos=SUB>", NP),
+
+      // "eine leckere Lasagne":
+      build("<posre=^ART.*> <pos=ADV>* <pos=ADJ>* <regexCS=[A-ZÖÄÜ][a-zöäü]+>", NP),  // Lexikon kennt nicht alle Nomen, also so...
+
+      //build("<posre=^ART.*>? <pos=PRO>? <pos=ZAL> <pos=SUB>"),  // "zwei Wochen"
+      build("<pos=PRO>? <pos=ZAL> <pos=SUB>", NP),  // "zwei Wochen", "[eines] ihrer drei Autos"
+
+      build("<Herr|Herrn|Frau> <pos=EIG>+", NP),
+      build("<Herr|Herrn|Frau> <regexCS=[A-ZÖÄÜ][a-zöäü-]+>+", NP),  // für seltene Nachnamen, die nicht im Lexikon sind
+
+      build("<der>", NP)  // simulate OpenNLP?!
+  );
+
+  private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType) {
+    String expandedExpr = expr
+            .replace("<NP>", "<chunk=B-NP> <chunk=I-NP>*")
+            .replace("&prozent;", "Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund");
+    RegularExpression<ChunkTaggedToken> expression = RegularExpression.compile(expandedExpr, factory);
+    return new RegularExpressionWithPhraseType(expression, phraseType);
+  }
 
   private final GermanChunkFilter chunkFilter;
 
@@ -69,25 +101,9 @@ public class GermanChunker implements Chunker {
       System.out.println("=============== CHUNKER INPUT ===============");
       System.out.println(getDebugString(tokens));
     }
-    // "das Auto", "das schöne Auto", "das sehr schöne Auto", "die Pariser Innenstadt":
-    apply("(<posre=^ART.*>|<pos=PRO>)? <pos=ADV>* <pos=PA2>* <pos=ADJ>* <pos=SUB>+", PhraseType.NP, tokens);
-    // "Mythen und Sagen":
-    apply("<pos=SUB> (<und|oder>|(<bzw> <.>)) <pos=SUB>", PhraseType.NP, tokens);
-    // "ältesten und bekanntesten Maßnahmen":
-    apply("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=PA2> <pos=SUB>", PhraseType.NP, tokens);
-    // "räumliche und zeitliche Abstände":
-    apply("<pos=ADJ> (<und|oder>|(<bzw> <.>)) <pos=ADJ> <pos=SUB>", PhraseType.NP, tokens);
-
-    // "eine leckere Lasagne":
-    apply("<posre=^ART.*> <pos=ADV>* <pos=ADJ>* <regexCS=[A-ZÖÄÜ][a-zöäü]+>", PhraseType.NP, tokens);  // Lexikon kennt nicht alle Nomen, also so...
-
-    //apply("<posre=^ART.*>? <pos=PRO>? <pos=ZAL> <pos=SUB>", PhraseType.NP, tokens);  // "zwei Wochen"
-    apply("<pos=PRO>? <pos=ZAL> <pos=SUB>", PhraseType.NP, tokens);  // "zwei Wochen", "[eines] ihrer drei Autos"
-
-    apply("<Herr|Herrn|Frau> <pos=EIG>+", PhraseType.NP, tokens);
-    apply("<Herr|Herrn|Frau> <regexCS=[A-ZÖÄÜ][a-zöäü-]+>+", PhraseType.NP, tokens);  // für seltene Nachnamen, die nicht im Lexikon sind
-
-    apply("<der>", PhraseType.NP, tokens);  // simulate OpenNLP?!
+    for (RegularExpressionWithPhraseType regex : regexes) {
+      apply(regex, tokens);
+    }
     return tokens;
   }
 
@@ -105,26 +121,26 @@ public class GermanChunker implements Chunker {
   // TODO: avoid duplication with GermanChunkFilter
   //
 
-  private List<ChunkTaggedToken> apply(String regexStr, PhraseType newChunkName, List<ChunkTaggedToken> tokens) {
-    return apply(regexStr, newChunkName, tokens, false);
+  private List<ChunkTaggedToken> apply(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens) {
+    return apply(regex, tokens, false);
   }
 
-  private List<ChunkTaggedToken> apply(String regexStr, PhraseType newChunkName, List<ChunkTaggedToken> tokens, boolean overwrite) {
+  private List<ChunkTaggedToken> apply(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens, boolean overwrite) {
     String prevDebug = getDebugString(tokens);
     try {
-      AffectedSpans affectedSpans = doApplyRegex(regexStr, newChunkName, tokens, overwrite);
+      AffectedSpans affectedSpans = doApplyRegex(regex, tokens, overwrite);
       String debug = getDebugString(tokens);
       if (!debug.equals(prevDebug)) {
-        printDebugInfo(regexStr, newChunkName, overwrite, affectedSpans, debug);
+        printDebugInfo(regex, overwrite, affectedSpans, debug);
       }
     } catch (Exception e) {
-      throw new RuntimeException("Could not apply chunk regexp '" + regexStr + "' to tokens: " + tokens, e);
+      throw new RuntimeException("Could not apply chunk regexp '" + regex + "' to tokens: " + tokens, e);
     }
     return tokens;
   }
 
-  private void printDebugInfo(String regexStr, PhraseType newChunkName, boolean overwrite, AffectedSpans affectedSpans, String debug) {
-    System.out.println("=== Applied " + newChunkName + ": " + regexStr + " ===");
+  private void printDebugInfo(RegularExpressionWithPhraseType regex, boolean overwrite, AffectedSpans affectedSpans, String debug) {
+    System.out.println("=== Applied " + regex.phraseType + ": " + regex + " ===");
     if (overwrite) {
       System.out.println("Note: overwrite mode, replacing old " + FILTER_TAGS + " tags");
     }
@@ -141,12 +157,8 @@ public class GermanChunker implements Chunker {
     System.out.println();
   }
 
-  private AffectedSpans doApplyRegex(String regexStr, PhraseType newChunkName, List<ChunkTaggedToken> tokens, boolean overwrite) {
-    String expandedRegex = regexStr
-            .replace("<NP>", "<chunk=B-NP> <chunk=I-NP>*")
-            .replace("&prozent;", "Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund");
-    RegularExpression<ChunkTaggedToken> regex = RegularExpression.compile(expandedRegex, factory);
-    List<Match<ChunkTaggedToken>> matches = regex.findAll(tokens);
+  private AffectedSpans doApplyRegex(RegularExpressionWithPhraseType regex, List<ChunkTaggedToken> tokens, boolean overwrite) {
+    List<Match<ChunkTaggedToken>> matches = regex.expression.findAll(tokens);
     List<Span> affectedSpans = new ArrayList<>();
     for (Match<ChunkTaggedToken> match : matches) {
       affectedSpans.add(new Span(match.startIndex(), match.endIndex()));
@@ -173,7 +185,6 @@ public class GermanChunker implements Chunker {
           newChunkTags.add(newTag);
           newChunkTags.remove(new ChunkTag("O"));
         }
-        //System.out.println("***"+newChunkTags);
         tokens.set(i, new ChunkTaggedToken(token.getToken(), newChunkTags, token.getReadings()));
       }
     }
@@ -215,4 +226,12 @@ public class GermanChunker implements Chunker {
     }
   }
 
+  private static class RegularExpressionWithPhraseType {
+    final RegularExpression<ChunkTaggedToken> expression;
+    final PhraseType phraseType;
+    RegularExpressionWithPhraseType(RegularExpression<ChunkTaggedToken> expression, PhraseType phraseType) {
+      this.expression = expression;
+      this.phraseType = phraseType;
+    }
+  }
 }

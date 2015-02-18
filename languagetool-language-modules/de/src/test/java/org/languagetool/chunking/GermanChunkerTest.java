@@ -32,12 +32,7 @@ import static junit.framework.TestCase.fail;
 
 public class GermanChunkerTest {
 
-  private final JLanguageTool lt = new JLanguageTool(new German() {
-    @Override
-    public Chunker getPostDisambiguationChunker() {
-      return new GermanChunker();
-    }
-  });
+  private final JLanguageTool lt = new JLanguageTool(new German());
 
   // B = begin, will be expanded to B-NP, I = inner, will be expanded to I-NP
   @Test
