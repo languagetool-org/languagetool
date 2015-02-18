@@ -19,6 +19,7 @@
 package org.languagetool.rules.ru;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Russian;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
@@ -36,7 +37,7 @@ public class RussianCompoundRuleTest extends AbstractCompoundRuleTest {
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new Russian());
-    rule = new RussianCompoundRule(null);
+    rule = new RussianCompoundRule(TestTools.getEnglishMessages());
   }
   
   public void testRule() throws IOException {

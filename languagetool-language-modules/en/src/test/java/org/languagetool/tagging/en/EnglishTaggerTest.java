@@ -29,9 +29,6 @@ import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tokenizers.WordTokenizer;
 
-/**
- * @author Daniel Naber
- */
 public class EnglishTaggerTest extends TestCase {
 
   private EnglishTagger tagger;

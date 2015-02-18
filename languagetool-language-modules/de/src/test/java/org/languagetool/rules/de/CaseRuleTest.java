@@ -24,6 +24,7 @@ import junit.framework.TestCase;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 /**
@@ -36,12 +37,11 @@ public class CaseRuleTest extends TestCase {
 
   @Override
   public void setUp() throws IOException {
-    rule = new CaseRule(null, new German());
+    rule = new CaseRule(TestTools.getMessages("de"), new German());
     langTool = new JLanguageTool(new German());
   }
 
   public void testRuleActivation() throws IOException {
-    CaseRule rule = new CaseRule(null, new German());
     assertTrue(rule.supportsLanguage(new German()));
   }
 

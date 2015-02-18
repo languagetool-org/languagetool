@@ -21,19 +21,17 @@ package org.languagetool.rules.en;
 import java.io.IOException;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
-/**
- * @author Daniel Naber
- */
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new English());
-    rule = new CompoundRule(null);
+    rule = new CompoundRule(TestTools.getEnglishMessages());
   }
   
   public void testRule() throws IOException {

@@ -20,13 +20,14 @@ package org.languagetool.rules.de;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 
 public class WiederVsWiderRuleTest extends TestCase {
 
-  private final WiederVsWiderRule rule = new WiederVsWiderRule(null);
+  private final WiederVsWiderRule rule = new WiederVsWiderRule(TestTools.getMessages("de"));
 
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German());

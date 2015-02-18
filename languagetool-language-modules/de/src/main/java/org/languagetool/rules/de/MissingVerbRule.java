@@ -58,9 +58,7 @@ public class MissingVerbRule extends GermanRule {
     rule2 = new PatternRule("internal", language, Arrays.asList(
             new Element("Herzlichen", true, false, false),
             new Element("Glückwunsch", true, false, false)), "", "", "");
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_grammar")));
-    }
+    super.setCategory(new Category(messages.getString("category_grammar")));
     setDefaultOff();
     addExamplePair(Example.wrong("<marker>In diesem Satz kein Wort.</marker>"),
                    Example.fixed("In diesem Satz <marker>fehlt</marker> kein Wort."));

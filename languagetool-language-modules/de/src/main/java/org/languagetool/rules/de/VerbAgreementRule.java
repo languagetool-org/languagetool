@@ -103,9 +103,7 @@ public class VerbAgreementRule extends GermanRule {
 
   public VerbAgreementRule(final ResourceBundle messages, German language) {
     this.language = language;
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_grammar")));
-    }
+    super.setCategory(new Category(messages.getString("category_grammar")));
     addExamplePair(Example.wrong("Ich <marker>bist</marker> über die Entwicklung sehr froh."),
                    Example.fixed("Ich <marker>bin</marker> über die Entwicklung sehr froh."));
   }
