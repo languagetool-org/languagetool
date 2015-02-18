@@ -119,12 +119,14 @@ public class GermanChunkerTest {
   }
 
   private void assertChunks(String input, String plainInput, List<ChunkTaggedToken> basicChunks, List<String> expectedChunks) {
-    int i = 1;  // skip SENT_START
+    int i = 0;
     for (String expectedChunk : expectedChunks) {
       ChunkTaggedToken outputChunksHere = basicChunks.get(i);
       if (!outputChunksHere.getChunkTags().contains(new ChunkTag(expectedChunk))) {
-        fail("Expected " + expectedChunk + " but got " + outputChunksHere + " at position " + i +
-                " for input:\n  " + input + "\nPlain input:\n  " + plainInput);
+        fail("Expected " + expectedChunk + " but got " + outputChunksHere + " at position " + i + " for input:\n  " + input +
+             "\nPlain input:\n  " + plainInput +
+             "\nBasic chunks:\n  " + basicChunks +
+             "\nExpected:\n  " + expectedChunks);
       }
       i++;
     }

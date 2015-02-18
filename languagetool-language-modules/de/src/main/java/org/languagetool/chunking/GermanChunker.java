@@ -32,6 +32,15 @@ import static org.languagetool.chunking.GermanChunker.PhraseType.*;
  */
 public class GermanChunker implements Chunker {
 
+  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS"));
+  private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
+
+  private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
+  static {
+    SYNTAX_EXPANSION.put("<NP>", "<chunk=B-NP> <chunk=I-NP>*");
+    SYNTAX_EXPANSION.put("&prozent;", "Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund");
+  }
+
   enum PhraseType {
     NP,   // "noun phrase"
     NPS,  // "noun phrase singular"
@@ -48,9 +57,6 @@ public class GermanChunker implements Chunker {
     return debug;
   }
   private static boolean debug = false;
-
-  private static final Set<String> FILTER_TAGS = new HashSet<>(Arrays.asList("PP", "NPP", "NPS"));
-  private static final TokenExpressionFactory FACTORY = new TokenExpressionFactory(false);
 
   private static final List<RegularExpressionWithPhraseType> REGEXES1 = Arrays.asList(
       // "das Auto", "das schöne Auto", "das sehr schöne Auto", "die Pariser Innenstadt":
@@ -217,9 +223,10 @@ public class GermanChunker implements Chunker {
   }
 
   private static RegularExpressionWithPhraseType build(String expr, PhraseType phraseType, boolean overwrite) {
-    String expandedExpr = expr
-            .replace("<NP>", "<chunk=B-NP> <chunk=I-NP>*")
-            .replace("&prozent;", "Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund");
+    String expandedExpr = expr;
+    for (Map.Entry<String, String> entry : SYNTAX_EXPANSION.entrySet()) {
+      expandedExpr = expandedExpr.replace(entry.getKey(), entry.getValue());
+    }
     RegularExpression<ChunkTaggedToken> expression = RegularExpression.compile(expandedExpr, FACTORY);
     return new RegularExpressionWithPhraseType(expression, phraseType, overwrite);
   }
@@ -239,9 +246,11 @@ public class GermanChunker implements Chunker {
   List<ChunkTaggedToken> getBasicChunks(List<AnalyzedTokenReadings> tokenReadings) {
     List<ChunkTaggedToken> chunkTaggedTokens = new ArrayList<>();
     for (AnalyzedTokenReadings tokenReading : tokenReadings) {
-      List<ChunkTag> chunkTags = Collections.singletonList(new ChunkTag("O"));
-      ChunkTaggedToken chunkTaggedToken = new ChunkTaggedToken(tokenReading.getToken(), chunkTags, tokenReading);
-      chunkTaggedTokens.add(chunkTaggedToken);
+      if (!tokenReading.isWhitespace()) {
+        List<ChunkTag> chunkTags = Collections.singletonList(new ChunkTag("O"));
+        ChunkTaggedToken chunkTaggedToken = new ChunkTaggedToken(tokenReading.getToken(), chunkTags, tokenReading);
+        chunkTaggedTokens.add(chunkTaggedToken);
+      }
     }
     if (debug) {
       System.out.println("=============== CHUNKER INPUT ===============");
@@ -294,17 +303,7 @@ public class GermanChunker implements Chunker {
           }
           newChunkTags = filtered;
         }
-        ChunkTag newTag;
-        if (regex.phraseType == NP) {
-          // we assign the same tags as the OpenNLP chunker
-          if (i == match.startIndex()) {
-            newTag = new ChunkTag("B-NP");
-          } else {
-            newTag = new ChunkTag("I-NP");
-          }
-        } else {
-          newTag = new ChunkTag(regex.phraseType.name());
-        }
+        ChunkTag newTag = getChunkTag(regex, match, i);
         if (!newChunkTags.contains(newTag)) {
           newChunkTags.add(newTag);
           newChunkTags.remove(new ChunkTag("O"));
@@ -313,6 +312,21 @@ public class GermanChunker implements Chunker {
       }
     }
     return new AffectedSpans(affectedSpans);
+  }
+
+  private ChunkTag getChunkTag(RegularExpressionWithPhraseType regex, Match<ChunkTaggedToken> match, int i) {
+    ChunkTag newTag;
+    if (regex.phraseType == NP) {
+      // we assign the same tags as the OpenNLP chunker
+      if (i == match.startIndex()) {
+        newTag = new ChunkTag("B-NP");
+      } else {
+        newTag = new ChunkTag("I-NP");
+      }
+    } else {
+      newTag = new ChunkTag(regex.phraseType.name());
+    }
+    return newTag;
   }
 
   private void printDebugInfo(RegularExpressionWithPhraseType regex, AffectedSpans affectedSpans, String debug) {
