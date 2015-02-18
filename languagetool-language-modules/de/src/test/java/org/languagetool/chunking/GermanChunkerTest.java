@@ -18,7 +18,6 @@
  */
 package org.languagetool.chunking;
 
-import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
@@ -26,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.fail;
@@ -37,7 +37,7 @@ public class GermanChunkerTest {
   // B = begin, will be expanded to B-NP, I = inner, will be expanded to I-NP
   @Test
   public void testOpenNLPLikeChunking() throws Exception {
-    GermanChunker.DEBUG = true;
+    //GermanChunker.setDebug(true);
     assertChunks("Ein/B Haus/I");
     assertChunks("Da steht ein/B Haus/I");
     assertChunks("Da steht ein/B schönes/I Haus/I");
@@ -66,9 +66,9 @@ public class GermanChunkerTest {
 
   @Test
   public void testTemp() throws Exception {
-    //GermanChunker2.DEBUG = true;
-    //assertChunks("Eines ihrer/B drei/I Autos/I ist blau");
+    assertChunks("Ein/B Haus/I");
     //TODO:
+    //assertChunks("Eines ihrer/B drei/I Autos/I ist blau");
     //assertChunks("Das/B Wasser/I , das Wärme/B überträgt");  // keine Kongruenz bzgl. Genus -> keine NP
     //assertChunks("Das/B Wasser/I , das viel/B Wärme/I überträgt");  // keine Kongruenz bzgl. Genus -> keine NP
     //assertChunks("Das/B Wasser/I , das wohlige/B Wärme/I überträgt");  // keine Kongruenz bzgl. Genus -> keine NP
@@ -91,26 +91,10 @@ public class GermanChunkerTest {
     String plainInput = input.replaceAll("/[A-Z-]*", "").replace(" ,", ",");
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(plainInput);
     AnalyzedTokenReadings[] result = analyzedSentence.getTokensWithoutWhitespace();
-    List<List<String>> outputChunks = new ArrayList<>();
-    for (AnalyzedTokenReadings analyzedTokens : result) {
-      List<String> chunks = new ArrayList<>();
-      for (ChunkTag chunk : analyzedTokens.getChunkTags()) {
-        chunks.add(chunk.getChunkTag());
-      }
-      outputChunks.add(chunks);
-    }
+    GermanChunker chunker = new GermanChunker();
+    List<ChunkTaggedToken> basicChunks = chunker.getBasicChunks(Arrays.asList(result));
     List<String> expectedChunks = getExpectedChunks(input);
-    int i = 1;  // skip SENT_START
-    for (String expectedChunk : expectedChunks) {
-      List<String> outputChunksHere = outputChunks.get(i);
-      if (!outputChunksHere.contains(expectedChunk)) {
-        List<List<String>> displayOutput = new ArrayList<>(outputChunks);
-        displayOutput.remove(0);  // SENT_START
-        fail("Expected " + expectedChunk + " but got " + outputChunksHere + " at position " + i +
-                " for input:\n  " + input + "\nPlain input:\n  " + plainInput + "\nOutput:\n  " + StringUtils.join(displayOutput, " "));
-      }
-      i++;
-    }
+    assertChunks(input, plainInput, basicChunks, expectedChunks);
   }
 
   private List<String> getExpectedChunks(String input) {
@@ -132,6 +116,18 @@ public class GermanChunkerTest {
       }
     }
     return expectedChunks;
+  }
+
+  private void assertChunks(String input, String plainInput, List<ChunkTaggedToken> basicChunks, List<String> expectedChunks) {
+    int i = 1;  // skip SENT_START
+    for (String expectedChunk : expectedChunks) {
+      ChunkTaggedToken outputChunksHere = basicChunks.get(i);
+      if (!outputChunksHere.getChunkTags().contains(new ChunkTag(expectedChunk))) {
+        fail("Expected " + expectedChunk + " but got " + outputChunksHere + " at position " + i +
+                " for input:\n  " + input + "\nPlain input:\n  " + plainInput);
+      }
+      i++;
+    }
   }
 
 }

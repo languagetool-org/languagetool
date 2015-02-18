@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.chunking.GermanChunkFilter;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
@@ -423,9 +422,8 @@ public class SubjectVerbAgreementRuleTest {
   }
 
   private void fail(String message, String input) throws IOException {
-    if (!GermanChunker.DEBUG && ! GermanChunkFilter.DEBUG) {
-      GermanChunker.DEBUG = true;
-      GermanChunkFilter.DEBUG = true;
+    if (!GermanChunker.isDebug()) {
+      GermanChunker.setDebug(true);
       getMatches(input);  // run again with debug mode
     }
     Assert.fail(message);

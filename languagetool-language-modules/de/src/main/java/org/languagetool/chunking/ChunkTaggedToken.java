@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * TODO: also exist in EN, avoid duplication!
+ * @since 2.9
  */
 class ChunkTaggedToken {
 
