@@ -50,7 +50,6 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
     super(language, motherTongue);
-    
     threadPoolSize = getDefaultThreadCount();
   }
 
@@ -81,8 +80,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     
     if (threadPoolSize >= 1) {
       this.threadPoolSize = threadPoolSize;
-    }
-    else {
+    } else {
       this.threadPoolSize = getDefaultThreadCount();
     }
   }
@@ -105,7 +103,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
     int j = 0;
     
-    List<Callable<AnalyzedSentence>> callables = new ArrayList<Callable<AnalyzedSentence>>();
+    List<Callable<AnalyzedSentence>> callables = new ArrayList<>();
     for (final String sentence : sentences) {
       AnalyzeSentenceCallable analyzeSentenceCallable = 
           ++j < sentences.size() 
@@ -210,7 +208,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     }
   }
 
-  private final static class DaemonThreadFactory implements ThreadFactory {
+  private static final class DaemonThreadFactory implements ThreadFactory {
     @Override
     public Thread newThread(Runnable r) {
       Thread thread = new Thread(r);
