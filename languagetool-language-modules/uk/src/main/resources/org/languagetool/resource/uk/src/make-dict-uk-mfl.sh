@@ -38,7 +38,7 @@ FSA_FLAGS="-f cfsa2"
 # grep -v ":bad"
 
 
-sed -r "/adjp/ s/:&adj//" tagged.main.txt | sed -r "/adjp/ s/adjp:....:..../adj/" > tagged.main.txt2
+cat tagged.main.txt | sed -r "/adjp/ s/adjp(:pasv|:actv|:pres|:past|:perf|:imperf)+(.*)/adj\\2/" | sed -r "/&adj/ s/:&adj//" > tagged.main.txt2
 
 TAGGED_DICT="tagged.main.txt2"
 #TAGGED_DICT="tagged.main.txt"
