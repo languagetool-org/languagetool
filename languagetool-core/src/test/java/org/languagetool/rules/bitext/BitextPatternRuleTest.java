@@ -139,7 +139,7 @@ public class BitextPatternRuleTest extends TestCase {
 
   private void testBitextRule(final BitextPatternRule rule, final Language lang,
                               final JLanguageTool languageTool) throws IOException {
-    final JLanguageTool srcTool = new JLanguageTool(rule.getSourceLang());
+    final JLanguageTool srcTool = new JLanguageTool(rule.getSourceLanguage());
     final List<StringPair> goodSentences = rule.getCorrectBitextExamples();
     for (StringPair goodSentence : goodSentences) {
       assertTrue(cleanSentence(goodSentence.getSource()).trim().length() > 0);
