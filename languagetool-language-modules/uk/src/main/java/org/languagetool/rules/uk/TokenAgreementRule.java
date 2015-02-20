@@ -87,6 +87,15 @@ public class TokenAgreementRule extends Rule {
   public boolean isCaseSensitive() {
     return false;
   }
+  
+  private static boolean hasMultiword(AnalyzedTokenReadings analyzedTokenReadings) {
+      for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+        String posTag = analyzedToken.getPOSTag();
+        if( posTag != null && posTag.startsWith("<") )
+          return true;
+      }
+      return false;
+  }
 
   @Override
   public final RuleMatch[] match(final AnalyzedSentence text) {
@@ -102,14 +111,22 @@ public class TokenAgreementRule extends Rule {
 
       //TODO: skip conj напр. «бодай»
 
-      if (posTag == null || posTag.contains(IPOSTag.unknown.getText()) || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
+      if (posTag == null
+          || posTag.contains(IPOSTag.unknown.getText())
+          || posTag.equals(JLanguageTool.SENTENCE_START_TAGNAME) ){
         reqTokenReadings = null;
         continue;
       }
 
+
       String token = tokenReadings.getAnalyzedToken(0).getToken();
       if( posTag.contains(REQUIRE_VIDMINOK_SUBSTR) && tokenReadings.getReadingsLength() == 1 ) {
         String prep = token;
+
+        if( hasMultiword(tokenReadings) ) {
+          reqTokenReadings = null;
+          continue;
+        }
 
         if( prep.equals("за") && reverseSearch(tokens, i, "що") )
           continue;
@@ -137,12 +154,13 @@ public class TokenAgreementRule extends Rule {
       //        && Character.isUpperCase(tokens[i+1].getAnalyzedToken(0).getToken().charAt(0)) )
       //          continue; // "у Конан Дойла"
 
+      String prep = reqTokenReadings.getAnalyzedToken(0).getToken();
 
       //TODO: for numerics only v_naz
-      if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
+      if( prep.equalsIgnoreCase("понад") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
         posTagsToFind.add("v_naz");
       }
-      if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("замість") ) { //&& tokenReadings.getAnalyzedToken(0).getPOSTag().equals(IPOSTag.numr) ) { 
+      if( prep.equalsIgnoreCase("замість") ) {
         posTagsToFind.add("v_naz");
       }
 
@@ -170,7 +188,6 @@ public class TokenAgreementRule extends Rule {
 //          continue;
 //        }
 
-        String prep = reqTokenReadings.getAnalyzedToken(0).getToken();
         if( prep.equalsIgnoreCase("до") ) {
           if( tokenReadings.getAnalyzedToken(0).getToken().compareToIgnoreCase("Я") == 0 ) {  // від А до Я
             reqTokenReadings = null;
@@ -200,8 +217,8 @@ public class TokenAgreementRule extends Rule {
             continue;
           }
 
-          if( reqTokenReadings.getAnalyzedToken(0).getToken().equalsIgnoreCase("через")
-              && token.equals("років") 
+          if( (prep.equalsIgnoreCase("через") || prep.equalsIgnoreCase("на"))  // років 10, відсотки 3-4
+              && (posTag.startsWith("noun:p:v_naz") || posTag.startsWith("noun:p:v_rod")) // token.equals("років") 
               && IPOSTag.isNum(tokens[i+1].getAnalyzedToken(0).getPOSTag()) ) {
             reqTokenReadings = null;
             continue;

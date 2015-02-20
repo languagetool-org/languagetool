@@ -58,6 +58,20 @@ $Id$
       </rule>
     </rulegroup>
 
+    <rulegroup id="PRYKM_Z_RAZOM" name="Прикметники з префіксами разом">
+      <rule>   
+        <pattern>
+          <token regexp="yes" postag_regexp="yes" postag="adj.*">(багато|мульти)-.*</token>
+        </pattern>
+        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)-(.*)" regexp_replace="$1$2"/></suggestion></message>
+        <short>Правильно писати разом</short>
+        <example correction="Багатоповерховий"><marker>Багато-поверховий</marker> будинок.</example>
+        <!--
+        <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
+        -->
+      </rule>
+    </rulegroup>
+
     <rulegroup id="PIV_Z_VLASN_NAZV" name="пів- з усіма власними назвами пишемо через дефіс">
       <!-- TODO: use proper noun tag to make it generic -->
       <rule>   

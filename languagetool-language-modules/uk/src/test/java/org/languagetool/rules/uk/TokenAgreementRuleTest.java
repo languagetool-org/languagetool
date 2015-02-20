@@ -68,6 +68,8 @@ public class TokenAgreementRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("що за людина")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("що балотувався за цім округом")).length);
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("на дому")).length);
+
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("окрім як українці"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("за двісті метрів"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("переходить у Фрідріх Штрассе"))));
@@ -75,6 +77,7 @@ public class TokenAgreementRuleTest {
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до мінус сорока градусів"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("до мінус шістдесяти"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через років 10"))));
+    assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("на хвилин 9-10"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("співпрацювати із собі подібними"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через усім відомі причини"))));
     assertEquals(new ArrayList<RuleMatch>(), Arrays.asList(rule.match(langTool.getAnalyzedSentence("через нікому не відомі причини"))));
@@ -98,6 +101,9 @@ public class TokenAgreementRuleTest {
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("неба"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("не в останню чергу через    корупцією, міжрелігійну ворожнечу"));
+    assertEquals(1, matches.length);
 
     matches = rule.match(langTool.getAnalyzedSentence("по нервам"));
     // check match positions:
