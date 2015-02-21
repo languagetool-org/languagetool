@@ -479,9 +479,11 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
-    final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
+
+//    Collections.sort(ruleMatches);  // SameRuleGroupFilter sorts rule matches already
     
-    Collections.sort(ruleMatches);
     return ruleMatches;
   }
   
@@ -569,8 +571,7 @@ public class JLanguageTool {
         sentenceMatches.add(thisMatch);
       }
     }
-    final RuleMatchFilter filter = new SameRuleGroupFilter();
-    return filter.filter(sentenceMatches);
+    return new SameRuleGroupFilter().filter(sentenceMatches);
   }
 
   private boolean ignoreRule(Rule rule) {

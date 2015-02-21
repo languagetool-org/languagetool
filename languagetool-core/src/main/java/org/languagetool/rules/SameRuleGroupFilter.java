@@ -39,15 +39,16 @@ public class SameRuleGroupFilter implements RuleMatchFilter {
     final List<RuleMatch> filteredRules = new ArrayList<>();
     for (int i = 0; i < ruleMatches.size(); i++) {
       final RuleMatch match = ruleMatches.get(i);
-      if (i <  ruleMatches.size() - 1) {
-        final RuleMatch nextMatch = ruleMatches.get(i + 1);
-        if (overlaps(match, nextMatch) && haveSameRuleGroup(match, nextMatch)) {
-          i++;  // skip next match
-        }
+      while (i <  ruleMatches.size() - 1 && overlapAndMatch(match, ruleMatches.get(i + 1))) {
+        i++;  // skip next match
       }
       filteredRules.add(match);
     }
     return filteredRules;
+  }
+
+  private boolean overlapAndMatch(final RuleMatch match, RuleMatch nextMatch) {
+    return overlaps(match, nextMatch) && haveSameRuleGroup(match, nextMatch);
   }
 
   boolean overlaps(RuleMatch match, RuleMatch nextMatch) {
