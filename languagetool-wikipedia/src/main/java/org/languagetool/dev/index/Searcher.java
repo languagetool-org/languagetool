@@ -49,6 +49,7 @@ import org.apache.lucene.util.Counter;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternRule;
@@ -367,7 +368,7 @@ public class Searcher {
     final long startTime = System.currentTimeMillis();
     final String[] ruleIds = args[0].split(",");
     final String languageCode = args[1];
-    final Language language = Language.getLanguageForShortName(languageCode);
+    final Language language = Languages.getLanguageForShortName(languageCode);
     final File indexDir = new File(args[2]);
     final boolean limitSearch = args.length > 3 && "--no_limit".equals(args[3]);
     final Searcher searcher = new Searcher(new SimpleFSDirectory(indexDir));

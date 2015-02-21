@@ -28,6 +28,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.bitext.IncorrectBitextExample;
@@ -97,7 +98,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
     switch (qName) {
       case RULES:
         final String languageStr = attrs.getValue("targetLang");
-        language = Language.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortName(languageStr);
         break;
       case RULE:
         super.startElement(namespaceURI, lName, qName, attrs);
@@ -108,7 +109,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
         startPattern(attrs);
         break;
       case SOURCE:
-        srcLang = Language.getLanguageForShortName(attrs.getValue("lang"));
+        srcLang = Languages.getLanguageForShortName(attrs.getValue("lang"));
         break;
       default:
         super.startElement(namespaceURI, lName, qName, attrs);

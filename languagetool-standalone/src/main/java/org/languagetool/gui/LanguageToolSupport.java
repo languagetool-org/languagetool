@@ -75,6 +75,7 @@ import javax.swing.text.View;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.ITSIssueType;
@@ -301,7 +302,7 @@ class LanguageToolSupport {
 
     Language defaultLanguage = config.getLanguage();
     if (defaultLanguage == null) {
-        defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
+        defaultLanguage = Languages.getLanguageForLocale(Locale.getDefault());
     }
 
     /**
@@ -733,7 +734,7 @@ class LanguageToolSupport {
   Language autoDetectLanguage(String text) {
     Language lang = langIdentifier.detectLanguage(text);
     if (lang == null) {
-      lang = Language.getLanguageForLocale(Locale.getDefault());
+      lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
     if (lang.hasVariant()) {
       // UI only shows variants like "English (American)", not just "English", so use that:

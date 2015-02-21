@@ -20,12 +20,13 @@ package org.languagetool.tokenizers;
 
 import junit.framework.TestCase;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 public class SRXSentenceTokenizerTest extends TestCase {
 
   public void testOfficeFootnoteTokenize() {
     int count = 0;
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       if (language.getSentenceTokenizer().getClass() != SRXSentenceTokenizer.class) {
         continue;
       }

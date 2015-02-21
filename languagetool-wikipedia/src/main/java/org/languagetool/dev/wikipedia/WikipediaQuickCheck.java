@@ -33,6 +33,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -63,7 +64,7 @@ public class WikipediaQuickCheck {
 
   public Language getLanguage(URL url) {
     final Matcher matcher = getUrlMatcher(url.toString());
-    return Language.getLanguageForShortName(matcher.group(1));
+    return Languages.getLanguageForShortName(matcher.group(1));
   }
 
   public String getPageTitle(URL url) {

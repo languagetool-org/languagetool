@@ -27,6 +27,7 @@ import java.io.OutputStreamWriter;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 /**
  * Used for tokenizing word lists for the MorfologikSpeller.
@@ -46,7 +47,7 @@ public final class WordTokenizer {
 
   private void run(final String lang) throws IOException {
     JLanguageTool langTool = new JLanguageTool(
-            Language.getLanguageForShortName(lang));
+            Languages.getLanguageForShortName(lang));
     BufferedReader in = null;
     BufferedWriter out = null;
     try {

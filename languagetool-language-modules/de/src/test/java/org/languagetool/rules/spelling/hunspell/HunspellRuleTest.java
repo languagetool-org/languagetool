@@ -22,6 +22,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
 import org.languagetool.language.German;
@@ -87,7 +88,7 @@ public class HunspellRuleTest {
   @Ignore("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
-    final List<Language> allLanguages = Language.getAllLanguages();
+    final List<Language> allLanguages = Languages.get();
     for (Language language : allLanguages) {
       final JLanguageTool langTool = new JLanguageTool(language);
       //final HunspellRule rule = new HunspellRule(TestTools.getMessages("German"), language);

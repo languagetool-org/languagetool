@@ -20,6 +20,7 @@ package org.languagetool.commandline;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.English;
@@ -534,7 +535,7 @@ class Main {
 
   private static void printLanguages() {
     final List<String> languages = new ArrayList<>();
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       languages.add(language.getShortNameWithCountryAndVariant() + " " + language.getName());
     }
     Collections.sort(languages);

@@ -21,6 +21,7 @@ package org.languagetool.gui;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.StringTools;
 
@@ -359,11 +360,11 @@ public class Configuration {
       
       final String languageStr = (String) props.get(LANGUAGE_CONFIG_KEY);
       if (languageStr != null) {
-        language = Language.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortName(languageStr);
       }
       final String motherTongueStr = (String) props.get(MOTHER_TONGUE_CONFIG_KEY);
       if (motherTongueStr != null && !motherTongueStr.equals("xx")) {
-        motherTongue = Language.getLanguageForShortName(motherTongueStr);
+        motherTongue = Languages.getLanguageForShortName(motherTongueStr);
       }
             
       autoDetect = "true".equals(props.get(AUTO_DETECT_CONFIG_KEY));
@@ -431,7 +432,7 @@ public class Configuration {
   }
 
   private void loadConfigForOtherLanguages(final Language lang, final Properties prop) {
-    for (Language otherLang : Language.getAllLanguages()) {
+    for (Language otherLang : Languages.get()) {
       if (!otherLang.equals(lang)) {
         final String languageSuffix = "." + otherLang.getShortNameWithCountryAndVariant();
         storeConfigKeyFromProp(prop, DISABLED_RULES_CONFIG_KEY + languageSuffix);

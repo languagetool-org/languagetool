@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.Contributor;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -210,7 +211,7 @@ public final class RuleOverview {
   }
 
   private List<Language> getSortedLanguages() {
-    final List<Language> sortedLanguages = Arrays.asList(Language.REAL_LANGUAGES);
+    final List<Language> sortedLanguages = new ArrayList<>(Languages.get());
     Collections.sort(sortedLanguages, new Comparator<Language>() {
       @Override
       public int compare(Language o1, Language o2) {

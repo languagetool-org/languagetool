@@ -20,6 +20,7 @@ package org.languagetool.dev.eval;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.StringTools;
@@ -179,6 +180,6 @@ class AfterTheDeadlineEvaluator {
       System.exit(1);
     }
     AfterTheDeadlineEvaluator evaluator = new AfterTheDeadlineEvaluator(args[1]);
-    evaluator.run(Language.getLanguageForShortName(args[0]));
+    evaluator.run(Languages.getLanguageForShortName(args[0]));
   }
 }

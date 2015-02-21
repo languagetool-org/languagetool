@@ -20,6 +20,7 @@ package org.languagetool.dev.wikipedia.atom;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.IOException;
 
@@ -62,7 +63,7 @@ final class AtomFeedCheckerCmd {
       databaseConfig = new DatabaseConfig(propFile);
       System.out.println("Writing results to database at: " + databaseConfig.getUrl());
     }
-    Language language = Language.getLanguageForShortName(langCode);
+    Language language = Languages.getLanguageForShortName(langCode);
     AtomFeedChecker atomFeedChecker = new AtomFeedChecker(language, databaseConfig);
     while (true) {
       long startTime = System.currentTimeMillis();

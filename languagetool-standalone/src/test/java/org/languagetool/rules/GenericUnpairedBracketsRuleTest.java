@@ -20,6 +20,7 @@ package org.languagetool.rules;
 
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.IOException;
 
@@ -29,7 +30,7 @@ public class GenericUnpairedBracketsRuleTest {
 
   @Test
   public void testStartSymbolCountEqualsEndSymbolCount() throws IOException {
-    for (Language language : Language.LANGUAGES) {
+    for (Language language : Languages.getWithDemoLanguage()) {
       int startSymbols = language.getUnpairedRuleStartSymbols().length;
       int endSymbols = language.getUnpairedRuleEndSymbols().length;
       assertEquals("Different number of start and end symbols for " + language, startSymbols, endSymbols);

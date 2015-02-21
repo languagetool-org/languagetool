@@ -21,6 +21,7 @@ package org.languagetool.server;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.IOException;
 import java.net.URL;
@@ -93,8 +94,8 @@ public class HTTPSServerTesting {
   }
 
   private void runTests(int threadNumber) throws IOException {
-    final Language[] languages = Language.REAL_LANGUAGES;
-    final Language lang = languages[rnd.nextInt(languages.length)];
+    final List<Language> languages = Languages.get();
+    final Language lang = languages.get(rnd.nextInt(languages.size()));
     final List<ExampleSentence> sentences = provider.getRandomSentences(lang);
     final String text = getSentencesAsText(sentences);
     final String data = "language=" + lang.getShortNameWithCountryAndVariant() + "&text=" + URLEncoder.encode(text, "utf-8");

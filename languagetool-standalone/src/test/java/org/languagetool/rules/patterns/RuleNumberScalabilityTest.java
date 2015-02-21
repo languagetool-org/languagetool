@@ -19,7 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.StringTools;
 
@@ -36,7 +36,7 @@ final class RuleNumberScalabilityTest {
       System.out.println("Usage: " + RuleNumberScalabilityTest.class.getSimpleName() + " <languageCode> <text_file>");
       System.exit(1);
     }
-    JLanguageTool langTool = new JLanguageTool(Language.getLanguageForShortName(args[0]));
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortName(args[0]));
     String text = StringTools.readStream(new FileInputStream(args[1]), "utf-8");
     langTool.activateDefaultPatternRules();
     System.out.println("Warmup...");

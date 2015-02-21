@@ -23,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -76,9 +77,9 @@ public class MultiThreadingTest1 {
   @Test
   @Ignore("for interactive use only")
   public void test() throws Exception {
-    List<Language> languages1 = new ArrayList<>(Arrays.asList(Language.REAL_LANGUAGES));
+    List<Language> languages1 = new ArrayList<>(Languages.get());
     initExpectedResults(languages1);
-    List<Language> languages2 = new ArrayList<>(Arrays.asList(Language.REAL_LANGUAGES));
+    List<Language> languages2 = new ArrayList<>(Languages.get());
     ExecutorService executor = Executors.newFixedThreadPool(THREADS);
     for (int i = 0; i < RUNS; i++) {
       System.out.println("Run #" + i);

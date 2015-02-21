@@ -20,6 +20,7 @@ package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
@@ -125,7 +126,7 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
           }
           break;
         case "rules":
-          language = Language.getLanguageForShortName(attrs.getValue("lang"));
+          language = Languages.getLanguageForShortName(attrs.getValue("lang"));
           break;
         case PATTERN:
           inPattern = true;

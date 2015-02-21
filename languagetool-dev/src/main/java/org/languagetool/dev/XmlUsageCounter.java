@@ -19,6 +19,7 @@
 package org.languagetool.dev;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
@@ -80,7 +81,7 @@ class XmlUsageCounter {
   public static void main(String[] args) throws XMLStreamException {
     XmlUsageCounter counter = new XmlUsageCounter();
     Set<String> countedFiles = new HashSet<>();
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       List<String> ruleFileNames = language.getRuleFileNames();
       //comment in this to count disambiguation files instead:
       //List<String> ruleFileNames = Collections.singletonList(ResourceDataBroker.RESOURCE_DIR + "/" +

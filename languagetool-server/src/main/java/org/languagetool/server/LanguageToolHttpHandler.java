@@ -27,6 +27,7 @@ import java.util.concurrent.*;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.RuleMatch;
@@ -294,7 +295,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Language detectLanguageOfString(final String text, final String fallbackLanguage) {
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
-      lang = Language.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
+      lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
     }
     if (lang.getDefaultLanguageVariant() != null) {
       lang = lang.getDefaultLanguageVariant();
@@ -312,7 +313,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     final Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage);
     final String motherTongueParam = parameters.get("motherTongue");
-    final Language motherTongue = motherTongueParam != null ? Language.getLanguageForShortName(motherTongueParam) : null;
+    final Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
     final boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
     final String enabledParam = parameters.get("enabled");
     final List<String> enabledRules = new ArrayList<>();
@@ -395,7 +396,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (afterTheDeadlineMode) {
         lang = afterTheDeadlineLanguage;
       } else {
-        lang = Language.getLanguageForShortName(langParam);
+        lang = Languages.getLanguageForShortName(langParam);
       }
     }
     return lang;
@@ -523,8 +524,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @return an XML document listing all supported languages
    */
   public static String getSupportedLanguagesAsXML() {
-    final Language[] languageCopy = Language.REAL_LANGUAGES.clone();
-    final List<Language> languages = Arrays.asList(languageCopy);
+    final List<Language> languages = new ArrayList<>(Languages.get());
     Collections.sort(languages, new Comparator<Language>() {
       @Override
       public int compare(Language o1, Language o2) {

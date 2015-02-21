@@ -20,6 +20,7 @@ package org.languagetool.dev.eval;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -76,6 +77,6 @@ public class SpellCheckEvaluation {
       System.exit(1);
     }
     SpellCheckEvaluation eval = new SpellCheckEvaluation();
-    eval.run(Language.getLanguageForShortName(args[0]), new File(args[1]));
+    eval.run(Languages.getLanguageForShortName(args[0]), new File(args[1]));
   }
 }

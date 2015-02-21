@@ -37,7 +37,7 @@ public class TranslationTest extends TestCase {
     final Properties enProps = new Properties();
     enProps.load(new FileInputStream(englishFile));
     final Set<Object> englishKeys = enProps.keySet();
-    for (Language lang : Language.REAL_LANGUAGES) {
+    for (Language lang : Languages.get()) {
       if (lang.getShortName().equals("en")) {
         continue;
       }
@@ -59,7 +59,7 @@ public class TranslationTest extends TestCase {
   }
 
   public void testTranslationsAreNotEmpty() throws IOException {
-    for (Language lang : Language.REAL_LANGUAGES) {
+    for (Language lang : Languages.get()) {
       final File file1 = getTranslationFile(lang);
       final File file2 = getTranslationFileWithVariant(lang);
       if (!file1.exists() && !file2.exists()) {

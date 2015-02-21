@@ -25,10 +25,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -47,7 +44,7 @@ public class BitextPatternRuleTest extends TestCase {
   }
 
   private void testBitextRulesFromXML(final Set<Language> ignoredLanguages) throws IOException {
-    for (final Language lang : Language.LANGUAGES) {
+    for (final Language lang : Languages.getWithDemoLanguage()) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }

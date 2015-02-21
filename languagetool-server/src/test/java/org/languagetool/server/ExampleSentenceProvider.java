@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.PatternRule;
@@ -43,7 +44,7 @@ class ExampleSentenceProvider {
     }
     this.minSentences = minSentences;
     this.maxSentences = maxSentences;
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       try {
         initExampleSentences(language);
       } catch (IOException e) {

@@ -22,6 +22,7 @@ import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -136,7 +137,7 @@ public class SentenceSourceChecker {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir) throws IOException {
-    final Language lang = Language.getLanguageForShortName(langCode);
+    final Language lang = Languages.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     languageTool.activateDefaultPatternRules();
     if (languageModelDir != null) {

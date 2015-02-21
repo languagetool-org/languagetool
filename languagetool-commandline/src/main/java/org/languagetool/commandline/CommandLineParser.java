@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.PrintStream;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 /**
  * Parser for the command line arguments.
@@ -169,7 +170,7 @@ public class CommandLineParser {
   }
 
   private Language getLanguage(String userSuppliedLangCode) {
-    return Language.getLanguageForShortName(userSuppliedLangCode);
+    return Languages.getLanguageForShortName(userSuppliedLangCode);
   }
 
 }

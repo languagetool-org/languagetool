@@ -34,6 +34,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.tokenizers.Tokenizer;
 
 /**
@@ -92,7 +93,7 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
   }
 
   File build(String languageCode, File plainTextDictFile) throws Exception {
-    Language language = Language.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortName(languageCode);
     File tempFile = null;
     try {
       tempFile = tokenizeInput(plainTextDictFile, language);

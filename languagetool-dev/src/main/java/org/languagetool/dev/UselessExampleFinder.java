@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.AbstractPatternRule;
@@ -138,7 +139,7 @@ final class UselessExampleFinder {
 
   public static void main(String[] args) throws IOException {
     UselessExampleFinder prg = new UselessExampleFinder();
-    prg.run(Language.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortName("de"));
   }
 
 }

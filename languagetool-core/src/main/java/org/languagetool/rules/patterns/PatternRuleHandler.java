@@ -27,6 +27,7 @@ import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
@@ -106,7 +107,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         final String languageStr = attrs.getValue("lang");
-        language = Language.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortName(languageStr);
         break;
       case RULE:
         inRule = true;

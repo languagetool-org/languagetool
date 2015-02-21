@@ -19,10 +19,7 @@
 package org.languagetool.rules.en;
 
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
+import org.languagetool.*;
 
 import java.io.IOException;
 
@@ -31,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EnglishWordRepeatRuleTest {
 
-  private final Language english = Language.getLanguageForShortName("en");
+  private final Language english = Languages.getLanguageForShortName("en");
   private final EnglishWordRepeatRule rule = new EnglishWordRepeatRule(TestTools.getEnglishMessages(), english);
   
   private JLanguageTool langTool;

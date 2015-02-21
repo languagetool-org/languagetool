@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -143,7 +144,7 @@ final class ExampleSentenceCorrectionCreator {
 
   public static void main(String[] args) throws IOException {
     ExampleSentenceCorrectionCreator prg = new ExampleSentenceCorrectionCreator();
-    prg.run(Language.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortName("de"));
   }
 
 }

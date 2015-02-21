@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -126,7 +127,7 @@ public class HTTPServerConfig {
         }
         mode = getOptionalProperty(props, "mode", "LanguageTool").equalsIgnoreCase("AfterTheDeadline") ? Mode.AfterTheDeadline : Mode.LanguageTool;
         if (mode == Mode.AfterTheDeadline) {
-          atdLanguage = Language.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
+          atdLanguage = Languages.getLanguageForShortName(getProperty(props, "afterTheDeadlineLanguage", file));
         }
       }
     } catch (IOException e) {

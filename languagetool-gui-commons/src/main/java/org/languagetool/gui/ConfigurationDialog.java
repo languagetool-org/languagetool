@@ -21,6 +21,7 @@ package org.languagetool.gui;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 
 import javax.swing.*;
@@ -194,7 +195,7 @@ public class ConfigurationDialog implements ActionListener {
 
     Language lang = config.getLanguage();
     if (lang == null) {
-      lang = Language.getLanguageForLocale(Locale.getDefault());
+      lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
     configTree.applyComponentOrientation(
       ComponentOrientation.getOrientation(lang.getLocale()));
@@ -240,7 +241,7 @@ public class ConfigurationDialog implements ActionListener {
               Rule rule = node.getRule();
               Language lang = config.getLanguage();
               if(lang == null) {
-                lang = Language.getLanguageForLocale(Locale.getDefault());
+                lang = Languages.getLanguageForLocale(Locale.getDefault());
               }
               Tools.showRuleInfoDialog(tree, messages.getString("guiAboutRuleTitle"),
                       rule.getDescription(), rule, messages,
@@ -477,7 +478,7 @@ public class ConfigurationDialog implements ActionListener {
   private String[] getPossibleMotherTongues() {
     final List<String> motherTongues = new ArrayList<>();
     motherTongues.add(NO_MOTHER_TONGUE);
-    for (final Language lang : Language.REAL_LANGUAGES) {
+    for (final Language lang : Languages.get()) {
      motherTongues.add(lang.getTranslatedName(messages));
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
@@ -503,7 +504,7 @@ public class ConfigurationDialog implements ActionListener {
    */
   @Nullable
   private Language getLanguageForLocalizedName(final String languageName) {
-    for (final Language element : Language.REAL_LANGUAGES) {
+    for (final Language element : Languages.get()) {
       if (languageName.equals(element.getTranslatedName(messages))) {
         return element;
       }

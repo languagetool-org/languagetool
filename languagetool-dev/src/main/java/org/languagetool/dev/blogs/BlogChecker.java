@@ -22,6 +22,7 @@ import de.abelssoft.tools.FileTools;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.commandline.CommandLineTools;
 
 import java.io.File;
@@ -71,7 +72,7 @@ class BlogChecker {
       System.exit(1);
     }
     BlogChecker checker = new BlogChecker();
-    Language lang = Language.getLanguageForShortName(args[0]);
+    Language lang = Languages.getLanguageForShortName(args[0]);
     checker.check(new File(args[1]), lang);
   }
 }

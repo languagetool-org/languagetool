@@ -29,12 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-import org.languagetool.XMLValidator;
+import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tools.StringTools;
@@ -52,7 +47,7 @@ public class DisambiguationRuleTest extends TestCase {
 
   private void testDisambiguationRulesFromXML(final Set<Language> ignoredLanguages)
       throws IOException, ParserConfigurationException, SAXException {
-    for (final Language lang : Language.REAL_LANGUAGES) {
+    for (final Language lang : Languages.get()) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }

@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.File;
 
@@ -29,7 +30,7 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
   @Test
   @Ignore("for interactive use only")
   public void testExportPosDictAndCreateSynth() throws Exception {
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       String langCode = language.getShortName();
       File dir = new File("./languagetool-language-modules/" + langCode + "/src/main/resources/org/languagetool/resource/" + langCode);
       File oldBinarySynthFile = new File(dir, language.getName().toLowerCase() + "_synth.dict");
