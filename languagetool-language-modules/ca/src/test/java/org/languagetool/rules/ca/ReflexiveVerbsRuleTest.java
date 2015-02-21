@@ -50,6 +50,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
 
+    assertCorrect("de què tant ens queixem");
     assertCorrect("cada zona més meridional esdevingué adient per als éssers àrtics");
     assertCorrect("cereals, garrofers, vinya i olivar.");
     assertCorrect("m'aniria bé probablement posar els quilos");
