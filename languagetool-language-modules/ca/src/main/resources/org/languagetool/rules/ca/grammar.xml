@@ -235,7 +235,7 @@ $Id$
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé|Agnés|Moisés|Rubén</token> <!-- atés que: loc_conj en disambiguation -->
+                    <token regexp="yes">vostés?|allén|atés|Filomé|Godofré|Josués?|Manfré|Mercés?|Jahvé|Agnés|Moisés|Rubén|Noé</token> <!-- atés que: loc_conj en disambiguation -->
                 </pattern>
                 <message>Useu accentuació general.</message>
                 <suggestion><match no="1" regexp_match="^(.+)é(n|s)?" regexp_replace="$1è$2"></match></suggestion>
@@ -31966,6 +31966,16 @@ $Id$
         </rule>
     </category>
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="GUAI" name="guai">
+            <pattern>
+                <token regexp="yes">guais?</token>
+            </pattern>
+            <message>Lleguatge col·loquial</message>
+            <suggestion>bonic</suggestion>
+            <suggestion>bonics</suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/guai</url>
+            <example correction="bonic|bonics">Era molt <marker>guai</marker>!</example>
+        </rule>
         <rule id="XULO" name="xulo">
             <pattern>
                 <token inflected="yes">xulo</token>
@@ -33430,7 +33440,7 @@ $Id$
         <rule id="POTSER_SIGUI" name="potser *sigui/és">
             <pattern> <!-- <exception scope="next" regexp="yes">que|quan|perquè|si|qui|quals?</exception> -->
                 <token regexp="yes">probablement|potser|possiblement<exception scope="previous" regexp="yes">quan|si</exception></token>
-                <token min="0" max="4" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN|RG" postag_regexp="yes"/>
+                <token min="0" max="4" postag="P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00|RN|RG" postag_regexp="yes"><exception>quan</exception></token>
                 <marker>
                     <token postag="V.S.*" postag_regexp="yes"><exception postag="V.I.*|_possible_nompropi" postag_regexp="yes"/></token>
                 </marker>
@@ -33447,6 +33457,7 @@ $Id$
             <example>Potser si haguessin pogut desenvolupar-se.</example>
             <example>Potser trobaré qui m'ho pugui explicar.</example>
             <example>com si potser no l'hagués de veure més</example>
+            <example>Potser quan s'acabi el curs tornarà</example>
         </rule>
         <rule id="ESPERA_QUE_INDICATIU" name="esperar que + *indicatiu/subjuntiu">
         <!-- Espero que mai no es troben/trobin (cal distingir dialectes) -->
