@@ -4425,7 +4425,7 @@ $Id$
         <rule id="ESTAR_A_TEMPS" name="*estar/ser a temps">
             <pattern>
                 <marker>
-                    <token inflected="yes">estar<exception>estat</exception></token>
+                    <token inflected="yes">estar<exception regexp="yes">estats?</exception></token>
                 </marker>
                 <token>a</token>
                 <token>temps</token>
@@ -4439,7 +4439,7 @@ $Id$
         <rule id="SER_A_PUNT" name="*ser/estar a punt">
             <pattern>
                 <marker>
-                    <token inflected="yes">ser<exception>estat</exception></token>
+                    <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
                 </marker>
                 <token>a</token>
                 <token>punt</token>
@@ -4459,7 +4459,7 @@ $Id$
             </antipattern>
             <pattern>
                 <marker>
-                    <token inflected="yes">ser<exception>estat</exception></token>
+                    <token inflected="yes">ser<exception inflected="yes">estar</exception></token>
                     <token>en</token>
                     <token regexp="yes">voga|contra|joc|marxa|obres|ordre|guerra|pau|perill|crisi|vaga|dejú<exception postag="_possible_nompropi"/></token>
                 </marker>
@@ -4470,6 +4470,7 @@ $Id$
             <example correction="estaven en ordre">Les coses <marker>eren en ordre</marker>.</example>
             <example>Estan en marxa</example>
             <example>Han estat en perill des de fa temps.</example>
+            <example>Mentre hi hagi diner públic d’altres Estats en joc</example> 
         </rule>
         <rule id="HAVER_HI_EN_JOC" name="*haver-hi/estar en joc">
             <pattern>
