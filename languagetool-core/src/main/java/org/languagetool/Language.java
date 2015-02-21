@@ -59,7 +59,7 @@ public abstract class Language {
 
   private static final String PROPERTIES_PATH = "META-INF/org/languagetool/language-module.properties";
   private static final String PROPERTIES_KEY = "languageClasses";
-  
+
   private static List<Language> externalLanguages = new ArrayList<>();
 
   private final List<String> externalRuleFiles = new ArrayList<>();
@@ -71,9 +71,11 @@ public abstract class Language {
   /**
    * All languages supported by LanguageTool. This includes at least a "demo" language
    * for testing.
+   * @deprecated use {@link Languages#getWithDemoLanguage()} instead (deprecated since 2.9)
    */
   public static Language[] LANGUAGES = getLanguages();
 
+  // TODO: remove once LANGUAGES is removed
   private static Language[] getLanguages() {
     final List<Language> languages = new ArrayList<>();
     final Set<String> languageClassNames = new HashSet<>();
@@ -124,6 +126,7 @@ public abstract class Language {
 
   /**
    * All languages supported by LanguageTool, but without the demo language.
+   * @deprecated use {@link Languages#get()} instead (deprecated since 2.9)
    */
   public static final Language[] REAL_LANGUAGES = getRealLanguages();
 
@@ -131,6 +134,7 @@ public abstract class Language {
    * Returns all languages supported by LanguageTool but without the demo language.
    * In contrast to Language.REAL_LANGUAGES contains external languages as well.
    * @return All supported languages.
+   * @deprecated use {@link Languages#get()} instead (deprecated since 2.9)
    * @since 2.6
    */
   public static Language[] getRealLanguages() {
@@ -447,7 +451,6 @@ public abstract class Language {
    * starting symbols must match exactly the sequence of ending symbols.
    * @deprecated will be moved to GenericUnpairedBracketsRule (deprecated since 2.8)
    */
-  @Deprecated
   public String[] getUnpairedRuleStartSymbols() {
     return new String[]{ "[", "(", "{", "\"", "'" };
   }
@@ -457,7 +460,6 @@ public abstract class Language {
    * @deprecated will be moved to GenericUnpairedBracketsRule (deprecated since 2.8)
    * @see #getUnpairedRuleStartSymbols()
    */
-  @Deprecated
   public String[] getUnpairedRuleEndSymbols() {
     return new String[]{ "]", ")", "}", "\"", "'" };
   }
@@ -488,6 +490,7 @@ public abstract class Language {
   
   /**
    * Re-inits the built-in languages and adds the specified ones.
+   * @deprecated (deprecated since 2.9)
    */
   public static void reInit(final List<Language> languages) {
     LANGUAGES = new Language[BUILTIN_LANGUAGES.length + languages.size()];
@@ -502,14 +505,14 @@ public abstract class Language {
 
   /**
    * Return languages that are not built-in but have been added manually.
+   * @deprecated
    */
   public static List<Language> getExternalLanguages() {
     return externalLanguages;
   }
   
   /**
-   * Return all languages supported by LanguageTool.
-   * @return A list of all languages, including external ones and country variants (e.g. {@code en-US})
+   * @deprecated use {@link Languages#get()} but note that is has slightly different semantics (no external languages) (deprecated since 2.9)
    */
   public static List<Language> getAllLanguages() {
     final List<Language> langList = new ArrayList<>();
@@ -519,10 +522,7 @@ public abstract class Language {
   }
 
   /**
-   * Get the Language object for the given language name.
-   *
-   * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
-   * @return a Language object or {@code null} if there is no such language
+   * @deprecated use {@link Languages#getLanguageForName(String)} (deprecated since 2.9)
    */
   @Nullable
   public static Language getLanguageForName(final String languageName) {
@@ -535,11 +535,7 @@ public abstract class Language {
   }
 
   /**
-   * Get the Language object for the given short language name.
-   *
-   * @param langCode e.g. <code>en</code> or <code>es-US</code>
-   * @return a Language object
-   * @throws IllegalArgumentException if the language is not supported or if the language code is invalid
+   * @deprecated use {@link Languages#getLanguageForShortName(String)} (deprecated since 2.9)
    */
   public static Language getLanguageForShortName(final String langCode) {
     final Language language = getLanguageForShortNameOrNull(langCode);
@@ -557,13 +553,7 @@ public abstract class Language {
   }
 
   /**
-   * Return whether a language with the given language code is supported. Which languages
-   * are supported depends on the classpath when the {@code Language} object is initialized.
-   *
-   * @param langCode e.g. {@code en} or {@code en-US}
-   * @return true if the language is supported
-   * @throws IllegalArgumentException in some cases of an invalid language code format
-   * @since 2.1
+   * @deprecated use {@link Languages#isLanguageSupported(String)} (deprecated since 2.9)
    */
   public static boolean isLanguageSupported(final String langCode) {
     return getLanguageForShortNameOrNull(langCode) != null;
@@ -617,11 +607,7 @@ public abstract class Language {
   }
   
   /**
-   * Get the best match for a locale, using American English as the final fallback if nothing
-   * else fits. The returned language will be a country variant language (e.g. British English, not just English)
-   * if available.
-   * @since 1.8
-   * @throws RuntimeException if no language was found and American English as a fallback is not available
+   * @deprecated use {@link Languages#getLanguageForLocale(java.util.Locale)} (deprecated since 2.9)
    */
   public static Language getLanguageForLocale(final Locale locale) {
     final Language language = getLanguageForLanguageNameAndCountry(locale);

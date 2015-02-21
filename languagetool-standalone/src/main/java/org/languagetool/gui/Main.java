@@ -38,6 +38,7 @@ import java.awt.datatransfer.Transferable;
 import java.awt.event.*;
 import java.io.*;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -68,6 +69,7 @@ public final class Main {
   private static final int WINDOW_HEIGHT = 550;
 
   private final ResourceBundle messages;
+  private final List<Language> externalLanguages = new ArrayList<>();
 
   private JFrame frame;
   private JDialog taggerDialog;
@@ -136,14 +138,12 @@ public final class Main {
   }
 
   private void addLanguage() throws InstantiationException, IllegalAccessException {
-    final LanguageManagerDialog lmd = new LanguageManagerDialog(frame, Language.getExternalLanguages());
-    lmd.show();
-    try {
-      Language.reInit(lmd.getLanguages());
-    } catch (RuleFilenameException e) {
-      Tools.showErrorMessage(e, frame);
-    }
-    languageBox.populateLanguageBox();
+    final LanguageManagerDialog dialog = new LanguageManagerDialog(frame, externalLanguages);
+    dialog.show();
+    List<Language> newExtLanguages = dialog.getLanguages();
+    externalLanguages.clear();
+    externalLanguages.addAll(newExtLanguages);
+    languageBox.populateLanguageBox(externalLanguages);
     languageBox.selectLanguage(ltSupport.getLanguage());
   }
 

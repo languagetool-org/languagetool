@@ -42,9 +42,13 @@ public class LanguageComboBox extends JComboBox<Language> {
     populateLanguageBox();
   }
 
-  final void populateLanguageBox() {
+  final void populateLanguageBox(List<Language> externalLanguages) {
     removeAllItems();
-    initAllLanguages();
+    initAllLanguages(externalLanguages);
+  }
+
+  final void populateLanguageBox() {
+    populateLanguageBox(Collections.<Language>emptyList());
   }
 
   void selectLanguage(Language language) {
@@ -55,7 +59,7 @@ public class LanguageComboBox extends JComboBox<Language> {
     }
   }
 
-  private void initAllLanguages() {
+  private void initAllLanguages(List<Language> externalLanguages) {
     applyComponentOrientation(
       ComponentOrientation.getOrientation(Locale.getDefault()));
     languages.clear();
@@ -66,6 +70,9 @@ public class LanguageComboBox extends JComboBox<Language> {
       if (!skip || simpleGermanWorkaround) {
         languages.add(language);
       }
+    }
+    for (Language externalLanguage : externalLanguages) {
+      addItem(externalLanguage);
     }
     Collections.sort(languages, langComparator);
     for (final Language language : languages) {
