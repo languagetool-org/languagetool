@@ -19,7 +19,6 @@
 package org.languagetool.rules.spelling;
 
 import junit.framework.TestCase;
-import org.languagetool.Language;
 
 import java.io.IOException;
 

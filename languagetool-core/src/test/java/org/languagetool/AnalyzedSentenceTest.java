@@ -21,11 +21,7 @@ package org.languagetool;
 
 import junit.framework.TestCase;
 
-import java.util.Arrays;
-
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
 
 public class AnalyzedSentenceTest extends TestCase {
 

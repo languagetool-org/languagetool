@@ -20,7 +20,6 @@
 package org.languagetool.tagging.disambiguation.rules.fr;
 
 import junit.framework.TestCase;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;

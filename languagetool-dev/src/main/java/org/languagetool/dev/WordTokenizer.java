@@ -26,7 +26,6 @@ import java.io.OutputStreamWriter;
 
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 
 /**

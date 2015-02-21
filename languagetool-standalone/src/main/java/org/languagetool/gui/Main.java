@@ -21,7 +21,6 @@ package org.languagetool.gui;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.language.RuleFilenameException;
 import org.languagetool.rules.Rule;
 import org.languagetool.server.HTTPServer;
 import org.languagetool.server.HTTPServerConfig;

@@ -19,7 +19,6 @@
 package org.languagetool.tagging.disambiguation.rules;
 
 import org.languagetool.AnalyzedToken;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;

@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
