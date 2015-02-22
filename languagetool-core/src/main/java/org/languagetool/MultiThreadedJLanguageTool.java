@@ -41,8 +41,8 @@ import org.languagetool.rules.RuleMatch;
  */
 public class MultiThreadedJLanguageTool extends JLanguageTool {
   
-  private int threadPoolSize = -1;
-  private ExecutorService newFixedThreadPool;
+  private final int threadPoolSize;
+  private final ExecutorService threadPool;
 
   public MultiThreadedJLanguageTool(Language language) {
     this(language, null);
@@ -50,7 +50,9 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
 
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
     super(language, motherTongue);
+    
     threadPoolSize = getDefaultThreadCount();
+    threadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
   }
 
   private static int getDefaultThreadCount() {
@@ -72,27 +74,10 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
   
   /**
-   * Set the amount of threads to use for checking.
-   */
-  public void setThreadPoolSize(int threadPoolSize) {
-    if (newFixedThreadPool != null)
-      throw new IllegalStateException("Thread pool already initialized");
-    
-    if (threadPoolSize >= 1) {
-      this.threadPoolSize = threadPoolSize;
-    } else {
-      this.threadPoolSize = getDefaultThreadCount();
-    }
-  }
-
-  /**
    * @return a fixed size executor with the given number of threads
    */
   protected ExecutorService getExecutorService() {
-    if (newFixedThreadPool == null) {
-      newFixedThreadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
-    }
-    return newFixedThreadPool;
+    return threadPool;
   }
   
   @Override

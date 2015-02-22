@@ -68,18 +68,6 @@ public class MultiThreadedJLanguageToolTest {
   public void testConfigurableThreadPoolSize() throws IOException {
     MultiThreadedJLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
     Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
-    
-    tool.setThreadPoolSize(100);
-    Assert.assertEquals(100, tool.getThreadPoolSize());
-
-    tool.setThreadPoolSize(Integer.MIN_VALUE);
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
-
-    tool.setThreadPoolSize(0);
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
-
-    tool.setThreadPoolSize(-1);
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
   }
 
   private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
