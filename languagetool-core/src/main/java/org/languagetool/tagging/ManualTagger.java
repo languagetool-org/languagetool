@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -47,31 +46,6 @@ public class ManualTagger implements WordTagger {
 
   public ManualTagger(final InputStream inputStream) throws IOException {
     mapping = loadMapping(inputStream, "utf8");
-  }
-
-  /**
-   * Look up a word's baseform and POS information.
-   * 
-   * @return an array with the baseform (at position 0, 2, ...) and the POS
-   *         information (at position 1, 3, ...) or <code>null</code> if the
-   *         word is unknown
-   * @deprecated use {@link #tag(String)} instead (note that it doesn't return null) (deprecated since 2.8)
-   */
-  @Nullable
-  public String[] lookup(final String term) {
-    final List<LookedUpTerm> l = mapping.get(term);
-    if (l == null) {
-      return null;
-    }
-    final List<String> plainResult = new ArrayList<>();
-    for (LookedUpTerm element : l) {
-      plainResult.add(element.baseform);
-      plainResult.add(element.posTags);
-    }
-    if (plainResult.isEmpty()) {
-      return null;
-    }
-    return plainResult.toArray(new String[plainResult.size()]);
   }
 
   private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
@@ -100,6 +74,9 @@ public class ManualTagger implements WordTagger {
     return map;
   }
 
+  /**
+   * Look up a word's baseform (lemma) and POS information.
+   */
   @Override
   public List<TaggedWord> tag(String word) {
     List<TaggedWord> result = new ArrayList<>();
