@@ -26,9 +26,7 @@ $Id$
 
   <category name="Варваризми">
 
-    <rulegroup id="NON_LEXEM_BORROWING" name="Кальки">
-
-       <!-- дієслова -->
+    <rulegroup id="NON_LEXEM_BORROWING_VERB" name="Кальки: дієслова">
 
        <!-- приймати -> брати -->
        <rule>
@@ -163,14 +161,14 @@ $Id$
        <rule>
          <pattern>
             <marker>
-              <token inflected="yes" regexp="yes">рахувати|рахуватися|рахувавший</token>
+              <token inflected="yes" regexp="yes">рахувати|рахуватися</token>
             </marker>
             <token>,</token>
             <token>що</token>
          </pattern>
-         <message>Правильно: <suggestion><match no="1" postag="verb.*" postag_regexp="yes">вважати</match></suggestion>, <suggestion>гадати</suggestion></message>
+         <message>Правильно: <suggestion><match no="1" postag="verb.*" postag_regexp="yes">вважати</match></suggestion>, <suggestion><match no="1" postag="verb.*" postag_regexp="yes">гадати</match></suggestion></message>
          <url>http://kurylo.wikidot.com/23-deiaki-khybno-vzhyvani-slova</url>
-         <example correction="(вважати)|гадати">Він <marker>рахував</marker>, що все буде гаразд.</example>
+         <example correction="вважав|гадав">Він <marker>рахував</marker>, що все буде гаразд.</example>
          <example>Він вважав, що все буде гаразд.</example>
          <!-- TODO: fix
          <example>Він вважав, що з ним рахуються, що він є головним.</example>
@@ -187,7 +185,7 @@ $Id$
                </token>
            </marker>
          </pattern>
-         <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="verb.*" postag_replace="$0:v-u">вважатися</match> за <match no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/> <match no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+         <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="verb.*" postag_replace="$0">вважатися</match> за <match no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/> <match no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
          <!--
          <suggestion>мати за <match no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_naz$2"/> <match no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_naz$2"/></suggestion>
          -->
@@ -907,7 +905,9 @@ $Id$
          <example>рахуючись місцями</example>
        </rule>
 -->
-       <!-- прикметники -->
+    </rulegroup>
+    
+    <rulegroup id="NON_LEXEM_BORROWING_ADJ" name="Кальки: прикметники">
 
        <!-- любий -->
        <rule>
@@ -1064,9 +1064,9 @@ $Id$
          <example>в подальшому розвитку</example> <!-- TODO: в подальшому розвитку -> дальшому розвитку ??? -->
          <example>що надалі стало підставою</example>
        </rule>
+    </rulegroup>
 
-
-       <!-- іменники -->
+    <rulegroup id="NON_LEXEM_BORROWING_NOUN" name="Кальки: іменники">
 
        <!-- необхідність -->
        <rule>
@@ -1566,7 +1566,17 @@ $Id$
          <example correction="пам'ятати|тримати в пам'яті">Це теж <marker>тримаємо в умі</marker></example>
        </rule>
 
-       <!-- прийменники -->
+       <rule>
+         <pattern>
+           <token>так</token>
+           <token inflected="yes">називаний</token>
+         </pattern>
+         <message>Правильно: <suggestion>так званий</suggestion></message>
+         <example correction="так званий">В <marker>так називаний</marker> парадоксальний ефект.</example>
+       </rule>
+    </rulegroup>
+
+    <rulegroup id="NON_LEXEM_BORROWING_PREP" name="Кальки: прийменники">
 
       <rule>
           <pattern>
@@ -1778,8 +1788,9 @@ $Id$
           <example correction="Відповідно до"><marker>Відповідно з</marker> накладною.</example>
           <example>Відповідно до накладної.</example>
       </rule>
+    </rulegroup>
 
-       <!-- фразеологічні кальки -->
+    <rulegroup id="NON_LEXEM_BORROWING_PHRAS" name="Кальки: фрази">
 
        <rule>
          <pattern>
@@ -2194,9 +2205,18 @@ $Id$
          <example>зі зламаним ребром</example>
        </rule>
 
+       <rule>
+         <pattern>
+              <token>на</token>
+              <token>дому</token>
+         </pattern>
+         <message>Правильно: <suggestion>(у себе) вдома</suggestion>, <suggestion>дома</suggestion></message>
+         <example correction="(у себе) вдома|дома">Лікар приймає <marker>на дому</marker>.</example>
+       </rule>
+
     </rulegroup>
 
-    <rulegroup id="PREPOSITION_PO" name="помилкове вживання прийменника «по»">
+    <rulegroup id="PREPOSITION_PO" name="Помилкове вживання прийменника «по»">
 
        <!-- загальне -->
        <rule>

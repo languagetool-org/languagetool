@@ -21,7 +21,9 @@ package org.languagetool.dev.dumpcheck;
 import org.junit.Test;
 import org.languagetool.language.English;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
@@ -39,5 +41,12 @@ public class TatoebaSentenceSourceTest {
     assertThat(source.next().getText(), is("The mother wakes up her daughter."));
     assertThat(source.next().getText(), is("Ken beat me at chess."));
     assertFalse(source.hasNext());
+  }
+
+  @Test(expected = RuntimeException.class)
+  public void testTatoebaSourceInvalidInput() throws UnsupportedEncodingException {
+    ByteArrayInputStream stream = new ByteArrayInputStream("just a text".getBytes("utf-8"));
+    TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
+    source.hasNext();
   }
 }

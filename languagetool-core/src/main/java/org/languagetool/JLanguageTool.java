@@ -479,9 +479,11 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
-    final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
+
+//    Collections.sort(ruleMatches);  // SameRuleGroupFilter sorts rule matches already
     
-    Collections.sort(ruleMatches);
     return ruleMatches;
   }
   
@@ -496,7 +498,7 @@ public class JLanguageTool {
     return analyzeSentences(sentences);
   }
   
-  private List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
+  protected List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     int j = 0;
@@ -509,11 +511,17 @@ public class JLanguageTool {
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);
-      printIfVerbose(analyzedSentence.toString());
-      printIfVerbose(analyzedSentence.getAnnotations());
+      printSentenceInfo(analyzedSentence);
     }
     
     return analyzedSentences;
+  }
+
+  protected void printSentenceInfo(AnalyzedSentence analyzedSentence) {
+    if (printStream != null) {
+      printIfVerbose(analyzedSentence.toString());
+      printIfVerbose(analyzedSentence.getAnnotations());
+    }
   }
   
   protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
@@ -563,8 +571,7 @@ public class JLanguageTool {
         sentenceMatches.add(thisMatch);
       }
     }
-    final RuleMatchFilter filter = new SameRuleGroupFilter();
-    return filter.filter(sentenceMatches);
+    return new SameRuleGroupFilter().filter(sentenceMatches);
   }
 
   private boolean ignoreRule(Rule rule) {
@@ -627,7 +634,7 @@ public class JLanguageTool {
     return thisMatch;
   }
 
-  private void rememberUnknownWords(final AnalyzedSentence analyzedText) {
+  protected void rememberUnknownWords(final AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       final AnalyzedTokenReadings[] atr = analyzedText
           .getTokensWithoutWhitespace();
@@ -831,7 +838,7 @@ public class JLanguageTool {
     return sentenceCount;
   }
 
-  private void printIfVerbose(final String s) {
+  protected void printIfVerbose(final String s) {
     if (printStream != null) {
       printStream.println(s);
     }

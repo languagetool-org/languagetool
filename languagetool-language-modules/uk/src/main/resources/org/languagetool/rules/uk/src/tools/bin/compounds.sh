@@ -1,5 +1,8 @@
 #!/bin/sh
 SRC="compounds-unknown.?.txt"
+
+ls $SRC > /dev/null || exit 1
+
 cat $SRC | grep -Eiv "[а-яіїєґ][A-Z]|[A-Z][а-яіїєґ]|№" | sort > all.srt.tmp
 cat all.srt.tmp | grep -v "anim-" | uniq -c > compounds-unknown.txt
 cat all.srt.tmp | grep " anim-" | awk '{print $1}' | uniq -c > compounds-unknown-anim-inanim.txt

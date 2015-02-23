@@ -28,16 +28,13 @@ import org.languagetool.language.Polish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 import org.languagetool.rules.RuleMatch;
 
-/**
- * @author Daniel Naber
- */
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new Polish());
-    rule = new CompoundRule(null);
+    rule = new CompoundRule(TestTools.getEnglishMessages());
   }
 
   public void testRule() throws IOException {

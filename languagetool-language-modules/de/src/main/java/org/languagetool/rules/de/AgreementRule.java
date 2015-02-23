@@ -185,9 +185,7 @@ public class AgreementRule extends GermanRule {
     
   public AgreementRule(final ResourceBundle messages, German language) {
     this.language = language;
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_grammar")));
-    }
+    super.setCategory(new Category(messages.getString("category_grammar")));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut"));
   }

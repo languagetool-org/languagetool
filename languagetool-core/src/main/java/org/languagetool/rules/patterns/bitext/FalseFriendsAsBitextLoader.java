@@ -62,7 +62,7 @@ public class FalseFriendsAsBitextLoader {
       if (srcRules.containsKey(rule.getId())) {
         final BitextPatternRule bRule = new BitextPatternRule(
                 srcRules.get(rule.getId()), rule);
-        bRule.setSourceLang(motherTongue);
+        bRule.setSourceLanguage(motherTongue);
         bRule.setCategory(rule.getCategory());
         bRules.add(bRule);
       }

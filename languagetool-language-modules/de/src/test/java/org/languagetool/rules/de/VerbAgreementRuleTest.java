@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
@@ -40,7 +41,7 @@ public class VerbAgreementRuleTest extends TestCase {
   
   @Override
   public void setUp() throws IOException {
-    rule = new VerbAgreementRule(null, new German());
+    rule = new VerbAgreementRule(TestTools.getMessages("de"), new German());
     langTool = new JLanguageTool(new German());
   }
   

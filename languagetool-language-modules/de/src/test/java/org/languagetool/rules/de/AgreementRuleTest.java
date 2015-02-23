@@ -25,6 +25,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
@@ -41,7 +42,7 @@ public class AgreementRuleTest extends TestCase {
   
   @Override
   public void setUp() throws IOException {
-    rule = new AgreementRule(null, new German());
+    rule = new AgreementRule(TestTools.getMessages("de"), new German());
     langTool = new JLanguageTool(new German());
   }
   

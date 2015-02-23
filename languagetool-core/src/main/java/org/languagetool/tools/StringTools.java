@@ -430,14 +430,16 @@ public final class StringTools {
   }
 
   /**
-   * Simple XML filtering routing
+   * Simple XML filtering for XML tags.
    * @param str XML string to be filtered.
    * @return Filtered string without XML tags.
    */
   public static String filterXML(final String str) {
     String s = str;       
-    s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
-    s = XML_PATTERN.matcher(s).replaceAll("");
+    if (s.contains("<")) { // don't run slow regex unless we have to
+      s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
+      s = XML_PATTERN.matcher(s).replaceAll("");
+    }
     return s;
   }
 

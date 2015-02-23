@@ -20,13 +20,14 @@ package org.languagetool.rules.de;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 
 public class DashRuleTest extends TestCase {
 
-  private final DashRule rule = new DashRule(null);
+  private final DashRule rule = new DashRule(TestTools.getMessages("de"));
 
   public void testRule() throws IOException {
     JLanguageTool lt = new JLanguageTool(new German());

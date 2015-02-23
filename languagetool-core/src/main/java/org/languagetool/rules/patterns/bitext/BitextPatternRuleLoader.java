@@ -133,7 +133,7 @@ class BitextPatternRuleHandler extends PatternRuleHandler {
         final BitextPatternRule bRule = new BitextPatternRule(srcRule, trgRule);
         bRule.setCorrectBitextExamples(correctExamples);
         bRule.setIncorrectBitextExamples(incorrectExamples);
-        bRule.setSourceLang(srcLang);
+        bRule.setSourceLanguage(srcLang);
         rules.add(bRule);
         break;
       case SRC_EXAMPLE:
