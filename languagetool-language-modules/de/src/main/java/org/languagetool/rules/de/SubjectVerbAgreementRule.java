@@ -45,6 +45,8 @@ import java.util.regex.Pattern;
  *   <li>Die Autos ist schnell.</li>
  *   <li>Die Katze und der Hund ist schön.</li>
  * </ul>
+ * See <a href="http://wiki.languagetool.org/german-agreement-check">our wiki</a>
+ * for documentation of the steps this rule relies on.
  * @since 2.9
  */
 public class SubjectVerbAgreementRule extends GermanRule {
