@@ -48,7 +48,7 @@ public class FakeLanguage extends Language {
   }
 
   @Override
-  synchronized List<PatternRule> getPatternRules() throws IOException {
+  protected synchronized List<PatternRule> getPatternRules() throws IOException {
     return Collections.emptyList();
   }
 

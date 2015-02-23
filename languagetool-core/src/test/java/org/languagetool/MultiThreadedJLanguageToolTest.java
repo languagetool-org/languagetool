@@ -82,7 +82,7 @@ public class MultiThreadedJLanguageToolTest {
   public void testTwoRulesOnly() throws IOException {
     MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new FakeLanguage() {
       @Override
-      synchronized List<PatternRule> getPatternRules() {
+      protected synchronized List<PatternRule> getPatternRules() {
         return Collections.emptyList();
       }
 
