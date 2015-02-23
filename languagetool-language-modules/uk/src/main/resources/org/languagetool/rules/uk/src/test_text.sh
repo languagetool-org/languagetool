@@ -24,7 +24,7 @@ CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform
 #export PATH=/usr/java/latest/bin:$PATH
 
 THREAD_CNT=`more /proc/cpuinfo | grep processor| wc -l`
-(( THREAD_CNT += 2 ))
+(( THREAD_CNT += 0 ))
 echo "Using $THREAD_CNT threads"
 JAVA_OPTS="$JAVA_OPTS -Dorg.languagetool.thread_count_internal=$THREAD_CNT"
 

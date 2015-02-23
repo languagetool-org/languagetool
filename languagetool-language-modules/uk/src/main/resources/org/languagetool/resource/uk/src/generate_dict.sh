@@ -29,11 +29,11 @@ fi
 
 if [ "$?" == "0" ]; then
 
-mv -f all_tags.txt all_tags.txt.old
-cat  ../ukrainian_tags.txt | sed -r "s/:/\n/g" | sed -r "s/\&//g" | sort | uniq > all_tags.txt
-diff all_tags.txt.old all_tags.txt > all_tags.diff
+mv -f temp/all_tags.txt temp/all_tags.txt.old
+cat  ../ukrainian_tags.txt | sed -r "s/:/\n/g" | sed -r "s/\&//g" | sort | uniq > temp/all_tags.txt
+diff temp/all_tags.txt.old temp/all_tags.txt > temp/all_tags.diff
 echo "Tagset diff:"
-cat all_tags.diff
+cat temp/all_tags.diff
 echo "-------"
 
 fi
