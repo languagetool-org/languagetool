@@ -6703,6 +6703,43 @@ $Id$
             <example>al revés de</example>
         </rule>
         <rule id="PARTICIPAR_A_EN" name="participar *a/en">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes" skip="5">vendre|donar|comprar|regalar|permetre</token>
+                    <token inflected="yes">participació</token>
+                    <token>a</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">deixar|permetre</token>
+                    <token inflected="yes">participar</token>
+                    <token>a</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token>l</token>
+                    <token>cap</token>
+                    <token regexp="yes">de|d'</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token regexp="yes">l|l'</token>
+                    <token regexp="yes">&mesos_any;</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>a</token>
+                    <token>l|l'</token>
+                    <token min="0">no</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <pattern>
                 <token inflected="yes" regexp="yes">participar|participació|participant<exception regexp="yes">participada|participats|participades</exception></token>
                 <marker>
@@ -6723,8 +6760,11 @@ $Id$
             <example>va participar a finals del 38 en el debat</example>
             <example>Hi va participar a l'edat de 30 anys</example>
             <example>participà als 25 anys en els Jocs Olímpics</example>
-            <!-- no deixen participar (a) menors d'edat (professionals, aficionats, arquitectes)
-            ambigu:  però el 1976 fou traspassada la seva participació a l'INI;-->
+            <example>Vengueren les seves participacions a la resta de la família</example>
+            <example>només estava permesa la participació a tennistes</example>
+            <example>no permeten participar a tenistes professionals</example>
+            <example>no deixen participar a menors d'edat</example>
+            <!-- ambigu:  però el 1976 fou traspassada la seva participació a l'INI;-->
         </rule>
         <rule id="CUINA_A_GAS" name="*cuina a gas/cuina de gas ">
             <pattern>

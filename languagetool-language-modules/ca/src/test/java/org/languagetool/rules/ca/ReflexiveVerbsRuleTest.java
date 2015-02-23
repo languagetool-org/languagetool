@@ -50,6 +50,7 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
 
+    assertCorrect("Durant el 2010 s'ha crescut molt");
     assertCorrect("de què tant ens queixem");
     assertCorrect("cada zona més meridional esdevingué adient per als éssers àrtics");
     assertCorrect("cereals, garrofers, vinya i olivar.");
@@ -269,6 +270,12 @@ public class ReflexiveVerbsRuleTest extends TestCase {
     assertCorrect("el que no s'olora, el que no es tasta");
        
     // errors:
+    assertIncorrect("Ells s'han crescut molt");
+    assertIncorrect("Em vaig créixer davant les dificultats");
+    assertIncorrect("Joan s'ha crescut molt");
+    assertIncorrect("Joana s'ha crescut molt");
+    assertIncorrect("Ada Martínez s'ha crescut molt");
+    assertIncorrect("Ada Colau s'ha crescut molt");
     assertIncorrect("Ha arribat l'hora de saltar-se la legalitat.");
     assertIncorrect("Delia per menjar-ne.");
     assertIncorrect("Ells es volen dur les ànimes a l'Inframón");
