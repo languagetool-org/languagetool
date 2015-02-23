@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -145,6 +146,7 @@ final class PatternRuleMatcher extends AbstractPatternRulePerformer {
     return filteredMatches.toArray(new RuleMatch[filteredMatches.size()]);
   }
 
+  @Nullable
   private RuleMatch createRuleMatch(final List<Integer> tokenPositions,
       final AnalyzedTokenReadings[] tokens, final int firstMatchToken,
       final int lastMatchToken, int firstMarkerMatchToken, int lastMarkerMatchToken) throws IOException {

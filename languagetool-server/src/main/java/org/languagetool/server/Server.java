@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
 import java.util.Arrays;
@@ -88,6 +89,7 @@ abstract class Server {
     return isRunning;
   }
 
+  @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
     final int requestLimit = config.getRequestLimit();
     final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();

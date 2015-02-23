@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.tools.StringTools;
 
 import java.net.Authenticator;
@@ -31,6 +32,7 @@ import java.net.PasswordAuthentication;
 public class PasswordAuthenticator extends Authenticator {
 
   @Override
+  @Nullable
   protected PasswordAuthentication getPasswordAuthentication() {
     if (getRequestingURL() == null) {
       return null;

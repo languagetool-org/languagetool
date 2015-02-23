@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
@@ -81,6 +82,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     return irregularFormsOrNull;
   }
 
+  @Nullable
   private IrregularForms getIrregularFormsOrNull(String word, String wordSuffix, List<String> suffixes, String posTag, String posName, String formName) {
     try {
       for (String suffix : suffixes) {

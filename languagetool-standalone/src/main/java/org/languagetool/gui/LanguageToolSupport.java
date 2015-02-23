@@ -73,6 +73,7 @@ import javax.swing.text.Position;
 import javax.swing.text.View;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -492,6 +493,7 @@ class LanguageToolSupport {
     checkImmediately(null);
   }
 
+  @Nullable
   private Span getSpan(int offset) {
     for (final Span cur : documentSpans) {
       if (cur.end > cur.start && cur.start <= offset && offset < cur.end) {
@@ -668,6 +670,7 @@ class LanguageToolSupport {
     }
   }
 
+  @Nullable
   Rule getRuleForId(String ruleId) {
     final List<Rule> allRules = languageTool.getAllRules();
     for (Rule rule : allRules) {

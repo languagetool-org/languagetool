@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -373,6 +374,7 @@ public class AgreementRule extends GermanRule {
     return false;
   }
 
+  @Nullable
   private RuleMatch checkDetNounAgreement(final AnalyzedTokenReadings token1,
       final AnalyzedTokenReadings token2) {
     if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
@@ -458,7 +460,8 @@ public class AgreementRule extends GermanRule {
     set1.retainAll(set2);
     return set1.size() > 0;
   }
-  
+
+  @Nullable
   private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1, 
       final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3,
       final GrammarCategory categoryToRelax) {

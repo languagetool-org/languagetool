@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.German;
@@ -84,6 +85,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return RULE_ID;
   }
 
+  @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language) {
     if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
@@ -161,6 +163,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   // for "Stil- und Grammatikprüfung", get "Grammatikprüfung" when at position of "Stil-"
+  @Nullable
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);

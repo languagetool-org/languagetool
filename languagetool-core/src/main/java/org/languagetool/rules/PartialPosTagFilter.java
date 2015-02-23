@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -43,6 +44,7 @@ import java.util.regex.Pattern;
  */
 public abstract class PartialPosTagFilter implements RuleFilter {
 
+  @Nullable
   protected abstract List<AnalyzedTokenReadings> tag(String token);
 
   @Override

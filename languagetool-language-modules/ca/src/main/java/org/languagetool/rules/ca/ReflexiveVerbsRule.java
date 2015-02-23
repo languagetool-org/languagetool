@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -409,7 +410,8 @@ public class ReflexiveVerbsRule extends CatalanRule {
 
   /**
    * Find appropiate pronoun pattern. (Troba el pronom feble apropiat)
-   */ 
+   */
+  @Nullable
   private Pattern pronomPattern(AnalyzedTokenReadings aToken) {
   if (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
     return PRONOM_FEBLE_13S;

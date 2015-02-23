@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -105,6 +106,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Nullable
   private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) throws IOException {
     if (tokenStr.equals("ist") || tokenStr.equals("war")) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
@@ -131,6 +133,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
     return null;
   }
 
+  @Nullable
   private RuleMatch getPluralMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) {
     if (tokenStr.equals("sind") || tokenStr.equals("waren")) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];

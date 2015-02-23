@@ -18,6 +18,7 @@
  */
 package org.languagetool.dev;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -119,6 +120,7 @@ public class SuggestionExtractorTool {
     }
   }
 
+  @Nullable
   private Rule getSpellcheckRule(JLanguageTool languageTool) {
     final List<Rule> allActiveRules = languageTool.getAllActiveRules();
     for (Rule activeRule : allActiveRules) {

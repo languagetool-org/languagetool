@@ -37,6 +37,7 @@ import javax.swing.UIManager;
 
 import com.sun.star.lang.*;
 import com.sun.star.lang.IllegalArgumentException;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -134,6 +135,7 @@ public class Main extends WeakBase implements XJobExecutor,
     xContext = xCompContext;
   }
 
+  @Nullable
   private XComponent getXComponent() {
     try {
       final XMultiComponentFactory xMCF = xContext.getServiceManager();
@@ -151,6 +153,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * dialog.
    * @return the language under the visible cursor
    */
+  @Nullable
   private Language getLanguage() {
     final XComponent xComponent = getXComponent();
     final Locale charLocale;
@@ -422,6 +425,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return paraText.replaceAll("([^\\d][.!?])\\d ", "$1¹ ");
   }
 
+  @Nullable
   private synchronized SingleProofreadingError[] checkParaRules(
       final String paraText, final int startPos,
       final int endPos, final String docID) {

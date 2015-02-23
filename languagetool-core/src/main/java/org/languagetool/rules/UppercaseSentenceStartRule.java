@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -137,6 +138,7 @@ public class UppercaseSentenceStartRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  @Nullable
   private String dutchSpecialCase(final String firstToken,
       final String secondToken, final AnalyzedTokenReadings[] tokens) {
     if (!language.getShortName().equals("nl")) {

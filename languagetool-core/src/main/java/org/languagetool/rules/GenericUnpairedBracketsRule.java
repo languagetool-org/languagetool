@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -201,6 +202,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return uniqueMap.get(str);
   }
 
+  @Nullable
   private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol) {
     if (!ruleMatchStack.empty()) {
       final int index = findSymbolNum(symbol, endSymbols);

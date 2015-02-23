@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -332,8 +333,9 @@ public class Unifier {
    * Gets a full sequence of filtered tokens.
    * 
    * @return Array of AnalyzedTokenReadings that match equivalence relation
-   *         defined for features tested.
+   *         defined for features tested, or {@code null}
    */
+  @Nullable
   public final AnalyzedTokenReadings[] getUnifiedTokens() {
     if (tokSequence.isEmpty()) {
       return null;
@@ -448,8 +450,9 @@ public class Unifier {
    * Used for getting a unified sequence in case when simple test method
    * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean)}} was used.
    * 
-   * @return An array of {@link AnalyzedTokenReadings}
+   * @return An array of {@link AnalyzedTokenReadings} or {@code null} when not in unification
    */
+  @Nullable
   public final AnalyzedTokenReadings[] getFinalUnified() {
     if (inUnification) {
       return getUnifiedTokens();

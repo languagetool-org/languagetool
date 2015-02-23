@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
@@ -193,6 +194,7 @@ public class UkrainianTagger extends BaseTagger {
     return null;
   }
 
+  @Nullable
   private List<AnalyzedToken> guessCompoundTag(String word) {
     int dashIdx = word.lastIndexOf('-');
     if( dashIdx == 0 || dashIdx == word.length() - 1 )
@@ -544,7 +546,8 @@ public class UkrainianTagger extends BaseTagger {
     }
     return agreedPosTag;
   }
-  
+
+  @Nullable
   private String getArgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
     if( isPlural(leftPosTag) && ! isPlural(rightPosTag)
         || ! isPlural(leftPosTag) && isPlural(rightPosTag) )
@@ -604,6 +607,7 @@ public class UkrainianTagger extends BaseTagger {
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
 
+  @Nullable
   private List<AnalyzedToken> poAdvMatch(String word, List<AnalyzedToken> analyzedTokens, String adjTag) {
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
@@ -617,6 +621,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
 
+  @Nullable
   private static String getGenderConj(String posTag) {
     Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
     if( pos4matcher.matches() )
@@ -638,6 +643,7 @@ public class UkrainianTagger extends BaseTagger {
 //    return null;
 //  }
 
+  @Nullable
   private static String getNum(String posTag) {
     Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.):v_.*").matcher(posTag);
     if( pos4matcher.matches() ) {
@@ -651,6 +657,7 @@ public class UkrainianTagger extends BaseTagger {
     return null;
   }
 
+  @Nullable
   private static String getConj(String posTag) {
     Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):[mfnp]:(v_...).*").matcher(posTag);
     if( pos4matcher.matches() )

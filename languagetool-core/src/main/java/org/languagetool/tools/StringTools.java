@@ -448,6 +448,7 @@ public final class StringTools {
     return s;
   }
 
+  @Nullable
   public static String asString(final CharSequence s) {
     if (s == null) {
       return null;

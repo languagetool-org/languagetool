@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -83,6 +85,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     return result;
   }
 
+  @Nullable
   private Pattern getPosTagIgnoreRegex(File infoFile) {
     String fileName = infoFile.getName();
     int underscorePos = fileName.indexOf('_');

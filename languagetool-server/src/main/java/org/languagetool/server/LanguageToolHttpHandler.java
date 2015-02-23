@@ -25,6 +25,7 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -230,6 +231,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * only trust the last item in the list of proxies, as it was set by our proxy,
    * which we can trust.
    */
+  @Nullable
   private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
     if (trustXForwardForHeader) {
       List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");

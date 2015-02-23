@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.IncorrectExample;
@@ -510,6 +511,7 @@ public class XMLRuleHandler extends DefaultHandler {
    * Adds Match objects for all references to tokens
    * (including '\1' and the like).
    */
+  @Nullable
   protected List<Match> addLegacyMatches(final List <Match> existingSugMatches, final String messageStr,
       boolean inMessage) {
     if (existingSugMatches == null || existingSugMatches.isEmpty()) {
