@@ -374,8 +374,6 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       prepareConfig(docLanguage);
       langTool = new MultiThreadedJLanguageTool(docLanguage, config.getMotherTongue());
-      langTool.activateDefaultPatternRules();
-      langTool.activateDefaultFalseFriendRules();
       for (Rule rule : langTool.getAllActiveRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());

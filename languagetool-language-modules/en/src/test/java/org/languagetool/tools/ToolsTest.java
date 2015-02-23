@@ -30,8 +30,6 @@ public class ToolsTest extends TestCase {
 
   public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool tool = new JLanguageTool(new English());
-    tool.activateDefaultPatternRules();
-    tool.activateDefaultFalseFriendRules();
     assertEquals("This is a test.", Tools.correctText("This is an test.", tool));
   }
   

@@ -27,7 +27,6 @@ public class JLanguageToolTest extends TestCase {
 
   public void testJapanese() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Japanese());
-    tool.activateDefaultPatternRules();
     assertEquals(0, tool.check("エラーを含まないテスト文です。").size());
     assertEquals(1, tool.check("エラーお含むテスト文です。").size());
   }

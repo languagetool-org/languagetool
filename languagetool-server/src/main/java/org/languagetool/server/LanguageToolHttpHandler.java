@@ -475,8 +475,6 @@ class LanguageToolHttpHandler implements HttpHandler {
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
-    newLanguageTool.activateDefaultPatternRules();
-    newLanguageTool.activateDefaultFalseFriendRules();
     if (languageModelDir != null) {
       newLanguageTool.activateLanguageModelRules(languageModelDir);
     }

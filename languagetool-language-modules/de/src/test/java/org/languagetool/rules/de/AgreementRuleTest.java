@@ -221,11 +221,10 @@ public class AgreementRuleTest extends TestCase {
   }
   
   public void testRegression() throws IOException {
-      JLanguageTool gramCheckerEngine = new JLanguageTool(new German());
-      gramCheckerEngine.activateDefaultPatternRules();
+      JLanguageTool lt = new JLanguageTool(new German());
       // used to be not detected > 1.0.1:
       String str = "Und so.\r\nDie Bier.";
-      List<RuleMatch> matches = gramCheckerEngine.check(str);
+      List<RuleMatch> matches = lt.check(str);
       assertEquals(1, matches.size());
   }
   

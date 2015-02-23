@@ -45,9 +45,7 @@ public class RuleTest extends TestCase {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
-        if (rule instanceof PatternRule) {
-          throw new RuntimeException("Did not expect PatternRule here: " + rule);
-        } else {
+        if (!(rule instanceof PatternRule)) {
           assertIdUniqueness(ids, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));

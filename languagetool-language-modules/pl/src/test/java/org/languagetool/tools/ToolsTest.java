@@ -32,8 +32,6 @@ public class ToolsTest extends TestCase {
 
   public void testCheck() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool tool = new JLanguageTool(new Polish());
-    tool.activateDefaultPatternRules();
-    tool.activateDefaultFalseFriendRules();
 
     List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
@@ -45,8 +43,6 @@ public class ToolsTest extends TestCase {
 
   public void testCorrect() throws IOException, ParserConfigurationException, SAXException {
     JLanguageTool tool = new JLanguageTool(new Polish());
-    tool.activateDefaultPatternRules();
-    tool.activateDefaultFalseFriendRules();
 
     String correct = Tools.correctText("To jest całkowicie prawidłowe zdanie.", tool);
     assertEquals("To jest całkowicie prawidłowe zdanie.", correct);

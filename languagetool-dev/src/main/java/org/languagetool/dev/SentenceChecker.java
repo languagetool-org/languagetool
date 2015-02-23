@@ -37,7 +37,6 @@ class SentenceChecker {
 
   private void run(Language language, File file) throws IOException {
     JLanguageTool lt = new JLanguageTool(language);
-    lt.activateDefaultPatternRules();
     Scanner scanner = new Scanner(file);
     int count = 0;
     long startTime = System.currentTimeMillis();

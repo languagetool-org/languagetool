@@ -224,7 +224,6 @@ public class Searcher {
   List<PatternRule> getRuleById(String ruleId, Language language) throws IOException {
     List<PatternRule> rules = new ArrayList<>();
     JLanguageTool langTool = new JLanguageTool(language);
-    langTool.activateDefaultPatternRules();
     for (Rule rule : langTool.getAllRules()) {
       if (rule.getId().equals(ruleId) && rule instanceof PatternRule) {
         rules.add((PatternRule) rule);
@@ -265,7 +264,9 @@ public class Searcher {
   private JLanguageTool getLanguageToolWithOneRule(Language lang, PatternRule patternRule) {
     final JLanguageTool langTool = new JLanguageTool(lang);
     for (Rule rule : langTool.getAllActiveRules()) {
-      langTool.disableRule(rule.getId());
+      if (!rule.getId().equals(patternRule.getId())) {
+        langTool.disableRule(rule.getId());
+      }
     }
     langTool.addRule(patternRule);
     langTool.enableDefaultOffRule(patternRule.getId()); // rule might be off by default

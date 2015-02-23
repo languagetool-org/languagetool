@@ -61,7 +61,6 @@ class AtomFeedChecker {
   AtomFeedChecker(Language language, DatabaseConfig dbConfig) throws IOException {
     this.language = Objects.requireNonNull(language);
     langTool = new JLanguageTool(language);
-    langTool.activateDefaultPatternRules();
     // disable because they create too many false alarms:
     langTool.disableRule("UNPAIRED_BRACKETS");
     langTool.disableRule("EN_UNPAIRED_BRACKETS");

@@ -55,7 +55,6 @@ final class PerformanceTest2 {
       String subText = text.substring(beginIndex, endIndex);
       long startTime = System.currentTimeMillis();
       JLanguageTool langTool = new MultiThreadedJLanguageTool(language);
-      langTool.activateDefaultPatternRules();
       List<RuleMatch> matches = langTool.check(subText);
       long runTime = System.currentTimeMillis() - startTime;
       if (i >= SKIP) {

@@ -55,7 +55,6 @@ class ExampleSentenceProvider {
 
   private void initExampleSentences(Language language) throws IOException {
     final JLanguageTool lt = new JLanguageTool(language);
-    lt.activateDefaultPatternRules();
     final List<Rule> rules = lt.getAllActiveRules();
     final List<ExampleSentence> sentences = new ArrayList<>();
     for (Rule rule : rules) {

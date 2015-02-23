@@ -40,7 +40,6 @@ public class JLanguageToolTest extends TestCase {
   // used on http://languagetool.org/java-api/
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
-    langTool.activateDefaultPatternRules();
     List<RuleMatch> matches = langTool.check("A sentence " +
         "with a error in the Hitchhiker's Guide tot he Galaxy");
     for (RuleMatch match : matches) {
@@ -92,9 +91,8 @@ public class JLanguageToolTest extends TestCase {
     assertEquals(0, tool.check("I think it's better, and it's not a big deal.").size());
 
     assertEquals(1, tool.check("A test test that should give errors.").size());
-    assertEquals(0, tool.check("I can give you more a detailed description.").size());
-    assertEquals(12, tool.getAllRules().size());
-    tool.activateDefaultPatternRules();
+    assertEquals(1, tool.check("I can give you more a detailed description.").size());
+    assertTrue(tool.getAllRules().size() > 1000);
     assertEquals(0, tool.check("The sea ice is highly variable - frozen solid during cold, calm weather and broke...").size());
     assertTrue(tool.getAllRules().size() > 3);
     assertEquals(1, tool.check("I can give you more a detailed description.").size());

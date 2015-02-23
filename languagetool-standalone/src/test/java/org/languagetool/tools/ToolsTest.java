@@ -61,8 +61,7 @@ public class ToolsTest extends TestCase {
     final JLanguageTool srcTool = new JLanguageTool(english);
     final Polish polish = new Polish();
     final JLanguageTool trgTool = new JLanguageTool(polish);
-    trgTool.activateDefaultPatternRules();
-    
+
     final List<BitextRule> rules = Tools.getBitextRules(english, polish);
     
     int matches1 = Tools.checkBitext(

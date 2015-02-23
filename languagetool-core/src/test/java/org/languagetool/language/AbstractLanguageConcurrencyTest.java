@@ -91,9 +91,6 @@ public abstract class AbstractLanguageConcurrencyTest {
       for (int i = 0; i < this.testRuns; i++) {
         try {
           JLanguageTool tool = new JLanguageTool(this.language);
-          tool.activateDefaultPatternRules();
-          tool.activateDefaultFalseFriendRules();
-          
           Assert.assertNotNull(tool.check(this.sampleText));
         } catch (Exception e) {          
           failedTests += 1;

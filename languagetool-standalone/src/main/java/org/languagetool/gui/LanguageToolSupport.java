@@ -285,8 +285,6 @@ class LanguageToolSupport {
       //config still contains old language, update it
       this.config.setLanguage(language);
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
-      languageTool.activateDefaultPatternRules();
-      languageTool.activateDefaultFalseFriendRules();
       loadConfig();
     } catch (Exception e) {
       throw new RuntimeException(e);

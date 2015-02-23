@@ -20,7 +20,9 @@ package org.languagetool;
 
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Rule;
+import org.languagetool.rules.patterns.PatternRule;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -43,6 +45,11 @@ public class FakeLanguage extends Language {
   public FakeLanguage(String langCode, String country) {
     this.langCode = langCode;
     this.country = country;
+  }
+
+  @Override
+  synchronized List<PatternRule> getPatternRules() throws IOException {
+    return Collections.emptyList();
   }
 
   @Override

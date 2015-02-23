@@ -32,7 +32,6 @@ public class JLanguageToolTest extends TestCase {
     final JLanguageTool tool = new JLanguageTool(new German());
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
-    tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
     // no spelling mistakes as we have not created a variant:
     assertEquals(0, tool.check("I can give you more a detailed description").size());
@@ -44,7 +43,6 @@ public class JLanguageToolTest extends TestCase {
     final JLanguageTool tool = new JLanguageTool(new GermanyGerman());
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
-    tool.activateDefaultPatternRules();
     tool.setListUnknownWords(true);
     // German rule has no effect with English error, but they are spelling mistakes:
     assertEquals(6, tool.check("I can give you more a detailed description").size());
@@ -54,7 +52,6 @@ public class JLanguageToolTest extends TestCase {
 
   public void testPositionsWithGerman() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new German());
-    tool.activateDefaultPatternRules();
     final List<RuleMatch> matches = tool.check("Stundenkilometer");
     assertEquals(1, matches.size());
     final RuleMatch match = matches.get(0);

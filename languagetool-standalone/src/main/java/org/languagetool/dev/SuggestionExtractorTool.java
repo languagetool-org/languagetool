@@ -79,7 +79,6 @@ public class SuggestionExtractorTool {
         System.out.println("No spellchecker rule found for " + lang);
         continue;
       }
-      languageTool.activateDefaultPatternRules();
       final List<Rule> rules = languageTool.getAllRules();
       int tokenCount = 0;
       int noErrorCount = 0;

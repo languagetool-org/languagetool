@@ -38,7 +38,6 @@ final class PerformanceTest {
   private void run(JLanguageTool langTool, File textFile) throws IOException {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     int sentenceCount = langTool.sentenceTokenize(text).size();
-    langTool.activateDefaultPatternRules();
     //langTool.activateLanguageModelRules(new File("/data/google-ngram-index/"));
     System.out.println("Language: " +  langTool.getLanguage() +
                        ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");

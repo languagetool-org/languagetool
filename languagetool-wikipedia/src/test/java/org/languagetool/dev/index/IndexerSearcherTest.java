@@ -79,7 +79,6 @@ public class IndexerSearcherTest extends LuceneTestCase {
     //final Language language = new Polish();
     //final Language language = new German();
     final JLanguageTool lt = new JLanguageTool(language);
-    lt.activateDefaultPatternRules();
 
     System.out.println("Creating index for " + language + "...");
     final int ruleCount = createIndex(lt);

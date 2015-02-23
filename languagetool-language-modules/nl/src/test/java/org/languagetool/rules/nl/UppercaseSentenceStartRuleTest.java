@@ -21,13 +21,21 @@ package org.languagetool.rules.nl;
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Dutch;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 public class UppercaseSentenceStartRuleTest extends TestCase {
 
   public void testDutchSpecialCases() throws IOException {
-    final JLanguageTool lt = new JLanguageTool(new Dutch());
+    final JLanguageTool lt = new JLanguageTool(new Dutch() {
+      @Override
+      protected synchronized List<PatternRule> getPatternRules() {
+        return Collections.emptyList();
+      }
+    });
     
     assertEquals(1, lt.check("A sentence.").size());
     assertEquals(0, lt.check("'s Morgens...").size());

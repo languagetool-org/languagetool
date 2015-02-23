@@ -150,11 +150,9 @@ public class PatternRuleTest extends TestCase {
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
-      languageTool.activateDefaultPatternRules();
       disableSpellingRules(languageTool);
     }
     final JLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
-    allRulesLanguageTool.activateDefaultPatternRules();
     validateRuleIds(lang, allRulesLanguageTool);
     final List<PatternRule> rules = new ArrayList<>();
     for (String patternRuleFileName : lang.getRuleFileNames()) {

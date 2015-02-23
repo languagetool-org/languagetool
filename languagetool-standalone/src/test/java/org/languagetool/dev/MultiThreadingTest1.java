@@ -102,7 +102,6 @@ public class MultiThreadingTest1 {
   private void initExpectedResults(List<Language> languages) throws IOException {
     for (Language lang : languages) {
       JLanguageTool lt = new JLanguageTool(lang);
-      lt.activateDefaultPatternRules();
       String input = examples.get(lang.getShortNameWithCountryAndVariant());
       if (input != null) {
         List<RuleMatch> matches = lt.check(input);
@@ -137,7 +136,6 @@ public class MultiThreadingTest1 {
       if (input != null) {
         try {
           JLanguageTool lt = new JLanguageTool(lang);
-          lt.activateDefaultPatternRules();
           //System.out.println("Running with " + lang.getShortNameWithCountryAndVariant());
           List<RuleMatch> matches = lt.check(input);
           //System.out.println("=>" + matches);

@@ -42,7 +42,6 @@ class LanguageToolEvaluator implements Evaluator {
 
   LanguageToolEvaluator(File indexTopDir) throws IOException {
     langTool = new JLanguageTool(new BritishEnglish());
-    langTool.activateDefaultPatternRules();
     disableRules();
     if (indexTopDir != null) {
       if (indexTopDir.isDirectory()) {

@@ -47,16 +47,10 @@ import java.util.regex.Pattern;
 /**
  * The main class used for checking text against different rules:
  * <ul>
- * <li>the built-in Java rules (for English: <i>a</i> vs. <i>an</i>, whitespace after commas, ...)
- * <li>pattern rules loaded from external XML files with
- * {@link #loadPatternRules(String)}
- * <li>your own implementation of the abstract {@link Rule} classes added with
- * {@link #addRule(Rule)}
+ * <li>built-in Java rules (for English: <i>a</i> vs. <i>an</i>, whitespace after commas, ...)
+ * <li>built-in pattern rules loaded from external XML files (usually called {@code grammar.xml})
+ * <li>your own implementation of the abstract {@link Rule} classes added with {@link #addRule(Rule)}
  * </ul>
- * 
- * <p>Note that the constructors create a language checker that uses the built-in
- * Java rules only. Other rules (e.g. from XML) need to be added explicitly or
- * activated using {@link #activateDefaultPatternRules()}.
  * 
  * <p>You will probably want to use the sub class {@link MultiThreadedJLanguageTool} for best performance.
  * 
@@ -154,7 +148,7 @@ public class JLanguageTool {
   
   /**
    * Create a JLanguageTool and setup the built-in Java rules for the
-   * given language, ignoring XML-based rules and false friend rules.
+   * given language.
    *
    * @param language the language of the text to be checked
    */
@@ -163,8 +157,8 @@ public class JLanguageTool {
   }
 
   /**
-   * Create a JLanguageTool and setup the built-in Java rules for the
-   * given language, ignoring XML-based rules except false friend rules.
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
    * 
    * @param language the language of the text to be checked
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
@@ -175,6 +169,12 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages);
+    try {
+      activateDefaultPatternRules();
+      activateDefaultFalseFriendRules();
+    } catch (Exception e) {
+      throw new RuntimeException("Could not activate rules", e);
+    }
   }
   
   /**
@@ -315,7 +315,7 @@ public class JLanguageTool {
    * Loads and activates the pattern rules from
    * {@code org/languagetool/rules/<languageCode>/grammar.xml}.
    */
-  public void activateDefaultPatternRules() throws IOException {
+  private void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = language.getPatternRules();
     final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
     final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
@@ -336,7 +336,7 @@ public class JLanguageTool {
    * Loads and activates the false friend rules from
    * <code>rules/false-friends.xml</code>.
    */
-  public void activateDefaultFalseFriendRules()
+  private void activateDefaultFalseFriendRules()
       throws ParserConfigurationException, SAXException, IOException {
     final String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
     final List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);

@@ -193,7 +193,6 @@ public class WikipediaQuickCheck {
 
   private JLanguageTool getLanguageTool(Language lang) throws IOException {
     final JLanguageTool langTool = new MultiThreadedJLanguageTool(lang);
-    langTool.activateDefaultPatternRules();
     enableWikipediaRules(langTool);
     for (String disabledRuleId : disabledRuleIds) {
       langTool.disableRule(disabledRuleId);

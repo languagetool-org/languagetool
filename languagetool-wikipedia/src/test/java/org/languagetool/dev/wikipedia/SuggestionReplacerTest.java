@@ -27,9 +27,11 @@ import org.languagetool.language.English;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -117,7 +119,12 @@ public class SuggestionReplacerTest extends TestCase {
   public void testCompleteText() throws Exception {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia.txt");
     String origMarkup = IOUtils.toString(stream, "utf-8");
-    JLanguageTool langTool = new JLanguageTool(germanyGerman);
+    JLanguageTool langTool = new JLanguageTool(new GermanyGerman() {
+      @Override
+      protected synchronized List<PatternRule> getPatternRules() {
+        return Collections.emptyList();
+      }
+    });
     langTool.disableRule(GermanSpellerRule.RULE_ID);
     langTool.disableRule("DE_AGREEMENT");
     langTool.disableRule("GERMAN_WORD_REPEAT_BEGINNING_RULE");
@@ -149,7 +156,6 @@ public class SuggestionReplacerTest extends TestCase {
     InputStream stream = SuggestionReplacerTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/wikipedia2.txt");
     String origMarkup = IOUtils.toString(stream, "utf-8");
     JLanguageTool langTool = new JLanguageTool(germanyGerman);
-    langTool.activateDefaultPatternRules();
     PlainTextMapping mapping = filter.filter(origMarkup);
     List<RuleMatch> matches = langTool.check(mapping.getPlainText());
     assertTrue("Expected >= 30 matches, got: " + matches, matches.size() >= 30);
@@ -171,13 +177,7 @@ public class SuggestionReplacerTest extends TestCase {
   }
 
   private JLanguageTool getLanguageTool(Language language) {
-    try {
-      JLanguageTool langTool = new JLanguageTool(language);
-      langTool.activateDefaultPatternRules();
-      return langTool;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    return new JLanguageTool(language);
   }
 
   private void applySuggestion(JLanguageTool langTool, SwebleWikipediaTextFilter filter, String text, String expected) throws IOException {

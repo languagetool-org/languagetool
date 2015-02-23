@@ -139,7 +139,6 @@ public class SentenceSourceChecker {
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, File languageModelDir) throws IOException {
     final Language lang = Languages.getLanguageForShortName(langCode);
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
-    languageTool.activateDefaultPatternRules();
     if (languageModelDir != null) {
       languageTool.activateLanguageModelRules(languageModelDir);
     }

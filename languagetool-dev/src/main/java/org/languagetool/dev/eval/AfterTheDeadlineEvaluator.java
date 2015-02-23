@@ -95,7 +95,6 @@ class AfterTheDeadlineEvaluator {
 
   private List<Rule> getRules(Language lang) throws IOException {
     JLanguageTool langTool = new JLanguageTool(lang);
-    langTool.activateDefaultPatternRules();
     return langTool.getAllActiveRules();
   }
 

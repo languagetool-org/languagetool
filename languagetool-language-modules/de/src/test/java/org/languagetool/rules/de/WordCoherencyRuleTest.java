@@ -101,38 +101,22 @@ public class WordCoherencyRuleTest extends TestCase {
   }
 
   public void testRuleCompleteTexts() throws IOException {
-    final JLanguageTool langTool;
-    // complete texts:
-    List<RuleMatch> matches;
-    langTool = new JLanguageTool(new German());
-    matches = langTool.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwändig.");
-    assertEquals(0, matches.size());
-    
-    matches = langTool.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändig.");
-    assertEquals(1, matches.size());
-    
-    matches = langTool.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendig.");
-    assertEquals(1, matches.size());
+    JLanguageTool lt = new JLanguageTool(new German());
+
+    assertEquals(0, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwändig.").size());
+    assertEquals(1, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändig.").size());
+    assertEquals(1, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendig.").size());
     
     // also find full forms:
-    matches = langTool.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendiger als...");
-    assertEquals(0, matches.size());
+    assertEquals(0, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwendiger als so.").size());
+    assertEquals(1, lt.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändiger als so.").size());
     
-    matches = langTool.check("Das ist aufwendig. Aber hallo. Es ist wirklich aufwändiger als...");
-    assertEquals(1, matches.size());
-    
-    matches = langTool.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendiger als...");
-    assertEquals(1, matches.size());
-    
-    matches = langTool.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendiger als...");
-    assertEquals(1, matches.size());
-    
-    matches = langTool.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendig.");
-    assertEquals(1, matches.size());
+    assertEquals(1, lt.check("Das ist aufwändig. Aber hallo. Es ist wirklich aufwendiger als so.").size());
+    assertEquals(1, lt.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendiger als so.").size());
+    assertEquals(1, lt.check("Das ist das aufwändigste. Aber hallo. Es ist wirklich aufwendig.").size());
 
     // cross-paragraph checks
-    matches = langTool.check("Das ist das aufwändigste.\n\nAber hallo. Es ist wirklich aufwendig.");
-    assertEquals(1, matches.size());
+    assertEquals(1, lt.check("Das ist das aufwändigste.\n\nAber hallo. Es ist wirklich aufwendig.").size());
   }
 
 }

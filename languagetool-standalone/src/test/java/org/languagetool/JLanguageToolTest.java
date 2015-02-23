@@ -46,7 +46,6 @@ public class JLanguageToolTest {
   @Test
   public void testGetAllActiveRules() throws Exception {
     JLanguageTool langTool = new JLanguageTool(new Demo());
-    langTool.activateDefaultPatternRules();
     List<String> ruleIds = getActiveRuleIds(langTool);
     assertTrue(ruleIds.contains("DEMO_RULE"));
     assertFalse(ruleIds.contains("DEMO_RULE_OFF"));

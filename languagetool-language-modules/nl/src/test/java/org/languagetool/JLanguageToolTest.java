@@ -27,7 +27,6 @@ public class JLanguageToolTest extends TestCase {
 
   public void testDutch() throws IOException {
     final JLanguageTool tool = new JLanguageTool(new Dutch());
-    tool.activateDefaultPatternRules();
     assertEquals(0, tool.check("Een test, die geen fouten mag geven.").size());
     assertEquals(1, tool.check("Dit is fout.!").size());
     //test uppercasing rule:

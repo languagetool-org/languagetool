@@ -86,8 +86,6 @@ class Main {
     srcLt = null;
     bRules = null;
     lt = new MultiThreadedJLanguageTool(language, motherTongue);
-    lt.activateDefaultPatternRules();
-    lt.activateDefaultFalseFriendRules();
     if (languageModelIndexDir != null) {
       lt.activateLanguageModelRules(languageModelIndexDir);
     }
@@ -126,7 +124,6 @@ class Main {
     final Language target = lt.getLanguage();
     lt = new MultiThreadedJLanguageTool(target, null);
     srcLt = new MultiThreadedJLanguageTool(sourceLang);
-    lt.activateDefaultPatternRules();
     Tools.selectRules(lt, disabledRules, enabledRules);
     Tools.selectRules(srcLt, disabledRules, enabledRules);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
@@ -438,8 +435,6 @@ class Main {
                               String[] disabledRules, String[] enabledRules) {
     try {
       lt = new MultiThreadedJLanguageTool(language, motherTongue);
-      lt.activateDefaultPatternRules();
-      lt.activateDefaultFalseFriendRules();
       Tools.selectRules(lt, disabledRules, enabledRules);
       if (verbose) {
         lt.setOutput(System.err);

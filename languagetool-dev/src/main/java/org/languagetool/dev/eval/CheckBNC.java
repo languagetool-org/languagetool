@@ -53,7 +53,6 @@ public final class CheckBNC {
   
   private CheckBNC() throws IOException {
     langTool = new JLanguageTool(new English());
-    langTool.activateDefaultPatternRules();
     final String[] disRules = {"UPPERCASE_SENTENCE_START", "COMMA_PARENTHESIS_WHITESPACE",
         "WORD_REPEAT_RULE", "DOUBLE_PUNCTUATION"};
     System.err.println("Note: disabling the following rules:");

@@ -38,7 +38,6 @@ final class RuleNumberScalabilityTest {
     }
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortName(args[0]));
     String text = StringTools.readStream(new FileInputStream(args[1]), "utf-8");
-    langTool.activateDefaultPatternRules();
     System.out.println("Warmup...");
     langTool.check(text);
     langTool.check(text);

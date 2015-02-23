@@ -54,7 +54,6 @@ final class ExampleSentenceCorrectionCreator {
     File xml = new File(basePath, "/" + langCode + "/src/main/resources/org/languagetool/rules/" + langCode + "/grammar.xml");
     List<String> xmlLines = IOUtils.readLines(new FileReader(xml));
     JLanguageTool tool = new JLanguageTool(lang);
-    tool.activateDefaultPatternRules();
     for (Rule rule : tool.getAllRules()) {
       if (!(rule instanceof PatternRule)) {
         continue;

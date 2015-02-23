@@ -50,8 +50,6 @@ class ConfigThread extends Thread {
   public void run() {
     try {
       final JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue());
-      langTool.activateDefaultPatternRules();
-      langTool.activateDefaultFalseFriendRules();
       cfgDialog.show(langTool.getAllRules());
       config.saveConfiguration(docLanguage);
       if (mainThread != null) {

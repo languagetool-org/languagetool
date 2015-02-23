@@ -471,7 +471,7 @@ public abstract class Language {
    * @since 2.7
    */
   @Experimental
-  synchronized List<PatternRule> getPatternRules() throws IOException {
+  protected synchronized List<PatternRule> getPatternRules() throws IOException {
     if (patternRules == null) {
       patternRules = new ArrayList<>();
       PatternRuleLoader ruleLoader = new PatternRuleLoader();
