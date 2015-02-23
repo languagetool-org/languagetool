@@ -37,6 +37,14 @@ import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
 /**
+ * Check subject verb agreement for verb forms "ist", "sind", "war" and "waren".
+ * For example, it detects the errors in:
+ * <ul>
+ *   <li>Das Auto sind schnell.</li>
+ *   <li>Das Auto waren schnell.</li>
+ *   <li>Die Autos ist schnell.</li>
+ *   <li>Die Katze und der Hund ist schön.</li>
+ * </ul>
  * @since 2.9
  */
 public class SubjectVerbAgreementRule extends GermanRule {

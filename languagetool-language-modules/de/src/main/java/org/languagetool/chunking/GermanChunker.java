@@ -45,7 +45,7 @@ public class GermanChunker implements Chunker {
   }
 
   enum PhraseType {
-    NP,   // "noun phrase"
+    NP,   // "noun phrase", will be assigned as B-NP for the first token and I-NP for following tokens (like OpenNLP)
     NPS,  // "noun phrase singular"
     NPP,  // "noun phrase plural"
     PP    // "prepositional phrase" and similar
