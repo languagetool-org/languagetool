@@ -22,6 +22,7 @@ import org.languagetool.Language;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.Rule;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -41,7 +42,7 @@ public class SimpleSentenceTokenizer extends LocalSRXSentenceTokenizer {
       return "xx";
     }
     @Override public String getName() {
-      return null;
+      return "FakeLanguage";
     }
     @Override public void setName(String name) {}
     @Override public String[] getCountries() {
@@ -51,7 +52,7 @@ public class SimpleSentenceTokenizer extends LocalSRXSentenceTokenizer {
       return new Contributor[0];
     }
     @Override public List<Rule> getRelevantRules(ResourceBundle messages) {
-      return null;
+      return Collections.emptyList();
     }
   }
 

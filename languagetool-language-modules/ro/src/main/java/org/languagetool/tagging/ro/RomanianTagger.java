@@ -32,6 +32,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.TaggedWord;
 
 /**
  * Romanian Part-of-speech tagger 
@@ -93,11 +94,9 @@ public class RomanianTagger extends BaseTagger {
         }
       }
       if (manualTagger != null) { // add user tags, if any
-        final String[] manualTags = manualTagger.lookup(lowerCaseWord);
-        if (manualTags != null) {
-          for (int i = 0; i < manualTags.length / 2; i = i + 2) {
-            l.add(new AnalyzedToken(word, manualTags[i+1], manualTags[i]));
-          }
+        final List<TaggedWord> manualTags = manualTagger.tag(lowerCaseWord);
+        for (TaggedWord manualTag : manualTags) {
+          l.add(new AnalyzedToken(word, manualTag.getPosTag(), manualTag.getLemma()));
         }
       }
 

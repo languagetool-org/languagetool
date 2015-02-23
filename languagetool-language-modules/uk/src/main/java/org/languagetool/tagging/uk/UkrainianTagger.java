@@ -396,7 +396,7 @@ public class UkrainianTagger extends BaseTagger {
         }
         // noun-noun
         else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) && rightPosTag.startsWith(IPOSTag.noun.getText()) ) {
-          String agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
+          String agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv);
 
           if( agreedPosTag == null 
               && rightPosTag.startsWith("noun:m:v_naz")
@@ -482,7 +482,7 @@ public class UkrainianTagger extends BaseTagger {
         rightPosTag = rightPosTag.replace(TAG_ANIM, "");
       }
       
-      agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
+      agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv);
       
       if( agreedPosTag == null ) {
         if (! leftPosTag.contains(TAG_ANIM)) {
@@ -503,7 +503,7 @@ public class UkrainianTagger extends BaseTagger {
     // сонях-красень
     else if ( slaveSet.contains(rightLemma) ) {
       rightPosTag = rightPosTag.replace(":anim", "");
-      agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, false);
+      agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, false);
       if( agreedPosTag == null ) {
         if (! leftPosTag.contains(TAG_ANIM)) {
           if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() && MNP_NAZ_REGEX.matcher(rightPosTag).matches()
@@ -517,7 +517,7 @@ public class UkrainianTagger extends BaseTagger {
     // красень-сонях
     else if ( slaveSet.contains(leftLemma) ) {
       leftPosTag = leftPosTag.replace(":anim", "");
-      agreedPosTag = getArgreedPosTag(rightPosTag, leftPosTag, false);
+      agreedPosTag = getAgreedPosTag(rightPosTag, leftPosTag, false);
       if( agreedPosTag == null ) {
         if (! rightPosTag.contains(TAG_ANIM)) {
           if (MNP_ZNA_REGEX.matcher(rightPosTag).matches() && MNP_NAZ_REGEX.matcher(leftPosTag).matches()
@@ -548,7 +548,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
   @Nullable
-  private String getArgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
+  private String getAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
     if( isPlural(leftPosTag) && ! isPlural(rightPosTag)
         || ! isPlural(leftPosTag) && isPlural(rightPosTag) )
       return null;

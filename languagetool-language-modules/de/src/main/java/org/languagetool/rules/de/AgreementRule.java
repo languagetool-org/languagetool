@@ -427,9 +427,9 @@ public class AgreementRule extends GermanRule {
 
   private RuleMatch checkDetAdjNounAgreement(final AnalyzedTokenReadings token1,
       final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
-    final Set<String> set = retainCommonCategories(token1, token2, token3, null);
+    final Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
-    if (set.size() == 0) {
+    if (set == null || set.size() == 0) {
       // TODO: more detailed error message:
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
@@ -462,15 +462,9 @@ public class AgreementRule extends GermanRule {
   }
 
   @Nullable
-  private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1, 
-      final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3,
-      final GrammarCategory categoryToRelax) {
-    final Set<GrammarCategory> categoryToRelaxSet;
-    if (categoryToRelax == null) {
-      categoryToRelaxSet = Collections.singleton(categoryToRelax);
-    } else {
-      categoryToRelaxSet = Collections.emptySet();
-    }
+  private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1,
+                                             final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
+    final Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
     final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return null;  // word not known, assume it's correct
