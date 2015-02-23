@@ -413,32 +413,32 @@ public class ReflexiveVerbsRule extends CatalanRule {
    */
   @Nullable
   private Pattern pronomPattern(AnalyzedTokenReadings aToken) {
-  if (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
-    return PRONOM_FEBLE_13S;
-  if (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S))
-    return PRONOM_FEBLE_23S;
-  else if (matchPostagRegexp(aToken,VERB_1S) )
-    return PRONOM_FEBLE_1S;
-  else if (matchPostagRegexp(aToken,VERB_2S) )
-    return PRONOM_FEBLE_2S;
-  else if (matchPostagRegexp(aToken,VERB_3S) )
-    return PRONOM_FEBLE_3S;
-  else if (matchPostagRegexp(aToken,VERB_1P) )
-    return PRONOM_FEBLE_1P;
-  else if (matchPostagRegexp(aToken,VERB_2P) )
-    return PRONOM_FEBLE_2P;
-  else if (matchPostagRegexp(aToken,VERB_3P) )
-    return PRONOM_FEBLE_3P;
-  else
-    return null;
+    if (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
+      return PRONOM_FEBLE_13S;
+    if (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S))
+      return PRONOM_FEBLE_23S;
+    else if (matchPostagRegexp(aToken,VERB_1S) )
+      return PRONOM_FEBLE_1S;
+    else if (matchPostagRegexp(aToken,VERB_2S) )
+      return PRONOM_FEBLE_2S;
+    else if (matchPostagRegexp(aToken,VERB_3S) )
+      return PRONOM_FEBLE_3S;
+    else if (matchPostagRegexp(aToken,VERB_1P) )
+      return PRONOM_FEBLE_1P;
+    else if (matchPostagRegexp(aToken,VERB_2P) )
+      return PRONOM_FEBLE_2P;
+    else if (matchPostagRegexp(aToken,VERB_3P) )
+      return PRONOM_FEBLE_3P;
+    else
+      return null;
   }
   
   /**
    * El verb té múltiples lectures
    */ 
   private boolean hasVerbMultipleReadings (AnalyzedTokenReadings aToken) {
-  return (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
-      || (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S));
+    return (matchPostagRegexp(aToken,VERB_1S) && matchPostagRegexp(aToken,VERB_3S))
+        || (matchPostagRegexp(aToken,VERB_2S) && matchPostagRegexp(aToken,VERB_3S));
   }
   
   /**
