@@ -22,10 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
@@ -42,14 +39,14 @@ import org.languagetool.tools.StringTools;
  */
 public class ManualTagger implements WordTagger {
 
-  private final Map<String, List<LookedUpTerm>> mapping;
+  private final Map<String, List<TaggedWord>> mapping;
 
   public ManualTagger(final InputStream inputStream) throws IOException {
     mapping = loadMapping(inputStream, "utf8");
   }
 
-  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final Map<String, List<LookedUpTerm>> map = new HashMap<>();
+  private Map<String, List<TaggedWord>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
+    final Map<String, List<TaggedWord>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, encoding);
       BufferedReader br = new BufferedReader(reader)
@@ -63,11 +60,11 @@ public class ManualTagger implements WordTagger {
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");
         }
-        List<LookedUpTerm> terms = map.get(parts[0]);
+        List<TaggedWord> terms = map.get(parts[0]);
         if (terms == null) {
           terms = new ArrayList<>();
         }
-        terms.add(new LookedUpTerm(parts[1], parts[2]));
+        terms.add(new TaggedWord(parts[1], parts[2]));
         map.put(parts[0], terms);
       }
     }
@@ -79,26 +76,12 @@ public class ManualTagger implements WordTagger {
    */
   @Override
   public List<TaggedWord> tag(String word) {
-    List<TaggedWord> result = new ArrayList<>();
-    List<LookedUpTerm> lookedUpTerms = mapping.get(word);
+    List<TaggedWord> lookedUpTerms = mapping.get(word);
     if (lookedUpTerms != null) {
-      for (LookedUpTerm term : lookedUpTerms) {
-        result.add(new TaggedWord(term.baseform, term.posTags));
-      }
+      return Collections.unmodifiableList(lookedUpTerms);
+    } else {
+      return Collections.emptyList();
     }
-    return result;
-  }
-
-  private class LookedUpTerm {
-
-    final String baseform;
-    final String posTags;
-
-    LookedUpTerm(String baseform, String posTags) {
-      this.baseform = baseform;
-      this.posTags = posTags;
-    }
-
   }
 
 }
