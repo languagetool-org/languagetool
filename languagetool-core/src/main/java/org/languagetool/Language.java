@@ -505,7 +505,7 @@ public abstract class Language {
 
   /**
    * Return languages that are not built-in but have been added manually.
-   * @deprecated
+   * @deprecated (deprecated since 2.9)
    */
   public static List<Language> getExternalLanguages() {
     return externalLanguages;
