@@ -22,8 +22,10 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
+import org.languagetool.language.German;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -44,6 +46,8 @@ public class SubjectVerbAgreementRule extends GermanRule {
   private static final ChunkTag PP = new ChunkTag("PP");   // prepositional phrase etc.
   private static final List<String> QUESTION_PRONOUNS = Arrays.asList("wie");
   private static final List<String> CURRENCIES = Arrays.asList("Dollar", "Euro", "Yen");
+
+  private final GermanTagger tagger = (GermanTagger)new German().getTagger();
 
   public SubjectVerbAgreementRule(ResourceBundle messages) {
     if (messages != null) {
@@ -77,12 +81,12 @@ public class SubjectVerbAgreementRule extends GermanRule {
     for (int i = 1; i < tokens.length; i++) {   // start at 1 to skip SENT_START
       AnalyzedTokenReadings token = tokens[i];
       String tokenStr = token.getToken();
-      // "Der Hund und die Katze ist":
+      // Detect e.g. "Der Hund und die Katze ist":
       RuleMatch singularMatch = getSingularMatchOrNull(tokens, i, token, tokenStr);
       if (singularMatch != null) {
         ruleMatches.add(singularMatch);
       }
-      // "Der Hund sind":
+      // Detect e.g. "Der Hund sind":
       RuleMatch pluralMatch = getPluralMatchOrNull(tokens, i, token, tokenStr);
       if (pluralMatch != null) {
         ruleMatches.add(pluralMatch);
@@ -91,7 +95,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) {
+  private RuleMatch getSingularMatchOrNull(AnalyzedTokenReadings[] tokens, int i, AnalyzedTokenReadings token, String tokenStr) throws IOException {
     if (tokenStr.equals("ist") || tokenStr.equals("war")) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
       AnalyzedTokenReadings nextToken = i + 1 < tokens.length ? tokens[i + 1] : null;
@@ -107,7 +111,8 @@ public class SubjectVerbAgreementRule extends GermanRule {
                       && !containsRegexToTheLeft("wer", tokens, i-1)
                       && !containsRegexToTheLeft("(?i)alle[nr]?", tokens, i-1)
                       && !containsRegexToTheLeft("(?i)jede[rs]?", tokens, i-1)
-                      && !containsRegexToTheLeft("(?i)manche[nrs]?", tokens, i-1);
+                      && !containsRegexToTheLeft("(?i)manche[nrs]?", tokens, i-1)
+                      && !containsOnlyInfinitivesToTheLeft(tokens, i-1);
       if (match) {
         String message = "Bitte prüfen, ob hier <suggestion>" + (tokenStr.equals("ist") ? "sind" : "waren") + "</suggestion> stehen sollte.";
         return new RuleMatch(this, token.getStartPos(), token.getEndPos(), message);
@@ -198,6 +203,23 @@ public class SubjectVerbAgreementRule extends GermanRule {
       }
     }
     return false;
+  }
+
+  // No false alarm on ""Das Kopieren und Einfügen ist sehr nützlich." etc.
+  private boolean containsOnlyInfinitivesToTheLeft(AnalyzedTokenReadings[] tokens, int startPos) throws IOException {
+    int infinitives = 0;
+    for (int i = startPos; i > 0; i--) {
+      String token = tokens[i].getToken();
+      if (tokens[i].hasPartialPosTag("SUB:")) {
+        AnalyzedTokenReadings lookup = tagger.lookup(token.toLowerCase());
+        if (lookup != null && lookup.hasPartialPosTag("VER:INF:")) {
+          infinitives++;
+        } else {
+          return false;
+        }
+      }
+    }
+    return infinitives >= 2;
   }
 
   boolean isFollowedByNominativePlural(AnalyzedTokenReadings[] tokens, int startPos) {

@@ -48,9 +48,11 @@ public class SubjectVerbAgreementRuleTest {
 
   @Test
   public void testTemp() throws IOException {
-    //GermanChunker.DEBUG = true;
-    //GermanChunkFilter.DEBUG = true;
+    // For debugging, comment in the next three lines:
+    //GermanChunker.setDebug(true);
+    //assertGood("...");
     //assertBad("...");
+    // Hier ist (auch: sind) sowohl Anhalten wie Parken verboten.
     // TODO - false alarms from Tatoeba and Wikipedia:
     // "Die restlichen sechsundachtzig oder siebenundachtzig Prozent sind in der Flasche.",
     // "Die Führung des Wortes in Unternehmensnamen ist nur mit Genehmigung zulässig.",   // OpenNLP doesn't find 'Unternehmensnamen' as a noun
@@ -58,7 +60,6 @@ public class SubjectVerbAgreementRuleTest {
     // "Liebe und Hochzeit sind nicht das Gleiche."
     // "Die Typologie oder besser Typographie ist die Klassifikation von Objekten"
     // "Im Falle qualitativer, quantitativer und örtlicher Veränderung ist dies ein konkretes Einzelding,"
-    // "Das Kopieren und Einfügen ist sehr nützlich."
     // "...zu finden, in denen die Päpste selbst Partei waren."
     // "Hauptfigur der beiden Bücher ist Golan Trevize."
     // "Das größte und bekannteste Unternehmen dieses Genres ist der Cirque du Soleil."
@@ -274,7 +275,7 @@ public class SubjectVerbAgreementRuleTest {
         "Sie hat eine Tochter, die Pianistin ist.",
         "Ja, die Milch ist sehr gut.",
         "Der als Befestigung gedachte östliche Teil der Burg ist weitgehend verfallen.",
-        ""
+        "Das Kopieren und Einfügen ist sehr nützlich."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -400,7 +401,9 @@ public class SubjectVerbAgreementRuleTest {
         "80 Cent ist nicht genug.",   // ugs.
         "80 Cent sind nicht genug.",
         "1,5 Pfund ist nicht genug.",  // ugs.
-        "1,5 Pfund sind nicht genug."
+        "1,5 Pfund sind nicht genug.",
+        "Hier ist sowohl Anhalten wie Parken verboten.",
+        "Hier sind sowohl Anhalten wie Parken verboten."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
