@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -70,7 +71,7 @@ public class JLanguageTool {
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
   public static final String VERSION = "2.9-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
-  public static final String BUILD_DATE = getBuildDate();
+  @Nullable public static final String BUILD_DATE = getBuildDate();
 
   /** The name of the file with error patterns. */
   public static final String PATTERN_FILE = "grammar.xml";
@@ -88,6 +89,7 @@ public class JLanguageTool {
   /**
    * Returns the build date or {@code null} if not run from JAR.
    */
+  @Nullable
   private static String getBuildDate() {
     try {
       final URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");

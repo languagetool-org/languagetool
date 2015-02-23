@@ -18,6 +18,7 @@
  */
 package org.languagetool.server;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.File;
@@ -151,6 +152,7 @@ public class HTTPServerConfig {
   /**
    * URL of server whose visitors may request data via Ajax, or {@code *} (= anyone) or {@code null} (= no support for CORS).
    */
+  @Nullable
   public String getAllowOriginUrl() {
     return allowOriginUrl;
   }
@@ -193,6 +195,7 @@ public class HTTPServerConfig {
    * Get language model directory (which contains '3grams' sub directory) or {@code null}.
    * @since 2.7
    */
+  @Nullable
   File getLanguageModelDir() {
     return languageModelDir;
   }
@@ -206,6 +209,7 @@ public class HTTPServerConfig {
    * @return the language used, or {@code null} if not in AtD mode
    * @since 2.7 
    */
+  @Nullable
   Language getAfterTheDeadlineLanguage() {
     return atdLanguage;
   }

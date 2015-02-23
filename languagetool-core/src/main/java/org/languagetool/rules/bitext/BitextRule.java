@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -69,6 +70,7 @@ public abstract class BitextRule extends Rule {
   /**
    * This method makes no sense for bitext, thus it always returns {@code null}.
    */
+  @Nullable
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     return null;

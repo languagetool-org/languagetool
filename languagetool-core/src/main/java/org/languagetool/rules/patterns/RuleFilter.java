@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Experimental;
 import org.languagetool.rules.RuleMatch;
@@ -41,6 +42,7 @@ public interface RuleFilter {
    * @return {@code null} if this rule match should be removed, or any other RuleMatch (e.g. the one from
    *         the arguments) that properly describes the detected error
    */
+  @Nullable
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens);
   
 }

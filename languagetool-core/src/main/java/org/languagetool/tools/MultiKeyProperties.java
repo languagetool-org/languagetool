@@ -18,6 +18,8 @@
  */
 package org.languagetool.tools;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.InputStream;
 import java.util.*;
 
@@ -59,6 +61,7 @@ public class MultiKeyProperties {
   /**
    * @return a list of values or {@code null} if there's no such key
    */
+  @Nullable
   public List<String> getProperty(String key) {
     return properties.get(key);
   }

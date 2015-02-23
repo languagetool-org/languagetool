@@ -18,6 +18,7 @@
  */
 package org.languagetool.commandline;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.File;
@@ -166,6 +167,7 @@ public class CommandLineOptions {
    * @return a directory with Lucene index sub directories like ({@code 3grams}), or {@code null}
    * @since 2.7
    */
+  @Nullable
   public File getLanguageModel() {
     return languageModel;
   }

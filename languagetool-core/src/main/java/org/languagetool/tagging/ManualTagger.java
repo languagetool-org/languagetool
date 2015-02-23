@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -56,6 +57,7 @@ public class ManualTagger implements WordTagger {
    *         word is unknown
    * @deprecated use {@link #tag(String)} instead (note that it doesn't return null) (deprecated since 2.8)
    */
+  @Nullable
   public String[] lookup(final String term) {
     final List<LookedUpTerm> l = mapping.get(term);
     if (l == null) {

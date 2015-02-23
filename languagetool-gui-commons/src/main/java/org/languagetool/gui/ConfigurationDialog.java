@@ -18,6 +18,7 @@
  */
 package org.languagetool.gui;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -498,8 +499,9 @@ public class ConfigurationDialog implements ActionListener {
    * Get the Language object for the given localized language name.
    * 
    * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
-   * @return a Language object or <code>null</code>
+   * @return a Language object or <code>null</code> if the language could not be found
    */
+  @Nullable
   private Language getLanguageForLocalizedName(final String languageName) {
     for (final Language element : Language.REAL_LANGUAGES) {
       if (languageName.equals(element.getTranslatedName(messages))) {

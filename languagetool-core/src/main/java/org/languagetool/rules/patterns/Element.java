@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -693,6 +694,7 @@ public class Element implements Cloneable {
    * @return the POS of the Element or {@code null}
    * @since 0.9.6
    */
+  @Nullable
   public final String getPOStag() {
     return posToken;
   }
@@ -701,6 +703,7 @@ public class Element implements Cloneable {
    * @return the chunk tag of the Element or {@code null}
    * @since 2.3
    */
+  @Nullable
   public final ChunkTag getChunkTag() {
     return chunkToken;
   }
@@ -724,6 +727,7 @@ public class Element implements Cloneable {
    * 
    * @return String The name of the phrase.
    */
+  @Nullable
   public final String getPhraseName() {
     return phraseName;
   }
@@ -744,6 +748,7 @@ public class Element implements Cloneable {
    * @return A map from features to a list of types.
    * @since 1.0.1
    */
+  @Nullable
   public final Map<String, List<String>> getUniFeatures() {
     return unificationFeatures;
   }

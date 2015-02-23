@@ -27,6 +27,7 @@ import com.optimaize.langdetect.profiles.LanguageProfileReader;
 import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import com.optimaize.langdetect.text.TextObject;
 import com.optimaize.langdetect.text.TextObjectFactory;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
@@ -104,6 +105,7 @@ public class LanguageIdentifier {
   /**
    * @return language or {@code null} if language could not be identified
    */
+  @Nullable
   public Language detectLanguage(String text) {
     String languageCode = detectLanguageCode(text);
     if (languageCode != null) {
@@ -116,6 +118,7 @@ public class LanguageIdentifier {
   /**
    * @return language or {@code null} if language could not be identified
    */
+  @Nullable
   private String detectLanguageCode(String text) {
     TextObject textObject = textObjectFactory.forText(text);
     Optional<String> lang = languageDetector.detect(textObject);

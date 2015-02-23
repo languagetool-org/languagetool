@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
@@ -185,9 +186,10 @@ public abstract class Language {
    * Get this language's variant, e.g. <code>valencia</code> (as in <code>ca-ES-valencia</code>)
    * or <code>null</code>.
    * Attention: not to be confused with "country" option
-   * @return String - variant for the language.
+   * @return variant for the language or {@code null}
    * @since 2.3
    */
+  @Nullable
   public String getVariant() {
     return null;
   }
@@ -214,6 +216,7 @@ public abstract class Language {
   /**
    * Get the name(s) of the maintainer(s) for this language or <code>null</code>.
    */
+  @Nullable
   public abstract Contributor[] getMaintainers();
 
   /**
@@ -229,6 +232,7 @@ public abstract class Language {
    * @return a LanguageModel or {@code null} if this language doesn't support one
    * @since 2.7
    */
+  @Nullable
   public LanguageModel getLanguageModel(File indexDir) throws IOException {
     return null;
   }
@@ -311,12 +315,13 @@ public abstract class Language {
    * @return default country variant or {@code null}
    * @since 1.8
    */
+  @Nullable
   public Language getDefaultLanguageVariant() {
     return null;
   }
 
   /**
-   * Get this language's part-of-speech disambiguator implementation or {@code null}.
+   * Get this language's part-of-speech disambiguator implementation.
    */
   public Disambiguator getDisambiguator() {
     return DEMO_DISAMBIGUATOR;
@@ -348,6 +353,7 @@ public abstract class Language {
    * Get this language's chunker implementation or {@code null}.
    * @since 2.3
    */
+  @Nullable
   public Chunker getChunker() {
     return null;
   }
@@ -356,6 +362,7 @@ public abstract class Language {
    * Get this language's chunker implementation or {@code null}.
    * @since 2.9
    */
+  @Nullable
   public Chunker getPostDisambiguationChunker() {
     return null;
   }
@@ -363,6 +370,7 @@ public abstract class Language {
   /**
    * Get this language's part-of-speech synthesizer implementation or {@code null}.
    */
+  @Nullable
   public Synthesizer getSynthesizer() {
     return null;
   }
@@ -516,6 +524,7 @@ public abstract class Language {
    * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
    * @return a Language object or {@code null} if there is no such language
    */
+  @Nullable
   public static Language getLanguageForName(final String languageName) {
     for (Language element : Language.LANGUAGES) {
       if (languageName.equals(element.getName())) {
@@ -559,7 +568,8 @@ public abstract class Language {
   public static boolean isLanguageSupported(final String langCode) {
     return getLanguageForShortNameOrNull(langCode) != null;
   }
-  
+
+  @Nullable
   private static Language getLanguageForShortNameOrNull(final String langCode) {
     StringTools.assureSet(langCode, "langCode");
     Language result = null;
@@ -631,6 +641,7 @@ public abstract class Language {
     throw new RuntimeException("No appropriate language found, not even en-US. Supported languages: " + Arrays.toString(REAL_LANGUAGES));
   }
 
+  @Nullable
   private static Language getLanguageForLanguageNameAndCountry(Locale locale) {
     for (Language language : Language.REAL_LANGUAGES) {
       if (language.getShortName().equals(locale.getLanguage())) {
@@ -643,6 +654,7 @@ public abstract class Language {
     return null;
   }
 
+  @Nullable
   private static Language getLanguageForLanguageNameOnly(Locale locale) {
     // use default variant if available:
     for (Language language : Language.REAL_LANGUAGES) {

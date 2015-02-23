@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.bitext.StringPair;
 
 /**
@@ -65,6 +66,7 @@ public class IncorrectBitextExample {
   /**
    * Return the possible corrections or null.
    */
+  @Nullable
   public List<String> getCorrections() {
     return corrections;
   }

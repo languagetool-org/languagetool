@@ -19,6 +19,8 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
+import org.jetbrains.annotations.Nullable;
+
 /**
  * Disambiguated example. Used for testing
  * disambiguator rules.
@@ -60,6 +62,7 @@ public class DisambiguatedExample {
   /**
    * Return the possible corrections. May be {@code null}.
    */
+  @Nullable
   public String getDisambiguated() {
     return output;
   }
