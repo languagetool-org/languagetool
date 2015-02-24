@@ -239,7 +239,7 @@ public class SubjectVerbAgreementRule extends GermanRule {
     for (int i = startPos; i < tokens.length; i++) {
       AnalyzedTokenReadings token = tokens[i];
       if (token.hasPartialPosTag("SUB") || token.hasPartialPosTag("PRO")) {
-        if (token.hasPartialPosTag("NOM") && token.hasPartialPosTag("PLU")) {
+        if (token.hasPartialPosTag("NOM:PLU") || token.getChunkTags().contains(new ChunkTag("NPP"))) {  // NPP catches 'und' phrases
           return true;
         }
       }
