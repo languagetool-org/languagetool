@@ -195,6 +195,8 @@ public class GermanChunker implements Chunker {
       build("<chunk=NPS>+ <der> <pos=ADJ> <pos=ADV> <pos=PA2> <NP>", NPS, true),
       // "die Krankheit unserer heutigen Städte und Siedlungen":
       build("<chunk=NPS>+ <pos=PRO:POS> <pos=ADJ> <NP>", NPS, true),
+      // "der letzte der vier großen Flüsse":
+      build("<der|das> <pos=ADJ> <der> <pos=ZAL> <NP>", NPS, true),
       // "Elemente eines axiomatischen Systems":  -- führt zu Fehlalarm anderswo
       //build("<chunk=B-NP & pos=PLU> <chunk=I-NP>* <chunk=B-NP & pos=GEN> <chunk=I-NP>*", NPP),
 

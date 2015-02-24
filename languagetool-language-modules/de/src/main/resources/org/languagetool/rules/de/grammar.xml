@@ -9147,7 +9147,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">kleine[ns]?</token>
                     <token regexp="yes" postag="SUB:[A-Z]{3}:SIN:NEU" postag_regexp="yes">[A-ZÄÖÜ][a-zäöüß]+chen
                         <exception postag="(SUB:.+:NEU)|NPP|NPP-E" postag_regexp="yes" negate_pos="yes"/>
-                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen</exception>
+                        <exception regexp="yes">Mädchen|Veilchen|München|Brötchen|Zeichen|Anzeichen|Kaninchen</exception>
                     </token>
                 </pattern>
                 <message>Die Endung '-chen' beinhaltet bereits das Merkmal 'klein'. In manchen Kontexten kann diese Formulierung deswegen redundant (oder übermäßig verniedlichend) erscheinen. Vorschlag: <suggestion>\2</suggestion></message>
@@ -23589,6 +23589,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ART_ADJ_SOL" name="Grammatik: Stark oder gemischt flektiertes Adjektiv nach Artikel, z.B. 'im heißem (heißen) Ofen'">
             <rule>
                 <antipattern>
+                    <token regexp="yes">einer|eine|eines</token>
+                    <token>der</token>
+                    <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes"/>
+                    <token postag="ADJ:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token>ist</token>
                     <token>das</token>
                     <token postag="ADJ:.*:(SOL|IND)" postag_regexp="yes"/>
@@ -23636,6 +23642,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es ist der Planet, auf <marker>dem flüssiges</marker> Wasser zu finden ist.</example>
                 <example>Es ist weniger farbenprächtig als <marker>das anderer</marker> Papageien.</example>
                 <example>Ist <marker>das reines</marker> Gold?</example>
+                <example>Aikido ist eine der schwerer erlernbaren Kampfkünste.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Grammatik: Starke, schwache oder gemischte Adjektiv-Flexion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">

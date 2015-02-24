@@ -275,7 +275,8 @@ public class SubjectVerbAgreementRuleTest {
         "Sie hat eine Tochter, die Pianistin ist.",
         "Ja, die Milch ist sehr gut.",
         "Der als Befestigung gedachte östliche Teil der Burg ist weitgehend verfallen.",
-        "Das Kopieren und Einfügen ist sehr nützlich."
+        "Das Kopieren und Einfügen ist sehr nützlich.",
+        "Der letzte der vier großen Flüsse ist die Kolyma."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
