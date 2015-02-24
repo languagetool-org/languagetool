@@ -20,8 +20,6 @@ package org.languagetool.rules.nl;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
 import org.languagetool.language.Dutch;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
@@ -35,7 +33,8 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
   private JLanguageTool langTool;
   
   public void testDutchRule() throws IOException {
-    setUpRule(new Dutch());
+    langTool = new JLanguageTool(new Dutch());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
     // correct sentences:
     assertMatches("Het centrale probleem van het werk is de ‘dichterlijke kuischheid’.", 0);
     //this was a bug as there are several pairs that start with the same char:
@@ -44,11 +43,6 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     // incorrect sentences:
     assertMatches("Het centrale probleem van het werk is de „dichterlijke kuischheid.", 1);
     assertMatches(" Eurlings: “De gegevens van de dienst zijn van cruciaal belang voor de veiligheid van de luchtvaart en de scheepvaart.", 1);
-  }
-
-  private void setUpRule(Language language) {
-    rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
-    langTool = new JLanguageTool(language);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

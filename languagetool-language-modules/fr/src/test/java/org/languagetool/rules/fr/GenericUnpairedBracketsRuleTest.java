@@ -20,8 +20,6 @@ package org.languagetool.rules.fr;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
@@ -35,16 +33,12 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
   private JLanguageTool langTool;
   
   public void testFrenchRule() throws IOException {
-    setUpRule(new French());
+    langTool = new JLanguageTool(new French());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
     // correct sentences:
     assertMatches("(Qu'est ce que c'est ?)", 0);
     // incorrect sentences:
     assertMatches("(Qu'est ce que c'est ?", 1);
-  }
-
-  private void setUpRule(Language language) {
-    rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
-    langTool = new JLanguageTool(language);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

@@ -71,16 +71,6 @@ public class Spanish extends Language {
   }
   
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "“", "«", "»", "¿", "¡" };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "”", "»", "«", "?", "!" };
-  }
-  
-  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new SpanishTagger();
@@ -132,7 +122,9 @@ public class Spanish extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "“", "«", "»", "¿", "¡"),
+                    Arrays.asList("]", ")", "}", "”", "»", "«", "?", "!")),
             new MorfologikSpanishSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),

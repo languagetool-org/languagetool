@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 
 import org.languagetool.Language;
 import org.languagetool.rules.*;
-import org.languagetool.rules.el.GreekUnpairedBracketsRule;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.el.GreekSynthesizer;
@@ -82,7 +81,9 @@ public class Greek extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GreekUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule("EL_UNPAIRED_BRACKETS", messages,
+                    Arrays.asList("[", "(", "{", "“", "\"", "«"),
+                    Arrays.asList("]", ")", "}", "”", "\"", "»")),
             new LongSentenceRule(messages),
             new MorfologikGreekSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),

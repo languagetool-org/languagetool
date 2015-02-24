@@ -70,16 +70,6 @@ public class Dutch extends Language {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "“", "\u2039", "\u201c", "\u201e" };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "”", "\u203a", "\u201d", "\u201d" };
-  }
-  
-  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new DutchTagger();
@@ -132,7 +122,9 @@ public class Dutch extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "“", "\u2039", "\u201c", "\u201e"),
+                    Arrays.asList("]", ")", "}", "”", "\u203a", "\u201d", "\u201d")),
             new UppercaseSentenceStartRule(messages, this),
             new MorfologikDutchSpellerRule(messages, this),
             new MultipleWhitespaceRule(messages, this),

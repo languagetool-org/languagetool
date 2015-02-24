@@ -444,26 +444,6 @@ public abstract class Language {
     return name;
   }
   
-  
-  /**
-   * Start symbols used by {@link org.languagetool.rules.GenericUnpairedBracketsRule}.
-   * Note that the array must be of equal length as {@link #getUnpairedRuleEndSymbols()} and the sequence of
-   * starting symbols must match exactly the sequence of ending symbols.
-   * @deprecated will be moved to GenericUnpairedBracketsRule (deprecated since 2.8)
-   */
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "\"", "'" };
-  }
-
-  /**
-   * End symbols used by {@link org.languagetool.rules.GenericUnpairedBracketsRule}.
-   * @deprecated will be moved to GenericUnpairedBracketsRule (deprecated since 2.8)
-   * @see #getUnpairedRuleStartSymbols()
-   */
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "\"", "'" };
-  }
-  
   // -------------------------------------------------------------------------
 
   /**

@@ -55,16 +55,6 @@ public class Slovenian extends Language {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "„", "»", "«", "\"" };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "”", "«", "»", "\"" };
-  }
-  
-  @Override
   public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = new SRXSentenceTokenizer(this);
@@ -82,7 +72,9 @@ public class Slovenian extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
+                    Arrays.asList("]", ")", "}", "”", "«", "»", "\"")),
             new MorfologikSlovenianSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),

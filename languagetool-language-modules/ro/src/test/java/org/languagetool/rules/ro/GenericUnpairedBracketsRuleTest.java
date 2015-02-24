@@ -20,8 +20,6 @@ package org.languagetool.rules.ro;
 
 import junit.framework.TestCase;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.rules.GenericUnpairedBracketsRule;
 import org.languagetool.rules.RuleMatch;
@@ -35,7 +33,8 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
   private JLanguageTool langTool;
   
   public void testRomanianRule() throws IOException {
-    setUpRule(new Romanian());
+    langTool = new JLanguageTool(new Romanian());
+    rule = org.languagetool.rules.GenericUnpairedBracketsRuleTest.getBracketsRule(langTool);
     // correct sentences:
     assertMatches("A fost plecat (pentru puțin timp).", 0);
     assertMatches("Nu's de prin locurile astea.", 0);
@@ -54,11 +53,6 @@ public class GenericUnpairedBracketsRuleTest extends TestCase {
     assertMatches("A fost plecat „pentru puțin» timp”.", 3);
     assertMatches("A fost plecat „pentru... puțin» timp”.", 3);
     assertMatches("A fost plecat „pentru... «puțin” timp».", 4);
-  }
-
-  private void setUpRule(Language language) {
-    rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
-    langTool = new JLanguageTool(language);
   }
 
   private void assertMatches(String input, int expectedMatches) throws IOException {

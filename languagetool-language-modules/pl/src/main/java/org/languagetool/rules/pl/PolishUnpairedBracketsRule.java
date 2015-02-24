@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.pl;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -26,15 +28,12 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class PolishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final String[] PL_START_SYMBOLS = { "[", "(", "{", "„", "»", "\"" };
-  private static final String[] PL_END_SYMBOLS   = { "]", ")", "}", "”", "«", "\"" };
+  private static final List<String> PL_START_SYMBOLS = Arrays.asList("[", "(", "{", "„", "»", "\"");
+  private static final List<String> PL_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "«", "\"");
   
   public PolishUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
-    super(messages, language);
-    startSymbols = PL_START_SYMBOLS;
-    endSymbols = PL_END_SYMBOLS;
-    uniqueMapInit();
+    super(messages, PL_START_SYMBOLS, PL_END_SYMBOLS);
     addExamplePair(Example.wrong("To jest zdanie z <marker>„</marker>cudzysłowem."),
                    Example.fixed("To jest zdanie z <marker>„</marker>cudzysłowem”."));
   }

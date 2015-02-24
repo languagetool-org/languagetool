@@ -77,16 +77,6 @@ public class Galician extends Language {
   }
   
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "“", "«", "»", "‘", "\"", "'" };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "”", "»", "«", "’", "\"", "'" };
-  }
-  
-  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new GalicianTagger();
@@ -128,7 +118,9 @@ public class Galician extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "“", "«", "»", "‘", "\"", "'"),
+                    Arrays.asList("]", ")", "}", "”", "»", "«", "’", "\"", "'")),
             new HunspellRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),

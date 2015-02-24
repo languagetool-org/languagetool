@@ -43,27 +43,49 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
   // "[ldmnst]'" allows dealing with apostrophed words in Catalan (i.e. l'«home) 
 
-  protected Pattern numerals;
-  protected String[] startSymbols;
-  protected String[] endSymbols;
+  private final String[] startSymbols;
+  private final String[] endSymbols;
   // The stack for pairing symbols:
   protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();
 
   private final Map<String,Boolean> uniqueMap = new HashMap<>();
+  private final String ruleId;
 
-  public GenericUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
+  protected Pattern numerals;
+
+  public GenericUnpairedBracketsRule(String ruleId, ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
     super(messages);
+    this.ruleId = ruleId != null ? ruleId : "UNPAIRED_BRACKETS";
     super.setCategory(new Category(messages.getString("category_misc")));
-    startSymbols = language.getUnpairedRuleStartSymbols();
-    endSymbols = language.getUnpairedRuleEndSymbols();
+    if (startSymbols.size() != endSymbols.size()) {
+      throw new IllegalArgumentException("Different number of start and end symbols: " + startSymbols + " vs. " + endSymbols);
+    }
+    this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
+    this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
     numerals = NUMERALS_EN;
     uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);
   }
 
+  /**
+   * @param startSymbols start symbols like "(" - note that the array must be of equal length as the next parameter
+   *                     and the sequence of starting symbols must match exactly the sequence of ending symbols.
+   * @param endSymbols end symbols like ")"
+   */
+  public GenericUnpairedBracketsRule(ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
+    this(null, messages, startSymbols, endSymbols);
+  }
+
+  /**
+   * Construct rule with a set of default start and end symbols: <code>[] () {} "" ''</code>
+   */
+  public GenericUnpairedBracketsRule(ResourceBundle messages) {
+    this(null, messages, Arrays.asList("[", "(", "{", "\"", "'"), Arrays.asList("]", ")", "}", "\"", "'"));
+  }
+
   @Override
   public String getId() {
-    return "UNPAIRED_BRACKETS";
+    return ruleId;
   }
 
   @Override

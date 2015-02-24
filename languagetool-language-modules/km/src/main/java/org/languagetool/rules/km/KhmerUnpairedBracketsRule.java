@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.km;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -25,14 +27,11 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class KhmerUnpairedBracketsRule extends GenericUnpairedBracketsRule {
   
-  private static final String[] KM_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'", "«" };
-  private static final String[] KM_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'", "»" };
+  private static final List<String> KM_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'", "«");
+  private static final List<String> KM_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'", "»");
   
   public KhmerUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
-    super(messages, language);
-    startSymbols = KM_START_SYMBOLS;
-    endSymbols = KM_END_SYMBOLS;
-    uniqueMapInit();
+    super(messages, KM_START_SYMBOLS, KM_END_SYMBOLS);
   }
 
   @Override

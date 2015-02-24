@@ -19,12 +19,13 @@
 package org.languagetool.rules;
 
 import org.junit.Test;
+import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
-import org.languagetool.language.Demo;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -37,7 +38,7 @@ public class GenericUnpairedBracketsRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    setUpRule(new MyDemo());
+    setUpRule(new FakeLanguage());
 
     assertMatches(0, "This is »correct«.");
     assertMatches(0, "»Correct«\n»And »here« it ends.«");
@@ -68,7 +69,7 @@ public class GenericUnpairedBracketsRuleTest {
 
   @Test
   public void testRuleMatchPositions() throws IOException {
-    setUpRule(new MyDemo());
+    setUpRule(new FakeLanguage());
     RuleMatch match1 = langTool.check("This »is a test.").get(0);
     assertThat(match1.getFromPos(), is(5));
     assertThat(match1.getToPos(), is(6));
@@ -91,7 +92,8 @@ public class GenericUnpairedBracketsRuleTest {
     for (Rule rule : langTool.getAllRules()) {
       langTool.disableRule(rule.getId());
     }
-    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(), language);
+    GenericUnpairedBracketsRule rule = new GenericUnpairedBracketsRule(TestTools.getEnglishMessages(),
+            Arrays.asList("»"), Arrays.asList("«"));
     langTool.addRule(rule);
   }
 
@@ -100,14 +102,13 @@ public class GenericUnpairedBracketsRuleTest {
     assertEquals("Expected " + expectedMatches + " matches, got: " + ruleMatches, expectedMatches, ruleMatches.size());
   }
 
-  class MyDemo extends Demo {
-    @Override
-    public String[] getUnpairedRuleStartSymbols() {
-      return new String[]{ "»" };
+  public static GenericUnpairedBracketsRule getBracketsRule(JLanguageTool langTool) {
+    for (Rule rule : langTool.getAllActiveRules()) {
+      if (rule instanceof GenericUnpairedBracketsRule) {
+        return (GenericUnpairedBracketsRule)rule;
+      }
     }
-    @Override
-    public String[] getUnpairedRuleEndSymbols() {
-      return new String[]{ "«" };
-    }
+    throw new RuntimeException("Rule not found: " + GenericUnpairedBracketsRule.class);
   }
+
 }

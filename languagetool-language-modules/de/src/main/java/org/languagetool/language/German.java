@@ -103,16 +103,6 @@ public class German extends Language {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "„", "»", "«" };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "“", "«", "»" };
-  }
-
-  @Override
   public Tagger getTagger() {
     Tagger t = tagger;
     if (t == null) {
@@ -155,7 +145,9 @@ public class German extends Language {
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "„", "»", "«"),
+                    Arrays.asList("]", ")", "}", "“", "«", "»")),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to German:
