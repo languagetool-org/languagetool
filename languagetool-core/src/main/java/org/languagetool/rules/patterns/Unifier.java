@@ -341,6 +341,7 @@ public class Unifier {
       return null;
     }
     List<AnalyzedTokenReadings> uTokens = new ArrayList<>();
+    int counter = 0;
     for (int j = 0; j < tokSequence.size(); j++) {
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         int featUnified = 0;
@@ -353,7 +354,9 @@ public class Unifier {
               featUnified = 0;
             } else {
               featUnified++;
-            }
+            } // FIXME: a token that does not match is silently skipped
+             // and replaced with a matching token:
+            // the current position in tokSequence has to match j
             if (featUnified == unificationFeats.entrySet().size()) {
               addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
             }
