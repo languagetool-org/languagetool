@@ -158,7 +158,7 @@ public class ReflexiveVerbsRule extends CatalanRule {
   private static final Pattern TRENCA_COMPTE = Pattern.compile("PR.*|CS|CC|_PUNCT.*|.*LOC_CONJ.*");
   private static final Pattern TRENCA_COMPTE2 = Pattern.compile("SENT_START|CC|_PUNCT.*|.*LOC_CONJ.*");
   
-  private static final List<String> partsCos = Arrays.asList("pit", "galta", "cap", "cor", "cara", "ull", "front", "mà", "peu", "braç", "colze", "genoll", "cabell");
+  private static final List<String> partsCos = Arrays.asList("pit", "galta", "cap", "cor", "cara", "ull", "front", "mà", "peu", "braç", "colze", "genoll", "cabell", "llavi");
   
   private static final List<String> pronomJo = Arrays.asList("jo");
  // <token postag="P0.*|PP.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/><exception regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</exception><exception postag="allow_saxon_genitive">'s</exception></token>
@@ -235,6 +235,9 @@ public class ReflexiveVerbsRule extends CatalanRule {
             && !isThereBefore(tokens, i, LEMMA_ES, POSTAG_ES)
             && isThereSubject3SBefore(tokens,i,TRENCA_COMPTE))
           continue loop;
+        if (isThereNearLemma (tokens, i, partsCos))
+          continue loop;
+        
         // the rule matches
         String suggestion;
         if (tokens[i].hasLemma("portar")) {suggestion = "em"+token; }

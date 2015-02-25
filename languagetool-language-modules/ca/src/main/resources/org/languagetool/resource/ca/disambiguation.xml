@@ -10964,15 +10964,27 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add"><wd pos="_GN_FP"/></disambig>
         </rule>
     </rulegroup>
-    <rule id="possible_nom_propi" name="possible nom propi">
-         <pattern>
-             <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
-             <marker>
-                 <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
-             </marker>
-         </pattern>
-         <disambig action="add"><wd pos="_possible_nompropi"/></disambig>
-  	 </rule>	
+    <rulegroup id="possible_nom_propi" name="possible nom propi">
+        <rule>
+            <pattern>
+                 <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
+                 <marker>
+                     <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                 </marker>
+             </pattern>
+             <disambig action="add"><wd pos="_possible_nompropi"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                 <token><exception postag="SENT_START"/></token>
+                 <token spacebefore="no">-</token>
+                 <marker>
+                     <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                 </marker>
+             </pattern>
+             <disambig action="add"><wd pos="_possible_nompropi"/></disambig>
+        </rule>
+     </rulegroup>
   	 <rule id="calen_foc" name="calen foc">
   	 	<pattern>
   	 		<marker><token>calen</token></marker>
