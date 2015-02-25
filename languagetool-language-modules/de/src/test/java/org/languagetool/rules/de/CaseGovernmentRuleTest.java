@@ -80,7 +80,13 @@ public class CaseGovernmentRuleTest {
     //assertThat(result.getUnexpectedSlots().size(), is(0));
 
     //CaseGovernmentRule.CheckResult result2 = rule.run("Die Frau gibt ihrem Bruder, der lange verschwunden war, den Hut.");
-    assertResult("Die Frau gibt ihren Bruder, der lange Haare hat, den Hut.", "[]", "[AKK, AKK]");
+    //assertResult("Die Frau gibt ihren Bruder, der lange Haare hat, den Hut.", "[]", "[AKK, AKK]");
+    //assertResult("Die Frau gibt ihren Bruder den Hut.", "[]", "[AKK, AKK]");
+    //assertResult("Die Frau gibt ihrem Bruder den Hut.", "[]", "[]");
+    //assertResult("Die Frau gibt ihr Geld.", "[]", "[]");
+    assertResult("Die Frau gibt ihr Geld einem Obdachlosen.", "[]", "[]");
+
+    // über erwartete Valenzen iterieren und prüfen, ob erfüllt (egal wo)
 
 
     // TODO: wir brauchen Valenzdaten für Verben z.B. "geben: Subjekt (im Nominativ), Dativ-Objekt, Akkusativ-Objekt, das Genitiv-Attribut"

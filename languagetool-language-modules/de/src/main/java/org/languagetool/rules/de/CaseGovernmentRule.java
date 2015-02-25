@@ -152,40 +152,33 @@ public class CaseGovernmentRule extends Rule {
 
   List<String> getChunks(AnalyzedSentence analyzedSentence) throws IOException {
     List<String> result = new ArrayList<>();
-    for (AnalyzedTokenReadings analyzedTokens : analyzedSentence.getTokensWithoutWhitespace()) {
-      result.add(analyzedTokens.getChunkTags().toString());  // TODO
-    }
-
-    int i = 0;
-    String currentChunk = "";
+    StringBuilder currentChunk = new StringBuilder();
     boolean inChunk = false;
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       List<ChunkTag> chunks = tokenReadings.getChunkTags();
-      //System.out.println(chunk + " " + tokens[i] + " (" + tags[i] + ")");
+      System.out.println(chunks + " " + tokenReadings.getToken());
       if (chunks.contains(new ChunkTag("B-NP"))) {
         if (currentChunk.length() > 0) {
-          result.add(currentChunk.trim());
+          result.add(currentChunk.toString().trim());
           //System.out.println("=> " + currentChunk);
         }
-        currentChunk = "";
+        currentChunk.setLength(0);
         inChunk = true;
       } else if (chunks.contains(new ChunkTag("I-NP"))) {
         //
       } else {
         if (currentChunk.length() > 0) {
-          result.add(currentChunk.trim());
+          result.add(currentChunk.toString().trim());
         }
         //System.out.println("=> " + currentChunk);
-        currentChunk = "";
+        currentChunk.setLength(0);
         inChunk = false;
       }
       if (inChunk) {
         //currentChunk += tokens[i] + " ";
-        currentChunk += tokenReadings.getToken() + " ";
+        currentChunk.append(tokenReadings.getToken()).append(" ");
       }
-      i++;
     }
-
     return result;
   }
 
