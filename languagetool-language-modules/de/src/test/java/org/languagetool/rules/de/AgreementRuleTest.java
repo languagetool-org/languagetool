@@ -121,6 +121,7 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
     assertGood("Der Mann, durch den quadratische Fische schwammen.");
     assertGood("Gutenberg, der quadratische Mann.");
+    assertGood("Die größte Stuttgarter Grünanlage ist der Friedhof.");
     // TODO: not detected, because "die" is considered a relative pronoun:
     //assertBad("Gutenberg, die Genie.");
     
