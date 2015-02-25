@@ -18,12 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import opennlp.tools.chunker.ChunkerME;
-import opennlp.tools.chunker.ChunkerModel;
-import opennlp.tools.postag.POSModel;
-import opennlp.tools.postag.POSTaggerME;
-import opennlp.tools.tokenize.TokenizerME;
-import opennlp.tools.tokenize.TokenizerModel;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -75,14 +69,7 @@ public class CaseGovernmentRule extends Rule {
     }
   }
 
-  private final TokenizerModel tokenModel;
-  private final POSModel posModel;
-  private final ChunkerModel chunkerModel;
-
-  public CaseGovernmentRule() throws IOException {
-    tokenModel = new TokenizerModel(new File("/prg/opennlp-models/de-token.bin"));
-    posModel = new POSModel(new File("/prg/opennlp-models/de-pos-maxent.bin"));
-    chunkerModel = new ChunkerModel(new File("/prg/opennlp-chunker-de/chunker-de.bin"));
+  public CaseGovernmentRule() {
   }
 
   private static final ValencyData NOM = new ValencyData(Case.NOM, true);
@@ -113,7 +100,7 @@ public class CaseGovernmentRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    CheckResult result = run(sentence.getText());
+    CheckResult result = run(sentence);
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (result.getMissingSlots().size() > 0 || result.getUnexpectedSlots().size() > 0) {
       String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " + result.verbCases + "." +
@@ -128,8 +115,8 @@ public class CaseGovernmentRule extends Rule {
   public void reset() {
   }
 
-  CheckResult run(String sentence) throws IOException {
-    String verbLemma = getVerb(sentence);
+  CheckResult run(AnalyzedSentence sentence) throws IOException {
+    String verbLemma = getVerb(sentence.getText());
     if (verbLemma == null) {
       System.err.println("No verb found: " + sentence);
       return null;
@@ -155,7 +142,7 @@ public class CaseGovernmentRule extends Rule {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
-        if (posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX")) {
+        if (posTag != null && posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX")) {
           return tokenReading.getLemma();
         }
       }
@@ -163,46 +150,12 @@ public class CaseGovernmentRule extends Rule {
     return null;
   }
 
-  List<String> getChunks(String text) throws IOException {
-    TokenizerME tokenizer = new TokenizerME(tokenModel);
-    String[] tokens = tokenizer.tokenize(text);
-
-    POSTaggerME tagger = new POSTaggerME(posModel);
-    String[] tags = tagger.tag(tokens);
-
-    // Model source: http://gromgull.net/blog/2010/01/noun-phrase-chunking-for-the-awful-german-language/
-    ChunkerME chunker = new ChunkerME(chunkerModel);
-    String[] chunkResult = chunker.chunk(tokens, tags);
-    List<String> chunks = new ArrayList<>();
-    int i = 0;
-    String currentChunk = "";
-    boolean inChunk = false;
-    for (String chunk : chunkResult) {
-      System.out.println(chunk + " " + tokens[i] + " (" + tags[i] + ")");
-      if (chunk.equals("B-NP")) {
-        if (currentChunk.length() > 0) {
-          chunks.add(currentChunk.trim());
-          //System.out.println("=> " + currentChunk);
-        }
-        currentChunk = "";
-        inChunk = true;
-      } else if (chunk.equals("I-NP")) {
-        //
-      } else {
-        if (currentChunk.length() > 0) {
-          chunks.add(currentChunk.trim());
-        }
-        //System.out.println("=> " + currentChunk);
-        currentChunk = "";
-        inChunk = false;
-      }
-      if (inChunk) {
-        currentChunk += tokens[i] + " ";
-      }
-      i++;
+  List<String> getChunks(AnalyzedSentence analyzedSentence) throws IOException {
+    List<String> result = new ArrayList<>();
+    for (AnalyzedTokenReadings analyzedTokens : analyzedSentence.getTokensWithoutWhitespace()) {
+      result.add(analyzedTokens.getChunkTags().toString());  // TODO
     }
-
-    return chunks;
+    return result;
   }
 
   private List<Set<String>> getCases(List<String> chunks) throws IOException {

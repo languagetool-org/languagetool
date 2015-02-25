@@ -19,6 +19,8 @@
 package org.languagetool.rules.de;
 
 import org.junit.Test;
+import org.languagetool.JLanguageTool;
+import org.languagetool.language.German;
 
 import java.io.IOException;
 
@@ -27,9 +29,10 @@ import static org.junit.Assert.assertThat;
 
 public class CaseGovernmentRuleTest {
 
+  private final JLanguageTool lt = new JLanguageTool(new German());
   private final CaseGovernmentRule rule;
 
-  public CaseGovernmentRuleTest() throws IOException {
+  public CaseGovernmentRuleTest() {
     rule = new CaseGovernmentRule();
   }
 
@@ -48,7 +51,7 @@ public class CaseGovernmentRuleTest {
   }
 
   private void show(String text) throws IOException {
-    System.out.println(text + " -> " + rule.getChunks(text));
+    System.out.println(text + " -> " + rule.getChunks(lt.getAnalyzedSentence(text)));
   }
 
   @Test
@@ -85,7 +88,7 @@ public class CaseGovernmentRuleTest {
   }
 
   private void assertResult(String sentence, String expectedMissing, String expectedUnexpected) throws IOException {
-    CaseGovernmentRule.CheckResult result2 = rule.run(sentence);
+    CaseGovernmentRule.CheckResult result2 = rule.run(lt.getAnalyzedSentence(sentence));
     //System.out.println("chunks=" + result2);
     assertMissing(result2, expectedMissing);
     assertUnexpected(result2, expectedUnexpected);
