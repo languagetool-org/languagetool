@@ -23,7 +23,9 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
 
 import java.io.IOException;
+import java.util.*;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
@@ -34,6 +36,27 @@ public class CaseGovernmentRuleTest {
 
   public CaseGovernmentRuleTest() {
     rule = new CaseGovernmentRule();
+  }
+
+  @Test
+  public void testFindMatch() throws IOException {
+    assertTrue(rule.findMatch(makeListSet("NOM"), makeList("NOM")));
+    assertTrue(rule.findMatch(makeListSet("AKK,NOM AKK"), makeList("NOM AKK")));
+    // TODO: more tests
+  }
+
+  private List<Set<String>> makeListSet(String s) {
+    List<Set<String>> result = new ArrayList<>();
+    String[] parts = s.split(" ");
+    for (String part : parts) {
+      String[] subParts = part.split(",");
+      result.add(new HashSet<>(Arrays.asList(subParts)));
+    }
+    return result;
+  }
+
+  private List<String> makeList(String s) {
+    return Arrays.asList(s.split(" "));
   }
 
   @Test
@@ -94,7 +117,7 @@ public class CaseGovernmentRuleTest {
   }
 
   private void assertResult(String sentence, String expectedMissing, String expectedUnexpected) throws IOException {
-    CaseGovernmentRule.CheckResult result2 = rule.run(lt.getAnalyzedSentence(sentence));
+    CaseGovernmentRule.CheckResult result2 = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
     //System.out.println("chunks=" + result2);
     assertMissing(result2, expectedMissing);
     assertUnexpected(result2, expectedUnexpected);

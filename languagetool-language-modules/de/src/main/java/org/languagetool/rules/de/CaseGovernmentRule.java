@@ -100,7 +100,7 @@ public class CaseGovernmentRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    CheckResult result = run(sentence);
+    CheckResult result = checkGovernment(sentence);
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (result.getMissingSlots().size() > 0 || result.getUnexpectedSlots().size() > 0) {
       String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " + result.verbCases + "." +
@@ -115,7 +115,7 @@ public class CaseGovernmentRule extends Rule {
   public void reset() {
   }
 
-  CheckResult run(AnalyzedSentence sentence) throws IOException {
+  CheckResult checkGovernment(AnalyzedSentence sentence) throws IOException {
     String verbLemma = getVerb(sentence.getText());
     if (verbLemma == null) {
       System.err.println("No verb found: " + sentence);
@@ -223,7 +223,28 @@ public class CaseGovernmentRule extends Rule {
     return result;
   }
 
+  boolean findMatch(List<Set<String>> sentenceCasesList, List<String> expectedCases) {
+    System.out.println(sentenceCasesList + " -- " + expectedCases);
+    if (expectedCases.size() == 0) {
+      return true;
+    }
+    String searchedCase = expectedCases.get(0);
+    int i = 0;
+    for (Set<String> sentenceCase : sentenceCasesList) {
+      if (sentenceCase.contains(searchedCase)) {
+        List<Set<String>> remaining = new ArrayList<>(sentenceCasesList);
+        remaining.remove(i);
+        if (findMatch(remaining, expectedCases.subList(1, expectedCases.size()))) {
+          return true;
+        }
+      }
+      i++;
+    }
+    return false;
+  }
+
   private CheckResult checkCases(List<ValencyData> verbCases, List<Set<String>> sentenceCases, String verbLemma) {
+    // TODO: use findMatch()
     List<CaseWithText> missingSlots = new ArrayList<>();
     List<CaseWithText> unexpectedSlots = new ArrayList<>();
 
@@ -232,7 +253,7 @@ public class CaseGovernmentRule extends Rule {
       for (Set<String> sentenceCase : sentenceCases) {
         if (sentenceCase.contains(verbCase.aCase.name())) {
           if (slotFilled) {
-            unexpectedSlots.add(new CaseWithText(verbCase.aCase, "fixme"));
+            unexpectedSlots.add(new CaseWithText(verbCase.aCase, "fixme"));   // TODO
           }
           slotFilled = true;
         }
