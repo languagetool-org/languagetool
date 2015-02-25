@@ -25816,6 +25816,22 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="TUIT" name="tuït/tweet">
+            <pattern>
+                <token>tuït</token>
+            </pattern>
+            <message>¿Volíeu dir '<suggestion>piulada</suggestion>'? 'Tuït' és el nom d'un ocell</message>
+            <suggestion>tweet</suggestion>
+            <example correction="piulada|tweet">Ha fet un <marker>tuït</marker>.</example>
+        </rule>
+        <rule id="TUITS" name="tuïts/tweets">
+            <pattern>
+                <token>tuïts</token>
+            </pattern>
+            <message>¿Volíeu dir '<suggestion>piulades</suggestion>'? 'Tuït' és el nom d'un ocell</message>
+            <suggestion>tweets</suggestion>
+            <example correction="piulades|tweets">Ha fet molts <marker>tuïts</marker>.</example>
+        </rule>
         <rulegroup id="ROTAR_GIRAR" name="rotar/girar">
             <rule>
                 <pattern>
