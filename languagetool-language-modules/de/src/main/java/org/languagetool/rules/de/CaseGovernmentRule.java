@@ -22,13 +22,13 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
 import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tools.StringTools;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -155,6 +155,37 @@ public class CaseGovernmentRule extends Rule {
     for (AnalyzedTokenReadings analyzedTokens : analyzedSentence.getTokensWithoutWhitespace()) {
       result.add(analyzedTokens.getChunkTags().toString());  // TODO
     }
+
+    int i = 0;
+    String currentChunk = "";
+    boolean inChunk = false;
+    for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
+      List<ChunkTag> chunks = tokenReadings.getChunkTags();
+      //System.out.println(chunk + " " + tokens[i] + " (" + tags[i] + ")");
+      if (chunks.contains(new ChunkTag("B-NP"))) {
+        if (currentChunk.length() > 0) {
+          result.add(currentChunk.trim());
+          //System.out.println("=> " + currentChunk);
+        }
+        currentChunk = "";
+        inChunk = true;
+      } else if (chunks.contains(new ChunkTag("I-NP"))) {
+        //
+      } else {
+        if (currentChunk.length() > 0) {
+          result.add(currentChunk.trim());
+        }
+        //System.out.println("=> " + currentChunk);
+        currentChunk = "";
+        inChunk = false;
+      }
+      if (inChunk) {
+        //currentChunk += tokens[i] + " ";
+        currentChunk += tokenReadings.getToken() + " ";
+      }
+      i++;
+    }
+
     return result;
   }
 
