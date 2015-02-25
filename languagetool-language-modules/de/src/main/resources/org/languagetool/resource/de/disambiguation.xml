@@ -33,14 +33,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </unification>
 
     <unification feature="gender">
+        <!-- NOG = no gender, benutzt für Nomen, die nur im Plural vorkommen wie "Ferien" -->
         <equivalence type="mas">
-            <token postag=".*:MAS.*" postag_regexp="yes"/>
+            <token postag=".*:(MAS|NOG).*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="fem">
-            <token postag=".*:FEM.*" postag_regexp="yes"/>
+            <token postag=".*:(FEM|NOG).*" postag_regexp="yes"/>
         </equivalence>
         <equivalence type="neu">
-            <token postag=".*:NEU.*" postag_regexp="yes"/>
+            <token postag=".*:(NEU|NOG).*" postag_regexp="yes"/>
         </equivalence>
     </unification>
 
