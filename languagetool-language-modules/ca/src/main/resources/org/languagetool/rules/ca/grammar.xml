@@ -19804,6 +19804,43 @@ $Id$
             <example>«Aquesta frase, a més de ser llarga, sí que acaba amb punt, encara que el punt va abans de les cometes de tancament.»</example>
             <example>aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a erònia</example>
         </rule>
+        <rulegroup id="ESPAIS_QUE_FALTEN_PUNTUACIO" name="espais que falten en alguns signes de puntació">
+            <rule>
+                <pattern>
+                    <token></token>
+                    <token spacebefore="no" regexp="yes">[)\]»”’]</token>
+                    <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion>\1\2 \3</suggestion>
+                <example correction="1934) va">València (<marker>1934)va</marker> ser</example>
+                <example>València (1934).</example>
+                <example>John’s</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception></token>
+                    <token spacebefore="no" regexp="yes">[(\[«“‘]</token>
+                    <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion>\1 \2\3</suggestion>
+                <example correction="València (1934"><marker>València(1934</marker>) va ser</example>
+                <example>(1934).</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception></token>
+                    <token spacebefore="no" regexp="yes">["'"]</token>
+                    <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion>\1 \2\3</suggestion>
+                <suggestion>\1\2 \3</suggestion>
+                <example correction='València "1934|València" 1934'><marker>València"1934</marker>".</example>
+                <example>(1934).</example>
+            </rule>
+        </rulegroup>
     </category>
     <category name="Expressions incorrectes" type="grammar">
         <rule id="OLORAR_MALAMENT" name="olorar malament">
