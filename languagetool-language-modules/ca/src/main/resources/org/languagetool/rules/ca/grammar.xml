@@ -25853,6 +25853,15 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="RALLAR" name="rallar/ratllar">
+            <pattern>
+                <token inflected="yes">rallar</token>
+            </pattern>
+            <message>¿Volíeu dir '<suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">ratllar</match></suggestion>'? '\1' és correcte en altres sentits (xerrar; pescar amb rall).</message>
+            <short>Possible confusió</short>
+            <example correction="ratllà">es <marker>rallà</marker></example>
+            <example correction="ratlla">una <marker>ralla</marker></example>
+        </rule>
         <rule id="TUIT" name="tuït/tweet">
             <pattern>
                 <token>tuït</token>
