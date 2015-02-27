@@ -52,6 +52,7 @@ public class HTTPServerConfig {
   protected int requestLimit;
   protected int requestLimitPeriodInSeconds;
   protected boolean trustXForwardForHeader;
+  protected int maxWorkQueueSize;
 
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
@@ -114,6 +115,7 @@ public class HTTPServerConfig {
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
+        maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null) {
           languageModelDir = new File(langModel);
@@ -237,6 +239,11 @@ public class HTTPServerConfig {
   /** @since 2.8 */
   boolean getTrustXForwardForHeader() {
     return trustXForwardForHeader;
+  }
+
+  /** @since 2.9 */
+  int getMaxWorkQueueSize() {
+    return maxWorkQueueSize;
   }
 
   /**
