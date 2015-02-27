@@ -19807,7 +19807,7 @@ $Id$
         <rulegroup id="ESPAIS_QUE_FALTEN_PUNTUACIO" name="espais que falten en alguns signes de puntació">
             <rule>
                 <pattern>
-                    <token></token>
+                    <token><exception postag="_PUNCT.*|SENT_START" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">[)\]»”’]</token>
                     <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -19818,8 +19818,14 @@ $Id$
                 <example>John’s</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">f|g|function</token>
+                        <token regexp="yes">[(\[]</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception></token>
+                    <token><exception regexp="yes">[—–\-]</exception><exception postag="_PUNCT.*|SENT_START" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">[(\[«“‘]</token>
                     <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -19827,17 +19833,40 @@ $Id$
                 <suggestion>\1 \2\3</suggestion>
                 <example correction="València (1934"><marker>València(1934</marker>) va ser</example>
                 <example>(1934).</example>
+                <example>f(x) + g(x)</example>
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">\d+</token>
+                        <token>'</token>
+                        <token regexp="yes">\d+</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception></token>
-                    <token spacebefore="no" regexp="yes">["'"]</token>
-                    <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">[—–\-]</exception><exception postag="_PUNCT.*|SENT_START|DA.*|SPS00|P.*" postag_regexp="yes"/></token>
+                    <token spacebefore="no" regexp="yes">["']<exception postag="SENT_END"/></token>
+                    <token spacebefore="no"><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un espai.</message>
                 <suggestion>\1 \2\3</suggestion>
                 <suggestion>\1\2 \3</suggestion>
                 <example correction='València "1934|València" 1934'><marker>València"1934</marker>".</example>
+                <example>(1934).</example>
+                <example>('El corn meravellós del vailet', 1806-08)</example>
+                <example>l'"Anuario Estadístico"</example>
+                <example>d'"Anuario Estadístico"</example>
+                <example>m'"agrada"</example>
+                <example>9'5</example> <!-- hi ha altres regles -->
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[)\]»”’]</token>
+                    <token spacebefore="no" regexp="yes">[(\[«“‘]</token>
+                </pattern>
+                <message>Falta un espai.</message>
+                <suggestion>\1 \2</suggestion>
+                <example correction="» (">València<marker>»(</marker>1934.</example>
                 <example>(1934).</example>
             </rule>
         </rulegroup>
