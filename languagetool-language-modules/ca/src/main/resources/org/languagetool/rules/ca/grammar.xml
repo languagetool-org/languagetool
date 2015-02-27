@@ -6296,18 +6296,20 @@ $Id$
         </rulegroup>
         <rule id="ACOSTUMAR_A" name="acostumar *(a)">
             <pattern>
-                <token inflected='yes' skip="3">acostumar<exception scope="next" regexp="yes">a|de|d'</exception></token>
                 <marker>
-                    <token postag='V.N.*' postag_regexp='yes'></token>
+                    <token inflected='yes'>acostumar</token>
                 </marker>
+                <token min="0" max="2" postag="RN|RG" postag_regexp="yes"/>
+                <token postag='V.N.*' postag_regexp='yes'></token>
             </pattern>
             <message>Falta una preposició.</message>
-            <suggestion>a \2</suggestion>
-            <example correction="a venir">Acostumen <marker>venir</marker> tard.</example>
-            <example correction="a venir">Acostumen no <marker>venir</marker> tard.</example>
-            <example correction="a venir">Està acostumat <marker>venir</marker> tard.</example>
+            <suggestion>\1 a</suggestion>
+            <example correction="Acostumen a"><marker>Acostumen</marker> venir tard.</example>
+            <example correction="Acostumen a"><marker>Acostumen</marker> no venir tard.</example>
+            <example correction="acostumat a">Està <marker>acostumat</marker> venir tard.</example>
             <example>acostumen a no tenir gaires ancoratges</example>
             <example>acostumen a venir tard</example>
+            <example>poc acostumada es va allargassar</example>
         </rule>
         <rulegroup id="PER_PER_A_INFINITIU" name="per/per a davant d'infinitiu" default="off">
             <rule id="SERVIR_PER_TALLAR" name="servir/usar/emprar/aprofitar/preparar per/per a">
