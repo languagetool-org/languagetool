@@ -8214,6 +8214,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category name="Semantische Unstimmigkeiten">
         <!-- TODO eigene Kategorie für Mehrdeutigkeiten? -->
         <!-- TODO hierhin auch 'Friseuse', 'Neger', 'Zigeuner'? -->
+        <rule id="FUENFTES_RAD" name="drittes (fünftes) Rad am Wagen">
+            <pattern>
+                <token regexp='yes'>dritte|drittes</token>
+                <token>Rad</token>
+                <token>am</token>
+                <token>Wagen</token>
+            </pattern>
+            <message>Die Redewendung im Sinne von 'überflüssig; fehl am Platz' lautet <suggestion><match no="1" regexp_match="dritt" regexp_replace="fünft"/> Rad am Wagen</suggestion>.</message>
+            <example correction="fünfte Rad am Wagen">Er war das <marker>dritte Rad am Wagen</marker></example>
+            <example correction="fünftes Rad am Wagen">Er fühlt sich wie ein <marker>drittes Rad am Wagen</marker></example>
+        </rule>
         <rulegroup id="MORGEN_MIT_VERGANGENHEIT" name="Zeitform: 'morgen' etc. mit Vergangenheit">
             <rule>
                 <antipattern>
