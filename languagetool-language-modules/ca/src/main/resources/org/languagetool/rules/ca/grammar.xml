@@ -32139,6 +32139,26 @@ $Id$
         </rule>
     </category>
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rulegroup id="FIDEUA" name="fideuà, mascletà / fideuada, mascletada">
+            <rule>
+                <pattern>
+                    <token regexp="yes">mascletà|fideuà</token>
+                </pattern>
+                <message>Forma col·loquial</message>
+                <suggestion><match no="1" regexp_match="(.+)[àÀ]" regexp_replace="$1ada"/></suggestion>
+                <example correction="Fideuada"><marker>Fideuà</marker></example>
+                <example correction="mascletada">La <marker>mascletà</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">mascletaes|fideuaes</token>
+                </pattern>
+                <message>Forma col·loquial</message>
+                <suggestion><match no="1" regexp_match="(.+)[aA][eE][sS]" regexp_replace="$1ades"/></suggestion>
+                <example correction="Fideuades"><marker>Fideuaes</marker></example>
+                <example correction="mascletades">Les <marker>mascletaes</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="GUAI" name="guai">
             <pattern>
                 <token regexp="yes">guais?</token>
