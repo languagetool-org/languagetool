@@ -19811,7 +19811,7 @@ $Id$
                 <pattern>
                     <token><exception postag="_PUNCT.*|SENT_START" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">[)\]»”’]</token>
-                    <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token spacebefore="no"><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un espai.</message>
                 <suggestion>\1\2 \3</suggestion>
@@ -19827,16 +19827,23 @@ $Id$
                         <token regexp="yes">[(\[]</token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <marker>
+                        <token regexp="yes">[(\[]</token>
+                        <token regexp="yes">\d.*</token>
+                    </marker>
+                </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">[—–\-]</exception><exception postag="_PUNCT.*|SENT_START" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">[—–\-]</exception><exception postag="_PUNCT.*|SENT_START|DA.*|SPS00|P.*|.*LOC_.*" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">[(\[«“‘]</token>
-                    <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
+                    <token spacebefore="no"><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Falta un espai.</message>
                 <suggestion>\1 \2\3</suggestion>
                 <example correction="València (1934"><marker>València(1934</marker>) va ser</example>
                 <example>(1934).</example>
                 <example>f(x) + g(x)</example>
+                <example>les aventures d'«Abú Quir i Abú Sir»</example>
             </rule>
             <rule>
                 <antipattern>
@@ -19847,7 +19854,7 @@ $Id$
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token><exception regexp="yes">[—–\-]</exception><exception postag="_PUNCT.*|SENT_START|DA.*|SPS00|P.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">[—–\-]</exception><exception postag="_PUNCT.*|SENT_START|DA.*|SPS00|P.*|.*LOC_.*" postag_regexp="yes"/></token>
                     <token spacebefore="no" regexp="yes">["']<exception postag="SENT_END"/></token>
                     <token spacebefore="no"><exception postag="SENT_END|_PUNCT.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -19859,6 +19866,7 @@ $Id$
                 <example>('El corn meravellós del vailet', 1806-08)</example>
                 <example>l'"Anuario Estadístico"</example>
                 <example>d'"Anuario Estadístico"</example>
+                <example>després d'"haver perdut"</example>
                 <example>m'"agrada"</example>
                 <example>9'5</example> <!-- hi ha altres regles -->
             </rule>
