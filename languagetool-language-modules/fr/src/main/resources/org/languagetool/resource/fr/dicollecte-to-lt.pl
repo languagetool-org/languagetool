@@ -55,9 +55,9 @@ while (<IN>) {
   } elsif ($tag =~ /^(?:adv|loc\.(?:adv|adj|verb|nom))$/) {
     printf OUT "$flex\t$lemma\tA\n";
   } elsif ($tag eq 'nom mas') {
-    print OUT "flag\t$lemma\tN m s\n";
+    print OUT "$flex\t$lemma\tN m s\n";
   } elsif ($tag eq 'nom fem') {
-    print OUT "flag\t$lemma\tN f s\n";
+    print OUT "$flex\t$lemma\tN f s\n";
   } elsif ($tag eq 'interj') {
     printf OUT "$flex\t$lemma\tI\n";
   } elsif ($tag eq 'nb epi sg') {
