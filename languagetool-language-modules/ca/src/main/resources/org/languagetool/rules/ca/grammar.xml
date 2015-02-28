@@ -19807,6 +19807,12 @@ $Id$
             <example>aquesta frase, a part del fet de ser llarga, no comença amb majúsucula i, per tant, no compleix els requisits per a ser marcada com a erònia</example>
         </rule>
         <rulegroup id="ESPAIS_QUE_FALTEN_PUNTUACIO" name="espais que falten en alguns signes de puntació">
+            <antipattern>
+                <marker>
+                    <token regexp="yes">[=+\-]</token>
+                    <token regexp="yes">[(\[]</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="_PUNCT.*|SENT_START" postag_regexp="yes"/></token>
@@ -19825,12 +19831,6 @@ $Id$
                     <marker>
                         <token regexp="yes">f|g|function</token>
                         <token regexp="yes">[(\[]</token>
-                    </marker>
-                </antipattern>
-                <antipattern>
-                    <marker>
-                        <token regexp="yes">[(\[]</token>
-                        <token regexp="yes">\d.*</token>
                     </marker>
                 </antipattern>
                 <pattern>
