@@ -51,6 +51,8 @@ public class CommandLineOptions {
   private String[] enabledRules = new String[0];
   private boolean useEnabledOnly = false;
 
+  private String ruleFile = null;
+
   public boolean isPrintUsage() {
     return printUsage;
   }
@@ -177,6 +179,26 @@ public class CommandLineOptions {
    */
   public void setLanguageModel(File languageModel) {
     this.languageModel = languageModel;
+  }
+
+  /**
+   *
+   * @return an additional rule file name to use
+   * @since 2.7
+   *
+   */
+  @Nullable
+  public String getRuleFile() {
+    return ruleFile;
+  }
+
+
+  /** since 2.9
+   *
+   * @param ruleFile - absolute file name of the XML rule file
+   */
+  public void setRuleFile(String ruleFile) {
+    this.ruleFile = ruleFile;
   }
 
   public String getEncoding() {

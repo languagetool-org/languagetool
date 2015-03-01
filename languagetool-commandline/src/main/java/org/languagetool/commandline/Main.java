@@ -498,6 +498,11 @@ class Main {
 
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
+
+    if (options.getRuleFile() != null) {
+      options.getLanguage().addExternalRuleFile(options.getRuleFile());
+    }
+
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
             options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
             options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
