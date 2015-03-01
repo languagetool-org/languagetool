@@ -4024,7 +4024,7 @@ $Id$
             <pattern>
                 <token>в</token>
                 <token>течении</token>
-                <token regexp="yes">часа|минуты|промежутка|секунды|дня|времени|недели|месяца|года|столетия|тысячелетия</token>
+                <token regexp="yes">часа|минуты|промежутка|секунды|дня|суток|времени|недели|месяца|года|столетия|тысячелетия</token>
             </pattern>
             <message>Должно быть: <suggestion>\1 течение \3</suggestion></message>
             <short>В течение (времени, часа, ...)</short>
@@ -4035,13 +4035,17 @@ $Id$
             <pattern>
                 <token>в</token>
                 <token>течении</token>
-                <token regexp= "yes" >[0-9]*</token>
-                <token inflected="yes" regexp= "yes">час|минута|секунда|день|календарный|рабочий|неделя|месяц|год|столетие|тысячелетие</token>
+                <or> 
+                  <token regexp= "yes" >[0-9]*</token>
+                  <token postag= "NumC:.*"  postag_regexp="yes"></token>
+                </or>
+                <token inflected="yes" regexp= "yes">час|минута|секунда|день|сутки|календарный|рабочий|банковский|выходной|праздничный|неделя|месяц|год|столетие|тысячелетие</token>
             </pattern>
             <message>Должно быть: <suggestion>\1 течение \3 \4</suggestion></message>
             <short>В течение (времени, часа, ...)</short>
             <example correction="в течение 10 дней">Работа должна быть выполнена <marker>в течении 10 дней</marker>.</example>
             <example correction="в течение 10 календарных">Работа должна быть выполнена <marker>в течении 10 календарных</marker> дней.</example>
+             <example correction="в течение трёх банковских">Перевод выполняется <marker>в течении трёх банковских</marker> дней.</example>
             <example>Работа должна быть выполнена в течение 10 дней.</example>
           </rule>
         </rulegroup>
