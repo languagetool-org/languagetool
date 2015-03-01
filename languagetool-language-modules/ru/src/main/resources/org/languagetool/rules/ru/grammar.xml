@@ -235,7 +235,20 @@ $Id$
                 <example correction="кВт⋅ч">Потребление электроэнергии составляет 100 <marker>кВт/ч</marker>.</example>
                 <example>Потребление электроэнергии составило 100 кВт*ч.</example>
                 <example>Потребление электроэнергии составляет 100 кВт⋅ч.</example>
-            </rule>          
+            </rule>
+              <rule> 
+                <pattern>
+                    <token>kW</token>
+                    <token>/</token>
+                    <token>h</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>kW·h</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9A%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0%D1%82%D1%82-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example correction="kW·h">Потребление электроэнергии составляет 100 <marker>kW/h</marker>.</example>
+                <example>Потребление электроэнергии составило 100 kWh.</example>
+                <example>Потребление электроэнергии составило 100 kW·h.</example>
+            </rule>           
         </rulegroup>
         <rulegroup id="А.H" name="Обозначение физических величин «А⋅ч»">
             <rule> 
@@ -251,6 +264,19 @@ $Id$
                 <example>Ёмкость аккумулятора составляет 60 А*ч.</example>
                 <example>Ёмкость аккумулятора составляет 60 А⋅ч.</example>
             </rule>
+            <rule> 
+                <pattern>
+                    <token>A</token>
+                    <token>/</token>  
+                    <token>h</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>A⋅h</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example correction="A⋅h">Ёмкость аккумулятора составляет 60 <marker>A/h</marker>.</example>
+                <example>Ёмкость аккумулятора составляет 60 A*h.</example>
+                <example>Ёмкость аккумулятора составляет 60 A⋅h.</example>
+            </rule>
              <rule> 
                 <pattern>
                     <token>мА</token>
@@ -263,6 +289,19 @@ $Id$
                 <example correction="мА⋅ч">Ёмкость аккумулятора составляет 900 <marker>мА/ч</marker>.</example>
                 <example>Ёмкость аккумулятора составляет 900 мА*ч.</example>
                 <example>Ёмкость аккумулятора составляет 900 мА⋅ч.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>mA</token>
+                    <token>/</token>  
+                    <token>h</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>mA⋅h</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example correction="mA⋅h">Ёмкость аккумулятора составляет 500 <marker>mA/h</marker>.</example>
+                <example>Ёмкость аккумулятора составляет 500 mA*h.</example>
+                <example>Ёмкость аккумулятора составляет 500 mA⋅h.</example>
             </rule>            
         </rulegroup>
         <rulegroup id="V.А" name="Обозначение физических величин «В⋅А»">
@@ -278,6 +317,19 @@ $Id$
                 <example correction="В⋅А">Мощность ИБП составляет 500 <marker>В/А</marker>.</example>
                 <example>Мощность ИБП составляет 500 В*А.</example>
                 <example>Мощность ИБП составляет 500 В⋅А.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>V</token>
+                    <token>/</token>  
+                    <token>A</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>V⋅A</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
+                <short>Логическая ошибка.</short>
+                <example correction="V⋅A">Мощность ИБП составляет 500 <marker>V/A</marker>.</example>
+                <example>Мощность ИБП составляет 500 V*A.</example>
+                <example>Мощность ИБП составляет 500 V⋅A.</example>
             </rule>
             <rule> 
                 <pattern>
@@ -3392,6 +3444,16 @@ $Id$
                 <short>Буква &quot;о&quot; не нужна.</short>
                 <example>Мы видели её в окне.</example>
                 <example correction="в окне">Мы видели её <marker>во окне</marker>.</example>
+            </rule>
+              <rule>
+                <pattern>
+                    <token>в</token>
+                    <token regexp="yes">[ф].*</token>
+                </pattern>
+                <message>Неправильная форма предлога: <suggestion>во \2</suggestion>.</message>
+                <short>Беглая гласная.</short>
+                <example>Мы отправили её во Францию.</example>
+                <example correction="во Францию">Мы отправили её <marker>в Францию</marker>.</example>
             </rule>
             <rule>
                 <pattern>
