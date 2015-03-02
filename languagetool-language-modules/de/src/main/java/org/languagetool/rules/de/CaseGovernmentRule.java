@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -36,6 +37,7 @@ import java.util.*;
  * Detect case errors like "Die Frau gibt ihre<b>n</b> Bruder den Hut." ()instead of "Die Frau gibt ihre<b>m</b> Bruder den Hut."
  * This rule needs noun phrases that are correct when not considering context, e.g. "die Frau", "ihren Bruder", "den Hut".
  * See {@link org.languagetool.rules.de.AgreementRule} for detecting noun phrases that are not correct by themselves ("der Auto").
+ * @since 2.9
  */
 public class CaseGovernmentRule extends Rule {
 
@@ -53,7 +55,15 @@ public class CaseGovernmentRule extends Rule {
   // -Wie Einschübe überspringen? (OpenNLP macht es - z.T.? - automatisch)
 
   enum Case {
-    NOM, AKK, DAT, GEN
+    NOM("Nominativ"), AKK("Akkusativ"), DAT("Dativ"), GEN("Genitiv");
+
+    private final String longForm;
+    Case(String longForm) {
+      this.longForm = longForm;
+    }
+    String getLongForm() {
+      return longForm;
+    }
   }
 
   static class ValencyData {
@@ -69,7 +79,7 @@ public class CaseGovernmentRule extends Rule {
     }
   }
 
-  public CaseGovernmentRule() {
+  public CaseGovernmentRule(ResourceBundle messages) {
   }
 
   private static final ValencyData NOM = new ValencyData(Case.NOM, true);
@@ -86,6 +96,7 @@ public class CaseGovernmentRule extends Rule {
     // Sie gibt ihr Geld.
     // Sie gibt ihr Geld einem Freund.
     // Sie gibt ihr Geld einem Freund ihres Mannes.
+    // TODO: wir brauchen Valenzdaten für viele Verben
   }
 
   @Override
@@ -102,38 +113,65 @@ public class CaseGovernmentRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     CheckResult result = checkGovernment(sentence);
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (result.getMissingSlots().size() > 0 || result.getUnexpectedSlots().size() > 0) {
-      String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " + result.verbCases + "." +
-              " Gefunden wurden aber: FIXME";  // TODO: "Die Frau - Akkusativ oder Nominativ" etc.
+    if (result != null && !result.correct) {
+      String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " +
+              getExpectedStrings(result.verbCases) + "." +
+              " Gefunden wurden aber: " + getSentenceStrings(result.sentenceCases);
       RuleMatch match = new RuleMatch(this, 0, 1, message);  // TODO: positions
       ruleMatches.add(match);
     }
     return toRuleMatchArray(ruleMatches);
   }
 
+  private String getExpectedStrings(List<ValencyData> result) {
+    List<String> longForms = new ArrayList<>();
+    for (ValencyData valency : result) {
+      if (valency.isRequired) {
+        longForms.add(valency.aCase.getLongForm());
+      } else {
+        longForms.add("optional: " + valency.aCase.getLongForm());
+      }
+    }
+    return StringTools.listToString(longForms, ", ");
+  }
+
+  private String getSentenceStrings(List<Set<Case>> cases) {
+    List<String> longForms = new ArrayList<>();
+    for (Set<Case> caseSet : cases) {
+      List<String> casesStr = new ArrayList<>();
+      for (Case aCase : caseSet) {
+        casesStr.add(aCase.getLongForm());
+      }
+      longForms.add(StringTools.listToString(casesStr, "/"));
+    }
+    return StringTools.listToString(longForms, ", ");
+  }
+
   @Override
   public void reset() {
   }
 
+  @Nullable
   CheckResult checkGovernment(AnalyzedSentence sentence) throws IOException {
     String verbLemma = getVerb(sentence.getText());
     if (verbLemma == null) {
-      System.err.println("No verb found: " + sentence);
+      //System.err.println("No verb found: " + sentence);
       return null;
     }
     List<String> chunks = getChunks(sentence);
-    List<Set<String>> cases = getCases(chunks);
-    System.out.println("\nText   : " + sentence);
+    List<Set<Case>> cases = getCases(chunks);
+    /*System.out.println("\nText   : " + sentence);
     System.out.println("Verb   : " + verbLemma);
     System.out.println("Chunks : " + chunks);
-    System.out.println("Cases  : " + cases);
+    System.out.println("Cases  : " + cases);*/
     List<ValencyData> verbCases = valency.get(verbLemma);
     if (verbCases == null) {
       // well, we have no data, so we cannot test anything
       return null;
     }
-    System.out.println("Valency: " + verbCases);
-    return checkCases(verbCases, cases, verbLemma);
+    //System.out.println("Valency: " + verbCases);
+    boolean correct = checkCases(cases, verbCases);
+    return new CheckResult(correct, cases, verbCases, verbLemma);
   }
 
   private String getVerb(String sentence) throws IOException {
@@ -156,11 +194,10 @@ public class CaseGovernmentRule extends Rule {
     boolean inChunk = false;
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       List<ChunkTag> chunks = tokenReadings.getChunkTags();
-      System.out.println(chunks + " " + tokenReadings.getToken());
+      //System.out.println(chunks + " " + tokenReadings.getToken());
       if (chunks.contains(new ChunkTag("B-NP"))) {
         if (currentChunk.length() > 0) {
           result.add(currentChunk.toString().trim());
-          //System.out.println("=> " + currentChunk);
         }
         currentChunk.setLength(0);
         inChunk = true;
@@ -170,22 +207,20 @@ public class CaseGovernmentRule extends Rule {
         if (currentChunk.length() > 0) {
           result.add(currentChunk.toString().trim());
         }
-        //System.out.println("=> " + currentChunk);
         currentChunk.setLength(0);
         inChunk = false;
       }
       if (inChunk) {
-        //currentChunk += tokens[i] + " ";
         currentChunk.append(tokenReadings.getToken()).append(" ");
       }
     }
     return result;
   }
 
-  private List<Set<String>> getCases(List<String> chunks) throws IOException {
-    List<Set<String>> result = new ArrayList<>();
+  private List<Set<Case>> getCases(List<String> chunks) throws IOException {
+    List<Set<Case>> result = new ArrayList<>();
     for (String chunk : chunks) {
-      System.out.println("---");
+      //System.out.println("---");
       String[] words = chunk.split(" ");
       Set<String> commonFeatures = new HashSet<>();
       int i = 0;
@@ -197,10 +232,10 @@ public class CaseGovernmentRule extends Rule {
         Set<String> tokenFeatures = getTokenFeatures(lookup);
         if (i == 0) {
           commonFeatures.addAll(tokenFeatures);
-          System.out.println(lookup + " -> " + tokenFeatures);
+          //System.out.println(lookup + " -> " + tokenFeatures);
         } else {
           commonFeatures.retainAll(tokenFeatures);
-          System.out.println(lookup + " -> " + tokenFeatures + " retained: " + commonFeatures + "@" + chunk);
+          //System.out.println(lookup + " -> " + tokenFeatures + " retained: " + commonFeatures + "@" + chunk);
         }
         i++;
       }
@@ -209,32 +244,38 @@ public class CaseGovernmentRule extends Rule {
     return result;
   }
 
-  private Set<String> featuresToCases(Set<String> features) {
+  private Set<Case> featuresToCases(Set<String> features) {
     Set<String> relevantFeatures = new HashSet<>(Arrays.asList("NOM", "AKK", "DAT", "GEN"));
-    Set<String> result = new HashSet<>();
+    Set<Case> result = new HashSet<>();
     for (String feature : features) {
       String[] parts = feature.split(":");
       for (String part : parts) {
         if (relevantFeatures.contains(part)) {
-          result.add(part);
+          result.add(Case.valueOf(part));
         }
       }
     }
     return result;
   }
 
-  boolean findMatch(List<Set<String>> sentenceCasesList, List<String> expectedCases) {
-    System.out.println(sentenceCasesList + " -- " + expectedCases);
-    if (expectedCases.size() == 0) {
+  /**
+   * Find the given {@code expectedCases} in {@code sentenceCases} so that
+   * one set from {@code sentenceCases} isn't used twice.
+   * Return true if all {@code expectedCases} can be found.
+   */
+  boolean checkCases(List<Set<Case>> sentenceCasesList, List<ValencyData> expectedCases) {
+    if (sentenceCasesList.size() == 0 && (expectedCases.size() == 0 || allOptional(expectedCases))) {
       return true;
+    } else if (sentenceCasesList.size() == 0 || expectedCases.size() == 0) {
+      return false;
     }
-    String searchedCase = expectedCases.get(0);
+    Case searchedCase = expectedCases.get(0).aCase;
     int i = 0;
-    for (Set<String> sentenceCase : sentenceCasesList) {
+    for (Set<Case> sentenceCase : sentenceCasesList) {
       if (sentenceCase.contains(searchedCase)) {
-        List<Set<String>> remaining = new ArrayList<>(sentenceCasesList);
+        List<Set<Case>> remaining = new ArrayList<>(sentenceCasesList);
         remaining.remove(i);
-        if (findMatch(remaining, expectedCases.subList(1, expectedCases.size()))) {
+        if (checkCases(remaining, expectedCases.subList(1, expectedCases.size()))) {
           return true;
         }
       }
@@ -243,27 +284,13 @@ public class CaseGovernmentRule extends Rule {
     return false;
   }
 
-  private CheckResult checkCases(List<ValencyData> verbCases, List<Set<String>> sentenceCases, String verbLemma) {
-    // TODO: use findMatch()
-    List<CaseWithText> missingSlots = new ArrayList<>();
-    List<CaseWithText> unexpectedSlots = new ArrayList<>();
-
-    for (ValencyData verbCase : verbCases) {
-      boolean slotFilled = false;
-      for (Set<String> sentenceCase : sentenceCases) {
-        if (sentenceCase.contains(verbCase.aCase.name())) {
-          if (slotFilled) {
-            unexpectedSlots.add(new CaseWithText(verbCase.aCase, "fixme"));   // TODO
-          }
-          slotFilled = true;
-        }
-      }
-      if (!slotFilled && verbCase.isRequired) {
-        missingSlots.add(new CaseWithText(verbCase.aCase, "fixme"));
+  private boolean allOptional(List<ValencyData> expectedCases) {
+    for (ValencyData valency : expectedCases) {
+      if (valency.isRequired) {
+        return false;
       }
     }
-    // TODO: unexpectedSlots?
-    return new CheckResult(missingSlots, unexpectedSlots, verbLemma, verbCases);
+    return true;
   }
 
   private Set<String> getTokenFeatures(AnalyzedTokenReadings lookup) {
@@ -292,48 +319,27 @@ public class CaseGovernmentRule extends Rule {
     return result;
   }
 
-  public class CheckResult {
+  class CheckResult {
 
+    private final boolean correct;
     private final String verbLemma;
+    private final List<Set<Case>> sentenceCases;
     private final List<ValencyData> verbCases;
-    private final List<CaseWithText> missingSlots;
-    private final List<CaseWithText> unexpectedSlots;
 
-    private CheckResult(List<CaseWithText> missingSlots, List<CaseWithText> unexpectedSlots, String verbLemma, List<ValencyData> verbCases) {
-      this.missingSlots = missingSlots;
-      this.unexpectedSlots = unexpectedSlots;
-      this.verbLemma = verbLemma;
+    private CheckResult(boolean correct, List<Set<Case>> sentenceCases, List<ValencyData> verbCases, String verbLemma) {
+      this.correct = correct;
+      this.sentenceCases = sentenceCases;
       this.verbCases = verbCases;
+      this.verbLemma = verbLemma;
     }
 
-    public List<CaseWithText> getMissingSlots() {
-      return missingSlots;
-    }
-
-    public List<CaseWithText> getUnexpectedSlots() {
-      return unexpectedSlots;
+    boolean isCorrect() {
+      return correct;
     }
 
     @Override
     public String toString() {
-      return "missing=" + missingSlots + ", unexpected=" + unexpectedSlots;
-    }
-  }
-
-  class CaseWithText {
-
-    private final Case aCase;
-    private final String phrase;
-
-    CaseWithText(Case aCase, String phrase) {
-      this.aCase = aCase;
-      this.phrase = phrase;
-    }
-
-    @Override
-    public String toString() {
-      //return aCase + ": " + phrase;
-      return aCase.toString();
+      return "sentence=" + sentenceCases + ", expectedByVerb=" + verbCases;
     }
   }
 

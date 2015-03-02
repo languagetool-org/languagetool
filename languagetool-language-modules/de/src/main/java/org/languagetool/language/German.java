@@ -151,6 +151,7 @@ public class German extends Language {
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to German:
+            new CaseGovernmentRule(messages),
             new SentenceWhitespaceRule(messages),
             new GermanDoublePunctuationRule(messages),
             new MissingVerbRule(messages, this),

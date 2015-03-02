@@ -18,16 +18,20 @@
  */
 package org.languagetool.rules.de;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 
 import java.io.IOException;
 import java.util.*;
 
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.languagetool.rules.de.CaseGovernmentRule.*;
+import static org.languagetool.rules.de.CaseGovernmentRule.Case;
 
 public class CaseGovernmentRuleTest {
 
@@ -35,31 +39,91 @@ public class CaseGovernmentRuleTest {
   private final CaseGovernmentRule rule;
 
   public CaseGovernmentRuleTest() {
-    rule = new CaseGovernmentRule();
+    rule = new CaseGovernmentRule(TestTools.getEnglishMessages());
   }
 
   @Test
-  public void testFindMatch() throws IOException {
-    assertTrue(rule.findMatch(makeListSet("NOM"), makeList("NOM")));
-    assertTrue(rule.findMatch(makeListSet("AKK,NOM AKK"), makeList("NOM AKK")));
-    // TODO: more tests
+  public void testCheckCasesTEMP() throws IOException {
   }
 
-  private List<Set<String>> makeListSet(String s) {
-    List<Set<String>> result = new ArrayList<>();
+  @Test
+  public void testCheckCases() throws IOException {
+    assertOkay("NOM", "NOM");
+    assertOkay("NOM", "NOM?");
+
+    assertOkay("AKK,NOM AKK", "NOM AKK");
+    assertOkay("AKK,NOM AKK", "NOM AKK?");
+    assertOkay("AKK,NOM AKK", "AKK NOM");
+    assertOkay("AKK,NOM AKK", "AKK NOM?");
+
+    assertOkay("AKK,NOM AKK,NOM", "NOM AKK");
+    assertOkay("AKK,NOM AKK,NOM", "AKK NOM");
+    assertOkay("AKK,NOM AKK,NOM", "AKK NOM GEN?");
+    assertOkay("AKK,NOM AKK,NOM", "AKK NOM GEN? GEN?");
+
+    assertOkay("AKK AKK,NOM", "NOM AKK");
+    assertOkay("AKK AKK,NOM", "AKK NOM");
+    assertOkay("AKK AKK,NOM", "AKK NOM AKK?");
+    assertOkay("AKK AKK,NOM", "AKK NOM GEN?");
+    assertOkay("AKK AKK,NOM", "AKK NOM GEN? AKK?");
+
+    assertOkay("AKK,NOM AKK", "AKK AKK");
+    assertOkay("AKK,NOM AKK", "NOM AKK");
+    assertOkay("AKK,NOM AKK", "AKK NOM");
+    assertOkay("AKK,NOM AKK GEN", "NOM AKK GEN");
+    assertOkay("AKK,NOM AKK GEN", "AKK NOM GEN");
+    assertOkay("AKK,NOM AKK GEN", "GEN AKK NOM");
+    assertOkay("AKK,NOM AKK GEN", "GEN AKK NOM GEN?");
+
+    assertMissing("NOM", "");
+    assertMissing("NOM", "AKK");
+    assertMissing("AKK,NOM AKK", "GEN");
+    assertMissing("AKK,NOM AKK", "NOM GEN");
+    assertMissing("AKK,NOM AKK", "NOM AKK GEN");
+    assertMissing("AKK,NOM AKK", "NOM AKK GEN");
+  }
+
+  private void assertOkay(String sentencesCases, String expectedCases) {
+    assertTrue(rule.checkCases(makeListSet(sentencesCases), makeList(expectedCases)));
+  }
+
+  private void assertMissing(String sentencesCases, String expectedCases) {
+    assertFalse(rule.checkCases(makeListSet(sentencesCases), makeList(expectedCases)));
+  }
+
+  private List<Set<Case>> makeListSet(String s) {
+    List<Set<Case>> result = new ArrayList<>();
     String[] parts = s.split(" ");
     for (String part : parts) {
       String[] subParts = part.split(",");
-      result.add(new HashSet<>(Arrays.asList(subParts)));
+      List<Case> list = new ArrayList<>();
+      for (String subPart : subParts) {
+        list.add(Case.valueOf(subPart));
+      }
+      result.add(new HashSet<>(list));
     }
     return result;
   }
 
-  private List<String> makeList(String s) {
-    return Arrays.asList(s.split(" "));
+  private List<ValencyData> makeList(String s) {
+    if (s.isEmpty()) {
+      return Collections.emptyList();
+    } else {
+      String[] split = s.split(" ");
+      List<ValencyData> result = new ArrayList<>();
+      for (String part : split) {
+        if (part.endsWith("?")) {
+          result.add(new ValencyData(Case.valueOf(part.substring(0, part.length()-1)), false));
+        } else {
+          result.add(new ValencyData(Case.valueOf(part), true));
+        }
+      }
+      return result;
+    }
   }
 
   @Test
+  @Ignore("interactive use only")
   public void testGetChunks() throws IOException {
     show("Das ist ein Haus.");
     show("Das ist ein großes Haus.");
@@ -78,57 +142,54 @@ public class CaseGovernmentRuleTest {
   }
 
   @Test
-  public void run() throws IOException {
-    //String text = "Der schwarze Sattel. Der Sattel des Fahrrads. Lässt sich das arrangieren? Dem Hund Wasser geben.";
-    //String text = "Der Hund, der Eier legt.";
-    //String text = "Meine Tante interessiert das wenig.";
-    //String text = "Die Frau gibt ihrem Bruder den Hut ihres Mannes.";
+  public void testRule() throws IOException {
+    assertGood("Die Frau gibt ihr Geld.");
+    assertGood("Die Frau gibt ihr Geld dem Freund ihres Mannes.");
+    assertGood("Die Frau gibt ihr Geld einem Obdachlosen.");
 
-    //String text = "Der Sitz des Fahrrads passt gut.";
-    //String text = "Der Sitz dem Fahrrad passt gut.";
-    //String text = "Dort stehen die Autos, die Geld verschlingen";
-    //String text = "Dort steht mein Fahrrad.";
+    // Passiv - TODO: diese Sätze auch checken
+    assertNullResult("Das Geld der Frau wird dem Obdachlosen gegeben.");
+    assertNullResult("Das Geld wird dem Obdachlosen von der Frau gegeben.");
 
-    /*CaseGovernmentRule.CheckResult result = rule.run("Die Frau gibt ihrem Bruder den Hut.");
-    System.out.println("chunks=" + result);
-    assertThat(result.getMissingSlots().size(), is(0));
-    assertThat(result.getUnexpectedSlots().size(), is(0));*/
+    // andere Satzstellung:
+    assertGood("Ihr Geld gibt die Frau.");
+    assertGood("Ihr Geld gibt die Frau dem Mann.");
+    assertGood("Ihr Geld gibt die Frau dem Freund ihres Mannes.");
+    assertGood("Dem Mann gibt die Frau ihr Geld.");
+    assertGood("Dem Freund ihres Mannes gibt die Frau ihr Geld.");
 
-    //CaseGovernmentRule.CheckResult result2 = rule.run("Und die Frau gibt.");
-    //CaseGovernmentRule.CheckResult result2 = rule.run("Und die Frau gibt ihrem Bruder den Hut.");
-    //CaseGovernmentRule.CheckResult result2 = rule.run("Die Frau gibt ihren Bruder den Hut.");
-    //CaseGovernmentRule.CheckResult result2 = rule.run("Und die Frau gibt ihren Bruder den Hut.");
-    //System.out.println("chunks=" + result2);
-    //assertThat(result.getMissingSlots().size(), is(0));
-    //assertThat(result.getUnexpectedSlots().size(), is(0));
+    assertBad("Die Frau gibt ihr Geld einen Obdachlosen.");
+    assertBad("Die Frau gibt ihr Geld eines Obdachlosen.");
+    assertBad("Die Frau gibt ihr Geld ein Obdachlosen.");
+    assertBad("Die Frau gibt ihres Geldes.");
+    assertBad("Der Frau gibt ihres Geldes.");
 
-    //CaseGovernmentRule.CheckResult result2 = rule.run("Die Frau gibt ihrem Bruder, der lange verschwunden war, den Hut.");
-    //assertResult("Die Frau gibt ihren Bruder, der lange Haare hat, den Hut.", "[]", "[AKK, AKK]");
-    //assertResult("Die Frau gibt ihren Bruder den Hut.", "[]", "[AKK, AKK]");
-    //assertResult("Die Frau gibt ihrem Bruder den Hut.", "[]", "[]");
-    //assertResult("Die Frau gibt ihr Geld.", "[]", "[]");
-    assertResult("Die Frau gibt ihr Geld einem Obdachlosen.", "[]", "[]");
+    assertGood("Und die Frau gibt ihrem Bruder den Hut.");
+    assertGood("Und die Frau gibt ihrem Bruder einen Hut.");
+    assertGood("Und die Frau gibt ihrem Bruder einen alten Hut.");
 
-    // über erwartete Valenzen iterieren und prüfen, ob erfüllt (egal wo)
+    assertBad("Die Frau gibt ihren Bruder den Hut.");
+    assertBad("Und die Frau gibt ihren Bruder den Hut.");
+    assertBad("Und die Frau gibt ihrem Bruder einem alten Hut.");
 
-
-    // TODO: wir brauchen Valenzdaten für Verben z.B. "geben: Subjekt (im Nominativ), Dativ-Objekt, Akkusativ-Objekt, das Genitiv-Attribut"
-    // dann prüfen, ob die geforderten Kasus auch vorliegen, sonst Fehler
+    assertBad("Den Hut gibt die Frau ihren Bruder.");
+    assertGood("Dem Hut gibt die Frau ihren Bruder.");  // Semantik Quark, Grammatik okay!
+    assertBad("Ihren Bruder gibt die Frau den Hut.");
   }
 
-  private void assertResult(String sentence, String expectedMissing, String expectedUnexpected) throws IOException {
-    CaseGovernmentRule.CheckResult result2 = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
-    //System.out.println("chunks=" + result2);
-    assertMissing(result2, expectedMissing);
-    assertUnexpected(result2, expectedUnexpected);
+  private void assertGood(String sentence) throws IOException {
+    CaseGovernmentRule.CheckResult result = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
+    assertTrue(result != null && result.isCorrect());
   }
 
-  private void assertMissing(CaseGovernmentRule.CheckResult result, String expected) {
-    assertThat(result.getMissingSlots().toString(), is(expected));
+  private void assertNullResult(String sentence) throws IOException {
+    CaseGovernmentRule.CheckResult result = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
+    assertNull(result);
   }
 
-  private void assertUnexpected(CaseGovernmentRule.CheckResult result, String expected) {
-    assertThat(result.getUnexpectedSlots().toString(), is(expected));
+  private void assertBad(String sentence) throws IOException {
+    CaseGovernmentRule.CheckResult result = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
+    assertFalse(result != null && result.isCorrect());
   }
 
 }
