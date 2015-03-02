@@ -50,7 +50,6 @@ public class CommandLineOptions {
   private String[] disabledRules = new String[0];
   private String[] enabledRules = new String[0];
   private boolean useEnabledOnly = false;
-
   private String ruleFile = null;
 
   public boolean isPrintUsage() {
@@ -182,20 +181,17 @@ public class CommandLineOptions {
   }
 
   /**
-   *
    * @return an additional rule file name to use
-   * @since 2.7
-   *
+   * @since 2.9
    */
   @Nullable
   public String getRuleFile() {
     return ruleFile;
   }
 
-
-  /** since 2.9
-   *
-   * @param ruleFile - absolute file name of the XML rule file
+  /**
+   * @param ruleFile absolute file name of the XML rule file
+   * @since 2.9
    */
   public void setRuleFile(String ruleFile) {
     this.ruleFile = ruleFile;
