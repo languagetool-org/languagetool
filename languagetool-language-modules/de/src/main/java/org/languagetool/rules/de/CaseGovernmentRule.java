@@ -43,6 +43,8 @@ public class CaseGovernmentRule extends Rule {
 
   private final GermanTagger tagger = new GermanTagger();
 
+  private boolean debug;
+
   // Trying OpenNLP for German noun phrase detection. Erkenntnisse:
   // 1. Fehler eher kein Problem, die Tags sind so grob, dass auch "meine Fahrrad" erkannt wird
   // 2. Relativpronomen werden auch nur als ART erkannt ("Der Hund, der Eier legt.")
@@ -123,6 +125,11 @@ public class CaseGovernmentRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
+  /** @deprecated use for development only */
+  void setDebug(boolean debug) {
+    this.debug = debug;
+  }
+
   private String getExpectedStrings(List<ValencyData> result) {
     List<String> longForms = new ArrayList<>();
     for (ValencyData valency : result) {
@@ -160,16 +167,20 @@ public class CaseGovernmentRule extends Rule {
     }
     List<String> chunks = getChunks(sentence);
     List<Set<Case>> cases = getCases(chunks);
-    /*System.out.println("\nText   : " + sentence);
-    System.out.println("Verb   : " + verbLemma);
-    System.out.println("Chunks : " + chunks);
-    System.out.println("Cases  : " + cases);*/
+    if (debug) {
+      System.out.println("\nText   : " + sentence.getText());
+      System.out.println("Verb   : " + verbLemma);
+      System.out.println("Chunks : " + chunks);
+      System.out.println("Cases  : " + cases);
+    }
     List<ValencyData> verbCases = valency.get(verbLemma);
     if (verbCases == null) {
       // well, we have no data, so we cannot test anything
       return null;
     }
-    //System.out.println("Valency: " + verbCases);
+    if (debug) {
+      System.out.println("Valency: " + verbCases);
+    }
     boolean correct = checkCases(cases, verbCases);
     return new CheckResult(correct, cases, verbCases, verbLemma);
   }

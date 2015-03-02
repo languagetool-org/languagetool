@@ -30,6 +30,7 @@ import java.util.*;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.fail;
 import static org.languagetool.rules.de.CaseGovernmentRule.*;
 import static org.languagetool.rules.de.CaseGovernmentRule.Case;
 
@@ -44,6 +45,10 @@ public class CaseGovernmentRuleTest {
 
   @Test
   public void testCheckCasesTEMP() throws IOException {
+    rule.setDebug(true);
+    //assertGood("Ein Test, der Fehler geben sollte.");
+    assertGood("Ein Test sollte Fehler geben.");
+    //assertGood("Ein Test gibt Fehler.");
   }
 
   @Test
@@ -179,7 +184,10 @@ public class CaseGovernmentRuleTest {
 
   private void assertGood(String sentence) throws IOException {
     CaseGovernmentRule.CheckResult result = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
-    assertTrue(result != null && result.isCorrect());
+    if (result == null) {
+      fail("Null result, maybe verb not detected?");
+    }
+    assertTrue(result.isCorrect());
   }
 
   private void assertNullResult(String sentence) throws IOException {
