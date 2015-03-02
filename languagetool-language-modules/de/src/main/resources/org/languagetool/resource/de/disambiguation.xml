@@ -61,7 +61,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <marker>
                 <unify>
                     <feature id="number"/><feature id="case"/><feature id="gender"/>
-                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr</token>
+                    <token regexp="yes">der|die|das|den|ein|eine|dieser|dieses|sein|ihr<exception scope="previous">,</exception></token>
                     <token postag="SUB:.*" postag_regexp="yes">
                         <exception postag_regexp="yes" postag="ADJ:.*"/><!-- needed for AgreementRule to not false alert on 'den Berliner Arbeitern' -->
                     </token>
@@ -76,7 +76,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <unify>
                     <feature id="number"/><feature id="case"/><feature id="gender"/>
                     <!--"beiden Filmen", but: "dass sie Geliebte waren"-->
-                    <token postag="(PRO|ART):.*" postag_regexp="yes"><exception>sie</exception></token>
+                    <token postag="(PRO|ART):.*" postag_regexp="yes"><exception>sie</exception><exception scope="previous">,</exception></token>
                     <token postag="SUB:.*" postag_regexp="yes"><exception postag="ADJ:.*" postag_regexp="yes"/></token>
                 </unify>
             </marker>

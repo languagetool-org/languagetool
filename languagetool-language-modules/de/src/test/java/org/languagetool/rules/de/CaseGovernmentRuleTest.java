@@ -30,6 +30,8 @@ import java.util.*;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 import static org.languagetool.rules.de.CaseGovernmentRule.*;
 import static org.languagetool.rules.de.CaseGovernmentRule.Case;
@@ -45,10 +47,7 @@ public class CaseGovernmentRuleTest {
 
   @Test
   public void testCheckCasesTEMP() throws IOException {
-    rule.setDebug(true);
-    //assertGood("Ein Test, der Fehler geben sollte.");
-    assertGood("Ein Test sollte Fehler geben.");
-    //assertGood("Ein Test gibt Fehler.");
+    //rule.setDebug(true);
   }
 
   @Test
@@ -89,15 +88,15 @@ public class CaseGovernmentRuleTest {
   }
 
   private void assertOkay(String sentencesCases, String expectedCases) {
-    assertTrue(rule.checkCases(makeListSet(sentencesCases), makeList(expectedCases)));
+    assertTrue(rule.checkCases(makeAnalyzedChunk(sentencesCases), makeList(expectedCases)));
   }
 
   private void assertMissing(String sentencesCases, String expectedCases) {
-    assertFalse(rule.checkCases(makeListSet(sentencesCases), makeList(expectedCases)));
+    assertFalse(rule.checkCases(makeAnalyzedChunk(sentencesCases), makeList(expectedCases)));
   }
 
-  private List<Set<Case>> makeListSet(String s) {
-    List<Set<Case>> result = new ArrayList<>();
+  private List<AnalyzedChunk> makeAnalyzedChunk(String s) {
+    List<AnalyzedChunk> result = new ArrayList<>();
     String[] parts = s.split(" ");
     for (String part : parts) {
       String[] subParts = part.split(",");
@@ -105,7 +104,8 @@ public class CaseGovernmentRuleTest {
       for (String subPart : subParts) {
         list.add(Case.valueOf(subPart));
       }
-      result.add(new HashSet<>(list));
+      AnalyzedChunk analyzedChunk = new AnalyzedChunk(new Chunk("fake chunk", false), new HashSet<>(list));
+      result.add(analyzedChunk);
     }
     return result;
   }
@@ -180,6 +180,34 @@ public class CaseGovernmentRuleTest {
     assertBad("Den Hut gibt die Frau ihren Bruder.");
     assertGood("Dem Hut gibt die Frau ihren Bruder.");  // Semantik Quark, Grammatik okay!
     assertBad("Ihren Bruder gibt die Frau den Hut.");
+
+    assertGood("Ein Test sollte Fehler geben.");
+    assertGood("Ein Test gibt Fehler.");
+    assertGood("Ein Test, der Fehler geben sollte.");
+  }
+
+  @Test
+  public void testGetAnalyzedChunks() throws IOException {
+    List<AnalyzedChunk> chunks1 = rule.getAnalyzedChunks(Arrays.asList(
+            new Chunk("das Haus", false),
+            new Chunk("den Teller", false)
+    ));
+    assertTrue(chunks1.get(0).cases.contains(Case.NOM));
+    assertTrue(chunks1.get(0).cases.contains(Case.AKK));
+    assertTrue(chunks1.get(1).cases.contains(Case.AKK));
+    assertThat(chunks1.size(), is(2));
+
+    List<AnalyzedChunk> chunks2 = rule.getAnalyzedChunks(Arrays.asList(
+            new Chunk("die Frau", false),
+            new Chunk("die Wasser", true)  // "die Frau, die Wasser trinkt" -> "die Wasser" ist keine NP
+    ));
+    assertTrue(chunks2.get(0).cases.contains(Case.NOM));  // "die Frau"
+    assertTrue(chunks2.get(0).cases.contains(Case.AKK));
+    assertTrue(chunks2.get(1).cases.contains(Case.NOM));  // nur "Wasser" wir beachtet wegen dem Komma, also völlig ambig
+    assertTrue(chunks2.get(1).cases.contains(Case.AKK));
+    assertTrue(chunks2.get(1).cases.contains(Case.GEN));
+    assertTrue(chunks2.get(1).cases.contains(Case.DAT));
+    assertThat(chunks2.size(), is(2));
   }
 
   private void assertGood(String sentence) throws IOException {

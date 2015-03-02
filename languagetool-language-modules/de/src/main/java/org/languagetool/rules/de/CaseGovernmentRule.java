@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
@@ -118,7 +119,7 @@ public class CaseGovernmentRule extends Rule {
     if (result != null && !result.correct) {
       String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " +
               getExpectedStrings(result.verbCases) + "." +
-              " Gefunden wurden aber: " + getSentenceStrings(result.sentenceCases);
+              " Gefunden wurden aber: " + getSentenceStrings(result.analyzedChunks);
       RuleMatch match = new RuleMatch(this, 0, 1, message);  // TODO: positions
       ruleMatches.add(match);
     }
@@ -142,11 +143,11 @@ public class CaseGovernmentRule extends Rule {
     return StringTools.listToString(longForms, ", ");
   }
 
-  private String getSentenceStrings(List<Set<Case>> cases) {
+  private String getSentenceStrings(List<AnalyzedChunk> chunks) {
     List<String> longForms = new ArrayList<>();
-    for (Set<Case> caseSet : cases) {
+    for (AnalyzedChunk chunk : chunks) {
       List<String> casesStr = new ArrayList<>();
-      for (Case aCase : caseSet) {
+      for (Case aCase : chunk.cases) {
         casesStr.add(aCase.getLongForm());
       }
       longForms.add(StringTools.listToString(casesStr, "/"));
@@ -162,16 +163,15 @@ public class CaseGovernmentRule extends Rule {
   CheckResult checkGovernment(AnalyzedSentence sentence) throws IOException {
     String verbLemma = getVerb(sentence.getText());
     if (verbLemma == null) {
-      //System.err.println("No verb found: " + sentence);
       return null;
     }
-    List<String> chunks = getChunks(sentence);
-    List<Set<Case>> cases = getCases(chunks);
+    List<Chunk> chunks = getChunks(sentence);
+    List<AnalyzedChunk> cases = getAnalyzedChunks(chunks);
     if (debug) {
       System.out.println("\nText   : " + sentence.getText());
       System.out.println("Verb   : " + verbLemma);
-      System.out.println("Chunks : " + chunks);
-      System.out.println("Cases  : " + cases);
+      System.out.println("Chunks : " + StringUtils.join(chunks, ", "));
+      System.out.println("Cases  : " + StringUtils.join(cases, ", "));
     }
     List<ValencyData> verbCases = valency.get(verbLemma);
     if (verbCases == null) {
@@ -179,7 +179,7 @@ public class CaseGovernmentRule extends Rule {
       return null;
     }
     if (debug) {
-      System.out.println("Valency: " + verbCases);
+      System.out.println("Valency: " + StringUtils.join(verbCases, ", "));
     }
     boolean correct = checkCases(cases, verbCases);
     return new CheckResult(correct, cases, verbCases, verbLemma);
@@ -191,7 +191,7 @@ public class CaseGovernmentRule extends Rule {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
-        if (posTag != null && posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX")) {
+        if (posTag != null && posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX") && !posTag.startsWith("VER:MOD")) {
           return tokenReading.getLemma();
         }
       }
@@ -199,49 +199,66 @@ public class CaseGovernmentRule extends Rule {
     return null;
   }
 
-  List<String> getChunks(AnalyzedSentence analyzedSentence) throws IOException {
-    List<String> result = new ArrayList<>();
+  List<Chunk> getChunks(AnalyzedSentence analyzedSentence) throws IOException {
+    List<Chunk> result = new ArrayList<>();
     StringBuilder currentChunk = new StringBuilder();
+    boolean currentChunkPrecededByComma = false;
     boolean inChunk = false;
+    boolean prevIsComma = false;
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       List<ChunkTag> chunks = tokenReadings.getChunkTags();
       //System.out.println(chunks + " " + tokenReadings.getToken());
       if (chunks.contains(new ChunkTag("B-NP"))) {
         if (currentChunk.length() > 0) {
-          result.add(currentChunk.toString().trim());
+          result.add(new Chunk(currentChunk.toString().trim(), currentChunkPrecededByComma));
         }
         currentChunk.setLength(0);
+        currentChunkPrecededByComma = false;
         inChunk = true;
       } else if (chunks.contains(new ChunkTag("I-NP"))) {
         //
       } else {
         if (currentChunk.length() > 0) {
-          result.add(currentChunk.toString().trim());
+          result.add(new Chunk(currentChunk.toString().trim(), currentChunkPrecededByComma));
         }
         currentChunk.setLength(0);
+        currentChunkPrecededByComma = false;
         inChunk = false;
       }
       if (inChunk) {
         currentChunk.append(tokenReadings.getToken()).append(" ");
+        if (prevIsComma) {
+          currentChunkPrecededByComma = true;
+        }
       }
+      prevIsComma = tokenReadings.getToken().equals(",");
     }
     return result;
   }
 
-  private List<Set<Case>> getCases(List<String> chunks) throws IOException {
-    List<Set<Case>> result = new ArrayList<>();
-    for (String chunk : chunks) {
+  /**
+   * Get the chunk's case (often ambiguous).
+   */
+  List<AnalyzedChunk> getAnalyzedChunks(List<Chunk> chunks) throws IOException {
+    List<AnalyzedChunk> result = new ArrayList<>();
+    for (Chunk chunk : chunks) {
       //System.out.println("---");
-      String[] words = chunk.split(" ");
-      Set<String> commonFeatures = new HashSet<>();
+      String[] words = chunk.chunk.split(" ");
+      Set<String> commonFeatures = null;
       int i = 0;
       for (String word : words) {
         AnalyzedTokenReadings lookup = tagger.lookup(word);
+        if (i == 0 && chunk.precededByComma) {
+          // "die Frau, die Wasser trinkt"
+          i++;
+          continue;
+        }
         if (i == 0 && lookup == null) {
           lookup = tagger.lookup(word.toLowerCase());  // try lowercase at sentence start
         }
         Set<String> tokenFeatures = getTokenFeatures(lookup);
-        if (i == 0) {
+        if (commonFeatures == null) {
+          commonFeatures = new HashSet<>();
           commonFeatures.addAll(tokenFeatures);
           //System.out.println(lookup + " -> " + tokenFeatures);
         } else {
@@ -250,12 +267,16 @@ public class CaseGovernmentRule extends Rule {
         }
         i++;
       }
-      result.add(featuresToCases(commonFeatures));  // TODO: keep chunk
+      //commonFeatures = new HashSet<>();
+      if (commonFeatures != null) {
+        AnalyzedChunk analyzedChunk = featuresToCases(commonFeatures, chunk);
+        result.add(analyzedChunk);
+      }
     }
     return result;
   }
 
-  private Set<Case> featuresToCases(Set<String> features) {
+  private AnalyzedChunk featuresToCases(Set<String> features, Chunk chunk) {
     Set<String> relevantFeatures = new HashSet<>(Arrays.asList("NOM", "AKK", "DAT", "GEN"));
     Set<Case> result = new HashSet<>();
     for (String feature : features) {
@@ -266,15 +287,15 @@ public class CaseGovernmentRule extends Rule {
         }
       }
     }
-    return result;
+    return new AnalyzedChunk(chunk, result);
   }
 
   /**
-   * Find the given {@code expectedCases} in {@code sentenceCases} so that
-   * one set from {@code sentenceCases} isn't used twice.
+   * Find the given {@code expectedCases} in {@code analyzedChunks} so that
+   * one set from {@code analyzedChunks} isn't used twice.
    * Return true if all {@code expectedCases} can be found.
    */
-  boolean checkCases(List<Set<Case>> sentenceCasesList, List<ValencyData> expectedCases) {
+  boolean checkCases(List<AnalyzedChunk> sentenceCasesList, List<ValencyData> expectedCases) {
     if (sentenceCasesList.size() == 0 && (expectedCases.size() == 0 || allOptional(expectedCases))) {
       return true;
     } else if (sentenceCasesList.size() == 0 || expectedCases.size() == 0) {
@@ -282,9 +303,9 @@ public class CaseGovernmentRule extends Rule {
     }
     Case searchedCase = expectedCases.get(0).aCase;
     int i = 0;
-    for (Set<Case> sentenceCase : sentenceCasesList) {
-      if (sentenceCase.contains(searchedCase)) {
-        List<Set<Case>> remaining = new ArrayList<>(sentenceCasesList);
+    for (AnalyzedChunk chunk : sentenceCasesList) {
+      if (chunk.cases.contains(searchedCase)) {
+        List<AnalyzedChunk> remaining = new ArrayList<>(sentenceCasesList);
         remaining.remove(i);
         if (checkCases(remaining, expectedCases.subList(1, expectedCases.size()))) {
           return true;
@@ -334,12 +355,12 @@ public class CaseGovernmentRule extends Rule {
 
     private final boolean correct;
     private final String verbLemma;
-    private final List<Set<Case>> sentenceCases;
+    private final List<AnalyzedChunk> analyzedChunks;
     private final List<ValencyData> verbCases;
 
-    private CheckResult(boolean correct, List<Set<Case>> sentenceCases, List<ValencyData> verbCases, String verbLemma) {
+    private CheckResult(boolean correct, List<AnalyzedChunk> analyzedChunks, List<ValencyData> verbCases, String verbLemma) {
       this.correct = correct;
-      this.sentenceCases = sentenceCases;
+      this.analyzedChunks = analyzedChunks;
       this.verbCases = verbCases;
       this.verbLemma = verbLemma;
     }
@@ -350,7 +371,36 @@ public class CaseGovernmentRule extends Rule {
 
     @Override
     public String toString() {
-      return "sentence=" + sentenceCases + ", expectedByVerb=" + verbCases;
+      return "sentence=" + analyzedChunks + ", expectedByVerb=" + verbCases;
+    }
+  }
+
+  static class Chunk {
+    String chunk;
+    boolean precededByComma;
+
+    Chunk(String chunk, boolean precededByComma) {
+      this.chunk = chunk;
+      this.precededByComma = precededByComma;
+    }
+
+    @Override
+    public String toString() {
+      return chunk;
+    }
+  }
+
+  static class AnalyzedChunk extends Chunk {
+    Set<Case> cases;
+
+    AnalyzedChunk(Chunk chunk, Set<Case> cases) {
+      super(chunk.chunk, chunk.precededByComma);
+      this.cases = cases;
+    }
+
+    @Override
+    public String toString() {
+      return chunk + ":" + cases;
     }
   }
 
