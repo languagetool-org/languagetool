@@ -104,6 +104,8 @@ abstract class Server {
   }
 
   protected static void printCommonConfigFileOptions() {
+    System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
+    System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
     System.out.println("                 'maxTextLength' - maximum text length, longer texts will cause an error (optional)");
     System.out.println("                 'maxCheckTimeMillis' - maximum time in milliseconds allowed per check (optional)");
     System.out.println("                 'maxCheckThreads' - maximum number of threads working in parallel (optional)");

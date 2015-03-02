@@ -137,8 +137,6 @@ public class HTTPSServer extends Server {
       System.out.println("  --config file  a Java property file (one key=value entry per line) with values for:");
       System.out.println("                 'keystore' - a Java keystore with an SSL certificate");
       System.out.println("                 'password' - the keystore's password");
-      System.out.println("                 'mode' - 'LanguageTool' or 'AfterTheDeadline' for emulation of After the Deadline output (optional, experimental)");
-      System.out.println("                 'afterTheDeadlineLanguage' - language code like 'en' or 'en-GB' (required if mode is 'AfterTheDeadline')");
       printCommonConfigFileOptions();
       printCommonOptions();
       System.exit(1);
