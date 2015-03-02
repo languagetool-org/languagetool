@@ -15007,6 +15007,20 @@ $Id$
                 </marker>
             </antipattern>
             <antipattern>
+                <marker>
+                    <token>mes</token>
+                    <token>de</token>
+                    <token>naixement</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>mes</token>
+                    <token>i</token>
+                    <token>mig</token>
+                </marker>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">inicis?|principis?|començaments?|finals?|acabaments?|dia|dies|setmana|setmanes|fi|fins|mitjans|dilluns|dimarts|dimecres|dijous|dissabtes?|diumenges?</token>
                 <token regexp="yes">de|d'</token>
                 <token min="0" postag="D.*" postag_regexp="yes"/>
@@ -15137,18 +15151,44 @@ $Id$
                 <!-- el tercer mes egipci -->
             </rule>
             <rule>
+                <antipattern>
+                    <marker>
+                        <token><exception>a</exception></token>
+                        <token>mes</token>
+                        <token>a</token>
+                        <token>mes</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>a</token>
+                        <token>mes</token>
+                        <token>més</token>
+                    </marker>
+                </antipattern>
+                <antipattern>
+                    <marker>
+                        <token>com</token>
+                        <token>a</token>
+                        <token>mes</token>
+                        <token regexp="yes">sec|plujós|humit|fred|calorós</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <token>a</token>
                     <marker>
                         <token>mes</token>
                     </marker>
-                    <token regexp="yes">de|d'|que|[,;]</token>
                 </pattern>
                 <message>Quan és adjectiu o adverbi cal accentuar.</message>
                  <suggestion>més</suggestion>
                 <short>Accent diacrític</short>
                 <example correction="més">A <marker>mes</marker> de cantar, balla.</example>
-                <example>a més</example>
+                <example>Com a mes més fred</example>
+                <example>Es paga mes a mes.</example>
+                <example>com a mes de naixement</example>
+                <example>N'hi ha per a mes i mig.</example>
+                <example>Tenen juliol com a mes sec.</example>
             </rule>
             <rule>
                 <pattern>
