@@ -64,6 +64,8 @@ public abstract class Language {
 
   private final List<String> externalRuleFiles = new ArrayList<>();
 
+  private final List<String> externalFalseFriendFiles = new ArrayList<>();
+
   private boolean isExternalLanguage = false;
   private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   private List<PatternRule> patternRules;
@@ -311,6 +313,25 @@ public abstract class Language {
    */
   public void addExternalRuleFile(String externalRuleFile) {
     externalRuleFiles.add(externalRuleFile);
+  }
+
+  /**
+   * @since 2.9
+   * @return   The list of file names for external false friend files.
+   */
+  public List<String> getExternalFalseFriendFiles() {
+    return externalFalseFriendFiles;
+  }
+
+  /**
+   * Adds an external false friend rule file to the language. After running this method,
+   * one has to run JLanguageTool.activateDefaultFalseFriendRules() to make sure
+   * that all external rules are activated.
+   * @param externalFalseFriendFile
+   * @since 2.9
+   */
+  public void addExternalFalseFriendFile(String externalFalseFriendFile) {
+    externalFalseFriendFiles.add(externalFalseFriendFile);
   }
 
 

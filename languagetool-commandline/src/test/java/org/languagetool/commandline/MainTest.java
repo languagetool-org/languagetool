@@ -37,6 +37,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   private final File enTestFile;
   private final File xxRuleFile;
+  private final File xxFalseFriendFile;
 
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
@@ -57,6 +58,25 @@ public class MainTest extends AbstractSecurityTestCase {
             "<message>This is wrong!</message>\n" +
             "<example correction=\"\">language tool</example>\n" +
             "</rule></category></rules>");
+
+    xxFalseFriendFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+        "<!DOCTYPE rules SYSTEM \"false-friends.dtd\">\n" +
+        "<rules>\n" +
+        "<rulegroup id=\"LASKA_SK_PL\">\n" +
+        "        <rule>\n" +
+        "            <pattern lang=\"sk\">\n" +
+        "                <token>láska</token>\n" +
+        "            </pattern>\n" +
+        "            <translation lang=\"pl\">miłość</translation>\n" +
+        "        </rule>\n" +
+        "        <rule>\n" +
+        "            <pattern lang=\"pl\">\n" +
+        "                <token inflected=\"yes\">miłość</token>\n" +
+        "            </pattern>\n" +
+        "            <translation lang=\"sk\">laska</translation>\n" +
+        "        </rule>\n" +
+        "    </rulegroup>\n</rules>\n" +
+        "    ");
   }
 
   @Override
@@ -141,6 +161,19 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(output.indexOf("Working on STDIN...") == 0);
     assertTrue(output.contains("Language used is: English"));
     assertTrue(output.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
+  }
+
+  public void testStdInWithExternalFalseFriends() throws Exception {
+    final String test = "Láska!\n";
+    final byte[] b = test.getBytes();
+    System.setIn(new ByteArrayInputStream(b));
+    final String[] args = {"-l", "sk", "--falsefriends", getExternalFalseFriends(), "-m", "pl", "-"};
+
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertTrue(output.contains("Expected text language: Slovak"));
+    assertTrue(output.contains("Working on STDIN..."));
+    assertTrue(output.contains("Rule ID: LASKA"));
   }
 
   public void testEnglishFileVerbose() throws Exception {
@@ -521,6 +554,10 @@ public class MainTest extends AbstractSecurityTestCase {
 
   private String getRuleFilePath() {
     return xxRuleFile.getAbsolutePath();
+  }
+
+  private String getExternalFalseFriends() {
+    return xxFalseFriendFile.getAbsolutePath();
   }
 
 }

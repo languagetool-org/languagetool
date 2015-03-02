@@ -43,15 +43,24 @@ public class CommandLineOptions {
   private boolean bitext = false;
   private boolean autoDetect = false;
   private boolean xmlFiltering = false;
+  @Nullable
   private Language language = null;
+  @Nullable
   private Language motherTongue = null;
+  @Nullable
   private File languageModel = null;
+  @Nullable
   private String encoding = null;
+  @Nullable
   private String filename = null;
   private String[] disabledRules = {};
   private String[] enabledRules = {};
   private boolean useEnabledOnly = false;
+  @Nullable
   private String ruleFile = null;
+
+  @Nullable
+  private String falseFriendFile = null;
 
   public boolean isPrintUsage() {
     return printUsage;
@@ -259,4 +268,17 @@ public class CommandLineOptions {
   public void setPrintLanguages(boolean printLanguages) {
     this.printLanguages = printLanguages;
   }
+
+  /** @since 2.9
+   *
+  * @param arg False friends filename.
+   */
+  public void setFalseFriendFile(String arg) {falseFriendFile = arg; }
+
+  /**
+   * @since 2.9
+   * @return False friends file name.
+   */
+  @Nullable
+  public String getFalseFriendFile() { return falseFriendFile;  }
 }

@@ -341,6 +341,9 @@ public class JLanguageTool {
     final String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
     final List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);
     userRules.addAll(patternRules);
+    for (final String fileName : language.getExternalFalseFriendFiles()) {
+      userRules.addAll(loadFalseFriendRules(fileName));
+    }
   }
 
   /**

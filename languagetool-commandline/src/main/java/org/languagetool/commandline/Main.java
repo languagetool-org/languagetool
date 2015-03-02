@@ -503,6 +503,10 @@ class Main {
       options.getLanguage().addExternalRuleFile(options.getRuleFile());
     }
 
+    if (options.getFalseFriendFile() != null) {
+      options.getLanguage().addExternalFalseFriendFile(options.getFalseFriendFile());
+    }
+
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
             options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
             options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
