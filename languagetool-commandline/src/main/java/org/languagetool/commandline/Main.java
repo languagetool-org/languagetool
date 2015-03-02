@@ -503,6 +503,10 @@ class Main {
       options.getLanguage().addExternalRuleFile(options.getRuleFile());
     }
 
+    if (options.getBitextRuleFile() != null) {
+      options.getLanguage().addExternalBitextRules(options.getBitextRuleFile());
+    }
+
     if (options.getFalseFriendFile() != null) {
       options.getLanguage().addExternalFalseFriendFile(options.getFalseFriendFile());
     }

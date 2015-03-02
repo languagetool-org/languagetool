@@ -62,6 +62,9 @@ public class CommandLineOptions {
   @Nullable
   private String falseFriendFile = null;
 
+  @Nullable
+  private String bitextRuleFile = null;
+
   public boolean isPrintUsage() {
     return printUsage;
   }
@@ -281,4 +284,19 @@ public class CommandLineOptions {
    */
   @Nullable
   public String getFalseFriendFile() { return falseFriendFile;  }
+
+  /**
+   * @since 2.9
+   * @return   the bitext rule file name
+   */
+  @Nullable
+  public String getBitextRuleFile() { return bitextRuleFile; }
+
+  /**
+   * @since 2.9
+   * @param bitextRuleFile the bitext rule file name
+   */
+  public void setBitextRuleFile(@Nullable String bitextRuleFile) { this.bitextRuleFile = bitextRuleFile;  }
+
 }
+

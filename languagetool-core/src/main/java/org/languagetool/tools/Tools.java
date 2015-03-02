@@ -30,10 +30,7 @@ import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
@@ -98,9 +95,14 @@ public final class Tools {
     //try to load the bitext pattern rules for the language...
     final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
     final String name = "/" + target.getShortName() + "/bitext.xml";
-    final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
-    if (is != null) {
-      bRules.addAll(ruleLoader.getRules(is, name));
+    if (JLanguageTool.getDataBroker().ruleFileExists(name)) {
+      final InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(name);
+      if (is != null) {
+        bRules.addAll(ruleLoader.getRules(is, name));
+      }
+    }
+    for (String externalBitextRule : target.getExternalBitextRules()) {
+      bRules.addAll(ruleLoader.getRules(new FileInputStream(externalBitextRule), externalBitextRule));
     }
     
     //load the false friend rules in the bitext mode:
