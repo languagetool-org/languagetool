@@ -67,7 +67,6 @@ public class RuleCoverage {
     public RuleCoverage() throws IOException {
       language = new English();
       tool = new JLanguageTool(language);
-        tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");
@@ -80,7 +79,6 @@ public class RuleCoverage {
     public RuleCoverage(Language language) throws IOException {
       this.language = language;
       tool = new JLanguageTool(language);
-        tool.activateDefaultPatternRules();
         setupDictionaryFiles();
     }
     
@@ -88,7 +86,6 @@ public class RuleCoverage {
     public RuleCoverage(String dictFileName) throws IOException {
       language = new English();
       tool = new JLanguageTool(language);
-        tool.activateDefaultPatternRules();
         tool.disableRule("UPPERCASE_SENTENCE_START");
         tool.disableRule("EN_UNPAIRED_BRACKETS");
         tool.disableRule("EN_A_VS_AN");

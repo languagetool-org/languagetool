@@ -74,18 +74,6 @@ public class French extends Language {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", /*"«", "‘"*/ };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}",
-                         /*"»", French dialog can contain multiple sentences. */
-                         /*"’" used in "d’arm" and many other words */ };
-  }
-
-  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new FrenchTagger();
@@ -111,12 +99,10 @@ public class French extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor hVoisard = new Contributor("Hugo Voisard");
-    hVoisard.setRemark("2006-2007");
     return new Contributor[] {
         Contributors.DOMINIQUE_PELLE,
         new Contributor("Agnes Souque"),
-        hVoisard
+        new Contributor("Hugo Voisard (2006-2007)")
     };
   }
 
@@ -125,7 +111,11 @@ public class French extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{" /*"«", "‘"*/),
+                    Arrays.asList("]", ")", "}"
+                         /*"»", French dialog can contain multiple sentences. */
+                         /*"’" used in "d’arm" and many other words */)),
             new HunspellNoSuggestionRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),

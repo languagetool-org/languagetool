@@ -90,11 +90,10 @@ public class Tagalog extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor1 = new Contributor("Nathaniel Oco");
-    contributor1.setUrl("http://www.dlsu.edu.ph/research/centers/adric/nlp/");
-    Contributor contributor2 = new Contributor("Allan Borra");
-    contributor2.setUrl("http://www.dlsu.edu.ph/research/centers/adric/nlp/faculty/borra.asp");
-    return new Contributor[] { contributor1, contributor2 };
+    return new Contributor[] {
+            new Contributor("Nathaniel Oco", "http://www.dlsu.edu.ph/research/centers/adric/nlp/"),
+            new Contributor("Allan Borra", "http://www.dlsu.edu.ph/research/centers/adric/nlp/faculty/borra.asp")
+    };
   }
 
   @Override
@@ -102,7 +101,7 @@ public class Tagalog extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             // specific to Tagalog:

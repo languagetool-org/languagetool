@@ -84,7 +84,7 @@ public class Swedish extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages),
             new HunspellRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),

@@ -19,6 +19,7 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,7 +43,7 @@ public class UnifierConfiguration {
   private final Map<String, List<String>> equivalenceFeatures;
 
   public UnifierConfiguration() {
-    // FIXME: workaround for issue #13
+    // workaround for issue #13
     equivalenceTypes = new ConcurrentHashMap<>();
     equivalenceFeatures = new ConcurrentHashMap<>();
   }
@@ -58,7 +59,7 @@ public class UnifierConfiguration {
    */
   public final void setEquivalence(final String feature, final String type,
                                    final Element elem) {
-    
+
     EquivalenceTypeLocator typeKey = new EquivalenceTypeLocator(feature, type);
     if (equivalenceTypes.containsKey(typeKey)) {
       return;
@@ -69,22 +70,22 @@ public class UnifierConfiguration {
     if (equivalenceFeatures.containsKey(feature)) {
       lTypes = equivalenceFeatures.get(feature);
     } else {
-      // FIXME: workaround for issue #13
+      // workaround for issue #13
       lTypes = new CopyOnWriteArrayList<>();
       equivalenceFeatures.put(feature, lTypes);
     }
     lTypes.add(type);
   }
 
-  public Map<String, List<String>> getEquivalenceFeatures() {
-    return equivalenceFeatures;
+  public Map<EquivalenceTypeLocator, Element> getEquivalenceTypes() {
+    return Collections.unmodifiableMap(equivalenceTypes);
   }
 
-  public Map<EquivalenceTypeLocator, Element> getEquivalenceTypes() {
-    return equivalenceTypes;
+  public Map<String, List<String>> getEquivalenceFeatures() {
+    return Collections.unmodifiableMap(equivalenceFeatures);
   }
 
   public Unifier createUnifier() {
-    return new Unifier(equivalenceTypes, equivalenceFeatures);
+    return new Unifier(getEquivalenceTypes(), getEquivalenceFeatures());
   }
 }

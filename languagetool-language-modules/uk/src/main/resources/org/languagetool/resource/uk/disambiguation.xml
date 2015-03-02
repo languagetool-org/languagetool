@@ -5,7 +5,23 @@
 -->
 <rules lang="uk"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
-
+<!--
+    <rule name="На" id="NA">
+        <pattern>
+            <token>на</token>
+            <token postag_regexp="yes" postag="(adj|noun|pron).*">
+              <exception>тобі</exception>
+              <exception postag_regexp="yes" postag="(adj|noun).*:v_naz.*|&lt;.*"/>
+            </token>
+        </pattern>
+        <disambig><match no="1" postag="prep.*" postag_regexp="yes"/></disambig>
+        <example type="ambiguous" 
+            inputform="На[на/excl,на/part,на/prep:rv_zna:rv_mis]" 
+            outputform="На[на/prep:rv_zna:rv_mis]"><marker>На</marker> столі лежала книжка.</example>
+        <example type="untouched">На тобі портфель.</example>
+        <example type="untouched">На портфель, Василю.</example>
+    </rule>
+-->
     <!-- TODO: взяти до уваги прикметники, напр. Друга Світова тощо -->
     <rule name="Люба великої літери в середині речення - ім'я" id="LUBA_INSIDE_SENTENCE">
         <pattern case_sensitive="yes">

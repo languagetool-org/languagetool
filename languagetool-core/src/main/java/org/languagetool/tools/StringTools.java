@@ -19,6 +19,7 @@
 package org.languagetool.tools;
 
 import com.google.common.xml.XmlEscapers;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.*;
@@ -83,7 +84,7 @@ public final class StringTools {
    * @param encoding the stream's character encoding, e.g. {@code utf-8}, or {@code null} to use the system encoding
    * @return a string with the stream's content, lines separated by {@code \n} (note that {@code \n} will
    *  be added to the last line even if it is not in the stream)
-   * @since LanguageTool 2.3
+   * @since 2.3
    */
   public static String readStream(final InputStream stream, final String encoding) throws IOException {
     InputStreamReader isr = null;
@@ -185,6 +186,7 @@ public final class StringTools {
    * characters, such as quotes or parentheses, the first character is 
    * determined as the first alphabetic character.
    */
+  @Nullable
   public static String uppercaseFirstChar(final String str) {
     return changeFirstCharCase(str, true);
   }
@@ -195,6 +197,7 @@ public final class StringTools {
    * @param language the language, will be ignored if it's {@code null}
    * @since 2.7
    */
+  @Nullable
   public static String uppercaseFirstChar(final String str, Language language) {
     if (language != null && "nl".equals(language.getShortName()) && str != null && str.toLowerCase().startsWith("ij")) {
       // hack to fix https://github.com/languagetool-org/languagetool/issues/148
@@ -210,6 +213,7 @@ public final class StringTools {
    * characters, such as quotes or parentheses, the first character is 
    * determined as the first alphabetic character.
    */
+  @Nullable
   public static String lowercaseFirstChar(final String str) {
     return changeFirstCharCase(str, false);
   }
@@ -221,6 +225,7 @@ public final class StringTools {
    * characters, such as quotes or parentheses, the first character is 
    * determined as the first alphabetic character.
    */
+  @Nullable
   private static String changeFirstCharCase(final String str, final boolean toUpperCase) {
     if (isEmpty(str)) {
       return str;
@@ -430,17 +435,20 @@ public final class StringTools {
   }
 
   /**
-   * Simple XML filtering routing
+   * Simple XML filtering for XML tags.
    * @param str XML string to be filtered.
    * @return Filtered string without XML tags.
    */
   public static String filterXML(final String str) {
     String s = str;       
-    s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
-    s = XML_PATTERN.matcher(s).replaceAll("");
+    if (s.contains("<")) { // don't run slow regex unless we have to
+      s = XML_COMMENT_PATTERN.matcher(s).replaceAll(" ");
+      s = XML_PATTERN.matcher(s).replaceAll("");
+    }
     return s;
   }
 
+  @Nullable
   public static String asString(final CharSequence s) {
     if (s == null) {
       return null;

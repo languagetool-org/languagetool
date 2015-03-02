@@ -28,6 +28,7 @@ import java.util.regex.Pattern;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
@@ -126,6 +127,7 @@ public class CatalanTagger extends BaseTagger {
     return tokenReadings;
   }
 
+  @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     final IStemmer dictLookup;
     try {

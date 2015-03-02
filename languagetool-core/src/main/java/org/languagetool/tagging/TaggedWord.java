@@ -22,7 +22,7 @@ package org.languagetool.tagging;
  * Result of {@link org.languagetool.tagging.WordTagger}.
  * @since 2.8
  */
-public class TaggedWord {
+public final class TaggedWord {
 
   private final String lemma;
   private final String posTag;

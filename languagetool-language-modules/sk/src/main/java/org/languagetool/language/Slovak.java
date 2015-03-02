@@ -70,16 +70,6 @@ public class Slovak extends Language {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "„", "»", "«", "\"" };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "“", "«", "»", "\"" };
-  }
-  
-  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new SlovakTagger();
@@ -105,9 +95,9 @@ public class Slovak extends Language {
   
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Zdenko Podobný");
-    contributor.setUrl("http://sk-spell.sk.cx");
-    return new Contributor[] { contributor };
+    return new Contributor[] {
+            new Contributor("Zdenko Podobný", "http://sk-spell.sk.cx")
+    };
   }
 
   @Override
@@ -115,7 +105,9 @@ public class Slovak extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "„", "»", "«", "\""),
+                    Arrays.asList("]", ")", "}", "“", "«", "»", "\"")),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),

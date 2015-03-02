@@ -61,9 +61,7 @@ public abstract class AbstractCompoundRule extends Rule {
    */
   public AbstractCompoundRule(ResourceBundle messages, List<String> fileNames,
                               String withHyphenMessage, String withoutHyphenMessage, String withOrWithoutHyphenMessage) throws IOException {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_misc")));
-    }
+    super.setCategory(new Category(messages.getString("category_misc")));
     for (String fileName : fileNames) {
       loadCompoundFile(fileName, "UTF-8");
     }

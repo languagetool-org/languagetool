@@ -37,8 +37,10 @@ import javax.swing.UIManager;
 
 import com.sun.star.lang.*;
 import com.sun.star.lang.IllegalArgumentException;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.gui.AboutDialog;
 import org.languagetool.gui.Configuration;
@@ -133,6 +135,7 @@ public class Main extends WeakBase implements XJobExecutor,
     xContext = xCompContext;
   }
 
+  @Nullable
   private XComponent getXComponent() {
     try {
       final XMultiComponentFactory xMCF = xContext.getServiceManager();
@@ -150,6 +153,7 @@ public class Main extends WeakBase implements XJobExecutor,
    * dialog.
    * @return the language under the visible cursor
    */
+  @Nullable
   private Language getLanguage() {
     final XComponent xComponent = getXComponent();
     final Locale charLocale;
@@ -174,19 +178,19 @@ public class Main extends WeakBase implements XJobExecutor,
       // whether the text is e.g. Khmer or Tamil (the only "complex text layout (CTL)" languages we support so far).
       // Thus we check the text itself:
       if (new KhmerDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Language.getLanguageForShortName("km");
+        return Languages.getLanguageForShortName("km");
       }
       if (new TamilDetector().isThisLanguage(xCursor.getText().getString())) {
-        return Language.getLanguageForShortName("ta");
+        return Languages.getLanguageForShortName("ta");
       }
 
       final Object obj = xCursorProps.getPropertyValue("CharLocale");
       if (obj == null) {
-        return Language.getLanguageForShortName("en-US");
+        return Languages.getLanguageForShortName("en-US");
       }
       charLocale = (Locale) obj;
       boolean langIsSupported = false;
-      for (Language element : Language.LANGUAGES) {
+      for (Language element : Languages.get()) {
         if (charLocale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
             && element.getShortNameWithCountryAndVariant().equalsIgnoreCase(charLocale.Variant)) {
           langIsSupported = true;
@@ -213,12 +217,12 @@ public class Main extends WeakBase implements XJobExecutor,
   private Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
-        return Language.getLanguageForShortName(locale.Variant);
+        return Languages.getLanguageForShortName(locale.Variant);
       } else {
-        return Language.getLanguageForShortName(locale.Language + "-" + locale.Country);
+        return Languages.getLanguageForShortName(locale.Language + "-" + locale.Country);
       }
     } catch (java.lang.IllegalArgumentException e) {
-      return Language.getLanguageForShortName(locale.Language);
+      return Languages.getLanguageForShortName(locale.Language);
     }
   }
 
@@ -373,8 +377,6 @@ public class Main extends WeakBase implements XJobExecutor,
     try {
       prepareConfig(docLanguage);
       langTool = new MultiThreadedJLanguageTool(docLanguage, config.getMotherTongue());
-      langTool.activateDefaultPatternRules();
-      langTool.activateDefaultFalseFriendRules();
       for (Rule rule : langTool.getAllActiveRules()) {
         if (rule.isDictionaryBasedSpellingRule()) {
           langTool.disableRule(rule.getId());
@@ -423,6 +425,7 @@ public class Main extends WeakBase implements XJobExecutor,
     return paraText.replaceAll("([^\\d][.!?])\\d ", "$1¹ ");
   }
 
+  @Nullable
   private synchronized SingleProofreadingError[] checkParaRules(
       final String paraText, final int startPos,
       final int endPos, final String docID) {
@@ -522,7 +525,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public final Locale[] getLocales() {
     try {
       List<Locale> locales = new ArrayList<>();
-      for (final Language lang : Language.LANGUAGES) {
+      for (final Language lang : Languages.get()) {
         if (lang.getCountries().length == 0) {
           // e.g. Esperanto
           if (lang.getVariant() != null) {
@@ -554,7 +557,7 @@ public class Main extends WeakBase implements XJobExecutor,
   @Override
   public final boolean hasLocale(final Locale locale) {
     try {
-      for (final Language element : Language.LANGUAGES) {
+      for (final Language element : Languages.get()) {
         if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)
             && element.getShortNameWithCountryAndVariant().equals(locale.Variant)) {
           return true;

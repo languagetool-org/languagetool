@@ -25,8 +25,10 @@ import java.util.*;
 import java.util.concurrent.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.gui.Configuration;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.RuleMatch;
@@ -63,6 +65,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private boolean afterTheDeadlineMode;
   private Language afterTheDeadlineLanguage;
   private File languageModelDir;
+  private int maxWorkQueueSize;
   private boolean trustXForwardForHeader = false;
   
   /**
@@ -131,6 +134,17 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.languageModelDir = languageModelDir;
   }
 
+  /**
+   * @param size maximum queue size - if the queue is larger, the user will get an error. Use {@code 0} for no limit.
+   * @since 2.9
+   */
+  void setMaxWorkQueueSize(int size) {
+    if (size < 0) {
+      throw new IllegalArgumentException("Max queue size must be >= 0: " + size);
+    }
+    this.maxWorkQueueSize = size;
+  }
+
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     synchronized (this) {
@@ -152,6 +166,12 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         print(errorMessage);
+        return;
+      }
+      if (maxWorkQueueSize != 0 && workQueue.size() > maxWorkQueueSize) {
+        String response = "Error: There are currently too many parallel requests. Please try again later.";
+        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + maxWorkQueueSize);
+        sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -229,6 +249,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * only trust the last item in the list of proxies, as it was set by our proxy,
    * which we can trust.
    */
+  @Nullable
   private String getRealRemoteAddressOrNull(HttpExchange httpExchange) {
     if (trustXForwardForHeader) {
       List<String> forwardedIpsStr = httpExchange.getRequestHeaders().get("X-forwarded-for");
@@ -256,13 +277,13 @@ class LanguageToolHttpHandler implements HttpHandler {
     return lastIp;
   }
 
-  private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
+  private void sendError(HttpExchange httpExchange, int httpReturnCode, String response) throws IOException {
     if (afterTheDeadlineMode) {
       String xmlResponse = "<results><message>" + escapeForXmlContent(response) + "</message></results>";
-      httpExchange.sendResponseHeaders(returnCode, xmlResponse.getBytes(ENCODING).length);
+      httpExchange.sendResponseHeaders(httpReturnCode, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
     } else {
-      httpExchange.sendResponseHeaders(returnCode, response.getBytes(ENCODING).length);
+      httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     }
   }
@@ -294,7 +315,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private Language detectLanguageOfString(final String text, final String fallbackLanguage) {
     Language lang = identifier.detectLanguage(text);
     if (lang == null) {
-      lang = Language.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
+      lang = Languages.getLanguageForShortName(fallbackLanguage != null ? fallbackLanguage : "en");
     }
     if (lang.getDefaultLanguageVariant() != null) {
       lang = lang.getDefaultLanguageVariant();
@@ -312,7 +333,7 @@ class LanguageToolHttpHandler implements HttpHandler {
     final boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
     final Language lang = getLanguage(text, parameters.get("language"), autoDetectLanguage);
     final String motherTongueParam = parameters.get("motherTongue");
-    final Language motherTongue = motherTongueParam != null ? Language.getLanguageForShortName(motherTongueParam) : null;
+    final Language motherTongue = motherTongueParam != null ? Languages.getLanguageForShortName(motherTongueParam) : null;
     final boolean useEnabledOnly = "yes".equals(parameters.get("enabledOnly"));
     final String enabledParam = parameters.get("enabled");
     final List<String> enabledRules = new ArrayList<>();
@@ -395,7 +416,7 @@ class LanguageToolHttpHandler implements HttpHandler {
       if (afterTheDeadlineMode) {
         lang = afterTheDeadlineLanguage;
       } else {
-        lang = Language.getLanguageForShortName(langParam);
+        lang = Languages.getLanguageForShortName(langParam);
       }
     }
     return lang;
@@ -474,8 +495,6 @@ class LanguageToolHttpHandler implements HttpHandler {
    */
   private JLanguageTool getLanguageToolInstance(Language lang, Language motherTongue, QueryParams params) throws Exception {
     final JLanguageTool newLanguageTool = new JLanguageTool(lang, motherTongue);
-    newLanguageTool.activateDefaultPatternRules();
-    newLanguageTool.activateDefaultFalseFriendRules();
     if (languageModelDir != null) {
       newLanguageTool.activateLanguageModelRules(languageModelDir);
     }
@@ -523,8 +542,7 @@ class LanguageToolHttpHandler implements HttpHandler {
    * @return an XML document listing all supported languages
    */
   public static String getSupportedLanguagesAsXML() {
-    final Language[] languageCopy = Language.REAL_LANGUAGES.clone();
-    final List<Language> languages = Arrays.asList(languageCopy);
+    final List<Language> languages = new ArrayList<>(Languages.get());
     Collections.sort(languages, new Comparator<Language>() {
       @Override
       public int compare(Language o1, Language o2) {

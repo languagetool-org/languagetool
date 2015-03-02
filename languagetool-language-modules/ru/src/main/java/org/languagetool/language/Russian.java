@@ -101,9 +101,9 @@ public class Russian extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Yakov Reztsov");
-    contributor.setUrl("http://myooo.ru/content/view/83/43/");
-    return new Contributor[] { contributor };
+    return new Contributor[] {
+            new Contributor("Yakov Reztsov", "http://myooo.ru/content/view/83/43/")
+    };
   }
 
   @Override

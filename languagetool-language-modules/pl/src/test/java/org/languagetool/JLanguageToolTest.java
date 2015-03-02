@@ -20,39 +20,47 @@ package org.languagetool;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.languagetool.language.Polish;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.PatternRule;
 
 public class JLanguageToolTest extends TestCase {
 
   public void testPolish() throws IOException {
+    final Polish noXmlRulesPolish = new Polish() {
+      @Override
+      public List<PatternRule> getPatternRules() {
+        return Collections.emptyList();
+      }
+    };
     final Polish polish = new Polish();
-    JLanguageTool tool = new JLanguageTool(polish);
+    JLanguageTool tool = new JLanguageTool(new Polish());
+    JLanguageTool noRulesTool = new JLanguageTool(noXmlRulesPolish);
     assertEquals("[PL]", Arrays.toString(polish.getCountries()));
-    List<RuleMatch> matches = tool.check("To jest całkowicie prawidłowe zdanie.");
+    List<RuleMatch> matches = noRulesTool.check("To jest całkowicie prawidłowe zdanie.");
     assertEquals(0, matches.size());
-    matches = tool.check("To jest jest problem.");
+    matches = noRulesTool.check("To jest jest problem.");
     assertEquals(1, matches.size());
     //no error thanks to disambiguation
-    assertEquals(0, tool.check("Mają one niemałe znaczenie.").size());
-    assertEquals(0, tool.check("Często wystarczy obrócić na wspak wyroki świata, aby trafnie osądzić jakąś osobę.").size());
+    assertEquals(0, noRulesTool.check("Mają one niemałe znaczenie.").size());
+    assertEquals(0, noRulesTool.check("Często wystarczy obrócić na wspak wyroki świata, aby trafnie osądzić jakąś osobę.").size());
     //with immunization
-    assertEquals(0, tool.check("A teraz każcie mi dać jaki bądź posiłek.").size());
-    assertEquals(0, tool.check("Kiedym wóz zobaczył, byłbym przysiągł, że wielka przygoda mnie czeka.").size());
+    assertEquals(0, noRulesTool.check("A teraz każcie mi dać jaki bądź posiłek.").size());
+    assertEquals(0, noRulesTool.check("Kiedym wóz zobaczył, byłbym przysiągł, że wielka przygoda mnie czeka.").size());
     //with antipatterns: "wymaluj" in "wypisz wymaluj" is immunized locally for punctuation mistakes,
     //so it should get no match
-    assertEquals(0, tool.check("Jurek wygląda wypisz wymaluj babcia.").size());
+    assertEquals(0, noRulesTool.check("Jurek wygląda wypisz wymaluj babcia.").size());
     //but it should get a match with word repetitions:
-    assertEquals(1, tool.check("Jurek wygląda wypisz wypisz wymaluj babcia.").size());
-    assertEquals(1, tool.check("Jurek wygląda wypisz wymaluj wymaluj babcia.").size());
+    assertEquals(1, noRulesTool.check("Jurek wygląda wypisz wypisz wymaluj babcia.").size());
+    assertEquals(1, noRulesTool.check("Jurek wygląda wypisz wymaluj wymaluj babcia.").size());
     //check for a weird unification bug:
-    assertEquals(0, tool.check("Zawarł w niej, oprócz swojej twórczości, wybrane epigramaty czterdziestu ośmiu innych greckich poetów i poetek.").size());
+    assertEquals(0, noRulesTool.check("Zawarł w niej, oprócz swojej twórczości, wybrane epigramaty czterdziestu ośmiu innych greckich poetów i poetek.").size());
     //checking on pattern rules now...
-    tool.activateDefaultPatternRules();
     //now this should be immunized:
     assertEquals(0, tool.check("Nudne brednie tak zamąciły głowę chłopu, że klął na czym ziemia stoi, zmuszonym będąc słuchać tego wszystkiego.").size());
     //but this "chcąc, nie chcąc" immunized only by an antipattern
@@ -63,7 +71,6 @@ public class JLanguageToolTest extends TestCase {
     tool.enableDefaultOffRule("PL_WORD_REPEAT");
     matches = tool.check("Był on bowiem pięknym strzelcem bowiem.");
     assertEquals(1, matches.size());
-    tool.activateDefaultPatternRules();
     matches = tool.check("Premier drapie się w ucho co i rusz.");
     assertEquals(1, matches.size());
     // Polish rule has no effect with English error but will get spelling activated:
@@ -84,7 +91,6 @@ public class JLanguageToolTest extends TestCase {
     //recheck with the -b mode...
     polish.getSentenceTokenizer().setSingleLineBreaksMarksParagraph(true);
     tool = new JLanguageTool(polish);
-    tool.activateDefaultPatternRules();
     matches = tool.check("To jest tekst.\nTest 1. To jest linia w której nie ma przecinka.");
     assertEquals(17, matches.get(0).getColumn());
     //with a space...

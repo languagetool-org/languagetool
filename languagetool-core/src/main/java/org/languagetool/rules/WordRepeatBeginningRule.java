@@ -90,7 +90,7 @@ public class WordRepeatBeginningRule extends Rule {
           shortMsg = "";
         }
           
-        if (!shortMsg.equals("")) {
+        if (!shortMsg.isEmpty()) {
           final String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
           final int startPos = analyzedToken.getStartPos();
           final int endPos = startPos + token.length();
@@ -101,9 +101,6 @@ public class WordRepeatBeginningRule extends Rule {
       beforeLastToken = lastToken;
       lastToken = token;
     }
-    
-    //TODO should we ignore repetitions involving multiple paragraphs?
-    //if (tokens[tokens.length - 1].isParaEnd()) beforeLastToken = "";
     
     return toRuleMatchArray(ruleMatches);
   }

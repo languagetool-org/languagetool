@@ -35,7 +35,7 @@ public class DifferentLengthRuleTest extends TestCase {
     RuleMatch[] matches;
     final JLanguageTool trgLangTool = new JLanguageTool(TestTools.getDemoLanguage());
     final JLanguageTool srcLangTool = new JLanguageTool(new FakeLanguage());
-    rule.setSourceLang(TestTools.getDemoLanguage());
+    rule.setSourceLanguage(TestTools.getDemoLanguage());
     // correct sentences:
     matches = rule.match(
         srcLangTool.getAnalyzedSentence("This is a test sentence."),

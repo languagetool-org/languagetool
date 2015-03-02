@@ -197,12 +197,12 @@ public class AnalyzedSentence {
         }
       }
       if (!element.isWhitespace()) {
-        if (includeChunks) {
+        if (includeChunks && element.getChunkTags().size() > 0) {
           sb.append(',');
           sb.append(StringUtils.join(element.getChunkTags(), "|"));
         }
         if (element.isImmunized()) {
-          sb.append("{!},");
+          sb.append("{!}");
         }
         sb.append(']');
       } else {

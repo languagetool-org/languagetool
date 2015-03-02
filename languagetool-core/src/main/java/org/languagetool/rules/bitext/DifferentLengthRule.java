@@ -61,8 +61,8 @@ public class DifferentLengthRule extends BitextRule {
    
     if (isLengthDifferent(getPureText(sourceText), getPureText(targetText))) {
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
-      final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      return new RuleMatch[] { new RuleMatch(this, 0, len, getMessage()) };
+      final int endPos = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
+      return new RuleMatch[] { new RuleMatch(this, 0, endPos, getMessage()) };
     }
     return new RuleMatch[0];
   }

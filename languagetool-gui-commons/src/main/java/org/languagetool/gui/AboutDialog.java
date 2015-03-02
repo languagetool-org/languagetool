@@ -34,6 +34,7 @@ import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.Contributor;
 
 /**
@@ -113,7 +114,7 @@ public class AboutDialog {
 
   private String getMaintainers() {
     final TreeMap<String, Language> list = new TreeMap<>();
-    for (final Language lang : Language.REAL_LANGUAGES) {
+    for (final Language lang : Languages.get()) {
       if (!lang.isVariant()) {
         if (lang.getMaintainers() != null) {
           list.put(messages.getString(lang.getShortName()), lang);

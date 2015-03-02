@@ -74,7 +74,7 @@ public abstract class AbstractWordCoherencyRule extends Rule {
       final String origToken = token;
       final List<AnalyzedToken> readings = tmpToken.getReadings();
       // TODO: in theory we need to care about the other readings, too (affects e.g. German "Schenke" as a noun):
-      if (readings != null && readings.size() > 0) {
+      if (readings.size() > 0) {
         final String baseform = readings.get(0).getLemma();
         if (baseform != null) {
           token = baseform;

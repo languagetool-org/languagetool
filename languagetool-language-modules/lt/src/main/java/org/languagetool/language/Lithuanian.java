@@ -83,7 +83,7 @@ public class Lithuanian extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages),
             new MorfologikLithuanianSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new MultipleWhitespaceRule(messages, this)

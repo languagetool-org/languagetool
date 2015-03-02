@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
 import java.util.Arrays;
@@ -88,6 +89,7 @@ abstract class Server {
     return isRunning;
   }
 
+  @Nullable
   protected RequestLimiter getRequestLimiterOrNull(HTTPServerConfig config) {
     final int requestLimit = config.getRequestLimit();
     final int requestLimitPeriodInSeconds = config.getRequestLimitPeriodInSeconds();
@@ -109,6 +111,7 @@ abstract class Server {
     System.out.println("                 'requestLimitPeriodInSeconds' - time period to which requestLimit applies (optional)");
     System.out.println("                 'languageModel' - a directory with a '3grams' sub directory with a Lucene index that");
     System.out.println("                  contains ngram occurrence counts; activates the confusion rule if supported (optional)");
+    System.out.println("                 'maxWorkQueueSize' - reject request if request queue gets larger than this (optional)");
   }
   
   protected static void printCommonOptions() {

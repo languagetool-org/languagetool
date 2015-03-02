@@ -33,6 +33,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.Tagger;
 
 /**
@@ -181,14 +182,12 @@ public class EsperantoTagger implements Tagger {
       // spurious tagging as single letter words "A", "O", "E", etc.
       if (word.length() > 1) {
         final String lWord = word.toLowerCase();
-        final String[] manualTags = manualTagger.lookup(lWord);
+        final List<TaggedWord> manualTags = manualTagger.tag(lWord);
 
-        if (manualTags != null) {
+        if (manualTags.size() > 0) {
           // This is a closed word for which we know its lemmas and tags.
-          for (int i = 0; i < manualTags.length; i += 2) {
-            final String lemma  = manualTags[2*i];
-            final String postag = manualTags[2*i + 1];
-            l.add(new AnalyzedToken(word, postag, lemma));
+          for (TaggedWord manualTag : manualTags) {
+            l.add(new AnalyzedToken(word, manualTag.getPosTag(), manualTag.getLemma()));
           }
         } else {
           // This is an open word, we need to look at the word ending 

@@ -19,6 +19,8 @@
 
 package org.languagetool.bitext;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 import java.util.Iterator;
 
@@ -38,7 +40,8 @@ public class WordFastTMReader extends TabBitextReader {
       nextPair = tab2StringPair(nextLine);
     }
   }
-  
+
+  @Nullable
   @Override
   public final StringPair tab2StringPair(final String line) {
     if (line == null) {

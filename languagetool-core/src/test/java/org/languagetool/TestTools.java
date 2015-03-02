@@ -20,7 +20,6 @@ package org.languagetool;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -56,10 +55,10 @@ public final class TestTools {
 
   public static Set<Language> getLanguagesExcept(String[] langCodes) {
     final Set<Language> languages = new HashSet<>();
-    languages.addAll(Arrays.asList(Language.LANGUAGES));
+    languages.addAll(Languages.getWithDemoLanguage());
     if (langCodes != null) {
       for (String langCode : langCodes) {
-        final Language lang = Language.getLanguageForShortName(langCode);
+        final Language lang = Languages.getLanguageForShortName(langCode);
         languages.remove(lang);
       }
     }

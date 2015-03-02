@@ -23,12 +23,10 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 
-/**
- * @author Daniel Naber
- */
 public class AvsAnRuleTest extends TestCase {
 
   private AvsAnRule rule;
@@ -36,7 +34,7 @@ public class AvsAnRuleTest extends TestCase {
 
   @Override
   public void setUp() throws IOException {
-    rule = new AvsAnRule(null);
+    rule = new AvsAnRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new English());
   }
 
@@ -113,7 +111,6 @@ public class AvsAnRuleTest extends TestCase {
   }
 
   public void testSuggestions() throws IOException {
-    final AvsAnRule rule = new AvsAnRule(null);
     assertEquals("a string", rule.suggestAorAn("string"));
     assertEquals("a university", rule.suggestAorAn("university"));
     assertEquals("an hour", rule.suggestAorAn("hour"));
@@ -122,7 +119,6 @@ public class AvsAnRuleTest extends TestCase {
   }
 
   public void testPositions() throws IOException {
-    final AvsAnRule rule = new AvsAnRule(null);
     RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new English());
     // no quotes etc.:

@@ -33,7 +33,6 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   // used to cause an ArrayIndexOutOfBoundsException in MatchState.setToken()
   public void testBug() throws Exception {
     JLanguageTool langTool = new JLanguageTool(new English());
-    langTool.activateDefaultPatternRules();
     langTool.check("Alexander between 369 and 358 BC\n\nAlexander");
   }
 

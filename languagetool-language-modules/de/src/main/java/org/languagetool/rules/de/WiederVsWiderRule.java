@@ -37,9 +37,7 @@ import org.languagetool.rules.RuleMatch;
 public class WiederVsWiderRule extends GermanRule {
 
   public WiederVsWiderRule(ResourceBundle messages) {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_typo")));
-    }
+    super.setCategory(new Category(messages.getString("category_typo")));
     addExamplePair(Example.wrong("Das spiegelt die Situation in Deutschland <marker>wieder</marker>."),
                    Example.fixed("Das spiegelt die Situation in Deutschland <marker>wider</marker>."));
   }

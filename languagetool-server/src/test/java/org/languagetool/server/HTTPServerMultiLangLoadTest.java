@@ -21,6 +21,7 @@ package org.languagetool.server;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
@@ -50,7 +51,7 @@ public class HTTPServerMultiLangLoadTest extends HTTPServerLoadTest {
   @Override
   public void testHTTPServer() throws Exception {
     File dir = new File("/media/Data/tatoeba/");
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       File file = new File(dir, "tatoeba-" + language.getShortName() + ".txt");
       if (!file.exists()) {
         System.err.println("No data found for " + language + ", language will not be tested");

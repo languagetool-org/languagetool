@@ -42,7 +42,6 @@ public class DemoPatternRuleTest extends PatternRuleTest {
 
   public void testMakeSuggestionUppercase() throws IOException {
     final JLanguageTool langTool = new JLanguageTool(language);
-    langTool.activateDefaultPatternRules();
 
     final Element element = new Element("Were", false, false, false);
     final String message = "Did you mean: <suggestion>where</suggestion> or <suggestion>we</suggestion>?";

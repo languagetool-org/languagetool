@@ -19,13 +19,9 @@
 
 package org.languagetool;
 
+import static org.junit.Assert.assertNotEquals;
 import junit.framework.TestCase;
 
-import java.util.Arrays;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThat;
 
 public class AnalyzedSentenceTest extends TestCase {
 
@@ -36,7 +32,7 @@ public class AnalyzedSentenceTest extends TestCase {
     words[2] = new AnalyzedTokenReadings(new AnalyzedToken(".", "INTERP", null));
     words[2].addReading(new AnalyzedToken(".", "SENT_END", null));
     final AnalyzedSentence sentence = new AnalyzedSentence(words);
-    assertEquals("<S> word[lemma/POS,].[./INTERP,</S>,]", sentence.toString());
+    assertEquals("<S> word[lemma/POS].[./INTERP,</S>]", sentence.toString());
   }
 
   public void testCopy() {
@@ -50,7 +46,7 @@ public class AnalyzedSentenceTest extends TestCase {
     assertEquals(sentence, copySentence);
     //now change the first sentence
     words[1].immunize(); // this would not work if we stored a copy, which we probably should
-    assertEquals("<S> word[lemma/POS,{!},].[./INTERP,</S>,]", sentence.toString());
+    assertEquals("<S> word[lemma/POS{!}].[./INTERP,</S>]", sentence.toString());
     assertNotEquals(sentence, copySentence);
   }
 

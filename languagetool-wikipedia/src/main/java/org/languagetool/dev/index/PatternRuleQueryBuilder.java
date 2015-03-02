@@ -27,6 +27,7 @@ import org.apache.lucene.search.spans.SpanMultiTermQueryWrapper;
 import org.apache.lucene.search.spans.SpanNearQuery;
 import org.apache.lucene.search.spans.SpanQuery;
 import org.apache.lucene.search.spans.SpanTermQuery;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.rules.patterns.Element;
@@ -131,6 +132,7 @@ public class PatternRuleQueryBuilder {
     return query != null && query.getOccur() == BooleanClause.Occur.MUST;
   }
 
+  @Nullable
   private BooleanClause getTermQueryOrNull(Element element, String termStr) {
     if (termStr == null || termStr.isEmpty()) {
       return null;
@@ -185,6 +187,7 @@ public class PatternRuleQueryBuilder {
     return regex.contains("(?:") || regex.contains("\\d") || regex.contains("\\w");
   }
 
+  @Nullable
   private BooleanClause getPosQueryOrNull(Element element, String pos) {
     if (pos == null || pos.isEmpty()) {
       return null;

@@ -1122,6 +1122,8 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker><token>wręcz</token></marker>
         </pattern>
         <disambig postag="adv"/>
+        <example type="untouched">Wręcz mi plik banknotów!</example>
+        <example type="ambiguous" inputform="wręcz[wręcz/adv,wręcz/qub,wręczyć/verb:impt:sg:sec:perf:refl.nonrefl]" outputform="wręcz[wręcz/adv]">Trwała walka <marker>wręcz</marker>.</example>
     </rule>
 
     <rule name="wybrania" id="wybrania">
@@ -2298,6 +2300,21 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="untouched">Dziękuję, wolę postać.</example>
     </rule>
 
+    <rule id="POSTAC_2" name="postać jako rzeczownik z przymiotnikiem">
+        <pattern>
+            <unify>
+                <feature id="case"/><feature id="gender"><type id="f"/></feature><feature id="number"><type id="sg"/></feature>
+                <token>postać</token>
+                <token postag="adj.*" postag_regexp="yes"/>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="postać[postać/subst:sg:acc:f,postać/subst:sg:nom:f,postać/verb:inf:perf:nonrefl]"
+                 outputform="postać[postać/subst:sg:nom:f]">To <marker>postać</marker> historyczna.</example>
+        <example type="untouched">Dziękuję, wolę postać.</example>
+    </rule>
+
+
     <rule id="ON_ONA_MA" name="Ona/on ma...">
         <pattern>
             <token regexp="yes" postag="ppron3.*" postag_regexp="yes">ona?</token>
@@ -3379,6 +3396,20 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="chęcić"/></disambig>
     </rule>
 
+    <rule id="CIESNI" name="cieśni to nie cieśnić">
+        <pattern>
+            <marker><token>cieśni</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="cieśnić"/></disambig>
+    </rule>
+
+    <rule id="CIEZEJ" name="ciężej to nie ciężeć">
+        <pattern>
+            <marker><token>ciężej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="ciężeć"/></disambig>
+    </rule>
+
     <rule id="DLUZEJ" name="dłużej to nie dłużeć">
         <pattern>
             <token>dłużej</token>
@@ -3525,6 +3556,13 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>młodzi</token>
         </pattern>
         <disambig action="remove"><wd lemma="młodzić"/></disambig>
+    </rule>
+
+    <rule id="MOCNIEJ" name="mocniej to nie mocnieć">
+        <pattern>
+            <marker><token>mocniej</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="mocnieć"/></disambig>
     </rule>
 
     <rule id="NACZYN" name="naczyń to nie czasownik">
@@ -3731,6 +3769,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="remove"><wd lemma="uroczyć"/></disambig>
     </rule>
 
+    <rule id="WALNIE_VERB" name="walnie pięścią to walnąć">
+        <pattern>
+            <marker><token>walnie</token></marker>
+            <token>pięścią</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="walnie"/></disambig>
+    </rule>
+
+    <rule id="WALNIE_ADV_1" name="walnie przyczynić">
+        <pattern>
+            <marker><token skip="2" postag="adv:pos">walnie</token></marker>
+            <token inflected="yes">przyczynić</token>
+        </pattern>
+        <disambig action="remove"><wd lemma="walnąć"/></disambig>
+    </rule>
+
+    <rule id="WALNIE_ADV_2" name="przyczynić walnie">
+        <pattern>
+            <token skip="4" inflected="yes">przyczynić</token>
+            <marker><token postag="adv:pos">walnie</token></marker>
+        </pattern>
+        <disambig action="remove"><wd lemma="walnąć"/></disambig>
+        <example type="untouched">On walnie pięścią.</example>
+        <example type="ambiguous" inputform="walnie[walnie/adv:pos,walnąć/verb:fin:sg:ter:perf:refl.nonrefl]" outputform="walnie[walnie/adv:pos]">Przyczynił się do tego <marker>walnie</marker> Jan Dzban.</example>
+    </rule>
+
     <rule id="WARTA" name="warta to nie wartać">
         <pattern>
             <token>warta</token>
@@ -3889,6 +3953,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <pattern>
             <token regexp="yes" inflected="yes">pomruk|odgłos|początek|grzmot|epilog|czas|nadejście|ryk|okres|skutek|metoda|trakt|środek|przejście|premiera</token>
             <marker><token>burzy</token></marker>
+        </pattern>
+        <disambig postag="subst:sg:gen:f"/>
+    </rule>
+
+    <rule id="Burzy_subst_2" name="burzy jako genetiwus">
+        <pattern>
+            <marker><token>burzy</token></marker>
+            <token regexp="yes">mózgów|oklasków|Szekspira</token>
         </pattern>
         <disambig postag="subst:sg:gen:f"/>
     </rule>
@@ -4086,6 +4158,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="unify"/>
     </rule>
 
+    <rule id="WRECZ_QUB" name="walka wręcz ->adv">
+        <pattern>
+            <marker><token>wręcz</token></marker>
+            <token postag="adv.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="qub"/>
+    </rule>
+
     <rule id="ZAZDROSCI_SUBST" name="zazdrości jako genetiwus">
         <pattern>
             <token regexp="yes" inflected="yes">ukłucie|scena|nutka|drgnienie|uczucie|odrobina|nuta|odcień|przedmiot|męka|wybuch</token>
@@ -4136,6 +4216,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="bogaci[bogacić/verb:fin:sg:ter:imperf:refl.nonrefl,bogaty/adj:pl:nom.voc:m1.p1:pos,bogaty/subst:pl:nom:m1,bogaty/subst:pl:voc:m1]"
                  outputform="bogaci[bogaty/adj:pl:nom.voc:m1.p1:pos]">Tylko <marker>bogaci</marker> mieszczanie kupują lody.</example>
         <example type="untouched">Cały kraj się bogaci.</example>
+    </rule>
+
+    <rule id="WIDMO" name="widmo światła -> nie widma">
+        <pattern>
+            <marker>
+                <token postag=".*nom.*|.*acc.*" postag_regexp="yes">widmo</token>
+                <token postag="subst:sg:gen:n2">światła</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <rule id="BYLA_SERIO" name="być serio">
@@ -4354,6 +4444,26 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     </rulegroup>
 
     <rulegroup id="PASA" name="pasa jako rzeczownik">
+        <rule id="PASA_SUBST" name="pasa jako genetivus">
+            <pattern>
+                <marker>
+                    <token postag="subst:sg:gen:m3">pasa</token>
+                    <token postag=".*sg.*gen.*" postag_regexp="yes" regexp="yes">ruchu|startowego|nadbrzeżnego|nadmorskiego|barkowego|transmisyjnego|betonowego|biodrowego|ochronnego|neutralnego|zieleni|drogi|jezdni|granicznego</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="untouched">Jasio pasa gąski.</example>
+        </rule>
+        <rule id="PASA_SUBST2" name="pasa jako genetivus">
+            <pattern>
+                <token regexp="yes" inflected="yes">zaciskać|zacisnąć|mistrzowski|zająć|popuścić|skórzany|zapiąć|wydzielić|szerokość|szeroki|sięgać|wydłużyć|zmiana</token>
+                <marker><token>pasa</token></marker>
+            </pattern>
+            <disambig postag="subst:sg:gen:m3"/>
+            <example type="untouched">Jasio pasa gąski.</example>
+            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
+                     outputform="pasa[pas/subst:sg:gen:m3]">Musimy zacisnąć <marker>pasa</marker>.</example>
+        </rule>
         <rule>
             <pattern>
                 <token>do</token>
@@ -4363,15 +4473,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <disambig postag="subst:sg:gen:m3"></disambig>
             <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
                      outputform="pasa[pas/subst:sg:gen:m3]">Miała dekolt do samego <marker>pasa</marker>.</example>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">zacisnąć|zaciskać</token>
-                <marker><token>pasa</token></marker>
-            </pattern>
-            <disambig postag="subst:sg:gen:m3"></disambig>
-            <example type="ambiguous" inputform="pasa[pas/subst:sg:gen:m3,pasać/verb:fin:sg:ter:imperf:refl.nonrefl]"
-                     outputform="pasa[pas/subst:sg:gen:m3]">Musimy zacisnąć <marker>pasa</marker>.</example>
         </rule>
         <rule>
             <pattern>
@@ -6831,7 +6932,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule name="al dente" id="al_dente">
         <pattern>
             <marker><token>al</token></marker>
-            <token>dente</token>
+            <token regexp="yes">dente|fresco</token>
         </pattern>
         <disambig postag="ign"/>
     </rule>
@@ -6974,6 +7075,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="p[pan/brev:pun,patrz/brev:pun,piętro/brev:pun,punkt/brev:pun]"
                  outputform="p[p]">Porządkowanie alfabetyczne ma postać: a, ą, ã, b, c, d, e, é, ë, f, g, h, i, j, k, l, ł, m, n, ń, o, ò, ó, ô, <marker>p</marker>, r, s, t, u, ù, w, y, z, ż.</example>
     </rule>
+    <rule name="skróty cytowane" id="nie_brev_pun_tylko_przywolanie">
+        <pattern>
+            <token regexp="yes">[«»„]</token>
+            <marker>
+            <token spacebefore="no" postag="brev:pun"/>
+            </marker>
+            <token spacebefore="no" regexp="yes">[”«»]</token>
+        </pattern>
+        <disambig action="remove" postag="brev:pun"/>
+        <example type="ambiguous" inputform="r[rok/brev:pun]" outputform="r[r]">Litera „<marker>r</marker>”</example>
+    </rule>
     <rule name="am jako wyraz niemiecki" id="AM_NIEM">
         <pattern case_sensitive="yes">
             <token regexp="yes">\p{Lu}\p{Ll}+</token>
@@ -7011,6 +7123,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </pattern>
         <disambig action="remove"><wd pos="brev:pun"/></disambig>
     </rule>
+
 
     <rule name="Center for" id="CENTER_FOR"> <!-- wyrażenie angielskie w polskim tekście -->
         <pattern case_sensitive="yes">
@@ -7491,6 +7604,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig postag="ign"/>
     </rule>
 
+    <rule id="HOT_DOG" name="hot dog">
+        <pattern>
+            <marker><token>hot</token></marker>
+            <token inflected="yes">dog</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="hot" pos="ign"/></disambig>
+    </rule>
+
     <rulegroup name="co innego" id="CO_INNEGO">
         <rule>
             <pattern>
@@ -7889,6 +8010,14 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token regexp="yes">[wo]|[zn]a</token>
             <marker><token>nie</token></marker>
             <token>nie</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="KAVA_KAVA" name="kava kava"> <!-- suppress in word repeat rule -->
+        <pattern>
+            <token>kava</token>
+            <marker><token>kava</token></marker>
         </pattern>
         <disambig action="immunize"/>
     </rule>

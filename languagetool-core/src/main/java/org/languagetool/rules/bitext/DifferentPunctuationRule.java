@@ -53,20 +53,17 @@ public class DifferentPunctuationRule extends BitextRule {
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sourceText,
-      AnalyzedSentence targetText) throws IOException {
-
-      final AnalyzedTokenReadings[] translationTokens = targetText.getTokens();
-      final AnalyzedTokenReadings[] sourceTokens = sourceText.getTokens();
-      int lastTok = translationTokens.length - 1;
-      if ((".".equals(translationTokens[lastTok].getToken()) ||
-          "?".equals(translationTokens[lastTok].getToken()) ||
-          "!".equals(translationTokens[lastTok].getToken())) &&
-            !translationTokens[lastTok].getToken().equals
-              (sourceTokens[sourceTokens.length - 1].getToken())) {
-      final int len = translationTokens[lastTok].getStartPos() +
-          translationTokens[lastTok].getToken().length();
-      return new RuleMatch[] { new RuleMatch(this, 1, len, getMessage()) };
+  public RuleMatch[] match(AnalyzedSentence sourceText, AnalyzedSentence targetText) throws IOException {
+    final AnalyzedTokenReadings[] translationTokens = targetText.getTokens();
+    final AnalyzedTokenReadings[] sourceTokens = sourceText.getTokens();
+    AnalyzedTokenReadings lastTransTokenObj = translationTokens[translationTokens.length-1];
+    String lastTransToken = lastTransTokenObj.getToken();
+    if ((".".equals(lastTransToken) ||
+         "?".equals(lastTransToken) ||
+         "!".equals(lastTransToken)) &&
+         !lastTransToken.equals(sourceTokens[sourceTokens.length-1].getToken())) {
+      final int endPos = lastTransTokenObj.getStartPos() + lastTransToken.length();
+      return new RuleMatch[] { new RuleMatch(this, 1, endPos, getMessage()) };
     }
     return new RuleMatch[0];
   }

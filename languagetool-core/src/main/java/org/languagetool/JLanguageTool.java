@@ -19,6 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.databroker.DefaultResourceDataBroker;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -46,16 +47,10 @@ import java.util.regex.Pattern;
 /**
  * The main class used for checking text against different rules:
  * <ul>
- * <li>the built-in Java rules (for English: <i>a</i> vs. <i>an</i>, whitespace after commas, ...)
- * <li>pattern rules loaded from external XML files with
- * {@link #loadPatternRules(String)}
- * <li>your own implementation of the abstract {@link Rule} classes added with
- * {@link #addRule(Rule)}
+ * <li>built-in Java rules (for English: <i>a</i> vs. <i>an</i>, whitespace after commas, ...)
+ * <li>built-in pattern rules loaded from external XML files (usually called {@code grammar.xml})
+ * <li>your own implementation of the abstract {@link Rule} classes added with {@link #addRule(Rule)}
  * </ul>
- * 
- * <p>Note that the constructors create a language checker that uses the built-in
- * Java rules only. Other rules (e.g. from XML) need to be added explicitly or
- * activated using {@link #activateDefaultPatternRules()}.
  * 
  * <p>You will probably want to use the sub class {@link MultiThreadedJLanguageTool} for best performance.
  * 
@@ -70,7 +65,7 @@ public class JLanguageTool {
   /** LanguageTool version as a string like {@code 2.3} or {@code 2.4-SNAPSHOT}. */
   public static final String VERSION = "2.9-SNAPSHOT";
   /** LanguageTool build date and time like {@code 2013-10-17 16:10} or {@code null} if not run from JAR. */
-  public static final String BUILD_DATE = getBuildDate();
+  @Nullable public static final String BUILD_DATE = getBuildDate();
 
   /** The name of the file with error patterns. */
   public static final String PATTERN_FILE = "grammar.xml";
@@ -88,6 +83,7 @@ public class JLanguageTool {
   /**
    * Returns the build date or {@code null} if not run from JAR.
    */
+  @Nullable
   private static String getBuildDate() {
     try {
       final URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");
@@ -152,7 +148,7 @@ public class JLanguageTool {
   
   /**
    * Create a JLanguageTool and setup the built-in Java rules for the
-   * given language, ignoring XML-based rules and false friend rules.
+   * given language.
    *
    * @param language the language of the text to be checked
    */
@@ -161,8 +157,8 @@ public class JLanguageTool {
   }
 
   /**
-   * Create a JLanguageTool and setup the built-in Java rules for the
-   * given language, ignoring XML-based rules except false friend rules.
+   * Create a JLanguageTool and setup the built-in rules for the
+   * given language and false friend rules for the text language / mother tongue pair.
    * 
    * @param language the language of the text to be checked
    * @param motherTongue the user's mother tongue, used for false friend rules, or <code>null</code>.
@@ -173,6 +169,12 @@ public class JLanguageTool {
     this.motherTongue = motherTongue;
     final ResourceBundle messages = ResourceBundleTools.getMessageBundle(language);
     builtinRules = getAllBuiltinRules(language, messages);
+    try {
+      activateDefaultPatternRules();
+      activateDefaultFalseFriendRules();
+    } catch (Exception e) {
+      throw new RuntimeException("Could not activate rules", e);
+    }
   }
   
   /**
@@ -313,7 +315,7 @@ public class JLanguageTool {
    * Loads and activates the pattern rules from
    * {@code org/languagetool/rules/<languageCode>/grammar.xml}.
    */
-  public void activateDefaultPatternRules() throws IOException {
+  private void activateDefaultPatternRules() throws IOException {
     final List<PatternRule> patternRules = language.getPatternRules();
     final List<String> enabledRules = language.getDefaultEnabledRulesForVariant();
     final List<String> disabledRules = language.getDefaultDisabledRulesForVariant();
@@ -334,7 +336,7 @@ public class JLanguageTool {
    * Loads and activates the false friend rules from
    * <code>rules/false-friends.xml</code>.
    */
-  public void activateDefaultFalseFriendRules()
+  private void activateDefaultFalseFriendRules()
       throws ParserConfigurationException, SAXException, IOException {
     final String falseFriendRulesFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + FALSE_FRIEND_FILE;
     final List<PatternRule> patternRules = loadFalseFriendRules(falseFriendRulesFilename);
@@ -479,9 +481,11 @@ public class JLanguageTool {
     unknownWords = new HashSet<>();
     final List<AnalyzedSentence> analyzedSentences = analyzeSentences(sentences);
     
-    final List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules, paraMode, annotatedText);
+    ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
+
+//    Collections.sort(ruleMatches);  // SameRuleGroupFilter sorts rule matches already
     
-    Collections.sort(ruleMatches);
     return ruleMatches;
   }
   
@@ -496,7 +500,7 @@ public class JLanguageTool {
     return analyzeSentences(sentences);
   }
   
-  private List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
+  protected List<AnalyzedSentence> analyzeSentences(final List<String> sentences) throws IOException {
     final List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     
     int j = 0;
@@ -509,11 +513,17 @@ public class JLanguageTool {
         analyzedSentence = new AnalyzedSentence(anTokens);
       }
       analyzedSentences.add(analyzedSentence);
-      printIfVerbose(analyzedSentence.toString());
-      printIfVerbose(analyzedSentence.getAnnotations());
+      printSentenceInfo(analyzedSentence);
     }
     
     return analyzedSentences;
+  }
+
+  protected void printSentenceInfo(AnalyzedSentence analyzedSentence) {
+    if (printStream != null) {
+      printIfVerbose(analyzedSentence.toString());
+      printIfVerbose(analyzedSentence.getAnnotations());
+    }
   }
   
   protected List<RuleMatch> performCheck(final List<AnalyzedSentence> analyzedSentences, final List<String> sentences,
@@ -563,8 +573,7 @@ public class JLanguageTool {
         sentenceMatches.add(thisMatch);
       }
     }
-    final RuleMatchFilter filter = new SameRuleGroupFilter();
-    return filter.filter(sentenceMatches);
+    return new SameRuleGroupFilter().filter(sentenceMatches);
   }
 
   private boolean ignoreRule(Rule rule) {
@@ -627,7 +636,7 @@ public class JLanguageTool {
     return thisMatch;
   }
 
-  private void rememberUnknownWords(final AnalyzedSentence analyzedText) {
+  protected void rememberUnknownWords(final AnalyzedSentence analyzedText) {
     if (listUnknownWords) {
       final AnalyzedTokenReadings[] atr = analyzedText
           .getTokensWithoutWhitespace();
@@ -675,7 +684,11 @@ public class JLanguageTool {
    * @param sentence sentence to be analyzed
    */
   public AnalyzedSentence getAnalyzedSentence(final String sentence) throws IOException {
-    return language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+    AnalyzedSentence analyzedSentence = language.getDisambiguator().disambiguate(getRawAnalyzedSentence(sentence));
+    if (language.getPostDisambiguationChunker() != null) {
+      language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+    }
+    return analyzedSentence;
   }
 
   /**
@@ -742,9 +755,10 @@ public class JLanguageTool {
     Pattern ignoredCharacterRegex = language.getIgnoredCharactersRegex();
     
     final Map<Integer, String> ignoredCharsTokens = new HashMap<>();
-    if( ignoredCharacterRegex == null )
+    if (ignoredCharacterRegex == null) {
       return ignoredCharsTokens;
-    
+    }
+
     for (int i = 0; i < tokens.size(); i++) {
       if ( ignoredCharacterRegex.matcher(tokens.get(i)).find() ) {
         ignoredCharsTokens.put(i, tokens.get(i));
@@ -826,7 +840,7 @@ public class JLanguageTool {
     return sentenceCount;
   }
 
-  private void printIfVerbose(final String s) {
+  protected void printIfVerbose(final String s) {
     if (printStream != null) {
       printStream.println(s);
     }

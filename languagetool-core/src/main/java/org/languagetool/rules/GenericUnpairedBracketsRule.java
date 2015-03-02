@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -42,27 +43,49 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
           Pattern.compile("[ldmnstLDMNST]'|[–—\\p{Punct}&&[^\\.]]");
   // "[ldmnst]'" allows dealing with apostrophed words in Catalan (i.e. l'«home) 
 
-  protected Pattern numerals;
-  protected String[] startSymbols;
-  protected String[] endSymbols;
+  private final String[] startSymbols;
+  private final String[] endSymbols;
   // The stack for pairing symbols:
   protected final UnsyncStack<SymbolLocator> symbolStack = new UnsyncStack<>();
 
   private final Map<String,Boolean> uniqueMap = new HashMap<>();
+  private final String ruleId;
 
-  public GenericUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
+  protected Pattern numerals;
+
+  public GenericUnpairedBracketsRule(String ruleId, ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
     super(messages);
+    this.ruleId = ruleId != null ? ruleId : "UNPAIRED_BRACKETS";
     super.setCategory(new Category(messages.getString("category_misc")));
-    startSymbols = language.getUnpairedRuleStartSymbols();
-    endSymbols = language.getUnpairedRuleEndSymbols();
+    if (startSymbols.size() != endSymbols.size()) {
+      throw new IllegalArgumentException("Different number of start and end symbols: " + startSymbols + " vs. " + endSymbols);
+    }
+    this.startSymbols = startSymbols.toArray(new String[startSymbols.size()]);
+    this.endSymbols = endSymbols.toArray(new String[endSymbols.size()]);
     numerals = NUMERALS_EN;
     uniqueMapInit();
     setLocQualityIssueType(ITSIssueType.Typographical);
   }
 
+  /**
+   * @param startSymbols start symbols like "(" - note that the array must be of equal length as the next parameter
+   *                     and the sequence of starting symbols must match exactly the sequence of ending symbols.
+   * @param endSymbols end symbols like ")"
+   */
+  public GenericUnpairedBracketsRule(ResourceBundle messages, List<String> startSymbols, List<String> endSymbols) {
+    this(null, messages, startSymbols, endSymbols);
+  }
+
+  /**
+   * Construct rule with a set of default start and end symbols: <code>[] () {} "" ''</code>
+   */
+  public GenericUnpairedBracketsRule(ResourceBundle messages) {
+    this(null, messages, Arrays.asList("[", "(", "{", "\"", "'"), Arrays.asList("]", ")", "}", "\"", "'"));
+  }
+
   @Override
   public String getId() {
-    return "UNPAIRED_BRACKETS";
+    return ruleId;
   }
 
   @Override
@@ -123,7 +146,7 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
       }
     }
     for (final SymbolLocator sLoc : symbolStack) {
-      final RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.startPos, sLoc.symbol);
+      final RuleMatch rMatch = createMatch(ruleMatches, ruleMatchStack, sLoc.getStartPos(), sLoc.getSymbol());
       if (rMatch != null) {
         ruleMatches.add(rMatch);
       }
@@ -149,13 +172,13 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
         if (i > 1 && endSymbols[j].equals(")")
                 && (numerals.matcher(tokens[i - 1].getToken()).matches()
                 && !(!symbolStack.empty()
-                && "(".equals(symbolStack.peek().symbol)))) {
+                && "(".equals(symbolStack.peek().getSymbol())))) {
         } else {
           if (symbolStack.empty()) {
             symbolStack.push(new SymbolLocator(endSymbols[j], i, startPos));
             return true;
           } else {
-            if (symbolStack.peek().symbol.equals(startSymbols[j])) {
+            if (symbolStack.peek().getSymbol().equals(startSymbols[j])) {
               symbolStack.pop();
               return true;
             } else {
@@ -201,14 +224,15 @@ public class GenericUnpairedBracketsRule extends TextLevelRule {
     return uniqueMap.get(str);
   }
 
+  @Nullable
   private RuleMatch createMatch(List<RuleMatch> ruleMatches, UnsyncStack<SymbolLocator> ruleMatchStack, int startPos, String symbol) {
     if (!ruleMatchStack.empty()) {
       final int index = findSymbolNum(symbol, endSymbols);
       if (index >= 0) {
         final SymbolLocator rLoc = ruleMatchStack.peek();
-        if (rLoc.symbol.equals(startSymbols[index])) {
-          if (ruleMatches.size() > rLoc.index) {
-            ruleMatches.remove(rLoc.index);
+        if (rLoc.getSymbol().equals(startSymbols[index])) {
+          if (ruleMatches.size() > rLoc.getIndex()) {
+            ruleMatches.remove(rLoc.getIndex());
             ruleMatchStack.pop();
             return null;
           }

@@ -19,6 +19,8 @@
 
 package org.languagetool.rules.en;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -29,8 +31,8 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final String[] EN_START_SYMBOLS = { "[", "(", "{", "“", "\"", "'" };
-  private static final String[] EN_END_SYMBOLS   = { "]", ")", "}", "”", "\"", "'" };
+  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
+  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
 
   private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
   private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");
@@ -38,10 +40,7 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   public EnglishUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
-    super(messages, language);
-    startSymbols = EN_START_SYMBOLS;
-    endSymbols = EN_END_SYMBOLS;
-    uniqueMapInit();
+    super(messages, EN_START_SYMBOLS, EN_END_SYMBOLS);
     addExamplePair(Example.wrong("<marker>\"</marker>I'm over here, she said."),
                    Example.fixed("\"I'm over here,<marker>\"</marker> she said."));
   }

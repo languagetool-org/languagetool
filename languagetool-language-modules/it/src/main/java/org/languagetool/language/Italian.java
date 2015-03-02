@@ -65,16 +65,6 @@ public class Italian extends Language {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{ "[", "(", "{", "»", "«" /*"‘"*/ };
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{ "]", ")", "}", "«", "»" /*"’"*/ };
-  }
-  
-  @Override
   public Tagger getTagger() {
     if (tagger == null) {
       tagger = new ItalianTagger();
@@ -99,18 +89,16 @@ public class Italian extends Language {
   @Override
   public List<Rule> getRelevantRules(ResourceBundle messages) throws IOException {
     return Arrays.asList(
-// 3607406 +
             new WhitespaceBeforePunctuationRule(messages),
-// 3607406 -
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages,
+                    Arrays.asList("[", "(", "{", "»", "«" /*"‘"*/),
+                    Arrays.asList("]", ")", "}", "«", "»" /*"’"*/)),
             new MorfologikItalianSpellerRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
-// 181 +
 //            new WordRepeatRule(messages),
             new ItalianWordRepeatRule(messages, this),
-// 181 -
             new MultipleWhitespaceRule(messages, this)
     );
   }

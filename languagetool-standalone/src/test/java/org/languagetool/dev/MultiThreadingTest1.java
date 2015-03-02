@@ -23,6 +23,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -76,9 +77,9 @@ public class MultiThreadingTest1 {
   @Test
   @Ignore("for interactive use only")
   public void test() throws Exception {
-    List<Language> languages1 = new ArrayList<>(Arrays.asList(Language.REAL_LANGUAGES));
+    List<Language> languages1 = new ArrayList<>(Languages.get());
     initExpectedResults(languages1);
-    List<Language> languages2 = new ArrayList<>(Arrays.asList(Language.REAL_LANGUAGES));
+    List<Language> languages2 = new ArrayList<>(Languages.get());
     ExecutorService executor = Executors.newFixedThreadPool(THREADS);
     for (int i = 0; i < RUNS; i++) {
       System.out.println("Run #" + i);
@@ -101,7 +102,6 @@ public class MultiThreadingTest1 {
   private void initExpectedResults(List<Language> languages) throws IOException {
     for (Language lang : languages) {
       JLanguageTool lt = new JLanguageTool(lang);
-      lt.activateDefaultPatternRules();
       String input = examples.get(lang.getShortNameWithCountryAndVariant());
       if (input != null) {
         List<RuleMatch> matches = lt.check(input);
@@ -136,7 +136,6 @@ public class MultiThreadingTest1 {
       if (input != null) {
         try {
           JLanguageTool lt = new JLanguageTool(lang);
-          lt.activateDefaultPatternRules();
           //System.out.println("Running with " + lang.getShortNameWithCountryAndVariant());
           List<RuleMatch> matches = lt.check(input);
           //System.out.println("=>" + matches);

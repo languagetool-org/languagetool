@@ -22,6 +22,7 @@ import java.util.Objects;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * A word (or punctuation, or whitespace) and its analysis (part-of-speech tag, lemma)
@@ -61,6 +62,7 @@ public class AnalyzedToken {
     return token;
   }
 
+  @Nullable
   public final String getPOSTag() {
     return posTag;
   }
@@ -68,6 +70,7 @@ public class AnalyzedToken {
   /**
    * @return the token's lemma or {@code null}
    */
+  @Nullable
   public final String getLemma() {
     return lemma;
   }
@@ -75,6 +78,7 @@ public class AnalyzedToken {
   /**
    * Like {@link #getLemma()}, but returns the token if the lemma is {@code null}
    */
+  @Nullable
   public final String getTokenInflected() {
     return tokenInflected;
   }

@@ -18,6 +18,8 @@
  */
 package org.languagetool.rules.ru;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -26,17 +28,14 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class RussianUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final String[] RU_START_SYMBOLS = {"(", "{", "„",  "\"", "'"};
-  private static final String[] RU_END_SYMBOLS = {")", "}", "“", "\"", "'"};
+  private static final List<String> RU_START_SYMBOLS = Arrays.asList("(", "{", "„", "\"", "'");
+  private static final List<String> RU_END_SYMBOLS   = Arrays.asList(")", "}", "“", "\"", "'");
   private static final Pattern NUMERALS_RU = 
           Pattern.compile("(?i)\\d{1,2}?[а-я]*|[а-я]|[А-Я]|[а-я][а-я]|[А-Я][А-Я]|(?i)\\d{1,2}?[a-z']*|M*(D?C{0,3}|C[DM])(L?X{0,3}|X[LC])(V?I{0,3}|I[VX])$");
 
   public RussianUnpairedBracketsRule(final ResourceBundle messages, final Language language) {
-    super(messages, language);
-    startSymbols = RU_START_SYMBOLS;
-    endSymbols = RU_END_SYMBOLS;
+    super(messages, RU_START_SYMBOLS, RU_END_SYMBOLS);
     numerals = NUMERALS_RU;
-    uniqueMapInit();
   }
 
   @Override

@@ -73,9 +73,9 @@ public class CommaWhitespaceRule extends Rule {
         msg = messages.getString("no_space_after");
         suggestionText = prevToken;
       } else if (!isWhitespace && prevToken.equals(getCommaCharacter())
-          && isNotQuoteOrHyphen(token)
-          && containsNoNumber(prevPrevToken)
-          && containsNoNumber(token)
+          && !isQuoteOrHyphenOrComma(token)
+          && !containsDigit(prevPrevToken)
+          && !containsDigit(token)
           && !",".equals(prevPrevToken)) {
         msg = messages.getString("missing_space_after_comma");
         suggestionText = getCommaCharacter() + " " + tokens[i].getToken();
@@ -96,7 +96,7 @@ public class CommaWhitespaceRule extends Rule {
           suggestionText = ".";
           // exception case for figures such as ".5" and ellipsis
           if (i + 1 < tokens.length
-              && isNumberOrDot(tokens[i + 1].getToken())) {
+              && isDigitOrDot(tokens[i + 1].getToken())) {
             msg = null;
           }
         }
@@ -116,21 +116,19 @@ public class CommaWhitespaceRule extends Rule {
     return toRuleMatchArray(ruleMatches);
   }
 
-  private static boolean isNotQuoteOrHyphen(final String str) {
+  private static boolean isQuoteOrHyphenOrComma(final String str) {
     if (str.length() == 1) {
       final char c = str.charAt(0);
       if (c =='\'' || c == '-' || c == '”'
           || c =='’' || c == '"' || c == '“'
           || c == ',') {
-        return false;
+        return true;
       }
-    } else {
-      return containsNoNumber(str);
     }
-    return true;
+    return false;
   }
 
-  private static boolean isNumberOrDot(final String str) {
+  private static boolean isDigitOrDot(final String str) {
     if (isEmpty(str)) {
       return false;
     }
@@ -139,7 +137,7 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   private static boolean isLeftBracket(final String str) {
-    if (str.length() == 0) {
+    if (isEmpty(str)) {
       return false;
     }
     final char c = str.charAt(0);
@@ -147,20 +145,20 @@ public class CommaWhitespaceRule extends Rule {
   }
 
   private static boolean isRightBracket(final String str) {
-    if (str.length() == 0) {
+    if (isEmpty(str)) {
       return false;
     }
     final char c = str.charAt(0);
     return c == ')' || c == ']' || c == '}';
   }
 
-  private static boolean containsNoNumber(final String str) {
+  private static boolean containsDigit(final String str) {
     for (int i = 0; i < str.length(); i++) {
       if (Character.isDigit(str.charAt(i))) {
-        return false;
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
   @Override

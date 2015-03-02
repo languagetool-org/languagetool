@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 import javax.swing.JComboBox;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 /**
  * Combo box with list of available languages.
@@ -42,9 +43,13 @@ public class LanguageComboBox extends JComboBox<Language> {
     populateLanguageBox();
   }
 
-  final void populateLanguageBox() {
+  final void populateLanguageBox(List<Language> externalLanguages) {
     removeAllItems();
-    initAllLanguages();
+    initAllLanguages(externalLanguages);
+  }
+
+  final void populateLanguageBox() {
+    populateLanguageBox(Collections.<Language>emptyList());
   }
 
   void selectLanguage(Language language) {
@@ -55,17 +60,20 @@ public class LanguageComboBox extends JComboBox<Language> {
     }
   }
 
-  private void initAllLanguages() {
+  private void initAllLanguages(List<Language> externalLanguages) {
     applyComponentOrientation(
       ComponentOrientation.getOrientation(Locale.getDefault()));
     languages.clear();
-    for (Language language : Language.getRealLanguages()) {  // the method returns both built-in and external languages
+    for (Language language : Languages.get()) {  // the method returns both built-in and external languages
       final boolean skip = language.hasVariant();
       // TODO: "Simple German" would hide "German (Germany)" - find a proper solution
       final boolean simpleGermanWorkaround = language.getShortNameWithCountryAndVariant().equals("de-DE");
       if (!skip || simpleGermanWorkaround) {
         languages.add(language);
       }
+    }
+    for (Language externalLanguage : externalLanguages) {
+      addItem(externalLanguage);
     }
     Collections.sort(languages, langComparator);
     for (final Language language : languages) {

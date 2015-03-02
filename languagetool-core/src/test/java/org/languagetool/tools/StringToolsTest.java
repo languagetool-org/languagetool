@@ -103,6 +103,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testUppercaseFirstChar() {
+    assertEquals(null, StringTools.uppercaseFirstChar(null));
     assertEquals("", StringTools.uppercaseFirstChar(""));
     assertEquals("A", StringTools.uppercaseFirstChar("A"));
     assertEquals("Öäü", StringTools.uppercaseFirstChar("öäü"));
@@ -114,6 +115,7 @@ public class StringToolsTest extends TestCase {
   }
 
   public void testLowercaseFirstChar() {
+    assertEquals(null, StringTools.lowercaseFirstChar(null));
     assertEquals("", StringTools.lowercaseFirstChar(""));
     assertEquals("a", StringTools.lowercaseFirstChar("A"));
     assertEquals("öäü", StringTools.lowercaseFirstChar("Öäü"));

@@ -21,10 +21,7 @@ package org.languagetool.dev.dumpcheck;
 import org.languagetool.Language;
 
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Provides access to the sentences of a Tatoeba (http://tatoeba.org) text
@@ -68,9 +65,12 @@ class TatoebaSentenceSource extends SentenceSource {
   private void fillSentences() {
     while (sentences.size() == 0 && scanner.hasNextLine()) {
       String line = scanner.nextLine();
+      if (line.isEmpty()) {
+        continue;
+      }
       String[] parts = line.split("\t");
       if (parts.length != 3) {
-        continue;
+        throw new RuntimeException("Unexpected line format: expected three tab-separated columns: '" + line  + "'");
       }
       String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
       if (acceptSentence(sentence)) {

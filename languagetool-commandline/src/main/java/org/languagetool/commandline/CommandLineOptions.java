@@ -18,9 +18,11 @@
  */
 package org.languagetool.commandline;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Options that can be set via command line arguments.
@@ -46,9 +48,10 @@ public class CommandLineOptions {
   private File languageModel = null;
   private String encoding = null;
   private String filename = null;
-  private String[] disabledRules = new String[0];
-  private String[] enabledRules = new String[0];
+  private String[] disabledRules = {};
+  private String[] enabledRules = {};
   private boolean useEnabledOnly = false;
+  private String ruleFile = null;
 
   public boolean isPrintUsage() {
     return printUsage;
@@ -146,6 +149,7 @@ public class CommandLineOptions {
     this.autoDetect = autoDetect;
   }
 
+  @Nullable
   public Language getLanguage() {
     return language;
   }
@@ -154,6 +158,7 @@ public class CommandLineOptions {
     this.language = language;
   }
 
+  @Nullable
   public Language getMotherTongue() {
     return motherTongue;
   }
@@ -166,6 +171,7 @@ public class CommandLineOptions {
    * @return a directory with Lucene index sub directories like ({@code 3grams}), or {@code null}
    * @since 2.7
    */
+  @Nullable
   public File getLanguageModel() {
     return languageModel;
   }
@@ -177,6 +183,24 @@ public class CommandLineOptions {
     this.languageModel = languageModel;
   }
 
+  /**
+   * @return an additional rule file name to use
+   * @since 2.9
+   */
+  @Nullable
+  public String getRuleFile() {
+    return ruleFile;
+  }
+
+  /**
+   * @param ruleFile absolute file name of the XML rule file
+   * @since 2.9
+   */
+  public void setRuleFile(String ruleFile) {
+    this.ruleFile = ruleFile;
+  }
+
+  @Nullable
   public String getEncoding() {
     return encoding;
   }
@@ -185,6 +209,7 @@ public class CommandLineOptions {
     this.encoding = encoding;
   }
 
+  @Nullable
   public String getFilename() {
     return filename;
   }
@@ -198,7 +223,7 @@ public class CommandLineOptions {
   }
 
   public void setDisabledRules(String[] disabledRules) {
-    this.disabledRules = disabledRules;
+    this.disabledRules = Objects.requireNonNull(disabledRules);
   }
 
   public String[] getEnabledRules() {
@@ -206,7 +231,7 @@ public class CommandLineOptions {
   }
 
   public void setEnabledRules(String[] enabledRules) {
-    this.enabledRules = enabledRules;
+    this.enabledRules = Objects.requireNonNull(enabledRules);
   }
 
   /** @since 2.7 */

@@ -73,8 +73,10 @@ import javax.swing.text.Position;
 import javax.swing.text.View;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.ITSIssueType;
@@ -284,8 +286,6 @@ class LanguageToolSupport {
       //config still contains old language, update it
       this.config.setLanguage(language);
       languageTool = new MultiThreadedJLanguageTool(language, config.getMotherTongue());
-      languageTool.activateDefaultPatternRules();
-      languageTool.activateDefaultFalseFriendRules();
       loadConfig();
     } catch (Exception e) {
       throw new RuntimeException(e);
@@ -301,7 +301,7 @@ class LanguageToolSupport {
 
     Language defaultLanguage = config.getLanguage();
     if (defaultLanguage == null) {
-        defaultLanguage = Language.getLanguageForLocale(Locale.getDefault());
+        defaultLanguage = Languages.getLanguageForLocale(Locale.getDefault());
     }
 
     /**
@@ -493,6 +493,7 @@ class LanguageToolSupport {
     checkImmediately(null);
   }
 
+  @Nullable
   private Span getSpan(int offset) {
     for (final Span cur : documentSpans) {
       if (cur.end > cur.start && cur.start <= offset && offset < cur.end) {
@@ -669,6 +670,7 @@ class LanguageToolSupport {
     }
   }
 
+  @Nullable
   Rule getRuleForId(String ruleId) {
     final List<Rule> allRules = languageTool.getAllRules();
     for (Rule rule : allRules) {
@@ -733,7 +735,7 @@ class LanguageToolSupport {
   Language autoDetectLanguage(String text) {
     Language lang = langIdentifier.detectLanguage(text);
     if (lang == null) {
-      lang = Language.getLanguageForLocale(Locale.getDefault());
+      lang = Languages.getLanguageForLocale(Locale.getDefault());
     }
     if (lang.hasVariant()) {
       // UI only shows variants like "English (American)", not just "English", so use that:

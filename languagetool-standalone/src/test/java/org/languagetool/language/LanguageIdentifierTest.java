@@ -21,6 +21,7 @@ package org.languagetool.language;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.util.Objects;
 
@@ -78,7 +79,7 @@ public class LanguageIdentifierTest {
   }
 
   private void langAssert(String expectedLangCode, String text) {
-    Language expectedLang = expectedLangCode != null ? Language.getLanguageForShortName(expectedLangCode) : null;
+    Language expectedLang = expectedLangCode != null ? Languages.getLanguageForShortName(expectedLangCode) : null;
     Language detectedLang = identifier.detectLanguage(text);
     if (!Objects.equals(expectedLang, detectedLang)) {
       fail("Got '" + detectedLang + "', expected '" + expectedLangCode + "' for '" + text + "'");

@@ -20,6 +20,7 @@ package org.languagetool.dev;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,6 @@ class SentenceChecker {
 
   private void run(Language language, File file) throws IOException {
     JLanguageTool lt = new JLanguageTool(language);
-    lt.activateDefaultPatternRules();
     Scanner scanner = new Scanner(file);
     int count = 0;
     long startTime = System.currentTimeMillis();
@@ -57,6 +57,6 @@ class SentenceChecker {
       System.exit(1);
     }
     SentenceChecker checker = new SentenceChecker();
-    checker.run(Language.getLanguageForShortName(args[0]), new File(args[1]));
+    checker.run(Languages.getLanguageForShortName(args[0]), new File(args[1]));
   }
 }

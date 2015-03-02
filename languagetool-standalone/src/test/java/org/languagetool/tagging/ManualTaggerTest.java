@@ -22,28 +22,14 @@ import org.junit.Test;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 public class ManualTaggerTest {
 
   private static final String MANUAL_DICT_FILENAME = "/de/added.txt";
-
-  @Test
-  public void testLookup() throws IOException {
-    ManualTagger tagger = new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream(MANUAL_DICT_FILENAME));
-    assertNull(tagger.lookup(""));
-    assertNull(tagger.lookup("gibtsnicht"));
-    
-    assertEquals("[Ableitung, SUB:NOM:PLU:FEM, Ableitung, SUB:GEN:PLU:FEM, Ableitung, SUB:DAT:PLU:FEM, Ableitung, SUB:AKK:PLU:FEM]",
-            Arrays.toString(tagger.lookup("Ableitungen")));
-    // lookup is case sensitive:
-    assertNull(tagger.lookup("ableitungen"));
-  }
 
   @Test
   public void testTag() throws IOException {

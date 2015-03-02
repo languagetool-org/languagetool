@@ -25,6 +25,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.IncorrectExample;
@@ -80,6 +81,7 @@ public class XMLRuleHandler extends DefaultHandler {
   protected static final String MATCH = "match";
   protected static final String UNIFICATION = "unification";
   protected static final String RULE = "rule";
+  protected static final String RULES = "rules";
   protected static final String RULEGROUP = "rulegroup";
   protected static final String NO = "no";
   protected static final String PHRASES = "phrases";
@@ -509,6 +511,7 @@ public class XMLRuleHandler extends DefaultHandler {
    * Adds Match objects for all references to tokens
    * (including '\1' and the like).
    */
+  @Nullable
   protected List<Match> addLegacyMatches(final List <Match> existingSugMatches, final String messageStr,
       boolean inMessage) {
     if (existingSugMatches == null || existingSugMatches.isEmpty()) {

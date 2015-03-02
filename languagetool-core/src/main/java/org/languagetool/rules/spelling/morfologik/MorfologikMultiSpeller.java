@@ -22,6 +22,7 @@ import morfologik.fsa.CFSA2Serializer;
 import morfologik.fsa.FSA;
 import morfologik.fsa.FSABuilder;
 import morfologik.stemming.Dictionary;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
@@ -63,6 +64,7 @@ public class MorfologikMultiSpeller {
     }
   }
 
+  @Nullable
   private MorfologikSpeller getPlainTextDictOrNull(String plainTextPath, String infoFile, int maxEditDistance) throws IOException {
     if (plainTextPath.endsWith(".txt")) {
       InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(plainTextPath);

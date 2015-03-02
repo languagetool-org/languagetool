@@ -81,8 +81,8 @@ public class FrequencyIndexCreator {
       }
       System.out.println("Index dir: " + indexDir);
       Directory directory = FSDirectory.open(indexDir);
-      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_1);
-      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_1, analyzer);
+      Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_4_10_3);
+      IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, analyzer);
       config.setUseCompoundFile(false);  // ~10% speedup
       //config.setRAMBufferSizeMB(1000);
       try (IndexWriter writer = new IndexWriter(directory, config)) {

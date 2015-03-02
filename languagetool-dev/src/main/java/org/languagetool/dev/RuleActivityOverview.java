@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.tools.StringTools;
 
 /**
@@ -50,12 +51,12 @@ public final class RuleActivityOverview {
     System.out.println("Date: " + new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
     
     List<String> sortedLanguages = new ArrayList<>();
-    for (Language element : Language.REAL_LANGUAGES) {
+    for (Language element : Languages.get()) {
       sortedLanguages.add(element.getName());
     }
     Collections.sort(sortedLanguages);
     for (String langName : sortedLanguages) {
-      Language lang = Language.getLanguageForName(langName);
+      Language lang = Languages.getLanguageForName(langName);
       int commits = getActivityFor(lang, PAST_DAYS);
       System.out.println(commits + "\t" + lang.getName() + (lang.isVariant() ? " (including the parent language)" : ""));
     }

@@ -21,6 +21,7 @@ package org.languagetool.dev;
 import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.IncorrectExample;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -53,7 +54,6 @@ final class ExampleSentenceCorrectionCreator {
     File xml = new File(basePath, "/" + langCode + "/src/main/resources/org/languagetool/rules/" + langCode + "/grammar.xml");
     List<String> xmlLines = IOUtils.readLines(new FileReader(xml));
     JLanguageTool tool = new JLanguageTool(lang);
-    tool.activateDefaultPatternRules();
     for (Rule rule : tool.getAllRules()) {
       if (!(rule instanceof PatternRule)) {
         continue;
@@ -143,7 +143,7 @@ final class ExampleSentenceCorrectionCreator {
 
   public static void main(String[] args) throws IOException {
     ExampleSentenceCorrectionCreator prg = new ExampleSentenceCorrectionCreator();
-    prg.run(Language.getLanguageForShortName("de"));
+    prg.run(Languages.getLanguageForShortName("de"));
   }
 
 }

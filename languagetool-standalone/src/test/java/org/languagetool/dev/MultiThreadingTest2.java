@@ -74,7 +74,6 @@ public class MultiThreadingTest2 {
 
   private void initExpectedResults() throws IOException {
     JLanguageTool lt = new JLanguageTool(LANG);
-    lt.activateDefaultPatternRules();
     for (String sentence : sentences) {
       List<RuleMatch> matches = lt.check(sentence);
       expectedResults.put(sentence, matches.toString());
@@ -95,7 +94,6 @@ public class MultiThreadingTest2 {
     public void run() {
       try {
         JLanguageTool lt = new JLanguageTool(lang);
-        lt.activateDefaultPatternRules();
         List<RuleMatch> matches = lt.check(sentence);
         //System.out.println("=>" + matches);
         String expected = expectedResults.get(sentence);

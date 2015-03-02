@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.IncorrectExample;
@@ -94,13 +94,11 @@ public class PatternRuleHandler extends XMLRuleHandler {
         final String priorityStr = attrs.getValue("priority");
         Category.Location location = YES.equals(attrs.getValue(EXTERNAL)) ?
                 Category.Location.EXTERNAL : Category.Location.INTERNAL;
+        final boolean onByDefault = !OFF.equals(attrs.getValue(DEFAULT));
         if (priorityStr == null) {
-          category = new Category(catName, location);
+          category = new Category(catName, location, onByDefault);
         } else {
-          category = new Category(catName, Integer.parseInt(priorityStr), location);
-        }
-        if (OFF.equals(attrs.getValue(DEFAULT))) {
-          category.setDefaultOff();
+          category = new Category(catName, Integer.parseInt(priorityStr), location, onByDefault);
         }
         if (attrs.getValue(TYPE) != null) {
           categoryIssueType = attrs.getValue(TYPE);
@@ -108,7 +106,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         break;
       case "rules":
         final String languageStr = attrs.getValue("lang");
-        language = Language.getLanguageForShortName(languageStr);
+        language = Languages.getLanguageForShortName(languageStr);
         break;
       case RULE:
         inRule = true;
@@ -418,7 +416,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
             if (exampleCorrection.toString().endsWith("|")) {  // split() will ignore trailing empty items
               corrections.add("");
             }
-            example = new IncorrectExample(incorrectExample.toString(), corrections.toArray(new String[corrections.size()]));
+            example = new IncorrectExample(incorrectExample.toString(), corrections);
           } else {
             example = new IncorrectExample(incorrectExample.toString());
           }

@@ -41,6 +41,9 @@ public class CatalanWrongWordInContextRuleTest extends TestCase {
     assertEquals("rendibles", rule.match(langTool.getAnalyzedSentence("Uns projectes molt rentables."))[0].getSuggestedReplacements().get(0));
     //assertEquals("rentable", rule.match(langTool.getAnalyzedSentence("Un teixit rendible."))[0].getSuggestedReplacements().get(0));
     
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("La policia feia d'escolta.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("La policia feia escoltes telefòniques.")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("La policia feia escoltes il·legals.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Van escoltar el detingut fins al calabós.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Li va infringir un mal terrible.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("És un terreny abonat per als problemes.")).length);

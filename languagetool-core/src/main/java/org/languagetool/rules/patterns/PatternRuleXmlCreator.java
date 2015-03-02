@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.List;
@@ -53,7 +52,7 @@ public class PatternRuleXmlCreator {
    * Return the given pattern rule as an indented XML string.
    * @since 2.3
    */
-  public final String toXML(PatternRuleId ruleId, Language language) throws IOException {
+  public final String toXML(PatternRuleId ruleId, Language language) {
     final List<String> filenames = language.getRuleFileNames();
     final XPath xpath = XPathFactory.newInstance().newXPath();
     for (String filename : filenames) {

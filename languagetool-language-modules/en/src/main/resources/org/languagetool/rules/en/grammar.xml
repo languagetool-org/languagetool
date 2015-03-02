@@ -9311,7 +9311,7 @@ USA
                         <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"></exception><exception inflected="yes">be</exception><exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="MD|RB|VBD"/></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="2"></match>' requires the base form of the verb: <suggestion><match no="3" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>' requires the base form of the verb: <suggestion><match no="3" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <!-- 'did' is used for emphasis here: -->
                 <example>All I did was to go to the cinema.</example>
@@ -9330,6 +9330,17 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes" postag="MD|VBD" postag_regexp="yes">could|can|should|would|does|ll</token>
+                    <marker>
+                        <token postag="VBZ" postag_regexp="yes"><exception postag="VBP|NNP" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>The verb '<match no="1"></match>' requires the base form of the verb: <suggestion><match no="2" postag="VB"></match></suggestion></message>
+                <short>Grammatical problem</short>
+                <example correction="have">Mozilla should <marker>has</marker> a grammar checker.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|tha[nt]|whom?|which|a|the</exception></token>
                     <token regexp="yes">did|will|could|can|should|would|does|ll</token>
                     <token>not</token>
@@ -9338,7 +9349,7 @@ USA
                         <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="2"></match>' requires base form of the verb: <suggestion><match no="5" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>' requires base form of the verb: <suggestion><match no="5" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <example correction="have">Since he does not <marker>has</marker> any connection with us...</example>
                 <example correction="have">Since he does not really <marker>has</marker> any connection with us...</example>
@@ -9354,7 +9365,7 @@ USA
                         <token postag="VB[DGZ]" postag_regexp="yes"><exception postag="VBP"></exception><exception inflected="yes">be</exception></token>
                     </marker>
                 </pattern>
-                <message>The verb '<match no="2"></match>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"></match></suggestion>.</message>
+                <message>The verb '<match no="2"></match>'t' requires base form of this verb: <suggestion><match no="6" postag="VB"></match></suggestion></message>
                 <short>Grammatical problem</short>
                 <example correction="have">Since he doesn't <marker>has</marker> any connection with us...</example>
                 <example correction="understand">Sorry but am a newbie and didn't clearly <marker>understood</marker> this approach.</example>
@@ -11800,6 +11811,10 @@ USA
         </rule>
         <rulegroup id="SENT_START_CONJUNCTIVE_LINKING_ADVERB_COMMA" name="Commas after conjunctive/linking adverbs in front of a new sentence.">
             <rule>
+                <antipattern>
+                    <token>further</token>
+                    <token>research</token>
+                </antipattern>
                 <antipattern>
                     <marker><token>instead</token></marker>
                     <token>of</token>

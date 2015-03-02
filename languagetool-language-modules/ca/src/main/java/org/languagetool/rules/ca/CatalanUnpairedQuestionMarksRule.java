@@ -19,6 +19,8 @@
 
 package org.languagetool.rules.ca;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.Language;
@@ -27,17 +29,14 @@ import org.languagetool.rules.ITSIssueType;
 
 public class CatalanUnpairedQuestionMarksRule extends GenericUnpairedBracketsRule {
   
-  private static final String[] CA_START_SYMBOLS = { "¿"};
-  private static final String[] CA_END_SYMBOLS   = { "?"};
+  private static final List<String> CA_START_SYMBOLS = Arrays.asList("¿");
+  private static final List<String> CA_END_SYMBOLS   = Arrays.asList("?");
   
   public CatalanUnpairedQuestionMarksRule(final ResourceBundle messages,
       final Language language) {
-    super(messages, language);
+    super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
     setLocQualityIssueType(ITSIssueType.Style);
     setDefaultOff();
-    startSymbols = CA_START_SYMBOLS;
-    endSymbols = CA_END_SYMBOLS;
-    uniqueMapInit();
   }
 
   @Override

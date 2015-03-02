@@ -19,8 +19,10 @@
 package org.languagetool.rules.bitext;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.bitext.StringPair;
 
 /**
@@ -35,14 +37,25 @@ public class IncorrectBitextExample {
   private final List<String> corrections;
 
   public IncorrectBitextExample(final StringPair example) {
-    this(example, null);
+    this(example, (List<String>)null);
   }
 
+  /**
+   * @deprecated use {@link #IncorrectBitextExample(org.languagetool.bitext.StringPair, List<String>)} instead (deprecated since 2.9)
+   */
   public IncorrectBitextExample(final StringPair example, final String[] corrections) {
     this.example = example;
-    this.corrections = Arrays.asList(corrections);
+    this.corrections = Collections.unmodifiableList(Arrays.asList(corrections));
   }
-  
+
+  /**
+   * @since 2.9
+   */
+  public IncorrectBitextExample(final StringPair example, final List<String> corrections) {
+    this.example = example;
+    this.corrections = Collections.unmodifiableList(corrections);
+  }
+
   /**
    * Return the example that contains the error.
    */
@@ -53,6 +66,7 @@ public class IncorrectBitextExample {
   /**
    * Return the possible corrections or null.
    */
+  @Nullable
   public List<String> getCorrections() {
     return corrections;
   }

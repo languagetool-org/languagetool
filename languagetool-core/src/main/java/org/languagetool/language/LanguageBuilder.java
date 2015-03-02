@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.*;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 
 /**
@@ -61,8 +62,8 @@ public final class LanguageBuilder {
     //and adjust the settings if any are set in the rule file default configuration set
 
     Language newLanguage;
-    if (Language.isLanguageSupported(parts[1])) {
-      newLanguage = Language.getLanguageForShortName(parts[1]).getClass().newInstance();
+    if (Languages.isLanguageSupported(parts[1])) {
+      newLanguage = Languages.getLanguageForShortName(parts[1]).getClass().newInstance();
       newLanguage.addExternalRuleFile(file.getAbsolutePath());
       newLanguage.setName(parts[2].replace(".xml", ""));
       newLanguage.makeExternal();

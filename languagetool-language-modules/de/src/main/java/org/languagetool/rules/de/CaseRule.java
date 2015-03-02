@@ -473,9 +473,7 @@ public class CaseRule extends GermanRule {
   private final GermanTagger tagger;
   
   public CaseRule(final ResourceBundle messages, final German german) {
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_case")));
-    }
+    super.setCategory(new Category(messages.getString("category_case")));
     this.tagger = (GermanTagger) german.getTagger();
     addExamplePair(Example.wrong("<marker>Das laufen</marker> fällt mir schwer."),
                    Example.fixed("<marker>Das Laufen</marker> fällt mir schwer."));
@@ -556,11 +554,18 @@ public class CaseRule extends GermanRule {
 
   private boolean hasNounReading(AnalyzedTokenReadings readings) {
     // "Die Schöne Tür": "Schöne" also has a noun reading but like "SUB:AKK:SIN:FEM:ADJ", ignore that:
-    for (AnalyzedToken reading : readings) {
-      String posTag = reading.getPOSTag();
-      if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
-        return true;
+    try {
+      AnalyzedTokenReadings allReadings = tagger.lookup(readings.getToken());  // unification in disambiguation.xml removes reading, so look up again
+      if (allReadings != null) {
+        for (AnalyzedToken reading : allReadings) {
+          String posTag = reading.getPOSTag();
+          if (posTag != null && posTag.contains("SUB:") && !posTag.contains(":ADJ")) {
+            return true;
+          }
+        }
       }
+    } catch (IOException e) {
+      throw new RuntimeException("Could not lookup " + readings.getToken(), e);
     }
     return false;
   }
@@ -628,13 +633,15 @@ public class CaseRule extends GermanRule {
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings)) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings) && !token.matches("Alle[nm]")) {
       // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
-      AnalyzedTokenReadings prevPrevToken = i > 1 ? tokens[i-2] : null;
+      AnalyzedTokenReadings prevPrevToken = i >= 2 ? tokens[i-2] : null;
+      AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
       return (prevToken != null && ("irgendwas".equals(prevToken.getToken()) || "aufs".equals(prevToken.getToken()))) ||
-             hasPartialTag(prevToken, "PRO") ||  // z.B. "etwas Verrücktes"
-             (hasPartialTag(prevPrevToken, "PRO") && hasPartialTag(prevToken, "ADJ", "ADV")); // z.B. "etwas schön Verrücktes"
+         hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
+         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
+         (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
     }
     return false;
   }

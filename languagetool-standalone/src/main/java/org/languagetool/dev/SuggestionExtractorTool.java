@@ -18,9 +18,11 @@
  */
 package org.languagetool.dev;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
@@ -70,7 +72,7 @@ public class SuggestionExtractorTool {
   private Map<Language, Set<String>> getLanguageToIgnoreTokensMapping() throws IOException {
     final Map<Language, Set<String>> langToIgnoreTokens = new HashMap<>();
     SuggestionExtractor extractor = new SuggestionExtractor();
-    for (Language lang : Language.REAL_LANGUAGES) {
+    for (Language lang : Languages.get()) {
       final Set<String> suggestionTokens = new HashSet<>();
       final JLanguageTool languageTool = new JLanguageTool(lang);
       final Rule spellcheckRule = getSpellcheckRule(languageTool);
@@ -78,7 +80,6 @@ public class SuggestionExtractorTool {
         System.out.println("No spellchecker rule found for " + lang);
         continue;
       }
-      languageTool.activateDefaultPatternRules();
       final List<Rule> rules = languageTool.getAllRules();
       int tokenCount = 0;
       int noErrorCount = 0;
@@ -119,6 +120,7 @@ public class SuggestionExtractorTool {
     }
   }
 
+  @Nullable
   private Rule getSpellcheckRule(JLanguageTool languageTool) {
     final List<Rule> allActiveRules = languageTool.getAllActiveRules();
     for (Rule activeRule : allActiveRules) {
@@ -144,8 +146,8 @@ public class SuggestionExtractorTool {
   }
 
   public static void main(String[] args) throws IOException {
-    if (Language.REAL_LANGUAGES.length < 5) {
-      throw new RuntimeException("Found only " + Language.REAL_LANGUAGES.length + " languages in classpath. " +
+    if (Languages.get().size() < 5) {
+      throw new RuntimeException("Found only " + Languages.get().size() + " languages in classpath. " +
               "Please run this class with the classpath of 'languagetool-standalone' to have access to all languages.");
     }
     final List<String> dirs = Arrays.asList(new File(".").list());

@@ -19,6 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -36,7 +37,6 @@ public class FalseFriendRuleTest extends TestCase {
 
   public void testHintsForGermanSpeakers() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool = new JLanguageTool(new English(), new German());
-    langTool.activateDefaultFalseFriendRules();
     final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[to provide advice, to give advice]");
     assertErrors(0, "We will give you advice.", langTool);
@@ -47,7 +47,6 @@ public class FalseFriendRuleTest extends TestCase {
 
   public void testHintsForGermanSpeakersWithVariant() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool = new JLanguageTool(new BritishEnglish(), new SwissGerman());
-    langTool.activateDefaultFalseFriendRules();
     final List<RuleMatch> matches = assertErrors(1, "We will berate you.", langTool);
     assertEquals(matches.get(0).getSuggestedReplacements().toString(), "[to provide advice, to give advice]");
     assertErrors(0, "We will give you advice.", langTool);
@@ -59,33 +58,33 @@ public class FalseFriendRuleTest extends TestCase {
   public void testHintsForDemoLanguage() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool1 = new JLanguageTool(new BritishEnglish(), new German());
     langTool1.disableRule(MorfologikBritishSpellerRule.RULE_ID);
-    langTool1.activateDefaultFalseFriendRules();
     final List<RuleMatch> matches1 = assertErrors(1, "And forDemoOnly.", langTool1);
     assertEquals("DEMO_ENTRY", matches1.get(0).getRule().getId());
 
     final JLanguageTool langTool2 = new JLanguageTool(new English(), new German());
     langTool2.disableRule(MorfologikBritishSpellerRule.RULE_ID);
-    langTool2.activateDefaultFalseFriendRules();
     final List<RuleMatch> matches2 = assertErrors(1, "And forDemoOnly.", langTool2);
     assertEquals("DEMO_ENTRY", matches2.get(0).getRule().getId());
 
     final JLanguageTool langTool3 = new JLanguageTool(new AmericanEnglish(), new German());
     langTool3.disableRule(MorfologikAmericanSpellerRule.RULE_ID);
-    langTool3.activateDefaultFalseFriendRules();
     assertErrors(0, "And forDemoOnly.", langTool3);
   }
 
   public void testHintsForEnglishSpeakers() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool langTool = new JLanguageTool(new German(), new English());
-    langTool.activateDefaultFalseFriendRules();
     assertErrors(1, "Man sollte ihn nicht so beraten.", langTool);
     assertErrors(0, "Man sollte ihn nicht so beschimpfen.", langTool);
     assertErrors(1, "Ich gehe in Blubbstadt zur Hochschule.", langTool);
   }
 
   public void testHintsForPolishSpeakers() throws IOException, ParserConfigurationException, SAXException {
-    final JLanguageTool langTool = new JLanguageTool(new English(), new Polish());
-    langTool.activateDefaultFalseFriendRules();
+    final JLanguageTool langTool = new JLanguageTool(new English() {
+      @Override
+      protected synchronized List<PatternRule> getPatternRules() {
+        return Collections.emptyList();
+      }
+    }, new Polish());
     assertErrors(1, "This is an absurd.", langTool);
     assertErrors(0, "This is absurdity.", langTool);
     assertSuggestions(0, "This is absurdity.", langTool);

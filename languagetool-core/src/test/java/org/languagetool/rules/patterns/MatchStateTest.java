@@ -19,12 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.junit.Test;
-import org.languagetool.Language;
-import org.languagetool.language.Contributor;
-import org.languagetool.rules.Rule;
-
-import java.util.List;
-import java.util.ResourceBundle;
+import org.languagetool.FakeLanguage;
 
 import static junit.framework.Assert.assertNull;
 import static org.hamcrest.CoreMatchers.is;
@@ -35,61 +30,34 @@ public class MatchStateTest {
   @Test
   public void testConvertCase() {
     MatchState startUpper = getMatchState(Match.CaseConversion.STARTUPPER);
-    assertNull(startUpper.convertCase(null, "Y", fakeLanguage("en")));
-    assertThat(startUpper.convertCase("", "Y", fakeLanguage("en")), is(""));
-    assertThat(startUpper.convertCase("x", "Y", fakeLanguage("en")), is("X"));
-    assertThat(startUpper.convertCase("xxx", "Yyy", fakeLanguage("en")), is("Xxx"));
+    assertNull(startUpper.convertCase(null, "Y", new FakeLanguage("en")));
+    assertThat(startUpper.convertCase("", "Y", new FakeLanguage("en")), is(""));
+    assertThat(startUpper.convertCase("x", "Y", new FakeLanguage("en")), is("X"));
+    assertThat(startUpper.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("Xxx"));
     // special case for Dutch:
-    assertThat(startUpper.convertCase("ijsselmeer", "Uppercase", fakeLanguage("nl")), is("IJsselmeer"));
-    assertThat(startUpper.convertCase("ijsselmeer", "lowercase", fakeLanguage("nl")), is("IJsselmeer"));
-    assertThat(startUpper.convertCase("ij", "Uppercase", fakeLanguage("nl")), is("IJ"));
+    assertThat(startUpper.convertCase("ijsselmeer", "Uppercase", new FakeLanguage("nl")), is("IJsselmeer"));
+    assertThat(startUpper.convertCase("ijsselmeer", "lowercase", new FakeLanguage("nl")), is("IJsselmeer"));
+    assertThat(startUpper.convertCase("ij", "Uppercase", new FakeLanguage("nl")), is("IJ"));
 
     MatchState preserve = getMatchState(Match.CaseConversion.PRESERVE);
-    assertThat(preserve.convertCase("xxx", "Yyy", fakeLanguage("en")), is("Xxx"));
-    assertThat(preserve.convertCase("xxx", "yyy", fakeLanguage("en")), is("xxx"));
-    assertThat(preserve.convertCase("xxx", "YYY", fakeLanguage("en")), is("XXX"));
+    assertThat(preserve.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("Xxx"));
+    assertThat(preserve.convertCase("xxx", "yyy", new FakeLanguage("en")), is("xxx"));
+    assertThat(preserve.convertCase("xxx", "YYY", new FakeLanguage("en")), is("XXX"));
     // special case for Dutch:
-    assertThat(preserve.convertCase("ijsselmeer", "Uppercase", fakeLanguage("nl")), is("IJsselmeer"));
-    assertThat(preserve.convertCase("ijsselmeer", "lowercase", fakeLanguage("nl")), is("ijsselmeer"));
-    assertThat(preserve.convertCase("ijsselmeer", "ALLUPPER", fakeLanguage("nl")), is("IJSSELMEER"));
+    assertThat(preserve.convertCase("ijsselmeer", "Uppercase", new FakeLanguage("nl")), is("IJsselmeer"));
+    assertThat(preserve.convertCase("ijsselmeer", "lowercase", new FakeLanguage("nl")), is("ijsselmeer"));
+    assertThat(preserve.convertCase("ijsselmeer", "ALLUPPER", new FakeLanguage("nl")), is("IJSSELMEER"));
 
     MatchState startLower = getMatchState(Match.CaseConversion.STARTLOWER);
-    assertThat(startLower.convertCase("xxx", "YYY", fakeLanguage("en")), is("xxx"));
-    assertThat(startLower.convertCase("xxx", "yyy", fakeLanguage("en")), is("xxx"));
-    assertThat(startLower.convertCase("xxx", "Yyy", fakeLanguage("en")), is("xxx"));
-    assertThat(startLower.convertCase("XXX", "Yyy", fakeLanguage("en")), is("xXX"));
-    assertThat(startLower.convertCase("Xxx", "Yyy", fakeLanguage("en")), is("xxx"));
+    assertThat(startLower.convertCase("xxx", "YYY", new FakeLanguage("en")), is("xxx"));
+    assertThat(startLower.convertCase("xxx", "yyy", new FakeLanguage("en")), is("xxx"));
+    assertThat(startLower.convertCase("xxx", "Yyy", new FakeLanguage("en")), is("xxx"));
+    assertThat(startLower.convertCase("XXX", "Yyy", new FakeLanguage("en")), is("xXX"));
+    assertThat(startLower.convertCase("Xxx", "Yyy", new FakeLanguage("en")), is("xxx"));
   }
 
   private MatchState getMatchState(Match.CaseConversion conversion) {
     return new MatchState(new Match("", "", false, "", "", conversion, false, false, Match.IncludeRange.NONE), null);
   }
 
-  private Language fakeLanguage(final String langCode) {
-    return new Language() {
-      @Override
-      public String getShortName() {
-        return langCode;
-      }
-      @Override
-      public String getName() {
-        return null;
-      }
-      @Override
-      public void setName(String name) {
-      }
-      @Override
-      public String[] getCountries() {
-        return new String[0];
-      }
-      @Override
-      public Contributor[] getMaintainers() {
-        return new Contributor[0];
-      }
-      @Override
-      public List<Rule> getRelevantRules(ResourceBundle messages) {
-        return null;
-      }
-    };
-  }
 }

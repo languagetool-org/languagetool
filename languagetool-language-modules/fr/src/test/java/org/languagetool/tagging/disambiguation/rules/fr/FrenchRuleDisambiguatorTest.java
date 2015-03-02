@@ -20,8 +20,6 @@
 package org.languagetool.tagging.disambiguation.rules.fr;
 
 import junit.framework.TestCase;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -34,13 +32,13 @@ import org.languagetool.tokenizers.WordTokenizer;
 import java.io.IOException;
 
 public class FrenchRuleDisambiguatorTest extends TestCase {
+
   private FrenchTagger tagger;
   private WordTokenizer tokenizer;
   private SentenceTokenizer sentenceTokenizer;
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
-  private JLanguageTool lt; 
-  
+
   @Override
   public void setUp() throws IOException {
     tagger = new FrenchTagger();
@@ -49,7 +47,6 @@ public class FrenchRuleDisambiguatorTest extends TestCase {
     sentenceTokenizer = new SRXSentenceTokenizer(language);
     disambiguator = new XmlRuleDisambiguator(language);
     disamb2 = new DemoDisambiguator();    
-    lt = new JLanguageTool(language);
   }
 
   public void testChunker() throws IOException {

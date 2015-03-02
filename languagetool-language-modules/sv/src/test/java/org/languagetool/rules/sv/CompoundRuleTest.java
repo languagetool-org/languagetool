@@ -19,21 +19,19 @@
 package org.languagetool.rules.sv;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.Swedish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 
 import java.io.IOException;
 
-/**
- * @author Daniel Naber
- */
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     langTool = new JLanguageTool(new Swedish());
-    rule = new CompoundRule(null);
+    rule = new CompoundRule(TestTools.getEnglishMessages());
   }
   
   public void testRule() throws IOException {

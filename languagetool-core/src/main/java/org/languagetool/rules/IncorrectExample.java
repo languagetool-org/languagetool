@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,21 +29,31 @@ import java.util.List;
  * @since 0.9.2
  * @author Daniel Naber
  */
-public class IncorrectExample {
+public final class IncorrectExample {
 
   private final String example;
   private final List<String> corrections;
 
   public IncorrectExample(final String example) {
-    this.example = example;
-    this.corrections = Collections.emptyList();
+    this(example, Collections.<String>emptyList());
   }
 
+  /**
+   * @deprecated deprecated since 2.9
+   */
   public IncorrectExample(final String example, final String[] corrections) {
     this.example = example;
     this.corrections = Arrays.asList(corrections);
   }
-  
+
+  /**
+   * @since 2.9
+   */
+  public IncorrectExample(final String example, final List<String> corrections) {
+    this.example = example;
+    this.corrections = Collections.unmodifiableList(new ArrayList<>(corrections));
+  }
+
   /**
    * Return the example that contains the error.
    */

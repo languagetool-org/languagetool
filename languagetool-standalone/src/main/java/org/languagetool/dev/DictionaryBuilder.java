@@ -20,6 +20,7 @@ package org.languagetool.dev;
 
 import morfologik.tools.FSABuildTool;
 import morfologik.tools.Launcher;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.BufferedReader;
@@ -129,6 +130,7 @@ class DictionaryBuilder {
     return resultFile;
   }
 
+  @Nullable
   protected String getOption(String option) {
     String property = props.getProperty(option);
     if (property == null) {

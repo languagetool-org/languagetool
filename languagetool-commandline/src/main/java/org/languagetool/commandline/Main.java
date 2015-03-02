@@ -20,6 +20,7 @@ package org.languagetool.commandline;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.bitext.TabBitextReader;
 import org.languagetool.language.English;
@@ -32,6 +33,7 @@ import org.languagetool.tools.Tools;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -84,8 +86,6 @@ class Main {
     srcLt = null;
     bRules = null;
     lt = new MultiThreadedJLanguageTool(language, motherTongue);
-    lt.activateDefaultPatternRules();
-    lt.activateDefaultFalseFriendRules();
     if (languageModelIndexDir != null) {
       lt.activateLanguageModelRules(languageModelIndexDir);
     }
@@ -124,7 +124,6 @@ class Main {
     final Language target = lt.getLanguage();
     lt = new MultiThreadedJLanguageTool(target, null);
     srcLt = new MultiThreadedJLanguageTool(sourceLang);
-    lt.activateDefaultPatternRules();
     Tools.selectRules(lt, disabledRules, enabledRules);
     Tools.selectRules(srcLt, disabledRules, enabledRules);
     bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
@@ -256,7 +255,8 @@ class Main {
           }
           sb.append('\n');
           tmpLineOffset++;
-          if (lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()) {
+
+          if (isBreakPoint(sb, line)) {
             matches = handleLine(matches, lineOffset, sb);
             sentences += lt.getSentenceCount();
             if (profileRules) {
@@ -265,17 +265,6 @@ class Main {
             rememberUnknownWords(listUnknownWords, unknownWords);
             sb = new StringBuilder();
             lineOffset = tmpLineOffset;
-          } else {
-            if ("".equals(line) || sb.length() >= MAX_FILE_SIZE) {
-              matches = handleLine(matches, lineOffset, sb);
-              sentences += lt.getSentenceCount();
-              if (profileRules) {
-                sentences += lt.sentenceTokenize(sb.toString()).size();
-              }
-              rememberUnknownWords(listUnknownWords, unknownWords);
-              sb = new StringBuilder();
-              lineOffset = tmpLineOffset;
-            }
           }
         }
       } finally {
@@ -286,7 +275,7 @@ class Main {
             sentences += lt.sentenceTokenize(sb.toString()).size();
           }
           if (apiFormat && !taggerOnly && !applySuggestions) {
-              System.out.println("</matches>");
+            System.out.println("</matches>");
           }
           rememberUnknownWords(listUnknownWords, unknownWords);
         }
@@ -299,6 +288,11 @@ class Main {
         }
       }
     }
+  }
+
+  private boolean isBreakPoint(StringBuilder sb, String line) {
+    return lt.getLanguage().getSentenceTokenizer().singleLineBreaksMarksPara()
+        || "".equals(line) || sb.length() >= MAX_FILE_SIZE;
   }
 
   private void rememberUnknownWords(boolean listUnknownWords, List<String> unknownWords) {
@@ -372,24 +366,27 @@ class Main {
   private int handleLine(final int matchNo, final int lineOffset,
       final StringBuilder sb) throws IOException {
     int matches = matchNo;
+    String string = sb.toString();
+    string = StringTools.filterXML(string);
+    
     if (applySuggestions) {
-      System.out.print(Tools.correctText(StringTools.filterXML(sb.toString()),
+      System.out.print(Tools.correctText(string,
           lt));
     } else if (profileRules) {
-      matches += Tools.profileRulesOnLine(StringTools.filterXML(sb.toString()), 
+      matches += Tools.profileRulesOnLine(string, 
           lt, currentRule);
     } else if (!taggerOnly) {
       if (matches == 0) {
-        matches += CommandLineTools.checkText(StringTools.filterXML(sb.toString()), lt,
+        matches += CommandLineTools.checkText(string, lt,
             apiFormat, -1, lineOffset, matches,
             StringTools.XmlPrintMode.START_XML);
       } else {
-        matches += CommandLineTools.checkText(StringTools.filterXML(sb.toString()), lt,
+        matches += CommandLineTools.checkText(string, lt,
             apiFormat, -1, lineOffset, matches,
             StringTools.XmlPrintMode.CONTINUE_XML);
       }
     } else {
-      CommandLineTools.tagText(StringTools.filterXML(sb.toString()), lt);
+      CommandLineTools.tagText(string, lt);
     }
     return matches;
   }
@@ -438,8 +435,6 @@ class Main {
                               String[] disabledRules, String[] enabledRules) {
     try {
       lt = new MultiThreadedJLanguageTool(language, motherTongue);
-      lt.activateDefaultPatternRules();
-      lt.activateDefaultFalseFriendRules();
       Tools.selectRules(lt, disabledRules, enabledRules);
       if (verbose) {
         lt.setOutput(System.err);
@@ -503,6 +498,11 @@ class Main {
 
     options.getLanguage().getSentenceTokenizer().setSingleLineBreaksMarksParagraph(
             options.isSingleLineBreakMarksParagraph());
+
+    if (options.getRuleFile() != null) {
+      options.getLanguage().addExternalRuleFile(options.getRuleFile());
+    }
+
     final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
             options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
             options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
@@ -535,7 +535,7 @@ class Main {
 
   private static void printLanguages() {
     final List<String> languages = new ArrayList<>();
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       languages.add(language.getShortNameWithCountryAndVariant() + " " + language.getName());
     }
     Collections.sort(languages);

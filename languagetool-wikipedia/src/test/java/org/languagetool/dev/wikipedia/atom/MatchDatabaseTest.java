@@ -20,6 +20,7 @@ package org.languagetool.dev.wikipedia.atom;
 
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.RuleMatch;
 
@@ -34,7 +35,7 @@ public class MatchDatabaseTest {
   
   @Test
   public void test() throws SQLException, ClassNotFoundException {
-    Language language = Language.getLanguageForShortName("de");
+    Language language = Languages.getLanguageForShortName("de");
     MatchDatabase database = new MatchDatabase("jdbc:derby:atomFeedChecksDB;create=true", "user", "pass");
     database.dropTables();
     database.createTables();

@@ -19,7 +19,6 @@
 package org.languagetool.rules;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,6 +27,7 @@ import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.patterns.PatternRule;
 
 public class RuleTest extends TestCase {
@@ -35,19 +35,17 @@ public class RuleTest extends TestCase {
   public void testJavaRules() throws IOException {
     final Set<String> ids = new HashSet<>();
     final Set<Class> ruleClasses = new HashSet<>();
-    if (Language.LANGUAGES.length <= 1) {
+    if (Languages.getWithDemoLanguage().size() <= 1) {
       System.err.println("***************************************************************************");
       System.err.println("WARNING: found only these languages - the tests might not be complete:");
-      System.err.println(Arrays.toString(Language.LANGUAGES));
+      System.err.println(Languages.getWithDemoLanguage());
       System.err.println("***************************************************************************");
     }
-    for (Language language : Language.LANGUAGES) {
+    for (Language language : Languages.getWithDemoLanguage()) {
       final JLanguageTool lt = new JLanguageTool(language);
       final List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
-        if (rule instanceof PatternRule) {
-          throw new RuntimeException("Did not expect PatternRule here: " + rule);
-        } else {
+        if (!(rule instanceof PatternRule)) {
           assertIdUniqueness(ids, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));

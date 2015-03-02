@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -27,12 +28,10 @@ import org.languagetool.rules.Category;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.AnalyzedGermanToken;
-import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.de.GermanToken;
 import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tools.StringTools;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -66,36 +65,6 @@ public class AgreementRule extends GermanRule {
     }
   }
 
-  /*
-   * City names are incoherently tagged in the Morphy data. To avoid
-   * false alarms on phrases like "das Berliner Auto" we have to
-   * explicitly add these adjective readings to "Berliner" and to all
-   * other potential city names:
-   */
-  private static final String[] ADJ_READINGS = {
-    // singular:
-    "ADJ:NOM:SIN:MAS:GRU", "ADJ:NOM:SIN:NEU:GRU", "ADJ:NOM:SIN:FEM:GRU",    // das Berliner Auto
-    "ADJ:GEN:SIN:MAS:GRU", "ADJ:GEN:SIN:NEU:GRU", "ADJ:GEN:SIN:FEM:GRU",    // des Berliner Autos 
-    "ADJ:DAT:SIN:MAS:GRU", "ADJ:DAT:SIN:NEU:GRU", "ADJ:DAT:SIN:FEM:GRU",    // dem Berliner Auto
-    "ADJ:AKK:SIN:MAS:GRU", "ADJ:AKK:SIN:NEU:GRU", "ADJ:AKK:SIN:FEM:GRU",    // den Berliner Bewohner
-    // plural:
-    "ADJ:NOM:PLU:MAS:GRU", "ADJ:NOM:PLU:NEU:GRU", "ADJ:NOM:PLU:FEM:GRU",    // die Berliner Autos
-    "ADJ:GEN:PLU:MAS:GRU", "ADJ:GEN:PLU:NEU:GRU", "ADJ:GEN:PLU:FEM:GRU",    // der Berliner Autos 
-    "ADJ:DAT:PLU:MAS:GRU", "ADJ:DAT:PLU:NEU:GRU", "ADJ:DAT:PLU:FEM:GRU",    // den Berliner Autos
-    "ADJ:AKK:PLU:MAS:GRU", "ADJ:AKK:PLU:NEU:GRU", "ADJ:AKK:PLU:FEM:GRU",    // den Berliner Bewohnern
-  };
-  
-  /*
-   * The heuristic of maybeAddAdjectiveReadings considers every noun ending with "er" as city name.
-   * The nouns in this list are NOT considered as city names.
-   * NOTE: Only nouns for which cutting off the final "er" produces a valid noun must be added to this list.
-   */
-  private static final Set<String> ER_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
-    "Alter",
-    "Kinder",
-    "Rinder"
-  ));
-  
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
     "viele",
     "vieler",
@@ -185,9 +154,7 @@ public class AgreementRule extends GermanRule {
     
   public AgreementRule(final ResourceBundle messages, German language) {
     this.language = language;
-    if (messages != null) {
-      super.setCategory(new Category(messages.getString("category_grammar")));
-    }
+    super.setCategory(new Category(messages.getString("category_grammar")));
     addExamplePair(Example.wrong("<marker>Der Haus</marker> wurde letztes Jahr gebaut."),
                    Example.fixed("<marker>Das Haus</marker> wurde letztes Jahr gebaut"));
   }
@@ -251,7 +218,6 @@ public class AgreementRule extends GermanRule {
           break;
         }
         AnalyzedTokenReadings nextToken = tokens[tokenPos];
-        nextToken = maybeAddAdjectiveReadings(nextToken, tokens, tokenPos);
         if (isNonPredicativeAdjective(nextToken) || isParticiple(nextToken)) {
           tokenPos = i + 2; 
           if (tokenPos >= tokens.length) {
@@ -317,39 +283,6 @@ public class AgreementRule extends GermanRule {
     return relevantPronoun;
   }
 
-  // see the comment at ADJ_READINGS:
-  private AnalyzedTokenReadings maybeAddAdjectiveReadings(AnalyzedTokenReadings nextToken,
-      AnalyzedTokenReadings[] tokens, int tokenPos) {
-    final String nextTerm = nextToken.getToken();
-    // Just a heuristic: nouns and proper nouns that end with "er" are considered
-    // city names:
-    if (nextTerm.endsWith("er") && tokens.length > tokenPos+1 && !ER_TO_BE_IGNORED.contains(nextTerm)) {
-      final AnalyzedTokenReadings nextNextToken = tokens[tokenPos+1];
-      final GermanTagger tagger = (GermanTagger)language.getTagger();
-      try {
-        final AnalyzedTokenReadings nextATR = tagger.lookup(nextTerm.substring(0, nextTerm.length()-2));
-        final AnalyzedTokenReadings nextNextATR = tagger.lookup(nextNextToken.getToken());
-        //System.err.println("nextATR: " + nextATR);
-        //System.err.println("nextNextATR: " + nextNextATR);
-        // "Münchner": special case as cutting off last two characters doesn't produce city name:
-        if ("Münchner".equals(nextTerm) ||
-            (nextATR != null &&
-            // tagging in Morphy for cities is not coherent:
-            (GermanHelper.hasReadingOfType(nextATR, POSType.PROPER_NOUN) || GermanHelper.hasReadingOfType(nextATR, POSType.NOMEN) &&
-            nextNextATR != null && GermanHelper.hasReadingOfType(nextNextATR, POSType.NOMEN)))) {
-          final AnalyzedToken[] adjReadings = new AnalyzedToken[ADJ_READINGS.length];
-          for (int j = 0; j < ADJ_READINGS.length; j++) {
-            adjReadings[j] = new AnalyzedToken(nextTerm, ADJ_READINGS[j], null);
-          }
-          nextToken = new AnalyzedTokenReadings(adjReadings, nextToken.getStartPos());
-        }
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-    }
-    return nextToken;
-  }
-
   // TODO: improve this so it only returns true for real relative clauses
   private boolean couldBeRelativeClause(AnalyzedTokenReadings[] tokens, int pos) {
     boolean comma;
@@ -375,6 +308,7 @@ public class AgreementRule extends GermanRule {
     return false;
   }
 
+  @Nullable
   private RuleMatch checkDetNounAgreement(final AnalyzedTokenReadings token1,
       final AnalyzedTokenReadings token2) {
     if (NOUNS_TO_BE_IGNORED.contains(token2.getToken())) {
@@ -427,9 +361,9 @@ public class AgreementRule extends GermanRule {
 
   private RuleMatch checkDetAdjNounAgreement(final AnalyzedTokenReadings token1,
       final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
-    final Set<String> set = retainCommonCategories(token1, token2, token3, null);
+    final Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
-    if (set.size() == 0) {
+    if (set == null || set.size() == 0) {
       // TODO: more detailed error message:
       final String msg = "Möglicherweise fehlende grammatische Übereinstimmung zwischen Artikel, Adjektiv und " +
             "Nomen bezüglich Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
@@ -460,16 +394,11 @@ public class AgreementRule extends GermanRule {
     set1.retainAll(set2);
     return set1.size() > 0;
   }
-  
-  private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1, 
-      final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3,
-      final GrammarCategory categoryToRelax) {
-    final Set<GrammarCategory> categoryToRelaxSet;
-    if (categoryToRelax == null) {
-      categoryToRelaxSet = Collections.singleton(categoryToRelax);
-    } else {
-      categoryToRelaxSet = Collections.emptySet();
-    }
+
+  @Nullable
+  private Set<String> retainCommonCategories(final AnalyzedTokenReadings token1,
+                                             final AnalyzedTokenReadings token2, final AnalyzedTokenReadings token3) {
+    final Set<GrammarCategory> categoryToRelaxSet = Collections.emptySet();
     final Set<String> set1 = getAgreementCategories(token1, categoryToRelaxSet, true);
     if (set1 == null) {
       return null;  // word not known, assume it's correct

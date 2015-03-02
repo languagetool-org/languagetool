@@ -26,10 +26,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 
 /**
  * Tag text and display only POS tags to create an n-gram language model.
@@ -52,7 +49,7 @@ public final class POSTagLanguageModel {
     Language language = null;
     boolean foundLanguage = false;
     final List<String> supportedLanguages = new ArrayList<>();
-    for (final Language tmpLang : Language.LANGUAGES) {
+    for (final Language tmpLang : Languages.get()) {
       supportedLanguages.add(tmpLang.getShortName());
       if (lang.equals(tmpLang.getShortName())) {
         language = tmpLang;

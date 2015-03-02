@@ -20,13 +20,13 @@
 package org.languagetool.rules.patterns;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -48,10 +48,6 @@ public class Unifier {
    */
   private final List<List<Map<String, Set<String>>>> tokSequenceEquivalences;
 
-  private boolean allFeatsIn;
-  private int tokCnt;
-  private int readingsCounter;
-
   /**
    * A Map for storing the equivalence types for features. Features are
    * specified as Strings, and map into types defined as maps from Strings to
@@ -69,26 +65,20 @@ public class Unifier {
    */
   private final List<Map<String, Set<String>>> equivalencesMatched;
 
+  private boolean allFeatsIn;
+  private int tokCnt;
+  private int readingsCounter;
 
-
-  /**
-   * Marks found interpretations in subsequent tokens.
-   */
+  // Marks found interpretations in subsequent tokens:
   private List<Boolean> featuresFound;
 
-  /**
-   * For checking the current token.
-   */
+  // For checking the current token:
   private List<Boolean> tmpFeaturesFound;
 
-  /**
-   * Maps that store equivalences to be removed or kept after every next token has been analyzed
-   */
+  // Maps that store equivalences to be removed or kept after every next token has been analyzed:
   private final Map<String, Set<String>> equivalencesToBeKept;
 
-  /**
-   * stores uFeatures to keep the same signature of some methods...
-   */
+  // stores uFeatures to keep the same signature of some methods...:
   private Map<String, List<String>> unificationFeats;
 
   private boolean inUnification;
@@ -256,16 +246,16 @@ public class Unifier {
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         for (Map.Entry<String, List<String>> feat : equivalenceFeatures.entrySet()) {
           if (!UNIFY_IGNORE.equals(feat.getKey())) {
-              if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey())) {
-                if (equivalencesToBeKept.containsKey(feat.getKey())) {
-                  tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
-                } else {
-                  tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
-                }
+            if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey())) {
+              if (equivalencesToBeKept.containsKey(feat.getKey())) {
+                tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).retainAll(equivalencesToBeKept.get(feat.getKey()));
+              } else {
+                tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
               }
-            } else {
-              tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
             }
+          } else {
+            tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
+          }
         }
       }
     }
@@ -293,12 +283,14 @@ public class Unifier {
   public final boolean getFinalUnificationValue(final Map<String, List<String>> uFeatures) {
     int tokUnified = 0;
     for (int j = 0; j < tokSequence.size(); j++) {
+      boolean unifiedTokensFound = false; // assume that nothing has been found
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         int featUnified = 0;
         if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
           if (i == 0) {
             tokUnified++;
           }
+          unifiedTokensFound = true;
           continue;
         } else {
           for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
@@ -310,6 +302,7 @@ public class Unifier {
             }
             if (featUnified == unificationFeats.entrySet().size() && tokUnified <= j) {
               tokUnified++;
+              unifiedTokensFound = true;
               break;
             }
           }
@@ -318,6 +311,8 @@ public class Unifier {
           return true;
         }
       }
+      if (!unifiedTokensFound)
+        return false;
     }
     return false;
   }
@@ -343,31 +338,38 @@ public class Unifier {
    * Gets a full sequence of filtered tokens.
    * 
    * @return Array of AnalyzedTokenReadings that match equivalence relation
-   *         defined for features tested.
+   *         defined for features tested, or {@code null}
    */
+  @Nullable
   public final AnalyzedTokenReadings[] getUnifiedTokens() {
     if (tokSequence.isEmpty()) {
       return null;
     }
     List<AnalyzedTokenReadings> uTokens = new ArrayList<>();
     for (int j = 0; j < tokSequence.size(); j++) {
+      boolean unifiedTokensFound = false; // assume that nothing has been found
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         int featUnified = 0;
         if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
           addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
+          unifiedTokensFound = true;
         } else {
-        for (final Map.Entry<String, List<String>> feat : unificationFeats.entrySet()) {
+          for (final Map.Entry<String, List<String>> feat : unificationFeats.entrySet()) {
             if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey()) &&
-                tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).isEmpty()) {
+                    tokSequenceEquivalences.get(j).get(i).get(feat.getKey()).isEmpty()) {
               featUnified = 0;
             } else {
               featUnified++;
             }
             if (featUnified == unificationFeats.entrySet().size()) {
               addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
-          }
+              unifiedTokensFound = true;
+            }
           }
         }
+      }
+      if (!unifiedTokensFound) {
+        return null;
       }
     }
     return uTokens.toArray(new AnalyzedTokenReadings[uTokens.size()]);
@@ -459,8 +461,9 @@ public class Unifier {
    * Used for getting a unified sequence in case when simple test method
    * {@link #isUnified(org.languagetool.AnalyzedToken, java.util.Map, boolean)}} was used.
    * 
-   * @return An array of {@link AnalyzedTokenReadings}
+   * @return An array of {@link AnalyzedTokenReadings} or {@code null} when not in unification
    */
+  @Nullable
   public final AnalyzedTokenReadings[] getFinalUnified() {
     if (inUnification) {
       return getUnifiedTokens();

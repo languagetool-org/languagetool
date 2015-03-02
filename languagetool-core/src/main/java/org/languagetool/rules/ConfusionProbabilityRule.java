@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -116,6 +117,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   }
 
   // non-private for tests
+  @Nullable
   String getBetterAlternativeOrNull(AnalyzedTokenReadings[] tokens, int pos, ConfusionSet confusionSet) {
     AnalyzedTokenReadings token = tokens[pos];
     //
@@ -151,6 +153,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
     return betterAlternative;
   }
 
+  @Nullable
   private String getStringAtOrNull(AnalyzedTokenReadings[] tokens, int i) {
     if (i == -1) {
       // Note: we should use LanguageModel.GOOGLE_SENTENCE_START, but this is not in the v1 data from Google:

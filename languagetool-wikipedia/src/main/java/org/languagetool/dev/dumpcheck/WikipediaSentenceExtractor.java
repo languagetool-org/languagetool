@@ -19,6 +19,7 @@
 package org.languagetool.dev.dumpcheck;
 
 import org.languagetool.Language;
+import org.languagetool.Languages;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -61,6 +62,6 @@ class WikipediaSentenceExtractor {
   public static void main(String[] args) throws IOException {
     checkUsageOrExit(args);
     WikipediaSentenceExtractor extractor = new WikipediaSentenceExtractor();
-    extractor.extract(Language.getLanguageForShortName(args[0]), args[1]);
+    extractor.extract(Languages.getLanguageForShortName(args[0]), args[1]);
   }
 }

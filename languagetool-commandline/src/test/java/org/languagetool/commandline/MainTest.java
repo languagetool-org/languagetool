@@ -36,6 +36,7 @@ import java.io.PrintWriter;
 public class MainTest extends AbstractSecurityTestCase {
 
   private final File enTestFile;
+  private final File xxRuleFile;
 
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
@@ -47,6 +48,15 @@ public class MainTest extends AbstractSecurityTestCase {
     enTestFile = writeToTempFile("This is an test.\n\n" +
         "This is a test of of language tool.\n\n" +
         "This is is a test of language tool.");
+    xxRuleFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+        "<rules lang=\"en\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+        "xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
+             "<category name=\"trivial category\">\n" +
+        "<rule id=\"EXAMPLE_RULE\" name=\"External rule to test\">\n" +
+            "<pattern><token>language</token><token>tool</token></pattern>\n" +
+            "<message>This is wrong!</message>\n" +
+            "<example correction=\"\">language tool</example>\n" +
+            "</rule></category></rules>");
   }
 
   @Override
@@ -91,6 +101,15 @@ public class MainTest extends AbstractSecurityTestCase {
       assertTrue(output.contains("English"));
       assertEquals("Exit status", 0, e.status);
     }
+  }
+
+  public void testFileWithExternalRule() throws Exception {
+    //note: we pretend this is Breton because the English language tool is already initialized
+    final String[] args = {"-l", "br", "--rulefile", getRuleFilePath(), getTestFilePath()};
+    Main.main(args);
+    final String output = new String(this.out.toByteArray());
+    assertTrue(output.indexOf("Expected text language: Breton") == 0);
+    assertTrue(output.contains("Rule ID: EXAMPLE_RULE"));
   }
 
   public void testEnglishFile() throws Exception {
@@ -482,8 +501,26 @@ public class MainTest extends AbstractSecurityTestCase {
     return input;
   }
 
+  private File writeToTempXMLFile(String content) throws IOException {
+    final File tempFile = createTempXMLFile();
+    try (PrintWriter writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(tempFile), "UTF-8"))) {
+      writer.println(content);
+    }
+    return tempFile;
+  }
+
+  private File createTempXMLFile() throws IOException {
+    final File input = File.createTempFile("rules-xx-", ".xml");
+    input.deleteOnExit();
+    return input;
+  }
+
   private String getTestFilePath() {
     return enTestFile.getAbsolutePath();
+  }
+
+  private String getRuleFilePath() {
+    return xxRuleFile.getAbsolutePath();
   }
 
 }

@@ -37,6 +37,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.commons.lang.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.IncorrectExample;
 import org.xml.sax.Attributes;
@@ -167,16 +168,16 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
     } else if (qName.equals(PATTERN)) {
       inPattern = true;
       final String languageStr = attrs.getValue("lang");
-      if (Language.isLanguageSupported(languageStr)) {
-        language = Language.getLanguageForShortName(languageStr);
+      if (Languages.isLanguageSupported(languageStr)) {
+        language = Languages.getLanguageForShortName(languageStr);
       }
     } else if (qName.equals(TOKEN)) {
       setToken(attrs);
     } else if (qName.equals(TRANSLATION)) {
       inTranslation = true;
       final String languageStr = attrs.getValue("lang");
-      if (Language.isLanguageSupported(languageStr)) {
-        final Language tmpLang = Language.getLanguageForShortName(languageStr);
+      if (Languages.isLanguageSupported(languageStr)) {
+        final Language tmpLang = Languages.getLanguageForShortName(languageStr);
         currentTranslationLanguage = tmpLang;
         if (tmpLang.equalsConsiderVariantsIfSpecified(motherTongue)) {
           translationLanguage = tmpLang;

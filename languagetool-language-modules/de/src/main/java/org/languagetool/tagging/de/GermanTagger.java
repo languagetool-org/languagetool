@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
@@ -57,6 +58,7 @@ public class GermanTagger extends BaseTagger {
   /**
    * Return only the first reading of the given word or {@code null}.
    */
+  @Nullable
   public AnalyzedTokenReadings lookup(String word) throws IOException {
     List<AnalyzedTokenReadings> result = tag(Collections.singletonList(word), false);
     AnalyzedTokenReadings atr = result.get(0);

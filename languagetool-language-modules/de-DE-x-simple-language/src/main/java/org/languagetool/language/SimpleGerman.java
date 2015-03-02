@@ -37,16 +37,6 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public String[] getUnpairedRuleStartSymbols() {
-    return new String[]{};
-  }
-
-  @Override
-  public String[] getUnpairedRuleEndSymbols() {
-    return new String[]{};
-  }
-
-  @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
         new Contributor("Annika Nietzio")

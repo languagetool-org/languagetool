@@ -20,6 +20,7 @@ package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -46,7 +47,7 @@ final class PerformanceTest2 {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     System.out.println("Text length: " + text.length());
     Random rnd = new Random(42);
-    Language language = Language.getLanguageForShortName(languageCode);
+    Language language = Languages.getLanguageForShortName(languageCode);
     long totalTime = 0;
     for (int i = 0; i < RUNS; i++) {
       int beginIndex = rnd.nextInt(text.length());
@@ -54,7 +55,6 @@ final class PerformanceTest2 {
       String subText = text.substring(beginIndex, endIndex);
       long startTime = System.currentTimeMillis();
       JLanguageTool langTool = new MultiThreadedJLanguageTool(language);
-      langTool.activateDefaultPatternRules();
       List<RuleMatch> matches = langTool.check(subText);
       long runTime = System.currentTimeMillis() - startTime;
       if (i >= SKIP) {

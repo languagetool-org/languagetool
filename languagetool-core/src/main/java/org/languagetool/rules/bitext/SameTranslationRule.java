@@ -60,8 +60,8 @@ public class SameTranslationRule extends BitextRule {
     if (sourceText.getTokensWithoutWhitespace().length > 3 
         && getPureText(sourceText).equals(getPureText(targetText))) {
       final AnalyzedTokenReadings[] tokens = targetText.getTokens();
-      final int len = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
-      return new RuleMatch[] { new RuleMatch(this, 1, len, getMessage()) };
+      final int endPos = tokens[tokens.length - 1].getStartPos() + tokens[tokens.length - 1].getToken().length();
+      return new RuleMatch[] { new RuleMatch(this, 1, endPos, getMessage()) };
     }
     return new RuleMatch[0];
   }

@@ -10,11 +10,22 @@ LanguageTool Change Log
 -Esperanto:
     -added a few new rules
 
+-French
+    -updated POS tag dictionary and Hunspell dictionary to Dicollecte-5.3
+
 -Italian:
     -improved a few rules
 
 -German:
     -added a few new rules
+    -Added a new rule that checks for subject verb agreement. For now, only cases
+     with 'ist', 'sind', 'war', and 'waren' are supported. Example for errors that
+     are detected: 'Der Hund sind schön.', 'Die Autos ist schnell.'
+     To make this rule work, phrases are now unified in disambiguation.xml: for
+     example, 'Mann' in the phrase 'ein Mann' will only retain its nominative
+     reading (SUB:NOM:SIN:MAS), whereas it used to have also accusative and
+     dative readings (SUB:AKK:SIN:MAS, SUB:DAT:SIN:MAS).
+     (https://github.com/languagetool-org/languagetool/issues/233)
 
 -Polish:
     -added a few new rules
@@ -24,10 +35,10 @@ LanguageTool Change Log
     -added many dozens of compound words
 
 -Russian:
-     -added and improved rules
+    -added and improved rules
 
 -Bitext rules:
-     -added a simple rule for checking whether translations end with the same punctuation
+    -added a simple rule for checking whether translations end with the same punctuation
      mark as the original (this includes only .?! characters).
 
 -Spelling:
@@ -39,11 +50,39 @@ LanguageTool Change Log
      misspelled words.
 
 -API:
+    -JLanguageTool.activateDefaultPatternRules() and
+     JLanguageTool.activateDefaultFalseFriendRules() have been removed - all
+     pattern rules and false friend rules (if a second language is specified)
+     are now activated automatically when the constructor of JLanguageTool is called.
+     Should you need a checker without the XML-based pattern rules, extend your
+     language class (e.g. 'English') with one that overwrites the getPatternRules()
+     method and returns an empty list there.
+    -ManualTagger.lookup() has been replaced by ManualTagger.tag() after being
+     deprecated since the latest release
+    -All static methods and fields from class 'Language' have been moved to the new
+     class 'Languages'. For now, the methods/fields in class Language still exist
+     but have been deprecated.
     -LanguageIdentifierTools has been removed. Use LanguageIdentifier instead.
+    -Removed (Default)ResourceDataBroker.setResourceDir() and setRulesDir()
+     as these can be set with the constructor
+    -Cleaned up up class Contributor, e.g. removing getRemark()
+    -Category.setDefaultOff() has been removed, this can be set via constructor now
+    -Other small API cleanups that shouldn't affect the common use cases,
+     e.g. IncorrectExample.getCorrections() returns and unmodifiable list now,
+     removal of deprecated methods.
 
 -Embedded server:
     -XML escaping has been fixed, this could cause invalid XML documents
      to be returned
+    -new config file option 'maxWorkQueueSize' that lets you set the maximum
+     size of the request queue - if it gets larger than this, requests will
+     be rejected (503 Service unavailable)
+
+-Command-line:
+    -It is now possible to add an external rule file when calling LanguageTool from the
+     command line. Use --rulefile <file> to add a file. If the file name has a format
+     that contains a language name, it will be used alongside other rules; otherwise,
+     it will replace the rules. This fixes github issue #192.
 
 -Rule syntax:
     -A rule may now have a single example sentence as long as it has a 'correction'

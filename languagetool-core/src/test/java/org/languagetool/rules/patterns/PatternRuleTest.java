@@ -71,7 +71,7 @@ public class PatternRuleTest extends TestCase {
    */
   protected void runGrammarRulesFromXmlTest(Language ignoredLanguage) throws IOException {
     int count = 0;
-    for (final Language lang : Language.REAL_LANGUAGES) {
+    for (final Language lang : Languages.get()) {
       if (ignoredLanguage.getShortNameWithCountryAndVariant().equals(lang.getShortNameWithCountryAndVariant())) {
         continue;
       }
@@ -87,10 +87,10 @@ public class PatternRuleTest extends TestCase {
    * To be called from language modules. Language.REAL_LANGUAGES knows only the languages that's in the classpath.
    */
   protected void runGrammarRulesFromXmlTest() throws IOException {
-    for (final Language lang : Language.REAL_LANGUAGES) {
+    for (final Language lang : Languages.get()) {
       runGrammarRuleForLanguage(lang);
     }
-    if (Language.REAL_LANGUAGES.length == 0) {
+    if (Languages.get().size() == 0) {
       System.err.println("Warning: no languages found in classpath - cannot run any grammar rule tests");
     }
   }
@@ -111,7 +111,7 @@ public class PatternRuleTest extends TestCase {
         hasGrammarFiles = true;
       }
     }
-    return !hasGrammarFiles && Language.REAL_LANGUAGES.length > 1;
+    return !hasGrammarFiles && Languages.get().size() > 1;
   }
 
   private List<String> getGrammarFileNames(Language lang) {
@@ -123,7 +123,7 @@ public class PatternRuleTest extends TestCase {
       if (shortNameWithVariant.contains("-x-")) {
         fileName = lang.getShortName() + "/" + nameOnly;
       } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
-              && !shortNameWithVariant.endsWith("-ANY") && Language.REAL_LANGUAGES.length > 1) {
+              && !shortNameWithVariant.endsWith("-ANY") && Languages.get().size() > 1) {
         fileName = lang.getShortName() + "/" + shortNameWithVariant + "/" + nameOnly;
       } else {
         fileName = lang.getShortName() + "/" + nameOnly;
@@ -136,8 +136,8 @@ public class PatternRuleTest extends TestCase {
   }
 
   private void runGrammarRulesFromXmlTestIgnoringLanguages(Set<Language> ignoredLanguages) throws IOException {
-    System.out.println("Known languages: " + Arrays.toString(Language.LANGUAGES));
-    for (final Language lang : Language.LANGUAGES) {
+    System.out.println("Known languages: " + Languages.getWithDemoLanguage());
+    for (final Language lang : Languages.getWithDemoLanguage()) {
       if (ignoredLanguages != null && ignoredLanguages.contains(lang)) {
         continue;
       }
@@ -150,11 +150,9 @@ public class PatternRuleTest extends TestCase {
     System.out.print("Running pattern rule tests for " + lang.getName() + "... ");
     final JLanguageTool languageTool = new MultiThreadedJLanguageTool(lang);
     if (CHECK_WITH_SENTENCE_SPLITTING) {
-      languageTool.activateDefaultPatternRules();
       disableSpellingRules(languageTool);
     }
     final JLanguageTool allRulesLanguageTool = new MultiThreadedJLanguageTool(lang);
-    allRulesLanguageTool.activateDefaultPatternRules();
     validateRuleIds(lang, allRulesLanguageTool);
     final List<PatternRule> rules = new ArrayList<>();
     for (String patternRuleFileName : lang.getRuleFileNames()) {

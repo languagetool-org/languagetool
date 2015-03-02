@@ -36,6 +36,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
@@ -52,7 +53,7 @@ public class Indexer implements AutoCloseable {
 
   static final String TITLE_FIELD_NAME = "title";
 
-  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_1;
+  private static final Version LUCENE_VERSION = Version.LUCENE_4_10_3;
 
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
@@ -105,7 +106,7 @@ public class Indexer implements AutoCloseable {
     try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
       System.out.println("Indexing to directory '" + indexDir + "'...");
       try (FSDirectory directory = FSDirectory.open(new File(indexDir))) {
-        final Language language = Language.getLanguageForShortName(languageCode);
+        final Language language = Languages.getLanguageForShortName(languageCode);
         try (Indexer indexer = new Indexer(directory, language)) {
           indexer.indexText(reader);
         }

@@ -20,8 +20,13 @@ CPATH=$LIBDIR/lucene-gosen-ipadic.jar:$LIBDIR/ictclas4j.jar:$LIBDIR/cjftransform
 #JAVA_OPTS="-Xverify:none"
 
 # For JMC
-JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
-export PATH=/usr/java/latest/bin:$PATH
+#JAVA_OPTS="-XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:FlightRecorderOptions=defaultrecording=true,dumponexit=true,dumponexitpath=dumponexit.jfr"
+#export PATH=/usr/java/latest/bin:$PATH
+
+THREAD_CNT=`more /proc/cpuinfo | grep processor| wc -l`
+(( THREAD_CNT += 0 ))
+echo "Using $THREAD_CNT threads"
+JAVA_OPTS="$JAVA_OPTS -Dorg.languagetool.thread_count_internal=$THREAD_CNT"
 
 
 #RULES_TO_FIX="UPPERCASE_SENTENCE_START,DOUBLE_PUNCTUATION"
@@ -38,7 +43,7 @@ function run_lt()
 {
   SRC="$1"
   ID="$2"
-    java $JAVA_OPTS -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH -Dorg.languagetool.tagging.uk.UkrainianTagger.debugCompounds=true \
+    java $JAVA_OPTS -cp $BASE1:$BASE2:$BASE3:$BASE4:$CPATH -Dorg.languagetool.tagging.uk.UkrainianTagger.debugCompounds=false \
        org.languagetool.commandline.Main -l uk -d $RULES_TO_IGNORE $SRC | \
       sed -r "s/^[0-9]+\.\) //" | grep -vE "^Line|Suggestion" > checked$ID.out
 
@@ -64,8 +69,10 @@ function run_full_test()
   else
     run_lt $SRC $ID
     diff checked$ID.out.bak checked$ID.out > checked$ID.out.diff
-    mv compounds-unknown.txt tools/compounds-unknown.$ID.txt
-    mv compounds-tagged.txt tools/compounds-tagged.$ID.txt
+    [ -f compounds-unknown.txt ] && {
+      mv compounds-unknown.txt tools/compounds-unknown.$ID.txt
+      mv compounds-tagged.txt tools/compounds-tagged.$ID.txt
+    }
   fi
   echo "Done [$ID]"
 }

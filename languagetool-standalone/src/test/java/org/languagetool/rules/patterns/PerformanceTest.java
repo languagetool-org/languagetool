@@ -19,7 +19,7 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.tools.StringTools;
 
@@ -38,7 +38,6 @@ final class PerformanceTest {
   private void run(JLanguageTool langTool, File textFile) throws IOException {
     String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
     int sentenceCount = langTool.sentenceTokenize(text).size();
-    langTool.activateDefaultPatternRules();
     //langTool.activateLanguageModelRules(new File("/data/google-ngram-index/"));
     System.out.println("Language: " +  langTool.getLanguage() +
                        ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
@@ -66,8 +65,8 @@ final class PerformanceTest {
     PerformanceTest test = new PerformanceTest();
     String languageCode = args[0];
     File textFile = new File(args[1]);
-    //JLanguageTool langTool = new JLanguageTool(Language.getLanguageForShortName(languageCode));
-    JLanguageTool langTool = new MultiThreadedJLanguageTool(Language.getLanguageForShortName(languageCode));
+    //JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortName(languageCode));
+    JLanguageTool langTool = new MultiThreadedJLanguageTool(Languages.getLanguageForShortName(languageCode));
     test.run(langTool, textFile);
   }
 

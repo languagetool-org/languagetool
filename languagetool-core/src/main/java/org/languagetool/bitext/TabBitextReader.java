@@ -19,6 +19,8 @@
 
 package org.languagetool.bitext;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -55,6 +57,7 @@ public class TabBitextReader implements BitextReader {
     }
   }
 
+  @Nullable
   protected StringPair tab2StringPair(final String line) {
     if (line == null) {
       return null;

@@ -235,7 +235,20 @@ $Id$
                 <example correction="кВт⋅ч">Потребление электроэнергии составляет 100 <marker>кВт/ч</marker>.</example>
                 <example>Потребление электроэнергии составило 100 кВт*ч.</example>
                 <example>Потребление электроэнергии составляет 100 кВт⋅ч.</example>
-            </rule>          
+            </rule>
+              <rule> 
+                <pattern>
+                    <token>kW</token>
+                    <token>/</token>
+                    <token>h</token>
+                </pattern>
+                <message>Имелось в виду <suggestion>kW·h</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%9A%D0%B8%D0%BB%D0%BE%D0%B2%D0%B0%D1%82%D1%82-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example correction="kW·h">Потребление электроэнергии составляет 100 <marker>kW/h</marker>.</example>
+                <example>Потребление электроэнергии составило 100 kWh.</example>
+                <example>Потребление электроэнергии составило 100 kW·h.</example>
+            </rule>           
         </rulegroup>
         <rulegroup id="А.H" name="Обозначение физических величин «А⋅ч»">
             <rule> 
@@ -251,6 +264,19 @@ $Id$
                 <example>Ёмкость аккумулятора составляет 60 А*ч.</example>
                 <example>Ёмкость аккумулятора составляет 60 А⋅ч.</example>
             </rule>
+            <rule> 
+                <pattern>
+                    <token>A</token>
+                    <token>/</token>  
+                    <token>h</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>A⋅h</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example correction="A⋅h">Ёмкость аккумулятора составляет 60 <marker>A/h</marker>.</example>
+                <example>Ёмкость аккумулятора составляет 60 A*h.</example>
+                <example>Ёмкость аккумулятора составляет 60 A⋅h.</example>
+            </rule>
              <rule> 
                 <pattern>
                     <token>мА</token>
@@ -263,6 +289,19 @@ $Id$
                 <example correction="мА⋅ч">Ёмкость аккумулятора составляет 900 <marker>мА/ч</marker>.</example>
                 <example>Ёмкость аккумулятора составляет 900 мА*ч.</example>
                 <example>Ёмкость аккумулятора составляет 900 мА⋅ч.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>mA</token>
+                    <token>/</token>  
+                    <token>h</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>mA⋅h</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%90%D0%BC%D0%BF%D0%B5%D1%80-%D1%87%D0%B0%D1%81</url>
+                <short>Логическая ошибка.</short>
+                <example correction="mA⋅h">Ёмкость аккумулятора составляет 500 <marker>mA/h</marker>.</example>
+                <example>Ёмкость аккумулятора составляет 500 mA*h.</example>
+                <example>Ёмкость аккумулятора составляет 500 mA⋅h.</example>
             </rule>            
         </rulegroup>
         <rulegroup id="V.А" name="Обозначение физических величин «В⋅А»">
@@ -278,6 +317,19 @@ $Id$
                 <example correction="В⋅А">Мощность ИБП составляет 500 <marker>В/А</marker>.</example>
                 <example>Мощность ИБП составляет 500 В*А.</example>
                 <example>Мощность ИБП составляет 500 В⋅А.</example>
+            </rule>
+            <rule> 
+                <pattern>
+                    <token>V</token>
+                    <token>/</token>  
+                    <token>A</token>          
+                </pattern>
+                <message>Имелось в виду <suggestion>V⋅A</suggestion>?</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%BE%D0%BB%D1%8C%D1%82-%D0%B0%D0%BC%D0%BF%D0%B5%D1%80</url>
+                <short>Логическая ошибка.</short>
+                <example correction="V⋅A">Мощность ИБП составляет 500 <marker>V/A</marker>.</example>
+                <example>Мощность ИБП составляет 500 V*A.</example>
+                <example>Мощность ИБП составляет 500 V⋅A.</example>
             </rule>
             <rule> 
                 <pattern>
@@ -2217,7 +2269,7 @@ $Id$
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Masc:Sin:.*"></exception></token>
                     <marker>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Masc:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Masc:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                        <token postag="NN:Masc:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Masc:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>               
@@ -2228,12 +2280,12 @@ $Id$
                 <example correction="добротный дом">Был построен <marker>добротная дом</marker>.</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern>  
                     <!--           ADJ:Fem   NN:Fem    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Fem:Sin:.*"></exception></token>
                     <marker>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Fem:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Fem:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                        <token postag="NN:Fem:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Fem:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>               
@@ -2244,12 +2296,12 @@ $Id$
                 <example correction="пушистая кошка|пушистую кошка">Эта <marker>пушистое кошка</marker> грелась.</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern>  
                     <!--           ADJ:Neut   NN:Neut    -->
                     <token postag="SENT_START" skip="-1"><exception scope="next" postag_regexp="yes" postag="NN:Neut:Sin:.*"></exception></token>
                     <marker>
                         <token postag="ADJ:.*:.*" postag_regexp="yes"><exception postag="ADJ:Neut:.*" postag_regexp="yes"></exception><exception negate_pos="yes" postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NumC:.*|Num:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Digit}]*</exception><exception postag="ADJ:PL:.*" postag_regexp="yes"></exception></token>
-                        <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:Neut:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
+                        <token postag="NN:Neut:Sin:.*" skip="-1" postag_regexp="yes"><exception negate_pos="yes" postag="NN:Neut:Sin:.*" postag_regexp="yes"></exception><exception postag="NN:.*:Sin:.*" scope="next" postag_regexp="yes"></exception></token>
                     </marker>
                     <token regexp="yes">[.;]</token>
                 </pattern>
@@ -3393,6 +3445,16 @@ $Id$
                 <example>Мы видели её в окне.</example>
                 <example correction="в окне">Мы видели её <marker>во окне</marker>.</example>
             </rule>
+              <rule>
+                <pattern>
+                    <token>в</token>
+                    <token regexp="yes">фра.*</token>
+                </pattern>
+                <message>Неправильная форма предлога: <suggestion>во \2</suggestion>.</message>
+                <short>Беглая гласная.</short>
+                <example>Мы отправили её во Францию.</example>
+                <example correction="во Францию">Мы отправили её <marker>в Францию</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>ко</token>
@@ -3644,21 +3706,22 @@ $Id$
             <example correction="без неё">Всё было сделано <marker>без ней</marker>.</example>
         </rule>
         
-  <!--       <rule>
-            <pattern>   -->
+        <rule>
+            <pattern>   
                 <!--       
 без него(неё),  в (), для(), до(), за(), из(), к(), на(), но(), о(), от(), по(), под(), перед(), при(), про(), с(), у(), через() 
 наречные предлоги: возле, вокруг, впереди, мимо, напротив, около, после, посереди, сзади него.
                 -->
-<!--                <token regexp="yes">без|для|до|от|в|за|из|к|на|но|о|по|под|перед|при|про|с|у|через|возле|вокруг|впереди|мимо|напротив|около|после|посереди|сзади</token>
-                <token>его</token>
+            <token>сзади</token>
+            <!--  |для|до|от|в|за|из|к|на|но|о|по|под|перед|при|про|с|у|через|возле|вокруг|впереди|мимо|напротив|около|после|посереди   -->
+            <token>его</token>
             </pattern>
             <message>Нормативная форма - него: <suggestion>\1 него</suggestion>.</message>
             <url>http://ru.wikipedia.org/wiki/%D0%9B%D0%B8%D1%87%D0%BD%D1%8B%D0%B5_%D0%BC%D0%B5%D1%81%D1%82%D0%BE%D0%B8%D0%BC%D0%B5%D0%BD%D0%B8%D1%8F</url>
-            <short>Нормативная форма - неё</short>
-            <example>Всё было сделано без него</example>
-            <example correction="У неё">Всё было сделано <marker>без его</marker>.</example>
-        </rule>  -->
+            <short>Нормативная форма - него</short>
+            <example>сзади него</example>
+            <example correction="сзади него"><marker>сзади его</marker>.</example>
+        </rule>  
    <!--      <rule>
             <pattern>  -->
                 <!--       
@@ -3962,7 +4025,7 @@ $Id$
             <pattern>
                 <token>в</token>
                 <token>течении</token>
-                <token regexp="yes">часа|минуты|промежутка|секунды|дня|времени|недели|месяца|года|столетия|тысячелетия</token>
+                <token regexp="yes">часа|минуты|промежутка|секунды|дня|суток|времени|недели|месяца|года|столетия|тысячелетия</token>
             </pattern>
             <message>Должно быть: <suggestion>\1 течение \3</suggestion></message>
             <short>В течение (времени, часа, ...)</short>
@@ -3973,13 +4036,17 @@ $Id$
             <pattern>
                 <token>в</token>
                 <token>течении</token>
-                <token regexp= "yes" >[0-9]*</token>
-                <token inflected="yes" regexp= "yes">час|минута|секунда|день|календарный|рабочий|неделя|месяц|год|столетие|тысячелетие</token>
+                <or> 
+                  <token regexp= "yes" >[0-9]*</token>
+                  <token postag= "NumC:.*"  postag_regexp="yes"></token>
+                </or>
+                <token inflected="yes" regexp= "yes">час|минута|секунда|день|сутки|календарный|рабочий|банковский|выходной|праздничный|неделя|месяц|год|столетие|тысячелетие</token>
             </pattern>
             <message>Должно быть: <suggestion>\1 течение \3 \4</suggestion></message>
             <short>В течение (времени, часа, ...)</short>
             <example correction="в течение 10 дней">Работа должна быть выполнена <marker>в течении 10 дней</marker>.</example>
             <example correction="в течение 10 календарных">Работа должна быть выполнена <marker>в течении 10 календарных</marker> дней.</example>
+             <example correction="в течение трёх банковских">Перевод выполняется <marker>в течении трёх банковских</marker> дней.</example>
             <example>Работа должна быть выполнена в течение 10 дней.</example>
           </rule>
         </rulegroup>
@@ -5552,7 +5619,7 @@ $Id$
                         <token>школы</token>
                     </marker>
                 </pattern>
-                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В школу – то ИЗ школы:<suggestion>из \2</suggestion></message>
+                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В школу» – то «ИЗ школы»:<suggestion>из \2</suggestion></message>
                 <short>Правильно «из школы»</short>
                 <example correction="из школы">Вернувшись <marker>с школы</marker>, она сразу села читать. </example>
                 <example>Вернувшись из школы, она сразу села читать. </example>
@@ -5566,7 +5633,7 @@ $Id$
                         <token>командировки</token>
                     </marker>
                 </pattern>
-                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В командировку– то ИЗ командировки:<suggestion>из \2</suggestion></message>
+                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В командировку» – то «ИЗ командировки»:<suggestion>из \2</suggestion></message>
                 <short>Правильно «из командировки»</short>
                 <example correction="из командировки">Они вернулись <marker>с командировки</marker> еще вчера.</example>
                 <example>Они вернулись из командировки еще вчера.</example>
@@ -5580,7 +5647,7 @@ $Id$
                         <token>Кавказа</token>
                     </marker>
                 </pattern>
-                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если НА Кавказ – то С Кавказа:<suggestion>с \2</suggestion></message>
+                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный Например, если «НА Кавказ» – то «С Кавказа»:<suggestion>с \2</suggestion></message>
                 <short>Правильно «с Кавказа»</short>
                 <example correction="с Кавказа">Мой дед родом <marker>из Кавказа</marker>.</example>
                 <example>Мой дед родом с Кавказа.</example>
@@ -5594,7 +5661,7 @@ $Id$
                         <token>армии</token>
                     </marker>
                 </pattern>
-                <message>Предлоги ИЗ и С имеют антонимы (для ИЗ это В, для С это На). По этим парам можно определить, какой предлог правильный. Например, если В армию – то ИЗ армии<suggestion>из \2</suggestion></message>
+                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В армию» – то «ИЗ армии»<suggestion>из \2</suggestion></message>
                 <short>Правильно «из армии»</short>
                 <example correction="из армии">Он пришел <marker>с армии</marker> на прошлой неделе.</example>
                 <example>Он пришел из армии на прошлой неделе.</example>
@@ -6211,7 +6278,7 @@ $Id$
                         <token regexp="yes">тех|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|этого|ее|моих|твоих|ваших|наших</token>
                     </marker>
                 </pattern>
-                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>наподобие \3</suggestion>?</message>
                 <short>Правильно «наподобие»</short>
                 <example correction="наподобие тех">Он купил шляпу <marker>на подобии тех</marker>, что носили в прошлом веке.</example>
                 <example>Он купил шляпу наподобие тех, что носили в прошлом веке.</example>
@@ -6225,7 +6292,7 @@ $Id$
                         <token regexp="yes">этого|чего|этих|этой|того|той|которого|которой|которых|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
                     </marker>
                 </pattern>
-                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
                 <example correction="Вследствие чего"><marker>В следствии чего</marker> они были вынуждены обратиться в суд.</example>
                 <example>Вследствие чего они были вынуждены обратиться в суд.</example>
@@ -6239,7 +6306,7 @@ $Id$
                         <token regexp="yes">этого|чего|которого|которой|которых|этих|этой|того|той|моей|твоей|вашей|нашей|их|его|ее|моих|твоих|ваших|наших</token>
                     </marker>
                 </pattern>
-                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Пишется слитно. Вы имели в виду <suggestion>вследствие \3</suggestion>?</message>
                 <short>Правильно «вследствие»</short>
                 <example correction="Вследствие этого"><marker>В следствие этого</marker> произошёл сбой в системе.</example>
                 <example>Вследствие этого произошёл сбой в системе.</example>
@@ -6257,7 +6324,7 @@ $Id$
                         <token regexp="yes">этого|чего|всего|которых|этой|того|той|моей|твоей|вашей|нашей|своей|своего|выступления|концерта|эфира|вышесказанного|позвольте|вышеупомянутого</token>
                     </marker>
                 </pattern>
-                <message>Это предлог В с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
+                <message>Это предлог «в» с существительным на –ие в винит. падеже, окончание которого совпадает с окончанием этого существительного в им. падеже. Вы имели в виду <suggestion>в заключение \3</suggestion>?</message>
                 <short>Правильно «в заключение»</short>
                 <example correction="В заключение выступления"><marker>В заключении выступления</marker> он прочёл стихи.</example>
                 <example>В заключение выступления он прочёл стихи. </example>

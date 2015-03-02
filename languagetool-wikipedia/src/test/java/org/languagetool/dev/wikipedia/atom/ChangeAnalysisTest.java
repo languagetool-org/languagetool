@@ -20,6 +20,7 @@ package org.languagetool.dev.wikipedia.atom;
 
 import org.junit.Test;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import static org.junit.Assert.assertThat;
 
 public class ChangeAnalysisTest {
   
-  private static final Language LANGUAGE = Language.getLanguageForShortName("de");
+  private static final Language LANGUAGE = Languages.getLanguageForShortName("de");
   
   @Test
   public void testAdd() {

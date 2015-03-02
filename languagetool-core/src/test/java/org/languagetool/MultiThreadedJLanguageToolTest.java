@@ -18,20 +18,21 @@
  */
 package org.languagetool;
 
-import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.language.Demo;
-import org.languagetool.rules.*;
+import org.languagetool.rules.MultipleWhitespaceRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.patterns.PatternRule;
 
 public class MultiThreadedJLanguageToolTest {
 
@@ -41,12 +42,12 @@ public class MultiThreadedJLanguageToolTest {
     
     tool = new MultiThreadedJLanguageTool(new Demo());
     final List<String> ruleMatchIds1 = getRuleMatchIds(tool);
-    assertTrue(ruleMatchIds1.size() == 10);
+    assertEquals(9, ruleMatchIds1.size());
     Assert.assertEquals(4, tool.getSentenceCount());
     
     tool = new JLanguageTool(new Demo());
     final List<String> ruleMatchIds2 = getRuleMatchIds(tool);
-    assertThat(ruleMatchIds1, is(ruleMatchIds2));
+    assertEquals(ruleMatchIds1, ruleMatchIds2);
     Assert.assertEquals(4, tool.getSentenceCount());
   }
   
@@ -65,22 +66,9 @@ public class MultiThreadedJLanguageToolTest {
   public void testConfigurableThreadPoolSize() throws IOException {
     MultiThreadedJLanguageTool tool = new MultiThreadedJLanguageTool(new Demo());
     Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
-    
-    tool.setThreadPoolSize(100);
-    Assert.assertEquals(100, tool.getThreadPoolSize());
-
-    tool.setThreadPoolSize(Integer.MIN_VALUE);
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
-
-    tool.setThreadPoolSize(0);
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
-
-    tool.setThreadPoolSize(-1);
-    Assert.assertEquals(Runtime.getRuntime().availableProcessors(), tool.getThreadPoolSize());
   }
 
   private List<String> getRuleMatchIds(JLanguageTool langTool) throws IOException {
-    langTool.activateDefaultPatternRules();
     final String input = "A small toast. No error here. Foo go bar. First goes last there, please!";
     final List<RuleMatch> matches = langTool.check(input);
     final List<String> ruleMatchIds = new ArrayList<>();
@@ -93,6 +81,11 @@ public class MultiThreadedJLanguageToolTest {
   @Test
   public void testTwoRulesOnly() throws IOException {
     MultiThreadedJLanguageTool langTool = new MultiThreadedJLanguageTool(new FakeLanguage() {
+      @Override
+      protected synchronized List<PatternRule> getPatternRules() {
+        return Collections.emptyList();
+      }
+
       @Override
       public List<Rule> getRelevantRules(ResourceBundle messages) {
         // less rules than processors (depending on the machine), should at least not crash

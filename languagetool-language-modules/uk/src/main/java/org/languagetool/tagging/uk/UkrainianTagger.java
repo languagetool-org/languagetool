@@ -39,6 +39,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.BaseTagger;
@@ -193,6 +194,7 @@ public class UkrainianTagger extends BaseTagger {
     return null;
   }
 
+  @Nullable
   private List<AnalyzedToken> guessCompoundTag(String word) {
     int dashIdx = word.lastIndexOf('-');
     if( dashIdx == 0 || dashIdx == word.length() - 1 )
@@ -394,7 +396,7 @@ public class UkrainianTagger extends BaseTagger {
         }
         // noun-noun
         else if ( leftPosTag.startsWith(IPOSTag.noun.getText()) && rightPosTag.startsWith(IPOSTag.noun.getText()) ) {
-          String agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
+          String agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv);
 
           if( agreedPosTag == null 
               && rightPosTag.startsWith("noun:m:v_naz")
@@ -480,7 +482,7 @@ public class UkrainianTagger extends BaseTagger {
         rightPosTag = rightPosTag.replace(TAG_ANIM, "");
       }
       
-      agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, leftNv);
+      agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, leftNv);
       
       if( agreedPosTag == null ) {
         if (! leftPosTag.contains(TAG_ANIM)) {
@@ -501,7 +503,7 @@ public class UkrainianTagger extends BaseTagger {
     // сонях-красень
     else if ( slaveSet.contains(rightLemma) ) {
       rightPosTag = rightPosTag.replace(":anim", "");
-      agreedPosTag = getArgreedPosTag(leftPosTag, rightPosTag, false);
+      agreedPosTag = getAgreedPosTag(leftPosTag, rightPosTag, false);
       if( agreedPosTag == null ) {
         if (! leftPosTag.contains(TAG_ANIM)) {
           if (MNP_ZNA_REGEX.matcher(leftPosTag).matches() && MNP_NAZ_REGEX.matcher(rightPosTag).matches()
@@ -515,7 +517,7 @@ public class UkrainianTagger extends BaseTagger {
     // красень-сонях
     else if ( slaveSet.contains(leftLemma) ) {
       leftPosTag = leftPosTag.replace(":anim", "");
-      agreedPosTag = getArgreedPosTag(rightPosTag, leftPosTag, false);
+      agreedPosTag = getAgreedPosTag(rightPosTag, leftPosTag, false);
       if( agreedPosTag == null ) {
         if (! rightPosTag.contains(TAG_ANIM)) {
           if (MNP_ZNA_REGEX.matcher(rightPosTag).matches() && MNP_NAZ_REGEX.matcher(leftPosTag).matches()
@@ -544,8 +546,9 @@ public class UkrainianTagger extends BaseTagger {
     }
     return agreedPosTag;
   }
-  
-  private String getArgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
+
+  @Nullable
+  private String getAgreedPosTag(String leftPosTag, String rightPosTag, boolean leftNv) {
     if( isPlural(leftPosTag) && ! isPlural(rightPosTag)
         || ! isPlural(leftPosTag) && isPlural(rightPosTag) )
       return null;
@@ -604,6 +607,7 @@ public class UkrainianTagger extends BaseTagger {
     return newAnalyzedTokens.isEmpty() ? null : newAnalyzedTokens;
   }
 
+  @Nullable
   private List<AnalyzedToken> poAdvMatch(String word, List<AnalyzedToken> analyzedTokens, String adjTag) {
     
     for (AnalyzedToken analyzedToken : analyzedTokens) {
@@ -617,6 +621,7 @@ public class UkrainianTagger extends BaseTagger {
   }
 
 
+  @Nullable
   private static String getGenderConj(String posTag) {
     Matcher pos4matcher = GENDER_CONJ_REGEX.matcher(posTag);
     if( pos4matcher.matches() )
@@ -638,6 +643,7 @@ public class UkrainianTagger extends BaseTagger {
 //    return null;
 //  }
 
+  @Nullable
   private static String getNum(String posTag) {
     Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):(.):v_.*").matcher(posTag);
     if( pos4matcher.matches() ) {
@@ -651,6 +657,7 @@ public class UkrainianTagger extends BaseTagger {
     return null;
   }
 
+  @Nullable
   private static String getConj(String posTag) {
     Matcher pos4matcher = Pattern.compile("(noun|adjp?|numr):[mfnp]:(v_...).*").matcher(posTag);
     if( pos4matcher.matches() )

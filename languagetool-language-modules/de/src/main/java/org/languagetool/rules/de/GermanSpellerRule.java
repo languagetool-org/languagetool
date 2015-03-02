@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.de;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.German;
@@ -25,6 +26,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -84,6 +86,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     return RULE_ID;
   }
 
+  @Nullable
   private static MorfologikMultiSpeller getSpeller(Language language) {
     if (!language.getShortName().equals(Locale.GERMAN.getLanguage())) {
       throw new RuntimeException("Language is not a variant of German: " + language);
@@ -146,6 +149,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {
       return Collections.singletonList("einzige");
+    } else if (!StringTools.startsWithUppercase(word)) {
+      String ucWord = StringTools.uppercaseFirstChar(word);
+      if (!hunspellDict.misspelled(ucWord)) {
+        // Hunspell doesn't always automatically offer the most obvious suggestion for compounds:
+        return Collections.singletonList(ucWord);
+      }
     }
     return Collections.emptyList();
   }
@@ -161,6 +170,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   // for "Stil- und Grammatikprüfung", get "Grammatikprüfung" when at position of "Stil-"
+  @Nullable
   private String getWordAfterEnumerationOrNull(List<String> words, int idx) {
     for (int i = idx; i < words.size(); i++) {
       String word = words.get(i);

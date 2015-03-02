@@ -70,7 +70,7 @@ public class ConfusionProbabilityRuleTest {
 
   private void create3gramIndex(File tempDir) throws IOException {
     Directory directory = FSDirectory.open(tempDir);
-    IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_1, new FakeAnalyzer());
+    IndexWriterConfig config = new IndexWriterConfig(Version.LUCENE_4_10_3, new FakeAnalyzer());
     try (IndexWriter writer = new IndexWriter(directory, config)) {
       // wrong:
       addDoc(writer, "is an café", "1");

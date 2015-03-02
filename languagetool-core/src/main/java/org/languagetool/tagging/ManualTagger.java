@@ -22,10 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
@@ -42,38 +39,14 @@ import org.languagetool.tools.StringTools;
  */
 public class ManualTagger implements WordTagger {
 
-  private final Map<String, List<LookedUpTerm>> mapping;
+  private final Map<String, List<TaggedWord>> mapping;
 
   public ManualTagger(final InputStream inputStream) throws IOException {
     mapping = loadMapping(inputStream, "utf8");
   }
 
-  /**
-   * Look up a word's baseform and POS information.
-   * 
-   * @return an array with the baseform (at position 0, 2, ...) and the POS
-   *         information (at position 1, 3, ...) or <code>null</code> if the
-   *         word is unknown
-   * @deprecated use {@link #tag(String)} instead (note that it doesn't return null) (deprecated since 2.8)
-   */
-  public String[] lookup(final String term) {
-    final List<LookedUpTerm> l = mapping.get(term);
-    if (l == null) {
-      return null;
-    }
-    final List<String> plainResult = new ArrayList<>();
-    for (LookedUpTerm element : l) {
-      plainResult.add(element.baseform);
-      plainResult.add(element.posTags);
-    }
-    if (plainResult.isEmpty()) {
-      return null;
-    }
-    return plainResult.toArray(new String[plainResult.size()]);
-  }
-
-  private Map<String, List<LookedUpTerm>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
-    final Map<String, List<LookedUpTerm>> map = new HashMap<>();
+  private Map<String, List<TaggedWord>> loadMapping(final InputStream inputStream, final String encoding) throws IOException {
+    final Map<String, List<TaggedWord>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, encoding);
       BufferedReader br = new BufferedReader(reader)
@@ -87,39 +60,28 @@ public class ManualTagger implements WordTagger {
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");
         }
-        List<LookedUpTerm> terms = map.get(parts[0]);
+        List<TaggedWord> terms = map.get(parts[0]);
         if (terms == null) {
           terms = new ArrayList<>();
         }
-        terms.add(new LookedUpTerm(parts[1], parts[2]));
+        terms.add(new TaggedWord(parts[1], parts[2]));
         map.put(parts[0], terms);
       }
     }
     return map;
   }
 
+  /**
+   * Look up a word's baseform (lemma) and POS information.
+   */
   @Override
   public List<TaggedWord> tag(String word) {
-    List<TaggedWord> result = new ArrayList<>();
-    List<LookedUpTerm> lookedUpTerms = mapping.get(word);
+    List<TaggedWord> lookedUpTerms = mapping.get(word);
     if (lookedUpTerms != null) {
-      for (LookedUpTerm term : lookedUpTerms) {
-        result.add(new TaggedWord(term.baseform, term.posTags));
-      }
+      return Collections.unmodifiableList(lookedUpTerms);
+    } else {
+      return Collections.emptyList();
     }
-    return result;
-  }
-
-  private class LookedUpTerm {
-
-    final String baseform;
-    final String posTags;
-
-    LookedUpTerm(String baseform, String posTags) {
-      this.baseform = baseform;
-      this.posTags = posTags;
-    }
-
   }
 
 }

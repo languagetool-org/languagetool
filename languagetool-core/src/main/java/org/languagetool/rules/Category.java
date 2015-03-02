@@ -24,7 +24,7 @@ package org.languagetool.rules;
  * 
  * @author Daniel Naber
  */
-public class Category {
+public final class Category {
 
   public enum Location {
     /** The rules in this category are part of the main distribution of
@@ -39,8 +39,7 @@ public class Category {
   private final int priority;
   private final String name;
   private final Location location;
-
-  private boolean defaultOff;
+  private final boolean defaultOff;
 
   /**
    * Create a new category with the given name and priority.
@@ -48,13 +47,14 @@ public class Category {
    * @param priority a value between 0 and 100 (inclusive)
    * @deprecated priority will be removed, as it had not been used (deprecated since 2.8)
    */
-  public Category(final String name, final int priority, Location location) {
+  public Category(final String name, final int priority, Location location, boolean onByDefault) {
     if (priority < 0 || priority > 100) {
       throw new IllegalArgumentException("priority must be in range 0 - 100: " + priority);
     }
     this.name = name;
     this.priority = priority;
     this.location = location;
+    this.defaultOff = !onByDefault;
   }
 
   /**
@@ -62,11 +62,11 @@ public class Category {
    * @deprecated priority will be removed, as it had not been used (deprecated since 2.8)
    */
   Category(final String name, final int priority) {
-    this(name, priority, Location.INTERNAL);
+    this(name, priority, Location.INTERNAL, true);
   }
 
   /**
-   * Create a new category with the default priority (50).
+   * Create a new category.
    * @param name name of the category
    */
   public Category(final String name) {
@@ -74,12 +74,21 @@ public class Category {
   }
 
   /**
-   * Create a new category with the default priority (50).
+   * Create a new category.
    * @param name name of the category
    * @since 2.8
    */
   public Category(String name, Location location) {
-    this(name, DEFAULT_PRIORITY, location);
+    this(name, DEFAULT_PRIORITY, location, true);
+  }
+
+  /**
+   * Create a new category.
+   * @param name name of the category
+   * @since 2.9
+   */
+  public Category(String name, Location location, boolean onByDefault) {
+    this(name, DEFAULT_PRIORITY, location, onByDefault);
   }
 
   public String getName() {
@@ -102,13 +111,6 @@ public class Category {
    */
   public final boolean isDefaultOff() {
     return defaultOff;
-  }
-  
-  /**
-   * Turns the category off by default.
-   */
-  public final void setDefaultOff() {
-    defaultOff = true;
   }
 
   /**

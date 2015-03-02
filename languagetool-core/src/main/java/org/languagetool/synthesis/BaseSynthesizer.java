@@ -56,7 +56,6 @@ public class BaseSynthesizer implements Synthesizer {
   /**
    * Returns the {@link Dictionary} used for this synthesizer.
    * The dictionary file can be defined in the {@link #BaseSynthesizer(String, String) constructor}.
-   * 
    * @throws IOException In case the dictionary cannot be loaded.
    */
   protected Dictionary getDictionary() throws IOException {
@@ -76,13 +75,11 @@ public class BaseSynthesizer implements Synthesizer {
   /**
    * Creates a new {@link IStemmer} based on the configured {@link #getDictionary() dictionary}.
    * The result must not be shared among threads.
-   * 
    * @since 2.3
    */
   protected IStemmer createStemmer() {
     try {
-      final Dictionary dict = getDictionary();
-      return new DictionaryLookup(dict);
+      return new DictionaryLookup(getDictionary());
     } catch (IOException e) {
       throw new RuntimeException("Could not load dictionary", e);
     }
@@ -106,7 +103,6 @@ public class BaseSynthesizer implements Synthesizer {
   /**
    * Get a form of a given AnalyzedToken, where the form is defined by a
    * part-of-speech tag.
-   * 
    * @param token AnalyzedToken to be inflected.
    * @param posTag The desired part-of-speech tag.
    * @return inflected words, or an empty array if no forms were found
@@ -144,7 +140,6 @@ public class BaseSynthesizer implements Synthesizer {
 
   /**
    * @since 2.5
-   * 
    * @return the stemmer interface to be used.
    */
   public IStemmer getStemmer() {

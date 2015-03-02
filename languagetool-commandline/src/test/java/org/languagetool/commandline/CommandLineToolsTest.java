@@ -57,8 +57,6 @@ public class CommandLineToolsTest extends TestCase {
 
   public void testCheck() throws IOException, ParserConfigurationException, SAXException {
     final JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
-    tool.activateDefaultPatternRules();
-    tool.activateDefaultFalseFriendRules();
 
     int matches = CommandLineTools.checkText("Foo.", tool);
     String output = new String(this.out.toByteArray());

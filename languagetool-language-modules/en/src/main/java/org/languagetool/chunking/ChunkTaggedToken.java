@@ -19,6 +19,7 @@
 package org.languagetool.chunking;
 
 import org.apache.commons.lang.StringUtils;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 
 import java.util.List;
@@ -55,6 +56,7 @@ class ChunkTaggedToken {
   /**
    * @return readings or {@code null}
    */
+  @Nullable
   AnalyzedTokenReadings getReadings() {
     return readings;
   }

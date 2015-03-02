@@ -68,9 +68,9 @@ public class Portuguese extends Language {
 
   @Override
   public Contributor[] getMaintainers() {
-    Contributor contributor = new Contributor("Marco A.G. Pinto");
-    contributor.setUrl("http://www.marcoagpinto.com/");
-    return new Contributor[] { contributor };
+    return new Contributor[] {
+            new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/")
+    };
   }
 
   @Override
@@ -94,7 +94,7 @@ public class Portuguese extends Language {
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages, this),
+            new GenericUnpairedBracketsRule(messages),
             new HunspellNoSuggestionRule(messages, this),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),

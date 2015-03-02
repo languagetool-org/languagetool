@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -198,6 +199,7 @@ public abstract class Rule {
    * with explanations and examples. Will return {@code null} for rules that have no URL.
    * @since 1.8
    */
+  @Nullable
   public URL getUrl() {
     return url;
   }

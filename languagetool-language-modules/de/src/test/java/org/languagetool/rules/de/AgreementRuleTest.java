@@ -25,6 +25,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.TestTools;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
@@ -41,7 +42,7 @@ public class AgreementRuleTest extends TestCase {
   
   @Override
   public void setUp() throws IOException {
-    rule = new AgreementRule(null, new German());
+    rule = new AgreementRule(TestTools.getMessages("de"), new German());
     langTool = new JLanguageTool(new German());
   }
   
@@ -120,6 +121,8 @@ public class AgreementRuleTest extends TestCase {
     assertGood("Der Mann, in dem quadratische Fische schwammen.");
     assertGood("Der Mann, durch den quadratische Fische schwammen.");
     assertGood("Gutenberg, der quadratische Mann.");
+    assertGood("Die größte Stuttgarter Grünanlage ist der Friedhof.");
+    assertGood("Die meisten Lebensmittel enthalten das.");  // Lebensmittel has NOG as gender in Morphy
     // TODO: not detected, because "die" is considered a relative pronoun:
     //assertBad("Gutenberg, die Genie.");
     
@@ -220,11 +223,10 @@ public class AgreementRuleTest extends TestCase {
   }
   
   public void testRegression() throws IOException {
-      JLanguageTool gramCheckerEngine = new JLanguageTool(new German());
-      gramCheckerEngine.activateDefaultPatternRules();
+      JLanguageTool lt = new JLanguageTool(new German());
       // used to be not detected > 1.0.1:
       String str = "Und so.\r\nDie Bier.";
-      List<RuleMatch> matches = gramCheckerEngine.check(str);
+      List<RuleMatch> matches = lt.check(str);
       assertEquals(1, matches.size());
   }
   

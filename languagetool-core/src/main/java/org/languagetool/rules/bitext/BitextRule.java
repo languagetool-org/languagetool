@@ -21,8 +21,10 @@ package org.languagetool.rules.bitext;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
@@ -40,35 +42,45 @@ import org.languagetool.rules.RuleMatch;
 public abstract class BitextRule extends Rule {
 
   public static List<Class<? extends BitextRule>> getRelevantRules() {
-    return Arrays.asList(DifferentLengthRule.class, SameTranslationRule.class,
-        DifferentPunctuationRule.class);
+    return Arrays.asList(
+            DifferentLengthRule.class,
+            SameTranslationRule.class,
+            DifferentPunctuationRule.class
+    );
   }
-
-  private List<StringPair> correctExamples;
-  private List<IncorrectBitextExample> incorrectExamples;
-
-  private Language sourceLanguage;
 
   @Override
   public abstract String getDescription();
 
-  public abstract String getMessage();
-
   @Override
   public abstract String getId();
-
-  public abstract RuleMatch[] match(AnalyzedSentence sourceText,
-      AnalyzedSentence targetText) throws IOException;
 
   @Override
   public abstract void reset();
 
+  public abstract String getMessage();
+
+  public abstract RuleMatch[] match(AnalyzedSentence sourceText,
+      AnalyzedSentence targetText) throws IOException;
+
+  private List<StringPair> correctExamples;
+  private List<IncorrectBitextExample> incorrectExamples;
+  private Language sourceLanguage;
+
   /**
    * This method makes no sense for bitext, thus it always returns {@code null}.
    */
+  @Nullable
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     return null;
+  }
+
+  /**
+   * @deprecated use {@link #setSourceLanguage(Language)} instead (deprecated since 2.9)
+   */
+  public final void setSourceLang(final Language lang) {
+    sourceLanguage = lang;
   }
 
   /**
@@ -76,11 +88,18 @@ public abstract class BitextRule extends Rule {
    * by LT, you need to use the default tokenizers etc.
    * @param lang Source Language
    */
-  public final void setSourceLang(final Language lang) {
+  public final void setSourceLanguage(final Language lang) {
     sourceLanguage = lang;
   }
 
+  /**
+   * @deprecated use {@link #getSourceLanguage()} instead (deprecated since 2.9)
+   */
   public final Language getSourceLang() {
+    return sourceLanguage;
+  }
+
+  public final Language getSourceLanguage() {
     return sourceLanguage;
   }
 
@@ -103,7 +122,7 @@ public abstract class BitextRule extends Rule {
    */
   public final void setIncorrectBitextExamples(
       final List<IncorrectBitextExample> incorrectExamples) {
-    this.incorrectExamples = incorrectExamples;
+    this.incorrectExamples = Collections.unmodifiableList(incorrectExamples);
   }
 
   /**

@@ -20,6 +20,7 @@ package org.languagetool.dev.eval;
 
 import com.google.common.io.CharStreams;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.tools.StringTools;
 
@@ -127,7 +128,7 @@ class LanguageDetectionEval {
   public static void main(String[] args) throws IOException {
     LanguageDetectionEval eval = new LanguageDetectionEval();
     long startTime = System.currentTimeMillis();
-    for (Language language : Language.REAL_LANGUAGES) {
+    for (Language language : Languages.get()) {
       eval.evaluate(language);
     }
     long endTime = System.currentTimeMillis();

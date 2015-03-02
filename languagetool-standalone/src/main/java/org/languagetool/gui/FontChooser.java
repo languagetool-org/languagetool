@@ -197,7 +197,7 @@ class FontChooser extends JDialog implements ActionListener,
     c.weightx = 1.0;
     c.weighty = 1;
     c.fill = GridBagConstraints.BOTH;
-    fontNameList = new JList(fontNamesArray);
+    fontNameList = new JList<>(fontNamesArray);
     fontNameList.addListSelectionListener(this);
     fontNameList.setVisibleRowCount(5);
     fontNameList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -209,7 +209,7 @@ class FontChooser extends JDialog implements ActionListener,
     c.gridx = 1;
     c.gridy = 2;
     c.weightx = 0.5;
-    fontStyleList = new JList(fontStylesArray);
+    fontStyleList = new JList<>(fontStylesArray);
     fontStyleList.addListSelectionListener(this);
     fontStyleList.setVisibleRowCount(5);
     fontStyleList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -220,7 +220,7 @@ class FontChooser extends JDialog implements ActionListener,
 
     c.gridx = 2;
     c.gridy = 2;
-    fontSizeList = new JList(fontSizesArray);
+    fontSizeList = new JList<>(fontSizesArray);
     fontSizeList.addListSelectionListener(this);
     fontSizeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     fontSizeList.setVisibleRowCount(5);

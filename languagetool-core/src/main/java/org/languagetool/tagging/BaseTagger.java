@@ -28,6 +28,7 @@ import java.util.Locale;
 import morfologik.stemming.Dictionary;
 
 import morfologik.stemming.WordData;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -55,6 +56,7 @@ public abstract class BaseTagger implements Tagger {
    * Get the filename for manual additions, e.g., {@code /en/added.txt}, or {@code null}.
    * @since 2.8
    */
+  @Nullable
   public abstract String getManualAdditionsFileName();
   
   /**
@@ -220,6 +222,7 @@ public abstract class BaseTagger implements Tagger {
    * @param word The word to tag
    * @return Returns list of analyzed tokens with additional tags, or {@code null}
    */
+  @Nullable
   protected List<AnalyzedToken> additionalTags(String word, WordTagger wordTagger) {
     return null;
   }

@@ -19,6 +19,7 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -48,6 +49,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    */
   public abstract String getFileName();
 
+  @Override
+  public abstract String getId();
+
   public MorfologikSpellerRule(ResourceBundle messages, Language language) throws IOException {
     super(messages, language);
     super.setCategory(new Category(messages.getString("category_typo")));
@@ -55,9 +59,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
-
-  @Override
-  public abstract String getId();
 
   @Override
   public String getDescription() {
@@ -193,8 +194,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * the words as in the source dictionary. For example,
    * it may contain a hyphen, if the words with hyphens are
    * not included in the dictionary
-   * @return A compiled {@link Pattern} that is used to tokenize words or null.
+   * @return A compiled {@link Pattern} that is used to tokenize words or {@code null}.
    */
+  @Nullable
   public Pattern tokenizingPattern() {
     return null;
   }

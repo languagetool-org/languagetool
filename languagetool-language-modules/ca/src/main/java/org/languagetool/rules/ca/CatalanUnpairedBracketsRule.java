@@ -19,6 +19,8 @@
 
 package org.languagetool.rules.ca;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,8 +31,8 @@ import org.languagetool.rules.GenericUnpairedBracketsRule;
 
 public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final String[] CA_START_SYMBOLS = { "[", "(", "{", "“", "«", "\"", "'", "‘" };
-  private static final String[] CA_END_SYMBOLS   = { "]", ")", "}", "”", "»", "\"", "'", "’" };
+  private static final List<String> CA_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "«", "\"", "'", "‘");
+  private static final List<String> CA_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "»", "\"", "'", "’");
 
   //private static final Pattern NUMBER = Pattern.compile("[\\d,.]*\\d");
   
@@ -40,10 +42,7 @@ public class CatalanUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
   public CatalanUnpairedBracketsRule(final ResourceBundle messages,
       final Language language) {
-    super(messages, language);
-    startSymbols = CA_START_SYMBOLS;
-    endSymbols = CA_END_SYMBOLS;
-    uniqueMapInit();
+    super(messages, CA_START_SYMBOLS, CA_END_SYMBOLS);
   }
 
   @Override

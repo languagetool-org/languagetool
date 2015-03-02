@@ -173,7 +173,6 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   /**
    * This method allows to override which tags will mark token as tagged
-   * @param tokenReadings
    * @return returns true if token has valid tag
    */
   protected boolean isTagged(AnalyzedTokenReadings tokenReadings) {
