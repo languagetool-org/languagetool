@@ -19,11 +19,7 @@
 
 package org.languagetool;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.lang.StringUtils;
@@ -419,7 +415,7 @@ public class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * @since 2.3
    */
   public void setChunkTags(List<ChunkTag> chunkTags) {
-    this.chunkTags = chunkTags;
+    this.chunkTags = Objects.requireNonNull(chunkTags);
   }
 
   /**
