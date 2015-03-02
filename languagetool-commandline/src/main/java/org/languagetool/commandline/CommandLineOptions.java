@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 
 import java.io.File;
+import java.util.Objects;
 
 /**
  * Options that can be set via command line arguments.
@@ -47,8 +48,8 @@ public class CommandLineOptions {
   private File languageModel = null;
   private String encoding = null;
   private String filename = null;
-  private String[] disabledRules = new String[0];
-  private String[] enabledRules = new String[0];
+  private String[] disabledRules = {};
+  private String[] enabledRules = {};
   private boolean useEnabledOnly = false;
   private String ruleFile = null;
 
@@ -148,6 +149,7 @@ public class CommandLineOptions {
     this.autoDetect = autoDetect;
   }
 
+  @Nullable
   public Language getLanguage() {
     return language;
   }
@@ -156,6 +158,7 @@ public class CommandLineOptions {
     this.language = language;
   }
 
+  @Nullable
   public Language getMotherTongue() {
     return motherTongue;
   }
@@ -197,6 +200,7 @@ public class CommandLineOptions {
     this.ruleFile = ruleFile;
   }
 
+  @Nullable
   public String getEncoding() {
     return encoding;
   }
@@ -205,6 +209,7 @@ public class CommandLineOptions {
     this.encoding = encoding;
   }
 
+  @Nullable
   public String getFilename() {
     return filename;
   }
@@ -218,7 +223,7 @@ public class CommandLineOptions {
   }
 
   public void setDisabledRules(String[] disabledRules) {
-    this.disabledRules = disabledRules;
+    this.disabledRules = Objects.requireNonNull(disabledRules);
   }
 
   public String[] getEnabledRules() {
@@ -226,7 +231,7 @@ public class CommandLineOptions {
   }
 
   public void setEnabledRules(String[] enabledRules) {
-    this.enabledRules = enabledRules;
+    this.enabledRules = Objects.requireNonNull(enabledRules);
   }
 
   /** @since 2.7 */
