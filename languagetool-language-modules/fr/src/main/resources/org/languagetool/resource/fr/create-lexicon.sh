@@ -13,7 +13,7 @@
 # Author: Dominique Pelle <dominique.pelle@gmail.com>
 #
 
-INPUT=lexique-dicollecte-fr-v5.2
+INPUT=lexique-dicollecte-fr-v5.3
 
 if [ ! -f $INPUT.txt ]; then
   wget http://www.dicollecte.org/download/fr/$INPUT.zip
@@ -35,7 +35,7 @@ java -jar morfologik-stemming-nodict-1.4.0.jar fsa_build \
 # convenient (it would be better to indicate the location of output files).
 rm -f /tmp/SynthDictionaryBuilder*.txt_tags.txt
 rm -f /tmp/DictionaryBuilder*.dict
-java -cp ../../../../../../../../../languagetool-standalone/target/LanguageTool-2.7-SNAPSHOT/LanguageTool-2.7-SNAPSHOT/languagetool.jar \
+java -cp ../../../../../../../../../languagetool-standalone/target/LanguageTool-2.9-SNAPSHOT/LanguageTool-2.9-SNAPSHOT/languagetool.jar \
      org.languagetool.dev.SynthDictionaryBuilder \
      $INPUT.txt.LT.txt french_synth.info
 cp /tmp/SynthDictionaryBuilder*.txt_tags.txt french_tags.txt

@@ -25,6 +25,7 @@ import org.languagetool.language.AustrianGerman;
 import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.language.SwissGerman;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.IOException;
@@ -50,6 +51,18 @@ public class GermanSpellerRuleTest {
             is("[Fehler, fehl er]"));
     assertThat(rule.sortSuggestionByQuality("mülleimer", Arrays.asList("Mülheimer", "-mülheimer", "Melkeimer", "Mühlheimer", "Mülleimer")).toString(),
             is("[Mülleimer, Mülheimer, -mülheimer, Melkeimer, Mühlheimer]"));
+  }
+
+  @Test
+  public void testGetAdditionalTopSuggestions() throws Exception {
+    final GermanSpellerRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    final JLanguageTool langTool = new JLanguageTool(GERMAN_DE);
+    RuleMatch[] matches1 = rule.match(langTool.getAnalyzedSentence("konservierungsstoffe"));
+    assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffe]"));
+    RuleMatch[] matches2 = rule.match(langTool.getAnalyzedSentence("konservierungsstoffstatistik"));
+    assertThat(matches2[0].getSuggestedReplacements().toString(), is("[Konservierungsstoffstatistik]"));
+    RuleMatch[] matches3 = rule.match(langTool.getAnalyzedSentence("konservierungsstoffsasdsasda"));
+    assertThat(matches3[0].getSuggestedReplacements().size(), is(0));
   }
 
   @Test

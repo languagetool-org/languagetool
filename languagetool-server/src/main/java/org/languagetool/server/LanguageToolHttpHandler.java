@@ -65,6 +65,7 @@ class LanguageToolHttpHandler implements HttpHandler {
   private boolean afterTheDeadlineMode;
   private Language afterTheDeadlineLanguage;
   private File languageModelDir;
+  private int maxWorkQueueSize;
   private boolean trustXForwardForHeader = false;
   
   /**
@@ -133,6 +134,17 @@ class LanguageToolHttpHandler implements HttpHandler {
     this.languageModelDir = languageModelDir;
   }
 
+  /**
+   * @param size maximum queue size - if the queue is larger, the user will get an error. Use {@code 0} for no limit.
+   * @since 2.9
+   */
+  void setMaxWorkQueueSize(int size) {
+    if (size < 0) {
+      throw new IllegalArgumentException("Max queue size must be >= 0: " + size);
+    }
+    this.maxWorkQueueSize = size;
+  }
+
   @Override
   public void handle(HttpExchange httpExchange) throws IOException {
     synchronized (this) {
@@ -154,6 +166,12 @@ class LanguageToolHttpHandler implements HttpHandler {
                 " requests per " + requestLimiter.getRequestLimitPeriodInSeconds() + " seconds";
         sendError(httpExchange, HttpURLConnection.HTTP_FORBIDDEN, errorMessage);
         print(errorMessage);
+        return;
+      }
+      if (maxWorkQueueSize != 0 && workQueue.size() > maxWorkQueueSize) {
+        String response = "Error: There are currently too many parallel requests. Please try again later.";
+        print(response + " Queue size: " + workQueue.size() + ", maximum size: " + maxWorkQueueSize);
+        sendError(httpExchange, HttpURLConnection.HTTP_UNAVAILABLE, "Error: " + response);
         return;
       }
       if (allowedIps == null || allowedIps.contains(origAddress)) {
@@ -259,13 +277,13 @@ class LanguageToolHttpHandler implements HttpHandler {
     return lastIp;
   }
 
-  private void sendError(HttpExchange httpExchange, int returnCode, String response) throws IOException {
+  private void sendError(HttpExchange httpExchange, int httpReturnCode, String response) throws IOException {
     if (afterTheDeadlineMode) {
       String xmlResponse = "<results><message>" + escapeForXmlContent(response) + "</message></results>";
-      httpExchange.sendResponseHeaders(returnCode, xmlResponse.getBytes(ENCODING).length);
+      httpExchange.sendResponseHeaders(httpReturnCode, xmlResponse.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(xmlResponse.getBytes(ENCODING));
     } else {
-      httpExchange.sendResponseHeaders(returnCode, response.getBytes(ENCODING).length);
+      httpExchange.sendResponseHeaders(httpReturnCode, response.getBytes(ENCODING).length);
       httpExchange.getResponseBody().write(response.getBytes(ENCODING));
     }
   }

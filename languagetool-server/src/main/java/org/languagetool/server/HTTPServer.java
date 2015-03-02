@@ -105,6 +105,7 @@ public class HTTPServer extends Server {
         httpHandler.setAfterTheDeadlineMode(config.getAfterTheDeadlineLanguage());
       }
       httpHandler.setLanguageModel(config.getLanguageModelDir());
+      httpHandler.setMaxWorkQueueSize(config.getMaxWorkQueueSize());
       server.createContext("/", httpHandler);
       executorService = getExecutorService(workQueue, config);
       server.setExecutor(executorService);

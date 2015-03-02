@@ -1,7 +1,7 @@
 _______________________________________________________________________________
 
    LEXIQUE FRANÇAIS, LISTE DES FORMES FLÉCHIES
-   version 5.2
+   version 5.3
    
    Olivier R. - dicollecte<at>free<dot>fr
    Dicollecte: http://www.dicollecte.org/

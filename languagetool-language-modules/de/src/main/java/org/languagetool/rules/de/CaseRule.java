@@ -633,13 +633,15 @@ public class CaseRule extends GermanRule {
     // TODO: wir finden den Fehler in "Die moderne Wissenschaftlich" nicht, weil nicht alle
     // Substantivierungen in den Morphy-Daten stehen (z.B. "Größte" fehlt) und wir deshalb nur
     // eine Abfrage machen, ob der erste Buchstabe groß ist.
-    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings)) {
+    if (StringTools.startsWithUppercase(token) && !isNumber(token) && !hasNounReading(nextReadings) && !token.matches("Alle[nm]")) {
       // Ignore "das Dümmste, was je..." but not "das Dümmste Kind"
       AnalyzedTokenReadings prevToken = i > 0 ? tokens[i-1] : null;
-      AnalyzedTokenReadings prevPrevToken = i > 1 ? tokens[i-2] : null;
+      AnalyzedTokenReadings prevPrevToken = i >= 2 ? tokens[i-2] : null;
+      AnalyzedTokenReadings prevPrevPrevToken = i >= 3 ? tokens[i-3] : null;
       return (prevToken != null && ("irgendwas".equals(prevToken.getToken()) || "aufs".equals(prevToken.getToken()))) ||
-             hasPartialTag(prevToken, "PRO") ||  // z.B. "etwas Verrücktes"
-             (hasPartialTag(prevPrevToken, "PRO") && hasPartialTag(prevToken, "ADJ", "ADV")); // z.B. "etwas schön Verrücktes"
+         hasPartialTag(prevToken, "PRO") ||  // "etwas Verrücktes"
+         (hasPartialTag(prevPrevToken, "PRO", "PRP") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2")) ||  // "etwas schön Verrücktes", "mit aufgewühltem Innerem"
+         (hasPartialTag(prevPrevPrevToken, "PRO", "PRP") && hasPartialTag(prevPrevToken, "ADJ", "ADV") && hasPartialTag(prevToken, "ADJ", "ADV", "PA2"));  // "etwas ganz schön Verrücktes"
     }
     return false;
   }

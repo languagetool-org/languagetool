@@ -67,13 +67,22 @@ public class CaseRuleTest extends TestCase {
     assertGood("Sie hat immer ihr Bestes getan.");
     assertGood("Er wird etwas Verrücktes träumen.");
     assertGood("Er wird etwas schön Verrücktes träumen.");
+    assertGood("Er wird etwas ganz schön Verrücktes träumen.");
+    assertGood("Mit aufgewühltem Innerem.");
+    assertGood("Mit völlig aufgewühltem Innerem.");
     assertGood("Er wird etwas so Verrücktes träumen.");
     assertGood("Tom ist etwas über dreißig.");
     assertGood("Diese Angriffe bleiben im Verborgenen.");
     assertGood("Ihr sollt mich das wissen lassen.");
     assertGood("Wenn er mich das rechtzeitig wissen lässt, gerne.");
+    assertGood("Und sein völlig aufgewühltes Inneres erzählte von den Geschehnissen.");
+    assertGood("Aber sein aufgewühltes Inneres erzählte von den Geschehnissen.");
+    // assertGood("Sein aufgewühltes Inneres erzählte von den Geschehnissen."); TODO: 'Sein' is mistagged
+    assertGood("Aber sein Inneres erzählte von den Geschehnissen.");
+
     assertBad("Tom ist etwas über Dreißig.");
     assertBad("Unser warten wird sich lohnen.");
+    assertBad("Tom kann mit fast Allem umgehen.");
     // "NIL" reading in Morphy that used to confuse CaseRule:
     assertGood("Ein Menschenfreund.");
     // works only thanks to addex.txt:

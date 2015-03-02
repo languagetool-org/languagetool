@@ -26,6 +26,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -148,6 +149,12 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
       return Collections.singletonList("Trance");
     } else if ("einzigste".equals(w)) {
       return Collections.singletonList("einzige");
+    } else if (!StringTools.startsWithUppercase(word)) {
+      String ucWord = StringTools.uppercaseFirstChar(word);
+      if (!hunspellDict.misspelled(ucWord)) {
+        // Hunspell doesn't always automatically offer the most obvious suggestion for compounds:
+        return Collections.singletonList(ucWord);
+      }
     }
     return Collections.emptyList();
   }

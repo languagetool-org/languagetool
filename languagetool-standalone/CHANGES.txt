@@ -10,6 +10,9 @@ LanguageTool Change Log
 -Esperanto:
     -added a few new rules
 
+-French
+    -updated POS tag dictionary and Hunspell dictionary to Dicollecte-5.3
+
 -Italian:
     -improved a few rules
 
@@ -71,6 +74,15 @@ LanguageTool Change Log
 -Embedded server:
     -XML escaping has been fixed, this could cause invalid XML documents
      to be returned
+    -new config file option 'maxWorkQueueSize' that lets you set the maximum
+     size of the request queue - if it gets larger than this, requests will
+     be rejected (503 Service unavailable)
+
+-Command-line:
+    -It is now possible to add an external rule file when calling LanguageTool from the
+     command line. Use --rulefile <file> to add a file. If the file name has a format
+     that contains a language name, it will be used alongside other rules; otherwise,
+     it will replace the rules. This fixes github issue #192.
 
 -Rule syntax:
     -A rule may now have a single example sentence as long as it has a 'correction'

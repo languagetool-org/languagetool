@@ -283,12 +283,14 @@ public class Unifier {
   public final boolean getFinalUnificationValue(final Map<String, List<String>> uFeatures) {
     int tokUnified = 0;
     for (int j = 0; j < tokSequence.size(); j++) {
+      boolean unifiedTokensFound = false; // assume that nothing has been found
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         int featUnified = 0;
         if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
           if (i == 0) {
             tokUnified++;
           }
+          unifiedTokensFound = true;
           continue;
         } else {
           for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
@@ -300,6 +302,7 @@ public class Unifier {
             }
             if (featUnified == unificationFeats.entrySet().size() && tokUnified <= j) {
               tokUnified++;
+              unifiedTokensFound = true;
               break;
             }
           }
@@ -308,6 +311,8 @@ public class Unifier {
           return true;
         }
       }
+      if (!unifiedTokensFound)
+        return false;
     }
     return false;
   }
@@ -341,12 +346,13 @@ public class Unifier {
       return null;
     }
     List<AnalyzedTokenReadings> uTokens = new ArrayList<>();
-    int counter = 0;
     for (int j = 0; j < tokSequence.size(); j++) {
+      boolean unifiedTokensFound = false; // assume that nothing has been found
       for (int i = 0; i < tokSequenceEquivalences.get(j).size(); i++) {
         int featUnified = 0;
         if (tokSequenceEquivalences.get(j).get(i).containsKey(UNIFY_IGNORE)) {
           addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
+          unifiedTokensFound = true;
         } else {
           for (final Map.Entry<String, List<String>> feat : unificationFeats.entrySet()) {
             if (tokSequenceEquivalences.get(j).get(i).containsKey(feat.getKey()) &&
@@ -354,14 +360,16 @@ public class Unifier {
               featUnified = 0;
             } else {
               featUnified++;
-            } // FIXME: a token that does not match is silently skipped
-             // and replaced with a matching token:
-            // the current position in tokSequence has to match j
+            }
             if (featUnified == unificationFeats.entrySet().size()) {
               addTokenToSequence(uTokens, tokSequence.get(j).getAnalyzedToken(i), j);
+              unifiedTokensFound = true;
             }
           }
         }
+      }
+      if (!unifiedTokensFound) {
+        return null;
       }
     }
     return uTokens.toArray(new AnalyzedTokenReadings[uTokens.size()]);
