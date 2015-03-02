@@ -114,14 +114,12 @@ public class Unifier {
     if (allFeatsIn && equivalencesMatched.isEmpty()) {
       return false;
     }
-    // Error: no feature given!
     if (uFeatures == null) {
-      return false; // throw exception??
+      throw new RuntimeException("isSatisfied called without features being set");
     }
     unificationFeats = uFeatures;
 
     boolean unified = true;
-    List<String> types;
     if (allFeatsIn) {
       unified = checkNext(aToken, uFeatures);
     } else {
@@ -129,7 +127,7 @@ public class Unifier {
         equivalencesMatched.add(new ConcurrentHashMap<String, Set<String>>());
       }
       for (final Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
-        types = feat.getValue();
+        List<String> types = feat.getValue();
         if (types == null || types.isEmpty()) {
           types = equivalenceFeatures.get(feat.getKey());
         }
@@ -173,7 +171,6 @@ public class Unifier {
   private boolean checkNext(final AnalyzedToken aToken,
                             final Map<String, List<String>> uFeatures) {
     boolean anyFeatUnified = false;
-    List<String> types;
     final List<Boolean> tokenFeaturesFound = new ArrayList<>(tmpFeaturesFound);
     final Map<String, Set<String>> equivalencesMatchedHere = new ConcurrentHashMap<>();
     if (allFeatsIn) {
@@ -181,7 +178,7 @@ public class Unifier {
         boolean allFeatsUnified = true;
         for (Map.Entry<String, List<String>> feat : uFeatures.entrySet()) {
           boolean featUnified = false;
-          types = feat.getValue();
+          List<String> types = feat.getValue();
           if (types == null || types.isEmpty()) {
             types = equivalenceFeatures.get(feat.getKey());
           }
