@@ -424,7 +424,6 @@ public class UnifierTest extends TestCase {
     assertEquals("[niezgorsze[niezgorszy/adj:sg:acc:n1.n2:pos*,niezgorszy/adj:sg:nom.voc:n1.n2:pos*], " +
         "lekarstwo[lekarstwo/subst:sg:nom:n2*,lekarstwo/subst:sg:voc:n2*,lekarstwo/subst:sg:acc:n2*]]", Arrays.toString(uni.getUnifiedTokens()));
     uni.reset();
-
   }
 
 
@@ -593,7 +592,6 @@ public class UnifierTest extends TestCase {
     assertEquals("[osobiste[osobisty/adj:sg:nom.acc.voc:n:pos:aff*], ,[,/comma*], godło[godło/subst:sg:nom.acc.voc:n*]]",
         Arrays.toString(uni.getFinalUnified()));
     uni.reset();
-
   }
 
-  }
+}
