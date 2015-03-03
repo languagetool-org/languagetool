@@ -33,40 +33,73 @@ import static junit.framework.TestCase.fail;
 public class GermanChunkerTest {
 
   private final JLanguageTool lt = new JLanguageTool(new German());
+  private final GermanChunker chunker = new GermanChunker();
+
+  @Test
+  public void testChunking() throws Exception {
+    assertFullChunks("Ein/B Haus/I");
+    assertFullChunks("Ein/NPP Hund/NPP und/NPP eine/NPP Katze/NPP stehen dort");
+    assertFullChunks("Es war die/NPS größte/NPS und/NPS erfolgreichste/NPS Erfindung/NPS");
+    assertFullChunks("Geräte/B , deren/NPS Bestimmung/NPS und/NPS Funktion/NPS unklar sind.");
+    assertFullChunks("Julia/NPP und/NPP Karsten/NPP sind alt");
+    assertFullChunks("Es ist die/NPS älteste/NPS und/NPS bekannteste/NPS Maßnahme/NPS");
+    assertFullChunks("Das ist eine/NPS Masseeinheit/NPS und/NPS keine/NPS Gewichtseinheit/NPS");
+    assertFullChunks("Sie fährt nur eins/NPS ihrer/NPS drei/NPS Autos/NPS");
+    assertFullChunks("Da sind er/NPP und/NPP seine/NPP Schwester/NPP");
+
+    //assertFullChunks("Sowohl/NPP sein/NPP Vater/NPP als/NPP auch/NPP seine/NPP Mutter/NPP sind da");  //?
+    //assertFullChunks("Sowohl/NPP Tom/NPP als/NPP auch/NPP Maria/NPP sind da");
+    //assertFullChunks("Sowohl/NPP er/NPP als/NPP auch/NPP seine/NPP Schwester/NPP sind da");
+
+    assertFullChunks("Rekonstruktionen/NPP oder/NPP der/NPP Wiederaufbau/NPP sind das/NPS Ziel/NPS");
+    assertFullChunks("Isolation/NPP und/NPP ihre/NPP Überwindung/NPP ist das/NPS Thema/NPS");
+    assertFullChunks("Es gibt weder/NPP Gerechtigkeit/NPP noch/NPP Freiheit/NPP");
+    assertFullChunks("Da sitzen drei/NPP Katzen/NPP");
+    assertFullChunks("Der/NPS von/NPS der/NPS Regierung/NPS geprüfte/NPS Hund/NPS ist grün");
+    assertFullChunks("Herr/NPP und/NPP Frau/NPP Schröder/NPP sind betrunken");
+    //assertFullChunks("Die/NPS hohe/NPS Zahl/NPS dieser/NPS relativ/NPS kleinen/NPS Verwaltungseinheiten/NPS ist beeindruckend");   //?
+    //assertFullChunks("Das ist eine/NPS der/NPS am/NPS meisten/NPS verbreiteten/NPS Krankheiten/NPS");   //?
+    assertFullChunks("Das sind 37/NPS Prozent/NPS");
+    assertFullChunks("Das sind 37/NPP Prozent/NPP");
+    assertFullChunks("Er will die/NPP Arbeitsplätze/NPP so umgestalten , dass/NPP sie/NPP wie/NPP ein/NPP Spiel/NPP sind.");
+    assertFullChunks("So dass Knochenbrüche/NPP und/NPP Platzwunden/NPP die/NPP Regel/NPP sind");
+    assertFullChunks("Eine/NPS Veranstaltung/NPS ,/NPP die/NPP immer/NPP wieder/NPP ein/NPP kultureller/NPP Höhepunkt/NPP war");  // warum NPP?
+    // TODO: add more tests
+  }
 
   // B = begin, will be expanded to B-NP, I = inner, will be expanded to I-NP
   @Test
   public void testOpenNLPLikeChunking() throws Exception {
     //GermanChunker.setDebug(true);
-    assertChunks("Ein/B Haus/I");
-    assertChunks("Da steht ein/B Haus/I");
-    assertChunks("Da steht ein/B schönes/I Haus/I");
-    assertChunks("Da steht ein/B schönes/I großes/I Haus/I");
-    assertChunks("Da steht ein/B sehr/I großes/I Haus/I");
-    assertChunks("Da steht ein/B sehr/I schönes/I großes/I Haus/I");
-    assertChunks("Da steht ein/B sehr/I großes/I Haus/I mit Dach/B");
-    assertChunks("Da steht ein/B sehr/I großes/I Haus/I mit einem/B blauen/I Dach/I");
-    assertChunks("Eine/B leckere/I Lasagne/I");
-    assertChunks("Herr/B Meier/I isst eine/B leckere/I Lasagne/I");
-    assertChunks("Herr/B Schrödinger/I isst einen/B Kuchen/I");
-    assertChunks("Herr/B Schrödinger/I isst einen/B leckeren/I Kuchen/I");
-    assertChunks("Herr/B Karl/I Meier/I isst eine/B leckere/I Lasagne/I");
-    assertChunks("Herr/B Finn/I Westerwalbesloh/I isst eine/B leckere/I Lasagne/I");
-    assertChunks("Unsere/B schöne/I Heimat/I geht den/B Bach/I runter");
-    assertChunks("Er meint das/B Haus/I am grünen/B Hang/I");
-    assertChunks("Ich muss dem/B Hund/I Futter/I geben");  // TODO: see next line for how it should be (but: 'Pariser Innenstadt' should be one NP)
+    assertBasicChunks("Ein/B Haus/I");
+    assertBasicChunks("Da steht ein/B Haus/I");
+    assertBasicChunks("Da steht ein/B schönes/I Haus/I");
+    assertBasicChunks("Da steht ein/B schönes/I großes/I Haus/I");
+    assertBasicChunks("Da steht ein/B sehr/I großes/I Haus/I");
+    assertBasicChunks("Da steht ein/B sehr/I schönes/I großes/I Haus/I");
+    assertBasicChunks("Da steht ein/B sehr/I großes/I Haus/I mit Dach/B");
+    assertBasicChunks("Da steht ein/B sehr/I großes/I Haus/I mit einem/B blauen/I Dach/I");
+    assertBasicChunks("Eine/B leckere/I Lasagne/I");
+    assertBasicChunks("Herr/B Meier/I isst eine/B leckere/I Lasagne/I");
+    assertBasicChunks("Herr/B Schrödinger/I isst einen/B Kuchen/I");
+    assertBasicChunks("Herr/B Schrödinger/I isst einen/B leckeren/I Kuchen/I");
+    assertBasicChunks("Herr/B Karl/I Meier/I isst eine/B leckere/I Lasagne/I");
+    assertBasicChunks("Herr/B Finn/I Westerwalbesloh/I isst eine/B leckere/I Lasagne/I");
+    assertBasicChunks("Unsere/B schöne/I Heimat/I geht den/B Bach/I runter");
+    assertBasicChunks("Er meint das/B Haus/I am grünen/B Hang/I");
+    assertBasicChunks("Ich muss dem/B Hund/I Futter/I geben");  // TODO: see next line for how it should be (but: 'Pariser Innenstadt' should be one NP)
     //assertChunks("Ich muss dem/B Hund/I Futter/B geben");
-    assertChunks("Das/B Wasser/I , das die/B Wärme/I überträgt");
-    assertChunks("Er mag das/B Wasser/I , das/B Meer/I und die/B Luft/I");
-    assertChunks("Schon mehr als zwanzig/B Prozent/I der/B Arbeiter/I sind im Streik/B");
-    assertChunks("Das/B neue/I Gesetz/I betrifft 1000 Bürger/B"); // '1000' sollte evtl. mit in die NP...
-    assertChunks("In zwei/B Wochen/I ist Weihnachten/B");
-    assertChunks("Eines ihrer/B drei/I Autos/I ist blau");
+    assertBasicChunks("Das/B Wasser/I , das die/B Wärme/I überträgt");
+    assertBasicChunks("Er mag das/B Wasser/I , das/B Meer/I und die/B Luft/I");
+    assertBasicChunks("Schon mehr als zwanzig/B Prozent/I der/B Arbeiter/I sind im Streik/B");
+    assertBasicChunks("Das/B neue/I Gesetz/I betrifft 1000 Bürger/B"); // '1000' sollte evtl. mit in die NP...
+    assertBasicChunks("In zwei/B Wochen/I ist Weihnachten/B");
+    assertBasicChunks("Eines ihrer/B drei/I Autos/I ist blau");
   }
 
   @Test
   public void testTemp() throws Exception {
-    assertChunks("Ein/B Haus/I");
+    assertBasicChunks("Ein/B Haus/I");
     //TODO:
     //assertChunks("Eines ihrer/B drei/I Autos/I ist blau");
     //assertChunks("Das/B Wasser/I , das Wärme/B überträgt");  // keine Kongruenz bzgl. Genus -> keine NP
@@ -87,14 +120,35 @@ public class GermanChunkerTest {
     // die Hoffnung auf ein baldiges Ende
   }
 
-  private void assertChunks(String input) throws Exception {
-    String plainInput = input.replaceAll("/[A-Z-]*", "").replace(" ,", ",");
+  private void assertBasicChunks(String input) throws Exception {
+    String plainInput = getPlainInput(input);
     AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(plainInput);
     AnalyzedTokenReadings[] result = analyzedSentence.getTokensWithoutWhitespace();
-    GermanChunker chunker = new GermanChunker();
     List<ChunkTaggedToken> basicChunks = chunker.getBasicChunks(Arrays.asList(result));
     List<String> expectedChunks = getExpectedChunks(input);
     assertChunks(input, plainInput, basicChunks, expectedChunks);
+  }
+
+  private void assertFullChunks(String input) throws Exception {
+    String plainInput = getPlainInput(input);
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(plainInput);
+    AnalyzedTokenReadings[] result = analyzedSentence.getTokensWithoutWhitespace();
+    chunker.addChunkTags(Arrays.asList(result));
+    List<String> expectedChunks = getExpectedChunks(input);
+    List<ChunkTaggedToken> result2 = new ArrayList<>();
+    int i = 0;
+    for (AnalyzedTokenReadings readings : result) {
+      if (i > 0) {
+        ChunkTaggedToken chunkTaggedToken = new ChunkTaggedToken(readings.getToken(), readings.getChunkTags(), readings);
+        result2.add(chunkTaggedToken);
+      }
+      i++;
+    }
+    assertChunks(input, plainInput, result2, expectedChunks);
+  }
+
+  private String getPlainInput(String input) {
+    return input.replaceAll("/[A-Z-]*", "").replace(" ,", ",");
   }
 
   private List<String> getExpectedChunks(String input) {
@@ -108,6 +162,10 @@ public class GermanChunkerTest {
           expectedChunks.add("B-NP");
         } else if (chunk.equals("I")) {
           expectedChunks.add("I-NP");
+        } else if (chunk.equals("NPP")) {
+          expectedChunks.add("NPP");
+        } else if (chunk.equals("NPS")) {
+          expectedChunks.add("NPS");
         } else {
           throw new RuntimeException("Unknown chunk type: '" + chunk + "'");
         }
@@ -118,14 +176,14 @@ public class GermanChunkerTest {
     return expectedChunks;
   }
 
-  private void assertChunks(String input, String plainInput, List<ChunkTaggedToken> basicChunks, List<String> expectedChunks) {
+  private void assertChunks(String input, String plainInput, List<ChunkTaggedToken> chunks, List<String> expectedChunks) {
     int i = 0;
     for (String expectedChunk : expectedChunks) {
-      ChunkTaggedToken outputChunksHere = basicChunks.get(i);
+      ChunkTaggedToken outputChunksHere = chunks.get(i);
       if (!outputChunksHere.getChunkTags().contains(new ChunkTag(expectedChunk))) {
         fail("Expected " + expectedChunk + " but got " + outputChunksHere + " at position " + i + " for input:\n  " + input +
              "\nPlain input:\n  " + plainInput +
-             "\nBasic chunks:\n  " + basicChunks +
+             "\nChunks:\n  " + chunks +
              "\nExpected:\n  " + expectedChunks);
       }
       i++;
