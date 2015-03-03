@@ -42,6 +42,10 @@ import java.util.*;
  */
 public class CaseGovernmentRule extends Rule {
 
+  private static final ChunkTag B_NP = new ChunkTag("B-NP");
+  private static final ChunkTag I_NP = new ChunkTag("I-NP");
+  private static final ChunkTag PP = new ChunkTag("PP");
+
   private final GermanTagger tagger = new GermanTagger();
 
   private boolean debug;
@@ -172,6 +176,10 @@ public class CaseGovernmentRule extends Rule {
       System.out.println("Verb   : " + verbLemma);
       System.out.println("Chunks : " + StringUtils.join(chunks, ", "));
       System.out.println("Cases  : " + StringUtils.join(cases, ", "));
+      System.out.println("Analysis:");
+      for (AnalyzedTokenReadings analyzedTokens : sentence.getTokensWithoutWhitespace()) {
+        System.out.println("  " + analyzedTokens);
+      }
     }
     List<ValencyData> verbCases = valency.get(verbLemma);
     if (verbCases == null) {
@@ -208,22 +216,24 @@ public class CaseGovernmentRule extends Rule {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       List<ChunkTag> chunks = tokenReadings.getChunkTags();
       //System.out.println(chunks + " " + tokenReadings.getToken());
-      if (chunks.contains(new ChunkTag("B-NP"))) {
+      if (chunks.contains(B_NP) && !chunks.contains(PP)) {
         if (currentChunk.length() > 0) {
           result.add(new Chunk(currentChunk.toString().trim(), currentChunkPrecededByComma));
         }
         currentChunk.setLength(0);
         currentChunkPrecededByComma = false;
         inChunk = true;
-      } else if (chunks.contains(new ChunkTag("I-NP"))) {
-        //
       } else {
-        if (currentChunk.length() > 0) {
-          result.add(new Chunk(currentChunk.toString().trim(), currentChunkPrecededByComma));
+        if (chunks.contains(I_NP)) {
+          //
+        } else {
+          if (currentChunk.length() > 0) {
+            result.add(new Chunk(currentChunk.toString().trim(), currentChunkPrecededByComma));
+          }
+          currentChunk.setLength(0);
+          currentChunkPrecededByComma = false;
+          inChunk = false;
         }
-        currentChunk.setLength(0);
-        currentChunkPrecededByComma = false;
-        inChunk = false;
       }
       if (inChunk) {
         currentChunk.append(tokenReadings.getToken()).append(" ");
