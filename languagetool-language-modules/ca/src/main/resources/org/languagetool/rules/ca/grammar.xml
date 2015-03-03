@@ -11698,8 +11698,15 @@ $Id$
                 <example>Llavors va fer un apart</example>
             </rule>
             <rule>
+            <antipattern>
+                <marker>
+                    <token>com</token>
+                    <token>a</token>
+                    <token>apunt</token>
+                </marker>
+            </antipattern>
             <pattern>
-                <token><exception postag="(A.|D[DAI]).[MC]S." postag_regexp="yes"/><exception regexp="yes">breu|extens|curt|llarg</exception></token>
+                <token><exception postag="(A.|D[DAI]).[MC]S." postag_regexp="yes"/><exception regexp="yes">breu|extens|curt|llarg|d'</exception></token>
                 <marker>
                     <token>apunt<exception postag="_possible_nompropi"/></token>
                 </marker>
@@ -11712,6 +11719,7 @@ $Id$
             <example>Li vaig fer un apunt.</example>
             <example>En faig un breu apunt.</example>
             <example>Últim apunt</example>
+            <example>A manera d'apunt</example>
             <!-- a partir del meu apunt
             Tinc el meu a punt.  -->
         </rule>
