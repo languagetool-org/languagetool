@@ -48,10 +48,28 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
     this(language, null);
   }
 
+  /**
+   * @param threadPoolSize the number of concurrent threads
+   * @since 2.9
+   */
+  public MultiThreadedJLanguageTool(Language language, int threadPoolSize) {
+    this(language, null, threadPoolSize);
+  }
+
   public MultiThreadedJLanguageTool(Language language, Language motherTongue) {
+    this(language, motherTongue, getDefaultThreadCount());
+  }
+
+  /**
+   * @param threadPoolSize the number of concurrent threads
+   * @since 2.9
+   */
+  public MultiThreadedJLanguageTool(Language language, Language motherTongue, int threadPoolSize) {
     super(language, motherTongue);
-    
-    threadPoolSize = getDefaultThreadCount();
+    if (threadPoolSize < 1) {
+      throw new IllegalArgumentException("threadPoolSize must be >= 1: " + threadPoolSize);
+    }
+    this.threadPoolSize = threadPoolSize;
     threadPool = Executors.newFixedThreadPool(getThreadPoolSize(), new DaemonThreadFactory());
   }
 
@@ -65,9 +83,7 @@ public class MultiThreadedJLanguageTool extends JLanguageTool {
   }
 
   /**
-   * When no thread pool size is {@link #setThreadPoolSize(int) configured}, the number of available processors is returned. 
-   * 
-   * @see #setThreadPoolSize(int)
+   * When no thread pool size is configured, the number of available processors is returned.
    */
   protected int getThreadPoolSize() {
     return threadPoolSize;
