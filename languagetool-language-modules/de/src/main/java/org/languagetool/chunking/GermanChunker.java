@@ -119,7 +119,7 @@ public class GermanChunker implements Chunker {
       build("<pos=ADJ> <und|sowie> <chunk=B-NP & !pos=PLU> <chunk=I-NP>*", NPS, true),
       // "deren Bestimmung und Funktion" (fixes mistagging introduced above):
       build("<deren> <chunk=B-NP & !pos=PLU> <und|sowie> <chunk=B-NP>*", NPS, true),
-      // "Julia und Karsten ist alt.":
+      // "Julia und Karsten":
       build("<pos=EIG> <und> <pos=EIG>", NPP),
       // "die älteste und bekannteste Maßnahme" - OpenNLP won't detect that as one NP:
       build("<pos=ART> <pos=ADJ> <und|sowie> (<pos=ADJ>|<pos=PA2>) <chunk=I-NP & !pos=PLU>+", NPS, true),
@@ -172,7 +172,7 @@ public class GermanChunker implements Chunker {
       build("<regex=[\\d,.]+> <&prozent;>", NPS),
       build("<regex=[\\d,.]+> <&prozent;>", NPP),
 
-      // "dass sie wie ein Spiel":
+      // "[alle Arbeitsplätze so umzugestalten,] dass sie wie ein Spiel":
       build("<dass> <sie> <wie> <NP>", NPP),
       // "[so dass Knochenbrüche und] Platzwunden die Regel [sind]"
       build("<pos=PLU> <die> <Regel>", NPP),
