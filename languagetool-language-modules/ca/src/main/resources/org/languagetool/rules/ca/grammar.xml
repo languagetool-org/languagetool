@@ -30462,6 +30462,27 @@ $Id$
             <example correction="No hi ha temps|No (tenir) temps"><marker>No dóna temps</marker>.</example>
             <example correction="No hi ha temps|No (tenir) temps"><marker>No em dóna temps</marker> de fer-ho.</example>
         </rule> -->
+        <rule id="PER_SUPOSAT" name="per suposat">
+            <antipattern>
+                <marker>
+                    <token inflected="yes" skip="2">donar</token>
+                    <token>per</token>
+                    <token>suposat</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token>per</token>
+                <token>suposat</token>
+            </pattern>
+            <message>Val més usar una altra expressió</message>
+            <suggestion>per descomptat</suggestion>
+            <suggestion>i tant</suggestion>
+            <suggestion>ja ho crec</suggestion>
+            <suggestion>naturalment</suggestion>
+            <example correction="per descomptat|i tant|ja ho crec|naturalment">No, <marker>per suposat</marker>.</example>
+            <example>No ho donis per suposat</example>
+            <example>No ho donis mai per suposat</example>
+        </rule>
         <rule id="VAGI_PER_ENDAVANT" name="*Vagi per (en)davant que">
             <pattern>
                 <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
@@ -32801,7 +32822,7 @@ $Id$
             <suggestion>tot d'un plegat</suggestion>
             <suggestion>de colp i volta</suggestion>
             <suggestion>de colp i sobte</suggestion>
-            <example correction=""><marker>de repent</marker>.</example>
+            <example correction="de sobte|de cop i volta|tot d'una|de cop i sobte|tot d'un plegat|de colp i volta|de colp i sobte"><marker>de repent</marker>.</example>
         </rule>
         <rule id="TEMPLAT" name="templat">
             <pattern>
