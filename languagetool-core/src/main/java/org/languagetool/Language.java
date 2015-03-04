@@ -304,10 +304,8 @@ public abstract class Language {
   }
 
   /**
-   * Adds an external rule file to the language. After running this method,
-   * one has to run JLanguageTool.activateDefaultPatternRules() to make sure
-   * that all external rules are activated.
-   *
+   * Adds an external rule file to the language. Call this method before
+   * the language is given to the {@link JLanguageTool} constructor.
    * @param externalRuleFile Absolute file path to rules.
    * @since 2.6
    */
@@ -324,9 +322,8 @@ public abstract class Language {
   }
 
   /**
-   * Adds an external false friend rule file to the language. After running this method,
-   * one has to run JLanguageTool.activateDefaultFalseFriendRules() to make sure
-   * that all external rules are activated.
+   * Adds an external false friend rule file to the language. Call this method before
+   * the language is given to the {@link JLanguageTool} constructor.
    * @since 2.9
    */
   public void addExternalFalseFriendFile(String externalFalseFriendFile) {
