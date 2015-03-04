@@ -48,11 +48,8 @@ public class CaseGovernmentRuleTest {
   @Test
   public void testCheckCasesTEMP() throws IOException {
     //rule.setDebug(true);
-    //assertGood("Es kann durchaus auch grüne Autos geben.");
-    //assertGood("Es gibt immer Dinge, die ich nie lernen werde");
-    //assertGood("Gibt man Natriumdihydrogenphosphat (NaH2PO4) zu ein ...");
     //assertGood("Zu dieser Frage gibt es unterschiedliche Standpunkte");
-    //assertGood("„Halbwahrheiten“ gibt es nicht.");
+    //assertGood("Gibt man Natriumdihydrogenphosphat (NaH2PO4) zu ein ...");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");
     //assertGood("Es gibt zu viele Dinge zu tun");
     //assertGood("");
@@ -196,6 +193,10 @@ public class CaseGovernmentRuleTest {
     assertGood("Es sollte mindestens einen Satz geben.");
     assertGood("In einem Wörterbuch wie diesem sollte es mindestens einen Satz geben.");
     assertGood("Es gibt da ein Problem, das du nicht siehst.");
+    assertGood("Es kann auch grüne Autos geben.");
+    assertGood("Es kann durchaus auch grüne Autos geben.");
+    assertGood("Es gibt immer Dinge, die ich nie lernen werde");
+    assertGood("„Halbwahrheiten“ gibt es nicht.");
   }
 
   @Test

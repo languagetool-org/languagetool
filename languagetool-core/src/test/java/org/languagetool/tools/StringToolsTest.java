@@ -27,6 +27,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -151,6 +152,7 @@ public class StringToolsTest extends TestCase {
     list.add(",");
     assertEquals("foo,bar,,", StringTools.listToString(list, ","));
     assertEquals("foo\tbar\t,", StringTools.listToString(list, "\t"));
+    assertEquals("", StringTools.listToString(Collections.<String>emptyList(), ","));
   }
 
   public void testTrimWhitespace() {

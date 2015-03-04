@@ -267,17 +267,16 @@ public class CaseGovernmentRule extends Rule {
           lookup = tagger.lookup(word.toLowerCase());  // try lowercase at sentence start
         }
         Set<String> tokenFeatures = getTokenFeatures(lookup);
-        if (commonFeatures == null) {
-          commonFeatures = new HashSet<>();
-          commonFeatures.addAll(tokenFeatures);
-          //System.out.println(lookup + " -> " + tokenFeatures);
-        } else {
-          commonFeatures.retainAll(tokenFeatures);
-          //System.out.println(lookup + " -> " + tokenFeatures + " retained: " + commonFeatures + "@" + chunk);
+        if (tokenFeatures.size() > 0 ) {  // e.g. for adverbs (ADV) there are no features
+          if (commonFeatures == null) {
+            commonFeatures = new HashSet<>();
+            commonFeatures.addAll(tokenFeatures);
+          } else {
+            commonFeatures.retainAll(tokenFeatures);
+          }
         }
         i++;
       }
-      //commonFeatures = new HashSet<>();
       if (commonFeatures != null) {
         AnalyzedChunk analyzedChunk = featuresToCases(commonFeatures, chunk);
         result.add(analyzedChunk);
@@ -356,7 +355,9 @@ public class CaseGovernmentRule extends Rule {
         }
       }
       //System.out.println("**features " + features + " in " + pos);
-      result.add(StringTools.listToString(features, ":"));
+      if (features.size() > 0) {
+        result.add(StringTools.listToString(features, ":"));
+      }
     }
     return result;
   }
