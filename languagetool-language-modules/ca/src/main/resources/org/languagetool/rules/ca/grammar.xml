@@ -28187,7 +28187,7 @@ $Id$
 	                <marker>
 	                    <token inflected="yes" skip="5" regexp="yes">desvetl?lar</token>
 	                </marker>
-	                <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri</token>
+	                <token postag="N.*|PI.*" postag_regexp="yes" inflected="yes" regexp="yes">final|alineació|incertesa|detall|contingut|motiu|res|nom|pla|causa|origen|veritat|jo|secret|misteri</token>
 	            </pattern>
 	            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">desvelar</match></suggestion> en comptes de "<match no="1" case_conversion="alllower"/>" (= perdre la son, suscitar)?</message>
 	            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">descobrir</match></suggestion>
@@ -34684,6 +34684,12 @@ $Id$
             </rule>    
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_VERBS" name="Falta un element entre verbs: hi ha una cosa *(que) és clara">
+            <antipattern>
+                <marker>
+                    <token>és</token> <!-- funciona una altra regla -->
+                    <token postag="V.[^NGP].*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <or>

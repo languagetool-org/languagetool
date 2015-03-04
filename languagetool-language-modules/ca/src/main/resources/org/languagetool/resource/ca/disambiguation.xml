@@ -1694,12 +1694,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule id="tret" name="tret: no preposició">
             <pattern>
-                <token regexp="yes">el|un|aquest</token>
+                <token postag="D[AID].MS." postag_regexp="yes"/>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">tret</token>
+                    <token postag="N.*" postag_regexp="yes">tret</token>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="N.*"/>
+            <disambig action="filter" postag="N.*|V.P.*"/>
         </rule>
         <rule id="sant" name="sant">
             <pattern>
