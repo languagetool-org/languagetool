@@ -95,6 +95,7 @@ public class GermanChunkerTest {
     assertBasicChunks("Das/B neue/I Gesetz/I betrifft 1000 Bürger/B"); // '1000' sollte evtl. mit in die NP...
     assertBasicChunks("In zwei/B Wochen/I ist Weihnachten/B");
     assertBasicChunks("Eines ihrer/B drei/I Autos/I ist blau");
+    assertBasicChunks("Dazu gibt es/B Ideen/B");
   }
 
   @Test

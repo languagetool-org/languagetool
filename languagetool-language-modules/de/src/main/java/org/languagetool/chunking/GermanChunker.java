@@ -91,7 +91,7 @@ public class GermanChunker implements Chunker {
   
   private static final List<RegularExpressionWithPhraseType> REGEXES1 = Arrays.asList(
       // "das Auto", "das schöne Auto", "das sehr schöne Auto", "die Pariser Innenstadt":
-      build("(<posre=^ART.*>|<pos=PRO>)? <pos=ADV>* <pos=PA2>* <pos=ADJ>* <pos=SUB>+", NP),
+      build("(<posre=^ART.*>|<pos=PRO & !es>)? <pos=ADV>* <pos=PA2>* <pos=ADJ>* <pos=SUB>+", NP),
       // "Mythen und Sagen":
       build("<pos=SUB> (<und|oder>|(<bzw> <.>)) <pos=SUB>", NP),
       // "ältesten und bekanntesten Maßnahmen":

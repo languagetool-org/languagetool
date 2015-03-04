@@ -22,6 +22,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
+import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
 
 import java.io.IOException;
@@ -47,11 +48,11 @@ public class CaseGovernmentRuleTest {
 
   @Test
   public void testCheckCasesTEMP() throws IOException {
+    //GermanChunker.setDebug(true);
     //rule.setDebug(true);
-    //assertGood("Zu dieser Frage gibt es unterschiedliche Standpunkte");
+    //assertGood("Es gibt zu viele Dinge zu tun");
     //assertGood("Gibt man Natriumdihydrogenphosphat (NaH2PO4) zu ein ...");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");
-    //assertGood("Es gibt zu viele Dinge zu tun");
     //assertGood("");
   }
 
@@ -199,6 +200,10 @@ public class CaseGovernmentRuleTest {
     assertGood("„Halbwahrheiten“ gibt es nicht.");
     assertGood("Es gibt Standpunkte");
     assertGood("Es gibt unterschiedliche Standpunkte");
+    assertGood("Zu dieser Frage gibt es Standpunkte");
+    assertGood("Zu dieser Frage gibt es unterschiedliche Standpunkte");
+    assertGood("Es gibt Dinge zu tun");
+    assertGood("Es gibt viele Dinge zu tun");
   }
 
   @Test
