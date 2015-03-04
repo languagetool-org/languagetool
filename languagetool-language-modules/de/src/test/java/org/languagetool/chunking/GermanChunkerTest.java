@@ -39,10 +39,10 @@ public class GermanChunkerTest {
   public void testChunking() throws Exception {
     assertFullChunks("Ein/B Haus/I");
     assertFullChunks("Ein/NPP Hund/NPP und/NPP eine/NPP Katze/NPP stehen dort");
-    assertFullChunks("Es war die/NPS größte/NPS und/NPS erfolgreichste/NPS Erfindung/NPS");
+    assertFullChunks("Es/B war die/NPS größte/NPS und/NPS erfolgreichste/NPS Erfindung/NPS");
     assertFullChunks("Geräte/B , deren/NPS Bestimmung/NPS und/NPS Funktion/NPS unklar sind.");
     assertFullChunks("Julia/NPP und/NPP Karsten/NPP sind alt");
-    assertFullChunks("Es ist die/NPS älteste/NPS und/NPS bekannteste/NPS Maßnahme/NPS");
+    assertFullChunks("Es/B ist die/NPS älteste/NPS und/NPS bekannteste/NPS Maßnahme/NPS");
     assertFullChunks("Das ist eine/NPS Masseeinheit/NPS und/NPS keine/NPS Gewichtseinheit/NPS");
     assertFullChunks("Sie fährt nur eins/NPS ihrer/NPS drei/NPS Autos/NPS");
     assertFullChunks("Da sind er/NPP und/NPP seine/NPP Schwester/NPP");
@@ -53,7 +53,7 @@ public class GermanChunkerTest {
 
     assertFullChunks("Rekonstruktionen/NPP oder/NPP der/NPP Wiederaufbau/NPP sind das/NPS Ziel/NPS");
     assertFullChunks("Isolation/NPP und/NPP ihre/NPP Überwindung/NPP ist das/NPS Thema/NPS");
-    assertFullChunks("Es gibt weder/NPP Gerechtigkeit/NPP noch/NPP Freiheit/NPP");
+    assertFullChunks("Es/B gibt weder/NPP Gerechtigkeit/NPP noch/NPP Freiheit/NPP");
     assertFullChunks("Da sitzen drei/NPP Katzen/NPP");
     assertFullChunks("Der/NPS von/NPS der/NPS Regierung/NPS geprüfte/NPS Hund/NPS ist grün");
     assertFullChunks("Herr/NPP und/NPP Frau/NPP Schröder/NPP sind betrunken");

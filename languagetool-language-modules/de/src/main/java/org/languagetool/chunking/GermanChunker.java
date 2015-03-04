@@ -108,7 +108,9 @@ public class GermanChunker implements Chunker {
       build("<Herr|Herrn|Frau> <pos=EIG>+", NP),
       build("<Herr|Herrn|Frau> <regexCS=[A-ZÖÄÜ][a-zöäü-]+>+", NP),  // für seltene Nachnamen, die nicht im Lexikon sind
 
-      build("<der>", NP)  // simulate OpenNLP?!
+      build("<der>", NP),  // simulate OpenNLP?!
+
+      build("<es>", NP)
   );
 
   private static final List<RegularExpressionWithPhraseType> REGEXES2 = Arrays.asList(
