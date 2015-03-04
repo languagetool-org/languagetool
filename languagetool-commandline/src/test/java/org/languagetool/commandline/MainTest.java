@@ -38,6 +38,7 @@ public class MainTest extends AbstractSecurityTestCase {
   private final File enTestFile;
   private final File xxRuleFile;
   private final File xxFalseFriendFile;
+  private final File bitextFile;
 
   private ByteArrayOutputStream out;
   private ByteArrayOutputStream err;
@@ -77,6 +78,30 @@ public class MainTest extends AbstractSecurityTestCase {
         "        </rule>\n" +
         "    </rulegroup>\n</rules>\n" +
         "    ");
+    bitextFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+        "<rules targetLang=\"pl\" xsi:noNamespaceSchemaLocation=\"../bitext.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
+        "<category name=\"idioms\">\n" +
+        "<rule lang=\"pl\" id=\"red_herring\" name=\"Red herring -> odwraca uwagę\">\n" +
+        "<pattern>\n" +
+        "\t<source lang=\"en\">\n" +
+        "\t\t<token>is</token>\n" +
+        "\t\t<token>a</token>\n" +
+        "\t\t<token>red</token>\n" +
+        "\t\t<token>herring</token>\n" +
+        "\t</source>\n" +
+        "\t<target>\n" +
+        "\t\t<token>jest</token>\n" +
+        "\t\t<token>czerwony</token>\n" +
+        "\t\t<token>śledź</token>\n" +
+        "\t</target>\n" +
+        "</pattern>\n" +
+        "<message>Czy chodziło o <suggestion>odwraca uwagę</suggestion>?</message>\n" +
+        "<example type=\"correct\"><srcExample>This is a red herring.</srcExample>\n" +
+        "\t\t\t\t\t<trgExample>To odwraca uwagę.</trgExample></example>\n" +
+        "<example type=\"incorrect\" correction=\"odwraca uwagę\"><srcExample>This <marker>is a red herring</marker>.</srcExample>\n" +
+        "<trgExample>To <marker>jest czerwony śledź</marker>.</trgExample></example>\n" +
+        "</rule></category></rules>\n");
+
   }
 
   @Override
@@ -405,7 +430,7 @@ public class MainTest extends AbstractSecurityTestCase {
             "Test\tTest\n" +
         "ab\tVery strange data indeed, much longer than input");
 
-    final String[] args = {"-l", "pl", "--bitext", "-m", "en", input.getAbsolutePath()};
+    final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
     assertTrue(output.indexOf("Expected text language: Polish") == 0);
@@ -454,36 +479,11 @@ public class MainTest extends AbstractSecurityTestCase {
 
   public void testBitextWithExternalRule() throws Exception {
     final File input = writeToTempFile("This is a red herring.\tTo jest czerwony śledź.");
-
-    final File bitextFile = writeToTempXMLFile("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-        "<rules targetLang=\"pl\" xsi:noNamespaceSchemaLocation=\"../bitext.xsd\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xs=\"http://www.w3.org/2001/XMLSchema\">\n" +
-        "<category name=\"idioms\">\n" +
-        "<rule lang=\"pl\" id=\"red_herring\" name=\"Red herring -> odwraca uwagę\">\n" +
-        "<pattern>\n" +
-        "\t<source lang=\"en\">\n" +
-        "\t\t<token>is</token>\n" +
-        "\t\t<token>a</token>\n" +
-        "\t\t<token>red</token>\n" +
-        "\t\t<token>herring</token>\n" +
-        "\t</source>\n" +
-        "\t<target>\n" +
-        "\t\t<token>jest</token>\n" +
-        "\t\t<token>czerwony</token>\n" +
-        "\t\t<token>śledź</token>\n" +
-        "\t</target>\n" +
-        "</pattern>\n" +
-        "<message>Czy chodziło o <suggestion>odwraca uwagę</suggestion>?</message>\n" +
-        "<example type=\"correct\"><srcExample>This is a red herring.</srcExample>\n" +
-        "\t\t\t\t\t<trgExample>To odwraca uwagę.</trgExample></example>\n" +
-        "<example type=\"incorrect\" correction=\"odwraca uwagę\"><srcExample>This <marker>is a red herring</marker>.</srcExample>\n" +
-        "<trgExample>To <marker>jest czerwony śledź</marker>.</trgExample></example>\n" +
-        "</rule></category></rules>\n");
-
-    final String[] args = {"-l", "pl", "--bitext", "-m", "en", "--bitextrules",
+    final String[] args = {"-l", "pl", "-c", "UTF-8", "--bitext", "-m", "en", "--bitextrules",
         bitextFile.getAbsolutePath(), input.getAbsolutePath()};
     Main.main(args);
     final String output = new String(this.out.toByteArray());
-    assertTrue(output.contains("Rule ID: red_herring"));
+    assertTrue("red_herring rule should be in the output" + output, output.contains("Rule ID: red_herring"));
   }
 
 
