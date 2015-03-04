@@ -23,9 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
-import org.languagetool.language.German;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.de.GermanTagger;
@@ -177,7 +175,7 @@ public class CaseGovernmentRule extends Rule {
 
   @Nullable
   CheckResult checkGovernment(AnalyzedSentence sentence) throws IOException {
-    String verbLemma = getVerb(sentence.getText());
+    String verbLemma = getVerb(sentence);
     if (verbLemma == null) {
       return null;
     }
@@ -205,9 +203,7 @@ public class CaseGovernmentRule extends Rule {
     return new CheckResult(correct, cases, verbCases, verbLemma);
   }
 
-  private String getVerb(String sentence) throws IOException {
-    JLanguageTool lt = new JLanguageTool(new German());
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
+  private String getVerb(AnalyzedSentence analyzedSentence) {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
