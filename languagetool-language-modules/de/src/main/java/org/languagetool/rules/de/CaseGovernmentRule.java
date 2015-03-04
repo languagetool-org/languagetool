@@ -120,7 +120,7 @@ public class CaseGovernmentRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     CheckResult result = checkGovernment(sentence);
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    if (result != null && !result.correct) {
+    if (result != null && !result.correct && !hasUnknownToken(sentence.getTokensWithoutWhitespace())) {
       String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " +
               getExpectedStrings(result.verbCases) + "." +
               " Gefunden wurden aber: " + getSentenceStrings(result.analyzedChunks);
@@ -133,6 +133,18 @@ public class CaseGovernmentRule extends Rule {
   /** @deprecated use for development only */
   void setDebug(boolean debug) {
     this.debug = debug;
+  }
+
+  // If there's an unknown word we cannot detect the noun phrases, so we have to ignore the sentence...
+  private boolean hasUnknownToken(AnalyzedTokenReadings[] tokens) {
+    for (AnalyzedTokenReadings token : tokens) {
+      for (AnalyzedToken analyzedToken : token.getReadings()) {
+        if (analyzedToken.hasNoTag()) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private String getExpectedStrings(List<ValencyData> result) {

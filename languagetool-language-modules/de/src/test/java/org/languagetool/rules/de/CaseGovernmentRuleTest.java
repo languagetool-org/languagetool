@@ -24,6 +24,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
+import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 import java.util.*;
@@ -33,7 +34,6 @@ import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.fail;
 import static org.languagetool.rules.de.CaseGovernmentRule.*;
 import static org.languagetool.rules.de.CaseGovernmentRule.Case;
 
@@ -50,8 +50,7 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
-    //assertGood("Gibt man Natriumdihydrogenphosphat (NaH2PO4) zu ein ...");
-    //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");
+    //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
     //assertGood("");
   }
 
@@ -205,6 +204,9 @@ public class CaseGovernmentRuleTest {
     assertGood("Es gibt viele Dinge zu tun");
     assertGood("Es gibt zu viele Dinge zu tun");
     assertGood("Es gibt zu wichtige Dinge zu tun");
+
+    assertGood("Dann gibt man Natriumdihydrogenphosphat zu Wasser.");   // Natriumdihydrogenphosphat is unknown
+    assertGood("Dann gibt man Natriumdihydrogenphosphat (NaH2PO4) zu Wasser.");
   }
 
   @Test
@@ -232,11 +234,8 @@ public class CaseGovernmentRuleTest {
   }
 
   private void assertGood(String sentence) throws IOException {
-    CaseGovernmentRule.CheckResult result = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
-    if (result == null) {
-      fail("Null result, maybe verb not detected?");
-    }
-    assertTrue(result.isCorrect());
+    RuleMatch[] result = rule.match(lt.getAnalyzedSentence(sentence));
+    assertThat(result.length, is(0));
   }
 
   private void assertNullResult(String sentence) throws IOException {
@@ -245,8 +244,8 @@ public class CaseGovernmentRuleTest {
   }
 
   private void assertBad(String sentence) throws IOException {
-    CaseGovernmentRule.CheckResult result = rule.checkGovernment(lt.getAnalyzedSentence(sentence));
-    assertFalse(result != null && result.isCorrect());
+    RuleMatch[] result = rule.match(lt.getAnalyzedSentence(sentence));
+    assertThat(result.length, is(1));
   }
 
 }
