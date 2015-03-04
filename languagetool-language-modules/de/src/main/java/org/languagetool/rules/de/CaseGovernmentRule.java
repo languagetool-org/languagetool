@@ -243,6 +243,9 @@ public class CaseGovernmentRule extends Rule {
       }
       prevIsComma = tokenReadings.getToken().equals(",");
     }
+    if (currentChunk.length() > 0) {
+      result.add(new Chunk(currentChunk.toString().trim(), currentChunkPrecededByComma));
+    }
     return result;
   }
 

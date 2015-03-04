@@ -197,6 +197,8 @@ public class CaseGovernmentRuleTest {
     assertGood("Es kann durchaus auch grüne Autos geben.");
     assertGood("Es gibt immer Dinge, die ich nie lernen werde");
     assertGood("„Halbwahrheiten“ gibt es nicht.");
+    assertGood("Es gibt Standpunkte");
+    assertGood("Es gibt unterschiedliche Standpunkte");
   }
 
   @Test
