@@ -50,7 +50,6 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
-    //assertGood("Es gibt zu viele Dinge zu tun");
     //assertGood("Gibt man Natriumdihydrogenphosphat (NaH2PO4) zu ein ...");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");
     //assertGood("");
@@ -204,6 +203,8 @@ public class CaseGovernmentRuleTest {
     assertGood("Zu dieser Frage gibt es unterschiedliche Standpunkte");
     assertGood("Es gibt Dinge zu tun");
     assertGood("Es gibt viele Dinge zu tun");
+    assertGood("Es gibt zu viele Dinge zu tun");
+    assertGood("Es gibt zu wichtige Dinge zu tun");
   }
 
   @Test

@@ -64,13 +64,13 @@ public class GermanChunkerTest {
     assertFullChunks("Er will die/NPP Arbeitsplätze/NPP so umgestalten , dass/NPP sie/NPP wie/NPP ein/NPP Spiel/NPP sind.");
     assertFullChunks("So dass Knochenbrüche/NPP und/NPP Platzwunden/NPP die/NPP Regel/NPP sind");
     assertFullChunks("Eine/NPS Veranstaltung/NPS ,/NPP die/NPP immer/NPP wieder/NPP ein/NPP kultureller/NPP Höhepunkt/NPP war");  // warum NPP?
+    assertFullChunks("Dazu gibt es/B zu viele/B Anträge/I");  // "zu viele" is not PP
     // TODO: add more tests
   }
 
   // B = begin, will be expanded to B-NP, I = inner, will be expanded to I-NP
   @Test
   public void testOpenNLPLikeChunking() throws Exception {
-    //GermanChunker.setDebug(true);
     assertBasicChunks("Ein/B Haus/I");
     assertBasicChunks("Da steht ein/B Haus/I");
     assertBasicChunks("Da steht ein/B schönes/I Haus/I");
@@ -96,11 +96,13 @@ public class GermanChunkerTest {
     assertBasicChunks("In zwei/B Wochen/I ist Weihnachten/B");
     assertBasicChunks("Eines ihrer/B drei/I Autos/I ist blau");
     assertBasicChunks("Dazu gibt es/B Ideen/B");
+    assertBasicChunks("Dazu gibt es/B zu viele/B Anträge/I");
   }
 
   @Test
   public void testTemp() throws Exception {
-    assertBasicChunks("Ein/B Haus/I");
+    //GermanChunker.setDebug(true);
+    //assertFullChunks("Dazu gibt es/B zu viele/B Anträge/I");
     //TODO:
     //assertChunks("Eines ihrer/B drei/I Autos/I ist blau");
     //assertChunks("Das/B Wasser/I , das Wärme/B überträgt");  // keine Kongruenz bzgl. Genus -> keine NP

@@ -41,6 +41,7 @@ public class GermanChunker implements Chunker {
   private static final Map<String,String> SYNTAX_EXPANSION = new HashMap<>();
   static {
     SYNTAX_EXPANSION.put("<NP>", "<chunk=B-NP> <chunk=I-NP>*");
+    SYNTAX_EXPANSION.put("<NPex>", "<chunk=B-NP & !viele> <chunk=I-NP>*");
     SYNTAX_EXPANSION.put("&prozent;", "Prozent|Kilo|Kilogramm|Gramm|Euro|Pfund");
   }
 
@@ -211,15 +212,15 @@ public class GermanChunker implements Chunker {
       build("<pos=PRP> <pos=ART:> <pos=ADV>* <pos=ADJ> <NP>", PP, true),
       // "in den alten Religionen, Mythen und Sagen":
       build("<pos=PRP> <chunk=NPP>+ <,> <NP>", PP, true),
-      // "für die Stadtteile und selbständigen Ortsteile":
-      build("<pos=PRP> <chunk=NPP>+", PP, true),
+      // "für die Stadtteile und selbständigen Ortsteile", nicht "zu viele Anträge":
+      build("<pos=PRP> <chunk=NPP & !viele>+", PP, true),
       // "in chemischen Komplexverbindungen", "für die Fische":
-      build("<pos=PRP> <NP>", PP),
+      build("<pos=PRP> <NPex>", PP),
       // "einschließlich der biologischen und sozialen Grundlagen":
       // with OpenNLP: build("<pos=PRP> <NP> <pos=ADJ> (<und>|<oder>|<bzw.>) <pos=ADJ> <NP>", PP),
-      build("<pos=PRP> <NP> <pos=ADJ> (<und>|<oder>|<bzw.>) <NP>", PP),
+      build("<pos=PRP> <NPex> <pos=ADJ> (<und>|<oder>|<bzw.>) <NP>", PP),
       // "für Ärzte und Ärztinnen festgestellte Risikoprofil", "der als Befestigung gedachte östliche Teil der Burg":
-      build("<pos=PRP> (<NP>)+", PP),
+      build("<pos=PRP> (<NPex>)+", PP),
       // "in den darauf folgenden Wochen":
       build("<pos=PRP> <chunk=B-NP> <pos=ADV> <NP>", PP),
       // "in nur zwei Wochen":
