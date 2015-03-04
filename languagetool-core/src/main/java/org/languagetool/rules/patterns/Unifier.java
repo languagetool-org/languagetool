@@ -149,6 +149,7 @@ public class Unifier {
         }
         unified = equivalencesMatched.get(tokCnt).containsKey(feat.getKey());
         if (!unified) {
+          equivalencesMatched.remove(tokCnt);
           break;
         }
       }
@@ -249,9 +250,9 @@ public class Unifier {
               } else {
                 tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
               }
+            } else {
+              tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
             }
-          } else {
-            tokSequenceEquivalences.get(j).get(i).remove(feat.getKey());
           }
         }
       }
@@ -304,12 +305,13 @@ public class Unifier {
             }
           }
         }
-        if (tokUnified == tokSequence.size()) {
-          return true;
-        }
+
       }
       if (!unifiedTokensFound)
         return false;
+    }
+    if (tokUnified == tokSequence.size()) {
+      return true;
     }
     return false;
   }
