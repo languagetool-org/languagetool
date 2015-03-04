@@ -700,11 +700,7 @@ public final class Main {
         s = "";
       }
     } catch (Exception ex) {
-      if (data != null) {
-        s = data.toString();
-      } else {
-        s = "";
-      }
+      s = data.toString();
     }
     return s;
   }
@@ -832,7 +828,7 @@ public final class Main {
           ((Language) languageBox.getSelectedItem()).getLocale()));
         
         taggerDialog.setVisible(true);
-        taggerArea.setText(HTML_FONT_START + sb.toString() + HTML_FONT_END);
+        taggerArea.setText(HTML_FONT_START + sb + HTML_FONT_END);
       }
     });
   }
