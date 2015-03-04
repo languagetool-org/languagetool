@@ -106,6 +106,10 @@ public final class Main {
     if (file == null) {  // user clicked cancel
       return;
     }
+    loadFile(file);
+  }
+
+  private void loadFile(File file) {
     try (FileInputStream inputStream = new FileInputStream(file)) {
       final String fileContents = StringTools.readStream(inputStream, null);
       textArea.setText(fileContents);
@@ -857,21 +861,27 @@ public final class Main {
           }
         }
       });
-    } else if (args.length >= 1) {
-      System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
-      System.out.println("  -t, --tray: dock LanguageTool to system tray on startup");
-    } else {
+    } else if (args.length == 0 || args.length == 1) {
       javax.swing.SwingUtilities.invokeLater(new Runnable() {
         @Override
         public void run() {
           try {
             prg.createGUI();
             prg.showGUI();
+            if (args.length == 1) {
+              prg.loadFile(new File(args[0]));
+            }
           } catch (Exception e) {
             Tools.showError(e);
           }
         }
       });
+    } else {
+      System.out.println("Usage: java org.languagetool.gui.Main [-t|--tray]");
+      System.out.println("    or java org.languagetool.gui.Main [file]");
+      System.out.println("Parameters:");
+      System.out.println("    -t, --tray: dock LanguageTool to system tray on startup");
+      System.out.println("    file:       a plain text file to load on startup");
     }
   }
 
