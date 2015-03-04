@@ -58,10 +58,8 @@ public class CommandLineOptions {
   private boolean useEnabledOnly = false;
   @Nullable
   private String ruleFile = null;
-
   @Nullable
   private String falseFriendFile = null;
-
   @Nullable
   private String bitextRuleFile = null;
 
@@ -272,31 +270,39 @@ public class CommandLineOptions {
     this.printLanguages = printLanguages;
   }
 
-  /** @since 2.9
-   *
-  * @param arg False friends filename.
+  /**
+   * @param arg False friends filename
+   * @since 2.9
    */
-  public void setFalseFriendFile(String arg) {falseFriendFile = arg; }
+  public void setFalseFriendFile(String arg) {
+    falseFriendFile = arg;
+  }
 
   /**
+   * @return False friends file name or {@code null}
    * @since 2.9
-   * @return False friends file name.
-   */
-  @Nullable
-  public String getFalseFriendFile() { return falseFriendFile;  }
-
-  /**
-   * @since 2.9
-   * @return   the bitext rule file name
    */
   @Nullable
-  public String getBitextRuleFile() { return bitextRuleFile; }
+  public String getFalseFriendFile() {
+    return falseFriendFile;
+  }
 
   /**
+   * @return the bitext rule file name or {@code null}
    * @since 2.9
+   */
+  @Nullable
+  public String getBitextRuleFile() {
+    return bitextRuleFile;
+  }
+
+  /**
    * @param bitextRuleFile the bitext rule file name
+   * @since 2.9
    */
-  public void setBitextRuleFile(@Nullable String bitextRuleFile) { this.bitextRuleFile = bitextRuleFile;  }
+  public void setBitextRuleFile(String bitextRuleFile) {
+    this.bitextRuleFile = bitextRuleFile;
+  }
 
 }
 

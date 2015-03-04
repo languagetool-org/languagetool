@@ -63,9 +63,7 @@ public abstract class Language {
   private static List<Language> externalLanguages = new ArrayList<>();
 
   private final List<String> externalRuleFiles = new ArrayList<>();
-
   private final List<String> externalFalseFriendFiles = new ArrayList<>();
-
   private final List<String> externalBitextRules = new ArrayList<>();
 
   private boolean isExternalLanguage = false;
@@ -318,8 +316,8 @@ public abstract class Language {
   }
 
   /**
+   * @return The list of file names for external false friend files.
    * @since 2.9
-   * @return   The list of file names for external false friend files.
    */
   public List<String> getExternalFalseFriendFiles() {
     return externalFalseFriendFiles;
@@ -329,7 +327,6 @@ public abstract class Language {
    * Adds an external false friend rule file to the language. After running this method,
    * one has to run JLanguageTool.activateDefaultFalseFriendRules() to make sure
    * that all external rules are activated.
-   * @param externalFalseFriendFile
    * @since 2.9
    */
   public void addExternalFalseFriendFile(String externalFalseFriendFile) {
@@ -337,17 +334,17 @@ public abstract class Language {
   }
 
   /**
-   * @since 2.9
    * @return external bitext rule file names.
+   * @since 2.9
    */
   public List<String> getExternalBitextRules() {
     return externalBitextRules;
   }
 
   /**
-   * @since 2.9
    * @param externalBitextRuleFile set an external bitext file to use in bitext checks
    *                               for this language (used as a target language)
+   * @since 2.9
    */
   public void addExternalBitextRules(String externalBitextRuleFile) {
     externalBitextRules.add(externalBitextRuleFile);
