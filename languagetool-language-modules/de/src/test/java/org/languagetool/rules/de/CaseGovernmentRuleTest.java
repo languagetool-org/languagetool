@@ -46,8 +46,12 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
+    //assertGood("Gib mir ein Taschentuch.");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
-    //assertGood("");
+    //assertGood("Gib mir Zeit, dir alles zu geben, was ich habe!");
+    //assertGood("Ich gebe dir mein Wort.");
+    //assertGood("Wenn es keine Lösung gibt, dann gibt es kein Probleme.");
+    //assertGood("Eine grobe Untersuchung seiner Zähne gab zu erkennen, das alles gut war.");
   }
 
   @Test
@@ -231,7 +235,7 @@ public class CaseGovernmentRuleTest {
 
   private void assertGood(String sentence) throws IOException {
     RuleMatch[] result = rule.match(lt.getAnalyzedSentence(sentence));
-    assertThat(result.length, is(0));
+    assertThat("Got " + Arrays.toString(result), result.length, is(0));
   }
 
   private void assertNullResult(String sentence) throws IOException {
