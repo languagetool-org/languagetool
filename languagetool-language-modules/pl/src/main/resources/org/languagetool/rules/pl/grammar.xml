@@ -4698,6 +4698,20 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy składniowe" type="grammar">
+            <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
+                <pattern>
+                    <token postag='SENT_START' skip='-1'><exception regexp='yes' scope='next'>[,;]</exception><exception postag='verb:.*|pred' postag_regexp='yes' scope='next'></exception></token>
+                    <token postag='pcon.*' postag_regexp='yes' skip='-1'><exception scope='next'>(</exception></token>
+                    <marker>
+                        <token skip='-1'>,<exception postag='verb:.*|pred' postag_regexp='yes' scope='next'></exception></token>
+                        <token postag='SENT_END'></token>
+                    </marker>
+                </pattern>
+                <message>Prawdopodobnie brak orzeczenia w tej części zdania, rozpoczętego od imiesłowu.</message>
+                <short>Brak orzeczenia</short>
+                <example correction=''>Kupując 2 pizze<marker>, trzecia gratis!</marker></example>
+                <example>Kupując 2 pizze, trzecią otrzymujesz gratis!</example>
+            </rule>
                 <rule id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
                     <antipattern> <!-- dokonałbym ... był -->
                         <unify>
@@ -6034,6 +6048,20 @@ $Id$
 				</rule>
 		</category>
 		<category name="Błędy leksykalne" type="style">
+            <rule id="zarowno_jak_rowniez" name="zarówno… jak również (jak)">
+                <pattern>
+                    <token skip="-1">zarówno</token>
+                    <token>,</token>
+                    <marker>
+                        <token>jak</token>
+                        <token>również</token>
+                    </marker>
+                </pattern>
+                <message>Ten spójnik nie jest najlepszy stylistycznie. Lepiej: <suggestion>jak i</suggestion>.</message>
+                <url>http://sjp.pwn.pl/poradnia/haslo/zarowno-jak-i;7842.html</url>
+                <short>Rozwlekłość</short>
+                <example correction="jak i">Zarówno goście, <marker>jak również</marker> organizatorzy wezmą udział w dyskusjach po konferencji.</example>
+            </rule>
             <rule id="ZA_POMOCA_M1" name="„Za pomocą wujka” (przy pomocy wujka)">
                 <pattern>
                     <token>za</token>
@@ -14528,6 +14556,30 @@ $Id$
           <example>On jest tłumaczem.</example>
           <example correction="tłumaczem">On jest <marker>tłomaczem</marker>.</example>          
         </rule>
+            <rulegroup id="PADL_DESZCZ" name="„padł deszcz” (padał deszcz)">
+                <rule>
+                <pattern>
+                    <marker>
+                        <token>padł</token>
+                    </marker>
+                    <token>deszcz</token>
+                </pattern>
+                <message>Prawdopodobna literówka. Czy chodziło o <suggestion>padał</suggestion>?</message>
+                <short>Prawdopodobna literówka</short>
+                <example correction="padał">W nocy <marker>padł</marker> deszcz.</example>
+                </rule>
+                <rule>
+                    <pattern>
+                        <token>deszcz</token>
+                        <marker>
+                            <token>padł</token>
+                        </marker>
+                    </pattern>
+                    <message>Prawdopodobna literówka. Czy chodziło o <suggestion>padał</suggestion>?</message>
+                    <short>Prawdopodobna literówka</short>
+                    <example correction="padał">Deszcz <marker>padł</marker> w nocy.</example>
+                </rule>
+            </rulegroup>
             <rule id="SADOWA" name="„sadowy” (sądowy)">
                 <pattern case_sensitive='yes'>
                     <token inflected='yes'>sadowy<exception regexp='yes'>S.*</exception></token>
