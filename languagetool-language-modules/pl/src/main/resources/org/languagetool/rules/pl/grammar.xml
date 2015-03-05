@@ -4699,11 +4699,28 @@ $Id$
 		</category>
 		<category name="Błędy składniowe" type="grammar">
             <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
+                <antipattern>
+                    <token>krótko</token>
+                    <marker><token>mówiąc</token></marker>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>między</token>
+                    <token>nami</token>
+                    <marker><token>mówiąc</token></marker>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <marker><token>mówiąc</token></marker>
+                    <token>między</token>
+                    <token>nami</token>
+                    <token>,</token>
+                </antipattern>
                 <pattern>
                     <token postag='SENT_START' skip='-1'><exception regexp='yes' scope='next'>[,;]</exception><exception postag='verb:.*|pred' postag_regexp='yes' scope='next'></exception></token>
-                    <token postag='pcon.*' postag_regexp='yes' skip='-1'><exception scope='next'>(</exception></token>
+                    <token postag='pcon.*' postag_regexp='yes' skip='-1'><exception scope='next' regexp="yes">[\(\)]</exception><exception postag='verb:.*|pred' postag_regexp='yes' scope='next'/></token>
                     <marker>
-                        <token skip='-1'>,<exception postag='verb:.*|pred' postag_regexp='yes' scope='next'></exception></token>
+                        <token skip='-1'>,<exception postag='verb:.*|pred' postag_regexp='yes' scope='next'/></token>
                         <token postag='SENT_END'></token>
                     </marker>
                 </pattern>
@@ -4711,6 +4728,7 @@ $Id$
                 <short>Brak orzeczenia</short>
                 <example correction=''>Kupując 2 pizze<marker>, trzecia gratis!</marker></example>
                 <example>Kupując 2 pizze, trzecią otrzymujesz gratis!</example>
+                <example>Mówiąc między nami, to moja dziewczyna.</example>
             </rule>
                 <rule id="ZOSTALO_ZROBIONE" name="Brak zgodności czasownika z imiesłowem (np. „zostało zrobiony”)">
                     <antipattern> <!-- dokonałbym ... był -->
@@ -10404,7 +10422,51 @@ $Id$
 								<example>Widziałem nad tamtym morzem bałtyckie rybitwy.</example>
 						</rule>
 				</rulegroup>
-				<rule id="SRI_LANKA" name="„Sri lanka” (Sri Lanka)">
+            <rulegroup id="OCEAN_ATLANTYCKI" name="„ocean atlantycki” (Ocean Atlantycki)">
+                <rule>
+                    <pattern case_sensitive="yes">
+                        <unify>
+                            <feature id="number"></feature>
+                            <feature id="gender"></feature>
+                            <feature id="case"></feature>
+                            <and>
+                                <token inflected="yes">ocean</token>
+                                <token regexp="yes">Oc.*</token>
+                            </and>
+                            <and>
+                                <token inflected="yes" regexp="yes">atlantycki|spokojny|indyjski|południowy|północny</token>
+                                <token regexp="yes">\p{Ll}+</token>
+                            </and>
+                        </unify>
+                    </pattern>
+                    <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+                    <short>Błędne użycie małych i wielkich liter</short>
+                    <example correction="Oceanu Atlantyckiego">Polska nie ma dostępu do <marker>Oceanu atlantyckiego</marker>.</example>
+                    <example>Uwielbiam klimat Oceanu Atlantyckiego.</example>
+                    <example>Widziałem nad tamtym oceanem spokojne rybitwy.</example>
+                </rule>
+                <rule>
+                    <pattern case_sensitive="yes">
+                        <unify>
+                            <feature id="number"></feature>
+                            <feature id="gender"></feature>
+                            <feature id="case"></feature>
+                            <and>
+                                <token inflected="yes">ocean</token>
+                                <token regexp="yes">oc.*</token>
+                            </and>
+                            <token inflected="yes" regexp="yes">atlantycki|spokojny|indyjski|południowy|północny</token>
+                        </unify>
+                    </pattern>
+                    <message>Błędna pisownia. Powinno być: <suggestion><match case_conversion="startupper" no="1"></match> <match case_conversion="startupper" no="2"></match></suggestion>.</message>
+                    <short>Błędne użycie małych i wielkich liter</short>
+                    <example correction="Oceanu Atlantyckiego">Polska nie ma dostępu do <marker>oceanu Atlantyckiego</marker>.</example>
+                    <example correction="Oceanu Atlantyckiego">Polska ma dostęp do <marker>oceanu atlantyckiego</marker>.</example>
+                    <example>Uwielbiam klimat Oceanu Atlantyckiego.</example>
+                    <example>Widziałem nad tamtym oceanem spokojne rybitwy.</example>
+                </rule>
+            </rulegroup>
+            <rule id="SRI_LANKA" name="„Sri lanka” (Sri Lanka)">
 						<pattern case_sensitive="yes">
 								<token>Sri</token>
 								<and>
