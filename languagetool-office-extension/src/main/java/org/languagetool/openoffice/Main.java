@@ -824,8 +824,7 @@ class ErrorPositionComparator implements Comparator<SingleProofreadingError> {
     } else {
       if (match1.aSuggestions.length != 0 && match2.aSuggestions.length != 0
           && match1.aSuggestions.length != match2.aSuggestions.length) {
-        return ((Integer) (match1.aSuggestions.length))
-            .compareTo(match2.aSuggestions.length);
+        return Integer.compare(match1.aSuggestions.length, match2.aSuggestions.length);
       }
     }
     return match1.aRuleIdentifier.compareTo(match2.aRuleIdentifier);
