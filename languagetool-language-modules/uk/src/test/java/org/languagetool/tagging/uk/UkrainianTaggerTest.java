@@ -101,8 +101,7 @@ public class UkrainianTaggerTest extends TestCase {
     TestTools.myAssert("гей-но", "гей-но/[гей]excl", tokenizer, tagger);
     TestTools.myAssert("цить-но", "цить-но/[цить]excl", tokenizer, tagger);
 
-  //FIXME: this fails for me!
-//    TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:m:v_naz:anim", tokenizer, tagger);
+    TestTools.myAssert("екс-партнер", "екс-партнер/[екс-партнер]noun:m:v_naz:anim", tokenizer, tagger);
 
     // TODO: старий -> старший
     TestTools.myAssert("Алієва-старшого", "Алієва-старшого/[Алієв-старий]noun:m:v_rod:anim:lname|Алієва-старшого/[Алієв-старий]noun:m:v_zna:anim:lname", tokenizer, tagger);
@@ -127,18 +126,17 @@ public class UkrainianTaggerTest extends TestCase {
 
     // inanim-anim
     TestTools.myAssert("вчених-новаторів", "вчених-новаторів/[вчений-новатор]noun:p:v_rod:anim:v-u|вчених-новаторів/[вчений-новатор]noun:p:v_zna:anim:v-u", tokenizer, tagger);
-    //FIXME: this fails here!
-//    TestTools.myAssert("країна-виробник", "країна-виробник/[країна-виробник]noun:f:v_naz", tokenizer, tagger);
-//    TestTools.myAssert("банк-виробник", "банк-виробник/[банк-виробник]noun:m:v_naz|банк-виробник/[банк-виробник]noun:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("країна-виробник", "країна-виробник/[країна-виробник]noun:f:v_naz", tokenizer, tagger);
+    TestTools.myAssert("банк-виробник", "банк-виробник/[банк-виробник]noun:m:v_naz|банк-виробник/[банк-виробник]noun:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("банки-агенти", "банки-агенти/[банк-агент]noun:p:v_naz|банки-агенти/[банк-агент]noun:p:v_zna|банки-агенти/[банка-агент]noun:p:v_naz|банки-агенти/[банка-агент]noun:p:v_zna", tokenizer, tagger);
-//    TestTools.myAssert("місто-гігант", "місто-гігант/[місто-гігант]noun:n:v_naz|місто-гігант/[місто-гігант]noun:n:v_zna", tokenizer, tagger);
-//    TestTools.myAssert("країни-агресори", "країни-агресори/[країна-агресор]noun:p:v_naz|країни-агресори/[країна-агресор]noun:p:v_zna", tokenizer, tagger);
-//    TestTools.myAssert("поселення-гігант", "поселення-гігант/[поселення-гігант]noun:n:v_naz|поселення-гігант/[поселення-гігант]noun:n:v_zna", tokenizer, tagger);
+    TestTools.myAssert("місто-гігант", "місто-гігант/[місто-гігант]noun:n:v_naz|місто-гігант/[місто-гігант]noun:n:v_zna", tokenizer, tagger);
+    TestTools.myAssert("країни-агресори", "країни-агресори/[країна-агресор]noun:p:v_naz|країни-агресори/[країна-агресор]noun:p:v_zna", tokenizer, tagger);
+    TestTools.myAssert("поселення-гігант", "поселення-гігант/[поселення-гігант]noun:n:v_naz|поселення-гігант/[поселення-гігант]noun:n:v_zna", tokenizer, tagger);
     
-//    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:m:v_naz|сонях-красень/[сонях-красень]noun:m:v_zna", tokenizer, tagger);
-//    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:m:v_naz|красень-сонях/[красень-сонях]noun:m:v_zna", tokenizer, tagger);
-//    TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:p:v_rod:anim|депутатів-привидів/[депутат-привид]noun:p:v_zna:anim", tokenizer, tagger);
-//    TestTools.myAssert("дівчата-зірочки", "дівчата-зірочки/[дівча-зірочка]noun:p:v_naz:anim", tokenizer, tagger);
+    TestTools.myAssert("сонях-красень", "сонях-красень/[сонях-красень]noun:m:v_naz|сонях-красень/[сонях-красень]noun:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("красень-сонях", "красень-сонях/[красень-сонях]noun:m:v_naz|красень-сонях/[красень-сонях]noun:m:v_zna", tokenizer, tagger);
+    TestTools.myAssert("депутатів-привидів", "депутатів-привидів/[депутат-привид]noun:p:v_rod:anim|депутатів-привидів/[депутат-привид]noun:p:v_zna:anim", tokenizer, tagger);
+    TestTools.myAssert("дівчата-зірочки", "дівчата-зірочки/[дівча-зірочка]noun:p:v_naz:anim", tokenizer, tagger);
 
     TestTools.myAssert("абзац-два", "абзац-два/[абзац-два]noun:m:v_naz|абзац-два/[абзац-два]noun:m:v_zna", tokenizer, tagger);
     TestTools.myAssert("сотні-дві", "сотні-дві/[сотня-два]noun:p:v_naz|сотні-дві/[сотня-два]noun:p:v_zna", tokenizer, tagger);

@@ -129,19 +129,19 @@ public class UkrainianTagger extends BaseTagger {
       Scanner scanner = new Scanner(is,"UTF-8");
       String text = scanner.useDelimiter("\\A").next();
       scanner.close();
-      dashPrefixes = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
+      dashPrefixes = new HashSet<>( java.util.Arrays.asList(text.split("[\r\n]+")) );
       
       is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_left_master.txt");
       scanner = new Scanner(is,"UTF-8");
       text = scanner.useDelimiter("\\A").next();
       scanner.close();
-      leftMasterSet = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
+      leftMasterSet = new HashSet<>( java.util.Arrays.asList(text.split("[\r\n]+")) );
 
       is = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/uk/dash_slaves.txt");
       scanner = new Scanner(is,"UTF-8");
       text = scanner.useDelimiter("\\A").next();
       scanner.close();
-      slaveSet = new HashSet<>( java.util.Arrays.asList(text.split("\n")) );
+      slaveSet = new HashSet<>( java.util.Arrays.asList(text.split("[\r\n]+")) );
       // TODO: "бабуся", "лялька", "рятівник" - not quite slaves, could be masters too
 
     }
