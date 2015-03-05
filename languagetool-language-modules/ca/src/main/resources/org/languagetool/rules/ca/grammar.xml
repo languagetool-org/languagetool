@@ -25971,6 +25971,33 @@ $Id$
     <category name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
         (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="LLINDA_AMB" name="*llinda/confronta amb">
+            <antipattern>
+                <marker>
+                    <token skip="2">amb</token>
+                    <token regexp="yes" inflected="yes">data|imatge|arc|inscripció|dovella</token>
+                </marker>
+            </antipattern>
+            <pattern>
+                <token><exception postag="D[^R].FS.|SPS00|A..[FC][SN].|PX.FS.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token skip="3">llinda<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+                <token>amb</token>
+            </pattern>
+            <message>Probable error. No existeix el verb "llindar".</message>
+            <suggestion>confronta</suggestion>
+            <suggestion>fita</suggestion>
+            <suggestion>afronta</suggestion>
+            <suggestion>és contigu a</suggestion>
+            <suggestion>és contigua a</suggestion>
+            <example correction="confronta|fita|afronta|és contigu a|és contigua a">València <marker>llinda</marker> al nord amb el Puig.</example>
+            <example correction="confronta|fita|afronta|és contigu a|és contigua a">València <marker>llinda</marker> amb el Puig.</example>
+            <example>la seva llinda amb el sostre</example>
+            <example>una altra llinda amb el sostre</example>
+            <example>una bonica llinda amb decoracions</example>
+            <example>Llida amb una bonica inscripció</example>
+        </rule>
         <rule id="RALLAR" name="rallar/ratllar">
             <pattern>
                 <token inflected="yes">rallar</token>
