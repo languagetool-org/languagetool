@@ -4050,17 +4050,28 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="V.*"></disambig>
     </rule>
-    <rule id="cal_no_sols" name="caldre no sols">
-        <pattern>
-            <token inflected="yes">caldre</token>
-            <token>no</token>
-            <marker>
-                <token>sols</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="RG"></disambig>
-    </rule>
-    
+    <rulegroup id="no_sols" name="no sols">
+        <rule>
+            <pattern>
+                <token inflected="yes">caldre</token>
+                <token>no</token>
+                <marker>
+                    <token>sols</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RG.*"></disambig>
+        </rule>
+                <rule>
+            <pattern>
+                <token>no</token>
+                <token inflected="yes">ser</token>
+                <marker>
+                    <token>sols</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="RG.*"></disambig>
+        </rule>
+    </rulegroup>
     <rulegroup id="POT" name="pot/pots/vol/vols + infinitiu">
         <rule>
             <pattern>
