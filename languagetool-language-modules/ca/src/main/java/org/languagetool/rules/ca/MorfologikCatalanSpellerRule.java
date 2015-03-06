@@ -71,7 +71,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
   
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions,
+      String word) throws IOException {
     //TODO try other combinations. Ex. daconseguirlos
     String suggestion = "";
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
@@ -85,7 +86,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     return Collections.emptyList();
   }
   
-  private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern, int suggestionPosition, String separator) throws IOException {
+  private String findSuggestion(String suggestion, String word,
+      Pattern wordPattern, Pattern postagPattern, int suggestionPosition,
+      String separator) throws IOException {
     if (!suggestion.isEmpty()) {
       return suggestion;
     }
