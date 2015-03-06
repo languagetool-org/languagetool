@@ -46,6 +46,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
+  private static final CatalanTagger tagger=new CatalanTagger();
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language)
       throws IOException {
@@ -72,43 +73,30 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     //TODO try other combinations. Ex. daconseguirlos
-    CatalanTagger tagger=new CatalanTagger();
-    Matcher matcher=APOSTROF_INICI_VERBS.matcher(word);
-    if (matcher.matches()) {
-      String newSuggestion=matcher.group(2);
-      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),VERB_INDSUBJ)) {
-        return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
-      }
-    }
-    matcher=APOSTROF_INICI_NOM_SING.matcher(word);
-    if (matcher.matches()) {
-      String newSuggestion=matcher.group(2);
-      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),NOM_SING)) {
-        return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
-      }
-    }
-    matcher=APOSTROF_INICI_NOM_PLURAL.matcher(word);
-    if (matcher.matches()) {
-      String newSuggestion=matcher.group(2);
-      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),NOM_PLURAL)) {
-        return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
-      }
-    }
-    matcher=APOSTROF_FINAL.matcher(word);
-    if (matcher.matches()) {
-      String newSuggestion=matcher.group(1);
-      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), VERB_INFGERIMP)) {
-        return Collections.singletonList(matcher.group(1) + "'" + matcher.group(2));
-      }
-    }
-    matcher=GUIONET_FINAL.matcher(word);
-    if (matcher.matches()) {
-      String newSuggestion=matcher.group(1);
-      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), VERB_INFGERIMP)) {
-        return Collections.singletonList(matcher.group(1)+"-"+matcher.group(2));
-      }
-    }
+    String suggestion = "";
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'");
+    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-");
+    if (!suggestion.isEmpty()) {
+      return Collections.singletonList(suggestion);
+    } 
     return Collections.emptyList();
+  }
+  
+  private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern, int suggestionPosition, String separator) throws IOException {
+    if (!suggestion.isEmpty()) {
+      return suggestion;
+    }
+    Matcher matcher=wordPattern.matcher(word);
+    if (matcher.matches()) {
+      String newSuggestion=matcher.group(suggestionPosition);
+      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), postagPattern)) {
+        return matcher.group(1)+separator+matcher.group(2);
+      }
+    }
+    return "";
   }
  
 
