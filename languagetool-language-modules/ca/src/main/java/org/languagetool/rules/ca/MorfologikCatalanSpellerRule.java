@@ -76,46 +76,36 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     Matcher matcher=APOSTROF_INICI_VERBS.matcher(word);
     if (matcher.matches()) {
       String newSuggestion=matcher.group(2);
-      if (!isMisspelled(speller1, newSuggestion)) {
-        if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),VERB_INDSUBJ)) {
-          return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
-        }
+      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),VERB_INDSUBJ)) {
+        return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
       }
     }
     matcher=APOSTROF_INICI_NOM_SING.matcher(word);
     if (matcher.matches()) {
       String newSuggestion=matcher.group(2);
-      if (!isMisspelled(speller1, newSuggestion)) {
-        if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),NOM_SING)) {
-          return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
-        }
+      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),NOM_SING)) {
+        return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
       }
     }
     matcher=APOSTROF_INICI_NOM_PLURAL.matcher(word);
     if (matcher.matches()) {
       String newSuggestion=matcher.group(2);
-      if (!isMisspelled(speller1, newSuggestion)) {
-        if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),NOM_PLURAL)) {
-          return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
-        }
+      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0),NOM_PLURAL)) {
+        return Collections.singletonList(matcher.group(1)+"'"+matcher.group(2));
       }
     }
     matcher=APOSTROF_FINAL.matcher(word);
     if (matcher.matches()) {
       String newSuggestion=matcher.group(1);
-      if (!isMisspelled(speller1, newSuggestion)) {
-        if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), VERB_INFGERIMP)) {
-          return Collections.singletonList(matcher.group(1) + "'" + matcher.group(2));
-        }
+      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), VERB_INFGERIMP)) {
+        return Collections.singletonList(matcher.group(1) + "'" + matcher.group(2));
       }
     }
     matcher=GUIONET_FINAL.matcher(word);
     if (matcher.matches()) {
       String newSuggestion=matcher.group(1);
-      if (!isMisspelled(speller1, newSuggestion)) {
-        if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), VERB_INFGERIMP)) {
-          return Collections.singletonList(matcher.group(1)+"-"+matcher.group(2));
-        }
+      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), VERB_INFGERIMP)) {
+        return Collections.singletonList(matcher.group(1)+"-"+matcher.group(2));
       }
     }
     return Collections.emptyList();
@@ -126,7 +116,6 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
    * Match POS tag with regular expression
    */
   private boolean matchPostagRegexp(AnalyzedTokenReadings aToken, Pattern pattern) {
-    boolean matches = false;
     for (AnalyzedToken analyzedToken : aToken) {
       String posTag = analyzedToken.getPOSTag();
       if (posTag == null) {
@@ -134,11 +123,10 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       }
       final Matcher m = pattern.matcher(posTag);
       if (m.matches()) {
-        matches = true;
-        break;
+        return true;
       }
     }
-    return matches;
+    return false;
   }
 
 }
