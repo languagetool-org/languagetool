@@ -25975,7 +25975,7 @@ $Id$
             <antipattern>
                 <marker>
                     <token skip="2">amb</token>
-                    <token regexp="yes" inflected="yes">data|imatge|arc|inscripció|dovella</token>
+                    <token regexp="yes" inflected="yes">data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar</token>
                 </marker>
             </antipattern>
             <pattern>
@@ -25997,6 +25997,7 @@ $Id$
             <example>una altra llinda amb el sostre</example>
             <example>una bonica llinda amb decoracions</example>
             <example>Llida amb una bonica inscripció</example>
+            <example> llinda i timpà amb decoració escultòrica</example>
         </rule>
         <rule id="RALLAR" name="rallar/ratllar">
             <pattern>
@@ -30324,7 +30325,7 @@ $Id$
         </rule>
     </category>
     <category name="C8) Formes secundàries" default="on" type="style">
-        <rule id="AGUTIZL" name="agutzil">
+        <rule id="AGUTZIL" name="agutzil">
             <pattern>
                 <marker>
                     <token inflected="yes">agutzil</token>
@@ -32256,6 +32257,54 @@ $Id$
         </rule>
     </category>
     <category name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="XIVAR" name="xivar, xivatar">
+            <pattern>
+                <token postag="(V.+)" postag_regexp="yes" regexp="yes" inflected="yes">xivar|xivatar</token>
+            </pattern>
+            <message>Llenguatge col·loquial.</message>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">delatar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">xerrar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">xarrar</match></suggestion>
+            <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">cantar</match></suggestion>
+            <url>http://esadir.cat/entrades/fitxa/node/xivar</url>
+            <short>Llenguatge col·loquial</short>
+            <example correction="delatar|xerrar|xarrar|cantar">Ho van <marker>xivar</marker> tot.</example>
+        </rule>
+        <rulegroup id="XIVATO" name="xivato">
+            <rule>
+                <pattern>
+                    <token postag="NCM(.).*" postag_regexp="yes" inflected="yes">xivato</token>
+                </pattern>
+                <message>Lleguatge col·loquial</message>
+                <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCC$1.*">espieta</match></suggestion>
+                <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCC$1.*">xerraire</match></suggestion>
+                <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">delator</match></suggestion>
+                <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">indicador</match></suggestion>
+                <suggestion><match no="1" postag="NCM(.).*" postag_regexp="yes" postag_replace="NCM$1.*">senyal</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/xivato</url>
+                <example correction="espietes|xerraires|delators|indicadors|senyals">Els <marker>xivatos</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCF(.).*" postag_regexp="yes" inflected="yes">xivato</token>
+                </pattern>
+                <message>Lleguatge col·loquial</message>
+                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCC$1.*">espieta</match></suggestion>
+                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCC$1.*">xerraire</match></suggestion>
+                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCF$1.*">delatora</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/node/xivato</url>
+                <example correction="espietes|xerraires|delatores">Les <marker>xivates</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="NCF(.).*" postag_regexp="yes" inflected="yes">xivatada</token>
+                </pattern>
+                <message>Lleguatge col·loquial</message>
+                <suggestion><match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="NCF$1.*">delació</match></suggestion>
+                <url>http://esadir.cat/entrades/fitxa/id/3962</url>
+                <example correction="delacions">Les <marker>xivatades</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FIDEUA" name="fideuà, mascletà / fideuada, mascletada">
             <rule>
                 <pattern>
