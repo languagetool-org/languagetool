@@ -953,18 +953,19 @@ $Id$
                 <pattern>
                     <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->
                     <marker>
-                        <token postag="VB:.*" postag_regexp="yes" ><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes" ><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты</exception></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и</token>
+                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="VB:.*" postag_regexp="yes" ></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"  skip="-1"  ><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
-                    <token regexp="yes">[\p{Punct}]</token>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
                 </pattern>
-                <message>Пропущена запятая перед предолгом и: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
+                <message>Пропущена запятая перед предолгом «и»: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example>Пролетели года, и настало время.</example>
+                <example>Могу ли я уточнить время и место нашей встречи?</example>
                 <example correction="Пролетели года, и настало время"><marker>Пролетели года и настало время</marker>.</example>
             </rule>        
             <rule>
@@ -973,16 +974,17 @@ $Id$
                     <marker>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
-                        <token skip="-1">и</token>
+                        <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
                         <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception regexp="yes" scope="next">[,;-]</exception></token>
                     </marker>
-                    <token regexp="yes">[\p{Punct}]</token>
+                    <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
                 </pattern>
-                <message>Пропущена запятая перед предлогом и: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
+                <message>Пропущена запятая перед предлогом «и»: <suggestion><match no="1"/> <match no="2" include_skipped="all"/>, <match no="3" include_skipped="all"/> <match no="4"/> <match no="5" include_skipped="none"/></suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая в сложном предложении.</short>
                 <example>Года пролетели, и время настало.</example>
+                <example>Его тропы создавали русла рек и ручьёв, и, в конце концов, вода залила всю землю.</example>
                 <example correction="Года пролетели, и время настало"><marker>Года пролетели и время настало</marker>.</example>
             </rule>        
         </rulegroup>        
