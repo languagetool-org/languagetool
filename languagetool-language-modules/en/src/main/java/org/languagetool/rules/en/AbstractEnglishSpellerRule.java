@@ -114,10 +114,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   }
 
   /**
+   * @throws IOException 
    * @since 2.7
    */
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) {
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     if ("Alot".equals(word)) {
       return Arrays.asList("A lot");
     } else if ("alot".equals(word)) {
