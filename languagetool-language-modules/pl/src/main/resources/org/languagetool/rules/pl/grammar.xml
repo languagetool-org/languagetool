@@ -398,7 +398,7 @@ $Id$
                                     <token regexp="yes">&interp_conj;</token>
                                 </marker>
                             </pattern>
-                            <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\1”) a drugim („\2”).</message>
+                            <message>W tym zdaniu złożonym brakuje przecinka lub spójnika między jednym czasownikiem („\2”) a drugim („\3”).</message>
                             <short>Błąd interpunkcyjny</short>
                             <example correction="">Jak <marker>widać istnieje wiele innych wyjaśnień tego zjawiska.</marker></example>
                             <example>— Mój przyjacielu — odparł — ty widać nie wiesz, co to rozrywka na tym świecie.</example>
@@ -2628,6 +2628,12 @@ $Id$
                         <example>Mniejsza z tym, że to szczęście nie wszystkich spotyka.</example>
 				</rule>
             <rule id="JEDNAK_PRZECINEK" name="Zbędny przecinek po „jednak”">
+                <antipattern>
+                    <marker><token>jednak</token>
+                    <token>,</token>
+                        <token>jednak</token>
+                    </marker>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>jednak</token>
@@ -2639,6 +2645,7 @@ $Id$
                 <example correction="Jednak miałem"><marker>Jednak, miałem</marker> rację.</example>
                 <example correction="jednak jedyna">Nie jest to <marker>jednak, jedyna</marker> dostępna strategia.</example>
                 <example>Jednak, co pisałem, miałem rację.</example>
+                <example>A jednak, jednak.</example>
             </rule>
             <rule id="W_TRAKCIE_PRZECINEK_KTOREGO" name="Zbędny przecinek w wyrażeniu „w trakcie, którego”">
                 <pattern>
@@ -4711,7 +4718,7 @@ $Id$
 		<category name="Błędy składniowe" type="grammar">
             <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
                 <antipattern>
-                    <token>krótko</token>
+                    <token regexp="yes">krótko|ściślej?</token>
                     <marker><token>mówiąc</token></marker>
                     <token>,</token>
                 </antipattern>
@@ -10570,6 +10577,15 @@ $Id$
                                 <feature id="case"/><feature id="gender"/><feature id="number"/>
                                 <token inflected="yes">poniedziałek<exception regexp="yes">(?-iu)[p].*</exception></token>
                                 <token inflected="yes">wielkanocny<exception regexp="yes">(?-iu)w.*</exception></token>
+                            </unify>
+                        </marker>
+                    </antipattern>
+                    <antipattern case_sensitive="yes">
+                        <marker>
+                            <unify>
+                                <feature id="case"/><feature id="gender"/><feature id="number"/>
+                                <token inflected="yes">Środa</token>
+                                <token inflected="yes">wielkopolski<exception regexp="yes">(?-iu)w.*</exception></token>
                             </unify>
                         </marker>
                     </antipattern>
@@ -17190,10 +17206,15 @@ $Id$
 						<example correction="bał się|się bał">Ludwik niczego nie <marker>bał</marker>.</example>
 				</rule>
 				<rule id="STAWAC_KIM" name="„stawać/stać kim” (stawać/stać się kim)">
+                        <antipattern>
+                            <token>w</token>
+                            <token>drzwiach</token>
+                            <marker><token inflected="yes">stać</token></marker>
+                        </antipattern>
 						<pattern>
 								<token skip="-1" postag="SENT_START"><exception scope="next">się</exception></token>
 								<marker>
-										<token skip="2" postag=".*:refl" postag_regexp="yes" inflected="yes" regexp="yes">stawać|stać<exception postag="ger.*" postag_regexp="yes"/><exception scope="next">się</exception><exception scope="next" postag="prep:inst.*|subst:.*nom.*" postag_regexp="yes"/></token>
+										<token skip="2" postag=".*:refl" postag_regexp="yes" inflected="yes" regexp="yes">stawać|stać<exception postag="ger.*" postag_regexp="yes"/><exception scope="next" regexp="yes">się|ci</exception><exception scope="next" postag="prep:.*|subst:.*nom.*" postag_regexp="yes"/></token>
 								</marker>
                                 <token skip="-1" postag="^(?!prep:).*inst.*" postag_regexp="yes"><exception regexp="yes">wieczorem|czasami|czasem|kilku|przodem|tyłem|bokiem|twarzą|plecami|otworem|okoniem|mi|go|we|rzędem|rzędami</exception><exception scope="next">się</exception></token>
 								<token postag="SENT_END"></token>
@@ -17210,6 +17231,8 @@ $Id$
                         <example>Stańcie no!</example>
                         <example>Na ich czele stał Josip Broz Tito.</example>
                         <example>Stał przodem do okna.</example>
+                        <example>Moja kariera staje ci kością w gardle i nie możesz jej przełknąć.</example>
+                        <example>W drzwiach stał wezwany dzwonkiem dyżurny...</example>
 				</rule>
 				<rulegroup id="O_TY" name="„o ty” (o tym)">
 						<rule>
