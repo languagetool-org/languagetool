@@ -88,6 +88,8 @@ public class Main extends WeakBase implements XJobExecutor,
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
 
+  private static boolean testMode;
+
   private Configuration config;
   private JLanguageTool langTool;
   private Language docLanguage;
@@ -719,6 +721,9 @@ public class Main extends WeakBase implements XJobExecutor,
   }
 
   static void showError(final Throwable e) {
+    if (testMode) {
+      throw new RuntimeException(e);
+    }
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + ":\n" + e.toString() + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
@@ -740,6 +745,14 @@ public class Main extends WeakBase implements XJobExecutor,
       showError(ex);
     }
     return new File(homeDir);
+  }
+
+  /**
+   * Will throw exception instead of showing errors as dialogs - use only for test cases.
+   * @since 2.9
+   */
+  static void setTestMode(boolean mode) {
+    testMode = mode;
   }
 
   private class AboutDialogThread extends Thread {
