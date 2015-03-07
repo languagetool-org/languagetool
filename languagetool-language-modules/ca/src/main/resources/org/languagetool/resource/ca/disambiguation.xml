@@ -591,6 +591,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
     </rule>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
+        <rule id="duna_banda" name="d'una banda (locució conj.)">
+            <pattern>
+                <token>,</token>
+                <marker>
+                    <token regexp="yes">d'|per</token>
+                    <token regexp="yes">una|altra</token>
+                    <token regexp="yes">banda|part</token>
+                </marker>
+                <token>,</token>
+            </pattern>
+            <disambig action="add"><wd lemma="daltra_banda" pos="&lt;LOC_CONJ&gt;"/><wd lemma="daltra_banda" pos="&lt;LOC_CONJ&gt;"/><wd lemma="daltra_banda" pos="&lt;/LOC_CONJ&gt;"/></disambig>
+        </rule>
         <rule id="temps_ha" name="temps ha (locució adverbial)">
             <pattern>
                 <marker>
