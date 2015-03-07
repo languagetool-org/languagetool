@@ -7693,8 +7693,8 @@ $Id$
                     <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
                     <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora</exception></token>
                     <marker>
-                        <token regexp="yes">de<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                        <token regexp="yes">ls?</token>
+                        <token>de<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                        <token regexp="yes" spacebefore="no">ls?</token>
                     </marker>
                 </pattern>
                 <message>Aquest verb no regeix la preposició 'de'. Probablement cal eliminar-la.</message>
@@ -8397,6 +8397,24 @@ $Id$
         </rule>
     </category>
     <category name="Z1) Confusions" type="grammar">
+        <rule id="cela" name="cela/cel·la, celo/cel·la">
+            <pattern>
+                <token regexp="yes">celos?|cela|celes</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".*[Ll](.*)" regexp_replace="cel·l$1"/></suggestion>. "\1" és del verb "celar" (=ocultar).</message>
+            <short>Possible confusió</short>
+            <example correction="cel·les">Les <marker>celes</marker>.</example>
+            <example correction="cel·lo">No tinc <marker>celo</marker>.</example>
+        </rule>
+        <rule id="ALA" name="Alà/Al·là">
+            <pattern case_sensitive="yes">
+                <token>Alà</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Al·là</suggestion> (nom de Déu en l'islam). Correcte en altres sentits</message>
+            <short>Possible confusió</short>
+            <example correction="Al·là">És <marker>Alà</marker>.</example>
+            <example>el rei alà</example>
+        </rule>
         <rule id="TROMPO" name="trompo/virolla">
             <pattern>
                 <token>trompo</token>
@@ -25979,7 +25997,7 @@ $Id$
             <antipattern>
                 <marker>
                     <token skip="2">amb</token>
-                    <token regexp="yes" inflected="yes">data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar</token>
+                    <token regexp="yes" inflected="yes">guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar</token>
                 </marker>
             </antipattern>
             <pattern>
