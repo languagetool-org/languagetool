@@ -3081,17 +3081,19 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
     </rulegroup>
 
-    <rule id="ZA_POMOCA_M3_NIE_M1" name="za pomocą z rzeczownikiem nieożywionym">
+    <rule id="ZA_POMOCA_M1_M2" name="za pomocą + m1/m2/m3 -> m2/m3">
         <pattern>
             <token>za</token>
             <token>pomocą</token>
             <marker>
-                <and><token postag="subst:sg:gen:m[12]" postag_regexp="yes"></token>
-                     <token postag="subst:sg:gen:m3"/>
+                <and>
+                    <token postag="subst:sg:gen:m1"/>
+                    <token postag="subst:sg:gen:(m[23]|f|n[12])" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
-        <disambig postag="subst:sg:gen:m3"/>
+        <disambig action="remove"><wd pos="subst:sg:gen:m1"/></disambig>
+        <example type="ambiguous" inputform="bambusa[bambus/subst:sg:gen:m1,bambus/subst:sg:gen:m2]" outputform="bambusa[bambus/subst:sg:gen:m2]">Kali przedstawił im za pomocą <marker>bambusa</marker> całą niewłaściwość ich postępku.</example>
         <example type="ambiguous" inputform="edytora[edytor/subst:sg:gen:m1,edytor/subst:sg:gen:m3]"
                  outputform="edytora[edytor/subst:sg:gen:m3]">Redaguję tekst za pomocą <marker>edytora</marker> tekstów.</example>
     </rule>
