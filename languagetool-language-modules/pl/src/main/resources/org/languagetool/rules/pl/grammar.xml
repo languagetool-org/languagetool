@@ -498,12 +498,12 @@ $Id$
                     </rule>
                     <rule>
                         <antipattern>
-                            <token>kłaść</token>
+                            <token regexp="yes">kłaść|położyć</token>
                             <token>się</token>
                             <token>spać</token>
                         </antipattern>
                         <pattern>
-                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|[bd]ać|dawać|usiłować|zdołać|zapomnieć|starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
+                            <token postag='verb:inf.*' postag_regexp='yes'><exception regexp="yes">móc|umieć|uczyć|wzdragać|silić|ośmielić|(:?za)?przestać|zacząć|zaczynać|zgadzać|zgodzić|nauczyć|pomóc|iść|musieć|pozwolić|s?próbować|(:?za)?przestawać|[bd]ać|dawać|usiłować|zdołać|zapomnieć|(:?po)?starać|wyjść|postanowić|pozwalać|kazać|chcieć|potrafić|lubić|odważ[ay]ć</exception></token>
                             <token>się</token>
                             <token postag='verb:inf.*' postag_regexp='yes'></token>
                         </pattern>
@@ -1520,7 +1520,15 @@ $Id$
                                     <token postag="prep.*gen.*" postag_regexp="yes"/>
                                     <token>co</token>
                                 </antipattern>
-								<pattern>
+                                <antipattern>
+                                    <token>nie</token>
+                                    <token>ma</token>
+                                    <marker>
+                                        <token>za</token>
+                                        <token>co</token>
+                                    </marker>
+                                </antipattern>
+                                <pattern>
 										<marker>
 												<token negate="yes">,<exception regexp="yes">&interp;</exception><exception postag="conj|comp|SENT_START" postag_regexp="yes"></exception></token>
 												<token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/?ADV&gt;|&lt;/?PREP.*&gt;" postag_regexp="yes"/><exception>jak</exception></token>
@@ -1548,6 +1556,7 @@ $Id$
                                 <example>Było z czego pękać od śmiechu.</example>
                                 <example>Wyły teraz ze strachu, wdrapując się na co najwyższe miejsca ruin.</example>
                                 <example>A miał o czym marzyć dzisiaj mały Tumai.</example>
+                                <example>Tak (kupować tymczasem nie chce — no i nie ma za co); w innym jeszcze, żeby postraszyć żydowskie...</example>
 						</rule>
 						<rule>
 								<pattern>
@@ -1659,7 +1668,7 @@ $Id$
 												<token postag="prep.*" postag_regexp="yes"><exception postag="&lt;/PREP:.*&gt;" postag_regexp="yes"></exception><exception>lada</exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception><exception>”</exception></token>
+										<token><exception regexp="yes">&interp;|\)</exception><exception>”</exception></token>
 								</pattern>
 								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2 \3</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1684,7 +1693,7 @@ $Id$
 												<token negate="yes">,<exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;|subst.*" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception><exception>”</exception></token>
+										<token><exception regexp="yes">&interp;|\)</exception><exception>”</exception></token>
 								</pattern>
 								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -1699,6 +1708,7 @@ $Id$
                                 <example>Wszystko razem mogło sięgać jakich trzydziestu tysięcy dusz.</example>
                                 <example>Wchodzę niekiedy do biblioteki i biorę jaką książkę; najczęściej jest to książka historyczna.</example>
                                 <example>Jeżeli chciałem złapać którego ptaka, śmiało się do mnie obracał i dziobem groził.</example>
+                                <example>...witriolu preparował jakiś gaz (już nawet nie pamiętam jaki) i napełniał nim balon nieduży wprawdzie…</example>
 						</rule>
 						<rule>
                                <antipattern>
@@ -1716,7 +1726,7 @@ $Id$
 												<token postag="subst.*" postag_regexp="yes"><exception postag="prep.*" postag_regexp="yes" scope="previous"></exception><exception regexp="yes">&interp;|mało|rzadko</exception><exception postag="conj|comp|adv.*|prep.*|SENT_START|&lt;/CONJ&gt;|&lt;/PREP:.+&gt;" postag_regexp="yes"></exception></token>
 												<token inflected="yes" regexp="yes">który|jaki</token>
 										</marker>
-										<token><exception regexp="yes">&interp;</exception></token>
+										<token><exception regexp="yes">&interp;|\)</exception></token>
 								</pattern>
 								<message>Brak przecinka w tym fragmencie zdania. Przecinek prawdopodobnie należy postawić tak: <suggestion>\1, \2</suggestion>.</message>
 								<short>Błąd interpunkcyjny</short>
@@ -2094,18 +2104,46 @@ $Id$
                             <token>,</token>
                         </marker>
                     </antipattern>
+                    <antipattern>
+                        <marker>
+                            <token>względem</token>
+                            <token>,</token>
+                        </marker>
+                        <token>że</token>
+                    </antipattern>
+                    <antipattern>
+                        <token>pro</token>
+                        <token regexp="yes">i|et</token>
+                        <marker><token>contra</token></marker>
+                    </antipattern>
                     <pattern>
                         <token postag='prep.*' postag_regexp='yes'><exception postag='adv'/><exception regexp="yes">temu|wyjąwszy</exception></token>
                         <token>,</token>
                     </pattern>
                     <message>Prawdopodobnie zbędny przecinek po przyimku: <suggestion><match no="1"/></suggestion>.</message>
                     <short>Błąd interpunkcyjny</short>
-                    <example correction="Do"><marker>Do,</marker> czego to prowadzi!</example>
-                    <example>Do czego to prowadzi!</example>
-                    <example>Jeśli nie masz nic przeciwko, to ja też nie.</example>
-                    <example>Będzin (Bendzin), Grodno, Kalisz, Koło, Lipno…</example>
+                        <example correction="Do"><marker>Do,</marker> czego to prowadzi!</example>
+                        <example>Do czego to prowadzi!</example>
+                        <example>Jeśli nie masz nic przeciwko, to ja też nie.</example>
+                        <example>Będzin (Bendzin), Grodno, Kalisz, Koło, Lipno…</example>
+                        <example>To chyba pod tym jednym względem, że zaprawdę!</example>
+                        <example>Naględziwszy się dosyć pro et contra, zakonkludowano...</example>
                     </rule>
                     <rule>
+                        <antipattern>
+                            <marker>
+                                <token>powodu</token>
+                                <token>,</token>
+                            </marker>
+                            <token>że</token>
+                        </antipattern>
+                        <antipattern>
+                            <marker>
+                                <token>razie</token>
+                                <token>,</token>
+                            </marker>
+                            <token regexp="yes">jeśli|jeżeli|gdyby</token>
+                        </antipattern>
                         <pattern>
                             <token postag='&lt;/PREP:.*&gt;' postag_regexp='yes'><exception postag='adv'/></token>
                             <token>,</token>
@@ -2597,13 +2635,21 @@ $Id$
 				</rule>
 				<rule id="Z_TYM_ZE" name="Zbędny przecinek w „z tym że”">
                         <antipattern>
-                            <token inflected="yes" regexp="yes">borykać|z?identyfikować|kojarzyć|liczyć|męczyć|mylić|pogodzić|wiązać|(:?po)?kłócić|spierać|utożsamiać|zapoznać|zapoznawać|zdradz[ia]ć|zetknąć|zmagać|zgadzać|zgodzić</token>
+                            <token inflected="yes" regexp="yes">borykać|z?identyfikować|kojarzyć|liczyć|męczyć|mylić|pogodzić|wiązać|(:?po)?kłócić|spierać|utożsamiać|zapoznać|zapoznawać|zdradz[ia]ć|zetknąć|zmagać|zgadzać|zgodzić|kryć</token>
                             <token skip="4">się</token>
                             <marker>
                                 <token>z</token>
                                 <token>tym</token>
                             </marker>
                         </antipattern>
+                    <antipattern>
+                        <token skip="4">się</token>
+                        <token inflected="yes" regexp="yes">borykać|z?identyfikować|kojarzyć|liczyć|męczyć|mylić|pogodzić|wiązać|(:?po)?kłócić|spierać|utożsamiać|zapoznać|zapoznawać|zdradz[ia]ć|zetknąć|zmagać|zgadzać|zgodzić|kryć</token>
+                        <marker>
+                            <token>z</token>
+                            <token>tym</token>
+                        </marker>
+                    </antipattern>
                     <antipattern>
                         <token inflected="yes">radzić</token>
                         <token skip="4">sobie</token>
@@ -2626,6 +2672,7 @@ $Id$
 						<example>W związku z tym, że nie stać ich było na komputer, kupili liczydło.</example>
 						<example correction="z tym że">Polubiłem cię <marker>z tym, że</marker> musisz się wykazać, mordując karawaniarza.</example>
                         <example>Mniejsza z tym, że to szczęście nie wszystkich spotyka.</example>
+                        <example>Trudno, Ninuś, musisz się liczyć z tym, że twój narzeczony nie jest prywatnym człowiekiem.</example>
 				</rule>
             <rule id="JEDNAK_PRZECINEK" name="Zbędny przecinek po „jednak”">
                 <antipattern>
@@ -4718,7 +4765,7 @@ $Id$
 		<category name="Błędy składniowe" type="grammar">
             <rule id="PCON_VERB" name="Brak orzeczenia po imiesłowie na -ąc">
                 <antipattern>
-                    <token regexp="yes">krótko|ściślej?</token>
+                    <token regexp="yes">krótko|ściślej?|szczerze</token>
                     <marker><token>mówiąc</token></marker>
                     <token>,</token>
                 </antipattern>
@@ -14943,13 +14990,14 @@ $Id$
                 <pattern>
                     <token>brak</token>
                     <marker>
-                        <token regexp='yes'>.*i<exception postag='.*[\.:](gen|dat)[\.:].*|UNKNOWN' postag_regexp='yes'></exception></token>
+                        <token regexp='yes'>.*i<exception postag='.*[\.:](gen|dat)[\.:].*|UNKNOWN|conj|verb.*' postag_regexp='yes'></exception></token>
                     </marker>
                 </pattern>
                 <message>Czy chodziło o <suggestion><match no="2" postag_regexp="yes" postag="^.*$" postag_replace=".*gen.*"/></suggestion>?</message>
                 <short>Prawdopodobna literówka</short>
                 <example correction="szacunku|szacunków">To koszmarny brak <marker>szacunki</marker>!</example>
                 <example>To koszmarny brak szacunku!</example>
+                <example>Naszej płci nie brak ani rozumu, ani energii, więc pozwól mi działać…</example>
             </rule>
             <rule id="AT_HOC" name="„at hoc” (ad hoc)">
                 <pattern>
@@ -16118,6 +16166,13 @@ $Id$
                         <antipattern case_sensitive="yes">
                             <token>Pierce</token>
                         </antipattern>
+                        <antipattern>
+                            <marker>
+                                <token postag="depr:pl:nom:m2"/>
+                                <token regexp="yes">[ia]</token>
+                                <token postag="depr:pl:nom:m2"/>
+                            </marker>
+                        </antipattern>
 						<pattern>
 								<token postag="depr:pl:nom:m2" regexp="yes"><exception postag="subst:sg:loc:f"/><exception postag="subst:pl:nom:[mp]1" postag_regexp="yes"/>
 								.*ce<exception>gońce</exception></token>
@@ -16130,6 +16185,7 @@ $Id$
 						<example>Surowce zawierające te alkaloidy</example>
 						<example>Tylko rodzice potrafią ich odróżnić.</example>
                         <example>Woźnice odebrali małym konikom worki z obrokiem.</example>
+                        <example>Zasię te diabły, łupieżce a morderce, wszyscy wyszli z tego cało.</example>
 				</rule>
 				<rule id="ODJECIE_UJECIE" name="„ujecie, pojecie” (ujęcie, pojęcie) itp.">
 						<pattern>
@@ -17066,6 +17122,10 @@ $Id$
                                         <token>razy</token>
                                     </marker>
                                 </antipattern>
+                            <antipattern>
+                                <token>na</token>
+                                <marker><token>tyle</token></marker>
+                            </antipattern>
 								<pattern>
 										<token regexp="yes">z|wiele|tyle|mało</token>
 										<marker>

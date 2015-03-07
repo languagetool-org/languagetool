@@ -2588,6 +2588,40 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="Napój[napoić/verb:impt:sg:sec:perf:refl.nonrefl,napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]" outputform="Napój[napój/subst:sg:acc:m3,napój/subst:sg:nom:m3]"><marker>Napój</marker> miłosny</example>
     </rule>
 
+    <rule id="na_tyle" name="na tyle + adj|adv -> adv">
+        <pattern>
+            <token>na</token>
+            <marker><token>tyle</token></marker>
+            <token postag="ad[jv].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig postag="adv"/>
+        <example type="ambiguous" inputform="tyle[tyle/adv,tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec,tyli/adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos,tyli/adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos,tyli/adj:sg:acc:n1.n2:pos,tyli/adj:sg:nom.voc:n1.n2:pos,tył/subst:sg:loc:m3,tył/subst:sg:voc:m3]"
+                 outputform="tyle[tyle/adv]">Gdy Mowgli był już na <marker>tyle</marker> silny, by móc znosić szorstką nieco musztrę...</example>
+    </rule>
+
+    <rule id="na_tyle_tyli" name="tyle to nie tyli">
+        <pattern>
+            <token postag="prep:acc">na</token>
+            <token postag="adv|num.*" postag_regexp="yes">tyle</token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+
+    <rule id="na_tyle_num" name="na tyle + subst -> num">
+        <pattern>
+            <token>na</token>
+            <unify>
+                <feature id="gender"/><feature id="number"/>
+                <marker>
+                    <token>tyle</token>
+                    <token postag="subst:pl.*gen.*" postag_regexp="yes"></token>
+                </marker>
+            </unify>
+        </pattern>
+        <disambig action="unify"/>
+        <example type="ambiguous" inputform="tyle[tyle/adv,tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec]"
+                 outputform="tyle[tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec]">Kleks radzi sobie z gotowaniem na <marker>tyle</marker> osób.</example>
+    </rule>
 
     <rule id="prep_gen_co" name="co to nie genetiwus po przyimku">
         <pattern>
@@ -2629,6 +2663,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
                      outputform="jego[on/ppron3:sg:gen:m1.m2.m3:ter:akc:npraep,on/ppron3:sg:gen:n1.n2:ter:akc:npraep]">Patrzę na <marker>jego</marker> samoloty.</example>
         </rule>
     </rulegroup>
+
 
     <rulegroup name="prep + czasownik -> ~ czasownik" id="prep_verb">
         <!--  przyimki zawsze z tym samym przypadkiem --> 
@@ -7934,6 +7969,17 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="immunize"/>
     </rule>
 
+    <rule id="JAK_SIE_PATRZY" name="jak się patrzy - bez przecinka">
+        <pattern>
+            <marker>
+                <token>jak</token>
+                <token>się</token>
+                <token>patrzy</token>
+            </marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
     <rule id="PREP_CO_BADZ" name="wyrażenie przyimkowe z co + bądź - bez przecinków">
         <pattern>
             <marker>
@@ -7973,6 +8019,16 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <token>z</token>
             <token>głupia</token>
             <token>frant</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+
+    <rule id="PUNKT_NUM" name="1)">
+        <pattern>
+            <token regexp="yes">\d<exception scope="previous">(</exception></token>
+            <marker>
+                <token spacebefore="no">)</token>
+            </marker>
         </pattern>
         <disambig action="immunize"/>
     </rule>
