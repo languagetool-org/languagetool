@@ -36,12 +36,13 @@ import org.languagetool.tagging.ca.CatalanTagger;
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/ca/catalan.dict";
+  private static final String SPELLING_FILE = "/ca/spelling.txt";
+  
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnmts])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|n|ns|s|t)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern GUIONET_FINAL = Pattern.compile("^(.+)(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].");
@@ -57,6 +58,11 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   @Override
   public String getFileName() {
     return RESOURCE_FILENAME;
+  }
+  
+  @Override
+  protected String getSpellingFileName() {
+    return SPELLING_FILE;
   }
 
   @Override
