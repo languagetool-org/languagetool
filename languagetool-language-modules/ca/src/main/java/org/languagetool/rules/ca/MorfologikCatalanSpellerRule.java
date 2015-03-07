@@ -74,6 +74,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions,
       String word) throws IOException {
     //TODO try other combinations. Ex. daconseguirlos
+    if (word.length() < 5 || word.endsWith("as")) {
+      return Collections.emptyList();
+    }
     String suggestion = "";
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'");
