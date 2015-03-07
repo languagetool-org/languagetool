@@ -2075,7 +2075,8 @@ $Id$
                     <example>Nie mam pojęcia dlaczego.</example>
                     <example correction="pojęcia dlaczego">Nie mam <marker>pojęcia, dlaczego</marker>.</example>
                 </rule>
-                <rule id="PRZECINEK_PREP" name="Przecinek po przyimku">
+                <rulegroup id="PRZECINEK_PREP" name="Przecinek po przyimku">
+                    <rule>
                     <antipattern>
                         <marker><token regexp="yes">(?:po)?mimo</token></marker>
                         <token>,</token>
@@ -2103,7 +2104,17 @@ $Id$
                     <example>Do czego to prowadzi!</example>
                     <example>Jeśli nie masz nic przeciwko, to ja też nie.</example>
                     <example>Będzin (Bendzin), Grodno, Kalisz, Koło, Lipno…</example>
-                </rule>
+                    </rule>
+                    <rule>
+                        <pattern>
+                            <token postag='&lt;/PREP:.*&gt;' postag_regexp='yes'><exception postag='adv'/></token>
+                            <token>,</token>
+                        </pattern>
+                        <message>Prawdopodobnie zbędny przecinek po wyrażeniu przyimkowym: <suggestion><match no="1"/></suggestion>.</message>
+                        <short>Błąd interpunkcyjny</short>
+                        <example correction="pomocą">Nie wiem za <marker>pomocą,</marker> czego to zrobili!</example>
+                    </rule>
+                </rulegroup>
 				<rulegroup id="PRZECINEK_ANI" name="Zbędny przecinek przed „ani”, „albo”, „bądź”, „i”, „lub”, „oraz”">
 						<rule>
                                 <antipattern>
