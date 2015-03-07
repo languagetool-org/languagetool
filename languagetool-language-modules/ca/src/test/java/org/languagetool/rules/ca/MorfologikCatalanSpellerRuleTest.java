@@ -257,6 +257,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals(1, matches.length);
         assertEquals("descompte", matches[0].getSuggestedReplacements().get(0));
         
+        /*  change in Speller necessary: words of length = 4
+        matches = rule.match(langTool.getAnalyzedSentence("nula"));
+        assertEquals("nul·la", matches[0].getSuggestedReplacements().get(0));*/
+        
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
         assertEquals(1, matches.length);
