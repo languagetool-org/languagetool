@@ -7641,11 +7641,27 @@ $Id$
             <example>O sense cap ni un.</example>
         </rule>
         <rulegroup id="NECESSITAR_DE" name="necessitar/requerir *de">
+            <antipattern>
+                <marker>
+                    <token inflected="yes">de</token>
+                    <token postag="D[NI].*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <token postag="D[NI].*" postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>de</token>
+                    <token>l'</token>
+                    <token>ordre</token>
+                    <token inflected="yes">de</token>
+                </marker>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="P[0P].*" postag_regexp="yes">en</exception></token>
                     <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
-                    <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora</exception></token>
+                    <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora|prop</exception></token>
                     <marker>
                         <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                         <token><exception regexp="yes">l|ls|manera|part|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
@@ -7683,15 +7699,21 @@ $Id$
                 <example>En necessitaràs de nova</example>
                 <example>no en necessitem, de llana</example>
                 <example>requereix de nou la seva ajuda</example>
+                <example>Necessita prop de mil euros.</example>
+                <example>necessita de 10 a 12 hores</example>
+                <example>necessita de cinc a deu moviments</example>
+                <example>necessita de l'ordre de 10 kW.</example>
+                <example>poden necessitar d'un a tres anys</example>
                 <!-- requeria del Consell executiu la presentació d'un projecte
                 que hom requereix dels alumnes
-                necessita molt de l'agricultura intensiva. -->
+                necessita molt de l'agricultura intensiva.
+                rep el que necessita de la seva mare -->
             </rule>
             <rule>
                 <pattern>
                     <token><exception postag="P[0P].*" postag_regexp="yes">en</exception></token>
                     <token postag="V.[MSING].*|_GV_" postag_regexp="yes" inflected="yes" regexp="yes">necessitar|necessita(t|ts|da|des)|requerir|requeri(t|ts|da|des)<exception postag="_GN_.*|NC.*" postag_regexp="yes"/></token>
-                    <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora</exception></token>
+                    <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora|prop</exception></token>
                     <marker>
                         <token>de<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
                         <token regexp="yes" spacebefore="no">ls?</token>
