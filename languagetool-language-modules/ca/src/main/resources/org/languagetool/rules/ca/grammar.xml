@@ -15838,6 +15838,25 @@ $Id$
             </rule>
             <rule>
                 <pattern>
+                    <token><exception postag="SPS00|.*LOC_PREP.*" postag_regexp="yes"/></token>
+                    <token>la</token>
+                    <marker>
+                        <token regexp="yes">(?-i)te</token>
+                    </marker>
+                    <token><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>S'accentua si és del verb "tenir".</message>
+                <suggestion>té</suggestion>
+                <short>Accent diacrític</short>
+                <example correction="té">Joan la <marker>te</marker> com a referència.</example>
+                <example correction="té">El pare la <marker>te</marker> per ximple.</example>
+                <example correction="té">que la <marker>te</marker> una vegada a l'any</example>
+                <example correction="té">Ell no la <marker>te</marker>.</example>
+                <example>La te és una lletra bonica.</example>
+                <example>La pronunciació de la te.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>amb</token>
                     <token>un</token>
                     <marker>
