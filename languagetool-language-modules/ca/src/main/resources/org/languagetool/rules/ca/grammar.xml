@@ -19852,21 +19852,36 @@ $Id$
             </rule>
         </rulegroup>
         <rulegroup id="PUNT_EN_HORES" name="*22:30 h/22.30 h">
+            <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
             <rule>
                 <pattern>
                     <token regexp="yes">[012]?\d</token>
                     <token regexp="yes" spacebefore="no">[,:]</token>
                     <token regexp="yes" spacebefore="no">[012345]\d</token>
-                    <token regexp="yes">h|hores|hrs</token>
+                    <token regexp="yes">h|hores|hrs|hs|hora</token>
                 </pattern>
                 <message>En les expressions d'hores, usem el punt.</message>
-                <suggestion>\1.\3&#8239;\4</suggestion>
-                <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
+                <suggestion>\1.\3&#160;\4</suggestion>
                 <short>Preferència tipogràfica</short>
-                <example correction="22.50&#8239;h">A les <marker>22:50 h</marker>.</example>
-                <example correction="6.05&#8239;h">A les <marker>6:05 h</marker>.</example>
+                <example correction="22.50&#160;h">A les <marker>22:50 h</marker>.</example>
+                <example correction="6.05&#160;h">A les <marker>6:05 h</marker>.</example>
                 <example>A les 22.30 h.</example>
                 <example>L'ascenció dura 8, 10 hores.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>les</token>
+                    <marker>
+                        <token regexp="yes">[012]?\d</token>
+                        <token regexp="yes" spacebefore="no">[,:]</token>
+                        <token regexp="yes" spacebefore="no">[012345]\d</token>
+                    </marker>
+                </pattern>
+                <message>En les expressions d'hores, usem el punt.</message>
+                <suggestion>\3.\5</suggestion>
+                <short>Preferència tipogràfica</short>
+                <example correction="10.00">A les <marker>10:00</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19879,12 +19894,36 @@ $Id$
                 </pattern>
                 <message>En les expressions d'hores, usem el punt.</message>
                 <suggestion>\1.\3</suggestion>
-                <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
                 <short>Preferència tipogràfica</short>
                 <example correction="5.00">A les <marker>5:00</marker> de la matinada.</example>
                 <example correction="6.05">A les <marker>6:05</marker> del matí.</example>
                 <example correction="6.05">A les <marker>6:05</marker> de la nit.</example>
                 <example>A les 22.30 h.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HORES" name="abreviatura d'hores: h (sense punt)">
+            <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(hs|hrs|hores|hora)</token>
+                </pattern>
+                <message>Abreviatura d'hores</message>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1&#160;h"/></suggestion>
+                <example correction="15&#160;h">A les <marker>15hs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">([012]?\d\.)?[012345]?\d</token>
+                    <token>h</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Si és una indicació horària, no porta punt. Sí que en porta en altres casos.</message>
+                <suggestion>\1 h</suggestion>
+                <example correction="15 h">A les <marker>15 h.</marker> serà la festa.</example>
+                <example correction="15.30 h">A les <marker>15.30 h.</marker> serà la festa.</example>
+                <example correction="5.30 h">A les <marker>5.30 h.</marker> serà la festa.</example>
+                <example>Arribarà a les 15.30 h.</example>
+                <example>Hi vivien 500 h. de diferents nacionalitats.</example>
             </rule>
         </rulegroup>
         <rule id="PUNT_FINAL" name="falta el punt final en frases llargues">
