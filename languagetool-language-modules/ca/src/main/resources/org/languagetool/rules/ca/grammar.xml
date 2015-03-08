@@ -7648,7 +7648,7 @@ $Id$
                     <token min="0" max="6" postag="_PUNCT_CONT|RG.*|.*LOC_ADV.*|.*LOC_CONJ.*" postag_regexp="yes"><exception regexp="yes">més|menys|dins|dintre|fora</exception></token>
                     <marker>
                         <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                        <token><exception regexp="yes">l|ls|manera|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
+                        <token><exception regexp="yes">l|ls|manera|part|forma|què|qui(ns|na|nes)?|mi</exception><exception postag="PP.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>Aquest verb no regeix la preposició 'de'. Probablement cal eliminar-la.</message>
@@ -8399,12 +8399,13 @@ $Id$
     <category name="Z1) Confusions" type="grammar">
         <rule id="cela" name="cela/cel·la, celo/cel·la">
             <pattern>
-                <token regexp="yes">celos?|cela|celes</token>
+                <token regexp="yes">celos?|cela|celes<exception postag="_possible_nompropi">Cela</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion><match no="1" regexp_match=".*[Ll](.*)" regexp_replace="cel·l$1"/></suggestion>. "\1" és del verb "celar" (=ocultar).</message>
             <short>Possible confusió</short>
             <example correction="cel·les">Les <marker>celes</marker>.</example>
             <example correction="cel·lo">No tinc <marker>celo</marker>.</example>
+            <example>Camilo José Cela</example>
         </rule>
         <rule id="ALA" name="Alà/Al·là">
             <pattern case_sensitive="yes">
@@ -25997,7 +25998,7 @@ $Id$
             <antipattern>
                 <marker>
                     <token skip="2">amb</token>
-                    <token regexp="yes" inflected="yes">guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar</token>
+                    <token regexp="yes" inflected="yes">nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra</token>
                 </marker>
             </antipattern>
             <pattern>
