@@ -2502,18 +2502,6 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
     </rule>
 
-    <rule id="NUM_SUBST_GEN" name="gen po num">
-        <pattern>
-            <marker>
-                <token postag="(?:num|subst):.*" postag_regexp="yes" regexp="yes">dużo|mało|mnóstwo|parę|trochę|część|niewiele|wiele|kilka|ćwierć|para</token>
-                <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-        <example type="untouched">Mam wiele do zrobienia.</example>
-        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
-    </rule>
-
     <rulegroup id="NUM_CONGR" name="liczebnik ze związkiem zgody">
         <rule>
             <pattern>
@@ -2559,6 +2547,32 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         </rule>
 </rulegroup>
 
+    <rule id="NUM_SUBST_GEN" name="gen, też sg po num:rec">
+        <pattern>
+            <marker>
+                <token postag="num.*:rec|subst:.*" postag_regexp="yes" regexp="yes">dużo|mało|mnóstwo|parę|trochę|część|niewiele|wiele|kilka|ćwierć|para</token>
+                <token postag="(?:adj|ger|subst).*gen.*" postag_regexp="yes"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Mam wiele do zrobienia.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było mnóstwo <marker>ludzi</marker>.</example>
+    </rule>
+
+    <rule id="NUM_REC" name="gen pl po liczebniku bez związku zgody">
+        <pattern>
+            <marker>
+                <token postag="num.*:rec" postag_regexp="yes"/>
+                <token postag="(?:adj|ger|subst):pl.*gen.*" postag_regexp="yes">
+                        <exception regexp="yes">wat|gram|amper|kilowat|kilogram|kiloamper|wolt|kilowolt|złoty|kilometr|metr|centymetr</exception>
+                </token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">Mam wiele do zrobienia.</example>
+        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było tysiąc <marker>ludzi</marker>.</example>
+    </rule>
+
     <rule id="SPORO_NUM_GEN" name="gen po sporo/num">
         <pattern>
             <marker>
@@ -2567,10 +2581,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             </marker>
         </pattern>
         <disambig action="filterall"/>
-        <example type="untouched">Mam wiele do zrobienia.</example>
-        <example type="ambiguous" inputform="ludzi[człowiek/subst:pl:acc:m1,człowiek/subst:pl:gen:m1,ludzie/subst:pl:acc:p1,ludzie/subst:pl:gen:p1]" outputform="ludzi[człowiek/subst:pl:gen:m1,ludzie/subst:pl:gen:p1]">Tu było sporo <marker>ludzi</marker>.</example>
     </rule>
-
 
     <rule id="NAPOJ" name="napój + przymiotnik -> rzeczownik">
         <pattern>
@@ -2591,7 +2602,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
     <rule id="na_tyle" name="na tyle + adj|adv -> adv">
         <pattern>
             <token>na</token>
-            <marker><token>tyle</token></marker>
+            <marker><token postag="adv">tyle</token></marker>
             <token postag="ad[jv].*" postag_regexp="yes"/>
         </pattern>
         <disambig postag="adv"/>
@@ -2607,6 +2618,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <disambig action="filterall"/>
     </rule>
 
+    <!--
     <rule id="na_tyle_num" name="na tyle + subst -> num">
         <pattern>
             <token>na</token>
@@ -2622,6 +2634,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
         <example type="ambiguous" inputform="tyle[tyle/adv,tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec]"
                  outputform="tyle[tyle/num:pl:nom.acc.voc:m2.m3.f.n1.n2.p1.p2:rec,tyle/num:pl:nom.acc:m1.m2.m3.f.n1.n2.p1.p2:rec]">Kleks radzi sobie z gotowaniem na <marker>tyle</marker> osób.</example>
     </rule>
+    -->
 
     <rule id="prep_gen_co" name="co to nie genetiwus po przyimku">
         <pattern>
@@ -8031,6 +8044,7 @@ $Id: disambiguation.xml,v 1.31 2011-02-13 12:30:11 milek_pl Exp $
             <marker>
                 <token spacebefore="no">)</token>
             </marker>
+            <token/>
         </pattern>
         <disambig action="immunize"/>
     </rule>
