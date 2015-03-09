@@ -356,27 +356,26 @@ $Id$
                 <example>меньшая часть</example>
             </rule>
         </rulegroup>
-           <rulegroup id="SPUSKATSJA_VNIZ" name="Словосочетание «спускаться вниз»">
+           <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология «спускаться вниз»">
             <rule> 
                 <pattern>
                     <token regexp="yes" inflected="yes" >спускаться|подниматься</token>
                     <token regexp="yes" >вниз|вверх</token>
                 </pattern>
-                <message>Имелось в виду <suggestion>\1</suggestion>?</message>
-          
-                <short>Логическая ошибка.</short>
+                <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>         
+                <short>Языковая избыточность.</short>
                 <example correction="спускался">Он <marker>спускался вниз</marker> по лестнице.</example>
                 <example>Он спускался по лестнице.</example>
             </rule>
         </rulegroup>    
-        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Словосочетание «прогноз на будущее»">
+        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Тавтология «прогноз на будущее»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >прогноз</token>
                     <token>на</token>
                     <token>будущее</token>                  
                 </pattern>
-                <message>Имелось в виду <suggestion>\1</suggestion>?</message>
+                <message>Языковая избыточность: <suggestion>\1</suggestion>?</message>
                 <short>Тавтология.</short>
                 <example correction="прогноз">Метеоагенство составило <marker>прогноз на будущее</marker>.</example>
                 <example>Метеоагенство составило прогноз.</example>
@@ -409,7 +408,7 @@ $Id$
         </rulegroup>
         
                   
-        <rulegroup id="Stolko_mnogo" name="Словосочетания «столько много»">
+        <rulegroup id="Stolko_mnogo" name="Словосочетание «столько много»">
             <rule> 
                 <pattern>
                     <token>столько</token>
@@ -965,7 +964,7 @@ $Id$
                 <pattern>
                     <!--           NN:.*   VB:.*    и      NN:.*   VB:.*       TODO: Need improve    -->
                     <marker>
-                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты</exception></token>           
+                        <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception scope="previous" postag="NN:.*:.*:Nom" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception><exception scope="previous" regexp="yes">я|он|она|мы|вы|ты</exception></token>           
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
@@ -3939,7 +3938,7 @@ $Id$
         </rule>
         
         
-        <rule default="off" id="upravlauchij_NN" name="Словосочетания «управляющий», ... + существительное">
+        <rule default="off" id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
                 <token regexp="yes" inflected="yes">управляющий|командующий|заведующий</token>
