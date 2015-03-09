@@ -19874,6 +19874,22 @@ $Id$
             <url>http://esadir.cat/entrades/fitxa/node/leshores</url>
             <rule>
                 <pattern>
+                    <marker>
+                        <token regexp="yes">[012]?\d</token>
+                        <token regexp="yes" spacebefore="no">[,:]</token>
+                        <token regexp="yes" spacebefore="no">[012345]\d</token>
+                        <token regexp="yes" spacebefore="no">[,:]</token>
+                        <token regexp="yes" spacebefore="no">[012345]\d([,.]\d+)?</token>
+                    </marker>
+                </pattern>
+                <message>En les expressions d'hores, usem el punt.</message>
+                <suggestion>\1.\3.\5</suggestion>
+                <short>Preferència tipogràfica</short>
+                <example correction="10.00.43">A les <marker>10:00:43</marker>.</example>
+                <example correction="10.00.43,5">A les <marker>10:00:43,5</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">[012]?\d</token>
                     <token regexp="yes" spacebefore="no">[,:]</token>
                     <token regexp="yes" spacebefore="no">[012345]\d</token>
@@ -19943,6 +19959,7 @@ $Id$
                 <example correction="5.30 h">A les <marker>5.30 h.</marker> serà la festa.</example>
                 <example>Arribarà a les 15.30 h.</example>
                 <example>Hi vivien 500 h. de diferents nacionalitats.</example>
+                <!-- <example>Hi vivien 15 h. Eren de diferents nacionalitats.</example>  It doesn't pass test because it needs sentence tokenization (?) -->
             </rule>
         </rulegroup>
         <rule id="PUNT_FINAL" name="falta el punt final en frases llargues">
