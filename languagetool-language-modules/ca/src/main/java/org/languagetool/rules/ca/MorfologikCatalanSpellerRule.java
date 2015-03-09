@@ -101,7 +101,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     if (!suggestion.isEmpty()) {
       return suggestion;
     }
-    Matcher matcher=wordPattern.matcher(word);
+    Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion=matcher.group(suggestionPosition);
       if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), postagPattern)) {
