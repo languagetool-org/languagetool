@@ -120,7 +120,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       if (ignoreTaggedWords && token.isTagged()) {
         continue;
       }
-      final String word = token.getToken();
+      // if we use token.getToken() we'll get ignored characters inside and speller will choke
+      final String word = token.getAnalyzedToken(0).getToken();
       if (tokenizingPattern() == null) {
         ruleMatches.addAll(getRuleMatches(word, token.getStartPos()));
       } else {
