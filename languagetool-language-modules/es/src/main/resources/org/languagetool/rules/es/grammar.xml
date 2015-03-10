@@ -672,9 +672,15 @@ $Id$
 
   <category name="Gramática" type="grammar">
     <rule id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
+        <antipattern>
+            <marker>
+                <token regexp="yes">desde|hasta|de</token>
+                <token regexp="yes">hace|hacía</token>
+            </marker>
+        </antipattern>
         <pattern>
-            <token postag="SPS00|SP\+DA" postag_regexp="yes"/>
-            <token min="0" postag="P0.*|PP.*|DA.*" postag_regexp="yes"/>
+            <token postag="SPS00|SP\+DA" postag_regexp="yes"><exception postag="CS"/></token>
+            <token min="0" postag="DA.*" postag_regexp="yes"/>
             <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception postag="V.[MSI].*" postag_regexp="yes" negate_pos="yes"/></token>
         </pattern>
         <message>Combinación imposible: preposición + verbo conjugado.</message>
@@ -683,6 +689,10 @@ $Id$
         <example correction=""><marker>del informa</marker>.</example>
         <example correction=""><marker>de cantaba</marker>.</example>
         <example>de cantar</example>
+        <example>Entre ellos están la llama</example>
+        <example>según anunció un portavoz</example>
+        <!-- <example>no volvieron a verse más</example> It needs better disambiguation 
+         <example>al encontrase ésta en baja</example>-->
     </rule>
     <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>
