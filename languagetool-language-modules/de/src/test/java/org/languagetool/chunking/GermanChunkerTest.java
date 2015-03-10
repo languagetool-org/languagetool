@@ -44,7 +44,7 @@ public class GermanChunkerTest {
     assertFullChunks("Julia/NPP und/NPP Karsten/NPP sind alt");
     assertFullChunks("Es/B ist die/NPS älteste/NPS und/NPS bekannteste/NPS Maßnahme/NPS");
     assertFullChunks("Das ist eine/NPS Masseeinheit/NPS und/NPS keine/NPS Gewichtseinheit/NPS");
-    assertFullChunks("Sie fährt nur eins/NPS ihrer/NPS drei/NPS Autos/NPS");
+    assertFullChunks("Sie/B fährt nur eins/NPS ihrer/NPS drei/NPS Autos/NPS");
     assertFullChunks("Da sind er/NPP und/NPP seine/NPP Schwester/NPP");
 
     //assertFullChunks("Sowohl/NPP sein/NPP Vater/NPP als/NPP auch/NPP seine/NPP Mutter/NPP sind da");  //?
@@ -61,7 +61,7 @@ public class GermanChunkerTest {
     //assertFullChunks("Das ist eine/NPS der/NPS am/NPS meisten/NPS verbreiteten/NPS Krankheiten/NPS");   //?
     assertFullChunks("Das sind 37/NPS Prozent/NPS");
     assertFullChunks("Das sind 37/NPP Prozent/NPP");
-    assertFullChunks("Er will die/NPP Arbeitsplätze/NPP so umgestalten , dass/NPP sie/NPP wie/NPP ein/NPP Spiel/NPP sind.");
+    assertFullChunks("Er/B will die/NPP Arbeitsplätze/NPP so umgestalten , dass/NPP sie/NPP wie/NPP ein/NPP Spiel/NPP sind.");
     assertFullChunks("So dass Knochenbrüche/NPP und/NPP Platzwunden/NPP die/NPP Regel/NPP sind");
     assertFullChunks("Eine/NPS Veranstaltung/NPS ,/NPP die/NPP immer/NPP wieder/NPP ein/NPP kultureller/NPP Höhepunkt/NPP war");  // warum NPP?
     assertFullChunks("Dazu gibt es/B zu viele/B Anträge/I");  // "zu viele" is not PP
@@ -86,11 +86,11 @@ public class GermanChunkerTest {
     assertBasicChunks("Herr/B Karl/I Meier/I isst eine/B leckere/I Lasagne/I");
     assertBasicChunks("Herr/B Finn/I Westerwalbesloh/I isst eine/B leckere/I Lasagne/I");
     assertBasicChunks("Unsere/B schöne/I Heimat/I geht den/B Bach/I runter");
-    assertBasicChunks("Er meint das/B Haus/I am grünen/B Hang/I");
-    assertBasicChunks("Ich muss dem/B Hund/I Futter/I geben");  // TODO: see next line for how it should be (but: 'Pariser Innenstadt' should be one NP)
-    //assertChunks("Ich muss dem/B Hund/I Futter/B geben");
+    assertBasicChunks("Er/B meint das/B Haus/I am grünen/B Hang/I");
+    assertBasicChunks("Ich/B muss dem/B Hund/I Futter/I geben");  // TODO: see next line for how it should be (but: 'Pariser Innenstadt' should be one NP)
+    //assertChunks("Ich/B muss dem/B Hund/I Futter/B geben");
     assertBasicChunks("Das/B Wasser/I , das die/B Wärme/I überträgt");
-    assertBasicChunks("Er mag das/B Wasser/I , das/B Meer/I und die/B Luft/I");
+    assertBasicChunks("Er/B mag das/B Wasser/I , das/B Meer/I und die/B Luft/I");
     assertBasicChunks("Schon mehr als zwanzig/B Prozent/I der/B Arbeiter/I sind im Streik/B");
     assertBasicChunks("Das/B neue/I Gesetz/I betrifft 1000 Bürger/B"); // '1000' sollte evtl. mit in die NP...
     assertBasicChunks("In zwei/B Wochen/I ist Weihnachten/B");
