@@ -27,6 +27,7 @@ import org.languagetool.language.English;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.bitext.BitextRule;
+import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.tools.JnaTools;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
@@ -497,11 +498,13 @@ class Main {
       options.getLanguage().addExternalRuleFile(options.getRuleFile());
     }
 
-    if (options.getFalseFriendFile() != null) {
-      options.getLanguage().addExternalFalseFriendFile(options.getFalseFriendFile());
-    }
-
     final Main prg = new Main(options);
+    if (options.getFalseFriendFile() != null) {
+      List<PatternRule> ffRules = prg.lt.loadFalseFriendRules(options.getFalseFriendFile());
+      for (PatternRule ffRule : ffRules) {
+        prg.lt.addRule(ffRule);
+      }
+    }
     if (prg.lt.getAllActiveRules().size() == 0) {
       throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
               Arrays.toString(options.getEnabledRules()));

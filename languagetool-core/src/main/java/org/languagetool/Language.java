@@ -63,7 +63,6 @@ public abstract class Language {
   private static List<Language> externalLanguages = new ArrayList<>();
 
   private final List<String> externalRuleFiles = new ArrayList<>();
-  private final List<String> externalFalseFriendFiles = new ArrayList<>();
 
   private boolean isExternalLanguage = false;
   private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
@@ -310,23 +309,6 @@ public abstract class Language {
    */
   public void addExternalRuleFile(String externalRuleFile) {
     externalRuleFiles.add(externalRuleFile);
-  }
-
-  /**
-   * @return The list of file names for external false friend files.
-   * @since 2.9
-   */
-  public List<String> getExternalFalseFriendFiles() {
-    return externalFalseFriendFiles;
-  }
-
-  /**
-   * Adds an external false friend rule file to the language. Call this method before
-   * the language is given to the {@link JLanguageTool} constructor.
-   * @since 2.9
-   */
-  public void addExternalFalseFriendFile(String externalFalseFriendFile) {
-    externalFalseFriendFiles.add(externalFalseFriendFile);
   }
 
   /**
