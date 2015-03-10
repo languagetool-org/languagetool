@@ -1111,7 +1111,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>
                 <token regexp="yes">ist|sind|war(st|t|en)?|bin|bist|seid</token>
                 <marker>
-                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|weitere|folgende[rs]?</exception></token>
+                    <token postag="ADJ:.*" postag_regexp="yes">
+                        <exception postag="ADJ:PRD:KOM"/>
+                        <exception postag="ADJ:PRD:GRU"/>
+                        <exception postag="SUB:.*" postag_regexp="yes"/>
+                        <exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|weitere|folgende[rs]?</exception>
+                    </token>
                 </marker>
                 <token postag="SENT_END"/>
             </pattern>
@@ -1120,6 +1125,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="schlau">Die sind <marker>schlauen</marker>.</example>
             <example correction="schnell">Er war <marker>schnelle</marker>.</example>
             <example>Er war <marker>schneller</marker>.</example>
+            <example>Sein Vater ist <marker>Japaner</marker>.</example>
         </rule>
         <rule id="SO_SCHNELLE_WIE" name="Möglicher Tippfehler: 'so schnelle (schnell) wie' etc.">
             <pattern>
