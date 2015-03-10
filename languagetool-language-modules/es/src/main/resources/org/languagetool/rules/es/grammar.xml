@@ -671,6 +671,19 @@ $Id$
   </category>
 
   <category name="Gramática" type="grammar">
+    <rule id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
+        <pattern>
+            <token postag="SPS00|SP\+DA" postag_regexp="yes"/>
+            <token min="0" postag="P0.*|PP.*|DA.*" postag_regexp="yes"/>
+            <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception postag="V.[MSI].*" postag_regexp="yes" negate_pos="yes"/></token>
+        </pattern>
+        <message>Combinación imposible: preposición + verbo conjugado.</message>
+        <example correction=""><marker>en informa</marker>.</example>
+        <example correction=""><marker>con el informa</marker>.</example>
+        <example correction=""><marker>del informa</marker>.</example>
+        <example correction=""><marker>de cantaba</marker>.</example>
+        <example>de cantar</example>
+    </rule>
     <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>
                 <marker>
