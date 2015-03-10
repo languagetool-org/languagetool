@@ -985,7 +985,7 @@ $Id$
                     <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                     <marker>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
-                        <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception  regexp="yes" scope="next">,|-</exception></token>
+                        <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|-</exception></token>
                         <token skip="-1">и<exception regexp="yes" scope="next">[,;-]</exception></token>
                         <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception></token>           
                         <token postag="VB:.*" postag_regexp="yes"  skip="-1" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception><exception regexp="yes" scope="next">[,;-]</exception></token>
@@ -998,6 +998,7 @@ $Id$
                 <example>Года пролетели, и время настало.</example>
                 <example>Его тропы создавали русла рек и ручьёв, и, в конце концов, вода залила всю землю.</example>
                 <example correction="Года пролетели, и время настало"><marker>Года пролетели и время настало</marker>.</example>
+                <example correction="Мама мыла раму, и дочка готовила"><marker>Мама мыла раму и дочка готовила</marker> обед.</example>
             </rule>        
         </rulegroup>        
         
@@ -4588,7 +4589,7 @@ $Id$
         
     </category>
    
-    <category name="Дополнительно">
+    <category name="Дополнительные правила">
         
          <!--    -->        
         <rulegroup id="Rod_suschestvitelnykh_Neut" name="Несклоняемые существительные иноязычного происхождения среднего рода">
