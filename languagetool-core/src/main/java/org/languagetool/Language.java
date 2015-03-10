@@ -64,7 +64,6 @@ public abstract class Language {
 
   private final List<String> externalRuleFiles = new ArrayList<>();
   private final List<String> externalFalseFriendFiles = new ArrayList<>();
-  private final List<String> externalBitextRules = new ArrayList<>();
 
   private boolean isExternalLanguage = false;
   private Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
@@ -328,23 +327,6 @@ public abstract class Language {
    */
   public void addExternalFalseFriendFile(String externalFalseFriendFile) {
     externalFalseFriendFiles.add(externalFalseFriendFile);
-  }
-
-  /**
-   * @return external bitext rule file names.
-   * @since 2.9
-   */
-  public List<String> getExternalBitextRules() {
-    return externalBitextRules;
-  }
-
-  /**
-   * @param externalBitextRuleFile set an external bitext file to use in bitext checks
-   *                               for this language (used as a target language)
-   * @since 2.9
-   */
-  public void addExternalBitextRules(String externalBitextRuleFile) {
-    externalBitextRules.add(externalBitextRuleFile);
   }
 
   /**

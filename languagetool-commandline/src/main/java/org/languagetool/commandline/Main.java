@@ -119,14 +119,14 @@ class Main {
   }
 
   private void setBitextMode(final Language sourceLang,
-      final String[] disabledRules, final String[] enabledRules) throws IOException, ParserConfigurationException, SAXException {
+      final String[] disabledRules, final String[] enabledRules, final File bitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
     bitextMode = true;
     final Language target = lt.getLanguage();
     lt = new MultiThreadedJLanguageTool(target, null);
     srcLt = new MultiThreadedJLanguageTool(sourceLang);
     Tools.selectRules(lt, disabledRules, enabledRules);
     Tools.selectRules(srcLt, disabledRules, enabledRules);
-    bRules = Tools.getBitextRules(sourceLang, lt.getLanguage());
+    bRules = Tools.getBitextRules(sourceLang, lt.getLanguage(), bitextRuleFile);
 
     List<BitextRule> bRuleList = new ArrayList<>(bRules);
     for (final BitextRule bitextRule : bRules) {
@@ -503,10 +503,6 @@ class Main {
       options.getLanguage().addExternalRuleFile(options.getRuleFile());
     }
 
-    if (options.getBitextRuleFile() != null) {
-      options.getLanguage().addExternalBitextRules(options.getBitextRuleFile());
-    }
-
     if (options.getFalseFriendFile() != null) {
       options.getLanguage().addExternalFalseFriendFile(options.getFalseFriendFile());
     }
@@ -531,7 +527,8 @@ class Main {
       if (options.getMotherTongue() == null) {
         throw new IllegalArgumentException("You have to set the source language (as mother tongue) in bitext mode");
       }
-      prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules());
+      File bitextRuleFile = options.getBitextRuleFile() != null ? new File(options.getBitextRuleFile()) : null;
+      prg.setBitextMode(options.getMotherTongue(), options.getDisabledRules(), options.getEnabledRules(), bitextRuleFile);
     }
     if (options.isRecursive()) {
       prg.runRecursive(options.getFilename(), options.getEncoding(), options.isListUnknown(), options.isXmlFiltering());

@@ -84,13 +84,25 @@ public final class Tools {
 
   /** 
    * Gets default bitext rules for a given pair of languages
-   *
    * @param source  Source language.
    * @param target  Target language.
    * @return  List of Bitext rules
    */
-  public static List<BitextRule> getBitextRules(final Language source, 
+  public static List<BitextRule> getBitextRules(final Language source,
       final Language target) throws IOException, ParserConfigurationException, SAXException {
+    return getBitextRules(source, target, null);
+  }
+
+  /**
+   * Gets default bitext rules for a given pair of languages
+   * @param source  Source language.
+   * @param target  Target language.
+   * @param externalBitextRuleFile external file with bitext rules
+   * @return  List of Bitext rules
+   * @since 2.9
+   */
+  public static List<BitextRule> getBitextRules(final Language source,
+      final Language target, final File externalBitextRuleFile) throws IOException, ParserConfigurationException, SAXException {
     final List<BitextRule> bRules = new ArrayList<>();
     //try to load the bitext pattern rules for the language...
     final BitextPatternRuleLoader ruleLoader = new BitextPatternRuleLoader();          
@@ -101,8 +113,8 @@ public final class Tools {
         bRules.addAll(ruleLoader.getRules(is, name));
       }
     }
-    for (String externalBitextRule : target.getExternalBitextRules()) {
-      bRules.addAll(ruleLoader.getRules(new FileInputStream(externalBitextRule), externalBitextRule));
+    if (externalBitextRuleFile != null) {
+      bRules.addAll(ruleLoader.getRules(new FileInputStream(externalBitextRuleFile), externalBitextRuleFile.getAbsolutePath()));
     }
     
     //load the false friend rules in the bitext mode:
