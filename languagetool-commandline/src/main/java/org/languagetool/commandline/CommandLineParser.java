@@ -63,7 +63,7 @@ public class CommandLineParser {
         }
         options.setUseEnabledOnly();
       } else if (args[i].equals("-d") || args[i].equals("--disable")) {
-        if (options.getUseEnabledOnly()) {
+        if (options.isUseEnabledOnly()) {
           throw new IllegalArgumentException("You cannot specify both disabled rules and enabledonly");
         }
         checkArguments("-d/--disable", i, args);

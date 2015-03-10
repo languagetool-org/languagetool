@@ -65,31 +65,25 @@ class Main {
   private List<BitextRule> bRules;
   private Rule currentRule;
 
-  Main(final boolean verbose, final boolean taggerOnly,
-      final Language language, final Language motherTongue,
-      final String[] disabledRules, final String[] enabledRules, 
-      final boolean enabledOnly,
-      final boolean apiFormat, boolean applySuggestions, 
-      boolean autoDetect, boolean singleLineBreakMarksParagraph, File languageModelIndexDir) throws IOException,
-      SAXException, ParserConfigurationException {
-    this.verbose = verbose;
-    this.apiFormat = apiFormat;
-    this.taggerOnly = taggerOnly;
-    this.applySuggestions = applySuggestions;
-    this.autoDetect = autoDetect;
-    this.enabledRules = enabledRules;
-    this.disabledRules = disabledRules;
-    this.motherTongue = motherTongue;
-    this.singleLineBreakMarksParagraph = singleLineBreakMarksParagraph;
+  Main(CommandLineOptions options) throws IOException {
+    this.verbose = options.isVerbose();
+    this.apiFormat = options.isApiFormat();
+    this.taggerOnly = options.isTaggerOnly();
+    this.applySuggestions = options.isApplySuggestions();
+    this.autoDetect = options.isAutoDetect();
+    this.enabledRules = options.getEnabledRules();
+    this.disabledRules = options.getDisabledRules();
+    this.motherTongue = options.getMotherTongue();
+    this.singleLineBreakMarksParagraph = options.isSingleLineBreakMarksParagraph();
     profileRules = false;
     bitextMode = false;
     srcLt = null;
     bRules = null;
-    lt = new MultiThreadedJLanguageTool(language, motherTongue);
-    if (languageModelIndexDir != null) {
-      lt.activateLanguageModelRules(languageModelIndexDir);
+    lt = new MultiThreadedJLanguageTool(options.getLanguage(), motherTongue);
+    if (options.getLanguageModel() != null) {
+      lt.activateLanguageModelRules(options.getLanguageModel());
     }
-    Tools.selectRules(lt, disabledRules, enabledRules, enabledOnly);
+    Tools.selectRules(lt, disabledRules, enabledRules, options.isUseEnabledOnly());
   }
 
   boolean isSpellCheckingActive() {
@@ -507,9 +501,7 @@ class Main {
       options.getLanguage().addExternalFalseFriendFile(options.getFalseFriendFile());
     }
 
-    final Main prg = new Main(options.isVerbose(), options.isTaggerOnly(), options.getLanguage(), options.getMotherTongue(),
-            options.getDisabledRules(), options.getEnabledRules(),  options.getUseEnabledOnly(), options.isApiFormat(), options.isApplySuggestions(),
-            options.isAutoDetect(), options.isSingleLineBreakMarksParagraph(), options.getLanguageModel());
+    final Main prg = new Main(options);
     if (prg.lt.getAllActiveRules().size() == 0) {
       throw new RuntimeException("WARNING: No rules are active. Please make sure your rule ids are correct: " +
               Arrays.toString(options.getEnabledRules()));

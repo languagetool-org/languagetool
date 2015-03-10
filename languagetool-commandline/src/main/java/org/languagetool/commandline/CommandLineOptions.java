@@ -244,8 +244,16 @@ public class CommandLineOptions {
     this.enabledRules = Objects.requireNonNull(enabledRules);
   }
 
-  /** @since 2.7 */
+  /**
+   * @deprecated use {@link #isUseEnabledOnly()} instead
+   * @since 2.7
+   */
   public boolean getUseEnabledOnly() {
+    return isUseEnabledOnly();
+  }
+
+  /** @since 2.9 */
+  public boolean isUseEnabledOnly() {
     return useEnabledOnly;
   }
 
