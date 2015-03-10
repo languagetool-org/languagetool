@@ -48,17 +48,6 @@ public class CaseGovernmentRule extends Rule {
 
   private boolean debug;
 
-  // Trying OpenNLP for German noun phrase detection. Erkenntnisse:
-  // 1. Fehler eher kein Problem, die Tags sind so grob, dass auch "meine Fahrrad" erkannt wird
-  // 2. Relativpronomen werden auch nur als ART erkannt ("Der Hund, der Eier legt.")
-
-  // TODO:
-  // -remove opennlp dependency?!
-  //   -wie groß? => 10Mb (tokenizer, tagger, chunker)
-  //   -wie langsam? => TODO
-  //   -wie einfach zu ersetzen?
-  // -Wie Einschübe überspringen? (OpenNLP macht es - z.T.? - automatisch)
-
   enum Case {
     NOM("Nominativ"), AKK("Akkusativ"), DAT("Dativ"), GEN("Genitiv");
 
@@ -119,10 +108,10 @@ public class CaseGovernmentRule extends Rule {
     CheckResult result = checkGovernment(sentence);
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (result != null && !result.correct && !hasUnknownToken(sentence.getTokensWithoutWhitespace())) {
-      String message = "Das Verb '" + result.verbLemma + "' benötigt folgende Ergänzungen: " +
+      String message = "Das Verb '" + result.verb.lemma + "' benötigt folgende Ergänzungen: " +
               getExpectedStrings(result.verbCases) + "." +
               " Gefunden wurden aber: " + getSentenceStrings(result.analyzedChunks);
-      RuleMatch match = new RuleMatch(this, 0, 1, message);  // TODO: positions
+      RuleMatch match = new RuleMatch(this, result.verb.startPos, result.verb.endPos, message);
       ruleMatches.add(match);
     }
     return toRuleMatchArray(ruleMatches);
@@ -175,10 +164,11 @@ public class CaseGovernmentRule extends Rule {
 
   @Nullable
   CheckResult checkGovernment(AnalyzedSentence sentence) throws IOException {
-    String verbLemma = getVerb(sentence);
-    if (verbLemma == null) {
+    VerbPosition verbPosition = getVerb(sentence);
+    if (verbPosition == null) {
       return null;
     }
+    String verbLemma = verbPosition.lemma;
     List<Chunk> chunks = getChunks(sentence);
     List<AnalyzedChunk> cases = getAnalyzedChunks(chunks);
     if (debug) {
@@ -200,15 +190,16 @@ public class CaseGovernmentRule extends Rule {
       System.out.println("Valency: " + StringUtils.join(verbCases, ", "));
     }
     boolean correct = checkCases(cases, verbCases);
-    return new CheckResult(correct, cases, verbCases, verbLemma);
+    return new CheckResult(correct, cases, verbCases, verbPosition);
   }
 
-  private String getVerb(AnalyzedSentence analyzedSentence) {
+  @Nullable
+  private VerbPosition getVerb(AnalyzedSentence analyzedSentence) {
     for (AnalyzedTokenReadings tokenReadings : analyzedSentence.getTokensWithoutWhitespace()) {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
         if (posTag != null && posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX") && !posTag.startsWith("VER:MOD")) {
-          return tokenReading.getLemma();
+          return new VerbPosition(tokenReading.getLemma(), tokenReadings.getStartPos(), tokenReadings.getEndPos());
         }
       }
     }
@@ -376,15 +367,15 @@ public class CaseGovernmentRule extends Rule {
   class CheckResult {
 
     private final boolean correct;
-    private final String verbLemma;
+    private final VerbPosition verb;
     private final List<AnalyzedChunk> analyzedChunks;
     private final List<ValencyData> verbCases;
 
-    private CheckResult(boolean correct, List<AnalyzedChunk> analyzedChunks, List<ValencyData> verbCases, String verbLemma) {
+    private CheckResult(boolean correct, List<AnalyzedChunk> analyzedChunks, List<ValencyData> verbCases, VerbPosition verb) {
       this.correct = correct;
       this.analyzedChunks = analyzedChunks;
       this.verbCases = verbCases;
-      this.verbLemma = verbLemma;
+      this.verb = verb;
     }
 
     boolean isCorrect() {
@@ -394,6 +385,20 @@ public class CaseGovernmentRule extends Rule {
     @Override
     public String toString() {
       return "sentence=" + analyzedChunks + ", expectedByVerb=" + verbCases;
+    }
+  }
+
+  class VerbPosition {
+    String lemma;
+    private final int startPos;
+    private final int endPos;
+    int from;
+    int to;
+
+    VerbPosition(String lemma, int startPos, int endPos) {
+      this.lemma = lemma;
+      this.startPos = startPos;
+      this.endPos = endPos;
     }
   }
 
