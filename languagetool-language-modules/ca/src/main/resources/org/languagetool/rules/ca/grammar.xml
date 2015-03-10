@@ -29728,19 +29728,28 @@ $Id$
                 <example correction="mèdiques">unes revisions <marker>metges</marker></example>
                 <example>un certificat mèdic</example>
                 <example>de la col·lecció "Bernat Metge"</example>
-
+            </rule>
+            <rule> <!-- noms que es poden analitzar com a altres categories: participi, adjectiu -->
+                <pattern>
+                    <token regexp="yes">certificat|informe</token>
+                    <marker>
+                        <token>metge</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>mèdic</suggestion>?</message>
+                <example correction="mèdic">un certificat <marker>metge</marker></example>
+                <example correction="mèdic">Demanaré l'informe <marker>metge</marker></example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">certificats?</token>
+                    <token regexp="yes">certificats|informes</token>
                     <marker>
-                        <token regexp="yes">metges?</token>
+                        <token>metges</token>
                     </marker>
                 </pattern>
-                <message>¿Volíeu dir <suggestion><match no="1" postag="V.P.*([SP])([MF]).?" postag_regexp="yes" postag_replace="AQ0$2$10">mèdic</match></suggestion>?</message>
-                <example correction="mèdic">un certificat <marker>metge</marker></example>
+                <message>¿Volíeu dir <suggestion>mèdics</suggestion>?</message>
+                <example correction="mèdics">Demanaré els informes <marker>metges</marker></example>
                 <example correction="mèdics">uns certificats <marker>metges</marker></example>
-                <example>un certificat mèdic</example>
             </rule>
         </rulegroup>
         <rulegroup id="MEDIS_MITJANS_MIG" name="alguns usos erronis de medi/mitjà/mig">
