@@ -108,7 +108,7 @@ public class CaseGovernmentRule extends Rule {
     CheckResult result = checkGovernment(sentence);
     List<RuleMatch> ruleMatches = new ArrayList<>();
     if (result != null && !result.correct && !hasUnknownToken(sentence.getTokensWithoutWhitespace())) {
-      String message = "Das Verb '" + result.verb.lemma + "' benötigt folgende Ergänzungen: " +
+      String message = "Das Verb '" + result.verb.token.getLemma() + "' benötigt folgende Ergänzungen: " +
               getExpectedStrings(result.verbCases) + "." +
               " Gefunden wurden aber: " + getSentenceStrings(result.analyzedChunks);
       RuleMatch match = new RuleMatch(this, result.verb.startPos, result.verb.endPos, message);
@@ -168,7 +168,7 @@ public class CaseGovernmentRule extends Rule {
     if (verbPosition == null) {
       return null;
     }
-    String verbLemma = verbPosition.lemma;
+    String verbLemma = verbPosition.token.getLemma();
     List<Chunk> chunks = getChunks(sentence);
     List<AnalyzedChunk> cases = getAnalyzedChunks(chunks);
     if (debug) {
@@ -199,7 +199,7 @@ public class CaseGovernmentRule extends Rule {
       for (AnalyzedToken tokenReading : tokenReadings) {
         String posTag = tokenReading.getPOSTag();
         if (posTag != null && posTag.startsWith("VER:") && !posTag.startsWith("VER:AUX") && !posTag.startsWith("VER:MOD")) {
-          return new VerbPosition(tokenReading.getLemma(), tokenReadings.getStartPos(), tokenReadings.getEndPos());
+          return new VerbPosition(tokenReading, tokenReadings.getStartPos(), tokenReadings.getEndPos());
         }
       }
     }
@@ -389,14 +389,14 @@ public class CaseGovernmentRule extends Rule {
   }
 
   class VerbPosition {
-    String lemma;
+    AnalyzedToken token;
     private final int startPos;
     private final int endPos;
     int from;
     int to;
 
-    VerbPosition(String lemma, int startPos, int endPos) {
-      this.lemma = lemma;
+    VerbPosition(AnalyzedToken token, int startPos, int endPos) {
+      this.token = token;
       this.startPos = startPos;
       this.endPos = endPos;
     }
