@@ -184,6 +184,9 @@ public class AgreementRuleTest extends TestCase {
     
     assertBad("Ich habe einen Feder gefunden.", "eine Feder", "einer Feder");
 
+    assertGood("Wenn die Gott zugeschriebenen Eigenschaften stimmen, dann...");
+    assertGood("Dieses Grünkern genannte Getreide ist aber nicht backbar.");
+
     // TODO: not yet detected:
     //assertBad("Erst recht wir fleißiges Arbeiter.");
     //assertBad("Erst recht ich fleißiges Arbeiter.");

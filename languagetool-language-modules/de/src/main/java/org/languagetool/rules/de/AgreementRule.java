@@ -207,7 +207,8 @@ public class AgreementRule extends GermanRule {
       // avoid false alarm on "Art. 1" and "bisherigen Art. 1" (Art. = Artikel):
       boolean detAbbrev = i < tokens.length-2 && tokens[i+1].getToken().equals("Art") && tokens[i+2].getToken().equals(".");
       boolean detAdjAbbrev = i < tokens.length-3 && tokens[i+2].getToken().equals("Art") && tokens[i+3].getToken().equals(".");
-      boolean followingParticiple = i < tokens.length-3 && tokens[i+2].hasPartialPosTag("PA1"); //  "einen Hochwasser führenden Fluss"
+      // "einen Hochwasser führenden Fluss", "die Gott zugeschriebenen Eigenschaften":
+      boolean followingParticiple = i < tokens.length-3 && (tokens[i+2].hasPartialPosTag("PA1") || tokens[i+2].getToken().matches("zugeschriebenen?|genannten?"));
       if (detAbbrev || detAdjAbbrev || followingParticiple) {
         ignore = true;
       }
