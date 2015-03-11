@@ -22,6 +22,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.Languages;
 import org.languagetool.rules.patterns.Element;
 import org.languagetool.rules.patterns.Match;
+import org.languagetool.rules.patterns.XMLRuleHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -30,11 +31,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-class DisambiguationRuleHandler extends DisambXMLRuleHandler {
+class DisambiguationRuleHandler extends XMLRuleHandler {
 
   private static final String WD = "wd";
   private static final String ACTION = "action";
   private static final String DISAMBIG = "disambig";
+
+  private final List<DisambiguationPatternRule> rules = new ArrayList<>();
 
   private boolean inDisambiguation;
   private int subId;
@@ -70,6 +73,9 @@ class DisambiguationRuleHandler extends DisambXMLRuleHandler {
 
   private DisambiguationPatternRule.DisambiguatorAction disambigAction;
 
+  List<DisambiguationPatternRule> getDisambRules() {
+    return rules;
+  }
 
   // ===========================================================
   // SAX DocumentHandler methods
