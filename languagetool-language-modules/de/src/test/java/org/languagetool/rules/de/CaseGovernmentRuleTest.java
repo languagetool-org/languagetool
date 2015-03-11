@@ -47,7 +47,6 @@ public class CaseGovernmentRuleTest {
   public void testCheckCasesTEMP() throws IOException {
     //GermanChunker.setDebug(true);
     //rule.setDebug(true);
-    //assertGood("Gib mir Zeit, dir alles zu geben, was ich habe!");
     //assertGood("Gibt es hier in der Nähe eine Jugendherberge?");  // "in der Nähe eine Jugendherberge" -> PP, which is wrong
     //assertGood("Ich gebe dir mein Wort.");
     //assertGood("Wenn es keine Lösung gibt, dann gibt es kein Probleme.");
@@ -216,6 +215,8 @@ public class CaseGovernmentRuleTest {
 
     assertGood("Gib mir ein Taschentuch.");  // Imperativ wird ignoriert
     //assertBad("Gib mich ein Taschentuch.");
+    assertGood("Gib mir Zeit, dir alles zu geben.");
+    assertGood("Gib mir Zeit, dir alles zu geben, was ich habe!");
 
     assertGood("Es gibt da ein Problem, das du nicht siehst.");  // we stop searching chunks at the comma
   }
